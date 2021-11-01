@@ -1,0 +1,299 @@
+@import "element-variables";
+
+$--font-path: "~element-plus/lib/theme-chalk/fonts";
+@import "~element-plus/packages/theme-chalk/src/index";
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: normal;
+  src: url(../assets/fonts/Roboto-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  src: url(../assets/fonts/Roboto-Bold.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 900;
+  src: url(../assets/fonts/Roboto-Black.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: normal;
+  src: url(../assets/fonts/Roboto-Italic.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: 700;
+  src: url(../assets/fonts/Roboto-BoldItalic.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: 900;
+  src: url(../assets/fonts/Roboto-BlackItalic.ttf) format("truetype");
+}
+
+$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB,
+  Helvetica Neue, Helvetica, Arial, sans-serif;
+
+body {
+  padding: 0;
+  margin: 0;
+  color: $--color-black;
+  font-size: 14px;
+  font-family: $font;
+}
+
+a {
+  color: $--color-primary;
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  -webkit-transition: color 0.3s;
+  transition: color 0.3s;
+
+  &:hover {
+    color: $--color-hover;
+  }
+}
+
+textarea,
+code {
+  font-family: $font;
+}
+
+#app {
+  min-width: 600px;
+  margin: 0 auto;
+}
+
+#nprogress {
+  .bar {
+    background: $--color-primary;
+  }
+}
+
+.app-wrapper {
+  padding: 20px;
+}
+.app-wrapper-compact {
+  padding: 15px 10px;
+}
+
+.search-wrapper {
+  .el-button {
+    margin-left: 12px;
+  }
+  & > .el-col {
+    margin-bottom: 20px;
+  }
+  .el-select {
+    width: 100%;
+  }
+  .el-date-editor {
+    width: 100%;
+  }
+  // }
+}
+
+.emq-table-footer {
+  margin-top: 30px;
+  text-align: right;
+}
+
+.emq-title {
+  font-size: 16px;
+  color: #333333;
+  font-weight: bolder;
+  margin-bottom: 40px;
+
+  .sub-title {
+    font-weight: normal;
+    display: block;
+    font-size: 12px;
+    color: #8f9297;
+    margin-top: 12px;
+  }
+}
+
+.page-header-title {
+  font-size: 24px;
+  color: #1d1d1d;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.emq-popover-content {
+  font-size: 12px;
+}
+
+.field-info {
+  margin: 0;
+  list-style: none;
+  padding: 3px 0;
+  line-height: 35px;
+
+  .field-title {
+    display: inline-block;
+    font-style: normal;
+    font-size: 14px;
+    color: #999;
+    padding-right: 16px;
+  }
+
+  .field-value {
+    font-size: 14px;
+    color: #101010;
+  }
+}
+
+// Text-aligin button group
+.button-group {
+  margin-top: 24px;
+  &__center {
+    text-align: center;
+  }
+  &__right {
+    text-align: right;
+  }
+}
+
+.iconx {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  font-style: normal;
+  background-image: url("~@/assets/img/iconset@2x.png");
+  background-size: 153px 159px;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  //24*24 each
+  &.icon-alarm {
+    background-position: -120px -24px;
+  }
+  &.icon-globe {
+    background-position: -96px -24px;
+  }
+  &.icon-monitor {
+    background-position: -24px -72px;
+  }
+  &.icon-cards {
+    background-position: -120px -48px;
+  }
+  &.icon-lists {
+    background-position: 0 -72px;
+  }
+  &.icon-sweep {
+    background-position: -72px -48px;
+  }
+  &.icon-monitoring {
+    background-position: 0 0;
+  }
+  &.icon-management {
+    background-position: -24px 0;
+  }
+  &.icon-authentication {
+    background-position: -48px 0;
+  }
+  &.icon-configuration {
+    background-position: 0 -24px;
+  }
+  &.icon-system {
+    background-position: -24px -24px;
+  }
+}
+
+.g-coap::before {
+  background-image: url("~@/assets/gateway/coap.png");
+}
+.g-lwm2m::before {
+  background-image: url("~@/assets/gateway/lwm2m.png");
+}
+.g-mqttsn::before {
+  background-image: url("~@/assets/gateway/mqttsn.png");
+}
+.g-stomp::before {
+  background-image: url("~@/assets/gateway/stomp.png");
+}
+.g-tcp::before {
+  background-image: url("~@/assets/gateway/tcp.png");
+}
+
+.section-header {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  &:not(:first-of-type) {
+    margin-top: 40px;
+  }
+
+  & .section-desc {
+    font-size: 14px;
+    font-weight: normal;
+    color: #999;
+    margin: 5px 0;
+  }
+
+  & > :first-child {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  & > :not(:first-child) {
+    margin-left: 10px;
+  }
+
+  span,
+  i {
+    vertical-align: middle;
+  }
+
+  & + .el-menu {
+    margin: -20px 0 20px;
+  }
+
+  .title-n-status {
+    display: inline-flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+}
+
+// .section-addition {
+// }
+
+.part-header {
+  font-size: 14px;
+  font-weight: 700;
+
+  &:not(:first-of-type) {
+    margin-top: 30px;
+  }
+}
+
+.no-dropdown-arrow {
+  .popper__arrow {
+    display: none;
+  }
+}
+
+//common styling for input-select group
+.el-input-group--append .el-input-group__append {
+  width: 120px;
+  padding: 0;
+
+  .el-select {
+    margin: -10px 0;
+  }
+}
