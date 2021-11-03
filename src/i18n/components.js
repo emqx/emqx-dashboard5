@@ -167,6 +167,14 @@ export default {
     zh: "Topic Metrics",
     en: "Topic Metrics",
   },
+  iot: {
+    zh: "IoT 规则",
+    en: "IoT Rule",
+  },
+  bridge: {
+    zh: "Data Bridge",
+    en: "Data Bridge",
+  },
   setting: {
     zh: "设置",
     en: "Setting",

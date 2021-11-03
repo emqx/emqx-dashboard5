@@ -1,0 +1,114 @@
+.auth {
+  .create-form-title {
+    font-size: 16px;
+    color: #1d1d1d;
+    font-weight: 600;
+  }
+  .item-description {
+    color: #5b5b5b;
+    font-size: 12px;
+    margin-top: 12px;
+    margin-bottom: 32px;
+  }
+  .create-form {
+    width: 70%;
+    // .el-form-item {
+    //   border: 1px solid #e4e4e4;
+    //   .el-form-item__label {
+    //     padding-top: 12px;
+    //     padding-left: 15px;
+    //     line-height: inherit;
+    //     font-size: 12px;
+    //     color: #4d4d4d;
+    //   }
+    // }
+    .el-input-group__append {
+      background: transparent;
+      color: #606266;
+      .el-select {
+        width: 80px;
+      }
+    }
+    // .el-input .el-input__inner,
+    // .el-textarea__inner,
+    // .el-select__inner {
+    //   border: none;
+    // }
+    .el-radio.is-bordered {
+      text-align: center;
+      &.mechanism {
+        width: 240px;
+      }
+      &.backend {
+        width: 160px;
+      }
+    }
+    .select-database {
+      margin-bottom: 32px;
+    }
+  }
+  .step-btn {
+    margin-top: 32px;
+  }
+  .result-block {
+    .result-title {
+      font-size: 16px;
+      color: #fff;
+      padding: 24px;
+    }
+    &.error {
+      background: #e34242;
+    }
+    &.success {
+      background: #00b299;
+    }
+  }
+  .el-checkbox {
+    &.is-bordered + &.is-bordered {
+      margin-left: 0px;
+    }
+    &.is-bordered {
+      border-radius: 0px;
+      width: 160px;
+      text-align: center;
+      line-height: 40px;
+      padding: 0px;
+      margin-top: 16px;
+      margin-bottom: 22px;
+    }
+  }
+  &.auth-details {
+    .section-header__block {
+      display: flex;
+      align-items: center;
+      & > div {
+        margin-right: 20px;
+      }
+    }
+    .section-header__title {
+      margin-bottom: 8px;
+    }
+    .el-tabs {
+      .el-tabs__header {
+        margin-bottom: 24px;
+      }
+      // Temporary fix for a style issue when there is only one tab
+      .el-tabs__item:last-child {
+        width: 0px;
+        height: 0px;
+      }
+    }
+  }
+  .el-badge {
+    display: inherit;
+    vertical-align: initial;
+  }
+  .el-badge__content.is-fixed {
+    top: 15px;
+    right: 52px;
+  }
+  .el-badge__content {
+    background-color: #c7c7c7;
+    color: #fff;
+  }
+}

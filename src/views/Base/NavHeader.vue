@@ -76,7 +76,8 @@
 
 <script>
 import { loadAlarm } from "@/api/common";
-import { toLogin, setLanguage } from "@/common/utils";
+import { toLogin } from "@/router";
+import { setLanguage } from "@/common/utils";
 import { mapState } from "vuex";
 
 export default {

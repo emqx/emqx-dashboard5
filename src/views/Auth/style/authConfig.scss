@@ -1,0 +1,35 @@
+.config {
+  .create-form {
+    margin-top: 16px;
+    .el-form-item {
+      position: relative;
+    }
+    .bottom-btn {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      line-height: 1;
+    }
+    .el-upload-list {
+      display: none;
+    }
+  }
+  .help-btn {
+    margin-left: 10px;
+  }
+  .help-block {
+    padding: 24px;
+    background: #f1f3f7;
+    margin-bottom: 22px;
+    .help-bock__code {
+      background: #1c2a28;
+      color: #fff;
+      padding: 24px;
+      margin: 16px 0;
+    }
+  }
+  .el-radio.is-bordered {
+    width: 120px;
+    margin-bottom: 32px;
+  }
+}
