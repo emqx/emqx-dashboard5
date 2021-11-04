@@ -1,7 +1,4 @@
-@import "element-variables";
-
-$--font-path: "~element-plus/lib/theme-chalk/fonts";
-@import "~element-plus/packages/theme-chalk/src/index";
+@import "normalize.scss";
 
 @font-face {
   font-family: "Roboto";
@@ -46,13 +43,13 @@ $font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB,
 body {
   padding: 0;
   margin: 0;
-  color: $--color-black;
+  color: var(--el-text-color-primary);
   font-size: 14px;
   font-family: $font;
 }
 
 a {
-  color: $--color-primary;
+  // color: $--color-primary;
   text-decoration: none;
   background-color: transparent;
   outline: none;
@@ -61,7 +58,7 @@ a {
   transition: color 0.3s;
 
   &:hover {
-    color: $--color-hover;
+    // color: $--color-hover;
   }
 }
 
@@ -77,7 +74,7 @@ code {
 
 #nprogress {
   .bar {
-    background: $--color-primary;
+    background: var(--el-color-primary);
   }
 }
 
@@ -101,7 +98,6 @@ code {
   .el-date-editor {
     width: 100%;
   }
-  // }
 }
 
 .emq-table-footer {
@@ -129,10 +125,6 @@ code {
   color: #1d1d1d;
   font-weight: 600;
   margin-bottom: 24px;
-}
-
-.emq-popover-content {
-  font-size: 12px;
 }
 
 .field-info {
@@ -226,6 +218,9 @@ code {
 .g-tcp::before {
   background-image: url("~@/assets/gateway/tcp.png");
 }
+.g-exproto::before {
+  background-image: url("~@/assets/gateway/exproto.png");
+}
 
 .section-header {
   font-size: 24px;
@@ -288,7 +283,6 @@ code {
   }
 }
 
-//common styling for input-select group
 .el-input-group--append .el-input-group__append {
   width: 120px;
   padding: 0;

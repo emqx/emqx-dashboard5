@@ -387,6 +387,7 @@ export default defineComponent({
 
 .int-item {
   display: flex;
+  flex-grow: 1;
 
   & > :first-child {
     padding: 10px;

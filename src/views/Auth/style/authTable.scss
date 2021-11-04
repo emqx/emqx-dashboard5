@@ -1,0 +1,12 @@
+.auth-table {
+  .status {
+    color: #00b299;
+    &.disabled {
+      color: #e34242;
+    }
+  }
+  &.el-table .cell {
+    display: flex;
+    align-items: center;
+  }
+}
