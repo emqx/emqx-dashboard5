@@ -96,7 +96,7 @@ import ExprotoBasic from "./components/exprotoBasic.vue";
 import _ from "lodash";
 import { postGateway, getGateway } from "@/api/gateway";
 import router from "@/router";
-import { Message } from "element-plus";
+import { ElMessage as M } from "element-plus";
 import i18n from "@/i18n";
 
 const STATIC_LISTENER = {
@@ -186,7 +186,7 @@ export default defineComponent({
       };
       let res = await postGateway(data).catch(() => {});
       if (res) {
-        Message({
+        M({
           type: "success",
           message: i18n.t("Base.createSuccess"),
         });
@@ -209,7 +209,7 @@ export default defineComponent({
       if (res) {
         let { status } = res;
         if (status !== "unloaded") {
-          Message({
+          M({
             type: "error",
             message: i18n.t("Gateway.alreadyLoad"),
           });

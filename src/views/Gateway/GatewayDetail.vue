@@ -43,7 +43,7 @@
 <script>
 import { defineComponent, getCurrentInstance, onMounted, ref } from "vue";
 import { getGateway, updateGateway } from "@/api/gateway";
-import { Message } from "element-plus";
+import { ElMessage as M } from "element-plus";
 import i18n from "@/i18n";
 
 export default defineComponent({
@@ -84,7 +84,7 @@ export default defineComponent({
       let body = { enable: false };
       let res = await updateGateway(vm.data.gname, body).catch(() => {});
       if (res) {
-        Message({
+        M({
           type: "success",
           message: i18n.t("Base.disabledSuccess"),
         });

@@ -42,11 +42,10 @@ import {
   computed,
   defineComponent,
   onMounted,
-  reactive,
   ref,
   watch,
+  nextTick,
 } from "vue";
-import vue from "vue";
 
 export default defineComponent({
   name: "TopicEditList",
@@ -83,7 +82,7 @@ export default defineComponent({
 
     const findUniqueOverflow = (nums, max) => {
       let num;
-      for (let i = 1, y = max; i < max; i++) {
+      for (let i = 1, y = max; i < y; i++) {
         if (!Array.prototype.includes.call(nums, i)) {
           num = i;
           break;
@@ -163,7 +162,7 @@ export default defineComponent({
     };
 
     const validateForm = () => {
-      vue.nextTick(async () => {
+      nextTick(async () => {
         let res = await topicForm.value.validate().catch(() => {});
         if (res) {
           formPassed.value = true;

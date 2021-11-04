@@ -69,7 +69,9 @@
         </template>
       </el-dropdown>
 
-      <el-button class="go-link" @click="gotoCloud"> Try Cloud ➝ </el-button>
+      <el-button class="go-link" @click="gotoCloud" size="medium">
+        Try Cloud ➝
+      </el-button>
     </div>
   </div>
 </template>
@@ -169,7 +171,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/style/element-variables";
+// @import "@/style/element-variables";
 .nav-header {
   display: flex;
   justify-content: space-between;
@@ -205,15 +207,15 @@ export default {
 
   .iconfont {
     font-size: 20px;
-    color: $--color-black;
+    // color: $--color-black;
 
     &:hover {
-      color: $--color-hover;
+      // color: $--color-hover;
     }
   }
 
   span:hover {
-    color: $--color-hover;
+    // color: $--color-hover;
   }
 }
 
@@ -224,14 +226,11 @@ export default {
   }
 }
 
-.el-button.go-link {
+.go-link {
   background-color: #282e38ff;
   color: #fff;
-  padding: 0 15px;
-  font-size: 14px;
-  height: 32px;
   border: 1px solid #282e38ff;
-  margin-left: 15px;
+  margin-left: 10px;
 
   &:hover {
     background-color: #fff;

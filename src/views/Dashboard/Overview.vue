@@ -1,7 +1,7 @@
 <template>
   <div class="overview app-wrapper">
     <div class="basic-info">
-      <div class="basic-graph">
+      <el-row class="basic-graph">
         <el-col :span="12">
           <el-card shadow="never" class="app-card">
             <div class="app-card-title">
@@ -92,7 +92,7 @@
             </div>
           </el-card>
         </el-col>
-      </div>
+      </el-row>
 
       <nodes-graph class="nodes-graph"></nodes-graph>
     </div>

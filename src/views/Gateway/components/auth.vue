@@ -40,7 +40,7 @@ import {
 } from "@/api/gateway";
 import AuthnCreate from "../../Auth/AuthnCreate.vue";
 import AuthnDetails from "../../Auth/AuthnDetails.vue";
-import { Message } from "element-plus";
+import { ElMessage as M } from "element-plus";
 import i18n from "@/i18n";
 
 export default defineComponent({
@@ -94,7 +94,7 @@ export default defineComponent({
       let res = await addGatewayAuth(name).catch(() => {});
       if (res) {
         createDialog.value = false;
-        Message.success(i18n.t("Base.createSuccess"));
+        M.success(i18n.t("Base.createSuccess"));
       }
     };
 
@@ -111,7 +111,7 @@ export default defineComponent({
       console.log(data);
       let res = await updateGatewayAuth(name).catch(() => {});
       if (res) {
-        Message.success(i18n.t("Base.updateSuccess"));
+        M.success(i18n.t("Base.updateSuccess"));
       }
     };
 
@@ -120,7 +120,7 @@ export default defineComponent({
       let res = await deleteGatewayAuth(name).catch(() => {});
       if (res) {
         hasAuth.value = false;
-        Message.success(i18n.t("Base.deleteSuccess"));
+        M.success(i18n.t("Base.deleteSuccess"));
       }
     };
 

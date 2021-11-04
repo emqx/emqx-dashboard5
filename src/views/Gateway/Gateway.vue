@@ -110,7 +110,7 @@ import { getGatewayList, updateGateway } from "@/api/gateway";
 import { calcPercentage, caseInsensitiveCompare } from "@/common/utils";
 import i18n from "@/i18n";
 import router from "@/router";
-import { Message as M } from "element-plus";
+import { ElMessage as M } from "element-plus";
 
 export default defineComponent({
   name: "Gateway",

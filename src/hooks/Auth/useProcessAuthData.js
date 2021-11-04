@@ -1,4 +1,4 @@
-import { Message } from "element-plus";
+import { ElMessage as M } from "element-plus";
 import _ from "lodash";
 
 export default function useProcessAuthData() {
@@ -13,7 +13,7 @@ export default function useProcessAuthData() {
       }
       return tempData;
     } catch (error) {
-      Message.error(error.toString());
+      M.error(error.toString());
     }
   };
   const processRedisConfig = (data) => {
@@ -46,7 +46,7 @@ export default function useProcessAuthData() {
       }
       return tempData;
     } catch (error) {
-      Message.error(error.toString());
+      M.error(error.toString());
     }
   };
   const processJwtConfig = (data) => {
