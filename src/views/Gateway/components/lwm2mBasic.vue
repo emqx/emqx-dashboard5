@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form>
+    <el-form label-position="top">
       <div class="part-header">
         {{ tl("basic") }}
       </div>

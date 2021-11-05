@@ -32,7 +32,7 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button plain type="danger" size="mini" @click="deleteConfirm(row)"
+          <el-button type="danger" size="mini" @click="deleteConfirm(row)"
             >{{ $t("Base.delete") }}
           </el-button>
         </template>
@@ -47,7 +47,13 @@
     </div>
 
     <el-dialog :title="$t('General.createBlacklist')" v-model="dialogVisible">
-      <el-form ref="recordForm" size="small" :model="record" :rules="rules">
+      <el-form
+        ref="recordForm"
+        size="small"
+        :model="record"
+        :rules="rules"
+        label-position="top"
+      >
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('General.banObject')" prop="who">
@@ -76,20 +82,22 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-form-item prop="reason" :label="$t('General.reason')">
-            <el-input
-              v-model="record.reason"
-              type="textarea"
-              :rows="3"
-              :placeholder="$t('General.reason')"
-              resize="none"
-            ></el-input>
-          </el-form-item>
+          <el-col :span="24">
+            <el-form-item prop="reason" :label="$t('General.reason')">
+              <el-input
+                v-model="record.reason"
+                type="textarea"
+                :rows="3"
+                :placeholder="$t('General.reason')"
+                resize="none"
+              ></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button plain size="small" @click="closeDialog">{{
+          <el-button size="small" @click="closeDialog">{{
             $t("Base.cancel")
           }}</el-button>
           <el-button

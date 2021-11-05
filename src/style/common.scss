@@ -49,7 +49,7 @@ body {
 }
 
 a {
-  // color: $--color-primary;
+  color: var(--el-color-primary);
   text-decoration: none;
   background-color: transparent;
   outline: none;

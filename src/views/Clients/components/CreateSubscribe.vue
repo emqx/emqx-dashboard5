@@ -36,7 +36,7 @@
     </el-form>
     <template #footer>
       <div class="dialog-align-footer">
-        <el-button plain size="small" @click="close">{{
+        <el-button size="small" @click="close">{{
           $t("Base.cancel")
         }}</el-button>
         <el-button type="primary" size="small" @click="handleAdd">{{

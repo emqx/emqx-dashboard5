@@ -38,13 +38,9 @@
           <el-button size="mini" @click="openDialog(true, row, $index)">{{
             $t("Base.edit")
           }}</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            plain
-            @click="delListener(row)"
-            >{{ $t("Base.delete") }}</el-button
-          >
+          <el-button size="mini" type="danger" @click="delListener(row)">{{
+            $t("Base.delete")
+          }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -61,7 +57,7 @@
 
     <el-dialog :title="tl('addListener')" v-model="opListener">
       <div class="part-header">{{ tl("basic") }}</div>
-      <el-form>
+      <el-form label-position="top">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="tl('name')">

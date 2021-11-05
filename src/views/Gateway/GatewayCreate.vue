@@ -13,7 +13,7 @@
       </el-col>
     </el-row>
     <el-row class="config-main">
-      <div v-if="stepActive === 0" class="config-basic">
+      <el-col :span="18" v-if="stepActive === 0" class="config-basic">
         <template v-if="name === 'STOMP'">
           <stomp-basic v-model:value="basicData" />
         </template>
@@ -29,23 +29,23 @@
         <template v-else-if="name === 'EXPROTO'">
           <exproto-basic v-model:value="basicData"></exproto-basic>
         </template>
-      </div>
+      </el-col>
 
-      <div v-else-if="stepActive === 1">
+      <el-col :span="24" v-else-if="stepActive === 1">
         <listeners
           :integration="true"
           :gateway-name="name"
           v-model:list="listenerList"
         ></listeners>
-      </div>
-      <div v-else-if="stepActive === 2">
+      </el-col>
+      <el-col :span="24" v-else-if="stepActive === 2">
         <div class="part-header">
           {{ tl("clientAuth") }}
         </div>
         <div class="config-auth">
           {{ tl("clientAuthDesc") }}
         </div>
-      </div>
+      </el-col>
     </el-row>
     <el-row class="config-op">
       <el-button
@@ -241,9 +241,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .config-main {
   margin-top: 30px;
-}
-.config-basic {
-  width: 70%;
 }
 .config-op {
   margin-top: 30px;

@@ -2,13 +2,14 @@
   <div>
     <el-tabs>
       <el-tab-pane :label="tl('setting')" v-loading="configPending">
-        <el-row>
-          <el-form
-            ref="delayedForm"
-            :rules="delayedRules"
-            :model="delayedConfig"
-            :disabled="!configEnable"
-          >
+        <el-form
+          ref="delayedForm"
+          :rules="delayedRules"
+          :model="delayedConfig"
+          :disabled="!configEnable"
+          label-position="top"
+        >
+          <el-row>
             <el-col :span="10">
               <el-form-item
                 :label="tl('maxDelayedMsg')"
@@ -33,8 +34,8 @@
                 </el-input>
               </el-form-item>
             </el-col>
-          </el-form>
-        </el-row>
+          </el-row>
+        </el-form>
         <el-row>
           <el-button
             size="small"
@@ -96,7 +97,6 @@
               <el-button
                 size="mini"
                 type="danger"
-                plain
                 @click="deleteDelayedInfo(row)"
                 >{{ $t("Base.delete") }}</el-button
               >

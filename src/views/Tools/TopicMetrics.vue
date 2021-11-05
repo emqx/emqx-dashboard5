@@ -132,7 +132,7 @@
           <el-button size="mini" @click="resetTopic(row)">{{
             $t("Base.reset")
           }}</el-button>
-          <el-button size="mini" type="danger" plain @click="deleteTopic(row)">
+          <el-button size="mini" type="danger" @click="deleteTopic(row)">
             {{ $t("Base.delete") }}
           </el-button>
         </template>
@@ -153,7 +153,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button plain size="small" @click="addVisible = false">{{
+          <el-button size="small" @click="addVisible = false">{{
             $t("Base.cancel")
           }}</el-button>
           <el-button type="primary" size="small" @click="addTopic()">{{

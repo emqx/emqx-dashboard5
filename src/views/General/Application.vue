@@ -1,7 +1,12 @@
 <template>
   <div class="application app-wrapper">
-    <el-button type="primary" size="small" icon="el-icon-plus" @click="showDialog('create')">
-      {{ $t('Base.create') }}
+    <el-button
+      type="primary"
+      size="small"
+      icon="el-icon-plus"
+      @click="showDialog('create')"
+    >
+      {{ $t("Base.create") }}
     </el-button>
 
     <el-table :data="tableData" class="data-list">
@@ -12,25 +17,33 @@
           </a>
         </template>
       </el-table-column>
-      <el-table-column prop="name" :label="$t('General.appName')" sortable></el-table-column>
+      <el-table-column
+        prop="name"
+        :label="$t('General.appName')"
+        sortable
+      ></el-table-column>
       <el-table-column
         prop="expired"
         :formatter="formatterExpired"
         :label="$t('General.expireAt')"
       ></el-table-column>
-      <el-table-column prop="desc" :label="$t('General.remark')"></el-table-column>
+      <el-table-column
+        prop="desc"
+        :label="$t('General.remark')"
+      ></el-table-column>
       <el-table-column :label="$t('General.isEnabled')">
         <template slot-scope="{ row }">
-          <el-switch v-model="row.status" @change="updateApplication(row)"> </el-switch>
+          <el-switch v-model="row.status" @change="updateApplication(row)">
+          </el-switch>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template slot-scope="{ row }">
-          <el-button plain size="mini" @click="showDialog('edit', row)">
-            {{ $t('Base.edit') }}
+          <el-button size="mini" @click="showDialog('edit', row)">
+            {{ $t("Base.edit") }}
           </el-button>
-          <el-button type="danger" size="mini" plain @click="deleteConfirm(row)">
-            {{ $t('Base.delete') }}
+          <el-button type="danger" size="mini" @click="deleteConfirm(row)">
+            {{ $t("Base.delete") }}
           </el-button>
         </template>
       </el-table-column>
@@ -38,7 +51,9 @@
 
     <el-dialog
       width="600px"
-      :title="accessType === 'edit' ? $t('General.editApp') : $t('General.createApp')"
+      :title="
+        accessType === 'edit' ? $t('General.editApp') : $t('General.createApp')
+      "
       :visible.sync="dialogVisible"
       @close="clearInput"
     >
@@ -103,154 +118,175 @@
           </el-col>
           <el-col :span="12">
             <el-form-item prop="desc" :label="$t('General.remark')">
-              <el-input v-model="record.desc" :readonly="accessType === 'view'"></el-input>
+              <el-input
+                v-model="record.desc"
+                :readonly="accessType === 'view'"
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
 
-      <div v-if="accessType !== 'view'" slot="footer" class="dialog-align-footer">
-        <el-button plain size="small" @click="dialogVisible = false">{{
-          $t('Base.cancel')
+      <div
+        v-if="accessType !== 'view'"
+        slot="footer"
+        class="dialog-align-footer"
+      >
+        <el-button size="small" @click="dialogVisible = false">{{
+          $t("Base.cancel")
         }}</el-button>
-        <el-button type="primary" size="small" @click="save">{{ $t('Base.confirm') }}</el-button>
+        <el-button type="primary" size="small" @click="save">{{
+          $t("Base.confirm")
+        }}</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import moment from 'moment'
+import moment from "moment";
 
-import { loadApp, createApp, showApp, updateApp, destroyAPP } from '@/api/function'
+import {
+  loadApp,
+  createApp,
+  showApp,
+  updateApp,
+  destroyAPP,
+} from "@/api/function";
 
 export default {
-  name: 'Application',
+  name: "Application",
 
   data() {
     return {
       dialogVisible: false,
       tableData: [],
-      accessType: '',
+      accessType: "",
       enableOption: [
-        { label: this.$t('General.enabled'), value: true },
-        { label: this.$t('General.disabled'), value: false },
+        { label: this.$t("General.enabled"), value: true },
+        { label: this.$t("General.disabled"), value: false },
       ],
       record: {
         status: true, // 是否启用
-        desc: '',
+        desc: "",
       },
       rules: {
-        name: [{ required: true, message: this.$t('General.pleaseEnterAppName') }],
-        app_id: [{ required: true, message: this.$t('General.pleaseEnterTheAppId') }],
-        status: [{ required: true, message: this.$t('General.pleaseChoose') }],
+        name: [
+          { required: true, message: this.$t("General.pleaseEnterAppName") },
+        ],
+        app_id: [
+          { required: true, message: this.$t("General.pleaseEnterTheAppId") },
+        ],
+        status: [{ required: true, message: this.$t("General.pleaseChoose") }],
       },
-    }
+    };
   },
 
   created() {
-    this.loadData()
+    this.loadData();
   },
 
   methods: {
     formatterExpired({ expired }) {
-      if (!expired || typeof expired !== 'number') {
-        return this.$t('General.neverExpire')
+      if (!expired || typeof expired !== "number") {
+        return this.$t("General.neverExpire");
       }
-      return moment(expired * 1000).format('YYYY-MM-DD')
+      return moment(expired * 1000).format("YYYY-MM-DD");
     },
     clearInput() {
       if (this.$refs.recordForm) {
-        this.$refs.recordForm.resetFields()
+        this.$refs.recordForm.resetFields();
       }
     },
     async loadData() {
-      this.tableData = await loadApp()
+      this.tableData = await loadApp();
     },
     // 请求一组数据
     async loadAppData(id) {
-      const record = await showApp(id)
-      if (record.expired && typeof record.expired === 'number') {
-        record.expired = moment(record.expired * 1000).format('YYYY-MM-DD')
+      const record = await showApp(id);
+      if (record.expired && typeof record.expired === "number") {
+        record.expired = moment(record.expired * 1000).format("YYYY-MM-DD");
       }
-      this.record = record
+      this.record = record;
     },
     showDialog(type, item) {
-      this.accessType = type
-      if (type === 'edit') {
-        const record = { ...item }
-        if (record.expired && typeof record.expired === 'number') {
-          record.expired = moment(record.expired * 1000).format('YYYY-MM-DD')
+      this.accessType = type;
+      if (type === "edit") {
+        const record = { ...item };
+        if (record.expired && typeof record.expired === "number") {
+          record.expired = moment(record.expired * 1000).format("YYYY-MM-DD");
         } else {
-          record.expired = undefined
+          record.expired = undefined;
         }
-        this.record = record
-      } else if (type === 'view') {
-        this.loadAppData(item.app_id)
+        this.record = record;
+      } else if (type === "view") {
+        this.loadAppData(item.app_id);
       } else {
         this.record = {
           app_id: Math.random().toString(16).slice(3),
           status: true,
-          desc: '',
-        }
+          desc: "",
+        };
       }
-      this.dialogVisible = true
+      this.dialogVisible = true;
     },
     updateApplication(item) {
       updateApp(item.app_id, item).then(() => {
-        this.$message.success(this.$t('Base.editSuccess'))
-      })
+        this.$message.success(this.$t("Base.editSuccess"));
+      });
     },
     save() {
-      const vue = this
+      const vue = this;
       this.$refs.recordForm.validate((valid) => {
         if (!valid) {
-          return
+          return;
         }
-        const record = { ...this.record }
-        if (record.expired && typeof record.expired === 'string') {
+        const record = { ...this.record };
+        if (record.expired && typeof record.expired === "string") {
           try {
-            record.expired = Math.floor(new Date(record.expired).getTime() / 1000)
+            record.expired = Math.floor(
+              new Date(record.expired).getTime() / 1000
+            );
           } catch (e) {
-            record.expired = null
+            record.expired = null;
           }
         }
-        if (vue.accessType === 'edit') {
-          const { app_id } = vue.record
+        if (vue.accessType === "edit") {
+          const { app_id } = vue.record;
           updateApp(app_id, record).then(() => {
-            vue.$message.success(this.$t('Base.editSuccess'))
-            vue.dialogVisible = false
-            vue.accessType = ''
-            vue.loadData()
-          })
+            vue.$message.success(this.$t("Base.editSuccess"));
+            vue.dialogVisible = false;
+            vue.accessType = "";
+            vue.loadData();
+          });
         } else {
           createApp(record).then(() => {
-            vue.$message.success(this.$t('General.successfulAppCreation'))
-            vue.dialogVisible = false
-            vue.accessType = ''
-            vue.loadData()
-          })
+            vue.$message.success(this.$t("General.successfulAppCreation"));
+            vue.dialogVisible = false;
+            vue.accessType = "";
+            vue.loadData();
+          });
         }
-      })
+      });
     },
     deleteConfirm(item) {
-      const vue = this
+      const vue = this;
       this.$msgbox
-        .confirm(this.$t('General.confirmDelete'), {
-          confirmButtonText: this.$t('Base.confirm'),
-          cancelButtonText: this.$t('Base.cancel'),
-          type: 'warning',
+        .confirm(this.$t("General.confirmDelete"), {
+          confirmButtonText: this.$t("Base.confirm"),
+          cancelButtonText: this.$t("Base.cancel"),
+          type: "warning",
         })
         .then(async () => {
           destroyAPP(item.app_id).then(() => {
-            vue.$message.success(this.$t('Base.deleteSuccess'))
-            vue.loadData()
-          })
+            vue.$message.success(this.$t("Base.deleteSuccess"));
+            vue.loadData();
+          });
         })
-        .catch(() => {})
+        .catch(() => {});
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

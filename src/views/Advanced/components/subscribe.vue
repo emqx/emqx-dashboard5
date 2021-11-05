@@ -20,7 +20,7 @@
           <el-button size="mini" @click="openOpDialog(true, row)">{{
             $t("Base.edit")
           }}</el-button>
-          <el-button size="mini" type="danger" plain @click="deleteSubs(row)">{{
+          <el-button size="mini" type="danger" @click="deleteSubs(row)">{{
             $t("Base.delete")
           }}</el-button>
         </template>

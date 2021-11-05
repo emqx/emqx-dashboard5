@@ -113,21 +113,21 @@ export default {
         });
         this.activeTab = name;
       } else {
-        const ins = this.$refs[targetName] && this.$refs[targetName][0];
+        const ins = this.$refs[targetName];
         if (!ins) {
           return;
         }
-        if (ins.client && ins.client.connected) {
-          ins.client.end();
-        }
-        this.tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            const nextTab = this.tabs[index + 1] || this.tabs[index - 1];
-            if (nextTab) {
-              this.activeTab = nextTab.name;
+
+        if (this.activeTab === targetName) {
+          this.tabs.forEach((tab, index) => {
+            if (tab.name === targetName) {
+              const nextTab = this.tabs[index + 1] || this.tabs[index - 1];
+              if (nextTab) {
+                this.activeTab = nextTab.name;
+              }
             }
-          }
-        });
+          });
+        }
         this.tabs = this.tabs.filter(($) => $.name !== targetName);
       }
     },

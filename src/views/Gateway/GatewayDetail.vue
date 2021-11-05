@@ -19,11 +19,10 @@
         </span>
       </div>
       <div>
-        <!-- <el-button type="danger" plain size="small">{{ $t('Base.delete') }}</el-button> -->
+        <!-- <el-button type="danger"  size="small">{{ $t('Base.delete') }}</el-button> -->
         <el-button
           size="small"
           type="danger"
-          plain
           :disabled="gInfo.status !== 'running'"
           @click="gatewayStop()"
         >
@@ -64,7 +63,7 @@ export default defineComponent({
       );
     },
   },
-  setup(p) {
+  setup() {
     let gInfo = ref({});
     let vm = getCurrentInstance();
     const tl = function (key, collection = "Gateway") {

@@ -26,19 +26,12 @@
         <el-button
           v-if="record.connected"
           type="danger"
-          plain
           size="small"
           @click="handleDisconnect"
         >
           {{ $t("Clients.kickOut") }}
         </el-button>
-        <el-button
-          v-else
-          type="danger"
-          size="small"
-          plain
-          @click="handleDisconnect"
-        >
+        <el-button v-else type="danger" size="small" @click="handleDisconnect">
           {{ $t("Clients.cleanSession") }}
         </el-button>
       </div>
@@ -172,7 +165,7 @@
         {{ $t("Clients.currentSubscription") }}
       </div>
       <div>
-        <!-- <el-button plain size="mini" icon="el-icon-refresh" @click="loadData">
+        <!-- <el-button  size="mini" icon="el-icon-refresh" @click="loadData">
           {{ $t('Clients.refresh') }}
         </el-button> -->
         <el-button
@@ -201,7 +194,6 @@
       <el-table-column prop="clientid" :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button
-            plain
             type="danger"
             size="mini"
             @click="handleUnSubscription(row)"

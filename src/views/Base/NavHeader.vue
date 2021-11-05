@@ -226,7 +226,7 @@ export default {
   }
 }
 
-.go-link {
+.el-button.go-link {
   background-color: #282e38ff;
   color: #fff;
   border: 1px solid #282e38ff;

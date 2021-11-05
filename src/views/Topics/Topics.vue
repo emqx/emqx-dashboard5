@@ -9,14 +9,16 @@
             :placeholder="$t('Topics.topic')"
           ></el-input>
         </el-col>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="small"
-          @click="handleSearch"
-        >
-          {{ $t("Clients.search") }}
-        </el-button>
+        <el-col :span="8">
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            size="small"
+            @click="handleSearch"
+          >
+            {{ $t("Clients.search") }}
+          </el-button>
+        </el-col>
       </el-row>
     </el-form>
 
