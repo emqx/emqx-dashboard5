@@ -75,7 +75,6 @@
         <el-button
           type="danger"
           size="small"
-          plain
           @click="clearHistoryAlarm"
           :disabled="!historyAlarmData.length"
         >

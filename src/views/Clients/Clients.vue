@@ -188,12 +188,7 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button
-            size="mini"
-            type="danger"
-            plain
-            @click="handleDisconnect(row)"
-          >
+          <el-button size="mini" type="danger" @click="handleDisconnect(row)">
             {{
               row.connected ? $t("Clients.kickOut") : $t("Clients.cleanSession")
             }}

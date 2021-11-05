@@ -30,6 +30,7 @@
             <el-menu
               v-if="hasSubMenu"
               :default-active="defaultSubMenu"
+              :key="defaultSubMenu"
               mode="horizontal"
               router
               class="top-submenu"

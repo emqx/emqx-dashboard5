@@ -128,7 +128,7 @@
           <el-button @click="openClientDetail(row)">{{
             $t("Base.view")
           }}</el-button>
-          <el-button type="danger" plain @click="disconnectClient(row)">{{
+          <el-button type="danger" @click="disconnectClient(row)">{{
             $t("Clients.kickOut")
           }}</el-button>
         </template>

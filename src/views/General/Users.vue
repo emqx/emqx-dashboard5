@@ -25,14 +25,14 @@
       ></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button plain size="mini" @click="showDialog('edit', row)"
+          <el-button size="mini" @click="showDialog('edit', row)"
             >{{ $t("Base.edit") }}
           </el-button>
-          <el-button plain size="mini" @click="showDialog('chPass', row)">{{
+          <el-button size="mini" @click="showDialog('chPass', row)">{{
             $t("General.changePassword")
           }}</el-button>
 
-          <el-button type="danger" size="mini" plain @click="deleteConfirm(row)"
+          <el-button type="danger" size="mini" @click="deleteConfirm(row)"
             >{{ $t("Base.delete") }}
           </el-button>
         </template>
@@ -49,7 +49,13 @@
       "
       v-model="dialogVisible"
     >
-      <el-form ref="recordForm" size="small" :model="record" :rules="rules">
+      <el-form
+        ref="recordForm"
+        size="small"
+        :model="record"
+        :rules="rules"
+        label-position="top"
+      >
         <el-form-item
           v-if="accessType !== 'chPass'"
           prop="username"
@@ -90,7 +96,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button plain size="small" @click="closeDialog">{{
+          <el-button size="small" @click="closeDialog">{{
             $t("Base.cancel")
           }}</el-button>
 

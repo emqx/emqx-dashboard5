@@ -127,7 +127,7 @@
       </div>
       <div class="section-addition">
         <emq-select
-          v-model="currentNode"
+          v-model:value="currentNode"
           :field="{ options: metrics }"
           :field-name="{ label: 'node', value: 'node' }"
           @change="changeNode"

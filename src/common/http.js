@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { Message } from "element-ui";
+import { ElMessage as M } from "element-plus";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { toLogin } from "@/router";
@@ -25,7 +25,6 @@ axios.interceptors.request.use(
     return config;
   },
   (error) => {
-    // console.log(Object.keys(error))
     Promise.reject(error);
   }
 );
@@ -54,10 +53,9 @@ axios.interceptors.response.use(
 
       if (!respSet.has(status)) {
         respSet.add(status);
-        // if (data?.code || data?.message)
-        //   Message.error(status + " " + data?.code + ":" + data?.message);
-        // else
-        // Message.error(status + " Network error");
+        if (data?.code || data?.message)
+          M.error(status + " " + data?.code + ":" + data?.message);
+        else M.error(status + " Network error");
 
         if (status === 401) {
           toLogin();
@@ -65,7 +63,7 @@ axios.interceptors.response.use(
       }
     } else {
       if (!respSet.has(0)) {
-        // Message.error("Some error occurred");
+        M.error("Some error occurred");
         respSet.add(0);
       }
     }

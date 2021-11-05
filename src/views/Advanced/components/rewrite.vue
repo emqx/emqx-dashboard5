@@ -29,13 +29,9 @@
           <el-button size="mini" @click="openOpDialog(true, row)">{{
             $t("Base.edit")
           }}</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            plain
-            @click="deleteRewrite(row)"
-            >{{ $t("Base.delete") }}</el-button
-          >
+          <el-button size="mini" type="danger" @click="deleteRewrite(row)">{{
+            $t("Base.delete")
+          }}</el-button>
         </template>
       </el-table-column>
     </el-table>

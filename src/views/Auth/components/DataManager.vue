@@ -98,7 +98,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button plain size="small" @click="dialogVisible = false">
+          <el-button size="small" @click="dialogVisible = false">
             {{ $t("Base.cancel") }}
           </el-button>
 

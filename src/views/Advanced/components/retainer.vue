@@ -8,6 +8,7 @@
           ref="retainerForm"
           :rules="retainerRules"
           :model="retainerConfig"
+          label-position="top"
         >
           <el-row :gutter="30">
             <el-col :span="16">
@@ -232,7 +233,6 @@
               <el-button
                 size="mini"
                 type="danger"
-                plain
                 @click="deleteRetainerTopic(row)"
                 >{{ $t("Base.delete") }}</el-button
               >

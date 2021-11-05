@@ -13,10 +13,10 @@
         </div>
       </div>
       <div>
-        <el-button type="danger" plain size="small" @click="handleDelete">
+        <el-button type="danger" size="small" @click="handleDelete">
           {{ $t("Base.delete") }}
         </el-button>
-        <el-button size="small" plain @click="handleUpdate(configData)">
+        <el-button size="small" @click="handleUpdate(configData)">
           {{ configData.enable ? $t("Auth.disable") : $t("Auth.enable") }}
         </el-button>
       </div>
