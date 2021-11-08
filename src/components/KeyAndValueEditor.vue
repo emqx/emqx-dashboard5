@@ -12,18 +12,22 @@
         ></el-input>
       </template>
     </el-table-column>
-    <el-table-column prop="value" :label="keyValueLabel.value" min-width="150px">
+    <el-table-column
+      prop="value"
+      :label="keyValueLabel.value"
+      min-width="150px"
+    >
       <template slot-scope="{ row }">
         <el-input v-model="row.value" @input="atInputChange"></el-input>
       </template>
     </el-table-column>
     <el-table-column width="60px">
       <a href="javascript:;" slot="header" class="btn" @click="addColumn">
-        {{ $t('Base.add') }}
+        {{ $t("Base.add") }}
       </a>
       <template slot-scope="{ row }">
         <a href="javascript:;" class="btn" @click="deleteItem(row)">
-          {{ $t('Base.delete') }}
+          {{ $t("Base.delete") }}
         </a>
       </template>
     </el-table-column>
@@ -32,17 +36,10 @@
 
 <script>
 export default {
-  name: 'KeyAndValueEditor',
-
-  components: {},
-
-  model: {
-    prop: 'value',
-    event: 'update',
-  },
+  name: "KeyAndValueEditor",
 
   props: {
-    value: {
+    modelValue: {
       type: Object,
       required: true,
     },
@@ -59,57 +56,57 @@ export default {
   data() {
     return {
       row: {
-        key: '',
-        value: '',
+        key: "",
+        value: "",
         state: 0, // 0 ok 1 error
       },
       tableData: [],
-    }
+    };
   },
 
   computed: {
     keyValueLabel() {
       if (this.customLabel === null) {
         return {
-          key: this.$t('components.key'),
-          value: this.$t('components.value'),
-        }
+          key: this.$t("components.key"),
+          value: this.$t("components.value"),
+        };
       }
-      return this.customLabel
+      return this.customLabel;
     },
   },
 
   created() {
-    const list = []
-    const d = this.value
+    const list = [];
+    const d = this.modelValue;
     Object.entries(d).forEach(([key, value]) => {
-      list.push({ key, value, state: 0 })
-    })
-    this.tableData = list
+      list.push({ key, value, state: 0 });
+    });
+    this.tableData = list;
   },
 
   methods: {
     atInputChange() {
-      const data = {}
+      const data = {};
       this.tableData.forEach((item) => {
-        const { key, value } = item
-        data[key] = value
-      })
-      this.$emit('update', data)
+        const { key, value } = item;
+        data[key] = value;
+      });
+      this.$emit("update:modelValue", data);
     },
     deleteItem(row) {
-      this.tableData = this.tableData.filter(($) => $.key !== row.key)
-      this.atInputChange()
+      this.tableData = this.tableData.filter(($) => $.key !== row.key);
+      this.atInputChange();
     },
     addColumn() {
       this.tableData.push({
-        key: '',
-        value: '',
+        key: "",
+        value: "",
         state: 0,
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss">

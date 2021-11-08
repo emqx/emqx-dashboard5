@@ -33,7 +33,12 @@
         (isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('subscribe')
       "
     >
-      <el-form :rules="subsRules" :model="subsInput" ref="subsForm">
+      <el-form
+        :rules="subsRules"
+        :model="subsInput"
+        ref="subsForm"
+        label-position="top"
+      >
         <el-form-item :label="'Topic'" prop="topic">
           <el-input v-model="subsInput.topic"></el-input>
         </el-form-item>

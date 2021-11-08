@@ -48,10 +48,10 @@
           {{ $t("Auth.scramDesc") }}
         </p>
         <div class="step-btn">
-          <el-button type="primary" @click="handleNext">
+          <el-button type="primary" @click="handleNext" size="small">
             {{ $t("Base.nextStep") }}
           </el-button>
-          <el-button @click="cancelCreate()">
+          <el-button @click="cancelCreate()" size="small">
             {{ $t("Base.cancel") }}
           </el-button>
         </div>
@@ -126,10 +126,10 @@
           {{ $t("Auth.jwtDataSourceDesc") }}
         </p>
         <div class="step-btn">
-          <el-button type="primary" @click="handleNext">
+          <el-button type="primary" @click="handleNext" size="small">
             {{ $t("Base.nextStep") }}
           </el-button>
-          <el-button @click="handleBack">
+          <el-button @click="handleBack" size="small">
             {{ $t("Base.backStep") }}
           </el-button>
         </div>
@@ -165,13 +165,13 @@
           </div>
         </div>
         <div class="step-btn">
-          <el-button type="primary" @click="handleCreate">
+          <el-button type="primary" @click="handleCreate" size="small">
             {{ $t("Base.create") }}
           </el-button>
           <!-- <el-button @click="handleTest">
             {{ $t('Base.test') }}
           </el-button> -->
-          <el-button @click="handleBack">
+          <el-button @click="handleBack" size="small">
             {{ $t("Base.backStep") }}
           </el-button>
         </div>

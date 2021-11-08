@@ -107,7 +107,12 @@
       :title="isEdit ? $t('Base.edit') : $t('Base.add')"
       v-model="dialogVisible"
     >
-      <el-form ref="recordForm" :model="record" :rules="getRules()">
+      <el-form
+        ref="recordForm"
+        :model="record"
+        :rules="getRules()"
+        label-position="top"
+      >
         <template v-if="type === 'all'">
           <el-form-item prop="permission" label="Permission">
             <el-select v-model="record.permission">
@@ -243,6 +248,7 @@ export default defineComponent({
         value: "all",
       },
     ];
+    const recordForm = ref(null);
     const tableData = ref([]);
     const allTableData = ref([]);
     const rulesData = ref([]);
@@ -335,8 +341,8 @@ export default defineComponent({
     const handleAdd = function () {
       dialogVisible.value = true;
       isEdit.value = false;
-      if (this.$refs.recordForm) {
-        setTimeout(this.$refs.recordForm.clearValidate, 10);
+      if (recordForm.value) {
+        setTimeout(recordForm.value.clearValidate, 10);
       }
     };
     const handleCancel = function () {
@@ -360,7 +366,7 @@ export default defineComponent({
       rulesData.value.splice(index, 1);
     };
     const handleSubmit = function () {
-      this.$refs.recordForm.validate(async (valid) => {
+      recordForm.value.validate(async (valid) => {
         if (!valid) {
           return;
         }

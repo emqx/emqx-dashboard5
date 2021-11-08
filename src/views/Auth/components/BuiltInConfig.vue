@@ -53,12 +53,9 @@ import usePassword from "@/hooks/usePassword";
 
 export default defineComponent({
   name: "BuiltInConfig",
-  model: {
-    prop: "value",
-    event: "update",
-  },
+
   props: {
-    value: {
+    modelValue: {
       type: Object,
       required: true,
     },
@@ -67,10 +64,11 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ["update:modelValue"],
   setup(props, ctx) {
-    const builtConfig = reactive(props.value);
+    const builtConfig = reactive(props.modelValue);
     watch(builtConfig, (value) => {
-      ctx.emit("update", value);
+      ctx.emit("update:modelValue", value);
     });
     const { HashOptions } = usePassword();
     return {

@@ -22,13 +22,13 @@
     //     color: #4d4d4d;
     //   }
     // }
-    .el-input-group__append {
-      background: transparent;
-      color: #606266;
-      .el-select {
-        width: 80px;
-      }
-    }
+    // .el-input-group__append {
+    //   background: transparent;
+    //   color: #606266;
+    //   .el-select {
+    //     width: 80px;
+    //   }
+    // }
     // .el-input .el-input__inner,
     // .el-textarea__inner,
     // .el-select__inner {
@@ -69,10 +69,10 @@
     }
     &.is-bordered {
       border-radius: 0px;
-      width: 160px;
+
       text-align: center;
       line-height: 40px;
-      padding: 0px;
+      padding: 0 30px;
       margin-top: 16px;
       margin-bottom: 22px;
     }
@@ -100,7 +100,7 @@
     }
   }
   .el-badge {
-    display: inherit;
+    display: inline-flex;
     vertical-align: initial;
   }
   .el-badge__content.is-fixed {
@@ -110,5 +110,26 @@
   .el-badge__content {
     background-color: #c7c7c7;
     color: #fff;
+  }
+
+  .el-radio.is-bordered {
+    border-radius: 0px;
+    padding: 0px;
+    border: 2px solid #e4e4e4;
+    margin-top: 16px;
+    .el-radio__input {
+      display: none;
+    }
+    .el-radio__label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0px;
+      height: 100%;
+    }
+    &.is-checked {
+      border-color: #00b299ff;
+    }
   }
 }

@@ -53,6 +53,7 @@
 import { defineComponent, ref } from "vue";
 import TableDropdown from "./components/TableDropdown.vue";
 import { listAuthz, updateAuthz, deleteAuthz, moveAuthz } from "@/api/auth";
+import router from "@/router";
 
 export default defineComponent({
   name: "Authz",
@@ -103,7 +104,7 @@ export default defineComponent({
       loadData();
     };
     const handleSetting = function ({ type }) {
-      this.$router.push({ path: `/authorization/detail/${type}` });
+      router.push({ path: `/authorization/detail/${type}` });
     };
     const findIndex = (row) => {
       return authzList.value.findIndex((item) => item.type === row.type);

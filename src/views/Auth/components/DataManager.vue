@@ -1,7 +1,7 @@
 <template>
   <div class="data-manager">
-    <el-row :gutter="20">
-      <el-form class="create-form">
+    <el-form class="create-form">
+      <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item>
             <el-input
@@ -31,8 +31,9 @@
             {{ $t("Base.add") }}
           </el-button>
         </el-col>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
+
     <el-table :data="tableData" v-loading.lock="lockTable">
       <el-table-column prop="user_id" :label="field"></el-table-column>
       <el-table-column prop="is_superuser" :label="$t('Auth.isSuperuser')">
@@ -49,16 +50,18 @@
             <el-button class="dropdown-btn" size="mini">
               <i class="el-icon-more"></i>
             </el-button>
-            <el-dropdown-menu>
-              <el-dropdown-item command="edit">
-                <i class="el-icon-edit-outline"></i>
-                {{ $t("Base.edit") }}
-              </el-dropdown-item>
-              <el-dropdown-item command="delete">
-                <i class="el-icon-delete"></i>
-                {{ $t("Base.delete") }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="edit">
+                  <i class="el-icon-edit-outline"></i>
+                  {{ $t("Base.edit") }}
+                </el-dropdown-item>
+                <el-dropdown-item command="delete">
+                  <i class="el-icon-delete"></i>
+                  {{ $t("Base.delete") }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
         </template>
       </el-table-column>
@@ -119,6 +122,7 @@ import {
   deleteAuthnUser,
   updateAuthnUser,
 } from "@/api/auth";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "DataManager",
@@ -142,9 +146,10 @@ export default defineComponent({
     const page = ref(1);
     const limit = ref(20);
     const count = ref(0);
+    const route = useRoute();
 
     const id = computed(function () {
-      return this.$route.params.id;
+      return route.params.id;
     });
     const loadData = async (id, reload) => {
       if (reload) {
@@ -242,7 +247,7 @@ export default defineComponent({
 .data-manager {
   .el-checkbox.is-bordered {
     margin: 0;
-    width: 100%;
+    padding: 0 30px;
   }
   .dropdown-btn {
     padding: 1px 6px;

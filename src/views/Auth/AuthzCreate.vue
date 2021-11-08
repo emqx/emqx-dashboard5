@@ -36,10 +36,10 @@
           </el-badge>
         </el-radio-group>
         <div class="step-btn">
-          <el-button type="primary" @click="handleNext">
+          <el-button type="primary" @click="handleNext" size="small">
             {{ $t("Base.nextStep") }}
           </el-button>
-          <el-button @click="$router.push('/authorization')">
+          <el-button @click="$router.push('/authorization')" size="small">
             {{ $t("Base.cancel") }}
           </el-button>
         </div>
@@ -62,10 +62,10 @@
           auth-type="authz"
         ></database-config>
         <div class="step-btn">
-          <el-button type="primary" @click="handleCreate">
+          <el-button type="primary" @click="handleCreate" size="small">
             {{ $t("Base.create") }}
           </el-button>
-          <el-button @click="handleBack">
+          <el-button @click="handleBack" size="small">
             {{ $t("Base.backStep") }}
           </el-button>
         </div>

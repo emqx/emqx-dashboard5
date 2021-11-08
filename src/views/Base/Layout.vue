@@ -52,13 +52,18 @@
               marginTop: hasSubMenu ? '120px' : '70px',
             }"
           >
-            <router-view v-if="$route.meta.keepAlive" v-slot="{ Component }">
-              <keep-alive>
+            <router-view v-slot="{ Component, route }">
+              <template v-if="route.meta.keepAlive">
+                <keep-alive>
+                  <suspense>
+                    <component :is="Component" />
+                  </suspense>
+                </keep-alive>
+              </template>
+              <template v-else>
                 <component :is="Component" />
-              </keep-alive>
+              </template>
             </router-view>
-
-            <router-view v-if="!$route.meta.keepAlive"></router-view>
           </div>
         </el-main>
       </el-container>
