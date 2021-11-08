@@ -1,16 +1,18 @@
 import { watch, reactive, ref, computed } from "vue";
+import { useRoute } from "vue-router";
 
 export default function useDatabaseConfig(
-  { database, value, authType },
+  { database, modelValue, authType },
   { emit }
 ) {
+  const route = useRoute();
   const defaultContent = ref("");
-  const databaseConfig = reactive(value);
+  const databaseConfig = reactive(modelValue);
   watch(databaseConfig, (value) => {
-    emit("update", value);
+    emit("update:modelValue", value);
   });
   const id = computed(function () {
-    const { id, type } = this.$route.params;
+    const { id, type } = route.params;
     return id || type;
   });
   const helpContent = ref("");

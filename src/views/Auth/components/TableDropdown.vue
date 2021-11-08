@@ -62,6 +62,7 @@ export default defineComponent({
       type: Number,
     },
   },
+  emits: ["setting", "delete", "move", "update"],
   setup() {
     const handleCommand = function (row, command) {
       switch (command) {

@@ -10,8 +10,8 @@
     <div class="create-form-title">
       {{ $t("Auth.config") }}
     </div>
-    <el-row :gutter="20">
-      <el-form class="create-form">
+    <el-form class="create-form" label-position="top">
+      <el-row :gutter="20">
         <template v-if="jwtConfig.use_jwks === false">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.algorithm')">
@@ -69,8 +69,8 @@
             ></key-and-value-editor>
           </el-form-item>
         </el-col>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
   </div>
 </template>
 
@@ -83,20 +83,16 @@ export default defineComponent({
   components: {
     KeyAndValueEditor,
   },
-  model: {
-    prop: "value",
-    event: "update",
-  },
   props: {
-    value: {
+    modelValue: {
       type: Object,
       required: true,
     },
   },
   setup(props, ctx) {
-    const jwtConfig = reactive(props.value);
+    const jwtConfig = reactive(props.modelValue);
     watch(jwtConfig, (value) => {
-      ctx.emit("update", value);
+      ctx.emit("update:modelValue", value);
     });
     return {
       jwtConfig,

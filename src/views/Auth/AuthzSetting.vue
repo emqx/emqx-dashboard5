@@ -9,8 +9,8 @@
     <el-card shadow="never" class="app-card">
       <el-row>
         <el-col :span="12">
-          <el-form :model="record">
-            <div class="form-group-title">{{ $t("Auth.basicSettings") }}</div>
+          <el-form :model="record" label-position="top">
+            <div class="part-header">{{ $t("Auth.basicSettings") }}</div>
             <el-form-item label="No Match">
               <el-select v-model="record.no_match">
                 <el-option value="allow"></el-option>
@@ -23,7 +23,7 @@
                 <el-option value="disconnect"></el-option>
               </el-select>
             </el-form-item>
-            <div class="form-group-title">{{ $t("Auth.authzCache") }}</div>
+            <div class="part-header">{{ $t("Auth.authzCache") }}</div>
             <el-form-item :label="$t('Auth.enableCache')">
               <el-select v-model="record.cache.enable">
                 <el-option :value="true" :label="$t('Base.yes')"></el-option>
@@ -48,10 +48,10 @@
               </el-input>
             </el-form-item>
           </el-form>
-          <el-button type="primary" @click="save">{{
+          <el-button type="primary" @click="save" size="small">{{
             $t("Base.save")
           }}</el-button>
-          <el-button @click="$router.push('/authorization')">
+          <el-button @click="$router.push('/authorization')" size="small">
             {{ $t("Base.cancel") }}
           </el-button>
         </el-col>
@@ -98,15 +98,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss">
-.authz-setting {
-  .el-input-group__append {
-    background-color: #fff;
-    color: #606266;
-    .el-select {
-      width: 80px;
-    }
-  }
-}
-</style>

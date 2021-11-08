@@ -1,8 +1,8 @@
 <template>
   <div class="http-config config">
     <div class="create-form-title">HTTP</div>
-    <el-row :gutter="20">
-      <el-form class="create-form">
+    <el-form class="create-form" label-position="top">
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="$t('Auth.method')">
             <el-select v-model="httpConfig.method">
@@ -23,13 +23,13 @@
             ></key-and-value-editor>
           </el-form-item>
         </el-col>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
     <div class="create-form-title">
       {{ $t("Auth.connectConfig") }}
     </div>
-    <el-row :gutter="20">
-      <el-form class="create-form">
+    <el-form class="create-form" label-position="top">
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Pool size">
             <el-input v-model.number="httpConfig.pool_size"></el-input>
@@ -48,8 +48,8 @@
             </el-select>
           </el-form-item>
         </el-col>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
     <!-- TLS -->
     <TLS-config v-model="httpConfig.ssl"></TLS-config>
     <div class="create-form-title">
@@ -60,8 +60,8 @@
         {{ $t("Base.help") }}
       </el-button>
     </div>
-    <el-row :gutter="20">
-      <el-form class="create-form">
+    <el-form class="create-form" label-position="top">
+      <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="Body">
             <el-input
@@ -85,11 +85,7 @@
                 {{ $t("Auth.exampleDataCmd") }}
               </div>
               <code-view lang="javascript" :code="helpContent"></code-view>
-              <el-button
-                size="small"
-                v-clipboard:copy="helpContent"
-                v-clipboard:success="copySuccess"
-              >
+              <el-button size="small">
                 {{ $t("Base.copy") }}
               </el-button>
             </div>
@@ -100,8 +96,8 @@
             <time-input-with-unit-select v-model="httpConfig.request_timeout" />
           </el-form-item>
         </el-col>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
   </div>
 </template>
 
@@ -112,6 +108,7 @@ import TimeInputWithUnitSelect from "@/components/TimeInputWithUnitSelect.vue";
 import TLSConfig from "./TLSConfig.vue";
 import KeyAndValueEditor from "@/components/KeyAndValueEditor.vue";
 import useCopy from "@/hooks/useCopy";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "HttpConfig",
@@ -121,12 +118,9 @@ export default defineComponent({
     TLSConfig,
     TimeInputWithUnitSelect,
   },
-  model: {
-    prop: "value",
-    event: "update",
-  },
+
   props: {
-    value: {
+    modelValue: {
       type: Object,
       required: true,
     },
@@ -136,6 +130,7 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
+    const route = useRoute();
     const defaultContent = JSON.stringify(
       {
         username: "${username}",
@@ -144,9 +139,9 @@ export default defineComponent({
       null,
       2
     );
-    const httpConfig = reactive(props.value);
+    const httpConfig = reactive(props.modelValue);
     watch(httpConfig, (value) => {
-      ctx.emit("update", value);
+      ctx.emit("update:modelValue", value);
     });
     const needHelp = ref(false);
     const helpContent = `
@@ -177,7 +172,7 @@ export default defineComponent({
       })
     `;
     const id = computed(function () {
-      const { id, type } = this.$route.params;
+      const { id, type } = route.params;
       return id || type;
     });
     if (id.value) {

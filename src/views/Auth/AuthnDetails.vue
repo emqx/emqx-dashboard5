@@ -95,6 +95,7 @@ import JwtConfig from "./components/JwtConfig.vue";
 import DataManager from "./components/DataManager.vue";
 import { updateAuthn, deleteAuthn } from "@/api/auth";
 import useAuthnCreate from "@/hooks/Auth/useAuthnCreate";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "AuthnDetails",
@@ -124,9 +125,10 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const route = useRoute();
     const authnDetailLock = ref(false);
     const id = computed(function () {
-      return this.$route.params.id;
+      return route.params.id;
     });
     const configData = ref({
       ssl: { enable: false },

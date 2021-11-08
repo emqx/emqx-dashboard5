@@ -4,8 +4,8 @@
     <div class="create-form-title">
       {{ $t("Auth.connect") }}
     </div>
-    <el-row :gutter="20">
-      <el-form class="create-form">
+    <el-form class="create-form" label-position="top">
+      <el-row :gutter="20">
         <el-col v-if="isRedis" :span="12">
           <el-form-item :label="$t('Auth.redisType')">
             <el-select v-model="databaseConfig.redis_type">
@@ -84,15 +84,16 @@
             ></el-input>
           </el-form-item>
         </el-col>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
+
     <!-- TLS -->
     <TLS-config v-model="databaseConfig.ssl"></TLS-config>
     <div class="create-form-title">
       {{ $t("Auth.connectConfig") }}
     </div>
-    <el-row :gutter="20">
-      <el-form class="create-form">
+    <el-form class="create-form" label-position="top">
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Pool size">
             <el-input v-model.number="databaseConfig.pool_size"></el-input>
@@ -113,8 +114,9 @@
             ></el-input>
           </el-form-item>
         </el-col>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
+
     <div class="create-form-title">
       {{
         authType === "authn" ? $t("Auth.authnConfig") : $t("Auth.authzConfig")
@@ -123,8 +125,8 @@
         {{ $t("Base.help") }}
       </el-button>
     </div>
-    <el-row :gutter="20">
-      <el-form class="create-form">
+    <el-form class="create-form" label-position="top">
+      <el-row :gutter="20">
         <!-- MySQL & PgSQL -->
         <template v-if="isMySQL || isPgSQL">
           <el-col :span="24">
@@ -197,11 +199,7 @@
                 :lang="isMongoDB ? 'javascript' : isRedis ? 'bash' : 'sql'"
                 :code="helpContent"
               ></code-view>
-              <el-button
-                size="small"
-                v-clipboard:copy="helpContent"
-                v-clipboard:success="copySuccess"
-              >
+              <el-button size="small">
                 {{ $t("Base.copy") }}
               </el-button>
             </div>
@@ -259,8 +257,8 @@
             </el-form-item>
           </el-col>
         </template>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
   </div>
 </template>
 
@@ -276,16 +274,13 @@ import useCopy from "@/hooks/useCopy";
 export default defineComponent({
   name: "DatabaseConfig",
   components: { CodeView, TLSConfig, TimeInputWithUnitSelect },
-  model: {
-    prop: "value",
-    event: "update",
-  },
+
   props: {
     database: {
       required: true,
       type: String,
     },
-    value: {
+    modelValue: {
       required: true,
       type: Object,
     },
@@ -294,6 +289,7 @@ export default defineComponent({
       type: String,
     },
   },
+  emits: ["update:modelValue"],
   setup(props, ctx) {
     const { databaseConfig, defaultContent, helpContent } = useDatabaseConfig(
       props,

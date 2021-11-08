@@ -64,8 +64,8 @@ export default {
     en: "Database",
   },
   jwtDataSourceDesc: {
-    zh: "JWT 认证无需选择数据源，请继续下一步配置参数",
-    en: "JWT authentication does not need to select a backend, please continue to the next step to configure the parameters",
+    zh: "JWT 认证无需选择数据源，请继续下一步配置",
+    en: "JWT authentication does not need to select a backend, please continue to the next step of the configuration",
   },
   connect: {
     zh: "连接",
@@ -83,9 +83,13 @@ export default {
     zh: "自动重连",
     en: "Reconnect",
   },
-  authConfig: {
+  authnConfig: {
     zh: "认证配置",
     en: "Authentication configuration",
+  },
+  authzConfig: {
+    zh: "权限配置",
+    en: "Authorization configuration",
   },
   dataConfig: {
     zh: "数据管理",
@@ -258,5 +262,33 @@ export default {
   refreshInterval: {
     zh: "JWKS 刷新间隔（毫秒）",
     en: "JWKS Refresh Interval (ms)",
+  },
+  builtInDatabaseDesc: {
+    zh: "Built-in database 权限无需配置参数，请点击创建按钮完成操作",
+    en: "Built-in database authorization does not require configuration parameters, please click the Create button to complete the operation",
+  },
+  permissionCount: {
+    zh: "权限条数",
+    en: "Number of permissions",
+  },
+  pleaseEnterClientID: {
+    zh: "请输入 Client ID",
+    en: "Please enter Client ID",
+  },
+  pleaseEnterUsername: {
+    zh: "请输入 Username",
+    en: "Please enter Username",
+  },
+  pleaseSelectPermission: {
+    zh: "请选择 permission",
+    en: "Please select permission",
+  },
+  pleaseSelectAction: {
+    zh: "请选择 Action",
+    en: "Please select action",
+  },
+  pleaseEnterTopic: {
+    zh: "请输入 Topic",
+    en: "Please enter topic",
   },
 };

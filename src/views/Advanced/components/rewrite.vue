@@ -40,7 +40,12 @@
       v-model="opRewrite"
       :title="(isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('rewrite')"
     >
-      <el-form ref="rewriteForm" :model="rewriteInput" :rules="rewriteRules">
+      <el-form
+        ref="rewriteForm"
+        :model="rewriteInput"
+        :rules="rewriteRules"
+        label-position="top"
+      >
         <el-form-item :label="'Action'" prop="action">
           <el-select v-model="rewriteInput.action">
             <el-option

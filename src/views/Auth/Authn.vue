@@ -50,6 +50,7 @@
 import { defineComponent, ref } from "vue";
 import TableDropdown from "./components/TableDropdown.vue";
 import { listAuthn, updateAuthn, deleteAuthn, moveAuthn } from "@/api/auth";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "Authn",
@@ -57,6 +58,7 @@ export default defineComponent({
     TableDropdown,
   },
   setup() {
+    const router = useRouter();
     const authnList = ref([]);
     const lockTable = ref(false);
     const loadData = async () => {
@@ -100,7 +102,7 @@ export default defineComponent({
         .catch(() => {});
     };
     const handleSetting = function ({ id }) {
-      this.$router.push({ path: `/authentication/detail/${id}` });
+      router.push({ path: `/authentication/detail/${id}` });
     };
     const handleMove = async function ({ id }, position) {
       const data = {

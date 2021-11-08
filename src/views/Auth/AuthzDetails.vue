@@ -71,6 +71,7 @@ import DatabaseConfig from "./components/DatabaseConfig.vue";
 import useAuthzCreate from "@/hooks/Auth/useAuthzCreate";
 import BuiltInManager from "./components/BuiltInManager.vue";
 import HttpConfig from "./components/HttpConfig.vue";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
   name: "AuthzDetails",
@@ -83,6 +84,9 @@ export default defineComponent({
   },
   setup() {
     const authzDetailLock = ref(false);
+    const route = useRoute();
+    const router = useRouter();
+
     const titleMap = {
       mysql: "MySQL",
       file: "File",
@@ -96,7 +100,7 @@ export default defineComponent({
       ssl: { enable: false },
     });
     const type = computed(function () {
-      return this.$route.params.type;
+      return route.params.type;
     });
     const currImg = computed(() => {
       if (type.value) {
@@ -122,7 +126,7 @@ export default defineComponent({
       }
       await updateAuthz(type.value, data);
       this.$message.success(this.$t("Base.updateSuccess"));
-      this.$router.push({ name: "authorization" });
+      router.push({ name: "authorization" });
     };
     const handleDelete = async function () {
       this.$confirm(this.$t("General.confirmDelete"), {
@@ -133,7 +137,7 @@ export default defineComponent({
         .then(async () => {
           await deleteAuthz(type.value);
           this.$t("Base.deleteSuccess");
-          this.$router.push({ name: "authorization" });
+          router.push({ name: "authorization" });
         })
         .catch(() => {});
     };

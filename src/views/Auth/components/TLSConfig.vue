@@ -90,18 +90,15 @@ import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   name: "TLSConfig",
-  model: {
-    prop: "value",
-    event: "update",
-  },
+
   props: {
-    value: {
+    modelValue: {
       type: Object,
       required: true,
     },
   },
   setup(props) {
-    const record = computed(() => props.value);
+    const record = computed(() => props.modelValue);
     return {
       record,
     };
