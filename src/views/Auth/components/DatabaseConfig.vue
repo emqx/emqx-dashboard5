@@ -1,10 +1,10 @@
 <template>
   <div class="database-config config">
     <!-- Connect -->
-    <div class="create-form-title">
+    <div class="part-header">
       {{ $t("Auth.connect") }}
     </div>
-    <el-form class="create-form" label-position="top">
+    <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
         <el-col v-if="isRedis" :span="12">
           <el-form-item :label="$t('Auth.redisType')">
@@ -89,10 +89,10 @@
 
     <!-- TLS -->
     <TLS-config v-model="databaseConfig.ssl"></TLS-config>
-    <div class="create-form-title">
+    <div class="part-header">
       {{ $t("Auth.connectConfig") }}
     </div>
-    <el-form class="create-form" label-position="top">
+    <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Pool size">
@@ -117,7 +117,7 @@
       </el-row>
     </el-form>
 
-    <div class="create-form-title">
+    <div class="part-header">
       {{
         authType === "authn" ? $t("Auth.authnConfig") : $t("Auth.authzConfig")
       }}
@@ -125,7 +125,7 @@
         {{ $t("Base.help") }}
       </el-button>
     </div>
-    <el-form class="create-form" label-position="top">
+    <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
         <!-- MySQL & PgSQL -->
         <template v-if="isMySQL || isPgSQL">
@@ -186,7 +186,7 @@
         <el-collapse-transition>
           <el-col v-if="needHelp" :span="24">
             <div class="help-block">
-              <div class="create-form-title">
+              <div class="part-header">
                 {{
                   isMongoDB
                     ? $t("Auth.exampleDataStructures")

@@ -6,7 +6,7 @@
     <div class="section-header" v-loading.lock="authzDetailLock">
       <div class="section-header__block">
         <div>
-          <img :src="currImg" width="56px" />
+          <img :src="currImg" width="90" />
         </div>
         <div class="section-header__title">
           {{ titleMap[type] }}

@@ -9,12 +9,12 @@
           <img
             v-if="configData.mechanism !== 'jwt'"
             :src="currImg"
-            width="56px"
+            width="90"
           />
         </div>
         <div>
           <div class="section-header__title">
-            {{ titleMap[currBackend] || "JWT" }}
+            {{ titleMap[currBackend] }}
           </div>
           <el-tag type="info" size="mini">
             {{ configData.mechanism }}
@@ -68,13 +68,13 @@
             </template>
             <jwt-config v-else v-model="configData"></jwt-config>
           </template>
-          <el-button type="primary" @click="handleUpdate">
+          <el-button type="primary" @click="handleUpdate" size="small">
             {{ $t("Base.update") }}
           </el-button>
           <!-- <el-button @click="handleTest">
           {{ $t('Base.test') }}
         </el-button> -->
-          <el-button @click="$router.push('/authentication')">
+          <el-button @click="$router.push('/authentication')" size="small">
             {{ $t("Base.cancel") }}
           </el-button>
         </el-card>
@@ -152,7 +152,7 @@ export default defineComponent({
       authnDetailLock.value = false;
 
       if (res) {
-        currBackend.value = res.backend;
+        currBackend.value = res.backend || res.mechanism;
         configData.value = res;
       }
     };
@@ -161,6 +161,7 @@ export default defineComponent({
       postgresql: "PostgreSQL",
       http: "HTTP Server",
       "built-in-database": "Built in Database",
+      jwt: "JWT",
     };
     loadData();
     const handleUpdate = async function ({ enable }) {

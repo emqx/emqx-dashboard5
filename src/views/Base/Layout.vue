@@ -55,9 +55,7 @@
             <router-view v-slot="{ Component, route }">
               <template v-if="route.meta.keepAlive">
                 <keep-alive>
-                  <suspense>
-                    <component :is="Component" />
-                  </suspense>
+                  <component :is="Component" />
                 </keep-alive>
               </template>
               <template v-else>

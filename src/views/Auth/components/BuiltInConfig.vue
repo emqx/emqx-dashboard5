@@ -2,7 +2,7 @@
   <div class="built-in-config config">
     <div class="create-form-title">Build-in-Database</div>
     <el-row :gutter="20">
-      <el-form class="create-form">
+      <el-form class="create-form" size="small">
         <template v-if="type !== 'scram'">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.userIdType')">
