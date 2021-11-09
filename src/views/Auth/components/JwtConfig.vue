@@ -10,7 +10,7 @@
     <div class="create-form-title">
       {{ $t("Auth.config") }}
     </div>
-    <el-form class="create-form" label-position="top">
+    <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
         <template v-if="jwtConfig.use_jwks === false">
           <el-col :span="12">

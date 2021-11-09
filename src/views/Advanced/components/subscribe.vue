@@ -52,16 +52,43 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <el-checkbox-group v-model="subsInput.op">
-            <el-checkbox
-              v-for="item in subsOptions.op"
-              border
-              :label="item"
-              :key="item"
-            ></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
+      </el-form>
+      <el-form>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="nl">
+              <el-select v-model="subsInput.nl">
+                <el-option
+                  v-for="item in subsOptions.nl"
+                  :key="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="rap">
+              <el-select v-model="subsInput.rap">
+                <el-option
+                  v-for="item in subsOptions.rap"
+                  :key="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="rh">
+              <el-select v-model="subsInput.rh">
+                <el-option
+                  v-for="item in subsOptions.rh"
+                  :key="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <el-button
@@ -92,13 +119,18 @@ export default defineComponent({
     let opSubs = ref(false);
     let subTbData = ref([]);
     let subsOptions = reactive({
-      op: ["nl", "rap", "rh"],
+      // op: ["nl", "rap", "rh"],
       qos: [0, 1, 2],
+      nl: [0, 1],
+      rap: [0, 1],
+      rh: [0, 1, 2],
     });
     let subsInput = reactive({
       topic: "",
       qos: 0,
-      op: [],
+      nl: 0,
+      rap: 0,
+      rh: 0,
     });
     let editPos = ref(undefined);
     let submitLoading = ref(false);
@@ -118,19 +150,22 @@ export default defineComponent({
       opSubs.value = true;
       isEdit.value = !!edit;
       subsForm.value?.resetFields();
-      subsInput.topic = edit && origin.topic ? origin.topic : "";
-      subsInput.qos = edit && origin.qos ? origin.qos : 0;
 
-      subsInput.op =
-        (edit &&
-          (() => {
-            let opArr = [];
-            origin.nl === 1 && opArr.push("nl");
-            origin.rap === 1 && opArr.push("rap");
-            origin.rh === 1 && opArr.push("rh");
-            return opArr;
-          })()) ||
-        [];
+      // subsInput.topic = edit && origin.topic ? origin.topic : subsInput.topic;
+      // subsInput.qos = edit && origin.qos ? origin.qos : subsInput.qos;
+      // subsInput.nl=edit&&origin.nl?origin.nl:subsInput
+      subsInput = (edit && { ...subsInput, ...origin }) || subsInput;
+
+      // subsInput.op =
+      //   (edit &&
+      //     (() => {
+      //       let opArr = [];
+      //       origin.nl === 1 && opArr.push("nl");
+      //       origin.rap === 1 && opArr.push("rap");
+      //       origin.rh === 1 && opArr.push("rh");
+      //       return opArr;
+      //     })()) ||
+      //   [];
 
       edit && (editPos.value = subTbData.value.findIndex((e) => e === origin));
     };
@@ -139,25 +174,25 @@ export default defineComponent({
       let valid = await subsForm.value?.validate().catch(() => {});
       if (!valid) return;
 
-      let tempOpStore = {};
+      // let tempOpStore = {};
       let pendingTbData = Object.assign([], subTbData.value);
 
-      Array.prototype.forEach.call(subsOptions.op, (v) => {
-        tempOpStore[v] = subsInput.op.indexOf(v) >= 0 ? 1 : 0;
-      });
-      let subjectSubData = {
-        topic: subsInput.topic,
-        qos: subsInput.qos,
-        ...tempOpStore,
-      };
+      // Array.prototype.forEach.call(subsOptions.op, (v) => {
+      //   tempOpStore[v] = subsInput.op.indexOf(v) >= 0 ? 1 : 0;
+      // });
+      // let subjectSubData = {
+      //   topic: subsInput.topic,
+      //   qos: subsInput.qos,
+      //   ...tempOpStore,
+      // };
 
       if (!edit) {
-        pendingTbData.push(subjectSubData);
+        pendingTbData.push(subsInput);
       } else {
         if (editPos.value === undefined) {
           return;
         }
-        pendingTbData.splice(editPos.value, 1, subjectSubData);
+        pendingTbData.splice(editPos.value, 1, subsInput);
       }
       submitLoading.value = true;
 
@@ -170,16 +205,15 @@ export default defineComponent({
             : this.$t("Base.createSuccess"),
         });
         subTbData.value = pendingTbData;
+        opSubs.value = false;
+        editPos.value = undefined;
       } else {
         this.$message({
           type: "error",
           message: this.$t("Base.opErr"),
         });
       }
-
       submitLoading.value = false;
-      opSubs.value = false;
-      editPos.value = undefined;
     };
 
     const deleteSubs = async function (origin) {
@@ -242,4 +276,8 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.el-form:not(:first-child) {
+  margin-top: 50px;
+}
+</style>

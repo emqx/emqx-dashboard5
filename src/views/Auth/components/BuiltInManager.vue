@@ -89,6 +89,12 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="emq-table-footer">
+        <common-pagination
+          v-model:metaData="pageMeta"
+          @loadPage="loadData"
+        ></common-pagination>
+      </div>
       <!-- <div class="emq-table-footer">
         <el-pagination
           v-if="count > 0"
@@ -219,7 +225,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, watch } from "vue";
+import { defineComponent, onMounted, reactive, ref, watch } from "vue";
 import {
   loadBuiltInDatabaseData,
   createBuiltInDatabaseData,
@@ -228,8 +234,10 @@ import {
   updateAllBuiltInDatabaseData,
 } from "@/api/auth";
 import _ from "lodash";
+import commonPagination from "@/components/commonPagination.vue";
 
 export default defineComponent({
+  components: { commonPagination },
   name: "BuiltInManager",
   setup() {
     const type = ref("clientid");
@@ -248,6 +256,7 @@ export default defineComponent({
         value: "all",
       },
     ];
+    const pageMeta = ref({});
     const recordForm = ref(null);
     const tableData = ref([]);
     const allTableData = ref([]);
@@ -263,9 +272,9 @@ export default defineComponent({
     const dialogVisible = ref(false);
     const isEdit = ref(false);
     const editIndex = ref(0);
-    const page = ref(1);
-    const limit = ref(20);
-    const count = ref(0);
+    // const page = ref(1);
+    // const limit = ref(20);
+    // const count = ref(0);
     const getRules = function () {
       return {
         clientid: [
@@ -306,25 +315,31 @@ export default defineComponent({
       };
     };
     watch(type, () => {
-      loadData(true);
+      loadData({ page: 1 });
     });
     watch(dialogVisible, (val) => {
       if (!val) {
         handleCancel();
       }
     });
-    const loadData = async (reload) => {
-      if (reload) {
-        tableData.value = [];
-        page.value = 1;
-      }
+    const loadData = async (params) => {
+      // if (reload) {
+      //   // tableData.value = [];
+      //   // page.value = 1;
+      // }
       lockTable.value = true;
-      const params = {};
-      if (type.value !== "all") {
-        params.page = page.value;
-        params.limit = limit.value;
-      }
-      const res = await loadBuiltInDatabaseData(type.value, params).catch(
+
+      const sendParams = {
+        ...pageMeta.value,
+        ...params,
+      };
+      Reflect.deleteProperty(sendParams, "count");
+      // const params = {};
+      // if (type.value !== "all") {
+      //   // params.page = page.value;
+      //   // params.limit = limit.value;
+      // }
+      const res = await loadBuiltInDatabaseData(type.value, sendParams).catch(
         () => {
           lockTable.value = false;
         }
@@ -332,12 +347,13 @@ export default defineComponent({
       if (type.value === "all") {
         allTableData.value = res.rules;
       } else {
-        tableData.value = res.data;
-        count.value = res.meta.count;
+        tableData.value = res?.data;
+        // count.value = res.meta.count;
+        pageMeta.value = res?.meta;
       }
       lockTable.value = false;
     };
-    loadData();
+    onMounted(loadData);
     const handleAdd = function () {
       dialogVisible.value = true;
       isEdit.value = false;
@@ -418,7 +434,7 @@ export default defineComponent({
               rules,
             });
           }
-          loadData(true);
+          loadData({ page: 1 });
         })
         .catch(() => {});
     };
@@ -463,9 +479,10 @@ export default defineComponent({
       allTableData,
       rulesData,
       isEdit,
-      page,
-      limit,
-      count,
+      // page,
+      // limit,
+      // count,
+      pageMeta,
       loadData,
       getRules,
       handleAdd,

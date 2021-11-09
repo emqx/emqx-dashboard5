@@ -6,8 +6,8 @@
     v-model:page-size="meta.limit"
     v-model:current-page="meta.page"
     :total="meta.count"
-    @size-change="reload"
-    @current-change="reload"
+    @size-change="reloadPage"
+    @current-change="reloadPage"
   >
   </el-pagination>
 </template>
@@ -16,7 +16,7 @@ import { computed, defineComponent, watch } from "vue";
 
 export default defineComponent({
   props: {
-    reloadFunc: Function,
+    // reloadFunc: Function,
     metaData: {
       type: Object,
       required: true,

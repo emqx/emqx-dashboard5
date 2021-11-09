@@ -66,6 +66,12 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="emq-table-footer">
+      <common-pagination
+        v-model:metaData="pageMeta"
+        @loadPage="loadData"
+      ></common-pagination>
+    </div>
 
     <!-- <div class="emq-table-footer">
       <el-pagination
@@ -82,7 +88,12 @@
     </div> -->
 
     <el-dialog :title="$t('Base.edit')" v-model="dialogVisible">
-      <el-form ref="recordForm" :model="record" :rules="getRules()">
+      <el-form
+        ref="recordForm"
+        :model="record"
+        :rules="getRules()"
+        label-position="top"
+      >
         <el-form-item prop="username" :label="field">
           <el-input v-model="record.user_id" disabled></el-input>
         </el-form-item>
@@ -115,7 +126,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, ref } from "vue";
+import { computed, defineComponent, onMounted, reactive, ref } from "vue";
 import {
   loadAuthnUsers,
   createAuthnUsers,
@@ -123,8 +134,11 @@ import {
   updateAuthnUser,
 } from "@/api/auth";
 import { useRoute } from "vue-router";
+import commonPagination from "@/components/commonPagination.vue";
 
 export default defineComponent({
+  components: { commonPagination },
+
   name: "DataManager",
   props: {
     field: {
@@ -139,36 +153,41 @@ export default defineComponent({
       password: "",
       is_superuser: false,
     });
+    const pageMeta = ref({});
     let record = ref({});
     const tableData = ref([]);
     const lockTable = ref(false);
     const dialogVisible = ref(false);
-    const page = ref(1);
-    const limit = ref(20);
-    const count = ref(0);
+    // const page = ref(1);
+    // const limit = ref(20);
+    // const count = ref(0);
     const route = useRoute();
-
     const id = computed(function () {
       return route.params.id;
     });
-    const loadData = async (id, reload) => {
-      if (reload) {
-        page.value = 1;
-      }
+
+    const loadData = async (params) => {
+      // if (reload) {
+      //   page.value = 1;
+      // }
+      const sendParams = {
+        ...pageMeta.value,
+        ...params,
+      };
+      Reflect.deleteProperty(sendParams, "count");
+
       lockTable.value = true;
-      const res = await loadAuthnUsers(id, {
-        page: page.value,
-        limit: limit.value,
-      }).catch(() => {
+      const res = await loadAuthnUsers(id.value, sendParams).catch(() => {
         lockTable.value = false;
       });
       if (res) {
         tableData.value = res.data;
-        count.value = res.meta.count;
+        // count.value = res.meta.count;
+        pageMeta.value = res?.meta;
       }
       lockTable.value = false;
     };
-    loadData(id.value);
+    onMounted(loadData);
     const getRules = function () {
       return {
         password: [
@@ -185,7 +204,7 @@ export default defineComponent({
       dataManager.user_id = "";
       dataManager.password = "";
       dataManager.is_superuser = false;
-      loadData(id.value);
+      loadData();
     };
     const handleCommand = async function (row, command) {
       if (command === "delete") {
@@ -196,7 +215,7 @@ export default defineComponent({
         })
           .then(async () => {
             await deleteAuthnUser(id.value, row.user_id).catch(() => {});
-            loadData(id.value, true);
+            loadData({ page: 1 });
           })
           .catch(() => {});
       } else if (command === "edit") {
@@ -221,7 +240,7 @@ export default defineComponent({
       await updateAuthnUser(id.value, user_id, data);
       dialogVisible.value = false;
       this.$message.success(this.$t("Base.updateSuccess"));
-      loadData(id.value);
+      loadData();
     };
     return {
       id,
@@ -230,9 +249,10 @@ export default defineComponent({
       lockTable,
       dataManager,
       record,
-      page,
-      limit,
-      count,
+      // page,
+      // limit,
+      // count,
+      pageMeta,
       loadData,
       handleUpdate,
       handleAdd,

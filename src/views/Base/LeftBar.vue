@@ -133,11 +133,11 @@ export default {
         icon: "icon-authentication",
         c: authentication,
       },
-      {
-        title: "ruleengine",
-        icon: "icon-configuration",
-        c: ruleengine,
-      },
+      // {
+      //   title: "ruleengine",
+      //   icon: "icon-configuration",
+      //   c: ruleengine,
+      // },
       {
         title: "system",
         icon: "icon-system",

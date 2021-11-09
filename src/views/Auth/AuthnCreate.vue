@@ -191,7 +191,9 @@ import JwtConfig from "./components/JwtConfig.vue";
 import useGuide from "@/hooks/useGuide";
 import { createAuthn } from "@/api/auth";
 import useAuthnCreate from "@/hooks/Auth/useAuthnCreate";
-import router from "@/router";
+import { useRouter } from "vue-router";
+import { ElMessage as M } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "AuthnCreate",
@@ -223,6 +225,8 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
+    const router = useRouter();
     const mechanism = ref("password-based");
     const backend = ref("");
     const databases = ref([]);
@@ -296,9 +300,11 @@ export default defineComponent({
         });
       } else {
         const data = create(configData.value, backend.value, mechanism.value);
-        await createAuthn(data).catch(() => {});
-        this.$message.success(this.$t("Base.createSuccess"));
-        this.$router.push({ name: "authentication" });
+        let res = await createAuthn(data).catch(() => {});
+        if (res) {
+          M.success(t("Base.createSuccess"));
+          router.push({ name: "authentication" });
+        }
       }
     };
 
