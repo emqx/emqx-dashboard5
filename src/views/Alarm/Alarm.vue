@@ -174,8 +174,6 @@ export default {
     };
   },
   mounted() {
-    // this.$refs.p1.$emit("loadPage");
-    // this.$refs.p2.$emit("loadPage");
     this.loadData();
     this.loadHData();
   },
@@ -188,8 +186,8 @@ export default {
       let res = await clearHistoryAlarm().catch(() => {});
       if (res) {
         this.$message.success(this.$t("Alarm.clearSuccess"));
+        this.loadHData();
       }
-      // this.$refs.p2.$emit("loadPage");
     },
     dateFormat: dateFormat,
     async loadData(params = {}) {

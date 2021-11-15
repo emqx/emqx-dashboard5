@@ -291,3 +291,39 @@
       border: none;
     }
   }
+
+  .el-message {
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: #fff;
+    border: none;
+    &--success {
+      .el-message__content,
+      .el-icon-success {
+        color: var(--el-color-primary)
+      }
+    }
+  }
+
+  .el-card {
+   --el-card-border-color:#ececefff;
+  }
+
+  .el-loading-parent--relative {
+    border-width: 1px;
+    &::before {
+      height: 0;
+    }
+    .el-loading-mask {
+      z-index: 99;
+    }
+  }
+
+  .el-form{
+    &--label-top{
+      .el-form-item__label{
+        padding:0;
+      }
+    }
+  }
