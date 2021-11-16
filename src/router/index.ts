@@ -380,7 +380,7 @@ router.beforeEach((to, from, next) => {
 });
 
 //Logout and go to Login page
-export function toLogin(path: string): void {
+export function toLogin(path?: string): void {
   store.commit("UPDATE_USER_INFO", { logOut: true });
   store.commit("UPDATE_EDITION", null);
   store.commit("SET_LANGUAGE", null);

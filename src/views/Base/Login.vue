@@ -6,7 +6,7 @@
       loginKeepWidth && 'login-align-width',
     ]"
   >
-    <el-card shadow="never" class="login-card emq-list-card" id="login">
+    <el-card shadow="never" class="login-card emq-list-card" ref="loginCom">
       <div class="split-wrapper">
         <div class="logo-wrapper"></div>
 
@@ -18,7 +18,7 @@
             </div>
           </div>
           <el-form
-            ref="record"
+            ref="formCom"
             :model="record"
             :rules="rules"
             hide-required-asterisk
@@ -44,7 +44,7 @@
                 class="sub-btn"
                 type="primary"
                 @click="nativeLogin"
-                :loading="logining"
+                :loading="isLogining"
                 >{{ $t("Base.signIn") }}</el-button
               >
             </el-form-item>
@@ -55,110 +55,108 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { reactive, ref, onUnmounted, onMounted } from "vue";
 import { login as loginApi } from "@/api/common";
 import { setLanguage } from "@/common/utils";
 import { toLogin } from "@/router";
-// import sha256 from 'crypto-js/sha256'
+import { useI18n } from "vue-i18n";
+import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
 
-export default {
-  name: "Login",
-  data() {
-    return {
-      record: {
-        username: "",
-        password: "",
-      },
-      logining: false,
-      rules: {
-        username: [
-          {
-            required: true,
-            message: this.$t("Base.unameRequired"),
-            trigger: blur,
-          },
-        ],
-        password: [
-          {
-            required: true,
-            message: this.$t("Base.passwordRequired"),
-            trigger: blur,
-          },
-        ],
-      },
-      loginKeepHeight: false,
-      loginKeepWidth: false,
-    };
-  },
-  created() {
-    this.login(true);
-  },
-  mounted() {
-    this.adjustLayout();
-    window.addEventListener("resize", this.adjustLayout);
-  },
-  unmounted() {
-    window.removeEventListener("resize", this.adjustLayout);
-  },
+const { t } = useI18n();
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
 
-  methods: {
-    adjustLayout() {
-      const wWidth = window.innerWidth;
-      const wHeight = window.innerHeight;
-      const loginDom = document.querySelector("#login");
-      const lWidth = loginDom.clientWidth;
-      const lHeight = loginDom.clientHeight;
-      const loginParentDomStyle = window.getComputedStyle(
-        loginDom.parentElement
-      );
-      const lpPadding = loginParentDomStyle.paddingTop;
-
-      wHeight > lHeight + 2 * parseInt(lpPadding)
-        ? (this.loginKeepHeight = true)
-        : (this.loginKeepHeight = false);
-      // wWidth >lWidth?(this.loginKeepWidth=true):(this.loginKeepWidth=false)
+const record = reactive({
+  username: "",
+  password: "",
+});
+const isLogining = ref(false);
+const rules = {
+  username: [
+    {
+      required: true,
+      message: t("Base.unameRequired"),
+      trigger: blur,
     },
-    async login(auto = false) {
-      const { username, token, password } =
-        (auto && this.$store.state.user) || this.record;
-
-      if (auto && username && token) this.redirect();
-      else toLogin(), setLanguage();
-
-      if (!auto) {
-        this.logining = true;
-        let res = await loginApi({
-          username,
-          password,
-        }).catch();
-
-        if (!res) {
-          this.logining = false;
-          return;
-        }
-
-        this.$store.commit("UPDATE_USER_INFO", {
-          token: res.token,
-          username,
-        });
-        this.$store.commit("UPDATE_EDITION", res.license?.edition);
-
-        this.redirect();
-      }
+  ],
+  password: [
+    {
+      required: true,
+      message: t("Base.passwordRequired"),
+      trigger: blur,
     },
-    redirect() {
-      const { to = "/dashboard" } = this.$route.query;
-      this.$router.replace({
-        path: to,
-      });
-    },
-    async nativeLogin() {
-      (await this.$refs.record.validate().catch(() => {
-        /**/
-      })) && this.login();
-    },
-  },
+  ],
 };
+const loginKeepHeight = ref(false);
+const loginKeepWidth = ref(false);
+const loginCom = ref();
+const formCom = ref();
+
+const adjustLayout = () => {
+  const wWidth = window.innerWidth;
+  const wHeight = window.innerHeight;
+  const loginDOM = loginCom.value.$el;
+  const lWidth = loginDOM.clientWidth;
+  const lHeight = loginDOM.clientHeight;
+  const loginParentDomStyle = window.getComputedStyle(loginDOM.parentElement);
+  const lpPadding = loginParentDomStyle.paddingTop;
+  loginKeepHeight.value = wHeight > lHeight + 2 * parseInt(lpPadding);
+  // wWidth >lWidth?(this.loginKeepWidth=true):(this.loginKeepWidth=false)
+};
+
+const login = async (auto = false) => {
+  const { username, token, password } = (auto && store.state.user) || record;
+
+  if (auto && username && token) redirect();
+  else toLogin(), setLanguage();
+
+  if (!auto) {
+    isLogining.value = true;
+    let res = await loginApi({
+      username,
+      password,
+    }).catch();
+
+    if (!res) {
+      isLogining.value = false;
+      return;
+    }
+
+    store.commit("UPDATE_USER_INFO", {
+      token: res.token,
+      username,
+    });
+    store.commit("UPDATE_EDITION", res.license?.edition);
+
+    redirect();
+  }
+};
+
+const redirect = () => {
+  router.replace({
+    path: (route.query.to ?? "/dashboard").toString(),
+  });
+};
+
+const nativeLogin = async () => {
+  (await formCom.value.validate().catch(() => {
+    /**/
+  })) && login();
+};
+
+login(true);
+
+onMounted(() => {
+  adjustLayout();
+  window.addEventListener("resize", adjustLayout);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", adjustLayout);
+});
 </script>
 
 <style lang="scss">
@@ -167,6 +165,7 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 10px;
+  box-sizing: border-box;
   // margin: 10px;
   // width: 100vw;
   // height: 100vh;
