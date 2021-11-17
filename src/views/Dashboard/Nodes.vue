@@ -103,50 +103,50 @@
     </el-table>
   </div>
 </template>
-<script>
-import { loadNodes, loadStats } from "@/api/common";
-import { getDuration, calcPercentage } from "@/common/utils";
-import { defineComponent, ref, reactive, onMounted } from "vue";
+
+<script lang="ts">
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Nodes",
-  setup() {
-    let nodes = ref([]);
-    let stats = ref([]);
-    let nodesLockTable = ref(true);
-    let statsLockTable = ref(true);
-
-    const tl = function (key, collection = "Dashboard") {
-      return this.$t(collection + "." + key);
-    };
-    const allNodes = async () => {
-      nodes.value = await loadNodes().catch(() => {});
-      nodesLockTable.value = false;
-    };
-    const allStats = async () => {
-      stats.value = await loadStats().catch(() => {});
-      statsLockTable.value = false;
-    };
-    const caseInsensitiveCompare = (w, k) => {
-      return !!String.prototype.match.call(w, new RegExp(k, "i"));
-    };
-
-    onMounted(() => {
-      allNodes();
-      allStats();
-    });
-
-    return {
-      tl,
-      caseInsensitiveCompare,
-      calcPercentage,
-      nodes,
-      stats,
-      nodesLockTable,
-      statsLockTable,
-      getDuration,
-    };
-  },
 });
 </script>
+
+<script setup lang="ts">
+import { loadNodes, loadStats } from "@/api/common";
+import { getDuration, calcPercentage } from "@/common/utils";
+import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
+let nodes = ref([]);
+let stats = ref([]);
+let nodesLockTable = ref(true);
+let statsLockTable = ref(true);
+
+const tl = function (key: string, collection = "Dashboard") {
+  return t(collection + "." + key);
+};
+const allNodes = async () => {
+  nodes.value = await loadNodes().catch(() => {});
+  nodesLockTable.value = false;
+};
+const allStats = async () => {
+  stats.value = await loadStats().catch(() => {});
+  statsLockTable.value = false;
+};
+const caseInsensitiveCompare = (
+  w: undefined | string,
+  k: string
+): boolean | void => {
+  return !!String.prototype.match.call(w, new RegExp(k, "i"));
+};
+
+onMounted(() => {
+  allNodes();
+  allStats();
+});
+</script>
+
 <style lang="scss" scoped></style>
