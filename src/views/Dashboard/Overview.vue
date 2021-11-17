@@ -7,11 +7,8 @@
             <div class="app-card-title">
               {{ $t("Dashboard.currentMessageOutRate") }}
             </div>
-
             <div class="content">
-              <span>
-                {{ currentMetrics.sent }}
-              </span>
+              <span>{{ currentMetrics.sent }}</span>
               <span class="unit"
                 >{{ $t("Dashboard.strip") }}/{{ $t("Dashboard.second") }}</span
               >
@@ -34,9 +31,7 @@
             </div>
 
             <div class="content">
-              <span>
-                {{ currentMetrics.received }}
-              </span>
+              <span>{{ currentMetrics.received }}</span>
               <span class="unit"
                 >{{ $t("Dashboard.strip") }}/{{ $t("Dashboard.second") }}</span
               >
@@ -58,9 +53,7 @@
             </div>
 
             <div class="content">
-              <span>
-                {{ currentMetrics.subscription }}
-              </span>
+              <span>{{ currentMetrics.subscription }}</span>
               <div class="flux-wrapper">
                 <simple-line
                   v-model="currentMetricsLogs.subscription"
@@ -79,9 +72,7 @@
             </div>
 
             <div class="content">
-              <span>
-                {{ _formatNumber(currentMetrics.connection) }}
-              </span>
+              <span>{{ _formatNumber(currentMetrics.connection) }}</span>
               <el-progress
                 class="status-progress"
                 :stroke-width="24"
@@ -96,13 +87,10 @@
 
       <nodes-graph class="nodes-graph"></nodes-graph>
     </div>
-
     <polyline-cards></polyline-cards>
 
     <div v-if="false" class="license-card">
-      <div class="lisence-title">
-        {{ $t("Dashboard.license") }}
-      </div>
+      <div class="lisence-title">{{ $t("Dashboard.license") }}</div>
 
       <ul class="license-field">
         <li v-if="license.customer_type !== evaluation" class="item">
@@ -111,10 +99,10 @@
         </li>
 
         <li class="item">
-          <span class="key"
-            >{{ $t("Dashboard.numberOfConnectionLines") }}:
-            {{ formatConnection }}</span
-          >
+          <span class="key">
+            {{ $t("Dashboard.numberOfConnectionLines") }}:
+            {{ formatConnection }}
+          </span>
           <div class="content">
             <el-progress
               :stroke-width="16"
@@ -202,145 +190,140 @@
   </div>
 </template>
 
-<script>
-import Moment from "moment";
-import { loadCurrentMetrics, loadLicenseInfo } from "@/api/common";
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "Overview",
+});
+</script>
+
+<script setup lang="ts">
+import { ref, reactive, computed, onUnmounted } from "vue";
 import SimpleLine from "./components/SimpleLine";
-// import PercentageCards from './components/PercentageCards'
 import PolylineCards from "./components/PolylineCards";
 import NodesGraph from "./components/NodesGraph.vue";
+// import PercentageCards from './components/PercentageCards'
+import Moment from "moment";
+import { loadCurrentMetrics, loadLicenseInfo } from "@/api/common";
 import { calcPercentage, getProgressColor } from "@/common/utils";
 
-export default {
-  name: "Overview",
+interface MetricData {
+  x: Array<string>;
+  y: Array<number>;
+}
 
-  components: {
-    SimpleLine,
-    // PercentageCards,
-    PolylineCards,
-    NodesGraph,
-  },
-  data() {
-    return {
-      evaluation: 10,
-      nodeName: "",
-      timer: 0,
-      nodes: [],
-      licenseTipVisible: false,
-      isLicenseExpiry: false,
-      noprompt: false,
-      license: {},
-      currentMetricsLogs: {
-        received: {
-          x: Array(32).fill("N/A"),
-          y: Array(32).fill(0),
-        },
-        sent: {
-          x: Array(32).fill("N/A"),
-          y: Array(32).fill(0),
-        },
-        subscription: {
-          x: Array(32).fill("N/A"),
-          y: Array(32).fill(0),
-        },
-      },
-      currentMetrics: {
-        node: 0, // 节点数
-        received: 0, // 消息 in 速率
-        sent: 0, // 消息 out 速率
-        subscription: 0, // 订阅数
-        connection: 0, // 连接数
-      },
-    };
-  },
+const evaluation = ref(10);
+const licenseTipVisible = ref(false);
+const isLicenseExpiry = ref(false);
+const noprompt = ref(false);
 
-  computed: {
-    licensePercentage() {
-      const { connection } = this.currentMetrics;
-      const { max_connections } = this.license;
-      return calcPercentage(connection, max_connections);
-    },
-    formatConnection() {
-      const { connection } = this.currentMetrics;
-      const { max_connections } = this.license;
-      return `${this._formatNumber(connection)} / ${this._formatNumber(
-        max_connections
-      )}`;
-    },
+let license: Record<string, number | boolean> = reactive({});
+const currentMetricsLogs: Record<string, MetricData> = reactive({
+  received: {
+    x: Array(32).fill("N/A"),
+    y: Array(32).fill(0),
   },
+  sent: {
+    x: Array(32).fill("N/A"),
+    y: Array(32).fill(0),
+  },
+  subscription: {
+    x: Array(32).fill("N/A"),
+    y: Array(32).fill(0),
+  },
+});
+let currentMetrics = reactive({
+  node: 0, // 节点数
+  received: 0, // 消息 in 速率
+  sent: 0, // 消息 out 速率
+  subscription: 0, // 订阅数
+  connection: 0, // 连接数
+});
+let timerData: undefined | number = undefined;
 
-  created() {
-    this.loadData();
-    // this.loadLicenseData()
-    // clearInterval(this.timerData)
-    this.timerData = setInterval(() => {
-      this.loadData();
-    }, 30 * 1000);
-  },
+const licensePercentage = computed(() => {
+  const { connection } = currentMetrics;
+  const { max_connections } = license;
+  return calcPercentage(connection, max_connections);
+});
 
-  beforeUnmount() {
-    clearInterval(this.timerData);
-  },
+const formatConnection = computed(() => {
+  const { connection } = currentMetrics;
+  const { max_connections } = license;
+  return `${_formatNumber(connection)} / ${_formatNumber(
+    max_connections as number
+  )}`;
+});
 
-  methods: {
-    liceEvaTipShowChange(val) {
-      if (val) {
-        localStorage.setItem("licenseTipVisible", false);
-      }
-    },
-    _formatNumber(num) {
-      let number = String(parseInt(num));
-      return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, "$1,");
-    },
-    async loadLicenseData() {
-      let res = await loadLicenseInfo().catch(() => {});
-      if (!res) {
-        return;
-      }
-      this.license = res;
-      // evaluation 许可证
-      if (
-        this.license.customer_type === this.evaluation &&
-        localStorage.getItem("licenseTipVisible") !== "false"
-      ) {
-        this.licenseTipVisible = true;
-        this.isLicenseExpiry = false;
-      }
-      // 证书过期
-      if (this.license.expiry === true) {
-        this.licenseTipVisible = true;
-        this.isLicenseExpiry = true;
-      }
-    },
-    async loadData() {
-      const state = await loadCurrentMetrics().catch(() => {});
-      if (!state) {
-        return;
-      }
-      this.currentMetrics = state;
-      this.setCurrentMetricsLogsRealtime(state);
-    },
-    getNow() {
-      return Moment().format("HH:mm:ss");
-    },
-    setCurrentMetricsLogsRealtime(state = {}) {
-      ["received", "sent", "subscription"].forEach((key) => {
-        this.currentMetricsLogs[key] = this.currentMetricsLogs[key] || {
-          x: [],
-          y: [],
-        };
-        const currentValue = state[key] || 0;
-        this.currentMetricsLogs[key].x.push(this.getNow());
-        this.currentMetricsLogs[key].y.push(currentValue);
-        if (this.currentMetricsLogs[key].x.length >= 16) {
-          this.currentMetricsLogs[key].x.shift();
-          this.currentMetricsLogs[key].y.shift();
-        }
-      });
-    },
-    getProgressColor: getProgressColor,
-  },
+const liceEvaTipShowChange = (val: boolean) => {
+  if (val) {
+    localStorage.setItem("licenseTipVisible", String(false));
+  }
 };
+const _formatNumber = (num: number) => {
+  let number = String(parseInt(num.toString()));
+  return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, "$1,");
+};
+
+const loadLicenseData = async () => {
+  let res = await loadLicenseInfo().catch(() => {});
+  if (!res) {
+    return;
+  }
+  license = res;
+  // evaluation 许可证
+  if (
+    license.customer_type === evaluation.value &&
+    localStorage.getItem("licenseTipVisible") !== "false"
+  ) {
+    licenseTipVisible.value = true;
+    isLicenseExpiry.value = false;
+  }
+  // 证书过期
+  if (license.expiry === true) {
+    licenseTipVisible.value = true;
+    isLicenseExpiry.value = true;
+  }
+};
+const loadData = async () => {
+  const state = await loadCurrentMetrics().catch(() => {});
+  if (!state) {
+    return;
+  }
+  currentMetrics = state;
+  setCurrentMetricsLogsRealtime(state);
+};
+
+const getNow = () => {
+  return Moment().format("HH:mm:ss");
+};
+const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
+  ["received", "sent", "subscription"].forEach((key) => {
+    currentMetricsLogs[key] = currentMetricsLogs[key] || {
+      x: [],
+      y: [],
+    };
+    const currentValue = state[key] || 0;
+    currentMetricsLogs[key].x.push(getNow());
+    currentMetricsLogs[key].y.push(currentValue);
+    if (currentMetricsLogs[key].x.length >= 16) {
+      currentMetricsLogs[key].x.shift();
+      currentMetricsLogs[key].y.shift();
+    }
+  });
+};
+
+loadData();
+// loadLicenseData()
+// clearInterval(this.timerData)
+timerData = setInterval(() => {
+  loadData();
+}, 30 * 1000);
+
+onUnmounted(() => {
+  clearInterval(timerData);
+});
 </script>
 
 <style lang="scss" scoped>
