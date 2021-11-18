@@ -2,7 +2,26 @@
   <div :id="chartId" :style="{ height: height, width: '100%' }"></div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
+// import resizeChart from "@/mixins/resizeChart";
+
+export default defineComponent({
+  name: "PolylineChart",
+  // mixins: [resizeChart],
+});
+</script>
+
+<script setup lang="ts">
+import {
+  defineProps,
+  reactive,
+  ref,
+  watch,
+  onMounted,
+  PropType,
+  Ref,
+} from "vue";
 import * as echarts from "echarts/lib/echarts";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/grid";
@@ -10,179 +29,168 @@ import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 
-import resizeChart from "@/mixins/resizeChart";
-
-export default {
-  name: "PolylineChart",
-
-  mixins: [resizeChart],
-
-  props: {
-    chartId: {
-      type: String,
-      required: true,
-    },
-    yTitle: {
-      type: Array,
-      default: () => [""],
-    },
-    chartColors: {
-      type: Array,
-      default: () => [],
-    },
-    axisColor: {
-      type: Object,
-      default: () => ({
-        colorAxisLine: "#757575",
-        colorAxisLabel: "#757575",
-      }),
-    },
-    chartData: {
-      type: Array,
-      default: () => [
-        {
-          xData: [],
-          yData: [],
-        },
-      ],
-    },
-    height: {
-      type: String,
-      default: "190px",
-    },
-    // gridRight: {
-    //   type: String,
-    //   default: '5%',
-    // },
-    // gridLeft: {
-    //   type: String,
-    //   default: '2%',
-    // },
-    legendBottom: {
-      type: String,
-      default: "0px",
-    },
+const props = defineProps({
+  chartId: {
+    type: String,
+    required: true,
   },
-
-  data() {
-    return {
-      seriesConfig: [],
-      chart: undefined,
-    };
+  yTitle: {
+    type: Array,
+    default: () => [""],
   },
-
-  watch: {
-    chartData: {
-      deep: true,
-      handler: "drawChart",
-    },
+  chartColors: {
+    type: Array as PropType<Array<string>>,
+    default: () => [],
   },
-
-  mounted() {
-    this.drawChart();
+  axisColor: {
+    type: Object,
+    default: () => ({
+      colorAxisLine: "#757575",
+      colorAxisLabel: "#757575",
+    }),
   },
-
-  methods: {
-    setSeriesConfig() {
-      this.seriesConfig = [];
-      for (let i = 0; i < this.yTitle.length; i += 1) {
-        this.seriesConfig.push({
-          name: this.yTitle[i],
-          type: "line",
-          smooth: true,
-          symbolSize: 5,
-          showSymbol: false,
-          data: this.chartData[i].yData,
-          step: false,
-          lineStyle: {
-            width: 2,
-          },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color:
-                  i % 6 === 0 && i !== 0
-                    ? this.chartColors[6]
-                    : this.chartColors[i % 6],
-              },
-              {
-                offset: 1,
-                color: "#fff",
-              },
-            ]),
-            opacity: 0.2,
-          },
-        });
-      }
-    },
-    drawChart() {
-      this.setSeriesConfig();
-      let Dom = document.getElementById(this.chartId);
-
-      // echarts.dispose(Dom)
-      this.chart = echarts.init(Dom);
-      const option = {
-        legend: {
-          bottom: this.legendBottom,
-          data: this.yTitle,
-          icon: "circle",
-          itemWidth: 6,
-        },
-        color: this.chartColors,
-        tooltip: {
-          trigger: "axis",
-          confine: true,
-        },
-        grid: {
-          left: this.gridLeft,
-          right: this.gridRight,
-          top: "3%",
-          bottom: "12%",
-          containLabel: true,
-        },
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          data: this.chartData[0].xData,
-          axisLine: {
-            lineStyle: {
-              color: this.axisColor.colorAxisLine,
-            },
-          },
-          axisLabel: {
-            showMinLabel: false,
-            // textStyle: {
-            color: this.axisColor.colorAxisLabel,
-            // },
-          },
-        },
-        yAxis: {
-          type: "value",
-          axisLine: {
-            lineStyle: {
-              color: this.axisColor.colorAxisLine,
-            },
-          },
-          splitLine: {
-            show: false,
-          },
-          axisLabel: {
-            // textStyle: {
-            color: this.axisColor.colorAxisLabel,
-            // },
-          },
-        },
-        series: this.seriesConfig,
-      };
-      this.chart.setOption(option);
-    },
-    reDrawEchart() {
-      // this.chart.dispose()
-      echarts.dispose(this.chart);
-      // this.chart = undefined
-      this.drawChart();
-    },
+  chartData: {
+    type: Array as PropType<
+      Array<{ xData: Array<string>; yData: Array<number> }>
+    >,
+    default: () => [
+      {
+        xData: [],
+        yData: [],
+      },
+    ],
   },
+  height: {
+    type: String,
+    default: "190px",
+  },
+  gridRight: {
+    type: String,
+    default: "5%",
+  },
+  gridLeft: {
+    type: String,
+    default: "2%",
+  },
+  legendBottom: {
+    type: String,
+    default: "0px",
+  },
+});
+
+let seriesConfig: Array<any> = reactive([]);
+const chart: Ref<undefined | any> = ref(undefined);
+
+watch(
+  () => props.chartData,
+  () => {
+    drawChart();
+  }
+);
+
+onMounted(() => {
+  drawChart();
+});
+
+const setSeriesConfig = () => {
+  seriesConfig = [];
+  for (let i = 0; i < props.yTitle.length; i += 1) {
+    seriesConfig.push({
+      name: props.yTitle[i],
+      type: "line",
+      smooth: true,
+      symbolSize: 5,
+      showSymbol: false,
+      data: props.chartData[i].yData,
+      step: false,
+      lineStyle: {
+        width: 2,
+      },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color:
+              i % 6 === 0 && i !== 0
+                ? props.chartColors[6]
+                : props.chartColors[i % 6],
+          },
+          {
+            offset: 1,
+            color: "#fff",
+          },
+        ]),
+        opacity: 0.2,
+      },
+    });
+  }
+};
+
+const drawChart = () => {
+  setSeriesConfig();
+  let Dom = document.getElementById(props.chartId);
+
+  // echarts.dispose(Dom)
+  if (!chart.value) {
+    chart.value = echarts.init(Dom);
+  }
+  const option = {
+    legend: {
+      bottom: props.legendBottom,
+      data: props.yTitle,
+      icon: "circle",
+      itemWidth: 6,
+    },
+    color: props.chartColors,
+    tooltip: {
+      trigger: "axis",
+      confine: true,
+    },
+    grid: {
+      left: props.gridLeft,
+      right: props.gridRight,
+      top: "3%",
+      bottom: "12%",
+      containLabel: true,
+    },
+    xAxis: {
+      type: "category",
+      boundaryGap: false,
+      data: props.chartData[0].xData,
+      axisLine: {
+        lineStyle: {
+          color: props.axisColor.colorAxisLine,
+        },
+      },
+      axisLabel: {
+        showMinLabel: false,
+        // textStyle: {
+        color: props.axisColor.colorAxisLabel,
+        // },
+      },
+    },
+    yAxis: {
+      type: "value",
+      axisLine: {
+        lineStyle: {
+          color: props.axisColor.colorAxisLine,
+        },
+      },
+      splitLine: {
+        show: false,
+      },
+      axisLabel: {
+        // textStyle: {
+        color: props.axisColor.colorAxisLabel,
+        // },
+      },
+    },
+    series: seriesConfig,
+  };
+  chart.value?.setOption(option);
+};
+const reDrawEchart = () => {
+  echarts.dispose(chart.value);
+  drawChart();
 };
 </script>
