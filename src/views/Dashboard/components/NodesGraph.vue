@@ -61,194 +61,198 @@
   </div>
 </template>
 
-<script>
-import {
-  defineComponent,
-  ref,
-  onMounted,
-  nextTick,
-  computed,
-  onUnmounted,
-} from "vue";
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "NodesGraph",
+});
+</script>
+
+<script setup lang="ts">
+import { ref, onMounted, nextTick, computed, onUnmounted, Ref } from "vue";
 import * as ddd from "d3";
 import { loadNodes, loadStats } from "@/api/common";
 import { getDuration, calcPercentage, getProgressColor } from "@/common/utils";
 import nodeNormal from "@/assets/node-g-normal.svg";
 import nodeOffline from "@/assets/node-g-offline.svg";
 import nodeDynamic from "@/assets/node-g-dynamic.svg";
+import { NodeStatisticalData } from "@/types/dashboard";
+import { useI18n } from "vue-i18n";
 
-export default defineComponent({
-  name: "NodesGraph",
-  setup() {
-    let nodes = ref([]);
-    let stats = ref([]);
-    let nodeStat = ref({});
-    let graph = ref(undefined);
-    let currentInfo = ref([{}, {}]);
-    let infoLoading = ref(true);
-    let svg = ref({});
+type SVGD3Selection = ddd.Selection<SVGSVGElement, unknown, HTMLElement, any>;
 
-    let getNodes = async () => {
-      let res = await loadNodes().catch(() => {});
-      if (res) {
-        nodes.value = res;
-      } else {
-        return Promise.reject();
-      }
-    };
-    let getStats = async () => {
-      let res = await loadStats().catch(() => {});
-      if (res) {
-        stats.value = res;
-        res.forEach((v) => {
-          nodeStat.value[v.node] = v;
-        });
-      } else {
-        return Promise.reject();
-      }
-    };
-    let checkNode = (event, n) => {
-      currentInfo.value = n;
-    };
+const { t } = useI18n();
 
-    const tl = function (key, collection = "Dashboard") {
-      return this.$t(collection + "." + key);
-    };
+let nodes: Ref<Array<NodeStatisticalData>> = ref([]);
+let stats: Ref<Array<NodeStatisticalData>> = ref([]);
+let nodeStat: Ref<Record<string, NodeStatisticalData>> = ref({});
+let graph: Ref<undefined | HTMLElement> = ref(undefined);
+let currentInfo: Ref<Array<Record<string, number | string>>> = ref([{}, {}]);
+let infoLoading = ref(true);
+let svg: Ref<any> = ref({} as SVGD3Selection);
 
-    let composeNodeInfo = (node) => {
-      if (!node) {
-        return;
-      }
-      let nodeStat = stats.value.find((v) => {
-        return v.node == node.node;
-      });
-      infoLoading.value = false;
-      return [node, nodeStat || {}];
-    };
-    let calcMemoryPercentage = computed(() => {
-      return calcPercentage(
-        currentInfo.value[0]["memory_used"],
-        currentInfo.value[0]["memory_total"]
-      );
+let getNodes = async () => {
+  let res: Array<NodeStatisticalData> = await loadNodes().catch(() => {});
+  if (res) {
+    nodes.value = res;
+  } else {
+    return Promise.reject();
+  }
+};
+
+let getStats = async () => {
+  let res = await loadStats().catch(() => {});
+  if (res) {
+    stats.value = res;
+    res.forEach((v) => {
+      nodeStat.value[v.node] = v;
     });
-    let resizeFn = () => {
-      let graphDom = graph?.value?.getBoundingClientRect() || {
-        width: 200,
-        height: 100,
-      };
-      let reCalcWidth = Math.min(graphDom.width / 2, graphDom.height);
-      if ("attr" in svg.value)
-        svg.value
-          .attr("width", Math.floor(reCalcWidth))
-          .attr("height", Math.floor(reCalcWidth));
-    };
+  } else {
+    return Promise.reject();
+  }
+};
 
-    onUnmounted(() => {
-      window.removeEventListener("resize", resizeFn);
-    });
+let checkNode = (
+  event: MouseEvent,
+  n: Array<Record<string, string | number>>
+) => {
+  currentInfo.value = n;
+};
 
-    onMounted(async () => {
-      await Promise.all([getNodes(), getStats()]).catch(() => {});
-      nextTick((vue) => {
-        // let graphDom = graph?.value?.getBoundingClientRect() || { width: 200, height: 100 }
-        // let gMargin = 10
+const tl = function (key: string, collection = "Dashboard") {
+  return t(collection + "." + key);
+};
 
-        svg.value = ddd
-          .select("#graph-entity")
-          .append("svg")
-          .attr("viewBox", "-100 -100 200 200");
-        // .attr('transform', `translate(${gMargin},${gMargin})`)
-        resizeFn();
-        window.addEventListener("resize", resizeFn);
+let composeNodeInfo = (node: Record<string, string | number>) => {
+  if (!node) {
+    return;
+  }
+  let nodeStat = stats.value.find((v) => {
+    return v.node == node.node;
+  });
+  infoLoading.value = false;
+  return [node, nodeStat || {}];
+};
 
-        let lineGroup = svg.value.append("g");
-        let arcGroup = svg.value.append("g");
-        let pointGroup = svg.value.append("g");
+let calcMemoryPercentage = computed(() => {
+  return calcPercentage(
+    currentInfo.value[0]["memory_used"],
+    currentInfo.value[0]["memory_total"]
+  );
+});
 
-        let nodeSVGsize = [22, 24];
-        let nodeTotal = nodes.value.length > 10 ? 10 : nodes.value.length;
+let resizeFn = () => {
+  let graphDom = graph?.value?.getBoundingClientRect() || {
+    width: 200,
+    height: 100,
+  };
+  let reCalcWidth = Math.min(graphDom.width / 2, graphDom.height);
+  if ("attr" in svg.value)
+    svg.value
+      .attr("width", Math.floor(reCalcWidth))
+      .attr("height", Math.floor(reCalcWidth));
+};
 
-        let nodePoints = [];
+onMounted(async () => {
+  await Promise.all([getNodes(), getStats()]).catch(() => {});
+  nextTick(() => {
+    // let graphDom = graph?.value?.getBoundingClientRect() || { width: 200, height: 100 }
+    // let gMargin = 10
+    svg.value = ddd
+      .select("#graph-entity")
+      .append("svg")
+      .attr("viewBox", "-100 -100 200 200");
+    // .attr('transform', `translate(${gMargin},${gMargin})`)
+    resizeFn();
+    window.addEventListener("resize", resizeFn);
 
-        if (nodeTotal > 1) {
-          let arcRamdon = Math.random() * Math.PI * 2;
-          if (nodeTotal === 2) {
-            arcRamdon = 0;
-            nodeSVGsize = [33, 36];
-          }
-          for (let x = 0; x < nodeTotal; x++) {
-            let arcConstant = (Math.PI * 2) / nodeTotal;
-            let arc = ddd.arc();
-            let param = {
-              innerRadius: 100 - Math.max(...nodeSVGsize),
-              outerRadius: 100 - Math.min(...nodeSVGsize),
-              startAngle: arcConstant * x + arcRamdon,
-              endAngle: arcConstant * (x + 1) + arcRamdon,
-            };
-            let path = arc(param);
-            let centrePoint = arc.centroid(param);
-            arcGroup.attr("fill", "none").append("path").attr("d", path);
+    let lineGroup = svg.value.append("g");
+    let arcGroup = svg.value.append("g");
+    let pointGroup = svg.value.append("g");
 
-            nodePoints.push(centrePoint);
-            ddd.svg(nodeNormal).then((r) => {
-              pointGroup
-                .append("svg")
-                .attr("x", centrePoint[0] - nodeSVGsize[0] / 2)
-                .attr("y", centrePoint[1] - nodeSVGsize[1] / 2)
-                .attr("width", nodeSVGsize[0])
-                .attr("height", nodeSVGsize[1])
-                .datum(composeNodeInfo(nodes.value[x]))
-                .on("mouseover", checkNode)
-                .node()
-                .append(r.documentElement);
-            });
-          }
+    let nodeSVGsize = [22, 24];
+    let nodeTotal = nodes.value.length > 10 ? 10 : nodes.value.length;
 
-          for (let y = 0; y < nodePoints.length; y++) {
-            let currentPoint = nodePoints[y];
-            nodePoints.forEach((v, k) => {
-              if (k <= y) return;
-              let line = ddd.line();
-              let path = line([currentPoint, v]);
-              lineGroup
-                .attr("fill", "none")
-                .append("path")
-                .attr("stroke", "grey")
-                .attr("d", path);
-            });
-          }
-          currentInfo.value = composeNodeInfo(nodes.value[0]);
-        } else {
-          ddd.svg(nodeDynamic).then((r) => {
-            let composeData = composeNodeInfo(nodes.value[0]);
-            currentInfo.value = composeData;
+    let nodePoints = [];
 
+    if (nodeTotal > 1) {
+      let arcRamdon = Math.random() * Math.PI * 2;
+      if (nodeTotal === 2) {
+        arcRamdon = 0;
+        nodeSVGsize = [33, 36];
+      }
+      for (let x = 0; x < nodeTotal; x++) {
+        let arcConstant = (Math.PI * 2) / nodeTotal;
+        let arc = ddd.arc();
+        let param = {
+          innerRadius: 100 - Math.max(...nodeSVGsize),
+          outerRadius: 100 - Math.min(...nodeSVGsize),
+          startAngle: arcConstant * x + arcRamdon,
+          endAngle: arcConstant * (x + 1) + arcRamdon,
+        };
+        let path = arc(param);
+        let centrePoint = arc.centroid(param);
+        arcGroup.attr("fill", "none").append("path").attr("d", path);
+
+        nodePoints.push(centrePoint);
+        ddd.svg(nodeNormal).then((r: Document) => {
+          if (pointGroup) {
             pointGroup
               .append("svg")
-              .attr("width", 150)
-              .attr("height", 150)
-              .attr("x", -75)
-              .attr("y", -75)
-              .datum(composeData)
+              .attr("x", centrePoint[0] - nodeSVGsize[0] / 2)
+              .attr("y", centrePoint[1] - nodeSVGsize[1] / 2)
+              .attr("width", nodeSVGsize[0])
+              .attr("height", nodeSVGsize[1])
+              .datum(composeNodeInfo(nodes.value[x]))
               .on("mouseover", checkNode)
               .node()
               .append(r.documentElement);
-          });
-        }
-      });
-    });
+          }
+        });
+      }
 
-    return {
-      graph,
-      currentInfo,
-      tl,
-      getDuration,
-      calcPercentage,
-      calcMemoryPercentage,
-      getProgressColor,
-      infoLoading,
-    };
-  },
+      for (let y = 0; y < nodePoints.length; y++) {
+        let currentPoint = nodePoints[y];
+        nodePoints.forEach((v, k) => {
+          if (k <= y) return;
+          let line = ddd.line();
+          let path = line([currentPoint, v]);
+          lineGroup
+            .attr("fill", "none")
+            .append("path")
+            .attr("stroke", "grey")
+            .attr("d", path);
+        });
+      }
+      let composeData = composeNodeInfo(nodes.value[0]);
+      if (composeData) {
+        currentInfo.value = composeData;
+      }
+    } else {
+      ddd.svg(nodeDynamic).then((r: Document) => {
+        let composeData = composeNodeInfo(nodes.value[0]);
+        if (composeData) {
+          currentInfo.value = composeData;
+        }
+
+        pointGroup
+          .append("svg")
+          .attr("width", 150)
+          .attr("height", 150)
+          .attr("x", -75)
+          .attr("y", -75)
+          .datum(composeData)
+          .on("mouseover", checkNode)
+          .node()
+          .append(r.documentElement);
+      });
+    }
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", resizeFn);
 });
 </script>
 

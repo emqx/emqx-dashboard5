@@ -3,4 +3,8 @@ export interface CounterItem {
   timestamp: number;
 }
 
+export type NodeStatisticalData = { node: string } & {
+  [fieldName: string]: number;
+};
+
 export default {};

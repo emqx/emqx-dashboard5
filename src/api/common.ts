@@ -1,5 +1,5 @@
 import http from "@/common/http";
-import { CounterItem } from "@/types/dashboard";
+import { CounterItem, NodeStatisticalData } from "@/types/dashboard";
 import { AxiosResponse } from "axios";
 
 //account
@@ -11,7 +11,7 @@ export function logout(username: string) {
   return http.post("/logout", { username });
 }
 
-export function loadStats() {
+export function loadStats(): Promise<Array<NodeStatisticalData>> {
   return http.get("/stats");
 }
 
