@@ -20,7 +20,7 @@
       ></el-table-column>
       <el-table-column
         sortable
-        prop="tag"
+        prop="description"
         :label="$t('General.remark')"
       ></el-table-column>
       <el-table-column :label="$t('Base.operation')">
@@ -70,7 +70,7 @@
           v-if="accessType !== 'chPass'"
           :label="$t('General.remark')"
         >
-          <el-input v-model="record.tag"></el-input>
+          <el-input v-model="record.description"></el-input>
         </el-form-item>
         <el-form-item
           v-if="accessType !== 'edit'"
@@ -214,7 +214,7 @@ export default {
       } else {
         this.record = {
           username: "",
-          tag: "",
+          description: "",
           password: "",
         };
         this.accessType = "create";
