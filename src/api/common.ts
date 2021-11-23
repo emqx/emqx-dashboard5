@@ -27,7 +27,7 @@ export function loadCurrentMetrics() {
   return http.get("/monitor/current");
 }
 
-export function loadMetricsLog(type?: string): Promise<AxiosResponse<Array<CounterItem>>> {
+export function loadMetricsLog(type?: string): Promise<Array<CounterItem>> {
   return http.get("/monitor" + (type ? "/counters/" + type : ""));
 }
 //metrics integration
