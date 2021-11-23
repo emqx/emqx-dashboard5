@@ -233,7 +233,7 @@ const currentMetricsLogs: Record<string, MetricData> = reactive({
     y: Array(32).fill(0),
   },
 });
-let currentMetrics = reactive({
+const currentMetrics = ref({
   node: 0, // 节点数
   received: 0, // 消息 in 速率
   sent: 0, // 消息 out 速率
@@ -243,13 +243,13 @@ let currentMetrics = reactive({
 let timerData: undefined | number = undefined;
 
 const licensePercentage = computed(() => {
-  const { connection } = currentMetrics;
+  const { connection } = currentMetrics.value;
   const { max_connections } = license;
   return calcPercentage(connection, max_connections);
 });
 
 const formatConnection = computed(() => {
-  const { connection } = currentMetrics;
+  const { connection } = currentMetrics.value;
   const { max_connections } = license;
   return `${_formatNumber(connection)} / ${_formatNumber(
     max_connections as number
@@ -267,7 +267,7 @@ const _formatNumber = (num: number) => {
 };
 
 const loadLicenseData = async () => {
-  let res = await loadLicenseInfo().catch(() => {});
+  let res = await loadLicenseInfo().catch(() => { });
   if (!res) {
     return;
   }
@@ -287,11 +287,11 @@ const loadLicenseData = async () => {
   }
 };
 const loadData = async () => {
-  const state = await loadCurrentMetrics().catch(() => {});
+  const state = await loadCurrentMetrics().catch(() => { });
   if (!state) {
     return;
   }
-  currentMetrics = state;
+  currentMetrics.value = state;
   setCurrentMetricsLogsRealtime(state);
 };
 
@@ -358,6 +358,16 @@ onUnmounted(() => {
     .unit {
       font-size: 14px;
       margin-left: 2px;
+    }
+
+    .flux-wrapper {
+      width: 100%;
+      box-sizing: border-box;
+
+      .simple-line {
+        box-sizing: border-box;
+        height: 32px;
+      }
     }
 
     .charts {
