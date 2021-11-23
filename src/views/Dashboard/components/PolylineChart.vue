@@ -78,7 +78,7 @@ const props = defineProps({
   },
 });
 
-let seriesConfig: Array<any> = reactive([]);
+const seriesConfig: Ref<Array<any>> = ref([]);
 const chart: Ref<undefined | any> = ref(undefined);
 
 watch(
@@ -93,9 +93,9 @@ onMounted(() => {
 });
 
 const setSeriesConfig = () => {
-  seriesConfig = [];
+  seriesConfig.value = [];
   for (let i = 0; i < props.yTitle.length; i += 1) {
-    seriesConfig.push({
+    seriesConfig.value.push({
       name: props.yTitle[i],
       type: "line",
       smooth: true,
@@ -185,7 +185,7 @@ const drawChart = () => {
         // },
       },
     },
-    series: seriesConfig,
+    series: seriesConfig.value,
   };
   chart.value?.setOption(option);
 };
