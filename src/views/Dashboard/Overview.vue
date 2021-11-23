@@ -199,7 +199,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onUnmounted } from "vue";
+import { ref, reactive, computed, onUnmounted, Ref } from "vue";
 import SimpleLine from "./components/SimpleLine";
 import PolylineCards from "./components/PolylineCards";
 import NodesGraph from "./components/NodesGraph.vue";
@@ -233,7 +233,7 @@ const currentMetricsLogs: Record<string, MetricData> = reactive({
     y: Array(32).fill(0),
   },
 });
-const currentMetrics = ref({
+const currentMetrics: Ref<Record<string, number>> = ref({
   node: 0, // 节点数
   received: 0, // 消息 in 速率
   sent: 0, // 消息 out 速率
@@ -267,7 +267,7 @@ const _formatNumber = (num: number) => {
 };
 
 const loadLicenseData = async () => {
-  let res = await loadLicenseInfo().catch(() => { });
+  let res = await loadLicenseInfo().catch(() => {});
   if (!res) {
     return;
   }
@@ -287,7 +287,7 @@ const loadLicenseData = async () => {
   }
 };
 const loadData = async () => {
-  const state = await loadCurrentMetrics().catch(() => { });
+  const state = await loadCurrentMetrics().catch(() => {});
   if (!state) {
     return;
   }

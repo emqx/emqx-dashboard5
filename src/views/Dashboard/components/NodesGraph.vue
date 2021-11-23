@@ -77,23 +77,21 @@ import { getDuration, calcPercentage, getProgressColor } from "@/common/utils";
 import nodeNormal from "@/assets/node-g-normal.svg";
 import nodeOffline from "@/assets/node-g-offline.svg";
 import nodeDynamic from "@/assets/node-g-dynamic.svg";
-import { NodeStatisticalData } from "@/types/dashboard";
+import { NodeMsg, NodeStatisticalData } from "@/types/dashboard";
 import { useI18n } from "vue-i18n";
-
-type SVGD3Selection = ddd.Selection<SVGSVGElement, unknown, HTMLElement, any>;
 
 const { t } = useI18n();
 
-let nodes: Ref<Array<NodeStatisticalData>> = ref([]);
+let nodes: Ref<Array<NodeMsg>> = ref([]);
 let stats: Ref<Array<NodeStatisticalData>> = ref([]);
 let nodeStat: Ref<Record<string, NodeStatisticalData>> = ref({});
 let graph: Ref<undefined | HTMLElement> = ref(undefined);
 let currentInfo: Ref<Array<Record<string, number | string>>> = ref([{}, {}]);
 let infoLoading = ref(true);
-let svg: Ref<any> = ref({} as SVGD3Selection);
+let svg: Ref<any> = ref({});
 
 let getNodes = async () => {
-  let res: Array<NodeStatisticalData> = await loadNodes().catch(() => {});
+  let res: Array<NodeMsg> | void = await loadNodes().catch(() => {});
   if (res) {
     nodes.value = res;
   } else {
@@ -124,7 +122,7 @@ const tl = function (key: string, collection = "Dashboard") {
   return t(collection + "." + key);
 };
 
-let composeNodeInfo = (node: Record<string, string | number>) => {
+let composeNodeInfo = (node: NodeMsg) => {
   if (!node) {
     return;
   }

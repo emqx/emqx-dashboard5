@@ -115,13 +115,14 @@ export default defineComponent({
 <script setup lang="ts">
 import { loadNodes, loadStats } from "@/api/common";
 import { getDuration, calcPercentage } from "@/common/utils";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, Ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { NodeMsg, NodeStatisticalData } from "@/types/dashboard";
 
 const { t } = useI18n();
 
-let nodes = ref([]);
-let stats = ref([]);
+let nodes: Ref<Array<NodeMsg>> = ref([]);
+let stats: Ref<Array<NodeStatisticalData>> = ref([]);
 let nodesLockTable = ref(true);
 let statsLockTable = ref(true);
 
@@ -129,11 +130,11 @@ const tl = function (key: string, collection = "Dashboard") {
   return t(collection + "." + key);
 };
 const allNodes = async () => {
-  nodes.value = await loadNodes().catch(() => {});
+  nodes.value = (await loadNodes().catch(() => {})) ?? [];
   nodesLockTable.value = false;
 };
 const allStats = async () => {
-  stats.value = await loadStats().catch(() => {});
+  stats.value = (await loadStats().catch(() => {})) ?? [];
   statsLockTable.value = false;
 };
 const caseInsensitiveCompare = (

@@ -228,14 +228,19 @@ import {
 } from "@/api/common";
 import { useI18n } from "vue-i18n";
 import { ElMessage } from "element-plus";
+import { Prometheus, StatsD } from "@/types/dashboard";
 
 interface MetricItem {
   [propName: string]: string | number;
 }
 
-interface IntegrationData {
-  [propName: string]: boolean | string | Array<string>;
-}
+type MyStatsD = Omit<StatsD, "flush_time_interval"> & {
+  flush_time_interval: Array<string> | string;
+};
+
+type MyPrometheus = Omit<Prometheus, "interval"> & {
+  interval: Array<string> | string;
+};
 
 const { t } = useI18n();
 
@@ -246,7 +251,7 @@ let lockTable = ref(true);
 let integrationLoading = ref(false);
 let prometheusLoading = ref(false);
 let statsdLoading = ref(false);
-let integrationData: Record<string, IntegrationData> = reactive({
+let integrationData: { statsd: MyStatsD; prometheus: MyPrometheus } = reactive({
   statsd: {
     enable: false,
     flush_time_interval: "10s",
@@ -265,9 +270,11 @@ const translate = function (key: string, collection = "Dashboard") {
 };
 
 const metricsData = async () => {
-  let metricsArr: Array<MetricItem> = await loadMetrics().catch(() => {});
+  let metricsArr: Array<MetricItem> | void = await loadMetrics().catch(
+    () => {}
+  );
   lockTable.value = false;
-  metricsArr.forEach((v) => {
+  metricsArr?.forEach((v) => {
     metrics.push(v);
   });
 
@@ -284,7 +291,7 @@ const loadIntegration = async function () {
   let [statsRes, prometheusRes] = (await Promise.allSettled([
     getStatsd(),
     getPrometheus(),
-  ]).catch(() => {})) as Array<{ status: string; value: IntegrationData }>;
+  ]).catch(() => {})) as Array<{ status: string; value: StatsD | Prometheus }>;
   if (statsRes?.status == "fulfilled") {
     integrationData.statsd = transformIntegrationData(statsRes.value);
     prometheusLoading.value = false;
@@ -302,7 +309,7 @@ const loadIntegration = async function () {
   integrationLoading.value = false;
 };
 
-const transformIntegrationData = (data: IntegrationData) => {
+const transformIntegrationData = (data: any) => {
   Object.keys(data).forEach((prop) => {
     let matching: any;
     switch (prop) {
@@ -326,16 +333,13 @@ const transformIntegrationData = (data: IntegrationData) => {
 
 const updatePrometheus = async function () {
   prometheusLoading.value = true;
-  let pendingData: IntegrationData = Object.assign(
-    {},
-    integrationData.prometheus
-  );
+  let pendingData: MyPrometheus = Object.assign({}, integrationData.prometheus);
   Object.keys(pendingData).forEach((v) => {
     if (v === "interval" && pendingData[v] instanceof Array) {
       pendingData[v] = (pendingData[v] as Array<string>).join("");
     }
   });
-  let res = await setPrometheus(pendingData).catch(() => {});
+  let res = await setPrometheus(pendingData as Prometheus).catch(() => {});
   if (res) {
     prometheusLoading.value = false;
     ElMessage({
@@ -353,14 +357,14 @@ const updatePrometheus = async function () {
 
 const updateStatsd = async function () {
   statsdLoading.value = true;
-  let pendingData: IntegrationData = Object.assign({}, integrationData.statsd);
+  let pendingData: MyStatsD = Object.assign({}, integrationData.statsd);
 
   Object.keys(pendingData).forEach((v) => {
     if (v === "flush_time_interval" && pendingData[v] instanceof Array) {
       pendingData[v] = (pendingData[v] as Array<string>).join("");
     }
   });
-  let res = await setStatsd(pendingData).catch(() => {});
+  let res = await setStatsd(pendingData as StatsD).catch(() => {});
   if (res) {
     statsdLoading.value = false;
     ElMessage({
