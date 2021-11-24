@@ -173,7 +173,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .left-bar {
   margin-top: 60px;
   height: calc(100vh - 60px);

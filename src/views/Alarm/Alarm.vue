@@ -12,12 +12,7 @@
       ></el-table-column>
       <el-table-column prop="message" :label="$t('Alarm.alarmMsg')" sortable>
         <template #default="{ row }">
-          <el-popover
-            placement="top"
-            trigger="hover"
-            width="160"
-            :open-delay="500"
-          >
+          <el-popover placement="top" trigger="hover" width="160">
             <div v-for="(value, label) in row.details" :key="label">
               {{ label }}: {{ value }}
             </div>
@@ -95,7 +90,6 @@
             placement="top"
             trigger="hover"
             width="160"
-            :open-delay="500"
             v-if="Object.keys(row.details).length"
           >
             <div v-for="(value, label) in row.details" :key="label">

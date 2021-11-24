@@ -55,6 +55,7 @@
         :model="record"
         :rules="rules"
         label-position="top"
+        @keyup.enter="save()"
       >
         <el-form-item
           v-if="accessType !== 'chPass'"

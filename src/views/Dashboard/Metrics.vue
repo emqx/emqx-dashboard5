@@ -17,7 +17,10 @@
           <div class="part-header">Prometheus</div>
           <div class="part-desc">{{ tl("promDesc") }}</div>
           <div>
-            <el-form :disabled="prometheusLoading">
+            <el-form
+              :disabled="prometheusLoading"
+              @keyup.enter="updatePrometheus()"
+            >
               <el-row :gutter="10">
                 <el-col :span="8">
                   <el-input
@@ -72,7 +75,7 @@
           <div class="part-header">StatsD</div>
           <div class="part-desc">{{ tl("statsdDesc") }}</div>
           <div>
-            <el-form :disabled="statsdLoading">
+            <el-form :disabled="statsdLoading" @keyup.enter="updateStatsd()">
               <el-row :gutter="10">
                 <el-col :span="8">
                   <el-input
