@@ -53,6 +53,7 @@
         :model="record"
         :rules="rules"
         label-position="top"
+        @keyup.enter="save()"
       >
         <el-row :gutter="20">
           <el-col :span="12">

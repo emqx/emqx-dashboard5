@@ -22,7 +22,7 @@
 
 .el-menu{
     border-right: none;
-    .el-menu-item.is-active{
+    .el-menu-item.is-active,&.el-menu--collapse .el-sub-menu.is-active{
         background-color: #00b29915;
         font-weight: 900;
     }
@@ -268,6 +268,13 @@
           border: none;
         }
       }
+    }
+  }
+
+  .el-popper{
+    --el-popper-border-radius:2px;
+    &.is-light{
+      border:none
     }
   }
 

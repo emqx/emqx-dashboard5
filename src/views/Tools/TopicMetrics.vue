@@ -146,6 +146,7 @@
         size="small"
         label-position="top"
         :rules="topicRules"
+        @keyup.enter.stop="addTopic()"
       >
         <el-form-item prop="topic" :label="'topic'">
           <el-input v-model="topicInput.topic"></el-input>

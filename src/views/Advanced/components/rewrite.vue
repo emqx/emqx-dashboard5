@@ -45,6 +45,7 @@
         :model="rewriteInput"
         :rules="rewriteRules"
         label-position="top"
+        @keyup.enter="submitRewrite(isEdit)"
       >
         <el-form-item :label="'Action'" prop="action">
           <el-select v-model="rewriteInput.action">

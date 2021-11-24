@@ -9,6 +9,7 @@
           :rules="retainerRules"
           :model="retainerConfig"
           label-position="top"
+          @keyup.enter="updateConfigData()"
         >
           <el-row :gutter="30">
             <el-col :span="16">

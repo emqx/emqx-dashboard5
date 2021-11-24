@@ -38,6 +38,7 @@
         :model="subsInput"
         ref="subsForm"
         label-position="top"
+        @keyup.enter="submitSubs(isEdit)"
       >
         <el-form-item :label="'Topic'" prop="topic">
           <el-input v-model="subsInput.topic"></el-input>

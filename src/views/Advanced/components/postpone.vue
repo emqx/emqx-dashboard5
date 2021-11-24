@@ -8,6 +8,7 @@
           :model="delayedConfig"
           :disabled="!configEnable"
           label-position="top"
+          @keyup.enter="updateDelayedConfig()"
         >
           <el-row>
             <el-col :span="10">
