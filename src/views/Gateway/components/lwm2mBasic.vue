@@ -16,7 +16,7 @@
         <el-col :span="12">
           <el-form-item :label="tl('qmodewindow')">
             <el-input
-              :placeholder="lValueDefault.qmode_time_window[0]"
+              :placeholder="String(lValueDefault.qmode_time_window[0])"
               v-model.number="lValue.qmode_time_window[0]"
             >
               <template #append>
@@ -30,7 +30,7 @@
         <el-col :span="12">
           <el-form-item :label="tl('minLifetime')">
             <el-input
-              :placeholder="lValueDefault.lifetime_min[0]"
+              :placeholder="String(lValueDefault.lifetime_min[0])"
               v-model.number="lValue.lifetime_min[0]"
               ><template #append>
                 <el-select v-model="lValue.lifetime_min[1]">

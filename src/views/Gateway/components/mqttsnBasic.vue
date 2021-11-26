@@ -32,7 +32,7 @@
         <el-col :span="12">
           <el-form-item :label="tl('idleTime')">
             <el-input
-              :placeholder="mValueDefault.idle_timeout[0]"
+              :placeholder="String(mValueDefault.idle_timeout[0])"
               v-model.number="mValue.idle_timeout[0]"
             >
               <template #append>
