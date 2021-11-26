@@ -118,7 +118,7 @@ const login = async (auto = false) => {
     let res = await loginApi({
       username,
       password,
-    }).catch();
+    }).catch(() => {});
 
     if (!res) {
       isLogining.value = false;
