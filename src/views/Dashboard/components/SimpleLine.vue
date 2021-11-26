@@ -14,6 +14,7 @@ export default defineComponent({
 import { defineProps, ref, reactive, watch, onMounted, Ref } from "vue";
 import { useStore } from "vuex";
 import * as echarts from "echarts/lib/echarts";
+import { ECharts, EChartsOption, LineSeriesOption } from "echarts";
 import "echarts/lib/chart/line";
 import "echarts/lib/chart/bar";
 import "echarts/lib/component/grid";
@@ -41,14 +42,14 @@ const props = defineProps({
 });
 
 const chartEl = ref();
-const chart: Ref<any> = ref(null);
-const option: any = reactive({
+const chart: Ref<ECharts | null> = ref(null);
+const option: EChartsOption = reactive({
   color: [props.color],
   grid: {
-    x: 0, // 默认是80px
-    y: 0, // 默认是60px
-    x2: 0, // 默认80px
-    y2: 0, // 默认60px
+    left: 0, // 默认是80px
+    top: 0, // 默认是60px
+    right: 0, // 默认80px
+    bottom: 0, // 默认60px
   },
   tooltip: {
     trigger: "axis",
@@ -126,7 +127,7 @@ const setSeriesConfig = () => {
         opacity: 1,
       },
     },
-  ];
+  ] as Array<LineSeriesOption>;
   chart.value?.setOption(option);
 };
 
