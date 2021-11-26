@@ -30,10 +30,8 @@
         :label="$t('Alarm.triggerNode')"
         sortable
       ></el-table-column>
-      <el-table-column prop="node" :label="$t('Alarm.alarmLevel')" sortable>
-        <template>
-          {{ $t("Alarm.system") }}
-        </template>
+      <el-table-column :label="$t('Alarm.alarmLevel')">
+        <span> {{ $t("Alarm.system") }}</span>
       </el-table-column>
       <el-table-column
         prop="activate_at"
@@ -109,10 +107,8 @@
         :label="$t('Alarm.triggerNode')"
         sortable
       ></el-table-column>
-      <el-table-column prop="node" :label="$t('Alarm.alarmLevel')" sortable>
-        <template>
-          {{ $t("Alarm.system") }}
-        </template>
+      <el-table-column :label="$t('Alarm.alarmLevel')">
+        <span>{{ $t("Alarm.system") }}</span>
       </el-table-column>
       <el-table-column
         prop="activate_at"
@@ -120,14 +116,8 @@
         sortable
       >
         <template #default="{ row }">
-          {{
-            (row.activate_at &&
-              row.deactivate_at &&
-              dateFormat(row.activate_at) +
-                " - " +
-                dateFormat(row.deactivate_at)) ||
-            ""
-          }}
+          {{ row.activate_at && dateFormat(row.activate_at) }}<br />
+          {{ row.deactivate_at && dateFormat(row.deactivate_at) }}
         </template>
       </el-table-column>
       <el-table-column

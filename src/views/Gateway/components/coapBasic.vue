@@ -26,7 +26,7 @@
           <el-form-item :label="tl('heartbeat')">
             <el-input
               v-model.number="cValue.heartbeat[0]"
-              :placeholder="cValueDefault.heartbeat[0]"
+              :placeholder="String(cValueDefault.heartbeat[0])"
             >
               <template #append>
                 <el-select v-model="cValue.heartbeat[1]">

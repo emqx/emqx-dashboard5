@@ -61,7 +61,7 @@ export function setLanguage(lang = false) {
     language = navigator.language.substring(0, 2);
   }
   store.commit("SET_LANGUAGE", language);
-  i18n.locale = language;
+  i18n.global.locale = language;
   document.documentElement.setAttribute("lang", language);
 }
 

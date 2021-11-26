@@ -139,9 +139,9 @@ export default {
       ],
       record: {},
       rules: {
-        as: [{ required: true, message: this.$t("General.enterAs") }],
+        // as: [{ required: true, message: this.$t("General.enterAs") }],
         who: [{ required: true, message: this.$t("General.enterWho") }],
-        until: [{ required: true, message: this.$t("General.enterUntil") }],
+        // until: [{ required: true, message: this.$t("General.enterUntil") }],
       },
       tbLoading: false,
       pageMeta: {},
@@ -191,7 +191,9 @@ export default {
         }
         const record = {
           ...this.record,
-          until: new Date(this.record.until).toISOString(),
+          until:
+            (this.record.until && new Date(this.record.until).toISOString()) ||
+            null,
         };
         // if (typeof record.until === 'number') {
         //   record.until = Math.floor(record.until / 1000)
@@ -238,6 +240,6 @@ export default {
 
 <style lang="scss" scoped>
 .el-input-group--append ::v-deep .el-input-group__append {
-  width: 90px;
+  width: 110px;
 }
 </style>

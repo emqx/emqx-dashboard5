@@ -101,22 +101,22 @@
         </template>
       </el-table-column>
       <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
-      <el-table-column :label="tl('msgIn')" sortable>
+      <el-table-column :label="tl('msgIn')" sortable :sort-method="sorting">
         <template #default="{ row }">
           {{ row.metrics["messages.in.count"] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('msgOut')" sortable>
+      <el-table-column :label="tl('msgOut')" sortable :sort-method="sorting">
         <template #default="{ row }">
           {{ row.metrics["messages.out.count"] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('msgDrop')" sortable>
+      <el-table-column :label="tl('msgDrop')" sortable :sort-method="sorting">
         <template #default="{ row }">
           {{ row.metrics["messages.dropped.count"] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('startTime')" sortable>
+      <el-table-column :label="tl('startTime')" sortable :sort-method="sorting">
         <template #default="{ row }">
           {{
             (row.reset_at && df(row.reset_at)) ||
@@ -157,9 +157,13 @@
           <el-button size="small" @click="addVisible = false">{{
             $t("Base.cancel")
           }}</el-button>
-          <el-button type="primary" size="small" @click="addTopic()">{{
-            $t("Base.add")
-          }}</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="addTopic()"
+            :loading="addLoading"
+            >{{ $t("Base.add") }}</el-button
+          >
         </div>
       </template>
     </el-dialog>
@@ -201,6 +205,7 @@ export default defineComponent({
     let tbLoading = ref(false);
     let tbRef = ref(null);
     let topicQos = ref("all");
+    let addLoading = ref(false);
 
     const translate = function (key, collection = "Tools") {
       return this.$t(collection + "." + key);
@@ -224,6 +229,7 @@ export default defineComponent({
     };
 
     const addTopic = async function () {
+      addLoading.value = true;
       let validate = await record.value?.validate().catch(() => {});
       if (!validate) return;
       let { topic } = topicInput;
@@ -236,6 +242,7 @@ export default defineComponent({
         loadTopicMetrics();
       }
       addVisible.value = false;
+      addLoading.value = false;
     };
 
     const deleteTopic = async function (row) {
@@ -291,6 +298,11 @@ export default defineComponent({
       }
     };
 
+    //yes ,its a element plus bug
+    const sorting = (a, b) => {
+      // console.log(a, b);
+    };
+
     onMounted(loadTopicMetrics);
 
     return {
@@ -308,6 +320,8 @@ export default defineComponent({
       tbRef,
       topicQos,
       loadMetricsFromTopic,
+      addLoading,
+      sorting,
     };
   },
 });
