@@ -213,10 +213,10 @@ interface MetricData {
   y: Array<number>;
 }
 
-const evaluation = ref(10);
-const licenseTipVisible = ref(false);
-const isLicenseExpiry = ref(false);
-const noprompt = ref(false);
+const evaluation: Ref<number> = ref(10);
+const licenseTipVisible: Ref<boolean> = ref(false);
+const isLicenseExpiry: Ref<boolean> = ref(false);
+const noprompt: Ref<boolean> = ref(false);
 
 let license: Record<string, number | boolean> = reactive({});
 const currentMetricsLogs: Record<string, MetricData> = reactive({

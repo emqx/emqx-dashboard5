@@ -123,8 +123,8 @@ const { t } = useI18n();
 
 let nodes: Ref<Array<NodeMsg>> = ref([]);
 let stats: Ref<Array<NodeStatisticalData>> = ref([]);
-let nodesLockTable = ref(true);
-let statsLockTable = ref(true);
+let nodesLockTable: Ref<boolean> = ref(true);
+let statsLockTable: Ref<boolean> = ref(true);
 
 const tl = function (key: string, collection = "Dashboard") {
   return t(collection + "." + key);

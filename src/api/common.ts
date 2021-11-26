@@ -9,12 +9,7 @@ import {
 } from "@/types/dashboard";
 
 //account
-export function login(
-  user: {
-    password?: string;
-    username?: string;
-  } = {}
-): Promise<{
+export function login(user: { password: string; username: string }): Promise<{
   license: {
     edition: string;
   };

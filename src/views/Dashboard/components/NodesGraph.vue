@@ -87,11 +87,11 @@ let stats: Ref<Array<NodeStatisticalData>> = ref([]);
 let nodeStat: Ref<Record<string, NodeStatisticalData>> = ref({});
 let graph: Ref<undefined | HTMLElement> = ref(undefined);
 let currentInfo: Ref<Array<Record<string, number | string>>> = ref([{}, {}]);
-let infoLoading = ref(true);
+let infoLoading: Ref<boolean> = ref(true);
 let svg: Ref<any> = ref({});
 
 let getNodes = async () => {
-  let res: Array<NodeMsg> | void = await loadNodes().catch(() => {});
+  let res: Array<NodeMsg> = await loadNodes().catch(() => []);
   if (res) {
     nodes.value = res;
   } else {

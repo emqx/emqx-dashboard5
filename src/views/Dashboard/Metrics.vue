@@ -218,7 +218,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, Ref } from "vue";
 import {
   loadMetrics,
   getStatsd,
@@ -234,24 +234,16 @@ interface MetricItem {
   [propName: string]: string | number;
 }
 
-type MyStatsD = Omit<StatsD, "flush_time_interval"> & {
-  flush_time_interval: Array<string> | string;
-};
-
-type MyPrometheus = Omit<Prometheus, "interval"> & {
-  interval: Array<string> | string;
-};
-
 const { t } = useI18n();
 
 let metrics: Array<MetricItem> = reactive([]);
 let metricsObj: Record<string, MetricItem> = reactive({});
-let currentNode = ref("");
-let lockTable = ref(true);
-let integrationLoading = ref(false);
-let prometheusLoading = ref(false);
-let statsdLoading = ref(false);
-let integrationData: { statsd: MyStatsD; prometheus: MyPrometheus } = reactive({
+let currentNode: Ref<string> = ref("");
+let lockTable: Ref<boolean> = ref(true);
+let integrationLoading: Ref<boolean> = ref(false);
+let prometheusLoading: Ref<boolean> = ref(false);
+let statsdLoading: Ref<boolean> = ref(false);
+let integrationData: { statsd: StatsD; prometheus: Prometheus } = reactive({
   statsd: {
     enable: false,
     flush_time_interval: "10s",
@@ -270,9 +262,7 @@ const translate = function (key: string, collection = "Dashboard") {
 };
 
 const metricsData = async () => {
-  let metricsArr: Array<MetricItem> | void = await loadMetrics().catch(
-    () => {}
-  );
+  let metricsArr: Array<MetricItem> = await loadMetrics().catch(() => []);
   lockTable.value = false;
   metricsArr?.forEach((v) => {
     metrics.push(v);
@@ -333,7 +323,7 @@ const transformIntegrationData = (data: any) => {
 
 const updatePrometheus = async function () {
   prometheusLoading.value = true;
-  let pendingData: MyPrometheus = Object.assign({}, integrationData.prometheus);
+  let pendingData: Prometheus = Object.assign({}, integrationData.prometheus);
   Object.keys(pendingData).forEach((v) => {
     if (v === "interval" && pendingData[v] instanceof Array) {
       pendingData[v] = (pendingData[v] as Array<string>).join("");
@@ -357,11 +347,11 @@ const updatePrometheus = async function () {
 
 const updateStatsd = async function () {
   statsdLoading.value = true;
-  let pendingData: MyStatsD = Object.assign({}, integrationData.statsd);
+  let pendingData: StatsD = Object.assign({}, integrationData.statsd);
 
   Object.keys(pendingData).forEach((v) => {
     if (v === "flush_time_interval" && pendingData[v] instanceof Array) {
-      pendingData[v] = (pendingData[v] as Array<string>).join("");
+      pendingData[v] = (pendingData[v] as [string, string]).join("");
     }
   });
   let res = await setStatsd(pendingData as StatsD).catch(() => {});
