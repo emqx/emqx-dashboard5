@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, Ref } from "vue";
+import { ref, computed, Ref, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
 enum State {
@@ -43,7 +43,7 @@ type kvRow = {
   state: State;
 };
 
-export default {
+export default defineComponent({
   name: "KeyAndValueEditor",
   emits: ["update:modelValue"],
   props: {
@@ -68,7 +68,7 @@ export default {
 
     function createTbData() {
       const d = props.modelValue;
-      Object.entries(d).forEach(([key, value]) => {
+      Object.entries(d).forEach(([key, value]: [string, string]) => {
         tableData.value.push({ key, value, state: 0 });
       });
     }
@@ -108,7 +108,7 @@ export default {
       keyValueLabel,
     };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
