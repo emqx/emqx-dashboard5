@@ -1,31 +1,26 @@
 <template>
-  <!-- eslint-disable -->
   <el-table class="key-and-value-editor" :data="tableData" size="mini">
-    <el-table-column prop="key" :label="keyValueLabel.key" min-width="80px">
-      <template slot-scope="{ row }">
+    <el-table-column :label="keyValueLabel.key">
+      <template #default="{ row }">
         <el-input
           v-model="row.key"
-          style="width: 120px !important"
           class="key-input"
-          :placeholder="$t('components.objectKey')"
           @input="atInputChange"
         ></el-input>
       </template>
     </el-table-column>
-    <el-table-column
-      prop="value"
-      :label="keyValueLabel.value"
-      min-width="150px"
-    >
-      <template slot-scope="{ row }">
+    <el-table-column :label="keyValueLabel.value">
+      <template #default="{ row }">
         <el-input v-model="row.value" @input="atInputChange"></el-input>
       </template>
     </el-table-column>
-    <el-table-column width="60px">
-      <a href="javascript:;" slot="header" class="btn" @click="addColumn">
-        {{ $t("Base.add") }}
-      </a>
-      <template slot-scope="{ row }">
+    <el-table-column width="70">
+      <template #header>
+        <a href="javascript:;" class="btn" @click="addColumn">
+          {{ $t("Base.add") }}
+        </a>
+      </template>
+      <template #default="{ row }">
         <a href="javascript:;" class="btn" @click="deleteItem(row)">
           {{ $t("Base.delete") }}
         </a>
@@ -34,95 +29,90 @@
   </el-table>
 </template>
 
-<script>
+<script lang="ts">
+import { ref, computed, Ref } from "vue";
+import { useI18n } from "vue-i18n";
+
+enum State {
+  OK = 0,
+  Error,
+}
+type kvRow = {
+  key: string;
+  value: string;
+  state: State;
+};
+
 export default {
   name: "KeyAndValueEditor",
-
+  emits: ["update:modelValue"],
   props: {
     modelValue: {
       type: Object,
       required: true,
-    },
-    notNull: {
-      type: Boolean,
-      default: false,
     },
     customLabel: {
       type: Object,
       default: null,
     },
   },
-
-  data() {
-    return {
-      row: {
-        key: "",
-        value: "",
-        state: 0, // 0 ok 1 error
-      },
-      tableData: [],
+  setup(props, context) {
+    const rowData: kvRow = {
+      key: "",
+      value: "",
+      state: State.OK,
     };
-  },
+    const tableData: Ref<kvRow[]> = ref([]);
+    const { t } = useI18n();
+    const { emit } = context;
 
-  computed: {
-    keyValueLabel() {
-      if (this.customLabel === null) {
+    function createTbData() {
+      const d = props.modelValue;
+      Object.entries(d).forEach(([key, value]) => {
+        tableData.value.push({ key, value, state: 0 });
+      });
+    }
+    createTbData();
+
+    const keyValueLabel = computed(() => {
+      if (props.customLabel === null) {
         return {
-          key: this.$t("components.key"),
-          value: this.$t("components.value"),
+          key: t("components.key"),
+          value: t("components.value"),
         };
       }
-      return this.customLabel;
-    },
-  },
-
-  created() {
-    const list = [];
-    const d = this.modelValue;
-    Object.entries(d).forEach(([key, value]) => {
-      list.push({ key, value, state: 0 });
+      return props.customLabel;
     });
-    this.tableData = list;
-  },
 
-  methods: {
-    atInputChange() {
-      const data = {};
-      this.tableData.forEach((item) => {
+    function atInputChange() {
+      const data: Record<string, unknown> = {};
+      tableData.value.forEach((item) => {
         const { key, value } = item;
         data[key] = value;
       });
-      this.$emit("update:modelValue", data);
-    },
-    deleteItem(row) {
-      this.tableData = this.tableData.filter(($) => $.key !== row.key);
-      this.atInputChange();
-    },
-    addColumn() {
-      this.tableData.push({
-        key: "",
-        value: "",
-        state: 0,
-      });
-    },
+      emit("update:modelValue", data);
+    }
+    function deleteItem(row: kvRow) {
+      tableData.value = tableData.value.filter(($) => $ !== row);
+      atInputChange();
+    }
+    function addColumn() {
+      tableData.value.push({ ...rowData });
+    }
+
+    return {
+      tableData,
+      atInputChange,
+      deleteItem,
+      addColumn,
+      keyValueLabel,
+    };
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .key-and-value-editor {
-  font-size: 12px !important;
-
-  .el-input {
-    width: 100% !important;
-
-    &.key-input {
-      width: 120px !important;
-    }
-  }
-
-  .el-table__empty-block {
-    min-height: 40px;
-  }
+  min-width: 200px;
 }
 </style>
