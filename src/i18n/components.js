@@ -151,6 +151,10 @@ export default {
     zh: "Gateway",
     en: "Gateway",
   },
+  APIKey: {
+    zh: "API 密钥",
+    en: "API Key",
+  },
   blacklist: {
     zh: "黑名单",
     en: "Blacklist",
