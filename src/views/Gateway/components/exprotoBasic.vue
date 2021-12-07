@@ -8,8 +8,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="eValue.enable_stats">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option>
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -17,7 +17,7 @@
           <el-form-item :label="tl('idleTime')">
             <el-input
               v-model.number="eValue.idle_timeout[0]"
-              :placeholder="eValueDefault.idle_timeout[0]"
+              :placeholder="String(eValueDefault.idle_timeout[0])"
             >
               <template #append>
                 <el-select v-model="eValue.idle_timeout[1]">

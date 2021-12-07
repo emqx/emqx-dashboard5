@@ -9,13 +9,8 @@
           }
         "
       >
-        <i
-          :class="[
-            'iconfont',
-            leftBarCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold',
-          ]"
-        >
-        </i>
+        <el-icon :size="20" v-if="leftBarCollapse"><expand></expand></el-icon>
+        <el-icon :size="20" v-else><fold></fold></el-icon>
       </div>
     </div>
     <div class="header-title">
@@ -81,9 +76,11 @@ import { loadAlarm } from "@/api/common";
 import { toLogin } from "@/router";
 import { setLanguage } from "@/common/utils";
 import { mapState } from "vuex";
+import { Fold, Expand } from "@element-plus/icons";
 
 export default {
   name: "NavHeader",
+  components: { Fold, Expand },
   data() {
     return {
       firstPath: "",
@@ -204,19 +201,6 @@ export default {
   padding: 0 10px;
   transition: all 0.3s;
   cursor: pointer;
-
-  .iconfont {
-    font-size: 20px;
-    // color: $--color-black;
-
-    &:hover {
-      // color: $--color-hover;
-    }
-  }
-
-  span:hover {
-    // color: $--color-hover;
-  }
 }
 
 .el-badge {

@@ -8,7 +8,7 @@
         <el-col :span="12">
           <el-form-item :label="'Gateway ID'">
             <el-input
-              :placeholder="mValueDefault.gateway_id"
+              :placeholder="String(mValueDefault.gateway_id)"
               v-model="mValue.gateway_id"
             ></el-input>
           </el-form-item>
@@ -16,16 +16,16 @@
         <el-col :span="12">
           <el-form-item :label="tl('broadcast')">
             <el-select v-model="mValue.broadcast">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option>
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('qos3')">
             <el-select v-model="mValue.enable_qos3">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option>
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -45,8 +45,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="mValue.enable_stats">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option>
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option>
             </el-select> </el-form-item
         ></el-col>
       </el-row>
@@ -118,7 +118,6 @@ export default defineComponent({
       () => _.cloneDeep(mValue),
       (v) => {
         context.emit("update:value", transformUnitArrayToStr(v));
-        console.log(v);
       }
     );
     onMounted(() => {

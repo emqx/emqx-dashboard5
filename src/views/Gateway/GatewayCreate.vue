@@ -165,7 +165,7 @@ export default defineComponent({
     };
 
     watch(
-      () => [_.cloneDeep(basicData), _.cloneDeep(listenerList)],
+      () => [_.cloneDeep(basicData.value), _.cloneDeep(listenerList.value)],
       (v) => {
         console.log(v);
       }
