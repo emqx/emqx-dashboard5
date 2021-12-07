@@ -106,6 +106,10 @@ export default {
         title: "gateway",
         path: "/gateway",
       },
+      {
+        title: "APIKey",
+        path: "/APIKey",
+      }
     ];
 
     let diagnose = [

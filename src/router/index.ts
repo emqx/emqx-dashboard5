@@ -27,6 +27,7 @@ import GatewayCreate from "@/views/Gateway/GatewayCreate.vue";
 import IoT from "@/views/RuleEngine/IoT.vue";
 import Bridge from "@/views/RuleEngine/Bridge.vue";
 import BridgeCreate from "@/views/RuleEngine/BridgeCreate.vue";
+import APIKey from '@/views/APIKey/APIKey.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -276,6 +277,22 @@ export const routes: Array<RouteRecordRaw> = [
             component: GatewayDetailClients,
           },
         ],
+      },
+    ],
+  },
+  // API Key
+  {
+    path: "/APIKey",
+    component: Layout,
+    meta: {
+      hideKey: "APIKey",
+      authRequired: true,
+    },
+    children: [
+      {
+        path: "",
+        name: "APIKey",
+        component: APIKey,
       },
     ],
   },
