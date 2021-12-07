@@ -8,8 +8,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('connectionRequire')">
             <el-select v-model="cValue.connection_required">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option>
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -38,8 +38,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="cValue.enable_stats">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option>
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option>
             </el-select>
           </el-form-item>
         </el-col>

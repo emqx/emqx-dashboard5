@@ -9,7 +9,7 @@
           <el-form-item :label="tl('maxHeader')">
             <el-input
               v-model="sValue.frame.max_headers"
-              :placeholder="sValueDefault.frame.max_headers"
+              :placeholder="String(sValueDefault.frame.max_headers)"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -17,14 +17,14 @@
           <el-form-item :label="tl('maxHeaderLen')">
             <el-input
               v-model="sValue.frame.max_headers_length"
-              :placeholder="sValueDefault.frame.max_headers_length"
+              :placeholder="String(sValueDefault.frame.max_headers_length)"
             ></el-input> </el-form-item
         ></el-col>
         <el-col :span="12">
           <el-form-item :label="tl('maxBodyLen')">
             <el-input
               v-model="sValue.frame.max_body_length"
-              :placeholder="sValueDefault.frame.max_body_length"
+              :placeholder="String(sValueDefault.frame.max_body_length)"
             ></el-input> </el-form-item
         ></el-col>
         <el-col :span="12">
@@ -43,8 +43,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="sValue.enable_stats">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option>
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option>
             </el-select> </el-form-item
         ></el-col>
       </el-row>
@@ -80,6 +80,7 @@ export default defineComponent({
       default: () => ({}),
     },
   },
+  emits: ["update:value"],
   setup(props, context) {
     let sValueDefault = {
       frame: {

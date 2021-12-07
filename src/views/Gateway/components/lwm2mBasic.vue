@@ -46,7 +46,7 @@
         <el-col :span="12">
           <el-form-item :label="tl('maxLifetime')">
             <el-input
-              :placeholder="lValueDefault.lifetime_max[0]"
+              :placeholder="String(lValueDefault.lifetime_max[0])"
               v-model.number="lValue.lifetime_max[0]"
             >
               <template #append>
@@ -62,8 +62,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('aObserve')">
             <el-select v-model="lValue.auto_observe">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option> </el-select
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option> </el-select
           ></el-form-item> </el-col
         ><el-col :span="12">
           <el-form-item :label="tl('updateStrategy')">
@@ -76,14 +76,14 @@
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="lValue.enable_stats">
-              <el-option value="true"></el-option>
-              <el-option value="false"></el-option>
+              <el-option :value="true"></el-option>
+              <el-option :value="false"></el-option>
             </el-select> </el-form-item></el-col
         ><el-col :span="12">
           <el-form-item :label="tl('idleTime')">
             <el-input
               v-model.number="lValue.idle_timeout[0]"
-              :placeholder="lValueDefault.idle_timeout[0]"
+              :placeholder="String(lValueDefault.idle_timeout[0])"
             >
               <template #append>
                 <el-select v-model="lValue.idle_timeout[1]">
