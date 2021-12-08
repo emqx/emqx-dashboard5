@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+
 module.exports = {
   devServer: {
     port: 7000,
@@ -15,15 +18,15 @@ module.exports = {
   // },
   assetsDir: "static",
   // runtimeCompiler: true,
-  // publicPath: "/",
-  // productionSourceMap: false,
-  // configureWebpack: {
-  //   plugins: [
-  //     new MonacoWebpackPlugin({
-  //       publicPath: 'static/',
-  //       languages: ['json', 'sql', 'plaintext', 'avro', 'protobuf'],
-  //       features: ['wordHighlighter'],
-  //     }),
-  //   ],
-  // },
+  publicPath: "/",
+  productionSourceMap: false,
+  configureWebpack: {
+    plugins: [
+      new MonacoWebpackPlugin({
+        publicPath: "static/",
+        languages: ["json", "sql", "plaintext"],
+        features: ["wordHighlighter"],
+      }),
+    ],
+  },
 };

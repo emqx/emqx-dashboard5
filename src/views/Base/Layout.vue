@@ -136,10 +136,10 @@ export default {
   z-index: 100;
   overflow-x: hidden;
 
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    width: 0;
-  }
+  // scrollbar-width: none;
+  // &::-webkit-scrollbar {
+  //   width: 0;
+  // }
 }
 
 .el-main {
