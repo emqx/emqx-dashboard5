@@ -9,6 +9,17 @@ import i18n from "@/i18n";
 import { useI18n } from "vue-i18n";
 import moment from "moment";
 
+export function randomStr(len = 6) {
+  let str = "";
+  do {
+    str += Math.random()
+      .toString(36)
+      .substring(2)
+      .replace(/[^a-z]+/g, "");
+  } while (str.length < len);
+  return str.substring(0, len);
+}
+
 // template ['a.b.c','a','a.d']
 export function transformStrToUnitArray(obj, template = [], prefix = "") {
   let dest = {};

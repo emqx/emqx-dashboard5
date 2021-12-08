@@ -1,35 +1,37 @@
 <template>
   <div class="left-bar" :style="{ width: leftBarCollapse ? '80px' : '200px' }">
-    <el-menu
-      :default-active="defaultSelectedKeys"
-      :collapse="leftBarCollapse"
-      router
-      :collapse-transition="false"
-    >
-      <template v-for="(menu, i) in menus" :key="menu.title">
-        <template v-if="menu.c">
-          <el-sub-menu :index="'' + i" :key="i">
-            <template #title>
+    <el-scrollbar>
+      <el-menu
+        :default-active="defaultSelectedKeys"
+        :collapse="leftBarCollapse"
+        router
+        :collapse-transition="false"
+      >
+        <template v-for="(menu, i) in menus" :key="menu.title">
+          <template v-if="menu.c">
+            <el-sub-menu :index="'' + i" :key="i">
+              <template #title>
+                <i :class="['iconx', menu.icon]"></i>
+                <span>{{ $t(`components.${menu.title}`) }}</span>
+              </template>
+              <template v-for="item in menu.c" :key="item.title">
+                <el-menu-item :index="item.path">
+                  <template #title>
+                    {{ $t(`components.${item.title}`) }}
+                  </template>
+                </el-menu-item>
+              </template>
+            </el-sub-menu>
+          </template>
+          <template v-else>
+            <el-menu-item :key="menu.title" :index="menu.path">
               <i :class="['iconx', menu.icon]"></i>
               <span>{{ $t(`components.${menu.title}`) }}</span>
-            </template>
-            <template v-for="item in menu.c" :key="item.title">
-              <el-menu-item :index="item.path">
-                <template #title>
-                  {{ $t(`components.${item.title}`) }}
-                </template>
-              </el-menu-item>
-            </template>
-          </el-sub-menu>
+            </el-menu-item>
+          </template>
         </template>
-        <template v-else>
-          <el-menu-item :key="menu.title" :index="menu.path">
-            <i :class="['iconx', menu.icon]"></i>
-            <span>{{ $t(`components.${menu.title}`) }}</span>
-          </el-menu-item>
-        </template>
-      </template>
-    </el-menu>
+      </el-menu>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -133,11 +135,11 @@ export default {
         icon: "icon-authentication",
         c: authentication,
       },
-      // {
-      //   title: "ruleengine",
-      //   icon: "icon-configuration",
-      //   c: ruleengine,
-      // },
+      {
+        title: "ruleengine",
+        icon: "icon-configuration",
+        c: ruleengine,
+      },
       {
         title: "system",
         icon: "icon-system",
