@@ -63,25 +63,10 @@
         </el-col>
         <el-col :span="24" v-if="operationType === 'view'">
           <el-form-item label="Secret Key">
-            <el-row :gutter="12">
-              <el-col :span="18">
-                <el-input
-                  v-model="formData.api_secret"
-                  :type="!showSecret ? 'password' : 'text'"
-                  disabled
-                />
-              </el-col>
-              <el-col :span="3">
-                <el-button @click="showSecret = !showSecret">{{
-                  tl("show")
-                }}</el-button>
-              </el-col>
-              <el-col :span="3">
-                <el-button ref="btnCopySecretKey">{{
-                  tl("copy", "Base")
-                }}</el-button>
-              </el-col>
-            </el-row>
+            <el-input
+              :placeholder="`**** ${tl('secretKeyPlaceholder')} ****`"
+              disabled
+            />
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -112,6 +97,7 @@
       </span>
     </template>
   </el-dialog>
+  <APIKeyResultDialog v-model="showResultDialog" :data="createdResult" />
 </template>
 
 <script lang="ts" setup>
@@ -125,7 +111,7 @@ import {
   watch,
   nextTick,
 } from "vue";
-import { ElDialog, ElMessage } from "element-plus";
+import { ElDialog } from "element-plus";
 import { useI18n } from "vue-i18n";
 import {
   APIKeyFormWhenCreating,
@@ -135,6 +121,8 @@ import {
 import { createAPIKey, updateAPIKey } from "@/api/systemModule";
 import { ElInput } from "element-plus";
 import Clipboard from "clipboard";
+import { createClipboardEleWithTargetText } from "@/common/tools";
+import APIKeyResultDialog from "./APIKeyResultDialog.vue";
 
 export type OperationType = "create" | "view" | "edit";
 
@@ -192,11 +180,10 @@ const isEnableOptions = [
 const isSubmitting = ref(false);
 
 const btnCopyAPIKey = ref();
-const btnCopySecretKey = ref();
 let APIKeyClipboardInstance: undefined | Clipboard = undefined;
-let secretKeyClipboardInstance: undefined | Clipboard = undefined;
 
-const showSecret = ref(false);
+const createdResult: Ref<APIKey | undefined> = ref(undefined);
+const showResultDialog: Ref<boolean> = ref(false);
 
 const showDialog = computed({
   get: () => props.modelValue,
@@ -209,8 +196,8 @@ const dialogTitle = computed(
   () =>
     ({
       create: `${tl("create", "Base")}  ${tl("APIKey", "components")}`,
-      view: `${tl("edit", "Base")}  ${tl("APIKey", "components")}`,
-      edit: tl("apiKeyDetail"),
+      edit: `${tl("edit", "Base")}  ${tl("APIKey", "components")}`,
+      view: tl("apiKeyDetail"),
     }[props.operationType])
 );
 
@@ -231,21 +218,10 @@ watch(showDialog, async (val) => {
 });
 
 const initCopyTool = () => {
-  const initItem = (btn: HTMLElement, text: string) => {
-    const clipboard = new Clipboard(btn, { text: () => text });
-    clipboard.on("success", () => ElMessage.success(t("Base.copied")));
-    clipboard.on("error", () => ElMessage.error(t("Base.opErr")));
-    return clipboard;
-  };
   APIKeyClipboardInstance && APIKeyClipboardInstance?.destroy();
-  secretKeyClipboardInstance && secretKeyClipboardInstance?.destroy();
-  APIKeyClipboardInstance = initItem(
+  APIKeyClipboardInstance = createClipboardEleWithTargetText(
     btnCopyAPIKey.value.$el,
     (formData.value as APIKey).api_key
-  );
-  secretKeyClipboardInstance = initItem(
-    btnCopySecretKey.value.$el,
-    (formData.value as APIKey).api_secret
   );
 };
 
@@ -264,7 +240,9 @@ const submit = async () => {
     await formCom.value.validate();
     isSubmitting.value = true;
     if (props.operationType === "create") {
-      await submitAddedData();
+      const data = await submitAddedData();
+      createdResult.value = data;
+      showResultDialog.value = true;
     } else if (props.operationType === "edit") {
       await submitUpdatedData();
     }
