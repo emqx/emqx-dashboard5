@@ -48,7 +48,15 @@ export default {
     en: "Please enter the name",
   },
   confirmDelete: {
-    zh: '确认删除该 API 密钥？',
-    en: 'Confirm delete API key?',
+    zh: "确认删除该 API 密钥？",
+    en: "Confirm delete API key?",
+  },
+  secretKeyPlaceholder: {
+    zh: "仅在创建时显示一次",
+    en: "Only shown once when created",
+  },
+  resultTip: {
+    zh: "请立即将 API Key 和 Secret Key 保存到安全的地方，后续将不再显示 Secret Key。",
+    en: "Please save the API Key and Secret Key in a safe place immediately, and the Secret Key will no longer be displayed in the future.",
   },
 };
