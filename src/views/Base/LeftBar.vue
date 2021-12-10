@@ -63,10 +63,6 @@ export default {
         title: "alarm",
         path: "/alarm",
       },
-      {
-        title: "tools",
-        path: "/tools",
-      },
     ];
 
     let management = [
@@ -112,6 +108,17 @@ export default {
       },
     ];
 
+    let diagnose = [
+      {
+        title: "websocket",
+        path: "/websocket",
+      },
+      {
+        title: "topic-metrics",
+        path: "/topic-metrics",
+      },
+    ];
+
     let config = [
       {
         title: "advanced",
@@ -141,14 +148,19 @@ export default {
         c: ruleengine,
       },
       {
-        title: "system",
-        icon: "icon-system",
-        c: system,
-      },
-      {
         title: "configuration",
         icon: "icon-configuration",
         c: config,
+      },
+      {
+        title: 'diagnose',
+        icon: "icon-configuration",
+        c: diagnose,
+      },
+      {
+        title: "system",
+        icon: "icon-system",
+        c: system,
       },
       // {
       //   title: 'ruleengine',

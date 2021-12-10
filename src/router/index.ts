@@ -6,8 +6,8 @@ import Overview from "@/views/Dashboard/Overview.vue";
 import Nodes from "@/views/Dashboard/Nodes.vue";
 import Metrics from "@/views/Dashboard/Metrics.vue";
 import Alarm from "@/views/Alarm/Alarm.vue";
-import TopicMetrics from "@/views/Tools/TopicMetrics.vue";
-import Websocket from "@/views/Tools/WebSocket.vue";
+import TopicMetrics from "@/views/Diagnose/TopicMetrics.vue";
+import Websocket from "@/views/Diagnose/WebSocket.vue";
 import Clients from "@/views/Clients/Clients.vue";
 import ClientDetails from "@/views/Clients/ClientDetails.vue";
 import Topics from "@/views/Topics/Topics.vue";
@@ -82,38 +82,6 @@ export const routes: Array<RouteRecordRaw> = [
         name: "alarm",
         component: Alarm,
       },
-    ],
-  },
-
-  // 工具
-  {
-    path: "/tools",
-    component: Layout,
-    redirect: "/tools/websocket",
-    meta: {
-      hideKey: "tools",
-      authRequired: true,
-      subMenu: true,
-    },
-    children: [
-      {
-        path: "websocket",
-        name: "websocket",
-        component: Websocket,
-        meta: {
-          keepAlive: true,
-        },
-      },
-      {
-        path: "topic-metrics",
-        name: "topic-metrics",
-        component: TopicMetrics,
-      },
-      // {
-      //   path: 'httpapi',
-      //   name: 'httpapi',
-      //   component: () => import('@/views/Tools/Httpapi'),
-      // },
     ],
   },
 
@@ -358,6 +326,44 @@ export const routes: Array<RouteRecordRaw> = [
         path: "",
         name: "advanced",
         component: Advanced,
+      },
+    ],
+  },
+  // WebSocket
+  {
+    path: "/websocket",
+    component: Layout,
+    meta: {
+      hideKey: "websocket",
+      authRequired: true,
+    },
+    children: [
+      {
+        path: "",
+        name: "websocket",
+        component: Websocket,
+        meta: {
+          keepAlive: true,
+        },
+      },
+    ],
+  },
+  // Topic Metrics
+  {
+    path: "/topic-metrics",
+    component: Layout,
+    meta: {
+      hideKey: "topicMetrics",
+      authRequired: true,
+    },
+    children: [
+      {
+        path: "",
+        name: "topic-metrics",
+        component: TopicMetrics,
+        meta: {
+          keepAlive: true,
+        },
       },
     ],
   },
