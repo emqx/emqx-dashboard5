@@ -23,6 +23,10 @@ export default {
     zh: "管理",
     en: "Management",
   },
+  diagnose: {
+    zh: "诊断",
+    en: "Diagnose",
+  },
   acl: {
     zh: "ACL",
     en: "ACL",
@@ -122,6 +126,10 @@ export default {
   websocket: {
     zh: "Websocket",
     en: "Websocket",
+  },
+  "topic-metrics": {
+    zh: "主题监控",
+    en: "Topic Metrics",
   },
   httpapi: {
     zh: "HTTP API",
