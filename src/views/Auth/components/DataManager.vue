@@ -73,20 +73,6 @@
       ></common-pagination>
     </div>
 
-    <!-- <div class="emq-table-footer">
-      <el-pagination
-        v-if="count > 0"
-        layout="total, sizes, prev, pager, next"
-        :page-sizes="[20, 50, 100, 500]"
-        :page-size.sync="limit"
-        :current-page.sync="page"
-        :total="count"
-        @size-change="loadData(id)"
-        @current-change="loadData(id)"
-      >
-      </el-pagination>
-    </div> -->
-
     <el-dialog :title="$t('Base.edit')" v-model="dialogVisible">
       <el-form
         ref="recordForm"
@@ -133,8 +119,17 @@ import {
   deleteAuthnUser,
   updateAuthnUser,
 } from "@/api/auth";
+import {
+  getGatewayUserManagement,
+  addGatewayUserManagement,
+  updateGatewayUser,
+  deleteGatewayUser,
+  getGatewayUser,
+} from "@/api/gateway";
 import { useRoute } from "vue-router";
 import commonPagination from "@/components/commonPagination.vue";
+import { ElMessageBox as MB, ElMessage as M } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: { commonPagination },
@@ -146,8 +141,14 @@ export default defineComponent({
       required: true,
       default: "username",
     },
+    gateway: {
+      type: String,
+      required: false,
+      default: "",
+    },
   },
-  setup() {
+  setup(prop) {
+    const { t } = useI18n();
     const dataManager = reactive({
       user_id: "",
       password: "",
@@ -158,18 +159,12 @@ export default defineComponent({
     const tableData = ref([]);
     const lockTable = ref(false);
     const dialogVisible = ref(false);
-    // const page = ref(1);
-    // const limit = ref(20);
-    // const count = ref(0);
     const route = useRoute();
     const id = computed(function () {
       return route.params.id;
     });
 
     const loadData = async (params) => {
-      // if (reload) {
-      //   page.value = 1;
-      // }
       const sendParams = {
         ...pageMeta.value,
         ...params,
@@ -177,13 +172,20 @@ export default defineComponent({
       Reflect.deleteProperty(sendParams, "count");
 
       lockTable.value = true;
-      const res = await loadAuthnUsers(id.value, sendParams).catch(() => {
-        lockTable.value = false;
-      });
+      let res;
+      if (prop.gateway) {
+        res = await getGatewayUserManagement(prop.gateway, sendParams).catch(
+          () => {}
+        );
+      } else {
+        res = await loadAuthnUsers(id.value, sendParams).catch(() => {});
+      }
       if (res) {
         tableData.value = res.data;
-        // count.value = res.meta.count;
         pageMeta.value = res?.meta;
+      } else {
+        tableData.value = [];
+        pageMeta.value = {};
       }
       lockTable.value = false;
     };
@@ -191,7 +193,7 @@ export default defineComponent({
     const getRules = function () {
       return {
         password: [
-          { required: true, message: this.$t("General.pleaseEnterPassword") },
+          { required: true, message: t("General.pleaseEnterPassword") },
         ],
       };
     };
@@ -199,22 +201,41 @@ export default defineComponent({
       if (dataManager.user_id === "" || dataManager.password === "") {
         return;
       }
-      await createAuthnUsers(id.value, dataManager);
-      this.$message.success(this.$t("Base.createSuccess"));
-      dataManager.user_id = "";
-      dataManager.password = "";
-      dataManager.is_superuser = false;
+      let res;
+      if (prop.gateway) {
+        res = await addGatewayUserManagement(prop.gateway, dataManager).catch(
+          () => {}
+        );
+      } else {
+        res = await createAuthnUsers(id.value, dataManager).catch(() => {});
+      }
+      if (res) {
+        M.success(t("Base.createSuccess"));
+        dataManager.user_id = "";
+        dataManager.password = "";
+        dataManager.is_superuser = false;
+      }
       loadData();
     };
+
     const handleCommand = async function (row, command) {
       if (command === "delete") {
-        this.$confirm(this.$t("General.confirmDelete"), {
-          confirmButtonText: this.$t("Base.confirm"),
-          cancelButtonText: this.$t("Base.cancel"),
+        MB.confirm(t("General.confirmDelete"), {
+          confirmButtonText: t("Base.confirm"),
+          cancelButtonText: t("Base.cancel"),
           type: "warning",
         })
           .then(async () => {
-            await deleteAuthnUser(id.value, row.user_id).catch(() => {});
+            let res;
+            if (prop.gateway) {
+              res = await deleteGatewayUser(prop.gateway, row.user_id).catch(
+                () => {}
+              );
+            } else {
+              res = await deleteAuthnUser(id.value, row.user_id).catch(
+                () => {}
+              );
+            }
             loadData({ page: 1 });
           })
           .catch(() => {});
@@ -237,10 +258,18 @@ export default defineComponent({
         password: password,
         is_superuser: is_superuser,
       };
-      await updateAuthnUser(id.value, user_id, data);
-      dialogVisible.value = false;
-      this.$message.success(this.$t("Base.updateSuccess"));
-      loadData();
+      let res;
+      if (prop.gateway) {
+        res = await updateGatewayUser(prop.gateway, user_id, data).catch(
+          () => {}
+        );
+      }
+      res = await updateAuthnUser(id.value, user_id, data).catch(() => {});
+      if (res) {
+        dialogVisible.value = false;
+        M.success(t("Base.updateSuccess"));
+        loadData();
+      }
     };
     return {
       id,
@@ -249,9 +278,6 @@ export default defineComponent({
       lockTable,
       dataManager,
       record,
-      // page,
-      // limit,
-      // count,
       pageMeta,
       loadData,
       handleUpdate,

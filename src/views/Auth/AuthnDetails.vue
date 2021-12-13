@@ -31,53 +31,47 @@
       </div>
     </div>
     <el-tabs v-if="!authnDetailLock">
+      <el-tab-pane :label="$t('Auth.config')" :lazy="true">
+        <template v-if="configData.mechanism !== 'jwt'">
+          <database-config
+            v-if="
+              ['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)
+            "
+            :database="currBackend"
+            v-model="configData"
+            auth-type="authn"
+          ></database-config>
+          <http-config
+            auth-type="authn"
+            v-else-if="currBackend === 'http'"
+            v-model="configData"
+          ></http-config>
+          <built-in-config
+            v-else-if="currBackend === 'built-in-database'"
+            :type="configData.mechanism"
+            v-model="configData"
+          ></built-in-config>
+        </template>
+        <jwt-config v-else v-model="configData"></jwt-config>
+        <el-button type="primary" @click="handleUpdate" size="small">
+          {{ $t("Base.update") }}
+        </el-button>
+        <!-- <el-button @click="handleTest">
+          {{ $t('Base.test') }}
+        </el-button> -->
+        <el-button @click="$router.push('/authentication')" size="small">
+          {{ $t("Base.cancel") }}
+        </el-button>
+      </el-tab-pane>
       <el-tab-pane
         v-if="currBackend === 'built-in-database'"
-        :label="$t('Auth.dataConfig')"
+        :label="$t('Auth.userConfig')"
         :lazy="true"
       >
         <data-manager
-          v-model="dataManager"
           :field="configData.user_id_type"
+          :gateway="gateway"
         ></data-manager>
-      </el-tab-pane>
-      <el-tab-pane :label="$t('Auth.config')" :lazy="true">
-        <el-card shadow="never">
-          <template v-if="!authnDetailLock">
-            <template v-if="configData.mechanism !== 'jwt'">
-              <database-config
-                v-if="
-                  ['mysql', 'postgresql', 'mongodb', 'redis'].includes(
-                    currBackend
-                  )
-                "
-                :database="currBackend"
-                v-model="configData"
-                auth-type="authn"
-              ></database-config>
-              <http-config
-                auth-type="authn"
-                v-else-if="currBackend === 'http'"
-                v-model="configData"
-              ></http-config>
-              <built-in-config
-                v-else-if="currBackend === 'built-in-database'"
-                :type="configData.mechanism"
-                v-model="configData"
-              ></built-in-config>
-            </template>
-            <jwt-config v-else v-model="configData"></jwt-config>
-          </template>
-          <el-button type="primary" @click="handleUpdate" size="small">
-            {{ $t("Base.update") }}
-          </el-button>
-          <!-- <el-button @click="handleTest">
-          {{ $t('Base.test') }}
-        </el-button> -->
-          <el-button @click="$router.push('/authentication')" size="small">
-            {{ $t("Base.cancel") }}
-          </el-button>
-        </el-card>
       </el-tab-pane>
       <el-tab-pane></el-tab-pane>
     </el-tabs>
@@ -95,7 +89,9 @@ import JwtConfig from "./components/JwtConfig.vue";
 import DataManager from "./components/DataManager.vue";
 import { updateAuthn, deleteAuthn } from "@/api/auth";
 import useAuthnCreate from "@/hooks/Auth/useAuthnCreate";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { ElMessageBox as MB, ElMessage as M } from "element-plus";
 
 export default defineComponent({
   name: "AuthnDetails",
@@ -123,9 +119,16 @@ export default defineComponent({
       required: false,
       default: () => {},
     },
+    gateway: {
+      type: String,
+      requierd: false,
+      default: "",
+    },
   },
   setup(props) {
     const route = useRoute();
+    const router = useRouter();
+    const { t } = useI18n();
     const authnDetailLock = ref(false);
     const id = computed(function () {
       return route.params.id;
@@ -140,11 +143,7 @@ export default defineComponent({
       }
       return "";
     });
-    const dataManager = reactive({
-      user_id: "",
-      password: "",
-      is_superuser: false,
-    });
+
     const loadData = async function () {
       authnDetailLock.value = true;
       const res =
@@ -176,19 +175,19 @@ export default defineComponent({
         data.enable = !enable;
       }
       await updateAuthn(id, data);
-      this.$message.success(this.$t("Base.updateSuccess"));
-      this.$router.push({ name: "authentication" });
+      M.success(t("Base.updateSuccess"));
+      router.push({ name: "authentication" });
     };
     const handleDelete = async function () {
-      this.$confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       })
         .then(async () => {
           await deleteAuthn(configData.value.id);
-          this.$t("Base.deleteSuccess");
-          this.$router.push({ name: "authentication" });
+          M.success(t("Base.deleteSuccess"));
+          router.push({ name: "authentication" });
         })
         .catch(() => {});
     };
@@ -197,7 +196,6 @@ export default defineComponent({
       currImg,
       titleMap,
       configData,
-      dataManager,
       authnDetailLock,
       handleUpdate,
       handleDelete,

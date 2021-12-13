@@ -18,9 +18,10 @@
         :gateway-info="hasAuth"
         :update-func="authUpdate"
         :delete-func="authDelete"
+        :gateway="name"
       ></authn-details>
     </div>
-    <el-dialog v-model="createDialog">
+    <el-dialog v-model="createDialog" width="80%">
       <authn-create
         :gateway="true"
         :cancel-func="cancelCreate"
@@ -31,7 +32,7 @@
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import {
   getGatewayAuth,
   updateGatewayAuth,
@@ -41,25 +42,19 @@ import {
 import AuthnCreate from "../../Auth/AuthnCreate.vue";
 import AuthnDetails from "../../Auth/AuthnDetails.vue";
 import { ElMessage as M } from "element-plus";
-import i18n from "@/i18n";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "GatewayDetailAuth",
   components: { AuthnCreate, AuthnDetails },
-  data: function () {
-    return {
-      name: String(this.$route.params.name).toLowerCase(),
-    };
-  },
   setup() {
     let createDialog = ref(false);
-    let vm = getCurrentInstance();
     let hasAuth = ref(false);
     let loadingAuth = ref(true);
-
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
+    const { t } = useI18n();
+    const route = useRoute();
+    const gname = String(route.params.name).toLowerCase();
 
     const openAuthCreate = async function () {
       createDialog.value = true;
@@ -67,8 +62,7 @@ export default defineComponent({
 
     const authInfo = async function () {
       loadingAuth.value = true;
-      let name = String(vm.data.name).toLowerCase();
-      let res = await getGatewayAuth(name).catch(() => {});
+      let res = await getGatewayAuth(gname).catch(() => {});
       if (res === 204) {
         hasAuth.value = false;
       } else if (res) {
@@ -82,45 +76,34 @@ export default defineComponent({
 
     const authCreate = async function (data) {
       const gData = {
-        backend: data.backend || "",
-        mechanism: data.mechanism || "",
-        id: "",
+        ...data.data,
         enable: true,
-        password_hash_algorithm: data.config.password_hash_algorithm,
-        user_id_type: data.backend.user_id_type || "",
       };
-      let name = String(vm.data.name).toLowerCase();
-      console.log(data);
-      let res = await addGatewayAuth(name).catch(() => {});
+      let res = await addGatewayAuth(gname, gData).catch(() => {});
       if (res) {
         createDialog.value = false;
-        M.success(i18n.t("Base.createSuccess"));
+        M.success(t("Base.createSuccess"));
+        authInfo();
       }
     };
 
     const authUpdate = async function (data) {
       const gData = {
-        backend: data.backend || "",
-        mechanism: data.mechanism || "",
-        id: "",
+        ...data.data,
         enable: true,
-        password_hash_algorithm: data.config.password_hash_algorithm,
-        user_id_type: data.backend.user_id_type || "",
       };
-      let name = String(vm.data.name).toLowerCase();
-      console.log(data);
-      let res = await updateGatewayAuth(name).catch(() => {});
+      let res = await updateGatewayAuth(gname, gData).catch(() => {});
       if (res) {
-        M.success(i18n.t("Base.updateSuccess"));
+        M.success(t("Base.updateSuccess"));
+        authInfo();
       }
     };
 
     const authDelete = async function (data) {
-      let name = String(vm.data.name).toLowerCase();
-      let res = await deleteGatewayAuth(name).catch(() => {});
+      let res = await deleteGatewayAuth(gname).catch(() => {});
       if (res) {
         hasAuth.value = false;
-        M.success(i18n.t("Base.deleteSuccess"));
+        M.success(t("Base.deleteSuccess"));
       }
     };
 
@@ -129,7 +112,7 @@ export default defineComponent({
     });
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       openAuthCreate,
       createDialog,
       hasAuth,
@@ -138,6 +121,7 @@ export default defineComponent({
       loadingAuth,
       authUpdate,
       authDelete,
+      name: gname,
     };
   },
 });

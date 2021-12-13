@@ -80,6 +80,7 @@ import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
 } from "@/common/utils";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: { topicEditList },
@@ -104,15 +105,14 @@ export default defineComponent({
     let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
       "idle_timeout",
     ]);
+    const { t } = useI18n();
 
-    let mValue = reactive({
+    const mValue = reactive({
       ..._.cloneDeep(mValueDefault),
       ...normalizeProps,
     });
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
-    let formPassed = ref(false);
+
+    const formPassed = ref(false);
 
     watch(
       () => _.cloneDeep(mValue),
@@ -125,7 +125,7 @@ export default defineComponent({
     });
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       mValueDefault,
       mValue,
       formPassed,

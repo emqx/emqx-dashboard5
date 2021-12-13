@@ -97,7 +97,8 @@ import _ from "lodash";
 import { postGateway, getGateway } from "@/api/gateway";
 import router from "@/router";
 import { ElMessage as M } from "element-plus";
-import i18n from "@/i18n";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 
 const STATIC_LISTENER = {
   exproto: {
@@ -147,48 +148,47 @@ export default defineComponent({
     ExprotoBasic,
   },
   name: "GatewayCreate",
-  data: function () {
-    return {
-      name: String(this.$route.params.name).toUpperCase(),
-    };
-  },
+
   setup(props) {
     let stepActive = ref(0);
     let basicData = ref({});
     let listenerList = ref([]);
     let submitLoading = ref(false);
 
-    let vm = getCurrentInstance();
+    // let vm = getCurrentInstance();
+    const { t } = useI18n();
+    const route = useRoute();
+    const gname = ref(String(route.params.name).toUpperCase());
 
     const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
+      return t(collection + "." + key);
     };
 
-    watch(
-      () => [_.cloneDeep(basicData.value), _.cloneDeep(listenerList.value)],
-      (v) => {
-        console.log(v);
-      }
-    );
+    // watch(
+    //   () => [_.cloneDeep(basicData.value), _.cloneDeep(listenerList.value)],
+    //   (v) => {
+    //     console.log(v);
+    //   }
+    // );
 
     const gotoList = function () {
       router.push({ name: "gateway" });
     };
 
-    const createGateway = async function () {
+    const createGateway = async () => {
       submitLoading.value = true;
-      if (!this.name) return;
+      const name = String(gname.value).toLowerCase();
+      if (!name) return;
 
-      let data = {
+      let res = await postGateway({
         ...basicData.value,
         listeners: [...listenerList.value],
-        name: String(this.name).toLowerCase(),
-      };
-      let res = await postGateway(data).catch(() => {});
+        name,
+      }).catch(() => {});
       if (res) {
         M({
           type: "success",
-          message: i18n.t("Base.createSuccess"),
+          message: t("Base.createSuccess"),
         });
         gotoList();
       } else {
@@ -197,13 +197,12 @@ export default defineComponent({
       submitLoading.value = false;
     };
 
-    const gatewayStatus = async function () {
-      let { name } = vm.data;
+    const gatewayStatus = async () => {
+      const name = String(gname.value).toLowerCase();
 
       if (!name) {
         gotoList();
       }
-      name = String(name).toLowerCase();
 
       let res = await getGateway(name).catch(() => {});
       if (res) {
@@ -211,7 +210,7 @@ export default defineComponent({
         if (status !== "unloaded") {
           M({
             type: "error",
-            message: i18n.t("Gateway.alreadyLoad"),
+            message: t("Gateway.alreadyLoad"),
           });
           gotoList();
         }
@@ -221,7 +220,7 @@ export default defineComponent({
     onMounted(() => {
       gatewayStatus();
 
-      let staticListener = STATIC_LISTENER[String(vm.data.name).toLowerCase()];
+      let staticListener = STATIC_LISTENER[String(gname.value).toLowerCase()];
       staticListener && listenerList.value.push({ ...staticListener });
     });
 
@@ -233,6 +232,7 @@ export default defineComponent({
       listenerList,
       submitLoading,
       createGateway,
+      name: gname,
     };
   },
 });

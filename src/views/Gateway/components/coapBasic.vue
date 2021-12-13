@@ -86,6 +86,7 @@ import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
 } from "@/common/utils";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "CoapBasic",
@@ -110,12 +111,12 @@ export default defineComponent({
     let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
       "heartbeat",
     ]);
+    const { t } = useI18n();
 
-    let cValue = reactive({ ..._.cloneDeep(cValueDefault), ...normalizeProps });
-
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
+    const cValue = reactive({
+      ..._.cloneDeep(cValueDefault),
+      ...normalizeProps,
+    });
 
     watch(
       () => _.cloneDeep(cValue),
@@ -128,7 +129,7 @@ export default defineComponent({
     });
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       cValueDefault,
       cValue,
     };

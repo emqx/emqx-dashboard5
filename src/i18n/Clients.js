@@ -303,4 +303,12 @@ export default {
     zh: "客户端详情获取出错",
     en: "There are some errors occured in retriving the client's detail",
   },
+  endpointName: {
+    zh: "Endpoint",
+    en: "Endpoint",
+  },
+  lifetime: {
+    zh: "注册时间",
+    en: "LifeTime",
+  },
 };

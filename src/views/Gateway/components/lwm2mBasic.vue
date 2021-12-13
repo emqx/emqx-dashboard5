@@ -152,6 +152,7 @@ import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
 } from "@/common/utils";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "LwBasic",
@@ -165,7 +166,7 @@ export default defineComponent({
   setup(props, context) {
     let lValueDefault = {
       idle_timeout: [30, "s"],
-      xml_dir: "etc/lwm2m_xmls/",
+      xml_dir: "etc/lwm2m_xml/",
       qmode_time_window: [22, "s"],
       lifetime_min: [1, "s"],
       lifetime_max: [86400, "s"],
@@ -180,6 +181,7 @@ export default defineComponent({
         update: { topic: "up/update", qos: 0 },
       },
     };
+    const { t } = useI18n();
 
     let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
       "idle_timeout",
@@ -188,11 +190,10 @@ export default defineComponent({
       "lifetime_max",
     ]);
 
-    let lValue = reactive({ ..._.cloneDeep(lValueDefault), ...normalizeProps });
-
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
+    const lValue = reactive({
+      ..._.cloneDeep(lValueDefault),
+      ...normalizeProps,
+    });
 
     watch(
       () => _.cloneDeep(lValue),
@@ -205,7 +206,7 @@ export default defineComponent({
     });
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       lValueDefault,
       lValue,
     };

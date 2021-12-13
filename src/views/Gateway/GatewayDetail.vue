@@ -40,38 +40,38 @@
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance, onMounted, ref } from "vue";
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  onMounted,
+  ref,
+} from "vue";
 import { getGateway, updateGateway } from "@/api/gateway";
 import { ElMessage as M } from "element-plus";
-import i18n from "@/i18n";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "GatewayDetail",
-  data: function () {
-    return {
-      types: ["basic", "listeners", "auth", "clients"],
-      gname: String(this.$route.params.name).toLowerCase(),
-    };
-  },
-  computed: {
-    matchedUrl: function () {
-      let currentPath = this.$route.path || "";
-      return (
-        this.types.find((v) => {
-          return currentPath.match(v);
-        }) || this.types[0]
-      );
-    },
-  },
   setup() {
     let gInfo = ref({});
-    let vm = getCurrentInstance();
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
+    const { t } = useI18n();
+    const route = useRoute();
+    const types = ["basic", "listeners", "auth", "clients"];
+    const gname = String(route.params.name).toLowerCase();
+
+    const matchedUrl = computed(function () {
+      let currentPath = route.path || "";
+      return (
+        types.find((v) => {
+          return currentPath.match(v);
+        }) || types[0]
+      );
+    });
 
     const getGatewayInfo = async () => {
-      let res = await getGateway(vm.data.gname).catch(() => {});
+      let res = await getGateway(gname).catch(() => {});
       if (res) {
         gInfo.value = res;
       } else {
@@ -81,11 +81,11 @@ export default defineComponent({
 
     const gatewayStop = async () => {
       let body = { enable: false };
-      let res = await updateGateway(vm.data.gname, body).catch(() => {});
+      let res = await updateGateway(gname, body).catch(() => {});
       if (res) {
         M({
           type: "success",
-          message: i18n.t("Base.disabledSuccess"),
+          message: t("Base.disabledSuccess"),
         });
         gInfo.value.status = "stopped";
       }
@@ -94,9 +94,12 @@ export default defineComponent({
     onMounted(getGatewayInfo);
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       gInfo,
       gatewayStop,
+      gname,
+      types,
+      matchedUrl,
     };
   },
 });
@@ -114,9 +117,7 @@ export default defineComponent({
 .title-n-status {
   height: 45px;
 }
-// .section-header > span {
-//   display: inline-block;
-// }
+
 .section-title {
   font-size: 14px;
   font-weight: 700;

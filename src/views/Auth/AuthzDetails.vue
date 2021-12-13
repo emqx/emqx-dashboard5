@@ -24,7 +24,7 @@
     <el-tabs v-if="!authzDetailLock">
       <el-tab-pane
         v-if="type === 'built-in-database'"
-        :label="$t('Auth.dataConfig')"
+        :label="$t('Auth.userConfig')"
         :lazy="true"
       >
         <built-in-manager></built-in-manager>

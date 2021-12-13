@@ -91,9 +91,9 @@ export default {
     zh: "权限配置",
     en: "Authorization configuration",
   },
-  dataConfig: {
-    zh: "数据管理",
-    en: "Data Management",
+  userConfig: {
+    zh: "用户管理",
+    en: "User Management",
   },
   testSuccess: {
     zh: "测试通过，您的配置可以正常使用",
