@@ -120,3 +120,50 @@ export async function addGatewayAuth(name, body) {
     body
   );
 }
+
+export async function getGatewayUserManagement(name, params) {
+  if (!name) return Promise.reject();
+  return http.get(
+    "/gateway/" + encodeURIComponent(name) + "/authentication/users",
+    { params }
+  );
+}
+
+export async function addGatewayUserManagement(name, body) {
+  if (!name) return Promise.reject();
+  return http.post(
+    "/gateway/" + encodeURIComponent(name) + "/authentication/users",
+    body
+  );
+}
+
+export async function updateGatewayUser(name, uid, data) {
+  if (!name || !uid) return Promise.reject();
+  return http.put(
+    "/gateway/" +
+      encodeURIComponent(name) +
+      "/authentication/users" +
+      encodeURIComponent(uid),
+    data
+  );
+}
+
+export async function deleteGatewayUser(name, uid) {
+  if (!name || !uid) return Promise.reject();
+  return http.delete(
+    "/gateway/" +
+      encodeURIComponent(name) +
+      "/authentication/users" +
+      encodeURIComponent(uid)
+  );
+}
+
+export async function getGatewayUser(name, uid) {
+  if (!name || !uid) return Promise.reject();
+  return http.get(
+    "/gateway/" +
+      encodeURIComponent(name) +
+      "/authentication/users" +
+      encodeURIComponent(uid)
+  );
+}

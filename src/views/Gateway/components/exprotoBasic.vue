@@ -163,6 +163,7 @@ import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
 } from "@/common/utils";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "ExprotoBasic",
@@ -179,7 +180,7 @@ export default defineComponent({
       idle_timeout: [30, "s"],
       mountpoint: "",
       handler: {
-        address: "",
+        address: "http://127.0.0.1:9001",
         ssl: {
           certfile: "",
           keyfile: "",
@@ -195,6 +196,7 @@ export default defineComponent({
         },
       },
     };
+    const { t } = useI18n();
 
     let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
       "idle_timeout",
@@ -209,10 +211,6 @@ export default defineComponent({
         keyfile: "Begins with ----BEGIN PRIVATE KEY----",
       },
     });
-
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
 
     const suitNoTLS = (model) => {
       if (!enableTLS.handler) {
@@ -241,7 +239,7 @@ export default defineComponent({
     });
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       eValueDefault,
       eValue,
       enableTLS,

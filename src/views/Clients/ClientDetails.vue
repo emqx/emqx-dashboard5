@@ -38,126 +38,123 @@
     </div>
 
     <el-card shadow="never" v-loading.lock="clientDetailLock">
+      <div class="part-header">
+        {{ $t("Clients.connectionInfo") }}
+      </div>
       <el-row>
-        <div class="part-header">
-          {{ $t("Clients.connectionInfo") }}
-        </div>
-        <el-row>
-          <el-col
-            v-for="item in clientDetailParts.connection"
-            :key="item"
-            :span="8"
-          >
-            <div v-if="item == 'proto_type'" class="detail-item">
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span
-                v-if="record.proto_name === 'MQTT'"
-                :title="
-                  record.proto_name + '&nbsp;' + mqttVersion[record.proto_ver]
-                "
-                >{{ record.proto_name }}
-                {{ mqttVersion[record.proto_ver] }}</span
-              >
-              <span
-                v-else
-                :title="record.proto_name + '&nbsp;' + record.proto_ver"
-                >{{ record.proto_name }} {{ record.proto_ver }}</span
-              >
-            </div>
-            <div
-              v-else-if="item == 'connected_at' || item == 'disconnected_at'"
-              class="detail-item"
+        <el-col
+          v-for="item in clientDetailParts.connection"
+          :key="item"
+          :span="8"
+        >
+          <div v-if="item == 'proto_type'" class="detail-item">
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
             >
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span :title="moment(record[item]).format('YYYY-MM-DD HH:mm:ss')">
-                {{ moment(record[item]).format("YYYY-MM-DD HH:mm:ss") }}
-              </span>
-            </div>
-            <div v-else-if="item == 'ip_address'" class="detail-item">
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span :title="record.ip_address + ':' + record.port">{{
-                record.ip_address + ":" + record.port
-              }}</span>
-            </div>
-            <div v-else class="detail-item">
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span :title="record[item]">{{ record[item] }}</span>
-            </div>
-          </el-col>
-        </el-row>
-
-        <div class="part-header">
-          {{ $t("Clients.sessionInfo") }}
-        </div>
-        <el-row>
-          <el-col
-            v-for="item in clientDetailParts.session"
-            :key="item"
-            :span="8"
+            <span
+              v-if="record.proto_name === 'MQTT'"
+              :title="
+                record.proto_name + '&nbsp;' + mqttVersion[record.proto_ver]
+              "
+              >{{ record.proto_name }} {{ mqttVersion[record.proto_ver] }}</span
+            >
+            <span
+              v-else
+              :title="record.proto_name + '&nbsp;' + record.proto_ver"
+              >{{ record.proto_name }} {{ record.proto_ver }}</span
+            >
+          </div>
+          <div
+            v-else-if="item == 'connected_at' || item == 'disconnected_at'"
+            class="detail-item"
           >
-            <div v-if="item == 'subscriptions'" class="detail-item">
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span
-                :title="
-                  record.subscriptions_cnt + '/' + record.subscriptions_max
-                "
-              >
-                {{ record.subscriptions_cnt + "/" + record.subscriptions_max }}
-              </span>
-            </div>
-            <div v-else-if="item == 'clean_start'" class="detail-item">
-              <span
-                :title="
-                  record.proto_ver === 5 ? 'Clean Start' : 'Clean Session'
-                "
-                >{{
-                  record.proto_ver === 5 ? "Clean Start" : "Clean Session"
-                }}:</span
-              >
-              <span :title="record[item]">{{ record[item] }}</span>
-            </div>
-            <div v-else-if="item == 'mqueue'" class="detail-item">
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span :title="record.mqueue_len + '/' + record.mqueue_max">{{
-                record.mqueue_len + "/" + record.mqueue_max
-              }}</span>
-            </div>
-            <div v-else-if="item == 'inflight'" class="detail-item">
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span :title="record.inflight_cnt + '/' + record.inflight_max">
-                {{ record.inflight_cnt + "/" + record.inflight_max }}
-              </span>
-            </div>
-            <div v-else-if="item == 'created_at'" class="detail-item">
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span :title="moment(record[item]).format('YYYY-MM-DD HH:mm:ss')">
-                {{ moment(record[item]).format("YYYY-MM-DD HH:mm:ss") }}
-              </span>
-            </div>
-            <div v-else class="detail-item">
-              <span :title="tl(snake2pascal(item))"
-                >{{ tl(snake2pascal(item)) }}:</span
-              >
-              <span :title="record[item]">{{ record[item] }}</span>
-            </div>
-          </el-col>
-        </el-row>
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
+            >
+            <span
+              :title="
+                record[item] &&
+                moment(record[item]).format('YYYY-MM-DD HH:mm:ss')
+              "
+            >
+              {{
+                record[item] &&
+                moment(record[item]).format("YYYY-MM-DD HH:mm:ss")
+              }}
+            </span>
+          </div>
+          <div v-else-if="item == 'ip_address'" class="detail-item">
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
+            >
+            <span :title="record.ip_address + ':' + record.port">{{
+              record.ip_address + ":" + record.port
+            }}</span>
+          </div>
+          <div v-else class="detail-item">
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
+            >
+            <span :title="record[item]">{{ record[item] }}</span>
+          </div>
+        </el-col>
+      </el-row>
+
+      <div class="part-header">
+        {{ $t("Clients.sessionInfo") }}
+      </div>
+      <el-row>
+        <el-col v-for="item in clientDetailParts.session" :key="item" :span="8">
+          <div v-if="item == 'subscriptions'" class="detail-item">
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
+            >
+            <span
+              :title="record.subscriptions_cnt + '/' + record.subscriptions_max"
+            >
+              {{ record.subscriptions_cnt + "/" + record.subscriptions_max }}
+            </span>
+          </div>
+          <div v-else-if="item == 'clean_start'" class="detail-item">
+            <span
+              :title="record.proto_ver === 5 ? 'Clean Start' : 'Clean Session'"
+              >{{
+                record.proto_ver === 5 ? "Clean Start" : "Clean Session"
+              }}:</span
+            >
+            <span :title="record[item]">{{ record[item] }}</span>
+          </div>
+          <div v-else-if="item == 'mqueue'" class="detail-item">
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
+            >
+            <span :title="record.mqueue_len + '/' + record.mqueue_max">{{
+              record.mqueue_len + "/" + record.mqueue_max
+            }}</span>
+          </div>
+          <div v-else-if="item == 'inflight'" class="detail-item">
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
+            >
+            <span :title="record.inflight_cnt + '/' + record.inflight_max">
+              {{ record.inflight_cnt + "/" + record.inflight_max }}
+            </span>
+          </div>
+          <div v-else-if="item == 'created_at'" class="detail-item">
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
+            >
+            <span :title="moment(record[item]).format('YYYY-MM-DD HH:mm:ss')">
+              {{ moment(record[item]).format("YYYY-MM-DD HH:mm:ss") }}
+            </span>
+          </div>
+          <div v-else class="detail-item">
+            <span :title="tl(snake2pascal(item))"
+              >{{ tl(snake2pascal(item)) }}:</span
+            >
+            <span :title="record[item]">{{ record[item] }}</span>
+          </div>
+        </el-col>
       </el-row>
     </el-card>
     <div class="section-header">
@@ -207,8 +204,7 @@
     <create-subscribe
       v-model:visible="dialogVisible"
       :client-id="record.clientid"
-      :gateway="!!gateway"
-      :gateway-name="clientType"
+      :gateway="gateway"
       @create:subs="loadSubs"
     >
     </create-subscribe>
@@ -247,9 +243,9 @@ export default {
   components: { CreateSubscribe },
   props: {
     gateway: {
-      type: Boolean,
+      type: String,
       required: false,
-      default: false,
+      default: "",
     },
     clientid: {
       type: String,
@@ -305,11 +301,11 @@ export default {
           connection: [
             "node",
             "endpoint_name",
-            "client_id",
+            "lifetime",
+            "clientid",
             "username",
             "proto_type",
             "ip_address",
-            "lifetime",
             "connected_at",
             "disconnected_at",
             "recv_oct",
@@ -330,7 +326,7 @@ export default {
         others: {
           connection: [
             "node",
-            "client_id",
+            "clientid",
             "username",
             "proto_type",
             "ip_address",
@@ -407,7 +403,11 @@ export default {
           type: "warning",
         })
         .then(() => {
-          return disconnectClient(this.record.clientid);
+          if (this.gateway) {
+            return this.handleDisconnectGateway();
+          } else {
+            return disconnectClient(this.record.clientid);
+          }
         })
         .then(() => {
           // this.$set(this.record, 'connected', false)
@@ -416,6 +416,17 @@ export default {
           // this.$router.push({ path: '/clients' })
         })
         .catch(() => {});
+    },
+    async handleDisconnectGateway() {
+      let res = await disconnGatewayClient(
+        this.gateway,
+        this.record.clientid
+      ).catch(() => {});
+      if (res) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject();
+      }
     },
     handlePreAdd() {
       this.dialogVisible = true;
@@ -435,8 +446,7 @@ export default {
     },
     async loadGatewayData() {
       this.clientDetailLock = true;
-      let name = this.clientType.toLowerCase();
-      let res = await getGatewayClientDetail(name, this.clientId).catch(
+      let res = await getGatewayClientDetail(this.gateway, this.clientId).catch(
         () => {}
       );
       if (res) {
@@ -461,8 +471,9 @@ export default {
     },
     async loadGatewaySubs() {
       this.subsLockTable = true;
-      let name = this.clientType.toLowerCase();
-      let res = await getGatewayClientSubs(name, this.clientId).catch(() => {});
+      let res = await getGatewayClientSubs(this.gateway, this.clientId).catch(
+        () => {}
+      );
       if (res) {
         this.subscriptions = res;
       } else {
@@ -479,13 +490,35 @@ export default {
           type: "warning",
         })
         .then(async () => {
-          const { clientid, topic } = row;
-          return unsubscribe(clientid, topic);
+          if (this.gateway) {
+            return this.handleUnsubscriptionGateway(row);
+          } else {
+            const { clientid, topic } = row;
+            return unsubscribe(clientid, topic);
+          }
         })
         .then(() => {
           this.loadSubs();
         })
         .catch(() => {});
+    },
+    async handleUnsubscriptionGateway(row) {
+      const { clientid, topic } = row;
+
+      let res = await unsubscribeGatewayClientSub(
+        this.gateway,
+        clientid,
+        topic
+      ).catch(() => {});
+      if (res) {
+        this.$message({
+          type: "success",
+          message: this.$t("Base.createSuccess"),
+        });
+        return Promise.resolve();
+      } else {
+        return Promise.reject();
+      }
     },
   },
 };

@@ -70,6 +70,7 @@ import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
 } from "@/common/utils";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "StompBasic",
@@ -95,10 +96,13 @@ export default defineComponent({
     let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
       "idle_timeout",
     ]);
-    let sValue = reactive({ ..._.cloneDeep(sValueDefault), ...normalizeProps });
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
+    const { t } = useI18n();
+
+    const sValue = reactive({
+      ..._.cloneDeep(sValueDefault),
+      ...normalizeProps,
+    });
+
     watch(
       () => _.cloneDeep(sValue),
       (v) => {
@@ -109,7 +113,7 @@ export default defineComponent({
       context.emit("update:value", transformUnitArrayToStr(sValue));
     });
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       sValue,
       sValueDefault,
     };

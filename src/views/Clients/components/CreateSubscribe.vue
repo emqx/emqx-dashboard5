@@ -39,9 +39,13 @@
         <el-button size="small" @click="close">{{
           $t("Base.cancel")
         }}</el-button>
-        <el-button type="primary" size="small" @click="handleAdd">{{
-          $t("Base.add")
-        }}</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          @click="handleAdd"
+          :loading="submitLoading"
+          >{{ $t("Base.add") }}</el-button
+        >
       </div>
     </template>
   </el-dialog>
@@ -66,11 +70,6 @@ export default {
       default: "",
     },
     gateway: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    gatewayName: {
       type: String,
       required: false,
       default: "",
@@ -94,6 +93,7 @@ export default {
           message: this.$t("Clients.pleaseEnter"),
         },
       },
+      submitLoading: false,
     };
   },
   computed: {
@@ -112,8 +112,7 @@ export default {
         return;
       }
       if (this.gateway) {
-        this.addGatewaySubs();
-        return;
+        return this.addGatewaySubs();
       }
 
       let clientId = this.clientId || this.record.clientid;
@@ -128,9 +127,13 @@ export default {
       }
     },
     async addGatewaySubs() {
+      this.submitLoading = true;
       let clientId = this.clientId || this.record.clientid;
-      let gName = this.gatewayName;
-      let res = await addGatewayClientSubs(gName, clientId).catch(() => {});
+      let res = await addGatewayClientSubs(this.gateway, clientId, {
+        topic: this.record.topic,
+        qos: this.record.qos,
+      }).catch(() => {});
+      this.submitLoading = false;
       if (res) {
         this.$emit("create:subs");
         this.close();

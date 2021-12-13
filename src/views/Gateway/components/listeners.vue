@@ -111,8 +111,8 @@
             <el-col :span="12">
               <el-form-item :label="'Proxy Protocol'">
                 <el-select v-model="listenerInput.proxy_protocol">
-                  <el-option value="true"></el-option>
-                  <el-option value="false"></el-option>
+                  <el-option :value="true"></el-option>
+                  <el-option :value="false"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -120,7 +120,7 @@
               <el-form-item :label="'Proxy Protocol Timeout'">
                 <el-input
                   v-model.number="listenerInput.proxy_protocol_timeout[0]"
-                  :placeholder="baseInput.proxy_protocol_timeout[0]"
+                  :placeholder="String(baseInput.proxy_protocol_timeout[0])"
                 >
                   <template #append>
                     <el-select
@@ -146,7 +146,7 @@
               <el-form-item :label="'ActiveN'">
                 <el-input
                   v-model="listenerInput.tcp.active_n"
-                  :placeholder="baseInput.tcp.active_n"
+                  :placeholder="String(baseInput.tcp.active_n)"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -154,7 +154,7 @@
               <el-form-item :label="'Buffer'">
                 <el-input
                   v-model.number="listenerInput.tcp.buffer[0]"
-                  :placeholder="baseInput.tcp.buffer[0]"
+                  :placeholder="String(baseInput.tcp.buffer[0])"
                 >
                   <template #append>
                     <el-select v-model="listenerInput.tcp.buffer[1]">
@@ -167,16 +167,16 @@
             <el-col :span="12">
               <el-form-item :label="'TCP_NODELAY'">
                 <el-select v-model="listenerInput.tcp.nodelay">
-                  <el-option value="true"></el-option>
-                  <el-option value="false"></el-option>
+                  <el-option :value="true"></el-option>
+                  <el-option :value="false"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="'SO_REUSEADDR'">
                 <el-select v-model="listenerInput.tcp.reuseaddr">
-                  <el-option value="true"></el-option>
-                  <el-option value="false"></el-option>
+                  <el-option :value="true"></el-option>
+                  <el-option :value="false"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -184,7 +184,7 @@
               <el-form-item :label="tl('sendTimeout')">
                 <el-input
                   v-model.number="listenerInput.tcp.send_timeout[0]"
-                  :placeholder="baseInput.tcp.send_timeout[0]"
+                  :placeholder="String(baseInput.tcp.send_timeout[0])"
                 >
                   <template #append>
                     <el-select v-model="listenerInput.tcp.send_timeout[1]">
@@ -197,8 +197,8 @@
             <el-col :span="12">
               <el-form-item :label="tl('sendTimeoutClose')">
                 <el-select v-model="listenerInput.tcp.send_timeout_close">
-                  <el-option value="true"></el-option>
-                  <el-option value="false"></el-option>
+                  <el-option :value="true"></el-option>
+                  <el-option :value="false"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -267,8 +267,8 @@
             <el-col :span="12">
               <el-form-item :label="'SO_REUSEADDR'">
                 <el-select v-model="listenerInput.udp.reuseaddr">
-                  <el-option value="true"></el-option>
-                  <el-option value="false"></el-option>
+                  <el-option :value="true"></el-option>
+                  <el-option :value="false"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -344,8 +344,8 @@
             <el-col :span="12">
               <el-form-item :label="'Fail If No Peer Cert'">
                 <el-select v-model="listenerInput.xtls.fail_if_no_peer_cert">
-                  <el-option value="true"></el-option>
-                  <el-option value="false"></el-option>
+                  <el-option :value="true"></el-option>
+                  <el-option :value="false"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>

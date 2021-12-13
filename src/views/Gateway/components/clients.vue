@@ -1,115 +1,92 @@
 <template>
-  <div>
+  <div class="gateway-client">
     <el-form @keyup.enter="searchGatewayList()">
       <el-row :gutter="20" class="search-wrapper">
-        <template v-if="name === 'LWM2M'">
-          <el-col :span="6">
-            <el-input
-              :placeholder="tl('endpointName')"
-              size="small"
-              v-model="searchParams.like_endpoint_name"
-              clearable
-            ></el-input>
-          </el-col>
-          <el-col :span="6">
-            <el-select
-              v-model="searchParams.node"
-              :placeholder="$t('Clients.node')"
-              size="small"
-              clearable
-            >
-              <el-option
-                v-for="item in nodes"
-                :value="item.node"
-                :key="item.node"
-              ></el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="6">
-            <el-button
-              type="primary"
-              icon="el-icon-search"
-              size="small"
-              @click="searchGatewayList()"
-              >{{ $t("Base.search") }}</el-button
-            >
-          </el-col>
-        </template>
-        <template v-else>
-          <el-col :span="6">
-            <el-input
-              :placeholder="tl('clientid')"
-              size="small"
-              v-model="searchParams.like_clientid"
-              clearable
-            ></el-input>
-          </el-col>
-          <el-col :span="6">
-            <el-input
-              :placeholder="tl('username')"
-              size="small"
-              v-model="searchParams.like_username"
-              clearable
-            ></el-input>
-          </el-col>
-          <el-col :span="6">
-            <el-select
-              v-model="searchParams.node"
-              :placeholder="$t('Clients.node')"
-              size="small"
-              clearable
-            >
-              <el-option
-                v-for="item in nodes"
-                :value="item.node"
-                :key="item.node"
-              ></el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="6">
-            <el-button
-              type="primary"
-              icon="el-icon-search"
-              size="small"
-              @click="searchGatewayList()"
-              >{{ $t("Base.search") }}</el-button
-            >
-          </el-col>
-        </template>
+        <el-col :span="6">
+          <el-input
+            :placeholder="tl('clientid')"
+            size="small"
+            v-model="searchParams.like_clientid"
+            clearable
+          ></el-input>
+        </el-col>
+        <el-col :span="6" v-if="name === 'lwm2m'">
+          <el-input
+            :placeholder="tl('endpointName')"
+            size="small"
+            v-model="searchParams.like_endpoint_name"
+            clearable
+          ></el-input>
+        </el-col>
+        <el-col :span="6" v-else>
+          <el-input
+            :placeholder="tl('username')"
+            size="small"
+            v-model="searchParams.like_username"
+            clearable
+          ></el-input>
+        </el-col>
+
+        <el-col :span="6">
+          <el-select
+            v-model="searchParams.node"
+            :placeholder="$t('Clients.node')"
+            size="small"
+            clearable
+          >
+            <el-option
+              v-for="item in nodes"
+              :value="item.node"
+              :key="item.node"
+            ></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="6">
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            size="small"
+            @click="searchGatewayList()"
+            >{{ $t("Base.search") }}</el-button
+          >
+        </el-col>
       </el-row>
     </el-form>
     <el-table :data="gatewayTable" v-loading="tbLoading">
       <el-table-column
-        :label="'Endpoint Name'"
-        sortable
-        prop="endpoint_name"
-        v-if="name === 'LWM2M'"
-      ></el-table-column>
-      <el-table-column
         :label="'Client ID'"
         sortable
         prop="clientid"
-        v-if="name !== 'LWM2M'"
       ></el-table-column>
+
       <el-table-column
+        :label="'Endpoint Name'"
+        sortable
+        prop="endpoint_name"
+        v-if="name === 'lwm2m'"
+      ></el-table-column>
+
+      <!-- <el-table-column
         :label="tl('username')"
         sortable
         prop="username"
-        v-if="name !== 'LWM2M'"
+        v-if="name !== 'lwm2m'"
       ></el-table-column>
-      <el-table-column
-        :label="tl('lifetime')"
-        sortable
-        prop="lifetime"
-        v-if="name === 'LWM2M'"
-      ></el-table-column>
+       -->
 
       <el-table-column :label="tl('ipaddress')" sortable>
         <template #default="{ row }">
           <span>{{ row.ip_address }}:{{ row.port }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')" sortable>
+
+      <el-table-column
+        :label="tl('lifetime')"
+        sortable
+        prop="lifetime"
+        v-if="name === 'lwm2m'"
+      ></el-table-column>
+      <el-table-column :label="tl('status')" sortable v-else>
         <template #default="{ row }">
           <el-badge is-dot :type="row.connected ? 'success' : 'danger'">
           </el-badge>
@@ -125,10 +102,10 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button @click="openClientDetail(row)">{{
+          <el-button @click="openClientDetail(row)" size="mini">{{
             $t("Base.view")
           }}</el-button>
-          <el-button type="danger" @click="disconnectClient(row)">{{
+          <el-button type="danger" @click="disconnectClient(row)" size="mini">{{
             $t("Clients.kickOut")
           }}</el-button>
         </template>
@@ -136,14 +113,14 @@
     </el-table>
     <div class="emq-table-footer">
       <common-pagination
-        ref="pCommon"
-        :reload-func="loadGatewayClients"
+        v-model:metaData="pageMeta"
+        @loadPage="loadGatewayClients"
       ></common-pagination>
     </div>
 
-    <el-drawer v-model="clientsDetailVisible" direction="rtl" size="70%">
+    <el-drawer v-model="clientsDetailVisible" direction="rtl" size="90%">
       <client-details
-        gateway
+        :gateway="name"
         :clientid="currentClientId"
         :key="currentClientId"
       ></client-details>
@@ -152,26 +129,18 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  getCurrentInstance,
-  onMounted,
-  reactive,
-  ref,
-} from "vue";
+import { defineComponent, onMounted, reactive, ref } from "vue";
 import commonPagination from "@/components/commonPagination.vue";
 import { getGatewayClients, disconnGatewayClient } from "@/api/gateway";
 import { loadNodes } from "@/api/common";
 import moment from "moment";
 import ClientDetails from "../../Clients/ClientDetails.vue";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   components: { commonPagination, ClientDetails },
-  data: function () {
-    return {
-      name: String(this.$route.params.name).toUpperCase(),
-    };
-  },
+
   setup() {
     let pCommon = ref(null);
     let gatewayTable = ref([]);
@@ -185,23 +154,32 @@ export default defineComponent({
     let nodes = ref([]);
     let clientsDetailVisible = ref(false);
     let currentClientId = ref("");
-    let vm = getCurrentInstance();
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
+
+    const route = useRoute();
+    const gname = String(route.params.name).toLowerCase();
+    const { t } = useI18n();
+    const pageMeta = ref({});
+    let pageParams = {};
 
     const loadGatewayClients = async function (params = {}) {
       tbLoading.value = true;
-      let gName = String(vm.data.name).toLowerCase();
-      let res = await getGatewayClients(gName, params).catch(() => {});
+
+      const sendParams = {
+        ...pageMeta.value,
+        ...pageParams,
+        ...params,
+      };
+      Reflect.deleteProperty(sendParams, "count");
+
+      let res = await getGatewayClients(gname, sendParams).catch(() => {});
       if (res) {
         gatewayTable.value = res.data;
         tbLoading.value = false;
-        return res.meta;
+        pageMeta.value = res.meta;
       } else {
         tbLoading.value = false;
         gatewayTable.value = [];
-        return {};
+        pageMeta.value = {};
       }
     };
 
@@ -216,7 +194,8 @@ export default defineComponent({
       Object.keys(searchParams).forEach((k) => {
         params[k] = searchParams[k] === "" ? undefined : searchParams[k];
       });
-      loadGatewayClients(params);
+      pageParams = params;
+      loadGatewayClients();
     };
 
     const openClientDetail = async function (row) {
@@ -226,19 +205,17 @@ export default defineComponent({
 
     const disconnectClient = async function (row) {
       this.$msgbox
-        .confirm(this.$t("Clients.willDisconnectTheConnection"), {
-          confirmButtonText: this.$t("Base.confirm"),
-          cancelButtonText: this.$t("Base.cancel"),
+        .confirm(t("Clients.willDisconnectTheConnection"), {
+          confirmButtonText: t("Base.confirm"),
+          cancelButtonText: t("Base.cancel"),
           type: "warning",
         })
         .then(async () => {
-          let gName = String(vm.data.name).toLowerCase();
           let id = row.clientid;
-          let res = await disconnGatewayClient(gName, id).catch(() => {});
+          let res = await disconnGatewayClient(gname, id).catch(() => {});
           if (res) {
-            this.$message.success(this.$t("Clients.successfulDisconnection"));
-
-            pCommon.value.$emit("loadPage");
+            this.$message.success(t("Clients.successfulDisconnection"));
+            loadGatewayClients();
           }
         })
         .catch(() => {});
@@ -246,12 +223,12 @@ export default defineComponent({
 
     onMounted(() => {
       loadAllNodes();
-      pCommon.value.$emit("loadPage");
+      loadGatewayClients();
     });
 
     return {
       moment: moment,
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       loadGatewayClients,
       pCommon,
       gatewayTable,
@@ -263,9 +240,17 @@ export default defineComponent({
       currentClientId,
       openClientDetail,
       disconnectClient,
+      name: gname,
+      pageMeta,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.gateway-client {
+  :deep(.el-drawer__body) {
+    overflow-y: auto;
+  }
+}
+</style>

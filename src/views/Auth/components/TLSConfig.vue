@@ -16,8 +16,8 @@
         <div class="create-form-title">
           {{ $t("Auth.TLSCerts") }}
         </div>
-        <el-row :gutter="20">
-          <el-form class="create-form">
+        <el-form class="create-form">
+          <el-row :gutter="20">
             <el-col :span="24">
               <el-form-item label="TLS Cert">
                 <el-input
@@ -78,8 +78,8 @@
                 </el-upload>
               </el-form-item>
             </el-col>
-          </el-form>
-        </el-row>
+          </el-row>
+        </el-form>
       </div>
     </el-collapse-transition>
   </div>
