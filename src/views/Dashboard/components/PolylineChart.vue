@@ -184,6 +184,7 @@ const drawChart = () => {
         color: props.axisColor.colorAxisLabel,
         // },
       },
+      minInterval: 1,
     },
     series: seriesConfig.value,
   };
