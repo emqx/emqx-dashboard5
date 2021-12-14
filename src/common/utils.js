@@ -428,8 +428,33 @@ export function getProgressColor(val, primaryC) {
   return color;
 }
 
+/**
+ * If there is a unit here, convert it to a value in KB
+ */
+function transToNumberAndConsiderItsUnit(ipt) {
+  if (typeof ipt === "number") {
+    return ipt;
+  }
+  if (ipt === undefined) {
+    return 0;
+  }
+  const units = "KMGTP";
+  const reg = new RegExp(`^\\d+(\\.\\d+)?[${units}]$`);
+  if (typeof ipt === "string" && reg.test(ipt.toUpperCase())) {
+    const unit = ipt.toUpperCase().slice(-1);
+    return (
+      parseFloat(ipt) *
+      Math.pow(
+        1024,
+        units.split("").findIndex((item) => item === unit)
+      )
+    );
+  }
+  return parseFloat(ipt);
+}
+
 export const calcPercentage = (n1, n2, transZero = true) => {
-  let p = (parseInt(n1) / parseInt(n2)) * 100;
+  let p = (transToNumberAndConsiderItsUnit(n1) / transToNumberAndConsiderItsUnit(n2)) * 100;
   //[0,1)
   if (p < 1) return transZero ? 1 : Math.round(p);
   // NaN
