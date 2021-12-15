@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 export default () => {
   const page = ref(1);
-  const limit = ref(10);
+  const limit = ref(20);
   const count = ref(0);
   /**
    * reset

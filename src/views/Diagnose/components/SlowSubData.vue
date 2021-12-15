@@ -80,7 +80,7 @@ export default defineComponent({
 import { ref, Ref, computed } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import commonPagination from "@/components/commonPagination.vue";
-import usePageController from "@/composable/usePageController";
+import usePageController from "@/hooks/usePagination";
 import { SlowSubStatistic } from "@/types/diagnose";
 import { clearSlowSubData, querySlowSubStatistics } from "@/api/diagnose";
 import moment from "moment";
