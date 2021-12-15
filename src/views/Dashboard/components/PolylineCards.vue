@@ -107,11 +107,14 @@ const _formatTime = (time: number) => {
 const loadMetricsLogData = () => {
   let maxLen = 200;
   dataTypeList.forEach(async (typeName) => {
-    const data = await loadMetricsLog(typeName).catch(() => {});
+    let data = await loadMetricsLog(typeName).catch(() => {});
     metricLog[typeName] = chartDataFill(1);
     const currentData = metricLog[typeName][0];
 
     if (data) {
+      if (data.length > maxLen) {
+        data = data.slice(-maxLen);
+      }
       data.forEach((item, key) => {
         if (key > maxLen) return;
         currentData.xData.push(_formatTime(item.timestamp));
