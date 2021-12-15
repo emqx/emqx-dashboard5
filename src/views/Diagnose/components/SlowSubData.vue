@@ -25,8 +25,8 @@
         <template #default="{ row }">
           <router-link
             :to="{
-              path: '/clients/detail',
-              query: { clientid: row.clientid },
+              name: 'clients-detail',
+              params: { clientId: row.clientid },
             }"
           >
             {{ row.clientid }}
@@ -92,11 +92,12 @@ const statistics: Ref<Array<SlowSubStatistic>> = ref([]);
 const { page, limit, count } = usePageController();
 const pageController = computed(() => ({ page: page.value, limit: limit.value, count: count.value }));
 
-const slowReasonFilter = ref("all");
+const VALUE_FOR_NOT_FILTER = "all";
+const slowReasonFilter = ref(VALUE_FOR_NOT_FILTER);
 const slowReasonFilterOptions = [
   {
     label: t("Base.all"),
-    value: "all",
+    value: VALUE_FOR_NOT_FILTER,
   },
   {
     label: t("SlowSub.timeConsuming"),
@@ -108,9 +109,11 @@ const slowReasonFilterOptions = [
   },
 ];
 
-const tableData = computed(() =>
-  slowReasonFilter.value ? statistics.value.filter(({ type }) => type === slowReasonFilter.value) : statistics.value
-);
+const tableData = computed(() => {
+  return slowReasonFilter.value === VALUE_FOR_NOT_FILTER
+    ? statistics.value
+    : statistics.value.filter(({ type }) => type === slowReasonFilter.value);
+});
 
 const getStatistics = async () => {
   try {
