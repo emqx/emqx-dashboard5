@@ -1,10 +1,10 @@
-import i18n from "@/i18n";
+import { useI18n } from "vue-i18n";
 import { checkStringWithUnit, checkInRange } from "@/common/tools";
 import { RuleInValidatorParam } from "@/types/common";
 
 export default () => {
-  const { t } = i18n.global;
-  const createRequiredRule = (name) => {
+  const { t } = useI18n();
+  const createRequiredRule = (name: string) => {
     return [
       {
         required: true,
@@ -35,12 +35,12 @@ export default () => {
     }
     return ret;
   };
-  const createStringWithUnitFieldRule = (units: Array<string>, min?: number, max: ?number) => {
+  const createStringWithUnitFieldRule = (units: Array<string>, min?: number, max?: number) => {
     const ret = [
       {
         validator(rule: RuleInValidatorParam, val: string) {
           if (!checkStringWithUnit(val, units)) {
-            return new Error(t("Rule.formatError"));
+            return [new Error(t("Rule.formatError"))];
           }
           return [];
         },
@@ -55,6 +55,7 @@ export default () => {
           }
           return [];
         },
+        trigger: "change",
       });
     }
     return ret;

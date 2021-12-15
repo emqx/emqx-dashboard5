@@ -144,7 +144,7 @@ import { querySlowSubConfig, updateSlowSubConfig } from "@/api/diagnose";
 import { SlowSubConfig } from "@/types/diagnose";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
-import useFormRules from "@/composable/useFormRules";
+import useFormRules from "@/hooks/useFormRules";
 
 const { t } = useI18n();
 const router = useRouter();
