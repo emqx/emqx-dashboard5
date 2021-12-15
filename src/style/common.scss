@@ -37,8 +37,8 @@
   src: url(../assets/fonts/Roboto-BlackItalic.ttf) format("truetype");
 }
 
-$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB,
-  Helvetica Neue, Helvetica, Arial, sans-serif;
+$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue, Helvetica, Arial,
+  sans-serif;
 
 body {
   padding: 0;
@@ -289,5 +289,15 @@ code {
 
   .el-select {
     margin: -10px 0;
+  }
+}
+
+.el-button--small.link-btn {
+  padding: 0;
+  a {
+    display: flex;
+    align-items: center;
+    padding: 9px 15px;
+    color: inherit;
   }
 }

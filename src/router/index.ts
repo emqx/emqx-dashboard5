@@ -8,6 +8,8 @@ import Metrics from "@/views/Dashboard/Metrics.vue";
 import Alarm from "@/views/Alarm/Alarm.vue";
 import TopicMetrics from "@/views/Diagnose/TopicMetrics.vue";
 import Websocket from "@/views/Diagnose/WebSocket.vue";
+import SlowSub from "@/views/Diagnose/SlowSub.vue";
+import SlowSubConfig from "@/views/Diagnose/SlowSubConfig.vue";
 import Clients from "@/views/Clients/Clients.vue";
 import ClientDetails from "@/views/Clients/ClientDetails.vue";
 import Topics from "@/views/Topics/Topics.vue";
@@ -364,6 +366,27 @@ export const routes: Array<RouteRecordRaw> = [
         meta: {
           keepAlive: true,
         },
+      },
+    ],
+  },
+  // Slow Sub
+  {
+    path: "/slow-sub",
+    component: Layout,
+    meta: {
+      hideKey: "slowSub",
+      authRequired: true,
+    },
+    children: [
+      {
+        path: "",
+        name: "slow-sub",
+        component: SlowSub,
+      },
+      {
+        path: "config",
+        name: "slow-sub-config",
+        component: SlowSubConfig,
       },
     ],
   },

@@ -131,6 +131,10 @@ export default {
     zh: "主题监控",
     en: "Topic Metrics",
   },
+  "slow-sub": {
+    zh: "慢查询",
+    en: "Slow Subscriptions",
+  },
   httpapi: {
     zh: "HTTP API",
     en: "HTTP API",

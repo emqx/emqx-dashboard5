@@ -6,3 +6,9 @@ export type ListDataWithPagination<T> = {
     page: number;
   };
 };
+
+export interface RuleInValidatorParam {
+  field: string;
+  fullField: string;
+  type: string;
+}
