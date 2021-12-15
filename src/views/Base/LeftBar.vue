@@ -117,6 +117,10 @@ export default {
         title: "topic-metrics",
         path: "/topic-metrics",
       },
+      {
+        title: "slow-sub",
+        path: "/slow-sub",
+      },
     ];
 
     let config = [
