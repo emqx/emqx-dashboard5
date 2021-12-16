@@ -111,12 +111,15 @@
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import { getSubscribe, editSubscribe } from "@/api/advanced";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Subscribe",
   props: ["translate"],
 
   setup(props) {
+    const { t } = useI18n();
+
     let isEdit = ref(false);
     let opSubs = ref(false);
     let subTbData = ref([]);
@@ -202,9 +205,7 @@ export default defineComponent({
       if (res) {
         ElMessage({
           type: "success",
-          message: edit
-            ? this.$t("Base.editSuccess")
-            : this.$t("Base.createSuccess"),
+          message: edit ? t("Base.editSuccess") : t("Base.createSuccess"),
         });
         subTbData.value = pendingTbData;
         opSubs.value = false;
@@ -212,16 +213,16 @@ export default defineComponent({
       } else {
         ElMessage({
           type: "error",
-          message: this.$t("Base.opErr"),
+          message: t("Base.opErr"),
         });
       }
       submitLoading.value = false;
     };
 
     const deleteSubs = async function (origin) {
-      MB.confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       })
         .then(async () => {
@@ -232,13 +233,13 @@ export default defineComponent({
           if (res) {
             ElMessage({
               type: "success",
-              message: this.$t("Base.deleteSuccess"),
+              message: t("Base.deleteSuccess"),
             });
             subTbData.value = pendingTbData;
           } else {
             ElMessage({
               type: "error",
-              message: this.$t("Base.opErr"),
+              message: t("Base.opErr"),
             });
           }
         })

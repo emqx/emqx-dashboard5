@@ -235,12 +235,15 @@ import {
 } from "@/api/auth";
 import _ from "lodash";
 import commonPagination from "@/components/commonPagination.vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox as MB } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: { commonPagination },
   name: "BuiltInManager",
   setup() {
+    const { t } = useI18n()
+
     const type = ref("clientid");
     const lockTable = ref(false);
     const typeList = [
@@ -258,7 +261,7 @@ export default defineComponent({
       },
     ];
     const pageMeta = ref({});
-    const recordForm = ref(null);
+    const recordForm = ref();
     const tableData = ref([]);
     const allTableData = ref([]);
     const rulesData = ref([]);
@@ -281,35 +284,35 @@ export default defineComponent({
         clientid: [
           {
             required: true,
-            message: this.$t("Auth.pleaseEnterClientID"),
+            message: t("Auth.pleaseEnterClientID"),
             trigger: "blur",
           },
         ],
         username: [
           {
             required: true,
-            message: this.$t("Auth.pleaseEnterUsername"),
+            message: t("Auth.pleaseEnterUsername"),
             trigger: "blur",
           },
         ],
         permission: [
           {
             required: true,
-            message: this.$t("Auth.pleaseSelectPermission"),
+            message: t("Auth.pleaseSelectPermission"),
             trigger: "blur",
           },
         ],
         action: [
           {
             required: true,
-            message: this.$t("Auth.pleaseSelectAction"),
+            message: t("Auth.pleaseSelectAction"),
             trigger: "blur",
           },
         ],
         topic: [
           {
             required: true,
-            message: this.$t("Auth.pleaseEnterTopic"),
+            message: t("Auth.pleaseEnterTopic"),
             trigger: "blur",
           },
         ],
@@ -394,10 +397,10 @@ export default defineComponent({
           data.rules = rulesData.value;
           if (!isEdit.value) {
             await createBuiltInDatabaseData(type.value, [data]);
-            ElMessage.success(this.$t("Base.createSuccess"));
+            ElMessage.success(t("Base.createSuccess"));
           } else {
             await updateBuiltInDatabaseData(type.value, data[type.value], data);
-            ElMessage.success(this.$t("Base.updateSuccess"));
+            ElMessage.success(t("Base.updateSuccess"));
           }
         } else {
           data.permission = record.permission;
@@ -418,9 +421,9 @@ export default defineComponent({
       });
     };
     const handleDelete = function (row, index) {
-      this.$confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       })
         .then(async () => {
@@ -471,6 +474,7 @@ export default defineComponent({
       swapArray(rulesData.value, index, index + 1);
     };
     return {
+      recordForm,
       type,
       typeList,
       record,

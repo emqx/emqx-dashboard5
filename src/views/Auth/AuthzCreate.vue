@@ -85,6 +85,8 @@ import useGuide from "@/hooks/useGuide";
 import { createAuthz } from "@/api/auth";
 import useAuthzCreate from "@/hooks/Auth/useAuthzCreate";
 import { ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "AuthzCreate",
@@ -96,8 +98,11 @@ export default defineComponent({
     HttpConfig,
   },
   setup() {
+    const { t } = useI18n();
+    const router = useRouter();
+
     const getGuideList = function () {
-      return [this.$t("Auth.dataSource"), this.$t("Auth.config")];
+      return [t("Auth.dataSource"), t("Auth.config")];
     };
     const type = ref("file");
     const configData = ref({});
@@ -147,8 +152,8 @@ export default defineComponent({
     const handleCreate = async function () {
       const data = create(configData.value, type.value);
       await createAuthz(data);
-      ElMessage.success(this.$t("Base.createSuccess"));
-      this.$router.push({ name: "authorization" });
+      ElMessage.success(t("Base.createSuccess"));
+      router.push({ name: "authorization" });
     };
     return {
       configData,

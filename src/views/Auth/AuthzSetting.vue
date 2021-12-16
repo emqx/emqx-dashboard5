@@ -65,6 +65,8 @@ import { defineComponent, ref } from "vue";
 import BackButton from "./components/BackButton.vue";
 import { listAuthzSetting, updateAuthzSetting } from "@/api/auth";
 import { ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "AuthzSetting",
@@ -72,6 +74,9 @@ export default defineComponent({
     BackButton,
   },
   setup() {
+    const { t } = useI18n();
+    const router = useRouter();
+
     const record = ref({
       cache: {},
     });
@@ -89,8 +94,8 @@ export default defineComponent({
     loadData();
     const save = async function () {
       await updateAuthzSetting(record.value);
-      ElMessage.success(this.$t("Base.updateSuccess"));
-      this.$router.push({ name: "authorization" });
+      ElMessage.success(t("Base.updateSuccess"));
+      router.push({ name: "authorization" });
     };
     return {
       record,

@@ -63,28 +63,28 @@ export default defineComponent({
     },
   },
   emits: ["setting", "delete", "move", "update"],
-  setup() {
+  setup(props, ctx) {
     const handleCommand = function (row, command) {
       switch (command) {
         case "setting":
-          this.$emit("setting", row);
+          ctx.emit("setting", row);
           break;
         case "disable":
           row.enable = false;
-          this.$emit("update", row);
+          ctx.emit("update", row);
           break;
         case "enable":
           row.enable = true;
-          this.$emit("update", row);
+          ctx.emit("update", row);
           break;
         case "delete":
-          this.$emit("delete", row);
+          ctx.emit("delete", row);
           break;
         case "moveUp":
-          this.$emit("move", row, "top");
+          ctx.emit("move", row, "top");
           break;
         case "moveDown":
-          this.$emit("move", row, "bottom");
+          ctx.emit("move", row, "bottom");
           break;
         default:
           break;

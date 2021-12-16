@@ -153,6 +153,7 @@ import {
 import CommonPagination from "@/components/commonPagination.vue";
 import { dateFormat } from "@/common/utils";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Postpone",
@@ -161,6 +162,8 @@ export default defineComponent({
     CommonPagination,
   },
   setup(props) {
+    const { t } = useI18n();
+
     let delayedConfig = reactive({
       enable: false,
       max_delayed_messages: 0,
@@ -245,9 +248,9 @@ export default defineComponent({
     };
 
     const deleteDelayedInfo = async function (row) {
-      MB.confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       })
         .then(async () => {
@@ -287,7 +290,7 @@ export default defineComponent({
         getConfigFormEnable();
         ElMessage({
           type: "success",
-          message: this.$t("Base.updateSuccess"),
+          message: t("Base.updateSuccess"),
         });
       } else {
         loadDelayedConfig();
