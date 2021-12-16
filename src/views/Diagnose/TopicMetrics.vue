@@ -179,6 +179,7 @@ import {
   resetTopicMetrics,
 } from "@/api/advanced";
 import { dateFormat } from "@/common/utils";
+import { ElMessageBox as MB } from "element-plus";
 
 export default defineComponent({
   name: "TopicMetrics",
@@ -246,7 +247,7 @@ export default defineComponent({
     };
 
     const deleteTopic = async function (row) {
-      let confirm = await this.$confirm(this.$t("General.confirmDelete"), {
+      let confirm = await MB.confirm(this.$t("General.confirmDelete"), {
         confirmButtonText: this.$t("Base.confirm"),
         cancelButtonText: this.$t("Base.cancel"),
         type: "warning",
@@ -265,7 +266,7 @@ export default defineComponent({
     };
 
     const resetTopic = async function (row) {
-      let confirm = await this.$confirm(this.$t("General.confirmReset"), {
+      let confirm = await MB.confirm(this.$t("General.confirmReset"), {
         confirmButtonText: this.$t("Base.confirm"),
         cancelButtonText: this.$t("Base.cancel"),
         type: "warning",
