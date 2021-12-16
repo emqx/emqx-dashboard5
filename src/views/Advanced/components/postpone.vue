@@ -152,6 +152,7 @@ import {
 } from "@/api/advanced";
 import CommonPagination from "@/components/commonPagination.vue";
 import { dateFormat } from "@/common/utils";
+import { ElMessageBox as MB } from "element-plus";
 
 export default defineComponent({
   name: "Postpone",
@@ -244,7 +245,7 @@ export default defineComponent({
     };
 
     const deleteDelayedInfo = async function (row) {
-      this.$confirm(this.$t("General.confirmDelete"), {
+      MB.confirm(this.$t("General.confirmDelete"), {
         confirmButtonText: this.$t("Base.confirm"),
         cancelButtonText: this.$t("Base.cancel"),
         type: "warning",

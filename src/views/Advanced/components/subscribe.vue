@@ -110,6 +110,7 @@
 <script>
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import { getSubscribe, editSubscribe } from "@/api/advanced";
+import { ElMessageBox as MB } from "element-plus";
 
 export default defineComponent({
   name: "Subscribe",
@@ -218,7 +219,7 @@ export default defineComponent({
     };
 
     const deleteSubs = async function (origin) {
-      this.$confirm(this.$t("General.confirmDelete"), {
+      MB.confirm(this.$t("General.confirmDelete"), {
         confirmButtonText: this.$t("Base.confirm"),
         cancelButtonText: this.$t("Base.cancel"),
         type: "warning",

@@ -280,6 +280,7 @@ import {
   delRetainerTopic,
 } from "@/api/advanced";
 import { dateFormat } from "@/common/utils";
+import { ElMessageBox as MB } from "element-plus";
 
 export default defineComponent({
   name: "Retainer",
@@ -500,7 +501,7 @@ export default defineComponent({
     };
 
     const deleteRetainerTopic = async function (row) {
-      this.$confirm(this.$t("General.confirmDelete"), {
+      MB.confirm(this.$t("General.confirmDelete"), {
         confirmButtonText: this.$t("Base.confirm"),
         cancelButtonText: this.$t("Base.cancel"),
         type: "warning",

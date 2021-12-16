@@ -54,6 +54,7 @@ import { defineComponent, ref } from "vue";
 import TableDropdown from "./components/TableDropdown.vue";
 import { listAuthz, updateAuthz, deleteAuthz, moveAuthz } from "@/api/auth";
 import router from "@/router";
+import { ElMessageBox as MB } from "element-plus";
 
 export default defineComponent({
   name: "Authz",
@@ -85,7 +86,7 @@ export default defineComponent({
       loadData();
     };
     const handleDelete = async function ({ type }) {
-      this.$confirm(this.$t("General.confirmDelete"), {
+      MB.confirm(this.$t("General.confirmDelete"), {
         confirmButtonText: this.$t("Base.confirm"),
         cancelButtonText: this.$t("Base.cancel"),
         type: "warning",

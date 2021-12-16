@@ -72,6 +72,7 @@ import useAuthzCreate from "@/hooks/Auth/useAuthzCreate";
 import BuiltInManager from "./components/BuiltInManager.vue";
 import HttpConfig from "./components/HttpConfig.vue";
 import { useRoute, useRouter } from "vue-router";
+import { ElMessageBox as MB } from "element-plus";
 
 export default defineComponent({
   name: "AuthzDetails",
@@ -129,7 +130,7 @@ export default defineComponent({
       router.push({ name: "authorization" });
     };
     const handleDelete = async function () {
-      this.$confirm(this.$t("General.confirmDelete"), {
+      MB.confirm(this.$t("General.confirmDelete"), {
         confirmButtonText: this.$t("Base.confirm"),
         cancelButtonText: this.$t("Base.cancel"),
         type: "warning",

@@ -87,6 +87,7 @@
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import { getTopicRewrite, editTopicRewrite } from "@/api/advanced";
 // import i18n from '@/i18n'
+import { ElMessageBox as MB } from "element-plus";
 
 export default defineComponent({
   name: "Rewrite",
@@ -171,7 +172,7 @@ export default defineComponent({
     };
 
     const deleteRewrite = async function (row) {
-      this.$confirm(this.$t("General.confirmDelete"), {
+      MB.confirm(this.$t("General.confirmDelete"), {
         confirmButtonText: this.$t("Base.confirm"),
         cancelButtonText: this.$t("Base.cancel"),
         type: "warning",
