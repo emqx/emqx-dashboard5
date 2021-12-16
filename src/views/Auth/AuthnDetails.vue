@@ -1,25 +1,27 @@
 <template>
-  <div class="auth auth-details app-wrapper">
-    <back-button back-url="/authentication">
+  <div :class="['auth', 'auth-details', !gateway && 'app-wrapper']">
+    <back-button back-url="/authentication" v-if="!gateway">
       {{ $t("Auth.backAuthnList") }}
     </back-button>
     <div class="section-header" v-loading.lock="authnDetailLock">
       <div class="section-header__block">
-        <div>
-          <img
-            v-if="configData.mechanism !== 'jwt'"
-            :src="currImg"
-            width="90"
-          />
-        </div>
-        <div>
-          <div class="section-header__title">
-            {{ titleMap[currBackend] }}
+        <template v-if="!gateway">
+          <div>
+            <img
+              v-if="configData.mechanism !== 'jwt'"
+              :src="currImg"
+              width="90"
+            />
           </div>
-          <el-tag type="info" size="mini">
-            {{ configData.mechanism }}
-          </el-tag>
-        </div>
+          <div>
+            <div class="section-header__title">
+              {{ titleMap[currBackend] }}
+            </div>
+            <el-tag type="info" size="mini">
+              {{ configData.mechanism }}
+            </el-tag>
+          </div>
+        </template>
       </div>
       <div>
         <el-button type="danger" size="small" @click="handleDelete">
@@ -174,9 +176,16 @@ export default defineComponent({
       if (enable !== undefined) {
         data.enable = !enable;
       }
-      await updateAuthn(id, data);
-      M.success(t("Base.updateSuccess"));
-      router.push({ name: "authentication" });
+      let res;
+      if (props.gateway) {
+        res = await props.updateFunc(data).catch(() => {});
+      } else {
+        res = await updateAuthn(id, data).catch(() => {});
+        if (res) {
+          M.success(t("Base.updateSuccess"));
+          router.push({ name: "authentication" });
+        }
+      }
     };
     const handleDelete = async function () {
       MB.confirm(t("General.confirmDelete"), {
@@ -185,9 +194,16 @@ export default defineComponent({
         type: "warning",
       })
         .then(async () => {
-          await deleteAuthn(configData.value.id);
-          M.success(t("Base.deleteSuccess"));
-          router.push({ name: "authentication" });
+          let res;
+          if (props.gateway) {
+            res = await props.deleteFunc();
+          } else {
+            res = await deleteAuthn(configData.value.id).catch(() => {});
+            if (res) {
+              M.success(t("Base.deleteSuccess"));
+              router.push({ name: "authentication" });
+            }
+          }
         })
         .catch(() => {});
     };

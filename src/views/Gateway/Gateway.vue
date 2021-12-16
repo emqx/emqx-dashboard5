@@ -108,22 +108,24 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { getGatewayList, updateGateway } from "@/api/gateway";
 import { calcPercentage, caseInsensitiveCompare } from "@/common/utils";
-import i18n from "@/i18n";
-import router from "@/router";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 import { ElMessage as M } from "element-plus";
 
 export default defineComponent({
   name: "Gateway",
   setup() {
+    const { t } = useI18n();
     let tbData = ref([]);
     let tbLoading = ref(false);
     let dropdownExclusiveKey = "_drop";
     const enableStr = "running";
     const disableStr = "stopped";
     const unloadStr = "unload";
+    const router = useRouter();
 
     const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
+      return t(collection + "." + key);
     };
 
     const isRunning = (status) => {
@@ -176,17 +178,19 @@ export default defineComponent({
       if (isUnload(instance.status)) {
         router.push({ name: "gateway-create", params: { name: name } });
       } else {
+        tbLoading.value = true;
         let body = { enable: !isRunning(instance.status) };
         let res = await updateGateway(name, body).catch(() => {});
         if (res) {
           M({
             type: "success",
             message: isRunning(instance.status)
-              ? i18n.t("Base.disabledSuccess")
-              : i18n.t("Base.enableSuccess"),
+              ? t("Base.disabledSuccess")
+              : t("Base.enableSuccess"),
           });
           instance.status = isRunning(instance.status) ? disableStr : enableStr;
         }
+        tbLoading.value = false;
       }
     };
 

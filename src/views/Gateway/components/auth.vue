@@ -88,18 +88,14 @@ export default defineComponent({
     };
 
     const authUpdate = async function (data) {
-      const gData = {
-        ...data.data,
-        enable: true,
-      };
-      let res = await updateGatewayAuth(gname, gData).catch(() => {});
+      let res = await updateGatewayAuth(gname, data).catch(() => {});
       if (res) {
         M.success(t("Base.updateSuccess"));
         authInfo();
       }
     };
 
-    const authDelete = async function (data) {
+    const authDelete = async function () {
       let res = await deleteGatewayAuth(gname).catch(() => {});
       if (res) {
         hasAuth.value = false;
