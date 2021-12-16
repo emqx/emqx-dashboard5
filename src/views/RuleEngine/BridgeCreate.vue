@@ -29,13 +29,16 @@
 
 <script>
 import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 // import BackButton from './components/BackButton.vue'
 
 export default defineComponent({
   //   components: { BackButton },
   setup() {
+    const { t } = useI18n();
+
     const translate = function (key, collection = "RuleEngine") {
-      return this.$t(collection + "." + key);
+      return t(collection + "." + key);
     };
 
     return {

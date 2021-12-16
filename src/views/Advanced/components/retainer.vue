@@ -281,11 +281,14 @@ import {
 } from "@/api/advanced";
 import { dateFormat } from "@/common/utils";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Retainer",
   props: ["translate"],
   setup(props) {
+    const { t } = useI18n();
+
     let retainerConfig = reactive({
       max_payload_size: [1, "MB"],
       msg_clear_interval: [0, "s"],
@@ -480,7 +483,7 @@ export default defineComponent({
     };
 
     const updateConfigData = async function () {
-      let valid = await this.$refs.retainerForm.validate().catch(() => {});
+      let valid = await retainerForm.value.validate().catch(() => {});
       if (!valid) return;
 
       configLoading.value = true;
@@ -491,7 +494,7 @@ export default defineComponent({
         getConfigFormEnable();
         ElMessage({
           type: "success",
-          message: this.$t("Base.updateSuccess"),
+          message: t("Base.updateSuccess"),
         });
         derivedOptionsFromConfig();
       } else {
@@ -501,9 +504,9 @@ export default defineComponent({
     };
 
     const deleteRetainerTopic = async function (row) {
-      MB.confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       })
         .then(async () => {

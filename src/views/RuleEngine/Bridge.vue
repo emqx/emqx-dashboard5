@@ -28,14 +28,17 @@
 <script>
 import { defineComponent, onMounted, ref } from "vue";
 import { getBridgeList } from "@/api/ruleengine";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   setup() {
+    const { t } = useI18n();
+
     let bridgeTb = ref([]);
     let tbLoading = ref(false);
 
     const translate = function (key, collection = "RuleEngine") {
-      return this.$t(collection + "." + key);
+      return t(collection + "." + key);
     };
 
     const listBridge = async function () {
