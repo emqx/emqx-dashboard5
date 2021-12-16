@@ -179,7 +179,8 @@ import {
   resetTopicMetrics,
 } from "@/api/advanced";
 import { dateFormat } from "@/common/utils";
-import { ElMessageBox as MB } from "element-plus";
+import { ElMessageBox as MB, ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "TopicMetrics",
@@ -197,6 +198,8 @@ export default defineComponent({
     };
   },
   setup() {
+    const { t } = useI18n();
+
     let addVisible = ref(false);
     let topicInput = reactive({
       topic: "",
@@ -209,7 +212,7 @@ export default defineComponent({
     let addLoading = ref(false);
 
     const translate = function (key, collection = "Tools") {
-      return this.$t(collection + "." + key);
+      return t(collection + "." + key);
     };
 
     const openAdd = () => {
@@ -236,9 +239,9 @@ export default defineComponent({
       let { topic } = topicInput;
       let res = await addTopicMetrics(topic).catch(() => {});
       if (res) {
-        this.$message({
+        ElMessage({
           type: "success",
-          message: this.$t("Base.createSuccess"),
+          message: t("Base.createSuccess"),
         });
         loadTopicMetrics();
       }
@@ -247,9 +250,9 @@ export default defineComponent({
     };
 
     const deleteTopic = async function (row) {
-      let confirm = await MB.confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      let confirm = await MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       }).catch((e) => e);
 
@@ -257,18 +260,18 @@ export default defineComponent({
       let { topic } = row;
       let res = await deleteTopicMetrics(topic).catch(() => {});
       if (res) {
-        this.$message({
+        ElMessage({
           type: "success",
-          message: this.$t("Base.deleteSuccess"),
+          message: t("Base.deleteSuccess"),
         });
         loadTopicMetrics();
       }
     };
 
     const resetTopic = async function (row) {
-      let confirm = await MB.confirm(this.$t("General.confirmReset"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      let confirm = await MB.confirm(t("General.confirmReset"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       }).catch((e) => e);
 
@@ -276,9 +279,9 @@ export default defineComponent({
       let { topic } = row;
       let res = await resetTopicMetrics(topic).catch(() => {});
       if (res) {
-        this.$message({
+        ElMessage({
           type: "success",
-          message: this.$t("Base.resetSuccess"),
+          message: t("Base.resetSuccess"),
         });
         loadTopicMetrics();
       }

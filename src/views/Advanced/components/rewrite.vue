@@ -88,6 +88,7 @@ import { defineComponent, onMounted, reactive, ref } from "vue";
 import { getTopicRewrite, editTopicRewrite } from "@/api/advanced";
 // import i18n from '@/i18n'
 import { ElMessageBox as MB } from "element-plus";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Rewrite",
@@ -153,7 +154,7 @@ export default defineComponent({
       submitLoading.value = true;
       let res = await editTopicRewrite(pendingTbData).catch(() => {});
       if (res) {
-        this.$message({
+        ElMessage({
           type: "success",
           message: edit
             ? this.$t("Base.editSuccess")
@@ -161,7 +162,7 @@ export default defineComponent({
         });
         loadData();
       } else {
-        this.$message({
+        ElMessage({
           type: "error",
           message: this.$t("Base.opErr"),
         });
@@ -183,13 +184,13 @@ export default defineComponent({
           pendingTbData.splice(pos, 1);
           let res = await editTopicRewrite(pendingTbData).catch(() => {});
           if (res) {
-            this.$message({
+            ElMessage({
               type: "success",
               message: this.$t("Base.deleteSuccess"),
             });
             rewriteTbData.value = pendingTbData;
           } else {
-            this.$message({
+            ElMessage({
               type: "error",
               message: this.$t("Base.opErr"),
             });

@@ -72,7 +72,7 @@ import useAuthzCreate from "@/hooks/Auth/useAuthzCreate";
 import BuiltInManager from "./components/BuiltInManager.vue";
 import HttpConfig from "./components/HttpConfig.vue";
 import { useRoute, useRouter } from "vue-router";
-import { ElMessageBox as MB } from "element-plus";
+import { ElMessageBox as MB, ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "AuthzDetails",
@@ -126,7 +126,7 @@ export default defineComponent({
         data.enable = !enable;
       }
       await updateAuthz(type.value, data);
-      this.$message.success(this.$t("Base.updateSuccess"));
+      ElMessage.success(this.$t("Base.updateSuccess"));
       router.push({ name: "authorization" });
     };
     const handleDelete = async function () {

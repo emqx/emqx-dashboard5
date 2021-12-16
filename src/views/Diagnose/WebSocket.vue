@@ -47,6 +47,7 @@
 
 <script>
 import WebSocketItem from "./components/WebSocketItem";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "WebSocket",
@@ -102,7 +103,7 @@ export default {
     handleTabEdit(targetName) {
       if (targetName === "add") {
         if (this.tabs.length > 6) {
-          this.$message.error(this.$t("Tools.maxSix"));
+          ElMessage.error(this.$t("Tools.maxSix"));
           return;
         }
         const name = this.calcRandomName();

@@ -64,6 +64,7 @@
 import { defineComponent, ref } from "vue";
 import BackButton from "./components/BackButton.vue";
 import { listAuthzSetting, updateAuthzSetting } from "@/api/auth";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "AuthzSetting",
@@ -88,7 +89,7 @@ export default defineComponent({
     loadData();
     const save = async function () {
       await updateAuthzSetting(record.value);
-      this.$message.success(this.$t("Base.updateSuccess"));
+      ElMessage.success(this.$t("Base.updateSuccess"));
       this.$router.push({ name: "authorization" });
     };
     return {

@@ -280,7 +280,7 @@ import {
   delRetainerTopic,
 } from "@/api/advanced";
 import { dateFormat } from "@/common/utils";
-import { ElMessageBox as MB } from "element-plus";
+import { ElMessageBox as MB, ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Retainer",
@@ -489,7 +489,7 @@ export default defineComponent({
       let res = await updateRetainer(retainerConfig).catch(() => {});
       if (res) {
         getConfigFormEnable();
-        this.$message({
+        ElMessage({
           type: "success",
           message: this.$t("Base.updateSuccess"),
         });

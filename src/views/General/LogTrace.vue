@@ -140,6 +140,7 @@
 
 <script>
 import { getTraceList, addTrace, deleteTrace } from "@/api/logTrace";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "LogTrace",
@@ -207,7 +208,7 @@ export default {
         const { ...data } = this.record;
         addTrace(data)
           .then(() => {
-            this.$message.success(this.$t("Base.createSuccess"));
+            ElMessage.success(this.$t("Base.createSuccess"));
             this.dialogVisible = false;
             this.handleSuccess();
           })
@@ -227,7 +228,7 @@ export default {
           this.btnLoading = "deleteBtn";
           const { type, name } = row;
           deleteTrace(type, name).then(() => {
-            this.$message.success(this.$t("Base.deleteSuccess"));
+            ElMessage.success(this.$t("Base.deleteSuccess"));
             this.handleSuccess();
           });
         })
