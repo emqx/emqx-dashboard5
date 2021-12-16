@@ -34,7 +34,7 @@
           </el-radio>
         </el-badge>
         <el-radio class="mechanism" label="scram" border>
-          {{ this.$t("Auth.scram") }}
+          {{ $t("Auth.scram") }}
         </el-radio>
       </el-radio-group>
       <p v-if="mechanism === 'password-based'" class="item-description">
@@ -250,11 +250,7 @@ export default defineComponent({
       return JSON.parse(sessionStorage.getItem("addedAuthn")) || [];
     });
     const getGuideList = function () {
-      return [
-        this.$t("Auth.mechanism"),
-        this.$t("Auth.dataSource"),
-        this.$t("Auth.config"),
-      ];
+      return [t("Auth.mechanism"), t("Auth.dataSource"), t("Auth.config")];
     };
     const getSupportBackend = function () {
       const supportData = supportBackendMap[mechanism.value];

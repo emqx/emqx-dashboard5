@@ -26,11 +26,14 @@
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import { getEventMsg, editEventMsg } from "@/api/advanced";
 import { ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Message",
   props: ["translate"],
   setup() {
+    const { t } = useI18n()
+
     let eventMsg = reactive({
       client_connected: false,
       client_disconnected: false,
@@ -67,7 +70,7 @@ export default defineComponent({
       if (res) {
         ElMessage({
           type: "success",
-          message: this.$t("Base.editSuccess"),
+          message: t("Base.editSuccess"),
         });
       } else {
         loadData();

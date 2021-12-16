@@ -73,6 +73,7 @@ import BuiltInManager from "./components/BuiltInManager.vue";
 import HttpConfig from "./components/HttpConfig.vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "AuthzDetails",
@@ -85,6 +86,7 @@ export default defineComponent({
   },
   setup() {
     const authzDetailLock = ref(false);
+    const { t } = useI18n();
     const route = useRoute();
     const router = useRouter();
 
@@ -126,18 +128,18 @@ export default defineComponent({
         data.enable = !enable;
       }
       await updateAuthz(type.value, data);
-      ElMessage.success(this.$t("Base.updateSuccess"));
+      ElMessage.success(t("Base.updateSuccess"));
       router.push({ name: "authorization" });
     };
     const handleDelete = async function () {
-      MB.confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       })
         .then(async () => {
           await deleteAuthz(type.value);
-          this.$t("Base.deleteSuccess");
+          t("Base.deleteSuccess");
           router.push({ name: "authorization" });
         })
         .catch(() => {});

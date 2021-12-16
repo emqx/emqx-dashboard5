@@ -160,6 +160,7 @@ export default defineComponent({
     const lockTable = ref(false);
     const dialogVisible = ref(false);
     const route = useRoute();
+    const recordForm = ref()
     const id = computed(function () {
       return route.params.id;
     });
@@ -249,7 +250,7 @@ export default defineComponent({
       }
     };
     const handleUpdate = async function () {
-      let validation = await this.$refs.recordForm.validate().catch(() => {});
+      let validation = await recordForm.value.validate().catch(() => {});
       if (!validation) {
         return;
       }
@@ -278,6 +279,7 @@ export default defineComponent({
       lockTable,
       dataManager,
       record,
+      recordForm,
       pageMeta,
       loadData,
       handleUpdate,
