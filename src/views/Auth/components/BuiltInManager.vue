@@ -235,6 +235,7 @@ import {
 } from "@/api/auth";
 import _ from "lodash";
 import commonPagination from "@/components/commonPagination.vue";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   components: { commonPagination },
@@ -393,10 +394,10 @@ export default defineComponent({
           data.rules = rulesData.value;
           if (!isEdit.value) {
             await createBuiltInDatabaseData(type.value, [data]);
-            this.$message.success(this.$t("Base.createSuccess"));
+            ElMessage.success(this.$t("Base.createSuccess"));
           } else {
             await updateBuiltInDatabaseData(type.value, data[type.value], data);
-            this.$message.success(this.$t("Base.updateSuccess"));
+            ElMessage.success(this.$t("Base.updateSuccess"));
           }
         } else {
           data.permission = record.permission;

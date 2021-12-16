@@ -124,6 +124,7 @@ import {
   destroyUser,
   changePassword,
 } from "@/api/function";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "Users",
@@ -237,7 +238,7 @@ export default {
       if (this.accessType === "edit") {
         updateUser(username, this.record)
           .then(async () => {
-            this.$message.success(this.$t("Base.editSuccess"));
+            ElMessage.success(this.$t("Base.editSuccess"));
             this.dialogVisible = false;
             this.loadData();
           })
@@ -251,14 +252,14 @@ export default {
         };
         let res = await changePassword(username, pass).catch(() => {});
         if (res) {
-          this.$message.success(this.$t("General.changePassSuccess"));
+          ElMessage.success(this.$t("General.changePassSuccess"));
           this.dialogVisible = false;
         }
         this.submitLoading = false;
       } else {
         createUser(this.record)
           .then(() => {
-            this.$message.success(this.$t("General.createUserSuccess"));
+            ElMessage.success(this.$t("General.createUserSuccess"));
             this.dialogVisible = false;
             this.accessType = "";
             this.record = {};
@@ -280,7 +281,7 @@ export default {
         })
         .then(async () => {
           destroyUser(item.username).then(() => {
-            this.$message.success(this.$t("Base.deleteSuccess"));
+            ElMessage.success(this.$t("Base.deleteSuccess"));
             this.loadData();
           });
         })

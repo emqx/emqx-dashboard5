@@ -25,6 +25,7 @@
 <script>
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import { getEventMsg, editEventMsg } from "@/api/advanced";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Message",
@@ -64,7 +65,7 @@ export default defineComponent({
       });
       let res = await editEventMsg(pendingEventMsg).catch(() => {});
       if (res) {
-        this.$message({
+        ElMessage({
           type: "success",
           message: this.$t("Base.editSuccess"),
         });

@@ -220,6 +220,7 @@ import { disconnectClient, listClients } from "@/api/clients";
 import { loadNodes } from "@/api/common";
 import moment from "moment";
 import CommonPagination from "@/components/commonPagination.vue";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "Clients",
@@ -338,7 +339,7 @@ export default {
         .then(async () => {
           await disconnectClient(row.clientid);
           this.loadNodeClients();
-          this.$message.success(successMsg);
+          ElMessage.success(successMsg);
           // this.$refs.p.$emit("loadPage");
         })
         .catch(() => {});

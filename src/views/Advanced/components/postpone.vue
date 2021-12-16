@@ -152,7 +152,7 @@ import {
 } from "@/api/advanced";
 import CommonPagination from "@/components/commonPagination.vue";
 import { dateFormat } from "@/common/utils";
-import { ElMessageBox as MB } from "element-plus";
+import { ElMessageBox as MB, ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Postpone",
@@ -285,7 +285,7 @@ export default defineComponent({
       let res = await editDelayedConfig(delayedConfig).catch(() => {});
       if (res) {
         getConfigFormEnable();
-        this.$message({
+        ElMessage({
           type: "success",
           message: this.$t("Base.updateSuccess"),
         });

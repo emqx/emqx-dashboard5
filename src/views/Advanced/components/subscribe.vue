@@ -110,7 +110,7 @@
 <script>
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import { getSubscribe, editSubscribe } from "@/api/advanced";
-import { ElMessageBox as MB } from "element-plus";
+import { ElMessageBox as MB, ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Subscribe",
@@ -200,7 +200,7 @@ export default defineComponent({
 
       let res = await editSubscribe(pendingTbData).catch(() => {});
       if (res) {
-        this.$message({
+        ElMessage({
           type: "success",
           message: edit
             ? this.$t("Base.editSuccess")
@@ -210,7 +210,7 @@ export default defineComponent({
         opSubs.value = false;
         editPos.value = undefined;
       } else {
-        this.$message({
+        ElMessage({
           type: "error",
           message: this.$t("Base.opErr"),
         });
@@ -230,13 +230,13 @@ export default defineComponent({
           pendingTbData.splice(position, 1);
           let res = await editSubscribe(pendingTbData).catch(() => {});
           if (res) {
-            this.$message({
+            ElMessage({
               type: "success",
               message: this.$t("Base.deleteSuccess"),
             });
             subTbData.value = pendingTbData;
           } else {
-            this.$message({
+            ElMessage({
               type: "error",
               message: this.$t("Base.opErr"),
             });
