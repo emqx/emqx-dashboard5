@@ -29,6 +29,16 @@ export async function updateGatewayListener(name, id, body) {
   );
 }
 
+export async function deleteGatewayListener(name, id) {
+  if (!name || !id) return Promise.reject();
+  return http.delete(
+    "/gateway/" +
+      encodeURIComponent(name) +
+      "/listeners/" +
+      encodeURIComponent(id)
+  );
+}
+
 export async function updateGateway(name, body) {
   if (!name) return Promise.reject();
   return http.put("/gateway/" + encodeURIComponent(name), body);
@@ -142,7 +152,7 @@ export async function updateGatewayUser(name, uid, data) {
   return http.put(
     "/gateway/" +
       encodeURIComponent(name) +
-      "/authentication/users" +
+      "/authentication/users/" +
       encodeURIComponent(uid),
     data
   );
@@ -153,7 +163,7 @@ export async function deleteGatewayUser(name, uid) {
   return http.delete(
     "/gateway/" +
       encodeURIComponent(name) +
-      "/authentication/users" +
+      "/authentication/users/" +
       encodeURIComponent(uid)
   );
 }
@@ -163,7 +173,7 @@ export async function getGatewayUser(name, uid) {
   return http.get(
     "/gateway/" +
       encodeURIComponent(name) +
-      "/authentication/users" +
+      "/authentication/users/" +
       encodeURIComponent(uid)
   );
 }

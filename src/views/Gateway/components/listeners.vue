@@ -70,10 +70,20 @@
           <el-col :span="12">
             <el-form-item :label="tl('lType')">
               <el-select v-model="listenerInput.type" :disabled="editListener">
-                <el-option :value="'tcp'"></el-option>
-                <el-option :value="'ssl'"></el-option>
-                <el-option :value="'udp'"></el-option>
-                <el-option :value="'dtls'"></el-option>
+                <template v-if="listenerTypeList[name]">
+                  <el-option
+                    v-for="item in listenerTypeList[name]"
+                    :key="item"
+                    :value="item"
+                  ></el-option>
+                </template>
+                <template v-else>
+                  <el-option
+                    v-for="item in listenerTypeList.others"
+                    :key="item"
+                    :value="item"
+                  ></el-option>
+                </template>
               </el-select>
             </el-form-item>
           </el-col>
@@ -218,7 +228,7 @@
               <el-form-item :label="'ActiveN'">
                 <el-input
                   v-model="listenerInput.udp.active_n"
-                  :placeholder="baseInput.udp.active_n"
+                  :placeholder="String(baseInput.udp.active_n)"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -226,7 +236,7 @@
               <el-form-item :label="'Buffer'">
                 <el-input
                   v-model.number="listenerInput.udp.buffer[0]"
-                  :placeholder="baseInput.udp.buffer[0]"
+                  :placeholder="String(baseInput.udp.buffer[0])"
                 >
                   <template #append>
                     <el-select v-model="listenerInput.udp.buffer[1]">
@@ -240,7 +250,7 @@
               <el-form-item :label="tl('recBuf')">
                 <el-input
                   v-model.number="listenerInput.udp.recbuf[0]"
-                  :placeholder="baseInput.udp.recbuf[0]"
+                  :placeholder="String(baseInput.udp.recbuf[0])"
                 >
                   <template #append>
                     <el-select v-model="listenerInput.udp.recbuf[1]">
@@ -254,7 +264,7 @@
               <el-form-item :label="tl('sendBuf')">
                 <el-input
                   v-model.number="listenerInput.udp.sndbuf[0]"
-                  :placeholder="baseInput.udp.sndbuf[0]"
+                  :placeholder="String(baseInput.udp.sndbuf[0])"
                 >
                   <template #append>
                     <el-select v-model="listenerInput.udp.sndbuf[1]">
@@ -387,11 +397,9 @@
 
 <script>
 import {
-  computed,
   defineComponent,
   getCurrentInstance,
   onMounted,
-  reactive,
   ref,
   watch,
 } from "vue";
@@ -399,12 +407,16 @@ import {
   getGatewayListeners,
   updateGatewayListener,
   addGatewayListener,
+  deleteGatewayListener,
 } from "@/api/gateway";
 import _ from "lodash";
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
 } from "@/common/utils";
+import { useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { ElMessage as M, ElMessageBox as MB } from "element-plus";
 
 export default defineComponent({
   props: {
@@ -424,14 +436,16 @@ export default defineComponent({
       default: () => [],
     },
   },
-  data: function () {
-    return {
-      name: String(this.$route.params.name).toUpperCase(),
-    };
-  },
   setup(props, context) {
+    const route = useRoute();
+    const { t } = useI18n();
+    const gName = route.params.name || props.gatewayName;
+    const listenerTypeList = {
+      coap: ["udp", "dtls"],
+      others: ["tcp", "ssl", "udp", "dtls"],
+    };
     let baseInput = {
-      type: "tcp",
+      type: (listenerTypeList[gName] || listenerTypeList.others)[0],
       id: "",
       name: "",
       bind: "",
@@ -481,7 +495,6 @@ export default defineComponent({
     let opListener = ref(false);
     let editListener = ref(false);
     let listenerInput = ref({ ..._.cloneDeep(baseInput) });
-    // const integration  = props.integration;
     let listenerTable = ref([]);
     let listenerLoading = ref(false);
     let submitLoading = ref(false);
@@ -491,7 +504,7 @@ export default defineComponent({
     let vm = getCurrentInstance();
 
     const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
+      return t(collection + "." + key);
     };
 
     const openDialog = (edit = false, current = {}, index = 0) => {
@@ -511,9 +524,7 @@ export default defineComponent({
 
     const loadListenerData = async function () {
       listenerLoading.value = true;
-      let gName = vm.data.name || props.gatewayName;
       if (!gName) return;
-      gName = String(gName).toLowerCase();
       let res = await getGatewayListeners(gName).catch(() => {});
       if (res) {
         listenerTable.value = res.map((v) => denormalizeStructure(v));
@@ -522,9 +533,7 @@ export default defineComponent({
     };
 
     const submitListener = async function (edit = false) {
-      let gName = vm.data.name || props.gatewayName;
       if (!gName) return;
-      gName = String(gName).toLowerCase();
 
       // let id = [gName, listenerInput.value.type, listenerInput.value.name].join(ID_SEPERATE)
 
@@ -543,9 +552,9 @@ export default defineComponent({
           gName,
           input
         ).catch(() => {});
-
         if (remoteRes) {
           opListener.value = false;
+          loadListenerData();
         }
       }
     };
@@ -558,12 +567,15 @@ export default defineComponent({
       submitLoading.value = true;
       let data = normalizeStructure(formData);
       if (edit) {
-        let res = await updateGatewayListener(name, data).catch(() => {});
+        let res = await updateGatewayListener(name, data.id, data).catch(
+          () => {}
+        );
         if (res) {
-          this.$message({
+          M({
             type: "success",
-            message: this.$t("Base.editSuccess"),
+            message: t("Base.editSuccess"),
           });
+          submitLoading.value = false;
           return true;
         } else {
           submitLoading.value = false;
@@ -572,10 +584,12 @@ export default defineComponent({
       } else {
         let res = await addGatewayListener(name, data).catch(() => {});
         if (res) {
-          this.$message({
+          M({
             type: "success",
-            message: this.$t("Base.createSuccess"),
+            message: t("Base.createSuccess"),
           });
+          submitLoading.value = false;
+
           return true;
         } else {
           submitLoading.value = false;
@@ -585,15 +599,22 @@ export default defineComponent({
     };
 
     const delListener = async function (row) {
-      this.$confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
-      }).then(() => {
+      }).then(async () => {
         if (props.integration) {
           listenerTable.value.splice(listenerTable.value.indexOf(row), 1);
         } else {
-          //todo
+          let res = await deleteGatewayListener(gName, row.id).catch(() => {});
+          if (res) {
+            M({
+              type: "success",
+              message: t("Base.deleteSuccess"),
+            });
+            loadListenerData();
+          }
         }
       });
     };
@@ -705,6 +726,8 @@ export default defineComponent({
       delListener,
       listenerLoading,
       submitLoading,
+      listenerTypeList,
+      name: gName,
     };
   },
 });
