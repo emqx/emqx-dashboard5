@@ -55,6 +55,7 @@ import TableDropdown from "./components/TableDropdown.vue";
 import { listAuthz, updateAuthz, deleteAuthz, moveAuthz } from "@/api/auth";
 import router from "@/router";
 import { ElMessageBox as MB } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Authz",
@@ -62,6 +63,8 @@ export default defineComponent({
     TableDropdown,
   },
   setup() {
+    const { t } = useI18n();
+
     const authzList = ref([]);
     const lockTable = ref(false);
     const loadData = async () => {
@@ -86,9 +89,9 @@ export default defineComponent({
       loadData();
     };
     const handleDelete = async function ({ type }) {
-      MB.confirm(this.$t("General.confirmDelete"), {
-        confirmButtonText: this.$t("Base.confirm"),
-        cancelButtonText: this.$t("Base.cancel"),
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
         type: "warning",
       })
         .then(async () => {

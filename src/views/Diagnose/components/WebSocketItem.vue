@@ -319,6 +319,7 @@
 import mqtt from "mqtt";
 import moment from "moment";
 import { useI18n } from "vue-i18n";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "WebSocketItem",
@@ -544,12 +545,12 @@ export default {
       try {
         this.client.end(true);
       } catch (e) {
-        this.$message.error(e.toString());
+        ElMessage.error(e.toString());
       }
     },
     unSubscribe(item) {
       if (!this.compareConnStatus("MCONNECTED")) {
-        this.$message.error(this.$t("Tools.clientNotConnected"));
+        ElMessage.error(this.$t("Tools.clientNotConnected"));
         return;
       }
       this.client.unsubscribe(item.topic, (error) => {
@@ -567,7 +568,7 @@ export default {
         return;
       }
       if (!this.compareConnStatus("MCONNECTED")) {
-        this.$message.error(this.$t("Tools.clientNotConnected"));
+        ElMessage.error(this.$t("Tools.clientNotConnected"));
         return;
       }
       const { topic, qos } = this.subscriptionsRecord;
@@ -580,7 +581,7 @@ export default {
           }
         });
         if (err || isMoreMaxSubs) {
-          this.$message.error(this.$t("Tools.subscriptionFailure"));
+          ElMessage.error(this.$t("Tools.subscriptionFailure"));
           return;
         }
         if (this.subscriptions.find(($) => $.topic === topic)) {
@@ -599,7 +600,7 @@ export default {
         return;
       }
       if (!this.compareConnStatus("MCONNECTED")) {
-        this.$message.error(this.$t("Tools.clientNotConnected"));
+        ElMessage.error(this.$t("Tools.clientNotConnected"));
         return;
       }
       const { topic, qos, payload, retain } = this.messageRecord;
@@ -612,7 +613,7 @@ export default {
         },
         (err) => {
           if (err) {
-            this.$message.error(this.$t("Tools.publishingFailure"));
+            ElMessage.error(this.$t("Tools.publishingFailure"));
             return;
           }
           const message = {
@@ -675,7 +676,7 @@ export default {
     },
     assignEvents() {
       this.client.on("error", (error) => {
-        this.$message.error(error.toString());
+        ElMessage.error(error.toString());
         this.setConnStatus("MDISCONNECTED");
       });
       this.client.on("reconnect", () => {
@@ -683,7 +684,7 @@ export default {
         // console.log('reconn', this.times)
         // if (this.times > 2) {
         //   this.destroyConnection()
-        //   this.$message.error(this.$t('Tools.connectionDisconnected'))
+        //   ElMessage.error(this.$t('Tools.connectionDisconnected'))
         this.setConnStatus("MRECONNECTING");
       });
       this.client.on("disconnect", () => {

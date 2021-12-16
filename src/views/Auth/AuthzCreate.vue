@@ -84,6 +84,7 @@ import GuideBar from "@/components/GuideBar.vue";
 import useGuide from "@/hooks/useGuide";
 import { createAuthz } from "@/api/auth";
 import useAuthzCreate from "@/hooks/Auth/useAuthzCreate";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "AuthzCreate",
@@ -146,7 +147,7 @@ export default defineComponent({
     const handleCreate = async function () {
       const data = create(configData.value, type.value);
       await createAuthz(data);
-      this.$message.success(this.$t("Base.createSuccess"));
+      ElMessage.success(this.$t("Base.createSuccess"));
       this.$router.push({ name: "authorization" });
     };
     return {

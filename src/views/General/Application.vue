@@ -145,6 +145,7 @@
 
 <script>
 import moment from "moment";
+import { ElMessage } from "element-plus";
 
 import {
   loadApp,
@@ -232,7 +233,7 @@ export default {
     },
     updateApplication(item) {
       updateApp(item.app_id, item).then(() => {
-        this.$message.success(this.$t("Base.editSuccess"));
+        ElMessage.success(this.$t("Base.editSuccess"));
       });
     },
     save() {

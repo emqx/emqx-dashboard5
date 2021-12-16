@@ -71,6 +71,7 @@ import {
   importBackup,
   uploadBackupFile,
 } from "@/api/backup";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "Backup",
@@ -111,7 +112,7 @@ export default {
         return;
       }
       if (res) {
-        this.$message.success(this.$t("Base.createSuccess"));
+        ElMessage.success(this.$t("Base.createSuccess"));
         this.loadData();
       }
     },
@@ -133,7 +134,7 @@ export default {
       const { filename, node } = row;
       const res = await importBackup({ filename, node });
       if (res) {
-        this.$message.success(this.$t("Backup.restoreSuccess"));
+        ElMessage.success(this.$t("Backup.restoreSuccess"));
       }
     },
     deleteConfirm(row) {
@@ -154,7 +155,7 @@ export default {
     },
     handleChange(file) {
       if (file.size >= 5242880) {
-        this.$message.warning(this.$t("Backup.fileTooBig"));
+        ElMessage.warning(this.$t("Backup.fileTooBig"));
         this.$refs.upload.clearFiles();
         return;
       }
@@ -175,11 +176,11 @@ export default {
         }
       };
       reader.onerror = () => {
-        this.$message.error(this.$t("Backup.uploadFailed"));
+        ElMessage.error(this.$t("Backup.uploadFailed"));
       };
     },
     handleError(error) {
-      this.$message.error(error.toString());
+      ElMessage.error(error.toString());
     },
   },
 };

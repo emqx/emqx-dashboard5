@@ -143,6 +143,7 @@
 import { loadAlarm, clearHistoryAlarm } from "@/api/common";
 import { getDuration, dateFormat } from "@/common/utils";
 import commonPagination from "../../components/commonPagination.vue";
+import { ElMessage } from "element-plus";
 
 export default {
   components: { commonPagination },
@@ -169,7 +170,7 @@ export default {
     async clearHistoryAlarm() {
       let res = await clearHistoryAlarm().catch(() => {});
       if (res) {
-        this.$message.success(this.$t("Alarm.clearSuccess"));
+        ElMessage.success(this.$t("Alarm.clearSuccess"));
         this.loadHData();
       }
     },

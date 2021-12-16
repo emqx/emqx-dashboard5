@@ -77,6 +77,7 @@ import { toLogin } from "@/router";
 import { setLanguage } from "@/common/utils";
 import { mapState } from "vuex";
 import { Fold, Expand } from "@element-plus/icons";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "NavHeader",
@@ -139,7 +140,7 @@ export default {
           type: "warning",
         })
         .then(() => {
-          this.$message.success(this.$t("components.loggedOut"));
+          ElMessage.success(this.$t("components.loggedOut"));
           toLogin();
         })
         .catch((e) => {});

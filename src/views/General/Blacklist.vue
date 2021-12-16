@@ -122,6 +122,7 @@ import {
   deleteBlacklist,
 } from "@/api/function";
 import CommonPagination from "../../components/commonPagination.vue";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "Blacklist",
@@ -202,7 +203,7 @@ export default {
         this.submitLoading = true;
         const res = await createBlacklist(record).catch(() => {});
         if (res) {
-          this.$message.success(this.$t("General.createBlacklistSuccess"));
+          ElMessage.success(this.$t("General.createBlacklistSuccess"));
           this.closeDialog();
           this.listBlackList({ page: 1 });
           // this.$refs.p.$emit("loadPage");
@@ -221,7 +222,7 @@ export default {
           const { who, as } = item;
           const res = await deleteBlacklist({ who, as }).catch(() => {});
           if (res) {
-            this.$message.success(this.$t("Base.deleteSuccess"));
+            ElMessage.success(this.$t("Base.deleteSuccess"));
             this.listBlackList({ page: 1 });
             // this.$refs.p.$emit("loadPage");
           }

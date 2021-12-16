@@ -237,6 +237,7 @@ import {
   disconnGatewayClient,
   unsubscribeGatewayClientSub,
 } from "@/api/gateway";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "ClientDetails",
@@ -412,7 +413,7 @@ export default {
         .then(() => {
           // this.$set(this.record, 'connected', false)
           this.record.connected = false;
-          this.$message.success(successMsg);
+          ElMessage.success(successMsg);
           // this.$router.push({ path: '/clients' })
         })
         .catch(() => {});
@@ -511,7 +512,7 @@ export default {
         topic
       ).catch(() => {});
       if (res) {
-        this.$message({
+        ElMessage({
           type: "success",
           message: this.$t("Base.createSuccess"),
         });
