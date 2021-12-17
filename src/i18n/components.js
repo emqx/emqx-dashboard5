@@ -128,7 +128,7 @@ export default {
     en: "Topic Metrics",
   },
   "slow-sub": {
-    zh: "慢查询",
+    zh: "慢订阅",
     en: "Slow Subscriptions",
   },
   httpapi: {
