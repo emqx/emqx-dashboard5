@@ -115,11 +115,12 @@ import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Subscribe",
-  props: ["translate"],
 
-  setup(props) {
+  setup() {
     const { t } = useI18n();
-
+    const tl = function (key, collection = "Advanced") {
+      return t(collection + "." + key);
+    };
     let isEdit = ref(false);
     let opSubs = ref(false);
     let subTbData = ref([]);
@@ -145,7 +146,7 @@ export default defineComponent({
       topic: [
         {
           required: true,
-          message: props.translate("required"),
+          message: tl("required"),
           trigger: ["blur"],
         },
       ],
@@ -261,7 +262,7 @@ export default defineComponent({
     };
 
     return {
-      tl: props.translate,
+      tl,
       isEdit,
       opSubs,
       openOpDialog,
