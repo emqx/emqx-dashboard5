@@ -301,3 +301,16 @@ code {
     color: inherit;
   }
 }
+
+.back-button {
+  color: #96999c;
+  &::before {
+    content: "<<";
+  }
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.el-date-editor {
+  --el-date-editor-datetimerange-width: 100%;
+}

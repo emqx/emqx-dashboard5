@@ -14,3 +14,16 @@ export interface SlowSubStatistic {
   type: "average" | "expire";
   last_update_time: string;
 }
+
+export type TraceRecord = {
+  name: string;
+};
+
+export type TraceFormRecord = {
+  name: string;
+  type: "clientid" | "topic" | "ip_address";
+  topic: string;
+  clientid: string;
+  ip_address: string;
+  startTime: [string, string] | [Date, Date];
+};

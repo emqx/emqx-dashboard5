@@ -1,18 +1,18 @@
 <template>
   <div class="basic-info" v-loading="infoLoading">
-    <template v-if="name === 'STOMP'">
+    <template v-if="name === 'stomp'">
       <stomp-basic v-model:value="basicData" :key="iKey" />
     </template>
-    <template v-else-if="name === 'MQTTSN'">
+    <template v-else-if="name === 'mqttsn'">
       <mqttsn-basic v-model:value="basicData" :key="iKey"></mqttsn-basic>
     </template>
-    <template v-else-if="name === 'COAP'">
+    <template v-else-if="name === 'coap'">
       <coap-basic v-model:value="basicData" :key="iKey"></coap-basic>
     </template>
-    <template v-else-if="name === 'LWM2M'">
+    <template v-else-if="name === 'lwm2m'">
       <lwm2m-basic v-model:value="basicData" :key="iKey"></lwm2m-basic>
     </template>
-    <template v-else-if="name === 'EXPROTO'">
+    <template v-else-if="name === 'exproto'">
       <exproto-basic v-model:value="basicData"></exproto-basic>
     </template>
     <el-button
@@ -41,39 +41,25 @@ import stompBasic from "./stompBasic.vue";
 import ExprotoBasic from "./exprotoBasic.vue";
 import { updateGateway, getGateway } from "@/api/gateway";
 import _ from "lodash";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   components: { stompBasic, MqttsnBasic, Lwm2mBasic, CoapBasic, ExprotoBasic },
   name: "GatewayDetailBasic",
-  data: function () {
-    return {
-      name: String(this.$route.params.name).toUpperCase(),
-    };
-  },
+
   setup() {
     let basicData = ref({});
     let infoLoading = ref(false);
     let updateLoading = ref(false);
-
-    let vm = getCurrentInstance();
+    const { t } = useI18n();
     let iKey = ref(0);
-
-    const tl = function (key, collection = "Gateway") {
-      return this.$t(collection + "." + key);
-    };
-
-    // watch(
-    //   () => _.cloneDeep(basicData.value),
-    //   (v) => {
-    //     console.log(v)
-    //   },
-    // )
+    const route = useRoute();
+    const name = String(route.params.name).toLowerCase();
 
     const getGatewayInfo = async () => {
       infoLoading.value = true;
-      let { name } = vm.data;
       if (!name) return;
-      name = String(name).toLowerCase();
       let res = await getGateway(name).catch(() => {});
       if (res) {
         basicData.value = res;
@@ -85,12 +71,11 @@ export default defineComponent({
     const updateGatewayInfo = async function () {
       updateLoading.value = true;
       infoLoading.value = true;
-      let name = String(vm.data.name).toLowerCase();
       let res = await updateGateway(name, basicData.value).catch(() => {});
       if (res) {
         this.$message({
           type: "success",
-          message: this.$t("Base.updateSuccess"),
+          message: t("Base.updateSuccess"),
         });
       }
       getGatewayInfo();
@@ -103,12 +88,13 @@ export default defineComponent({
     });
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       basicData,
       updateLoading,
       infoLoading,
       updateGatewayInfo,
       iKey,
+      name,
     };
   },
 });
