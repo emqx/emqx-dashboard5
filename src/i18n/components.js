@@ -3,10 +3,6 @@ export default {
     zh: "键",
     en: "Key",
   },
-  objectKey: {
-    zh: "对象键",
-    en: "Key",
-  },
   value: {
     zh: "值",
     en: "Value",
@@ -259,9 +255,9 @@ export default {
     zh: "选择模块",
     en: "Modules Select",
   },
-  trace: {
-    zh: "在线 Trace",
-    en: "Online Trace",
+  "log-trace": {
+    zh: "日志追踪",
+    en: "Log Trace",
   },
   monitorSettings: {
     zh: "监控告警",
@@ -282,5 +278,13 @@ export default {
   zoneSettings: {
     zh: "zone",
     en: "zone",
+  },
+  dataBridge: {
+    zh: "Data Bridge",
+    en: "Data Bridge",
+  },
+  connector: {
+    zh: "连接配置",
+    en: "Connector",
   },
 };

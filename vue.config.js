@@ -23,9 +23,10 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new MonacoWebpackPlugin({
-        publicPath: "static/",
-        languages: ["json", "sql", "plaintext"],
-        features: ["wordHighlighter"],
+        // publicPath: "/",
+        languages: ["javascript", "json", "sql", "plaintext"],
+        globalAPI: true,
+        // features: ["wordHighlighter"],
       }),
     ],
   },

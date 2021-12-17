@@ -109,7 +109,7 @@ export default {
       {
         title: "APIKey",
         path: "/APIKey",
-      }
+      },
     ];
 
     let diagnose = [
@@ -124,6 +124,10 @@ export default {
       {
         title: "slow-sub",
         path: "/slow-sub",
+      },
+      {
+        title: "log-trace",
+        path: "/log-trace",
       },
     ];
 
@@ -150,18 +154,18 @@ export default {
         icon: "icon-authentication",
         c: authentication,
       },
-      {
-        title: "ruleengine",
-        icon: "icon-configuration",
-        c: ruleengine,
-      },
+      // {
+      //   title: "ruleengine",
+      //   icon: "icon-configuration",
+      //   c: ruleengine,
+      // },
       {
         title: "configuration",
         icon: "icon-configuration",
         c: config,
       },
       {
-        title: 'diagnose',
+        title: "diagnose",
         icon: "icon-configuration",
         c: diagnose,
       },
