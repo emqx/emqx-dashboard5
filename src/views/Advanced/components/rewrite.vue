@@ -93,9 +93,11 @@ import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Rewrite",
-  props: ["translate"],
-  setup(props) {
+  setup() {
     const { t } = useI18n();
+    const tl = function (key, collection = "Advanced") {
+      return t(collection + "." + key);
+    };
 
     let opRewrite = ref(false);
     let rewriteTbData = ref([]);
@@ -115,7 +117,7 @@ export default defineComponent({
     let validatorRules = [
       {
         required: true,
-        message: props.translate("required"),
+        message: tl("required"),
         trigger: ["blur", "change"],
       },
     ];
@@ -214,7 +216,7 @@ export default defineComponent({
       loadData();
     };
     return {
-      tl: props.translate,
+      tl,
       isEdit,
       opRewrite,
       rewriteTbData,

@@ -285,9 +285,11 @@ import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Retainer",
-  props: ["translate"],
-  setup(props) {
+  setup() {
     const { t } = useI18n();
+    const tl = function (key, collection = "Advanced") {
+      return t(collection + "." + key);
+    };
 
     let retainerConfig = reactive({
       max_payload_size: [1, "MB"],
@@ -327,10 +329,10 @@ export default defineComponent({
     let isCopyShow = ref(false);
 
     let validatorRules = [
-      { required: true, message: props.translate("required"), trigger: "blur" },
+      { required: true, message: tl("required"), trigger: "blur" },
       {
         type: "number",
-        message: props.translate("needNumber"),
+        message: tl("needNumber"),
         trigger: "blur",
       },
     ];
@@ -568,7 +570,7 @@ export default defineComponent({
     });
 
     return {
-      tl: props.translate,
+      tl,
       retainerConfig,
       configLoading,
       tbLoading,

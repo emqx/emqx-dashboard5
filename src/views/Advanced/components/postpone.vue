@@ -157,12 +157,14 @@ import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Postpone",
-  props: ["translate"],
   components: {
     CommonPagination,
   },
-  setup(props) {
+  setup() {
     const { t } = useI18n();
+    const tl = function (key, collection = "Advanced") {
+      return t(collection + "." + key);
+    };
 
     let delayedConfig = reactive({
       enable: false,
@@ -178,12 +180,12 @@ export default defineComponent({
       max_delayed_messages: [
         {
           required: true,
-          message: props.translate("required"),
+          message: tl("required"),
           trigger: "blur",
         },
         {
           type: "number",
-          message: props.translate("needNumber"),
+          message: tl("needNumber"),
           trigger: "blur",
         },
       ],
@@ -320,7 +322,7 @@ export default defineComponent({
     });
 
     return {
-      tl: props.translate,
+      tl,
       delayedTbData,
       delayedConfig,
       updateDelayedConfig,

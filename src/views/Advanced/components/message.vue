@@ -30,9 +30,11 @@ import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Message",
-  props: ["translate"],
   setup() {
-    const { t } = useI18n()
+    const { t } = useI18n();
+    const translate = function (key, collection = "Advanced") {
+      return t(collection + "." + key);
+    };
 
     let eventMsg = reactive({
       client_connected: false,
@@ -87,6 +89,7 @@ export default defineComponent({
     return {
       eventMsg,
       operationPending,
+      translate,
       updateEventMsg,
       reloading,
     };
