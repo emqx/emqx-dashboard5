@@ -28,11 +28,11 @@ import GatewayDetailClients from "@/views/Gateway/components/clients.vue";
 import GatewayCreate from "@/views/Gateway/GatewayCreate.vue";
 // import IoT from "@/views/RuleEngine/IoT/IoT.vue";
 // import IoTCreate from "@/views/RuleEngine/IoT/IoTCreate.vue";
-// import Bridge from "@/views/RuleEngine/Bridge/DataBridge.vue";
-// import BridgeCreate from "@/views/RuleEngine/Bridge/BridgeCreate.vue";
-// import BridgeConnector from "@/views/RuleEngine/Connector/Connector.vue";
-// import ConnectorCreate from "@/views/RuleEngine/Connector/ConnectorCreate.vue";
-// import BridgeDetail from "@/views/RuleEngine/Bridge/BridgeDetail.vue";
+import Bridge from "@/views/RuleEngine/Bridge/DataBridge.vue";
+import BridgeCreate from "@/views/RuleEngine/Bridge/BridgeCreate.vue";
+import BridgeDetail from "@/views/RuleEngine/Bridge/BridgeDetail.vue";
+import Connector from "@/views/RuleEngine/Connector/Connector.vue";
+import ConnectorCreate from "@/views/RuleEngine/Connector/ConnectorCreate.vue";
 import APIKey from "@/views/APIKey/APIKey.vue";
 
 export const routes: Array<RouteRecordRaw> = [
@@ -323,48 +323,48 @@ export const routes: Array<RouteRecordRaw> = [
   //     },
   //   ],
   // },
-  // //bridge
-  // {
-  //   path: "/bridge",
-  //   component: Layout,
-  //   redirect: "/bridge/dataBridge",
-  //   meta: {
-  //     hideKey: "bridge",
-  //     authRequired: true,
-  //     subMenu: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: "dataBridge",
-  //       name: "data-bridge",
-  //       component: Bridge,
-  //       children: [
-  //         {
-  //           path: "create",
-  //           name: "bridge-create",
-  //           component: BridgeCreate,
-  //         },
-  //         {
-  //           path: "detail/:id",
-  //           name: "bridge-detail",
-  //           component: BridgeDetail,
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       path: "connector",
-  //       name: "bridge-connector",
-  //       component: BridgeConnector,
-  //       children: [
-  //         {
-  //           path: "create",
-  //           name: "connector-create",
-  //           component: ConnectorCreate,
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
+  //bridge
+  {
+    path: "/bridge",
+    component: Layout,
+    redirect: "/bridge/dataBridge",
+    meta: {
+      hideKey: "bridge",
+      authRequired: true,
+      subMenu: true,
+    },
+    children: [
+      {
+        path: "dataBridge",
+        name: "data-bridge",
+        component: Bridge,
+        children: [
+          {
+            path: "create",
+            name: "bridge-create",
+            component: BridgeCreate,
+          },
+          {
+            path: "detail/:id",
+            name: "bridge-detail",
+            component: BridgeDetail,
+          },
+        ],
+      },
+      {
+        path: "connector",
+        name: "bridge-connector",
+        component: Connector,
+        children: [
+          {
+            path: "create",
+            name: "connector-create",
+            component: ConnectorCreate,
+          },
+        ],
+      },
+    ],
+  },
   {
     path: "/advanced",
     component: Layout,

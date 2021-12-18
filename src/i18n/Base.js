@@ -215,6 +215,10 @@ export default {
     zh: "启用",
     en: "Enable",
   },
+  disable: {
+    zh: "停用",
+    en: "Disable",
+  },
   test: {
     zh: "测试",
     en: "Test",

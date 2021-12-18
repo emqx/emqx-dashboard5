@@ -229,6 +229,7 @@ code {
   width: 100%;
   overflow: hidden;
   display: flex;
+  align-items: center;
   &:not(:first-of-type) {
     margin-top: 40px;
   }
@@ -262,6 +263,35 @@ code {
     display: inline-flex;
     flex-direction: column;
     margin-left: 10px;
+    height: 45px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    flex-grow: 1;
+  }
+  .section-status {
+    height: 18px;
+    border-radius: 6px;
+  }
+
+  .el-tag.el-tag--info {
+    line-height: 18px;
+    height: 20px;
+
+    .status {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      background-color: #00b173;
+      border-radius: 5px;
+      margin-right: 4px;
+
+      &.stopped {
+        background-color: #575f6e;
+      }
+    }
   }
 }
 
