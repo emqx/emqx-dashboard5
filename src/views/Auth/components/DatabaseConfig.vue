@@ -223,7 +223,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Auth.passwordHash')">
-              <el-select v-model="databaseConfig.password_hash_algorithm">
+              <el-select v-model="databaseConfig.password_hash_algorithm.name">
                 <el-option
                   v-for="item in HashOptions"
                   :key="item"
@@ -242,7 +242,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Auth.saltPosition')">
-              <el-select v-model="databaseConfig.salt_position">
+              <el-select v-model="databaseConfig.password_hash_algorithm.salt_position">
                 <el-option value="prefix"></el-option>
                 <el-option value="suffix"></el-option>
               </el-select>
