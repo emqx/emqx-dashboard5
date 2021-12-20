@@ -201,6 +201,12 @@ code {
   &.icon-system {
     background-position: -24px -24px;
   }
+  &.icon-ruleengine {
+    background-position: -72px 0;
+  }
+  &.icon-diagnose {
+    background-position: -48px -72px;
+  }
 }
 
 .g-coap::before {

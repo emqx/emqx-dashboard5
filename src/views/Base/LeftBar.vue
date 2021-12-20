@@ -156,7 +156,7 @@ export default {
       },
       {
         title: "ruleengine",
-        icon: "icon-configuration",
+        icon: "icon-ruleengine",
         c: ruleengine,
       },
       {
@@ -166,7 +166,7 @@ export default {
       },
       {
         title: "diagnose",
-        icon: "icon-configuration",
+        icon: "icon-diagnose",
         c: diagnose,
       },
       {
