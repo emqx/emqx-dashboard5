@@ -179,9 +179,9 @@ export default {
     zh: "备注",
     en: "Note",
   },
-  ruleid: {
-    zh: "规则ID",
-    en: "Rule ID",
+  ruleName: {
+    zh: "规则Name",
+    en: "Rule Name",
   },
   filterData: {
     zh: "数据筛选",
@@ -210,5 +210,17 @@ export default {
   editOutput: {
     zh: "编辑输出",
     en: "Edit The Output",
+  },
+  testsql: {
+    zh: "测试SQL",
+    en: "Test SQL",
+  },
+  backToIoTList: {
+    zh: "返回IoT规则列表",
+    en: "Back To IoT Rules List",
+  },
+  backToBridggeList: {
+    zh: "返回Bridge列表",
+    en: "Back To Bridge List",
   },
 };

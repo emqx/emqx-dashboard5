@@ -1,54 +1,59 @@
 <template>
-  <div class="bridge-detail" v-loading="infoLoading">
-    <div class="section-header">
-      <div>
-        <img :src="bInfo.type && require(`@/assets/img/${bInfo.type}.png`)" />
-        <span class="title-n-status">
-          <span class="section-title">{{ id }}</span>
-          <el-tag type="info" class="section-status">
-            <span
-              ><i
-                :class="['status', bInfo.status !== 'connected' && 'stopped']"
-              ></i
-              ><span>{{ bInfo.status }}</span></span
-            >
-          </el-tag>
-        </span>
+  <div class="bridge-detail">
+    <router-link class="back-button" :to="{ name: 'data-bridge' }">{{
+      tl("backToBridggeList")
+    }}</router-link>
+    <div class="detail-main" v-loading="infoLoading">
+      <div class="section-header">
+        <div>
+          <img :src="bInfo.type && require(`@/assets/img/${bInfo.type}.png`)" />
+          <span class="title-n-status">
+            <span class="section-title">{{ id }}</span>
+            <el-tag type="info" class="section-status">
+              <span
+                ><i
+                  :class="['status', bInfo.status !== 'connected' && 'stopped']"
+                ></i
+                ><span>{{ bInfo.status }}</span></span
+              >
+            </el-tag>
+          </span>
+        </div>
+        <div>
+          <el-button type="danger" size="small">{{
+            $t("Base.delete")
+          }}</el-button>
+          <el-button size="small" @click="enableOrDisableBridge">
+            {{
+              bInfo.status === "connected"
+                ? $t("Base.disable")
+                : $t("Base.enable")
+            }}</el-button
+          >
+        </div>
       </div>
-      <div>
-        <el-button type="danger" size="small">{{
-          $t("Base.delete")
-        }}</el-button>
-        <el-button size="small" @click="enableOrDisableBridge">
-          {{
-            bInfo.status === "connected"
-              ? $t("Base.disable")
-              : $t("Base.enable")
-          }}</el-button
+      <div class="setting-area">
+        <bridge-http-config
+          v-if="bInfo.type === 'http'"
+          v-model:tls="bInfo.ssl"
+          v-model="bInfo"
+          :edit="true"
+        ></bridge-http-config>
+        <bridge-mqtt-config
+          v-if="bInfo.type === 'mqtt'"
+          v-model="bInfo"
+        ></bridge-mqtt-config>
+      </div>
+      <div class="btn-area">
+        <el-button
+          type="primary"
+          size="small"
+          v-if="bInfo.type"
+          :loading="infoLoading"
+          @click="updateBridgeInfo()"
+          >{{ $t("Base.update") }}</el-button
         >
       </div>
-    </div>
-    <div class="setting-area">
-      <bridge-http-config
-        v-if="bInfo.type === 'http'"
-        v-model:tls="bInfo.ssl"
-        v-model="bInfo"
-        :edit="true"
-      ></bridge-http-config>
-      <bridge-mqtt-config
-        v-if="bInfo.type === 'mqtt'"
-        v-model="bInfo"
-      ></bridge-mqtt-config>
-    </div>
-    <div class="btn-area">
-      <el-button
-        type="primary"
-        size="small"
-        v-if="bInfo.type"
-        :loading="infoLoading"
-        @click="updateBridgeInfo()"
-        >{{ $t("Base.update") }}</el-button
-      >
     </div>
   </div>
 </template>
@@ -91,12 +96,12 @@ export default defineComponent({
       infoLoading.value = false;
     };
 
-    watch(
-      () => [_.cloneDeep(bInfo.value)],
-      (val) => {
-        console.log(val);
-      }
-    );
+    // watch(
+    //   () => [_.cloneDeep(bInfo.value)],
+    //   (val) => {
+    //     console.log(val);
+    //   }
+    // );
 
     const enableOrDisableBridge = async () => {
       // tbLoading.value = true;
