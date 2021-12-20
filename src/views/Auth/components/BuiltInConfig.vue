@@ -1,8 +1,8 @@
 <template>
   <div class="built-in-config config">
     <div class="create-form-title">Build-in-Database</div>
-    <el-row :gutter="20">
-      <el-form class="create-form" size="small">
+    <el-form class="create-form" size="small" label-position="top" >
+      <el-row :gutter="20">
         <template v-if="type !== 'scram'">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.userIdType')">
@@ -33,6 +33,14 @@
               ></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('Auth.saltPosition')">
+              <el-select v-model="builtConfig.password_hash_algorithm.salt_position">
+                <el-option value="prefix"></el-option>
+                <el-option value="suffix"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </template>
         <el-col v-else :span="12">
           <el-form-item :label="$t('Auth.passwordHash')">
@@ -42,8 +50,8 @@
             </el-select>
           </el-form-item>
         </el-col>
-      </el-form>
-    </el-row>
+      </el-row>
+    </el-form>
   </div>
 </template>
 

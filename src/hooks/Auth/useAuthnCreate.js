@@ -2,13 +2,18 @@ import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
 
 export default function useAuthnCreate() {
+  const getPasswordHashAlgorithmObj = () => ({
+    password_hash_algorithm: {
+      name: "sha256",
+      salt_position: "suffix",
+      salt_rounds: "",
+    },
+  });
   const getBuiltInConfig = (type) => {
     if (type === 'password-based') {
       return {
         user_id_type: 'username',
-        password_hash_algorithm: {
-          name: 'sha256',
-        },
+        ...getPasswordHashAlgorithmObj(),
       }
     } else if (type === 'scram') {
       return {
@@ -52,8 +57,7 @@ export default function useAuthnCreate() {
         enable: false,
       },
       query: '',
-      password_hash_algorithm: 'sha256',
-      salt_position: 'prefix',
+      ...getPasswordHashAlgorithmObj(),
     }
     if (backend === 'mysql') {
       data.query_timeout = '5s'
@@ -65,12 +69,11 @@ export default function useAuthnCreate() {
       server: '127.0.0.1:6379',
       servers: '127.0.0.1:6379,127.0.0.2:6379,127.0.0.3:6379',
       sentinel: 'mysentinel',
-      salt_position: 'prefix',
       redis_type: 'single',
       database: 0,
       auto_reconnect: true,
       password: '',
-      password_hash_algorithm: 'sha256',
+      ...getPasswordHashAlgorithmObj(),
       pool_size: 8,
       query: '',
       ssl: {
@@ -88,8 +91,7 @@ export default function useAuthnCreate() {
       selector: '',
       password_hash_field: 'password_hash',
       salt_field: 'salt',
-      password_hash_algorithm: 'sha256',
-      salt_position: 'prefix',
+      ...getPasswordHashAlgorithmObj(),
       pool_size: 8,
       ssl: {
         enable: false,
