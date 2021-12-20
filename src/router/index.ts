@@ -418,9 +418,6 @@ export const routes: Array<RouteRecordRaw> = [
         path: "",
         name: "topic-metrics",
         component: TopicMetrics,
-        meta: {
-          keepAlive: true,
-        },
       },
     ],
   },
