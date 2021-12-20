@@ -8,10 +8,7 @@
           <el-tag type="info" class="section-status">
             <span
               ><i
-                :class="[
-                  'g-status',
-                  gInfo.status !== 'running' && 'is-stopped',
-                ]"
+                :class="['status', gInfo.status !== 'running' && 'stopped']"
               ></i
               ><span>{{ gInfo.status }}</span></span
             >
@@ -114,37 +111,7 @@ export default defineComponent({
   background-size: contain;
 }
 
-.title-n-status {
-  height: 45px;
-}
-
-.section-title {
-  font-size: 14px;
-  font-weight: 700;
-  flex-grow: 1;
-}
-.section-status {
-  height: 18px;
-  border-radius: 6px;
-}
 .el-menu.el-menu--horizontal {
   margin-bottom: 40px;
-}
-.el-tag.el-tag--info {
-  line-height: 18px;
-  height: 20px;
-
-  .g-status {
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    background-color: #00b173;
-    border-radius: 5px;
-    margin-right: 4px;
-
-    &.is-stopped {
-      background-color: #575f6e;
-    }
-  }
 }
 </style>
