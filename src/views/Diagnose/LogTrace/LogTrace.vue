@@ -161,7 +161,7 @@
             @click="submitTrace()"
             :loading="createLoading"
           >
-            {{ $t("Base.confirm") }}
+            {{ $t("Base.create") }}
           </el-button>
         </div>
       </template>
