@@ -62,9 +62,12 @@
                   ? $t("Base.disable")
                   : $t("Base.enable")
               }}</el-button>
-              <el-button size="mini" type="danger">{{
-                $t("Base.delete")
-              }}</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click="submitDeleteBridge(row.id)"
+                >{{ $t("Base.delete") }}</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -75,7 +78,12 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import { getBridgeList, updateBridge, startStopBridge } from "@/api/ruleengine";
+import {
+  getBridgeList,
+  updateBridge,
+  startStopBridge,
+  deleteBridge,
+} from "@/api/ruleengine";
 import { useI18n } from "vue-i18n";
 import { BridgeItem } from "@/types/ruleengine";
 import _ from "lodash";
@@ -120,6 +128,28 @@ export default defineComponent({
       tbLoading.value = false;
     };
 
+    const submitDeleteBridge = async (id: string) => {
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
+        type: "warning",
+      })
+        .then(async () => {
+          tbLoading.value = true;
+
+          const res = await deleteBridge(id).catch(() => {});
+          if (res) {
+            M({
+              type: "success",
+              message: t("Base.deleteSuccess"),
+            });
+            listBridge();
+            tbLoading.value = false;
+          }
+        })
+        .catch(() => {});
+    };
+
     onMounted(listBridge);
 
     return {
@@ -127,6 +157,7 @@ export default defineComponent({
       bridgeTb,
       tbLoading,
       enableOrDisableBridge,
+      submitDeleteBridge,
     };
   },
 });

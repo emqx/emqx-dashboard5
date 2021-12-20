@@ -19,4 +19,20 @@ export interface ConnectorItem {
 export type BridgeItem = {
   id: string;
   status: string;
+  direction: string;
+};
+
+export type RuleItem = {
+  outputs?: Array<Record<string, unknown> | string>;
+  name?: string;
+  enable?: boolean;
+  sql?: string;
+  description?: string;
+};
+
+export type Rule = {
+  enable: boolean;
+  created_at: string;
+  name: string;
+  id: string;
 };

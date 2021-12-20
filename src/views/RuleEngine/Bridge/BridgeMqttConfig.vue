@@ -100,7 +100,13 @@
             ></el-checkbox>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Payload"> </el-form-item>
+            <el-form-item label="Payload">
+              <el-input
+                type="textarea"
+                rows="10"
+                v-model="mqttBridgeVal.payload"
+              ></el-input>
+            </el-form-item>
           </el-col>
         </el-row>
       </template>

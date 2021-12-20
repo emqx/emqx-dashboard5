@@ -26,8 +26,9 @@ import GatewayDetailListener from "@/views/Gateway/components/listeners.vue";
 import GatewayDetailAuth from "@/views/Gateway/components/auth.vue";
 import GatewayDetailClients from "@/views/Gateway/components/clients.vue";
 import GatewayCreate from "@/views/Gateway/GatewayCreate.vue";
-// import IoT from "@/views/RuleEngine/IoT/IoT.vue";
-// import IoTCreate from "@/views/RuleEngine/IoT/IoTCreate.vue";
+import IoT from "@/views/RuleEngine/IoT/IoT.vue";
+import IoTCreate from "@/views/RuleEngine/IoT/IoTCreate.vue";
+import IoTDetail from "@/views/RuleEngine/IoT/IoTDetail.vue";
 import Bridge from "@/views/RuleEngine/Bridge/DataBridge.vue";
 import BridgeCreate from "@/views/RuleEngine/Bridge/BridgeCreate.vue";
 import BridgeDetail from "@/views/RuleEngine/Bridge/BridgeDetail.vue";
@@ -302,27 +303,32 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // //iot
-  // {
-  //   path: "/iot",
-  //   component: Layout,
-  //   meta: {
-  //     hideKey: "iot",
-  //     authRequired: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "iot",
-  //       component: IoT,
-  //     },
-  //     {
-  //       path: "create",
-  //       name: "iot-create",
-  //       component: IoTCreate,
-  //     },
-  //   ],
-  // },
+  //iot
+  {
+    path: "/iot",
+    component: Layout,
+    meta: {
+      hideKey: "iot",
+      authRequired: true,
+    },
+    children: [
+      {
+        path: "",
+        name: "iot",
+        component: IoT,
+      },
+      {
+        path: "create",
+        name: "iot-create",
+        component: IoTCreate,
+      },
+      {
+        path: "detail/:id",
+        name: "iot-detail",
+        component: IoTDetail,
+      },
+    ],
+  },
   //bridge
   {
     path: "/bridge",

@@ -93,18 +93,20 @@ export default defineComponent({
         confirmButtonText: t("Base.confirm"),
         cancelButtonText: t("Base.cancel"),
         type: "warning",
-      }).then(async () => {
-        tbLoading.value = true;
-        let res = await deleteConnector(row.id).catch(() => {});
-        if (res) {
-          M({
-            type: "success",
-            message: t("Base.deleteSuccess"),
-          });
-          listConnector();
-        }
-        tbLoading.value = false;
-      });
+      })
+        .then(async () => {
+          tbLoading.value = true;
+          let res = await deleteConnector(row.id).catch(() => {});
+          if (res) {
+            M({
+              type: "success",
+              message: t("Base.deleteSuccess"),
+            });
+            listConnector();
+          }
+          tbLoading.value = false;
+        })
+        .catch(() => {});
     };
 
     const openEdit = async (row: ConnectorItem) => {
