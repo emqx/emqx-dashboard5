@@ -1,7 +1,7 @@
 <template>
   <div class="built-in-config config">
     <div class="create-form-title">Build-in-Database</div>
-    <el-form class="create-form" size="small" label-position="top" >
+    <el-form class="create-form" size="small" label-position="top">
       <el-row :gutter="20">
         <template v-if="type !== 'scram'">
           <el-col :span="12">
@@ -12,27 +12,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.passwordHash')">
-              <el-select v-model="builtConfig.password_hash_algorithm.name">
-                <el-option
-                  v-for="item in HashOptions"
-                  :key="item"
-                  :value="item"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col
-            v-if="builtConfig.password_hash_algorithm.name === 'bcrypt'"
-            :span="12"
-          >
-            <el-form-item label="Salt Rounds">
-              <el-input
-                v-model="builtConfig.password_hash_algorithm.salt_rounds"
-              ></el-input>
-            </el-form-item>
-          </el-col>
+          <password-hash-algorithm-form-items v-model="builtConfig" />
           <el-col :span="12">
             <el-form-item :label="$t('Auth.saltPosition')">
               <el-select v-model="builtConfig.password_hash_algorithm.salt_position">
@@ -57,10 +37,14 @@
 
 <script>
 import { defineComponent, reactive, watch } from "vue";
-import usePassword from "@/hooks/usePassword";
+import PasswordHashAlgorithmFormItems from "./PasswordHashAlgorithmFormItems.vue";
 
 export default defineComponent({
   name: "BuiltInConfig",
+
+  components: {
+    PasswordHashAlgorithmFormItems,
+  },
 
   props: {
     modelValue: {
@@ -78,9 +62,7 @@ export default defineComponent({
     watch(builtConfig, (value) => {
       ctx.emit("update:modelValue", value);
     });
-    const { HashOptions } = usePassword();
     return {
-      HashOptions,
       builtConfig,
     };
   },

@@ -1,5 +1,6 @@
 import { ElMessage as M } from "element-plus";
 import _ from "lodash";
+import { getUsefulPasswordHashAlgorithmData } from "./usePasswordHashAlgorithmData";
 
 export default function useProcessAuthData() {
   const processHttpConfig = (data) => {
@@ -78,10 +79,19 @@ export default function useProcessAuthData() {
     }
     return tempData;
   };
+  const processPasswordHashAlgorithmData = (data) => {
+    const ret = _.cloneDeep(data);
+    if ("password_hash_algorithm" in ret) {
+      ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(ret.password_hash_algorithm);
+    }
+    return ret;
+  };
+
   return {
     processHttpConfig,
     processMongoDBConfig,
     processRedisConfig,
     processJwtConfig,
+    processPasswordHashAlgorithmData,
   };
 }

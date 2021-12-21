@@ -221,17 +221,7 @@
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.passwordHash')">
-              <el-select v-model="databaseConfig.password_hash_algorithm.name">
-                <el-option
-                  v-for="item in HashOptions"
-                  :key="item"
-                  :value="item"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+          <password-hash-algorithm-form-items v-model="databaseConfig" />
           <el-col v-if="isMongoDB" :span="12">
             <el-form-item :label="$t('Auth.saltField')">
               <el-input
@@ -266,14 +256,14 @@
 import { computed, defineComponent, ref } from "vue";
 import CodeView from "@/components/CodeView";
 import TimeInputWithUnitSelect from "@/components/TimeInputWithUnitSelect.vue";
+import PasswordHashAlgorithmFormItems from "./PasswordHashAlgorithmFormItems.vue";
 import TLSConfig from "./TLSConfig.vue";
-import usePassword from "@/hooks/usePassword";
 import useDatabaseConfig from "@/hooks/Auth/useDatabaseConfig";
 import useCopy from "@/hooks/useCopy";
 
 export default defineComponent({
   name: "DatabaseConfig",
-  components: { CodeView, TLSConfig, TimeInputWithUnitSelect },
+  components: { CodeView, TLSConfig, TimeInputWithUnitSelect, PasswordHashAlgorithmFormItems },
 
   props: {
     database: {
@@ -306,7 +296,6 @@ export default defineComponent({
     const { copySuccess } = useCopy(() => {
       needHelp.value = false;
     });
-    const { HashOptions } = usePassword();
     return {
       isMongoDB,
       isRedis,
@@ -317,7 +306,6 @@ export default defineComponent({
       databaseConfig,
       setDefaultContent,
       copySuccess,
-      HashOptions,
     };
   },
 });
