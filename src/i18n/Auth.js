@@ -291,4 +291,12 @@ export default {
     zh: "请输入 Topic",
     en: "Please enter topic",
   },
+  iterationCount: {
+    zh: "迭代次数",
+    en: "Iteration Count",
+  },
+  dkLength: {
+    zh: "密钥长度",
+    en: "Key length",
+  },
 };

@@ -1,14 +1,8 @@
 import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
+import { getPasswordHashAlgorithmObj } from "./usePasswordHashAlgorithmData";
 
 export default function useAuthnCreate() {
-  const getPasswordHashAlgorithmObj = () => ({
-    password_hash_algorithm: {
-      name: "sha256",
-      salt_position: "suffix",
-      salt_rounds: "",
-    },
-  });
   const getBuiltInConfig = (type) => {
     if (type === 'password-based') {
       return {
@@ -112,7 +106,7 @@ export default function useAuthnCreate() {
       verify_claims: {},
     }
   }
-  const { processHttpConfig, processMongoDBConfig, processRedisConfig, processJwtConfig } =
+  const { processHttpConfig, processMongoDBConfig, processRedisConfig, processJwtConfig, processPasswordHashAlgorithmData } =
     useProcessAuthData()
   const factory = (mechanism, backend) => {
     switch (mechanism) {
@@ -160,6 +154,7 @@ export default function useAuthnCreate() {
       data.backend = backend
     }
     data.mechanism = mechanism
+    data = processPasswordHashAlgorithmData(data)
     return data
   }
   return {
