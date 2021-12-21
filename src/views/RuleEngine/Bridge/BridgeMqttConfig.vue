@@ -327,6 +327,5 @@ export default defineComponent({
 .edit-icon-blk {
   display: flex;
   align-items: center;
-  margin-left: 15px;
 }
 </style>

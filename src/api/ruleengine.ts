@@ -85,3 +85,7 @@ export function deleteRules(id: string): Promise<any> {
   if (!id) return Promise.reject();
   return http.delete("/rules/" + encodeURIComponent(id));
 }
+
+export function testsql(body: Record<string, unknown>): Promise<any> {
+  return http.post("/rule_test", body);
+}

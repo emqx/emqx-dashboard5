@@ -139,6 +139,7 @@ export default defineComponent({
       enableOrDisableBridge,
       infoLoading,
       updateBridgeInfo,
+      tl: (key: string) => t("RuleEngine." + key),
     };
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper data-bridge-create">
+  <div class="data-bridge-create">
     <div class="page-header-title">
       {{ tl("createConnector") }}
     </div>

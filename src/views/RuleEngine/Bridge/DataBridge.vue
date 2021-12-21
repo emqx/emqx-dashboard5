@@ -45,7 +45,7 @@
             sortable
             prop="status"
           ></el-table-column>
-          <el-table-column :label="$t('Base.operation')">
+          <el-table-column :label="$t('Base.operation')" min-width="120">
             <template #default="{ row }">
               <el-button
                 size="mini"

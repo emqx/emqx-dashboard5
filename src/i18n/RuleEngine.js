@@ -223,4 +223,8 @@ export default {
     zh: "返回Bridge列表",
     en: "Back To Bridge List",
   },
+  messages: {
+    zh: "消息",
+    en: "Messages",
+  },
 };

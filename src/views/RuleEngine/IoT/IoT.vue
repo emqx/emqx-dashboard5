@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { getRules, updateRules, deleteRules } from "@/api/ruleengine";
 import moment from "moment";
@@ -102,6 +102,15 @@ export default defineComponent({
     const pageShow = ref(pageType[0]);
     const ruleTable = ref([]);
     const iotLoading = ref(false);
+
+    watch(
+      () => pageShow.value,
+      (v) => {
+        if (v === pageType[0]) {
+          getRulesList();
+        }
+      }
+    );
 
     const getRulesList = async () => {
       iotLoading.value = true;

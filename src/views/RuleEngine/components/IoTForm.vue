@@ -46,8 +46,8 @@
             >
               <el-option
                 v-for="item in ruleEventsList"
-                :key="item"
-                :value="item"
+                :key="item.event"
+                :value="item.event"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -63,15 +63,18 @@
           </el-form-item>
         </el-col>
         <el-col>
-          <el-button size="small" @click="openTestDialog()">{{
-            tl("testsql")
-          }}</el-button>
+          <el-button
+            size="small"
+            @click="openTestDialog()"
+            :disabled="!sqlPartValue.from || !sqlPartValue.select"
+            >{{ tl("testsql") }}</el-button
+          >
         </el-col>
       </el-row>
       <div class="part-header">{{ tl("output") }}</div>
       <el-row>
         <el-col :span="14">
-          <template v-for="item in ruleValue.outputs" :key="item">
+          <template v-for="(item, index) in ruleValue.outputs" :key="item">
             <div class="outputs-item">
               <span
                 ><img
@@ -94,12 +97,15 @@
                 </div>
               </span>
               <span class="output-op">
-                <el-button size="mini" @click="openOpDialog(true)">
+                <el-button size="mini" @click="openOpDialog(true, index)">
                   {{ $t("Base.edit") }}</el-button
                 >
-                <el-button size="mini" type="danger">{{
-                  $t("Base.delete")
-                }}</el-button>
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="deleteOutput(index)"
+                  >{{ $t("Base.delete") }}</el-button
+                >
               </span>
             </div>
           </template>
@@ -124,9 +130,27 @@
                   :key="bridge"
                   :value="bridge.id"
                   :label="bridge.id"
+                  :disabled="
+                    outputDisableList.includes(bridge.id) &&
+                    bridge.id !== ruleValue.outputs[editIndex]
+                  "
                 ></el-option>
-                <el-option value="console">{{ tl("consoleOutput") }}</el-option>
-                <el-option value="republish">{{ tl("republish") }}</el-option>
+                <el-option
+                  value="console"
+                  :disabled="
+                    outputDisableList.includes('console') &&
+                    'console' !== ruleValue.outputs[editIndex]
+                  "
+                  >{{ tl("consoleOutput") }}</el-option
+                >
+                <el-option
+                  value="republish"
+                  :disabled="
+                    outputDisableList.includes('republish') &&
+                    'republish' !== ruleValue.outputs[editIndex]
+                  "
+                  >{{ tl("republish") }}</el-option
+                >
               </el-select>
             </el-form-item>
           </el-col>
@@ -204,6 +228,61 @@
         }}</el-button>
       </template>
     </el-dialog>
+
+    <el-dialog :title="tl('testsql')" v-model="testDialog" width="80%">
+      <el-form label-position="top">
+        <el-row :gutter="30">
+          <el-col :span="12">
+            <el-form-item :label="tl('messages')">
+              <el-input
+                type="textarea"
+                rows="5"
+                v-model="testParams.msg"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="'Metadata'">
+              <key-and-value-editor
+                v-model="testParams.metadata"
+              ></key-and-value-editor>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="30">
+          <el-col :span="12">
+            <el-form-item :label="'SQL'">
+              <el-input
+                type="textarea"
+                rows="5"
+                v-model="testParams.sql"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="'Output'">
+              <el-input
+                type="textarea"
+                rows="5"
+                v-model="testParams.output"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <template #footer>
+        <el-button
+          type="primary"
+          size="small"
+          :loading="testLoading"
+          @click="submitTest()"
+          >{{ $t("Base.test") }}</el-button
+        >
+        <el-button size="small" @click="cancelTestDialog()">{{
+          $t("Base.cancel")
+        }}</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -212,13 +291,40 @@ import { defineComponent, ref, Ref, onMounted, watch } from "vue";
 // import BridgeHttpConfig from "../Bridge/BridgeHttpConfig.vue";
 // import BridgeMqttConfig from "../Bridge/BridgeMqttConfig.vue";
 // import { CaretBottom, CaretTop } from "@element-plus/icons";
-import { getBridgeList, getRuleEvents } from "@/api/ruleengine";
+import { getBridgeList, getRuleEvents, testsql } from "@/api/ruleengine";
 import { BridgeItem, RuleItem } from "@/types/ruleengine";
 import { useI18n } from "vue-i18n";
 import _ from "lodash";
+import { ElMessageBox as MB, ElMessage as M } from "element-plus";
+
+import KeyAndValueEditor from "@/components/KeyAndValueEditor.vue";
+type OutputForm = {
+  type: string;
+  args?: Record<string, unknown>;
+};
+type OutputItem =
+  | string
+  | {
+      function?: string;
+      args?: {
+        topic: string;
+        payload: string;
+        qos: 0 | 1 | 2;
+      };
+    };
+
+type RuleEvent = {
+  test_columns: {
+    payload: string;
+    qos: number;
+  };
+  event: string;
+  columns: Array<string>;
+};
 
 export default defineComponent({
   components: {
+    KeyAndValueEditor,
     // CaretTop,
     // CaretBottom,
     // BridgeHttpConfig,
@@ -245,6 +351,10 @@ export default defineComponent({
     const chosenBridge = ref({});
     const sqlFromType = ref("topic");
     const isBridgeEdit = ref(false);
+    const testLoading = ref(false);
+    const outputDisableList: Ref<Array<string>> = ref([]);
+    const editIndex: Ref<number | undefined> = ref(undefined);
+    const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent);
 
     const ruleValueDefault = {
       name: "",
@@ -264,13 +374,22 @@ export default defineComponent({
       where: "",
     });
 
-    const outputForm = ref({
+    const outputFormDefault: OutputForm = {
       type: "",
       args: {
         topic: "",
         qos: 0,
         payload: "",
       },
+    };
+
+    const outputForm = ref(outputFormDefault);
+
+    const testParams = ref({
+      msg: "",
+      metadata: {},
+      sql: "",
+      output: "",
     });
 
     watch(
@@ -283,9 +402,15 @@ export default defineComponent({
     watch(
       () => _.cloneDeep(ruleValue.value),
       (val) => {
-        context.emit("update:modelValue", { ...val, sql: transformSQL() });
+        syncData();
       }
     );
+
+    const syncData = () => {
+      const sql = transformSQL();
+      context.emit("update:modelValue", { ...ruleValue.value, sql });
+      testParams.value.sql = sql;
+    };
 
     watch(
       () => _.cloneDeep(sqlPartValue.value),
@@ -324,27 +449,83 @@ export default defineComponent({
       let opObj;
       switch (outputForm.value.type) {
         case "console":
-          opObj = { function: "console" };
+          opObj = { function: outputForm.value.type };
           break;
         case "republish":
-          opObj = { function: "republish", args: { ...outputForm.value.args } };
+          opObj = {
+            function: outputForm.value.type,
+            args: { ...outputForm.value.args },
+          };
           break;
         default:
           opObj = outputForm.value.type;
       }
+
       const output = ruleValue.value.outputs || [];
       if (!edit) {
         output.push(opObj);
+      } else {
+        //
+        editIndex.value !== undefined &&
+          output.splice(editIndex.value, 1, opObj);
       }
-
+      // outputDisableList.value = outputDisableList.value
+      //   .concat([outputForm.value.type])
+      //   .filter((v, k, a) => a.indexOf(v) === k);
+      calcDisableList();
       outputLoading.value = false;
       opDialog.value = false;
     };
 
-    const openOpDialog = (edit = false) => {
-      opEdit.value = !!edit;
-      opDialog.value = true;
-      !bridgeList.value.length && loadBridgeList();
+    const calcDisableList = () => {
+      outputDisableList.value = [];
+      ruleValue.value.outputs?.forEach((v: OutputItem) => {
+        if (typeof v === "string") {
+          outputDisableList.value.push(v);
+        } else if (typeof v === "object") {
+          v.function && outputDisableList.value.push(v.function);
+        }
+      });
+    };
+
+    const openOpDialog: (edit: boolean, itemIndex: number | undefined) => void =
+      (edit = false, itemIndex) => {
+        opEdit.value = !!edit;
+        opDialog.value = true;
+        outputForm.value = _.cloneDeep(outputFormDefault);
+        let item: OutputItem | undefined;
+        editIndex.value = itemIndex;
+        if (itemIndex !== undefined) {
+          item = ruleValue.value.outputs?.[itemIndex];
+        }
+
+        if (edit) {
+          if (typeof item === "string") {
+            outputForm.value.type = item;
+          } else if (typeof item === "object") {
+            outputForm.value.type = item.function || "";
+            if (item.function === "republish") {
+              outputForm.value.args = item.args;
+            }
+          }
+        }
+        !bridgeList.value.length && loadBridgeList();
+      };
+
+    const deleteOutput = (itemIndex: number | undefined) => {
+      MB.confirm(t("General.confirmDelete"), {
+        confirmButtonText: t("Base.confirm"),
+        cancelButtonText: t("Base.cancel"),
+        type: "warning",
+      })
+        .then(() => {
+          if (itemIndex !== undefined) {
+            ruleValue.value.outputs?.splice(itemIndex, 1);
+
+            calcDisableList();
+          }
+        })
+        .catch(() => {});
     };
 
     const cancelOpDialog = () => {
@@ -373,24 +554,74 @@ export default defineComponent({
 
     const openTestDialog = () => {
       testDialog.value = true;
+      syncData();
+
+      function findProperEvent(event: string) {
+        const properEvent = ruleEventsList.value.find(
+          (v: { event: string }) => v.event === event
+        );
+        return properEvent;
+      }
+
+      function setDataWithEvent(properEvent: RuleEvent) {
+        chosenEvent.value = properEvent;
+        testParams.value.msg = chosenEvent.value?.test_columns?.payload;
+        testParams.value.metadata = chosenEvent.value?.test_columns;
+        Reflect.deleteProperty(testParams.value.metadata, "payload");
+      }
+
+      if (sqlFromType.value === "event") {
+        const eventData = findProperEvent(sqlPartValue.value.from);
+        eventData && setDataWithEvent(eventData);
+      } else if (sqlFromType.value === "topic") {
+        const eventData = findProperEvent(sqlPartValue.value.from);
+        if (eventData) {
+          setDataWithEvent(eventData);
+          return;
+        }
+        const modifiedEvent = findProperEvent("$events/message_publish");
+        modifiedEvent && setDataWithEvent(modifiedEvent);
+      } else if (sqlFromType.value === "bridge") {
+        const modifiedEvent = findProperEvent("$events/message_publish");
+        modifiedEvent && setDataWithEvent(modifiedEvent);
+      }
+    };
+
+    const submitTest = async () => {
+      testLoading.value = true;
+      const context = {
+        ...testParams.value.metadata,
+        payload: testParams.value.msg,
+      };
+
+      const res = await testsql({
+        context,
+        sql: testParams.value.sql,
+      }).catch((e) => {
+        testParams.value.output = e;
+      });
+
+      if (res) {
+        testParams.value.output = res;
+      }
+      testLoading.value = false;
+    };
+
+    const cancelTestDialog = () => {
+      testDialog.value = false;
     };
 
     const loadRuleEvents = async () => {
       const res = await getRuleEvents().catch(() => {});
       if (res) {
-        ruleEventsList.value = res.map((v: Record<string, unknown>) => {
-          return v.event;
-        });
+        ruleEventsList.value = res;
       }
     };
 
     onMounted(() => {
       loadIngressBridgeList();
       loadRuleEvents();
-      context.emit("update:modelValue", {
-        ...ruleValue.value,
-        sql: transformSQL(),
-      });
+      syncData();
     });
 
     return {
@@ -403,15 +634,23 @@ export default defineComponent({
       cancelOpDialog,
       sqlPartValue,
       submitOutput,
+      outputDisableList,
       chosenBridge,
       sqlFromType,
       openTestDialog,
+      testDialog,
       ruleValue,
       opEdit,
       opDialog,
       outputLoading,
       ruleEventsList,
       ingressBridgeList,
+      cancelTestDialog,
+      testParams,
+      testLoading,
+      deleteOutput,
+      editIndex,
+      submitTest,
     };
   },
 });
