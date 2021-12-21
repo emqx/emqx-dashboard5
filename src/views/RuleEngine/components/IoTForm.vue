@@ -17,60 +17,80 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("filterData") }}</div>
-      <el-row>
-        <el-col :span="14">
-          <el-form-item label="FROM(Data Source)">
-            <el-radio-group v-model="sqlFromType">
-              <el-radio label="topic"></el-radio>
-              <el-radio label="bridge"></el-radio>
-              <el-radio label="event"></el-radio>
-            </el-radio-group>
-            <el-input
-              v-if="sqlFromType === 'topic'"
-              v-model="sqlPartValue.from"
-            ></el-input>
-            <el-select
-              v-if="sqlFromType === 'bridge'"
-              v-model="sqlPartValue.from"
-            >
-              <el-option
-                v-for="item in ingressBridgeList"
-                :key="item.id"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-            <el-select
-              v-if="sqlFromType === 'event'"
-              v-model="sqlPartValue.from"
-            >
-              <el-option
-                v-for="item in ruleEventsList"
-                :key="item.event"
-                :value="item.event"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="14">
-          <el-form-item label="SELECT(Data Transformation)">
-            <el-input type="textarea" v-model="sqlPartValue.select"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="14">
-          <el-form-item label="WHERE(Condition)">
-            <el-input type="textarea" v-model="sqlPartValue.where"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col>
-          <el-button
-            size="small"
-            @click="openTestDialog()"
-            :disabled="!sqlPartValue.from || !sqlPartValue.select"
-            >{{ tl("testsql") }}</el-button
-          >
-        </el-col>
-      </el-row>
+      <div class="part-header">
+        {{ tl("filterData")
+        }}<el-button
+          size="mini"
+          class="part-btn"
+          @click="briefEditType = !briefEditType"
+          >{{ tl("changeSqlMethod") }}</el-button
+        >
+      </div>
+      <template v-if="briefEditType">
+        <el-row>
+          <el-col :span="14">
+            <el-form-item label="FROM(Data Source)">
+              <el-radio-group v-model="sqlFromType">
+                <el-radio label="topic"></el-radio>
+                <el-radio label="bridge"></el-radio>
+                <el-radio label="event"></el-radio>
+              </el-radio-group>
+              <el-input
+                v-if="sqlFromType === 'topic'"
+                v-model="sqlPartValue.from"
+              ></el-input>
+              <el-select
+                v-if="sqlFromType === 'bridge'"
+                v-model="sqlPartValue.from"
+              >
+                <el-option
+                  v-for="item in ingressBridgeList"
+                  :key="item.id"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+              <el-select
+                v-if="sqlFromType === 'event'"
+                v-model="sqlPartValue.from"
+              >
+                <el-option
+                  v-for="item in ruleEventsList"
+                  :key="item.event"
+                  :value="item.event"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="14">
+            <el-form-item label="SELECT(Data Transformation)">
+              <el-input
+                type="textarea"
+                v-model="sqlPartValue.select"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="14">
+            <el-form-item label="WHERE(Condition)">
+              <el-input type="textarea" v-model="sqlPartValue.where"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col>
+            <el-button size="small" @click="openTestDialog()">{{
+              tl("testsql")
+            }}</el-button>
+          </el-col>
+        </el-row>
+      </template>
+      <template v-else>
+        <el-row>
+          <el-col :span="16">
+            <el-form-item :label="'SQL'">
+              <el-input type="textarea" rows="10" v-model="ruleValue.sql">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </template>
       <div class="part-header">{{ tl("output") }}</div>
       <el-row>
         <el-col :span="14">
@@ -79,9 +99,9 @@
               <span
                 ><img
                   :src="
-                    require(`@/assets/img/${
+                    getOutputImage(
                       item.function ? item.function : item.split(':')[0]
-                    }.png`)
+                    )
                   "
                   width="80"
               /></span>
@@ -296,8 +316,10 @@ import { BridgeItem, RuleItem } from "@/types/ruleengine";
 import { useI18n } from "vue-i18n";
 import _ from "lodash";
 import { ElMessageBox as MB, ElMessage as M } from "element-plus";
+import parser from "js-sql-parser";
 
 import KeyAndValueEditor from "@/components/KeyAndValueEditor.vue";
+import { text } from "d3-fetch";
 type OutputForm = {
   type: string;
   args?: Record<string, unknown>;
@@ -355,6 +377,7 @@ export default defineComponent({
     const outputDisableList: Ref<Array<string>> = ref([]);
     const editIndex: Ref<number | undefined> = ref(undefined);
     const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent);
+    const briefEditType = ref(true);
 
     const ruleValueDefault = {
       name: "",
@@ -400,7 +423,7 @@ export default defineComponent({
     );
 
     watch(
-      () => _.cloneDeep(ruleValue.value),
+      () => [_.cloneDeep(ruleValue.value), _.cloneDeep(sqlPartValue.value)],
       (val) => {
         syncData();
       }
@@ -410,17 +433,9 @@ export default defineComponent({
       const sql = transformSQL();
       context.emit("update:modelValue", { ...ruleValue.value, sql });
       testParams.value.sql = sql;
+      ruleValue.value.sql = transformSQL();
+      parseStrSQL();
     };
-
-    watch(
-      () => _.cloneDeep(sqlPartValue.value),
-      (val) => {
-        context.emit("update:modelValue", {
-          ...ruleValue.value,
-          sql: transformSQL(),
-        });
-      }
-    );
 
     const transformSQL = () => {
       const tempSql = [
@@ -433,6 +448,12 @@ export default defineComponent({
         tempSql.push("WHERE", sqlPartValue.value.where);
 
       return tempSql.map((v) => String(v).trim()).join(" ");
+    };
+
+    const parseStrSQL = () => {
+      // console.log(ruleValue.value.sql);
+      // const ast = parser.parse(ruleValue.value.sql);
+      // console.log(ast);
     };
 
     const loadBridgeList = async () => {
@@ -556,6 +577,8 @@ export default defineComponent({
       testDialog.value = true;
       syncData();
 
+      testParams.value.output = "";
+
       function findProperEvent(event: string) {
         const properEvent = ruleEventsList.value.find(
           (v: { event: string }) => v.event === event
@@ -589,9 +612,11 @@ export default defineComponent({
 
     const submitTest = async () => {
       testLoading.value = true;
+      const eventType = chosenEvent.value?.event || "";
       const context = {
         ...testParams.value.metadata,
         payload: testParams.value.msg,
+        event_type: eventType.match(/(\$events\/)([\w]+)/)?.[2],
       };
 
       const res = await testsql({
@@ -602,7 +627,13 @@ export default defineComponent({
       });
 
       if (res) {
-        testParams.value.output = res;
+        try {
+          const text = JSON.stringify(res);
+          testParams.value.output = text;
+        } catch (e) {
+          console.log(e);
+          testParams.value.output = res;
+        }
       }
       testLoading.value = false;
     };
@@ -615,6 +646,16 @@ export default defineComponent({
       const res = await getRuleEvents().catch(() => {});
       if (res) {
         ruleEventsList.value = res;
+      }
+    };
+
+    const getOutputImage = (item: string) => {
+      try {
+        return require(`@/assets/img/${item}.png`);
+      } catch (e) {
+        //May it be a user defined module,
+        //that would have no valid overview png file existing in the path
+        console.log("ImgErr:", e);
       }
     };
 
@@ -651,6 +692,8 @@ export default defineComponent({
       deleteOutput,
       editIndex,
       submitTest,
+      getOutputImage,
+      briefEditType,
     };
   },
 });
@@ -663,6 +706,8 @@ export default defineComponent({
   margin-top: 10px;
   display: flex;
   align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
 
   span:nth-child(2) {
     flex-grow: 1;
@@ -707,5 +752,8 @@ export default defineComponent({
 .embedded-config {
   border: var(--el-border-base);
   padding: 30px;
+}
+.part-btn {
+  margin-left: 15px;
 }
 </style>

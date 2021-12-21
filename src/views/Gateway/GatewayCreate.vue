@@ -14,19 +14,19 @@
     </el-row>
     <el-row class="config-main">
       <el-col :span="18" v-if="stepActive === 0" class="config-basic">
-        <template v-if="name === 'STOMP'">
+        <template v-if="name === 'stomp'">
           <stomp-basic v-model:value="basicData" />
         </template>
-        <template v-else-if="name === 'MQTTSN'">
+        <template v-else-if="name === 'mqttsn'">
           <mqttsn-basic v-model:value="basicData"></mqttsn-basic>
         </template>
-        <template v-else-if="name === 'COAP'">
+        <template v-else-if="name === 'coap'">
           <coap-basic v-model:value="basicData"></coap-basic>
         </template>
-        <template v-else-if="name === 'LWM2M'">
+        <template v-else-if="name === 'lwm2m'">
           <lw-basic v-model:value="basicData"></lw-basic>
         </template>
-        <template v-else-if="name === 'EXPROTO'">
+        <template v-else-if="name === 'exproto'">
           <exproto-basic v-model:value="basicData"></exproto-basic>
         </template>
       </el-col>
@@ -79,20 +79,13 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  onMounted,
-  ref,
-  watch,
-  getCurrentInstance,
-} from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import CoapBasic from "./components/coapBasic.vue";
 import Listeners from "./components/listeners.vue";
 import LwBasic from "./components/lwm2mBasic.vue";
 import MqttsnBasic from "./components/mqttsnBasic.vue";
 import stompBasic from "./components/stompBasic.vue";
 import ExprotoBasic from "./components/exprotoBasic.vue";
-
 import _ from "lodash";
 import { postGateway, getGateway } from "@/api/gateway";
 import router from "@/router";
@@ -149,20 +142,15 @@ export default defineComponent({
   },
   name: "GatewayCreate",
 
-  setup(props) {
+  setup() {
     let stepActive = ref(0);
     let basicData = ref({});
     let listenerList = ref([]);
     let submitLoading = ref(false);
 
-    // let vm = getCurrentInstance();
     const { t } = useI18n();
     const route = useRoute();
-    const gname = ref(String(route.params.name).toUpperCase());
-
-    const tl = function (key, collection = "Gateway") {
-      return t(collection + "." + key);
-    };
+    const gname = String(route.params.name).toLowerCase();
 
     // watch(
     //   () => [_.cloneDeep(basicData.value), _.cloneDeep(listenerList.value)],
@@ -177,13 +165,11 @@ export default defineComponent({
 
     const createGateway = async () => {
       submitLoading.value = true;
-      const name = String(gname.value).toLowerCase();
-      if (!name) return;
 
       let res = await postGateway({
         ...basicData.value,
         listeners: [...listenerList.value],
-        name,
+        gname,
       }).catch(() => {});
       if (res) {
         M({
@@ -191,20 +177,16 @@ export default defineComponent({
           message: t("Base.createSuccess"),
         });
         gotoList();
-      } else {
-        //todo
       }
       submitLoading.value = false;
     };
 
     const gatewayStatus = async () => {
-      const name = String(gname.value).toLowerCase();
-
-      if (!name) {
+      if (!gname) {
         gotoList();
       }
 
-      let res = await getGateway(name).catch(() => {});
+      let res = await getGateway(gname).catch(() => {});
       if (res) {
         let { status } = res;
         if (status !== "unloaded") {
@@ -220,12 +202,12 @@ export default defineComponent({
     onMounted(() => {
       gatewayStatus();
 
-      let staticListener = STATIC_LISTENER[String(gname.value).toLowerCase()];
+      let staticListener = STATIC_LISTENER[gname];
       staticListener && listenerList.value.push({ ...staticListener });
     });
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       stepActive,
       basicData,
       gotoList,

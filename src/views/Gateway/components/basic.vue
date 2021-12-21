@@ -27,13 +27,7 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  getCurrentInstance,
-  onMounted,
-  ref,
-  watch,
-} from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import CoapBasic from "./coapBasic.vue";
 import Lwm2mBasic from "./lwm2mBasic.vue";
 import MqttsnBasic from "./mqttsnBasic.vue";
@@ -77,8 +71,8 @@ export default defineComponent({
           type: "success",
           message: t("Base.updateSuccess"),
         });
+        getGatewayInfo();
       }
-      getGatewayInfo();
       updateLoading.value = false;
       infoLoading.value = false;
     };

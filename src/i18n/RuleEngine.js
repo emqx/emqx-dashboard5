@@ -227,4 +227,8 @@ export default {
     zh: "消息",
     en: "Messages",
   },
+  changeSqlMethod: {
+    zh: "切换SQL编辑",
+    en: "Switch SQL Edit",
+  },
 };

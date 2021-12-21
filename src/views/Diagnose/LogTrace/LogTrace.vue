@@ -83,14 +83,20 @@
             $t("LogTrace.download")
           }}</el-button>
           <template v-if="row.status !== 'stopped'">
-            <el-button size="mini" @click="stopTraceHandler(row)">{{
-              $t("LogTrace.stop")
-            }}</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="stopTraceHandler(row)"
+              >{{ $t("LogTrace.stop") }}</el-button
+            >
           </template>
           <template v-else>
-            <el-button size="mini" @click="deleteTraceHandler(row)">{{
-              $t("LogTrace.delete")
-            }}</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="deleteTraceHandler(row)"
+              >{{ $t("LogTrace.delete") }}</el-button
+            >
           </template>
         </template>
       </el-table-column>

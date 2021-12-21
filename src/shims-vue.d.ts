@@ -9,3 +9,4 @@ declare module "*.vue" {
 }
 
 declare module "@/common/utils";
+declare module "js-sql-parser";

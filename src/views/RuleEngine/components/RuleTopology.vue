@@ -1,5 +1,6 @@
 <template>
   <div class="app-wrapper">
+    <div class="part-header">Overview</div>
     <div id="rule-topology"></div>
   </div>
 </template>
@@ -19,6 +20,7 @@ export default defineComponent({
     const rulesList = ref([]);
     const input2Rule = ref([]);
     const rule2output = ref([]);
+    const RANDOM = Math.random().toString().substring(2, 8);
 
     const getRequiredList = async () => {
       const result = await Promise.all([getRules(), getBridgeList()]).catch(
@@ -30,30 +32,49 @@ export default defineComponent({
         ruleList.value.forEach((v) => {
           if (v.from instanceof Array) {
             v.from.forEach((from) => {
-              input2Rule.value.push({ source: from, target: v.name });
-              fromList.value.push({ id: from, label: from });
+              const fromNode = "__from__" + RANDOM + ":" + from;
+              input2Rule.value.push({ source: fromNode, target: v.id });
+              fromList.value.push({ id: fromNode, label: from });
             });
           } else {
-            input2Rule.value.push({ source: v.from, target: v.name });
-            fromList.value.push({ id: v.from, label: v.from });
+            const fromNode = "__from__" + RANDOM + ":" + v.from;
+            input2Rule.value.push({ source: fromNode, target: v.id });
+            fromList.value.push({ id: fromNode, label: v.from });
           }
         });
-        // from.value.filter((v, i, a) => a.indexOf(v) === i);
+
         ruleList.value.forEach((v) => {
           if (v.outputs instanceof Array) {
             v.outputs.forEach((output) => {
-              rule2output.value.push({ source: v.name, target: output });
-              toList.value.push({ id: output, label: output });
+              const toNode =
+                "__to__" + RANDOM + ":" + output.function || output;
+              rule2output.value.push({
+                source: v.id,
+                target: toNode,
+              });
+              toList.value.push({
+                id: toNode,
+                label: output.function || output,
+              });
             });
           } else {
-            rule2output.value.push({ source: v.name, target: v.outputs });
-            toList.value.push({ id: v.outputs, label: v.outputs });
+            const toNode =
+              "__to__" + RANDOM + ":" + v.outputs.function ||
+              v.outputs.toString();
+
+            rule2output.value.push({
+              source: v.id,
+              target: toNode,
+            });
+            toList.value.push({
+              id: toNode,
+              label: v.outputs.function || v.outputs.toString(),
+            });
           }
         });
-        // to.value.filter((v, i, a) => a.indexOf(v) === i);
 
         rulesList.value = ruleList.value.map((v) => {
-          return { id: v.name, label: v.name };
+          return { id: v.id, label: v.name };
         });
       }
     };
@@ -67,7 +88,12 @@ export default defineComponent({
         nodes: [...fromList.value, ...rulesList.value, ...toList.value],
         edges: [...input2Rule.value, ...rule2output.value],
       };
-      console.log(data);
+
+      data.nodes = data.nodes.filter(
+        (v, i, a) => a.findIndex((vi) => v.id === vi.id) === i
+      );
+
+      // console.log(data);
 
       const graph = new G6.Graph({
         container: "rule-topology",
@@ -82,7 +108,7 @@ export default defineComponent({
           ranksepFunc: () => 1,
         },
         defaultNode: {
-          size: [150, 50],
+          size: [190, 50],
           type: "rect",
           style: {
             fill: "#FFFFFF",
@@ -117,4 +143,8 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.part-header {
+  margin-bottom: 30px;
+}
+</style>

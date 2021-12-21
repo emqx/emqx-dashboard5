@@ -29,22 +29,24 @@
     </div>
     <template v-if="pageShow === pageType[0]">
       <el-table :data="ruleTable" v-loading="iotLoading">
-        <el-table-column
-          :label="tl('name')"
-          prop="name"
-          sortable
-        ></el-table-column>
-        <el-table-column label="Source">
+        <el-table-column :label="tl('name')" sortable>
+          <template #default="{ row }">
+            <router-link :to="{ name: 'iot-detail', params: { id: row.id } }">{{
+              row.name
+            }}</router-link>
+          </template></el-table-column
+        >
+        <el-table-column label="Source" sortable>
           <template #default="{ row }">
             {{ row.from.join(",") }}
           </template>
         </el-table-column>
-        <el-table-column
-          label="Outputs"
-          prop="outputs"
-          sortable
-        ></el-table-column>
-        <el-table-column :label="tl('status')">
+        <el-table-column label="Outputs" sortable :sort-method="sorting"
+          ><template #default="{ row }">
+            {{ row.outputs.length }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="tl('status')" sortable>
           <template #default="{ row }">
             {{ row.enable ? $t("Base.enable") : $t("Base.disable") }}
           </template>
@@ -162,6 +164,10 @@ export default defineComponent({
         .catch(() => {});
     };
 
+    const sorting = (a: any, b: any) => {
+      console.log(a, b);
+    };
+
     onMounted(() => {
       getRulesList();
     });
@@ -175,6 +181,7 @@ export default defineComponent({
       startOrStopRule,
       iotLoading,
       submitDeleteRules,
+      sorting,
     };
   },
 });

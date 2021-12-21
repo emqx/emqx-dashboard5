@@ -225,7 +225,7 @@ export default defineComponent({
       connectorLoading.value = false;
     };
     const checkForNewConnector = (val: unknown, val2: unknown) => {
-      console.log(val, val2);
+      // console.log(val, val2);
       if (val === "_new") {
         openConnectorDialog(false);
       } else {
