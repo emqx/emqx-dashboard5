@@ -9,6 +9,8 @@
     <el-checkbox
       v-model="record.verify"
       :label="$t('Auth.tlsVerify')"
+      :true-label="SSL_VERIFY_VALUE_MAP.get(true)"
+      :false-label="SSL_VERIFY_VALUE_MAP.get(false)"
       border
     ></el-checkbox>
     <el-collapse-transition>
@@ -86,6 +88,7 @@
 </template>
 
 <script>
+import { SSL_VERIFY_VALUE_MAP } from "@/common/constants";
 import { computed, defineComponent } from "vue";
 
 export default defineComponent({
@@ -101,6 +104,7 @@ export default defineComponent({
     const record = computed(() => props.modelValue);
     return {
       record,
+      SSL_VERIFY_VALUE_MAP,
     };
   },
 });

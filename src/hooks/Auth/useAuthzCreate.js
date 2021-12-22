@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
+import { DEFAULT_SSL_VERIFY_VALUE } from "@/common/constants"
 
 export default function useAuthzCreate() {
   const getFileConfig = () => {
@@ -19,6 +20,7 @@ export default function useAuthzCreate() {
       auto_reconnect: true,
       ssl: {
         enable: false,
+        verify: DEFAULT_SSL_VERIFY_VALUE,
       },
       query: '',
     }
@@ -44,6 +46,7 @@ export default function useAuthzCreate() {
       enable_pipelining: true,
       ssl: {
         enable: false,
+        verify: DEFAULT_SSL_VERIFY_VALUE,
       },
     }
   }
@@ -58,6 +61,7 @@ export default function useAuthzCreate() {
       pool_size: 8,
       ssl: {
         enable: false,
+        verify: DEFAULT_SSL_VERIFY_VALUE,
       },
       topology: {
         connect_timeout_ms: 20000,
@@ -77,6 +81,7 @@ export default function useAuthzCreate() {
       query: '',
       ssl: {
         enable: false,
+        verify: DEFAULT_SSL_VERIFY_VALUE,
       },
     }
   }
