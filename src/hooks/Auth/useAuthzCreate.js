@@ -22,7 +22,7 @@ export default function useAuthzCreate() {
         enable: false,
         verify: DEFAULT_SSL_VERIFY_VALUE,
       },
-      query: '',
+      cmd: '',
     }
   }
   const getHttpConfig = () => {
@@ -78,7 +78,7 @@ export default function useAuthzCreate() {
       auto_reconnect: true,
       password: '',
       pool_size: 8,
-      query: '',
+      cmd: '',
       ssl: {
         enable: false,
         verify: DEFAULT_SSL_VERIFY_VALUE,

@@ -132,14 +132,14 @@
           <el-col :span="24">
             <el-form-item label="SQL">
               <el-input
-                v-model="databaseConfig.query"
+                v-model="databaseConfig.cmd"
                 type="textarea"
                 :rows="6"
               ></el-input>
               <el-button
                 class="bottom-btn"
                 size="mini"
-                @click="setDefaultContent('query')"
+                @click="setDefaultContent('cmd')"
               >
                 {{ $t("Auth.setDefault") }}
               </el-button>
@@ -169,7 +169,7 @@
           <el-col :span="24">
             <el-form-item :label="$t('Auth.cmd')">
               <el-input
-                v-model="databaseConfig.query"
+                v-model="databaseConfig.cmd"
                 type="textarea"
                 :rows="6"
               ></el-input>
