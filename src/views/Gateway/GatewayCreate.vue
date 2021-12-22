@@ -169,7 +169,7 @@ export default defineComponent({
       let res = await postGateway({
         ...basicData.value,
         listeners: [...listenerList.value],
-        gname,
+        name: gname,
       }).catch(() => {});
       if (res) {
         M({

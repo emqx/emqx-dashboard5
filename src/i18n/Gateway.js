@@ -260,11 +260,12 @@ export default {
     en: "IP Address",
   },
   connectedAt: {
-    zh: "连接时间",
-    en: "Connected At",
+    //no doubt
+    zh: "注册时间",
+    en: "Registered At",
   },
   lifetime: {
-    zh: "心跳时间",
+    zh: "LifeTime",
     en: "LifeTime",
   },
   alreadyLoad: {

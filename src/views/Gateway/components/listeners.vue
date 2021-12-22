@@ -396,13 +396,7 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  getCurrentInstance,
-  onMounted,
-  ref,
-  watch,
-} from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import {
   getGatewayListeners,
   updateGatewayListener,
@@ -439,7 +433,7 @@ export default defineComponent({
   setup(props, context) {
     const route = useRoute();
     const { t } = useI18n();
-    const gName = route.params.name || props.gatewayName;
+    const gName = (route.params.name || props.gatewayName).toLowerCase();
     const listenerTypeList = {
       coap: ["udp", "dtls"],
       others: ["tcp", "ssl", "udp", "dtls"],
@@ -494,37 +488,32 @@ export default defineComponent({
     };
     let opListener = ref(false);
     let editListener = ref(false);
-    let listenerInput = ref({ ..._.cloneDeep(baseInput) });
+    let listenerInput = ref(_.cloneDeep(baseInput));
     let listenerTable = ref([]);
     let listenerLoading = ref(false);
     let submitLoading = ref(false);
 
     const ID_SEPERATE = ":";
     let editPos = 0;
-    let vm = getCurrentInstance();
-
-    const tl = function (key, collection = "Gateway") {
-      return t(collection + "." + key);
-    };
 
     const openDialog = (edit = false, current = {}, index = 0) => {
       opListener.value = true;
       editListener.value = !!edit;
       if (edit) {
         // let name = current.name || current?.id?.split(ID_SEPERATE)[2]
-        listenerInput.value = {
-          ..._.cloneDeep(baseInput),
-          ..._.cloneDeep(current),
-        };
+        // listenerInput.value = {
+        //   ..._.cloneDeep(baseInput),
+        //   ..._.cloneDeep(current),
+        // };
+        listenerInput.value = _.merge(baseInput, current);
         editPos = index;
       } else {
-        listenerInput.value = { ..._.cloneDeep(baseInput) };
+        listenerInput.value = _.cloneDeep(baseInput);
       }
     };
 
     const loadListenerData = async function () {
       listenerLoading.value = true;
-      if (!gName) return;
       let res = await getGatewayListeners(gName).catch(() => {});
       if (res) {
         listenerTable.value = res.map((v) => denormalizeStructure(v));
@@ -533,8 +522,6 @@ export default defineComponent({
     };
 
     const submitListener = async function (edit = false) {
-      if (!gName) return;
-
       // let id = [gName, listenerInput.value.type, listenerInput.value.name].join(ID_SEPERATE)
 
       let input = { ..._.cloneDeep(listenerInput.value) };
@@ -688,8 +675,6 @@ export default defineComponent({
         result.name = record?.id?.split(ID_SEPERATE)[2] || "";
       }
       if (!record.id) {
-        let gName = vm.data.name || props.gatewayName;
-        gName = String(gName).toLowerCase();
         result.id = [gName, record.type, record.name].join(ID_SEPERATE);
       }
 
@@ -714,7 +699,7 @@ export default defineComponent({
     });
 
     return {
-      tl,
+      tl: (key, collection = "Gateway") => t(collection + "." + key),
       showIntegration: props.integration,
       openDialog,
       opListener,
