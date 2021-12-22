@@ -65,6 +65,7 @@
           <el-input
             v-model="record.username"
             :disabled="accessType === 'edit'"
+            @change="trimUserName"
           ></el-input>
         </el-form-item>
         <el-form-item
@@ -224,6 +225,10 @@ export default {
     },
     closeDialog() {
       this.dialogVisible = false;
+    },
+
+    trimUserName() {
+      this.record.username = this.record.username.trim();
     },
 
     async save() {
