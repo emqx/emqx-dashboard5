@@ -19,10 +19,9 @@ export default function useProcessAuthData() {
   };
   const processRedisConfig = (data) => {
     const tempData = _.cloneDeep(data);
-    const { redis_type, servers } = data;
+    const { redis_type } = data;
     if (redis_type !== "single") {
       delete tempData.server;
-      tempData.servers = servers.split(",");
     } else {
       delete tempData.sentinel;
       delete tempData.servers;
@@ -32,10 +31,9 @@ export default function useProcessAuthData() {
   const processMongoDBConfig = (data) => {
     try {
       const tempData = _.cloneDeep(data);
-      const { mongo_type, servers, selector } = data;
+      const { mongo_type, selector } = data;
       if (mongo_type !== "single") {
         delete tempData.server;
-        tempData.servers = servers.split(",");
       } else {
         delete tempData.replica_set_name;
         delete tempData.servers;
