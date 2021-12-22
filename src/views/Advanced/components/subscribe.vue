@@ -49,7 +49,6 @@
               v-for="item in subsOptions.qos"
               :key="item"
               :value="item"
-              :label="item"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -99,7 +98,7 @@
           :loading="submitLoading"
           >{{ isEdit ? $t("Base.update") : $t("Base.add") }}</el-button
         >
-        <el-button size="small" @click="opSubs = false">{{
+        <el-button size="small" @click="closeDialog()">{{
           $t("Base.cancel")
         }}</el-button>
       </template>
@@ -112,6 +111,7 @@ import { defineComponent, onMounted, reactive, ref } from "vue";
 import { getSubscribe, editSubscribe } from "@/api/advanced";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
+import _ from "lodash";
 
 export default defineComponent({
   name: "Subscribe",
@@ -125,7 +125,6 @@ export default defineComponent({
     let opSubs = ref(false);
     let subTbData = ref([]);
     let subsOptions = reactive({
-      // op: ["nl", "rap", "rh"],
       qos: [0, 1, 2],
       nl: [0, 1],
       rap: [0, 1],
@@ -155,23 +154,8 @@ export default defineComponent({
     let openOpDialog = (edit = false, origin) => {
       opSubs.value = true;
       isEdit.value = !!edit;
-      subsForm.value?.resetFields();
 
-      // subsInput.topic = edit && origin.topic ? origin.topic : subsInput.topic;
-      // subsInput.qos = edit && origin.qos ? origin.qos : subsInput.qos;
-      // subsInput.nl=edit&&origin.nl?origin.nl:subsInput
-      subsInput = (edit && { ...subsInput, ...origin }) || subsInput;
-
-      // subsInput.op =
-      //   (edit &&
-      //     (() => {
-      //       let opArr = [];
-      //       origin.nl === 1 && opArr.push("nl");
-      //       origin.rap === 1 && opArr.push("rap");
-      //       origin.rh === 1 && opArr.push("rh");
-      //       return opArr;
-      //     })()) ||
-      //   [];
+      subsInput = (edit && _.merge(subsInput, origin)) || subsInput;
 
       edit && (editPos.value = subTbData.value.findIndex((e) => e === origin));
     };
@@ -179,28 +163,15 @@ export default defineComponent({
     const submitSubs = async function (edit = false) {
       let valid = await subsForm.value?.validate().catch(() => {});
       if (!valid) return;
-
-      // let tempOpStore = {};
+      submitLoading.value = true;
       let pendingTbData = Object.assign([], subTbData.value);
-
-      // Array.prototype.forEach.call(subsOptions.op, (v) => {
-      //   tempOpStore[v] = subsInput.op.indexOf(v) >= 0 ? 1 : 0;
-      // });
-      // let subjectSubData = {
-      //   topic: subsInput.topic,
-      //   qos: subsInput.qos,
-      //   ...tempOpStore,
-      // };
 
       if (!edit) {
         pendingTbData.push(subsInput);
       } else {
-        if (editPos.value === undefined) {
-          return;
-        }
-        pendingTbData.splice(editPos.value, 1, subsInput);
+        editPos.value !== undefined &&
+          pendingTbData.splice(editPos.value, 1, { ...subsInput });
       }
-      submitLoading.value = true;
 
       let res = await editSubscribe(pendingTbData).catch(() => {});
       if (res) {
@@ -208,14 +179,9 @@ export default defineComponent({
           type: "success",
           message: edit ? t("Base.editSuccess") : t("Base.createSuccess"),
         });
-        subTbData.value = pendingTbData;
+        loadData();
         opSubs.value = false;
         editPos.value = undefined;
-      } else {
-        ElMessage({
-          type: "error",
-          message: t("Base.opErr"),
-        });
       }
       submitLoading.value = false;
     };
@@ -236,15 +202,15 @@ export default defineComponent({
               type: "success",
               message: t("Base.deleteSuccess"),
             });
-            subTbData.value = pendingTbData;
-          } else {
-            ElMessage({
-              type: "error",
-              message: t("Base.opErr"),
-            });
+            loadData();
           }
         })
         .catch(() => {});
+    };
+
+    const closeDialog = () => {
+      opSubs.value = false;
+      subsForm.value?.resetFields();
     };
 
     let loadData = async () => {
@@ -255,6 +221,7 @@ export default defineComponent({
       }
       tbLoading.value = false;
     };
+
     onMounted(loadData);
 
     const reloading = () => {
@@ -276,6 +243,7 @@ export default defineComponent({
       tbLoading,
       subsForm,
       subsRules,
+      closeDialog,
     };
   },
 });

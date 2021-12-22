@@ -47,9 +47,9 @@
           <el-form-item :label="tl('subQos')">
             <el-select v-model="cValue.subscribe_qos">
               <el-option value="coap"></el-option>
-              <el-option value="0"></el-option>
-              <el-option value="1"></el-option>
-              <el-option value="2"></el-option>
+              <el-option value="qos0"></el-option>
+              <el-option value="qos1"></el-option>
+              <el-option value="qos2"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -57,9 +57,9 @@
           <el-form-item :label="tl('pubQos')">
             <el-select v-model="cValue.publish_qos">
               <el-option value="coap"></el-option>
-              <el-option value="0"></el-option>
-              <el-option value="1"></el-option>
-              <el-option value="2"></el-option>
+              <el-option value="qos0"></el-option>
+              <el-option value="qos1"></el-option>
+              <el-option value="qos2"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
