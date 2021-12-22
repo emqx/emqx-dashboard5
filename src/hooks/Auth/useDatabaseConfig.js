@@ -20,12 +20,12 @@ export default function useDatabaseConfig(
     let defaultDatabase = "";
     if (authType === "authn") {
       defaultContent.value =
-        "SELECT password FROM mqtt_user where username = '${mqtt-username}' LIMIT 1";
+        "SELECT password_hash FROM mqtt_user where username = ${mqtt-username} LIMIT 1";
       helpContent.value = `
         CREATE TABLE IF NOT EXISTS \`mqtt_user\` (
           \`id\` int(11) unsigned NOT NULL AUTO_INCREMENT,
           \`username\` varchar(100) DEFAULT NULL,
-          \`password\` varchar(100) DEFAULT NULL,
+          \`password_hash\` varchar(100) DEFAULT NULL,
           \`salt\` varchar(35) DEFAULT NULL,
           \`is_superuser\` tinyint(1) DEFAULT 0,
           \`created\` datetime DEFAULT NULL,
@@ -61,7 +61,7 @@ export default function useDatabaseConfig(
     let defaultDatabase = "";
     if (authType === "authn") {
       defaultContent.value =
-        "SELECT password_hash FROM mqtt_user where username = '${username}' LIMIT 1";
+        "SELECT password_hash FROM mqtt_user where username = ${username} LIMIT 1";
       helpContent.value = `
         CREATE TABLE mqtt_user (
           id SERIAL primary key,
