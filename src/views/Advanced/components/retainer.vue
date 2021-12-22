@@ -300,6 +300,7 @@ export default defineComponent({
       msg_expiry_interval: [0, "s"],
       config: {
         storage: "ram",
+        storage_type: "",
         type: "built_in_database",
         max_retained_messages: 0,
       },
@@ -339,6 +340,11 @@ export default defineComponent({
         type: "number",
         message: tl("needNumber"),
         trigger: "blur",
+      },
+      {
+        type: "number",
+        min: 0,
+        message: t("Rule.minimumError", { min: 0 }),
       },
     ];
 
@@ -474,7 +480,8 @@ export default defineComponent({
     // }
 
     const composeConfigFromForm = (config) => {
-      combineData(config);
+      const ret = _.cloneDeep(config);
+      combineData(ret);
       function combineData(data) {
         if (typeof data == "object" && data !== null) {
           Object.keys(data).forEach((k) => {
@@ -487,6 +494,7 @@ export default defineComponent({
           });
         }
       }
+      return ret;
     };
 
     const updateConfigData = async function () {
@@ -494,9 +502,9 @@ export default defineComponent({
       if (!valid) return;
 
       configLoading.value = true;
-      composeConfigFromForm(retainerConfig);
+      const formData = composeConfigFromForm(retainerConfig);
 
-      let res = await updateRetainer(retainerConfig).catch(() => {});
+      let res = await updateRetainer(formData).catch(() => {});
       if (res) {
         getConfigFormEnable();
         ElMessage({
