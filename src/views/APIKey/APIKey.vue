@@ -27,7 +27,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column align="right">
+      <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="mini" @click="operateKeyItem('view', row)">{{
             tl("view")
