@@ -54,7 +54,7 @@ export default createStore({
     SET_LANGUAGE(state, lang) {
       localStorage.setItem('language', lang)
       lang ?? localStorage.removeItem('language')
-      if (state.lang !== lang) {
+      if (lang && state.lang !== lang) {
         location.reload()
       }
     },
