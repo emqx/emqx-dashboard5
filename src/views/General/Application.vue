@@ -109,8 +109,8 @@
               <el-date-picker
                 v-model="record.expired"
                 type="date"
-                format="yyyy-MM-dd"
-                value-format="yyyy-MM-dd"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
                 :readonly="accessType === 'view'"
               >
               </el-date-picker>
