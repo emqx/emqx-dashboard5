@@ -76,7 +76,7 @@
               <el-date-picker
                 v-model="record.until"
                 type="datetime"
-                format="yyyy-MM-dd HH:mm:ss"
+                format="YYYY-MM-DD HH:mm:ss"
               >
               </el-date-picker>
             </el-form-item>
