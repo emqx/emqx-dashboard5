@@ -250,7 +250,7 @@ export default defineComponent({
     };
 
     const deleteTopic = async function (row) {
-      let confirm = await MB.confirm(t("General.confirmDelete"), {
+      let confirm = await MB.confirm(t("Base.confirmDelete"), {
         confirmButtonText: t("Base.confirm"),
         cancelButtonText: t("Base.cancel"),
         type: "warning",

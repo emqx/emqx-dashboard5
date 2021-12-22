@@ -93,7 +93,7 @@ export default defineComponent({
       loadData();
     };
     const handleDelete = async function ({ id }) {
-      MB.confirm(t("General.confirmDelete"), {
+      MB.confirm(t("Base.confirmDelete"), {
         confirmButtonText: t("Base.confirm"),
         cancelButtonText: t("Base.cancel"),
         type: "warning",

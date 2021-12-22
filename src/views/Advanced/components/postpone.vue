@@ -264,7 +264,7 @@ export default defineComponent({
     };
 
     const deleteDelayedInfo = async function (row) {
-      MB.confirm(t("General.confirmDelete"), {
+      MB.confirm(t("Base.confirmDelete"), {
         confirmButtonText: t("Base.confirm"),
         cancelButtonText: t("Base.cancel"),
         type: "warning",

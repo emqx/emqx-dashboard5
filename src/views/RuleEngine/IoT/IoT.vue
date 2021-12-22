@@ -142,7 +142,7 @@ export default defineComponent({
 
     const submitDeleteRules = async (id: string) => {
       if (!id) return;
-      MB.confirm(t("General.confirmDelete"), {
+      MB.confirm(t("Base.confirmDelete"), {
         confirmButtonText: t("Base.confirm"),
         cancelButtonText: t("Base.cancel"),
         type: "warning",
