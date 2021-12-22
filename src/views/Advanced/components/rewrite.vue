@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref } from "vue";
+import { defineComponent, nextTick, onMounted, reactive, ref } from "vue";
 import { getTopicRewrite, editTopicRewrite } from "@/api/advanced";
 // import i18n from '@/i18n'
 import { ElMessageBox as MB } from "element-plus";
@@ -130,7 +130,7 @@ export default defineComponent({
 
     const openOpDialog = (edit = false, originData) => {
       opRewrite.value = true;
-      rewriteForm.value?.resetFields();
+      nextTick(rewriteForm.value?.resetFields);
       isEdit.value = !!edit;
       Object.keys(rewriteInput).forEach((k) => {
         rewriteInput[k] = edit && originData[k] ? originData[k] : "";
