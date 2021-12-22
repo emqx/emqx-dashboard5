@@ -534,7 +534,7 @@ export default defineComponent({
       };
 
     const deleteOutput = (itemIndex: number | undefined) => {
-      MB.confirm(t("General.confirmDelete"), {
+      MB.confirm(t("Base.confirmDelete"), {
         confirmButtonText: t("Base.confirm"),
         cancelButtonText: t("Base.cancel"),
         type: "warning",

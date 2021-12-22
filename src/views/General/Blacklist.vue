@@ -213,7 +213,7 @@ export default {
     },
     deleteConfirm(item) {
       this.$msgbox
-        .confirm(this.$t("General.confirmDelete"), {
+        .confirm(this.$t("Base.confirmDelete"), {
           confirmButtonText: this.$t("Base.confirm"),
           cancelButtonText: this.$t("Base.cancel"),
           type: "warning",

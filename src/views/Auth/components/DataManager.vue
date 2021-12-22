@@ -221,7 +221,7 @@ export default defineComponent({
 
     const handleCommand = async function (row, command) {
       if (command === "delete") {
-        MB.confirm(t("General.confirmDelete"), {
+        MB.confirm(t("Base.confirmDelete"), {
           confirmButtonText: t("Base.confirm"),
           cancelButtonText: t("Base.cancel"),
           type: "warning",

@@ -95,6 +95,10 @@ export default {
     zh: "重置",
     en: "Reset",
   },
+  confirmDelete: {
+    zh: "确认删除？",
+    en: "Confirm Delete?",
+  },
   applySuccess: {
     zh: "应用成功",
     en: "Apply Successfully",
