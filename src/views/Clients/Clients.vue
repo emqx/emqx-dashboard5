@@ -69,7 +69,6 @@
                   v-model="fuzzyParams.connected_at"
                   class="datatime"
                   type="datetime"
-                  value-format="timestamp"
                   size="small"
                   :placeholder="$t('Clients.createdAt')"
                   clearable
