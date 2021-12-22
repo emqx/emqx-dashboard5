@@ -55,7 +55,7 @@ export default function useDatabaseConfig(
     }
     databaseConfig.database = defaultDatabase;
     databaseConfig.server = "127.0.0.1:3306";
-    databaseConfig.query = defaultContent.value;
+    databaseConfig.cmd = defaultContent.value;
   };
   const setPgSql = () => {
     let defaultDatabase = "";
@@ -95,7 +95,7 @@ export default function useDatabaseConfig(
     }
     databaseConfig.database = defaultDatabase;
     databaseConfig.server = "127.0.0.1:5432";
-    databaseConfig.query = defaultContent.value;
+    databaseConfig.cmd = defaultContent.value;
   };
   const setMongoDB = () => {
     defaultContent.value = JSON.stringify(
@@ -180,7 +180,7 @@ export default function useDatabaseConfig(
       }
       return;
     }
-    databaseConfig.query = defaultContent.value;
+    databaseConfig.cmd = defaultContent.value;
   };
   switch (database) {
     case "mysql":

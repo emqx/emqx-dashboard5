@@ -50,7 +50,7 @@ export default function useAuthnCreate() {
       ssl: {
         enable: false,
       },
-      query: '',
+      cmd: '',
       ...getPasswordHashAlgorithmObj(),
     }
     if (backend === 'mysql') {
@@ -69,7 +69,7 @@ export default function useAuthnCreate() {
       password: '',
       ...getPasswordHashAlgorithmObj(),
       pool_size: 8,
-      query: '',
+      cmd: '',
       ssl: {
         enable: false,
       },
