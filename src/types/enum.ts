@@ -11,3 +11,10 @@ export enum HashType {
   Pbkdf2 = "pbkdf2",
   Bcrypt = "bcrypt",
 }
+
+export enum PayloadShowByType {
+  Plaintext = "Plaintext",
+  Base64 = "Base64",
+  JSON = "JSON",
+  Hex = "Hex",
+}

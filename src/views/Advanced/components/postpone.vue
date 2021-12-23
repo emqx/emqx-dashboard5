@@ -112,23 +112,30 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog v-model="payloadDialog" :title="'Payload'">
+    <el-dialog custom-class="payload-dialog" v-model="payloadDialog" :title="'Payload'">
       <el-row v-loading="payloadLoading">
         <el-input
           type="textarea"
           :rows="10"
           resize="none"
           placeholder="Payload"
-          v-model="payloadDetail"
+          v-model="payloadForShow"
           readonly
         ></el-input>
       </el-row>
       <template #footer>
-        <span v-if="isCopyShow" class="payload-copied">{{
-          $t("Base.copied")
-        }}</span>
-
-        <el-button size="small">{{ $t("Base.copy") }}</el-button>
+        <div class="payload-dialog-ft">
+          <el-select v-model="payloadShowBy" size="small">
+            <el-option v-for="item in payloadShowByOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+          <div>
+            <span v-if="isCopyShow" class="payload-copied">{{
+              $t("Base.copied")
+            }}</span>
+    
+            <el-button size="small">{{ $t("Base.copy") }}</el-button>
+          </div>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -151,6 +158,7 @@ import {
   delDelayedInfo,
 } from "@/api/advanced";
 import CommonPagination from "@/components/commonPagination.vue";
+import useShowTextByDifferent from "@/hooks/Auth/useShowTextByDifferent";
 import { dateFormat } from "@/common/utils";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
@@ -195,6 +203,8 @@ export default defineComponent({
     let payloadDetail = ref("");
     let isCopyShow = ref(false);
     let pageMeta = ref({});
+    // TODO: when type changed, re-init clipboard
+    const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent();
 
     watch(delayedOption, (newOption) => {
       if (newOption == "unlimited") {
@@ -277,6 +287,7 @@ export default defineComponent({
       let res = await getDelayedInfo(msgid).catch(() => {});
       if (res) {
         payloadDetail.value = res?.payload;
+        setRawText(payloadDetail.value);
       } else {
         //todo
       }
@@ -339,6 +350,9 @@ export default defineComponent({
       payloadDialog,
       payloadLoading,
       payloadDetail,
+      payloadForShow,
+      payloadShowBy,
+      payloadShowByOptions,
       dateFormat,
       isCopyShow,
       copySuccess,
@@ -350,5 +364,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 .payload-copied {
   padding-right: 10px;
+}
+.payload-dialog {
+  .payload-dialog-ft {
+    display: flex;
+    justify-content: space-between;
+    .el-select {
+      width: 200px;
+    }
+  }
 }
 </style>
