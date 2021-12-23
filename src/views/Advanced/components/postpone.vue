@@ -132,8 +132,8 @@
             <span v-if="isCopyShow" class="payload-copied">{{
               $t("Base.copied")
             }}</span>
-    
-            <el-button size="small">{{ $t("Base.copy") }}</el-button>
+
+            <el-button size="small" ref="copyBtnCom">{{ $t("Base.copy") }}</el-button>
           </div>
         </div>
       </template>
@@ -144,6 +144,7 @@
 <script>
 import {
   defineComponent,
+  nextTick,
   onMounted,
   onUnmounted,
   reactive,
@@ -162,6 +163,7 @@ import useShowTextByDifferent from "@/hooks/Auth/useShowTextByDifferent";
 import { dateFormat } from "@/common/utils";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
+import { createClipboardEleWithTargetText } from "@/common/tools";
 
 export default defineComponent({
   name: "Postpone",
@@ -201,6 +203,8 @@ export default defineComponent({
     let payloadDialog = ref(false);
     let payloadLoading = ref(false);
     let payloadDetail = ref("");
+    const copyBtnCom = ref();
+    let clipboardInstance = undefined;
     let isCopyShow = ref(false);
     let pageMeta = ref({});
     // TODO: when type changed, re-init clipboard
@@ -292,6 +296,8 @@ export default defineComponent({
         //todo
       }
       payloadLoading.value = false;
+      await nextTick();
+      initCopyBtn();
     };
 
     const updateDelayedConfig = async function () {
@@ -320,6 +326,10 @@ export default defineComponent({
     onMounted(reloading);
 
     let copyShowTimeout = ref(null);
+    const initCopyBtn = () => {
+      clipboardInstance && clipboardInstance?.destroy();
+      clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, payloadDetail.value, copySuccess);
+    };
     const copySuccess = () => {
       isCopyShow.value = true;
       clearTimeout(copyShowTimeout.value);
@@ -354,6 +364,7 @@ export default defineComponent({
       payloadShowBy,
       payloadShowByOptions,
       dateFormat,
+      copyBtnCom,
       isCopyShow,
       copySuccess,
       pageMeta,

@@ -121,7 +121,7 @@
       {{
         authType === "authn" ? $t("Auth.authnConfig") : $t("Auth.authzConfig")
       }}
-      <el-button class="help-btn" size="mini" @click="needHelp = !needHelp">
+      <el-button class="help-btn" size="mini" @click="toggleNeedHelp">
         {{ $t("Base.help") }}
       </el-button>
     </div>
@@ -199,7 +199,7 @@
                 :lang="isMongoDB ? 'javascript' : isRedis ? 'bash' : 'sql'"
                 :code="helpContent"
               ></code-view>
-              <el-button size="small">
+              <el-button size="small" ref="copyBtnCom">
                 {{ $t("Base.copy") }}
               </el-button>
             </div>
@@ -253,13 +253,14 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, nextTick, onUnmounted, ref } from "vue";
 import CodeView from "@/components/CodeView";
 import TimeInputWithUnitSelect from "@/components/TimeInputWithUnitSelect.vue";
 import PasswordHashAlgorithmFormItems from "./PasswordHashAlgorithmFormItems.vue";
 import TLSConfig from "./TLSConfig.vue";
 import useDatabaseConfig from "@/hooks/Auth/useDatabaseConfig";
 import useCopy from "@/hooks/useCopy";
+import { createClipboardEleWithTargetText } from "@/common/tools";
 
 export default defineComponent({
   name: "DatabaseConfig",
@@ -293,8 +294,24 @@ export default defineComponent({
     const isRedis = computed(() => props.database === "redis");
     const isMySQL = computed(() => props.database === "mysql");
     const isPgSQL = computed(() => props.database === "postgresql");
+    const copyBtnCom = ref();
+    let clipboardInstance = undefined;
+    const initCopyBtn = () => {
+      clipboardInstance && clipboardInstance?.destroy();
+      clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, helpContent.value, copySuccess);
+    };
     const { copySuccess } = useCopy(() => {
       needHelp.value = false;
+    });
+    const toggleNeedHelp = async () => {
+      needHelp.value = !needHelp.value;
+      if (needHelp.value) {
+        await nextTick();
+        initCopyBtn();
+      }
+    };
+    onUnmounted(() => {
+      clipboardInstance && clipboardInstance?.destroy();
     });
     return {
       isMongoDB,
@@ -305,7 +322,9 @@ export default defineComponent({
       helpContent,
       databaseConfig,
       setDefaultContent,
+      copyBtnCom,
       copySuccess,
+      toggleNeedHelp,
     };
   },
 });
