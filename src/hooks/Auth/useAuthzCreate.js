@@ -22,7 +22,7 @@ export default function useAuthzCreate() {
         enable: false,
         verify: DEFAULT_SSL_VERIFY_VALUE,
       },
-      cmd: '',
+      query: '',
     }
   }
   const getHttpConfig = () => {
