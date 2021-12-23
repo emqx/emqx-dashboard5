@@ -55,7 +55,7 @@ export default function useDatabaseConfig(
     }
     databaseConfig.database = defaultDatabase;
     databaseConfig.server = "127.0.0.1:3306";
-    databaseConfig.cmd = defaultContent.value;
+    databaseConfig.query = defaultContent.value;
   };
   const setPgSql = () => {
     let defaultDatabase = "";

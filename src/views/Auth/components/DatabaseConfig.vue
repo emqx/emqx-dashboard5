@@ -132,14 +132,14 @@
           <el-col :span="24">
             <el-form-item label="SQL">
               <el-input
-                v-model="databaseConfig.cmd"
+                v-model="databaseConfig.query"
                 type="textarea"
                 :rows="6"
               ></el-input>
               <el-button
                 class="bottom-btn"
                 size="mini"
-                @click="setDefaultContent('cmd')"
+                @click="setDefaultContent('query')"
               >
                 {{ $t("Auth.setDefault") }}
               </el-button>
