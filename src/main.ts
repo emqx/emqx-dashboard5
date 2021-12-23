@@ -18,7 +18,7 @@ function globalComponents(app: Application) {
 
 const elementLang = store.state.lang === "en" ? elementI18nEn : elementI18nZhCn;
 
-createApp(App)
+export default createApp(App)
   .use(store)
   .use(router)
   .use(ElementPlus, {

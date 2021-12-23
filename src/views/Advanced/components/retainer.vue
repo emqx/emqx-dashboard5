@@ -257,7 +257,7 @@
         <span v-if="isCopyShow" class="payload-copied">{{
           $t("Base.copied")
         }}</span>
-        <el-button size="small">{{ $t("Base.copy") }}</el-button>
+        <el-button size="small" ref="copyBtnCom">{{ $t("Base.copy") }}</el-button>
       </template>
     </el-dialog>
   </div>
@@ -266,6 +266,7 @@
 <script>
 import {
   defineComponent,
+  nextTick,
   onMounted,
   onUnmounted,
   reactive,
@@ -282,6 +283,8 @@ import {
 import { dateFormat } from "@/common/utils";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
+import _ from "lodash";
+import { createClipboardEleWithTargetText } from "@/common/tools";
 
 export default defineComponent({
   name: "Retainer",
@@ -326,6 +329,8 @@ export default defineComponent({
     let payloadDetail = ref("");
     let payloadLoading = ref(false);
     let retainerForm = ref(null);
+    const copyBtnCom = ref();
+    let clipboardInstance = undefined;
     let isCopyShow = ref(false);
 
     let validatorRules = [
@@ -544,6 +549,8 @@ export default defineComponent({
         payloadDetail.value = res[0].payload;
       }
       payloadLoading.value = false;
+      await nextTick();
+      initCopyBtn();
     };
 
     onMounted(() => {
@@ -554,6 +561,11 @@ export default defineComponent({
     const reloading = () => {
       loadConfigData();
       loadTbData();
+    };
+
+    const initCopyBtn = () => {
+      clipboardInstance && clipboardInstance?.destroy();
+      clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, payloadDetail.value, copySuccess);
     };
 
     let copyShowTimeout = ref(null);
@@ -588,6 +600,7 @@ export default defineComponent({
       retainerForm,
       dateFormat,
       copySuccess,
+      copyBtnCom,
       isCopyShow,
     };
   },
