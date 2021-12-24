@@ -95,7 +95,7 @@ export default function useDatabaseConfig(
     }
     databaseConfig.database = defaultDatabase;
     databaseConfig.server = "127.0.0.1:5432";
-    databaseConfig.cmd = defaultContent.value;
+    databaseConfig.query = defaultContent.value;
   };
   const setMongoDB = () => {
     defaultContent.value = JSON.stringify(
