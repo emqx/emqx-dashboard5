@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
 import { getPasswordHashAlgorithmObj } from "./usePasswordHashAlgorithmData";
+import { DEFAULT_SSL_VERIFY_VALUE } from "@/common/constants"
 
 export default function useAuthnCreate() {
   const getBuiltInConfig = (type) => {
@@ -36,6 +37,7 @@ export default function useAuthnCreate() {
       enable_pipelining: true,
       ssl: {
         enable: false,
+        verify: DEFAULT_SSL_VERIFY_VALUE,
       },
     }
   }
@@ -49,6 +51,7 @@ export default function useAuthnCreate() {
       auto_reconnect: true,
       ssl: {
         enable: false,
+        verify: DEFAULT_SSL_VERIFY_VALUE,
       },
       query: '',
       ...getPasswordHashAlgorithmObj(),
@@ -72,6 +75,7 @@ export default function useAuthnCreate() {
       cmd: '',
       ssl: {
         enable: false,
+        verify: DEFAULT_SSL_VERIFY_VALUE,
       },
     }
   }
@@ -89,6 +93,7 @@ export default function useAuthnCreate() {
       pool_size: 8,
       ssl: {
         enable: false,
+        verify: DEFAULT_SSL_VERIFY_VALUE,
       },
       topology: {
         connect_timeout_ms: 20000,
