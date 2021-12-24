@@ -443,6 +443,7 @@ export default defineComponent({
       } else {
         selOptions.retained = "custom";
       }
+      // trans some values from string to array
       if (config?.max_payload_size) {
         let matching = config.max_payload_size.match(/(\d+)(\w{2,})/);
         selOptions.payload = matching[2];
@@ -496,6 +497,7 @@ export default defineComponent({
         if (typeof data == "object" && data !== null) {
           Object.keys(data).forEach((k) => {
             if (data[k] instanceof Array) {
+              // trans some values from array to string
               data[k] = data[k].join("");
             } else if (typeof data[k] == "object" && data[k] !== null) {
               combineData(data[k]);
@@ -521,7 +523,6 @@ export default defineComponent({
           type: "success",
           message: t("Base.updateSuccess"),
         });
-        derivedOptionsFromConfig();
       } else {
         loadConfigData();
       }
