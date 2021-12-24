@@ -565,7 +565,7 @@ export default defineComponent({
       if (!topic) return;
       let res = await getRetainerTopic(topic).catch(() => {});
       if (res) {
-        payloadDetail.value = res[0].payload;
+        payloadDetail.value = res.payload;
         setRawText(payloadDetail.value);
       }
       payloadLoading.value = false;
