@@ -242,22 +242,30 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog v-model="payloadDialog" :title="'Payload'">
+    <el-dialog v-model="payloadDialog" custom-class="payload-dialog" :title="'Payload'">
       <el-row v-loading="payloadLoading">
         <el-input
           type="textarea"
           :rows="10"
           resize="none"
           placeholder="Payload"
-          v-model="payloadDetail"
+          v-model="payloadForShow"
           readonly
         ></el-input>
       </el-row>
       <template #footer>
-        <span v-if="isCopyShow" class="payload-copied">{{
-          $t("Base.copied")
-        }}</span>
-        <el-button size="small" ref="copyBtnCom">{{ $t("Base.copy") }}</el-button>
+        <div class="payload-dialog-ft">
+          <el-select v-model="payloadShowBy" size="small" @change="initCopyBtn">
+            <el-option v-for="item in payloadShowByOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+          <div>
+            <span v-if="isCopyShow" class="payload-copied">{{
+              $t("Base.copied")
+            }}</span>
+
+            <el-button size="small" ref="copyBtnCom">{{ $t("Base.copy") }}</el-button>
+          </div>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -281,6 +289,7 @@ import {
   delRetainerTopic,
 } from "@/api/advanced";
 import { dateFormat } from "@/common/utils";
+import useShowTextByDifferent from "@/hooks/Auth/useShowTextByDifferent";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
 import _ from "lodash";
@@ -333,6 +342,7 @@ export default defineComponent({
     const copyBtnCom = ref();
     let clipboardInstance = undefined;
     let isCopyShow = ref(false);
+    const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent();
 
     let validatorRules = [
       { required: true, message: tl("required"), trigger: "blur" },
@@ -555,6 +565,7 @@ export default defineComponent({
       let res = await getRetainerTopic(topic).catch(() => {});
       if (res) {
         payloadDetail.value = res[0].payload;
+        setRawText(payloadDetail.value);
       }
       payloadLoading.value = false;
       await nextTick();
@@ -573,7 +584,10 @@ export default defineComponent({
 
     const initCopyBtn = () => {
       clipboardInstance && clipboardInstance?.destroy();
-      clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, payloadDetail.value, copySuccess);
+      const btnEle = copyBtnCom.value?.$el;
+      if (btnEle) {
+        clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, payloadForShow.value, copySuccess);
+      }
     };
 
     let copyShowTimeout = ref(null);
@@ -604,9 +618,13 @@ export default defineComponent({
       checkPayload,
       payloadDetail,
       payloadLoading,
+      payloadForShow,
+      payloadShowBy,
+      payloadShowByOptions,
       retainerRules,
       retainerForm,
       dateFormat,
+      initCopyBtn,
       copySuccess,
       copyBtnCom,
       isCopyShow,
@@ -617,5 +635,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 .payload-copied {
   padding-right: 10px;
+}
+.payload-dialog {
+  .payload-dialog-ft {
+    display: flex;
+    justify-content: space-between;
+    .el-select {
+      width: 200px;
+    }
+  }
 }
 </style>

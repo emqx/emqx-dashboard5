@@ -125,7 +125,7 @@
       </el-row>
       <template #footer>
         <div class="payload-dialog-ft">
-          <el-select v-model="payloadShowBy" size="small">
+          <el-select v-model="payloadShowBy" size="small" @change="initCopyBtn">
             <el-option v-for="item in payloadShowByOptions" :key="item" :label="item" :value="item" />
           </el-select>
           <div>
@@ -207,7 +207,6 @@ export default defineComponent({
     let clipboardInstance = undefined;
     let isCopyShow = ref(false);
     let pageMeta = ref({});
-    // TODO: when type changed, re-init clipboard
     const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent();
 
     watch(delayedOption, (newOption) => {
@@ -328,7 +327,10 @@ export default defineComponent({
     let copyShowTimeout = ref(null);
     const initCopyBtn = () => {
       clipboardInstance && clipboardInstance?.destroy();
-      clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, payloadDetail.value, copySuccess);
+      const btnEle = copyBtnCom.value?.$el;
+      if (btnEle) {
+        clipboardInstance = createClipboardEleWithTargetText(btnEle, payloadForShow.value, copySuccess);
+      }
     };
     const copySuccess = () => {
       isCopyShow.value = true;
@@ -366,6 +368,7 @@ export default defineComponent({
       dateFormat,
       copyBtnCom,
       isCopyShow,
+      initCopyBtn,
       copySuccess,
       pageMeta,
     };
