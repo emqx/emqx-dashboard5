@@ -254,7 +254,7 @@
         ></el-input>
       </el-row>
       <template #footer>
-        <div class="payload-dialog-ft">
+        <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
           <el-select v-model="payloadShowBy" size="small" @change="initCopyBtn">
             <el-option v-for="item in payloadShowByOptions" :key="item" :label="item" :value="item" />
           </el-select>
