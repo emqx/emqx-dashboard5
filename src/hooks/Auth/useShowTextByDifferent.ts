@@ -1,14 +1,18 @@
-import { ref, computed } from "vue";
+import { ref, computed, Ref } from "vue";
 import { SHOW_PAYLOAD_BY_WHICH_OPTION_LIST } from "@/common/constants";
 import { encode, decode } from "js-base64";
 import { PayloadShowByType } from "@/types/enum";
+import { useI18n } from "vue-i18n";
 
 export default () => {
-  const rawText = ref();
+  const { t } = useI18n();
+
+  // when the payload is too large, the value will be null
+  const rawText: Ref<string | null> = ref("");
   const payloadShowBy = ref(SHOW_PAYLOAD_BY_WHICH_OPTION_LIST[0]);
   const payloadShowByOptions = SHOW_PAYLOAD_BY_WHICH_OPTION_LIST;
 
-  const setRawText = (base64Text: string): void => {
+  const setRawText = (base64Text: string | null): void => {
     rawText.value = base64Text;
   };
 
@@ -21,6 +25,9 @@ export default () => {
   };
 
   const payloadForShow = computed(() => {
+    if (rawText.value === null) {
+      return t("Auth.payloadTooLargeTip");
+    }
     switch (payloadShowBy.value) {
       case PayloadShowByType.Plaintext:
         return base64ToPlaintext(rawText.value);

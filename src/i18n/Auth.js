@@ -299,4 +299,8 @@ export default {
     zh: "密钥长度",
     en: "Key length",
   },
+  payloadTooLargeTip: {
+    zh: "payload 大小超过 1MB 内容无法查看",
+    en: "The payload size exceeds 1MB, and the content cannot be viewed",
+  },
 };
