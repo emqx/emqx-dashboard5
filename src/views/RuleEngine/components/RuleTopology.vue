@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, onUnmounted } from "vue";
 import { getRules, getBridgeList } from "@/api/ruleengine";
 import G6 from "@antv/g6";
 
@@ -21,6 +21,7 @@ export default defineComponent({
     const input2Rule = ref([]);
     const rule2output = ref([]);
     const RANDOM = Math.random().toString().substring(2, 8);
+    let graphInstance = undefined;
 
     const getRequiredList = async () => {
       const result = await Promise.all([getRules(), getBridgeList()]).catch(
@@ -94,7 +95,7 @@ export default defineComponent({
 
       // console.log(data);
 
-      const graph = new G6.Graph({
+      graphInstance = new G6.Graph({
         container: "rule-topology",
         width,
         height,
@@ -122,14 +123,18 @@ export default defineComponent({
         },
       });
 
-      graph.data(data);
-      graph.render();
+      graphInstance.data(data);
+      graphInstance.render();
     };
 
     onMounted(async () => {
       await getRequiredList();
       initialG6();
     });
+
+    onUnmounted(() => {
+      graphInstance?.destroy && graphInstance.destroy();
+    })
 
     return {
       fromList,
