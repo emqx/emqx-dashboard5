@@ -1,6 +1,10 @@
 export interface APIKeyFormWhenCreating {
   name: string;
-  expired_at: string;
+  /**
+   * When the api key never expires, the value is undefined
+   * (not submit to the interface)
+   */
+  expired_at?: string | undefined;
   desc: string;
   enable: boolean;
 }

@@ -6,7 +6,11 @@
         $t("Base.create")
       }}</el-button>
     </div>
-    <el-table class="auth-table" :data="keyList" v-loading.lock="isTableLoading">
+    <el-table
+      class="auth-table"
+      :data="keyList"
+      v-loading.lock="isTableLoading"
+    >
       <el-table-column prop="name" :label="tl('keyName')">
         <template #default="{ row }">
           <span class="key-name" @click="operateKeyItem('view', row)">
@@ -16,7 +20,7 @@
       </el-table-column>
       <el-table-column prop="expired_at" :label="tl('expireAt')">
         <template #default="{ row }">
-          {{ moment(row.expired_at).format("YYYY-MM-DD") }}
+          {{ expiredAt(row.expired_at) }}
         </template>
       </el-table-column>
       <el-table-column prop="desc" :label="tl('desc')" />
@@ -89,15 +93,25 @@ const operateKeyItem = (type: "edit" | "view", itemData: APIKey) => {
 const toggleKeyItemEnable = async (itemData: APIKey) => {
   try {
     const { name, enable, expired_at, desc } = itemData;
-    await updateAPIKey(name, { enable: !enable, expired_at, desc });
+    const body: { enable: boolean; desc: string; expired_at?: string } = {
+      enable: !enable,
+      desc,
+    };
+    if (expired_at) {
+      body.expired_at = expired_at;
+    }
+    await updateAPIKey(name, body);
     ElMessage.success(
       t(`Base.${!enable ? "enableSuccess" : "disabledSuccess"}`)
     );
     getList();
   } catch (error) {
-    //
+    console.error(error);
   }
 };
+
+const expiredAt = (expiredAt: string | undefined) =>
+  !expiredAt ? tl("neverExpire") : moment(expiredAt).format("YYYY-MM-DD");
 
 const getList = async () => {
   try {

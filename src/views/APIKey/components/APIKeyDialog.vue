@@ -29,6 +29,8 @@
               v-model="formData.expired_at"
               :disabled="operationType === 'view'"
               :disabledDate="isItEarlierThanToday"
+              :placeholder="tl('neverExpire')"
+              clearable
             />
           </el-form-item>
         </el-col>
@@ -152,7 +154,7 @@ const tl = (key: string, collection = "APIKey") => {
 
 const createRawFormData = () => ({
   name: "",
-  expired_at: "",
+  expired_at: undefined,
   desc: "",
   enable: true,
 });
@@ -228,11 +230,26 @@ const initCopyTool = () => {
 const todayStartTime = new Date().setHours(0, 0, 0, 0);
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime;
 
-const submitAddedData = () => createAPIKey(formData.value);
+const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
+  const ret = { ...formData };
+  // The interface convention is that when the api key is never expired,
+  // do not submit expired_at
+  if (!ret.expired_at) {
+    Reflect.deleteProperty(ret, "expired_at");
+  } else {
+    // The time is set to 23:59:59 of the selected date
+    ret.expired_at = new Date(
+      new Date(ret.expired_at).setHours(23, 59, 59)
+    ).toISOString();
+  }
+  return ret;
+};
+
+const submitAddedData = () => createAPIKey(handleExpiredAt(formData.value));
 
 const submitUpdatedData = () => {
   const { name, ...data } = formData.value as APIKeyFormWhenEditing;
-  return updateAPIKey(name, data);
+  return updateAPIKey(name, handleExpiredAt(data as APIKeyFormWhenCreating));
 };
 
 const submit = async () => {
