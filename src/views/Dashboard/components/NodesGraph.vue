@@ -251,7 +251,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   window.removeEventListener("resize", resizeFn);
-  svg.value.remove();
+  svg.value?.remove && svg.value.remove();
 });
 </script>
 
