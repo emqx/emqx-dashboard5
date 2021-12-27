@@ -157,7 +157,7 @@ export default {
       this.tbLoading = true;
       const sendParams = { ...this.params, ...this.pageMeta, ...params };
       Reflect.deleteProperty(sendParams, "count");
-      const res = await loadBlacklist().catch(() => {});
+      const res = await loadBlacklist(this.pageMeta).catch(() => {});
       if (res) {
         const { data = [], meta = {} } = res;
         this.tableData = data;
