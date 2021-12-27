@@ -117,7 +117,11 @@ const tableData = computed(() => {
 
 const getStatistics = async () => {
   try {
-    const { data = [], meta } = await querySlowSubStatistics();
+    const { data = [], meta } = await querySlowSubStatistics({
+      page: page.value,
+      limit: limit.value,
+      count: count.value,
+    });
     statistics.value = data;
     count.value = meta.count || 0;
   } catch (error) {

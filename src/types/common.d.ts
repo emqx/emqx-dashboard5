@@ -1,10 +1,12 @@
+export interface PageData {
+  count: number;
+  limit: number;
+  page: number;
+}
+
 export type ListDataWithPagination<T> = {
   data: Array<T>;
-  meta: {
-    count: number;
-    limit: number;
-    page: number;
-  };
+  meta: PageData;
 };
 
 export interface RuleInValidatorParam {

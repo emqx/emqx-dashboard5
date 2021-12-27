@@ -1,5 +1,5 @@
 import http from "@/common/http";
-import { ListDataWithPagination } from "@/types/common";
+import { ListDataWithPagination, PageData } from "@/types/common";
 import { SlowSubConfig, SlowSubStatistic } from "@/types/diagnose";
 import { createURLWithAuth } from "@/common/utils";
 import store from "@/store";
@@ -16,10 +16,8 @@ export const clearSlowSubData = () => {
   return http.delete("/slow_subscriptions");
 };
 
-export const querySlowSubStatistics = (): Promise<
-  ListDataWithPagination<SlowSubStatistic>
-> => {
-  return http.get("/slow_subscriptions");
+export const querySlowSubStatistics = (params: PageData): Promise<ListDataWithPagination<SlowSubStatistic>> => {
+  return http.get("/slow_subscriptions", { params });
 };
 
 export function getTraceList() {
