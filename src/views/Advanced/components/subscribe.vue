@@ -32,6 +32,7 @@
       :title="
         (isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('subscribe')
       "
+      @close="closeDialog"
     >
       <el-form
         :rules="subsRules"
