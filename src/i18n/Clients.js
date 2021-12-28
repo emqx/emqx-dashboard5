@@ -311,4 +311,8 @@ export default {
     zh: "注册时间",
     en: "LifeTime",
   },
+  clientDoesNotExist: {
+    zh: "该客户端不存在",
+    en: "The client does not exist",
+  },
 };

@@ -3,26 +3,28 @@
     <div class="section-header" v-loading.lock="clientDetailLock">
       <div>
         <span>{{ clientId }}</span>
-        <el-tag type="info" size="mini">
-          <span v-if="record.connected == true"
-            ><i class="el-icon-success iconfont suc"></i
-            >{{ $t("Clients.connected") }}</span
-          >
-          <span v-else
-            ><i class="el-icon-error iconfont fail"></i
-            >{{ $t("Clients.disconnected") }}</span
-          >
-        </el-tag>
-        <el-tag type="info" size="mini" v-if="record.proto_name">
-          <span>{{ record.proto_name }}</span
-          >&nbsp;
-          <span v-if="record.proto_name === 'MQTT'">{{
-            mqttVersion[record.proto_ver]
-          }}</span
-          ><span v-else>{{ record.proto_ver }}</span>
-        </el-tag>
+        <template v-if="doesTheClientExist">
+          <el-tag type="info" size="mini">
+            <span v-if="record.connected == true"
+              ><i class="el-icon-success iconfont suc"></i
+              >{{ $t("Clients.connected") }}</span
+            >
+            <span v-else
+              ><i class="el-icon-error iconfont fail"></i
+              >{{ $t("Clients.disconnected") }}</span
+            >
+          </el-tag>
+          <el-tag type="info" size="mini" v-if="record.proto_name">
+            <span>{{ record.proto_name }}</span
+            >&nbsp;
+            <span v-if="record.proto_name === 'MQTT'">{{
+              mqttVersion[record.proto_ver]
+            }}</span
+            ><span v-else>{{ record.proto_ver }}</span>
+          </el-tag>
+        </template>
       </div>
-      <div>
+      <div v-if="doesTheClientExist">
         <el-button
           v-if="record.connected"
           type="danger"
@@ -36,189 +38,196 @@
         </el-button>
       </div>
     </div>
+    <template v-if="!clientDetailLock">
+      <template v-if="doesTheClientExist">
+        <el-card shadow="never" v-loading.lock="clientDetailLock">
+          <div class="part-header">
+            {{ $t("Clients.connectionInfo") }}
+          </div>
+          <el-row>
+            <el-col
+              v-for="item in clientDetailParts.connection"
+              :key="item"
+              :span="8"
+            >
+              <div v-if="item == 'proto_type'" class="detail-item">
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span
+                  v-if="record.proto_name === 'MQTT'"
+                  :title="
+                    record.proto_name + '&nbsp;' + mqttVersion[record.proto_ver]
+                  "
+                  >{{ record.proto_name }} {{ mqttVersion[record.proto_ver] }}</span
+                >
+                <span
+                  v-else
+                  :title="record.proto_name + '&nbsp;' + record.proto_ver"
+                  >{{ record.proto_name }} {{ record.proto_ver }}</span
+                >
+              </div>
+              <div
+                v-else-if="item == 'connected_at' || item == 'disconnected_at'"
+                class="detail-item"
+              >
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span
+                  :title="
+                    record[item] &&
+                    moment(record[item]).format('YYYY-MM-DD HH:mm:ss')
+                  "
+                >
+                  {{
+                    record[item] &&
+                    moment(record[item]).format("YYYY-MM-DD HH:mm:ss")
+                  }}
+                </span>
+              </div>
+              <div v-else-if="item == 'ip_address'" class="detail-item">
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span :title="record.ip_address + ':' + record.port">{{
+                  record.ip_address + ":" + record.port
+                }}</span>
+              </div>
+              <div v-else class="detail-item">
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span :title="record[item]">{{ record[item] }}</span>
+              </div>
+            </el-col>
+          </el-row>
 
-    <el-card shadow="never" v-loading.lock="clientDetailLock">
-      <div class="part-header">
-        {{ $t("Clients.connectionInfo") }}
-      </div>
-      <el-row>
-        <el-col
-          v-for="item in clientDetailParts.connection"
-          :key="item"
-          :span="8"
+          <div class="part-header">
+            {{ $t("Clients.sessionInfo") }}
+          </div>
+          <el-row>
+            <el-col v-for="item in clientDetailParts.session" :key="item" :span="8">
+              <div v-if="item == 'subscriptions'" class="detail-item">
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span
+                  :title="record.subscriptions_cnt + '/' + record.subscriptions_max"
+                >
+                  {{ record.subscriptions_cnt + "/" + record.subscriptions_max }}
+                </span>
+              </div>
+              <div v-else-if="item == 'clean_start'" class="detail-item">
+                <span
+                  :title="record.proto_ver === 5 ? 'Clean Start' : 'Clean Session'"
+                  >{{
+                    record.proto_ver === 5 ? "Clean Start" : "Clean Session"
+                  }}:</span
+                >
+                <span :title="record[item]">{{ record[item] }}</span>
+              </div>
+              <div v-else-if="item == 'mqueue'" class="detail-item">
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span :title="record.mqueue_len + '/' + record.mqueue_max">{{
+                  record.mqueue_len + "/" + record.mqueue_max
+                }}</span>
+              </div>
+              <div v-else-if="item == 'inflight'" class="detail-item">
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span :title="record.inflight_cnt + '/' + record.inflight_max">
+                  {{ record.inflight_cnt + "/" + record.inflight_max }}
+                </span>
+              </div>
+              <div v-else-if="item == 'created_at'" class="detail-item">
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span :title="moment(record[item]).format('YYYY-MM-DD HH:mm:ss')">
+                  {{ moment(record[item]).format("YYYY-MM-DD HH:mm:ss") }}
+                </span>
+              </div>
+              <div v-else class="detail-item">
+                <span :title="tl(snake2pascal(item))"
+                  >{{ tl(snake2pascal(item)) }}:</span
+                >
+                <span :title="record[item]">{{ record[item] }}</span>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+        <div class="section-header">
+          <div>
+            {{ $t("Clients.currentSubscription") }}
+          </div>
+          <div>
+            <!-- <el-button  size="mini" icon="el-icon-refresh" @click="loadData">
+              {{ $t('Clients.refresh') }}
+            </el-button> -->
+            <el-button
+              size="small"
+              type="primary"
+              icon="el-icon-plus"
+              @click="handlePreAdd"
+            >
+              {{ $t("Clients.addASubscription") }}
+            </el-button>
+          </div>
+        </div>
+        <el-table :data="subscriptions" v-loading.lock="subsLockTable">
+          <el-table-column
+            prop="topic"
+            show-overflow-tooltip
+            label="Topic"
+            sortable
+          ></el-table-column>
+          <el-table-column
+            prop="qos"
+            sortable
+            min-width="110px"
+            label="QoS"
+          ></el-table-column>
+          <el-table-column prop="clientid" :label="$t('Base.operation')">
+            <template #default="{ row }">
+              <el-button
+                type="danger"
+                size="mini"
+                @click="handleUnSubscription(row)"
+              >
+                {{ $t("Clients.unsubscribe") }}
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <create-subscribe
+          v-model:visible="dialogVisible"
+          :client-id="record.clientid"
+          :gateway="gateway"
+          @create:subs="loadSubs"
         >
-          <div v-if="item == 'proto_type'" class="detail-item">
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span
-              v-if="record.proto_name === 'MQTT'"
-              :title="
-                record.proto_name + '&nbsp;' + mqttVersion[record.proto_ver]
-              "
-              >{{ record.proto_name }} {{ mqttVersion[record.proto_ver] }}</span
-            >
-            <span
-              v-else
-              :title="record.proto_name + '&nbsp;' + record.proto_ver"
-              >{{ record.proto_name }} {{ record.proto_ver }}</span
-            >
-          </div>
-          <div
-            v-else-if="item == 'connected_at' || item == 'disconnected_at'"
-            class="detail-item"
-          >
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span
-              :title="
-                record[item] &&
-                moment(record[item]).format('YYYY-MM-DD HH:mm:ss')
-              "
-            >
-              {{
-                record[item] &&
-                moment(record[item]).format("YYYY-MM-DD HH:mm:ss")
-              }}
-            </span>
-          </div>
-          <div v-else-if="item == 'ip_address'" class="detail-item">
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span :title="record.ip_address + ':' + record.port">{{
-              record.ip_address + ":" + record.port
-            }}</span>
-          </div>
-          <div v-else class="detail-item">
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span :title="record[item]">{{ record[item] }}</span>
-          </div>
-        </el-col>
-      </el-row>
+        </create-subscribe>
 
-      <div class="part-header">
-        {{ $t("Clients.sessionInfo") }}
-      </div>
-      <el-row>
-        <el-col v-for="item in clientDetailParts.session" :key="item" :span="8">
-          <div v-if="item == 'subscriptions'" class="detail-item">
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span
-              :title="record.subscriptions_cnt + '/' + record.subscriptions_max"
-            >
-              {{ record.subscriptions_cnt + "/" + record.subscriptions_max }}
-            </span>
-          </div>
-          <div v-else-if="item == 'clean_start'" class="detail-item">
-            <span
-              :title="record.proto_ver === 5 ? 'Clean Start' : 'Clean Session'"
-              >{{
-                record.proto_ver === 5 ? "Clean Start" : "Clean Session"
-              }}:</span
-            >
-            <span :title="record[item]">{{ record[item] }}</span>
-          </div>
-          <div v-else-if="item == 'mqueue'" class="detail-item">
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span :title="record.mqueue_len + '/' + record.mqueue_max">{{
-              record.mqueue_len + "/" + record.mqueue_max
-            }}</span>
-          </div>
-          <div v-else-if="item == 'inflight'" class="detail-item">
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span :title="record.inflight_cnt + '/' + record.inflight_max">
-              {{ record.inflight_cnt + "/" + record.inflight_max }}
-            </span>
-          </div>
-          <div v-else-if="item == 'created_at'" class="detail-item">
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span :title="moment(record[item]).format('YYYY-MM-DD HH:mm:ss')">
-              {{ moment(record[item]).format("YYYY-MM-DD HH:mm:ss") }}
-            </span>
-          </div>
-          <div v-else class="detail-item">
-            <span :title="tl(snake2pascal(item))"
-              >{{ tl(snake2pascal(item)) }}:</span
-            >
-            <span :title="record[item]">{{ record[item] }}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </el-card>
-    <div class="section-header">
-      <div>
-        {{ $t("Clients.currentSubscription") }}
-      </div>
-      <div>
-        <!-- <el-button  size="mini" icon="el-icon-refresh" @click="loadData">
-          {{ $t('Clients.refresh') }}
-        </el-button> -->
-        <el-button
-          size="small"
-          type="primary"
-          icon="el-icon-plus"
-          @click="handlePreAdd"
+        <!-- <el-dialog
+          :visible.sync="errDialog"
+          :before-close="
+            () => {
+              this.$router.push({ path: '/clients' })
+            }
+          "
         >
-          {{ $t("Clients.addASubscription") }}
-        </el-button>
+          <span>{{ $t('Clients.clientDetailErr') }}</span>
+        </el-dialog> -->
+      </template>
+      <div class="client-does-not-exist" v-else>
+        <i class="el-icon-warning"></i>
+        <span>{{ tl("clientDoesNotExist") }}</span>
       </div>
-    </div>
-    <el-table :data="subscriptions" v-loading.lock="subsLockTable">
-      <el-table-column
-        prop="topic"
-        show-overflow-tooltip
-        label="Topic"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        prop="qos"
-        sortable
-        min-width="110px"
-        label="QoS"
-      ></el-table-column>
-      <el-table-column prop="clientid" :label="$t('Base.operation')">
-        <template #default="{ row }">
-          <el-button
-            type="danger"
-            size="mini"
-            @click="handleUnSubscription(row)"
-          >
-            {{ $t("Clients.unsubscribe") }}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <create-subscribe
-      v-model:visible="dialogVisible"
-      :client-id="record.clientid"
-      :gateway="gateway"
-      @create:subs="loadSubs"
-    >
-    </create-subscribe>
-
-    <!-- <el-dialog
-      :visible.sync="errDialog"
-      :before-close="
-        () => {
-          this.$router.push({ path: '/clients' })
-        }
-      "
-    >
-      <span>{{ $t('Clients.clientDetailErr') }}</span>
-    </el-dialog> -->
+    </template>
   </div>
 </template>
 
@@ -262,6 +271,7 @@ export default {
       clientDetailLock: true,
       subsLockTable: true,
       errDialog: false,
+      doesTheClientExist: true,
       record: {},
       clientsOrganizied: {
         MQTT: {
@@ -437,7 +447,11 @@ export default {
         return this.loadGatewayData();
       }
       this.clientDetailLock = true;
-      let res = await loadClientDetail(this.clientId).catch(() => {});
+      let res = await loadClientDetail(this.clientId).catch((error) => {
+        if (error.response.status === 404) {
+          this.doesTheClientExist = false;
+        }
+      });
       if (res) {
         this.record = res;
       } else {
@@ -568,5 +582,14 @@ export default {
 
 .section-header::v-deep .el-loading-mask {
   margin-left: 0px;
+}
+
+.client-does-not-exist {
+  padding-top: 180px;
+  text-align: center;
+  color: #0000007f;
+  i {
+    margin-right: 8px;
+  }
 }
 </style>
