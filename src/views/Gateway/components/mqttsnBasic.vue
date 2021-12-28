@@ -79,6 +79,7 @@ import _ from "lodash";
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
+  getValueIntersectionWithTemplate,
 } from "@/common/utils";
 import { useI18n } from "vue-i18n";
 
@@ -102,15 +103,15 @@ export default defineComponent({
       predefined: [],
       mountpoint: "",
     };
-    let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
-      "idle_timeout",
-    ]);
+
     const { t } = useI18n();
 
-    const mValue = reactive({
-      ..._.cloneDeep(mValueDefault),
-      ...normalizeProps,
-    });
+    const mValue = reactive(
+      getValueIntersectionWithTemplate(
+        mValueDefault,
+        transformStrToUnitArray(props.value, ["idle_timeout"])
+      )
+    );
 
     const formPassed = ref(false);
 

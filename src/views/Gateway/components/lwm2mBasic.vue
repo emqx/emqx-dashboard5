@@ -146,11 +146,12 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, watch, ref } from "vue";
+import { defineComponent, onMounted, reactive, watch } from "vue";
 import _ from "lodash";
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
+  getValueIntersectionWithTemplate,
 } from "@/common/utils";
 import { useI18n } from "vue-i18n";
 
@@ -183,17 +184,17 @@ export default defineComponent({
     };
     const { t } = useI18n();
 
-    let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
-      "idle_timeout",
-      "qmode_time_window",
-      "lifetime_min",
-      "lifetime_max",
-    ]);
-
-    const lValue = reactive({
-      ..._.cloneDeep(lValueDefault),
-      ...normalizeProps,
-    });
+    const lValue = reactive(
+      getValueIntersectionWithTemplate(
+        lValueDefault,
+        transformStrToUnitArray(props.value, [
+          "idle_timeout",
+          "qmode_time_window",
+          "lifetime_min",
+          "lifetime_max",
+        ])
+      )
+    );
 
     watch(
       () => _.cloneDeep(lValue),

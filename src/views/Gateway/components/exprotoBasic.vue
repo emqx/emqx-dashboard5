@@ -157,11 +157,12 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, watch, onMounted } from "vue";
+import { defineComponent, reactive, watch, onMounted } from "vue";
 import _ from "lodash";
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
+  getValueIntersectionWithTemplate,
 } from "@/common/utils";
 import { useI18n } from "vue-i18n";
 
@@ -198,10 +199,12 @@ export default defineComponent({
     };
     const { t } = useI18n();
 
-    let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
-      "idle_timeout",
-    ]);
-    let eValue = reactive({ ..._.cloneDeep(eValueDefault), ...normalizeProps });
+    let eValue = reactive(
+      getValueIntersectionWithTemplate(
+        eValueDefault,
+        transformStrToUnitArray(props.value, ["idle_timeout"])
+      )
+    );
     let enableTLS = reactive({
       handler: false,
       server: false,

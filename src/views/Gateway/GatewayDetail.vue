@@ -37,13 +37,7 @@
 </template>
 
 <script>
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  onMounted,
-  ref,
-} from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { getGateway, updateGateway } from "@/api/gateway";
 import { ElMessage as M } from "element-plus";
 import { useI18n } from "vue-i18n";

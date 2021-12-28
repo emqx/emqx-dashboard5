@@ -69,6 +69,7 @@ import _ from "lodash";
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
+  getValueIntersectionWithTemplate,
 } from "@/common/utils";
 import { useI18n } from "vue-i18n";
 
@@ -93,15 +94,15 @@ export default defineComponent({
       enable_stats: true,
       mountpoint: "",
     };
-    let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
-      "idle_timeout",
-    ]);
+
     const { t } = useI18n();
 
-    const sValue = reactive({
-      ..._.cloneDeep(sValueDefault),
-      ...normalizeProps,
-    });
+    const sValue = reactive(
+      getValueIntersectionWithTemplate(
+        sValueDefault,
+        transformStrToUnitArray(props.value, ["idle_timeout"])
+      )
+    );
 
     watch(
       () => _.cloneDeep(sValue),

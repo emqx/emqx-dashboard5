@@ -1,13 +1,25 @@
 import Clipboard from "clipboard";
 // import sqlFormatter from "sql-formatter";
 // import parser from "js-sql-parser";
-// import { Message } from "element-ui";
-
 import store from "@/store";
-// import router from "@/router";
-import i18n from "@/i18n";
 import { useI18n } from "vue-i18n";
 import moment from "moment";
+
+export function getValueIntersectionWithTemplate(template, value) {
+  const dest = {};
+  for (let key in template) {
+    if (
+      typeof template[key] === "object" &&
+      !(template[key] instanceof Array) &&
+      key in value
+    ) {
+      dest[key] = getValueIntersectionWithTemplate(template[key], value[key]);
+    } else {
+      dest[key] = key in value ? value[key] : template[key];
+    }
+  }
+  return dest;
+}
 
 export function randomStr(len = 6) {
   let str = "";
@@ -453,7 +465,10 @@ function transToNumberAndConsiderItsUnit(ipt) {
 }
 
 export const calcPercentage = (n1, n2, transZero = true) => {
-  let p = (transToNumberAndConsiderItsUnit(n1) / transToNumberAndConsiderItsUnit(n2)) * 100;
+  let p =
+    (transToNumberAndConsiderItsUnit(n1) /
+      transToNumberAndConsiderItsUnit(n2)) *
+    100;
   //[0,1)
   if (p < 1) return transZero ? 1 : Math.round(p);
   // NaN

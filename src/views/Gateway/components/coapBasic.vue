@@ -85,6 +85,7 @@ import _ from "lodash";
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
+  getValueIntersectionWithTemplate,
 } from "@/common/utils";
 import { useI18n } from "vue-i18n";
 
@@ -108,19 +109,19 @@ export default defineComponent({
       publish_qos: "coap",
       mountpoint: "",
     };
-    let normalizeProps = transformStrToUnitArray(_.cloneDeep(props.value), [
-      "heartbeat",
-    ]);
+
     const { t } = useI18n();
 
-    const cValue = reactive({
-      ..._.cloneDeep(cValueDefault),
-      ...normalizeProps,
-    });
+    const cValue = reactive(
+      getValueIntersectionWithTemplate(
+        cValueDefault,
+        transformStrToUnitArray(props.value, ["heartbeat"])
+      )
+    );
 
     const checkHeartBeat = (source) => {
       if (!source.connection_required) {
-        // Reflect.deleteProperty(source, "heartbeat");
+        Reflect.deleteProperty(source, "heartbeat");
       }
       return source;
     };
