@@ -1,6 +1,5 @@
 <template>
   <a class="back-button" href="javascript:;" @click="handleBack">
-    <i class="el-icon-arrow-left"></i>
     <slot></slot>
   </a>
 </template>
