@@ -341,7 +341,8 @@ code {
 .back-button {
   color: #96999c;
   &::before {
-    content: "<<";
+    content: "<";
+    margin-right: 8px;
   }
   display: inline-block;
   margin-bottom: 20px;
