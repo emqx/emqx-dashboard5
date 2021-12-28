@@ -132,7 +132,10 @@ export default function useDatabaseConfig(
       `;
     }
     if (id.value) {
-      const { selector } = databaseConfig;
+      const { mongo_type, servers, selector } = databaseConfig;
+      if (mongo_type !== "single") {
+        databaseConfig.servers = servers.join(",");
+      }
       databaseConfig.selector = JSON.stringify(selector);
       return;
     }
