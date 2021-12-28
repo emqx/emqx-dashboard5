@@ -20,10 +20,12 @@ export default function useProcessAuthData() {
   const processRedisConfig = (data) => {
     const tempData = _.cloneDeep(data);
     const { redis_type } = data;
+    if (redis_type !== "sentinel") {
+      delete tempData.sentinel;
+    }
     if (redis_type !== "single") {
       delete tempData.server;
     } else {
-      delete tempData.sentinel;
       delete tempData.servers;
     }
     return tempData;
