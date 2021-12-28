@@ -131,7 +131,7 @@ export default defineComponent({
       if (res) {
         M({
           type: "success",
-          message: !row.enable
+          message: row.enable
             ? t("Base.disabledSuccess")
             : t("Base.enableSuccess"),
         });
