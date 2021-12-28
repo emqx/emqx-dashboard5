@@ -47,7 +47,7 @@ export default defineComponent({
           if (v.outputs instanceof Array) {
             v.outputs.forEach((output) => {
               const toNode =
-                "__to__" + RANDOM + ":" + output.function || output;
+                "__to__" + RANDOM + ":" + (output.function || output);
               rule2output.value.push({
                 source: v.id,
                 target: toNode,
@@ -59,8 +59,7 @@ export default defineComponent({
             });
           } else {
             const toNode =
-              "__to__" + RANDOM + ":" + v.outputs.function ||
-              v.outputs.toString();
+              "__to__" + RANDOM + ":" + (v.outputs.function || v.outputs);
 
             rule2output.value.push({
               source: v.id,
@@ -74,7 +73,7 @@ export default defineComponent({
         });
 
         rulesList.value = ruleList.value.map((v) => {
-          return { id: v.id, label: v.name };
+          return { id: v.id, label: v.name || "rule id:" + v.id };
         });
       }
     };

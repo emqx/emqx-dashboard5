@@ -22,7 +22,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="cValue.connection_required === true">
           <el-form-item :label="tl('heartbeat')">
             <el-input
               v-model.number="cValue.heartbeat[0]"
@@ -118,14 +118,27 @@ export default defineComponent({
       ...normalizeProps,
     });
 
+    const checkHeartBeat = (source) => {
+      if (!source.connection_required) {
+        // Reflect.deleteProperty(source, "heartbeat");
+      }
+      return source;
+    };
+
     watch(
       () => _.cloneDeep(cValue),
       (v) => {
-        context.emit("update:value", transformUnitArrayToStr(v));
+        context.emit(
+          "update:value",
+          checkHeartBeat(transformUnitArrayToStr(v))
+        );
       }
     );
     onMounted(() => {
-      context.emit("update:value", transformUnitArrayToStr(cValue));
+      context.emit(
+        "update:value",
+        checkHeartBeat(transformUnitArrayToStr(cValue))
+      );
     });
 
     return {

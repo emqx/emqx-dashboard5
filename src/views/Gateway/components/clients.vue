@@ -66,13 +66,12 @@
         v-if="name === 'lwm2m'"
       ></el-table-column>
 
-      <!-- <el-table-column
+      <el-table-column
         :label="tl('username')"
         sortable
         prop="username"
         v-if="name !== 'lwm2m'"
       ></el-table-column>
-       -->
 
       <el-table-column :label="tl('ipaddress')" sortable>
         <template #default="{ row }">

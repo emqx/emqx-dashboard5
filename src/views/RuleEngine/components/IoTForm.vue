@@ -317,9 +317,7 @@ import { useI18n } from "vue-i18n";
 import _ from "lodash";
 import { ElMessageBox as MB, ElMessage as M } from "element-plus";
 import parser from "js-sql-parser";
-
 import KeyAndValueEditor from "@/components/KeyAndValueEditor.vue";
-import { text } from "d3-fetch";
 type OutputForm = {
   type: string;
   args?: Record<string, unknown>;
@@ -451,9 +449,7 @@ export default defineComponent({
     };
 
     const parseStrSQL = () => {
-      // console.log(ruleValue.value.sql);
       // const ast = parser.parse(ruleValue.value.sql);
-      // console.log(ast);
     };
 
     const loadBridgeList = async () => {
@@ -486,13 +482,10 @@ export default defineComponent({
       if (!edit) {
         output.push(opObj);
       } else {
-        //
         editIndex.value !== undefined &&
           output.splice(editIndex.value, 1, opObj);
       }
-      // outputDisableList.value = outputDisableList.value
-      //   .concat([outputForm.value.type])
-      //   .filter((v, k, a) => a.indexOf(v) === k);
+
       calcDisableList();
       outputLoading.value = false;
       opDialog.value = false;
@@ -510,7 +503,7 @@ export default defineComponent({
     };
 
     const openOpDialog: (edit: boolean, itemIndex: number | undefined) => void =
-      (edit = false, itemIndex) => {
+      async (edit = false, itemIndex) => {
         opEdit.value = !!edit;
         opDialog.value = true;
         outputForm.value = _.cloneDeep(outputFormDefault);
@@ -530,7 +523,8 @@ export default defineComponent({
             }
           }
         }
-        !bridgeList.value.length && loadBridgeList();
+        await loadBridgeList();
+        calcDisableList();
       };
 
     const deleteOutput = (itemIndex: number | undefined) => {
@@ -555,7 +549,6 @@ export default defineComponent({
 
     const toggleBridgeEdit = () => {
       if (isBridgeEdit.value) {
-        //todo
         chosenBridge.value =
           (outputForm.value.type &&
             bridgeList.value.find(
@@ -653,8 +646,7 @@ export default defineComponent({
       try {
         return require(`@/assets/img/${item}.png`);
       } catch (e) {
-        //May it be a user defined module,
-        //that would have no valid overview png file existing in the path
+        //May it be a user defined module
         console.log("ImgErr:", e);
       }
     };
@@ -728,7 +720,6 @@ export default defineComponent({
 
   &.add {
     justify-content: center;
-    // align-items: center;
   }
   &:first-of-type {
     margin-top: 20px;

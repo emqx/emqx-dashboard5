@@ -430,6 +430,7 @@ export default defineComponent({
       default: () => [],
     },
   },
+  emits: ["list"],
   setup(props, context) {
     const route = useRoute();
     const { t } = useI18n();
@@ -681,14 +682,17 @@ export default defineComponent({
       return result;
     }
 
-    watch(listenerTable, (v) => {
-      if (props.integration) {
-        context.emit(
-          "update:list",
-          v.map((v) => normalizeStructure(v))
-        );
+    watch(
+      () => _.cloneDeep(listenerTable.value),
+      (v) => {
+        if (props.integration) {
+          context.emit(
+            "update:list",
+            v.map((v) => normalizeStructure(v))
+          );
+        }
       }
-    });
+    );
 
     onMounted(() => {
       if (props.integration) {
