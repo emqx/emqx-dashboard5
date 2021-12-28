@@ -105,26 +105,15 @@ export default defineComponent({
 
     const enableOrDisableBridge = async () => {
       // tbLoading.value = true;
-      if (bInfo.value.status === "connected") {
-        let res = await startStopBridge(bInfo.value.id, "stop").catch(() => {});
-        if (res) {
-          M({
-            type: "success",
-            message: t("Base.enableSuccess"),
-          });
-          loadBridgeInfo();
-        }
-      } else {
-        let res = await startStopBridge(bInfo.value.id, "start").catch(
-          () => {}
-        );
-        if (res) {
-          M({
-            type: "success",
-            message: t("Base.disabledSuccess"),
-          });
-          loadBridgeInfo();
-        }
+      const statusToSend = bInfo.value.status === "connected" ? "stop" : "start";
+      const sucMessage = bInfo.value.status === "connected" ? "Base.disabledSuccess" : "Base.enableSuccess";
+      let res = await startStopBridge(bInfo.value.id, statusToSend).catch(() => {});
+      if (res) {
+        M({
+          type: "success",
+          message: t(sucMessage),
+        });
+        loadBridgeInfo();
       }
       // tbLoading.value = false;
     };
