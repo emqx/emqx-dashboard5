@@ -19,6 +19,7 @@
                 <el-input
                   v-model.number="delayedConfig.max_delayed_messages"
                   :readonly="delayedOption == 'unlimited'"
+                  maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="delayedOption">
@@ -112,7 +113,11 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog custom-class="payload-dialog" v-model="payloadDialog" :title="'Payload'">
+    <el-dialog
+      custom-class="payload-dialog"
+      v-model="payloadDialog"
+      :title="'Payload'"
+    >
       <el-row v-loading="payloadLoading">
         <el-input
           type="textarea"
@@ -126,14 +131,21 @@
       <template #footer>
         <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
           <el-select v-model="payloadShowBy" size="small" @change="initCopyBtn">
-            <el-option v-for="item in payloadShowByOptions" :key="item" :label="item" :value="item" />
+            <el-option
+              v-for="item in payloadShowByOptions"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
           </el-select>
           <div>
             <span v-if="isCopyShow" class="payload-copied">{{
               $t("Base.copied")
             }}</span>
 
-            <el-button size="small" ref="copyBtnCom">{{ $t("Base.copy") }}</el-button>
+            <el-button size="small" ref="copyBtnCom">{{
+              $t("Base.copy")
+            }}</el-button>
           </div>
         </div>
       </template>
@@ -207,7 +219,8 @@ export default defineComponent({
     let clipboardInstance = undefined;
     let isCopyShow = ref(false);
     let pageMeta = ref({});
-    const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent();
+    const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
+      useShowTextByDifferent();
 
     watch(delayedOption, (newOption) => {
       if (newOption == "unlimited") {
@@ -329,7 +342,11 @@ export default defineComponent({
       clipboardInstance && clipboardInstance?.destroy();
       const btnEle = copyBtnCom.value?.$el;
       if (btnEle) {
-        clipboardInstance = createClipboardEleWithTargetText(btnEle, payloadForShow.value, copySuccess);
+        clipboardInstance = createClipboardEleWithTargetText(
+          btnEle,
+          payloadForShow.value,
+          copySuccess
+        );
       }
     };
     const copySuccess = () => {

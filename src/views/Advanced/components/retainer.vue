@@ -44,6 +44,7 @@
                 <el-input
                   v-model.number="retainerConfig.config.max_retained_messages"
                   :readonly="selOptions.retained == 'unlimited'"
+                  maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.retained">
@@ -62,7 +63,10 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="Max Payload Size" prop="max_payload_size[0]">
-                <el-input v-model.number="retainerConfig.max_payload_size[0]">
+                <el-input
+                  v-model.number="retainerConfig.max_payload_size[0]"
+                  maxlength="6"
+                >
                   <template #append>
                     <el-select v-model="selOptions.payload">
                       <el-option value="KB" label="KB"></el-option>
@@ -79,6 +83,7 @@
                 <el-input
                   v-model.number="retainerConfig.msg_expiry_interval[0]"
                   :readonly="selOptions.expiry == '0s'"
+                  maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.expiry">
@@ -99,6 +104,7 @@
                 <el-input
                   v-model.number="retainerConfig.msg_clear_interval[0]"
                   :readonly="selOptions.clean == '0s'"
+                  maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.clean">
@@ -122,6 +128,7 @@
                 <el-input
                   v-model.number="retainerConfig.flow_control.max_read_number"
                   :readonly="selOptions.read == 'unlimited'"
+                  maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.read">
@@ -146,6 +153,7 @@
                 <el-input
                   v-model.number="retainerConfig.flow_control.msg_deliver_quota"
                   :readonly="selOptions.deliver == 'unlimited'"
+                  maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.deliver">
@@ -173,6 +181,7 @@
                   v-model.number="
                     retainerConfig.flow_control.quota_release_interval[0]
                   "
+                  maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.release">
@@ -242,7 +251,11 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog v-model="payloadDialog" custom-class="payload-dialog" :title="'Payload'">
+    <el-dialog
+      v-model="payloadDialog"
+      custom-class="payload-dialog"
+      :title="'Payload'"
+    >
       <el-row v-loading="payloadLoading">
         <el-input
           type="textarea"
@@ -256,14 +269,21 @@
       <template #footer>
         <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
           <el-select v-model="payloadShowBy" size="small" @change="initCopyBtn">
-            <el-option v-for="item in payloadShowByOptions" :key="item" :label="item" :value="item" />
+            <el-option
+              v-for="item in payloadShowByOptions"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
           </el-select>
           <div>
             <span v-if="isCopyShow" class="payload-copied">{{
               $t("Base.copied")
             }}</span>
 
-            <el-button size="small" ref="copyBtnCom">{{ $t("Base.copy") }}</el-button>
+            <el-button size="small" ref="copyBtnCom">{{
+              $t("Base.copy")
+            }}</el-button>
           </div>
         </div>
       </template>
@@ -342,7 +362,8 @@ export default defineComponent({
     const copyBtnCom = ref();
     let clipboardInstance = undefined;
     let isCopyShow = ref(false);
-    const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent();
+    const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
+      useShowTextByDifferent();
 
     let validatorRules = [
       { required: true, message: tl("required"), trigger: "blur" },
@@ -587,7 +608,11 @@ export default defineComponent({
       clipboardInstance && clipboardInstance?.destroy();
       const btnEle = copyBtnCom.value?.$el;
       if (btnEle) {
-        clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, payloadForShow.value, copySuccess);
+        clipboardInstance = createClipboardEleWithTargetText(
+          copyBtnCom.value.$el,
+          payloadForShow.value,
+          copySuccess
+        );
       }
     };
 
