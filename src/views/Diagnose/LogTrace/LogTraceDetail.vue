@@ -36,11 +36,12 @@
         >
           <monaco
             id="log-trace"
-            v-model:value="logContent"
+            :value="logContent"
             :scroll-loading="true"
             :scroll-func="scrollLoadFunc"
             lang="powershell"
             :disabled="true"
+            :key="logContent"
           ></monaco>
         </div>
       </el-row>
@@ -83,7 +84,7 @@ export default defineComponent({
 
     const countInitialHeight = () => {
       const windowHeight = window.innerHeight;
-      initialHeight.value = windowHeight - 150;
+      initialHeight.value = windowHeight - 200;
     };
 
     const loadCurrentNodes = async () => {
