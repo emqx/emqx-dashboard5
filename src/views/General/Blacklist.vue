@@ -138,7 +138,9 @@ export default {
         { value: "username" },
         { value: "peerhost" },
       ],
-      record: {},
+      record: {
+        who: "",
+      },
       rules: {
         // as: [{ required: true, message: this.$t("General.enterAs") }],
         who: [{ required: true, message: this.$t("General.enterWho") }],
@@ -179,8 +181,8 @@ export default {
         who: "",
         as: "clientid",
       };
-      this.clearInput();
       this.dialogVisible = true;
+      this.$nextTick(this.clearInput);
     },
     closeDialog() {
       this.dialogVisible = false;
