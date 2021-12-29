@@ -16,8 +16,8 @@ export const clearSlowSubData = () => {
   return http.delete("/slow_subscriptions");
 };
 
-export const querySlowSubStatistics = (params: PageData): Promise<ListDataWithPagination<SlowSubStatistic>> => {
-  return http.get("/slow_subscriptions", { params });
+export const querySlowSubStatistics = (): Promise<Array<SlowSubStatistic>> => {
+  return http.get("/slow_subscriptions");
 };
 
 export function getTraceList() {

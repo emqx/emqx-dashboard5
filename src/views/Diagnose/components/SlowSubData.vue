@@ -1,7 +1,7 @@
 <template>
   <div class="slow-sub-data">
     <div class="slow-sub-data-bar">
-      <el-radio-group v-model="slowReasonFilter" size="medium">
+      <el-radio-group v-model="slowReasonFilter" size="medium" @change="reloadStatistics({ page: 1, limit })">
         <el-radio-button v-for="{ label, value } in slowReasonFilterOptions" :key="value" :label="value">
           {{ label }}
         </el-radio-button>
@@ -20,7 +20,7 @@
         </el-button>
       </div>
     </div>
-    <el-table :data="tableData">
+    <el-table :data="statistics" @sort-change="sortTable">
       <el-table-column prop="clientid" label="Client ID">
         <template #default="{ row }">
           <router-link
@@ -45,7 +45,7 @@
               {{ ": " + $t("SlowSub.highAverageTimeDesc") }}
             </div>
             <template #reference>
-              <i class="iconfont kongxinwenhao" />
+              <i class="iconfont el-icon-question" />
             </template>
           </el-popover>
         </template>
@@ -53,7 +53,7 @@
           {{ reasonText(row.type) }}
         </template>
       </el-table-column>
-      <el-table-column prop="latency" :label="$t('SlowSub.latencyTime')" sortable>
+      <el-table-column prop="latency" :label="$t('SlowSub.latencyTime')" sortable="custom">
         <template #default="{ row }"> {{ formatTime(row.latency) }} </template>
       </el-table-column>
       <el-table-column prop="last_update_time" :label="$t('SlowSub.updated')">
@@ -85,12 +85,15 @@ import { SlowSubStatistic } from "@/types/diagnose";
 import { clearSlowSubData, querySlowSubStatistics } from "@/api/diagnose";
 import moment from "moment";
 import { useI18n } from "vue-i18n";
+import usePaging from "@/hooks/usePaging";
 
 const { t } = useI18n();
 
 const statistics: Ref<Array<SlowSubStatistic>> = ref([]);
 const { page, limit, count } = usePageController();
 const pageController = computed(() => ({ page: page.value, limit: limit.value, count: count.value }));
+const { setTotalData, getAPageData } = usePaging();
+let sortFrom: { key: string; type: "asc" | "desc" } | undefined = undefined;
 
 const VALUE_FOR_NOT_FILTER = "all";
 const slowReasonFilter = ref(VALUE_FOR_NOT_FILTER);
@@ -109,30 +112,47 @@ const slowReasonFilterOptions = [
   },
 ];
 
-const tableData = computed(() => {
-  return slowReasonFilter.value === VALUE_FOR_NOT_FILTER
-    ? statistics.value
-    : statistics.value.filter(({ type }) => type === slowReasonFilter.value);
-});
-
-const getStatistics = async () => {
+const getTotalStatistics = async () => {
   try {
-    const { data = [], meta } = await querySlowSubStatistics({
-      page: page.value,
-      limit: limit.value,
-      count: count.value,
-    });
-    statistics.value = data;
-    count.value = meta.count || 0;
+    const totalData = await querySlowSubStatistics();
+    setTotalData(totalData);
+    getPageData();
   } catch (error) {
     //
   }
 };
 
+const getPageData = () => {
+  const filters =
+    slowReasonFilter.value === VALUE_FOR_NOT_FILTER ? [] : [{ key: "type", value: slowReasonFilter.value }];
+  const { data, meta } = getAPageData({ page: page.value, limit: limit.value }, filters, sortFrom);
+  statistics.value = data;
+  count.value = meta.count || 0;
+};
+
+const sortTable = ({
+  prop,
+  order,
+}: {
+  column: SlowSubStatistic | null;
+  prop: string | null;
+  order: "descending" | "ascending" | null;
+}) => {
+  if (!prop) {
+    sortFrom = undefined;
+  } else {
+    sortFrom = {
+      key: prop,
+      type: order === "descending" ? "desc" : "asc",
+    };
+  }
+  reloadStatistics({ page: 1, limit: limit.value });
+};
+
 const reloadStatistics = (pageData: { page: number; limit: number }) => {
   page.value = pageData.page;
   limit.value = pageData.limit;
-  getStatistics();
+  getPageData();
 };
 
 const clearData = async () => {
@@ -144,7 +164,7 @@ const clearData = async () => {
     });
     await clearSlowSubData();
     ElMessage.success(t("Base.operateSuccess"));
-    getStatistics();
+    getTotalStatistics();
   } catch (error) {
     //
   }
@@ -166,7 +186,7 @@ const formatTime = (time: number) => {
   return `${time / 1000}s`;
 };
 
-getStatistics();
+getTotalStatistics();
 </script>
 
 <style lang="scss" scoped>
@@ -179,6 +199,9 @@ getStatistics();
   }
   .el-icon-s-tools {
     transform: scale(1.2);
+  }
+  .el-icon-question {
+    margin-left: 4px;
   }
   :deep .el-radio-button__original-radio:checked + .el-radio-button__inner {
     background: rgba(0, 178, 153, 0.05);
