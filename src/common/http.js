@@ -5,12 +5,13 @@ import "nprogress/nprogress.css";
 import { toLogin } from "@/router";
 import store from "@/store";
 import _ from "lodash";
+import { API_BASE_URL } from "@/common/constants";
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 200 });
 let respSet = new Set();
 
 Object.assign(axios.defaults, {
-  baseURL: "/api/v5",
+  baseURL: API_BASE_URL,
   timeout: 20000,
 });
 

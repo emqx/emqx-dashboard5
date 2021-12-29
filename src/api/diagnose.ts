@@ -1,8 +1,8 @@
 import http from "@/common/http";
 import { ListDataWithPagination, PageData } from "@/types/common";
 import { SlowSubConfig, SlowSubStatistic } from "@/types/diagnose";
-import { createURLWithAuth } from "@/common/utils";
-import store from "@/store";
+import { API_BASE_URL } from "@/common/constants";
+import { createURLWithAuth } from "@/common/tools";
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get("/slow_subscriptions/settings");
@@ -35,7 +35,7 @@ export function getTraceLog(name: string, params: Record<string, unknown>) {
 
 export function downloadTrace(name: string) {
   const link = document.createElement("a");
-  link.href = `/trace/${encodeURIComponent(name)}/download`;
+  link.href = createURLWithAuth(`${API_BASE_URL}/trace/${encodeURIComponent(name)}/download`);
   console.log(link.href);
   // link.setAttribute('download', 'emqx.zip')
   document.body.appendChild(link);

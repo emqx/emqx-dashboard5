@@ -128,6 +128,7 @@ const login = async (auto = false) => {
     store.commit("UPDATE_USER_INFO", {
       token: res.token,
       username,
+      password,
     });
     store.commit("UPDATE_EDITION", res.license?.edition);
 
