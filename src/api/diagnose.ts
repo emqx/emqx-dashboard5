@@ -1,8 +1,6 @@
 import http from "@/common/http";
-import { ListDataWithPagination, PageData } from "@/types/common";
 import { SlowSubConfig, SlowSubStatistic } from "@/types/diagnose";
-import { createURLWithAuth } from "@/common/utils";
-import store from "@/store";
+import { downloadBlobData } from "@/common/tools";
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get("/slow_subscriptions/settings");
@@ -38,14 +36,16 @@ export function getTraceLog(name: string, params: Record<string, unknown>) {
   return http.get(`/trace/${encodeURIComponent(name)}/log`, { params });
 }
 
-export function downloadTrace(name: string) {
-  const link = document.createElement("a");
-  link.href = `/trace/${encodeURIComponent(name)}/download`;
-  console.log(link.href);
-  // link.setAttribute('download', 'emqx.zip')
-  document.body.appendChild(link);
-  link.click();
-  return Promise.resolve();
+export async function downloadTrace(name: string) {
+  try {
+    const res = await http.get(`/trace/${encodeURIComponent(name)}/download`, {
+      responseType: "blob",
+    });
+    downloadBlobData(res);
+    return Promise.resolve();
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 export function stopTrace(name: string) {
   return http.put(`/trace/${encodeURIComponent(name)}/stop`);
