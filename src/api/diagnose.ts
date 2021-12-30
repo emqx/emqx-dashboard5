@@ -16,8 +16,13 @@ export const clearSlowSubData = () => {
   return http.delete("/slow_subscriptions");
 };
 
-export const querySlowSubStatistics = (): Promise<Array<SlowSubStatistic>> => {
-  return http.get("/slow_subscriptions");
+export const querySlowSubStatistics = async (): Promise<Array<SlowSubStatistic>> => {
+  try {
+    const { data = [] } = await http.get("/slow_subscriptions", { params: { limit: 1000, page: 1 } });
+    return Promise.resolve(data);
+  } catch (error) {
+    return Promise.reject(error);
+  }
 };
 
 export function getTraceList() {
