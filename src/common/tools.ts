@@ -23,3 +23,24 @@ export const createClipboardEleWithTargetText = (
   clipboard.on("error", errorFunc);
   return clipboard;
 };
+
+export const downloadBlobData = (blobRes: {
+  data: Blob;
+  headers: { "content-disposition": string; "content-type": string };
+}) => {
+  const { data, headers } = blobRes;
+  if (!(data instanceof Blob)) {
+    return;
+  }
+  const fileName = headers["content-disposition"]?.replace(/\w+; filename=(.*)/, "$1") || "file";
+  const blob = new Blob([data], { type: headers["content-type"] });
+  const DOM = document.createElement("a");
+  const url = window.URL.createObjectURL(blob);
+  DOM.href = url;
+  DOM.download = decodeURI(fileName);
+  DOM.style.display = "none";
+  document.body.appendChild(DOM);
+  DOM.click();
+  DOM.parentNode?.removeChild(DOM);
+  window.URL.revokeObjectURL(url);
+};

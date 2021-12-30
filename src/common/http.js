@@ -42,6 +42,9 @@ axios.interceptors.request.use(async (config) => {
 axios.interceptors.response.use(
   (response) => {
     setProgressBarDone();
+    if (/\/trace\/.+\/download/.test(response.config.url)) {
+      return response;
+    }
     return response.data || response.status;
   },
   (error) => {
