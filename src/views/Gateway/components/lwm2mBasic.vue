@@ -174,6 +174,7 @@ export default defineComponent({
       auto_observe: true,
       enable_stats: true,
       update_msg_publish_condition: "contains_object_list",
+      mountpoint: "",
       translators: {
         command: { topic: "dn/#", qos: 0 },
         response: { topic: "up/resp", qos: 0 },

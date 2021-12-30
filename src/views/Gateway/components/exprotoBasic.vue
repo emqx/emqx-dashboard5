@@ -219,20 +219,20 @@ export default defineComponent({
       if (!enableTLS.handler) {
         delete model.handler.ssl;
       } else {
-        model.handler.ssl = { ...eValueDefault.handler.ssl };
+        model.handler.ssl = { ...eValue.handler.ssl };
       }
 
       if (!enableTLS.server) {
         delete model.server.ssl;
       } else {
-        model.server.ssl = { ...eValueDefault.server.ssl };
+        model.server.ssl = { ...eValue.server.ssl };
       }
 
       return model;
     };
 
     watch(
-      () => [_.cloneDeep(eValue), _.cloneDeep(enableTLS)],
+      () => [_.cloneDeep(eValue), enableTLS.handler, enableTLS.server],
       (v) => {
         context.emit("update:value", suitNoTLS(transformUnitArrayToStr(v[0])));
       }

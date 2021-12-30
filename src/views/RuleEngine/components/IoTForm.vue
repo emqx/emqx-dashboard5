@@ -498,6 +498,8 @@ export default defineComponent({
         if (typeof v === "string") {
           outputDisableList.value.push(v);
         } else if (typeof v === "object") {
+          //republish can be duplicated
+          if (v.function === "republish") return;
           v.function && outputDisableList.value.push(v.function);
         }
       });
