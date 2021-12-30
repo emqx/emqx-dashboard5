@@ -44,7 +44,7 @@
         <el-form-item :label="'Topic'" prop="topic">
           <el-input v-model="subsInput.topic"></el-input>
         </el-form-item>
-        <el-form-item :label="'QoS'">
+        <el-form-item :label="'QoS'" prop="qos">
           <el-select v-model="subsInput.qos">
             <el-option
               v-for="item in subsOptions.qos"
@@ -53,11 +53,9 @@
             ></el-option>
           </el-select>
         </el-form-item>
-      </el-form>
-      <el-form>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="nl">
+            <el-form-item label="nl" prop="nl">
               <el-select v-model="subsInput.nl">
                 <el-option
                   v-for="item in subsOptions.nl"
@@ -68,7 +66,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="rap">
+            <el-form-item label="rap" prop="rap">
               <el-select v-model="subsInput.rap">
                 <el-option
                   v-for="item in subsOptions.rap"
@@ -79,7 +77,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="rh">
+            <el-form-item label="rh" prop="rh">
               <el-select v-model="subsInput.rh">
                 <el-option
                   v-for="item in subsOptions.rh"
