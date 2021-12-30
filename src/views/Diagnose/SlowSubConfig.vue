@@ -120,7 +120,7 @@
         <h6 class="config-block-title">{{ $t("Base.enable") }}</h6>
         <el-form>
           <el-form-item :label="$t('SlowSub.enableLabel')">
-            <el-switch v-model="configForm.enable" @change="update(false)" />
+            <el-switch v-model="configForm.enable" @change="toggleStatus" />
           </el-form-item>
         </el-form>
       </div>
@@ -185,6 +185,15 @@ const getConfig = async () => {
     isLoading.value = false;
   } catch (error) {
     console.error(error);
+  }
+};
+
+const toggleStatus = async () => {
+  try {
+    await formCom.value.validate();
+    await update(false);
+  } catch (error) {
+    configForm.value.enable = !configForm.value.enable;
   }
 };
 
