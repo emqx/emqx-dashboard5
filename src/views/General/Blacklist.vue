@@ -77,6 +77,8 @@
                 v-model="record.until"
                 type="datetime"
                 format="YYYY-MM-DD HH:mm:ss"
+                popper-class="datepicker-until"
+                :disabledDate="isItEarlierThanToday"
               >
               </el-date-picker>
             </el-form-item>
@@ -144,7 +146,20 @@ export default {
       rules: {
         // as: [{ required: true, message: this.$t("General.enterAs") }],
         who: [{ required: true, message: this.$t("General.enterWho") }],
-        // until: [{ required: true, message: this.$t("General.enterUntil") }],
+        until: [
+          {
+            validator: (rule, value) => {
+              if (!value) {
+                return [];
+              }
+              if (new Date(value).getTime() < Date.now()) {
+                return [new Error(this.$t("General.timeEarlierError"))];
+              }
+              return [];
+            },
+            trigger: "blur",
+          },
+        ],
       },
       tbLoading: false,
       pageMeta: {},
@@ -183,6 +198,10 @@ export default {
       };
       this.dialogVisible = true;
       this.$nextTick(this.clearInput);
+    },
+    isItEarlierThanToday(date) {
+      const todayStartTime = new Date().setHours(0, 0, 0, 0);
+      return date.getTime() < todayStartTime;
     },
     closeDialog() {
       this.dialogVisible = false;
@@ -244,5 +263,14 @@ export default {
 <style lang="scss" scoped>
 .el-input-group--append ::v-deep .el-input-group__append {
   width: 110px;
+}
+</style>
+
+<style lang="scss">
+.datepicker-until {
+  // hide [now] button
+  .el-picker-panel__footer .el-button--text {
+    display: none;
+  }
 }
 </style>
