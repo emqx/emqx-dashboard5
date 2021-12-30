@@ -146,7 +146,7 @@
             <el-form-item :label="tl('output')">
               <el-select v-model="outputForm.type">
                 <el-option
-                  v-for="bridge in bridgeList"
+                  v-for="bridge in egressBridgeList"
                   :key="bridge"
                   :value="bridge.id"
                   :label="bridge.id"
@@ -366,6 +366,7 @@ export default defineComponent({
     const testDialog = ref(false);
     const bridgeList = ref([]);
     const ingressBridgeList = ref([]);
+    const egressBridgeList = ref([]);
     const ruleEventsList = ref([]);
     const outputLoading = ref(false);
     const chosenBridge = ref({});
@@ -525,6 +526,7 @@ export default defineComponent({
         }
         await loadBridgeList();
         calcDisableList();
+        loadEgressBridgeList();
       };
 
     const deleteOutput = (itemIndex: number | undefined) => {
@@ -562,7 +564,14 @@ export default defineComponent({
     const loadIngressBridgeList = async () => {
       await loadBridgeList();
       ingressBridgeList.value = bridgeList.value.filter(
-        (v: BridgeItem) => v.direction == "ingress"
+        (v: BridgeItem) => v.direction === "ingress"
+      );
+    };
+
+    const loadEgressBridgeList = async () => {
+      // await loadBridgeList();
+      egressBridgeList.value = bridgeList.value.filter(
+        (v: BridgeItem) => v.direction === "egress"
       );
     };
 
@@ -678,6 +687,7 @@ export default defineComponent({
       outputLoading,
       ruleEventsList,
       ingressBridgeList,
+      egressBridgeList,
       cancelTestDialog,
       testParams,
       testLoading,

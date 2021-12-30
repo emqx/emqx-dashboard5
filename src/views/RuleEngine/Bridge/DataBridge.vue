@@ -40,11 +40,22 @@
             sortable
             prop="metrics.rate"
           ></el-table-column>
-          <el-table-column
-            :label="tl('status')"
-            sortable
-            prop="status"
-          ></el-table-column>
+          <el-table-column :label="tl('status')" sortable>
+            <template #default="{ row }">
+              <el-badge
+                is-dot
+                :type="
+                  row.status === 'connected'
+                    ? 'primary'
+                    : row.status === 'disconnected'
+                    ? 'danger'
+                    : 'info'
+                "
+              >
+              </el-badge>
+              <span>{{ row.status }}</span>
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('Base.operation')" min-width="120">
             <template #default="{ row }">
               <el-button
@@ -107,7 +118,10 @@ export default defineComponent({
     const enableOrDisableBridge = async (row: BridgeItem) => {
       tbLoading.value = true;
       const statusToSend = row.status === "connected" ? "stop" : "start";
-      const sucMessage = row.status === "connected" ? "Base.disabledSuccess" : "Base.enableSuccess";
+      const sucMessage =
+        row.status === "connected"
+          ? "Base.disabledSuccess"
+          : "Base.enableSuccess";
       let res = await startStopBridge(row.id, statusToSend).catch(() => {});
       if (res) {
         M({

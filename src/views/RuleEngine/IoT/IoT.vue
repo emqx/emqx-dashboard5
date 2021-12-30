@@ -48,6 +48,8 @@
         </el-table-column>
         <el-table-column :label="tl('status')" sortable>
           <template #default="{ row }">
+            <el-badge is-dot :type="row.enable ? 'primary' : 'danger'">
+            </el-badge>
             {{ row.enable ? $t("Base.enable") : $t("Base.disable") }}
           </template>
         </el-table-column>
