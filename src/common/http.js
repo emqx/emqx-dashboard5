@@ -51,9 +51,6 @@ export const requestInterceptorHandleError = (error) => {
 
 export const responseInterceptorDefault = (response) => {
   setProgressBarDone();
-  if (/\/trace\/.+\/download/.test(response.config.url)) {
-    return response;
-  }
   return response.data || response.status;
 };
 

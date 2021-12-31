@@ -1,6 +1,15 @@
 import http from "@/common/http";
 import { SlowSubConfig, SlowSubStatistic } from "@/types/diagnose";
 import { downloadBlobData } from "@/common/tools";
+import axios from "axios";
+import { API_BASE_URL } from "@/common/constants";
+import {
+  requestInterceptorAddHeader,
+  requestInterceptorHandleError,
+  requestInterceptorHandleRequestQueue,
+  responseInterceptorHandleError,
+  setProgressBarDone,
+} from "@/common/http";
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get("/slow_subscriptions/settings");
@@ -38,9 +47,22 @@ export function getTraceLog(name: string, params: Record<string, unknown>) {
 
 export async function downloadTrace(name: string) {
   try {
-    const res = await http.get(`/trace/${encodeURIComponent(name)}/download`, {
-      responseType: "blob",
-    });
+    const selfHttp = axios.create({ baseURL: API_BASE_URL });
+    selfHttp.interceptors.request.use(
+      requestInterceptorAddHeader,
+      requestInterceptorHandleError
+    );
+    selfHttp.interceptors.request.use(requestInterceptorHandleRequestQueue);
+    selfHttp.interceptors.response.use((res) => {
+      setProgressBarDone();
+      return res;
+    }, responseInterceptorHandleError);
+    const res = await selfHttp.get(
+      `/trace/${encodeURIComponent(name)}/download`,
+      {
+        responseType: "blob",
+      }
+    );
     downloadBlobData(res);
     return Promise.resolve();
   } catch (error) {

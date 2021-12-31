@@ -1,7 +1,14 @@
 import http from '@/common/http'
 import axios from "axios";
 import { API_BASE_URL } from "@/common/constants";
-import { requestInterceptorAddHeader, requestInterceptorHandleError, requestInterceptorHandleRequestQueue, responseInterceptorDefault, responseInterceptorHandleError, setProgressBarDone } from '../common/http';
+import {
+  requestInterceptorAddHeader,
+  requestInterceptorHandleError,
+  requestInterceptorHandleRequestQueue,
+  responseInterceptorDefault,
+  responseInterceptorHandleError,
+  setProgressBarDone,
+} from "@/common/http";
 
 export function listClients(params = {}) {
   return http.get('/clients', { params })
