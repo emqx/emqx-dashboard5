@@ -1,4 +1,7 @@
 import http from '@/common/http'
+import axios from "axios";
+import { API_BASE_URL } from "@/common/constants";
+import { requestInterceptorAddHeader, requestInterceptorHandleError, requestInterceptorHandleRequestQueue, responseInterceptorDefault, responseInterceptorHandleError, setProgressBarDone } from '../common/http';
 
 export function listClients(params = {}) {
   return http.get('/clients', { params })
@@ -18,7 +21,19 @@ export function disconnectClient(clientId) {
 }
 
 export async function loadClientDetail(clientId) {
-  return http.get(`/clients/${encodeURIComponent(clientId)}`)
+  const selfHttp = axios.create({
+    baseURL: API_BASE_URL,
+  });
+  selfHttp.interceptors.request.use(requestInterceptorAddHeader, requestInterceptorHandleError);
+  selfHttp.interceptors.request.use(requestInterceptorHandleRequestQueue);
+  selfHttp.interceptors.response.use(responseInterceptorDefault, (error) => {
+    setProgressBarDone();
+    if (error.response.status === 404) {
+      return Promise.reject(error);
+    }
+    return responseInterceptorHandleError(error);
+  });
+  return selfHttp.get(`/clients/${encodeURIComponent(clientId)}`);
 }
 
 export function loadSubscriptions(clientId) {
