@@ -57,39 +57,39 @@
           <el-checkbox
             border
             :label="tl('enableTls')"
-            v-model="enableTLS.server"
+            v-model="eValue.server.ssl.enable"
             class="sole-chkbox"
           >
           </el-checkbox>
         </el-col>
 
-        <template v-if="enableTLS.server">
-          <el-col :span="16">
+        <template v-if="eValue.server.ssl.enable">
+          <el-col :span="18">
             <el-form-item :label="'Cert'">
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="enableTLS.certSpecial.certfile"
+                :placeholder="enableTLS.certfile"
                 v-model="eValue.server.ssl.certfile"
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="16">
+          <el-col :span="18">
             <el-form-item :label="'CA Cert'">
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="enableTLS.certSpecial.cacertfile"
+                :placeholder="enableTLS.cacertfile"
                 v-model="eValue.server.ssl.cacertfile"
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="16">
+          <el-col :span="18">
             <el-form-item :label="'Key'">
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="enableTLS.certSpecial.keyfile"
+                :placeholder="enableTLS.keyfile"
                 v-model="eValue.server.ssl.keyfile"
               ></el-input>
             </el-form-item>
@@ -113,39 +113,39 @@
           <el-checkbox
             border
             :label="tl('enableTls')"
-            v-model="enableTLS.handler"
+            v-model="eValue.handler.ssl.enable"
             class="sole-chkbox"
           >
           </el-checkbox>
         </el-col>
 
-        <template v-if="enableTLS.handler">
-          <el-col :span="16">
+        <template v-if="eValue.handler.ssl.enable">
+          <el-col :span="18">
             <el-form-item :label="'Cert'">
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="enableTLS.certSpecial.certfile"
+                :placeholder="enableTLS.certfile"
                 v-model="eValue.handler.ssl.certfile"
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="16">
+          <el-col :span="18">
             <el-form-item :label="'CA Cert'">
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="enableTLS.certSpecial.cacertfile"
+                :placeholder="enableTLS.cacertfile"
                 v-model="eValue.handler.ssl.cacertfile"
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="16">
+          <el-col :span="18">
             <el-form-item :label="'Key'">
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="enableTLS.certSpecial.keyfile"
+                :placeholder="enableTLS.keyfile"
                 v-model="eValue.handler.ssl.keyfile"
               ></el-input>
             </el-form-item>
@@ -186,6 +186,7 @@ export default defineComponent({
           certfile: "",
           keyfile: "",
           cacertfile: "",
+          enable: false,
         },
       },
       server: {
@@ -194,6 +195,7 @@ export default defineComponent({
           certfile: "",
           keyfile: "",
           cacertfile: "",
+          enable: false,
         },
       },
     };
@@ -206,39 +208,19 @@ export default defineComponent({
       )
     );
     let enableTLS = reactive({
-      handler: false,
-      server: false,
-      certSpecial: {
-        cacertfile: "Begins with ----BEGIN CERTIFICATE----",
-        certfile: "Begins with ----BEGIN CERTIFICATE----",
-        keyfile: "Begins with ----BEGIN PRIVATE KEY----",
-      },
+      cacertfile: "Begins with ----BEGIN CERTIFICATE----",
+      certfile: "Begins with ----BEGIN CERTIFICATE----",
+      keyfile: "Begins with ----BEGIN PRIVATE KEY----",
     });
 
-    const suitNoTLS = (model) => {
-      if (!enableTLS.handler) {
-        delete model.handler.ssl;
-      } else {
-        model.handler.ssl = { ...eValue.handler.ssl };
-      }
-
-      if (!enableTLS.server) {
-        delete model.server.ssl;
-      } else {
-        model.server.ssl = { ...eValue.server.ssl };
-      }
-
-      return model;
-    };
-
     watch(
-      () => [_.cloneDeep(eValue), enableTLS.handler, enableTLS.server],
+      () => _.cloneDeep(eValue),
       (v) => {
-        context.emit("update:value", suitNoTLS(transformUnitArrayToStr(v[0])));
+        context.emit("update:value", transformUnitArrayToStr(v));
       }
     );
     onMounted(() => {
-      context.emit("update:value", suitNoTLS(transformUnitArrayToStr(eValue)));
+      context.emit("update:value", transformUnitArrayToStr(eValue));
     });
 
     return {
