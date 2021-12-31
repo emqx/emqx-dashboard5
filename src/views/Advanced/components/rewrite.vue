@@ -128,9 +128,9 @@ export default defineComponent({
       dest_topic: validatorRules,
     };
 
-    const openOpDialog = (edit = false, originData) => {
+    const openOpDialog = async (edit = false, originData) => {
       opRewrite.value = true;
-      nextTick(rewriteForm.value?.resetFields);
+      await nextTick(rewriteForm.value?.resetFields);
       isEdit.value = !!edit;
       Object.keys(rewriteInput).forEach((k) => {
         rewriteInput[k] = edit && originData[k] ? originData[k] : "";
