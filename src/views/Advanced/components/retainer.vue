@@ -208,7 +208,7 @@
           <el-col :span="6">
             <el-switch
               v-model="retainerConfig.enable"
-              @change="updateConfigData()"
+              @change="toggleStatus()"
             ></el-switch>
           </el-col>
         </el-row>
@@ -530,6 +530,15 @@ export default defineComponent({
       return ret;
     };
 
+    const toggleStatus = async () => {
+      let valid = await retainerForm.value.validate().catch(() => {});
+      if (!valid) {
+        retainerConfig.enable = !retainerConfig.enable;
+        return;
+      }
+      updateConfigData();
+    };
+
     const updateConfigData = async function () {
       let valid = await retainerForm.value.validate().catch(() => {});
       if (!valid) return;
@@ -635,6 +644,7 @@ export default defineComponent({
       configLoading,
       tbLoading,
       tbData,
+      toggleStatus,
       updateConfigData,
       selOptions,
       configEnable,
