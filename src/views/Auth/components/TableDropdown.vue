@@ -70,12 +70,10 @@ export default defineComponent({
           ctx.emit("setting", row);
           break;
         case "disable":
-          row.enable = false;
-          ctx.emit("update", row);
+          ctx.emit("update", { ...row, enable: false });
           break;
         case "enable":
-          row.enable = true;
-          ctx.emit("update", row);
+          ctx.emit("update", { ...row, enable: true });
           break;
         case "delete":
           ctx.emit("delete", row);

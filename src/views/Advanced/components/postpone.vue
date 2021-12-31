@@ -53,7 +53,7 @@
           <el-col :span="6">
             <el-switch
               v-model="delayedConfig.enable"
-              @change="updateDelayedConfig()"
+              @change="toggleStatus()"
             ></el-switch>
           </el-col>
         </el-row>
@@ -312,6 +312,15 @@ export default defineComponent({
       initCopyBtn();
     };
 
+    const toggleStatus = async () => {
+      let valid = await delayedForm.value?.validate().catch(() => {});
+      if (!valid) {
+        delayedConfig.enable = !delayedConfig.enable;
+        return;
+      }
+      updateDelayedConfig();
+    };
+
     const updateDelayedConfig = async function () {
       let valid = await delayedForm.value?.validate().catch(() => {});
       if (!valid) return;
@@ -365,6 +374,7 @@ export default defineComponent({
       tl,
       delayedTbData,
       delayedConfig,
+      toggleStatus,
       updateDelayedConfig,
       configPending,
       deleteDelayedInfo,
