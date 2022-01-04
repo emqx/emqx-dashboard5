@@ -7,7 +7,7 @@
       }}</el-button>
     </div>
     <el-table
-      class="auth-table"
+      class="api-key-table"
       :data="keyList"
       v-loading.lock="isTableLoading"
     >
