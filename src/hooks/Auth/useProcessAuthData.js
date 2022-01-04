@@ -33,10 +33,9 @@ export default function useProcessAuthData() {
   const processMongoDBConfig = (data) => {
     try {
       const tempData = _.cloneDeep(data);
-      const { mongo_type, servers, selector } = data;
+      const { mongo_type, selector } = data;
       if (mongo_type !== "single") {
         delete tempData.server;
-        tempData.servers = servers.split(",");
       } else {
         delete tempData.replica_set_name;
         delete tempData.servers;
