@@ -18,7 +18,7 @@ export function disconnectClient(clientId) {
 }
 
 export async function loadClientDetail(clientId) {
-  return http.get(`/clients/${encodeURIComponent(clientId)}`)
+  return http.get(`/clients/${encodeURIComponent(clientId)}`, { handle404Self: true })
 }
 
 export function loadSubscriptions(clientId) {
