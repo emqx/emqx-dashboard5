@@ -29,7 +29,6 @@
                 <el-select v-model="retainerConfig.config.storage_type">
                   <el-option value="ram"></el-option>
                   <el-option value="disc"></el-option>
-                  <el-option value="disc_only"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
