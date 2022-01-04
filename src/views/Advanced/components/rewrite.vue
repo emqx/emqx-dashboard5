@@ -130,7 +130,6 @@ export default defineComponent({
 
     const openOpDialog = async (edit = false, originData) => {
       opRewrite.value = true;
-      await nextTick(rewriteForm.value?.resetFields);
       isEdit.value = !!edit;
       Object.keys(rewriteInput).forEach((k) => {
         rewriteInput[k] = edit && originData[k] ? originData[k] : "";
@@ -139,6 +138,7 @@ export default defineComponent({
         (editPos.value = rewriteTbData.value.findIndex(
           (e) => e === originData
         ));
+      nextTick(rewriteForm.value?.clearValidate);
     };
 
     const submitRewrite = async function (edit = false) {
