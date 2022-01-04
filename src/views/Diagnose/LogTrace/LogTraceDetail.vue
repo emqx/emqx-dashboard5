@@ -152,7 +152,7 @@ export default defineComponent({
     });
 
     watch(
-      () => node,
+      () => node.value,
       (v, oldV) => {
         if (v && oldV && v !== oldV) viewDetail(true);
       }
