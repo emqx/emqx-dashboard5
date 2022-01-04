@@ -11,7 +11,7 @@
       >
     </div>
 
-    <el-table :data="topicMetricsTb" v-loading="tbLoading" ref="tbRef">
+    <el-table :data="topicMetricsTb" v-loading="tbLoading" ref="tbRef" row-key="topic" :expand-row-keys="tableExpandRowKeys">
       <el-table-column type="expand" width="1">
         <template #default="{ row }">
           <div v-loading="row._loading" class="topic-detail">
@@ -171,7 +171,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, onMounted } from "vue";
+import { defineComponent, ref, reactive, onMounted, computed } from "vue";
 import {
   getTopicMetrics,
   addTopicMetrics,
@@ -210,6 +210,12 @@ export default defineComponent({
     let tbRef = ref(null);
     let topicQos = ref("all");
     let addLoading = ref(false);
+
+    const tableExpandRowKeys = computed(() => {
+      return topicMetricsTb.value
+        .filter(({ _expand }) => _expand)
+        .map(({ topic }) => topic);
+    });
 
     const translate = function (key, collection = "Tools") {
       return t(collection + "." + key);
@@ -323,6 +329,7 @@ export default defineComponent({
       resetTopic,
       tbRef,
       topicQos,
+      tableExpandRowKeys,
       loadMetricsFromTopic,
       addLoading,
       sorting,
