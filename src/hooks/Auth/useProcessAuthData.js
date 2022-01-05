@@ -1,14 +1,15 @@
 import { ElMessage as M } from "element-plus";
 import _ from "lodash";
 import { getUsefulPasswordHashAlgorithmData } from "./usePasswordHashAlgorithmData";
+import { parseJSONSafely } from "@/common/tools";
 
 export default function useProcessAuthData() {
   const processHttpConfig = (data) => {
     try {
       const tempData = _.cloneDeep(data);
       const { body } = data;
-      if (body !== "") {
-        tempData.body = JSON.parse(body);
+      if (body !== "" && body !== undefined) {
+        tempData.body = parseJSONSafely(body);
       } else {
         tempData.body = undefined;
       }
@@ -40,8 +41,8 @@ export default function useProcessAuthData() {
         delete tempData.replica_set_name;
         delete tempData.servers;
       }
-      if (selector !== "") {
-        tempData.selector = JSON.parse(selector);
+      if (selector !== "" && selector !== undefined) {
+        tempData.selector = parseJSONSafely(selector);
       } else {
         tempData.selector = undefined;
       }

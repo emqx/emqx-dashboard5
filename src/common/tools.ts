@@ -44,3 +44,11 @@ export const downloadBlobData = (blobRes: {
   DOM.parentNode?.removeChild(DOM);
   window.URL.revokeObjectURL(url);
 };
+
+export const parseJSONSafely = (str: string) => {
+  try {
+    return JSON.parse(str);
+  } catch (error) {
+    console.error("An error occurred while parsing the JSON string");
+  }
+};
