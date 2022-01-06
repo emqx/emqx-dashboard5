@@ -154,11 +154,11 @@ export default {
         icon: "icon-authentication",
         c: authentication,
       },
-      // {
-      //   title: "ruleengine",
-      //   icon: "icon-ruleengine",
-      //   c: ruleengine,
-      // },
+      {
+        title: "ruleengine",
+        icon: "icon-ruleengine",
+        c: ruleengine,
+      },
       {
         title: "configuration",
         icon: "icon-configuration",

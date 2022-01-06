@@ -6,7 +6,7 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('name')">
-            <el-input v-model="httpBridgeVal.name" :disabled="edit"></el-input>
+            <el-input v-model="httpBridgeVal.name"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

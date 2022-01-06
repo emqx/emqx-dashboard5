@@ -231,4 +231,8 @@ export default {
     zh: "切换SQL编辑",
     en: "Switch SQL Edit",
   },
+  outputTypeRequired: {
+    zh: '请填写输出类型',
+    en: 'Type of Output is required',
+  }
 };

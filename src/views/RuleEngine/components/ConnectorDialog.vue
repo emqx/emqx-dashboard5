@@ -113,7 +113,7 @@ export default defineComponent({
       };
       if (isEdit) {
         const id = connectorData.value.id;
-        Reflect.deleteProperty(data, "name");
+        // Reflect.deleteProperty(data, "name");
         Reflect.deleteProperty(data, "id");
         Reflect.deleteProperty(data, "type");
         Reflect.deleteProperty(data, "num_of_bridges");
