@@ -114,6 +114,14 @@ export default {
         title: 'plugins',
         path: '/plugins',
       },
+      {
+        title: 'exhook',
+        path: '/exhook',
+      },
+      {
+        title: 'APIKey',
+        path: '/APIKey',
+      },
     ]
 
     let diagnose = [

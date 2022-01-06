@@ -28,3 +28,14 @@ export enum StatusCommandSendToPlugin {
   Start = 'start',
   Stop = 'stop',
 }
+
+export enum ExhookFailedAction {
+  Deny = "deny",
+  Ignore = "ignore",
+}
+
+export enum ConnectionStatus {
+  Connected = "connected",
+  Disconnected = "disconnected",
+  Connecting = "connecting",
+}
