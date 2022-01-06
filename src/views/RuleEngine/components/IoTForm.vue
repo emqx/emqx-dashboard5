@@ -140,10 +140,15 @@
       :title="!opEdit ? tl('addOutput') : tl('editOutput')"
       v-model="opDialog"
     >
-      <el-form label-position="top">
+      <el-form
+        label-position="top"
+        :model="outputForm"
+        :rules="outputFormRules"
+        ref="opForm"
+      >
         <el-row>
           <el-col :span="14" v-loading="outputLoading">
-            <el-form-item :label="tl('output')">
+            <el-form-item :label="tl('output')" prop="type">
               <el-select v-model="outputForm.type">
                 <el-option
                   v-for="bridge in egressBridgeList"
@@ -315,7 +320,7 @@ import { getBridgeList, getRuleEvents, testsql } from "@/api/ruleengine";
 import { BridgeItem, RuleItem } from "@/types/ruleengine";
 import { useI18n } from "vue-i18n";
 import _ from "lodash";
-import { ElMessageBox as MB, ElMessage as M } from "element-plus";
+import { ElMessageBox as MB, ElMessage as M, ElForm } from "element-plus";
 import parser from "js-sql-parser";
 import KeyAndValueEditor from "@/components/KeyAndValueEditor.vue";
 type OutputForm = {
@@ -377,6 +382,7 @@ export default defineComponent({
     const editIndex: Ref<number | undefined> = ref(undefined);
     const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent);
     const briefEditType = ref(true);
+    const opForm: Ref<typeof ElForm | null> = ref(null);
 
     const ruleValueDefault = {
       name: "",
@@ -406,6 +412,16 @@ export default defineComponent({
     };
 
     const outputForm = ref(outputFormDefault);
+
+    const outputFormRules = {
+      type: [
+        {
+          required: true,
+          message: t("RuleEngine.outputTypeRequired"),
+          trigger: ["blur", "change"],
+        },
+      ],
+    };
 
     const testParams = ref({
       msg: "",
@@ -463,33 +479,38 @@ export default defineComponent({
     };
 
     const submitOutput = (edit = false) => {
-      outputLoading.value = true;
-      let opObj;
-      switch (outputForm.value.type) {
-        case "console":
-          opObj = { function: outputForm.value.type };
-          break;
-        case "republish":
-          opObj = {
-            function: outputForm.value.type,
-            args: { ...outputForm.value.args },
-          };
-          break;
-        default:
-          opObj = outputForm.value.type;
-      }
+      opForm.value
+        ?.validate()
+        .then(() => {
+          outputLoading.value = true;
+          let opObj;
+          switch (outputForm.value.type) {
+            case "console":
+              opObj = { function: outputForm.value.type };
+              break;
+            case "republish":
+              opObj = {
+                function: outputForm.value.type,
+                args: { ...outputForm.value.args },
+              };
+              break;
+            default:
+              opObj = outputForm.value.type;
+          }
 
-      const output = ruleValue.value.outputs || [];
-      if (!edit) {
-        output.push(opObj);
-      } else {
-        editIndex.value !== undefined &&
-          output.splice(editIndex.value, 1, opObj);
-      }
+          const output = ruleValue.value.outputs || [];
+          if (!edit) {
+            output.push(opObj);
+          } else {
+            editIndex.value !== undefined &&
+              output.splice(editIndex.value, 1, opObj);
+          }
 
-      calcDisableList();
-      outputLoading.value = false;
-      opDialog.value = false;
+          calcDisableList();
+          outputLoading.value = false;
+          cancelOpDialog();
+        })
+        .catch(() => {});
     };
 
     const calcDisableList = () => {
@@ -549,6 +570,7 @@ export default defineComponent({
 
     const cancelOpDialog = () => {
       opDialog.value = false;
+      opForm.value?.resetFields();
     };
 
     const toggleBridgeEdit = () => {
@@ -698,6 +720,8 @@ export default defineComponent({
       submitTest,
       getOutputImage,
       briefEditType,
+      outputFormRules,
+      opForm,
     };
   },
 });

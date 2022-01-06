@@ -5,7 +5,7 @@
       <el-row :gutter="30">
         <el-col :span="14">
           <el-form-item :label="tl('name')">
-            <el-input v-model="mqttBridgeVal.name" :disabled="edit"></el-input>
+            <el-input v-model="mqttBridgeVal.name"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

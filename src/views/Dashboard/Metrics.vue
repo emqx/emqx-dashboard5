@@ -19,7 +19,7 @@
               :disabled="prometheusLoading"
               @keyup.enter="updatePrometheus()"
             >
-              <el-row :gutter="10">
+              <el-row :gutter="20">
                 <el-col :span="8">
                   <el-input
                     size="small"
@@ -77,7 +77,7 @@
           <div class="part-desc">{{ translate("statsdDesc") }}</div>
           <div>
             <el-form :disabled="statsdLoading" @keyup.enter="updateStatsd()">
-              <el-row :gutter="10">
+              <el-row :gutter="20">
                 <el-col :span="8">
                   <el-input
                     size="small"
