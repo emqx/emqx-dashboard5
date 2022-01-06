@@ -31,7 +31,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
+      <el-table-column :label="$t('Base.operation')" min-width="100">
         <template #default="{ row }">
           <el-button size="mini" @click="operateKeyItem('view', row)">{{
             tl("view")
@@ -145,6 +145,7 @@ getList();
 @import "~@/views/Auth/style/authTable.scss";
 .API-key {
   .key-name {
+    cursor: pointer;
     color: var(--el-color-primary);
   }
 }
