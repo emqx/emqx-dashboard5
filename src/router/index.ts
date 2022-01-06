@@ -39,6 +39,9 @@ import Plugins from '@/views/Plugins/Plugins.vue'
 import PluginInstall from '@/views/Plugins/PluginInstall.vue'
 import PluginDetail from '@/views/Plugins/PluginDetail.vue'
 import ConfigDocs from '@/views/Config/ConfigDocs.vue'
+import Exhook from '@/views/Exhook/Exhook.vue'
+import ExhookCreate from '@/views/Exhook/ExhookCreate.vue'
+import ExhookDetail from '@/views/Exhook/ExhookDetail.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -330,6 +333,32 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'detail/:pluginName-:pluginVersion',
         name: 'plugin-detail',
         component: PluginDetail,
+      },
+    ],
+  },
+  // Exhook
+  {
+    path: '/exhook',
+    component: Layout,
+    meta: {
+      hideKey: 'Exhook',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'exhook',
+        component: Exhook,
+      },
+      {
+        path: 'create',
+        name: 'exhook-create',
+        component: ExhookCreate,
+      },
+      {
+        path: 'detail/:exhookName',
+        name: 'exhook-detail',
+        component: ExhookDetail,
       },
     ],
   },
