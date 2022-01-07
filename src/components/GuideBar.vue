@@ -5,7 +5,9 @@
       :key="item"
       :class="['guide-item', { active: activeGuideIndexList.includes(index) }]"
     >
-      <i v-if="activeGuideIndexList.includes(index)" class="el-icon-check"></i>
+      <el-icon v-if="activeGuideIndexList.includes(index)" class="el-icon-check">
+        <Check />
+      </el-icon>
       <span class="icon-number" v-else>{{ index + 1 }}</span>
       <span class="guide-title">{{ item }}</span>
     </div>
@@ -13,8 +15,12 @@
 </template>
 
 <script>
+import { Check } from "@element-plus/icons-vue";
+
 export default {
   name: 'GuideBar',
+
+  components: { Check },
 
   props: {
     guideList: {
@@ -57,6 +63,9 @@ export default {
       font-size: 14px;
     }
     .el-icon-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 600;
       background: #00b299;
     }

@@ -6,7 +6,7 @@
         <el-button
           size="small"
           type="primary"
-          icon="el-icon-plus"
+          :icon="Plus"
           @click="openCreateDialog"
           >{{ $t("Base.create") }}</el-button
         >
@@ -182,6 +182,7 @@ import moment from "moment";
 import { FormRulesMap } from "element-plus/es/components/form/src/form.type";
 import { ElMessage as M, ElMessageBox as MB, ElForm } from "element-plus";
 import { TraceFormRecord, TraceRecord } from "@/types/diagnose";
+import { Plus } from "@element-plus/icons-vue";
 
 import {
   getTraceList,
@@ -353,6 +354,7 @@ export default defineComponent({
     });
 
     return {
+      Plus,
       tl: (key: string) => t("LogTrace." + key),
       traceTbLoading,
       traceTable,

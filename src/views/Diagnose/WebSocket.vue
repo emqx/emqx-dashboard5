@@ -28,7 +28,7 @@
       <el-tab-pane key="add" class="add-btn" name="add">
         <template #label>
           <span :title="$t('Tools.createNew')">
-            <i class="el-icon-plus"></i>
+            <el-icon><Plus /></el-icon>
           </span>
         </template>
       </el-tab-pane>
@@ -48,10 +48,11 @@
 <script>
 import WebSocketItem from "./components/WebSocketItem";
 import { ElMessage } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
 
 export default {
   name: "WebSocket",
-  components: { WebSocketItem },
+  components: { WebSocketItem, Plus },
   data() {
     return {
       activeTab: "",

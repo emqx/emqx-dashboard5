@@ -22,7 +22,7 @@
                     :content="$t('SlowSub.statsThresholdDesc')"
                   >
                     <template #reference>
-                      <i class="el-icon-question" />
+                      <el-icon><QuestionFilled /></el-icon>
                     </template>
                   </el-popover>
                 </template>
@@ -40,7 +40,7 @@
                     :content="$t('SlowSub.maximumNumberOfStatisticsDesc')"
                   >
                     <template #reference>
-                      <i class="el-icon-question" />
+                      <el-icon><QuestionFilled /></el-icon>
                     </template>
                   </el-popover>
                 </template>
@@ -59,7 +59,7 @@
                     :content="$t('SlowSub.evictionTimeOfRecordDesc')"
                   >
                     <template #reference>
-                      <i class="el-icon-question" />
+                      <el-icon><QuestionFilled /></el-icon>
                     </template>
                   </el-popover>
                 </template>
@@ -77,7 +77,7 @@
                     :content="$t('SlowSub.noticeIntervalDesc')"
                   >
                     <template #reference>
-                      <i class="el-icon-question" />
+                      <el-icon><QuestionFilled /></el-icon>
                     </template>
                   </el-popover>
                 </template>
@@ -103,7 +103,7 @@
                     :content="$t('SlowSub.noticeBatchSizeDesc')"
                   >
                     <template #reference>
-                      <i class="el-icon-question" />
+                      <el-icon><QuestionFilled /></el-icon>
                     </template>
                   </el-popover>
                 </template>
@@ -145,6 +145,7 @@ import { SlowSubConfig } from "@/types/diagnose";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import useFormRules from "@/hooks/useFormRules";
+import { QuestionFilled } from "@element-plus/icons-vue";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -240,5 +241,8 @@ getConfig();
 .btn-update {
   padding-left: 30px;
   padding-right: 30px;
+}
+.el-icon {
+  vertical-align: top;
 }
 </style>

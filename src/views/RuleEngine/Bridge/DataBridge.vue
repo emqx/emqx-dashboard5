@@ -8,7 +8,7 @@
           <el-button
             size="small"
             type="primary"
-            icon="el-icon-plus"
+            :icon="Plus"
             @click="$router.push({ name: 'bridge-create' })"
             >{{ tl("createBridge") }}</el-button
           >
@@ -99,6 +99,7 @@ import { useI18n } from "vue-i18n";
 import { BridgeItem } from "@/types/ruleengine";
 import _ from "lodash";
 import { ElMessageBox as MB, ElMessage as M } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
 
 export default defineComponent({
   setup() {
@@ -158,6 +159,7 @@ export default defineComponent({
     onMounted(listBridge);
 
     return {
+      Plus,
       tl: (key: string) => t("RuleEngine." + key),
       bridgeTb,
       tbLoading,

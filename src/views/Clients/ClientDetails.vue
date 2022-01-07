@@ -5,14 +5,18 @@
         <span>{{ clientId }}</span>
         <template v-if="doesTheClientExist">
           <el-tag type="info" size="mini">
-            <span v-if="record.connected == true"
-              ><i class="el-icon-success iconfont suc"></i
-              >{{ $t("Clients.connected") }}</span
-            >
-            <span v-else
-              ><i class="el-icon-error iconfont fail"></i
-              >{{ $t("Clients.disconnected") }}</span
-            >
+            <span v-if="record.connected == true">
+              <el-icon color="#00b299ff">
+                <SuccessFilled class="icon-status" />
+              </el-icon>
+              {{ $t("Clients.connected") }}
+            </span>
+            <span v-else>
+              <el-icon color="#e34242ff">
+                <Failed class="icon-status fail" />
+              </el-icon>
+              {{ $t("Clients.disconnected") }}
+            </span>
           </el-tag>
           <el-tag type="info" size="mini" v-if="record.proto_name">
             <span>{{ record.proto_name }}</span
@@ -171,7 +175,7 @@
             <el-button
               size="small"
               type="primary"
-              icon="el-icon-plus"
+              :icon="Plus"
               @click="handlePreAdd"
             >
               {{ $t("Clients.addASubscription") }}
@@ -224,7 +228,7 @@
         </el-dialog> -->
       </template>
       <div class="client-does-not-exist" v-else>
-        <i class="el-icon-warning"></i>
+        <el-icon><Warning /></el-icon>
         <span>{{ tl("clientDoesNotExist") }}</span>
       </div>
     </template>
@@ -247,10 +251,11 @@ import {
   unsubscribeGatewayClientSub,
 } from "@/api/gateway";
 import { ElMessage } from "element-plus";
+import { SuccessFilled, Failed, Plus, Warning } from "@element-plus/icons-vue";
 
 export default {
   name: "ClientDetails",
-  components: { CreateSubscribe },
+  components: { CreateSubscribe, SuccessFilled, Failed, Warning },
   props: {
     gateway: {
       type: String,
@@ -265,6 +270,7 @@ export default {
   },
   data() {
     return {
+      Plus,
       dialogVisible: false,
       activeName: "detail",
       searchValue: "",
@@ -544,16 +550,7 @@ export default {
   margin-left: 10px;
 
   & i {
-    font-size: 14px;
     margin-right: 3px;
-    vertical-align: -1px;
-  }
-
-  & i.suc {
-    color: #00b299ff;
-  }
-  & i.fail {
-    color: #e34242ff;
   }
 }
 

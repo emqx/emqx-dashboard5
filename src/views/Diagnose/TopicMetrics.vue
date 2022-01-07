@@ -2,13 +2,9 @@
   <div class="topicMetrics app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button
-        size="small"
-        type="primary"
-        icon="el-icon-plus"
-        @click="openAdd()"
-        >{{ tl("addTopic") }}</el-button
-      >
+      <el-button size="small" type="primary" :icon="Plus" @click="openAdd()">
+        {{ tl("addTopic") }}
+      </el-button>
     </div>
 
     <el-table :data="topicMetricsTb" v-loading="tbLoading" ref="tbRef" row-key="topic" :expand-row-keys="tableExpandRowKeys">
@@ -181,6 +177,7 @@ import {
 import { dateFormat } from "@/common/utils";
 import { ElMessageBox as MB, ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
+import { Plus } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "TopicMetrics",
@@ -316,6 +313,7 @@ export default defineComponent({
     onMounted(loadTopicMetrics);
 
     return {
+      Plus,
       df: dateFormat,
       tl: translate,
       addVisible,

@@ -5,7 +5,7 @@
       <el-button
         type="primary"
         size="small"
-        icon="el-icon-plus"
+        :icon="Plus"
         @click="$router.push({ name: 'authenticationCreate' })"
       >
         {{ $t("Base.create") }}
@@ -53,6 +53,7 @@ import { listAuthn, updateAuthn, deleteAuthn, moveAuthn } from "@/api/auth";
 import { useRouter } from "vue-router";
 import { ElMessageBox as MB } from "element-plus";
 import { useI18n } from "vue-i18n";
+import { Plus } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "Authn",
@@ -121,6 +122,7 @@ export default defineComponent({
       });
     };
     return {
+      Plus,
       lockTable,
       authnList,
       handleUpdate,

@@ -76,7 +76,7 @@ import { loadAlarm } from "@/api/common";
 import { toLogin } from "@/router";
 import { setLanguage } from "@/common/utils";
 import { mapState } from "vuex";
-import { Fold, Expand } from "@element-plus/icons";
+import { Fold, Expand } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 
 export default {

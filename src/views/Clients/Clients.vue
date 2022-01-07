@@ -92,7 +92,7 @@
         <el-col :span="6" class="col-oper">
           <el-button
             type="primary"
-            icon="el-icon-search"
+            :icon="Search"
             size="small"
             @click="handleSearch"
           >
@@ -104,9 +104,10 @@
             class="show-more"
             @click="showMoreQuery = !showMoreQuery"
           >
-            <i
-              :class="showMoreQuery ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"
-            ></i>
+            <el-icon>
+              <ArrowUp v-if="showMoreQuery" />
+              <ArrowDown v-else />
+            </el-icon>
           </a>
         </el-col>
       </el-row>
@@ -220,6 +221,8 @@ import { loadNodes } from "@/api/common";
 import moment from "moment";
 import CommonPagination from "@/components/commonPagination.vue";
 import { ElMessage } from "element-plus";
+import { Search } from "@element-plus/icons-vue";
+import { ArrowUp, ArrowDown } from "@element-plus/icons-vue";
 
 export default {
   name: "Clients",
@@ -227,9 +230,12 @@ export default {
   components: {
     // CustomPagination,
     CommonPagination,
+    ArrowUp,
+    ArrowDown,
   },
   data() {
     return {
+      Search,
       showMoreQuery: false,
       tableData: [],
       lockTable: false,

@@ -2,12 +2,7 @@
   <div class="blacklist app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        size="small"
-        icon="el-icon-plus"
-        @click="showDialog"
-      >
+      <el-button type="primary" size="small" :icon="Plus" @click="showDialog">
         {{ $t("Base.create") }}
       </el-button>
     </div>
@@ -125,12 +120,14 @@ import {
 } from "@/api/function";
 import CommonPagination from "../../components/commonPagination.vue";
 import { ElMessage } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
 
 export default {
   name: "Blacklist",
   components: { CommonPagination },
   data() {
     return {
+      Plus,
       dialogVisible: false,
       tableData: [],
       params: {},
