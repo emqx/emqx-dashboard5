@@ -1,8 +1,9 @@
 @forward "element-plus/theme-chalk/src/common/var.scss" with (
   $menu:(
     'text-color':var(--el-text-color-secondary),
-    'background-color':#282e38ff,
-    'hover-background-color':#00b29915,
+    'bg-color':#282e38ff,
+    'hover-bg-color':#00b29915,
+
     // for element-plus 1.2.0 above
     // 'bg-color':#282e38ff,
     // 'hover-bg-color':#00b29915,

@@ -2,12 +2,7 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        size="small"
-        icon="el-icon-plus"
-        @click="showDialog()"
-      >
+      <el-button type="primary" size="small" :icon="Plus" @click="showDialog()">
         {{ $t("Base.create") }}
       </el-button>
     </div>
@@ -126,6 +121,7 @@ import {
   changePassword,
 } from "@/api/function";
 import { ElMessage } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
 
 export default {
   name: "Users",
@@ -139,6 +135,7 @@ export default {
       }
     };
     return {
+      Plus,
       dialogVisible: false,
       tableData: [],
       lockTable: false,

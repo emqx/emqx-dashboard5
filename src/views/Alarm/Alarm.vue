@@ -18,7 +18,7 @@
             </div>
             <template #reference>
               <span class="details">
-                <i class="iconfont el-icon-question"></i>
+                <el-icon><QuestionFilled /></el-icon>
               </span>
             </template>
           </el-popover>
@@ -95,7 +95,7 @@
             </div>
             <template #reference>
               <span class="details">
-                <i class="iconfont el-icon-question"></i>
+                <el-icon><QuestionFilled /></el-icon>
               </span>
             </template>
           </el-popover>
@@ -144,9 +144,10 @@ import { loadAlarm, clearHistoryAlarm } from "@/api/common";
 import { getDuration, dateFormat } from "@/common/utils";
 import commonPagination from "../../components/commonPagination.vue";
 import { ElMessage } from "element-plus";
+import { QuestionFilled } from "@element-plus/icons-vue";
 
 export default {
-  components: { commonPagination },
+  components: { commonPagination, QuestionFilled },
   name: "Alarm",
   data() {
     return {

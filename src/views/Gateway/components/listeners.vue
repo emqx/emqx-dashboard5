@@ -2,12 +2,7 @@
   <div>
     <div class="section-header" v-if="!showIntegration">
       <div></div>
-      <el-button
-        type="primary"
-        size="small"
-        icon="el-icon-plus"
-        @click="openDialog()"
-      >
+      <el-button type="primary" size="small" :icon="Plus" @click="openDialog()">
         {{ tl("addListener") }}
       </el-button>
     </div>
@@ -45,12 +40,7 @@
       </el-table-column>
     </el-table>
     <div class="not-standalone-btn" v-if="showIntegration">
-      <el-button
-        type="primary"
-        size="small"
-        icon="el-icon-plus"
-        @click="openDialog()"
-      >
+      <el-button type="primary" size="small" :icon="Plus" @click="openDialog()">
         {{ tl("addListener") }}
       </el-button>
     </div>
@@ -411,6 +401,7 @@ import {
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { ElMessage as M, ElMessageBox as MB } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
 
 export default defineComponent({
   props: {
@@ -703,6 +694,7 @@ export default defineComponent({
     });
 
     return {
+      Plus,
       tl: (key, collection = "Gateway") => t(collection + "." + key),
       showIntegration: props.integration,
       openDialog,

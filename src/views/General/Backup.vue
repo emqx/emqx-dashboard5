@@ -1,11 +1,6 @@
 <template>
   <div class="backup app-wrapper">
-    <el-button
-      type="primary"
-      size="small"
-      icon="el-icon-plus"
-      @click="handleExport"
-    >
+    <el-button type="primary" size="small" :icon="Plus" @click="handleExport">
       {{ $t("Backup.createBackup") }}
     </el-button>
     <el-upload
@@ -19,9 +14,11 @@
       :on-change="handleChange"
       :on-error="handleError"
     >
-      <el-button slot="trigger" size="small" icon="el-icon-upload2">
-        {{ $t("Backup.uploadServer") }}
-      </el-button>
+      <template #trigger>
+        <el-button size="small" :icon="Upload">
+          {{ $t("Backup.uploadServer") }}
+        </el-button>
+      </template>
     </el-upload>
 
     <el-table :data="tableData">
@@ -72,6 +69,7 @@ import {
   uploadBackupFile,
 } from "@/api/backup";
 import { ElMessage } from "element-plus";
+import { Plus, Upload } from "@element-plus/icons-vue";
 
 export default {
   name: "Backup",
@@ -91,6 +89,8 @@ export default {
   },
   data() {
     return {
+      Plus,
+      Upload,
       fileList: [],
       tableData: [],
     };

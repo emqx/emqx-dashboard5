@@ -9,7 +9,7 @@
       <div>
         <el-button size="small" class="link-btn">
           <router-link :to="{ name: 'slow-sub-config' }">
-            <i class="el-icon-s-tools" />
+            <el-icon><Tools class="el-icon-s-tools"/></el-icon>
             <span>
               {{ $t("Base.setting") }}
             </span>
@@ -45,7 +45,7 @@
               {{ ": " + $t("SlowSub.highAverageTimeDesc") }}
             </div>
             <template #reference>
-              <i class="iconfont el-icon-question" />
+              <el-icon><QuestionFilled class="el-icon-question" /></el-icon>
             </template>
           </el-popover>
         </template>
@@ -86,6 +86,7 @@ import { clearSlowSubData, querySlowSubStatistics } from "@/api/diagnose";
 import moment from "moment";
 import { useI18n } from "vue-i18n";
 import usePaging from "@/hooks/usePaging";
+import { Tools, QuestionFilled } from "@element-plus/icons-vue";
 
 const { t } = useI18n();
 
@@ -201,6 +202,7 @@ getTotalStatistics();
     transform: scale(1.2);
   }
   .el-icon-question {
+    vertical-align: top;
     margin-left: 4px;
   }
   :deep .el-radio-button__original-radio:checked + .el-radio-button__inner {

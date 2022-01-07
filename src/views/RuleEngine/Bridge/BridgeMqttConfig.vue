@@ -168,7 +168,7 @@
 <script lang="ts">
 import { useI18n } from "vue-i18n";
 import { defineComponent, onMounted, reactive, ref, watch } from "vue";
-import { Edit } from "@element-plus/icons";
+import { Edit } from "@element-plus/icons-vue";
 import _ from "lodash";
 import { getConnectorList } from "@/api/ruleengine";
 import { ConnectorItem } from "@/types/ruleengine";
@@ -307,7 +307,7 @@ export default defineComponent({
   margin-top: 40px;
 }
 .edit-icon {
-  padding: 9px;
+  padding: 11px;
   margin-top: 40px;
   border: var(--el-border-base);
   border-radius: var(--el-border-radius-base);

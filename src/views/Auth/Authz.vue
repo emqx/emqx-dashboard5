@@ -4,7 +4,7 @@
       <div></div>
       <el-button
         size="small"
-        icon="el-icon-setting"
+        :icon="Setting"
         @click="$router.push({ name: 'authorizationSetting' })"
       >
         {{ $t("Auth.setting") }}
@@ -12,7 +12,7 @@
       <el-button
         type="primary"
         size="small"
-        icon="el-icon-plus"
+        :icon="Plus"
         @click="$router.push({ name: 'authorizationCreate' })"
       >
         {{ $t("Base.create") }}
@@ -56,6 +56,7 @@ import { listAuthz, updateAuthz, deleteAuthz, moveAuthz } from "@/api/auth";
 import router from "@/router";
 import { ElMessageBox as MB } from "element-plus";
 import { useI18n } from "vue-i18n";
+import { Plus, Setting } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "Authz",
@@ -114,6 +115,8 @@ export default defineComponent({
       return authzList.value.findIndex((item) => item.type === row.type);
     };
     return {
+      Plus,
+      Setting,
       lockTable,
       authzList,
       handleUpdate,

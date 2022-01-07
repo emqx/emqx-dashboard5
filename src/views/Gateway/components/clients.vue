@@ -44,7 +44,7 @@
         <el-col :span="6">
           <el-button
             type="primary"
-            icon="el-icon-search"
+            :icon="Search"
             size="small"
             @click="searchGatewayList()"
             >{{ $t("Base.search") }}</el-button
@@ -136,6 +136,7 @@ import moment from "moment";
 import ClientDetails from "../../Clients/ClientDetails.vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
+import { Search } from "@element-plus/icons-vue";
 
 export default defineComponent({
   components: { commonPagination, ClientDetails },
@@ -226,6 +227,7 @@ export default defineComponent({
     });
 
     return {
+      Search,
       moment: moment,
       tl: (key, collection = "Gateway") => t(collection + "." + key),
       loadGatewayClients,

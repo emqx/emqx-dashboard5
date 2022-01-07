@@ -27,7 +27,7 @@
           ></el-checkbox>
         </el-col>
         <el-col :span="2">
-          <el-button type="primary" icon="el-icon-plus" @click="handleAdd">
+          <el-button type="primary" :icon="Plus" @click="handleAdd">
             {{ $t("Base.add") }}
           </el-button>
         </el-col>
@@ -48,16 +48,16 @@
             @command="handleCommand(row, $event)"
           >
             <el-button class="dropdown-btn" size="mini">
-              <i class="el-icon-more"></i>
+              <el-icon><More /></el-icon>
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="edit">
-                  <i class="el-icon-edit-outline"></i>
+                  <el-icon><Edit /></el-icon>
                   {{ $t("Base.edit") }}
                 </el-dropdown-item>
                 <el-dropdown-item command="delete">
-                  <i class="el-icon-delete"></i>
+                  <el-icon><Delete /></el-icon>
                   {{ $t("Base.delete") }}
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -130,9 +130,10 @@ import { useRoute } from "vue-router";
 import commonPagination from "@/components/commonPagination.vue";
 import { ElMessageBox as MB, ElMessage as M } from "element-plus";
 import { useI18n } from "vue-i18n";
+import { Plus, More, Edit, Delete } from "@element-plus/icons-vue";
 
 export default defineComponent({
-  components: { commonPagination },
+  components: { commonPagination, More, Edit, Delete },
 
   name: "DataManager",
   props: {
@@ -273,6 +274,7 @@ export default defineComponent({
       }
     };
     return {
+      Plus,
       id,
       dialogVisible,
       tableData,
