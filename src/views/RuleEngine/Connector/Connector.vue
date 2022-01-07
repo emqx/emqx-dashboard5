@@ -8,7 +8,7 @@
           <el-button
             size="small"
             type="primary"
-            icon="el-icon-plus"
+            :icon="Plus"
             @click="$router.push({ name: 'connector-create' })"
             >{{ tl("createConnector") }}</el-button
           >
@@ -64,6 +64,7 @@ import { useI18n } from "vue-i18n";
 import { ConnectorItem } from "@/types/ruleengine";
 import ConnectorDialog from "../components/ConnectorDialog.vue";
 import { ElMessageBox as MB, ElMessage as M } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
 
 export default defineComponent({
   components: { ConnectorDialog },
@@ -126,6 +127,7 @@ export default defineComponent({
     onMounted(listConnector);
 
     return {
+      Plus,
       tl: translate,
       connectorTb,
       tbLoading,

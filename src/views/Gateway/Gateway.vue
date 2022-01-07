@@ -68,17 +68,13 @@
             @visible-change="dropdownVChange(scope.row)"
             @command="dropdownHandler"
           >
-            <el-button size="mini"
-              >{{ tl("more")
-              }}<i
-                :class="[
-                  'iconfont',
-                  !scope.row[dropdownExclusiveKey]
-                    ? 'el-icon-caret-bottom'
-                    : 'el-icon-caret-top',
-                ]"
-              ></i
-            ></el-button>
+            <el-button size="mini">
+              {{ tl("more")}}
+              <el-icon>
+                <CaretBottom v-if="!scope.row[dropdownExclusiveKey]"/>
+                <CaretTop v-else />
+              </el-icon>
+            </el-button>
             <template #dropdown>
               <el-dropdown-menu class="no-dropdown-arrow">
                 <el-dropdown-item
@@ -111,9 +107,11 @@ import { calcPercentage, caseInsensitiveCompare } from "@/common/utils";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { ElMessage as M } from "element-plus";
+import { CaretBottom, CaretTop } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "Gateway",
+  components: { CaretBottom, CaretTop },
   setup() {
     const { t } = useI18n();
     let tbData = ref([]);

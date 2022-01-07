@@ -12,7 +12,7 @@
         <el-col :span="8">
           <el-button
             type="primary"
-            icon="el-icon-search"
+            :icon="Search"
             size="small"
             @click="handleSearch"
           >
@@ -47,6 +47,7 @@
 <script>
 import { listTopics } from "@/api/common";
 import CommonPagination from "../../components/commonPagination.vue";
+import { Search } from "@element-plus/icons-vue";
 
 export default {
   name: "Topics",
@@ -55,6 +56,7 @@ export default {
   },
   data() {
     return {
+      Search,
       tableData: [],
       searchValue: "",
       lockTable: true,

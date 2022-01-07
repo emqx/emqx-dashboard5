@@ -71,7 +71,7 @@
         <el-col class="col-oper" :span="6">
           <el-button
             type="primary"
-            icon="el-icon-search"
+            :icon="Search"
             size="small"
             @click="handleSearch"
           >
@@ -83,9 +83,10 @@
             class="show-more"
             @click="showMoreQuery = !showMoreQuery"
           >
-            <i
-              :class="showMoreQuery ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"
-            ></i>
+            <el-icon>
+              <ArrowUp v-if="showMoreQuery" />
+              <ArrowDown v-else />
+            </el-icon>
           </a>
         </el-col>
       </el-row>
@@ -126,17 +127,22 @@
 // import CustomPagination from '@/components/CustomPagination.vue'
 import { listSubscriptions, loadNodes } from "@/api/common";
 import CommonPagination from "../../components/commonPagination.vue";
+import { Search, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 
 export default {
   name: "Subscriptions",
 
   components: {
     CommonPagination,
+    ArrowDown,
+    ArrowUp,
     // CustomPagination,
   },
 
   data() {
     return {
+      Search,
+
       pageMeta: {},
       showMoreQuery: false,
       tableData: [],

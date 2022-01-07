@@ -4,7 +4,7 @@
       <el-button
         type="primary"
         size="small"
-        icon="el-icon-plus"
+        :icon="Plus"
         @click="openAuthCreate()"
       >
         {{ tl("addAuth") }}
@@ -44,6 +44,7 @@ import AuthnDetails from "../../Auth/AuthnDetails.vue";
 import { ElMessage as M } from "element-plus";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
+import { Plus } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "GatewayDetailAuth",
@@ -108,6 +109,7 @@ export default defineComponent({
     });
 
     return {
+      Plus,
       tl: (key, collection = "Gateway") => t(collection + "." + key),
       openAuthCreate,
       createDialog,

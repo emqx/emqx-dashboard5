@@ -13,12 +13,7 @@
         </el-radio>
       </el-radio-group>
       <div>
-        <el-button
-          type="primary"
-          size="small"
-          icon="el-icon-plus"
-          @click="handleAdd"
-        >
+        <el-button type="primary" size="small" :icon="Plus" @click="handleAdd">
           {{ $t("Base.add") }}
         </el-button>
       </div>
@@ -237,6 +232,7 @@ import _ from "lodash";
 import commonPagination from "@/components/commonPagination.vue";
 import { ElMessage, ElMessageBox as MB } from "element-plus";
 import { useI18n } from "vue-i18n";
+import { Plus } from "@element-plus/icons-vue";
 
 export default defineComponent({
   components: { commonPagination },
@@ -474,6 +470,7 @@ export default defineComponent({
       swapArray(rulesData.value, index, index + 1);
     };
     return {
+      Plus,
       recordForm,
       type,
       typeList,

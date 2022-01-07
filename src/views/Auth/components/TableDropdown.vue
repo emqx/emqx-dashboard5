@@ -1,24 +1,24 @@
 <template>
   <el-dropdown class="table-dropdown" @command="handleCommand(rowData, $event)">
     <el-button class="dropdown-btn" size="mini">
-      <i class="el-icon-more"></i>
+      <el-icon><More /></el-icon>
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="setting">
-          <i class="el-icon-setting"></i>
+          <el-icon><Setting /></el-icon>
           {{ $t("Auth.setting") }}
         </el-dropdown-item>
         <template v-if="tableDataLen !== 1">
           <el-dropdown-item command="moveUp" :disabled="position === 0">
-            <i class="el-icon-top"></i>
+            <el-icon><Top /></el-icon>
             {{ $t("Auth.moveUp") }}
           </el-dropdown-item>
           <el-dropdown-item
             command="moveDown"
             :disabled="position === tableDataLen - 1"
           >
-            <i class="el-icon-bottom"></i>
+            <el-icon><Bottom /></el-icon>
             {{ $t("Auth.moveDown") }}
           </el-dropdown-item>
         </template>
@@ -27,15 +27,15 @@
           class="danger"
           command="disable"
         >
-          <i class="el-icon-switch-button"></i>
+          <el-icon><SwitchButton /></el-icon>
           {{ $t("Auth.disable") }}
         </el-dropdown-item>
         <el-dropdown-item v-else command="enable">
-          <i class="el-icon-video-play"></i>
+          <el-icon><VideoPlay /></el-icon>
           {{ $t("Auth.enable") }}
         </el-dropdown-item>
         <el-dropdown-item command="delete">
-          <i class="el-icon-delete"></i>
+          <el-icon><Delete /></el-icon>
           {{ $t("Base.delete") }}
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -45,9 +45,11 @@
 
 <script>
 import { defineComponent } from "vue";
+import { Setting, More, Top, Bottom, SwitchButton, VideoPlay, Delete } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "TableDropdown",
+  components: { Setting, More, Top, Bottom, SwitchButton, VideoPlay, Delete },
   props: {
     tableDataLen: {
       required: true,

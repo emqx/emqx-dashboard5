@@ -20,7 +20,7 @@
       <div>
         <el-button
           type="primary"
-          icon="el-icon-plus"
+          :icon="Plus"
           size="small"
           @click="$router.push({ name: 'iot-create' })"
           >{{ tl("createIoTRule") }}</el-button
@@ -97,6 +97,7 @@ import moment from "moment";
 import { Rule, RuleItem } from "@/types/ruleengine";
 import { ElMessageBox as MB, ElMessage as M } from "element-plus";
 import RuleTopology from "../components/RuleTopology.vue";
+import { Plus } from "@element-plus/icons-vue";
 
 export default defineComponent({
   components: { RuleTopology },
@@ -176,6 +177,7 @@ export default defineComponent({
 
     return {
       tl: (key: string) => t("RuleEngine." + key),
+      Plus,
       pageShow,
       pageType,
       ruleTable,
