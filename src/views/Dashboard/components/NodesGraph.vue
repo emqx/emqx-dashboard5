@@ -35,24 +35,42 @@
             </el-row>
             <el-row>
               <el-col :span="10">CPU:</el-col>
-              <el-col :span="14">{{
-                currentInfo[0]["load1"] +
-                "/" +
-                currentInfo[0]["load5"] +
-                "/" +
-                currentInfo[0]["load15"]
-              }}</el-col>
+              <el-col :span="14">
+                <el-tooltip
+                  class="box-item"
+                  effect="dark"
+                  content="load1/load5/load15"
+                  placement="top-start"
+                >
+                  <span>
+                    {{
+                      currentInfo[0]["load1"] +
+                      "/" +
+                      currentInfo[0]["load5"] +
+                      "/" +
+                      currentInfo[0]["load15"]
+                    }}
+                  </span>
+                </el-tooltip>
+              </el-col>
             </el-row>
             <el-row>
-              <el-col :span="10">{{ tl("memory") }}:</el-col>
+              <el-col :span="10">{{ tl("erlangVMMemory") }}:</el-col>
               <el-col :span="14">
-                <el-progress
-                  :stroke-width="14"
-                  :format="() => {}"
-                  :percentage="calcMemoryPercentage"
-                  :color="getProgressColor(calcPercentage)"
-                ></el-progress
-              ></el-col>
+                <el-tooltip
+                  class="box-item"
+                  effect="dark"
+                  :content="`${currentInfo?.[0]?.['memory_used']}\\${currentInfo?.[0]?.['memory_total']}`"
+                  placement="top-start"
+                >
+                  <el-progress
+                    :stroke-width="14"
+                    :format="() => {}"
+                    :percentage="calcMemoryPercentage"
+                    :color="getProgressColor(calcPercentage)"
+                  ></el-progress>
+                </el-tooltip>
+              </el-col>
             </el-row>
           </div>
         </div>
