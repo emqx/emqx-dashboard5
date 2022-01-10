@@ -51,9 +51,9 @@ export default {
     zh: '已停止',
     en: 'Stopped',
   },
-  memory: {
-    zh: '内存',
-    en: 'Memory',
+  erlangVMMemory: {
+    zh: 'Erlang VM 内存',
+    en: 'Erlang VM Memory',
   },
   maxFds: {
     zh: '最大文件句柄',
