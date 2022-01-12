@@ -271,4 +271,8 @@ export default {
     zh: '下载',
     en: 'Download',
   },
+  more: {
+    zh: '更多',
+    en: 'More',
+  },
 }
