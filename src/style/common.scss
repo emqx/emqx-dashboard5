@@ -351,3 +351,48 @@ code {
 .el-date-editor {
   --el-date-editor-datetimerange-width: 100%;
 }
+
+/* El Radio */
+.el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background: rgba(0, 178, 153, 0.05);
+  color: #00b299;
+}
+
+.text-status {
+  &.success {
+    color: var(--el-color-success);
+  }
+  &.danger {
+    color: var(--el-color-danger);
+  }
+}
+
+.el-popper.is-dark {
+  background: #282e38;
+
+  &.tooltip-node-status-list {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .node-status-list {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+    padding-left: 0;
+    width: 200px;
+  }
+
+  .node-status-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+    .text-status {
+      flex-shrink: 0;
+      margin-right: 20px;
+    }
+    .node-name {
+      word-break: break-all;
+    }
+  }
+}

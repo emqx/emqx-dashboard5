@@ -110,6 +110,10 @@ export default {
         title: 'APIKey',
         path: '/APIKey',
       },
+      {
+        title: 'plugins',
+        path: '/plugins',
+      },
     ]
 
     let diagnose = [
