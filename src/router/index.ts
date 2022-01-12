@@ -35,6 +35,9 @@ import BridgeDetail from "@/views/RuleEngine/Bridge/BridgeDetail.vue";
 import Connector from "@/views/RuleEngine/Connector/Connector.vue";
 import ConnectorCreate from "@/views/RuleEngine/Connector/ConnectorCreate.vue";
 import APIKey from "@/views/APIKey/APIKey.vue";
+import Plugins from "@/views/Plugins/Plugins.vue";
+import PluginInstall from "@/views/Plugins/PluginInstall.vue";
+import PluginDetail from "@/views/Plugins/PluginDetail.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -300,6 +303,32 @@ export const routes: Array<RouteRecordRaw> = [
         path: "",
         name: "APIKey",
         component: APIKey,
+      },
+    ],
+  },
+  // Plugins
+  {
+    path: "/plugins",
+    component: Layout,
+    meta: {
+      hideKey: "Plugins",
+      authRequired: true,
+    },
+    children: [
+      {
+        path: "",
+        name: "plugins",
+        component: Plugins,
+      },
+      {
+        path: "install",
+        name: "plugin-install",
+        component: PluginInstall,
+      },
+      {
+        path: "detail/:pluginName-:pluginVersion",
+        name: "plugin-detail",
+        component: PluginDetail,
       },
     ],
   },

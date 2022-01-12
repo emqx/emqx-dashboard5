@@ -8,7 +8,7 @@ interface PageMeta {
   limit: number;
 }
 
-interface FilterItem {
+export interface FilterItem {
   key: string;
   value: string;
 }
@@ -74,8 +74,9 @@ export default () => {
     } else if (pageMeta.limit !== currentPageSize) {
       chunkList(pageMeta.limit);
     }
+    const retData = currentChunks.value.length === 0 ? [] : currentChunks.value[pageMeta.page - 1] || [];
     return {
-      data: currentChunks.value[pageMeta.page - 1],
+      data: retData,
       meta: {
         count: listAfterFilterNSort.value.length,
         limit: pageMeta.limit,
@@ -85,6 +86,7 @@ export default () => {
   };
 
   return {
+    totalData,
     setTotalData,
     getAPageData,
   };

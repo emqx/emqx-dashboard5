@@ -18,3 +18,13 @@ export enum PayloadShowByType {
   JSON = "JSON",
   Hex = "Hex",
 }
+
+export enum PluginStatus {
+  Running = "running",
+  Stopped = "stopped",
+}
+
+export enum StatusCommandSendToPlugin {
+  Start = "start",
+  Stop = "stop",
+}

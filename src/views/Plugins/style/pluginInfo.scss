@@ -1,0 +1,12 @@
+.plugin-info-bd {
+  display: flex;
+  .plugin-content {
+    flex-grow: 1;
+    padding-right: 172px;
+    line-height: 24px;
+  }
+  .plugin-info {
+    flex-basis: 492px;
+    flex-shrink: 0;
+  }
+}
