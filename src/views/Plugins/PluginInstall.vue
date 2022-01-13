@@ -55,6 +55,7 @@ const setFile = (selectedFile: File) => {
 const submit = async () => {
   if (!file.value) {
     ElMessage.error(tl("uploadWarning"));
+    return;
   }
   try {
     isUploading.value = true;
