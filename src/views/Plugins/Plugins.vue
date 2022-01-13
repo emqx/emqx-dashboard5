@@ -127,7 +127,7 @@ const isTableFiltered = computed(() => !!(filterStatus.value !== VALUE_FOR_NOT_F
  * Filtered by the search
  */
 const pluginsListAfterSearch: ComputedRef<Array<PluginItem>> = computed(() => {
-  const filters: Array<FilterItem> = [];
+  const filters: Array<FilterItem> = [{ key: "name", value: keyForSearch.value }];
   const { data } = getAPageData({ page: 1, limit: totalData.value.length }, filters);
   return data;
 });
