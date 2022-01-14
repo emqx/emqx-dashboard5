@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form label-position="top">
-      <div class="part-header">{{ tl("baseInfo") }}</div>
+      <div class="part-header">{{ tl('baseInfo') }}</div>
 
       <el-row :gutter="30">
         <el-col :span="12">
@@ -10,7 +10,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("mappingInfo") }}</div>
+      <div class="part-header">{{ tl('mappingInfo') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item label="Local Topic">
@@ -18,7 +18,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("reqSetting") }}</div>
+      <div class="part-header">{{ tl('reqSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('method')">
@@ -64,7 +64,7 @@
           ></el-input>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("connSetting") }}</div>
+      <div class="part-header">{{ tl('connSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="'Pool Size'">
@@ -74,11 +74,7 @@
         <el-col :span="12">
           <el-form-item :label="tl('enablePipeline')">
             <el-select v-model="httpBridgeVal.enable_pipelining">
-              <el-option
-                v-for="ep in [true, false]"
-                :key="ep"
-                :value="ep"
-              ></el-option>
+              <el-option v-for="ep in [true, false]" :key="ep" :value="ep"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -110,7 +106,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("tlsConfig") }}</div>
+      <div class="part-header">{{ tl('tlsConfig') }}</div>
 
       <TLS-config class="tls-config-form" v-model="tlsParams"></TLS-config>
     </el-form>
@@ -118,25 +114,14 @@
 </template>
 
 <script lang="ts">
-import KeyAndValueEditor from "@/components/KeyAndValueEditor.vue";
-import { useI18n } from "vue-i18n";
-import {
-  computed,
-  defineComponent,
-  ref,
-  Ref,
-  reactive,
-  watch,
-  onMounted,
-} from "vue";
-import TLSConfig from "../components/TLSConfig.vue";
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import { useI18n } from 'vue-i18n'
+import { computed, defineComponent, ref, Ref, reactive, watch, onMounted } from 'vue'
+import TLSConfig from '../components/TLSConfig.vue'
 // import { tlsConfig } from "@/types/ruleengine";
-import _ from "lodash";
-import Monaco from "@/components/Monaco.vue";
-import {
-  transformUnitArrayToStr,
-  transformStrToUnitArray,
-} from "@/common/utils";
+import _ from 'lodash'
+import Monaco from '@/components/Monaco.vue'
+import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 
 export default defineComponent({
   components: {
@@ -144,7 +129,7 @@ export default defineComponent({
     TLSConfig,
     // Monaco
   },
-  name: "",
+  name: '',
   props: {
     tls: {
       type: Object,
@@ -163,7 +148,7 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const { t } = useI18n();
+    const { t } = useI18n()
     // const tlsParams: Ref<tlsConfig> = ref({
     //   enable: false,
     //   verify: false,
@@ -172,48 +157,45 @@ export default defineComponent({
     //   cacertfile: "",
     // });
     const httpBridgeDefaultVal = {
-      name: "",
-      local_topic: "",
-      method: "post",
-      url: "http://localhost:8080/api",
+      name: '',
+      local_topic: '',
+      method: 'post',
+      url: 'http://localhost:8080/api',
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
       },
-      body: "",
+      body: '',
       pool_size: 4,
       enable_pipelining: true,
-      connect_timeout: [5, "s"],
-      request_timeout: [5, "s"],
+      connect_timeout: [5, 's'],
+      request_timeout: [5, 's'],
       max_retries: 3,
-    };
+    }
     const httpBridgeVal = reactive({
       ..._.cloneDeep(httpBridgeDefaultVal),
-      ...transformStrToUnitArray(props.modelValue, [
-        "connect_timeout",
-        "request_timeout",
-      ]),
-    });
+      ...transformStrToUnitArray(props.modelValue, ['connect_timeout', 'request_timeout']),
+    })
 
-    const tlsParams = computed(() => props.tls);
+    const tlsParams = computed(() => props.tls)
 
     watch(
       () => _.cloneDeep(httpBridgeVal),
       (val) => {
-        context.emit("update:modelValue", transformUnitArrayToStr(val));
-      }
-    );
+        context.emit('update:modelValue', transformUnitArrayToStr(val))
+      },
+    )
 
     onMounted(() => {
-      context.emit("update:modelValue", transformUnitArrayToStr(httpBridgeVal));
-    });
+      context.emit('update:modelValue', transformUnitArrayToStr(httpBridgeVal))
+    })
 
     return {
-      tl: (key: string) => t("RuleEngine." + key),
+      tl: (key: string) => t('RuleEngine.' + key),
       tlsParams,
       httpBridgeVal,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

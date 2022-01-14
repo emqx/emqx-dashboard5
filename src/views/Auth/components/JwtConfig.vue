@@ -1,14 +1,14 @@
 <template>
   <div class="jwt-config config">
     <div class="create-form-title">
-      {{ $t("Auth.validMethod") }}
+      {{ $t('Auth.validMethod') }}
     </div>
     <el-radio-group v-model="jwtConfig.use_jwks">
       <el-radio :label="false" border> JWT </el-radio>
       <el-radio :label="true" border> JWKS </el-radio>
     </el-radio-group>
     <div class="create-form-title">
-      {{ $t("Auth.config") }}
+      {{ $t('Auth.config') }}
     </div>
     <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
@@ -38,11 +38,7 @@
           </template>
           <el-col v-else-if="jwtConfig.algorithm === 'public-key'" :span="24">
             <el-form-item label="Public Key">
-              <el-input
-                type="textarea"
-                :rows="4"
-                v-model="jwtConfig.certificate"
-              ></el-input>
+              <el-input type="textarea" :rows="4" v-model="jwtConfig.certificate"></el-input>
             </el-form-item>
           </el-col>
         </template>
@@ -75,11 +71,11 @@
 </template>
 
 <script>
-import { defineComponent, reactive, watch } from "vue";
-import KeyAndValueEditor from "@/components/KeyAndValueEditor.vue";
+import { defineComponent, reactive, watch } from 'vue'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 
 export default defineComponent({
-  name: "JwtConfig",
+  name: 'JwtConfig',
   components: {
     KeyAndValueEditor,
   },
@@ -90,17 +86,17 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const jwtConfig = reactive(props.modelValue);
+    const jwtConfig = reactive(props.modelValue)
     watch(jwtConfig, (value) => {
-      ctx.emit("update:modelValue", value);
-    });
+      ctx.emit('update:modelValue', value)
+    })
     return {
       jwtConfig,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">
-@import "../style/authConfig.scss";
+@import '../style/authConfig.scss';
 </style>

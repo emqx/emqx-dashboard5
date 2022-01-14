@@ -10,41 +10,41 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "TimeInputWithUnitSelect",
+  name: 'TimeInputWithUnitSelect',
   props: {
     value: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   computed: {
     inputValue: {
       get() {
-        return this.value;
+        return this.value
       },
       set(val) {
-        this.$emit("input", val);
+        this.$emit('input', val)
       },
     },
     timeValue: {
       get() {
-        return this.inputValue.replace(this.unit, "");
+        return this.inputValue.replace(this.unit, '')
       },
       set(val) {
-        this.inputValue = val + this.unit;
+        this.inputValue = val + this.unit
       },
     },
     unit: {
       get() {
-        return this.inputValue.slice(-2) === "ms" ? "ms" : "s";
+        return this.inputValue.slice(-2) === 'ms' ? 'ms' : 's'
       },
       set(val) {
-        this.inputValue = this.timeValue + val;
+        this.inputValue = this.timeValue + val
       },
     },
   },
-});
+})
 </script>

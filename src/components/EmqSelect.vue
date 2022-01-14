@@ -1,10 +1,5 @@
 <template>
-  <el-select
-    v-model="rawValue"
-    v-bind="$attrs"
-    class="emq-select"
-    @change="selectChange"
-  >
+  <el-select v-model="rawValue" v-bind="$attrs" class="emq-select" @change="selectChange">
     <slot>
       <el-option
         v-for="(item, i) in options"
@@ -20,10 +15,10 @@
 </template>
 
 <script>
-import http from "@/common/http";
+import http from '@/common/http'
 
 export default {
-  name: "EmqSelect",
+  name: 'EmqSelect',
 
   props: {
     value: {
@@ -36,8 +31,8 @@ export default {
     fieldName: {
       type: Object,
       default: () => ({
-        label: "label",
-        value: "value",
+        label: 'label',
+        value: 'value',
       }),
     },
     disabledItem: {
@@ -53,24 +48,22 @@ export default {
     return {
       options: [],
       parserField: {},
-    };
+    }
   },
 
   computed: {
     rawValue: {
       get() {
-        return typeof this.value === "boolean"
-          ? this.value.toString()
-          : this.value;
+        return typeof this.value === 'boolean' ? this.value.toString() : this.value
       },
       set(val) {
-        let value = null;
-        const valueKey = this.fieldName.value;
-        const item = this.options.find(($) => $[valueKey] === val);
+        let value = null
+        const valueKey = this.fieldName.value
+        const item = this.options.find(($) => $[valueKey] === val)
         if (item && this.parserField[valueKey]) {
-          value = val === "true";
+          value = val === 'true'
         }
-        this.$emit("update:value", value);
+        this.$emit('update:value', value)
       },
     },
   },
@@ -78,66 +71,66 @@ export default {
   watch: {
     refresh(val) {
       if (val) {
-        this.loadData();
+        this.loadData()
       }
     },
     field: {
       handler() {
-        this.loadData();
+        this.loadData()
       },
       deep: true,
     },
   },
 
   created() {
-    this.loadData();
+    this.loadData()
   },
 
   methods: {
     selectChange(val) {
-      this.$emit("selectChange", val);
+      this.$emit('selectChange', val)
     },
     async loadData() {
-      const options = await this.getOptions();
-      this.parserField = {};
+      const options = await this.getOptions()
+      this.parserField = {}
 
-      const valueKey = this.fieldName.value;
-      const labelKey = this.fieldName.label;
+      const valueKey = this.fieldName.value
+      const labelKey = this.fieldName.label
 
       this.options = options.map((option) => {
-        const value = option[valueKey];
-        const label = option[labelKey];
-        if (typeof value === "boolean") {
-          this.parserField[valueKey] = "boolean";
-          option[valueKey] = value.toString();
+        const value = option[valueKey]
+        const label = option[labelKey]
+        if (typeof value === 'boolean') {
+          this.parserField[valueKey] = 'boolean'
+          option[valueKey] = value.toString()
 
-          if (typeof label === "boolean") {
-            option[labelKey] = label.toString();
+          if (typeof label === 'boolean') {
+            option[labelKey] = label.toString()
           }
         }
-        return option;
-      });
-      this.$emit("update:refresh", false);
+        return option
+      })
+      this.$emit('update:refresh', false)
     },
     isDisabled(item) {
-      return this.disabledItem.includes(item[this.fieldName.value]);
+      return this.disabledItem.includes(item[this.fieldName.value])
     },
     async getOptions() {
-      const { api, url, options, list } = this.field;
-      let value = [];
+      const { api, url, options, list } = this.field
+      let value = []
       if (options) {
-        value = options;
+        value = options
       } else if (list) {
-        value = list.map(($) => ({ label: $, value: $ }));
+        value = list.map(($) => ({ label: $, value: $ }))
       } else if (api) {
-        value = await api();
+        value = await api()
       } else if (url) {
-        value = await http.get(url);
+        value = await http.get(url)
       }
-      return value;
+      return value
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

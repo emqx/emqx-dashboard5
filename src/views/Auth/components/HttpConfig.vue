@@ -18,15 +18,13 @@
         </el-col>
         <el-col :span="24">
           <el-form-item label="Headers">
-            <key-and-value-editor
-              v-model="httpConfig.headers"
-            ></key-and-value-editor>
+            <key-and-value-editor v-model="httpConfig.headers"></key-and-value-editor>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <div class="create-form-title">
-      {{ $t("Auth.connectConfig") }}
+      {{ $t('Auth.connectConfig') }}
     </div>
     <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
@@ -53,28 +51,18 @@
     <!-- TLS -->
     <TLS-config v-model="httpConfig.ssl"></TLS-config>
     <div class="create-form-title">
-      {{
-        authType === "authn" ? $t("Auth.authnConfig") : $t("Auth.authzConfig")
-      }}
+      {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
       <el-button class="help-btn" size="mini" @click="toggleNeedHelp">
-        {{ $t("Base.help") }}
+        {{ $t('Base.help') }}
       </el-button>
     </div>
     <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="Body">
-            <el-input
-              v-model="httpConfig.body"
-              type="textarea"
-              :rows="6"
-            ></el-input>
-            <el-button
-              class="bottom-btn"
-              size="mini"
-              @click="setDefaultContent"
-            >
-              {{ $t("Auth.setDefault") }}
+            <el-input v-model="httpConfig.body" type="textarea" :rows="6"></el-input>
+            <el-button class="bottom-btn" size="mini" @click="setDefaultContent">
+              {{ $t('Auth.setDefault') }}
             </el-button>
           </el-form-item>
         </el-col>
@@ -82,11 +70,11 @@
           <el-col v-if="needHelp" :span="24">
             <div class="help-block">
               <div class="create-form-title">
-                {{ $t("Auth.exampleDataCmd") }}
+                {{ $t('Auth.exampleDataCmd') }}
               </div>
               <code-view lang="javascript" :code="helpContent"></code-view>
               <el-button size="small" ref="copyBtnCom">
-                {{ $t("Base.copy") }}
+                {{ $t('Base.copy') }}
               </el-button>
             </div>
           </el-col>
@@ -102,17 +90,17 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, onUnmounted, reactive, ref, watch } from "vue";
-import CodeView from "@/components/CodeView";
-import TimeInputWithUnitSelect from "@/components/TimeInputWithUnitSelect.vue";
-import TLSConfig from "./TLSConfig.vue";
-import KeyAndValueEditor from "@/components/KeyAndValueEditor.vue";
-import useCopy from "@/hooks/useCopy";
-import { useRoute } from "vue-router";
-import { createClipboardEleWithTargetText } from "@/common/tools";
+import { computed, defineComponent, nextTick, onUnmounted, reactive, ref, watch } from 'vue'
+import CodeView from '@/components/CodeView'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import TLSConfig from './TLSConfig.vue'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import useCopy from '@/hooks/useCopy'
+import { useRoute } from 'vue-router'
+import { createClipboardEleWithTargetText } from '@/common/tools'
 
 export default defineComponent({
-  name: "HttpConfig",
+  name: 'HttpConfig',
   components: {
     KeyAndValueEditor,
     CodeView,
@@ -131,20 +119,20 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const route = useRoute();
+    const route = useRoute()
     const defaultContent = JSON.stringify(
       {
-        username: "${username}",
-        password: "${password}",
+        username: '${username}',
+        password: '${password}',
       },
       null,
-      2
-    );
-    const httpConfig = reactive(props.modelValue);
+      2,
+    )
+    const httpConfig = reactive(props.modelValue)
     watch(httpConfig, (value) => {
-      ctx.emit("update:modelValue", value);
-    });
-    const needHelp = ref(false);
+      ctx.emit('update:modelValue', value)
+    })
+    const needHelp = ref(false)
     const helpContent = `
       const express = require('express')
       const app = express()
@@ -171,37 +159,41 @@ export default defineComponent({
         // response with JSON
         res.json(data)
       })
-    `;
-    const copyBtnCom = ref();
-    let clipboardInstance = undefined;
+    `
+    const copyBtnCom = ref()
+    let clipboardInstance = undefined
     const id = computed(function () {
-      const { id, type } = route.params;
-      return id || type;
-    });
+      const { id, type } = route.params
+      return id || type
+    })
     if (id.value) {
-      const { body } = httpConfig;
-      httpConfig.body = JSON.stringify(body, null, 2);
+      const { body } = httpConfig
+      httpConfig.body = JSON.stringify(body, null, 2)
     }
     const initCopyBtn = () => {
-      clipboardInstance && clipboardInstance?.destroy();
-      clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, helpContent, copySuccess);
-    };
+      clipboardInstance && clipboardInstance?.destroy()
+      clipboardInstance = createClipboardEleWithTargetText(
+        copyBtnCom.value.$el,
+        helpContent,
+        copySuccess,
+      )
+    }
     const { copySuccess } = useCopy(() => {
-      needHelp.value = false;
-    });
+      needHelp.value = false
+    })
     const toggleNeedHelp = async () => {
-      needHelp.value = !needHelp.value;
+      needHelp.value = !needHelp.value
       if (needHelp.value) {
-        await nextTick();
-        initCopyBtn();
+        await nextTick()
+        initCopyBtn()
       }
-    };
+    }
     const setDefaultContent = () => {
-      httpConfig.body = defaultContent;
-    };
+      httpConfig.body = defaultContent
+    }
     onUnmounted(() => {
-      clipboardInstance && clipboardInstance?.destroy();
-    });
+      clipboardInstance && clipboardInstance?.destroy()
+    })
     return {
       helpContent,
       httpConfig,
@@ -210,11 +202,11 @@ export default defineComponent({
       toggleNeedHelp,
       copySuccess,
       setDefaultContent,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">
-@import "../style/authConfig.scss";
+@import '../style/authConfig.scss';
 </style>

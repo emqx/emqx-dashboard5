@@ -9,11 +9,7 @@
             size="small"
             clearable
           >
-            <el-option
-              v-for="item in currentNodes"
-              :value="item.node"
-              :key="item.node"
-            ></el-option>
+            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
           </el-select>
         </el-col>
         <el-col :span="6">
@@ -33,25 +29,14 @@
               </el-select>
             </el-col>
             <el-col :span="16">
-              <el-input
-                v-model="fuzzyParams.topic"
-                type="text"
-                size="small"
-                clearable
-              >
-              </el-input>
+              <el-input v-model="fuzzyParams.topic" type="text" size="small" clearable> </el-input>
             </el-col>
           </el-row>
         </el-col>
 
         <template v-if="showMoreQuery">
           <el-col :span="6">
-            <el-select
-              v-model="fuzzyParams.qos"
-              clearable
-              size="small"
-              placeholder="QoS"
-            >
+            <el-select v-model="fuzzyParams.qos" clearable size="small" placeholder="QoS">
               <el-option :value="0"></el-option>
               <el-option :value="1"></el-option>
               <el-option :value="2"></el-option>
@@ -69,20 +54,11 @@
           </el-col>
         </template>
         <el-col class="col-oper" :span="6">
-          <el-button
-            type="primary"
-            :icon="Search"
-            size="small"
-            @click="handleSearch"
-          >
-            {{ $t("Clients.search") }}
+          <el-button type="primary" :icon="Search" size="small" @click="handleSearch">
+            {{ $t('Clients.search') }}
           </el-button>
 
-          <a
-            href="javascript:;"
-            class="show-more"
-            @click="showMoreQuery = !showMoreQuery"
-          >
+          <a href="javascript:;" class="show-more" @click="showMoreQuery = !showMoreQuery">
             <el-icon>
               <ArrowUp v-if="showMoreQuery" />
               <ArrowDown v-else />
@@ -93,16 +69,8 @@
     </el-form>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column
-        prop="clientid"
-        sortable
-        :label="$t('Clients.clientId')"
-      ></el-table-column>
-      <el-table-column
-        prop="topic"
-        :label="$t('Subs.topic')"
-        sortable
-      ></el-table-column>
+      <el-table-column prop="clientid" sortable :label="$t('Clients.clientId')"></el-table-column>
+      <el-table-column prop="topic" :label="$t('Subs.topic')" sortable></el-table-column>
       <el-table-column prop="qos" label="QoS" sortable></el-table-column>
     </el-table>
 
@@ -125,12 +93,12 @@
 
 <script>
 // import CustomPagination from '@/components/CustomPagination.vue'
-import { listSubscriptions, loadNodes } from "@/api/common";
-import CommonPagination from "../../components/commonPagination.vue";
-import { Search, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
+import { listSubscriptions, loadNodes } from '@/api/common'
+import CommonPagination from '../../components/commonPagination.vue'
+import { Search, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 
 export default {
-  name: "Subscriptions",
+  name: 'Subscriptions',
 
   components: {
     CommonPagination,
@@ -151,41 +119,41 @@ export default {
       lockTable: true,
       currentNodes: [],
       fuzzyParams: {
-        match: "match_topic",
-        node: "",
-        topic: "",
-        clientid: "",
-        share_group: "",
-        qos: "",
+        match: 'match_topic',
+        node: '',
+        topic: '',
+        clientid: '',
+        share_group: '',
+        qos: '',
       },
-    };
+    }
   },
 
   mounted() {
-    this.loadData();
-    this.loadNodeSubscriptions();
+    this.loadData()
+    this.loadNodeSubscriptions()
     // this.$refs.p.$emit("loadPage");
   },
 
   methods: {
     async handleSearch() {
-      this.params = this.genQueryParams(this.fuzzyParams);
-      this.loadNodeSubscriptions({ page: 1 });
+      this.params = this.genQueryParams(this.fuzzyParams)
+      this.loadNodeSubscriptions({ page: 1 })
       // this.$refs.p.$emit("loadPage", 1);
     },
     genQueryParams(params) {
-      const { clientid, qos, share_group, node, topic, match } = params;
+      const { clientid, qos, share_group, node, topic, match } = params
       let newParams = {
-        clientid: clientid === "" ? undefined : clientid ?? undefined,
-        qos: qos === "" ? undefined : qos,
+        clientid: clientid === '' ? undefined : clientid ?? undefined,
+        qos: qos === '' ? undefined : qos,
         share_group: share_group || undefined,
         node: node || undefined,
-      };
+      }
       if (topic) {
-        newParams[match] = topic;
+        newParams[match] = topic
       }
 
-      return newParams;
+      return newParams
     },
 
     // handlePrevClick() {
@@ -205,33 +173,33 @@ export default {
     //   this.loadNodeSubscriptions(false, params)
     // },
     async loadData() {
-      const res = await loadNodes().catch(() => {});
-      if (res) this.currentNodes = res;
+      const res = await loadNodes().catch(() => {})
+      if (res) this.currentNodes = res
     },
     async loadNodeSubscriptions(params = {}) {
-      this.lockTable = true;
+      this.lockTable = true
       const sendParams = {
         ...this.params,
         ...this.pageMeta,
         ...params,
-      };
-      Reflect.deleteProperty(sendParams, "count");
-      const res = await listSubscriptions(sendParams).catch(() => {});
+      }
+      Reflect.deleteProperty(sendParams, 'count')
+      const res = await listSubscriptions(sendParams).catch(() => {})
 
       if (res) {
-        const { data = [], meta = {} } = res;
-        this.tableData = data;
-        this.lockTable = false;
-        this.pageMeta = meta;
+        const { data = [], meta = {} } = res
+        this.tableData = data
+        this.lockTable = false
+        this.pageMeta = meta
         // this.hasnext = meta.hasnext || this.hasnext
       } else {
-        this.tableData = [];
-        this.lockTable = false;
-        this.pageMeta = {};
+        this.tableData = []
+        this.lockTable = false
+        this.pageMeta = {}
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

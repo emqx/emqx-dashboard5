@@ -21,10 +21,7 @@
         <left-bar></left-bar>
       </el-aside>
       <el-container class="layout">
-        <el-main
-          style="margin: 0; padding: 0"
-          :style="{ marginLeft: elMainStyle }"
-        >
+        <el-main style="margin: 0; padding: 0" :style="{ marginLeft: elMainStyle }">
           <el-header :style="{ left: elMainStyle, height: 'auto' }">
             <nav-header></nav-header>
             <el-menu
@@ -54,17 +51,9 @@
           >
             <router-view v-slot="{ Component, route }">
               <keep-alive>
-                <component
-                  :is="Component"
-                  :key="route.fullPath"
-                  v-if="route.meta.keepAlive"
-                />
+                <component :is="Component" :key="route.fullPath" v-if="route.meta.keepAlive" />
               </keep-alive>
-              <component
-                :is="Component"
-                :key="route.fullPath"
-                v-if="!route.meta.keepAlive"
-              />
+              <component :is="Component" :key="route.fullPath" v-if="!route.meta.keepAlive" />
             </router-view>
           </div>
         </el-main>
@@ -74,13 +63,13 @@
 </template>
 
 <script>
-import LeftBar from "./LeftBar";
-import NavHeader from "./NavHeader";
-import { routes } from "@/router";
-import { mapGetters } from "vuex";
+import LeftBar from './LeftBar'
+import NavHeader from './NavHeader'
+import { routes } from '@/router'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "Layout",
+  name: 'Layout',
 
   components: {
     NavHeader,
@@ -88,42 +77,40 @@ export default {
   },
 
   data() {
-    return {};
+    return {}
   },
   methods: {
     kebab2pascal(s) {
-      return String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase());
+      return String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
     },
   },
   computed: {
-    ...mapGetters(["edition"]),
+    ...mapGetters(['edition']),
     leftBarCollapse() {
-      return this.$store.state.leftBarCollapse;
+      return this.$store.state.leftBarCollapse
     },
     elMainStyle() {
-      return !this.leftBarCollapse ? "200px" : "80px";
+      return !this.leftBarCollapse ? '200px' : '80px'
     },
     topLvRoute() {
-      const { path } = this.$route;
+      const { path } = this.$route
       const topLvRoute = routes.find((v) => {
-        return v.path !== "/" && path.indexOf(v.path) >= 0;
-      });
-      return topLvRoute || {};
+        return v.path !== '/' && path.indexOf(v.path) >= 0
+      })
+      return topLvRoute || {}
     },
     defaultSubMenu() {
-      const { children, path: topPath } = this.topLvRoute;
-      const { path } = this.$route;
-      const childRoute =
-        Array.prototype.find.call(children, (v) => path.indexOf(v.path) >= 0) ||
-        {};
-      return `${topPath}/${childRoute && childRoute.path}` || null;
+      const { children, path: topPath } = this.topLvRoute
+      const { path } = this.$route
+      const childRoute = Array.prototype.find.call(children, (v) => path.indexOf(v.path) >= 0) || {}
+      return `${topPath}/${childRoute && childRoute.path}` || null
     },
     hasSubMenu() {
-      const { meta } = this.topLvRoute;
-      return meta && meta.subMenu;
+      const { meta } = this.topLvRoute
+      return meta && meta.subMenu
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

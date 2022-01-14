@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref } from "vue";
-import Retainer from "./components/retainer.vue";
-import Rewrite from "./components/rewrite.vue";
-import Subscribe from "./components/subscribe.vue";
-import Postpone from "./components/postpone.vue";
-import Message from "./components/message.vue";
-import { useI18n } from "vue-i18n";
+import { defineComponent, reactive, ref } from 'vue'
+import Retainer from './components/retainer.vue'
+import Rewrite from './components/rewrite.vue'
+import Subscribe from './components/subscribe.vue'
+import Postpone from './components/postpone.vue'
+import Message from './components/message.vue'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   components: {
@@ -36,43 +36,37 @@ export default defineComponent({
     Message,
   },
   setup() {
-    let panes = ref([
-      "retainer",
-      "rewrite",
-      "subscribe",
-      "postpone",
-      "message",
-    ]);
+    let panes = ref(['retainer', 'rewrite', 'subscribe', 'postpone', 'message'])
 
-    let panesRef = {};
+    let panesRef = {}
 
-    const { t } = useI18n();
+    const { t } = useI18n()
 
-    const tl = function (key, collection = "Advanced") {
-      return t(collection + "." + key);
-    };
+    const tl = function (key, collection = 'Advanced') {
+      return t(collection + '.' + key)
+    }
 
     const clickTab = async function (tab) {
-      let tabName = panes.value[tab.index];
+      let tabName = panes.value[tab.index]
       if (panesRef[tabName]) {
-        panesRef[tabName].reloading();
+        panesRef[tabName].reloading()
       }
-    };
+    }
 
     const setPaneRef = (el, pane) => {
       if (el) {
-        panesRef[pane] = el;
+        panesRef[pane] = el
       }
-    };
+    }
 
     return {
       panes,
       tl,
       clickTab,
       setPaneRef,
-    };
+    }
   },
-});
+})
 </script>
 <style lang="scss" scoped>
 $mid-menu-width: 160px;

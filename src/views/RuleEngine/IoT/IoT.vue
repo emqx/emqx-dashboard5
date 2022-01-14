@@ -7,13 +7,13 @@
             size="small"
             :class="{ active: pageShow === pageType[0] }"
             @click="pageShow = pageType[0]"
-            >{{ tl("listTable") }}</el-button
+            >{{ tl('listTable') }}</el-button
           >
           <el-button
             size="small"
             :class="{ active: pageShow === pageType[1] }"
             @click="pageShow = pageType[1]"
-            >{{ tl("topology") }}</el-button
+            >{{ tl('topology') }}</el-button
           >
         </el-button-group>
       </div>
@@ -23,7 +23,7 @@
           :icon="Plus"
           size="small"
           @click="$router.push({ name: 'iot-create' })"
-          >{{ tl("createIoTRule") }}</el-button
+          >{{ tl('createIoTRule') }}</el-button
         >
       </div>
     </div>
@@ -38,7 +38,7 @@
         >
         <el-table-column label="Source" sortable>
           <template #default="{ row }">
-            {{ row.from.join(",") }}
+            {{ row.from.join(',') }}
           </template>
         </el-table-column>
         <el-table-column label="Outputs" sortable :sort-method="sorting"
@@ -48,37 +48,28 @@
         </el-table-column>
         <el-table-column :label="tl('status')" sortable>
           <template #default="{ row }">
-            <el-badge is-dot :type="row.enable ? 'primary' : 'danger'">
-            </el-badge>
-            {{ row.enable ? $t("Base.enable") : $t("Base.disable") }}
+            <el-badge is-dot :type="row.enable ? 'primary' : 'danger'"> </el-badge>
+            {{ row.enable ? $t('Base.enable') : $t('Base.disable') }}
           </template>
         </el-table-column>
         <el-table-column :label="tl('createdAt')" sortable>
           <template #default="{ row }">
-            {{
-              row.created_at &&
-              moment(row.created_at).format("YYYY-MM-DD HH:mm:ss")
-            }}
+            {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
         </el-table-column>
         <el-table-column :label="$t('Base.operation')" min-width="100">
           <template #default="{ row }">
             <el-button
               size="mini"
-              @click="
-                $router.push({ name: 'iot-detail', params: { id: row.id } })
-              "
-              >{{ $t("Base.setting") }}</el-button
+              @click="$router.push({ name: 'iot-detail', params: { id: row.id } })"
+              >{{ $t('Base.setting') }}</el-button
             >
             <el-button size="mini" @click="startOrStopRule(row)">{{
-              row.enable ? $t("Base.disable") : $t("Base.enable")
+              row.enable ? $t('Base.disable') : $t('Base.enable')
             }}</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="submitDeleteRules(row.id)"
-              >{{ $t("Base.delete") }}</el-button
-            >
+            <el-button size="mini" type="danger" @click="submitDeleteRules(row.id)">{{
+              $t('Base.delete')
+            }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -90,93 +81,91 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
-import { getRules, updateRules, deleteRules } from "@/api/ruleengine";
-import moment from "moment";
-import { Rule, RuleItem } from "@/types/ruleengine";
-import { ElMessageBox as MB, ElMessage as M } from "element-plus";
-import RuleTopology from "../components/RuleTopology.vue";
-import { Plus } from "@element-plus/icons-vue";
+import { defineComponent, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { getRules, updateRules, deleteRules } from '@/api/ruleengine'
+import moment from 'moment'
+import { Rule, RuleItem } from '@/types/ruleengine'
+import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
+import RuleTopology from '../components/RuleTopology.vue'
+import { Plus } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: { RuleTopology },
   setup() {
-    const { t } = useI18n();
-    const pageType = ["list", "topology"];
-    const pageShow = ref(pageType[0]);
-    const ruleTable = ref([]);
-    const iotLoading = ref(false);
+    const { t } = useI18n()
+    const pageType = ['list', 'topology']
+    const pageShow = ref(pageType[0])
+    const ruleTable = ref([])
+    const iotLoading = ref(false)
 
     watch(
       () => pageShow.value,
       (v) => {
         if (v === pageType[0]) {
-          getRulesList();
+          getRulesList()
         }
-      }
-    );
+      },
+    )
 
     const getRulesList = async () => {
-      iotLoading.value = true;
-      let res = await getRules().catch(() => {});
+      iotLoading.value = true
+      let res = await getRules().catch(() => {})
       if (res) {
-        ruleTable.value = res;
+        ruleTable.value = res
       }
-      iotLoading.value = false;
-    };
+      iotLoading.value = false
+    }
 
     const startOrStopRule = async (row: Rule) => {
-      iotLoading.value = true;
+      iotLoading.value = true
       const res = await updateRules(row.id, {
         enable: !row.enable,
-      }).catch(() => {});
+      }).catch(() => {})
       if (res) {
         M({
-          type: "success",
-          message: row.enable
-            ? t("Base.disabledSuccess")
-            : t("Base.enableSuccess"),
-        });
-        getRulesList();
+          type: 'success',
+          message: row.enable ? t('Base.disabledSuccess') : t('Base.enableSuccess'),
+        })
+        getRulesList()
       }
-      iotLoading.value = false;
-    };
+      iotLoading.value = false
+    }
 
     const submitDeleteRules = async (id: string) => {
-      if (!id) return;
-      MB.confirm(t("Base.confirmDelete"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
+      if (!id) return
+      MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
       })
         .then(async () => {
-          iotLoading.value = true;
+          iotLoading.value = true
 
-          const res = await deleteRules(id).catch(() => {});
+          const res = await deleteRules(id).catch(() => {})
           if (res) {
             M({
-              type: "success",
-              message: t("Base.deleteSuccess"),
-            });
-            iotLoading.value = false;
+              type: 'success',
+              message: t('Base.deleteSuccess'),
+            })
+            iotLoading.value = false
 
-            getRulesList();
+            getRulesList()
           }
         })
-        .catch(() => {});
-    };
+        .catch(() => {})
+    }
 
     const sorting = (a: any, b: any) => {
-      console.log(a, b);
-    };
+      console.log(a, b)
+    }
 
     onMounted(() => {
-      getRulesList();
-    });
+      getRulesList()
+    })
 
     return {
-      tl: (key: string) => t("RuleEngine." + key),
+      tl: (key: string) => t('RuleEngine.' + key),
       Plus,
       pageShow,
       pageType,
@@ -186,9 +175,9 @@ export default defineComponent({
       iotLoading,
       submitDeleteRules,
       sorting,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

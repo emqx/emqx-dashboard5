@@ -7,7 +7,7 @@
         :icon="Setting"
         @click="$router.push({ name: 'authorizationSetting' })"
       >
-        {{ $t("Auth.setting") }}
+        {{ $t('Auth.setting') }}
       </el-button>
       <el-button
         type="primary"
@@ -15,7 +15,7 @@
         :icon="Plus"
         @click="$router.push({ name: 'authorizationCreate' })"
       >
-        {{ $t("Base.create") }}
+        {{ $t('Base.create') }}
       </el-button>
     </div>
     <el-table class="auth-table" :data="authzList" v-loading.lock="lockTable">
@@ -28,7 +28,7 @@
       <el-table-column prop="enable" :label="$t('Auth.status')">
         <template #default="{ row }">
           <span :class="['status', { disabled: !row.enable }]">
-            {{ row.enable ? "Enable" : "Disabled" }}
+            {{ row.enable ? 'Enable' : 'Disabled' }}
           </span>
         </template>
       </el-table-column>
@@ -50,70 +50,70 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import TableDropdown from "./components/TableDropdown.vue";
-import { listAuthz, updateAuthz, deleteAuthz, moveAuthz } from "@/api/auth";
-import router from "@/router";
-import { ElMessageBox as MB } from "element-plus";
-import { useI18n } from "vue-i18n";
-import { Plus, Setting } from "@element-plus/icons-vue";
+import { defineComponent, ref } from 'vue'
+import TableDropdown from './components/TableDropdown.vue'
+import { listAuthz, updateAuthz, deleteAuthz, moveAuthz } from '@/api/auth'
+import router from '@/router'
+import { ElMessageBox as MB } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { Plus, Setting } from '@element-plus/icons-vue'
 
 export default defineComponent({
-  name: "Authz",
+  name: 'Authz',
   components: {
     TableDropdown,
   },
   setup() {
-    const { t } = useI18n();
+    const { t } = useI18n()
 
-    const authzList = ref([]);
-    const lockTable = ref(false);
+    const authzList = ref([])
+    const lockTable = ref(false)
     const loadData = async () => {
-      lockTable.value = true;
+      lockTable.value = true
       const res = await listAuthz().catch(() => {
-        lockTable.value = false;
-      });
+        lockTable.value = false
+      })
       if (res) {
         authzList.value = res.sources.map((item) => ({
           ...item,
           img: require(`@/assets/img/${item.type}.png`),
-        }));
-        const addedAuthz = authzList.value.map((authz) => authz.type);
-        sessionStorage.setItem("addedAuthz", JSON.stringify(addedAuthz));
+        }))
+        const addedAuthz = authzList.value.map((authz) => authz.type)
+        sessionStorage.setItem('addedAuthz', JSON.stringify(addedAuthz))
       }
-      lockTable.value = false;
-    };
-    loadData();
+      lockTable.value = false
+    }
+    loadData()
     const handleUpdate = async (row) => {
-      const { img, ...data } = row;
-      await updateAuthz(row.type, data);
-      loadData();
-    };
+      const { img, ...data } = row
+      await updateAuthz(row.type, data)
+      loadData()
+    }
     const handleDelete = async function ({ type }) {
-      MB.confirm(t("Base.confirmDelete"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
+      MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
       })
         .then(async () => {
-          await deleteAuthz(type).catch(() => {});
-          loadData();
+          await deleteAuthz(type).catch(() => {})
+          loadData()
         })
-        .catch(() => {});
-    };
+        .catch(() => {})
+    }
     const handleMove = async function ({ type }, position) {
       const data = {
         position,
-      };
-      await moveAuthz(type, data);
-      loadData();
-    };
+      }
+      await moveAuthz(type, data)
+      loadData()
+    }
     const handleSetting = function ({ type }) {
-      router.push({ path: `/authorization/detail/${type}` });
-    };
+      router.push({ path: `/authorization/detail/${type}` })
+    }
     const findIndex = (row) => {
-      return authzList.value.findIndex((item) => item.type === row.type);
-    };
+      return authzList.value.findIndex((item) => item.type === row.type)
+    }
     return {
       Plus,
       Setting,
@@ -124,11 +124,11 @@ export default defineComponent({
       handleMove,
       handleSetting,
       findIndex,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">
-@import "./style/authTable.scss";
+@import './style/authTable.scss';
 </style>

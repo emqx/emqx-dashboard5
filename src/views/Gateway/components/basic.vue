@@ -21,77 +21,77 @@
       :loading="updateLoading"
       @click="updateGatewayInfo()"
       :disabled="basicData.status === 'unloaded'"
-      >{{ $t("Base.update") }}</el-button
+      >{{ $t('Base.update') }}</el-button
     >
   </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, ref } from "vue";
-import CoapBasic from "./coapBasic.vue";
-import Lwm2mBasic from "./lwm2mBasic.vue";
-import MqttsnBasic from "./mqttsnBasic.vue";
-import stompBasic from "./stompBasic.vue";
-import ExprotoBasic from "./exprotoBasic.vue";
-import { updateGateway, getGateway } from "@/api/gateway";
-import _ from "lodash";
-import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
+import { defineComponent, onMounted, ref } from 'vue'
+import CoapBasic from './coapBasic.vue'
+import Lwm2mBasic from './lwm2mBasic.vue'
+import MqttsnBasic from './mqttsnBasic.vue'
+import stompBasic from './stompBasic.vue'
+import ExprotoBasic from './exprotoBasic.vue'
+import { updateGateway, getGateway } from '@/api/gateway'
+import _ from 'lodash'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   components: { stompBasic, MqttsnBasic, Lwm2mBasic, CoapBasic, ExprotoBasic },
-  name: "GatewayDetailBasic",
+  name: 'GatewayDetailBasic',
 
   setup() {
-    let basicData = ref({});
-    let infoLoading = ref(false);
-    let updateLoading = ref(false);
-    const { t } = useI18n();
-    let iKey = ref(0);
-    const route = useRoute();
-    const name = String(route.params.name).toLowerCase();
+    let basicData = ref({})
+    let infoLoading = ref(false)
+    let updateLoading = ref(false)
+    const { t } = useI18n()
+    let iKey = ref(0)
+    const route = useRoute()
+    const name = String(route.params.name).toLowerCase()
 
     const getGatewayInfo = async () => {
-      infoLoading.value = true;
-      if (!name) return;
-      let res = await getGateway(name).catch(() => {});
+      infoLoading.value = true
+      if (!name) return
+      let res = await getGateway(name).catch(() => {})
       if (res) {
-        basicData.value = res;
-        ++iKey.value;
+        basicData.value = res
+        ++iKey.value
       }
-      infoLoading.value = false;
-    };
+      infoLoading.value = false
+    }
 
     const updateGatewayInfo = async function () {
-      updateLoading.value = true;
-      infoLoading.value = true;
-      let res = await updateGateway(name, basicData.value).catch(() => {});
+      updateLoading.value = true
+      infoLoading.value = true
+      let res = await updateGateway(name, basicData.value).catch(() => {})
       if (res) {
         this.$message({
-          type: "success",
-          message: t("Base.updateSuccess"),
-        });
-        getGatewayInfo();
+          type: 'success',
+          message: t('Base.updateSuccess'),
+        })
+        getGatewayInfo()
       }
-      updateLoading.value = false;
-      infoLoading.value = false;
-    };
+      updateLoading.value = false
+      infoLoading.value = false
+    }
 
     onMounted(() => {
-      getGatewayInfo();
-    });
+      getGatewayInfo()
+    })
 
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       basicData,
       updateLoading,
       infoLoading,
       updateGatewayInfo,
       iKey,
       name,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

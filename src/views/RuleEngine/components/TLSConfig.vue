@@ -3,11 +3,7 @@
     <template v-if="tlsSwitch">
       <el-row>
         <el-col :span="16">
-          <el-checkbox
-            v-model="record.enable"
-            :label="$t('Auth.enableTLS')"
-            border
-          ></el-checkbox>
+          <el-checkbox v-model="record.enable" :label="$t('Auth.enableTLS')" border></el-checkbox>
           <el-checkbox
             v-model="record.verify"
             :label="$t('Auth.tlsVerify')"
@@ -60,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
@@ -76,10 +72,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const record = computed(() => props.modelValue);
+    const record = computed(() => props.modelValue)
     return {
       record,
-    };
+    }
   },
-});
+})
 </script>

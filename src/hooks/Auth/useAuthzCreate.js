@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
-import { DEFAULT_SSL_VERIFY_VALUE } from "@/common/constants"
+import { DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 
 export default function useAuthzCreate() {
   const getFileConfig = () => {

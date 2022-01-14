@@ -1,26 +1,23 @@
-import { watch, reactive, ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import { watch, reactive, ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-export default function useDatabaseConfig(
-  { database, modelValue, authType },
-  { emit }
-) {
-  const route = useRoute();
-  const defaultContent = ref("");
-  const databaseConfig = reactive(modelValue);
+export default function useDatabaseConfig({ database, modelValue, authType }, { emit }) {
+  const route = useRoute()
+  const defaultContent = ref('')
+  const databaseConfig = reactive(modelValue)
   watch(databaseConfig, (value) => {
-    emit("update:modelValue", value);
-  });
+    emit('update:modelValue', value)
+  })
   const id = computed(function () {
-    const { id, type } = route.params;
-    return id || type;
-  });
-  const helpContent = ref("");
+    const { id, type } = route.params
+    return id || type
+  })
+  const helpContent = ref('')
   const setMySql = () => {
-    let defaultDatabase = "";
-    if (authType === "authn") {
+    let defaultDatabase = ''
+    if (authType === 'authn') {
       defaultContent.value =
-        "SELECT password_hash FROM mqtt_user where username = ${username} LIMIT 1";
+        'SELECT password_hash FROM mqtt_user where username = ${username} LIMIT 1'
       helpContent.value = `
         CREATE TABLE IF NOT EXISTS \`mqtt_user\` (
           \`id\` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -32,10 +29,10 @@ export default function useDatabaseConfig(
           PRIMARY KEY (\`id\`),
           UNIQUE KEY \`mqtt_username\` (\`username\`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-      `;
-      defaultDatabase = "mqtt_user";
+      `
+      defaultDatabase = 'mqtt_user'
     } else {
-      defaultContent.value = `SELECT action, permission, topic FROM mqtt_acl where username = \${username}`;
+      defaultContent.value = `SELECT action, permission, topic FROM mqtt_acl where username = \${username}`
       helpContent.value = `
        CREATE TABLE \`mqtt_acl\` (
         \`id\` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -47,21 +44,21 @@ export default function useDatabaseConfig(
         \`topic\` VARCHAR(255) NOT NULL DEFAULT '',
         PRIMARY KEY (\`id\`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-      `;
-      defaultDatabase = "mqtt_user";
+      `
+      defaultDatabase = 'mqtt_user'
     }
     if (id.value) {
-      return;
+      return
     }
-    databaseConfig.database = defaultDatabase;
-    databaseConfig.server = "127.0.0.1:3306";
-    databaseConfig.query = defaultContent.value;
-  };
+    databaseConfig.database = defaultDatabase
+    databaseConfig.server = '127.0.0.1:3306'
+    databaseConfig.query = defaultContent.value
+  }
   const setPgSql = () => {
-    let defaultDatabase = "";
-    if (authType === "authn") {
+    let defaultDatabase = ''
+    if (authType === 'authn') {
       defaultContent.value =
-        "SELECT password_hash FROM mqtt_user where username = ${username} LIMIT 1";
+        'SELECT password_hash FROM mqtt_user where username = ${username} LIMIT 1'
       helpContent.value = `
         CREATE TABLE mqtt_user (
           id SERIAL primary key,
@@ -70,10 +67,10 @@ export default function useDatabaseConfig(
           password_hash character varying(100),
           salt character varying(40)
         )
-      `;
-      defaultDatabase = "mqtt_user";
+      `
+      defaultDatabase = 'mqtt_user'
     } else {
-      defaultContent.value = `SELECT action, permission, topic FROM mqtt_acl where username = \${username}`;
+      defaultContent.value = `SELECT action, permission, topic FROM mqtt_acl where username = \${username}`
       helpContent.value = `
         CREATE TYPE ACTION AS ENUM('publish','subscribe','all');
         CREATE TYPE PERMISSION AS ENUM('allow','deny');
@@ -87,25 +84,25 @@ export default function useDatabaseConfig(
           permission PERMISSION,
           topic CHARACTER VARYING(255) NOT NULL
         );
-      `;
-      defaultDatabase = "mqtt_acl";
+      `
+      defaultDatabase = 'mqtt_acl'
     }
     if (id.value) {
-      return;
+      return
     }
-    databaseConfig.database = defaultDatabase;
-    databaseConfig.server = "127.0.0.1:5432";
-    databaseConfig.query = defaultContent.value;
-  };
+    databaseConfig.database = defaultDatabase
+    databaseConfig.server = '127.0.0.1:5432'
+    databaseConfig.query = defaultContent.value
+  }
   const setMongoDB = () => {
     defaultContent.value = JSON.stringify(
       {
-        username: "${username}",
+        username: '${username}',
       },
       null,
-      2
-    );
-    if (authType === "authn") {
+      2,
+    )
+    if (authType === 'authn') {
       helpContent.value = `
         {
           username: "emqx_user",
@@ -116,7 +113,7 @@ export default function useDatabaseConfig(
         }
 
         db.mqtt_user.findOne({"username": "emqx_user"})
-      `;
+      `
     } else {
       helpContent.value = `
         {
@@ -129,18 +126,18 @@ export default function useDatabaseConfig(
         }
 
         db.mqtt_acl.findOne({"username": "emqx_user"})
-      `;
+      `
     }
     if (id.value) {
-      const { selector } = databaseConfig;
-      databaseConfig.selector = JSON.stringify(selector);
-      return;
+      const { selector } = databaseConfig
+      databaseConfig.selector = JSON.stringify(selector)
+      return
     }
-    databaseConfig.selector = defaultContent.value;
-  };
+    databaseConfig.selector = defaultContent.value
+  }
   const setRedis = () => {
-    if (authType === "authn") {
-      defaultContent.value = `HMGET mqtt_user:\${username} password_hash`;
+    if (authType === 'authn') {
+      defaultContent.value = `HMGET mqtt_user:\${username} password_hash`
       helpContent.value = `
         # sample data
         HMSET mqtt_user:emqx_u password_hash *** salt foo+bar is_superuser 1
@@ -159,39 +156,39 @@ export default function useDatabaseConfig(
 
         ## only password, enable superuser
         HMGET mqtt_user:emqx_u password_hash is_superuser
-      `;
+      `
     } else {
-      defaultContent.value = `HGETALL mqtt_acl:\${username}`;
+      defaultContent.value = `HGETALL mqtt_acl:\${username}`
       helpContent.value = `
         # sample data
         HSET mqtt_acl:emqx_u 't/#' subscribe
 
         # sample cmd
         HGETALL mqtt_acl:\${username}
-      `;
+      `
     }
     if (id.value) {
-      return;
+      return
     }
-    databaseConfig.cmd = defaultContent.value;
-  };
+    databaseConfig.cmd = defaultContent.value
+  }
   switch (database) {
-    case "mysql":
-      setMySql();
-      break;
-    case "postgresql":
-      setPgSql();
-      break;
-    case "mongodb":
-      setMongoDB();
-      break;
-    case "redis":
-      setRedis();
-      break;
+    case 'mysql':
+      setMySql()
+      break
+    case 'postgresql':
+      setPgSql()
+      break
+    case 'mongodb':
+      setMongoDB()
+      break
+    case 'redis':
+      setRedis()
+      break
   }
   return {
     defaultContent,
     helpContent,
     databaseConfig,
-  };
+  }
 }

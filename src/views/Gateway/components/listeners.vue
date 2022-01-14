@@ -3,58 +3,39 @@
     <div class="section-header" v-if="!showIntegration">
       <div></div>
       <el-button type="primary" size="small" :icon="Plus" @click="openDialog()">
-        {{ tl("addListener") }}
+        {{ tl('addListener') }}
       </el-button>
     </div>
     <el-table :data="listenerTable" v-loading="listenerLoading">
       <el-table-column :label="'ID'" sortable prop="id"></el-table-column>
-      <el-table-column
-        :label="tl('lType')"
-        sortable
-        prop="type"
-      ></el-table-column>
-      <el-table-column
-        :label="tl('lAddress')"
-        sortable
-        prop="bind"
-      ></el-table-column>
-      <el-table-column
-        label="Acceptors"
-        sortable
-        prop="acceptors"
-      ></el-table-column>
-      <el-table-column
-        :label="tl('lMaxConn')"
-        sortable
-        prop="max_connections"
-      ></el-table-column>
+      <el-table-column :label="tl('lType')" sortable prop="type"></el-table-column>
+      <el-table-column :label="tl('lAddress')" sortable prop="bind"></el-table-column>
+      <el-table-column label="Acceptors" sortable prop="acceptors"></el-table-column>
+      <el-table-column :label="tl('lMaxConn')" sortable prop="max_connections"></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
           <el-button size="mini" @click="openDialog(true, row, $index)">{{
-            $t("Base.edit")
+            $t('Base.edit')
           }}</el-button>
           <el-button size="mini" type="danger" @click="delListener(row)">{{
-            $t("Base.delete")
+            $t('Base.delete')
           }}</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="not-standalone-btn" v-if="showIntegration">
       <el-button type="primary" size="small" :icon="Plus" @click="openDialog()">
-        {{ tl("addListener") }}
+        {{ tl('addListener') }}
       </el-button>
     </div>
 
     <el-dialog :title="tl('addListener')" v-model="opListener">
-      <div class="part-header">{{ tl("basic") }}</div>
+      <div class="part-header">{{ tl('basic') }}</div>
       <el-form label-position="top">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="tl('name')">
-              <el-input
-                v-model="listenerInput.name"
-                :disabled="editListener"
-              ></el-input>
+              <el-input v-model="listenerInput.name" :disabled="editListener"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -88,7 +69,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div class="part-header">{{ tl("listenerSetting") }}</div>
+        <div class="part-header">{{ tl('listenerSetting') }}</div>
         <el-row :gutter="20">
           <el-col :span="12" v-if="listenerInput.type !== 'udp'">
             <el-form-item :label="'Acceptors'">
@@ -105,9 +86,7 @@
               <el-input v-model="listenerInput.max_conn_rate"></el-input>
             </el-form-item>
           </el-col>
-          <template
-            v-if="listenerInput.type === 'tcp' || listenerInput.type === 'ssl'"
-          >
+          <template v-if="listenerInput.type === 'tcp' || listenerInput.type === 'ssl'">
             <el-col :span="12">
               <el-form-item :label="'Proxy Protocol'">
                 <el-select v-model="listenerInput.proxy_protocol">
@@ -123,9 +102,7 @@
                   :placeholder="String(baseInput.proxy_protocol_timeout[0])"
                 >
                   <template #append>
-                    <el-select
-                      v-model="listenerInput.proxy_protocol_timeout[1]"
-                    >
+                    <el-select v-model="listenerInput.proxy_protocol_timeout[1]">
                       <el-option value="s"></el-option>
                     </el-select>
                   </template>
@@ -135,11 +112,9 @@
           </template>
         </el-row>
 
-        <template
-          v-if="listenerInput.type === 'tcp' || listenerInput.type === 'ssl'"
-        >
+        <template v-if="listenerInput.type === 'tcp' || listenerInput.type === 'ssl'">
           <div class="part-header">
-            {{ "TCP " + tl("configSetting") }}
+            {{ 'TCP ' + tl('configSetting') }}
           </div>
           <el-row :gutter="20">
             <el-col :span="12">
@@ -205,13 +180,9 @@
           </el-row>
         </template>
 
-        <template
-          v-else-if="
-            listenerInput.type === 'udp' || listenerInput.type === 'dtls'
-          "
-        >
+        <template v-else-if="listenerInput.type === 'udp' || listenerInput.type === 'dtls'">
           <div class="part-header">
-            {{ "UDP " + tl("configSetting") }}
+            {{ 'UDP ' + tl('configSetting') }}
           </div>
           <el-row :gutter="20">
             <el-col :span="12">
@@ -275,11 +246,9 @@
           </el-row>
         </template>
 
-        <template
-          v-if="listenerInput.type === 'ssl' || listenerInput.type === 'dtls'"
-        >
+        <template v-if="listenerInput.type === 'ssl' || listenerInput.type === 'dtls'">
           <div class="part-header">
-            {{ listenerInput.type.toUpperCase() + " " + tl("configSetting") }}
+            {{ listenerInput.type.toUpperCase() + ' ' + tl('configSetting') }}
           </div>
           <el-row :gutter="20">
             <el-col :span="24">
@@ -316,9 +285,7 @@
               <el-col :span="12">
                 <el-form-item :label="tl('sslversion')">
                   <el-select v-model="listenerInput.ssl.versions">
-                    <el-option
-                      value="tlsv1.3,tlsv1.2,tlsv1.1,tlsv1"
-                    ></el-option>
+                    <el-option value="tlsv1.3,tlsv1.2,tlsv1.1,tlsv1"></el-option>
                     <el-option value="tlsv1.2,tlsv1.1,tlsv1"></el-option>
                   </el-select>
                 </el-form-item>
@@ -351,9 +318,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="'Server Name Indacation'">
-                <el-input
-                  v-model="listenerInput.xtls.server_name_indication"
-                ></el-input>
+                <el-input v-model="listenerInput.xtls.server_name_indication"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -375,33 +340,28 @@
           size="small"
           @click="submitListener(editListener)"
           :loading="submitLoading"
-          >{{ editListener ? $t("Base.update") : $t("Base.add") }}</el-button
+          >{{ editListener ? $t('Base.update') : $t('Base.add') }}</el-button
         >
-        <el-button size="small" @click="opListener = false">{{
-          $t("Base.cancel")
-        }}</el-button>
+        <el-button size="small" @click="opListener = false">{{ $t('Base.cancel') }}</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import {
   getGatewayListeners,
   updateGatewayListener,
   addGatewayListener,
   deleteGatewayListener,
-} from "@/api/gateway";
-import _ from "lodash";
-import {
-  transformUnitArrayToStr,
-  transformStrToUnitArray,
-} from "@/common/utils";
-import { useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { ElMessage as M, ElMessageBox as MB } from "element-plus";
-import { Plus } from "@element-plus/icons-vue";
+} from '@/api/gateway'
+import _ from 'lodash'
+import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
 
 export default defineComponent({
   props: {
@@ -413,7 +373,7 @@ export default defineComponent({
     gatewayName: {
       type: String,
       required: false,
-      default: "",
+      default: '',
     },
     list: {
       type: Array,
@@ -421,256 +381,246 @@ export default defineComponent({
       default: () => [],
     },
   },
-  emits: ["list"],
+  emits: ['list'],
   setup(props, context) {
-    const route = useRoute();
-    const { t } = useI18n();
-    const gName = (route.params.name || props.gatewayName).toLowerCase();
+    const route = useRoute()
+    const { t } = useI18n()
+    const gName = (route.params.name || props.gatewayName).toLowerCase()
     const listenerTypeList = {
-      coap: ["udp", "dtls"],
-      others: ["tcp", "ssl", "udp", "dtls"],
-    };
+      coap: ['udp', 'dtls'],
+      others: ['tcp', 'ssl', 'udp', 'dtls'],
+    }
     let baseInput = {
       type: (listenerTypeList[gName] || listenerTypeList.others)[0],
-      id: "",
-      name: "",
-      bind: "",
+      id: '',
+      name: '',
+      bind: '',
       acceptors: 16,
       max_connections: 102400,
       max_conn_rate: 1000,
-      mountpoint: "",
+      mountpoint: '',
       proxy_protocol: false,
-      proxy_protocol_timeout: [15, "s"],
+      proxy_protocol_timeout: [15, 's'],
       tcp: {
         nodelay: false,
         reuseaddr: true,
         send_timeout_close: true,
         active_n: 100,
-        buffer: [4, "KB"],
-        send_timeout: [15, "s"],
+        buffer: [4, 'KB'],
+        send_timeout: [15, 's'],
       },
       udp: {
         active_n: 100,
-        buffer: [4, "KB"],
-        recbuf: [2, "KB"],
-        sndbuf: [2, "KB"],
+        buffer: [4, 'KB'],
+        recbuf: [2, 'KB'],
+        sndbuf: [2, 'KB'],
         reuseaddr: true,
       },
       dtls: {
-        versions: "dtls1.2,dtlsv1",
+        versions: 'dtls1.2,dtlsv1',
       },
       ssl: {
-        versions: "tlsv1.3,tlsv1.2,tlsv1.1,tlsv1",
+        versions: 'tlsv1.3,tlsv1.2,tlsv1.1,tlsv1',
       },
       xtls: {
-        cacertfile: "",
-        certfile: "",
-        keyfile: "",
-        verify: "verify_none",
+        cacertfile: '',
+        certfile: '',
+        keyfile: '',
+        verify: 'verify_none',
         fail_if_no_peer_cert: false,
-        server_name_indication: "disable",
+        server_name_indication: 'disable',
         depth: 10,
-        password: "",
+        password: '',
       },
       certSpecial: {
-        cacertfile: "Begins with ----BEGIN CERTIFICATE----",
-        certfile: "Begins with ----BEGIN CERTIFICATE----",
-        keyfile: "Begins with ----BEGIN PRIVATE KEY----",
+        cacertfile: 'Begins with ----BEGIN CERTIFICATE----',
+        certfile: 'Begins with ----BEGIN CERTIFICATE----',
+        keyfile: 'Begins with ----BEGIN PRIVATE KEY----',
       },
-    };
-    let opListener = ref(false);
-    let editListener = ref(false);
-    let listenerInput = ref(_.cloneDeep(baseInput));
-    let listenerTable = ref([]);
-    let listenerLoading = ref(false);
-    let submitLoading = ref(false);
+    }
+    let opListener = ref(false)
+    let editListener = ref(false)
+    let listenerInput = ref(_.cloneDeep(baseInput))
+    let listenerTable = ref([])
+    let listenerLoading = ref(false)
+    let submitLoading = ref(false)
 
-    const ID_SEPERATE = ":";
-    let editPos = 0;
+    const ID_SEPERATE = ':'
+    let editPos = 0
 
     const openDialog = (edit = false, current = {}, index = 0) => {
-      opListener.value = true;
-      editListener.value = !!edit;
+      opListener.value = true
+      editListener.value = !!edit
       if (edit) {
         // let name = current.name || current?.id?.split(ID_SEPERATE)[2]
         // listenerInput.value = {
         //   ..._.cloneDeep(baseInput),
         //   ..._.cloneDeep(current),
         // };
-        listenerInput.value = _.merge(baseInput, current);
-        editPos = index;
+        listenerInput.value = _.merge(baseInput, current)
+        editPos = index
       } else {
-        listenerInput.value = _.cloneDeep(baseInput);
+        listenerInput.value = _.cloneDeep(baseInput)
       }
-    };
+    }
 
     const loadListenerData = async function () {
-      listenerLoading.value = true;
-      let res = await getGatewayListeners(gName).catch(() => {});
+      listenerLoading.value = true
+      let res = await getGatewayListeners(gName).catch(() => {})
       if (res) {
-        listenerTable.value = res.map((v) => denormalizeStructure(v));
+        listenerTable.value = res.map((v) => denormalizeStructure(v))
       }
-      listenerLoading.value = false;
-    };
+      listenerLoading.value = false
+    }
 
     const submitListener = async function (edit = false) {
       // let id = [gName, listenerInput.value.type, listenerInput.value.name].join(ID_SEPERATE)
 
-      let input = { ..._.cloneDeep(listenerInput.value) };
-      if (listenerInput.value.type === "udp") input.acceptors = "";
+      let input = { ..._.cloneDeep(listenerInput.value) }
+      if (listenerInput.value.type === 'udp') input.acceptors = ''
       if (props.integration) {
         if (edit) {
-          listenerTable.value.splice(editPos, 1, input);
+          listenerTable.value.splice(editPos, 1, input)
         } else {
-          listenerTable.value.push(input);
+          listenerTable.value.push(input)
         }
-        opListener.value = false;
+        opListener.value = false
       } else {
-        let remoteRes = await submitGatewayListenerInfo(
-          edit,
-          gName,
-          input
-        ).catch(() => {});
+        let remoteRes = await submitGatewayListenerInfo(edit, gName, input).catch(() => {})
         if (remoteRes) {
-          opListener.value = false;
-          loadListenerData();
+          opListener.value = false
+          loadListenerData()
         }
       }
-    };
+    }
 
-    const submitGatewayListenerInfo = async function (
-      edit = false,
-      name,
-      formData
-    ) {
-      submitLoading.value = true;
-      let data = normalizeStructure(formData);
+    const submitGatewayListenerInfo = async function (edit = false, name, formData) {
+      submitLoading.value = true
+      let data = normalizeStructure(formData)
       if (edit) {
-        let res = await updateGatewayListener(name, data.id, data).catch(
-          () => {}
-        );
+        let res = await updateGatewayListener(name, data.id, data).catch(() => {})
         if (res) {
           M({
-            type: "success",
-            message: t("Base.editSuccess"),
-          });
-          submitLoading.value = false;
-          return true;
+            type: 'success',
+            message: t('Base.editSuccess'),
+          })
+          submitLoading.value = false
+          return true
         } else {
-          submitLoading.value = false;
-          return Promise.reject();
+          submitLoading.value = false
+          return Promise.reject()
         }
       } else {
-        let res = await addGatewayListener(name, data).catch(() => {});
+        let res = await addGatewayListener(name, data).catch(() => {})
         if (res) {
           M({
-            type: "success",
-            message: t("Base.createSuccess"),
-          });
-          submitLoading.value = false;
+            type: 'success',
+            message: t('Base.createSuccess'),
+          })
+          submitLoading.value = false
 
-          return true;
+          return true
         } else {
-          submitLoading.value = false;
-          return Promise.reject();
+          submitLoading.value = false
+          return Promise.reject()
         }
       }
-    };
+    }
 
     const delListener = async function (row) {
-      MB.confirm(t("Base.confirmDelete"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
+      MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
       }).then(async () => {
         if (props.integration) {
-          listenerTable.value.splice(listenerTable.value.indexOf(row), 1);
+          listenerTable.value.splice(listenerTable.value.indexOf(row), 1)
         } else {
-          let res = await deleteGatewayListener(gName, row.id).catch(() => {});
+          let res = await deleteGatewayListener(gName, row.id).catch(() => {})
           if (res) {
             M({
-              type: "success",
-              message: t("Base.deleteSuccess"),
-            });
-            loadListenerData();
+              type: 'success',
+              message: t('Base.deleteSuccess'),
+            })
+            loadListenerData()
           }
         }
-      });
-    };
+      })
+    }
 
     function normalizeStructure(record) {
-      const { type = "tcp" } = record;
-      let result = {};
+      const { type = 'tcp' } = record
+      let result = {}
 
       Object.keys(record).forEach((v) => {
         switch (v) {
-          case "proxy_protocol_timeout":
-          case "proxy_protocol":
-            if (type === "tcp" || type === "ssl") {
-              result[v] = record[v];
+          case 'proxy_protocol_timeout':
+          case 'proxy_protocol':
+            if (type === 'tcp' || type === 'ssl') {
+              result[v] = record[v]
             }
-            break;
-          case "acceptors":
-            if (type !== "udp") {
-              result[v] = record[v];
+            break
+          case 'acceptors':
+            if (type !== 'udp') {
+              result[v] = record[v]
             }
-            break;
+            break
 
           default:
-            if (typeof record[v] !== "object" || record[v] === null) {
-              result[v] = record[v];
+            if (typeof record[v] !== 'object' || record[v] === null) {
+              result[v] = record[v]
             }
         }
-      });
+      })
 
       if (record[type]) {
-        result[type] = { ...record[type] };
+        result[type] = { ...record[type] }
       }
-      if (type === "ssl" && record.tcp) {
-        result.tcp = { ...record.tcp };
-        Object.assign(result[type], record.xtls);
-      } else if (type === "dtls" && record.udp) {
-        result.udp = { ...record.udp };
-        Object.assign(result[type], record.xtls);
+      if (type === 'ssl' && record.tcp) {
+        result.tcp = { ...record.tcp }
+        Object.assign(result[type], record.xtls)
+      } else if (type === 'dtls' && record.udp) {
+        result.udp = { ...record.udp }
+        Object.assign(result[type], record.xtls)
       }
 
-      return transformUnitArrayToStr(result);
+      return transformUnitArrayToStr(result)
     }
 
     function denormalizeStructure(record) {
-      const { type = "tcp" } = record;
+      const { type = 'tcp' } = record
 
       const expandKey = [
-        "tcp.buffer",
-        "tcp.send_timeout",
-        "proxy_protocol_timeout",
-        "udp.buffer",
-        "udp.recbuf",
-        "udp.sndbuf",
-      ];
+        'tcp.buffer',
+        'tcp.send_timeout',
+        'proxy_protocol_timeout',
+        'udp.buffer',
+        'udp.recbuf',
+        'udp.sndbuf',
+      ]
 
-      let result = transformStrToUnitArray(_.cloneDeep(record), expandKey);
+      let result = transformStrToUnitArray(_.cloneDeep(record), expandKey)
 
-      if (type === "ssl" || type === "dtls") {
-        result.xtls = { ...record[type] };
-        result.certSpecial = { ...baseInput.certSpecial };
+      if (type === 'ssl' || type === 'dtls') {
+        result.xtls = { ...record[type] }
+        result.certSpecial = { ...baseInput.certSpecial }
         Object.keys(result.xtls).forEach((v) => {
           if (v in baseInput.xtls) {
-            delete result[type][v];
+            delete result[type][v]
           } else {
-            delete result.xtls[v];
+            delete result.xtls[v]
           }
-        });
+        })
       }
 
       if (!record.name) {
-        result.name = record?.id?.split(ID_SEPERATE)[2] || "";
+        result.name = record?.id?.split(ID_SEPERATE)[2] || ''
       }
       if (!record.id) {
-        result.id = [gName, record.type, record.name].join(ID_SEPERATE);
+        result.id = [gName, record.type, record.name].join(ID_SEPERATE)
       }
 
-      return result;
+      return result
     }
 
     watch(
@@ -678,24 +628,24 @@ export default defineComponent({
       (v) => {
         if (props.integration) {
           context.emit(
-            "update:list",
-            v.map((v) => normalizeStructure(v))
-          );
+            'update:list',
+            v.map((v) => normalizeStructure(v)),
+          )
         }
-      }
-    );
+      },
+    )
 
     onMounted(() => {
       if (props.integration) {
-        listenerTable.value = props.list.map((v) => denormalizeStructure(v));
+        listenerTable.value = props.list.map((v) => denormalizeStructure(v))
       } else {
-        loadListenerData();
+        loadListenerData()
       }
-    });
+    })
 
     return {
       Plus,
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       showIntegration: props.integration,
       openDialog,
       opListener,
@@ -709,9 +659,9 @@ export default defineComponent({
       submitLoading,
       listenerTypeList,
       name: gName,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
