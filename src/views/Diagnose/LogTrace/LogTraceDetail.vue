@@ -1,7 +1,7 @@
 <template>
   <div class="log-trace-detail app-wrapper">
     <router-link class="back-button" :to="{ name: 'log-trace' }">{{
-      tl("backToList")
+      tl('backToList')
     }}</router-link>
     <div class="page-header-title">{{ viewLogName }}</div>
 
@@ -9,11 +9,7 @@
       <el-row :gutter="30">
         <el-col :span="6">
           <el-select v-model="node" size="small">
-            <el-option
-              v-for="item in currentNodes"
-              :value="item.node"
-              :key="item.node"
-            ></el-option>
+            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
           </el-select>
         </el-col>
         <el-col :span="4">
@@ -24,7 +20,7 @@
             @click="download()"
             :disabled="viewNodeLoading"
           >
-            {{ $t("Base.download") }}
+            {{ $t('Base.download') }}
           </el-button>
         </el-col>
       </el-row>
@@ -50,64 +46,64 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
-import Monaco from "@/components/Monaco.vue";
-import { IEvent, IScrollEvent } from "monaco-editor";
-import { TraceFormRecord, TraceRecord } from "@/types/diagnose";
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import Monaco from '@/components/Monaco.vue'
+import { IEvent, IScrollEvent } from 'monaco-editor'
+import { TraceFormRecord, TraceRecord } from '@/types/diagnose'
 
-import { useRoute } from "vue-router";
-import { getTraceLog, downloadTrace } from "@/api/diagnose";
-import { ElMessage as M } from "element-plus";
-import { loadNodes } from "@/api/common";
-import { NodeMsg } from "@/types/dashboard";
+import { useRoute } from 'vue-router'
+import { getTraceLog, downloadTrace } from '@/api/diagnose'
+import { ElMessage as M } from 'element-plus'
+import { loadNodes } from '@/api/common'
+import { NodeMsg } from '@/types/dashboard'
 
-let LOG_VIEW_POSITION = 0;
-let LAST_ACTIVED_SCROLLTOP = 0;
-const MAX_LOG_SIZE = 5 * 1024 * 1024;
-const BYTEPERPAGE = 50 * 1024;
+let LOG_VIEW_POSITION = 0
+let LAST_ACTIVED_SCROLLTOP = 0
+const MAX_LOG_SIZE = 5 * 1024 * 1024
+const BYTEPERPAGE = 50 * 1024
 
 export default defineComponent({
   components: {
     Monaco,
   },
   setup() {
-    const { t } = useI18n();
-    const route = useRoute();
-    const initialHeight = ref(300);
-    const logContent = ref("");
-    const viewNodeLoading = ref(false);
-    const currentNodes: Ref<Array<NodeMsg>> = ref([]);
-    const node = ref("");
-    const viewLogName: string = route.params.id as string;
-    const nextPageLoading = ref("");
+    const { t } = useI18n()
+    const route = useRoute()
+    const initialHeight = ref(300)
+    const logContent = ref('')
+    const viewNodeLoading = ref(false)
+    const currentNodes: Ref<Array<NodeMsg>> = ref([])
+    const node = ref('')
+    const viewLogName: string = route.params.id as string
+    const nextPageLoading = ref('')
 
     const countInitialHeight = () => {
-      const windowHeight = window.innerHeight;
-      initialHeight.value = windowHeight - 200;
-    };
+      const windowHeight = window.innerHeight
+      initialHeight.value = windowHeight - 200
+    }
 
     const loadCurrentNodes = async () => {
-      const data = await loadNodes().catch(() => {});
+      const data = await loadNodes().catch(() => {})
       if (data) {
-        currentNodes.value = data;
-        node.value = currentNodes.value[0]?.node || "";
+        currentNodes.value = data
+        node.value = currentNodes.value[0]?.node || ''
       }
-    };
+    }
 
     const viewDetail = async (changeNode = false) => {
-      viewNodeLoading.value = true;
-      LOG_VIEW_POSITION = 0;
-      LAST_ACTIVED_SCROLLTOP = 0;
-      logContent.value = "";
-      nextPageLoading.value = "";
+      viewNodeLoading.value = true
+      LOG_VIEW_POSITION = 0
+      LAST_ACTIVED_SCROLLTOP = 0
+      logContent.value = ''
+      nextPageLoading.value = ''
       if (!changeNode) {
-        await loadCurrentNodes();
+        await loadCurrentNodes()
       }
-      await loadLogDetail(viewLogName);
+      await loadLogDetail(viewLogName)
 
-      viewNodeLoading.value = false;
-    };
+      viewNodeLoading.value = false
+    }
 
     const scrollLoadFunc = async (event: IScrollEvent) => {
       if (
@@ -116,50 +112,50 @@ export default defineComponent({
         event.scrollTop >= LAST_ACTIVED_SCROLLTOP
       ) {
         if (LOG_VIEW_POSITION <= MAX_LOG_SIZE) {
-          LAST_ACTIVED_SCROLLTOP = event.scrollTop;
-          viewNodeLoading.value = true;
-          nextPageLoading.value = t("LogTrace.loadNextPage");
-          await loadLogDetail(viewLogName);
-          viewNodeLoading.value = false;
+          LAST_ACTIVED_SCROLLTOP = event.scrollTop
+          viewNodeLoading.value = true
+          nextPageLoading.value = t('LogTrace.loadNextPage')
+          await loadLogDetail(viewLogName)
+          viewNodeLoading.value = false
         } else {
-          M.warning(t("LogTrace.tooLargeLog"));
+          M.warning(t('LogTrace.tooLargeLog'))
         }
       }
-    };
+    }
 
     const loadLogDetail = async (name: string) => {
       const params = {
         position: LOG_VIEW_POSITION,
         bytes: BYTEPERPAGE,
         node: node.value,
-      };
-      const logResp = await getTraceLog(name, params).catch(() => {});
-      if (logResp && logResp.items) {
-        const { meta = {} } = logResp;
-        logContent.value += logResp.items;
-        LOG_VIEW_POSITION += meta.position || BYTEPERPAGE;
       }
-    };
+      const logResp = await getTraceLog(name, params).catch(() => {})
+      if (logResp && logResp.items) {
+        const { meta = {} } = logResp
+        logContent.value += logResp.items
+        LOG_VIEW_POSITION += meta.position || BYTEPERPAGE
+      }
+    }
     const download = async () => {
-      await downloadTrace(viewLogName);
+      await downloadTrace(viewLogName)
       // download link, no more action needed
-    };
+    }
 
     onMounted(() => {
       // loadCurrentNodes();
-      countInitialHeight();
-      viewDetail();
-    });
+      countInitialHeight()
+      viewDetail()
+    })
 
     watch(
       () => node.value,
       (v, oldV) => {
-        if (v && oldV && v !== oldV) viewDetail(true);
-      }
-    );
+        if (v && oldV && v !== oldV) viewDetail(true)
+      },
+    )
 
     return {
-      tl: (key: string) => t("LogTrace." + key),
+      tl: (key: string) => t('LogTrace.' + key),
       initialHeight,
       download,
       logContent,
@@ -169,9 +165,9 @@ export default defineComponent({
       viewNodeLoading,
       nextPageLoading,
       viewLogName,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

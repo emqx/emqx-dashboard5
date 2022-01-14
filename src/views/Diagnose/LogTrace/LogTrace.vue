@@ -3,40 +3,24 @@
     <div class="section-header">
       <div></div>
       <div>
-        <el-button
-          size="small"
-          type="primary"
-          :icon="Plus"
-          @click="openCreateDialog"
-          >{{ $t("Base.create") }}</el-button
-        >
+        <el-button size="small" type="primary" :icon="Plus" @click="openCreateDialog">{{
+          $t('Base.create')
+        }}</el-button>
       </div>
     </div>
 
     <el-table :data="traceTable" v-loading="traceTbLoading" class="data-table">
-      <el-table-column
-        :label="$t('LogTrace.name')"
-        prop="name"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        :label="$t('LogTrace.type')"
-        prop="type"
-        sortable
-      ></el-table-column>
+      <el-table-column :label="$t('LogTrace.name')" prop="name" sortable></el-table-column>
+      <el-table-column :label="$t('LogTrace.type')" prop="type" sortable></el-table-column>
       <el-table-column :label="$t('LogTrace.condition')">
         <template #default="{ row }">
           {{ row[row.type] }}
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t('LogTrace.startEndTime')"
-        min-width="90"
-        sortable
-      >
+      <el-table-column :label="$t('LogTrace.startEndTime')" min-width="90" sortable>
         <template #default="{ row }">
-          {{ moment(row.start_at).format("YYYY-MM-DD HH:mm:ss") }}<br />{{
-            moment(row.end_at).format("YYYY-MM-DD HH:mm:ss")
+          {{ moment(row.start_at).format('YYYY-MM-DD HH:mm:ss') }}<br />{{
+            moment(row.end_at).format('YYYY-MM-DD HH:mm:ss')
           }}
         </template>
       </el-table-column>
@@ -45,25 +29,16 @@
           <el-badge
             is-dot
             :type="
-              row.status === 'running'
-                ? 'primary'
-                : row.status === 'stopped'
-                ? 'danger'
-                : 'info'
+              row.status === 'running' ? 'primary' : row.status === 'stopped' ? 'danger' : 'info'
             "
           ></el-badge
-          ><span>{{ row.status && $t("LogTrace.s" + row.status) }}</span>
+          ><span>{{ row.status && $t('LogTrace.s' + row.status) }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('LogTrace.logSize')" sortable>
         <template #default="{ row }">
           {{
-            (
-              Object.keys(row.log_size).reduce(
-                (c, v) => c + row.log_size[v],
-                0
-              ) / 1024
-            ).toFixed(2)
+            (Object.keys(row.log_size).reduce((c, v) => c + row.log_size[v], 0) / 1024).toFixed(2)
           }}KB
         </template>
       </el-table-column>
@@ -77,26 +52,18 @@
                 params: { id: row.name },
               })
             "
-            >{{ $t("LogTrace.view") }}</el-button
+            >{{ $t('LogTrace.view') }}</el-button
           >
-          <el-button size="mini" @click="download(row)">{{
-            $t("LogTrace.download")
-          }}</el-button>
+          <el-button size="mini" @click="download(row)">{{ $t('LogTrace.download') }}</el-button>
           <template v-if="row.status !== 'stopped'">
-            <el-button
-              size="mini"
-              type="danger"
-              @click="stopTraceHandler(row)"
-              >{{ $t("LogTrace.stop") }}</el-button
-            >
+            <el-button size="mini" type="danger" @click="stopTraceHandler(row)">{{
+              $t('LogTrace.stop')
+            }}</el-button>
           </template>
           <template v-else>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="deleteTraceHandler(row)"
-              >{{ $t("LogTrace.delete") }}</el-button
-            >
+            <el-button size="mini" type="danger" @click="deleteTraceHandler(row)">{{
+              $t('LogTrace.delete')
+            }}</el-button>
           </template>
         </template>
       </el-table-column>
@@ -157,9 +124,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="cancelDialog()">{{
-            $t("Base.cancel")
-          }}</el-button>
+          <el-button size="small" @click="cancelDialog()">{{ $t('Base.cancel') }}</el-button>
           <el-button
             class="dialog-primary-btn"
             type="primary"
@@ -167,7 +132,7 @@
             @click="submitTrace()"
             :loading="createLoading"
           >
-            {{ $t("Base.create") }}
+            {{ $t('Base.create') }}
           </el-button>
         </div>
       </template>
@@ -176,186 +141,175 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from "vue";
-import { useI18n } from "vue-i18n";
-import moment from "moment";
-import { FormRulesMap } from "element-plus/es/components/form/src/form.type";
-import { ElMessage as M, ElMessageBox as MB, ElForm } from "element-plus";
-import { TraceFormRecord, TraceRecord } from "@/types/diagnose";
-import { Plus } from "@element-plus/icons-vue";
+import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import moment from 'moment'
+import { FormRulesMap } from 'element-plus/es/components/form/src/form.type'
+import { ElMessage as M, ElMessageBox as MB, ElForm } from 'element-plus'
+import { TraceFormRecord, TraceRecord } from '@/types/diagnose'
+import { Plus } from '@element-plus/icons-vue'
 
-import {
-  getTraceList,
-  addTrace,
-  downloadTrace,
-  stopTrace,
-  deleteTrace,
-} from "@/api/diagnose";
+import { getTraceList, addTrace, downloadTrace, stopTrace, deleteTrace } from '@/api/diagnose'
 
-const DEFAULT_DURATION = 30 * 60 * 1000;
+const DEFAULT_DURATION = 30 * 60 * 1000
 
 export default defineComponent({
   setup() {
-    const { t } = useI18n();
-    const traceTbLoading = ref(false);
-    const traceTable = ref([]);
-    const createLoading = ref(false);
+    const { t } = useI18n()
+    const traceTbLoading = ref(false)
+    const traceTable = ref([])
+    const createLoading = ref(false)
     const typeOptions = [
       {
-        value: "clientid",
-        label: "ClientID",
+        value: 'clientid',
+        label: 'ClientID',
       },
       {
-        value: "topic",
-        label: "Topic",
+        value: 'topic',
+        label: 'Topic',
       },
       {
-        value: "ip_address",
-        label: "IP Address",
+        value: 'ip_address',
+        label: 'IP Address',
       },
-    ];
+    ]
     const record: Ref<TraceFormRecord> = ref({
-      name: "",
-      type: "clientid" as const,
-      clientid: "",
-      ip_address: "",
-      topic: "",
-      startTime: ["", ""] as [string, string],
-    });
-    const createDialog = ref(false);
+      name: '',
+      type: 'clientid' as const,
+      clientid: '',
+      ip_address: '',
+      topic: '',
+      startTime: ['', ''] as [string, string],
+    })
+    const createDialog = ref(false)
 
     const createRules: FormRulesMap = {
       name: [
-        { required: true, message: t("General.pleaseEnter") },
+        { required: true, message: t('General.pleaseEnter') },
         {
           validator: (rule, value, callback) => {
             if (/[\w-]+/.test(value)) {
-              callback();
+              callback()
             } else {
-              callback(new Error(t("General.validString")));
+              callback(new Error(t('General.validString')))
             }
           },
-          trigger: "change",
+          trigger: 'change',
         },
       ],
-      topic: [{ required: true, message: t("General.pleaseEnter") }],
-      clientid: [{ required: true, message: t("General.pleaseEnter") }],
-      ip_address: [{ required: true, message: t("General.pleaseEnter") }],
+      topic: [{ required: true, message: t('General.pleaseEnter') }],
+      clientid: [{ required: true, message: t('General.pleaseEnter') }],
+      ip_address: [{ required: true, message: t('General.pleaseEnter') }],
       startTime: [
         {
           validator(r, v, cb) {
             // eslint-disable-next-line no-unused-expressions
-            v && v[0] && v[1]
-              ? cb()
-              : cb(new Error(t("LogTrace.needStartTime")));
+            v && v[0] && v[1] ? cb() : cb(new Error(t('LogTrace.needStartTime')))
           },
         },
       ],
-    };
-    const createForm: Ref<typeof ElForm | null> = ref(null);
+    }
+    const createForm: Ref<typeof ElForm | null> = ref(null)
 
     const loadTraceList = async () => {
-      traceTbLoading.value = true;
-      const traceList = await getTraceList().catch(() => {});
-      traceTable.value = traceList;
-      traceTbLoading.value = false;
-    };
+      traceTbLoading.value = true
+      const traceList = await getTraceList().catch(() => {})
+      traceTable.value = traceList
+      traceTbLoading.value = false
+    }
 
     const submitTrace = async () => {
       createForm.value?.validate(async (valid: boolean) => {
-        if (!valid) return;
+        if (!valid) return
 
-        createLoading.value = true;
-        const { clientid, ip_address, name, topic, type } = record.value;
-        let targetInfo = {};
+        createLoading.value = true
+        const { clientid, ip_address, name, topic, type } = record.value
+        let targetInfo = {}
         switch (type) {
           case typeOptions[0].value:
-            targetInfo = { clientid, type };
-            break;
+            targetInfo = { clientid, type }
+            break
           case typeOptions[1].value:
-            targetInfo = { topic, type };
-            break;
+            targetInfo = { topic, type }
+            break
           case typeOptions[2].value:
-            targetInfo = { ip_address, type };
-            break;
+            targetInfo = { ip_address, type }
+            break
           default:
-            break;
+            break
         }
         const sendbody = {
           name,
           ...targetInfo,
           start_at: new Date(record.value.startTime[0]).toISOString(),
           end_at: new Date(record.value.startTime[1]).toISOString(),
-        };
+        }
 
         // delete sendbody.startTime;
-        const res = await addTrace(sendbody).catch(() => {});
+        const res = await addTrace(sendbody).catch(() => {})
         if (res) {
-          M.success(t("LogTrace.createSuc"));
-          loadTraceList();
-          cancelDialog();
+          M.success(t('LogTrace.createSuc'))
+          loadTraceList()
+          cancelDialog()
         }
-        createLoading.value = false;
-      });
-    };
+        createLoading.value = false
+      })
+    }
 
     const cancelDialog = () => {
-      createDialog.value = false;
-      createForm.value?.resetFields();
-    };
+      createDialog.value = false
+      createForm.value?.resetFields()
+    }
 
     const stopTraceHandler = async (row: TraceRecord) => {
-      if (!row.name) return;
-      const res = await stopTrace(row.name).catch(() => {});
+      if (!row.name) return
+      const res = await stopTrace(row.name).catch(() => {})
       if (res) {
-        M.success(t("LogTrace.stopSuc"));
-        loadTraceList();
+        M.success(t('LogTrace.stopSuc'))
+        loadTraceList()
       }
-    };
+    }
 
     const openCreateDialog = async () => {
-      createDialog.value = true;
-      const timeNow = new Date();
-      record.value.startTime = [
-        timeNow,
-        new Date(timeNow.getTime() + DEFAULT_DURATION),
-      ];
-    };
+      createDialog.value = true
+      const timeNow = new Date()
+      record.value.startTime = [timeNow, new Date(timeNow.getTime() + DEFAULT_DURATION)]
+    }
 
     const deleteTraceHandler = async (row: TraceRecord) => {
       if (!row.name) {
-        return;
+        return
       }
-      const prompt = await MB.confirm(t("LogTrace.confirmDeleteTrace"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
-      }).catch(() => {});
+      const prompt = await MB.confirm(t('LogTrace.confirmDeleteTrace'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      }).catch(() => {})
 
       if (prompt) {
-        const res = await deleteTrace(row.name).catch(() => {});
+        const res = await deleteTrace(row.name).catch(() => {})
         if (res) {
-          M.success(t("LogTrace.deleteSuc"));
-          loadTraceList();
+          M.success(t('LogTrace.deleteSuc'))
+          loadTraceList()
         }
       }
-    };
+    }
 
     const download = async (row: TraceRecord) => {
       if (!row.name) {
-        return;
+        return
       }
-      await downloadTrace(row.name);
+      await downloadTrace(row.name)
       // download link, no more action needed
-    };
+    }
 
     onMounted(() => {
-      loadTraceList();
-    });
+      loadTraceList()
+    })
 
     return {
       Plus,
-      tl: (key: string) => t("LogTrace." + key),
+      tl: (key: string) => t('LogTrace.' + key),
       traceTbLoading,
       traceTable,
       createForm,
@@ -371,9 +325,9 @@ export default defineComponent({
       createDialog,
       createLoading,
       cancelDialog,
-    };
+    }
   },
-});
+})
 </script>
 
 <style></style>

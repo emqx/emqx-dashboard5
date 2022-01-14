@@ -7,9 +7,7 @@
           <span class="section-title">{{ gname }}</span>
           <el-tag type="info" class="section-status">
             <span
-              ><i
-                :class="['status', gInfo.status !== 'running' && 'stopped']"
-              ></i
+              ><i :class="['status', gInfo.status !== 'running' && 'stopped']"></i
               ><span>{{ gInfo.status }}</span></span
             >
           </el-tag>
@@ -23,7 +21,7 @@
           :disabled="gInfo.status !== 'running'"
           @click="gatewayStop()"
         >
-          {{ $t("Base.stop") }}</el-button
+          {{ $t('Base.stop') }}</el-button
         >
       </div>
     </div>
@@ -37,70 +35,70 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, ref } from "vue";
-import { getGateway, updateGateway } from "@/api/gateway";
-import { ElMessage as M } from "element-plus";
-import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
+import { computed, defineComponent, onMounted, ref } from 'vue'
+import { getGateway, updateGateway } from '@/api/gateway'
+import { ElMessage as M } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
-  name: "GatewayDetail",
+  name: 'GatewayDetail',
   setup() {
-    let gInfo = ref({});
-    const { t } = useI18n();
-    const route = useRoute();
-    const types = ["basic", "listeners", "auth", "clients"];
-    const gname = String(route.params.name).toLowerCase();
+    let gInfo = ref({})
+    const { t } = useI18n()
+    const route = useRoute()
+    const types = ['basic', 'listeners', 'auth', 'clients']
+    const gname = String(route.params.name).toLowerCase()
 
     const matchedUrl = computed(function () {
-      let currentPath = route.path || "";
+      let currentPath = route.path || ''
       return (
         types.find((v) => {
-          return currentPath.match(v);
+          return currentPath.match(v)
         }) || types[0]
-      );
-    });
+      )
+    })
 
     const getGatewayInfo = async () => {
-      let res = await getGateway(gname).catch(() => {});
+      let res = await getGateway(gname).catch(() => {})
       if (res) {
-        gInfo.value = res;
+        gInfo.value = res
       } else {
-        gInfo.value = {};
+        gInfo.value = {}
       }
-    };
+    }
 
     const gatewayStop = async () => {
-      let body = { enable: false };
-      let res = await updateGateway(gname, body).catch(() => {});
+      let body = { enable: false }
+      let res = await updateGateway(gname, body).catch(() => {})
       if (res) {
         M({
-          type: "success",
-          message: t("Base.disabledSuccess"),
-        });
-        gInfo.value.status = "stopped";
+          type: 'success',
+          message: t('Base.disabledSuccess'),
+        })
+        gInfo.value.status = 'stopped'
       }
-    };
+    }
 
-    onMounted(getGatewayInfo);
+    onMounted(getGatewayInfo)
 
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       gInfo,
       gatewayStop,
       gname,
       types,
       matchedUrl,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
 .g-icon::before {
   width: 60px;
   height: 60px;
-  content: "";
+  content: '';
   display: inline-block;
   background-size: contain;
 }

@@ -2,15 +2,12 @@
   <div>
     <el-form label-position="top">
       <div class="part-header">
-        {{ tl("basic") }}
+        {{ tl('basic') }}
       </div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('resDirectory')">
-            <el-input
-              v-model="lValue.xml_dir"
-              :placeholder="lValueDefault.xml_dir"
-            ></el-input>
+            <el-input v-model="lValue.xml_dir" :placeholder="lValueDefault.xml_dir"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -94,7 +91,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("mountSetting") }}</div>
+      <div class="part-header">{{ tl('mountSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -146,17 +143,17 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, watch } from "vue";
-import _ from "lodash";
+import { defineComponent, onMounted, reactive, watch } from 'vue'
+import _ from 'lodash'
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
   getValueIntersectionWithTemplate,
-} from "@/common/utils";
-import { useI18n } from "vue-i18n";
+} from '@/common/utils'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: "LwBasic",
+  name: 'LwBasic',
   props: {
     value: {
       type: Object,
@@ -166,54 +163,54 @@ export default defineComponent({
   },
   setup(props, context) {
     let lValueDefault = {
-      idle_timeout: [30, "s"],
-      xml_dir: "etc/lwm2m_xml/",
-      qmode_time_window: [22, "s"],
-      lifetime_min: [1, "s"],
-      lifetime_max: [86400, "s"],
+      idle_timeout: [30, 's'],
+      xml_dir: 'etc/lwm2m_xml/',
+      qmode_time_window: [22, 's'],
+      lifetime_min: [1, 's'],
+      lifetime_max: [86400, 's'],
       auto_observe: true,
       enable_stats: true,
-      update_msg_publish_condition: "contains_object_list",
-      mountpoint: "",
+      update_msg_publish_condition: 'contains_object_list',
+      mountpoint: '',
       translators: {
-        command: { topic: "dn/#", qos: 0 },
-        response: { topic: "up/resp", qos: 0 },
-        notify: { topic: "up/notify", qos: 0 },
-        register: { topic: "up/resp", qos: 0 },
-        update: { topic: "up/update", qos: 0 },
+        command: { topic: 'dn/#', qos: 0 },
+        response: { topic: 'up/resp', qos: 0 },
+        notify: { topic: 'up/notify', qos: 0 },
+        register: { topic: 'up/resp', qos: 0 },
+        update: { topic: 'up/update', qos: 0 },
       },
-    };
-    const { t } = useI18n();
+    }
+    const { t } = useI18n()
 
     const lValue = reactive(
       getValueIntersectionWithTemplate(
         lValueDefault,
         transformStrToUnitArray(props.value, [
-          "idle_timeout",
-          "qmode_time_window",
-          "lifetime_min",
-          "lifetime_max",
-        ])
-      )
-    );
+          'idle_timeout',
+          'qmode_time_window',
+          'lifetime_min',
+          'lifetime_max',
+        ]),
+      ),
+    )
 
     watch(
       () => _.cloneDeep(lValue),
       (v) => {
-        context.emit("update:value", transformUnitArrayToStr(v));
-      }
-    );
+        context.emit('update:value', transformUnitArrayToStr(v))
+      },
+    )
     onMounted(() => {
-      context.emit("update:value", transformUnitArrayToStr(lValue));
-    });
+      context.emit('update:value', transformUnitArrayToStr(lValue))
+    })
 
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       lValueDefault,
       lValue,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped></style>

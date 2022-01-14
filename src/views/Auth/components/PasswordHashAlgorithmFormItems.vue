@@ -32,25 +32,25 @@
 </template>
 
 <script setup lang="ts">
-import usePassword from "@/hooks/usePassword";
-import { defineProps, computed, defineEmits } from "vue";
+import usePassword from '@/hooks/usePassword'
+import { defineProps, computed, defineEmits } from 'vue'
 
 const props = defineProps({
   modelValue: Object,
-});
+})
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue'])
 
 const formData = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(val) {
-    emit("update:modelValue", val);
+    emit('update:modelValue', val)
   },
-});
+})
 
-const { HashOptions } = usePassword();
+const { HashOptions } = usePassword()
 
-console.log(123);
+console.log(123)
 </script>

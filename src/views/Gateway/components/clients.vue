@@ -34,30 +34,18 @@
             size="small"
             clearable
           >
-            <el-option
-              v-for="item in nodes"
-              :value="item.node"
-              :key="item.node"
-            ></el-option>
+            <el-option v-for="item in nodes" :value="item.node" :key="item.node"></el-option>
           </el-select>
         </el-col>
         <el-col :span="6">
-          <el-button
-            type="primary"
-            :icon="Search"
-            size="small"
-            @click="searchGatewayList()"
-            >{{ $t("Base.search") }}</el-button
-          >
+          <el-button type="primary" :icon="Search" size="small" @click="searchGatewayList()">{{
+            $t('Base.search')
+          }}</el-button>
         </el-col>
       </el-row>
     </el-form>
     <el-table :data="gatewayTable" v-loading="tbLoading">
-      <el-table-column
-        :label="'Client ID'"
-        sortable
-        prop="clientid"
-      ></el-table-column>
+      <el-table-column :label="'Client ID'" sortable prop="clientid"></el-table-column>
 
       <el-table-column
         :label="'Endpoint Name'"
@@ -87,25 +75,20 @@
       ></el-table-column>
       <el-table-column :label="tl('status')" sortable v-else>
         <template #default="{ row }">
-          <el-badge is-dot :type="row.connected ? 'success' : 'danger'">
-          </el-badge>
-          <span>{{
-            row.connected ? $t("Clients.connected") : $t("Clients.disconnected")
-          }}</span>
+          <el-badge is-dot :type="row.connected ? 'success' : 'danger'"> </el-badge>
+          <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="tl('connectedAt')" sortable>
         <template #default="{ row }">
-          {{ moment(row.connected_at).format("YYYY-MM-DD HH:mm:ss") }}
+          {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button @click="openClientDetail(row)" size="mini">{{
-            $t("Base.view")
-          }}</el-button>
+          <el-button @click="openClientDetail(row)" size="mini">{{ $t('Base.view') }}</el-button>
           <el-button type="danger" @click="disconnectClient(row)" size="mini">{{
-            $t("Clients.kickOut")
+            $t('Clients.kickOut')
           }}</el-button>
         </template>
       </el-table-column>
@@ -128,108 +111,108 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref } from "vue";
-import commonPagination from "@/components/commonPagination.vue";
-import { getGatewayClients, disconnGatewayClient } from "@/api/gateway";
-import { loadNodes } from "@/api/common";
-import moment from "moment";
-import ClientDetails from "../../Clients/ClientDetails.vue";
-import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
-import { Search } from "@element-plus/icons-vue";
+import { defineComponent, onMounted, reactive, ref } from 'vue'
+import commonPagination from '@/components/commonPagination.vue'
+import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
+import { loadNodes } from '@/api/common'
+import moment from 'moment'
+import ClientDetails from '../../Clients/ClientDetails.vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
+import { Search } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: { commonPagination, ClientDetails },
 
   setup() {
-    let pCommon = ref(null);
-    let gatewayTable = ref([]);
-    let tbLoading = ref(false);
+    let pCommon = ref(null)
+    let gatewayTable = ref([])
+    let tbLoading = ref(false)
     let searchParams = reactive({
-      like_clientid: "",
-      like_username: "",
-      node: "",
-      like_endpoint_name: "",
-    });
-    let nodes = ref([]);
-    let clientsDetailVisible = ref(false);
-    let currentClientId = ref("");
+      like_clientid: '',
+      like_username: '',
+      node: '',
+      like_endpoint_name: '',
+    })
+    let nodes = ref([])
+    let clientsDetailVisible = ref(false)
+    let currentClientId = ref('')
 
-    const route = useRoute();
-    const gname = String(route.params.name).toLowerCase();
-    const { t } = useI18n();
-    const pageMeta = ref({});
-    let pageParams = {};
+    const route = useRoute()
+    const gname = String(route.params.name).toLowerCase()
+    const { t } = useI18n()
+    const pageMeta = ref({})
+    let pageParams = {}
 
     const loadGatewayClients = async function (params = {}) {
-      tbLoading.value = true;
+      tbLoading.value = true
 
       const sendParams = {
         ...pageMeta.value,
         ...pageParams,
         ...params,
-      };
-      Reflect.deleteProperty(sendParams, "count");
-
-      let res = await getGatewayClients(gname, sendParams).catch(() => {});
-      if (res) {
-        gatewayTable.value = res.data;
-        tbLoading.value = false;
-        pageMeta.value = res.meta;
-      } else {
-        tbLoading.value = false;
-        gatewayTable.value = [];
-        pageMeta.value = {};
       }
-    };
+      Reflect.deleteProperty(sendParams, 'count')
+
+      let res = await getGatewayClients(gname, sendParams).catch(() => {})
+      if (res) {
+        gatewayTable.value = res.data
+        tbLoading.value = false
+        pageMeta.value = res.meta
+      } else {
+        tbLoading.value = false
+        gatewayTable.value = []
+        pageMeta.value = {}
+      }
+    }
 
     const loadAllNodes = async function () {
-      const data = await loadNodes().catch(() => {});
-      if (data) nodes.value = data;
-      else nodes.value = [];
-    };
+      const data = await loadNodes().catch(() => {})
+      if (data) nodes.value = data
+      else nodes.value = []
+    }
 
     const searchGatewayList = async function () {
-      let params = {};
+      let params = {}
       Object.keys(searchParams).forEach((k) => {
-        params[k] = searchParams[k] === "" ? undefined : searchParams[k];
-      });
-      pageParams = params;
-      loadGatewayClients();
-    };
+        params[k] = searchParams[k] === '' ? undefined : searchParams[k]
+      })
+      pageParams = params
+      loadGatewayClients()
+    }
 
     const openClientDetail = async function (row) {
-      clientsDetailVisible.value = true;
-      currentClientId.value = row.clientid;
-    };
+      clientsDetailVisible.value = true
+      currentClientId.value = row.clientid
+    }
 
     const disconnectClient = async function (row) {
       this.$msgbox
-        .confirm(t("Clients.willDisconnectTheConnection"), {
-          confirmButtonText: t("Base.confirm"),
-          cancelButtonText: t("Base.cancel"),
-          type: "warning",
+        .confirm(t('Clients.willDisconnectTheConnection'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          type: 'warning',
         })
         .then(async () => {
-          let id = row.clientid;
-          let res = await disconnGatewayClient(gname, id).catch(() => {});
+          let id = row.clientid
+          let res = await disconnGatewayClient(gname, id).catch(() => {})
           if (res) {
-            this.$message.success(t("Clients.successfulDisconnection"));
-            loadGatewayClients();
+            this.$message.success(t('Clients.successfulDisconnection'))
+            loadGatewayClients()
           }
         })
-        .catch(() => {});
-    };
+        .catch(() => {})
+    }
 
     onMounted(() => {
-      loadAllNodes();
-      loadGatewayClients();
-    });
+      loadAllNodes()
+      loadGatewayClients()
+    })
 
     return {
       Search,
       moment: moment,
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       loadGatewayClients,
       pCommon,
       gatewayTable,
@@ -243,9 +226,9 @@ export default defineComponent({
       disconnectClient,
       name: gname,
       pageMeta,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

@@ -4,10 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item>
-            <el-input
-              v-model="dataManager.user_id"
-              :placeholder="field"
-            ></el-input>
+            <el-input v-model="dataManager.user_id" :placeholder="field"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -28,7 +25,7 @@
         </el-col>
         <el-col :span="2">
           <el-button type="primary" :icon="Plus" @click="handleAdd">
-            {{ $t("Base.add") }}
+            {{ $t('Base.add') }}
           </el-button>
         </el-col>
       </el-row>
@@ -38,15 +35,12 @@
       <el-table-column prop="user_id" :label="field"></el-table-column>
       <el-table-column prop="is_superuser" :label="$t('Auth.isSuperuser')">
         <template #default="{ row }">
-          {{ row.is_superuser ? $t("Base.yes") : $t("Base.no") }}
+          {{ row.is_superuser ? $t('Base.yes') : $t('Base.no') }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-dropdown
-            class="table-dropdown"
-            @command="handleCommand(row, $event)"
-          >
+          <el-dropdown class="table-dropdown" @command="handleCommand(row, $event)">
             <el-button class="dropdown-btn" size="mini">
               <el-icon><More /></el-icon>
             </el-button>
@@ -54,11 +48,11 @@
               <el-dropdown-menu>
                 <el-dropdown-item command="edit">
                   <el-icon><Edit /></el-icon>
-                  {{ $t("Base.edit") }}
+                  {{ $t('Base.edit') }}
                 </el-dropdown-item>
                 <el-dropdown-item command="delete">
                   <el-icon><Delete /></el-icon>
-                  {{ $t("Base.delete") }}
+                  {{ $t('Base.delete') }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -67,19 +61,11 @@
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <common-pagination
-        v-model:metaData="pageMeta"
-        @loadPage="loadData"
-      ></common-pagination>
+      <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
     </div>
 
     <el-dialog :title="$t('Base.edit')" v-model="dialogVisible">
-      <el-form
-        ref="recordForm"
-        :model="record"
-        :rules="getRules()"
-        label-position="top"
-      >
+      <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
         <el-form-item prop="username" :label="field">
           <el-input v-model="record.user_id" disabled></el-input>
         </el-form-item>
@@ -99,11 +85,11 @@
       <template #footer>
         <div class="dialog-align-footer">
           <el-button size="small" @click="dialogVisible = false">
-            {{ $t("Base.cancel") }}
+            {{ $t('Base.cancel') }}
           </el-button>
 
           <el-button type="primary" size="small" @click="handleUpdate">
-            {{ $t("Base.update") }}
+            {{ $t('Base.update') }}
           </el-button>
         </div>
       </template>
@@ -112,167 +98,150 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, reactive, ref } from "vue";
-import {
-  loadAuthnUsers,
-  createAuthnUsers,
-  deleteAuthnUser,
-  updateAuthnUser,
-} from "@/api/auth";
+import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
+import { loadAuthnUsers, createAuthnUsers, deleteAuthnUser, updateAuthnUser } from '@/api/auth'
 import {
   getGatewayUserManagement,
   addGatewayUserManagement,
   updateGatewayUser,
   deleteGatewayUser,
   getGatewayUser,
-} from "@/api/gateway";
-import { useRoute } from "vue-router";
-import commonPagination from "@/components/commonPagination.vue";
-import { ElMessageBox as MB, ElMessage as M } from "element-plus";
-import { useI18n } from "vue-i18n";
-import { Plus, More, Edit, Delete } from "@element-plus/icons-vue";
+} from '@/api/gateway'
+import { useRoute } from 'vue-router'
+import commonPagination from '@/components/commonPagination.vue'
+import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { Plus, More, Edit, Delete } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: { commonPagination, More, Edit, Delete },
 
-  name: "DataManager",
+  name: 'DataManager',
   props: {
     field: {
       type: String,
       required: true,
-      default: "username",
+      default: 'username',
     },
     gateway: {
       type: String,
       required: false,
-      default: "",
+      default: '',
     },
   },
   setup(prop) {
-    const { t } = useI18n();
+    const { t } = useI18n()
     const dataManager = reactive({
-      user_id: "",
-      password: "",
+      user_id: '',
+      password: '',
       is_superuser: false,
-    });
-    const pageMeta = ref({});
-    let record = ref({});
-    const tableData = ref([]);
-    const lockTable = ref(false);
-    const dialogVisible = ref(false);
-    const route = useRoute();
+    })
+    const pageMeta = ref({})
+    let record = ref({})
+    const tableData = ref([])
+    const lockTable = ref(false)
+    const dialogVisible = ref(false)
+    const route = useRoute()
     const recordForm = ref()
     const id = computed(function () {
-      return route.params.id;
-    });
+      return route.params.id
+    })
 
     const loadData = async (params) => {
       const sendParams = {
         ...pageMeta.value,
         ...params,
-      };
-      Reflect.deleteProperty(sendParams, "count");
+      }
+      Reflect.deleteProperty(sendParams, 'count')
 
-      lockTable.value = true;
-      let res;
+      lockTable.value = true
+      let res
       if (prop.gateway) {
-        res = await getGatewayUserManagement(prop.gateway, sendParams).catch(
-          () => {}
-        );
+        res = await getGatewayUserManagement(prop.gateway, sendParams).catch(() => {})
       } else {
-        res = await loadAuthnUsers(id.value, sendParams).catch(() => {});
+        res = await loadAuthnUsers(id.value, sendParams).catch(() => {})
       }
       if (res) {
-        tableData.value = res.data;
-        pageMeta.value = res?.meta;
+        tableData.value = res.data
+        pageMeta.value = res?.meta
       } else {
-        tableData.value = [];
-        pageMeta.value = {};
+        tableData.value = []
+        pageMeta.value = {}
       }
-      lockTable.value = false;
-    };
-    onMounted(loadData);
+      lockTable.value = false
+    }
+    onMounted(loadData)
     const getRules = function () {
       return {
-        password: [
-          { required: true, message: t("General.pleaseEnterPassword") },
-        ],
-      };
-    };
-    const handleAdd = async function () {
-      if (dataManager.user_id === "" || dataManager.password === "") {
-        return;
+        password: [{ required: true, message: t('General.pleaseEnterPassword') }],
       }
-      let res;
+    }
+    const handleAdd = async function () {
+      if (dataManager.user_id === '' || dataManager.password === '') {
+        return
+      }
+      let res
       if (prop.gateway) {
-        res = await addGatewayUserManagement(prop.gateway, dataManager).catch(
-          () => {}
-        );
+        res = await addGatewayUserManagement(prop.gateway, dataManager).catch(() => {})
       } else {
-        res = await createAuthnUsers(id.value, dataManager).catch(() => {});
+        res = await createAuthnUsers(id.value, dataManager).catch(() => {})
       }
       if (res) {
-        M.success(t("Base.createSuccess"));
-        dataManager.user_id = "";
-        dataManager.password = "";
-        dataManager.is_superuser = false;
+        M.success(t('Base.createSuccess'))
+        dataManager.user_id = ''
+        dataManager.password = ''
+        dataManager.is_superuser = false
       }
-      loadData();
-    };
+      loadData()
+    }
 
     const handleCommand = async function (row, command) {
-      if (command === "delete") {
-        MB.confirm(t("Base.confirmDelete"), {
-          confirmButtonText: t("Base.confirm"),
-          cancelButtonText: t("Base.cancel"),
-          type: "warning",
+      if (command === 'delete') {
+        MB.confirm(t('Base.confirmDelete'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          type: 'warning',
         })
           .then(async () => {
-            let res;
+            let res
             if (prop.gateway) {
-              res = await deleteGatewayUser(prop.gateway, row.user_id).catch(
-                () => {}
-              );
+              res = await deleteGatewayUser(prop.gateway, row.user_id).catch(() => {})
             } else {
-              res = await deleteAuthnUser(id.value, row.user_id).catch(
-                () => {}
-              );
+              res = await deleteAuthnUser(id.value, row.user_id).catch(() => {})
             }
-            loadData({ page: 1 });
+            loadData({ page: 1 })
           })
-          .catch(() => {});
-      } else if (command === "edit") {
-        dialogVisible.value = true;
+          .catch(() => {})
+      } else if (command === 'edit') {
+        dialogVisible.value = true
         record.value = {
           user_id: row.user_id,
           is_superuser: row.is_superuser,
-          password: "",
-        };
+          password: '',
+        }
       }
-    };
+    }
     const handleUpdate = async function () {
-      let validation = await recordForm.value.validate().catch(() => {});
+      let validation = await recordForm.value.validate().catch(() => {})
       if (!validation) {
-        return;
+        return
       }
-      const { password, is_superuser, user_id } = record.value;
+      const { password, is_superuser, user_id } = record.value
       const data = {
         password: password,
         is_superuser: is_superuser,
-      };
-      let res;
+      }
+      let res
       if (prop.gateway) {
-        res = await updateGatewayUser(prop.gateway, user_id, data).catch(
-          () => {}
-        );
+        res = await updateGatewayUser(prop.gateway, user_id, data).catch(() => {})
       }
-      res = await updateAuthnUser(id.value, user_id, data).catch(() => {});
+      res = await updateAuthnUser(id.value, user_id, data).catch(() => {})
       if (res) {
-        dialogVisible.value = false;
-        M.success(t("Base.updateSuccess"));
-        loadData();
+        dialogVisible.value = false
+        M.success(t('Base.updateSuccess'))
+        loadData()
       }
-    };
+    }
     return {
       Plus,
       id,
@@ -288,9 +257,9 @@ export default defineComponent({
       handleAdd,
       handleCommand,
       getRules,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

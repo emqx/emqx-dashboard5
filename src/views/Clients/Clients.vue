@@ -25,11 +25,7 @@
             size="small"
             clearable
           >
-            <el-option
-              v-for="item in currentNodes"
-              :value="item.node"
-              :key="item.node"
-            ></el-option>
+            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
           </el-select>
         </el-col>
         <template v-if="showMoreQuery">
@@ -55,11 +51,7 @@
           <el-col :span="6">
             <el-row class="form-item-row">
               <el-col :span="8">
-                <el-select
-                  v-model="fuzzyParams.comparator"
-                  class="comparator"
-                  size="small"
-                >
+                <el-select v-model="fuzzyParams.comparator" class="comparator" size="small">
                   <el-option label=">=" value="gte"></el-option>
                   <el-option label="<=" value="lte"></el-option>
                 </el-select>
@@ -84,26 +76,16 @@
               :placeholder="$t('Clients.protocol')"
               clearable
             >
-              <el-option v-for="name in protoNames" :key="name" :value="name">
-              </el-option>
+              <el-option v-for="name in protoNames" :key="name" :value="name"> </el-option>
             </el-select>
           </el-col>
         </template>
         <el-col :span="6" class="col-oper">
-          <el-button
-            type="primary"
-            :icon="Search"
-            size="small"
-            @click="handleSearch"
-          >
-            {{ $t("Clients.search") }}
+          <el-button type="primary" :icon="Search" size="small" @click="handleSearch">
+            {{ $t('Clients.search') }}
           </el-button>
 
-          <a
-            href="javascript:;"
-            class="show-more"
-            @click="showMoreQuery = !showMoreQuery"
-          >
+          <a href="javascript:;" class="show-more" @click="showMoreQuery = !showMoreQuery">
             <el-icon>
               <ArrowUp v-if="showMoreQuery" />
               <ArrowDown v-else />
@@ -134,64 +116,35 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        prop="username"
-        sortable
-        :label="$t('Clients.username')"
-      ></el-table-column>
-      <el-table-column
-        prop="ip_address"
-        sortable
-        :label="$t('Clients.ipAddress')"
-      >
+      <el-table-column prop="username" sortable :label="$t('Clients.username')"></el-table-column>
+      <el-table-column prop="ip_address" sortable :label="$t('Clients.ipAddress')">
         <template #default="{ row }">
-          {{ row.ip_address + ":" + row.port }}
+          {{ row.ip_address + ':' + row.port }}
         </template>
       </el-table-column>
-      <el-table-column
-        prop="keepalive"
-        sortable
-        :label="$t('Clients.keepalive')"
-      ></el-table-column>
-      <el-table-column
-        prop="proto_name"
-        sortable
-        :label="$t('Clients.protocol')"
-      >
+      <el-table-column prop="keepalive" sortable :label="$t('Clients.keepalive')"></el-table-column>
+      <el-table-column prop="proto_name" sortable :label="$t('Clients.protocol')">
         <template #default="{ row }">
           <span class="">
             {{ row.proto_name }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="connected"
-        sortable
-        :label="$t('Clients.connectedStatus')"
-      >
+      <el-table-column prop="connected" sortable :label="$t('Clients.connectedStatus')">
         <template #default="{ row }">
-          <el-badge is-dot :type="row.connected ? 'success' : 'danger'">
-          </el-badge>
-          <span>{{
-            row.connected ? $t("Clients.connected") : $t("Clients.disconnected")
-          }}</span>
+          <el-badge is-dot :type="row.connected ? 'success' : 'danger'"> </el-badge>
+          <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="connected_at"
-        sortable
-        :label="$t('Clients.connectedAt')"
-      >
+      <el-table-column prop="connected_at" sortable :label="$t('Clients.connectedAt')">
         <template #default="{ row }">
-          {{ moment(row.connected_at).format("YYYY-MM-DD HH:mm:ss") }}
+          {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="mini" type="danger" @click="handleDisconnect(row)">
-            {{
-              row.connected ? $t("Clients.kickOut") : $t("Clients.cleanSession")
-            }}
+            {{ row.connected ? $t('Clients.kickOut') : $t('Clients.cleanSession') }}
           </el-button>
         </template>
       </el-table-column>
@@ -216,16 +169,16 @@
 
 <script>
 // import CustomPagination from '@/components/CustomPagination.vue'
-import { disconnectClient, listClients } from "@/api/clients";
-import { loadNodes } from "@/api/common";
-import moment from "moment";
-import CommonPagination from "@/components/commonPagination.vue";
-import { ElMessage } from "element-plus";
-import { Search } from "@element-plus/icons-vue";
-import { ArrowUp, ArrowDown } from "@element-plus/icons-vue";
+import { disconnectClient, listClients } from '@/api/clients'
+import { loadNodes } from '@/api/common'
+import moment from 'moment'
+import CommonPagination from '@/components/commonPagination.vue'
+import { ElMessage } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
+import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 
 export default {
-  name: "Clients",
+  name: 'Clients',
 
   components: {
     // CustomPagination,
@@ -243,11 +196,11 @@ export default {
       params: {},
       currentNodes: [],
       fuzzyParams: {
-        comparator: "gte",
+        comparator: 'gte',
       },
       pageMeta: {},
       // selectedClients: [],
-      protoNames: ["MQTT", "MQTT-SN", "CoAP", "LwM2M"],
+      protoNames: ['MQTT', 'MQTT-SN', 'CoAP', 'LwM2M'],
       // qulifiedKeys: [
       //   'awaiting_rel',
       //   'clean_start',
@@ -286,13 +239,13 @@ export default {
       //   'username',
       //   'zone',
       // ],
-    };
+    }
   },
 
   mounted() {
-    this.loadData();
+    this.loadData()
     // this.$refs.p.$emit("loadPage");
-    this.loadNodeClients();
+    this.loadNodeClients()
   },
 
   methods: {
@@ -301,11 +254,11 @@ export default {
       // console.log(row, event)
       //shiftkey+mouse select all rows before the selected one
       if (event.shiftKey) {
-        let rowIndex = this.tableData.findIndex((e) => e == row);
+        let rowIndex = this.tableData.findIndex((e) => e == row)
         for (let x = rowIndex, y = 0; x > y; x--) {
-          if (this.tableData[x].selection) break;
-          this.$refs.clientsTable.toggleRowSelection(this.tableData[x], true);
-          this.tableData[x].selection = true;
+          if (this.tableData[x].selection) break
+          this.$refs.clientsTable.toggleRowSelection(this.tableData[x], true)
+          this.tableData[x].selection = true
         }
       }
       // else {
@@ -325,38 +278,38 @@ export default {
     // },
     getRowClass({ row, rowIndex }) {
       if (row.selection == true) {
-        return "row_selected";
+        return 'row_selected'
       }
     },
     async handleDisconnect(row) {
-      let warningMsg = this.$t("Clients.willDisconnectTheConnection");
-      let successMsg = this.$t("Clients.successfulDisconnection");
+      let warningMsg = this.$t('Clients.willDisconnectTheConnection')
+      let successMsg = this.$t('Clients.successfulDisconnection')
       if (!row.connected) {
-        warningMsg = this.$t("Clients.willCleanSession");
-        successMsg = this.$t("Clients.successfulCleanSession");
+        warningMsg = this.$t('Clients.willCleanSession')
+        successMsg = this.$t('Clients.successfulCleanSession')
       }
       this.$msgbox
         .confirm(warningMsg, {
-          confirmButtonText: this.$t("Base.confirm"),
-          cancelButtonText: this.$t("Base.cancel"),
-          type: "warning",
+          confirmButtonText: this.$t('Base.confirm'),
+          cancelButtonText: this.$t('Base.cancel'),
+          type: 'warning',
         })
         .then(async () => {
-          await disconnectClient(row.clientid);
-          this.loadNodeClients();
-          ElMessage.success(successMsg);
+          await disconnectClient(row.clientid)
+          this.loadNodeClients()
+          ElMessage.success(successMsg)
           // this.$refs.p.$emit("loadPage");
         })
-        .catch(() => {});
+        .catch(() => {})
     },
 
     async handleSearch() {
-      this.params = this.genQueryParams(this.fuzzyParams);
+      this.params = this.genQueryParams(this.fuzzyParams)
       // this.$refs.p.$emit("loadPage", 1);
-      this.loadNodeClients({ page: 1 });
+      this.loadNodeClients({ page: 1 })
     },
     genQueryParams(params) {
-      let newParams = {};
+      let newParams = {}
       const {
         like_clientid,
         like_username,
@@ -366,7 +319,7 @@ export default {
         comparator,
         connected_at,
         node,
-      } = params;
+      } = params
       newParams = {
         like_clientid: like_clientid || undefined,
         like_username: like_username || undefined,
@@ -374,13 +327,11 @@ export default {
         conn_state: conn_state || undefined,
         proto_name: proto_name || undefined,
         node: node || undefined,
-      };
-      if (connected_at) {
-        newParams[`${comparator}_connected_at`] = new Date(
-          connected_at
-        ).toISOString();
       }
-      return newParams;
+      if (connected_at) {
+        newParams[`${comparator}_connected_at`] = new Date(connected_at).toISOString()
+      }
+      return newParams
     },
     // handlePrevClick() {
     //   if (this.params.page === 1) {
@@ -399,34 +350,34 @@ export default {
     //   this.loadNodeClients(false, params)
     // },
     async loadData() {
-      const data = await loadNodes().catch(() => {});
-      if (data) this.currentNodes = data;
+      const data = await loadNodes().catch(() => {})
+      if (data) this.currentNodes = data
     },
     async loadNodeClients(params = {}) {
-      this.lockTable = true;
+      this.lockTable = true
 
       const sendParams = {
         ...this.params,
         ...this.pageMeta,
         ...params,
-      };
-      Reflect.deleteProperty(sendParams, "count");
+      }
+      Reflect.deleteProperty(sendParams, 'count')
 
-      const res = await listClients(sendParams).catch(() => {});
+      const res = await listClients(sendParams).catch(() => {})
       if (res) {
-        const { data = [], meta = {} } = res;
-        this.tableData = data;
-        this.lockTable = false;
-        this.pageMeta = meta;
+        const { data = [], meta = {} } = res
+        this.tableData = data
+        this.lockTable = false
+        this.pageMeta = meta
         // this.hasnext = meta.hasnext || this.hasnext
       } else {
-        this.tableData = [];
-        this.lockTable = false;
-        this.pageMeta = {};
+        this.tableData = []
+        this.lockTable = false
+        this.pageMeta = {}
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

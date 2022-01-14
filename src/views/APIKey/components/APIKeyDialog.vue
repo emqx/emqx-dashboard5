@@ -17,10 +17,7 @@
       <el-row :gutter="24">
         <el-col :span="12">
           <el-form-item :label="tl('keyName')" prop="name" required>
-            <el-input
-              v-model="formData.name"
-              :disabled="operationType !== 'create'"
-            />
+            <el-input v-model="formData.name" :disabled="operationType !== 'create'" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -36,10 +33,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('isEnable')" prop="enable">
-            <el-select
-              v-model="formData.enable"
-              :disabled="operationType === 'view'"
-            >
+            <el-select v-model="formData.enable" :disabled="operationType === 'view'">
               <el-option
                 v-for="{ label, value } in isEnableOptions"
                 :key="label"
@@ -56,19 +50,14 @@
                 <el-input v-model="formData.api_key" disabled />
               </el-col>
               <el-col :span="3">
-                <el-button ref="btnCopyAPIKey">{{
-                  tl("copy", "Base")
-                }}</el-button>
+                <el-button ref="btnCopyAPIKey">{{ tl('copy', 'Base') }}</el-button>
               </el-col>
             </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="24" v-if="operationType === 'view'">
           <el-form-item label="Secret Key">
-            <el-input
-              :placeholder="`**** ${tl('secretKeyPlaceholder')} ****`"
-              disabled
-            />
+            <el-input :placeholder="`**** ${tl('secretKeyPlaceholder')} ****`" disabled />
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -85,7 +74,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button size="small" @click="showDialog = false">{{
-          operationType === "view" ? tl("close") : $t("Base.cancel")
+          operationType === 'view' ? tl('close') : $t('Base.cancel')
         }}</el-button>
         <el-button
           type="primary"
@@ -94,7 +83,7 @@
           :loading="isSubmitting"
           v-if="operationType !== 'view'"
         >
-          {{ $t("Base.confirm") }}
+          {{ $t('Base.confirm') }}
         </el-button>
       </span>
     </template>
@@ -103,30 +92,17 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  defineProps,
-  defineEmits,
-  ref,
-  PropType,
-  Ref,
-  watch,
-  nextTick,
-} from "vue";
-import { ElDialog } from "element-plus";
-import { useI18n } from "vue-i18n";
-import {
-  APIKeyFormWhenCreating,
-  APIKey,
-  APIKeyFormWhenEditing,
-} from "@/types/systemModule";
-import { createAPIKey, updateAPIKey } from "@/api/systemModule";
-import { ElInput } from "element-plus";
-import Clipboard from "clipboard";
-import { createClipboardEleWithTargetText } from "@/common/tools";
-import APIKeyResultDialog from "./APIKeyResultDialog.vue";
+import { computed, defineProps, defineEmits, ref, PropType, Ref, watch, nextTick } from 'vue'
+import { ElDialog } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
+import { createAPIKey, updateAPIKey } from '@/api/systemModule'
+import { ElInput } from 'element-plus'
+import Clipboard from 'clipboard'
+import { createClipboardEleWithTargetText } from '@/common/tools'
+import APIKeyResultDialog from './APIKeyResultDialog.vue'
 
-export type OperationType = "create" | "view" | "edit";
+export type OperationType = 'create' | 'view' | 'edit'
 
 const props = defineProps({
   modelValue: {
@@ -140,137 +116,135 @@ const props = defineProps({
   APIKeyData: {
     type: Object as PropType<APIKey>,
   },
-});
+})
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: boolean): void;
-  (e: "submitted"): void;
-}>();
+  (e: 'update:modelValue', value: boolean): void
+  (e: 'submitted'): void
+}>()
 
-const { t } = useI18n();
-const tl = (key: string, collection = "APIKey") => {
-  return t(collection + "." + key);
-};
+const { t } = useI18n()
+const tl = (key: string, collection = 'APIKey') => {
+  return t(collection + '.' + key)
+}
 
 const createRawFormData = () => ({
-  name: "",
+  name: '',
   expired_at: undefined,
-  desc: "",
+  desc: '',
   enable: true,
-});
+})
 
-const formCom = ref();
-const formData: Ref<APIKeyFormWhenCreating | APIKey> = ref(createRawFormData());
+const formCom = ref()
+const formData: Ref<APIKeyFormWhenCreating | APIKey> = ref(createRawFormData())
 const rules = {
   name: [
     {
       required: true,
-      message: tl("keyNameRequired"),
+      message: tl('keyNameRequired'),
     },
   ],
-};
+}
 const isEnableOptions = [
   {
-    label: tl("disable"),
+    label: tl('disable'),
     value: false,
   },
   {
-    label: tl("enable"),
+    label: tl('enable'),
     value: true,
   },
-];
-const isSubmitting = ref(false);
+]
+const isSubmitting = ref(false)
 
-const btnCopyAPIKey = ref();
-let APIKeyClipboardInstance: undefined | Clipboard = undefined;
+const btnCopyAPIKey = ref()
+let APIKeyClipboardInstance: undefined | Clipboard = undefined
 
-const createdResult: Ref<APIKey | undefined> = ref(undefined);
-const showResultDialog: Ref<boolean> = ref(false);
+const createdResult: Ref<APIKey | undefined> = ref(undefined)
+const showResultDialog: Ref<boolean> = ref(false)
 
 const showDialog = computed({
   get: () => props.modelValue,
   set: (val: boolean) => {
-    emit("update:modelValue", val);
+    emit('update:modelValue', val)
   },
-});
+})
 
 const dialogTitle = computed(
   () =>
     ({
-      create: `${tl("create", "Base")}  ${tl("APIKey", "components")}`,
-      edit: `${tl("edit", "Base")}  ${tl("APIKey", "components")}`,
-      view: tl("apiKeyDetail"),
-    }[props.operationType])
-);
+      create: `${tl('create', 'Base')}  ${tl('APIKey', 'components')}`,
+      edit: `${tl('edit', 'Base')}  ${tl('APIKey', 'components')}`,
+      view: tl('apiKeyDetail'),
+    }[props.operationType]),
+)
 
 watch(showDialog, async (val) => {
   if (val) {
-    if (props.operationType !== "create") {
-      formData.value = { ...(props.APIKeyData as APIKey) };
-      if (props.operationType === "view") {
-        await nextTick();
-        initCopyTool();
+    if (props.operationType !== 'create') {
+      formData.value = { ...(props.APIKeyData as APIKey) }
+      if (props.operationType === 'view') {
+        await nextTick()
+        initCopyTool()
       }
     } else {
-      formData.value = createRawFormData();
-      await nextTick();
-      formCom.value.clearValidate();
+      formData.value = createRawFormData()
+      await nextTick()
+      formCom.value.clearValidate()
     }
   }
-});
+})
 
 const initCopyTool = () => {
-  APIKeyClipboardInstance && APIKeyClipboardInstance?.destroy();
+  APIKeyClipboardInstance && APIKeyClipboardInstance?.destroy()
   APIKeyClipboardInstance = createClipboardEleWithTargetText(
     btnCopyAPIKey.value.$el,
-    (formData.value as APIKey).api_key
-  );
-};
+    (formData.value as APIKey).api_key,
+  )
+}
 
-const todayStartTime = new Date().setHours(0, 0, 0, 0);
-const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime;
+const todayStartTime = new Date().setHours(0, 0, 0, 0)
+const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
 
 const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
-  const ret = { ...formData };
+  const ret = { ...formData }
   // The interface convention is that when the api key is never expired,
   // do not submit expired_at
   if (!ret.expired_at) {
-    Reflect.deleteProperty(ret, "expired_at");
+    Reflect.deleteProperty(ret, 'expired_at')
   } else {
     // The time is set to 23:59:59 of the selected date
-    ret.expired_at = new Date(
-      new Date(ret.expired_at).setHours(23, 59, 59)
-    ).toISOString();
+    ret.expired_at = new Date(new Date(ret.expired_at).setHours(23, 59, 59)).toISOString()
   }
-  return ret;
-};
+  return ret
+}
 
-const submitAddedData = () => createAPIKey(handleExpiredAt(formData.value));
+const submitAddedData = () => createAPIKey(handleExpiredAt(formData.value))
 
 const submitUpdatedData = () => {
-  const { name, ...data } = formData.value as APIKeyFormWhenEditing;
-  return updateAPIKey(name, handleExpiredAt(data as APIKeyFormWhenCreating));
-};
+  const { name, ...data } = formData.value as APIKeyFormWhenEditing
+  return updateAPIKey(name, handleExpiredAt(data as APIKeyFormWhenCreating))
+}
 
 const submit = async () => {
   try {
-    await formCom.value.validate();
-    isSubmitting.value = true;
-    if (props.operationType === "create") {
-      const data = await submitAddedData();
-      createdResult.value = data;
-      showResultDialog.value = true;
-    } else if (props.operationType === "edit") {
-      await submitUpdatedData();
+    await formCom.value.validate()
+    isSubmitting.value = true
+    if (props.operationType === 'create') {
+      const data = await submitAddedData()
+      createdResult.value = data
+      showResultDialog.value = true
+    } else if (props.operationType === 'edit') {
+      await submitUpdatedData()
     }
-    emit("submitted");
-    showDialog.value = false;
+    emit('submitted')
+    showDialog.value = false
   } catch (error) {
     //
   } finally {
-    isSubmitting.value = false;
+    isSubmitting.value = false
   }
-};
+}
 </script>
 
 <style lang="scss">

@@ -1,11 +1,7 @@
 <template>
   <div class="tls-config">
     <div class="create-form-title">TLS</div>
-    <el-checkbox
-      v-model="record.enable"
-      :label="$t('Auth.enableTLS')"
-      border
-    ></el-checkbox>
+    <el-checkbox v-model="record.enable" :label="$t('Auth.enableTLS')" border></el-checkbox>
     <el-checkbox
       v-model="record.verify"
       :label="$t('Auth.tlsVerify')"
@@ -16,7 +12,7 @@
     <el-collapse-transition>
       <div v-if="record.enable">
         <div class="create-form-title">
-          {{ $t("Auth.TLSCerts") }}
+          {{ $t('Auth.TLSCerts') }}
         </div>
         <el-form class="create-form">
           <el-row :gutter="20">
@@ -28,12 +24,7 @@
                   v-model="record.certfile"
                   placeholder="Begins with -----BEGIN CERTIFICATE-----"
                 ></el-input>
-                <el-upload
-                  class="bottom-btn"
-                  ref="upload"
-                  action=""
-                  :auto-upload="false"
-                >
+                <el-upload class="bottom-btn" ref="upload" action="" :auto-upload="false">
                   <!-- <el-button slot="trigger" size="mini">
                     {{ $t('Base.selectFile') }}
                   </el-button> -->
@@ -48,12 +39,7 @@
                   v-model="record.keyfile"
                   placeholder="Begins with -----BEGIN RSA PRIVATE KEY-----"
                 ></el-input>
-                <el-upload
-                  class="bottom-btn"
-                  ref="upload"
-                  action=""
-                  :auto-upload="false"
-                >
+                <el-upload class="bottom-btn" ref="upload" action="" :auto-upload="false">
                   <!-- <el-button slot="trigger" size="mini">
                     {{ $t('Base.selectFile') }}
                   </el-button> -->
@@ -68,12 +54,7 @@
                   v-model="record.cacertfile"
                   placeholder="Begins with -----BEGIN CERTIFICATE -----"
                 ></el-input>
-                <el-upload
-                  class="bottom-btn"
-                  ref="upload"
-                  action=""
-                  :auto-upload="false"
-                >
+                <el-upload class="bottom-btn" ref="upload" action="" :auto-upload="false">
                   <!-- <el-button slot="trigger" size="mini">
                     {{ $t('Base.selectFile') }}
                   </el-button> -->
@@ -88,11 +69,11 @@
 </template>
 
 <script>
-import { SSL_VERIFY_VALUE_MAP } from "@/common/constants";
-import { computed, defineComponent } from "vue";
+import { SSL_VERIFY_VALUE_MAP } from '@/common/constants'
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "TLSConfig",
+  name: 'TLSConfig',
 
   props: {
     modelValue: {
@@ -101,11 +82,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const record = computed(() => props.modelValue);
+    const record = computed(() => props.modelValue)
     return {
       record,
       SSL_VERIFY_VALUE_MAP,
-    };
+    }
   },
-});
+})
 </script>

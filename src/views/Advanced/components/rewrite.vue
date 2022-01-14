@@ -3,34 +3,20 @@
     <div class="section-header">
       <div></div>
       <el-button size="small" type="primary" @click="openOpDialog()">{{
-        $t("Base.add")
+        $t('Base.add')
       }}</el-button>
     </div>
 
     <el-table :data="rewriteTbData" v-loading="tbDataLoading">
-      <el-table-column
-        :label="'Action'"
-        prop="action"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        :label="tl('sTopic')"
-        prop="source_topic"
-        sortable
-      ></el-table-column>
+      <el-table-column :label="'Action'" prop="action" sortable></el-table-column>
+      <el-table-column :label="tl('sTopic')" prop="source_topic" sortable></el-table-column>
       <el-table-column :label="'Re'" prop="re" sortable></el-table-column>
-      <el-table-column
-        :label="tl('dTopic')"
-        prop="dest_topic"
-        sortable
-      ></el-table-column>
+      <el-table-column :label="tl('dTopic')" prop="dest_topic" sortable></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" @click="openOpDialog(true, row)">{{
-            $t("Base.edit")
-          }}</el-button>
+          <el-button size="mini" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
           <el-button size="mini" type="danger" @click="deleteRewrite(row)">{{
-            $t("Base.delete")
+            $t('Base.delete')
           }}</el-button>
         </template>
       </el-table-column>
@@ -73,148 +59,143 @@
           type="primary"
           @click="submitRewrite(isEdit)"
           :loading="submitLoading"
-          >{{ isEdit ? $t("Base.update") : $t("Base.add") }}</el-button
+          >{{ isEdit ? $t('Base.update') : $t('Base.add') }}</el-button
         >
-        <el-button size="small" @click="opRewrite = false">{{
-          $t("Base.cancel")
-        }}</el-button>
+        <el-button size="small" @click="opRewrite = false">{{ $t('Base.cancel') }}</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { defineComponent, nextTick, onMounted, reactive, ref } from "vue";
-import { getTopicRewrite, editTopicRewrite } from "@/api/advanced";
+import { defineComponent, nextTick, onMounted, reactive, ref } from 'vue'
+import { getTopicRewrite, editTopicRewrite } from '@/api/advanced'
 // import i18n from '@/i18n'
-import { ElMessageBox as MB } from "element-plus";
-import { ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
+import { ElMessageBox as MB } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: "Rewrite",
+  name: 'Rewrite',
   setup() {
-    const { t } = useI18n();
-    const tl = function (key, collection = "Advanced") {
-      return t(collection + "." + key);
-    };
+    const { t } = useI18n()
+    const tl = function (key, collection = 'Advanced') {
+      return t(collection + '.' + key)
+    }
 
-    let opRewrite = ref(false);
-    let rewriteTbData = ref([]);
-    let isEdit = ref(false);
-    let actionOptions = ref(["all", "publish", "subscribe"]);
+    let opRewrite = ref(false)
+    let rewriteTbData = ref([])
+    let isEdit = ref(false)
+    let actionOptions = ref(['all', 'publish', 'subscribe'])
     let rewriteInput = reactive({
-      action: "",
-      source_topic: "",
-      re: "",
-      dest_topic: "",
-    });
-    let editPos = ref(undefined);
-    let submitLoading = ref(false);
-    let tbDataLoading = ref(true);
-    let rewriteForm = ref(null);
+      action: '',
+      source_topic: '',
+      re: '',
+      dest_topic: '',
+    })
+    let editPos = ref(undefined)
+    let submitLoading = ref(false)
+    let tbDataLoading = ref(true)
+    let rewriteForm = ref(null)
 
     let validatorRules = [
       {
         required: true,
-        message: tl("required"),
-        trigger: ["blur", "change"],
+        message: tl('required'),
+        trigger: ['blur', 'change'],
       },
-    ];
+    ]
     let rewriteRules = {
       action: validatorRules,
       source_topic: validatorRules,
       re: validatorRules,
       dest_topic: validatorRules,
-    };
+    }
 
     const openOpDialog = async (edit = false, originData) => {
-      opRewrite.value = true;
-      isEdit.value = !!edit;
+      opRewrite.value = true
+      isEdit.value = !!edit
       Object.keys(rewriteInput).forEach((k) => {
-        rewriteInput[k] = edit && originData[k] ? originData[k] : "";
-      });
-      edit &&
-        (editPos.value = rewriteTbData.value.findIndex(
-          (e) => e === originData
-        ));
-      nextTick(rewriteForm.value?.clearValidate);
-    };
+        rewriteInput[k] = edit && originData[k] ? originData[k] : ''
+      })
+      edit && (editPos.value = rewriteTbData.value.findIndex((e) => e === originData))
+      nextTick(rewriteForm.value?.clearValidate)
+    }
 
     const submitRewrite = async function (edit = false) {
-      let valid = await rewriteForm.value?.validate().catch(() => {});
-      if (!valid) return;
+      let valid = await rewriteForm.value?.validate().catch(() => {})
+      if (!valid) return
 
-      let pendingTbData = [...rewriteTbData.value];
+      let pendingTbData = [...rewriteTbData.value]
 
       if (!edit) {
-        pendingTbData.push({ ...rewriteInput });
+        pendingTbData.push({ ...rewriteInput })
       } else {
         if (editPos.value === undefined) {
-          return;
+          return
         }
-        pendingTbData.splice(editPos.value, 1, { ...rewriteInput });
+        pendingTbData.splice(editPos.value, 1, { ...rewriteInput })
       }
 
-      submitLoading.value = true;
-      let res = await editTopicRewrite(pendingTbData).catch(() => {});
+      submitLoading.value = true
+      let res = await editTopicRewrite(pendingTbData).catch(() => {})
       if (res) {
         ElMessage({
-          type: "success",
-          message: edit ? t("Base.editSuccess") : t("Base.createSuccess"),
-        });
-        loadData();
+          type: 'success',
+          message: edit ? t('Base.editSuccess') : t('Base.createSuccess'),
+        })
+        loadData()
       } else {
         ElMessage({
-          type: "error",
-          message: t("Base.opErr"),
-        });
+          type: 'error',
+          message: t('Base.opErr'),
+        })
       }
-      submitLoading.value = false;
-      opRewrite.value = false;
-      editPos.value = undefined;
-    };
+      submitLoading.value = false
+      opRewrite.value = false
+      editPos.value = undefined
+    }
 
     const deleteRewrite = async function (row) {
-      MB.confirm(t("Base.confirmDelete"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
+      MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
       })
         .then(async () => {
-          let pendingTbData = [...rewriteTbData.value];
-          const pos = pendingTbData.findIndex((e) => e === row);
-          pendingTbData.splice(pos, 1);
-          let res = await editTopicRewrite(pendingTbData).catch(() => {});
+          let pendingTbData = [...rewriteTbData.value]
+          const pos = pendingTbData.findIndex((e) => e === row)
+          pendingTbData.splice(pos, 1)
+          let res = await editTopicRewrite(pendingTbData).catch(() => {})
           if (res) {
             ElMessage({
-              type: "success",
-              message: t("Base.deleteSuccess"),
-            });
-            rewriteTbData.value = pendingTbData;
+              type: 'success',
+              message: t('Base.deleteSuccess'),
+            })
+            rewriteTbData.value = pendingTbData
           } else {
             ElMessage({
-              type: "error",
-              message: t("Base.opErr"),
-            });
+              type: 'error',
+              message: t('Base.opErr'),
+            })
           }
         })
-        .catch(() => {});
-    };
+        .catch(() => {})
+    }
 
     const loadData = async () => {
-      tbDataLoading.value = true;
-      let res = await getTopicRewrite().catch(() => {});
+      tbDataLoading.value = true
+      let res = await getTopicRewrite().catch(() => {})
       if (res) {
-        rewriteTbData.value = res;
+        rewriteTbData.value = res
       }
-      tbDataLoading.value = false;
-    };
-    onMounted(loadData);
+      tbDataLoading.value = false
+    }
+    onMounted(loadData)
 
     const reloading = () => {
-      loadData();
-    };
+      loadData()
+    }
     return {
       tl,
       isEdit,
@@ -230,8 +211,8 @@ export default defineComponent({
       reloading,
       rewriteForm,
       rewriteRules,
-    };
+    }
   },
-});
+})
 </script>
 <style lang="scss" scoped></style>

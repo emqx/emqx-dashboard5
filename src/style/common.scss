@@ -1,44 +1,44 @@
-@import "normalize.scss";
+@import 'normalize.scss';
 
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: normal;
-  src: url(../assets/fonts/Roboto-Regular.ttf) format("truetype");
+  src: url(../assets/fonts/Roboto-Regular.ttf) format('truetype');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
-  src: url(../assets/fonts/Roboto-Bold.ttf) format("truetype");
+  src: url(../assets/fonts/Roboto-Bold.ttf) format('truetype');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 900;
-  src: url(../assets/fonts/Roboto-Black.ttf) format("truetype");
+  src: url(../assets/fonts/Roboto-Black.ttf) format('truetype');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: normal;
-  src: url(../assets/fonts/Roboto-Italic.ttf) format("truetype");
+  src: url(../assets/fonts/Roboto-Italic.ttf) format('truetype');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 700;
-  src: url(../assets/fonts/Roboto-BoldItalic.ttf) format("truetype");
+  src: url(../assets/fonts/Roboto-BoldItalic.ttf) format('truetype');
 }
 @font-face {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: italic;
   font-weight: 900;
-  src: url(../assets/fonts/Roboto-BlackItalic.ttf) format("truetype");
+  src: url(../assets/fonts/Roboto-BlackItalic.ttf) format('truetype');
 }
 
-$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue, Helvetica, Arial,
-  sans-serif;
+$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue,
+  Helvetica, Arial, sans-serif;
 
 body {
   padding: 0;
@@ -163,7 +163,7 @@ code {
   width: 24px;
   height: 24px;
   font-style: normal;
-  background-image: url("~@/assets/img/iconset@2x.png");
+  background-image: url('~@/assets/img/iconset@2x.png');
   background-size: 153px 159px;
   background-repeat: no-repeat;
   vertical-align: middle;
@@ -210,22 +210,22 @@ code {
 }
 
 .g-coap::before {
-  background-image: url("~@/assets/gateway/coap.png");
+  background-image: url('~@/assets/gateway/coap.png');
 }
 .g-lwm2m::before {
-  background-image: url("~@/assets/gateway/lwm2m.png");
+  background-image: url('~@/assets/gateway/lwm2m.png');
 }
 .g-mqttsn::before {
-  background-image: url("~@/assets/gateway/mqttsn.png");
+  background-image: url('~@/assets/gateway/mqttsn.png');
 }
 .g-stomp::before {
-  background-image: url("~@/assets/gateway/stomp.png");
+  background-image: url('~@/assets/gateway/stomp.png');
 }
 .g-tcp::before {
-  background-image: url("~@/assets/gateway/tcp.png");
+  background-image: url('~@/assets/gateway/tcp.png');
 }
 .g-exproto::before {
-  background-image: url("~@/assets/gateway/exproto.png");
+  background-image: url('~@/assets/gateway/exproto.png');
 }
 
 .section-header {
@@ -341,7 +341,7 @@ code {
 .back-button {
   color: #96999c;
   &::before {
-    content: "<";
+    content: '<';
     margin-right: 8px;
   }
   display: inline-block;

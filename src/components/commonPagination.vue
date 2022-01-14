@@ -12,7 +12,7 @@
   </el-pagination>
 </template>
 <script>
-import { computed, defineComponent, watch } from "vue";
+import { computed, defineComponent, watch } from 'vue'
 
 export default defineComponent({
   props: {
@@ -23,30 +23,30 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  emits: ["loadPage", "update:metaData"],
+  emits: ['loadPage', 'update:metaData'],
 
   setup(prop, context) {
-    let meta = computed(() => prop.metaData);
-    meta.value.limit ||= 20;
-    meta.value.page ||= 1;
+    let meta = computed(() => prop.metaData)
+    meta.value.limit ||= 20
+    meta.value.page ||= 1
 
     watch(meta, (v) => {
-      context.emit("update:metaData", v);
-    });
+      context.emit('update:metaData', v)
+    })
 
     const reloadPage = () => {
-      context.emit("loadPage", {
+      context.emit('loadPage', {
         page: meta.value.page,
         limit: meta.value.limit,
-      });
-    };
+      })
+    }
 
     // onMounted(reloadPage);
 
     return {
       meta,
       reloadPage,
-    };
+    }
   },
-});
+})
 </script>

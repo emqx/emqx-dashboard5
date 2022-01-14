@@ -2,7 +2,7 @@
   <div>
     <el-tabs>
       <el-tab-pane :label="tl('setting')" v-loading="configLoading">
-        <div class="part-header">{{ tl("storage") }}</div>
+        <div class="part-header">{{ tl('storage') }}</div>
         <el-form
           :disabled="!configEnable"
           ref="retainerForm"
@@ -15,10 +15,7 @@
             <el-col :span="16">
               <el-form-item :label="tl('storageType')">
                 <el-select v-model="retainerConfig.config.type">
-                  <el-option
-                    value="built_in_database"
-                    :label="tl('builtInDatabase')"
-                  ></el-option>
+                  <el-option value="built_in_database" :label="tl('builtInDatabase')"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -33,13 +30,10 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <div class="part-header">{{ tl("policy") }}</div>
+          <div class="part-header">{{ tl('policy') }}</div>
           <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item
-                label="Max Retained Messages"
-                prop="config.max_retained_messages"
-              >
+              <el-form-item label="Max Retained Messages" prop="config.max_retained_messages">
                 <el-input
                   v-model.number="retainerConfig.config.max_retained_messages"
                   :readonly="selOptions.retained == 'unlimited'"
@@ -47,14 +41,8 @@
                 >
                   <template #append>
                     <el-select v-model="selOptions.retained">
-                      <el-option
-                        value="unlimited"
-                        :label="tl('unlimited')"
-                      ></el-option>
-                      <el-option
-                        value="custom"
-                        :label="tl('custom')"
-                      ></el-option>
+                      <el-option value="unlimited" :label="tl('unlimited')"></el-option>
+                      <el-option value="custom" :label="tl('custom')"></el-option>
                     </el-select>
                   </template>
                 </el-input>
@@ -62,10 +50,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="Max Payload Size" prop="max_payload_size[0]">
-                <el-input
-                  v-model.number="retainerConfig.max_payload_size[0]"
-                  maxlength="6"
-                >
+                <el-input v-model.number="retainerConfig.max_payload_size[0]" maxlength="6">
                   <template #append>
                     <el-select v-model="selOptions.payload">
                       <el-option value="KB" label="KB"></el-option>
@@ -96,10 +81,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item
-                :label="tl('intervalClean')"
-                prop="msg_clear_interval[0]"
-              >
+              <el-form-item :label="tl('intervalClean')" prop="msg_clear_interval[0]">
                 <el-input
                   v-model.number="retainerConfig.msg_clear_interval[0]"
                   :readonly="selOptions.clean == '0s'"
@@ -117,13 +99,10 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <div class="part-header">{{ tl("flowControl") }}</div>
+          <div class="part-header">{{ tl('flowControl') }}</div>
           <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item
-                :label="tl('readNumber')"
-                prop="flow_control.max_read_number"
-              >
+              <el-form-item :label="tl('readNumber')" prop="flow_control.max_read_number">
                 <el-input
                   v-model.number="retainerConfig.flow_control.max_read_number"
                   :readonly="selOptions.read == 'unlimited'"
@@ -131,24 +110,15 @@
                 >
                   <template #append>
                     <el-select v-model="selOptions.read">
-                      <el-option
-                        value="unlimited"
-                        :label="tl('unlimited')"
-                      ></el-option>
-                      <el-option
-                        value="custom"
-                        :label="tl('custom')"
-                      ></el-option>
+                      <el-option value="unlimited" :label="tl('unlimited')"></el-option>
+                      <el-option value="custom" :label="tl('custom')"></el-option>
                     </el-select>
                   </template>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item
-                :label="tl('deliverQuota')"
-                prop="flow_control.msg_deliver_quota"
-              >
+              <el-form-item :label="tl('deliverQuota')" prop="flow_control.msg_deliver_quota">
                 <el-input
                   v-model.number="retainerConfig.flow_control.msg_deliver_quota"
                   :readonly="selOptions.deliver == 'unlimited'"
@@ -156,14 +126,8 @@
                 >
                   <template #append>
                     <el-select v-model="selOptions.deliver">
-                      <el-option
-                        value="unlimited"
-                        :label="tl('unlimited')"
-                      ></el-option>
-                      <el-option
-                        value="custom"
-                        :label="tl('custom')"
-                      ></el-option>
+                      <el-option value="unlimited" :label="tl('unlimited')"></el-option>
+                      <el-option value="custom" :label="tl('custom')"></el-option>
                     </el-select>
                   </template>
                 </el-input>
@@ -177,9 +141,7 @@
                 prop="flow_control.quota_release_interval[0]"
               >
                 <el-input
-                  v-model.number="
-                    retainerConfig.flow_control.quota_release_interval[0]
-                  "
+                  v-model.number="retainerConfig.flow_control.quota_release_interval[0]"
                   maxlength="6"
                 >
                   <template #append>
@@ -193,45 +155,29 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-button
-              size="small"
-              type="primary"
-              @click="updateConfigData()"
-              >{{ $t("Base.update") }}</el-button
-            >
+            <el-button size="small" type="primary" @click="updateConfigData()">{{
+              $t('Base.update')
+            }}</el-button>
           </el-row>
         </el-form>
-        <div class="part-header">{{ tl("enable") }}</div>
+        <div class="part-header">{{ tl('enable') }}</div>
         <el-row>
-          <el-col :span="13">{{ tl("enableDesc") }}</el-col>
+          <el-col :span="13">{{ tl('enableDesc') }}</el-col>
           <el-col :span="6">
-            <el-switch
-              v-model="retainerConfig.enable"
-              @change="toggleStatus()"
-            ></el-switch>
+            <el-switch v-model="retainerConfig.enable" @change="toggleStatus()"></el-switch>
           </el-col>
         </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')">
         <el-table :data="tbData" v-loading="tbLoading">
-          <el-table-column
-            :label="'Topic'"
-            prop="topic"
-            sortable
-          ></el-table-column>
+          <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
           <el-table-column :label="'QoS'" prop="qos" sortable></el-table-column>
           <el-table-column :label="'Payload'">
             <template #default="{ row }">
-              <el-button size="mini" @click="checkPayload(row)">{{
-                tl("openPayload")
-              }}</el-button>
+              <el-button size="mini" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column
-            :label="'From ClientID'"
-            prop="from_clientid"
-            sortable
-          ></el-table-column>
+          <el-table-column :label="'From ClientID'" prop="from_clientid" sortable></el-table-column>
           <el-table-column :label="tl('createDate')" sortable>
             <template #default="{ row }">
               {{ row.publish_at && dateFormat(row.publish_at) }}
@@ -239,22 +185,15 @@
           </el-table-column>
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
-              <el-button
-                size="mini"
-                type="danger"
-                @click="deleteRetainerTopic(row)"
-                >{{ $t("Base.delete") }}</el-button
-              >
+              <el-button size="mini" type="danger" @click="deleteRetainerTopic(row)">{{
+                $t('Base.delete')
+              }}</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog
-      v-model="payloadDialog"
-      custom-class="payload-dialog"
-      :title="'Payload'"
-    >
+    <el-dialog v-model="payloadDialog" custom-class="payload-dialog" :title="'Payload'">
       <el-row v-loading="payloadLoading">
         <el-input
           type="textarea"
@@ -276,13 +215,9 @@
             />
           </el-select>
           <div>
-            <span v-if="isCopyShow" class="payload-copied">{{
-              $t("Base.copied")
-            }}</span>
+            <span v-if="isCopyShow" class="payload-copied">{{ $t('Base.copied') }}</span>
 
-            <el-button size="small" ref="copyBtnCom">{{
-              $t("Base.copy")
-            }}</el-button>
+            <el-button size="small" ref="copyBtnCom">{{ $t('Base.copy') }}</el-button>
           </div>
         </div>
       </template>
@@ -291,92 +226,84 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  reactive,
-  ref,
-  watch,
-} from "vue";
+import { defineComponent, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import {
   getRetainer,
   getRetainerList,
   updateRetainer,
   getRetainerTopic,
   delRetainerTopic,
-} from "@/api/advanced";
-import { dateFormat } from "@/common/utils";
-import useShowTextByDifferent from "@/hooks/Auth/useShowTextByDifferent";
-import { ElMessageBox as MB, ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
-import _ from "lodash";
-import { createClipboardEleWithTargetText } from "@/common/tools";
+} from '@/api/advanced'
+import { dateFormat } from '@/common/utils'
+import useShowTextByDifferent from '@/hooks/Auth/useShowTextByDifferent'
+import { ElMessageBox as MB, ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import _ from 'lodash'
+import { createClipboardEleWithTargetText } from '@/common/tools'
 
 export default defineComponent({
-  name: "Retainer",
+  name: 'Retainer',
   setup() {
-    const { t } = useI18n();
-    const tl = function (key, collection = "Advanced") {
-      return t(collection + "." + key);
-    };
+    const { t } = useI18n()
+    const tl = function (key, collection = 'Advanced') {
+      return t(collection + '.' + key)
+    }
 
     let retainerConfig = reactive({
-      max_payload_size: [1, "MB"],
-      msg_clear_interval: [0, "s"],
-      msg_expiry_interval: [0, "s"],
+      max_payload_size: [1, 'MB'],
+      msg_clear_interval: [0, 's'],
+      msg_expiry_interval: [0, 's'],
       config: {
-        storage: "ram",
-        storage_type: "",
-        type: "built_in_database",
+        storage: 'ram',
+        storage_type: '',
+        type: 'built_in_database',
         max_retained_messages: 0,
       },
       flow_control: {
         max_read_number: 0,
         msg_deliver_quota: 0,
-        quota_release_interval: [0, "s"],
+        quota_release_interval: [0, 's'],
       },
       enable: false,
-    });
+    })
 
     let selOptions = reactive({
-      retained: "custom",
-      payload: "KB",
-      expiry: "s",
-      clean: "s",
-      read: "custom",
-      deliver: "custom",
-      release: "s",
-    });
+      retained: 'custom',
+      payload: 'KB',
+      expiry: 's',
+      clean: 's',
+      read: 'custom',
+      deliver: 'custom',
+      release: 's',
+    })
 
-    let configLoading = ref(true);
-    let configEnable = ref(false);
-    let tbLoading = ref(true);
-    let tbData = ref([]);
-    let payloadDialog = ref(false);
-    let payloadDetail = ref("");
-    let payloadLoading = ref(false);
-    let retainerForm = ref(null);
-    const copyBtnCom = ref();
-    let clipboardInstance = undefined;
-    let isCopyShow = ref(false);
+    let configLoading = ref(true)
+    let configEnable = ref(false)
+    let tbLoading = ref(true)
+    let tbData = ref([])
+    let payloadDialog = ref(false)
+    let payloadDetail = ref('')
+    let payloadLoading = ref(false)
+    let retainerForm = ref(null)
+    const copyBtnCom = ref()
+    let clipboardInstance = undefined
+    let isCopyShow = ref(false)
     const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
-      useShowTextByDifferent();
+      useShowTextByDifferent()
 
     let validatorRules = [
-      { required: true, message: tl("required"), trigger: "blur" },
+      { required: true, message: tl('required'), trigger: 'blur' },
       {
-        type: "number",
-        message: tl("needNumber"),
-        trigger: "blur",
+        type: 'number',
+        message: tl('needNumber'),
+        trigger: 'blur',
       },
       {
-        type: "number",
+        type: 'number',
         min: 0,
-        message: t("Rule.minimumError", { min: 0 }),
+        message: t('Rule.minimumError', { min: 0 }),
       },
-    ];
+    ]
 
     const retainerRules = ref({
       config: {
@@ -398,109 +325,103 @@ export default defineComponent({
           0: validatorRules,
         },
       },
-    });
+    })
 
     watch(
       () => ({ ...selOptions }),
       (newV, oldV) => {
-        if (newV.retained == "unlimited") {
-          retainerConfig.config.max_retained_messages = 0;
+        if (newV.retained == 'unlimited') {
+          retainerConfig.config.max_retained_messages = 0
         }
-        if (newV.read == "unlimited") {
-          retainerConfig.flow_control.max_read_number = 0;
+        if (newV.read == 'unlimited') {
+          retainerConfig.flow_control.max_read_number = 0
         }
-        if (newV.deliver == "unlimited") {
-          retainerConfig.flow_control.msg_deliver_quota = 0;
+        if (newV.deliver == 'unlimited') {
+          retainerConfig.flow_control.msg_deliver_quota = 0
         }
 
-        if (newV.expiry == "0s") {
-          retainerConfig.msg_expiry_interval = [0, "s"];
+        if (newV.expiry == '0s') {
+          retainerConfig.msg_expiry_interval = [0, 's']
         } else {
-          retainerConfig.msg_expiry_interval[1] = newV.expiry;
+          retainerConfig.msg_expiry_interval[1] = newV.expiry
         }
-        if (newV.clean == "0s") {
-          retainerConfig.msg_clear_interval = [0, "s"];
+        if (newV.clean == '0s') {
+          retainerConfig.msg_clear_interval = [0, 's']
         } else {
-          retainerConfig.msg_clear_interval[1] = newV.clean;
+          retainerConfig.msg_clear_interval[1] = newV.clean
         }
 
         if (newV.payload != oldV.payload) {
-          retainerConfig.max_payload_size[1] = newV.payload;
+          retainerConfig.max_payload_size[1] = newV.payload
         }
         if (newV.release != oldV.release) {
-          retainerConfig.flow_control.quota_release_interval[1] = newV.release;
+          retainerConfig.flow_control.quota_release_interval[1] = newV.release
         }
-      }
-    );
+      },
+    )
 
     const loadConfigData = async () => {
-      configLoading.value = true;
-      configEnable.value = true;
-      retainerForm.value?.resetFields();
-      let res = await getRetainer().catch(() => {});
+      configLoading.value = true
+      configEnable.value = true
+      retainerForm.value?.resetFields()
+      let res = await getRetainer().catch(() => {})
       if (res) {
-        Object.assign(retainerConfig, res);
-        getConfigFormEnable();
-        derivedOptionsFromConfig();
+        Object.assign(retainerConfig, res)
+        getConfigFormEnable()
+        derivedOptionsFromConfig()
       } else {
         //todo
       }
-      configLoading.value = false;
-    };
+      configLoading.value = false
+    }
 
     const getConfigFormEnable = () => {
       if (retainerConfig?.enable === true) {
-        configEnable.value = true;
+        configEnable.value = true
       } else {
-        configEnable.value = false;
+        configEnable.value = false
       }
-    };
+    }
 
     const derivedOptionsFromConfig = () => {
-      let config = retainerConfig;
+      let config = retainerConfig
       if (config?.config?.max_retained_messages === 0) {
-        selOptions.retained = "unlimited";
+        selOptions.retained = 'unlimited'
       } else {
-        selOptions.retained = "custom";
+        selOptions.retained = 'custom'
       }
       // trans some values from string to array
       if (config?.max_payload_size) {
-        let matching = config.max_payload_size.match(/(\d+)(\w{2,})/);
-        selOptions.payload = matching[2];
-        config.max_payload_size = [+matching[1], matching[2]];
+        let matching = config.max_payload_size.match(/(\d+)(\w{2,})/)
+        selOptions.payload = matching[2]
+        config.max_payload_size = [+matching[1], matching[2]]
       }
       if (config?.msg_expiry_interval) {
-        let matching = config.msg_expiry_interval.match(/(\d+)(\w)/);
-        selOptions.expiry =
-          matching[1] === "0" ? config.msg_expiry_interval : matching[2];
-        config.msg_expiry_interval = [+matching[1], matching[2]];
+        let matching = config.msg_expiry_interval.match(/(\d+)(\w)/)
+        selOptions.expiry = matching[1] === '0' ? config.msg_expiry_interval : matching[2]
+        config.msg_expiry_interval = [+matching[1], matching[2]]
       }
       if (config?.msg_clear_interval) {
-        let matching = config.msg_clear_interval.match(/(\d+)(\w)/);
-        selOptions.clean =
-          matching[1] === "0" ? config.msg_clear_interval : matching[2];
-        config.msg_clear_interval = [+matching[1], matching[2]];
+        let matching = config.msg_clear_interval.match(/(\d+)(\w)/)
+        selOptions.clean = matching[1] === '0' ? config.msg_clear_interval : matching[2]
+        config.msg_clear_interval = [+matching[1], matching[2]]
       }
       if (config?.flow_control?.max_read_number === 0) {
-        selOptions.read = "unlimited";
+        selOptions.read = 'unlimited'
       } else {
-        selOptions.read = "custom";
+        selOptions.read = 'custom'
       }
       if (config?.flow_control?.msg_deliver_quota === 0) {
-        selOptions.deliver = "unlimited";
+        selOptions.deliver = 'unlimited'
       } else {
-        selOptions.deliver = "custom";
+        selOptions.deliver = 'custom'
       }
       if (config?.flow_control?.quota_release_interval) {
-        let matching =
-          config.flow_control.quota_release_interval.match(/(\d+)(\w)/);
-        selOptions.release = matching[2];
-        config.flow_control.quota_release_interval = [
-          +matching[1],
-          matching[2],
-        ];
+        let matching = config.flow_control.quota_release_interval.match(/(\d+)(\w)/)
+        selOptions.release = matching[2]
+        config.flow_control.quota_release_interval = [+matching[1], matching[2]]
       }
-    };
+    }
 
     // const changeSelType1 = async (event, e) => {
     //   console.log(event)
@@ -511,131 +432,131 @@ export default defineComponent({
     // }
 
     const composeConfigFromForm = (config) => {
-      const ret = _.cloneDeep(config);
-      combineData(ret);
+      const ret = _.cloneDeep(config)
+      combineData(ret)
       function combineData(data) {
-        if (typeof data == "object" && data !== null) {
+        if (typeof data == 'object' && data !== null) {
           Object.keys(data).forEach((k) => {
             if (data[k] instanceof Array) {
               // trans some values from array to string
-              data[k] = data[k].join("");
-            } else if (typeof data[k] == "object" && data[k] !== null) {
-              combineData(data[k]);
-              return;
+              data[k] = data[k].join('')
+            } else if (typeof data[k] == 'object' && data[k] !== null) {
+              combineData(data[k])
+              return
             }
-          });
+          })
         }
       }
-      return ret;
-    };
+      return ret
+    }
 
     const toggleStatus = async () => {
-      let valid = await retainerForm.value.validate().catch(() => {});
+      let valid = await retainerForm.value.validate().catch(() => {})
       if (!valid) {
-        retainerConfig.enable = !retainerConfig.enable;
-        return;
+        retainerConfig.enable = !retainerConfig.enable
+        return
       }
-      updateConfigData();
-    };
+      updateConfigData()
+    }
 
     const updateConfigData = async function () {
-      let valid = await retainerForm.value.validate().catch(() => {});
-      if (!valid) return;
+      let valid = await retainerForm.value.validate().catch(() => {})
+      if (!valid) return
 
-      configLoading.value = true;
-      const formData = composeConfigFromForm(retainerConfig);
+      configLoading.value = true
+      const formData = composeConfigFromForm(retainerConfig)
 
-      let res = await updateRetainer(formData).catch(() => {});
+      let res = await updateRetainer(formData).catch(() => {})
       if (res) {
-        getConfigFormEnable();
+        getConfigFormEnable()
         ElMessage({
-          type: "success",
-          message: t("Base.updateSuccess"),
-        });
+          type: 'success',
+          message: t('Base.updateSuccess'),
+        })
       } else {
-        loadConfigData();
+        loadConfigData()
       }
-      configLoading.value = false;
-    };
+      configLoading.value = false
+    }
 
     const deleteRetainerTopic = async function (row) {
-      MB.confirm(t("Base.confirmDelete"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
+      MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
       })
         .then(async () => {
-          const { topic } = row;
-          if (!topic) return;
-          let res = await delRetainerTopic(topic).catch(() => {});
+          const { topic } = row
+          if (!topic) return
+          let res = await delRetainerTopic(topic).catch(() => {})
           if (res) {
-            loadTbData();
+            loadTbData()
           } else {
             //todo
           }
         })
-        .catch(() => {});
-    };
+        .catch(() => {})
+    }
 
     const loadTbData = async () => {
-      tbLoading.value = true;
-      let res = await getRetainerList().catch(() => {});
+      tbLoading.value = true
+      let res = await getRetainerList().catch(() => {})
       if (res) {
-        tbData.value = res;
+        tbData.value = res
       }
-      tbLoading.value = false;
-    };
+      tbLoading.value = false
+    }
 
     const checkPayload = async (row) => {
-      payloadDialog.value = true;
-      payloadDetail.value = "";
-      payloadLoading.value = true;
-      const { topic } = row;
-      if (!topic) return;
-      let res = await getRetainerTopic(topic).catch(() => {});
+      payloadDialog.value = true
+      payloadDetail.value = ''
+      payloadLoading.value = true
+      const { topic } = row
+      if (!topic) return
+      let res = await getRetainerTopic(topic).catch(() => {})
       if (res) {
-        payloadDetail.value = res.payload;
-        setRawText(payloadDetail.value);
+        payloadDetail.value = res.payload
+        setRawText(payloadDetail.value)
       }
-      payloadLoading.value = false;
-      await nextTick();
-      initCopyBtn();
-    };
+      payloadLoading.value = false
+      await nextTick()
+      initCopyBtn()
+    }
 
     onMounted(() => {
-      loadConfigData();
-      loadTbData();
-    });
+      loadConfigData()
+      loadTbData()
+    })
 
     const reloading = () => {
-      loadConfigData();
-      loadTbData();
-    };
+      loadConfigData()
+      loadTbData()
+    }
 
     const initCopyBtn = () => {
-      clipboardInstance && clipboardInstance?.destroy();
-      const btnEle = copyBtnCom.value?.$el;
+      clipboardInstance && clipboardInstance?.destroy()
+      const btnEle = copyBtnCom.value?.$el
       if (btnEle) {
         clipboardInstance = createClipboardEleWithTargetText(
           copyBtnCom.value.$el,
           payloadForShow.value,
-          copySuccess
-        );
+          copySuccess,
+        )
       }
-    };
+    }
 
-    let copyShowTimeout = ref(null);
+    let copyShowTimeout = ref(null)
     const copySuccess = () => {
-      isCopyShow.value = true;
-      clearTimeout(copyShowTimeout.value);
+      isCopyShow.value = true
+      clearTimeout(copyShowTimeout.value)
       copyShowTimeout.value = setTimeout(() => {
-        isCopyShow.value = false;
-      }, 2000);
-    };
+        isCopyShow.value = false
+      }, 2000)
+    }
 
     onUnmounted(() => {
-      copyShowTimeout.value && clearTimeout(copyShowTimeout.value);
-    });
+      copyShowTimeout.value && clearTimeout(copyShowTimeout.value)
+    })
 
     return {
       tl,
@@ -663,9 +584,9 @@ export default defineComponent({
       copySuccess,
       copyBtnCom,
       isCopyShow,
-    };
+    }
   },
-});
+})
 </script>
 <style lang="scss" scoped>
 .payload-copied {

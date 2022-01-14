@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { Check } from "@element-plus/icons-vue";
+import { Check } from '@element-plus/icons-vue'
 
 export default {
   name: 'GuideBar',

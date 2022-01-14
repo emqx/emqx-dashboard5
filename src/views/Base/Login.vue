@@ -12,9 +12,9 @@
 
         <div :span="12" class="login-wrapper">
           <div class="emq-title">
-            {{ $t("Base.signIn") }}
+            {{ $t('Base.signIn') }}
             <div class="sub-title">
-              {{ $t("Base.loginUserAccount") }}
+              {{ $t('Base.loginUserAccount') }}
             </div>
           </div>
           <el-form
@@ -45,7 +45,7 @@
                 type="primary"
                 @click="nativeLogin"
                 :loading="isLogining"
-                >{{ $t("Base.signIn") }}</el-button
+                >{{ $t('Base.signIn') }}</el-button
               >
             </el-form-item>
           </el-form>
@@ -56,107 +56,113 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onUnmounted, onMounted } from "vue";
-import { login as loginApi } from "@/api/common";
-import { setLanguage } from "@/common/utils";
-import { toLogin } from "@/router";
-import { useI18n } from "vue-i18n";
-import { useStore } from "vuex";
-import { useRouter, useRoute } from "vue-router";
+import { reactive, ref, onUnmounted, onMounted } from 'vue'
+import { login as loginApi } from '@/api/common'
+import { setLanguage } from '@/common/utils'
+import { toLogin } from '@/router'
+import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
+import { useRouter, useRoute } from 'vue-router'
+import axios from 'axios'
 
-const { t } = useI18n();
-const store = useStore();
-const router = useRouter();
-const route = useRoute();
+axios.defaults.baseURL = ''
+axios.get('config.md').then((res) => {
+  console.log(res)
+})
+
+const { t } = useI18n()
+const store = useStore()
+const router = useRouter()
+const route = useRoute()
 
 const record = reactive({
-  username: "",
-  password: "",
-});
-const isLogining = ref(false);
+  username: '',
+  password: '',
+})
+const isLogining = ref(false)
 const rules = {
   username: [
     {
       required: true,
-      message: t("Base.unameRequired"),
+      message: t('Base.unameRequired'),
       trigger: blur,
     },
   ],
   password: [
     {
       required: true,
-      message: t("Base.passwordRequired"),
+      message: t('Base.passwordRequired'),
       trigger: blur,
     },
   ],
-};
-const loginKeepHeight = ref(false);
-const loginKeepWidth = ref(false);
-const loginCom = ref();
-const formCom = ref();
+}
+const loginKeepHeight = ref(false)
+const loginKeepWidth = ref(false)
+const loginCom = ref()
+const formCom = ref()
 
 const adjustLayout = () => {
-  const wWidth = window.innerWidth;
-  const wHeight = window.innerHeight;
-  const loginDOM = loginCom.value.$el;
-  const lWidth = loginDOM.clientWidth;
-  const lHeight = loginDOM.clientHeight;
-  const loginParentDomStyle = window.getComputedStyle(loginDOM.parentElement);
-  const lpPadding = loginParentDomStyle.paddingTop;
-  loginKeepHeight.value = wHeight > lHeight + 2 * parseInt(lpPadding);
+  const wWidth = window.innerWidth
+  const wHeight = window.innerHeight
+  const loginDOM = loginCom.value.$el
+  const lWidth = loginDOM.clientWidth
+  const lHeight = loginDOM.clientHeight
+  const loginParentDomStyle = window.getComputedStyle(loginDOM.parentElement)
+  const lpPadding = loginParentDomStyle.paddingTop
+  loginKeepHeight.value = wHeight > lHeight + 2 * parseInt(lpPadding)
   // wWidth >lWidth?(this.loginKeepWidth=true):(this.loginKeepWidth=false)
-};
+}
 
 const login = async (auto = false) => {
-  const { username, token, password } = (auto && store.state.user) || record;
+  const { username, token, password } = (auto && store.state.user) || record
 
-  if (auto && username && token) redirect();
-  else toLogin(), setLanguage();
+  if (auto && username && token) redirect()
+  else toLogin(), setLanguage()
 
   if (!auto) {
-    isLogining.value = true;
+    isLogining.value = true
     let res = await loginApi({
       username,
       password,
-    }).catch(() => {});
+    }).catch(() => {})
 
     if (!res) {
-      isLogining.value = false;
-      return;
+      isLogining.value = false
+      return
     }
 
-    store.commit("UPDATE_USER_INFO", {
+    store.commit('UPDATE_USER_INFO', {
       token: res.token,
       username,
-    });
-    store.commit("UPDATE_EDITION", res.license?.edition);
+    })
+    store.commit('UPDATE_EDITION', res.license?.edition)
 
-    redirect();
+    redirect()
   }
-};
+}
 
 const redirect = () => {
   router.replace({
-    path: (route.query.to ?? "/dashboard").toString(),
-  });
-};
+    path: (route.query.to ?? '/dashboard').toString(),
+  })
+}
 
 const nativeLogin = async () => {
-  (await formCom.value.validate().catch(() => {
+  ;(await formCom.value.validate().catch(() => {
     /**/
-  })) && login();
-};
+  })) && login()
+}
 
-login(true);
+login(true)
 
 onMounted(() => {
-  adjustLayout();
-  window.addEventListener("resize", adjustLayout);
-});
+  adjustLayout()
+  window.addEventListener('resize', adjustLayout)
+})
 
 onUnmounted(() => {
-  window.removeEventListener("resize", adjustLayout);
-});
+  window.removeEventListener('resize', adjustLayout)
+})
 </script>
 
 <style lang="scss">
@@ -179,7 +185,7 @@ onUnmounted(() => {
   }
 
   .logo-wrapper {
-    background-image: url("../../assets/emqx_banner.png");
+    background-image: url('../../assets/emqx_banner.png');
     background-size: 100%;
     background-repeat: no-repeat;
     position: relative;

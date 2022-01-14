@@ -3,27 +3,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "SimpleLine",
-});
+  name: 'SimpleLine',
+})
 </script>
 
 <script lang="ts" setup>
-import { defineProps, ref, reactive, watch, onMounted, Ref } from "vue";
-import { useStore } from "vuex";
-import * as echarts from "echarts/lib/echarts";
-import { ECharts, EChartsOption, LineSeriesOption } from "echarts";
-import "echarts/lib/chart/line";
-import "echarts/lib/chart/bar";
-import "echarts/lib/component/grid";
-import "echarts/lib/component/tooltip";
-import "echarts/lib/component/title";
-import "echarts/lib/component/markLine";
-import "echarts/lib/component/markPoint";
+import { defineProps, ref, reactive, watch, onMounted, Ref } from 'vue'
+import { useStore } from 'vuex'
+import * as echarts from 'echarts/lib/echarts'
+import { ECharts, EChartsOption, LineSeriesOption } from 'echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/chart/bar'
+import 'echarts/lib/component/grid'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/markLine'
+import 'echarts/lib/component/markPoint'
 
-const store = useStore();
+const store = useStore()
 
 const props = defineProps({
   value: {
@@ -33,16 +33,16 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: "#975fe4",
+    default: '#975fe4',
   },
   type: {
     type: String,
-    default: "line",
+    default: 'line',
   },
-});
+})
 
-const chartEl = ref();
-const chart: Ref<ECharts | null> = ref(null);
+const chartEl = ref()
+const chart: Ref<ECharts | null> = ref(null)
 const option: EChartsOption = reactive({
   color: [props.color],
   grid: {
@@ -52,13 +52,13 @@ const option: EChartsOption = reactive({
     bottom: 0, // 默认60px
   },
   tooltip: {
-    trigger: "axis",
+    trigger: 'axis',
     axisPointer: {
-      type: "none",
+      type: 'none',
     },
   },
   xAxis: {
-    type: "category",
+    type: 'category',
     // boundaryGap: false,
     data: props.value.x,
     triggerEvent: true,
@@ -73,7 +73,7 @@ const option: EChartsOption = reactive({
     },
   },
   yAxis: {
-    type: "value",
+    type: 'value',
     splitLine: {
       show: false,
     },
@@ -88,28 +88,28 @@ const option: EChartsOption = reactive({
     },
   },
   series: [],
-});
+})
 
 watch(
   () => props.value,
   () => {
-    setSeriesConfig();
-  }
-);
+    setSeriesConfig()
+  },
+)
 
 watch(
   () => store.state.leftBarCollapse,
   () => {
-    setTimeout(setSeriesConfig, 500);
-  }
-);
+    setTimeout(setSeriesConfig, 500)
+  },
+)
 
 const setSeriesConfig = () => {
-  const { color, type } = props;
-  let Dom = chartEl.value;
-  if (!Dom) return;
-  echarts.dispose(Dom);
-  chart.value = echarts.init(Dom);
+  const { color, type } = props
+  let Dom = chartEl.value
+  if (!Dom) return
+  echarts.dispose(Dom)
+  chart.value = echarts.init(Dom)
   option.series = [
     {
       data: props.value.y,
@@ -127,9 +127,9 @@ const setSeriesConfig = () => {
         opacity: 1,
       },
     },
-  ] as Array<LineSeriesOption>;
-  chart.value?.setOption(option);
-};
+  ] as Array<LineSeriesOption>
+  chart.value?.setOption(option)
+}
 
-onMounted(setSeriesConfig);
+onMounted(setSeriesConfig)
 </script>

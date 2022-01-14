@@ -1,7 +1,7 @@
 <template>
   <div class="data-bridge-create">
     <div class="page-header-title">
-      {{ tl("createConnector") }}
+      {{ tl('createConnector') }}
     </div>
 
     <el-row>
@@ -15,17 +15,12 @@
     <el-row class="config-body">
       <template v-if="stepActive === 0">
         <div class="part-header">
-          {{ tl("chooseConnectorType") }}
+          {{ tl('chooseConnectorType') }}
         </div>
         <el-row>
           <el-col :span="24">
             <el-radio-group v-model="chosenConnectorType">
-              <el-radio
-                v-for="item in connectorType"
-                :key="item"
-                :label="item"
-                border
-              >
+              <el-radio v-for="item in connectorType" :key="item" :label="item" border>
                 <img
                   height="80"
                   width="80"
@@ -54,7 +49,7 @@
         v-if="stepActive === 1"
         :loading="submitLoading"
         @click="submitCreateConnector"
-        >{{ $t("Base.create") }}</el-button
+        >{{ $t('Base.create') }}</el-button
       >
       <el-button
         type="primary"
@@ -62,20 +57,20 @@
         @click="++stepActive"
         v-if="stepActive < 1"
         :disabled="submitLoading"
-        >{{ $t("Base.nextStep") }}</el-button
+        >{{ $t('Base.nextStep') }}</el-button
       >
       <el-button
         size="small"
         @click="--stepActive"
         v-if="stepActive > 0"
         :disabled="submitLoading"
-        >{{ $t("Base.backStep") }}</el-button
+        >{{ $t('Base.backStep') }}</el-button
       >
       <el-button
         size="small"
         v-if="stepActive === 0"
         @click="$router.push({ name: 'bridge-connector' })"
-        >{{ $t("Base.cancel") }}</el-button
+        >{{ $t('Base.cancel') }}</el-button
       >
     </el-row>
     <div></div>
@@ -83,50 +78,50 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, Ref } from "vue";
-import { useI18n } from "vue-i18n";
-import ConnectorMqttConfig from "./ConnectorMqttConfig.vue";
-import _ from "lodash";
-import { createConnector } from "@/api/ruleengine";
-import { useRouter } from "vue-router";
-import { tlsConfig } from "@/types/ruleengine";
-import { ElMessage as M } from "element-plus";
+import { defineComponent, ref, watch, Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import ConnectorMqttConfig from './ConnectorMqttConfig.vue'
+import _ from 'lodash'
+import { createConnector } from '@/api/ruleengine'
+import { useRouter } from 'vue-router'
+import { tlsConfig } from '@/types/ruleengine'
+import { ElMessage as M } from 'element-plus'
 
 export default defineComponent({
   components: { ConnectorMqttConfig },
   setup() {
     const tlsParamsDefault: tlsConfig = {
       enable: false,
-      verify: "verify_none",
-      certfile: "",
-      keyfile: "",
-      cacertfile: "",
-    };
-    const router = useRouter();
-    const stepActive = ref(0);
-    const { t } = useI18n();
-    const connectorType = ["mqtt"];
-    const chosenConnectorType = ref(connectorType[0]);
-    const submitLoading = ref(false);
-    const connectorData = ref({});
-    const connectorTLS: Ref<tlsConfig> = ref(tlsParamsDefault);
+      verify: 'verify_none',
+      certfile: '',
+      keyfile: '',
+      cacertfile: '',
+    }
+    const router = useRouter()
+    const stepActive = ref(0)
+    const { t } = useI18n()
+    const connectorType = ['mqtt']
+    const chosenConnectorType = ref(connectorType[0])
+    const submitLoading = ref(false)
+    const connectorData = ref({})
+    const connectorTLS: Ref<tlsConfig> = ref(tlsParamsDefault)
 
     const submitCreateConnector = async () => {
-      submitLoading.value = true;
+      submitLoading.value = true
       let res = await createConnector({
         ...connectorData.value,
         type: chosenConnectorType.value,
         ssl: { ...connectorTLS.value },
-      }).catch(() => {});
+      }).catch(() => {})
       if (res) {
         M({
-          type: "success",
-          message: t("Base.createSuccess"),
-        });
+          type: 'success',
+          message: t('Base.createSuccess'),
+        })
       }
-      submitLoading.value = false;
-      router.push({ name: "bridge-connector" });
-    };
+      submitLoading.value = false
+      router.push({ name: 'bridge-connector' })
+    }
 
     // watch(
     //   () => [_.cloneDeep(connectorData.value), _.cloneDeep(connectorTLS.value)],
@@ -136,7 +131,7 @@ export default defineComponent({
     // );
 
     return {
-      tl: (key: string) => t("RuleEngine." + key),
+      tl: (key: string) => t('RuleEngine.' + key),
       stepActive,
       connectorType,
       chosenConnectorType,
@@ -144,9 +139,9 @@ export default defineComponent({
       connectorData,
       connectorTLS,
       submitCreateConnector,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

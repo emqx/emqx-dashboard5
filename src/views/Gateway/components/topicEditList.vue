@@ -18,17 +18,13 @@
         </el-table-column>
         <el-table-column width="80">
           <template #header="scope">
-            <el-button
-              size="mini"
-              @click="addTopic()"
-              :disabled="disableAdd(scope)"
-            >
-              {{ $t("Base.add") }}
+            <el-button size="mini" @click="addTopic()" :disabled="disableAdd(scope)">
+              {{ $t('Base.add') }}
             </el-button>
           </template>
           <template #default="{ row }">
             <el-button size="mini" @click="delTopic(row)">
-              {{ $t("Base.delete") }}
+              {{ $t('Base.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -38,19 +34,12 @@
 </template>
 
 <script>
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  ref,
-  watch,
-  nextTick,
-} from "vue";
-import { useI18n } from "vue-i18n";
+import { computed, defineComponent, onMounted, ref, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: "TopicEditList",
-  emits: ["update:passed", "update:list"],
+  name: 'TopicEditList',
+  emits: ['update:passed', 'update:list'],
   props: {
     list: {
       type: Array,
@@ -64,126 +53,126 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let topicForm = ref(null);
-    let topicList = ref(props.list);
+    let topicForm = ref(null)
+    let topicList = ref(props.list)
     let topicModel = computed(() => {
-      let model = {};
+      let model = {}
       topicList.value.forEach((v, k) => {
-        model[k] = v;
-      });
-      return model;
-    });
+        model[k] = v
+      })
+      return model
+    })
 
-    let formPassed = ref(props.passed);
-    const { t } = useI18n();
-    let topicRules = ref({});
+    let formPassed = ref(props.passed)
+    const { t } = useI18n()
+    let topicRules = ref({})
 
     const findUniqueOverflow = (nums, max) => {
-      let num;
+      let num
       for (let i = 1, y = max; i < y; i++) {
         if (!Array.prototype.includes.call(nums, i)) {
-          num = i;
-          break;
+          num = i
+          break
         }
       }
-      return num;
-    };
+      return num
+    }
 
     const addTopic = () => {
-      let ids = [0];
+      let ids = [0]
       Array.prototype.forEach.call(topicList.value, (v) => {
-        ids.push(+v.id || 0);
-      });
-      let maxCandidate = Math.max(...ids) + 1;
-      let maxNum = 65535;
+        ids.push(+v.id || 0)
+      })
+      let maxCandidate = Math.max(...ids) + 1
+      let maxNum = 65535
       if (maxCandidate > maxNum) {
-        maxCandidate = findUniqueOverflow(ids, maxNum);
+        maxCandidate = findUniqueOverflow(ids, maxNum)
       }
       topicList.value.push({
         id: maxCandidate,
-        topic: "",
-      });
+        topic: '',
+      })
 
-      setTopicRules();
-    };
+      setTopicRules()
+    }
 
     const disableAdd = () => {
-      return topicList.value.length >= 10;
-    };
+      return topicList.value.length >= 10
+    }
 
     const delTopic = (row) => {
       topicList.value.forEach((v, k) => {
         if (v === row) {
-          topicList.value.splice(k, 1);
+          topicList.value.splice(k, 1)
         }
-      });
-      setTopicRules();
-    };
+      })
+      setTopicRules()
+    }
 
     const setTopicRules = () => {
-      let len = topicList.value.length || 0;
-      let newRules = {};
+      let len = topicList.value.length || 0
+      let newRules = {}
       for (let x = 0; x < len; x++) {
         newRules[x] = {
           id: [
             {
               required: true,
-              message: "required",
-              trigger: ["blur", "change"],
+              message: 'required',
+              trigger: ['blur', 'change'],
             },
             {
               validator: (rule, value, callback) => {
                 let identical = topicList.value.filter((v) => {
-                  return v.id == value;
-                });
+                  return v.id == value
+                })
                 if (identical.length > 1) {
-                  callback(new Error("identical"));
+                  callback(new Error('identical'))
                 } else {
-                  callback();
+                  callback()
                 }
               },
-              trigger: ["blur", "change"],
+              trigger: ['blur', 'change'],
             },
           ],
           topic: [
             {
               required: true,
-              message: "required",
-              trigger: ["blur", "change"],
+              message: 'required',
+              trigger: ['blur', 'change'],
             },
           ],
-        };
+        }
       }
 
-      topicRules.value = newRules;
+      topicRules.value = newRules
       // validateForm()
-    };
+    }
 
     const validateForm = () => {
       nextTick(async () => {
-        let res = await topicForm.value.validate().catch(() => {});
+        let res = await topicForm.value.validate().catch(() => {})
         if (res) {
-          formPassed.value = true;
-          context.emit("update:passed", true);
+          formPassed.value = true
+          context.emit('update:passed', true)
         } else {
-          formPassed.value = false;
-          context.emit("update:passed", false);
+          formPassed.value = false
+          context.emit('update:passed', false)
         }
-      });
-    };
+      })
+    }
 
     watch(topicList.value, (v) => {
-      context.emit("update:list", v);
-      validateForm();
-    });
+      context.emit('update:list', v)
+      validateForm()
+    })
 
     onMounted(() => {
-      setTopicRules();
-      validateForm();
-    });
+      setTopicRules()
+      validateForm()
+    })
 
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       topicList,
       addTopic,
       disableAdd,
@@ -191,9 +180,9 @@ export default defineComponent({
       topicModel,
       topicForm,
       topicRules,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

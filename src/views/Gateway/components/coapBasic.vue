@@ -2,7 +2,7 @@
   <div>
     <el-form label-position="top">
       <div class="part-header">
-        {{ tl("basic") }}
+        {{ tl('basic') }}
       </div>
       <el-row :gutter="30">
         <el-col :span="12">
@@ -64,7 +64,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("mountSetting") }}</div>
+      <div class="part-header">{{ tl('mountSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -80,17 +80,17 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, watch } from "vue";
-import _ from "lodash";
+import { defineComponent, onMounted, reactive, watch } from 'vue'
+import _ from 'lodash'
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
   getValueIntersectionWithTemplate,
-} from "@/common/utils";
-import { useI18n } from "vue-i18n";
+} from '@/common/utils'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: "CoapBasic",
+  name: 'CoapBasic',
   props: {
     value: {
       type: Object,
@@ -101,54 +101,48 @@ export default defineComponent({
   setup(props, context) {
     let cValueDefault = {
       connection_required: false,
-      heartbeat: [30, "s"],
-      notify_type: "qos",
+      heartbeat: [30, 's'],
+      notify_type: 'qos',
       enable_stats: true,
 
-      subscribe_qos: "coap",
-      publish_qos: "coap",
-      mountpoint: "",
-    };
+      subscribe_qos: 'coap',
+      publish_qos: 'coap',
+      mountpoint: '',
+    }
 
-    const { t } = useI18n();
+    const { t } = useI18n()
 
     const cValue = reactive(
       getValueIntersectionWithTemplate(
         cValueDefault,
-        transformStrToUnitArray(props.value, ["heartbeat"])
-      )
-    );
+        transformStrToUnitArray(props.value, ['heartbeat']),
+      ),
+    )
 
     const checkHeartBeat = (source) => {
       if (!source.connection_required) {
-        Reflect.deleteProperty(source, "heartbeat");
+        Reflect.deleteProperty(source, 'heartbeat')
       }
-      return source;
-    };
+      return source
+    }
 
     watch(
       () => _.cloneDeep(cValue),
       (v) => {
-        context.emit(
-          "update:value",
-          checkHeartBeat(transformUnitArrayToStr(v))
-        );
-      }
-    );
+        context.emit('update:value', checkHeartBeat(transformUnitArrayToStr(v)))
+      },
+    )
     onMounted(() => {
-      context.emit(
-        "update:value",
-        checkHeartBeat(transformUnitArrayToStr(cValue))
-      );
-    });
+      context.emit('update:value', checkHeartBeat(transformUnitArrayToStr(cValue)))
+    })
 
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       cValueDefault,
       cValue,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped></style>

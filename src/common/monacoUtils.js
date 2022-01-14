@@ -11,7 +11,9 @@ export function createMonacoComplete(hints, range, { word }) {
     customHints = hints.map((doc) => ({
       label: doc.name,
       // kind is icon
-      kind: doc.type ? monaco.languages.CompletionItemKind[doc.type] : monaco.languages.CompletionItemKind.Function,
+      kind: doc.type
+        ? monaco.languages.CompletionItemKind[doc.type]
+        : monaco.languages.CompletionItemKind.Function,
       documentation: doc.documentation,
       insertText: getInertText(doc.name, word),
       detail: doc.detail || 'EMQX',

@@ -3,13 +3,13 @@
 </template>
 
 <script>
-import * as monaco from "monaco-editor";
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import * as monaco from 'monaco-editor'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 // import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 // import { createMonacoComplete, createMonacoHover } from "@/common/monacoUtils";
 
 export default {
-  name: "Monaco",
+  name: 'Monaco',
 
   props: {
     id: {
@@ -46,14 +46,14 @@ export default {
     },
   },
   setup(prop) {
-    const editor = ref({});
+    const editor = ref({})
     // const editValue = computed(() => {
     //   console.log(prop.value + "changed");
     //   return prop.value;
     // });
 
     const initEditor = () => {
-      const id = `monaco-${prop.id}`;
+      const id = `monaco-${prop.id}`
       const defaultOptions = {
         value: prop.value,
         language: prop.lang,
@@ -73,33 +73,30 @@ export default {
         //   delay: 500,
         //   enabled: true,
         // },
-      };
+      }
 
-      editor.value = monaco.editor.create(
-        document.getElementById(id),
-        defaultOptions
-      );
+      editor.value = monaco.editor.create(document.getElementById(id), defaultOptions)
 
       // console.log(editor.value.getModel());
-    };
+    }
 
     onMounted(() => {
-      initEditor();
-      if (prop.scrollLoading) editor.value.onDidScrollChange(prop.scrollFunc);
-    });
+      initEditor()
+      if (prop.scrollLoading) editor.value.onDidScrollChange(prop.scrollFunc)
+    })
 
     onUnmounted(() => {
       // editor.value.dispose();
-    });
+    })
 
     watch(
       () => prop.value,
       (val, val2) => {
         // editor.value.setValue(val);
-      }
-    );
+      },
+    )
   },
-};
+}
 </script>
 
 <style lang="scss">

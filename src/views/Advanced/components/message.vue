@@ -1,8 +1,8 @@
 <template>
   <div class="no-tab-wrapper">
-    <div class="title-desc">{{ translate("eventTitleDesc") }}</div>
+    <div class="title-desc">{{ translate('eventTitleDesc') }}</div>
     <div class="section-header">
-      <div>{{ translate("configMsg") }}</div>
+      <div>{{ translate('configMsg') }}</div>
     </div>
     <div>
       <el-row v-for="(item, key) in eventMsg" :key="key">
@@ -23,18 +23,18 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref } from "vue";
-import { getEventMsg, editEventMsg } from "@/api/advanced";
-import { ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
+import { defineComponent, onMounted, reactive, ref } from 'vue'
+import { getEventMsg, editEventMsg } from '@/api/advanced'
+import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: "Message",
+  name: 'Message',
   setup() {
-    const { t } = useI18n();
-    const translate = function (key, collection = "Advanced") {
-      return t(collection + "." + key);
-    };
+    const { t } = useI18n()
+    const translate = function (key, collection = 'Advanced') {
+      return t(collection + '.' + key)
+    }
 
     let eventMsg = reactive({
       client_connected: false,
@@ -44,47 +44,47 @@ export default defineComponent({
       message_delivered: false,
       message_dropped: false,
       message_acked: false,
-    });
-    let operationPending = ref(true);
+    })
+    let operationPending = ref(true)
 
     const loadData = async function () {
-      operationPending.value = true;
+      operationPending.value = true
 
-      let res = await getEventMsg().catch(() => {});
+      let res = await getEventMsg().catch(() => {})
       if (res) {
         Object.keys(res).forEach((k) => {
-          let alignKey = k.match(/\$event\/(\w+)/)[1];
-          eventMsg[alignKey] = res[k];
-        });
+          let alignKey = k.match(/\$event\/(\w+)/)[1]
+          eventMsg[alignKey] = res[k]
+        })
       } else {
         //todo
       }
-      operationPending.value = false;
-    };
+      operationPending.value = false
+    }
 
     const updateEventMsg = async function () {
-      operationPending.value = true;
-      let pendingEventMsg = {};
+      operationPending.value = true
+      let pendingEventMsg = {}
       Object.keys(eventMsg).forEach((key) => {
-        pendingEventMsg["$event/" + key] = eventMsg[key];
-      });
-      let res = await editEventMsg(pendingEventMsg).catch(() => {});
+        pendingEventMsg['$event/' + key] = eventMsg[key]
+      })
+      let res = await editEventMsg(pendingEventMsg).catch(() => {})
       if (res) {
         ElMessage({
-          type: "success",
-          message: t("Base.editSuccess"),
-        });
+          type: 'success',
+          message: t('Base.editSuccess'),
+        })
       } else {
-        loadData();
+        loadData()
       }
-      operationPending.value = false;
-    };
+      operationPending.value = false
+    }
 
-    onMounted(loadData);
+    onMounted(loadData)
 
     const reloading = () => {
-      loadData();
-    };
+      loadData()
+    }
 
     return {
       eventMsg,
@@ -92,9 +92,9 @@ export default defineComponent({
       translate,
       updateEventMsg,
       reloading,
-    };
+    }
   },
-});
+})
 </script>
 <style lang="scss" scoped>
 .title-desc {

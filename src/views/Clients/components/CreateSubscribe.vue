@@ -7,13 +7,7 @@
     @close="close"
     @open="open"
   >
-    <el-form
-      ref="record"
-      :model="record"
-      :rules="rules"
-      size="small"
-      label-position="top"
-    >
+    <el-form ref="record" :model="record" :rules="rules" size="small" label-position="top">
       <el-form-item v-if="!clientId" prop="clientid" label="Client ID">
         <el-input v-model="record.clientid" placeholder="Client ID"></el-input>
       </el-form-item>
@@ -26,37 +20,27 @@
           :field="{ list: [0, 1, 2] }"
         ></emq-select> -->
         <el-select v-model.number="record.qos">
-          <el-option
-            v-for="item in [0, 1, 2]"
-            :key="item"
-            :value="item"
-          ></el-option>
+          <el-option v-for="item in [0, 1, 2]" :key="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
       <div class="dialog-align-footer">
-        <el-button size="small" @click="close">{{
-          $t("Base.cancel")
+        <el-button size="small" @click="close">{{ $t('Base.cancel') }}</el-button>
+        <el-button type="primary" size="small" @click="handleAdd" :loading="submitLoading">{{
+          $t('Base.add')
         }}</el-button>
-        <el-button
-          type="primary"
-          size="small"
-          @click="handleAdd"
-          :loading="submitLoading"
-          >{{ $t("Base.add") }}</el-button
-        >
       </div>
     </template>
   </el-dialog>
 </template>
 
 <script>
-import { subscribe } from "@/api/clients";
-import { addGatewayClientSubs } from "@/api/gateway";
+import { subscribe } from '@/api/clients'
+import { addGatewayClientSubs } from '@/api/gateway'
 
 export default {
-  name: "CreateSubscribe",
+  name: 'CreateSubscribe',
 
   inheritAttrs: false,
 
@@ -67,12 +51,12 @@ export default {
     },
     clientId: {
       type: String,
-      default: "",
+      default: '',
     },
     gateway: {
       type: String,
       required: false,
-      default: "",
+      default: '',
     },
   },
 
@@ -81,70 +65,70 @@ export default {
       record: {
         clientid: this.clientid,
         qos: 0,
-        topic: "",
+        topic: '',
       },
       rules: {
         clientid: {
           required: true,
-          message: this.$t("Clients.pleaseEnter"),
+          message: this.$t('Clients.pleaseEnter'),
         },
         topic: {
           required: true,
-          message: this.$t("Clients.pleaseEnter"),
+          message: this.$t('Clients.pleaseEnter'),
         },
       },
       submitLoading: false,
-    };
+    }
   },
   computed: {
     dialogVisible: function () {
-      return this.visible;
+      return this.visible
     },
   },
-  emits: ["create:subs", "update:visible"],
+  emits: ['create:subs', 'update:visible'],
   methods: {
     open() {
-      this.record.clientid = this.clientId;
+      this.record.clientid = this.clientId
     },
     async handleAdd() {
-      const valid = await this.$refs.record.validate().catch(() => {});
+      const valid = await this.$refs.record.validate().catch(() => {})
       if (!valid) {
-        return;
+        return
       }
       if (this.gateway) {
-        return this.addGatewaySubs();
+        return this.addGatewaySubs()
       }
 
-      let clientId = this.clientId || this.record.clientid;
+      let clientId = this.clientId || this.record.clientid
 
       let subs = await subscribe(clientId, {
         topic: this.record.topic,
         qos: this.record.qos,
-      }).catch(() => {});
+      }).catch(() => {})
       if (subs) {
-        this.$emit("create:subs");
-        this.close();
+        this.$emit('create:subs')
+        this.close()
       }
     },
     async addGatewaySubs() {
-      this.submitLoading = true;
-      let clientId = this.clientId || this.record.clientid;
+      this.submitLoading = true
+      let clientId = this.clientId || this.record.clientid
       let res = await addGatewayClientSubs(this.gateway, clientId, {
         topic: this.record.topic,
         qos: this.record.qos,
-      }).catch(() => {});
-      this.submitLoading = false;
+      }).catch(() => {})
+      this.submitLoading = false
       if (res) {
-        this.$emit("create:subs");
-        this.close();
+        this.$emit('create:subs')
+        this.close()
       }
     },
     close() {
-      this.$emit("update:visible", false);
-      this.$refs.record.resetFields();
+      this.$emit('update:visible', false)
+      this.$refs.record.resetFields()
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

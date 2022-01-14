@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper gateway-create">
     <div class="section-header">
-      {{ tl("initial") + name }}
+      {{ tl('initial') + name }}
     </div>
     <el-row>
       <el-col :span="16">
@@ -32,18 +32,14 @@
       </el-col>
 
       <el-col :span="24" v-else-if="stepActive === 1">
-        <listeners
-          :integration="true"
-          :gateway-name="name"
-          v-model:list="listenerList"
-        ></listeners>
+        <listeners :integration="true" :gateway-name="name" v-model:list="listenerList"></listeners>
       </el-col>
       <el-col :span="24" v-else-if="stepActive === 2">
         <div class="part-header">
-          {{ tl("clientAuth") }}
+          {{ tl('clientAuth') }}
         </div>
         <div class="config-auth">
-          {{ tl("clientAuthDesc") }}
+          {{ tl('clientAuthDesc') }}
         </div>
       </el-col>
     </el-row>
@@ -54,7 +50,7 @@
         v-if="stepActive === 2"
         :loading="submitLoading"
         @click="createGateway()"
-        >{{ $t("Base.enable") }}</el-button
+        >{{ $t('Base.enable') }}</el-button
       >
       <el-button
         type="primary"
@@ -62,74 +58,74 @@
         @click="++stepActive"
         v-if="stepActive < 2"
         :disabled="submitLoading"
-        >{{ $t("Base.nextStep") }}</el-button
+        >{{ $t('Base.nextStep') }}</el-button
       >
       <el-button
         size="small"
         @click="--stepActive"
         v-if="stepActive > 0"
         :disabled="submitLoading"
-        >{{ $t("Base.backStep") }}</el-button
+        >{{ $t('Base.backStep') }}</el-button
       >
       <el-button size="small" v-if="stepActive === 0" @click="gotoList">{{
-        $t("Base.cancel")
+        $t('Base.cancel')
       }}</el-button>
     </el-row>
   </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, ref } from "vue";
-import CoapBasic from "./components/coapBasic.vue";
-import Listeners from "./components/listeners.vue";
-import LwBasic from "./components/lwm2mBasic.vue";
-import MqttsnBasic from "./components/mqttsnBasic.vue";
-import stompBasic from "./components/stompBasic.vue";
-import ExprotoBasic from "./components/exprotoBasic.vue";
-import _ from "lodash";
-import { postGateway, getGateway } from "@/api/gateway";
-import router from "@/router";
-import { ElMessage as M } from "element-plus";
-import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
+import { defineComponent, onMounted, ref } from 'vue'
+import CoapBasic from './components/coapBasic.vue'
+import Listeners from './components/listeners.vue'
+import LwBasic from './components/lwm2mBasic.vue'
+import MqttsnBasic from './components/mqttsnBasic.vue'
+import stompBasic from './components/stompBasic.vue'
+import ExprotoBasic from './components/exprotoBasic.vue'
+import _ from 'lodash'
+import { postGateway, getGateway } from '@/api/gateway'
+import router from '@/router'
+import { ElMessage as M } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 const STATIC_LISTENER = {
   exproto: {
-    type: "tcp",
-    name: "default",
-    bind: "7993",
+    type: 'tcp',
+    name: 'default',
+    bind: '7993',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
   lwm2m: {
-    type: "udp",
-    name: "default",
-    bind: "5783",
+    type: 'udp',
+    name: 'default',
+    bind: '5783',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
   coap: {
-    type: "udp",
-    name: "default",
-    bind: "5683",
+    type: 'udp',
+    name: 'default',
+    bind: '5683',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
   mqttsn: {
-    type: "udp",
-    name: "default",
-    bind: "1884",
+    type: 'udp',
+    name: 'default',
+    bind: '1884',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
   stomp: {
-    type: "tcp",
-    name: "default",
-    bind: "61613",
+    type: 'tcp',
+    name: 'default',
+    bind: '61613',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-};
+}
 
 export default defineComponent({
   components: {
@@ -140,17 +136,17 @@ export default defineComponent({
     CoapBasic,
     ExprotoBasic,
   },
-  name: "GatewayCreate",
+  name: 'GatewayCreate',
 
   setup() {
-    let stepActive = ref(0);
-    let basicData = ref({});
-    let listenerList = ref([]);
-    let submitLoading = ref(false);
+    let stepActive = ref(0)
+    let basicData = ref({})
+    let listenerList = ref([])
+    let submitLoading = ref(false)
 
-    const { t } = useI18n();
-    const route = useRoute();
-    const gname = String(route.params.name).toLowerCase();
+    const { t } = useI18n()
+    const route = useRoute()
+    const gname = String(route.params.name).toLowerCase()
 
     // watch(
     //   () => [_.cloneDeep(basicData.value), _.cloneDeep(listenerList.value)],
@@ -160,54 +156,54 @@ export default defineComponent({
     // );
 
     const gotoList = function () {
-      router.push({ name: "gateway" });
-    };
+      router.push({ name: 'gateway' })
+    }
 
     const createGateway = async () => {
-      submitLoading.value = true;
+      submitLoading.value = true
 
       let res = await postGateway({
         ...basicData.value,
         listeners: [...listenerList.value],
         name: gname,
-      }).catch(() => {});
+      }).catch(() => {})
       if (res) {
         M({
-          type: "success",
-          message: t("Base.createSuccess"),
-        });
-        gotoList();
+          type: 'success',
+          message: t('Base.createSuccess'),
+        })
+        gotoList()
       }
-      submitLoading.value = false;
-    };
+      submitLoading.value = false
+    }
 
     const gatewayStatus = async () => {
       if (!gname) {
-        gotoList();
+        gotoList()
       }
 
-      let res = await getGateway(gname).catch(() => {});
+      let res = await getGateway(gname).catch(() => {})
       if (res) {
-        let { status } = res;
-        if (status !== "unloaded") {
+        let { status } = res
+        if (status !== 'unloaded') {
           M({
-            type: "error",
-            message: t("Gateway.alreadyLoad"),
-          });
-          gotoList();
+            type: 'error',
+            message: t('Gateway.alreadyLoad'),
+          })
+          gotoList()
         }
       }
-    };
+    }
 
     onMounted(() => {
-      gatewayStatus();
+      gatewayStatus()
 
-      let staticListener = STATIC_LISTENER[gname];
-      staticListener && listenerList.value.push({ ...staticListener });
-    });
+      let staticListener = STATIC_LISTENER[gname]
+      staticListener && listenerList.value.push({ ...staticListener })
+    })
 
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       stepActive,
       basicData,
       gotoList,
@@ -215,9 +211,9 @@ export default defineComponent({
       submitLoading,
       createGateway,
       name: gname,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

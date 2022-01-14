@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import { defineComponent, reactive, watch } from "vue";
-import PasswordHashAlgorithmFormItems from "./PasswordHashAlgorithmFormItems.vue";
+import { defineComponent, reactive, watch } from 'vue'
+import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
 export default defineComponent({
-  name: "BuiltInConfig",
+  name: 'BuiltInConfig',
 
   components: {
     PasswordHashAlgorithmFormItems,
@@ -56,19 +56,19 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, ctx) {
-    const builtConfig = reactive(props.modelValue);
+    const builtConfig = reactive(props.modelValue)
     watch(builtConfig, (value) => {
-      ctx.emit("update:modelValue", value);
-    });
+      ctx.emit('update:modelValue', value)
+    })
     return {
       builtConfig,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">
-@import "../style/authConfig.scss";
+@import '../style/authConfig.scss';
 </style>

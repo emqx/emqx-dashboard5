@@ -2,7 +2,7 @@
   <div>
     <el-form label-position="top">
       <div class="part-header">
-        {{ tl("basic") }}
+        {{ tl('basic') }}
       </div>
       <el-row :gutter="30">
         <el-col :span="12">
@@ -48,7 +48,7 @@
             </el-select> </el-form-item
         ></el-col>
       </el-row>
-      <div class="part-header">{{ tl("mountSetting") }}</div>
+      <div class="part-header">{{ tl('mountSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -64,17 +64,17 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, watch } from "vue";
-import _ from "lodash";
+import { defineComponent, onMounted, reactive, watch } from 'vue'
+import _ from 'lodash'
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
   getValueIntersectionWithTemplate,
-} from "@/common/utils";
-import { useI18n } from "vue-i18n";
+} from '@/common/utils'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: "StompBasic",
+  name: 'StompBasic',
   props: {
     value: {
       type: Object,
@@ -82,7 +82,7 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  emits: ["update:value"],
+  emits: ['update:value'],
   setup(props, context) {
     let sValueDefault = {
       frame: {
@@ -90,36 +90,36 @@ export default defineComponent({
         max_headers_length: 1024,
         max_body_length: 8192,
       },
-      idle_timeout: [30, "s"],
+      idle_timeout: [30, 's'],
       enable_stats: true,
-      mountpoint: "",
-    };
+      mountpoint: '',
+    }
 
-    const { t } = useI18n();
+    const { t } = useI18n()
 
     const sValue = reactive(
       getValueIntersectionWithTemplate(
         sValueDefault,
-        transformStrToUnitArray(props.value, ["idle_timeout"])
-      )
-    );
+        transformStrToUnitArray(props.value, ['idle_timeout']),
+      ),
+    )
 
     watch(
       () => _.cloneDeep(sValue),
       (v) => {
-        context.emit("update:value", transformUnitArrayToStr(v));
-      }
-    );
+        context.emit('update:value', transformUnitArrayToStr(v))
+      },
+    )
     onMounted(() => {
-      context.emit("update:value", transformUnitArrayToStr(sValue));
-    });
+      context.emit('update:value', transformUnitArrayToStr(sValue))
+    })
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       sValue,
       sValueDefault,
-    };
+    }
   },
-});
+})
 </script>
 <style lang="scss" scoped>
 .part-header {
