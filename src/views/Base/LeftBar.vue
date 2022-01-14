@@ -136,6 +136,10 @@ export default {
         title: 'advanced',
         path: '/advanced',
       },
+      {
+        title: 'configDocs',
+        path: '/config_docs',
+      },
     ]
 
     this.menus = [
