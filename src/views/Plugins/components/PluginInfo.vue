@@ -1,7 +1,7 @@
 <template>
   <div class="plugin-info">
     <p class="plugin-info-hd">
-      {{ tl("basicInformation") }}
+      {{ tl('basicInformation') }}
     </p>
     <div class="plugin-info-content">
       <PluginInfoItem :label="tl('name')">
@@ -38,19 +38,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "PluginInfo",
-});
+  name: 'PluginInfo',
+})
 </script>
 
 <script lang="ts" setup>
-import { PluginItem } from "@/types/plugin";
-import { PropType, defineProps } from "vue";
-import { useI18n } from "vue-i18n";
-import PluginInfoItem from "./PluginInfoItem.vue";
-import usePluginItem from "@/hooks/Plugins/usePluginItem";
+import { PluginItem } from '@/types/plugin'
+import { PropType, defineProps } from 'vue'
+import { useI18n } from 'vue-i18n'
+import PluginInfoItem from './PluginInfoItem.vue'
+import usePluginItem from '@/hooks/Plugins/usePluginItem'
 
 const props = defineProps({
   pluginData: {
@@ -59,12 +59,12 @@ const props = defineProps({
       metadata: {},
     }),
   },
-});
+})
 
-const { t } = useI18n();
-const tl = (key: string, module = "Plugins") => t(`${module}.${key}`);
+const { t } = useI18n()
+const tl = (key: string, module = 'Plugins') => t(`${module}.${key}`)
 
-const { getPluginAuthorString } = usePluginItem();
+const { getPluginAuthorString } = usePluginItem()
 </script>
 
 <style lang="scss" scoped>
