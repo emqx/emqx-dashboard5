@@ -1,69 +1,69 @@
-import { useI18n } from "vue-i18n";
-import { checkStringWithUnit, checkInRange } from "@/common/tools";
-import { RuleInValidatorParam } from "@/types/common";
+import { useI18n } from 'vue-i18n'
+import { checkStringWithUnit, checkInRange } from '@/common/tools'
+import { RuleInValidatorParam } from '@/types/common'
 
 export default () => {
-  const { t } = useI18n();
+  const { t } = useI18n()
   const createRequiredRule = (name: string) => {
     return [
       {
         required: true,
-        message: t("Rule.inputFieldRequiredError", { name }),
+        message: t('Rule.inputFieldRequiredError', { name }),
       },
-    ];
-  };
+    ]
+  }
   const createIntFieldRule = (min?: number, max?: number) => {
     const ret = [
       {
         validator(rule: RuleInValidatorParam, val: string) {
           if (!/^-?\d*$/.test(val)) {
-            return [new Error(t("Rule.errorType", { type: t("Rule.int") }))];
+            return [new Error(t('Rule.errorType', { type: t('Rule.int') }))]
           }
-          return [];
+          return []
         },
       },
-    ];
+    ]
     if (min !== undefined && max !== undefined) {
       ret.push({
         validator(rule: RuleInValidatorParam, val: string) {
           if (!checkInRange(Number(val), min, max)) {
-            return [new Error(t("Rule.errorRange", { min, max }))];
+            return [new Error(t('Rule.errorRange', { min, max }))]
           }
-          return [];
+          return []
         },
-      });
+      })
     }
-    return ret;
-  };
+    return ret
+  }
   const createStringWithUnitFieldRule = (units: Array<string>, min?: number, max?: number) => {
     const ret = [
       {
         validator(rule: RuleInValidatorParam, val: string) {
           if (!checkStringWithUnit(val, units)) {
-            return [new Error(t("Rule.formatError"))];
+            return [new Error(t('Rule.formatError'))]
           }
-          return [];
+          return []
         },
-        trigger: "blur",
+        trigger: 'blur',
       },
-    ];
+    ]
     if (min !== undefined && max !== undefined) {
       ret.push({
         validator(rule: RuleInValidatorParam, val: string) {
           if (!checkInRange(parseFloat(val), min, max)) {
-            return [new Error(t("Rule.errorRange", { min, max }))];
+            return [new Error(t('Rule.errorRange', { min, max }))]
           }
-          return [];
+          return []
         },
-        trigger: "change",
-      });
+        trigger: 'change',
+      })
     }
-    return ret;
-  };
+    return ret
+  }
 
   return {
     createRequiredRule,
     createIntFieldRule,
     createStringWithUnitFieldRule,
-  };
-};
+  }
+}

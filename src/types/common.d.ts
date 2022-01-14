@@ -1,16 +1,16 @@
 export interface PageData {
-  count: number;
-  limit: number;
-  page: number;
+  count: number
+  limit: number
+  page: number
 }
 
 export type ListDataWithPagination<T> = {
-  data: Array<T>;
-  meta: PageData;
-};
+  data: Array<T>
+  meta: PageData
+}
 
 export interface RuleInValidatorParam {
-  field: string;
-  fullField: string;
-  type: string;
+  field: string
+  fullField: string
+  type: string
 }
