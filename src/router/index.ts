@@ -38,6 +38,7 @@ import APIKey from '@/views/APIKey/APIKey.vue'
 import Plugins from '@/views/Plugins/Plugins.vue'
 import PluginInstall from '@/views/Plugins/PluginInstall.vue'
 import PluginDetail from '@/views/Plugins/PluginDetail.vue'
+import ConfigDocs from '@/views/Config/ConfigDocs.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -412,6 +413,21 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'advanced',
         component: Advanced,
+      },
+    ],
+  },
+  {
+    path: '/configDocs',
+    component: Layout,
+    meta: {
+      hideKey: 'configDocs',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'config-docs',
+        component: ConfigDocs,
       },
     ],
   },
