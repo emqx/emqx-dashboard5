@@ -8,26 +8,17 @@
           v-model="keyForSearch"
         />
         <el-radio-group size="small" v-model="filterStatus">
-          <el-radio-button
-            v-for="{ label, value } in statusOptions"
-            :key="value"
-            :label="value"
-          >
+          <el-radio-button v-for="{ label, value } in statusOptions" :key="value" :label="value">
             {{ label }}
             ({{ statusCounter[value] }})
           </el-radio-button>
         </el-radio-group>
       </div>
       <el-button type="primary" size="small" @click="goInstall">{{
-        tl("installPlugin")
+        tl('installPlugin')
       }}</el-button>
     </div>
-    <el-table
-      :data="pluginListToShow"
-      v-loading="isTableLoading"
-      ref="tableCom"
-      row-key="name"
-    >
+    <el-table :data="pluginListToShow" v-loading="isTableLoading" ref="tableCom" row-key="name">
       <el-table-column :label="tl('name')">
         <template #default="{ row }">
           <i class="icon icon-plugin"></i>
@@ -45,10 +36,7 @@
           <el-tooltip placement="left" popper-class="tooltip-node-status-list">
             <span>
               <el-badge is-dot :type="dotClass(getTheWorstStatus(row))" />
-              <span
-                class="text-status"
-                :class="statusTextClass(getTheWorstStatus(row))"
-              >
+              <span class="text-status" :class="statusTextClass(getTheWorstStatus(row))">
                 {{ statusText(getTheWorstStatus(row)) }}
               </span>
             </span>
@@ -78,14 +66,14 @@
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
             @click="handleDisable(row)"
           >
-            {{ tl("stop") }}
+            {{ tl('stop') }}
           </el-button>
           <el-button
             size="mini"
             v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
             @click="handleEnable(row)"
           >
-            {{ tl("start") }}
+            {{ tl('start') }}
           </el-button>
           <TableItemDropdown
             :row-data="row"
@@ -101,43 +89,43 @@
 </template>
 
 <script lang="ts" setup>
-import { PluginStatus } from "@/types/enum";
-import { useI18n } from "vue-i18n";
-import { computed, ComputedRef, nextTick, ref } from "vue";
-import { PluginItem } from "@/types/plugin";
-import usePluginStatus from "@/hooks/Plugins/usePluginStatus";
-import { useRouter } from "vue-router";
-import usePluginItem from "@/hooks/Plugins/usePluginItem";
-import TableItemDropdown from "./components/TableItemDropdown.vue";
-import usePaging, { FilterItem } from "@/hooks/usePaging";
-import { queryPlugins } from "@/api/plugins";
-import Sortable, { SortableEvent } from "sortablejs";
+import { PluginStatus } from '@/types/enum'
+import { useI18n } from 'vue-i18n'
+import { computed, ComputedRef, nextTick, ref } from 'vue'
+import { PluginItem } from '@/types/plugin'
+import usePluginStatus from '@/hooks/Plugins/usePluginStatus'
+import { useRouter } from 'vue-router'
+import usePluginItem from '@/hooks/Plugins/usePluginItem'
+import TableItemDropdown from './components/TableItemDropdown.vue'
+import usePaging, { FilterItem } from '@/hooks/usePaging'
+import { queryPlugins } from '@/api/plugins'
+import Sortable, { SortableEvent } from 'sortablejs'
 
-const router = useRouter();
-const { t } = useI18n();
-const tl = (key: string, moduleName = "Plugins") => {
-  return t(`${moduleName}.${key}`);
-};
-const { dotClass, statusText, statusTextClass } = usePluginStatus(tl);
-const VALUE_FOR_NOT_FILTER = "all";
+const router = useRouter()
+const { t } = useI18n()
+const tl = (key: string, moduleName = 'Plugins') => {
+  return t(`${moduleName}.${key}`)
+}
+const { dotClass, statusText, statusTextClass } = usePluginStatus(tl)
+const VALUE_FOR_NOT_FILTER = 'all'
 const statusOptions = [
   {
-    label: tl("all", "Base"),
+    label: tl('all', 'Base'),
     value: VALUE_FOR_NOT_FILTER,
   },
   {
-    label: tl("active"),
+    label: tl('active'),
     value: PluginStatus.Running,
   },
   {
-    label: tl("inactive"),
+    label: tl('inactive'),
     value: PluginStatus.Stopped,
   },
-];
-const filterStatus = ref(VALUE_FOR_NOT_FILTER);
-const keyForSearch = ref("");
+]
+const filterStatus = ref(VALUE_FOR_NOT_FILTER)
+const keyForSearch = ref('')
 
-const isTableLoading = ref(false);
+const isTableLoading = ref(false)
 
 const {
   disablePlugin,
@@ -151,157 +139,146 @@ const {
   movePluginToBottom,
   movePluginBeforeAnotherPlugin,
   movePluginAfterAnotherPlugin,
-} = usePluginItem();
-const { totalData, setTotalData, getAPageData } = usePaging();
+} = usePluginItem()
+const { totalData, setTotalData, getAPageData } = usePaging()
 const isTableFiltered = computed(
-  () => !!(filterStatus.value !== VALUE_FOR_NOT_FILTER || keyForSearch.value)
-);
-const tableCom = ref();
-let sortable: undefined | Sortable = undefined;
+  () => !!(filterStatus.value !== VALUE_FOR_NOT_FILTER || keyForSearch.value),
+)
+const tableCom = ref()
+let sortable: undefined | Sortable = undefined
 
 /**
  * Filtered by the search
  */
 const pluginsListAfterSearch: ComputedRef<Array<PluginItem>> = computed(() => {
-  const filters: Array<FilterItem> = [
-    { key: "name", value: keyForSearch.value },
-  ];
-  const { data } = getAPageData(
-    { page: 1, limit: totalData.value.length },
-    filters
-  );
-  return data;
-});
+  const filters: Array<FilterItem> = [{ key: 'name', value: keyForSearch.value }]
+  const { data } = getAPageData({ page: 1, limit: totalData.value.length }, filters)
+  return data
+})
 
 /**
  * Filtered by search and status selection
  */
 const pluginListToShow = computed(() => {
   if (filterStatus.value === VALUE_FOR_NOT_FILTER) {
-    return pluginsListAfterSearch.value;
+    return pluginsListAfterSearch.value
   }
   return pluginsListAfterSearch.value.filter(
-    (item) => getTheWorstStatus(item) === filterStatus.value
-  );
-});
+    (item) => getTheWorstStatus(item) === filterStatus.value,
+  )
+})
 
 const statusCounter = computed(() => {
   return {
     [VALUE_FOR_NOT_FILTER]: pluginsListAfterSearch.value.length,
     [PluginStatus.Running]: pluginsListAfterSearch.value.filter(
-      (item) => getTheWorstStatus(item) === PluginStatus.Running
+      (item) => getTheWorstStatus(item) === PluginStatus.Running,
     ).length,
     [PluginStatus.Stopped]: pluginsListAfterSearch.value.filter(
-      (item) => getTheWorstStatus(item) === PluginStatus.Stopped
+      (item) => getTheWorstStatus(item) === PluginStatus.Stopped,
     ).length,
-  };
-});
+  }
+})
 
 const goInstall = () => {
-  router.push({ name: "plugin-install" });
-};
+  router.push({ name: 'plugin-install' })
+}
 
 const handleOrderChanged = async (evt: SortableEvent) => {
   if (evt.newIndex === undefined || evt.oldIndex === undefined) {
-    return;
+    return
   }
-  const targetPlugin = pluginListToShow.value[evt.oldIndex];
-  const isTheLast = evt.newIndex === pluginListToShow.value.length - 1;
+  const targetPlugin = pluginListToShow.value[evt.oldIndex]
+  const isTheLast = evt.newIndex === pluginListToShow.value.length - 1
   try {
     if (isTheLast) {
-      await movePluginAfterAnotherPlugin(
-        targetPlugin,
-        pluginListToShow.value[evt.newIndex - 1]
-      );
+      await movePluginAfterAnotherPlugin(targetPlugin, pluginListToShow.value[evt.newIndex - 1])
     } else {
-      await movePluginBeforeAnotherPlugin(
-        targetPlugin,
-        pluginListToShow.value[evt.newIndex + 1]
-      );
+      await movePluginBeforeAnotherPlugin(targetPlugin, pluginListToShow.value[evt.newIndex + 1])
     }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   } finally {
-    queryListData();
+    queryListData()
   }
-};
+}
 
 const initSortable = () => {
-  sortable && sortable?.destroy();
-  sortable = new Sortable(tableCom.value.$el.querySelector("tbody"), {
-    dataIdAttr: "plugin-name",
+  sortable && sortable?.destroy()
+  sortable = new Sortable(tableCom.value.$el.querySelector('tbody'), {
+    dataIdAttr: 'plugin-name',
     onUpdate: handleOrderChanged,
-  });
-};
+  })
+}
 
 const queryListData = async () => {
   try {
-    isTableLoading.value = true;
-    const data = await queryPlugins();
-    setTotalData(data);
-    await nextTick();
-    initSortable();
+    isTableLoading.value = true
+    const data = await queryPlugins()
+    setTotalData(data)
+    await nextTick()
+    initSortable()
   } catch (error) {
-    console.error(error);
+    console.error(error)
   } finally {
-    isTableLoading.value = false;
+    isTableLoading.value = false
   }
-};
+}
 
 const moveToTop = async (plugin: PluginItem) => {
   try {
-    await movePluginToTop(plugin);
-    queryListData();
+    await movePluginToTop(plugin)
+    queryListData()
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
 const moveToBottom = async (plugin: PluginItem) => {
   try {
-    await movePluginToBottom(plugin);
-    queryListData();
+    await movePluginToBottom(plugin)
+    queryListData()
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
 const detailLink = ({ name, rel_vsn }: PluginItem) => ({
-  name: "plugin-detail",
+  name: 'plugin-detail',
   params: {
     pluginName: name,
     pluginVersion: rel_vsn,
   },
-});
+})
 
 const handleEnable = async (plugin: PluginItem) => {
   try {
-    await enablePlugin(plugin);
-    queryListData();
+    await enablePlugin(plugin)
+    queryListData()
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
 const handleDisable = async (plugin: PluginItem) => {
   try {
-    await disablePlugin(plugin);
-    queryListData();
+    await disablePlugin(plugin)
+    queryListData()
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
 const handleUninstall = async (plugin: PluginItem) => {
   try {
-    await uninstall(plugin);
-    queryListData();
+    await uninstall(plugin)
+    queryListData()
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
-queryListData();
+queryListData()
 </script>
 
 <style lang="scss">

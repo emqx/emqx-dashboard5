@@ -1,6 +1,6 @@
 <template>
   <div class="plugin-detail app-wrapper">
-    <router-link class="back-button" :to="{ name: 'plugins' }">{{ tl("backList") }}</router-link>
+    <router-link class="back-button" :to="{ name: 'plugins' }">{{ tl('backList') }}</router-link>
     <div v-loading.lock="isDetailLoading">
       <div class="plugin-detail-hd">
         <div class="plugin-base-info">
@@ -18,7 +18,11 @@
                 <template #content>
                   <div class="status-detail">
                     <ul class="node-status-list">
-                      <li class="node-status-item" v-for="{ node, status } in pluginInfo.running_status" :key="node">
+                      <li
+                        class="node-status-item"
+                        v-for="{ node, status } in pluginInfo.running_status"
+                        :key="node"
+                      >
                         <span class="text-status" :class="statusTextClass(status)">
                           {{ statusText(status) }}
                         </span>
@@ -34,15 +38,19 @@
         </div>
         <div>
           <!-- TODO: -->
-          <el-button size="small" @click="goDoc">{{ tl("more") }}</el-button>
-          <el-button v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running" size="small" @click="handleDisable">
-            {{ tl("stop", "Base") }}
+          <el-button size="small" @click="goDoc">{{ tl('more') }}</el-button>
+          <el-button
+            v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
+            size="small"
+            @click="handleDisable"
+          >
+            {{ tl('stop', 'Base') }}
           </el-button>
           <el-button size="small" @click="handleEnable" v-else>
-            {{ tl("start") }}
+            {{ tl('start') }}
           </el-button>
           <el-button size="small" type="danger" @click="handleUninstall">
-            {{ tl("uninstall") }}
+            {{ tl('uninstall') }}
           </el-button>
         </div>
       </div>
@@ -57,64 +65,73 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ComputedRef, Ref, ref } from "vue";
-import { PluginDetail } from "@/types/plugin";
-import { useI18n } from "vue-i18n";
-import PluginInfo from "./components/PluginInfo.vue";
-import { useRoute } from "vue-router";
-import usePluginStatus from "@/hooks/Plugins/usePluginStatus";
-import usePluginItem from "@/hooks/Plugins/usePluginItem";
-import { queryPluginDetail } from "@/api/plugins";
-import MarkdownContent from "@/components/MarkdownContent.vue";
-import { PluginStatus } from "@/types/enum";
-import router from "@/router";
+import { computed, ComputedRef, Ref, ref } from 'vue'
+import { PluginDetail } from '@/types/plugin'
+import { useI18n } from 'vue-i18n'
+import PluginInfo from './components/PluginInfo.vue'
+import { useRoute } from 'vue-router'
+import usePluginStatus from '@/hooks/Plugins/usePluginStatus'
+import usePluginItem from '@/hooks/Plugins/usePluginItem'
+import { queryPluginDetail } from '@/api/plugins'
+import MarkdownContent from '@/components/MarkdownContent.vue'
+import { PluginStatus } from '@/types/enum'
+import router from '@/router'
 
-const { t } = useI18n();
-const tl = (key: string, moduleName = "Plugins") => t(`${moduleName}.${key}`);
-const { dotClass, statusText, statusTextClass } = usePluginStatus(tl);
+const { t } = useI18n()
+const tl = (key: string, moduleName = 'Plugins') => t(`${moduleName}.${key}`)
+const { dotClass, statusText, statusTextClass } = usePluginStatus(tl)
 
-const route = useRoute();
+const route = useRoute()
 
-const pluginInfo: Ref<PluginDetail> = ref({} as PluginDetail);
-const isDetailLoading = ref(false);
+const pluginInfo: Ref<PluginDetail> = ref({} as PluginDetail)
+const isDetailLoading = ref(false)
 
-const pluginName: ComputedRef<string> = computed(() => route.params.pluginName.toString());
-const pluginVersion: ComputedRef<string> = computed(() => route.params.pluginVersion.toString());
+const pluginName: ComputedRef<string> = computed(() => route.params.pluginName.toString())
+const pluginVersion: ComputedRef<string> = computed(() => route.params.pluginVersion.toString())
 
-const { NAME_VERSION_JOINER, concatNameWithVersion, goDoc, disablePlugin, uninstall, enablePlugin, getTheWorstStatus } =
-  usePluginItem();
+const {
+  NAME_VERSION_JOINER,
+  concatNameWithVersion,
+  goDoc,
+  disablePlugin,
+  uninstall,
+  enablePlugin,
+  getTheWorstStatus,
+} = usePluginItem()
 
 const getPluginDetail = async () => {
   try {
-    isDetailLoading.value = true;
-    pluginInfo.value = await queryPluginDetail(`${pluginName.value}${NAME_VERSION_JOINER}${pluginVersion.value}`);
+    isDetailLoading.value = true
+    pluginInfo.value = await queryPluginDetail(
+      `${pluginName.value}${NAME_VERSION_JOINER}${pluginVersion.value}`,
+    )
   } catch (error) {
-    console.error(error);
+    console.error(error)
   } finally {
-    isDetailLoading.value = false;
+    isDetailLoading.value = false
   }
-};
+}
 
 const handleUninstall = async () => {
-  await uninstall(pluginInfo.value);
-  router.push({ name: "plugins" });
-};
+  await uninstall(pluginInfo.value)
+  router.push({ name: 'plugins' })
+}
 
 const handleDisable = async () => {
-  await disablePlugin(pluginInfo.value);
-  getPluginDetail();
-};
+  await disablePlugin(pluginInfo.value)
+  getPluginDetail()
+}
 
 const handleEnable = async () => {
-  await enablePlugin(pluginInfo.value);
-  getPluginDetail();
-};
+  await enablePlugin(pluginInfo.value)
+  getPluginDetail()
+}
 
-getPluginDetail();
+getPluginDetail()
 </script>
 
 <style lang="scss" scoped>
-@import "./style/pluginInfo.scss";
+@import './style/pluginInfo.scss';
 .back-button {
   margin-bottom: 32px;
 }

@@ -8,21 +8,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "PluginInfoItem",
-});
+  name: 'PluginInfoItem',
+})
 </script>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
+import { defineProps } from 'vue'
 
 const props = defineProps({
   label: {
     type: String,
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
