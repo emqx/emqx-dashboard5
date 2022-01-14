@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "format": "prettier --write \"src/**/*.js\" \"src/**/*.vue\" \"src/**/*.scss\""
+    "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.vue\" \"src/**/*.scss\""
   },
   "dependencies": {
     "@antv/g6": "^4.5.1",

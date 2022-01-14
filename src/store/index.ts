@@ -1,8 +1,8 @@
-import { createStore } from "vuex";
+import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    user: JSON.parse(<string>localStorage.getItem('user'))||{},
+    user: JSON.parse(<string>localStorage.getItem('user')) || {},
     lang: localStorage.getItem('language') || 'en',
     leftBarCollapse: JSON.parse(<string>localStorage.getItem('leftBarCollapse')),
     alertCount: 0,
@@ -74,4 +74,4 @@ export default createStore({
       return e == 'enterprise' ? 0b01 : 0b10
     },
   },
-});
+})
