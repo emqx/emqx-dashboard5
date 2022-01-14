@@ -2,7 +2,7 @@
   <div class="database-config config">
     <!-- Connect -->
     <div class="part-header">
-      {{ $t("Auth.connect") }}
+      {{ $t('Auth.connect') }}
     </div>
     <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
@@ -32,10 +32,7 @@
           :span="12"
         >
           <el-form-item :label="$t('Auth.servers')">
-            <el-input
-              v-model="databaseConfig.servers"
-              type="textarea"
-            ></el-input>
+            <el-input v-model="databaseConfig.servers" type="textarea"></el-input>
           </el-form-item>
         </el-col>
         <el-col v-else :span="12">
@@ -43,19 +40,13 @@
             <el-input v-model="databaseConfig.server"></el-input>
           </el-form-item>
         </el-col>
-        <el-col
-          v-if="isMongoDB && databaseConfig.mongo_type !== 'single'"
-          :span="12"
-        >
+        <el-col v-if="isMongoDB && databaseConfig.mongo_type !== 'single'" :span="12">
           <el-form-item label="Replica Set Name">
             <el-input v-model="databaseConfig.replica_set_name"></el-input>
           </el-form-item>
         </el-col>
         <!-- Redis -->
-        <el-col
-          v-if="isRedis && databaseConfig.redis_type !== 'single'"
-          :span="12"
-        >
+        <el-col v-if="isRedis && databaseConfig.redis_type !== 'single'" :span="12">
           <el-form-item :label="$t('Auth.sentinel')">
             <el-input v-model="databaseConfig.sentinel"></el-input>
           </el-form-item>
@@ -78,10 +69,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="$t('Base.password')">
-            <el-input
-              v-model="databaseConfig.password"
-              type="password"
-            ></el-input>
+            <el-input v-model="databaseConfig.password" type="password"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -90,7 +78,7 @@
     <!-- TLS -->
     <TLS-config v-model="databaseConfig.ssl"></TLS-config>
     <div class="part-header">
-      {{ $t("Auth.connectConfig") }}
+      {{ $t('Auth.connectConfig') }}
     </div>
     <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
@@ -109,20 +97,16 @@
         </el-col>
         <el-col v-if="isMongoDB" :span="12">
           <el-form-item :label="$t('Auth.connectTimeout')">
-            <el-input
-              v-model.number="databaseConfig.topology.connect_timeout_ms"
-            ></el-input>
+            <el-input v-model.number="databaseConfig.topology.connect_timeout_ms"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
 
     <div class="part-header">
-      {{
-        authType === "authn" ? $t("Auth.authnConfig") : $t("Auth.authzConfig")
-      }}
+      {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
       <el-button class="help-btn" size="mini" @click="toggleNeedHelp">
-        {{ $t("Base.help") }}
+        {{ $t('Base.help') }}
       </el-button>
     </div>
     <el-form class="create-form" label-position="top" size="small">
@@ -131,17 +115,9 @@
         <template v-if="isMySQL || isPgSQL">
           <el-col :span="24">
             <el-form-item label="SQL">
-              <el-input
-                v-model="databaseConfig.query"
-                type="textarea"
-                :rows="6"
-              ></el-input>
-              <el-button
-                class="bottom-btn"
-                size="mini"
-                @click="setDefaultContent('query')"
-              >
-                {{ $t("Auth.setDefault") }}
+              <el-input v-model="databaseConfig.query" type="textarea" :rows="6"></el-input>
+              <el-button class="bottom-btn" size="mini" @click="setDefaultContent('query')">
+                {{ $t('Auth.setDefault') }}
               </el-button>
             </el-form-item>
           </el-col>
@@ -150,17 +126,9 @@
         <template v-else-if="isMongoDB">
           <el-col :span="24">
             <el-form-item :label="$t('Auth.selector')">
-              <el-input
-                v-model="databaseConfig.selector"
-                type="textarea"
-                :rows="6"
-              ></el-input>
-              <el-button
-                class="bottom-btn"
-                size="mini"
-                @click="setDefaultContent('selector')"
-              >
-                {{ $t("Auth.setDefault") }}
+              <el-input v-model="databaseConfig.selector" type="textarea" :rows="6"></el-input>
+              <el-button class="bottom-btn" size="mini" @click="setDefaultContent('selector')">
+                {{ $t('Auth.setDefault') }}
               </el-button>
             </el-form-item>
           </el-col>
@@ -168,17 +136,9 @@
         <template v-else-if="isRedis">
           <el-col :span="24">
             <el-form-item :label="$t('Auth.cmd')">
-              <el-input
-                v-model="databaseConfig.cmd"
-                type="textarea"
-                :rows="6"
-              ></el-input>
-              <el-button
-                class="bottom-btn"
-                size="mini"
-                @click="setDefaultContent('cmd')"
-              >
-                {{ $t("Auth.setDefault") }}
+              <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6"></el-input>
+              <el-button class="bottom-btn" size="mini" @click="setDefaultContent('cmd')">
+                {{ $t('Auth.setDefault') }}
               </el-button>
             </el-form-item>
           </el-col>
@@ -189,10 +149,10 @@
               <div class="part-header">
                 {{
                   isMongoDB
-                    ? $t("Auth.exampleDataStructures")
+                    ? $t('Auth.exampleDataStructures')
                     : isRedis
-                    ? $t("Auth.exampleDataCmd")
-                    : $t("Auth.sqlHelpContent")
+                    ? $t('Auth.exampleDataCmd')
+                    : $t('Auth.sqlHelpContent')
                 }}
               </div>
               <code-view
@@ -200,7 +160,7 @@
                 :code="helpContent"
               ></code-view>
               <el-button size="small" ref="copyBtnCom">
-                {{ $t("Base.copy") }}
+                {{ $t('Base.copy') }}
               </el-button>
             </div>
           </el-col>
@@ -224,10 +184,7 @@
           <password-hash-algorithm-form-items v-model="databaseConfig" />
           <el-col v-if="isMongoDB" :span="12">
             <el-form-item :label="$t('Auth.saltField')">
-              <el-input
-                v-model="databaseConfig.salt_field"
-                placeholder="salt"
-              ></el-input>
+              <el-input v-model="databaseConfig.salt_field" placeholder="salt"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -253,17 +210,17 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, onUnmounted, ref } from "vue";
-import CodeView from "@/components/CodeView";
-import TimeInputWithUnitSelect from "@/components/TimeInputWithUnitSelect.vue";
-import PasswordHashAlgorithmFormItems from "./PasswordHashAlgorithmFormItems.vue";
-import TLSConfig from "./TLSConfig.vue";
-import useDatabaseConfig from "@/hooks/Auth/useDatabaseConfig";
-import useCopy from "@/hooks/useCopy";
-import { createClipboardEleWithTargetText } from "@/common/tools";
+import { computed, defineComponent, nextTick, onUnmounted, ref } from 'vue'
+import CodeView from '@/components/CodeView'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
+import TLSConfig from './TLSConfig.vue'
+import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
+import useCopy from '@/hooks/useCopy'
+import { createClipboardEleWithTargetText } from '@/common/tools'
 
 export default defineComponent({
-  name: "DatabaseConfig",
+  name: 'DatabaseConfig',
   components: { CodeView, TLSConfig, TimeInputWithUnitSelect, PasswordHashAlgorithmFormItems },
 
   props: {
@@ -280,39 +237,40 @@ export default defineComponent({
       type: String,
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, ctx) {
-    const { databaseConfig, defaultContent, helpContent } = useDatabaseConfig(
-      props,
-      ctx
-    );
-    const needHelp = ref(false);
+    const { databaseConfig, defaultContent, helpContent } = useDatabaseConfig(props, ctx)
+    const needHelp = ref(false)
     const setDefaultContent = (dataKey) => {
-      databaseConfig[dataKey] = defaultContent.value;
-    };
-    const isMongoDB = computed(() => props.database === "mongodb");
-    const isRedis = computed(() => props.database === "redis");
-    const isMySQL = computed(() => props.database === "mysql");
-    const isPgSQL = computed(() => props.database === "postgresql");
-    const copyBtnCom = ref();
-    let clipboardInstance = undefined;
+      databaseConfig[dataKey] = defaultContent.value
+    }
+    const isMongoDB = computed(() => props.database === 'mongodb')
+    const isRedis = computed(() => props.database === 'redis')
+    const isMySQL = computed(() => props.database === 'mysql')
+    const isPgSQL = computed(() => props.database === 'postgresql')
+    const copyBtnCom = ref()
+    let clipboardInstance = undefined
     const initCopyBtn = () => {
-      clipboardInstance && clipboardInstance?.destroy();
-      clipboardInstance = createClipboardEleWithTargetText(copyBtnCom.value.$el, helpContent.value, copySuccess);
-    };
+      clipboardInstance && clipboardInstance?.destroy()
+      clipboardInstance = createClipboardEleWithTargetText(
+        copyBtnCom.value.$el,
+        helpContent.value,
+        copySuccess,
+      )
+    }
     const { copySuccess } = useCopy(() => {
-      needHelp.value = false;
-    });
+      needHelp.value = false
+    })
     const toggleNeedHelp = async () => {
-      needHelp.value = !needHelp.value;
+      needHelp.value = !needHelp.value
       if (needHelp.value) {
-        await nextTick();
-        initCopyBtn();
+        await nextTick()
+        initCopyBtn()
       }
-    };
+    }
     onUnmounted(() => {
-      clipboardInstance && clipboardInstance?.destroy();
-    });
+      clipboardInstance && clipboardInstance?.destroy()
+    })
     return {
       isMongoDB,
       isRedis,
@@ -325,11 +283,11 @@ export default defineComponent({
       copyBtnCom,
       copySuccess,
       toggleNeedHelp,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">
-@import "../style/authConfig.scss";
+@import '../style/authConfig.scss';
 </style>

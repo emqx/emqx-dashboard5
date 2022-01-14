@@ -1,47 +1,43 @@
 <template>
   <div class="iot-create app-wrapper">
-    <div class="page-header-title">{{ tl("createIoTRule") }}</div>
+    <div class="page-header-title">{{ tl('createIoTRule') }}</div>
     <iotform v-model="ruleValue"></iotform>
     <el-row class="config-btn">
-      <el-button
-        size="small"
-        type="primary"
-        :loading="submitLoading"
-        @click="submitCreateIoT"
-        >{{ $t("Base.create") }}</el-button
-      >
+      <el-button size="small" type="primary" :loading="submitLoading" @click="submitCreateIoT">{{
+        $t('Base.create')
+      }}</el-button>
 
       <el-button size="small" @click="$router.push({ name: 'iot' })">{{
-        $t("Base.cancel")
+        $t('Base.cancel')
       }}</el-button>
     </el-row>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, Ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
-import iotform from "../components/IoTForm.vue";
-import { BridgeItem, RuleItem } from "@/types/ruleengine";
-import { createRules } from "@/api/ruleengine";
-import { useRouter } from "vue-router";
-import { ElMessage as M } from "element-plus";
-import _ from "lodash";
+import { defineComponent, onMounted, reactive, ref, Ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import iotform from '../components/IoTForm.vue'
+import { BridgeItem, RuleItem } from '@/types/ruleengine'
+import { createRules } from '@/api/ruleengine'
+import { useRouter } from 'vue-router'
+import { ElMessage as M } from 'element-plus'
+import _ from 'lodash'
 
 export default defineComponent({
   components: { iotform },
   setup() {
-    const { t } = useI18n();
+    const { t } = useI18n()
 
-    const router = useRouter();
-    const submitLoading = ref(false);
+    const router = useRouter()
+    const submitLoading = ref(false)
 
     const ruleValue: Ref<RuleItem> = ref({
-      name: "",
-      sql: "",
+      name: '',
+      sql: '',
       outputs: [],
-      description: "",
-    });
+      description: '',
+    })
 
     // watch(
     //   () => ruleValue.value,
@@ -50,29 +46,29 @@ export default defineComponent({
     //   }
     // );
     const submitCreateIoT = async () => {
-      submitLoading.value = true;
+      submitLoading.value = true
 
       const res = await createRules({
         ...ruleValue.value,
-      }).catch(() => {});
+      }).catch(() => {})
       if (res) {
         M({
-          type: "success",
-          message: t("Base.createSuccess"),
-        });
-        router.push({ name: "iot" });
+          type: 'success',
+          message: t('Base.createSuccess'),
+        })
+        router.push({ name: 'iot' })
       }
-      submitLoading.value = false;
-    };
+      submitLoading.value = false
+    }
 
     return {
-      tl: (key: string) => t("RuleEngine." + key),
+      tl: (key: string) => t('RuleEngine.' + key),
       ruleValue,
       submitCreateIoT,
       submitLoading,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

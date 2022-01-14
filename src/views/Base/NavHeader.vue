@@ -5,7 +5,7 @@
         class="func-item"
         @click="
           () => {
-            $store.dispatch('SET_LEFT_BAR_COLLAPSE', !this.leftBarCollapse);
+            $store.dispatch('SET_LEFT_BAR_COLLAPSE', !this.leftBarCollapse)
           }
         "
       >
@@ -18,12 +18,7 @@
     </div>
 
     <div class="pull-right">
-      <el-tooltip
-        effect="dark"
-        :content="alertText"
-        placement="bottom"
-        :visible-arrow="false"
-      >
+      <el-tooltip effect="dark" :content="alertText" placement="bottom" :visible-arrow="false">
         <div class="alert-info func-item">
           <el-badge :is-dot="!!alertCount">
             <router-link to="/alarm" class="iconx icon-alarm"></router-link>
@@ -55,117 +50,114 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="users">
-              {{ $t("components.usersManagement") }}
+              {{ $t('components.usersManagement') }}
             </el-dropdown-item>
             <el-dropdown-item divided command="logout">
-              {{ $t("components.logOut") }}
+              {{ $t('components.logOut') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
 
-      <el-button class="go-link" @click="gotoCloud" size="medium">
-        Try Cloud ➝
-      </el-button>
+      <el-button class="go-link" @click="gotoCloud" size="medium"> Try Cloud ➝ </el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { loadAlarm } from "@/api/common";
-import { toLogin } from "@/router";
-import { setLanguage } from "@/common/utils";
-import { mapState } from "vuex";
-import { Fold, Expand } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus";
+import { loadAlarm } from '@/api/common'
+import { toLogin } from '@/router'
+import { setLanguage } from '@/common/utils'
+import { mapState } from 'vuex'
+import { Fold, Expand } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 
 export default {
-  name: "NavHeader",
+  name: 'NavHeader',
   components: { Fold, Expand },
   data() {
     return {
-      firstPath: "",
-    };
+      firstPath: '',
+    }
   },
   computed: {
-    ...mapState(["alertCount", "leftBarCollapse", "user", "lang"]),
+    ...mapState(['alertCount', 'leftBarCollapse', 'user', 'lang']),
 
     alertText() {
       return this.alertCount > 0
-        ? `${this.$t("components.theSystemHas")} ${this.alertCount} ${this.$t(
-            "components.noteAlertClickView"
+        ? `${this.$t('components.theSystemHas')} ${this.alertCount} ${this.$t(
+            'components.noteAlertClickView',
           )}`
-        : this.$t("components.noWarning");
+        : this.$t('components.noWarning')
     },
   },
   watch: {
     $route() {
-      this.setHeaderTitle();
+      this.setHeaderTitle()
     },
   },
 
   created() {
-    this.loadData();
-    this.setHeaderTitle();
-    setLanguage(this.lang);
+    this.loadData()
+    this.setHeaderTitle()
+    setLanguage(this.lang)
   },
 
   mounted() {
-    document.addEventListener("visibilitychange", this.visibilityChangeFunc);
+    document.addEventListener('visibilitychange', this.visibilityChangeFunc)
   },
   beforeUnmount() {
-    document.removeEventListener("visibilitychange", this.visibilityChangeFunc);
+    document.removeEventListener('visibilitychange', this.visibilityChangeFunc)
   },
 
   methods: {
     visibilityChangeFunc() {
-      return document.visibilityState === "visible" && this.loadData();
+      return document.visibilityState === 'visible' && this.loadData()
     },
 
     handleLanguageDropdownCommand(command) {
       if (this.language === command) {
-        return;
+        return
       }
-      setLanguage(command);
+      setLanguage(command)
     },
     async loadData() {
-      const alert = await loadAlarm().catch(() => {});
-      this.$store.dispatch("SET_ALERT_COUNT", (alert || []).length);
+      const alert = await loadAlarm().catch(() => {})
+      this.$store.dispatch('SET_ALERT_COUNT', (alert || []).length)
     },
     logout() {
       this.$msgbox
-        .confirm(this.$t("components.whetherToLogOutOrNot"), {
-          confirmButtonText: this.$t("components.signOut"),
-          cancelButtonText: this.$t("Base.cancel"),
-          type: "warning",
+        .confirm(this.$t('components.whetherToLogOutOrNot'), {
+          confirmButtonText: this.$t('components.signOut'),
+          cancelButtonText: this.$t('Base.cancel'),
+          type: 'warning',
         })
         .then(() => {
-          ElMessage.success(this.$t("components.loggedOut"));
-          toLogin();
+          ElMessage.success(this.$t('components.loggedOut'))
+          toLogin()
         })
-        .catch((e) => {});
+        .catch((e) => {})
     },
     handleDropdownCommand(command) {
       if (!command) {
-        return;
+        return
       }
       if (this[command]) {
-        return this[command].call(this);
+        return this[command].call(this)
       }
 
-      this.$router.currentRoute?.name !== command &&
-        this.$router.push({ name: command });
+      this.$router.currentRoute?.name !== command && this.$router.push({ name: command })
     },
     gotoCloud() {
-      window.open("https://www.emqx.com/cloud", "_blank");
+      window.open('https://www.emqx.com/cloud', '_blank')
     },
     setHeaderTitle() {
-      let { path } = this.$route || [];
-      let firstPath = path.split("/")[1];
-      this.firstPath = firstPath;
+      let { path } = this.$route || []
+      let firstPath = path.split('/')[1]
+      this.firstPath = firstPath
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

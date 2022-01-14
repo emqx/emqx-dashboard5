@@ -7,36 +7,29 @@
       <el-dropdown-menu>
         <el-dropdown-item command="setting">
           <el-icon><Setting /></el-icon>
-          {{ $t("Auth.setting") }}
+          {{ $t('Auth.setting') }}
         </el-dropdown-item>
         <template v-if="tableDataLen !== 1">
           <el-dropdown-item command="moveUp" :disabled="position === 0">
             <el-icon><Top /></el-icon>
-            {{ $t("Auth.moveUp") }}
+            {{ $t('Auth.moveUp') }}
           </el-dropdown-item>
-          <el-dropdown-item
-            command="moveDown"
-            :disabled="position === tableDataLen - 1"
-          >
+          <el-dropdown-item command="moveDown" :disabled="position === tableDataLen - 1">
             <el-icon><Bottom /></el-icon>
-            {{ $t("Auth.moveDown") }}
+            {{ $t('Auth.moveDown') }}
           </el-dropdown-item>
         </template>
-        <el-dropdown-item
-          v-if="rowData.enable"
-          class="danger"
-          command="disable"
-        >
+        <el-dropdown-item v-if="rowData.enable" class="danger" command="disable">
           <el-icon><SwitchButton /></el-icon>
-          {{ $t("Auth.disable") }}
+          {{ $t('Auth.disable') }}
         </el-dropdown-item>
         <el-dropdown-item v-else command="enable">
           <el-icon><VideoPlay /></el-icon>
-          {{ $t("Auth.enable") }}
+          {{ $t('Auth.enable') }}
         </el-dropdown-item>
         <el-dropdown-item command="delete">
           <el-icon><Delete /></el-icon>
-          {{ $t("Base.delete") }}
+          {{ $t('Base.delete') }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -44,11 +37,19 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { Setting, More, Top, Bottom, SwitchButton, VideoPlay, Delete } from "@element-plus/icons-vue";
+import { defineComponent } from 'vue'
+import {
+  Setting,
+  More,
+  Top,
+  Bottom,
+  SwitchButton,
+  VideoPlay,
+  Delete,
+} from '@element-plus/icons-vue'
 
 export default defineComponent({
-  name: "TableDropdown",
+  name: 'TableDropdown',
   components: { Setting, More, Top, Bottom, SwitchButton, VideoPlay, Delete },
   props: {
     tableDataLen: {
@@ -64,37 +65,37 @@ export default defineComponent({
       type: Number,
     },
   },
-  emits: ["setting", "delete", "move", "update"],
+  emits: ['setting', 'delete', 'move', 'update'],
   setup(props, ctx) {
     const handleCommand = function (row, command) {
       switch (command) {
-        case "setting":
-          ctx.emit("setting", row);
-          break;
-        case "disable":
-          ctx.emit("update", { ...row, enable: false });
-          break;
-        case "enable":
-          ctx.emit("update", { ...row, enable: true });
-          break;
-        case "delete":
-          ctx.emit("delete", row);
-          break;
-        case "moveUp":
-          ctx.emit("move", row, "top");
-          break;
-        case "moveDown":
-          ctx.emit("move", row, "bottom");
-          break;
+        case 'setting':
+          ctx.emit('setting', row)
+          break
+        case 'disable':
+          ctx.emit('update', { ...row, enable: false })
+          break
+        case 'enable':
+          ctx.emit('update', { ...row, enable: true })
+          break
+        case 'delete':
+          ctx.emit('delete', row)
+          break
+        case 'moveUp':
+          ctx.emit('move', row, 'top')
+          break
+        case 'moveDown':
+          ctx.emit('move', row, 'bottom')
+          break
         default:
-          break;
+          break
       }
-    };
+    }
     return {
       handleCommand,
-    };
+    }
   },
-});
+})
 </script>
 
 <style scoped>

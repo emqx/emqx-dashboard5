@@ -37,141 +37,141 @@
 
 <script>
 export default {
-  name: "LeftBar",
+  name: 'LeftBar',
   data() {
     return {
       menus: [],
       // defaultOpenKeys: [],
-    };
+    }
   },
   computed: {
     leftBarCollapse() {
-      return this.$store.state.leftBarCollapse;
+      return this.$store.state.leftBarCollapse
     },
     defaultSelectedKeys() {
-      const { path } = this.$route;
-      return `/${path.split("/")[1]}`;
+      const { path } = this.$route
+      return `/${path.split('/')[1]}`
     },
   },
   created() {
     let dashboard = [
       {
-        title: "dashboard",
-        path: "/dashboard",
+        title: 'dashboard',
+        path: '/dashboard',
       },
       {
-        title: "alarm",
-        path: "/alarm",
+        title: 'alarm',
+        path: '/alarm',
       },
-    ];
+    ]
 
     let management = [
       {
-        title: "clients",
-        path: "/clients",
+        title: 'clients',
+        path: '/clients',
       },
       {
-        title: "topics",
-        path: "/topics",
+        title: 'topics',
+        path: '/topics',
       },
       {
-        title: "subscriptions",
-        path: "/subscriptions",
+        title: 'subscriptions',
+        path: '/subscriptions',
       },
-    ];
+    ]
 
     let authentication = [
       {
-        title: "authentication",
-        path: "/authentication",
+        title: 'authentication',
+        path: '/authentication',
       },
       {
-        title: "authorization",
-        path: "/authorization",
+        title: 'authorization',
+        path: '/authorization',
       },
-    ];
+    ]
 
     let ruleengine = [
-      { title: "iot", path: "/iot" },
-      { title: "bridge", path: "/bridge" },
-    ];
+      { title: 'iot', path: '/iot' },
+      { title: 'bridge', path: '/bridge' },
+    ]
 
     let system = [
-      { title: "users", path: "/users" },
+      { title: 'users', path: '/users' },
       {
-        title: "blacklist",
-        path: "/blacklist",
+        title: 'blacklist',
+        path: '/blacklist',
       },
       {
-        title: "gateway",
-        path: "/gateway",
+        title: 'gateway',
+        path: '/gateway',
       },
       {
-        title: "APIKey",
-        path: "/APIKey",
+        title: 'APIKey',
+        path: '/APIKey',
       },
-    ];
+    ]
 
     let diagnose = [
       {
-        title: "websocket",
-        path: "/websocket",
+        title: 'websocket',
+        path: '/websocket',
       },
       {
-        title: "topic-metrics",
-        path: "/topic-metrics",
+        title: 'topic-metrics',
+        path: '/topic-metrics',
       },
       // {
       //   title: "slow-sub",
       //   path: "/slow-sub",
       // },
       {
-        title: "log-trace",
-        path: "/log-trace",
+        title: 'log-trace',
+        path: '/log-trace',
       },
-    ];
+    ]
 
     let config = [
       {
-        title: "advanced",
-        path: "/advanced",
+        title: 'advanced',
+        path: '/advanced',
       },
-    ];
+    ]
 
     this.menus = [
       {
-        title: "monitoring",
-        icon: "icon-monitoring",
+        title: 'monitoring',
+        icon: 'icon-monitoring',
         c: dashboard,
       },
       {
-        title: "management",
-        icon: "icon-management",
+        title: 'management',
+        icon: 'icon-management',
         c: management,
       },
       {
-        title: "auth",
-        icon: "icon-authentication",
+        title: 'auth',
+        icon: 'icon-authentication',
         c: authentication,
       },
       {
-        title: "ruleengine",
-        icon: "icon-ruleengine",
+        title: 'ruleengine',
+        icon: 'icon-ruleengine',
         c: ruleengine,
       },
       {
-        title: "configuration",
-        icon: "icon-configuration",
+        title: 'configuration',
+        icon: 'icon-configuration',
         c: config,
       },
       {
-        title: "diagnose",
-        icon: "icon-diagnose",
+        title: 'diagnose',
+        icon: 'icon-diagnose',
         c: diagnose,
       },
       {
-        title: "system",
-        icon: "icon-system",
+        title: 'system',
+        icon: 'icon-system',
         c: system,
       },
       // {
@@ -194,9 +194,9 @@ export default {
       //   icon: 'icon-fenzuguanli',
       //   path: '/general',
       // },
-    ];
+    ]
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

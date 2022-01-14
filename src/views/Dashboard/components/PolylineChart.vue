@@ -3,31 +3,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 // import resizeChart from "@/mixins/resizeChart";
 
 export default defineComponent({
-  name: "PolylineChart",
+  name: 'PolylineChart',
   // mixins: [resizeChart],
-});
+})
 </script>
 
 <script setup lang="ts">
-import {
-  defineProps,
-  reactive,
-  ref,
-  watch,
-  onMounted,
-  PropType,
-  Ref,
-} from "vue";
-import * as echarts from "echarts/lib/echarts";
-import "echarts/lib/chart/line";
-import "echarts/lib/component/grid";
-import "echarts/lib/component/tooltip";
-import "echarts/lib/component/title";
-import "echarts/lib/component/legend";
+import { defineProps, reactive, ref, watch, onMounted, PropType, Ref } from 'vue'
+import * as echarts from 'echarts/lib/echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/grid'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/legend'
 
 const props = defineProps({
   chartId: {
@@ -36,7 +28,7 @@ const props = defineProps({
   },
   yTitle: {
     type: Array,
-    default: () => [""],
+    default: () => [''],
   },
   chartColors: {
     type: Array as PropType<Array<string>>,
@@ -45,14 +37,12 @@ const props = defineProps({
   axisColor: {
     type: Object,
     default: () => ({
-      colorAxisLine: "#757575",
-      colorAxisLabel: "#757575",
+      colorAxisLine: '#757575',
+      colorAxisLabel: '#757575',
     }),
   },
   chartData: {
-    type: Array as PropType<
-      Array<{ xData: Array<string>; yData: Array<number> }>
-    >,
+    type: Array as PropType<Array<{ xData: Array<string>; yData: Array<number> }>>,
     default: () => [
       {
         xData: [],
@@ -62,42 +52,42 @@ const props = defineProps({
   },
   height: {
     type: String,
-    default: "190px",
+    default: '190px',
   },
   gridRight: {
     type: String,
-    default: "5%",
+    default: '5%',
   },
   gridLeft: {
     type: String,
-    default: "2%",
+    default: '2%',
   },
   legendBottom: {
     type: String,
-    default: "0px",
+    default: '0px',
   },
-});
+})
 
-const seriesConfig: Ref<Array<any>> = ref([]);
-const chart: Ref<undefined | any> = ref(undefined);
+const seriesConfig: Ref<Array<any>> = ref([])
+const chart: Ref<undefined | any> = ref(undefined)
 
 watch(
   () => props.chartData,
   () => {
-    drawChart();
-  }
-);
+    drawChart()
+  },
+)
 
 onMounted(() => {
-  drawChart();
-});
+  drawChart()
+})
 
 const setSeriesConfig = () => {
-  seriesConfig.value = [];
+  seriesConfig.value = []
   for (let i = 0; i < props.yTitle.length; i += 1) {
     seriesConfig.value.push({
       name: props.yTitle[i],
-      type: "line",
+      type: 'line',
       smooth: true,
       symbolSize: 5,
       showSymbol: false,
@@ -110,51 +100,48 @@ const setSeriesConfig = () => {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color:
-              i % 6 === 0 && i !== 0
-                ? props.chartColors[6]
-                : props.chartColors[i % 6],
+            color: i % 6 === 0 && i !== 0 ? props.chartColors[6] : props.chartColors[i % 6],
           },
           {
             offset: 1,
-            color: "#fff",
+            color: '#fff',
           },
         ]),
         opacity: 0.2,
       },
-    });
+    })
   }
-};
+}
 
 const drawChart = () => {
-  setSeriesConfig();
-  let Dom = document.getElementById(props.chartId);
+  setSeriesConfig()
+  let Dom = document.getElementById(props.chartId)
 
   // echarts.dispose(Dom)
   if (!chart.value) {
-    chart.value = echarts.init(Dom);
+    chart.value = echarts.init(Dom)
   }
   const option = {
     legend: {
       bottom: props.legendBottom,
       data: props.yTitle,
-      icon: "circle",
+      icon: 'circle',
       itemWidth: 6,
     },
     color: props.chartColors,
     tooltip: {
-      trigger: "axis",
+      trigger: 'axis',
       confine: true,
     },
     grid: {
       left: props.gridLeft,
       right: props.gridRight,
-      top: "3%",
-      bottom: "12%",
+      top: '3%',
+      bottom: '12%',
       containLabel: true,
     },
     xAxis: {
-      type: "category",
+      type: 'category',
       boundaryGap: false,
       data: props.chartData[0].xData,
       axisLine: {
@@ -170,7 +157,7 @@ const drawChart = () => {
       },
     },
     yAxis: {
-      type: "value",
+      type: 'value',
       axisLine: {
         lineStyle: {
           color: props.axisColor.colorAxisLine,
@@ -187,11 +174,11 @@ const drawChart = () => {
       minInterval: 1,
     },
     series: seriesConfig.value,
-  };
-  chart.value?.setOption(option);
-};
+  }
+  chart.value?.setOption(option)
+}
 const reDrawEchart = () => {
-  echarts.dispose(chart.value);
-  drawChart();
-};
+  echarts.dispose(chart.value)
+  drawChart()
+}
 </script>

@@ -2,7 +2,7 @@
   <div>
     <el-form label-position="top">
       <div class="part-header">
-        {{ tl("basic") }}
+        {{ tl('basic') }}
       </div>
       <el-row :gutter="30">
         <el-col :span="12">
@@ -51,13 +51,13 @@
         ></el-col>
       </el-row>
       <div class="part-header">
-        {{ tl("predefinedTopic") }}
+        {{ tl('predefinedTopic') }}
       </div>
       <topic-edit-list
         v-model:list="mValue.predefined"
         v-model:passed="formPassed"
       ></topic-edit-list>
-      <div class="part-header">{{ tl("mountSetting") }}</div>
+      <div class="part-header">{{ tl('mountSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -73,19 +73,19 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref, watch } from "vue";
-import topicEditList from "./topicEditList.vue";
-import _ from "lodash";
+import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
+import topicEditList from './topicEditList.vue'
+import _ from 'lodash'
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
   getValueIntersectionWithTemplate,
-} from "@/common/utils";
-import { useI18n } from "vue-i18n";
+} from '@/common/utils'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   components: { topicEditList },
-  name: "MqttsnBasic",
+  name: 'MqttsnBasic',
   props: {
     value: {
       type: Object,
@@ -95,44 +95,44 @@ export default defineComponent({
   },
   setup(props, context) {
     let mValueDefault = {
-      idle_timeout: [30, "s"],
+      idle_timeout: [30, 's'],
       gateway_id: 1,
       broadcast: true,
       enable_qos3: true,
       enable_stats: true,
       predefined: [],
-      mountpoint: "",
-    };
+      mountpoint: '',
+    }
 
-    const { t } = useI18n();
+    const { t } = useI18n()
 
     const mValue = reactive(
       getValueIntersectionWithTemplate(
         mValueDefault,
-        transformStrToUnitArray(props.value, ["idle_timeout"])
-      )
-    );
+        transformStrToUnitArray(props.value, ['idle_timeout']),
+      ),
+    )
 
-    const formPassed = ref(false);
+    const formPassed = ref(false)
 
     watch(
       () => _.cloneDeep(mValue),
       (v) => {
-        context.emit("update:value", transformUnitArrayToStr(v));
-      }
-    );
+        context.emit('update:value', transformUnitArrayToStr(v))
+      },
+    )
     onMounted(() => {
-      context.emit("update:value", transformUnitArrayToStr(mValue));
-    });
+      context.emit('update:value', transformUnitArrayToStr(mValue))
+    })
 
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       mValueDefault,
       mValue,
       formPassed,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

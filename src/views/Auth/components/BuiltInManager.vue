@@ -14,15 +14,11 @@
       </el-radio-group>
       <div>
         <el-button type="primary" size="small" :icon="Plus" @click="handleAdd">
-          {{ $t("Base.add") }}
+          {{ $t('Base.add') }}
         </el-button>
       </div>
     </div>
-    <el-table
-      v-show="type === 'all'"
-      :data="allTableData"
-      v-loading.lock="lockTable"
-    >
+    <el-table v-show="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
       <el-table-column v-if="false" type="expand"></el-table-column>
       <el-table-column prop="permission" label="Permission"></el-table-column>
       <el-table-column prop="action" label="Action"></el-table-column>
@@ -30,10 +26,10 @@
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
           <el-button size="mini" @click="handleEdit(row, $index)">
-            {{ $t("Base.edit") }}
+            {{ $t('Base.edit') }}
           </el-button>
           <el-button size="mini" @click="handleDelete(row, $index)">
-            {{ $t("Base.delete") }}
+            {{ $t('Base.delete') }}
           </el-button>
         </template>
       </el-table-column>
@@ -43,17 +39,9 @@
         <el-table-column type="expand">
           <template #default="{ row }">
             <el-table :data="row.rules">
-              <el-table-column
-                prop="permission"
-                label="Permission"
-                min-width="80px"
-              >
+              <el-table-column prop="permission" label="Permission" min-width="80px">
               </el-table-column>
-              <el-table-column
-                prop="action"
-                label="Action"
-                min-width="80px"
-              ></el-table-column>
+              <el-table-column prop="action" label="Action" min-width="80px"></el-table-column>
               <el-table-column prop="topic" label="Topic"></el-table-column>
             </el-table>
           </template>
@@ -76,19 +64,16 @@
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
             <el-button size="mini" @click="handleEdit(row)">
-              {{ $t("Base.edit") }}
+              {{ $t('Base.edit') }}
             </el-button>
             <el-button size="mini" @click="handleDelete(row)">
-              {{ $t("Base.delete") }}
+              {{ $t('Base.delete') }}
             </el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="emq-table-footer">
-        <common-pagination
-          v-model:metaData="pageMeta"
-          @loadPage="loadData"
-        ></common-pagination>
+        <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
       </div>
       <!-- <div class="emq-table-footer">
         <el-pagination
@@ -104,16 +89,8 @@
         </el-pagination>
       </div> -->
     </div>
-    <el-dialog
-      :title="isEdit ? $t('Base.edit') : $t('Base.add')"
-      v-model="dialogVisible"
-    >
-      <el-form
-        ref="recordForm"
-        :model="record"
-        :rules="getRules()"
-        label-position="top"
-      >
+    <el-dialog :title="isEdit ? $t('Base.edit') : $t('Base.add')" v-model="dialogVisible">
+      <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
         <template v-if="type === 'all'">
           <el-form-item prop="permission" label="Permission">
             <el-select v-model="record.permission">
@@ -133,18 +110,10 @@
           </el-form-item>
         </template>
         <template v-else>
-          <el-form-item
-            v-if="type === 'clientid'"
-            prop="clientid"
-            label="ClientID"
-          >
+          <el-form-item v-if="type === 'clientid'" prop="clientid" label="ClientID">
             <el-input v-model="record.clientid" :disabled="isEdit"></el-input>
           </el-form-item>
-          <el-form-item
-            v-else-if="type === 'username'"
-            prop="username"
-            label="Username"
-          >
+          <el-form-item v-else-if="type === 'username'" prop="username" label="Username">
             <el-input v-model="record.username" :disabled="isEdit"></el-input>
           </el-form-item>
           <el-form-item label="Permissions">
@@ -174,30 +143,18 @@
               <el-table-column align="right" max-width="160px">
                 <template #header>
                   <a href="javascript:;" class="btn" @click="addColumn">
-                    {{ $t("Base.add") }}
+                    {{ $t('Base.add') }}
                   </a>
                 </template>
                 <template #default="{ row, $index }">
-                  <a
-                    href="javascript:;"
-                    class="btn"
-                    @click="handleUp(row, $index)"
-                  >
-                    {{ $t("Base.up") }}
+                  <a href="javascript:;" class="btn" @click="handleUp(row, $index)">
+                    {{ $t('Base.up') }}
                   </a>
-                  <a
-                    href="javascript:;"
-                    class="btn"
-                    @click="handleDown(row, $index)"
-                  >
-                    {{ $t("Base.down") }}
+                  <a href="javascript:;" class="btn" @click="handleDown(row, $index)">
+                    {{ $t('Base.down') }}
                   </a>
-                  <a
-                    href="javascript:;"
-                    class="btn"
-                    @click="deleteItem(row, $index)"
-                  >
-                    {{ $t("Base.delete") }}
+                  <a href="javascript:;" class="btn" @click="deleteItem(row, $index)">
+                    {{ $t('Base.delete') }}
                   </a>
                 </template>
               </el-table-column>
@@ -208,10 +165,10 @@
       <template #footer>
         <div class="dialog-align-footer">
           <el-button size="small" @click="dialogVisible = false">
-            {{ $t("Base.cancel") }}
+            {{ $t('Base.cancel') }}
           </el-button>
           <el-button type="primary" size="small" @click="handleSubmit">
-            {{ isEdit ? $t("Base.update") : $t("Base.add") }}
+            {{ isEdit ? $t('Base.update') : $t('Base.add') }}
           </el-button>
         </div>
       </template>
@@ -220,58 +177,58 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref, watch } from "vue";
+import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import {
   loadBuiltInDatabaseData,
   createBuiltInDatabaseData,
   deleteBuiltInDatabaseData,
   updateBuiltInDatabaseData,
   updateAllBuiltInDatabaseData,
-} from "@/api/auth";
-import _ from "lodash";
-import commonPagination from "@/components/commonPagination.vue";
-import { ElMessage, ElMessageBox as MB } from "element-plus";
-import { useI18n } from "vue-i18n";
-import { Plus } from "@element-plus/icons-vue";
+} from '@/api/auth'
+import _ from 'lodash'
+import commonPagination from '@/components/commonPagination.vue'
+import { ElMessage, ElMessageBox as MB } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { Plus } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: { commonPagination },
-  name: "BuiltInManager",
+  name: 'BuiltInManager',
   setup() {
     const { t } = useI18n()
 
-    const type = ref("clientid");
-    const lockTable = ref(false);
+    const type = ref('clientid')
+    const lockTable = ref(false)
     const typeList = [
       {
-        label: "ClientID",
-        value: "clientid",
+        label: 'ClientID',
+        value: 'clientid',
       },
       {
-        label: "Username",
-        value: "username",
+        label: 'Username',
+        value: 'username',
       },
       {
-        label: "All",
-        value: "all",
+        label: 'All',
+        value: 'all',
       },
-    ];
-    const pageMeta = ref({});
-    const recordForm = ref();
-    const tableData = ref([]);
-    const allTableData = ref([]);
-    const rulesData = ref([]);
+    ]
+    const pageMeta = ref({})
+    const recordForm = ref()
+    const tableData = ref([])
+    const allTableData = ref([])
+    const rulesData = ref([])
     const record = reactive({
-      clientid: "",
-      username: "",
+      clientid: '',
+      username: '',
       rules: [],
-      permission: "allow",
-      action: "publish",
-      topic: "",
-    });
-    const dialogVisible = ref(false);
-    const isEdit = ref(false);
-    const editIndex = ref(0);
+      permission: 'allow',
+      action: 'publish',
+      topic: '',
+    })
+    const dialogVisible = ref(false)
+    const isEdit = ref(false)
+    const editIndex = ref(0)
     // const page = ref(1);
     // const limit = ref(20);
     // const count = ref(0);
@@ -280,195 +237,191 @@ export default defineComponent({
         clientid: [
           {
             required: true,
-            message: t("Auth.pleaseEnterClientID"),
-            trigger: "blur",
+            message: t('Auth.pleaseEnterClientID'),
+            trigger: 'blur',
           },
         ],
         username: [
           {
             required: true,
-            message: t("Auth.pleaseEnterUsername"),
-            trigger: "blur",
+            message: t('Auth.pleaseEnterUsername'),
+            trigger: 'blur',
           },
         ],
         permission: [
           {
             required: true,
-            message: t("Auth.pleaseSelectPermission"),
-            trigger: "blur",
+            message: t('Auth.pleaseSelectPermission'),
+            trigger: 'blur',
           },
         ],
         action: [
           {
             required: true,
-            message: t("Auth.pleaseSelectAction"),
-            trigger: "blur",
+            message: t('Auth.pleaseSelectAction'),
+            trigger: 'blur',
           },
         ],
         topic: [
           {
             required: true,
-            message: t("Auth.pleaseEnterTopic"),
-            trigger: "blur",
+            message: t('Auth.pleaseEnterTopic'),
+            trigger: 'blur',
           },
         ],
-      };
-    };
+      }
+    }
     watch(type, () => {
-      loadData({ page: 1 });
-    });
+      loadData({ page: 1 })
+    })
     watch(dialogVisible, (val) => {
       if (!val) {
-        handleCancel();
+        handleCancel()
       }
-    });
+    })
     const loadData = async (params) => {
       // if (reload) {
       //   // tableData.value = [];
       //   // page.value = 1;
       // }
-      lockTable.value = true;
+      lockTable.value = true
 
       const sendParams = {
         ...pageMeta.value,
         ...params,
-      };
-      Reflect.deleteProperty(sendParams, "count");
+      }
+      Reflect.deleteProperty(sendParams, 'count')
       // const params = {};
       // if (type.value !== "all") {
       //   // params.page = page.value;
       //   // params.limit = limit.value;
       // }
-      const res = await loadBuiltInDatabaseData(type.value, sendParams).catch(
-        () => {
-          lockTable.value = false;
-        }
-      );
-      if (type.value === "all") {
-        allTableData.value = res.rules;
+      const res = await loadBuiltInDatabaseData(type.value, sendParams).catch(() => {
+        lockTable.value = false
+      })
+      if (type.value === 'all') {
+        allTableData.value = res.rules
       } else {
-        tableData.value = res?.data;
+        tableData.value = res?.data
         // count.value = res.meta.count;
-        pageMeta.value = res?.meta;
+        pageMeta.value = res?.meta
       }
-      lockTable.value = false;
-    };
-    onMounted(loadData);
+      lockTable.value = false
+    }
+    onMounted(loadData)
     const handleAdd = function () {
-      dialogVisible.value = true;
-      isEdit.value = false;
+      dialogVisible.value = true
+      isEdit.value = false
       if (recordForm.value) {
-        setTimeout(recordForm.value.clearValidate, 10);
+        setTimeout(recordForm.value.clearValidate, 10)
       }
-    };
+    }
     const handleCancel = function () {
-      dialogVisible.value = false;
-      record.clientid = "";
-      record.username = "";
-      record.permission = "allow";
-      record.action = "publish";
-      record.topic = "";
-      record.rules = [];
-      rulesData.value = [];
-    };
+      dialogVisible.value = false
+      record.clientid = ''
+      record.username = ''
+      record.permission = 'allow'
+      record.action = 'publish'
+      record.topic = ''
+      record.rules = []
+      rulesData.value = []
+    }
     const addColumn = () => {
       rulesData.value.push({
-        permission: "allow",
-        action: "publish",
-        topic: "",
-      });
-    };
+        permission: 'allow',
+        action: 'publish',
+        topic: '',
+      })
+    }
     const deleteItem = (row, index) => {
-      rulesData.value.splice(index, 1);
-    };
+      rulesData.value.splice(index, 1)
+    }
     const handleSubmit = function () {
       recordForm.value.validate(async (valid) => {
         if (!valid) {
-          return;
+          return
         }
-        const key = type.value;
-        const data = {};
-        if (key !== "all") {
-          data[key] = record[key];
-          data.rules = rulesData.value;
+        const key = type.value
+        const data = {}
+        if (key !== 'all') {
+          data[key] = record[key]
+          data.rules = rulesData.value
           if (!isEdit.value) {
-            await createBuiltInDatabaseData(type.value, [data]);
-            ElMessage.success(t("Base.createSuccess"));
+            await createBuiltInDatabaseData(type.value, [data])
+            ElMessage.success(t('Base.createSuccess'))
           } else {
-            await updateBuiltInDatabaseData(type.value, data[type.value], data);
-            ElMessage.success(t("Base.updateSuccess"));
+            await updateBuiltInDatabaseData(type.value, data[type.value], data)
+            ElMessage.success(t('Base.updateSuccess'))
           }
         } else {
-          data.permission = record.permission;
-          data.action = record.action;
-          data.topic = record.topic;
-          const rules = _.cloneDeep(allTableData.value);
+          data.permission = record.permission
+          data.action = record.action
+          data.topic = record.topic
+          const rules = _.cloneDeep(allTableData.value)
           if (!isEdit.value) {
-            rules.push(data);
+            rules.push(data)
           } else {
-            rules.splice(editIndex.value, 1, data);
+            rules.splice(editIndex.value, 1, data)
           }
           await updateAllBuiltInDatabaseData({
             rules,
-          });
+          })
         }
-        dialogVisible.value = false;
-        loadData();
-      });
-    };
+        dialogVisible.value = false
+        loadData()
+      })
+    }
     const handleDelete = function (row, index) {
-      MB.confirm(t("Base.confirmDelete"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
+      MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
       })
         .then(async () => {
-          if (type.value !== "all") {
-            await deleteBuiltInDatabaseData(type.value, row[type.value]).catch(
-              () => {}
-            );
+          if (type.value !== 'all') {
+            await deleteBuiltInDatabaseData(type.value, row[type.value]).catch(() => {})
           } else {
-            const rules = _.cloneDeep(allTableData.value);
-            rules.splice(index, 1);
+            const rules = _.cloneDeep(allTableData.value)
+            rules.splice(index, 1)
             await updateAllBuiltInDatabaseData({
               rules,
-            });
+            })
           }
-          loadData({ page: 1 });
+          loadData({ page: 1 })
         })
-        .catch(() => {});
-    };
+        .catch(() => {})
+    }
     const handleEdit = function (row, index) {
-      dialogVisible.value = true;
-      isEdit.value = true;
-      editIndex.value = 0;
-      if (type.value !== "all") {
-        const key = type.value;
-        record[key] = row[key];
-        rulesData.value = row.rules;
+      dialogVisible.value = true
+      isEdit.value = true
+      editIndex.value = 0
+      if (type.value !== 'all') {
+        const key = type.value
+        record[key] = row[key]
+        rulesData.value = row.rules
       } else {
-        editIndex.value = index;
-        record.permission = row.permission;
-        record.action = row.action;
-        record.topic = row.topic;
+        editIndex.value = index
+        record.permission = row.permission
+        record.action = row.action
+        record.topic = row.topic
       }
-    };
+    }
     const swapArray = (arr, fromIndex, toIndex) => {
-      arr[toIndex] = arr.splice(fromIndex, 1, arr[toIndex])[0];
-      return arr;
-    };
+      arr[toIndex] = arr.splice(fromIndex, 1, arr[toIndex])[0]
+      return arr
+    }
     const handleUp = (row, index) => {
       if (index === 0) {
-        return;
+        return
       }
-      swapArray(rulesData.value, index, index - 1);
-    };
+      swapArray(rulesData.value, index, index - 1)
+    }
     const handleDown = (row, index) => {
       if (index === rulesData.value.length - 1) {
-        return;
+        return
       }
-      swapArray(rulesData.value, index, index + 1);
-    };
+      swapArray(rulesData.value, index, index + 1)
+    }
     return {
       Plus,
       recordForm,
@@ -495,9 +448,9 @@ export default defineComponent({
       handleEdit,
       handleUp,
       handleDown,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">

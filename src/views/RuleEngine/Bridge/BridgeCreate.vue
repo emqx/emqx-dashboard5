@@ -4,7 +4,7 @@
       {{ tl('backDataBridge') }}
     </back-button> -->
     <div class="page-header-title">
-      {{ tl("createBridge") }}
+      {{ tl('createBridge') }}
     </div>
 
     <el-row>
@@ -18,17 +18,12 @@
     <el-row class="config-body">
       <template v-if="stepActive === 0">
         <div class="part-header">
-          {{ tl("chooseBridgeType") }}
+          {{ tl('chooseBridgeType') }}
         </div>
         <el-row>
           <el-col :span="24">
             <el-radio-group v-model="chosenBridgeType">
-              <el-radio
-                v-for="item in bridgeType"
-                :key="item"
-                :label="item"
-                border
-              >
+              <el-radio v-for="item in bridgeType" :key="item" :label="item" border>
                 <img
                   height="80"
                   width="80"
@@ -63,7 +58,7 @@
         v-if="stepActive === 1"
         :loading="submitLoading"
         @click="submitCreateBridge"
-        >{{ $t("Base.create") }}</el-button
+        >{{ $t('Base.create') }}</el-button
       >
       <el-button
         type="primary"
@@ -71,20 +66,20 @@
         @click="++stepActive"
         v-if="stepActive < 1"
         :disabled="submitLoading"
-        >{{ $t("Base.nextStep") }}</el-button
+        >{{ $t('Base.nextStep') }}</el-button
       >
       <el-button
         size="small"
         @click="--stepActive"
         v-if="stepActive > 0"
         :disabled="submitLoading"
-        >{{ $t("Base.backStep") }}</el-button
+        >{{ $t('Base.backStep') }}</el-button
       >
       <el-button
         size="small"
         v-if="stepActive === 0"
         @click="$router.push({ name: 'data-bridge' })"
-        >{{ $t("Base.cancel") }}</el-button
+        >{{ $t('Base.cancel') }}</el-button
       >
     </el-row>
     <div></div>
@@ -92,34 +87,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
-import BridgeHttpConfig from "./BridgeHttpConfig.vue";
-import BridgeMqttConfig from "./BridgeMqttConfig.vue";
-import { tlsConfig } from "@/types/ruleengine";
-import { createBridge } from "@/api/ruleengine";
-import _ from "lodash";
-import { useRouter } from "vue-router";
-import { ElMessage as M } from "element-plus";
+import { defineComponent, ref, Ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import BridgeHttpConfig from './BridgeHttpConfig.vue'
+import BridgeMqttConfig from './BridgeMqttConfig.vue'
+import { tlsConfig } from '@/types/ruleengine'
+import { createBridge } from '@/api/ruleengine'
+import _ from 'lodash'
+import { useRouter } from 'vue-router'
+import { ElMessage as M } from 'element-plus'
 
 export default defineComponent({
   components: { BridgeHttpConfig, BridgeMqttConfig },
   setup() {
     const tlsParamsDefault: tlsConfig = {
       enable: false,
-      verify: "verify_none",
-      certfile: "",
-      keyfile: "",
-      cacertfile: "",
-    };
-    const stepActive = ref(0);
-    const router = useRouter();
-    const { t } = useI18n();
-    const bridgeType = ["http", "mqtt"];
-    const chosenBridgeType = ref(bridgeType[0]);
-    const submitLoading = ref(false);
-    const bridgeData = ref({});
-    const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault);
+      verify: 'verify_none',
+      certfile: '',
+      keyfile: '',
+      cacertfile: '',
+    }
+    const stepActive = ref(0)
+    const router = useRouter()
+    const { t } = useI18n()
+    const bridgeType = ['http', 'mqtt']
+    const chosenBridgeType = ref(bridgeType[0])
+    const submitLoading = ref(false)
+    const bridgeData = ref({})
+    const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
 
     // watch(
     //   () => [_.cloneDeep(bridgeData.value), _.cloneDeep(tlsParams.value)],
@@ -129,36 +124,36 @@ export default defineComponent({
     // );
 
     const submitCreateBridge = async () => {
-      let res;
-      submitLoading.value = true;
+      let res
+      submitLoading.value = true
       switch (chosenBridgeType.value) {
         case bridgeType[0]:
           res = await createBridge({
             ...bridgeData.value,
             ssl: { ...tlsParams.value },
             type: chosenBridgeType.value,
-          }).catch(() => {});
-          break;
+          }).catch(() => {})
+          break
         case bridgeType[1]:
           res = await createBridge({
             ...bridgeData.value,
             type: chosenBridgeType.value,
-          }).catch(() => {});
-          break;
+          }).catch(() => {})
+          break
       }
 
       if (res) {
         M({
-          type: "success",
-          message: t("Base.createSuccess"),
-        });
-        router.push({ name: "data-bridge" });
+          type: 'success',
+          message: t('Base.createSuccess'),
+        })
+        router.push({ name: 'data-bridge' })
       }
-      submitLoading.value = false;
-    };
+      submitLoading.value = false
+    }
 
     return {
-      tl: (key: string) => t("RuleEngine." + key),
+      tl: (key: string) => t('RuleEngine.' + key),
       stepActive,
       bridgeType,
       chosenBridgeType,
@@ -166,9 +161,9 @@ export default defineComponent({
       tlsParams,
       bridgeData,
       submitCreateBridge,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

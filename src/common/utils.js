@@ -1,99 +1,87 @@
-import Clipboard from "clipboard";
+import Clipboard from 'clipboard'
 // import sqlFormatter from "sql-formatter";
 // import parser from "js-sql-parser";
-import store from "@/store";
-import { useI18n } from "vue-i18n";
-import moment from "moment";
+import store from '@/store'
+import { useI18n } from 'vue-i18n'
+import moment from 'moment'
 
 export function getValueIntersectionWithTemplate(template, value) {
-  const dest = {};
+  const dest = {}
   for (let key in template) {
-    if (
-      typeof template[key] === "object" &&
-      !(template[key] instanceof Array) &&
-      key in value
-    ) {
-      dest[key] = getValueIntersectionWithTemplate(template[key], value[key]);
+    if (typeof template[key] === 'object' && !(template[key] instanceof Array) && key in value) {
+      dest[key] = getValueIntersectionWithTemplate(template[key], value[key])
     } else {
-      dest[key] = key in value ? value[key] : template[key];
+      dest[key] = key in value ? value[key] : template[key]
     }
   }
-  return dest;
+  return dest
 }
 
 export function randomStr(len = 6) {
-  let str = "";
+  let str = ''
   do {
     str += Math.random()
       .toString(36)
       .substring(2)
-      .replace(/[^a-z]+/g, "");
-  } while (str.length < len);
-  return str.substring(0, len);
+      .replace(/[^a-z]+/g, '')
+  } while (str.length < len)
+  return str.substring(0, len)
 }
 
 // template ['a.b.c','a','a.d']
-export function transformStrToUnitArray(obj, template = [], prefix = "") {
-  let dest = {};
+export function transformStrToUnitArray(obj, template = [], prefix = '') {
+  let dest = {}
   Object.keys(obj).forEach((k) => {
-    let kPrefix = prefix ? prefix + "." + k : k;
+    let kPrefix = prefix ? prefix + '.' + k : k
     if (template.includes(kPrefix)) {
-      let matching = obj[k].match(/(\d+)(\w+)/);
-      dest[k] = [+matching[1], matching[2]];
-    } else if (
-      typeof obj[k] === "object" &&
-      obj[k] &&
-      !(obj[k] instanceof Array)
-    ) {
-      let nextTemplate = template.filter((v) => v.indexOf(kPrefix + ".") >= 0);
-      dest[k] = transformStrToUnitArray(obj[k], nextTemplate, kPrefix);
+      let matching = obj[k].match(/(\d+)(\w+)/)
+      dest[k] = [+matching[1], matching[2]]
+    } else if (typeof obj[k] === 'object' && obj[k] && !(obj[k] instanceof Array)) {
+      let nextTemplate = template.filter((v) => v.indexOf(kPrefix + '.') >= 0)
+      dest[k] = transformStrToUnitArray(obj[k], nextTemplate, kPrefix)
     } else {
-      dest[k] = obj[k];
+      dest[k] = obj[k]
     }
-  });
+  })
 
-  return dest;
+  return dest
 }
 
 export function transformUnitArrayToStr(obj) {
-  let dest = {};
+  let dest = {}
   Object.entries(obj).forEach((e) => {
-    const [k, v] = e;
+    const [k, v] = e
     if (v instanceof Array) {
-      if (
-        v.length === 2 &&
-        typeof v[0] === "number" &&
-        typeof v[1] === "string"
-      ) {
-        dest[k] = v.join("");
+      if (v.length === 2 && typeof v[0] === 'number' && typeof v[1] === 'string') {
+        dest[k] = v.join('')
       } else {
-        dest[k] = v;
+        dest[k] = v
       }
-    } else if (typeof v === "object" && v) {
-      dest[k] = transformUnitArrayToStr(v);
+    } else if (typeof v === 'object' && v) {
+      dest[k] = transformUnitArrayToStr(v)
     } else {
-      dest[k] = v;
+      dest[k] = v
     }
-  });
-  return dest;
+  })
+  return dest
 }
 
 export function setLanguage(lang = false) {
-  let language = lang ?? null;
+  let language = lang ?? null
   if (!language) {
-    language = navigator.language.substring(0, 2);
+    language = navigator.language.substring(0, 2)
   }
-  store.commit("SET_LANGUAGE", language);
-  document.documentElement.setAttribute("lang", language);
+  store.commit('SET_LANGUAGE', language)
+  document.documentElement.setAttribute('lang', language)
 }
 
 export const caseInsensitiveCompare = (w, k) => {
-  return !!String.prototype.match.call(w, new RegExp(k, "i"));
-};
+  return !!String.prototype.match.call(w, new RegExp(k, 'i'))
+}
 
 export const dateFormat = (date) => {
-  return moment(date).format("YYYY-MM-DD HH:mm:ss");
-};
+  return moment(date).format('YYYY-MM-DD HH:mm:ss')
+}
 
 /**
  * 填充转化对象类型的 i18n
@@ -291,23 +279,23 @@ export const dateFormat = (date) => {
 export const cpoyToClipboard = (el, binding) => {
   const clipboard = new Clipboard(el, {
     text() {
-      return binding.value;
+      return binding.value
     },
     acttion() {
-      return "copy";
+      return 'copy'
     },
-  });
-  clipboard.on("success", (e) => {
-    const callback = el._v_clipboard_success;
-    callback && callback(e);
-  });
-  clipboard.on("error", (e) => {
-    const callback = el._v_clipboard_error;
-    callback && callback(e);
-  });
-  el._v_clipboard = clipboard;
-  return el;
-};
+  })
+  clipboard.on('success', (e) => {
+    const callback = el._v_clipboard_success
+    callback && callback(e)
+  })
+  clipboard.on('error', (e) => {
+    const callback = el._v_clipboard_error
+    callback && callback(e)
+  })
+  el._v_clipboard = clipboard
+  return el
+}
 
 /**
  * sql 语句格式化
@@ -341,19 +329,19 @@ export const matchSearch = (data, searchKey, searchValue) => {
     try {
       const filterData = data.filter(($) => {
         if ($[searchKey]) {
-          const key = $[searchKey].toLowerCase().replace(/\s+/g, "");
-          const value = searchValue.toLocaleLowerCase().replace(/\s+/g, "");
-          return key.match(value);
+          const key = $[searchKey].toLowerCase().replace(/\s+/g, '')
+          const value = searchValue.toLocaleLowerCase().replace(/\s+/g, '')
+          return key.match(value)
         } else {
-          return null;
+          return null
         }
-      });
-      return resolve(filterData);
+      })
+      return resolve(filterData)
     } catch (error) {
-      return reject(error);
+      return reject(error)
     }
-  });
-};
+  })
+}
 
 /**
  * 将内存数值转化为 KB MB G
@@ -375,26 +363,26 @@ export const matchSearch = (data, searchKey, searchValue) => {
 // }
 
 export function ruleOldSqlCheck(sql) {
-  const $sql = sql.replace(/"/g, "");
+  const $sql = sql.replace(/"/g, '')
   const oldEvent = [
-    "message.publish",
-    "message.deliver",
-    "message.acked",
-    "message.dropped",
-    "client.connected",
-    "client.disconnected",
-    "client.subscribe",
-    "client.unsubscribe",
-  ];
-  let matchRes = null;
+    'message.publish',
+    'message.deliver',
+    'message.acked',
+    'message.dropped',
+    'client.connected',
+    'client.disconnected',
+    'client.subscribe',
+    'client.unsubscribe',
+  ]
+  let matchRes = null
   oldEvent.forEach((e) => {
-    const [eventType, eventValue] = e.split(".");
-    const eventReg = new RegExp(`${eventType}\\.${eventValue}`, "gim");
+    const [eventType, eventValue] = e.split('.')
+    const eventReg = new RegExp(`${eventType}\\.${eventValue}`, 'gim')
     if ($sql.match(eventReg)) {
-      matchRes = $sql.match(eventReg);
+      matchRes = $sql.match(eventReg)
     }
-  });
-  return matchRes;
+  })
+  return matchRes
 }
 
 // export function ruleNewSqlParser(sql, e) {
@@ -424,104 +412,101 @@ export function ruleOldSqlCheck(sql) {
 // }
 
 export function formatNumber(num) {
-  let number = String(parseInt(num));
-  return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, "$1,");
+  let number = String(parseInt(num))
+  return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, '$1,')
 }
 
 export function getProgressColor(val, primaryC) {
-  let color = primaryC;
-  let num = parseInt(val);
+  let color = primaryC
+  let num = parseInt(val)
   if (num >= 100) {
-    color = "#E34242FF";
+    color = '#E34242FF'
   } else if (num >= 85 && num < 100) {
-    color = "#FB9237FF";
+    color = '#FB9237FF'
   }
-  return color;
+  return color
 }
 
 /**
  * If there is a unit here, convert it to a value in KB
  */
 function transToNumberAndConsiderItsUnit(ipt) {
-  if (typeof ipt === "number") {
-    return ipt;
+  if (typeof ipt === 'number') {
+    return ipt
   }
   if (ipt === undefined) {
-    return 0;
+    return 0
   }
-  const units = "KMGTP";
-  const reg = new RegExp(`^\\d+(\\.\\d+)?[${units}]$`);
-  if (typeof ipt === "string" && reg.test(ipt.toUpperCase())) {
-    const unit = ipt.toUpperCase().slice(-1);
+  const units = 'KMGTP'
+  const reg = new RegExp(`^\\d+(\\.\\d+)?[${units}]$`)
+  if (typeof ipt === 'string' && reg.test(ipt.toUpperCase())) {
+    const unit = ipt.toUpperCase().slice(-1)
     return (
       parseFloat(ipt) *
       Math.pow(
         1024,
-        units.split("").findIndex((item) => item === unit)
+        units.split('').findIndex((item) => item === unit),
       )
-    );
+    )
   }
-  return parseFloat(ipt);
+  return parseFloat(ipt)
 }
 
 export const calcPercentage = (n1, n2, transZero = true) => {
-  let p =
-    (transToNumberAndConsiderItsUnit(n1) /
-      transToNumberAndConsiderItsUnit(n2)) *
-    100;
+  let p = (transToNumberAndConsiderItsUnit(n1) / transToNumberAndConsiderItsUnit(n2)) * 100
   //[0,1)
-  if (p < 1) return transZero ? 1 : Math.round(p);
+  if (p < 1) return transZero ? 1 : Math.round(p)
   // NaN
-  if (!p) return 0;
-  if (p > 100) return 100;
-  return p;
-};
+  if (!p) return 0
+  if (p > 100) return 100
+  return p
+}
 
 export function getDateDiff(duration) {
   // get total seconds value (s)
-  const dateDiff = Math.floor(duration);
-  const days = Math.floor(dateDiff / (3600 * 24));
+  const dateDiff = Math.floor(duration)
+  const days = Math.floor(dateDiff / (3600 * 24))
 
-  const daysRemainder = dateDiff % (3600 * 24);
-  const hours = Math.floor(daysRemainder / 3600);
+  const daysRemainder = dateDiff % (3600 * 24)
+  const hours = Math.floor(daysRemainder / 3600)
 
-  const minutes = Math.floor((dateDiff % 3600) / 60);
-  const seconds = dateDiff % 60;
+  const minutes = Math.floor((dateDiff % 3600) / 60)
+  const seconds = dateDiff % 60
 
-  return [days, hours, minutes, seconds];
+  return [days, hours, minutes, seconds]
 }
 
 export function getDuration(duration) {
-  let dateDiff = getDateDiff(duration / 1000 || []);
-  let readableDate = [];
-  let { t } = useI18n();
+  let dateDiff = getDateDiff(duration / 1000 || [])
+  let readableDate = []
+  let { t } = useI18n()
   dateDiff.reduce((c, v, i) => {
     if (c == 0 && v == 0 && i < 3) {
       // nothing
     } else {
       switch (i) {
         case 0:
-          readableDate.push([v, t("General.day", v)]);
-          break;
+          readableDate.push([v, t('General.day', v)])
+          break
         case 1:
-          readableDate.push([v, t("General.hour", v)]);
-          break;
+          readableDate.push([v, t('General.hour', v)])
+          break
         case 2:
-          readableDate.push([v, t("General.min", v)]);
-          break;
+          readableDate.push([v, t('General.min', v)])
+          break
         case 3:
-          readableDate.push([v, t("General.sec", v)]);
-          break;
+          readableDate.push([v, t('General.sec', v)])
+          break
       }
     }
-    return c + v;
-  }, 0);
+    return c + v
+  }, 0)
 
   return readableDate
     .map((_) => {
-      return _.join(t("General.timeSep"));
+      return _.join(t('General.timeSep'))
     })
-    .join(t("General.timePartSep"));
+    .join(t('General.timePartSep'))
 }
 
 // export const verifyID = (rule, value, callback) => {

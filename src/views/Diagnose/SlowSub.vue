@@ -4,7 +4,7 @@
       <el-empty :description="$t('SlowSub.slowSubPlaceholder')" />
       <el-button class="link-btn" size="small" type="primary">
         <router-link :to="{ name: 'slow-sub-config' }">
-          {{ $t("SlowSub.enable") }}
+          {{ $t('SlowSub.enable') }}
         </router-link>
       </el-button>
     </div>
@@ -13,32 +13,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 export default defineComponent({
-  name: "SlowSub",
-});
+  name: 'SlowSub',
+})
 </script>
 
 <script setup lang="ts">
-import { ref, Ref } from "vue";
-import SlowSubData from "./components/SlowSubData.vue";
-import { querySlowSubConfig } from "@/api/diagnose";
+import { ref, Ref } from 'vue'
+import SlowSubData from './components/SlowSubData.vue'
+import { querySlowSubConfig } from '@/api/diagnose'
 
-const isEnable: Ref<boolean> = ref(false);
-const isLoading = ref(true);
+const isEnable: Ref<boolean> = ref(false)
+const isLoading = ref(true)
 
 const getConfig = async () => {
   try {
-    isLoading.value = true;
-    const { enable } = await querySlowSubConfig();
-    isEnable.value = enable;
-    isLoading.value = false;
+    isLoading.value = true
+    const { enable } = await querySlowSubConfig()
+    isEnable.value = enable
+    isLoading.value = false
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
-getConfig();
+getConfig()
 </script>
 
 <style lang="scss" scoped>

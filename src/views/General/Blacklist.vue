@@ -3,20 +3,13 @@
     <div class="section-header">
       <div></div>
       <el-button type="primary" size="small" :icon="Plus" @click="showDialog">
-        {{ $t("Base.create") }}
+        {{ $t('Base.create') }}
       </el-button>
     </div>
     <el-table :data="tableData" v-loading="tbLoading">
-      <el-table-column prop="who" :label="$t('General.who')" sortable>
-      </el-table-column>
-      <el-table-column prop="as" :label="$t('General.as')" sortable>
-      </el-table-column>
-      <el-table-column
-        prop="reason"
-        min-width="120px"
-        :label="$t('General.reason')"
-        sortable
-      >
+      <el-table-column prop="who" :label="$t('General.who')" sortable> </el-table-column>
+      <el-table-column prop="as" :label="$t('General.as')" sortable> </el-table-column>
+      <el-table-column prop="reason" min-width="120px" :label="$t('General.reason')" sortable>
       </el-table-column>
       <el-table-column
         prop="until"
@@ -28,17 +21,14 @@
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button type="danger" size="mini" @click="deleteConfirm(row)"
-            >{{ $t("Base.delete") }}
+            >{{ $t('Base.delete') }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <div class="emq-table-footer">
-      <common-pagination
-        @loadPage="listBlackList"
-        v-model:metaData="pageMeta"
-      ></common-pagination>
+      <common-pagination @loadPage="listBlackList" v-model:metaData="pageMeta"></common-pagination>
     </div>
 
     <el-dialog :title="$t('General.createBlacklist')" v-model="dialogVisible">
@@ -95,16 +85,10 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="closeDialog">{{
-            $t("Base.cancel")
+          <el-button size="small" @click="closeDialog">{{ $t('Base.cancel') }}</el-button>
+          <el-button type="primary" size="small" @click="save" :loading="submitLoading">{{
+            $t('Base.create')
           }}</el-button>
-          <el-button
-            type="primary"
-            size="small"
-            @click="save"
-            :loading="submitLoading"
-            >{{ $t("Base.create") }}</el-button
-          >
         </div>
       </template>
     </el-dialog>
@@ -112,18 +96,14 @@
 </template>
 
 <script>
-import { dateFormat } from "@/common/utils";
-import {
-  loadBlacklist,
-  createBlacklist,
-  deleteBlacklist,
-} from "@/api/function";
-import CommonPagination from "../../components/commonPagination.vue";
-import { ElMessage } from "element-plus";
-import { Plus } from "@element-plus/icons-vue";
+import { dateFormat } from '@/common/utils'
+import { loadBlacklist, createBlacklist, deleteBlacklist } from '@/api/function'
+import CommonPagination from '../../components/commonPagination.vue'
+import { ElMessage } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
 
 export default {
-  name: "Blacklist",
+  name: 'Blacklist',
   components: { CommonPagination },
   data() {
     return {
@@ -132,129 +112,123 @@ export default {
       tableData: [],
       params: {},
       submitLoading: false,
-      asOptions: [
-        { value: "clientid" },
-        { value: "username" },
-        { value: "peerhost" },
-      ],
+      asOptions: [{ value: 'clientid' }, { value: 'username' }, { value: 'peerhost' }],
       record: {
-        who: "",
+        who: '',
       },
       rules: {
         // as: [{ required: true, message: this.$t("General.enterAs") }],
-        who: [{ required: true, message: this.$t("General.enterWho") }],
+        who: [{ required: true, message: this.$t('General.enterWho') }],
         until: [
           {
             validator: (rule, value) => {
               if (!value) {
-                return [];
+                return []
               }
               if (new Date(value).getTime() < Date.now()) {
-                return [new Error(this.$t("General.timeEarlierError"))];
+                return [new Error(this.$t('General.timeEarlierError'))]
               }
-              return [];
+              return []
             },
-            trigger: "blur",
+            trigger: 'blur',
           },
         ],
       },
       tbLoading: false,
       pageMeta: {},
-    };
+    }
   },
   mounted() {
     // this.$refs.p.$emit("loadPage");
-    this.listBlackList();
+    this.listBlackList()
   },
   methods: {
     async listBlackList(params = {}) {
-      this.tbLoading = true;
-      const sendParams = { ...this.params, ...this.pageMeta, ...params };
-      Reflect.deleteProperty(sendParams, "count");
-      const res = await loadBlacklist(this.pageMeta).catch(() => {});
+      this.tbLoading = true
+      const sendParams = { ...this.params, ...this.pageMeta, ...params }
+      Reflect.deleteProperty(sendParams, 'count')
+      const res = await loadBlacklist(this.pageMeta).catch(() => {})
       if (res) {
-        const { data = [], meta = {} } = res;
-        this.tableData = data;
-        this.tbLoading = false;
-        this.pageMeta = meta;
+        const { data = [], meta = {} } = res
+        this.tableData = data
+        this.tbLoading = false
+        this.pageMeta = meta
       } else {
-        this.tbLoading = false;
-        this.tableData = [];
-        this.pageMeta = {};
+        this.tbLoading = false
+        this.tableData = []
+        this.pageMeta = {}
       }
     },
 
     clearInput() {
-      this.$refs?.recordForm?.resetFields();
+      this.$refs?.recordForm?.resetFields()
     },
     showDialog() {
       this.record = {
-        reason: "",
-        who: "",
-        as: "clientid",
-      };
-      this.dialogVisible = true;
-      this.$nextTick(this.clearInput);
+        reason: '',
+        who: '',
+        as: 'clientid',
+      }
+      this.dialogVisible = true
+      this.$nextTick(this.clearInput)
     },
     isItEarlierThanToday(date) {
-      const todayStartTime = new Date().setHours(0, 0, 0, 0);
-      return date.getTime() < todayStartTime;
+      const todayStartTime = new Date().setHours(0, 0, 0, 0)
+      return date.getTime() < todayStartTime
     },
     closeDialog() {
-      this.dialogVisible = false;
+      this.dialogVisible = false
     },
     async save() {
       this.$refs.recordForm.validate(async (valid) => {
         if (!valid) {
-          return;
+          return
         }
         const record = {
           ...this.record,
-          until:
-            (this.record.until && new Date(this.record.until).toISOString()) ||
-            null,
-        };
+          until: (this.record.until && new Date(this.record.until).toISOString()) || null,
+        }
         // if (typeof record.until === 'number') {
         //   record.until = Math.floor(record.until / 1000)
         // }
 
-        this.submitLoading = true;
-        const res = await createBlacklist(record).catch(() => {});
+        this.submitLoading = true
+        const res = await createBlacklist(record).catch(() => {})
         if (res) {
-          ElMessage.success(this.$t("General.createBlacklistSuccess"));
-          this.closeDialog();
-          this.listBlackList({ page: 1 });
+          ElMessage.success(this.$t('General.createBlacklistSuccess'))
+          this.closeDialog()
+          this.listBlackList({ page: 1 })
           // this.$refs.p.$emit("loadPage");
         }
-        this.submitLoading = false;
-      });
+        this.submitLoading = false
+      })
     },
     deleteConfirm(item) {
       this.$msgbox
-        .confirm(this.$t("Base.confirmDelete"), {
-          confirmButtonText: this.$t("Base.confirm"),
-          cancelButtonText: this.$t("Base.cancel"),
-          type: "warning",
+        .confirm(this.$t('Base.confirmDelete'), {
+          confirmButtonText: this.$t('Base.confirm'),
+          cancelButtonText: this.$t('Base.cancel'),
+          type: 'warning',
         })
         .then(async () => {
-          const { who, as } = item;
-          const res = await deleteBlacklist({ who, as }).catch(() => {});
+          const { who, as } = item
+          const res = await deleteBlacklist({ who, as }).catch(() => {})
           if (res) {
-            ElMessage.success(this.$t("Base.deleteSuccess"));
-            this.listBlackList({ page: 1 });
+            ElMessage.success(this.$t('Base.deleteSuccess'))
+            this.listBlackList({ page: 1 })
             // this.$refs.p.$emit("loadPage");
           }
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     formatterUntil({ until }) {
       if (!until) {
-        return this.$t("General.neverExpire");
+        return this.$t('General.neverExpire')
       }
-      return dateFormat(until);
+      return dateFormat(until)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,9 @@
 <template>
   <div class="no-tab-wrapper">
     <div class="section-header">
-      <div>{{ tl("internalExp") }}</div>
+      <div>{{ tl('internalExp') }}</div>
       <el-button size="small" type="primary" @click="openOpDialog()">{{
-        $t("Base.add")
+        $t('Base.add')
       }}</el-button>
     </div>
 
@@ -17,11 +17,9 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" @click="openOpDialog(true, row)">{{
-            $t("Base.edit")
-          }}</el-button>
+          <el-button size="mini" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
           <el-button size="mini" type="danger" @click="deleteSubs(row)">{{
-            $t("Base.delete")
+            $t('Base.delete')
           }}</el-button>
         </template>
       </el-table-column>
@@ -29,9 +27,7 @@
 
     <el-dialog
       v-model="opSubs"
-      :title="
-        (isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('subscribe')
-      "
+      :title="(isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('subscribe')"
       @close="closeDialog"
     >
       <el-form
@@ -46,44 +42,28 @@
         </el-form-item>
         <el-form-item :label="'QoS'" prop="qos">
           <el-select v-model="subsInput.qos">
-            <el-option
-              v-for="item in subsOptions.qos"
-              :key="item"
-              :value="item"
-            ></el-option>
+            <el-option v-for="item in subsOptions.qos" :key="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="nl" prop="nl">
               <el-select v-model="subsInput.nl">
-                <el-option
-                  v-for="item in subsOptions.nl"
-                  :key="item"
-                  :value="item"
-                ></el-option>
+                <el-option v-for="item in subsOptions.nl" :key="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="rap" prop="rap">
               <el-select v-model="subsInput.rap">
-                <el-option
-                  v-for="item in subsOptions.rap"
-                  :key="item"
-                  :value="item"
-                ></el-option>
+                <el-option v-for="item in subsOptions.rap" :key="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="rh" prop="rh">
               <el-select v-model="subsInput.rh">
-                <el-option
-                  v-for="item in subsOptions.rh"
-                  :key="item"
-                  :value="item"
-                ></el-option>
+                <el-option v-for="item in subsOptions.rh" :key="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -95,137 +75,134 @@
           type="primary"
           @click="submitSubs(isEdit)"
           :loading="submitLoading"
-          >{{ isEdit ? $t("Base.update") : $t("Base.add") }}</el-button
+          >{{ isEdit ? $t('Base.update') : $t('Base.add') }}</el-button
         >
-        <el-button size="small" @click="closeDialog()">{{
-          $t("Base.cancel")
-        }}</el-button>
+        <el-button size="small" @click="closeDialog()">{{ $t('Base.cancel') }}</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref } from "vue";
-import { getSubscribe, editSubscribe } from "@/api/advanced";
-import { ElMessageBox as MB, ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
-import _ from "lodash";
+import { defineComponent, onMounted, reactive, ref } from 'vue'
+import { getSubscribe, editSubscribe } from '@/api/advanced'
+import { ElMessageBox as MB, ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import _ from 'lodash'
 
 export default defineComponent({
-  name: "Subscribe",
+  name: 'Subscribe',
 
   setup() {
-    const { t } = useI18n();
-    const tl = function (key, collection = "Advanced") {
-      return t(collection + "." + key);
-    };
-    let isEdit = ref(false);
-    let opSubs = ref(false);
-    let subTbData = ref([]);
+    const { t } = useI18n()
+    const tl = function (key, collection = 'Advanced') {
+      return t(collection + '.' + key)
+    }
+    let isEdit = ref(false)
+    let opSubs = ref(false)
+    let subTbData = ref([])
     let subsOptions = reactive({
       qos: [0, 1, 2],
       nl: [0, 1],
       rap: [0, 1],
       rh: [0, 1, 2],
-    });
+    })
     let subsInput = reactive({
-      topic: "",
+      topic: '',
       qos: 0,
       nl: 0,
       rap: 0,
       rh: 0,
-    });
-    let editPos = ref(undefined);
-    let submitLoading = ref(false);
-    let tbLoading = ref(false);
-    let subsForm = ref(null);
+    })
+    let editPos = ref(undefined)
+    let submitLoading = ref(false)
+    let tbLoading = ref(false)
+    let subsForm = ref(null)
     let subsRules = {
       topic: [
         {
           required: true,
-          message: tl("required"),
-          trigger: ["blur"],
+          message: tl('required'),
+          trigger: ['blur'],
         },
       ],
-    };
+    }
 
     let openOpDialog = (edit = false, origin) => {
-      opSubs.value = true;
-      isEdit.value = !!edit;
+      opSubs.value = true
+      isEdit.value = !!edit
 
-      subsInput = (edit && _.merge(subsInput, origin)) || subsInput;
+      subsInput = (edit && _.merge(subsInput, origin)) || subsInput
 
-      edit && (editPos.value = subTbData.value.findIndex((e) => e === origin));
-    };
+      edit && (editPos.value = subTbData.value.findIndex((e) => e === origin))
+    }
 
     const submitSubs = async function (edit = false) {
-      let valid = await subsForm.value?.validate().catch(() => {});
-      if (!valid) return;
-      submitLoading.value = true;
-      let pendingTbData = Object.assign([], subTbData.value);
+      let valid = await subsForm.value?.validate().catch(() => {})
+      if (!valid) return
+      submitLoading.value = true
+      let pendingTbData = Object.assign([], subTbData.value)
 
       if (!edit) {
-        pendingTbData.push(subsInput);
+        pendingTbData.push(subsInput)
       } else {
-        editPos.value !== undefined &&
-          pendingTbData.splice(editPos.value, 1, { ...subsInput });
+        editPos.value !== undefined && pendingTbData.splice(editPos.value, 1, { ...subsInput })
       }
 
-      let res = await editSubscribe(pendingTbData).catch(() => {});
+      let res = await editSubscribe(pendingTbData).catch(() => {})
       if (res) {
         ElMessage({
-          type: "success",
-          message: edit ? t("Base.editSuccess") : t("Base.createSuccess"),
-        });
-        loadData();
-        opSubs.value = false;
-        editPos.value = undefined;
+          type: 'success',
+          message: edit ? t('Base.editSuccess') : t('Base.createSuccess'),
+        })
+        loadData()
+        opSubs.value = false
+        editPos.value = undefined
       }
-      submitLoading.value = false;
-    };
+      submitLoading.value = false
+    }
 
     const deleteSubs = async function (origin) {
-      MB.confirm(t("Base.confirmDelete"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
+      MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
       })
         .then(async () => {
-          let pendingTbData = Object.assign([], subTbData.value);
-          const position = pendingTbData.findIndex((e) => e === origin);
-          pendingTbData.splice(position, 1);
-          let res = await editSubscribe(pendingTbData).catch(() => {});
+          let pendingTbData = Object.assign([], subTbData.value)
+          const position = pendingTbData.findIndex((e) => e === origin)
+          pendingTbData.splice(position, 1)
+          let res = await editSubscribe(pendingTbData).catch(() => {})
           if (res) {
             ElMessage({
-              type: "success",
-              message: t("Base.deleteSuccess"),
-            });
-            loadData();
+              type: 'success',
+              message: t('Base.deleteSuccess'),
+            })
+            loadData()
           }
         })
-        .catch(() => {});
-    };
+        .catch(() => {})
+    }
 
     const closeDialog = () => {
-      opSubs.value = false;
-      subsForm.value?.resetFields();
-    };
+      opSubs.value = false
+      subsForm.value?.resetFields()
+    }
 
     let loadData = async () => {
-      tbLoading.value = true;
-      let res = await getSubscribe().catch(() => {});
+      tbLoading.value = true
+      let res = await getSubscribe().catch(() => {})
       if (res) {
-        subTbData.value = res;
+        subTbData.value = res
       }
-      tbLoading.value = false;
-    };
+      tbLoading.value = false
+    }
 
-    onMounted(loadData);
+    onMounted(loadData)
 
     const reloading = () => {
-      loadData();
-    };
+      loadData()
+    }
 
     return {
       tl,
@@ -243,9 +220,9 @@ export default defineComponent({
       subsForm,
       subsRules,
       closeDialog,
-    };
+    }
   },
-});
+})
 </script>
 <style lang="scss" scoped>
 .el-form:not(:first-child) {

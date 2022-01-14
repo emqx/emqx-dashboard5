@@ -2,7 +2,7 @@
   <div>
     <el-form label-position="top">
       <div class="part-header">
-        {{ tl("basic") }}
+        {{ tl('basic') }}
       </div>
       <el-row :gutter="30">
         <el-col :span="12">
@@ -28,7 +28,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("mountSetting") }}</div>
+      <div class="part-header">{{ tl('mountSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -40,7 +40,7 @@
         </el-col>
       </el-row>
 
-      <div class="part-header">{{ tl("grpcListener") }}</div>
+      <div class="part-header">{{ tl('grpcListener') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('lAddress')">
@@ -51,7 +51,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("tlsConfig") }}</div>
+      <div class="part-header">{{ tl('tlsConfig') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-checkbox
@@ -96,7 +96,7 @@
           </el-col>
         </template>
       </el-row>
-      <div class="part-header">{{ tl("grpcConnection") }}</div>
+      <div class="part-header">{{ tl('grpcConnection') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="'Server'">
@@ -107,7 +107,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("tlsConfig") }}</div>
+      <div class="part-header">{{ tl('tlsConfig') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-checkbox
@@ -157,17 +157,17 @@
 </template>
 
 <script>
-import { defineComponent, reactive, watch, onMounted } from "vue";
-import _ from "lodash";
+import { defineComponent, reactive, watch, onMounted } from 'vue'
+import _ from 'lodash'
 import {
   transformUnitArrayToStr,
   transformStrToUnitArray,
   getValueIntersectionWithTemplate,
-} from "@/common/utils";
-import { useI18n } from "vue-i18n";
+} from '@/common/utils'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
-  name: "ExprotoBasic",
+  name: 'ExprotoBasic',
   props: {
     value: {
       type: Object,
@@ -178,59 +178,59 @@ export default defineComponent({
   setup(props, context) {
     let eValueDefault = {
       enable_stats: true,
-      idle_timeout: [30, "s"],
-      mountpoint: "",
+      idle_timeout: [30, 's'],
+      mountpoint: '',
       handler: {
-        address: "http://127.0.0.1:9001",
+        address: 'http://127.0.0.1:9001',
         ssl: {
-          certfile: "",
-          keyfile: "",
-          cacertfile: "",
+          certfile: '',
+          keyfile: '',
+          cacertfile: '',
           enable: false,
         },
       },
       server: {
-        bind: "127.0.0.1:9100",
+        bind: '127.0.0.1:9100',
         ssl: {
-          certfile: "",
-          keyfile: "",
-          cacertfile: "",
+          certfile: '',
+          keyfile: '',
+          cacertfile: '',
           enable: false,
         },
       },
-    };
-    const { t } = useI18n();
+    }
+    const { t } = useI18n()
 
     let eValue = reactive(
       getValueIntersectionWithTemplate(
         eValueDefault,
-        transformStrToUnitArray(props.value, ["idle_timeout"])
-      )
-    );
+        transformStrToUnitArray(props.value, ['idle_timeout']),
+      ),
+    )
     let enableTLS = reactive({
-      cacertfile: "Begins with ----BEGIN CERTIFICATE----",
-      certfile: "Begins with ----BEGIN CERTIFICATE----",
-      keyfile: "Begins with ----BEGIN PRIVATE KEY----",
-    });
+      cacertfile: 'Begins with ----BEGIN CERTIFICATE----',
+      certfile: 'Begins with ----BEGIN CERTIFICATE----',
+      keyfile: 'Begins with ----BEGIN PRIVATE KEY----',
+    })
 
     watch(
       () => _.cloneDeep(eValue),
       (v) => {
-        context.emit("update:value", transformUnitArrayToStr(v));
-      }
-    );
+        context.emit('update:value', transformUnitArrayToStr(v))
+      },
+    )
     onMounted(() => {
-      context.emit("update:value", transformUnitArrayToStr(eValue));
-    });
+      context.emit('update:value', transformUnitArrayToStr(eValue))
+    })
 
     return {
-      tl: (key, collection = "Gateway") => t(collection + "." + key),
+      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       eValueDefault,
       eValue,
       enableTLS,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">

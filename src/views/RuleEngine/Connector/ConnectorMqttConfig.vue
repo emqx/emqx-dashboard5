@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form label-position="top">
-      <div class="part-header">{{ tl("baseInfo") }}</div>
+      <div class="part-header">{{ tl('baseInfo') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('connName')">
@@ -13,7 +13,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl("connParams") }}</div>
+      <div class="part-header">{{ tl('connParams') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('brokerAddress')">
@@ -41,11 +41,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'Password'">
-            <el-input
-              type="password"
-              autocomplete="off"
-              v-model="connectorVal.password"
-            ></el-input>
+            <el-input type="password" autocomplete="off" v-model="connectorVal.password"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -59,22 +55,14 @@
         <el-col :span="12">
           <el-form-item :label="tl('mqttVer')">
             <el-select v-model="connectorVal.proto_ver">
-              <el-option
-                v-for="ver in ['v3', 'v4', 'v5']"
-                :key="ver"
-                :value="ver"
-              ></el-option>
+              <el-option v-for="ver in ['v3', 'v4', 'v5']" :key="ver" :value="ver"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'Clean Start'">
             <el-select v-model="connectorVal.clean_start">
-              <el-option
-                v-for="cs in [true, false]"
-                :key="cs"
-                :value="cs"
-              ></el-option>
+              <el-option v-for="cs in [true, false]" :key="cs" :value="cs"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -102,26 +90,18 @@
           </el-form-item>
         </el-col> -->
       </el-row>
-      <div class="part-header">{{ tl("tlsConfig") }}</div>
+      <div class="part-header">{{ tl('tlsConfig') }}</div>
       <TLS-config class="tls-config-form" v-model="tlsParams"></TLS-config>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import TLSConfig from "../components/TLSConfig.vue";
-import { useI18n } from "vue-i18n";
-import {
-  ref,
-  Ref,
-  reactive,
-  computed,
-  defineComponent,
-  watch,
-  onMounted,
-} from "vue";
+import TLSConfig from '../components/TLSConfig.vue'
+import { useI18n } from 'vue-i18n'
+import { ref, Ref, reactive, computed, defineComponent, watch, onMounted } from 'vue'
 // import { tlsConfig } from "@/types/ruleengine";
-import _ from "lodash";
+import _ from 'lodash'
 
 export default defineComponent({
   components: { TLSConfig },
@@ -143,7 +123,7 @@ export default defineComponent({
     },
   },
   setup(prop, context) {
-    const { t } = useI18n();
+    const { t } = useI18n()
     // const tlsParamsDefault = {
     //   enable: false,
     //   verify: false,
@@ -152,37 +132,36 @@ export default defineComponent({
     //   cacertfile: "",
     // };
     // const tlsParams: Ref<tlsConfig> = ref({ ..._.cloneDeep(tlsParamsDefault) });
-    const tlsParams = computed(() => prop.tls);
-    const modeOptions = ["cluster_shareload", "cluster_singleton"];
+    const tlsParams = computed(() => prop.tls)
+    const modeOptions = ['cluster_shareload', 'cluster_singleton']
 
     const connectorDefaultVal = {
-      name: "",
-      server: "public-mqtt-broker.emqx.com:1883",
-      clientid: "",
-      username: "",
-      password: "",
+      name: '',
+      server: 'public-mqtt-broker.emqx.com:1883',
+      clientid: '',
+      username: '',
+      password: '',
       keepalive: 60,
-      proto_ver: "v4",
+      proto_ver: 'v4',
       clean_start: true,
       mode: modeOptions[0],
-    };
-    const matchedKeepalive = String(prop.modelValue.keepalive).match(/([\d]+)/);
+    }
+    const matchedKeepalive = String(prop.modelValue.keepalive).match(/([\d]+)/)
     const connectorVal = reactive({
       ..._.cloneDeep(connectorDefaultVal),
       ..._.cloneDeep({
         ...prop.modelValue,
         keepalive:
-          (matchedKeepalive?.length && matchedKeepalive[1]) ||
-          connectorDefaultVal.keepalive,
+          (matchedKeepalive?.length && matchedKeepalive[1]) || connectorDefaultVal.keepalive,
       }),
-    });
+    })
 
     watch(
       () => _.cloneDeep(connectorVal),
       (val) => {
-        context.emit("update:modelValue", transformValue(val));
-      }
-    );
+        context.emit('update:modelValue', transformValue(val))
+      },
+    )
 
     // watch(
     //   () => _.cloneDeep(tlsParams.value),
@@ -192,25 +171,25 @@ export default defineComponent({
     // );
 
     onMounted(() => {
-      context.emit("update:modelValue", transformValue(connectorVal));
-    });
+      context.emit('update:modelValue', transformValue(connectorVal))
+    })
 
     const transformValue = (obj: Record<string, unknown>) => {
       return _.cloneDeep({
         ...obj,
-        keepalive: obj.keepalive + "s",
-      });
-    };
+        keepalive: obj.keepalive + 's',
+      })
+    }
 
     return {
-      tl: (key: string) => t("RuleEngine." + key),
+      tl: (key: string) => t('RuleEngine.' + key),
       tlsParams,
       connectorVal,
       connectorDefaultVal,
       modeOptions,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

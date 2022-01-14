@@ -1,56 +1,56 @@
-import { ElMessage as M } from "element-plus";
-import _ from "lodash";
-import { getUsefulPasswordHashAlgorithmData } from "./usePasswordHashAlgorithmData";
-import { parseJSONSafely } from "@/common/tools";
+import { ElMessage as M } from 'element-plus'
+import _ from 'lodash'
+import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
+import { parseJSONSafely } from '@/common/tools'
 
 export default function useProcessAuthData() {
   const processHttpConfig = (data) => {
     try {
-      const tempData = _.cloneDeep(data);
-      const { body } = data;
-      if (body !== "" && body !== undefined) {
-        tempData.body = parseJSONSafely(body);
+      const tempData = _.cloneDeep(data)
+      const { body } = data
+      if (body !== '' && body !== undefined) {
+        tempData.body = parseJSONSafely(body)
       } else {
-        tempData.body = undefined;
+        tempData.body = undefined
       }
-      return tempData;
+      return tempData
     } catch (error) {
-      M.error(error.toString());
+      M.error(error.toString())
     }
-  };
+  }
   const processRedisConfig = (data) => {
-    const tempData = _.cloneDeep(data);
-    const { redis_type } = data;
-    if (redis_type !== "sentinel") {
-      delete tempData.sentinel;
+    const tempData = _.cloneDeep(data)
+    const { redis_type } = data
+    if (redis_type !== 'sentinel') {
+      delete tempData.sentinel
     }
-    if (redis_type !== "single") {
-      delete tempData.server;
+    if (redis_type !== 'single') {
+      delete tempData.server
     } else {
-      delete tempData.servers;
+      delete tempData.servers
     }
-    return tempData;
-  };
+    return tempData
+  }
   const processMongoDBConfig = (data) => {
     try {
-      const tempData = _.cloneDeep(data);
-      const { mongo_type, selector } = data;
-      if (mongo_type !== "single") {
-        delete tempData.server;
+      const tempData = _.cloneDeep(data)
+      const { mongo_type, selector } = data
+      if (mongo_type !== 'single') {
+        delete tempData.server
       } else {
-        delete tempData.replica_set_name;
-        delete tempData.servers;
+        delete tempData.replica_set_name
+        delete tempData.servers
       }
-      if (selector !== "" && selector !== undefined) {
-        tempData.selector = parseJSONSafely(selector);
+      if (selector !== '' && selector !== undefined) {
+        tempData.selector = parseJSONSafely(selector)
       } else {
-        tempData.selector = undefined;
+        tempData.selector = undefined
       }
-      return tempData;
+      return tempData
     } catch (error) {
-      M.error(error.toString());
+      M.error(error.toString())
     }
-  };
+  }
   const processJwtConfig = (data) => {
     const {
       use_jwks,
@@ -61,32 +61,32 @@ export default function useProcessAuthData() {
       endpoint,
       refresh_interval,
       verify_claims,
-    } = data;
+    } = data
     const tempData = {
       use_jwks,
       verify_claims,
-    };
+    }
     if (use_jwks) {
-      tempData.endpoint = endpoint;
-      tempData.refresh_interval = refresh_interval;
+      tempData.endpoint = endpoint
+      tempData.refresh_interval = refresh_interval
     } else {
-      tempData.algorithm = algorithm;
-      if (algorithm === "hmac-based") {
-        tempData.secret = secret;
-        tempData.secret_base64_encoded = secret_base64_encoded;
-      } else if (algorithm === "public-key") {
-        tempData.certificate = certificate;
+      tempData.algorithm = algorithm
+      if (algorithm === 'hmac-based') {
+        tempData.secret = secret
+        tempData.secret_base64_encoded = secret_base64_encoded
+      } else if (algorithm === 'public-key') {
+        tempData.certificate = certificate
       }
     }
-    return tempData;
-  };
+    return tempData
+  }
   const processPasswordHashAlgorithmData = (data) => {
-    const ret = _.cloneDeep(data);
-    if ("password_hash_algorithm" in ret) {
-      ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(ret.password_hash_algorithm);
+    const ret = _.cloneDeep(data)
+    if ('password_hash_algorithm' in ret) {
+      ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(ret.password_hash_algorithm)
     }
-    return ret;
-  };
+    return ret
+  }
 
   return {
     processHttpConfig,
@@ -94,5 +94,5 @@ export default function useProcessAuthData() {
     processRedisConfig,
     processJwtConfig,
     processPasswordHashAlgorithmData,
-  };
+  }
 }

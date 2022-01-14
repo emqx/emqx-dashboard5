@@ -1,10 +1,10 @@
 <template>
   <div class="auth authz-create app-wrapper">
     <back-button back-url="/authorization">
-      {{ $t("Auth.backAuthzList") }}
+      {{ $t('Auth.backAuthzList') }}
     </back-button>
     <div class="page-header-title">
-      {{ $t("Auth.createAuthz") }}
+      {{ $t('Auth.createAuthz') }}
     </div>
     <el-card shadow="never" class="app-card">
       <guide-bar
@@ -13,7 +13,7 @@
       ></guide-bar>
       <div v-if="step === 0" class="create-form">
         <div class="create-form-title">
-          {{ $t("Auth.selectDataSource") }}
+          {{ $t('Auth.selectDataSource') }}
         </div>
         <el-radio-group v-model="type" class="select-type">
           <el-badge
@@ -37,10 +37,10 @@
         </el-radio-group>
         <div class="step-btn">
           <el-button type="primary" @click="handleNext" size="small">
-            {{ $t("Base.nextStep") }}
+            {{ $t('Base.nextStep') }}
           </el-button>
           <el-button @click="$router.push('/authorization')" size="small">
-            {{ $t("Base.cancel") }}
+            {{ $t('Base.cancel') }}
           </el-button>
         </div>
       </div>
@@ -53,7 +53,7 @@
           v-model="configData"
         ></http-config>
         <p v-else-if="type === 'built-in-database'" class="item-description">
-          {{ $t("Auth.builtInDatabaseDesc") }}
+          {{ $t('Auth.builtInDatabaseDesc') }}
         </p>
         <database-config
           v-else-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
@@ -63,10 +63,10 @@
         ></database-config>
         <div class="step-btn">
           <el-button type="primary" @click="handleCreate" size="small">
-            {{ $t("Base.create") }}
+            {{ $t('Base.create') }}
           </el-button>
           <el-button @click="handleBack" size="small">
-            {{ $t("Base.backStep") }}
+            {{ $t('Base.backStep') }}
           </el-button>
         </div>
       </div>
@@ -75,21 +75,21 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from "vue";
-import FileConfig from "./components/FileConfig.vue";
-import DatabaseConfig from "./components/DatabaseConfig.vue";
-import HttpConfig from "./components/HttpConfig.vue";
-import BackButton from "./components/BackButton.vue";
-import GuideBar from "@/components/GuideBar.vue";
-import useGuide from "@/hooks/useGuide";
-import { createAuthz } from "@/api/auth";
-import useAuthzCreate from "@/hooks/Auth/useAuthzCreate";
-import { ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
+import { computed, defineComponent, ref } from 'vue'
+import FileConfig from './components/FileConfig.vue'
+import DatabaseConfig from './components/DatabaseConfig.vue'
+import HttpConfig from './components/HttpConfig.vue'
+import BackButton from './components/BackButton.vue'
+import GuideBar from '@/components/GuideBar.vue'
+import useGuide from '@/hooks/useGuide'
+import { createAuthz } from '@/api/auth'
+import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
+import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: "AuthzCreate",
+  name: 'AuthzCreate',
   components: {
     BackButton,
     GuideBar,
@@ -98,63 +98,63 @@ export default defineComponent({
     HttpConfig,
   },
   setup() {
-    const { t } = useI18n();
-    const router = useRouter();
+    const { t } = useI18n()
+    const router = useRouter()
 
     const getGuideList = function () {
-      return [t("Auth.dataSource"), t("Auth.config")];
-    };
-    const type = ref("file");
-    const configData = ref({});
-    const { factory, create } = useAuthzCreate();
+      return [t('Auth.dataSource'), t('Auth.config')]
+    }
+    const type = ref('file')
+    const configData = ref({})
+    const { factory, create } = useAuthzCreate()
     const typeList = ref([
-      { label: "File", value: "file", img: require("@/assets/img/file.png") },
+      { label: 'File', value: 'file', img: require('@/assets/img/file.png') },
       {
-        label: "Built-in database",
-        value: "built-in-database",
-        img: require("@/assets/img/built-in-database.png"),
+        label: 'Built-in database',
+        value: 'built-in-database',
+        img: require('@/assets/img/built-in-database.png'),
       },
       {
-        label: "MySQL",
-        value: "mysql",
-        img: require("@/assets/img/mysql.png"),
+        label: 'MySQL',
+        value: 'mysql',
+        img: require('@/assets/img/mysql.png'),
       },
       {
-        label: "MongoDB",
-        value: "mongodb",
-        img: require("@/assets/img/mongodb.png"),
+        label: 'MongoDB',
+        value: 'mongodb',
+        img: require('@/assets/img/mongodb.png'),
       },
       {
-        label: "PostgreSQL",
-        value: "postgresql",
-        img: require("@/assets/img/postgresql.png"),
+        label: 'PostgreSQL',
+        value: 'postgresql',
+        img: require('@/assets/img/postgresql.png'),
       },
       {
-        label: "HTTP Server",
-        value: "http",
-        img: require("@/assets/img/http.png"),
+        label: 'HTTP Server',
+        value: 'http',
+        img: require('@/assets/img/http.png'),
       },
       {
-        label: "Redis",
-        value: "redis",
-        img: require("@/assets/img/redis.png"),
+        label: 'Redis',
+        value: 'redis',
+        img: require('@/assets/img/redis.png'),
       },
-    ]);
+    ])
     const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(() => {
       if (step.value === 0) {
-        const data = factory(type.value);
-        configData.value = data;
+        const data = factory(type.value)
+        configData.value = data
       }
-    });
+    })
     const addedAuthz = computed(() => {
-      return JSON.parse(sessionStorage.getItem("addedAuthz")) || [];
-    });
+      return JSON.parse(sessionStorage.getItem('addedAuthz')) || []
+    })
     const handleCreate = async function () {
-      const data = create(configData.value, type.value);
-      await createAuthz(data);
-      ElMessage.success(t("Base.createSuccess"));
-      router.push({ name: "authorization" });
-    };
+      const data = create(configData.value, type.value)
+      await createAuthz(data)
+      ElMessage.success(t('Base.createSuccess'))
+      router.push({ name: 'authorization' })
+    }
     return {
       configData,
       step,
@@ -166,11 +166,11 @@ export default defineComponent({
       handleBack,
       handleCreate,
       getGuideList,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss">
-@import "./style/auth.scss";
+@import './style/auth.scss';
 </style>

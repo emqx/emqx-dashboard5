@@ -3,20 +3,24 @@
     <div class="section-header">
       <div></div>
       <el-button size="small" type="primary" :icon="Plus" @click="openAdd()">
-        {{ tl("addTopic") }}
+        {{ tl('addTopic') }}
       </el-button>
     </div>
 
-    <el-table :data="topicMetricsTb" v-loading="tbLoading" ref="tbRef" row-key="topic" :expand-row-keys="tableExpandRowKeys">
+    <el-table
+      :data="topicMetricsTb"
+      v-loading="tbLoading"
+      ref="tbRef"
+      row-key="topic"
+      :expand-row-keys="tableExpandRowKeys"
+    >
       <el-table-column type="expand" width="1">
         <template #default="{ row }">
           <div v-loading="row._loading" class="topic-detail">
             <el-row class="topic-detail-header">
-              <div>{{ $t("Base.detail") }}</div>
+              <div>{{ $t('Base.detail') }}</div>
               <el-radio-group v-model="topicQos" size="mini">
-                <el-radio-button label="all">{{
-                  $t("Base.all")
-                }}</el-radio-button>
+                <el-radio-button label="all">{{ $t('Base.all') }}</el-radio-button>
                 <el-radio-button label="qos0">QoS 0</el-radio-button>
                 <el-radio-button label="qos1">QoS 1</el-radio-button>
                 <el-radio-button label="qos2">QoS 2</el-radio-button>
@@ -26,53 +30,35 @@
               <el-col :span="8">
                 <div class="message-card in">
                   <div>
-                    {{ tl("msgIn") }}
+                    {{ tl('msgIn') }}
                     <span class="message-rate">
                       {{
-                        row._detail[
-                          `messages.${
-                            topicQos == "all" ? "" : topicQos + "."
-                          }in.rate`
-                        ] +
-                        " " +
-                        tl("rate")
+                        row._detail[`messages.${topicQos == 'all' ? '' : topicQos + '.'}in.rate`] +
+                        ' ' +
+                        tl('rate')
                       }}
                     </span>
                   </div>
                   <div class="message-card--body">
-                    {{
-                      row._detail[
-                        `messages.${
-                          topicQos == "all" ? "" : topicQos + "."
-                        }in.count`
-                      ]
-                    }}
+                    {{ row._detail[`messages.${topicQos == 'all' ? '' : topicQos + '.'}in.count`] }}
                   </div>
                 </div>
               </el-col>
               <el-col :span="8">
                 <div class="message-card out">
                   <div>
-                    {{ tl("msgOut") }}
+                    {{ tl('msgOut') }}
                     <span class="message-rate">
                       {{
-                        row._detail[
-                          `messages.${
-                            topicQos == "all" ? "" : topicQos + "."
-                          }out.rate`
-                        ] +
-                        " " +
-                        tl("rate")
+                        row._detail[`messages.${topicQos == 'all' ? '' : topicQos + '.'}out.rate`] +
+                        ' ' +
+                        tl('rate')
                       }}
                     </span>
                   </div>
                   <div class="message-card--body">
                     {{
-                      row._detail[
-                        `messages.${
-                          topicQos == "all" ? "" : topicQos + "."
-                        }out.count`
-                      ]
+                      row._detail[`messages.${topicQos == 'all' ? '' : topicQos + '.'}out.count`]
                     }}
                   </div>
                 </div>
@@ -80,11 +66,9 @@
               <el-col :span="8">
                 <div class="message-card drop">
                   <div>
-                    {{ tl("msgDrop") }}
+                    {{ tl('msgDrop') }}
                     <span class="message-rate">
-                      {{
-                        row._detail[`messages.dropped.rate`] + " " + tl("rate")
-                      }}
+                      {{ row._detail[`messages.dropped.rate`] + ' ' + tl('rate') }}
                     </span>
                   </div>
                   <div class="message-card--body">
@@ -99,37 +83,32 @@
       <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
       <el-table-column :label="tl('msgIn')" sortable :sort-method="sorting">
         <template #default="{ row }">
-          {{ row.metrics["messages.in.count"] }}
+          {{ row.metrics['messages.in.count'] }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('msgOut')" sortable :sort-method="sorting">
         <template #default="{ row }">
-          {{ row.metrics["messages.out.count"] }}
+          {{ row.metrics['messages.out.count'] }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('msgDrop')" sortable :sort-method="sorting">
         <template #default="{ row }">
-          {{ row.metrics["messages.dropped.count"] }}
+          {{ row.metrics['messages.dropped.count'] }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('startTime')" sortable :sort-method="sorting">
         <template #default="{ row }">
-          {{
-            (row.reset_at && df(row.reset_at)) ||
-            (row.create_time && df(row.create_time))
-          }}
+          {{ (row.reset_at && df(row.reset_at)) || (row.create_time && df(row.create_time)) }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
           <el-button size="mini" @click="loadMetricsFromTopic(row, $index)">{{
-            $t("Base.view")
+            $t('Base.view')
           }}</el-button>
-          <el-button size="mini" @click="resetTopic(row)">{{
-            $t("Base.reset")
-          }}</el-button>
+          <el-button size="mini" @click="resetTopic(row)">{{ $t('Base.reset') }}</el-button>
           <el-button size="mini" type="danger" @click="deleteTopic(row)">
-            {{ $t("Base.delete") }}
+            {{ $t('Base.delete') }}
           </el-button>
         </template>
       </el-table-column>
@@ -150,16 +129,10 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="addVisible = false">{{
-            $t("Base.cancel")
+          <el-button size="small" @click="addVisible = false">{{ $t('Base.cancel') }}</el-button>
+          <el-button type="primary" size="small" @click="addTopic()" :loading="addLoading">{{
+            $t('Base.add')
           }}</el-button>
-          <el-button
-            type="primary"
-            size="small"
-            @click="addTopic()"
-            :loading="addLoading"
-            >{{ $t("Base.add") }}</el-button
-          >
         </div>
       </template>
     </el-dialog>
@@ -167,150 +140,148 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, onMounted, computed } from "vue";
+import { defineComponent, ref, reactive, onMounted, computed } from 'vue'
 import {
   getTopicMetrics,
   addTopicMetrics,
   deleteTopicMetrics,
   resetTopicMetrics,
-} from "@/api/advanced";
-import { dateFormat } from "@/common/utils";
-import { ElMessageBox as MB, ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
-import { Plus } from "@element-plus/icons-vue";
+} from '@/api/advanced'
+import { dateFormat } from '@/common/utils'
+import { ElMessageBox as MB, ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { Plus } from '@element-plus/icons-vue'
 
 export default defineComponent({
-  name: "TopicMetrics",
+  name: 'TopicMetrics',
   data: function () {
     return {
       topicRules: {
         topic: [
           {
             required: true,
-            message: this.$t("Advanced.required"),
-            trigger: "blur",
+            message: this.$t('Advanced.required'),
+            trigger: 'blur',
           },
         ],
       },
-    };
+    }
   },
   setup() {
-    const { t } = useI18n();
+    const { t } = useI18n()
 
-    let addVisible = ref(false);
+    let addVisible = ref(false)
     let topicInput = reactive({
-      topic: "",
-    });
-    let record = ref(null);
-    let topicMetricsTb = ref([]);
-    let tbLoading = ref(false);
-    let tbRef = ref(null);
-    let topicQos = ref("all");
-    let addLoading = ref(false);
+      topic: '',
+    })
+    let record = ref(null)
+    let topicMetricsTb = ref([])
+    let tbLoading = ref(false)
+    let tbRef = ref(null)
+    let topicQos = ref('all')
+    let addLoading = ref(false)
 
     const tableExpandRowKeys = computed(() => {
-      return topicMetricsTb.value
-        .filter(({ _expand }) => _expand)
-        .map(({ topic }) => topic);
-    });
+      return topicMetricsTb.value.filter(({ _expand }) => _expand).map(({ topic }) => topic)
+    })
 
-    const translate = function (key, collection = "Tools") {
-      return t(collection + "." + key);
-    };
+    const translate = function (key, collection = 'Tools') {
+      return t(collection + '.' + key)
+    }
 
     const openAdd = () => {
-      addVisible.value = true;
-      record.value?.resetFields();
-    };
+      addVisible.value = true
+      record.value?.resetFields()
+    }
 
     const loadTopicMetrics = async function () {
-      tbLoading.value = true;
-      let res = await getTopicMetrics().catch(() => {});
+      tbLoading.value = true
+      let res = await getTopicMetrics().catch(() => {})
       if (res) {
         const reconRes = Array.prototype.map.call(res, (v) => {
-          return Object.assign(v, { _detail: {}, _loading: false });
-        });
-        topicMetricsTb.value = reconRes;
+          return Object.assign(v, { _detail: {}, _loading: false })
+        })
+        topicMetricsTb.value = reconRes
       }
-      tbLoading.value = false;
-    };
+      tbLoading.value = false
+    }
 
     const addTopic = async function () {
-      addLoading.value = true;
-      let validate = await record.value?.validate().catch(() => {});
-      if (!validate) return;
-      let { topic } = topicInput;
-      let res = await addTopicMetrics(topic).catch(() => {});
+      addLoading.value = true
+      let validate = await record.value?.validate().catch(() => {})
+      if (!validate) return
+      let { topic } = topicInput
+      let res = await addTopicMetrics(topic).catch(() => {})
       if (res) {
         ElMessage({
-          type: "success",
-          message: t("Base.createSuccess"),
-        });
-        loadTopicMetrics();
+          type: 'success',
+          message: t('Base.createSuccess'),
+        })
+        loadTopicMetrics()
       }
-      addVisible.value = false;
-      addLoading.value = false;
-    };
+      addVisible.value = false
+      addLoading.value = false
+    }
 
     const deleteTopic = async function (row) {
-      let confirm = await MB.confirm(t("Base.confirmDelete"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
-      }).catch((e) => e);
+      let confirm = await MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      }).catch((e) => e)
 
-      if (confirm !== "confirm") return;
-      let { topic } = row;
-      let res = await deleteTopicMetrics(topic).catch(() => {});
+      if (confirm !== 'confirm') return
+      let { topic } = row
+      let res = await deleteTopicMetrics(topic).catch(() => {})
       if (res) {
         ElMessage({
-          type: "success",
-          message: t("Base.deleteSuccess"),
-        });
-        loadTopicMetrics();
+          type: 'success',
+          message: t('Base.deleteSuccess'),
+        })
+        loadTopicMetrics()
       }
-    };
+    }
 
     const resetTopic = async function (row) {
-      let confirm = await MB.confirm(t("General.confirmReset"), {
-        confirmButtonText: t("Base.confirm"),
-        cancelButtonText: t("Base.cancel"),
-        type: "warning",
-      }).catch((e) => e);
+      let confirm = await MB.confirm(t('General.confirmReset'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      }).catch((e) => e)
 
-      if (confirm !== "confirm") return;
-      let { topic } = row;
-      let res = await resetTopicMetrics(topic).catch(() => {});
+      if (confirm !== 'confirm') return
+      let { topic } = row
+      let res = await resetTopicMetrics(topic).catch(() => {})
       if (res) {
         ElMessage({
-          type: "success",
-          message: t("Base.resetSuccess"),
-        });
-        loadTopicMetrics();
+          type: 'success',
+          message: t('Base.resetSuccess'),
+        })
+        loadTopicMetrics()
       }
-    };
+    }
 
     const loadMetricsFromTopic = async function (row, index) {
-      const { topic } = row;
-      row._loading = true;
-      row._expand = !(row._expand ?? false);
-      tbRef.value.toggleRowExpansion(row, row._expand);
+      const { topic } = row
+      row._loading = true
+      row._expand = !(row._expand ?? false)
+      tbRef.value.toggleRowExpansion(row, row._expand)
 
       if (row._expand) {
-        let res = await getTopicMetrics(topic).catch(() => {});
+        let res = await getTopicMetrics(topic).catch(() => {})
         if (res && row) {
-          row._detail = res.metrics;
+          row._detail = res.metrics
         }
-        row._loading = false;
+        row._loading = false
       }
-    };
+    }
 
     //yes ,its a element plus bug
     const sorting = (a, b) => {
       // console.log(a, b);
-    };
+    }
 
-    onMounted(loadTopicMetrics);
+    onMounted(loadTopicMetrics)
 
     return {
       Plus,
@@ -331,9 +302,9 @@ export default defineComponent({
       loadMetricsFromTopic,
       addLoading,
       sorting,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

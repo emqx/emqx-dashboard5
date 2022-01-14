@@ -5,13 +5,11 @@
         <el-col :span="12">
           <el-card shadow="never" class="app-card">
             <div class="app-card-title">
-              {{ $t("Dashboard.currentMessageOutRate") }}
+              {{ $t('Dashboard.currentMessageOutRate') }}
             </div>
             <div class="content">
               <span>{{ currentMetrics.sent }}</span>
-              <span class="unit"
-                >{{ $t("Dashboard.strip") }}/{{ $t("Dashboard.second") }}</span
-              >
+              <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
 
               <div class="flux-wrapper">
                 <simple-line
@@ -27,20 +25,15 @@
         <el-col :span="12">
           <el-card shadow="never" class="app-card">
             <div class="app-card-title">
-              {{ $t("Dashboard.currentMessageInRate") }}
+              {{ $t('Dashboard.currentMessageInRate') }}
             </div>
 
             <div class="content">
               <span>{{ currentMetrics.received }}</span>
-              <span class="unit"
-                >{{ $t("Dashboard.strip") }}/{{ $t("Dashboard.second") }}</span
-              >
+              <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
 
               <div class="flux-wrapper">
-                <simple-line
-                  v-model="currentMetricsLogs.received"
-                  type="bar"
-                ></simple-line>
+                <simple-line v-model="currentMetricsLogs.received" type="bar"></simple-line>
               </div>
             </div>
           </el-card>
@@ -49,7 +42,7 @@
         <el-col :span="12">
           <el-card shadow="never" class="app-card">
             <div class="app-card-title">
-              {{ $t("Dashboard.subscriptionNumber") }}
+              {{ $t('Dashboard.subscriptionNumber') }}
             </div>
 
             <div class="content">
@@ -68,7 +61,7 @@
         <el-col :span="12">
           <el-card shadow="never" class="app-card">
             <div class="app-card-title">
-              {{ $t("Dashboard.connectionsTips") }}
+              {{ $t('Dashboard.connectionsTips') }}
             </div>
 
             <div class="content">
@@ -90,17 +83,17 @@
     <polyline-cards></polyline-cards>
 
     <div v-if="false" class="license-card">
-      <div class="lisence-title">{{ $t("Dashboard.license") }}</div>
+      <div class="lisence-title">{{ $t('Dashboard.license') }}</div>
 
       <ul class="license-field">
         <li v-if="license.customer_type !== evaluation" class="item">
-          <span class="key">{{ $t("Dashboard.customer") }}:</span>
+          <span class="key">{{ $t('Dashboard.customer') }}:</span>
           <span class="value">{{ license.customer }}</span>
         </li>
 
         <li class="item">
           <span class="key">
-            {{ $t("Dashboard.numberOfConnectionLines") }}:
+            {{ $t('Dashboard.numberOfConnectionLines') }}:
             {{ formatConnection }}
           </span>
           <div class="content">
@@ -114,17 +107,17 @@
         </li>
         <template v-if="license.customer_type !== evaluation">
           <li class="item">
-            <span class="key">{{ $t("Dashboard.issuanceOfEmail") }}:</span>
+            <span class="key">{{ $t('Dashboard.issuanceOfEmail') }}:</span>
             <span class="value">{{ license.email }}</span>
           </li>
 
           <li class="item">
-            <span class="key">{{ $t("Dashboard.issuedAt") }}:</span>
+            <span class="key">{{ $t('Dashboard.issuedAt') }}:</span>
             <span class="value broker">{{ license.issued_at }}</span>
           </li>
 
           <li class="item">
-            <span class="key">{{ $t("Dashboard.expireAt") }}:</span>
+            <span class="key">{{ $t('Dashboard.expireAt') }}:</span>
             <span class="value broker">{{ license.expiry_at }}</span>
           </li>
         </template>
@@ -142,7 +135,7 @@
           v-html="$t('Dashboard.licenseExpiryTip')"
         ></div>
         <div v-else class="description">
-          {{ $t("Dashboard.beforeTheCertificateExpires") }}
+          {{ $t('Dashboard.beforeTheCertificateExpires') }}
         </div>
         <div
           v-if="
@@ -152,7 +145,7 @@
           "
           class="oper"
         >
-          <el-tag type="danger">{{ $t("Dashboard.trialEdition") }}</el-tag>
+          <el-tag type="danger">{{ $t('Dashboard.trialEdition') }}</el-tag>
         </div>
       </div>
     </div>
@@ -163,25 +156,19 @@
       :title="$t('Base.warning')"
     >
       <div class="tip-content">
-        <span
-          v-if="!isLicenseExpiry"
-          v-html="$t('Dashboard.licenseEvaluationTip')"
-        ></span>
+        <span v-if="!isLicenseExpiry" v-html="$t('Dashboard.licenseEvaluationTip')"></span>
         <span v-else v-html="$t('Dashboard.licenseExpiryTip')"></span>
       </div>
       <div v-if="!isLicenseExpiry" class="tip-checkbox">
         <el-checkbox v-model="noprompt" @change="liceEvaTipShowChange">{{
-          $t("Dashboard.notPromptAgain")
+          $t('Dashboard.notPromptAgain')
         }}</el-checkbox>
       </div>
       <template #footer>
         <div>
-          <el-button
-            type="primary"
-            size="small"
-            @click="licenseTipVisible = false"
-            >{{ $t("Dashboard.konw") }}</el-button
-          >
+          <el-button type="primary" size="small" @click="licenseTipVisible = false">{{
+            $t('Dashboard.konw')
+          }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -191,139 +178,137 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "Overview",
-});
+  name: 'Overview',
+})
 </script>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onUnmounted, Ref } from "vue";
-import SimpleLine from "./components/SimpleLine";
-import PolylineCards from "./components/PolylineCards";
-import NodesGraph from "./components/NodesGraph.vue";
+import { ref, reactive, computed, onUnmounted, Ref } from 'vue'
+import SimpleLine from './components/SimpleLine'
+import PolylineCards from './components/PolylineCards'
+import NodesGraph from './components/NodesGraph.vue'
 // import PercentageCards from './components/PercentageCards'
-import Moment from "moment";
-import { loadCurrentMetrics, loadLicenseInfo } from "@/api/common";
-import { calcPercentage, getProgressColor } from "@/common/utils";
+import Moment from 'moment'
+import { loadCurrentMetrics, loadLicenseInfo } from '@/api/common'
+import { calcPercentage, getProgressColor } from '@/common/utils'
 
 interface MetricData {
-  x: Array<string>;
-  y: Array<number>;
+  x: Array<string>
+  y: Array<number>
 }
 
-const evaluation: Ref<number> = ref(10);
-const licenseTipVisible: Ref<boolean> = ref(false);
-const isLicenseExpiry: Ref<boolean> = ref(false);
-const noprompt: Ref<boolean> = ref(false);
+const evaluation: Ref<number> = ref(10)
+const licenseTipVisible: Ref<boolean> = ref(false)
+const isLicenseExpiry: Ref<boolean> = ref(false)
+const noprompt: Ref<boolean> = ref(false)
 
-let license: Record<string, number | boolean> = reactive({});
+let license: Record<string, number | boolean> = reactive({})
 const currentMetricsLogs: Record<string, MetricData> = reactive({
   received: {
-    x: Array(32).fill("N/A"),
+    x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
   sent: {
-    x: Array(32).fill("N/A"),
+    x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
   subscription: {
-    x: Array(32).fill("N/A"),
+    x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
-});
+})
 const currentMetrics: Ref<Record<string, number>> = ref({
   node: 0, // 节点数
   received: 0, // 消息 in 速率
   sent: 0, // 消息 out 速率
   subscription: 0, // 订阅数
   connection: 0, // 连接数
-});
-let timerData: undefined | number = undefined;
+})
+let timerData: undefined | number = undefined
 
 const licensePercentage = computed(() => {
-  const { connection } = currentMetrics.value;
-  const { max_connections } = license;
-  return calcPercentage(connection, max_connections);
-});
+  const { connection } = currentMetrics.value
+  const { max_connections } = license
+  return calcPercentage(connection, max_connections)
+})
 
 const formatConnection = computed(() => {
-  const { connection } = currentMetrics.value;
-  const { max_connections } = license;
-  return `${_formatNumber(connection)} / ${_formatNumber(
-    max_connections as number
-  )}`;
-});
+  const { connection } = currentMetrics.value
+  const { max_connections } = license
+  return `${_formatNumber(connection)} / ${_formatNumber(max_connections as number)}`
+})
 
 const liceEvaTipShowChange = (val: boolean) => {
   if (val) {
-    localStorage.setItem("licenseTipVisible", String(false));
+    localStorage.setItem('licenseTipVisible', String(false))
   }
-};
+}
 const _formatNumber = (num: number) => {
-  let number = String(parseInt(num.toString()));
-  return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, "$1,");
-};
+  let number = String(parseInt(num.toString()))
+  return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, '$1,')
+}
 
 const loadLicenseData = async () => {
-  let res = await loadLicenseInfo().catch(() => {});
+  let res = await loadLicenseInfo().catch(() => {})
   if (!res) {
-    return;
+    return
   }
-  license = res;
+  license = res
   // evaluation 许可证
   if (
     license.customer_type === evaluation.value &&
-    localStorage.getItem("licenseTipVisible") !== "false"
+    localStorage.getItem('licenseTipVisible') !== 'false'
   ) {
-    licenseTipVisible.value = true;
-    isLicenseExpiry.value = false;
+    licenseTipVisible.value = true
+    isLicenseExpiry.value = false
   }
   // 证书过期
   if (license.expiry === true) {
-    licenseTipVisible.value = true;
-    isLicenseExpiry.value = true;
+    licenseTipVisible.value = true
+    isLicenseExpiry.value = true
   }
-};
+}
 const loadData = async () => {
-  const state = await loadCurrentMetrics().catch(() => {});
+  const state = await loadCurrentMetrics().catch(() => {})
   if (!state) {
-    return;
+    return
   }
-  currentMetrics.value = state;
-  setCurrentMetricsLogsRealtime(state);
-};
+  currentMetrics.value = state
+  setCurrentMetricsLogsRealtime(state)
+}
 
 const getNow = () => {
-  return Moment().format("HH:mm:ss");
-};
+  return Moment().format('HH:mm:ss')
+}
 const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
-  ["received", "sent", "subscription"].forEach((key) => {
+  ;['received', 'sent', 'subscription'].forEach((key) => {
     currentMetricsLogs[key] = currentMetricsLogs[key] || {
       x: [],
       y: [],
-    };
-    const currentValue = state[key] || 0;
-    currentMetricsLogs[key].x.push(getNow());
-    currentMetricsLogs[key].y.push(currentValue);
-    if (currentMetricsLogs[key].x.length >= 16) {
-      currentMetricsLogs[key].x.shift();
-      currentMetricsLogs[key].y.shift();
     }
-  });
-};
+    const currentValue = state[key] || 0
+    currentMetricsLogs[key].x.push(getNow())
+    currentMetricsLogs[key].y.push(currentValue)
+    if (currentMetricsLogs[key].x.length >= 16) {
+      currentMetricsLogs[key].x.shift()
+      currentMetricsLogs[key].y.shift()
+    }
+  })
+}
 
-loadData();
+loadData()
 // loadLicenseData()
 // clearInterval(this.timerData)
 timerData = setInterval(() => {
-  loadData();
-}, 30 * 1000);
+  loadData()
+}, 30 * 1000)
 
 onUnmounted(() => {
-  clearInterval(timerData);
-});
+  clearInterval(timerData)
+})
 </script>
 
 <style lang="scss" scoped>
