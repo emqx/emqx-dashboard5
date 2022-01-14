@@ -5,11 +5,11 @@ export default {
   },
   currentAlarm: {
     zh: '当前告警',
-    en: 'Current Alarms',
+    en: 'Active',
   },
   historyAlarm: {
     zh: '历史告警',
-    en: 'Historical Alarms',
+    en: 'History',
   },
   node: {
     zh: '节点',
@@ -29,11 +29,11 @@ export default {
   },
   alarmMsg: {
     zh: '告警消息',
-    en: 'Alarm Message',
+    en: 'Message',
   },
   alarmName: {
     zh: '告警名称',
-    en: 'Alarm Name',
+    en: 'Name',
   },
   activateAt: {
     zh: '开始时间',
@@ -45,7 +45,7 @@ export default {
   },
   activateTime: {
     zh: '告警时间',
-    en: 'Alarm Time',
+    en: 'Time',
   },
   duration: {
     zh: '持续时间',
@@ -53,7 +53,7 @@ export default {
   },
   alarmLevel: {
     zh: '告警级别',
-    en: 'Alarm level',
+    en: 'Level',
   },
   system: {
     zh: '系统',
@@ -69,7 +69,7 @@ export default {
   },
   alarmValue: {
     zh: '告警值',
-    en: 'Alarm value',
+    en: 'Value',
   },
   alarmTime: {
     zh: '告警时间',
@@ -105,6 +105,6 @@ export default {
   },
   clearSuccess: {
     zh: '清除历史告警成功',
-    en: 'The Historical Alarms have been successfully cleared.',
+    en: 'Alarms history is cleared successfully.',
   },
 }
