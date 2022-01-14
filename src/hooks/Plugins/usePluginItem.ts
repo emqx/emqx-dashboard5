@@ -10,6 +10,7 @@ enum PluginMovePosition {
   Top = "top",
   Bottom = "bottom",
   BeforePrefix = "before:",
+  AfterPrefix = "after:",
 }
 
 export default () => {
@@ -116,14 +117,23 @@ export default () => {
     );
   };
 
-  // FIXME:
   const movePluginBeforeAnotherPlugin = (
     pluginItem: PluginItem,
-    anotherPluginName: string
+    anotherPlugin: PluginItem
   ) => {
     return movePluginPosition(
       concatNameWithVersion(pluginItem),
-      PluginMovePosition.BeforePrefix + anotherPluginName
+      PluginMovePosition.BeforePrefix + concatNameWithVersion(anotherPlugin)
+    );
+  };
+
+  const movePluginAfterAnotherPlugin = (
+    pluginItem: PluginItem,
+    anotherPlugin: PluginItem
+  ) => {
+    return movePluginPosition(
+      concatNameWithVersion(pluginItem),
+      PluginMovePosition.AfterPrefix + concatNameWithVersion(anotherPlugin)
     );
   };
 
@@ -140,5 +150,6 @@ export default () => {
     movePluginToTop,
     movePluginToBottom,
     movePluginBeforeAnotherPlugin,
+    movePluginAfterAnotherPlugin,
   };
 };
