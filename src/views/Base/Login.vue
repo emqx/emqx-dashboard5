@@ -63,12 +63,6 @@ import { toLogin } from '@/router'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import axios from 'axios'
-
-axios.defaults.baseURL = ''
-axios.get('config.md').then((res) => {
-  console.log(res)
-})
 
 const { t } = useI18n()
 const store = useStore()
