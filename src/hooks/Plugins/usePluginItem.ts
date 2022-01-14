@@ -1,141 +1,121 @@
-import { uninstallPlugin } from "@/api/plugins";
-import { useI18n } from "vue-i18n";
-import { ElMessageBox, ElMessage } from "element-plus";
-import { PluginItem } from "@/types/plugin";
-import { PluginStatus, StatusCommandSendToPlugin } from "@/types/enum";
-import { updatePluginStatus } from "@/api/plugins";
-import { movePluginPosition } from "@/api/plugins";
+import { uninstallPlugin } from '@/api/plugins'
+import { useI18n } from 'vue-i18n'
+import { ElMessageBox, ElMessage } from 'element-plus'
+import { PluginItem } from '@/types/plugin'
+import { PluginStatus, StatusCommandSendToPlugin } from '@/types/enum'
+import { updatePluginStatus } from '@/api/plugins'
+import { movePluginPosition } from '@/api/plugins'
 
 enum PluginMovePosition {
-  Top = "top",
-  Bottom = "bottom",
-  BeforePrefix = "before:",
-  AfterPrefix = "after:",
+  Top = 'top',
+  Bottom = 'bottom',
+  BeforePrefix = 'before:',
+  AfterPrefix = 'after:',
 }
 
 export default () => {
-  const { t } = useI18n();
+  const { t } = useI18n()
 
-  const NAME_VERSION_JOINER = "-";
+  const NAME_VERSION_JOINER = '-'
 
   const concatNameWithVersion = ({ name, rel_vsn }: PluginItem) =>
-    `${name}${NAME_VERSION_JOINER}${rel_vsn}`;
+    `${name}${NAME_VERSION_JOINER}${rel_vsn}`
 
   const checkPlugin = (name: undefined | string) => {
     if (!name) {
-      return Promise.reject(new Error("Please pass select a plugin"));
+      return Promise.reject(new Error('Please pass select a plugin'))
     }
-    return Promise.resolve();
-  };
+    return Promise.resolve()
+  }
 
   const disablePlugin = async (pluginItem: PluginItem) => {
     try {
-      await checkPlugin(concatNameWithVersion(pluginItem));
-      await updatePluginStatus(
-        concatNameWithVersion(pluginItem),
-        StatusCommandSendToPlugin.Stop
-      );
-      ElMessage.success(t("Base.disabledSuccess"));
-      return Promise.resolve();
+      await checkPlugin(concatNameWithVersion(pluginItem))
+      await updatePluginStatus(concatNameWithVersion(pluginItem), StatusCommandSendToPlugin.Stop)
+      ElMessage.success(t('Base.disabledSuccess'))
+      return Promise.resolve()
     } catch (error) {
-      console.error(error);
-      return Promise.reject();
+      console.error(error)
+      return Promise.reject()
     }
-  };
+  }
 
   const enablePlugin = async (pluginItem: PluginItem) => {
     try {
-      await checkPlugin(concatNameWithVersion(pluginItem));
-      await updatePluginStatus(
-        concatNameWithVersion(pluginItem),
-        StatusCommandSendToPlugin.Start
-      );
-      ElMessage.success(t("Base.enableSuccess"));
-      return Promise.resolve();
+      await checkPlugin(concatNameWithVersion(pluginItem))
+      await updatePluginStatus(concatNameWithVersion(pluginItem), StatusCommandSendToPlugin.Start)
+      ElMessage.success(t('Base.enableSuccess'))
+      return Promise.resolve()
     } catch (error) {
-      console.error(error);
-      return Promise.reject();
+      console.error(error)
+      return Promise.reject()
     }
-  };
+  }
 
   const uninstall = async (pluginItem: PluginItem) => {
     try {
-      await checkPlugin(concatNameWithVersion(pluginItem));
-      await ElMessageBox.confirm(
-        t("Plugins.pluginUninstallConfirm", { name: pluginItem.name })
-      );
-      await uninstallPlugin(concatNameWithVersion(pluginItem) as string);
-      ElMessage.success(t("Plugins.uninstalledSuccessfully"));
-      return Promise.resolve();
+      await checkPlugin(concatNameWithVersion(pluginItem))
+      await ElMessageBox.confirm(t('Plugins.pluginUninstallConfirm', { name: pluginItem.name }))
+      await uninstallPlugin(concatNameWithVersion(pluginItem) as string)
+      ElMessage.success(t('Plugins.uninstalledSuccessfully'))
+      return Promise.resolve()
     } catch (error) {
-      console.error(error);
-      return Promise.reject();
+      console.error(error)
+      return Promise.reject()
     }
-  };
+  }
 
   const goDoc = (pluginType: string) => {
     // TODO:
-  };
+  }
 
   const getTheWorstStatus = (pluginItem: PluginItem) => {
-    const { running_status = [] } = pluginItem;
+    const { running_status = [] } = pluginItem
     return running_status.every(({ status }) => status === PluginStatus.Running)
       ? PluginStatus.Running
-      : PluginStatus.Stopped;
-  };
+      : PluginStatus.Stopped
+  }
 
   /**
    * all stop = stop; others = running
    */
   const pluginTotalStatus = (pluginItem: PluginItem) => {
-    const { running_status = [] } = pluginItem;
+    const { running_status = [] } = pluginItem
     return running_status.every(({ status }) => status === PluginStatus.Stopped)
       ? PluginStatus.Stopped
-      : PluginStatus.Running;
-  };
+      : PluginStatus.Running
+  }
 
   const getPluginAuthorString = (pluginItem: PluginItem) => {
-    const { authors = [] } = pluginItem;
+    const { authors = [] } = pluginItem
     try {
-      return authors.join("; ");
+      return authors.join('; ')
     } catch (error) {
-      return authors;
+      return authors
     }
-  };
+  }
 
   const movePluginToTop = (pluginItem: PluginItem) => {
-    return movePluginPosition(
-      concatNameWithVersion(pluginItem),
-      PluginMovePosition.Top
-    );
-  };
+    return movePluginPosition(concatNameWithVersion(pluginItem), PluginMovePosition.Top)
+  }
 
   const movePluginToBottom = (pluginItem: PluginItem) => {
-    return movePluginPosition(
-      concatNameWithVersion(pluginItem),
-      PluginMovePosition.Bottom
-    );
-  };
+    return movePluginPosition(concatNameWithVersion(pluginItem), PluginMovePosition.Bottom)
+  }
 
-  const movePluginBeforeAnotherPlugin = (
-    pluginItem: PluginItem,
-    anotherPlugin: PluginItem
-  ) => {
+  const movePluginBeforeAnotherPlugin = (pluginItem: PluginItem, anotherPlugin: PluginItem) => {
     return movePluginPosition(
       concatNameWithVersion(pluginItem),
-      PluginMovePosition.BeforePrefix + concatNameWithVersion(anotherPlugin)
-    );
-  };
+      PluginMovePosition.BeforePrefix + concatNameWithVersion(anotherPlugin),
+    )
+  }
 
-  const movePluginAfterAnotherPlugin = (
-    pluginItem: PluginItem,
-    anotherPlugin: PluginItem
-  ) => {
+  const movePluginAfterAnotherPlugin = (pluginItem: PluginItem, anotherPlugin: PluginItem) => {
     return movePluginPosition(
       concatNameWithVersion(pluginItem),
-      PluginMovePosition.AfterPrefix + concatNameWithVersion(anotherPlugin)
-    );
-  };
+      PluginMovePosition.AfterPrefix + concatNameWithVersion(anotherPlugin),
+    )
+  }
 
   return {
     NAME_VERSION_JOINER,
@@ -151,5 +131,5 @@ export default () => {
     movePluginToBottom,
     movePluginBeforeAnotherPlugin,
     movePluginAfterAnotherPlugin,
-  };
-};
+  }
+}
