@@ -2,17 +2,32 @@
   <div class="plugins app-wrapper">
     <div class="section-header">
       <div class="filters">
-        <el-input size="small" :placeholder="$t('Plugins.searchPlaceholder')" v-model="keyForSearch" />
+        <el-input
+          size="small"
+          :placeholder="$t('Plugins.searchPlaceholder')"
+          v-model="keyForSearch"
+        />
         <el-radio-group size="small" v-model="filterStatus">
-          <el-radio-button v-for="{ label, value } in statusOptions" :key="value" :label="value">
+          <el-radio-button
+            v-for="{ label, value } in statusOptions"
+            :key="value"
+            :label="value"
+          >
             {{ label }}
             ({{ statusCounter[value] }})
           </el-radio-button>
         </el-radio-group>
       </div>
-      <el-button type="primary" size="small" @click="goInstall">{{ tl("installPlugin") }}</el-button>
+      <el-button type="primary" size="small" @click="goInstall">{{
+        tl("installPlugin")
+      }}</el-button>
     </div>
-    <el-table :data="pluginListToShow" v-loading="isTableLoading">
+    <el-table
+      :data="pluginListToShow"
+      v-loading="isTableLoading"
+      ref="tableCom"
+      row-key="name"
+    >
       <el-table-column :label="tl('name')">
         <template #default="{ row }">
           <i class="icon icon-plugin"></i>
@@ -30,14 +45,21 @@
           <el-tooltip placement="left" popper-class="tooltip-node-status-list">
             <span>
               <el-badge is-dot :type="dotClass(getTheWorstStatus(row))" />
-              <span class="text-status" :class="statusTextClass(getTheWorstStatus(row))">
+              <span
+                class="text-status"
+                :class="statusTextClass(getTheWorstStatus(row))"
+              >
                 {{ statusText(getTheWorstStatus(row)) }}
               </span>
             </span>
             <template #content>
               <div class="status-detail">
                 <ul class="node-status-list">
-                  <li class="node-status-item" v-for="{ node, status } in row.running_status" :key="node">
+                  <li
+                    class="node-status-item"
+                    v-for="{ node, status } in row.running_status"
+                    :key="node"
+                  >
                     <span class="text-status" :class="statusTextClass(row)">
                       {{ statusText(status) }}
                     </span>
@@ -51,10 +73,18 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" v-if="pluginTotalStatus(row) === PluginStatus.Running" @click="handleDisable(row)">
+          <el-button
+            size="mini"
+            v-if="pluginTotalStatus(row) === PluginStatus.Running"
+            @click="handleDisable(row)"
+          >
             {{ tl("stop") }}
           </el-button>
-          <el-button size="mini" v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped" @click="handleEnable(row)">
+          <el-button
+            size="mini"
+            v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
+            @click="handleEnable(row)"
+          >
             {{ tl("start") }}
           </el-button>
           <TableItemDropdown
@@ -73,7 +103,7 @@
 <script lang="ts" setup>
 import { PluginStatus } from "@/types/enum";
 import { useI18n } from "vue-i18n";
-import { computed, ComputedRef, ref } from "vue";
+import { computed, ComputedRef, nextTick, ref } from "vue";
 import { PluginItem } from "@/types/plugin";
 import usePluginStatus from "@/hooks/Plugins/usePluginStatus";
 import { useRouter } from "vue-router";
@@ -81,6 +111,7 @@ import usePluginItem from "@/hooks/Plugins/usePluginItem";
 import TableItemDropdown from "./components/TableItemDropdown.vue";
 import usePaging, { FilterItem } from "@/hooks/usePaging";
 import { queryPlugins } from "@/api/plugins";
+import Sortable, { SortableEvent } from "sortablejs";
 
 const router = useRouter();
 const { t } = useI18n();
@@ -119,16 +150,26 @@ const {
   movePluginToTop,
   movePluginToBottom,
   movePluginBeforeAnotherPlugin,
+  movePluginAfterAnotherPlugin,
 } = usePluginItem();
 const { totalData, setTotalData, getAPageData } = usePaging();
-const isTableFiltered = computed(() => !!(filterStatus.value !== VALUE_FOR_NOT_FILTER || keyForSearch.value));
+const isTableFiltered = computed(
+  () => !!(filterStatus.value !== VALUE_FOR_NOT_FILTER || keyForSearch.value)
+);
+const tableCom = ref();
+let sortable: undefined | Sortable = undefined;
 
 /**
  * Filtered by the search
  */
 const pluginsListAfterSearch: ComputedRef<Array<PluginItem>> = computed(() => {
-  const filters: Array<FilterItem> = [{ key: "name", value: keyForSearch.value }];
-  const { data } = getAPageData({ page: 1, limit: totalData.value.length }, filters);
+  const filters: Array<FilterItem> = [
+    { key: "name", value: keyForSearch.value },
+  ];
+  const { data } = getAPageData(
+    { page: 1, limit: totalData.value.length },
+    filters
+  );
   return data;
 });
 
@@ -139,7 +180,9 @@ const pluginListToShow = computed(() => {
   if (filterStatus.value === VALUE_FOR_NOT_FILTER) {
     return pluginsListAfterSearch.value;
   }
-  return pluginsListAfterSearch.value.filter((item) => getTheWorstStatus(item) === filterStatus.value);
+  return pluginsListAfterSearch.value.filter(
+    (item) => getTheWorstStatus(item) === filterStatus.value
+  );
 });
 
 const statusCounter = computed(() => {
@@ -158,15 +201,50 @@ const goInstall = () => {
   router.push({ name: "plugin-install" });
 };
 
+const handleOrderChanged = async (evt: SortableEvent) => {
+  if (evt.newIndex === undefined || evt.oldIndex === undefined) {
+    return;
+  }
+  const targetPlugin = pluginListToShow.value[evt.oldIndex];
+  const isTheLast = evt.newIndex === pluginListToShow.value.length - 1;
+  try {
+    if (isTheLast) {
+      await movePluginAfterAnotherPlugin(
+        targetPlugin,
+        pluginListToShow.value[evt.newIndex - 1]
+      );
+    } else {
+      await movePluginBeforeAnotherPlugin(
+        targetPlugin,
+        pluginListToShow.value[evt.newIndex + 1]
+      );
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    queryListData();
+  }
+};
+
+const initSortable = () => {
+  sortable && sortable?.destroy();
+  sortable = new Sortable(tableCom.value.$el.querySelector("tbody"), {
+    dataIdAttr: "plugin-name",
+    onUpdate: handleOrderChanged,
+  });
+};
+
 const queryListData = async () => {
   try {
     isTableLoading.value = true;
     const data = await queryPlugins();
-
     setTotalData(data);
-    isTableLoading.value = false;
+    await nextTick();
+    initSortable();
   } catch (error) {
     console.error(error);
+  } finally {
+    isTableLoading.value = false;
   }
 };
 
@@ -268,6 +346,9 @@ queryListData();
       line-height: 16px;
       color: rgba(0, 0, 0, 0.5);
     }
+  }
+  .el-table tr {
+    cursor: move;
   }
 }
 </style>
