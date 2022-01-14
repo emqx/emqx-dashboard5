@@ -12,7 +12,7 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 const mdFile = ref('')
 const loadConfigContent = async () => {
   axios.defaults.baseURL = ''
-  const res = (await axios.get('config.md')) as string
+  const res = (await axios.get('static/config.md')) as string
   if (res !== '') {
     mdFile.value = res
   }
