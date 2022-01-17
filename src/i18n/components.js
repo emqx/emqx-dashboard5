@@ -173,7 +173,7 @@ export default {
   },
   advanced: {
     zh: 'MQTT高级特性',
-    en: 'MQTT Advanced Feat',
+    en: 'MQTT Advanced Feat.',
   },
   configDocs: {
     zh: '配置文档',
