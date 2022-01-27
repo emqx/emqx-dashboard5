@@ -76,7 +76,7 @@ $mid-menu-width: 160px;
   font-weight: 700;
   padding: 0 20px 15px;
 }
-.el-tabs--left ::v-deep {
+:deep(.el-tabs--left) {
   .el-tabs__header.is-left {
     position: fixed;
     background-color: #fff;
@@ -90,7 +90,7 @@ $mid-menu-width: 160px;
   }
 }
 
-.item-page ::v-deep {
+:deep(.item-page) {
   .el-tabs__content {
     margin-left: 0;
   }

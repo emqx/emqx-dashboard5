@@ -83,7 +83,7 @@ const handleCommand = function (row: PluginItem, command: string) {
 <style lang="scss" scoped>
 .dropdown-btn {
   padding: 1px 6px;
-  :deep > span {
+  & > :deep(span) {
     display: flex;
     align-items: center;
   }

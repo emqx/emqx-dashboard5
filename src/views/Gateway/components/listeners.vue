@@ -670,7 +670,7 @@ export default defineComponent({
   margin-bottom: 20px;
 }
 
-.el-input-group--append ::v-deep .el-input-group__append {
+.el-input-group--append :deep(.el-input-group__append) {
   width: 70px;
 }
 </style>

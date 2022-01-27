@@ -47,7 +47,7 @@ getConfig()
     text-align: center;
   }
 
-  :deep .el-empty__description {
+  :deep(.el-empty__description) {
     margin-top: 20px;
   }
 }

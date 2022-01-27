@@ -134,7 +134,7 @@ export default {
 
 <style lang="scss" scoped>
 .el-tabs {
-  &::v-deep .el-badge__content.is-dot {
+  & :deep(.el-badge__content.is-dot) {
     top: 7px;
     right: 5px;
   }

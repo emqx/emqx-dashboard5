@@ -487,7 +487,7 @@ export default {
   }
 }
 
-.section-header::v-deep .el-loading-mask {
+.section-header :deep(.el-loading-mask) {
   margin-left: 0px;
 }
 

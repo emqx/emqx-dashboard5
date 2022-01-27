@@ -333,7 +333,7 @@ export default defineComponent({
   }
 }
 
-.el-table::v-deep .el-table__expand-icon {
+.el-table :deep(.el-table__expand-icon) {
   display: none;
 }
 
