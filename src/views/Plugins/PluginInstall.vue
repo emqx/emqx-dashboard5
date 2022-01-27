@@ -82,7 +82,7 @@ const submit = async () => {
   justify-content: center;
   text-align: center;
 }
-:deep .el-card__body {
+:deep(.el-card__body) {
   padding-top: 64px;
   padding-bottom: 64px;
 }
@@ -112,7 +112,7 @@ const submit = async () => {
     color: #8d96a2;
     font-size: 12px;
   }
-  :deep .el-upload {
+  :deep(.el-upload) {
     width: 100%;
     .el-upload-dragger {
       width: 100%;

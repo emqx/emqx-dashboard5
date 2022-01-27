@@ -219,7 +219,7 @@ getTotalStatistics()
     vertical-align: top;
     margin-left: 4px;
   }
-  :deep .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  :deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
     background: rgba(0, 178, 153, 0.05);
     color: #00b299;
   }

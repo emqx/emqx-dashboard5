@@ -125,9 +125,7 @@ export default defineComponent({
   }
 }
 
-.el-dialog__wrapper ::v-deep {
-  .el-dialog {
-    width: 80%;
-  }
+.el-dialog__wrapper :deep(.el-dialog) {
+  width: 80%;
 }
 </style>

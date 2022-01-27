@@ -197,7 +197,7 @@ export default {
 }
 
 .el-badge {
-  &::v-deep .is-fixed.is-dot {
+  &:deep(.is-fixed.is-dot) {
     right: 5px;
     top: 3px;
   }
