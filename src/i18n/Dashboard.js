@@ -55,6 +55,10 @@ export default {
     zh: 'Erlang VM 内存',
     en: 'Erlang VM Memory',
   },
+  memory: {
+    zh: '内存',
+    en: 'Memory',
+  },
   maxFds: {
     zh: '最大文件句柄',
     en: 'Max Fds',
