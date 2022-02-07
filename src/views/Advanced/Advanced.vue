@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import Retainer from './components/retainer.vue'
 import Rewrite from './components/rewrite.vue'
 import Subscribe from './components/subscribe.vue'
