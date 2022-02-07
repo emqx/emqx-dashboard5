@@ -177,8 +177,8 @@ export default {
 }
 
 .header-title {
-  font-size: 32px;
-  font-weight: 900;
+  font-size: 28px;
+  font-weight: 600;
   padding-left: 20px;
 }
 
