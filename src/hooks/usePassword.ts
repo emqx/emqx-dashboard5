@@ -1,6 +1,8 @@
-import { ref } from 'vue'
+import { Ref, ref } from 'vue'
 
-export default function usePassword() {
+export default function usePassword(): {
+  HashOptions: Ref<string[]>
+} {
   const HashOptions = ref([
     'plain',
     'md4',

@@ -33,15 +33,28 @@
 
 <script setup lang="ts">
 import usePassword from '@/hooks/usePassword'
-import { defineProps, computed, defineEmits } from 'vue'
+import { defineProps, computed, defineEmits, PropType } from 'vue'
+
+interface PasswordHashAlgorithmFormItems {
+  password_hash_algorithm: {
+    name: string
+    salt_rounds?: number
+    mac_fun?: number
+    iterations?: number
+    dk_length?: number
+  }
+}
 
 const props = defineProps({
-  modelValue: Object,
+  modelValue: {
+    type: Object as PropType<PasswordHashAlgorithmFormItems>,
+    required: true,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const formData = computed({
+const formData = computed<PasswordHashAlgorithmFormItems>({
   get() {
     return props.modelValue
   },
@@ -49,8 +62,5 @@ const formData = computed({
     emit('update:modelValue', val)
   },
 })
-
 const { HashOptions } = usePassword()
-
-console.log(123)
 </script>
