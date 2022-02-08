@@ -275,4 +275,8 @@ export default {
     zh: '更多',
     en: 'More',
   },
+  content: {
+    zh: '目录',
+    en: 'Content',
+  },
 }

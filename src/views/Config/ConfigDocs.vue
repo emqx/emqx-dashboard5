@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper config-docs">
-    <MarkdownContent class="config-docs-content" :content="mdFile" />
+    <MarkdownContent class="config-docs-content" :content="mdFile" show-toc />
   </div>
 </template>
 
@@ -129,6 +129,45 @@ loadConfigContent()
     border-left-width: 0.5rem;
     border-left-style: solid;
     margin: 1rem 0;
+  }
+  .toc-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .toc-list {
+    position: fixed;
+    right: 24px;
+    top: 110px;
+    bottom: 40px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .toc {
+    font-size: 14px;
+    list-style: none;
+    &.level-2 {
+      padding-bottom: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #e2e8f0;
+    }
+    &.level-3 {
+      padding-bottom: 8px;
+      padding-top: 8px;
+      margin-left: 12px;
+      border-top: 1px dashed #e2e8f0;
+    }
+    &.level-4 {
+      padding-bottom: 8px;
+      padding-top: 8px;
+      margin-left: 24px;
+    }
+    a {
+      color: #4a5568;
+      &.is-active,
+      &:hover {
+        color: var(--el-color-primary);
+      }
+    }
   }
 }
 </style>
