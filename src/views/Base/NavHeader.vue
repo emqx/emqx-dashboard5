@@ -161,7 +161,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import "@/style/element-variables";
 .nav-header {
   display: flex;
   justify-content: space-between;

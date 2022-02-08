@@ -1,5 +1,3 @@
-// import VueI18n from "vue-i18n";
-// import Vue from "vue";
 import store from '@/store'
 
 import { createI18n } from 'vue-i18n'
@@ -27,13 +25,6 @@ Array.prototype.forEach.call(translations.keys(), (path) => {
     lang.zh[partKey][k] = zh
   })
 })
-
-// Vue.use(VueI18n);
-
-// export default new VueI18n({
-//   locale: store.state.lang,
-//   messages: lang,
-// });
 
 export default createI18n({
   messages: lang,
