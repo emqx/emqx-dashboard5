@@ -1,4 +1,4 @@
-# new-emqx-dashboard
+# The New Dashboard for EMQX 5.0
 
 ## Project setup
 
