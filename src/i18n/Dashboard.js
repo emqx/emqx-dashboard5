@@ -1,11 +1,11 @@
 export default {
   networkGraph: {
-    en: 'Network Graph',
+    en: 'Cluster Topology',
     zh: '拓扑图',
   },
   shareSubscription: {
     zh: '共享订阅',
-    en: 'Share Subscription',
+    en: 'Shared Subscriptions',
   },
   subscription: {
     zh: '订阅',
@@ -17,7 +17,7 @@ export default {
   },
   connectionsTips: {
     zh: '当前活跃连接数',
-    en: 'Currently active connections',
+    en: 'Active connections',
   },
   view: {
     zh: '查看',
@@ -40,8 +40,8 @@ export default {
     en: 'Connections',
   },
   nodeStatus: {
-    zh: '节点状态',
-    en: 'Node Status',
+    zh: '状态',
+    en: 'Status',
   },
   running: {
     zh: '运行中',
@@ -52,8 +52,8 @@ export default {
     en: 'Stopped',
   },
   erlangVMMemory: {
-    zh: 'Erlang VM 内存',
-    en: 'Erlang VM Memory',
+    zh: 'VM 内存',
+    en: 'VM Memory',
   },
   memory: {
     zh: '内存',
@@ -61,11 +61,11 @@ export default {
   },
   maxFds: {
     zh: '最大文件句柄',
-    en: 'Max Fds',
+    en: 'Max FDs',
   },
   process: {
     zh: '进程',
-    en: 'Process',
+    en: 'Processes',
   },
   load: {
     zh: '负载',
@@ -76,8 +76,8 @@ export default {
     en: 'Monitor',
   },
   nodeName: {
-    zh: '节点名称',
-    en: 'Node Name',
+    zh: '名称',
+    en: 'Name',
   },
   nodeData: {
     zh: '节点信息',
@@ -89,7 +89,7 @@ export default {
   },
   currentNodeInfo: {
     zh: '当前节点信息如下',
-    en: 'Current node info',
+    en: 'Node info',
   },
   basicInfo: {
     zh: '基础信息',
@@ -165,7 +165,7 @@ export default {
   },
   session: {
     zh: '会话',
-    en: 'Session',
+    en: 'Sessions',
   },
   mainConfiguration: {
     zh: '节点主要配置',
@@ -197,15 +197,15 @@ export default {
   },
   currentMessageOutRate: {
     zh: '当前消息发出速度',
-    en: 'Current message-out rate',
+    en: 'Outbound rate',
   },
   messageIn: {
     zh: '消息流入',
-    en: 'Message In',
+    en: 'Inbound',
   },
   currentMessageInRate: {
     zh: '当前消息流入速度',
-    en: 'Current message-in rate',
+    en: 'Inbound rate',
   },
   subscriptionNumber: {
     zh: '订阅数',
@@ -225,7 +225,7 @@ export default {
   },
   maxConnections: {
     zh: '连接数峰值',
-    en: 'Max connections',
+    en: 'Max Connections',
   },
   noData: {
     zh: '暂无数据',
@@ -241,7 +241,7 @@ export default {
   },
   issuanceOfEmail: {
     zh: '签发邮箱',
-    en: 'Issuance of email',
+    en: 'email',
   },
   issuedAt: {
     zh: '签发时间',
@@ -253,11 +253,11 @@ export default {
   },
   beforeTheCertificateExpires: {
     zh: '证书到期前 EMQ 将通过邮件通知签发邮箱，请留意信息接收以免错过续期时间对业务造成影响。',
-    en: 'EMQ will issue mailbox through email notification before the certificate expires. Please pay attention to receiving information so as not to miss the renewal time, which will affect the business.',
+    en: 'EMQ will email notification before the license expires. Please pay attention to the contact email inbox.',
   },
   forTrialEdition: {
     zh: '当前 License 为试用版',
-    en: 'The license is trial edition',
+    en: 'The license is for trial',
   },
   license: {
     zh: 'License 信息',
@@ -265,11 +265,11 @@ export default {
   },
   trialEdition: {
     zh: '试用版',
-    en: 'Trial Edition',
+    en: 'For Trial',
   },
   messageDrop: {
     zh: '消息丢弃',
-    en: 'Message Drop',
+    en: 'Messages Droped',
   },
   topics: {
     zh: '主题',
@@ -277,11 +277,11 @@ export default {
   },
   Subscription: {
     zh: '订阅',
-    en: 'Subscription',
+    en: 'Subscriptions',
   },
   message: {
     zh: '消息',
-    en: 'Message',
+    en: 'Messages',
   },
   rate: {
     zh: '速率',
@@ -289,27 +289,27 @@ export default {
   },
   notPromptAgain: {
     zh: '不再提示',
-    en: "don't prompt again",
+    en: "Stop showing this",
   },
   licenseExpiryTip: {
     zh: `
-    您的试用 License 已过期，请<a target="_blank"  href="https://www.emqx.io/cn/licenses#trial">更新 License</a>或联系销售人员更新 License。
+    您的试用 License 已过期，请<a target="_blank"  href="https://www.emqx.com/zh/apply-licenses/emqx">更新 License</a>或联系销售人员更新 License。
     `,
     en: `
-    Your license has expired. Please <a target="_blank"  href="https://www.emqx.io/licenses#trial">update license</a> or contact our customer services for an updated license.
+    Your license has expired. Please <a target="_blank"  href="https://www.emqx.com/en/apply-licenses/emqx">apply</a> for a new license or contact EMQ customer services.
     `,
   },
   licenseEvaluationTip: {
     zh: `
-    当前正在使用评估 License，限制为10个连接。请<a target="_blank"  href="https://www.emqx.io/cn/licenses#trial">升级 License</a> 。<br/>
-    如已购买License，请<a target="_blank"  href="https://docs.emqx.cn/cn/enterprise/latest/getting-started/start.html#license">替换</a>正式的 License。`,
+    当前正在使用评估 License，限制为10个连接。请<a target="_blank"  href="https://www.emqx.com/zh/apply-licenses/emqx">升级 License</a> 。<br/>
+    如已购买License，请使用 <code>emqx ctl license update</code> 命令进行升级`,
     en: `
-    You are now using the 10-connection evaluation license.Please<a target="_blank"  href="https://www.emqx.io/licenses#trial"> upgrade license </a>.<br/>
-    If you already applied offcial license,please<a target="_blank"  href="https://docs.emqx.io/en/enterprise/latest/getting-started/start.html#license"> replace </a>with your official license.`,
+    You are using a 10-connection evaluation license. Please<a target="_blank"  href="https://www.emqx.com/en/apply-licenses/emqx"> upgrade license </a>.<br/>
+    If you have already received a license, please update with command <code>emqx ctl license update</code>`,
   },
   konw: {
     zh: '知道了',
-    en: 'I know',
+    en: 'Acknowledge',
   },
   expired: {
     zh: '过期',
