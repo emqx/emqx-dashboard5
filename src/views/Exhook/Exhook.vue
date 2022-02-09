@@ -27,17 +27,17 @@
       </el-table-column>
       <el-table-column :label="tl('success')">
         <template #default="{ row }">
-          {{ row.metrics.succeed }}
+          {{ row.metrics?.succeed }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('failure')">
         <template #default="{ row }">
-          {{ row.metrics.failed }}
+          {{ row.metrics?.failed }}
         </template>
       </el-table-column>
       <el-table-column :label="`${tl('speed')}(${tl('second')})`">
         <template #default="{ row }">
-          {{ row.metrics.rate }}
+          {{ row.metrics?.rate }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('status')">
@@ -78,7 +78,7 @@
 <script setup lang="ts">
 import { ConnectionStatus } from '@/types/enum'
 import TableItemDropdown from './components/TableItemDropdown.vue'
-import { ref, Ref } from 'vue'
+import { nextTick, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
@@ -96,8 +96,8 @@ const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
 
 const getExhooks = async () => {
   exhooks.value = await queryExhooks()
+  await nextTick()
   initSortable()
-  console.table(exhooks.value)
 }
 
 const addExhook = () => {
@@ -117,7 +117,8 @@ const moveExhookItemToTop = async (row: Exhook) => {
   try {
     await moveExhookToTop(row)
   } catch (error) {
-    // error
+    // empty the array first when an error occurs, otherwise the view will not be updated
+    exhooks.value = []
   } finally {
     getExhooks()
   }
@@ -127,7 +128,8 @@ const moveExhookItemToBottom = async (row: Exhook) => {
   try {
     await moveExhookToBottom(row)
   } catch (error) {
-    // error
+    // empty the array first when an error occurs, otherwise the view will not be updated
+    exhooks.value = []
   } finally {
     getExhooks()
   }
@@ -149,24 +151,25 @@ const handleDeleteExhook = async (exhook: Exhook) => {
 }
 
 const handleOrderChanged = async (evt: SortableEvent) => {
-  if (evt.newIndex === undefined || evt.oldIndex === undefined) {
+  const { newIndex, oldIndex } = evt
+  if (newIndex === undefined || oldIndex === undefined) {
     return
   }
 
-  const targetExhook = exhooks.value[evt.oldIndex]
+  const targetExhook = exhooks.value[oldIndex]
   const isTheLast = evt.newIndex === exhooks.value.length - 1
-  const isFirst = evt.newIndex === 0
-  // FIXME: bug
+  const isDown = newIndex - oldIndex > 0
+  const relatedExhook = exhooks.value[isDown ? newIndex + 1 : newIndex]
   try {
     if (isTheLast) {
-      moveExhookToBottom(targetExhook)
-    } else if (isFirst) {
-      moveExhookToTop(targetExhook)
+      await moveExhookToBottom(targetExhook)
     } else {
-      await moveExhookBeforeAnotherExhook(targetExhook, exhooks.value[evt.newIndex + 1])
+      await moveExhookBeforeAnotherExhook(targetExhook, relatedExhook)
     }
   } catch (error) {
     console.error(error)
+    // empty the array first when an error occurs, otherwise the view will not be updated
+    exhooks.value = []
   } finally {
     getExhooks()
   }
