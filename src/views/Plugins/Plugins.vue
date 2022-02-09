@@ -99,7 +99,8 @@ import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import TableItemDropdown from './components/TableItemDropdown.vue'
 import usePaging, { FilterItem } from '@/hooks/usePaging'
 import { queryPlugins } from '@/api/plugins'
-import Sortable, { SortableEvent } from 'sortablejs'
+import { SortableEvent } from 'sortablejs'
+import useSortableTable from '@/hooks/useSortableTable'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -141,11 +142,10 @@ const {
   movePluginAfterAnotherPlugin,
 } = usePluginItem()
 const { totalData, setTotalData, getAPageData } = usePaging()
+
 const isTableFiltered = computed(
   () => !!(filterStatus.value !== VALUE_FOR_NOT_FILTER || keyForSearch.value),
 )
-const tableCom = ref()
-let sortable: undefined | Sortable = undefined
 
 /**
  * Filtered by the search
@@ -185,31 +185,28 @@ const goInstall = () => {
 }
 
 const handleOrderChanged = async (evt: SortableEvent) => {
-  if (evt.newIndex === undefined || evt.oldIndex === undefined) {
+  const { newIndex, oldIndex } = evt
+  if (newIndex === undefined || oldIndex === undefined) {
     return
   }
-  const targetPlugin = pluginListToShow.value[evt.oldIndex]
+  const targetPlugin = pluginListToShow.value[oldIndex]
   const isTheLast = evt.newIndex === pluginListToShow.value.length - 1
+  const isDown = newIndex - oldIndex > 0
+  const relatedPlugin = pluginListToShow.value[isDown ? newIndex + 1 : newIndex]
   try {
     if (isTheLast) {
-      await movePluginAfterAnotherPlugin(targetPlugin, pluginListToShow.value[evt.newIndex - 1])
+      await movePluginAfterAnotherPlugin(targetPlugin, pluginListToShow.value[newIndex])
     } else {
-      await movePluginBeforeAnotherPlugin(targetPlugin, pluginListToShow.value[evt.newIndex + 1])
+      await movePluginBeforeAnotherPlugin(targetPlugin, relatedPlugin)
     }
   } catch (error) {
+    setTotalData([])
     console.error(error)
   } finally {
     queryListData()
   }
 }
-
-const initSortable = () => {
-  sortable && sortable?.destroy()
-  sortable = new Sortable(tableCom.value.$el.querySelector('tbody'), {
-    dataIdAttr: 'plugin-name',
-    onUpdate: handleOrderChanged,
-  })
-}
+const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 
 const queryListData = async () => {
   try {
@@ -228,9 +225,11 @@ const queryListData = async () => {
 const moveToTop = async (plugin: PluginItem) => {
   try {
     await movePluginToTop(plugin)
-    queryListData()
   } catch (error) {
+    setTotalData([])
     console.error(error)
+  } finally {
+    queryListData()
   }
 }
 
@@ -239,7 +238,10 @@ const moveToBottom = async (plugin: PluginItem) => {
     await movePluginToBottom(plugin)
     queryListData()
   } catch (error) {
+    setTotalData([])
     console.error(error)
+  } finally {
+    queryListData()
   }
 }
 

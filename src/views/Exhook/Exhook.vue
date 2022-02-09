@@ -84,7 +84,8 @@ import { useRouter } from 'vue-router'
 import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
 import { Exhook } from '@/types/systemModule'
 import { queryExhooks } from '@/api/exhook'
-import useSortableTable, { SortableEvent } from '@/hooks/useSortableTable'
+import useSortableTable from '@/hooks/useSortableTable'
+import { SortableEvent } from 'sortablejs'
 
 const router = useRouter()
 const { t } = useI18n()
