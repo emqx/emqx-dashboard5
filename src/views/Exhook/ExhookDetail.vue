@@ -1,7 +1,10 @@
 <template>
   <div class="exhook-detail app-wrapper">
     <div class="exhook-detail-hd">
-      <h6>{{ exhookName }}</h6>
+      <div>
+        <h6 class="exhook-detail-title">{{ exhookName }}</h6>
+        <ExhookItemStatus :exhook="exhookData" />
+      </div>
       <div>
         <el-button type="danger" size="small" @click="handleDelete">
           {{ tl('delete', 'Base') }}
@@ -58,7 +61,26 @@
       <el-tab-pane :label="tl('registeredHooks')" name="hooks">
         <el-table :data="registeredHooks">
           <el-table-column prop="name" :label="tl('name')"></el-table-column>
-          <el-table-column :label="tl('desc')"></el-table-column>
+          <el-table-column prop="params" :label="tl('params')">
+            <template #default="{ row }">
+              {{ stringifyObjSafely(row.params) }}
+            </template>
+          </el-table-column>
+          <el-table-column :label="tl('success')">
+            <template #default="{ row }">
+              {{ row.metrics?.succeed }}
+            </template>
+          </el-table-column>
+          <el-table-column :label="tl('failure')">
+            <template #default="{ row }">
+              {{ row.metrics?.failed }}
+            </template>
+          </el-table-column>
+          <el-table-column :label="`${tl('speed')}(${tl('second')})`">
+            <template #default="{ row }">
+              {{ row.metrics?.rate / 1000 }}
+            </template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
@@ -78,6 +100,8 @@ import {
   queryExhookRegisteredHooks,
   updateExhook as requestUpdateExhook,
 } from '@/api/exhook'
+import { stringifyObjSafely, transMSNumToString } from '@/common/tools'
+import ExhookItemStatus from './components/ExhookItemStatus.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -98,7 +122,8 @@ const { deleteExhook, updateExhookEnable } = useHandleExhookItem()
 
 const getExhookDetail = async () => {
   try {
-    exhookData.value = await queryExhookDetail(exhookName.value)
+    const data = await queryExhookDetail(exhookName.value)
+    exhookData.value = { ...data, request_timeout: transMSNumToString(data.request_timeout) }
   } catch (error) {
     console.error(error)
   }
@@ -163,9 +188,48 @@ queryRegisteredHooks()
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
-  h6 {
+  .exhook-detail-title {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 16px;
+    line-height: 25px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  :deep(.exhook-status) {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 12px;
+    color: #8d96a2;
+    background: #e7edf8;
+    border-radius: 12px;
+
+    .el-badge {
+      padding-top: 5px;
+      margin-right: 4px;
+      line-height: 1;
+    }
+    :deep(.el-badge__content) {
+      border: none;
+    }
+  }
+}
+:deep(.el-tabs.el-tabs--top:not(.el-tabs--card) .el-tabs__item.is-top) {
+  padding-left: 0;
+  padding-right: 0;
+  &::before,
+  &::after {
+    content: '';
+    display: inline-block;
+    visibility: hidden;
+  }
+  &::before {
+    width: 12px;
+  }
+  &::after {
+    width: 32px;
   }
 }
 .exhook-metrics-card {

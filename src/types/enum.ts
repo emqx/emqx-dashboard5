@@ -47,3 +47,10 @@ export enum ExhookPosition {
   Before = 'before',
   After = 'after',
 }
+
+export enum ExhookStatus {
+  Running = 'running',
+  Waiting = 'waiting',
+  Stopped = 'stopped',
+  Error = 'error',
+}

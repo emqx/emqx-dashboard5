@@ -11,7 +11,9 @@ export const createExhook = (data: ExhookFormForCreate): Promise<Exhook> => {
   return http.post('/exhooks', data)
 }
 
-export const queryExhookDetail = async (name: string): Promise<Exhook> => {
+export const queryExhookDetail = async (
+  name: string,
+): Promise<Omit<Exhook, 'request_timeout'> & { request_timeout: number }> => {
   // the request_timeout data returned is of numeric type and the unit is ms, which needs to be processed.
   try {
     const data = await http.get(`/exhooks/${name}`)

@@ -42,7 +42,7 @@
           <el-form-item required prop="failed_action" :label="tl('failedAction')">
             <el-select v-model="formData.failed_action">
               <el-option :label="ExhookFailedAction.Deny" :value="ExhookFailedAction.Deny" />
-              <el-option :label="ExhookFailedAction.Ignore" :value="ExhookFailedAction.Deny" />
+              <el-option :label="ExhookFailedAction.Ignore" :value="ExhookFailedAction.Ignore" />
             </el-select>
           </el-form-item>
         </el-col>
