@@ -62,11 +62,11 @@
           </template>
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
-          <template #default="{ row }">
-            <el-button size="mini" @click="handleEdit(row)">
+          <template #default="{ row, $index }">
+            <el-button size="mini" @click="handleEdit(row, $index)">
               {{ $t('Base.edit') }}
             </el-button>
-            <el-button size="mini" @click="handleDelete(row)">
+            <el-button size="mini" @click="handleDelete(row, $index)">
               {{ $t('Base.delete') }}
             </el-button>
           </template>
@@ -75,19 +75,6 @@
       <div class="emq-table-footer">
         <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
       </div>
-      <!-- <div class="emq-table-footer">
-        <el-pagination
-          v-if="count > 0"
-          layout="total, sizes, prev, pager, next"
-          :page-sizes="[20, 50, 100, 500]"
-          :page-size.sync="limit"
-          :current-page.sync="page"
-          :total="count"
-          @size-change="loadData()"
-          @current-change="loadData()"
-        >
-        </el-pagination>
-      </div> -->
     </div>
     <el-dialog :title="isEdit ? $t('Base.edit') : $t('Base.add')" v-model="dialogVisible">
       <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
@@ -176,7 +163,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import {
   loadBuiltInDatabaseData,
@@ -190,6 +177,7 @@ import commonPagination from '@/components/commonPagination.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
+import { BuiltInDBItem, BuiltInDBRule, BuiltInDBType } from '@/types/auth'
 
 export default defineComponent({
   components: { commonPagination },
@@ -197,7 +185,7 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
 
-    const type = ref('clientid')
+    const type = ref<BuiltInDBType>('clientid')
     const lockTable = ref(false)
     const typeList = [
       {
@@ -216,8 +204,8 @@ export default defineComponent({
     const pageMeta = ref({})
     const recordForm = ref()
     const tableData = ref([])
-    const allTableData = ref([])
-    const rulesData = ref([])
+    const allTableData = ref<BuiltInDBRule[]>([])
+    const rulesData = ref<BuiltInDBRule[]>([])
     const record = reactive({
       clientid: '',
       username: '',
@@ -229,9 +217,6 @@ export default defineComponent({
     const dialogVisible = ref(false)
     const isEdit = ref(false)
     const editIndex = ref(0)
-    // const page = ref(1);
-    // const limit = ref(20);
-    // const count = ref(0);
     const getRules = function () {
       return {
         clientid: [
@@ -279,11 +264,7 @@ export default defineComponent({
         handleCancel()
       }
     })
-    const loadData = async (params) => {
-      // if (reload) {
-      //   // tableData.value = [];
-      //   // page.value = 1;
-      // }
+    const loadData = async (params = {}) => {
       lockTable.value = true
 
       const sendParams = {
@@ -291,11 +272,6 @@ export default defineComponent({
         ...params,
       }
       Reflect.deleteProperty(sendParams, 'count')
-      // const params = {};
-      // if (type.value !== "all") {
-      //   // params.page = page.value;
-      //   // params.limit = limit.value;
-      // }
       const res = await loadBuiltInDatabaseData(type.value, sendParams).catch(() => {
         lockTable.value = false
       })
@@ -303,7 +279,6 @@ export default defineComponent({
         allTableData.value = res.rules
       } else {
         tableData.value = res?.data
-        // count.value = res.meta.count;
         pageMeta.value = res?.meta
       }
       lockTable.value = false
@@ -333,16 +308,18 @@ export default defineComponent({
         topic: '',
       })
     }
-    const deleteItem = (row, index) => {
+    const deleteItem = (row: BuiltInDBItem, index: number) => {
       rulesData.value.splice(index, 1)
     }
     const handleSubmit = function () {
-      recordForm.value.validate(async (valid) => {
+      recordForm.value.validate(async (valid: boolean) => {
         if (!valid) {
           return
         }
         const key = type.value
-        const data = {}
+        const data: {
+          [key: string]: any
+        } = {}
         if (key !== 'all') {
           data[key] = record[key]
           data.rules = rulesData.value
@@ -359,9 +336,9 @@ export default defineComponent({
           data.topic = record.topic
           const rules = _.cloneDeep(allTableData.value)
           if (!isEdit.value) {
-            rules.push(data)
+            rules.push(data as BuiltInDBRule)
           } else {
-            rules.splice(editIndex.value, 1, data)
+            rules.splice(editIndex.value, 1, data as BuiltInDBRule)
           }
           await updateAllBuiltInDatabaseData({
             rules,
@@ -371,7 +348,7 @@ export default defineComponent({
         loadData()
       })
     }
-    const handleDelete = function (row, index) {
+    const handleDelete = function (row: BuiltInDBItem, index: number) {
       MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
@@ -391,32 +368,34 @@ export default defineComponent({
         })
         .catch(() => {})
     }
-    const handleEdit = function (row, index) {
+    const handleEdit = function (row: BuiltInDBItem | BuiltInDBRule, index: number) {
       dialogVisible.value = true
       isEdit.value = true
       editIndex.value = 0
       if (type.value !== 'all') {
+        const _row = row as BuiltInDBItem
         const key = type.value
-        record[key] = row[key]
-        rulesData.value = row.rules
+        record[key] = _row[key]
+        rulesData.value = _row.rules
       } else {
+        const _row = row as BuiltInDBRule
         editIndex.value = index
-        record.permission = row.permission
-        record.action = row.action
-        record.topic = row.topic
+        record.permission = _row.permission
+        record.action = _row.action
+        record.topic = _row.topic
       }
     }
-    const swapArray = (arr, fromIndex, toIndex) => {
+    const swapArray = (arr: BuiltInDBRule[], fromIndex: number, toIndex: number) => {
       arr[toIndex] = arr.splice(fromIndex, 1, arr[toIndex])[0]
       return arr
     }
-    const handleUp = (row, index) => {
+    const handleUp = (row: BuiltInDBItem, index: number) => {
       if (index === 0) {
         return
       }
       swapArray(rulesData.value, index, index - 1)
     }
-    const handleDown = (row, index) => {
+    const handleDown = (row: BuiltInDBItem, index: number) => {
       if (index === rulesData.value.length - 1) {
         return
       }
@@ -434,9 +413,6 @@ export default defineComponent({
       allTableData,
       rulesData,
       isEdit,
-      // page,
-      // limit,
-      // count,
       pageMeta,
       loadData,
       getRules,
