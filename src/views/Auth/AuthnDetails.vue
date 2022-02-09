@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { loadAuthn } from '@/api/auth'
 import BackButton from './components/BackButton.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
@@ -169,7 +169,7 @@ export default defineComponent({
         res = await updateAuthn(id, data).catch(() => {})
         if (res) {
           M.success(t('Base.updateSuccess'))
-          router.push({ name: 'authentication' })
+          loadData()
         }
       }
     }

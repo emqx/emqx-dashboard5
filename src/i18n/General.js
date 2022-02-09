@@ -149,7 +149,7 @@ export default {
   },
   pleaseEnterPassword: {
     zh: '请输入密码',
-    en: 'Please enter password',
+    en: 'Password is required',
   },
   pleaseEnterNewPassword: {
     zh: '请输入新密码',

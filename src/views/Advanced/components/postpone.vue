@@ -52,7 +52,7 @@
               <el-button size="mini" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column :label="'From ClientID'" prop="from_clientid" sortable></el-table-column>
+          <el-table-column label="From Client ID" prop="from_clientid" sortable></el-table-column>
           <el-table-column
             :label="tl('delayedTime')"
             prop="delayed_interval"
