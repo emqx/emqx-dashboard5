@@ -148,8 +148,8 @@ export default {
     en: 'Gateway',
   },
   exhook: {
-    zh: "Exhook",
-    en: "Exhook",
+    zh: 'Exhook',
+    en: 'Exhook',
   },
   APIKey: {
     zh: 'API 密钥',

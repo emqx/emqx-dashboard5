@@ -15,34 +15,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "TLSBaseConfig",
-});
+  name: 'TLSBaseConfig',
+})
 </script>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from "vue";
-import { SSL_VERIFY_VALUE_MAP } from "@/common/constants";
+import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from 'vue'
+import { SSL_VERIFY_VALUE_MAP } from '@/common/constants'
+import { SSL } from '@/types/common'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<any>,
+    type: Object as PropType<SSL>,
     default: () => ({}),
   },
-});
+})
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue'])
 
-const record: WritableComputedRef<any> = computed({
+const record: WritableComputedRef<SSL> = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(val) {
-    emit("update:modelValue", val);
+    emit('update:modelValue', val)
   },
-});
+})
 </script>
 
 <style lang="scss">

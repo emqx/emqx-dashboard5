@@ -1,18 +1,18 @@
 <template>
   <el-dropdown class="table-dropdown" @command="handleCommand(rowData, $event)">
     <el-button class="dropdown-btn" size="mini">
-      {{ $t("Base.more") }}
+      {{ $t('Base.more') }}
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="top">
-          {{ $t("Plugins.moveToTop") }}
+          {{ $t('Plugins.moveToTop') }}
         </el-dropdown-item>
         <el-dropdown-item command="bottom">
-          {{ $t("Plugins.moveToBottom") }}
+          {{ $t('Plugins.moveToBottom') }}
         </el-dropdown-item>
         <el-dropdown-item command="delete">
-          {{ $t("Base.delete") }}
+          {{ $t('Base.delete') }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -20,39 +20,41 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
+
 export default defineComponent({
-  name: "TableItemDropdown",
-});
+  name: 'TableItemDropdown',
+})
 </script>
 
 <script setup lang="ts">
-import { Exhook } from "@/types/systemModule";
-import { defineComponent, defineProps, defineEmits, PropType } from "vue";
+import { Exhook } from '@/types/systemModule'
+import { defineProps, defineEmits, PropType } from 'vue'
 
 const props = defineProps({
   rowData: {
     required: true,
     type: Object as PropType<Exhook>,
   },
-});
+})
 
-const emit = defineEmits(["moveToTop", "moveToBottom", "delete"]);
+const emit = defineEmits(['moveToTop', 'moveToBottom', 'delete'])
 
 const handleCommand = function (row: Exhook, command: string) {
   switch (command) {
-    case "top":
-      emit("moveToTop", row);
-      break;
-    case "bottom":
-      emit("moveToBottom", row);
-      break;
-    case "delete":
-      emit("delete", row);
-      break;
+    case 'top':
+      emit('moveToTop', row)
+      break
+    case 'bottom':
+      emit('moveToBottom', row)
+      break
+    case 'delete':
+      emit('delete', row)
+      break
     default:
-      break;
+      break
   }
-};
+}
 </script>
 
 <style scoped>

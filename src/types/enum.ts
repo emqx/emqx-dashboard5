@@ -30,12 +30,20 @@ export enum StatusCommandSendToPlugin {
 }
 
 export enum ExhookFailedAction {
-  Deny = "deny",
-  Ignore = "ignore",
+  Deny = 'deny',
+  Ignore = 'ignore',
 }
 
 export enum ConnectionStatus {
-  Connected = "connected",
-  Disconnected = "disconnected",
-  Connecting = "connecting",
+  Connected = 'connected',
+  Disconnected = 'disconnected',
+  Connecting = 'connecting',
+}
+
+// [ top, bottom, before, after ]
+export enum ExhookPosition {
+  Top = 'top',
+  Bottom = 'bottom',
+  Before = 'before',
+  After = 'after',
 }
