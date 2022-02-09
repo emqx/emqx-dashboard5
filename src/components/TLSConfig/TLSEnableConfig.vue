@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts">
+import { SSL } from '@/types/common'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -46,14 +47,14 @@ import { defineProps, defineEmits, computed, PropType, WritableComputedRef } fro
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<any>,
+    type: Object as PropType<SSL>,
     default: () => ({}),
   },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const record: WritableComputedRef<any> = computed({
+const record: WritableComputedRef<SSL> = computed({
   get() {
     return props.modelValue
   },
