@@ -18,6 +18,22 @@
         </el-button>
       </div>
     </div>
+    <el-row v-if="type !== 'all'" class="section-searchbar" :gutter="20">
+      <el-col :span="6">
+        <el-input
+          size="small"
+          v-model="searchVal"
+          clearable
+          :placeholder="getCurrSearchValTip(type)"
+          @clear="handleSearch"
+        ></el-input>
+      </el-col>
+      <el-col :span="6">
+        <el-button type="primary" size="small" :icon="Search" @click="handleSearch">
+          {{ $t('Base.search') }}
+        </el-button>
+      </el-col>
+    </el-row>
     <el-table v-show="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
       <el-table-column v-if="false" type="expand"></el-table-column>
       <el-table-column prop="permission" label="Permission"></el-table-column>
@@ -176,7 +192,7 @@ import _ from 'lodash'
 import commonPagination from '@/components/commonPagination.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus } from '@element-plus/icons-vue'
+import { Plus, Search } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule, BuiltInDBType } from '@/types/auth'
 
 export default defineComponent({
@@ -217,6 +233,8 @@ export default defineComponent({
     const dialogVisible = ref(false)
     const isEdit = ref(false)
     const editIndex = ref(0)
+    const searchVal = ref('')
+
     const getRules = function () {
       return {
         clientid: [
@@ -257,6 +275,7 @@ export default defineComponent({
       }
     }
     watch(type, () => {
+      searchVal.value = ''
       loadData({ page: 1 })
     })
     watch(dialogVisible, (val) => {
@@ -401,8 +420,28 @@ export default defineComponent({
       }
       swapArray(rulesData.value, index, index + 1)
     }
+
+    const getCurrSearchValTip = (type: BuiltInDBType) => {
+      const typeMap = {
+        all: '',
+        clientid: 'ClientID',
+        username: 'Username',
+      }
+      return typeMap[type]
+    }
+    const handleSearch = () => {
+      const page = 1
+      if (searchVal.value) {
+        const searchKey = `like_${type.value}`
+        loadData({ page, [searchKey]: searchVal.value })
+      } else {
+        loadData({ page })
+      }
+    }
+
     return {
       Plus,
+      Search,
       recordForm,
       type,
       typeList,
@@ -414,6 +453,7 @@ export default defineComponent({
       rulesData,
       isEdit,
       pageMeta,
+      searchVal,
       loadData,
       getRules,
       handleAdd,
@@ -424,6 +464,8 @@ export default defineComponent({
       handleEdit,
       handleUp,
       handleDown,
+      handleSearch,
+      getCurrSearchValTip,
     }
   },
 })
@@ -431,6 +473,11 @@ export default defineComponent({
 
 <style lang="scss">
 .built-in-manager {
+  .section-searchbar {
+    margin-bottom: 20px;
+    margin-top: 32px;
+    width: 100%;
+  }
   .el-radio.is-bordered {
     margin-top: 0px;
     width: 100px;
