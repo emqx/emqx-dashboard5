@@ -49,12 +49,13 @@ const record: WritableComputedRef<SSL> = computed({
 <style lang="scss">
 .TLS-base-config {
   margin-bottom: 20px;
-}
-.TLS-base-config-title {
-  margin-top: 0;
-  margin-bottom: 8px;
-  color: #000000;
-  font-weight: bold;
-  line-height: 20px;
+
+  .TLS-base-config-title {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: #000000;
+    font-weight: bold;
+    line-height: 20px;
+  }
 }
 </style>
