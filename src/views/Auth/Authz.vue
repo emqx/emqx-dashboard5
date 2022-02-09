@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
 import TableDropdown from './components/TableDropdown.vue'
 import { listAuthz, updateAuthz, deleteAuthz, moveAuthz } from '@/api/auth'
@@ -57,6 +57,7 @@ import router from '@/router'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Setting } from '@element-plus/icons-vue'
+import { AuthzSourceItem } from '@/types/auth'
 
 export default defineComponent({
   name: 'Authz',
@@ -66,11 +67,11 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
 
-    const authzList = ref([])
+    const authzList = ref<AuthzSourceItem[]>([])
     const lockTable = ref(false)
     const loadData = async () => {
       lockTable.value = true
-      const res = await listAuthz().catch(() => {
+      const res: { sources: AuthzSourceItem[] } = await listAuthz().catch(() => {
         lockTable.value = false
       })
       if (res) {
@@ -84,34 +85,34 @@ export default defineComponent({
       lockTable.value = false
     }
     loadData()
-    const handleUpdate = async (row) => {
+    const handleUpdate = async (row: AuthzSourceItem) => {
       const { img, ...data } = row
       await updateAuthz(row.type, data)
       loadData()
     }
-    const handleDelete = async function ({ type }) {
+    const handleDelete = async function ({ type }: AuthzSourceItem) {
       MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
       })
         .then(async () => {
-          await deleteAuthz(type).catch(() => {})
+          await deleteAuthz(type)
           loadData()
         })
         .catch(() => {})
     }
-    const handleMove = async function ({ type }, position) {
+    const handleMove = async function ({ type }: AuthzSourceItem, position: string) {
       const data = {
         position,
       }
       await moveAuthz(type, data)
       loadData()
     }
-    const handleSetting = function ({ type }) {
+    const handleSetting = function ({ type }: AuthzSourceItem) {
       router.push({ path: `/authorization/detail/${type}` })
     }
-    const findIndex = (row) => {
+    const findIndex = (row: AuthzSourceItem) => {
       return authzList.value.findIndex((item) => item.type === row.type)
     }
     return {
