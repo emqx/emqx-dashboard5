@@ -22,7 +22,6 @@ export default (
   const initSortable = () => {
     sortable && sortable?.destroy()
     sortable = new Sortable(tableCom.value.$el.querySelector('tbody'), {
-      dataIdAttr: 'plugin-name',
       onUpdate: onUpdate,
     })
   }

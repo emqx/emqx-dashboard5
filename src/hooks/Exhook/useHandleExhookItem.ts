@@ -50,11 +50,11 @@ export default () => {
   }
 
   const moveExhookToTop = (exhookItem: Exhook) => {
-    return moveExhook(exhookItem.name, { position: ExhookPosition.Top })
+    return moveExhook(exhookItem.name, { position: ExhookPosition.Top, related: '' })
   }
 
   const moveExhookToBottom = (exhookItem: Exhook) => {
-    return moveExhook(exhookItem.name, { position: ExhookPosition.Bottom })
+    return moveExhook(exhookItem.name, { position: ExhookPosition.Bottom, related: '' })
   }
 
   const moveExhookBeforeAnotherExhook = (exhookItem: Exhook, anotherExhook: Exhook) => {
