@@ -82,6 +82,7 @@ import {
 } from 'vue'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
+import useFormRules from '@/hooks/useFormRules'
 
 const props = defineProps({
   modelValue: {
@@ -107,10 +108,19 @@ const formData: WritableComputedRef<Exhook | ExhookFormForCreate> = computed({
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
+const { createRequiredRule, createIntFieldRule } = useFormRules()
 
 const formCom = ref()
-// TODO:
-const rules = []
+
+const rules = {
+  name: createRequiredRule(tl('name')),
+  url: createRequiredRule('URL'),
+  pool_size: [...createRequiredRule('Pool Size'), ...createIntFieldRule()],
+  // TODO:use component
+  request_timeout: [],
+  failed_action: createRequiredRule(tl('failedAction'), 'select'),
+  auto_reconnect: createRequiredRule(tl('autoReconnect'), 'select'),
+}
 
 const validate = async () => formCom.value.validate()
 

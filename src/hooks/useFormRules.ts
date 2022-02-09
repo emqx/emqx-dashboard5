@@ -4,11 +4,14 @@ import { RuleInValidatorParam } from '@/types/common'
 
 export default () => {
   const { t } = useI18n()
-  const createRequiredRule = (name: string) => {
+  const createRequiredRule = (name: string, type: 'input' | 'select' = 'input') => {
     return [
       {
         required: true,
-        message: t('Rule.inputFieldRequiredError', { name }),
+        message: t(
+          type === 'input' ? 'Rule.inputFieldRequiredError' : 'Rule.selectFieldRequiredError',
+          { name },
+        ),
       },
     ]
   }

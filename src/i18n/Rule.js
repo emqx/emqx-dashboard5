@@ -27,6 +27,10 @@ export default {
     zh: '请输入{name}',
     en: 'Please enter the {name}.',
   },
+  selectFieldRequiredError: {
+    zh: '请选择{name}',
+    en: 'Please select the {name}.',
+  },
   int: {
     zh: '整数',
     en: 'integer',
