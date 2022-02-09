@@ -50,18 +50,10 @@
           <el-button size="mini" @click="goExhookDetail(row)">
             {{ tl('setting', 'Base') }}
           </el-button>
-          <el-button
-            size="mini"
-            v-if="row.status === ConnectionStatus.Connected"
-            @click="changeExhookStatus(row, true)"
-          >
+          <el-button size="mini" v-if="!row.enable" @click="changeExhookStatus(row, true)">
             {{ tl('enable', 'Base') }}
           </el-button>
-          <el-button
-            size="mini"
-            v-else-if="row.status === ConnectionStatus.Disconnected"
-            @click="changeExhookStatus(row, false)"
-          >
+          <el-button size="mini" v-else @click="changeExhookStatus(row, false)">
             {{ tl('disable', 'Base') }}
           </el-button>
           <TableItemDropdown
@@ -77,7 +69,6 @@
 </template>
 
 <script setup lang="ts">
-import { ConnectionStatus } from '@/types/enum'
 import TableItemDropdown from './components/TableItemDropdown.vue'
 import { nextTick, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
