@@ -21,3 +21,17 @@ export interface AuthnItem {
   backend: string
   img?: string
 }
+
+export interface BuiltInDBRule {
+  permission: string
+  action: string
+  topic: string
+}
+
+export interface BuiltInDBItem {
+  rules: BuiltInDBRule[]
+  clientid: string
+  username: string
+}
+
+type BuiltInDBType = 'username' | 'clientid' | 'all'
