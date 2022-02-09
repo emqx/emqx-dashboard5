@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
+import { AuthzSetting } from '@/types/auth'
 import _ from 'lodash'
 
 export function listAuthn(params = {}) {
@@ -13,7 +15,7 @@ export function listAuthzSetting(params = {}) {
   return http.get('/authorization/settings', { params })
 }
 
-export function updateAuthzSetting(body) {
+export function updateAuthzSetting(body: AuthzSetting) {
   const {
     cache: { ttl, unit },
   } = body
@@ -23,92 +25,92 @@ export function updateAuthzSetting(body) {
   return http.put('/authorization/settings', data)
 }
 
-export function updateAuthz(type, body) {
+export function updateAuthz(type: string, body = {}) {
   return http.put(`/authorization/sources/${encodeURIComponent(type)}`, body)
 }
 
-export function createAuthz(body) {
+export function createAuthz(body = {}) {
   return http.post('/authorization/sources', body)
 }
 
-export function deleteAuthz(type) {
+export function deleteAuthz(type: string) {
   return http.delete(`/authorization/sources/${encodeURIComponent(type)}`)
 }
 
-export function loadAuthz(type) {
+export function loadAuthz(type: string) {
   return http.get(`/authorization/sources/${encodeURIComponent(type)}`)
 }
 
-export function moveAuthz(type, body) {
+export function moveAuthz(type: string, body = {}) {
   return http.post(`/authorization/sources/${encodeURIComponent(type)}/move`, body)
 }
 
-export function createAuthn(body) {
+export function createAuthn(body = {}) {
   return http.post('/authentication', body)
 }
 
-export function updateAuthn(id, body) {
+export function updateAuthn(id: string, body: { id?: string }) {
   delete body.id
   return http.put(`/authentication/${encodeURIComponent(id)}`, body)
 }
 
-export function deleteAuthn(id) {
+export function deleteAuthn(id: string) {
   return http.delete(`/authentication/${encodeURIComponent(id)}`)
 }
 
-export function loadAuthn(id) {
+export function loadAuthn(id: string) {
   return http.get(`/authentication/${encodeURIComponent(id)}`)
 }
 
-export function createAuthnUsers(id, body) {
+export function createAuthnUsers(id: string, body = {}) {
   return http.post(`/authentication/${encodeURIComponent(id)}/users`, body)
 }
 
-export function loadAuthnUsers(id, params = {}) {
+export function loadAuthnUsers(id: string, params = {}) {
   return http.get(`/authentication/${encodeURIComponent(id)}/users`, {
     params,
   })
 }
 
-export function deleteAuthnUser(id, userId) {
+export function deleteAuthnUser(id: string, userId: string) {
   return http.delete(
     `/authentication/${encodeURIComponent(id)}/users/${encodeURIComponent(userId)}`,
   )
 }
 
-export function updateAuthnUser(id, userId, body) {
+export function updateAuthnUser(id: string, userId: string, body: { [key: string]: any }) {
   return http.put(
     `/authentication/${encodeURIComponent(id)}/users/${encodeURIComponent(userId)}`,
     body,
   )
 }
 
-export function moveAuthn(id, body) {
+export function moveAuthn(id: string, body: { [key: string]: any }) {
   return http.post(`/authentication/${encodeURIComponent(id)}/move`, body)
 }
 
-export function loadBuiltInDatabaseData(type, params = {}) {
+export function loadBuiltInDatabaseData(type: string, params = {}) {
   return http.get(`/authorization/sources/built-in-database/${type}`, {
     params,
   })
 }
 
-export function createBuiltInDatabaseData(type, body) {
+export function createBuiltInDatabaseData(type: string, body: { [key: string]: any }) {
   return http.post(`/authorization/sources/built-in-database/${type}`, body)
 }
 
-export function deleteBuiltInDatabaseData(type, key) {
+export function deleteBuiltInDatabaseData(type: string, key: string) {
   return http.delete(`/authorization/sources/built-in-database/${type}/${encodeURIComponent(key)}`)
 }
 
-export function updateBuiltInDatabaseData(type, key, body) {
+export function updateBuiltInDatabaseData(type: string, key: string, body: { [key: string]: any }) {
   return http.put(
     `/authorization/sources/built-in-database/${type}/${encodeURIComponent(key)}`,
     body,
   )
 }
 
-export function updateAllBuiltInDatabaseData(body) {
+export function updateAllBuiltInDatabaseData(body = {}) {
   return http.put('/authorization/sources/built-in-database/all', body)
 }
 

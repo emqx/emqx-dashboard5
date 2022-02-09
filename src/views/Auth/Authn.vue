@@ -43,7 +43,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
 import TableDropdown from './components/TableDropdown.vue'
 import { listAuthn, updateAuthn, deleteAuthn, moveAuthn } from '@/api/auth'
@@ -51,6 +51,7 @@ import { useRouter } from 'vue-router'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
+import { AuthnItem } from '@/types/auth'
 
 export default defineComponent({
   name: 'Authn',
@@ -60,11 +61,11 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const { t } = useI18n()
-    const authnList = ref([])
+    const authnList = ref<AuthnItem[]>([])
     const lockTable = ref(false)
     const loadData = async () => {
       lockTable.value = true
-      const res = await listAuthn().catch(() => {
+      const res: AuthnItem[] = await listAuthn().catch(() => {
         lockTable.value = false
       })
       if (res) {
@@ -85,12 +86,12 @@ export default defineComponent({
       lockTable.value = false
     }
     loadData()
-    const handleUpdate = async (row) => {
+    const handleUpdate = async (row: AuthnItem) => {
       const { img, ...data } = row
       await updateAuthn(row.id, data)
       loadData()
     }
-    const handleDelete = async function ({ id }) {
+    const handleDelete = async function ({ id }: AuthnItem) {
       MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
@@ -102,17 +103,17 @@ export default defineComponent({
         })
         .catch(() => {})
     }
-    const handleSetting = function ({ id }) {
+    const handleSetting = function ({ id }: AuthnItem) {
       router.push({ path: `/authentication/detail/${id}` })
     }
-    const handleMove = async function ({ id }, position) {
+    const handleMove = async function ({ id }: AuthnItem, position: string) {
       const data = {
         position,
       }
       await moveAuthn(id, data)
       loadData()
     }
-    const findIndex = (row) => {
+    const findIndex = (row: AuthnItem) => {
       return authnList.value.findIndex((item) => {
         const id = `${item.mechanism}_${item.backend}`
         return id === `${row.mechanism}_${row.backend}`
