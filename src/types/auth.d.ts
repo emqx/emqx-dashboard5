@@ -34,4 +34,10 @@ export interface BuiltInDBItem {
   username: string
 }
 
-type BuiltInDBType = 'username' | 'clientid' | 'all'
+export type BuiltInDBType = 'username' | 'clientid' | 'all'
+
+export interface DataManagerItem {
+  user_id: string
+  password: string
+  is_superuser: boolean
+}

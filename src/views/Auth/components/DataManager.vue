@@ -97,7 +97,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
 import { loadAuthnUsers, createAuthnUsers, deleteAuthnUser, updateAuthnUser } from '@/api/auth'
 import {
@@ -105,13 +105,15 @@ import {
   addGatewayUserManagement,
   updateGatewayUser,
   deleteGatewayUser,
-  getGatewayUser,
 } from '@/api/gateway'
 import { useRoute } from 'vue-router'
 import commonPagination from '@/components/commonPagination.vue'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, More, Edit, Delete } from '@element-plus/icons-vue'
+import { DataManagerItem } from '@/types/auth'
+
+type Command = 'edit' | 'delete'
 
 export default defineComponent({
   components: { commonPagination, More, Edit, Delete },
@@ -137,17 +139,21 @@ export default defineComponent({
       is_superuser: false,
     })
     const pageMeta = ref({})
-    let record = ref({})
+    let record = ref<DataManagerItem>({
+      user_id: '',
+      password: '',
+      is_superuser: false,
+    })
     const tableData = ref([])
     const lockTable = ref(false)
     const dialogVisible = ref(false)
     const route = useRoute()
     const recordForm = ref()
-    const id = computed(function () {
-      return route.params.id
+    const id = computed(function (): string {
+      return route.params.id as string
     })
 
-    const loadData = async (params) => {
+    const loadData = async (params = {}) => {
       const sendParams = {
         ...pageMeta.value,
         ...params,
@@ -195,7 +201,7 @@ export default defineComponent({
       loadData()
     }
 
-    const handleCommand = async function (row, command) {
+    const handleCommand = async function (row: DataManagerItem, command: Command) {
       if (command === 'delete') {
         MB.confirm(t('Base.confirmDelete'), {
           confirmButtonText: t('Base.confirm'),
@@ -203,11 +209,10 @@ export default defineComponent({
           type: 'warning',
         })
           .then(async () => {
-            let res
             if (prop.gateway) {
-              res = await deleteGatewayUser(prop.gateway, row.user_id).catch(() => {})
+              await deleteGatewayUser(prop.gateway, row.user_id).catch(() => {})
             } else {
-              res = await deleteAuthnUser(id.value, row.user_id).catch(() => {})
+              await deleteAuthnUser(id.value, row.user_id).catch(() => {})
             }
             loadData({ page: 1 })
           })
