@@ -37,18 +37,19 @@
       </el-table-column>
       <el-table-column :label="`${tl('speed')}(${tl('second')})`">
         <template #default="{ row }">
-          {{ row.metrics?.rate }}
+          {{ row.metrics?.rate / 1000 }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('status')">
         <template #default="{ row }">
-          <!-- TODO:style detail -->
-          {{ row.status }}
+          <ExhookItemStatus :exhook="row" />
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini">{{ tl('setting', 'Base') }}</el-button>
+          <el-button size="mini" @click="goExhookDetail(row)">
+            {{ tl('setting', 'Base') }}
+          </el-button>
           <el-button
             size="mini"
             v-if="row.status === ConnectionStatus.Connected"
@@ -86,6 +87,7 @@ import { Exhook } from '@/types/systemModule'
 import { queryExhooks } from '@/api/exhook'
 import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
+import ExhookItemStatus from './components/ExhookItemStatus.vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -140,6 +142,10 @@ const exhookDetailRoute = ({ name }: Exhook) => ({
   name: 'exhook-detail',
   params: { exhookName: name },
 })
+
+const goExhookDetail = (exhook: Exhook) => {
+  router.push(exhookDetailRoute(exhook))
+}
 
 const changeExhookStatus = async (exhook: Exhook, enable: boolean) => {
   await updateExhookEnable(exhook, enable)

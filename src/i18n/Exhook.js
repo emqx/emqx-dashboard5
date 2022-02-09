@@ -4,7 +4,7 @@ export default {
     en: 'Name',
   },
   numberOfHooks: {
-    zh: '勾子数量',
+    zh: '钩子数量',
     en: 'Number of hooks',
   },
   success: {
@@ -60,7 +60,7 @@ export default {
     en: 'Overview',
   },
   registeredHooks: {
-    zh: '已注册勾子',
+    zh: '已注册钩子',
     en: 'Registered hooks',
   },
   metricsData: {
@@ -74,5 +74,25 @@ export default {
   desc: {
     zh: '说明',
     en: 'Description',
+  },
+  params: {
+    zh: '参数',
+    en: 'Params',
+  },
+  connected: {
+    zh: '已连接',
+    en: 'Connected',
+  },
+  connecting: {
+    zh: '连接中',
+    en: 'Connecting',
+  },
+  stopped: {
+    zh: '已停止',
+    en: 'Stopped',
+  },
+  error: {
+    zh: '发生错误',
+    en: 'Error',
   },
 }

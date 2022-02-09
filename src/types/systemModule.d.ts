@@ -1,4 +1,4 @@
-import { ConnectionStatus, ExhookFailedAction } from './enum'
+import { ExhookStatus } from './enum'
 
 export interface APIKeyFormWhenCreating {
   name: string
@@ -61,7 +61,7 @@ export interface Exhook extends ExhookFormForCreate {
   }>
   node_status: Array<{
     node: string
-    status: string
+    status: ExhookStatus
   }>
   request_timeout: string
 }

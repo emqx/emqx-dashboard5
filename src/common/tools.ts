@@ -53,3 +53,47 @@ export const parseJSONSafely = (str: string) => {
     console.error('An error occurred while parsing the JSON string')
   }
 }
+
+export const stringifyObjSafely = (obj: Record<string, any>): string => {
+  try {
+    return JSON.stringify(obj)
+  } catch (error) {
+    return 'stringify error'
+  }
+}
+
+const cutNumberDecimal = (num: number, length = 10): string => {
+  const [integerPart, decimalPart] = num.toString().split('.')
+  let decimalPartAfterCut = decimalPart
+  if (decimalPart && decimalPart.length > length) {
+    decimalPartAfterCut = decimalPartAfterCut.substring(0, length)
+  }
+  return decimalPartAfterCut ? `${integerPart}.${decimalPartAfterCut}` : integerPart
+}
+
+/**
+ * with unit ms
+ */
+const ONE_SECOND = 1000
+const ONE_MINUTE = ONE_SECOND * 60
+const ONE_HOUR = ONE_MINUTE * 60
+const ONE_DAY = ONE_HOUR * 24
+
+/**
+ * number (ms) to string (with unit ms/s/m/h/d)
+ */
+export const transMSNumToString = (num: number): string => {
+  if (num < ONE_SECOND) {
+    return num + 'ms'
+  }
+  if (num < ONE_MINUTE) {
+    return num / ONE_SECOND + 's'
+  }
+  if (num < ONE_HOUR) {
+    return cutNumberDecimal(num / ONE_MINUTE) + 'm'
+  }
+  if (num < ONE_DAY) {
+    return cutNumberDecimal(num / ONE_HOUR) + 'h'
+  }
+  return cutNumberDecimal(num / ONE_DAY) + 'd'
+}
