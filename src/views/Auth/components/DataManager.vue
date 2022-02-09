@@ -1,10 +1,10 @@
 <template>
   <div class="data-manager">
-    <el-form class="create-form">
+    <el-form class="create-form section-header">
       <el-row :gutter="20">
-        <el-col :span="8">
+        <!-- <el-col :span="8">
           <el-form-item>
-            <el-input v-model="dataManager.user_id" :placeholder="field"></el-input>
+            <el-input size="small" v-model="dataManager.user_id" :placeholder="field"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -12,19 +12,21 @@
             <el-input
               v-model="dataManager.password"
               type="password"
+              size="small"
               :placeholder="$t('General.password')"
             ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-checkbox
+            size="small"
             v-model="dataManager.is_superuser"
             :label="$t('Auth.isSuperuser')"
             border
           ></el-checkbox>
-        </el-col>
+        </el-col> -->
         <el-col :span="2">
-          <el-button type="primary" :icon="Plus" @click="handleAdd">
+          <el-button type="primary" :icon="Plus" size="small" @click="addCommand">
             {{ $t('Base.add') }}
           </el-button>
         </el-col>
@@ -32,7 +34,7 @@
     </el-form>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="user_id" :label="field"></el-table-column>
+      <el-table-column prop="user_id" :label="getFiledLabel(field)"></el-table-column>
       <el-table-column prop="is_superuser" :label="$t('Auth.isSuperuser')">
         <template #default="{ row }">
           {{ row.is_superuser ? $t('Base.yes') : $t('Base.no') }}
@@ -64,10 +66,14 @@
       <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
     </div>
 
-    <el-dialog :title="$t('Base.edit')" v-model="dialogVisible">
+    <el-dialog
+      :title="isEdit ? $t('Base.edit') : $t('Base.add')"
+      width="480px"
+      v-model="dialogVisible"
+    >
       <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
-        <el-form-item prop="username" :label="field">
-          <el-input v-model="record.user_id" disabled></el-input>
+        <el-form-item prop="user_id" :label="getFiledLabel(field)">
+          <el-input v-model="record.user_id" :disabled="isEdit"></el-input>
         </el-form-item>
         <el-form-item prop="password" :label="$t('General.password')">
           <el-input v-model="record.password" type="password"></el-input>
@@ -88,8 +94,8 @@
             {{ $t('Base.cancel') }}
           </el-button>
 
-          <el-button type="primary" size="small" @click="handleUpdate">
-            {{ $t('Base.update') }}
+          <el-button type="primary" size="small" :loading="saveLoading" @click="save">
+            {{ isEdit ? $t('Base.update') : $t('Base.save') }}
           </el-button>
         </div>
       </template>
@@ -98,7 +104,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref, PropType, watch } from 'vue'
 import { loadAuthnUsers, createAuthnUsers, deleteAuthnUser, updateAuthnUser } from '@/api/auth'
 import {
   getGatewayUserManagement,
@@ -121,7 +127,7 @@ export default defineComponent({
   name: 'DataManager',
   props: {
     field: {
-      type: String,
+      type: String as PropType<'username' | 'clientid'>,
       required: true,
       default: 'username',
     },
@@ -133,11 +139,6 @@ export default defineComponent({
   },
   setup(prop) {
     const { t } = useI18n()
-    const dataManager = reactive({
-      user_id: '',
-      password: '',
-      is_superuser: false,
-    })
     const pageMeta = ref({})
     let record = ref<DataManagerItem>({
       user_id: '',
@@ -149,6 +150,8 @@ export default defineComponent({
     const dialogVisible = ref(false)
     const route = useRoute()
     const recordForm = ref()
+    const isEdit = ref(false)
+    const saveLoading = ref(false)
     const id = computed(function (): string {
       return route.params.id as string
     })
@@ -163,9 +166,9 @@ export default defineComponent({
       lockTable.value = true
       let res
       if (prop.gateway) {
-        res = await getGatewayUserManagement(prop.gateway, sendParams).catch(() => {})
+        res = await getGatewayUserManagement(prop.gateway, sendParams)
       } else {
-        res = await loadAuthnUsers(id.value, sendParams).catch(() => {})
+        res = await loadAuthnUsers(id.value, sendParams)
       }
       if (res) {
         tableData.value = res.data
@@ -178,29 +181,23 @@ export default defineComponent({
     }
     onMounted(loadData)
     const getRules = function () {
-      return {
+      let message = t('Auth.pleaseEnterUsername')
+      if (prop.field === 'clientid') {
+        message = t('Auth.pleaseEnterClientID')
+      }
+      const rules = {
+        user_id: [{ required: true, message, trigger: 'blur' }],
         password: [{ required: true, message: t('General.pleaseEnterPassword') }],
       }
+      if (isEdit.value) {
+        Reflect.deleteProperty(rules, 'user_id')
+      }
+      return rules
     }
-    const handleAdd = async function () {
-      if (dataManager.user_id === '' || dataManager.password === '') {
-        return
-      }
-      let res
-      if (prop.gateway) {
-        res = await addGatewayUserManagement(prop.gateway, dataManager).catch(() => {})
-      } else {
-        res = await createAuthnUsers(id.value, dataManager).catch(() => {})
-      }
-      if (res) {
-        M.success(t('Base.createSuccess'))
-        dataManager.user_id = ''
-        dataManager.password = ''
-        dataManager.is_superuser = false
-      }
-      loadData()
+    const addCommand = () => {
+      isEdit.value = false
+      dialogVisible.value = true
     }
-
     const handleCommand = async function (row: DataManagerItem, command: Command) {
       if (command === 'delete') {
         MB.confirm(t('Base.confirmDelete'), {
@@ -210,15 +207,18 @@ export default defineComponent({
         })
           .then(async () => {
             if (prop.gateway) {
-              await deleteGatewayUser(prop.gateway, row.user_id).catch(() => {})
+              await deleteGatewayUser(prop.gateway, row.user_id)
             } else {
-              await deleteAuthnUser(id.value, row.user_id).catch(() => {})
+              await deleteAuthnUser(id.value, row.user_id)
             }
             loadData({ page: 1 })
           })
-          .catch(() => {})
+          .catch(() => {
+            // cancel
+          })
       } else if (command === 'edit') {
         dialogVisible.value = true
+        isEdit.value = true
         record.value = {
           user_id: row.user_id,
           is_superuser: row.is_superuser,
@@ -226,11 +226,38 @@ export default defineComponent({
         }
       }
     }
-    const handleUpdate = async function () {
-      let validation = await recordForm.value.validate().catch(() => {})
+    const save = async () => {
+      let validation = await recordForm.value.validate()
       if (!validation) {
         return
       }
+      saveLoading.value = true
+      if (isEdit.value) {
+        handleUpdate()
+      } else {
+        handleAdd()
+      }
+    }
+    const handleAdd = async function () {
+      let res
+      if (prop.gateway) {
+        res = await addGatewayUserManagement(prop.gateway, record.value)
+      } else {
+        res = await createAuthnUsers(id.value, record.value)
+      }
+      if (res) {
+        dialogVisible.value = false
+        saveLoading.value = false
+        M.success(t('Base.createSuccess'))
+        record.value = {
+          user_id: '',
+          password: '',
+          is_superuser: false,
+        }
+      }
+      loadData()
+    }
+    const handleUpdate = async function () {
       const { password, is_superuser, user_id } = record.value
       const data = {
         password: password,
@@ -238,14 +265,23 @@ export default defineComponent({
       }
       let res
       if (prop.gateway) {
-        res = await updateGatewayUser(prop.gateway, user_id, data).catch(() => {})
+        res = await updateGatewayUser(prop.gateway, user_id, data)
+      } else {
+        res = await updateAuthnUser(id.value, user_id, data)
       }
-      res = await updateAuthnUser(id.value, user_id, data).catch(() => {})
       if (res) {
         dialogVisible.value = false
+        saveLoading.value = false
         M.success(t('Base.updateSuccess'))
         loadData()
       }
+    }
+    const getFiledLabel = (field: 'clientid' | 'username') => {
+      const fieldMap = {
+        clientid: 'Client ID',
+        username: 'Username',
+      }
+      return fieldMap[field]
     }
     return {
       Plus,
@@ -253,15 +289,17 @@ export default defineComponent({
       dialogVisible,
       tableData,
       lockTable,
-      dataManager,
       record,
       recordForm,
       pageMeta,
+      isEdit,
+      saveLoading,
       loadData,
-      handleUpdate,
-      handleAdd,
+      save,
+      addCommand,
       handleCommand,
       getRules,
+      getFiledLabel,
     }
   },
 })

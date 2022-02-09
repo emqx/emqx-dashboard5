@@ -65,7 +65,7 @@
         <el-table-column
           v-if="type === 'clientid'"
           prop="clientid"
-          label="ClientID"
+          label="Client ID"
         ></el-table-column>
         <el-table-column
           v-else-if="type === 'username'"
@@ -113,7 +113,7 @@
           </el-form-item>
         </template>
         <template v-else>
-          <el-form-item v-if="type === 'clientid'" prop="clientid" label="ClientID">
+          <el-form-item v-if="type === 'clientid'" prop="clientid" label="Client ID">
             <el-input v-model="record.clientid" :disabled="isEdit"></el-input>
           </el-form-item>
           <el-form-item v-else-if="type === 'username'" prop="username" label="Username">
@@ -205,7 +205,7 @@ export default defineComponent({
     const lockTable = ref(false)
     const typeList = [
       {
-        label: 'ClientID',
+        label: 'Client ID',
         value: 'clientid',
       },
       {
@@ -424,7 +424,7 @@ export default defineComponent({
     const getCurrSearchValTip = (type: BuiltInDBType) => {
       const typeMap = {
         all: '',
-        clientid: 'ClientID',
+        clientid: 'Client ID',
         username: 'Username',
       }
       return typeMap[type]

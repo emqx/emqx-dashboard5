@@ -40,7 +40,7 @@ export default {
     en: 'Scram',
   },
   passwordBasedDesc: {
-    zh: '使用客户端用户名、ClientID 与密码进行认证',
+    zh: '使用客户端用户名、Client ID 与密码进行认证',
     en: 'Authenticate using client username, client id, and password',
   },
   jwtDesc: {
@@ -273,11 +273,11 @@ export default {
   },
   pleaseEnterClientID: {
     zh: '请输入 Client ID',
-    en: 'Please enter Client ID',
+    en: 'Client ID is required',
   },
   pleaseEnterUsername: {
     zh: '请输入 Username',
-    en: 'Please enter Username',
+    en: 'Username is required',
   },
   pleaseSelectPermission: {
     zh: '请选择 permission',

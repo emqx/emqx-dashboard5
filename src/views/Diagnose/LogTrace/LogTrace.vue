@@ -101,7 +101,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="18" v-if="record.type === 'clientid'">
-            <el-form-item label="ClientID" prop="clientid">
+            <el-form-item label="Client ID" prop="clientid">
               <el-input v-model="record.clientid"></el-input>
             </el-form-item>
           </el-col>
@@ -162,7 +162,7 @@ export default defineComponent({
     const typeOptions = [
       {
         value: 'clientid',
-        label: 'ClientID',
+        label: 'Client ID',
       },
       {
         value: 'topic',

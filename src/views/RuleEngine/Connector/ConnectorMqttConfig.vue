@@ -24,7 +24,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'ClientID'">
+          <el-form-item label="Client ID">
             <el-input
               v-model="connectorVal.clientid"
               :placeholder="connectorDefaultVal.clientid"
