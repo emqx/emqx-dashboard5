@@ -14,3 +14,11 @@ export interface RuleInValidatorParam {
   fullField: string
   type: string
 }
+
+export interface SSL {
+  cacertfile: string
+  certfile: string
+  enable: boolean
+  keyfile: string
+  verify: string
+}

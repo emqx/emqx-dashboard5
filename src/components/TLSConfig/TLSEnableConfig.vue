@@ -1,7 +1,7 @@
 <template>
   <div class="TLS-enable-config">
     <div class="TLS-enable-config-title">
-      {{ $t("Base.TLSCerts") }}
+      {{ $t('Base.TLSCerts') }}
     </div>
     <el-form-item label="TLS Cert">
       <el-input
@@ -34,33 +34,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "TLSEnableConfig",
-});
+  name: 'TLSEnableConfig',
+})
 </script>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from "vue";
+import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from 'vue'
 
 const props = defineProps({
   modelValue: {
     type: Object as PropType<any>,
     default: () => ({}),
   },
-});
+})
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue'])
 
 const record: WritableComputedRef<any> = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(val) {
-    emit("update:modelValue", val);
+    emit('update:modelValue', val)
   },
-});
+})
 </script>
 
 <style lang="scss">

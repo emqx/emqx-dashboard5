@@ -19,37 +19,68 @@ export interface APIKey extends APIKeyFormWhenCreating {
 
 export type APIKeyFormWhenEditing = Pick<APIKey, 'name' | 'expired_at' | 'desc' | 'enable'>
 
-export interface Exhook {
+export interface ExhookFormForCreate {
+  auto_reconnect: string
+  enable: boolean
+  failed_action: string
   name: string
+  pool_size: number | undefined
+  request_timeout: string
+  ssl: SSL
   url: string
-  request_timeout?: string
-  request_failed_action?: ExhookFailedAction
-  registered_hooks: Array<{
+}
+
+export interface SSL {
+  cacertfile: string
+  certfile: string
+  enable: boolean
+  keyfile: string
+}
+
+export interface Exhook extends ExhookFormForCreate {
+  hooks: Array<{
     name: hooks
-    arguments: { topic: 't/#' }
-    // 集群指标
+    arguments: { topic: string }
     metrics: {
-      success: int
-      failed: int
-      rate: float
-      rate_max: float
-      rate_last5m: float
+      success: number
+      failed: number
+      rate: number
+      rate_max: number
+      rate_last5m: number
     }
   }>
-  auto_reconnect?: boolean
-  reconnect_interval?: string
-  status: ConnectionStatus
-  cluster_status: ConnectionStatus
-  node_status: [{ node: string; status: StatusEnum }]
-  metrics: {
-    success: number
+  metrics: Array<{
     failed: number
+    max_rate: number
     rate: number
-    rate_max: number
-    rate_last5m: number
+    succeed: number
+  }>
+  node_metrics: Array<{
+    metrics: Metrics
+    node: string
+  }>
+  node_status: Array<{
+    node: string
+    status: string
+  }>
+  request_timeout: string
+}
+
+export interface RegisteredHook {
+  name: string
+  params: {
+    $name: string
   }
-  node_metrics: Array<{ node: string }>
-  ssl: {
-    enable: boolean
-  }
+  metrics: ExhookMetricItem
+  node_metrics: Array<{
+    node: string
+    metrics: Metrics
+  }>
+}
+
+interface ExhookMetricItem {
+  succeed: number
+  failed: number
+  rate: number
+  max_rate: number
 }
