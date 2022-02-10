@@ -58,6 +58,7 @@ export const stringifyObjSafely = (obj: Record<string, any>): string => {
   try {
     return JSON.stringify(obj)
   } catch (error) {
+    console.error(error)
     return 'stringify error'
   }
 }
