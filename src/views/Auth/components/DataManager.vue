@@ -70,6 +70,7 @@
       :title="isEdit ? $t('Base.edit') : $t('Base.add')"
       width="480px"
       v-model="dialogVisible"
+      @open="handleDialogOpen"
     >
       <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
@@ -104,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, PropType, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, PropType } from 'vue'
 import { loadAuthnUsers, createAuthnUsers, deleteAuthnUser, updateAuthnUser } from '@/api/auth'
 import {
   getGatewayUserManagement,
@@ -240,22 +241,26 @@ export default defineComponent({
     }
     const handleAdd = async function () {
       let res
-      if (prop.gateway) {
-        res = await addGatewayUserManagement(prop.gateway, record.value)
-      } else {
-        res = await createAuthnUsers(id.value, record.value)
-      }
-      if (res) {
-        dialogVisible.value = false
-        saveLoading.value = false
-        M.success(t('Base.createSuccess'))
-        record.value = {
-          user_id: '',
-          password: '',
-          is_superuser: false,
+      try {
+        if (prop.gateway) {
+          res = await addGatewayUserManagement(prop.gateway, record.value)
+        } else {
+          res = await createAuthnUsers(id.value, record.value)
         }
+        if (res) {
+          dialogVisible.value = false
+          saveLoading.value = false
+          M.success(t('Base.createSuccess'))
+          record.value = {
+            user_id: '',
+            password: '',
+            is_superuser: false,
+          }
+        }
+        loadData()
+      } catch (error) {
+        saveLoading.value = false
       }
-      loadData()
     }
     const handleUpdate = async function () {
       const { password, is_superuser, user_id } = record.value
@@ -283,6 +288,10 @@ export default defineComponent({
       }
       return fieldMap[field]
     }
+    const handleDialogOpen = () => {
+      recordForm.value?.clearValidate()
+      recordForm.value?.resetFields()
+    }
     return {
       Plus,
       id,
@@ -294,6 +303,7 @@ export default defineComponent({
       pageMeta,
       isEdit,
       saveLoading,
+      handleDialogOpen,
       loadData,
       save,
       addCommand,
