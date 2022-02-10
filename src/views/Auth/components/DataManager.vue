@@ -1,37 +1,38 @@
 <template>
   <div class="data-manager">
-    <el-form class="create-form section-header">
-      <el-row :gutter="20">
-        <!-- <el-col :span="8">
-          <el-form-item>
-            <el-input size="small" v-model="dataManager.user_id" :placeholder="field"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item>
-            <el-input
-              v-model="dataManager.password"
-              type="password"
-              size="small"
-              :placeholder="$t('General.password')"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-checkbox
+    <div class="section-header">
+      <div class="searchbar">
+        <el-space wrap :size="20">
+          <el-input
             size="small"
-            v-model="dataManager.is_superuser"
-            :label="$t('Auth.isSuperuser')"
-            border
-          ></el-checkbox>
-        </el-col> -->
-        <el-col :span="2">
-          <el-button type="primary" :icon="Plus" size="small" @click="addCommand">
-            {{ $t('Base.add') }}
+            v-model="searchVal.user_id"
+            clearable
+            :placeholder="getFiledLabel(field)"
+          ></el-input>
+          <el-select
+            size="small"
+            v-model="searchVal.is_superuser"
+            clearable
+            :placeholder="$t('Auth.isSuperuser')"
+            @clear="searchVal.is_superuser = null"
+          >
+            <el-option :value="true" :label="$t('Base.yes')"></el-option>
+            <el-option :value="false" :label="$t('Base.no')"></el-option>
+          </el-select>
+          <el-button type="primary" size="small" :icon="Search" @click="handleSearch">
+            {{ $t('Base.search') }}
           </el-button>
-        </el-col>
-      </el-row>
-    </el-form>
+          <el-button size="small" @click="handleResetSearch">
+            {{ $t('Base.reset') }}
+          </el-button>
+        </el-space>
+      </div>
+      <div>
+        <el-button type="primary" :icon="Plus" size="small" @click="addCommand">
+          {{ $t('Base.add') }}
+        </el-button>
+      </div>
+    </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
       <el-table-column prop="user_id" :label="getFiledLabel(field)"></el-table-column>
@@ -74,14 +75,15 @@
     >
       <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
-          <el-input v-model="record.user_id" :disabled="isEdit"></el-input>
+          <el-input size="small" v-model="record.user_id" :disabled="isEdit"></el-input>
         </el-form-item>
         <el-form-item prop="password" :label="$t('General.password')">
-          <el-input v-model="record.password" type="password"></el-input>
+          <el-input size="small" v-model="record.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
           <div>
             <el-checkbox
+              size="small"
               v-model="record.is_superuser"
               :label="$t('Auth.isSuperuser')"
               border
@@ -105,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, PropType } from 'vue'
+import { computed, defineComponent, onMounted, ref, PropType, reactive } from 'vue'
 import { loadAuthnUsers, createAuthnUsers, deleteAuthnUser, updateAuthnUser } from '@/api/auth'
 import {
   getGatewayUserManagement,
@@ -117,7 +119,7 @@ import { useRoute } from 'vue-router'
 import commonPagination from '@/components/commonPagination.vue'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus, More, Edit, Delete } from '@element-plus/icons-vue'
+import { Plus, More, Edit, Delete, Search } from '@element-plus/icons-vue'
 import { DataManagerItem } from '@/types/auth'
 
 type Command = 'edit' | 'delete'
@@ -153,6 +155,10 @@ export default defineComponent({
     const recordForm = ref()
     const isEdit = ref(false)
     const saveLoading = ref(false)
+    const searchVal = reactive({
+      user_id: '',
+      is_superuser: null,
+    })
     const id = computed(function (): string {
       return route.params.id as string
     })
@@ -292,8 +298,29 @@ export default defineComponent({
       recordForm.value?.clearValidate()
       recordForm.value?.resetFields()
     }
+    const handleSearch = () => {
+      const page = 1
+      console.log(searchVal)
+      const { user_id, is_superuser } = searchVal
+      if (user_id !== '' || is_superuser !== null) {
+        const searchKey = `like_${prop.field}`
+        loadData({
+          [searchKey]: searchVal.user_id === '' ? null : user_id,
+          is_superuser: is_superuser,
+          page,
+        })
+      } else {
+        loadData({ page })
+      }
+    }
+    const handleResetSearch = () => {
+      searchVal.user_id = ''
+      searchVal.is_superuser = null
+      loadData({ page: 1 })
+    }
     return {
       Plus,
+      Search,
       id,
       dialogVisible,
       tableData,
@@ -303,6 +330,9 @@ export default defineComponent({
       pageMeta,
       isEdit,
       saveLoading,
+      searchVal,
+      handleSearch,
+      handleResetSearch,
       handleDialogOpen,
       loadData,
       save,
@@ -317,6 +347,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .data-manager {
+  .searchbar {
+    .el-input {
+      width: 260px;
+    }
+  }
   .el-checkbox.is-bordered {
     margin: 0;
     padding: 0 30px;
