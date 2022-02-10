@@ -387,16 +387,16 @@ export default {
     en: 'Memory usage check cycle',
   },
   procmem_high_watermark: {
-    zh: 'EMQ X 为单个进程分配的内存占系统内存的百分比超过该值时将触发告警',
+    zh: 'EMQX 为单个进程分配的内存占系统内存的百分比超过该值时将触发告警',
     en: `
-    EMQ X will trigger an alarm when the percentage of system
-    memory allocated by EMQ X for a single process exceeds this value`,
+    EMQX will trigger an alarm when the percentage of system
+    memory allocated by EMQX for a single process exceeds this value`,
   },
   sysmem_high_watermark: {
-    zh: 'EMQ X 为所有进程分配的内存占系统内存的百分比超过该值时将触发告警',
+    zh: 'EMQX 为所有进程分配的内存占系统内存的百分比超过该值时将触发告警',
     en: `
-    EMQ X will trigger an alarm when the percentage of system
-    memory allocated by EMQ X for all processes exceeds this value`,
+    EMQX will trigger an alarm when the percentage of system
+    memory allocated by EMQX for all processes exceeds this value`,
   },
   // monitorAlarm desciption end
   listenerName: {
@@ -465,9 +465,9 @@ export default {
     en: 'The port cannot be negative and cannot be greater than 65535',
   },
   openModuleTip: {
-    zh: `开启热配置后，EMQ X 将从配置文件中拷贝一份配置副本，所有可在 Dashboard 修改的配置都会持久化到磁盘中。
+    zh: `开启热配置后，EMQX 将从配置文件中拷贝一份配置副本，所有可在 Dashboard 修改的配置都会持久化到磁盘中。
     <br>如果修改配置文件将会覆盖热配置，请谨慎使用。`,
-    en: `After enabling hot configuration, EMQ X will copy a configuration from the configuration file,<br>
+    en: `After enabling hot configuration, EMQX will copy a configuration from the configuration file,<br>
     and all configurations that can be modified on the Dashboard will be persisted to the disk.<br>
     If modifying the configuration file will overwrite the hot configuration, please use it with caution.`,
   },
