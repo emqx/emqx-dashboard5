@@ -164,44 +164,51 @@ code {
   background-repeat: no-repeat;
   vertical-align: middle;
   //24*24 each
+  $icon-size: -24px;
+  @mixin use-icon($x, $y) {
+    background-position: $icon-size * $x $icon-size * $y;
+  }
   &.icon-alarm {
-    background-position: -120px -24px;
+    @include use-icon(5, 1);
   }
   &.icon-globe {
-    background-position: -96px -24px;
+    @include use-icon(4, 1);
   }
   &.icon-monitor {
-    background-position: -24px -72px;
+    @include use-icon(1, 3);
   }
   &.icon-cards {
-    background-position: -120px -48px;
+    @include use-icon(5, 2);
   }
   &.icon-lists {
-    background-position: 0 -72px;
+    @include use-icon(0, 3);
   }
   &.icon-sweep {
-    background-position: -72px -48px;
+    @include use-icon(3, 2);
   }
   &.icon-monitoring {
-    background-position: 0 0;
+    @include use-icon(0, 0);
   }
   &.icon-management {
-    background-position: -24px 0;
+    @include use-icon(1, 0);
   }
   &.icon-authentication {
-    background-position: -48px 0;
+    @include use-icon(2, 0);
   }
   &.icon-configuration {
-    background-position: 0 -24px;
+    @include use-icon(0, 1);
   }
   &.icon-system {
-    background-position: -24px -24px;
+    @include use-icon(1, 1);
   }
   &.icon-ruleengine {
-    background-position: -72px 0;
+    @include use-icon(3, 0);
   }
   &.icon-diagnose {
-    background-position: -48px -72px;
+    @include use-icon(2, 3);
+  }
+  &.icon-plugin {
+    @include use-icon(5, 0);
   }
 }
 
