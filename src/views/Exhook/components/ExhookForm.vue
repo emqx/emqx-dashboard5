@@ -34,7 +34,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item required prop="request_timeout" :label="tl('requestTimeOut')">
-            <el-input v-model="formData.request_timeout" />
+            <InputWithUnit v-model="formData.request_timeout" :units="timeoutUnits" />
           </el-form-item>
         </el-col>
 
@@ -83,6 +83,7 @@ import {
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
 import useFormRules from '@/hooks/useFormRules'
+import InputWithUnit from '@/components/InputWithUnit.vue'
 
 const props = defineProps({
   modelValue: {
@@ -108,16 +109,23 @@ const formData: WritableComputedRef<Exhook | ExhookFormForCreate> = computed({
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
-const { createRequiredRule, createIntFieldRule } = useFormRules()
+const { createRequiredRule, createIntFieldRule, createStringWithUnitFieldRule } = useFormRules()
 
 const formCom = ref()
+
+const timeoutUnits = [
+  { label: 'ms', value: 'ms' },
+  { label: 's', value: 's' },
+  { label: 'm', value: 'm' },
+  { label: 'h', value: 'h' },
+  { label: 'd', value: 'd' },
+]
 
 const rules = {
   name: createRequiredRule(tl('name')),
   url: createRequiredRule('URL'),
   pool_size: [...createRequiredRule('Pool Size'), ...createIntFieldRule()],
-  // TODO:use component
-  request_timeout: [],
+  request_timeout: createStringWithUnitFieldRule(timeoutUnits.map(({ value }) => value)),
   failed_action: createRequiredRule(tl('failedAction'), 'select'),
   auto_reconnect: createRequiredRule(tl('autoReconnect'), 'select'),
 }
