@@ -107,16 +107,12 @@ export default {
         path: '/gateway',
       },
       {
-        title: 'APIKey',
-        path: '/APIKey',
-      },
-      {
-        title: 'plugins',
-        path: '/plugins',
-      },
-      {
         title: 'exhook',
         path: '/exhook',
+      },
+      {
+        title: 'APIKey',
+        path: '/APIKey',
       },
     ]
 
@@ -170,6 +166,11 @@ export default {
         title: 'ruleengine',
         icon: 'icon-ruleengine',
         c: ruleengine,
+      },
+      {
+        title: 'plugins',
+        icon: 'icon-plugin',
+        path: '/plugins',
       },
       {
         title: 'configuration',
