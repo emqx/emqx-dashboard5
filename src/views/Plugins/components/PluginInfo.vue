@@ -24,7 +24,7 @@
         {{ pluginData.git_commit_or_build_date }}
       </PluginInfoItem>
 
-      <PluginInfoItem :label="`EMQ X ${tl('version')}`">
+      <PluginInfoItem :label="`EMQX ${tl('version')}`">
         {{ pluginData.compatibility?.emqx }}
       </PluginInfoItem>
       <PluginInfoItem :label="tl('compiledUser')">

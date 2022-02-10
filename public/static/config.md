@@ -1,11 +1,11 @@
-# EMQ X 5.0.0-beta.3-7556a682 Configuration
-EMQ X configuration file is in [HOCON](https://github.com/emqx/hocon) format.
+# EMQX 5.0.0-beta.3-7556a682 Configuration
+EMQX configuration file is in [HOCON](https://github.com/emqx/hocon) format.
 HOCON, or Human-Optimized Config Object Notation is a format for human-readable data,
 and a superset of JSON.
 
 ## Layered
 
-EMQ X configuration consists of 3 layers.
+EMQX configuration consists of 3 layers.
 From bottom up:
 
 1. Immutable base: `emqx.conf` + `EMQX_` prfixed environment variables.<br>
@@ -34,7 +34,7 @@ node.name="127.0.0.1"
 node.cookie="mysecret"
 ```
 
-This flat format is almost backward compatible with EMQ X's config file format
+This flat format is almost backward compatible with EMQX's config file format
 in 4.x series (the so called 'cuttlefish' format).
 
 It is 'almost' compabile because the often HOCON requires strings to be quoted,
@@ -49,13 +49,13 @@ For more HOCON syntax, pelase refer to the [specification](https://github.com/li
 
 ## Schema
 
-To make the HOCON objects type-safe, EMQ X introduded a schema for it.
+To make the HOCON objects type-safe, EMQX introduded a schema for it.
 The schema defines data types, and data fields' names and metadata for config value validation
 and more. In fact, this config document itself is generated from schema metadata.
 
 ### Complex Data Types
 
-There are 4 complex data types in EMQ X's HOCON config:
+There are 4 complex data types in EMQX's HOCON config:
 
 1. Struct: Named using an unquoted string, followed by a pre-defined list of fields,
    fields can not start with a number, and are only allowed to use
@@ -83,11 +83,11 @@ There are quite some different primitive types, to name a fiew:
 * ...
 
 The primitive types are mostly self-describing, some are built-in, such
-as `atom()`, some are defiend in EMQ X modules, such as `emqx_schema:duration()`.
+as `atom()`, some are defiend in EMQX modules, such as `emqx_schema:duration()`.
 
 ### Config Paths
 
-If we consider the whole EMQ X config as a tree,
+If we consider the whole EMQX config as a tree,
 to reference a primitive value, we can use a dot-separated names form string for
 the path from the tree-root (always a Struct) down to the primitive values at tree-leaves.
 
@@ -179,7 +179,7 @@ zone.zone1.mqtt.max_packet_size = 10M
 
 #### Array Elements
 
-Arrays in EMQ X config have two different representations
+Arrays in EMQX config have two different representations
 
 * list, such as: `[1, 2, 3]`
 * indexed-map, such as: `{"1"=1, "2"=2, "3"=3}`
@@ -233,7 +233,7 @@ authentication=[{enable=true}]
   in listener configs
   <br>
   <br>
-  EMQ X can be configured with:
+  EMQX can be configured with:
   <br>
   <ul>
   <li><code>[]</code>: The default value, it allows *ALL* logins</li>
@@ -256,13 +256,13 @@ authentication=[{enable=true}]
 
 
   Authorization a.k.a ACL.<br>
-  In EMQ X, MQTT client access control is extremly flexible.<br>
+  In EMQX, MQTT client access control is extremly flexible.<br>
   An out of the box set of authorization data sources are supported.
   For example,<br>
   'file' source is to support concise and yet generic ACL rules in a file;<br>
   'built-in-database' source can be used to store per-client customisable rule sets,
-  natively in the EMQ X node;<br>
-  'http' source to make EMQ X call an external HTTP API to make the decision;<br>
+  natively in the EMQX node;<br>
+  'http' source to make EMQX call an external HTTP API to make the decision;<br>
   'postgresql' etc. to look up clients or rules from external databases;<br>
 
 
@@ -272,7 +272,7 @@ authentication=[{enable=true}]
 
 - cluster: <code>[cluster](#cluster)</code>
 
-  EMQ X nodes can form a cluster to scale up the total capacity.<br>Here holds the configs to instruct how individual nodes can discover each other.
+  EMQX nodes can form a cluster to scale up the total capacity.<br>Here holds the configs to instruct how individual nodes can discover each other.
 
 - log: <code>[log](#log)</code>
 
@@ -280,7 +280,7 @@ authentication=[{enable=true}]
 
 - rpc: <code>[rpc](#rpc)</code>
 
-  EMQ X uses a library called <code>gen_rpc</code> for inter-broker RPCs.<br>Most of the time the default config should work, but in case you need to do performance fine-turning or experiment a bit, this is where to look.
+  EMQX uses a library called <code>gen_rpc</code> for inter-broker RPCs.<br>Most of the time the default config should work, but in case you need to do performance fine-turning or experiment a bit, this is where to look.
 
 - db: <code>[db](#db)</code>
 
@@ -381,10 +381,10 @@ authentication=[{enable=true}]
 
 
   Path to the file which contains the ACL rules.<br>
-  If the file provisioned before starting EMQ X node, it can be placed anywhere
-  as long as EMQ X has read access to it.
-  In case rule set is created from EMQ X dashboard or management HTTP API,
-  the file will be placed in `certs/authz` sub directory inside EMQ X's `data_dir`,
+  If the file provisioned before starting EMQX node, it can be placed anywhere
+  as long as EMQX has read access to it.
+  In case rule set is created from EMQX dashboard or management HTTP API,
+  the file will be placed in `certs/authz` sub directory inside EMQX's `data_dir`,
   and the new rules will override all rules from the old config file.
 
 
@@ -1190,7 +1190,7 @@ authentication=[{enable=true}]
 
   The Default QoS Level indicator for publish request.<br>
   This option specifies the QoS level for the CoAP Client when publishing a
-  message to EMQ X PUB/SUB system, if the publish request is not carried `qos`
+  message to EMQX PUB/SUB system, if the publish request is not carried `qos`
   option. The indicator can be set to:
     - qos0, qos1, qos2: Fixed default QoS level
     - coap: Dynamic QoS level by the message type of publish request
@@ -1325,7 +1325,7 @@ authentication=[{enable=true}]
   Trusted PEM format CA certificates bundle file.<br>
   The certificates in this file are used to verify the TLS peer's certificates.
   Append new certificates to the file if new CAs are to be trusted.
-  There is no need to restart EMQ X to have the updated file loaded, because
+  There is no need to restart EMQX to have the updated file loaded, because
   the system regularly checks if file has been updated (and reload).<br>
   NOTE: invalidating (deleting) a certificate from the file will not affect
   already established connections.
@@ -1388,7 +1388,7 @@ authentication=[{enable=true}]
   application's data security, confidentiality and performance.
 
   The names should be in OpenSSL string format (not RFC format).
-  All default values and examples proveded by EMQ X config
+  All default values and examples proveded by EMQX config
   documentation are all in OpenSSL format.<br>
 
   NOTE: Certain cipher suites are only compatible with
@@ -1655,7 +1655,7 @@ authentication=[{enable=true}]
 
   Default = `"contains_object_list"`
 
-  Policy for publishing UPDATE event message to EMQ X.<br>
+  Policy for publishing UPDATE event message to EMQX.<br>
     - always: send update events as long as the UPDATE request is received.
     - contains_object_list: send update events only if the UPDATE request carries any Object List.
 
@@ -1879,7 +1879,7 @@ authentication=[{enable=true}]
   Trusted PEM format CA certificates bundle file.<br>
   The certificates in this file are used to verify the TLS peer's certificates.
   Append new certificates to the file if new CAs are to be trusted.
-  There is no need to restart EMQ X to have the updated file loaded, because
+  There is no need to restart EMQX to have the updated file loaded, because
   the system regularly checks if file has been updated (and reload).<br>
   NOTE: invalidating (deleting) a certificate from the file will not affect
   already established connections.
@@ -1942,7 +1942,7 @@ authentication=[{enable=true}]
   application's data security, confidentiality and performance.
 
   The names should be in OpenSSL string format (not RFC format).
-  All default values and examples proveded by EMQ X config
+  All default values and examples proveded by EMQX config
   documentation are all in OpenSSL format.<br>
 
   NOTE: Certain cipher suites are only compatible with
@@ -2074,7 +2074,7 @@ authentication=[{enable=true}]
   Trusted PEM format CA certificates bundle file.<br>
   The certificates in this file are used to verify the TLS peer's certificates.
   Append new certificates to the file if new CAs are to be trusted.
-  There is no need to restart EMQ X to have the updated file loaded, because
+  There is no need to restart EMQX to have the updated file loaded, because
   the system regularly checks if file has been updated (and reload).<br>
   NOTE: invalidating (deleting) a certificate from the file will not affect
   already established connections.
@@ -2137,7 +2137,7 @@ authentication=[{enable=true}]
   application's data security, confidentiality and performance.
 
   The names should be in OpenSSL string format (not RFC format).
-  All default values and examples proveded by EMQ X config
+  All default values and examples proveded by EMQX config
   documentation are all in OpenSSL format.<br>
 
   NOTE: Certain cipher suites are only compatible with
@@ -3418,7 +3418,7 @@ authentication=[{enable=true}]
   Trusted PEM format CA certificates bundle file.<br>
   The certificates in this file are used to verify the TLS peer's certificates.
   Append new certificates to the file if new CAs are to be trusted.
-  There is no need to restart EMQ X to have the updated file loaded, because
+  There is no need to restart EMQX to have the updated file loaded, because
   the system regularly checks if file has been updated (and reload).<br>
   NOTE: invalidating (deleting) a certificate from the file will not affect
   already established connections.
@@ -3481,7 +3481,7 @@ authentication=[{enable=true}]
   application's data security, confidentiality and performance.
 
   The names should be in OpenSSL string format (not RFC format).
-  All default values and examples proveded by EMQ X config
+  All default values and examples proveded by EMQX config
   documentation are all in OpenSSL format.<br>
 
   NOTE: Certain cipher suites are only compatible with
@@ -4756,7 +4756,7 @@ authentication=[{enable=true}]
   Trusted PEM format CA certificates bundle file.<br>
   The certificates in this file are used to verify the TLS peer's certificates.
   Append new certificates to the file if new CAs are to be trusted.
-  There is no need to restart EMQ X to have the updated file loaded, because
+  There is no need to restart EMQX to have the updated file loaded, because
   the system regularly checks if file has been updated (and reload).<br>
   NOTE: invalidating (deleting) a certificate from the file will not affect
   already established connections.
@@ -4819,7 +4819,7 @@ authentication=[{enable=true}]
   application's data security, confidentiality and performance.
 
   The names should be in OpenSSL string format (not RFC format).
-  All default values and examples proveded by EMQ X config
+  All default values and examples proveded by EMQX config
   documentation are all in OpenSSL format.<br>
 
   NOTE: Certain cipher suites are only compatible with
@@ -4915,7 +4915,7 @@ authentication=[{enable=true}]
   Trusted PEM format CA certificates bundle file.<br>
   The certificates in this file are used to verify the TLS peer's certificates.
   Append new certificates to the file if new CAs are to be trusted.
-  There is no need to restart EMQ X to have the updated file loaded, because
+  There is no need to restart EMQX to have the updated file loaded, because
   the system regularly checks if file has been updated (and reload).<br>
   NOTE: invalidating (deleting) a certificate from the file will not affect
   already established connections.
@@ -4978,7 +4978,7 @@ authentication=[{enable=true}]
   application's data security, confidentiality and performance.
 
   The names should be in OpenSSL string format (not RFC format).
-  All default values and examples proveded by EMQ X config
+  All default values and examples proveded by EMQX config
   documentation are all in OpenSSL format.<br>
 
   NOTE: Certain cipher suites are only compatible with
@@ -5431,7 +5431,7 @@ authentication=[{enable=true}]
   application's data security, confidentiality and performance.
 
   The names should be in OpenSSL string format (not RFC format).
-  All default values and examples proveded by EMQ X config
+  All default values and examples proveded by EMQX config
   documentation are all in OpenSSL format.<br>
 
   NOTE: Certain cipher suites are only compatible with
@@ -8708,9 +8708,9 @@ to which is configurable by the <code>init_file</code> field.
  - <code>EMQX_PLUGINS</code>
 
 
-Manage EMQ X plugins.
+Manage EMQX plugins.
 <br>
-Plugins can be pre-built as a part of EMQ X package,
+Plugins can be pre-built as a part of EMQX package,
 or installed as a standalone package in a location specified by
 <code>install_dir</code> config key
 <br>
@@ -8734,7 +8734,7 @@ The standalone-installed plugins are referred to as 'external' plugins.
   the sub-directory named as <code>emqx_foo_bar-0.1.0</code>.
   <br>
   NOTE: For security reasons, this directory should **NOT** be writable
-  by anyone expect for <code>emqx</code> (or any user which runs EMQ X)
+  by anyone expect for <code>emqx</code> (or any user which runs EMQX)
 
 
 
@@ -8956,7 +8956,7 @@ A per-plugin config to describe the desired state of the plugin.
   Trusted PEM format CA certificates bundle file.<br>
   The certificates in this file are used to verify the TLS peer's certificates.
   Append new certificates to the file if new CAs are to be trusted.
-  There is no need to restart EMQ X to have the updated file loaded, because
+  There is no need to restart EMQX to have the updated file loaded, because
   the system regularly checks if file has been updated (and reload).<br>
   NOTE: invalidating (deleting) a certificate from the file will not affect
   already established connections.
@@ -9019,7 +9019,7 @@ A per-plugin config to describe the desired state of the plugin.
   application's data security, confidentiality and performance.
 
   The names should be in OpenSSL string format (not RFC format).
-  All default values and examples proveded by EMQ X config
+  All default values and examples proveded by EMQX config
   documentation are all in OpenSSL format.<br>
 
   NOTE: Certain cipher suites are only compatible with
