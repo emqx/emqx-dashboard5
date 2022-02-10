@@ -73,7 +73,13 @@
       v-model="dialogVisible"
       @open="handleDialogOpen"
     >
-      <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
+      <el-form
+        ref="recordForm"
+        :model="record"
+        :rules="getRules()"
+        label-position="top"
+        size="small"
+      >
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
           <el-input size="small" v-model="record.user_id" :disabled="isEdit"></el-input>
         </el-form-item>
@@ -93,11 +99,11 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="dialogVisible = false">
+          <el-button @click="dialogVisible = false">
             {{ $t('Base.cancel') }}
           </el-button>
 
-          <el-button type="primary" size="small" :loading="saveLoading" @click="save">
+          <el-button type="primary" :loading="saveLoading" @click="save">
             {{ isEdit ? $t('Base.update') : $t('Base.save') }}
           </el-button>
         </div>
@@ -300,7 +306,6 @@ export default defineComponent({
     }
     const handleSearch = () => {
       const page = 1
-      console.log(searchVal)
       const { user_id, is_superuser } = searchVal
       if (user_id !== '' || is_superuser !== null) {
         const searchKey = `like_${prop.field}`
