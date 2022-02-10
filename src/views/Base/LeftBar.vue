@@ -118,10 +118,6 @@ export default {
         title: 'exhook',
         path: '/exhook',
       },
-      {
-        title: 'APIKey',
-        path: '/APIKey',
-      },
     ]
 
     let diagnose = [
