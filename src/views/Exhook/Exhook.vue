@@ -89,7 +89,9 @@ const isTableLoading = ref(false)
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
 
 const getExhooks = async () => {
+  isTableLoading.value = true
   exhooks.value = await queryExhooks()
+  isTableLoading.value = false
   await nextTick()
   initSortable()
 }

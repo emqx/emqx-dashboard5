@@ -1,5 +1,5 @@
 <template>
-  <div class="exhook-detail app-wrapper">
+  <div class="exhook-detail app-wrapper" v-loading.lock="isLoading">
     <div class="exhook-detail-hd">
       <div>
         <h6 class="exhook-detail-title">{{ exhookName }}</h6>
@@ -110,6 +110,7 @@ const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
 
 const activeName = ref('overview')
+const isLoading = ref(false)
 const exhookData: Ref<Exhook> = ref({} as Exhook)
 
 const formCom = ref()
@@ -122,8 +123,10 @@ const { deleteExhook, updateExhookEnable } = useHandleExhookItem()
 
 const getExhookDetail = async () => {
   try {
+    isLoading.value = true
     const data = await queryExhookDetail(exhookName.value)
     exhookData.value = { ...data, request_timeout: transMSNumToString(data.request_timeout) }
+    isLoading.value = false
   } catch (error) {
     console.error(error)
   }
