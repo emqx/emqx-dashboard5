@@ -7,7 +7,7 @@
     <div>
       <el-row v-for="(item, key) in eventMsg" :key="key">
         <el-col :span="15">
-          <div class="item-title">{{ `$event/${key}` }}</div>
+          <div class="item-title">{{ `${key}` }}</div>
           <div class="item-desc">{{ translate(key) }}</div>
         </el-col>
         <el-col :span="5" class="item-switch">
@@ -36,7 +36,7 @@ export default defineComponent({
       return t(collection + '.' + key)
     }
 
-    let eventMsg = reactive({
+    let eventMsg = ref({
       client_connected: false,
       client_disconnected: false,
       client_subscribed: false,
@@ -49,35 +49,30 @@ export default defineComponent({
 
     const loadData = async function () {
       operationPending.value = true
-
-      let res = await getEventMsg().catch(() => {})
-      if (res) {
-        Object.keys(res).forEach((k) => {
-          let alignKey = k.match(/\$event\/(\w+)/)[1]
-          eventMsg[alignKey] = res[k]
-        })
-      } else {
-        //todo
+      try {
+        let res = await getEventMsg()
+        eventMsg.value = res
+      } catch (error) {
+        console.error(error)
+      } finally {
+        operationPending.value = false
       }
-      operationPending.value = false
     }
 
     const updateEventMsg = async function () {
       operationPending.value = true
-      let pendingEventMsg = {}
-      Object.keys(eventMsg).forEach((key) => {
-        pendingEventMsg['$event/' + key] = eventMsg[key]
-      })
-      let res = await editEventMsg(pendingEventMsg).catch(() => {})
-      if (res) {
+      let pendingEventMsg = { ...eventMsg.value }
+      try {
+        await editEventMsg(pendingEventMsg).catch(() => {})
         ElMessage({
           type: 'success',
           message: t('Base.editSuccess'),
         })
-      } else {
+      } catch (error) {
         loadData()
+      } finally {
+        operationPending.value = false
       }
-      operationPending.value = false
     }
 
     onMounted(loadData)

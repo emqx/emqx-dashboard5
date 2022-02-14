@@ -2585,31 +2585,31 @@ authentication=[{enable=true}]
 
 **Fields**
 
-- $event/client_connected: <code>boolean()</code>
+- client_connected: <code>boolean()</code>
 
   Default = `false`
 
-- $event/client_disconnected: <code>boolean()</code>
+- client_disconnected: <code>boolean()</code>
 
   Default = `false`
 
-- $event/client_subscribed: <code>boolean()</code>
+- client_subscribed: <code>boolean()</code>
 
   Default = `false`
 
-- $event/client_unsubscribed: <code>boolean()</code>
+- client_unsubscribed: <code>boolean()</code>
 
   Default = `false`
 
-- $event/message_delivered: <code>boolean()</code>
+- message_delivered: <code>boolean()</code>
 
   Default = `false`
 
-- $event/message_acked: <code>boolean()</code>
+- message_acked: <code>boolean()</code>
 
   Default = `false`
 
-- $event/message_dropped: <code>boolean()</code>
+- message_dropped: <code>boolean()</code>
 
   Default = `false`
 
