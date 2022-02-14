@@ -267,15 +267,63 @@ export default {
     zh: '发送的 MQTT 报文数量',
     en: 'Number of MQTT messages sent',
   },
+  recvMsgQos0: {
+    zh: 'QoS 0 消息流入',
+    en: 'QoS 0 Messages Received',
+  },
+  recvMsgQos1: {
+    zh: 'QoS 1 消息流入',
+    en: 'QoS 1 Messages Received',
+  },
+  recvMsgQos2: {
+    zh: 'QoS 2 消息流入',
+    en: 'QoS 2 Messages Received',
+  },
+  recvMsgDropped: {
+    zh: '消息流入丢弃数',
+    en: 'Dropped Messages In',
+  },
+  recvMsgDroppedAwaitPubrelTimeout: {
+    zh: '消息流入丢弃数（过期）',
+    en: 'Dropped Messages In(Expired)',
+  },
+  sendMsgQos0: {
+    zh: 'QoS 0 消息流出',
+    en: 'QoS 0 Messages Sent',
+  },
+  sendMsgQos1: {
+    zh: 'QoS 1 消息流出',
+    en: 'QoS 1 Messages Sent',
+  },
+  sendMsgQos2: {
+    zh: 'QoS 2 消息流出',
+    en: 'QoS 2 Messages Sent',
+  },
+  sendMsgDropped: {
+    zh: '消息流出丢弃数',
+    en: 'Dropped Messages Out',
+  },
+  sendMsgDroppedExpired: {
+    zh: '消息流出丢弃数（过期）',
+    en: 'Dropped Messages Out(Expired)',
+  },
+  sendMsgDroppedQueueFull: {
+    zh: '消息流出丢弃数（队列已满）',
+    en: 'Dropped Messages Out(Queue Full)',
+  },
+  sendMsgDroppedTooLarge: {
+    zh: '消息流出丢弃数（消息过大）',
+    en: 'Dropped Messages Out(Message Oversize)',
+  },
   kickOut: {
     zh: '踢除',
     en: 'Kick Out',
   },
-  awaitingRel: {
+  awaitingRelCnt: {
     zh: '未确认的 PUBREC 数据包计数',
     en: 'Unconfirmed PUBREC Packets Count',
   },
-  maxAwaitingRel: {
+  awaitingRelMax: {
     zh: '最大未确认的 PUBREC 数据包计数',
     en: 'Maximum Unconfirmed PUBREC Packets Count',
   },
