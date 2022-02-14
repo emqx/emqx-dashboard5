@@ -241,12 +241,24 @@ export default {
             'inflight',
             'heap_size',
             'reductions',
-            'awaiting_rel',
-            'max_awaiting_rel',
+            'awaiting_rel_cnt',
+            'awaiting_rel_max',
             'send_cnt',
             'send_msg',
             'send_oct',
             'send_pkt',
+            'recv_msg.qos0',
+            'recv_msg.qos1',
+            'recv_msg.qos2',
+            'recv_msg.dropped',
+            'recv_msg.dropped.await_pubrel_timeout',
+            'send_msg.qos0',
+            'send_msg.qos1',
+            'send_msg.qos2',
+            'send_msg.dropped',
+            'send_msg.dropped.expired',
+            'send_msg.dropped.queue_full',
+            'send_msg.dropped.too_large',
           ],
         },
         LWM2M: {
@@ -321,8 +333,11 @@ export default {
 
   methods: {
     moment: moment,
+    /**
+     * snake and point to camel, demo: send_msg -> sendMsg; send_msg.qos1 -> sendMsgQos1
+     */
     snake2pascal(s) {
-      return String(s).replace(/(_[a-z])/g, (m) => m.substring(1).toUpperCase())
+      return String(s).replace(/((_|\.)[a-z])/g, (m) => m.substring(1).toUpperCase())
     },
     tl(key, collection = 'Clients') {
       return this.$t(collection + '.' + key)
