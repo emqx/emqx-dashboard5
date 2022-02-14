@@ -22,7 +22,7 @@
         </div>
         <el-row>
           <el-col :span="24">
-            <el-radio-group v-model="chosenBridgeType">
+            <el-radio-group class="bridge-type-select" v-model="chosenBridgeType">
               <el-radio v-for="item in bridgeType" :key="item" :label="item" border>
                 <img
                   height="80"
@@ -201,5 +201,9 @@ export default defineComponent({
   flex-direction: column;
   margin-top: 30px;
   width: 70%;
+}
+
+.bridge-type-select {
+  display: flex;
 }
 </style>
