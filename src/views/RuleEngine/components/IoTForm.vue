@@ -121,18 +121,18 @@
                   "
                 ></el-option>
                 <el-option
-                  value="console"
+                  :value="RuleOutput.Console"
                   :disabled="
-                    outputDisableList.includes('console') &&
-                    'console' !== ruleValue.outputs[editIndex]
+                    outputDisableList.includes(RuleOutput.Console) &&
+                    RuleOutput.Console !== ruleValue.outputs[editIndex]
                   "
                   >{{ tl('consoleOutput') }}</el-option
                 >
                 <el-option
-                  value="republish"
+                  :value="RuleOutput.Republish"
                   :disabled="
-                    outputDisableList.includes('republish') &&
-                    'republish' !== ruleValue.outputs[editIndex]
+                    outputDisableList.includes(RuleOutput.Republish) &&
+                    RuleOutput.Republish !== ruleValue.outputs[editIndex]
                   "
                 >
                   {{ tl('republish') }}
@@ -145,7 +145,7 @@
           class="edit-output"
           @click="toggleBridgeEdit()"
           v-if="
-            outputForm.type !== 'republish' && outputForm.type !== 'console'
+            outputForm.type !== RuleOutput.Republish && outputForm.type !== RuleOutput.Console
           "
         >
           <el-icon v-if="!isBridgeEdit"><caret-bottom></caret-bottom></el-icon>
@@ -155,8 +155,8 @@
         <template
           v-if="
             isBridgeEdit &&
-            outputForm.type !== 'republish' &&
-            outputForm.type !== 'console'
+            outputForm.type !== RuleOutput.Republish &&
+            outputForm.type !== RuleOutput.Console
           "
           ><div class="embedded-config">
             <bridge-http-config
@@ -167,7 +167,7 @@
             ></bridge-mqtt-config>
           </div>
         </template>-->
-        <template v-if="outputForm.type === 'republish'">
+        <template v-if="outputForm.type === RuleOutput.Republish">
           <div class="part-header">{{ tl('paramSetting') }}</div>
           <el-row>
             <el-col :span="14">
@@ -255,6 +255,8 @@ import _ from 'lodash'
 import { ElMessageBox as MB, ElMessage as M, ElForm } from 'element-plus'
 import parser from 'js-sql-parser'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import { RuleOutput } from '@/types/enum'
+
 type OutputForm = {
   type: string
   args?: Record<string, unknown>
@@ -416,10 +418,10 @@ export default defineComponent({
           outputLoading.value = true
           let opObj
           switch (outputForm.value.type) {
-            case 'console':
+            case RuleOutput.Console:
               opObj = { function: outputForm.value.type }
               break
-            case 'republish':
+            case RuleOutput.Republish:
               opObj = {
                 function: outputForm.value.type,
                 args: { ...outputForm.value.args },
@@ -450,7 +452,7 @@ export default defineComponent({
           outputDisableList.value.push(v)
         } else if (typeof v === 'object') {
           //republish can be duplicated
-          if (v.function === 'republish') return
+          if (v.function === RuleOutput.Republish) return
           v.function && outputDisableList.value.push(v.function)
         }
       })
@@ -474,7 +476,7 @@ export default defineComponent({
           outputForm.value.type = item
         } else if (typeof item === 'object') {
           outputForm.value.type = item.function || ''
-          if (item.function === 'republish') {
+          if (item.function === RuleOutput.Republish) {
             outputForm.value.args = item.args
           }
         }
@@ -624,6 +626,7 @@ export default defineComponent({
       loadIngressBridgeList,
       openOpDialog,
       outputForm,
+      RuleOutput,
       cancelOpDialog,
       sqlPartValue,
       submitOutput,
