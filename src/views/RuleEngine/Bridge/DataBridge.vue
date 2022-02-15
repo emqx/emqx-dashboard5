@@ -10,8 +10,9 @@
             type="primary"
             :icon="Plus"
             @click="$router.push({ name: 'bridge-create' })"
-            >{{ tl('createBridge') }}</el-button
           >
+            {{ tl('createBridge') }}
+          </el-button>
         </div>
 
         <el-table :data="bridgeTb" v-loading="tbLoading">
