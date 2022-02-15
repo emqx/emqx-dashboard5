@@ -62,10 +62,9 @@
                   class="datatime"
                   type="datetime"
                   size="small"
-                  :placeholder="$t('Clients.createdAt')"
+                  :placeholder="$t('Clients.connectedAt')"
                   clearable
-                >
-                </el-date-picker>
+                />
               </el-col>
             </el-row>
           </el-col>
