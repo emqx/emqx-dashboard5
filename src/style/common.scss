@@ -370,6 +370,7 @@ code {
   }
 }
 
+/* El Popper */
 .el-popper.is-dark {
   background: #282e38;
 
@@ -398,4 +399,9 @@ code {
       word-break: break-all;
     }
   }
+}
+
+/* El Select TODO:delete it after upgrade element-plus */
+.el-select .el-input .el-input__suffix .el-input__validateIcon {
+  display: none;
 }
