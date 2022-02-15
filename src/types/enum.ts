@@ -54,3 +54,8 @@ export enum ExhookStatus {
   Stopped = 'stopped',
   Error = 'error',
 }
+
+export enum RuleOutput {
+  Console = 'console',
+  Republish = 'republish',
+}
