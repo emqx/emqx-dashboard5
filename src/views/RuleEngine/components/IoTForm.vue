@@ -15,10 +15,10 @@
         </el-col>
       </el-row>
       <div class="part-header">
-        {{ tl('filterData')
-        }}<el-button size="mini" class="part-btn" @click="briefEditType = !briefEditType">{{
-          tl('changeSqlMethod')
-        }}</el-button>
+        {{ tl('filterData') }}
+        <el-button size="mini" class="part-btn" @click="briefEditType = !briefEditType">
+          {{ tl('changeSqlMethod') }}
+        </el-button>
       </div>
       <template v-if="briefEditType">
         <el-row>
@@ -75,11 +75,12 @@
         <el-col :span="14">
           <template v-for="(item, index) in ruleValue.outputs" :key="item">
             <div class="outputs-item">
-              <span
-                ><img
+              <span>
+                <img
                   :src="getOutputImage(item.function ? item.function : item.split(':')[0])"
                   width="80"
-              /></span>
+                />
+              </span>
               <span>
                 <div v-if="!item.function">{{ item.split(':')[1] }}</div>
                 <div class="output-desc">
@@ -88,11 +89,11 @@
               </span>
               <span class="output-op">
                 <el-button size="mini" @click="openOpDialog(true, index)">
-                  {{ $t('Base.edit') }}</el-button
-                >
-                <el-button size="mini" type="danger" @click="deleteOutput(index)">{{
-                  $t('Base.delete')
-                }}</el-button>
+                  {{ $t('Base.edit') }}
+                </el-button>
+                <el-button size="mini" type="danger" @click="deleteOutput(index)">
+                  {{ $t('Base.delete') }}
+                </el-button>
               </span>
             </div>
           </template>
@@ -133,8 +134,9 @@
                     outputDisableList.includes('republish') &&
                     'republish' !== ruleValue.outputs[editIndex]
                   "
-                  >{{ tl('republish') }}</el-option
                 >
+                  {{ tl('republish') }}
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -521,7 +523,8 @@ export default defineComponent({
     }
 
     const loadEgressBridgeList = async () => {
-      // await loadBridgeList();
+      await loadBridgeList()
+      // TODO: If the direction is placed in the type later, it needs to be modified here
       egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => v.direction === 'egress')
     }
 
