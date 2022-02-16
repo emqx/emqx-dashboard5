@@ -42,7 +42,7 @@ interface EdgeItem {
 interface NodeItem {
   id: string
   label: string
-  img: string
+  img: SVGElement
 }
 
 const RANDOM = Math.random().toString().substring(2, 8)
@@ -50,11 +50,13 @@ const createIdOfInputNode = (target: string) => `__from__${RANDOM}:${target}`
 // When output is console or republish, nodes need to be created separately for each rule.
 const createIdOfOutputNode = (target: string, ruleId?: string) =>
   `__to__${RANDOM}:${target}${ruleId ? `-${ruleId}` : ''}`
-const isOutputConsoleOrRepub = (output: string | OutputItem) => {
-  return (
-    typeof output === 'object' &&
-    (output.function === RuleOutput.Console || output.function === RuleOutput.Republish)
-  )
+const isOutputConsoleOrRepub = (output: OutputItem) => {
+  if (typeof output === 'object') {
+    const isConsole = output.function === RuleOutput.Console
+    const isRepublish = output.function === RuleOutput.Republish
+    return isConsole || isRepublish
+  }
+  return false
 }
 const getBridgeTypeFromString = (str: string): BridgeType => {
   // now has mqtt & http
@@ -62,7 +64,7 @@ const getBridgeTypeFromString = (str: string): BridgeType => {
   return bridgeTypeList.find((item) => str.indexOf(item) > -1) || BridgeType.MQTT
 }
 
-const getIconFromInputData = (input: string): string => {
+const getIconFromInputData = (input: string): SVGElement => {
   if (input.indexOf(BridgeType.MQTT) > -1) {
     return iconMap['bridge-mqtt']
   }
@@ -71,9 +73,11 @@ const getIconFromInputData = (input: string): string => {
   }
   return iconMap.topic
 }
+
 const getIconFromOutputItem = (output: OutputItem) => {
   if (typeof output === 'string') {
-    return iconMap[`bridge-${getBridgeTypeFromString(output)}`]
+    const key = `bridge-${getBridgeTypeFromString(output)}`
+    return iconMap[key]
   } else {
     return output.function === RuleOutput.Console ? iconMap.console : iconMap.republish
   }

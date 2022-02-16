@@ -6,7 +6,7 @@ import republish from './republish.svg'
 import rule from './rule.svg'
 import topic from './topic.svg'
 
-export default {
+const iconMap: Record<string, SVGAElement> = {
   'bridge-http': bridgeHTTP,
   'bridge-mqtt': bridgeMQTT,
   console,
@@ -15,3 +15,5 @@ export default {
   rule,
   topic,
 }
+
+export default iconMap
