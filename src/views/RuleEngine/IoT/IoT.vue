@@ -1,22 +1,7 @@
 <template>
   <div class="app-wrapper iot">
     <div class="section-header">
-      <div>
-        <el-button-group>
-          <el-button
-            size="small"
-            :class="{ active: pageShow === pageType[0] }"
-            @click="pageShow = pageType[0]"
-            >{{ tl('listTable') }}</el-button
-          >
-          <el-button
-            size="small"
-            :class="{ active: pageShow === pageType[1] }"
-            @click="pageShow = pageType[1]"
-            >{{ tl('topology') }}</el-button
-          >
-        </el-button-group>
-      </div>
+      <div></div>
       <div>
         <el-button
           type="primary"
@@ -27,56 +12,51 @@
         >
       </div>
     </div>
-    <template v-if="pageShow === pageType[0]">
-      <el-table :data="ruleTable" v-loading="iotLoading">
-        <el-table-column :label="tl('name')" sortable>
-          <template #default="{ row }">
-            <router-link :to="{ name: 'iot-detail', params: { id: row.id } }">{{
-              row.name
-            }}</router-link>
-          </template></el-table-column
-        >
-        <el-table-column label="Source" sortable>
-          <template #default="{ row }">
-            {{ row.from.join(',') }}
-          </template>
-        </el-table-column>
-        <el-table-column label="Outputs" sortable :sort-method="sorting"
-          ><template #default="{ row }">
-            {{ row.outputs.length }}
-          </template>
-        </el-table-column>
-        <el-table-column :label="tl('status')" sortable>
-          <template #default="{ row }">
-            <el-badge is-dot :type="row.enable ? 'primary' : 'danger'"> </el-badge>
-            {{ row.enable ? $t('Base.enable') : $t('Base.disable') }}
-          </template>
-        </el-table-column>
-        <el-table-column :label="tl('createdAt')" sortable>
-          <template #default="{ row }">
-            {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
-          </template>
-        </el-table-column>
-        <el-table-column :label="$t('Base.operation')" min-width="100">
-          <template #default="{ row }">
-            <el-button
-              size="mini"
-              @click="$router.push({ name: 'iot-detail', params: { id: row.id } })"
-              >{{ $t('Base.setting') }}</el-button
-            >
-            <el-button size="mini" @click="startOrStopRule(row)">{{
-              row.enable ? $t('Base.disable') : $t('Base.enable')
-            }}</el-button>
-            <el-button size="mini" type="danger" @click="submitDeleteRules(row.id)">{{
-              $t('Base.delete')
-            }}</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </template>
-    <template v-else-if="pageShow === pageType[1]">
-      <rule-topology></rule-topology>
-    </template>
+    <el-table :data="ruleTable" v-loading="iotLoading">
+      <el-table-column :label="tl('name')" sortable>
+        <template #default="{ row }">
+          <router-link :to="{ name: 'iot-detail', params: { id: row.id } }">{{
+            row.name
+          }}</router-link>
+        </template></el-table-column
+      >
+      <el-table-column label="Source" sortable>
+        <template #default="{ row }">
+          {{ row.from.join(',') }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Outputs" sortable :sort-method="sorting"
+        ><template #default="{ row }">
+          {{ row.outputs.length }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('status')" sortable>
+        <template #default="{ row }">
+          <el-badge is-dot :type="row.enable ? 'primary' : 'danger'"> </el-badge>
+          {{ row.enable ? $t('Base.enable') : $t('Base.disable') }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('createdAt')" sortable>
+        <template #default="{ row }">
+          {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('Base.operation')" min-width="100">
+        <template #default="{ row }">
+          <el-button
+            size="mini"
+            @click="$router.push({ name: 'iot-detail', params: { id: row.id } })"
+            >{{ $t('Base.setting') }}</el-button
+          >
+          <el-button size="mini" @click="startOrStopRule(row)">{{
+            row.enable ? $t('Base.disable') : $t('Base.enable')
+          }}</el-button>
+          <el-button size="mini" type="danger" @click="submitDeleteRules(row.id)">{{
+            $t('Base.delete')
+          }}</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -87,26 +67,13 @@ import { getRules, updateRules, deleteRules } from '@/api/ruleengine'
 import moment from 'moment'
 import { Rule, RuleItem } from '@/types/ruleengine'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
-import RuleTopology from '../components/RuleTopology.vue'
 import { Plus } from '@element-plus/icons-vue'
 
 export default defineComponent({
-  components: { RuleTopology },
   setup() {
     const { t } = useI18n()
-    const pageType = ['list', 'topology']
-    const pageShow = ref(pageType[0])
     const ruleTable = ref([])
     const iotLoading = ref(false)
-
-    watch(
-      () => pageShow.value,
-      (v) => {
-        if (v === pageType[0]) {
-          getRulesList()
-        }
-      },
-    )
 
     const getRulesList = async () => {
       iotLoading.value = true
@@ -167,8 +134,6 @@ export default defineComponent({
     return {
       tl: (key: string) => t('RuleEngine.' + key),
       Plus,
-      pageShow,
-      pageType,
       ruleTable,
       moment,
       startOrStopRule,

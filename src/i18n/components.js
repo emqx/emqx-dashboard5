@@ -87,6 +87,10 @@ export default {
     zh: '规则引擎',
     en: 'Rule Engine',
   },
+  'flow-chart': {
+    zh: 'Flow Chart',
+    en: 'Flow Chart',
+  },
   resources: {
     zh: '资源',
     en: 'Resources',

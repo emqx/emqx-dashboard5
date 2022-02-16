@@ -1,40 +1,11 @@
 import { onMounted, ref, onUnmounted, Ref } from 'vue'
 import { getRules, getBridgeList } from '@/api/ruleengine'
 import G6, { Graph, ModelConfig, IGroup } from '@antv/g6'
-import { RuleOutput } from '@/types/enum'
+import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import iconMap from '@/assets/topologyIcon/index'
 import { BridgeType } from '@/types/enum'
+import { BridgeItem, MQTTOut, OutputItem, RuleItem } from '@/types/rule'
 
-type Metrics = Record<string, number>
-/**
- * is string when output is bridge
- * is obj when output is console or repub
- */
-type OutputItem =
-  | string
-  | {
-      function: string
-      args?: {
-        payload: string
-        topic: string
-      }
-    }
-type FromData = Array<string> | string
-interface RuleItem {
-  created_at: string
-  description: string
-  enable: boolean
-  from: FromData
-  id: string
-  metrics: Metrics
-  name: string
-  node_metrics: Array<{
-    node: string
-    metrics: Metrics
-  }>
-  outputs: Array<OutputItem> | OutputItem
-  sql: string
-}
 interface EdgeItem {
   source: string
   target: string
@@ -45,19 +16,64 @@ interface NodeItem {
   img: SVGElement
 }
 
-const RANDOM = Math.random().toString().substring(2, 8)
-const createIdOfInputNode = (target: string) => `__from__${RANDOM}:${target}`
-// When output is console or republish, nodes need to be created separately for each rule.
-const createIdOfOutputNode = (target: string, ruleId?: string) =>
-  `__to__${RANDOM}:${target}${ruleId ? `-${ruleId}` : ''}`
-const isOutputConsoleOrRepub = (output: OutputItem) => {
-  if (typeof output === 'object') {
-    const isConsole = output.function === RuleOutput.Console
-    const isRepublish = output.function === RuleOutput.Republish
-    return isConsole || isRepublish
-  }
-  return false
+enum SomeType {
+  Bridge = 'bridge',
+  Event = 'event',
+  Rule = 'rule',
+  Topic = 'topic',
 }
+type RuleInputType = SomeType.Bridge | SomeType.Event | SomeType.Topic
+type RuleOutputType = SomeType.Bridge | RuleOutput
+type NodeType = SomeType | RuleOutput
+
+/* 
+  Node Id Format:
+  bridge, event, rule, topic: {randomStr}-{type:bridge | event | rule | topic}-{id|name}]
+  Because except for these two, other identical nodes must be merged
+  console, republish: {randomStr}-{type:console | republish}-{ruleID}]
+ */
+
+const RANDOM = Math.random().toString().substring(2, 8)
+const EVENT_INPUT_PREFIX = '$events/'
+
+const judgeInputType = (from: string): RuleInputType => {
+  if (from.indexOf(EVENT_INPUT_PREFIX) > -1) {
+    return SomeType.Event
+  }
+  // now has mqtt & http
+  const bridgeTypeList = [BridgeType.MQTT, BridgeType.HTTP]
+  if (bridgeTypeList.some((item) => from.indexOf(item) > -1)) {
+    return SomeType.Bridge
+  }
+  return SomeType.Topic
+}
+
+const judgeOutputType = (output: OutputItem): RuleOutputType => {
+  if (typeof output === 'string') {
+    return SomeType.Bridge
+  }
+  if (output.function === RuleOutput.Console) {
+    return RuleOutput.Console
+  }
+  return RuleOutput.Republish
+}
+
+const createIdOfInputNode = (target: string) => {
+  return `${RANDOM}-${judgeInputType(target)}-${target}`
+}
+
+// When output is console or republish, nodes need to be created separately for each rule.
+const createIdOfOutputNode = (target: OutputItem, ruleId: string) => {
+  const outputType = judgeOutputType(target)
+  let ret = `${RANDOM}-${outputType}-`
+  if (outputType === RuleOutput.Console || outputType === RuleOutput.Republish) {
+    ret += ruleId
+  } else {
+    ret += target
+  }
+  return ret
+}
+
 const getBridgeTypeFromString = (str: string): BridgeType => {
   // now has mqtt & http
   const bridgeTypeList = [BridgeType.MQTT, BridgeType.HTTP]
@@ -125,9 +141,7 @@ const createNodeNEdgeExceptRuleNode = (
     if (v.outputs instanceof Array) {
       v.outputs.forEach((output) => {
         const outputTarget = typeof output === 'object' ? output?.function || '' : output
-        const toNode = isOutputConsoleOrRepub(output)
-          ? createIdOfOutputNode(outputTarget, v.id)
-          : createIdOfOutputNode(outputTarget)
+        const toNode = createIdOfOutputNode(output, v.id)
 
         rule2OutputEdgeList.push({ source: v.id, target: toNode })
         outputNodeList.push({
@@ -139,9 +153,7 @@ const createNodeNEdgeExceptRuleNode = (
     } else {
       const outputTarget =
         typeof v.outputs === 'object' ? v.outputs.function || '' : v.outputs.toString()
-      const toNode = isOutputConsoleOrRepub(v.outputs)
-        ? createIdOfOutputNode(outputTarget, v.id)
-        : createIdOfOutputNode(outputTarget)
+      const toNode = createIdOfOutputNode(outputTarget, v.id)
 
       rule2OutputEdgeList.push({ source: v.id, target: toNode })
       outputNodeList.push({
@@ -157,6 +169,54 @@ const createNodeNEdgeExceptRuleNode = (
     outputNodeList,
     input2RuleEdgeList,
     rule2OutputEdgeList,
+  }
+}
+
+const createBridgeNTopicEle = (
+  bridgeArr: Array<BridgeItem>,
+): {
+  topicNodeArr: Array<NodeItem>
+  bridgeNodeArr: Array<NodeItem>
+  topic2BridgeEdgeArr: Array<EdgeItem>
+} => {
+  const topicNodeArr: Array<NodeItem> = []
+  const bridgeNodeArr: Array<NodeItem> = []
+  const topic2BridgeEdgeArr: Array<EdgeItem> = []
+  bridgeArr.forEach((bridgeItem) => {
+    const { id, local_topic } = bridgeItem
+    const iconKey = `bridge-${getBridgeTypeFromString(id)}`
+    const topicNodeId = createIdOfInputNode(local_topic)
+    const bridgeNodeId = createIdOfInputNode(id)
+
+    topicNodeArr.push({
+      id: topicNodeId,
+      label: local_topic,
+      img: iconMap.topic,
+    })
+    bridgeNodeArr.push({
+      id: bridgeNodeId,
+      label: id,
+      img: iconMap[iconKey],
+    })
+    if (
+      id.indexOf(BridgeType.MQTT) > -1 &&
+      (bridgeItem as MQTTOut).direction === MQTTBridgeDirection.Out
+    ) {
+      topic2BridgeEdgeArr.push({
+        source: bridgeNodeId,
+        target: topicNodeId,
+      })
+    } else {
+      topic2BridgeEdgeArr.push({
+        source: topicNodeId,
+        target: bridgeNodeId,
+      })
+    }
+  })
+  return {
+    topicNodeArr,
+    bridgeNodeArr,
+    topic2BridgeEdgeArr,
   }
 }
 
@@ -196,6 +256,14 @@ const registerCustomNode = () => {
 }
 
 export default () => {
+  /* 
+    simple desc
+    1. topic/event/bridge -> rule -> console/republish/bridge(multi)
+    2. topic -> bridge(mqtt-in & other bridge)
+    3. bridge -> topic(mqtt-out)
+   */
+
+  /* case 1 */
   /* Node */
   const inputList: Ref<Array<NodeItem>> = ref([])
   const outputList: Ref<Array<NodeItem>> = ref([])
@@ -204,12 +272,17 @@ export default () => {
   const input2Rule: Ref<Array<EdgeItem>> = ref([])
   const rule2output: Ref<Array<EdgeItem>> = ref([])
 
+  /* case 2 & 3 */
+  const topicNodeList: Ref<Array<NodeItem>> = ref([])
+  const bridgeNodeList: Ref<Array<NodeItem>> = ref([])
+  // and bridge to topic
+  const topic2BridgeEdgeList: Ref<Array<EdgeItem>> = ref([])
+
   const topologyDiagramCanvasEle = ref()
   let graphInstance: undefined | Graph = undefined
 
   const getRequiredList = async () => {
     try {
-      // TODO: bridgeList
       const [ruleList, bridgeList] = await Promise.all([getRules(), getBridgeList()])
       const { inputNodeList, outputNodeList, input2RuleEdgeList, rule2OutputEdgeList } =
         createNodeNEdgeExceptRuleNode(ruleList)
@@ -217,6 +290,11 @@ export default () => {
       outputList.value = outputNodeList
       input2Rule.value = input2RuleEdgeList
       rule2output.value = rule2OutputEdgeList
+
+      const { topicNodeArr, bridgeNodeArr, topic2BridgeEdgeArr } = createBridgeNTopicEle(bridgeList)
+      topicNodeList.value = topicNodeArr
+      bridgeNodeList.value = bridgeNodeArr
+      topic2BridgeEdgeList.value = topic2BridgeEdgeArr
 
       ruleNodeList.value = ruleList.map((v: RuleItem) => {
         return { id: v.id, label: v.name || 'rule id:' + v.id, img: iconMap.rule }
@@ -236,8 +314,14 @@ export default () => {
         ...cloneObjArr(inputList.value),
         ...cloneObjArr(ruleNodeList.value),
         ...cloneObjArr(outputList.value),
+        ...cloneObjArr(topicNodeList.value),
+        ...cloneObjArr(bridgeNodeList.value),
       ],
-      edges: [...cloneObjArr(input2Rule.value), ...cloneObjArr(rule2output.value)],
+      edges: [
+        ...cloneObjArr(input2Rule.value),
+        ...cloneObjArr(rule2output.value),
+        ...cloneObjArr(topic2BridgeEdgeList.value),
+      ],
     }
 
     data.nodes = data.nodes.filter((v, i, a) => a.findIndex((vi) => v.id === vi.id) === i)
