@@ -89,6 +89,8 @@ export default function useAuthnCreate() {
       selector: '',
       password_hash_field: 'password_hash',
       salt_field: 'salt',
+      r_mode: 'master',
+      w_mode: 'safe',
       ...getPasswordHashAlgorithmObj(),
       pool_size: 8,
       ssl: {

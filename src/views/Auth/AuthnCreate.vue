@@ -141,7 +141,7 @@
         </div>
       </div>
       <div class="step-btn">
-        <el-button type="primary" @click="handleCreate" size="small">
+        <el-button type="primary" :loading="saveLoading" @click="handleCreate" size="small">
           {{ $t('Base.create') }}
         </el-button>
         <!-- <el-button @click="handleTest">
@@ -224,6 +224,7 @@ export default defineComponent({
         'built-in-database': 'Built-in database',
       },
     }
+    const saveLoading = ref(false)
     const addedAuthn = computed(() => {
       return JSON.parse(sessionStorage.getItem('addedAuthn')) || []
     })
@@ -262,17 +263,24 @@ export default defineComponent({
     const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(beforeNext)
 
     const handleCreate = async function () {
+      saveLoading.value = true
       const data = create(configData.value, backend.value, mechanism.value)
 
       if (props.gateway) {
-        await props.createFunc({
-          config: configData.value,
-          backend: backend.value,
-          mechanism: mechanism.value,
-          data,
-        })
+        await props
+          .createFunc({
+            config: configData.value,
+            backend: backend.value,
+            mechanism: mechanism.value,
+            data,
+          })
+          .catch(() => {
+            saveLoading.value = true
+          })
       } else {
-        let res = await createAuthn(data).catch(() => {})
+        let res = await createAuthn(data).catch(() => {
+          saveLoading.value = false
+        })
         if (res) {
           M.success(t('Base.createSuccess'))
           router.push({ name: 'authentication' })
@@ -288,6 +296,7 @@ export default defineComponent({
       }
     }
     return {
+      saveLoading,
       activeGuidesIndex,
       mechanism,
       step,
