@@ -303,4 +303,12 @@ export default {
     zh: 'payload 大小超过 1MB 内容无法查看',
     en: 'The payload size exceeds 1MB, and the content cannot be viewed',
   },
+  readMode: {
+    zh: '读模式',
+    en: 'Read Mode',
+  },
+  writeMode: {
+    zh: '写模式',
+    en: 'Write Mode',
+  },
 }

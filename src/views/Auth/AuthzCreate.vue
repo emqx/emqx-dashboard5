@@ -62,7 +62,7 @@
           auth-type="authz"
         ></database-config>
         <div class="step-btn">
-          <el-button type="primary" @click="handleCreate" size="small">
+          <el-button type="primary" @click="handleCreate" :loading="saveLoading" size="small">
             {{ $t('Base.create') }}
           </el-button>
           <el-button @click="handleBack" size="small">
@@ -106,6 +106,7 @@ export default defineComponent({
     }
     const type = ref('file')
     const configData = ref({})
+    const saveLoading = ref(false)
     const { factory, create } = useAuthzCreate()
     const typeList = ref([
       { label: 'File', value: 'file', img: require('@/assets/img/file.png') },
@@ -150,12 +151,18 @@ export default defineComponent({
       return JSON.parse(sessionStorage.getItem('addedAuthz')) || []
     })
     const handleCreate = async function () {
+      saveLoading.value = true
       const data = create(configData.value, type.value)
-      await createAuthz(data)
-      ElMessage.success(t('Base.createSuccess'))
-      router.push({ name: 'authorization' })
+      const res = await createAuthz(data).catch(() => {
+        saveLoading.value = false
+      })
+      if (res) {
+        ElMessage.success(t('Base.createSuccess'))
+        router.push({ name: 'authorization' })
+      }
     }
     return {
+      saveLoading,
       configData,
       step,
       type,

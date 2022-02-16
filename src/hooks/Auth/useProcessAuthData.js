@@ -41,6 +41,9 @@ export default function useProcessAuthData() {
         delete tempData.replica_set_name
         delete tempData.servers
       }
+      if (mongo_type !== 'rs') {
+        delete tempData.w_mode
+      }
       if (selector !== '' && selector !== undefined) {
         tempData.selector = parseJSONSafely(selector)
       } else {

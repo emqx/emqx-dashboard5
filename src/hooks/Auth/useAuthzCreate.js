@@ -58,6 +58,8 @@ export default function useAuthzCreate() {
       database: 'mqtt',
       collection: 'users',
       selector: '',
+      r_mode: 'master',
+      w_mode: 'safe',
       pool_size: 8,
       ssl: {
         enable: false,
