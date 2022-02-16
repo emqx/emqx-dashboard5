@@ -59,3 +59,8 @@ export enum RuleOutput {
   Console = 'console',
   Republish = 'republish',
 }
+
+export enum BridgeType {
+  HTTP = 'http',
+  MQTT = 'mqtt',
+}

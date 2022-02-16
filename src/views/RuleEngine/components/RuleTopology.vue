@@ -1,7 +1,9 @@
 <template>
   <div class="app-wrapper">
     <div class="part-header">Overview</div>
-    <div id="rule-topology" ref="topologyDiagramCanvasEle"></div>
+    <div class="topology-wrap">
+      <div id="rule-topology" ref="topologyDiagramCanvasEle"></div>
+    </div>
   </div>
 </template>
 
@@ -16,8 +18,10 @@ export default defineComponent({
 <script lang="ts" setup>
 import { onMounted, ref, onUnmounted, Ref } from 'vue'
 import { getRules, getBridgeList } from '@/api/ruleengine'
-import G6, { Graph } from '@antv/g6'
+import G6, { Graph, ModelConfig, IGroup } from '@antv/g6'
 import { RuleOutput } from '@/types/enum'
+import iconMap from '@/assets/topologyIcon/index'
+import { BridgeType } from '@/types/enum'
 
 type Metrics = Record<string, number>
 /**
@@ -33,11 +37,12 @@ type OutputItem =
         topic: string
       }
     }
+type FromData = Array<string> | string
 interface RuleItem {
   created_at: string
   description: string
   enable: boolean
-  from: Array<string> | string
+  from: FromData
   id: string
   metrics: Metrics
   name: string
@@ -55,6 +60,7 @@ interface EdgeItem {
 interface NodeItem {
   id: string
   label: string
+  img: string
 }
 
 const ruleDataList: Ref<Array<RuleItem>> = ref([])
@@ -81,6 +87,30 @@ const isOutputConsoleOrRepub = (output: string | OutputItem) => {
     (output.function === RuleOutput.Console || output.function === RuleOutput.Republish)
   )
 }
+const getBridgeTypeFromString = (str: string): BridgeType => {
+  // now has mqtt & http
+  const bridgeTypeList = [BridgeType.MQTT, BridgeType.HTTP]
+  return bridgeTypeList.find((item) => str.indexOf(item) > -1) || BridgeType.MQTT
+}
+/**
+ * get icon from from-data
+ */
+const getIconFromFromData = (from: string): string => {
+  if (from.indexOf(BridgeType.MQTT) > -1) {
+    return iconMap['bridge-mqtt']
+  }
+  if (from.indexOf('$events') > -1) {
+    return iconMap.event
+  }
+  return iconMap.topic
+}
+const getIconFromOutputItem = (output: OutputItem) => {
+  if (typeof output === 'string') {
+    return iconMap[`bridge-${getBridgeTypeFromString(output)}`]
+  } else {
+    return output.function === RuleOutput.Console ? iconMap.console : iconMap.republish
+  }
+}
 
 const getRequiredList = async () => {
   const result = await Promise.all([getRules(), getBridgeList()]).catch(() => {})
@@ -91,12 +121,12 @@ const getRequiredList = async () => {
         v.from.forEach((from) => {
           const fromNode = createIdOfFromNode(from)
           input2Rule.value.push({ source: fromNode, target: v.id })
-          fromList.value.push({ id: fromNode, label: from })
+          fromList.value.push({ id: fromNode, label: from, img: getIconFromFromData(from) })
         })
       } else {
         const fromNode = createIdOfFromNode(v.from)
         input2Rule.value.push({ source: fromNode, target: v.id })
-        fromList.value.push({ id: fromNode, label: v.from })
+        fromList.value.push({ id: fromNode, label: v.from, img: getIconFromFromData(v.from) })
       }
     })
 
@@ -110,7 +140,7 @@ const getRequiredList = async () => {
             : createIdOfToNode(outputTarget)
 
           rule2output.value.push({ source: v.id, target: toNode })
-          toList.value.push({ id: toNode, label: outputTarget })
+          toList.value.push({ id: toNode, label: outputTarget, img: getIconFromOutputItem(output) })
         })
       } else {
         const outputTarget =
@@ -120,12 +150,16 @@ const getRequiredList = async () => {
           : createIdOfToNode(outputTarget)
 
         rule2output.value.push({ source: v.id, target: toNode })
-        toList.value.push({ id: toNode, label: outputTarget })
+        toList.value.push({
+          id: toNode,
+          label: outputTarget,
+          img: getIconFromOutputItem(v.outputs),
+        })
       }
     })
 
     ruleNodeList.value = ruleDataList.value.map((v) => {
-      return { id: v.id, label: v.name || 'rule id:' + v.id }
+      return { id: v.id, label: v.name || 'rule id:' + v.id, img: iconMap.rule }
     })
   }
 }
@@ -136,8 +170,7 @@ const cloneObjArr: CloneObjArr = (arr) => [...arr.map((item) => ({ ...item }))]
 const initialG6 = () => {
   const container = topologyDiagramCanvasEle.value
   const width = container.scrollWidth
-  // TODO: set by data
-  const height = 2000
+  const height = 700
 
   const data = {
     nodes: [
@@ -151,9 +184,11 @@ const initialG6 = () => {
   data.nodes = data.nodes.filter((v, i, a) => a.findIndex((vi) => v.id === vi.id) === i)
 
   graphInstance = new G6.Graph({
-    container: 'rule-topology',
+    container,
     width,
     height,
+    fitView: true,
+    fitViewPadding: [32, 24, 32, 24],
     linkCenter: true,
     layout: {
       type: 'dagre',
@@ -162,18 +197,28 @@ const initialG6 = () => {
       nodesepFunc: () => 1,
       ranksepFunc: () => 1,
     },
+    modes: {
+      default: ['drag-canvas', 'zoom-canvas', 'dice-mindmap'],
+    },
+    minZoom: 0.5,
+    maxZoom: 4,
     defaultNode: {
       size: [190, 50],
-      type: 'rect',
+      type: 'custom-rect-with-icon',
       style: {
         fill: '#FFFFFF',
-        stroke: '#00b299',
+        stroke: '#e5e5e5',
+        radius: 8,
       },
     },
     defaultEdge: {
       style: {
         stroke: '#b5b5b5',
         lineAppendWidth: 3,
+        // endArrow: {
+        //   path: G6.Arrow.triangle(10, 20, 55),
+        //   d: 25,
+        // },
       },
     },
   })
@@ -182,7 +227,43 @@ const initialG6 = () => {
   graphInstance.render()
 }
 
+const registerCustomNode = () => {
+  G6.registerNode(
+    'custom-rect-with-icon',
+    {
+      afterDraw(config?: ModelConfig, group?: IGroup) {
+        if (!config || !group) {
+          return
+        }
+        let rectWidth = 0
+        let rectHeight = 0
+        const iconWidth = 16
+        const iconHeight = 16
+        if (Array.isArray(config.size)) {
+          ;[rectWidth, rectHeight] = config.size
+        } else if (typeof config.size === 'number') {
+          rectWidth = config.size
+          rectHeight = config.size
+        }
+
+        const image = group.addShape('image', {
+          attrs: {
+            x: -rectWidth / 2 + 16,
+            y: -iconHeight / 2,
+            width: iconWidth,
+            height: iconHeight,
+            img: config.img,
+          },
+          name: 'image-shape',
+        })
+      },
+    },
+    'rect',
+  )
+}
+
 onMounted(async () => {
+  registerCustomNode()
   await getRequiredList()
   initialG6()
 })
@@ -195,5 +276,9 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .part-header {
   margin-bottom: 30px;
+}
+.topology-wrap {
+  border: 1px solid #ededed;
+  background-color: #fafafa;
 }
 </style>
