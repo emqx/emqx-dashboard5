@@ -34,6 +34,7 @@ import BridgeCreate from '@/views/RuleEngine/Bridge/BridgeCreate.vue'
 import BridgeDetail from '@/views/RuleEngine/Bridge/BridgeDetail.vue'
 import Connector from '@/views/RuleEngine/Connector/Connector.vue'
 import ConnectorCreate from '@/views/RuleEngine/Connector/ConnectorCreate.vue'
+import FlowChart from '@/views/RuleEngine/FlowChart/FlowChart.vue'
 import APIKey from '@/views/APIKey/APIKey.vue'
 import Plugins from '@/views/Plugins/Plugins.vue'
 import PluginInstall from '@/views/Plugins/PluginInstall.vue'
@@ -457,6 +458,21 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'config-docs',
         component: ConfigDocs,
+      },
+    ],
+  },
+  {
+    path: '/flow-chart',
+    component: Layout,
+    meta: {
+      hideKey: 'flow-chart',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'flow-chart',
+        component: FlowChart,
       },
     ],
   },

@@ -64,3 +64,8 @@ export enum BridgeType {
   HTTP = 'http',
   MQTT = 'mqtt',
 }
+
+export enum MQTTBridgeDirection {
+  In = 'ingress',
+  Out = 'egress',
+}

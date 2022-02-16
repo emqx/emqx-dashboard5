@@ -94,6 +94,7 @@ export default {
     let ruleengine = [
       { title: 'iot', path: '/iot' },
       { title: 'bridge', path: '/bridge' },
+      { title: 'flow-chart', path: '/flow-chart' },
     ]
 
     let system = [
