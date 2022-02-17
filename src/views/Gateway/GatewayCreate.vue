@@ -93,6 +93,7 @@ const STATIC_LISTENER = {
     type: 'tcp',
     name: 'default',
     bind: '7993',
+    acceptors: 16,
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
