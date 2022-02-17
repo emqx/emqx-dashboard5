@@ -21,7 +21,7 @@
           >
             <el-progress
               :stroke-width="16"
-              :percentage="calcPercentage(row.current_connections, row.max_connections)"
+              :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
               :format="() => {}"
             ></el-progress>
           </el-tooltip>
