@@ -10,7 +10,11 @@
       <el-table-column :label="'ID'" sortable prop="id"></el-table-column>
       <el-table-column :label="tl('lType')" sortable prop="type"></el-table-column>
       <el-table-column :label="tl('lAddress')" sortable prop="bind"></el-table-column>
-      <el-table-column label="Acceptors" sortable prop="acceptors"></el-table-column>
+      <el-table-column label="Acceptors" sortable prop="acceptors">
+        <template #default="{ row }">
+          <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="tl('lMaxConn')" sortable prop="max_connections"></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
@@ -451,13 +455,10 @@ export default defineComponent({
     const openDialog = (edit = false, current = {}, index = 0) => {
       opListener.value = true
       editListener.value = !!edit
+      listenerInput.value = {}
       if (edit) {
-        // let name = current.name || current?.id?.split(ID_SEPERATE)[2]
-        // listenerInput.value = {
-        //   ..._.cloneDeep(baseInput),
-        //   ..._.cloneDeep(current),
-        // };
-        listenerInput.value = _.merge(baseInput, current)
+        const _baseInput = _.cloneDeep(baseInput)
+        listenerInput.value = _.merge(_baseInput, current)
         editPos = index
       } else {
         listenerInput.value = _.cloneDeep(baseInput)
@@ -474,8 +475,9 @@ export default defineComponent({
     }
 
     const submitListener = async function (edit = false) {
-      // let id = [gName, listenerInput.value.type, listenerInput.value.name].join(ID_SEPERATE)
-
+      listenerInput.value.id = [gName, listenerInput.value.type, listenerInput.value.name].join(
+        ID_SEPERATE,
+      )
       let input = { ..._.cloneDeep(listenerInput.value) }
       if (listenerInput.value.type === 'udp') input.acceptors = ''
       if (props.integration) {
