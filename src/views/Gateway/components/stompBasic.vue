@@ -8,7 +8,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('maxHeader')">
             <el-input
-              v-model="sValue.frame.max_headers"
+              type="number"
+              v-model.number="sValue.frame.max_headers"
               :placeholder="String(sValueDefault.frame.max_headers)"
             ></el-input>
           </el-form-item>
@@ -16,14 +17,16 @@
         <el-col :span="12">
           <el-form-item :label="tl('maxHeaderLen')">
             <el-input
-              v-model="sValue.frame.max_headers_length"
+              type="number"
+              v-model.number="sValue.frame.max_headers_length"
               :placeholder="String(sValueDefault.frame.max_headers_length)"
             ></el-input> </el-form-item
         ></el-col>
         <el-col :span="12">
           <el-form-item :label="tl('maxBodyLen')">
             <el-input
-              v-model="sValue.frame.max_body_length"
+              type="number"
+              v-model.number="sValue.frame.max_body_length"
               :placeholder="String(sValueDefault.frame.max_body_length)"
             ></el-input> </el-form-item
         ></el-col>
