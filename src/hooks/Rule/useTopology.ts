@@ -5,6 +5,8 @@ import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import iconMap from '@/assets/topologyIcon/index'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTOut, OutputItem, RuleItem } from '@/types/rule'
+import useTopologyNodeTooltip from './useTopologyNodeTooltip'
+import { OtherNodeType, RuleInputType, RuleOutputType } from './topologyType'
 
 interface EdgeItem {
   source: string
@@ -15,16 +17,6 @@ interface NodeItem {
   label: string
   img: SVGElement
 }
-
-enum SomeType {
-  Bridge = 'bridge',
-  Event = 'event',
-  Rule = 'rule',
-  Topic = 'topic',
-}
-type RuleInputType = SomeType.Bridge | SomeType.Event | SomeType.Topic
-type RuleOutputType = SomeType.Bridge | RuleOutput
-type NodeType = SomeType | RuleOutput
 
 /* 
   Node Id Format:
@@ -38,19 +30,19 @@ const EVENT_INPUT_PREFIX = '$events/'
 
 const judgeInputType = (from: string): RuleInputType => {
   if (from.indexOf(EVENT_INPUT_PREFIX) > -1) {
-    return SomeType.Event
+    return OtherNodeType.Event
   }
   // now has mqtt & http
   const bridgeTypeList = [BridgeType.MQTT, BridgeType.HTTP]
   if (bridgeTypeList.some((item) => from.indexOf(item) > -1)) {
-    return SomeType.Bridge
+    return OtherNodeType.Bridge
   }
-  return SomeType.Topic
+  return OtherNodeType.Topic
 }
 
 const judgeOutputType = (output: OutputItem): RuleOutputType => {
   if (typeof output === 'string') {
-    return SomeType.Bridge
+    return OtherNodeType.Bridge
   }
   if (output.function === RuleOutput.Console) {
     return RuleOutput.Console
@@ -72,6 +64,10 @@ const createIdOfOutputNode = (target: OutputItem, ruleId: string) => {
     ret += target
   }
   return ret
+}
+
+const createIdOfRuleNode = (ruleId: string) => {
+  return `${RANDOM}-${OtherNodeType.Rule}-${ruleId}`
 }
 
 const getBridgeTypeFromString = (str: string): BridgeType => {
@@ -119,7 +115,7 @@ const createNodeNEdgeExceptRuleNode = (
     if (v.from instanceof Array) {
       v.from.forEach((from) => {
         const idOfInputNode = createIdOfInputNode(from)
-        input2RuleEdgeList.push({ source: idOfInputNode, target: v.id })
+        input2RuleEdgeList.push({ source: idOfInputNode, target: createIdOfRuleNode(v.id) })
         inputNodeList.push({
           id: idOfInputNode,
           label: from,
@@ -143,7 +139,7 @@ const createNodeNEdgeExceptRuleNode = (
         const outputTarget = typeof output === 'object' ? output?.function || '' : output
         const toNode = createIdOfOutputNode(output, v.id)
 
-        rule2OutputEdgeList.push({ source: v.id, target: toNode })
+        rule2OutputEdgeList.push({ source: createIdOfRuleNode(v.id), target: toNode })
         outputNodeList.push({
           id: toNode,
           label: outputTarget,
@@ -255,6 +251,8 @@ const registerCustomNode = () => {
   )
 }
 
+// const toolbar = new G6.ToolBar()
+
 export default () => {
   /* 
     simple desc
@@ -280,10 +278,23 @@ export default () => {
 
   const topologyDiagramCanvasEle = ref()
   let graphInstance: undefined | Graph = undefined
+  const { setRuleList, setBridgeList, createNodeTooltip } = useTopologyNodeTooltip(RANDOM)
+
+  const tooltip = new G6.Tooltip({
+    offsetX: 10,
+    offsetY: 20,
+    getContent: createNodeTooltip,
+    itemTypes: ['node'],
+    fixToNode: [0.8, 0.5],
+  })
 
   const getRequiredList = async () => {
     try {
       const [ruleList, bridgeList] = await Promise.all([getRules(), getBridgeList()])
+
+      setRuleList(ruleList)
+      setBridgeList(bridgeList)
+
       const { inputNodeList, outputNodeList, input2RuleEdgeList, rule2OutputEdgeList } =
         createNodeNEdgeExceptRuleNode(ruleList)
       inputList.value = inputNodeList
@@ -297,7 +308,11 @@ export default () => {
       topic2BridgeEdgeList.value = topic2BridgeEdgeArr
 
       ruleNodeList.value = ruleList.map((v: RuleItem) => {
-        return { id: v.id, label: v.name || 'rule id:' + v.id, img: iconMap.rule }
+        return {
+          id: createIdOfRuleNode(v.id),
+          label: v.name || 'rule id:' + v.id,
+          img: iconMap.rule,
+        }
       })
     } catch (error) {
       console.error(error)
@@ -343,6 +358,7 @@ export default () => {
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'dice-mindmap'],
       },
+      plugins: [tooltip],
       minZoom: 0.5,
       maxZoom: 4,
       defaultNode: {

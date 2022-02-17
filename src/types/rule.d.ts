@@ -17,19 +17,19 @@ export interface Headers {
   'content-type': string
 }
 
+export interface OutputItemObj {
+  function: string
+  args?: {
+    payload: string
+    topic: string
+  }
+}
+
 /**
  * is string when output is bridge
  * is obj when output is console or repub
  */
-export type OutputItem =
-  | string
-  | {
-      function: string
-      args?: {
-        payload: string
-        topic: string
-      }
-    }
+export type OutputItem = string | OutputItemObj
 
 export type FromData = Array<string> | string
 

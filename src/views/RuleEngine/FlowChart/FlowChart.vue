@@ -20,4 +20,30 @@ const { topologyDiagramCanvasEle } = useTopology()
   border: 1px solid #ededed;
   background-color: #fafafa;
 }
+
+:deep(.topology-node-tooltip) {
+  width: 200px;
+  padding: 16px 12px;
+
+  ul {
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+  }
+}
+:deep(.g6-component-tooltip) {
+  border: none;
+  border-radius: 0;
+  font-size: 12px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0;
+  box-shadow: none;
+}
 </style>
