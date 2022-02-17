@@ -55,7 +55,7 @@
       <el-button
         type="primary"
         size="small"
-        @click="++stepActive"
+        @click="handleNextStep"
         v-if="stepActive < 2"
         :disabled="submitLoading"
         >{{ $t('Base.nextStep') }}</el-button
@@ -82,7 +82,6 @@ import LwBasic from './components/lwm2mBasic.vue'
 import MqttsnBasic from './components/mqttsnBasic.vue'
 import stompBasic from './components/stompBasic.vue'
 import ExprotoBasic from './components/exprotoBasic.vue'
-import _ from 'lodash'
 import { postGateway, getGateway } from '@/api/gateway'
 import router from '@/router'
 import { ElMessage as M } from 'element-plus'
@@ -148,13 +147,6 @@ export default defineComponent({
     const route = useRoute()
     const gname = String(route.params.name).toLowerCase()
 
-    // watch(
-    //   () => [_.cloneDeep(basicData.value), _.cloneDeep(listenerList.value)],
-    //   (v) => {
-    //     console.log(v);
-    //   }
-    // );
-
     const gotoList = function () {
       router.push({ name: 'gateway' })
     }
@@ -195,6 +187,29 @@ export default defineComponent({
       }
     }
 
+    const validNext = () => {
+      //  Check SSL Cert & Key for ExProto
+      if (gname === 'exproto' && stepActive.value === 0 && basicData.value.server.ssl.enable) {
+        const { certfile, keyfile } = basicData.value.server.ssl
+        if (!certfile || !keyfile) {
+          M({
+            type: 'warning',
+            message: t('Gateway.missinggRPCTLSFile'),
+          })
+          return false
+        }
+      }
+      return true
+    }
+
+    const handleNextStep = () => {
+      const valid = validNext()
+      if (!valid) {
+        return
+      }
+      stepActive.value += 1
+    }
+
     onMounted(() => {
       gatewayStatus()
 
@@ -211,6 +226,7 @@ export default defineComponent({
       submitLoading,
       createGateway,
       name: gname,
+      handleNextStep,
     }
   },
 })
