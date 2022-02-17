@@ -4,9 +4,9 @@ import G6, { Graph, ModelConfig, IGroup } from '@antv/g6'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import iconMap from '@/assets/topologyIcon/index'
 import { BridgeType } from '@/types/enum'
-import { BridgeItem, MQTTOut, OutputItem, RuleItem } from '@/types/rule'
-import useTopologyNodeTooltip from './useTopologyNodeTooltip'
-import { OtherNodeType, RuleInputType, RuleOutputType } from './topologyType'
+import { BridgeItem, FromData, MQTTOut, OutputItem, RuleItem } from '@/types/rule'
+import useTopologyNodeTooltip from './useTopologyNodeTooltipNEvent'
+import { NodeType, OtherNodeType, RuleInputType, RuleOutputType } from './topologyType'
 
 interface EdgeItem {
   source: string
@@ -16,6 +16,14 @@ interface NodeItem {
   id: string
   label: string
   img: SVGElement
+  style?: {
+    cursor: 'pointer'
+  }
+  labelCfg?: {
+    style?: {
+      cursor: 'pointer'
+    }
+  }
 }
 
 /* 
@@ -24,9 +32,24 @@ interface NodeItem {
   Because except for these two, other identical nodes must be merged
   console, republish: {randomStr}-{type:console | republish}-{ruleID}]
  */
+// When output is console or republish, nodes need to be created separately for each rule.
 
 const RANDOM = Math.random().toString().substring(2, 8)
 const EVENT_INPUT_PREFIX = '$events/'
+
+const addCursorPointerToNodeData = (node: NodeItem): NodeItem => {
+  return {
+    ...node,
+    labelCfg: {
+      style: {
+        cursor: 'pointer',
+      },
+    },
+    style: {
+      cursor: 'pointer',
+    },
+  }
+}
 
 const judgeInputType = (from: string): RuleInputType => {
   if (from.indexOf(EVENT_INPUT_PREFIX) > -1) {
@@ -50,20 +73,11 @@ const judgeOutputType = (output: OutputItem): RuleOutputType => {
   return RuleOutput.Republish
 }
 
-const createIdOfInputNode = (target: string) => {
-  return `${RANDOM}-${judgeInputType(target)}-${target}`
-}
-
-// When output is console or republish, nodes need to be created separately for each rule.
-const createIdOfOutputNode = (target: OutputItem, ruleId: string) => {
-  const outputType = judgeOutputType(target)
-  let ret = `${RANDOM}-${outputType}-`
-  if (outputType === RuleOutput.Console || outputType === RuleOutput.Republish) {
-    ret += ruleId
-  } else {
-    ret += target
-  }
-  return ret
+/**
+ * Called when the type of node can be determined
+ */
+const createNodeId = (target: string, targetType: NodeType) => {
+  return `${RANDOM}-${targetType}-${target}`
 }
 
 const createIdOfRuleNode = (ruleId: string) => {
@@ -98,6 +112,51 @@ const getIconFromOutputItem = (output: OutputItem) => {
 type CloneObjArr = <T>(arr: Array<T>) => Array<T>
 const cloneObjArr: CloneObjArr = (arr) => [...arr.map((item) => ({ ...item }))]
 
+const createInputNodeNInput2RuleEdge = (
+  fromData: string,
+  ruleID: string,
+): { node: NodeItem; edge: EdgeItem } => {
+  const inputType = judgeInputType(fromData)
+  const idOfInputNode = createNodeId(fromData, inputType)
+  let node = {
+    id: idOfInputNode,
+    label: fromData,
+    img: getIconFromInputData(fromData),
+  }
+  if (inputType === OtherNodeType.Bridge) {
+    node = addCursorPointerToNodeData(node)
+  }
+  return {
+    node,
+    edge: { source: idOfInputNode, target: createIdOfRuleNode(ruleID) },
+  }
+}
+
+const createOutputNodeNRule2OutputEdge = (
+  outputData: OutputItem,
+  ruleID: string,
+): { node: NodeItem; edge: EdgeItem } => {
+  const outputType = judgeOutputType(outputData)
+  const isConsoleOrRepublish =
+    outputType === RuleOutput.Console || outputType === RuleOutput.Republish
+  // When output is console or republish, nodes need to be created separately for each rule.
+  const target = isConsoleOrRepublish ? ruleID : outputData
+  const outputNodeLabel = typeof outputData === 'object' ? outputData?.function || '' : outputData
+  const toNode = createNodeId(target as string, outputType)
+  let node: NodeItem = {
+    id: toNode,
+    label: outputNodeLabel,
+    img: getIconFromOutputItem(outputData),
+  }
+  if (outputType === OtherNodeType.Bridge) {
+    node = addCursorPointerToNodeData(node)
+  }
+  return {
+    node,
+    edge: { source: createIdOfRuleNode(ruleID), target: toNode },
+  }
+}
+
 const createNodeNEdgeExceptRuleNode = (
   ruleArr: Array<RuleItem>,
 ): {
@@ -114,49 +173,28 @@ const createNodeNEdgeExceptRuleNode = (
     /* inputNodeList & input2RuleEdgeList */
     if (v.from instanceof Array) {
       v.from.forEach((from) => {
-        const idOfInputNode = createIdOfInputNode(from)
-        input2RuleEdgeList.push({ source: idOfInputNode, target: createIdOfRuleNode(v.id) })
-        inputNodeList.push({
-          id: idOfInputNode,
-          label: from,
-          img: getIconFromInputData(from),
-        })
+        const { node, edge } = createInputNodeNInput2RuleEdge(from, v.id)
+        input2RuleEdgeList.push(edge)
+        inputNodeList.push(node)
       })
     } else {
-      const idOfInputNode = createIdOfInputNode(v.from)
-      input2RuleEdgeList.push({ source: idOfInputNode, target: v.id })
-      inputNodeList.push({
-        id: idOfInputNode,
-        label: v.from,
-        img: getIconFromInputData(v.from),
-      })
+      const { node, edge } = createInputNodeNInput2RuleEdge(v.from, v.id)
+      input2RuleEdgeList.push(edge)
+      inputNodeList.push(node)
     }
 
     /* outputNodeList & rule2OutputEdgeList */
     // When the outputs of multiple rules point to same bridge, they all point to the same bridge node.
     if (v.outputs instanceof Array) {
       v.outputs.forEach((output) => {
-        const outputTarget = typeof output === 'object' ? output?.function || '' : output
-        const toNode = createIdOfOutputNode(output, v.id)
-
-        rule2OutputEdgeList.push({ source: createIdOfRuleNode(v.id), target: toNode })
-        outputNodeList.push({
-          id: toNode,
-          label: outputTarget,
-          img: getIconFromOutputItem(output),
-        })
+        const { node, edge } = createOutputNodeNRule2OutputEdge(output, v.id)
+        rule2OutputEdgeList.push(edge)
+        outputNodeList.push(node)
       })
     } else {
-      const outputTarget =
-        typeof v.outputs === 'object' ? v.outputs.function || '' : v.outputs.toString()
-      const toNode = createIdOfOutputNode(outputTarget, v.id)
-
-      rule2OutputEdgeList.push({ source: v.id, target: toNode })
-      outputNodeList.push({
-        id: toNode,
-        label: outputTarget,
-        img: getIconFromOutputItem(v.outputs),
-      })
+      const { node, edge } = createOutputNodeNRule2OutputEdge(v.outputs, v.id)
+      rule2OutputEdgeList.push(edge)
+      outputNodeList.push(node)
     }
   })
 
@@ -181,19 +219,21 @@ const createBridgeNTopicEle = (
   bridgeArr.forEach((bridgeItem) => {
     const { id, local_topic } = bridgeItem
     const iconKey = `bridge-${getBridgeTypeFromString(id)}`
-    const topicNodeId = createIdOfInputNode(local_topic)
-    const bridgeNodeId = createIdOfInputNode(id)
+    const topicNodeId = createNodeId(local_topic, OtherNodeType.Topic)
+    const bridgeNodeId = createNodeId(id, OtherNodeType.Bridge)
 
     topicNodeArr.push({
       id: topicNodeId,
       label: local_topic,
       img: iconMap.topic,
     })
-    bridgeNodeArr.push({
-      id: bridgeNodeId,
-      label: id,
-      img: iconMap[iconKey],
-    })
+    bridgeNodeArr.push(
+      addCursorPointerToNodeData({
+        id: bridgeNodeId,
+        label: id,
+        img: iconMap[iconKey],
+      }),
+    )
     if (
       id.indexOf(BridgeType.MQTT) > -1 &&
       (bridgeItem as MQTTOut).direction === MQTTBridgeDirection.Out
@@ -278,7 +318,8 @@ export default () => {
 
   const topologyDiagramCanvasEle = ref()
   let graphInstance: undefined | Graph = undefined
-  const { setRuleList, setBridgeList, createNodeTooltip } = useTopologyNodeTooltip(RANDOM)
+  const { setRuleList, setBridgeList, createNodeTooltip, handleNodeClickEvent } =
+    useTopologyNodeTooltip(RANDOM)
 
   const tooltip = new G6.Tooltip({
     offsetX: 10,
@@ -312,11 +353,18 @@ export default () => {
           id: createIdOfRuleNode(v.id),
           label: v.name || 'rule id:' + v.id,
           img: iconMap.rule,
+          style: {
+            cursor: 'pointer',
+          },
         }
       })
     } catch (error) {
       console.error(error)
     }
+  }
+
+  const bindClickNodeEvent = () => {
+    graphInstance?.on('node:click', handleNodeClickEvent)
   }
 
   const initialG6 = () => {
@@ -381,6 +429,8 @@ export default () => {
         },
       },
     })
+
+    bindClickNodeEvent()
 
     graphInstance.data({ id: RANDOM, ...data })
     graphInstance.render()

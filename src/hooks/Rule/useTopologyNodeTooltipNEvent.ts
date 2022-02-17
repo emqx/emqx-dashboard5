@@ -1,12 +1,15 @@
+import router from '@/router'
 import { BridgeStatus, RuleOutput } from '@/types/enum'
 import { RuleItem, BridgeItem, OutputItemObj } from '@/types/rule'
 import { IG6GraphEvent } from '@antv/g6'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import { OtherNodeType, NodeType } from './topologyType'
 
 export default (randomPrefix: string) => {
   const { t } = useI18n()
+  const router = useRouter()
 
   const nodeTypeList = [
     OtherNodeType.Bridge,
@@ -60,7 +63,7 @@ export default (randomPrefix: string) => {
       return ''
     }
     const container = createContainerEle()
-    const { name, id, from, metrics, enable, created_at } = targetRule
+    const { name, id, from, metrics, enable, created_at, sql } = targetRule
     const fromDataToShow = Array.isArray(from) ? from.join('') : from
     const statusClass = `text-status ${enable ? 'success' : 'danger'}`
 
@@ -79,11 +82,15 @@ export default (randomPrefix: string) => {
       },
       { label: tl('createdAt'), value: moment(created_at).format('YYYY-MM-DD HH:mm:ss') },
     ]
-    // TODO:SQL
+    // TODO:sql highlight
     container.innerHTML = `
       <ul>
         ${createMsgListHTMLStr(msgArr)}
       </ul>
+      <div>
+        <label>${tl('SQL')}</label>
+        <div class="sql-container">${sql}</div>
+      </div>
     `
     return container
   }
@@ -105,7 +112,7 @@ export default (randomPrefix: string) => {
       { label: 'ID', value: id },
       { label: tl('success'), value: metrics.success },
       { label: tl('failure'), value: metrics.failed },
-      { label: tl('currentSpeed'), value: metrics.rate },
+      { label: tl('currentSpeed'), value: metrics.rate + ' Msg/s' },
       { label: tl('status'), value: statusStr, valueClass: statusClass },
     ]
 
@@ -191,9 +198,24 @@ export default (randomPrefix: string) => {
     return ret
   }
 
+  const handleNodeClickEvent = (e: IG6GraphEvent) => {
+    const id = e?.item?.get('id')
+    const { type, id: targetId } = getNodeTypeNTargetIDByNodeID(id)
+    if (!id || !type || !targetId) {
+      return
+    }
+
+    if (type === OtherNodeType.Rule) {
+      router.push({ name: 'iot-detail', params: { id: targetId } })
+    } else if (type === OtherNodeType.Bridge) {
+      router.push({ name: 'bridge-detail', params: { id: targetId } })
+    }
+  }
+
   return {
     setRuleList,
     setBridgeList,
     createNodeTooltip,
+    handleNodeClickEvent,
   }
 }

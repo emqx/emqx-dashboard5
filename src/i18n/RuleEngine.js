@@ -291,4 +291,8 @@ export default {
     zh: '未连接',
     en: 'Disconnected',
   },
+  SQL: {
+    zh: 'SQL 语句',
+    en: 'SQL',
+  },
 }
