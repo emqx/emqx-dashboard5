@@ -7,11 +7,16 @@
           <span class="g-title">{{ transGatewayName(row.name) }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')" sortable>
+      <el-table-column :label="tl('status')" sortable width="120">
         <template #default="{ row }">
           <span :class="['status', { disabled: !isRunning(row.status) }]">{{
             isRunning(row.status) ? tl('running') : tl('stopped')
           }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('listeners')" width="120" sortable>
+        <template #default="{ row }">
+          {{ (row.listeners && row.listeners.length) || 0 }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('connection')">
@@ -27,11 +32,6 @@
               :format="() => {}"
             ></el-progress>
           </el-tooltip>
-        </template>
-      </el-table-column>
-      <el-table-column :label="tl('listeners')" width="120" sortable>
-        <template #default="{ row }">
-          {{ (row.listeners && row.listeners.length) || 0 }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
