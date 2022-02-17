@@ -4,7 +4,7 @@
       <el-table-column :label="tl('name')">
         <template #default="{ row }">
           <span :class="`g-${row.name} g-icon`"></span>
-          <span class="g-title">{{ row.name }}</span>
+          <span class="g-title">{{ transGatewayName(row.name) }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="tl('status')" sortable>
@@ -99,6 +99,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
 import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
+import useTransName from '@/hooks/useTransName'
 
 export default defineComponent({
   name: 'Gateway',
@@ -112,6 +113,8 @@ export default defineComponent({
     const disableStr = 'stopped'
     const unloadStr = 'unload'
     const router = useRouter()
+
+    const { transGatewayName } = useTransName()
 
     const tl = function (key, collection = 'Gateway') {
       return t(collection + '.' + key)
@@ -195,6 +198,7 @@ export default defineComponent({
       dropdownVChange,
       dropdownExclusiveKey,
       dropdownHandler,
+      transGatewayName,
     }
   },
 })
