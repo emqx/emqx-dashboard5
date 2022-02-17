@@ -9,7 +9,9 @@
       </el-table-column>
       <el-table-column :label="tl('status')" sortable>
         <template #default="{ row }">
-          <span>{{ isRunning(row.status) ? tl('running') : tl('stopped') }}</span>
+          <span :class="['status', { disabled: !isRunning(row.status) }]">{{
+            isRunning(row.status) ? tl('running') : tl('stopped')
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="tl('connection')">
@@ -204,16 +206,26 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-.g-icon::before {
-  width: 60px;
-  height: 60px;
-  content: '';
-  display: inline-block;
-  background-size: contain;
-}
-.g-title {
-  vertical-align: 23px;
-  padding: 0 5px;
+<style lang="scss">
+.gateway {
+  .el-table {
+    .status {
+      color: #00b299;
+      &.disabled {
+        color: #e34242;
+      }
+    }
+  }
+  .g-icon::before {
+    width: 60px;
+    height: 60px;
+    content: '';
+    display: inline-block;
+    background-size: contain;
+  }
+  .g-title {
+    vertical-align: 23px;
+    padding: 0 5px;
+  }
 }
 </style>
