@@ -235,4 +235,60 @@ export default {
     zh: '请填写输出类型',
     en: 'Type of Output is required',
   },
+  type: {
+    zh: '类型',
+    en: 'Type',
+  },
+  sqlHit: {
+    zh: 'SQL 通过',
+    en: 'SQL hit',
+  },
+  sqlFailed: {
+    zh: 'SQL 失败',
+    en: 'SQL failed',
+  },
+  sqlFailedDesc: {
+    zh: 'SQL 因语法或函数调用失败导致执行失败',
+    en: 'SQL execution failed due to syntax or function call failure',
+  },
+  sqlNoResult: {
+    zh: 'SQL 无结果',
+    en: 'SQL no result',
+  },
+  sqlNoResultDesc: {
+    zh: 'SQL 成功执行但没有输出结果',
+    en: 'SQL executes successfully but no output results',
+  },
+  currentSpeed: {
+    zh: '当前速度',
+    en: 'Current Speed',
+  },
+  activated: {
+    zh: '已启用',
+    en: 'Activated',
+  },
+  deactivated: {
+    zh: '未启用',
+    en: 'Deactivated',
+  },
+  input: {
+    zh: '输入',
+    en: 'Input',
+  },
+  success: {
+    zh: '成功',
+    en: 'Success',
+  },
+  failure: {
+    zh: '失败',
+    en: 'Failure',
+  },
+  connected: {
+    zh: '已连接',
+    en: 'Connected',
+  },
+  disconnected: {
+    zh: '未连接',
+    en: 'Disconnected',
+  },
 }
