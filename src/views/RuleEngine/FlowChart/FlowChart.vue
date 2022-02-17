@@ -36,6 +36,11 @@ const { topologyDiagramCanvasEle } = useTopology()
     justify-content: space-between;
     padding: 4px 0;
   }
+  .sql-container {
+    background-color: #000;
+    margin-top: 8px;
+    padding: 4px;
+  }
 }
 :deep(.g6-component-tooltip) {
   border: none;
