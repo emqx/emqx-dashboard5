@@ -35,7 +35,22 @@ const { topologyDiagramCanvasEle } = useTopology()
     display: flex;
     justify-content: space-between;
     padding: 4px 0;
+    label {
+      flex-shrink: 0;
+      padding-right: 16px;
+    }
+    span {
+      word-break: break-all;
+      word-wrap: wrap;
+      text-align: right;
+    }
   }
+  .simple-info {
+    margin: 0;
+    word-break: break-all;
+    word-wrap: wrap;
+  }
+
   .sql-container {
     background-color: #000;
     margin-top: 8px;
