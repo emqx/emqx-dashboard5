@@ -12,3 +12,21 @@ export enum OtherNodeType {
 export type RuleInputType = OtherNodeType.Bridge | OtherNodeType.Event | OtherNodeType.Topic
 export type RuleOutputType = OtherNodeType.Bridge | RuleOutput
 export type NodeType = OtherNodeType | RuleOutput
+
+export interface EdgeItem {
+  source: string
+  target: string
+}
+export interface NodeItem {
+  id: string
+  label: string
+  img: SVGElement
+  style?: {
+    cursor: 'pointer'
+  }
+  labelCfg?: {
+    style?: {
+      cursor: 'pointer'
+    }
+  }
+}

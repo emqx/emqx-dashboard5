@@ -1,4 +1,4 @@
-import router from '@/router'
+import { RULE_TOPOLOGY_ID } from '@/common/constants'
 import { BridgeStatus, RuleOutput } from '@/types/enum'
 import { RuleItem, BridgeItem, OutputItemObj } from '@/types/rule'
 import { IG6GraphEvent } from '@antv/g6'
@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { OtherNodeType, NodeType } from './topologyType'
 
-export default (randomPrefix: string) => {
+export default () => {
   const { t } = useI18n()
   const router = useRouter()
 
@@ -20,7 +20,7 @@ export default (randomPrefix: string) => {
     RuleOutput.Republish,
   ]
   // Id Format Desc: ./useTopology.ts row-31
-  const nodeIdReg = new RegExp(`^(${randomPrefix}-)(${nodeTypeList.join('|')})-(.+)$`)
+  const nodeIdReg = new RegExp(`^(${RULE_TOPOLOGY_ID}-)(${nodeTypeList.join('|')})-(.+)$`)
 
   let ruleList: Array<RuleItem> = []
   let bridgeList: Array<BridgeItem> = []

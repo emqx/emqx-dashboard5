@@ -14,3 +14,7 @@ export const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST = [
   PayloadShowByType.Plaintext,
   PayloadShowByType.Base64,
 ]
+
+export const RULE_INPUT_EVENT_PREFIX = '$events/'
+
+export const RULE_TOPOLOGY_ID = 'rule-topology'
