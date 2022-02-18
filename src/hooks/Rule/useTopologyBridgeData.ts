@@ -1,14 +1,13 @@
-import { getBridgeList } from '@/api/ruleengine'
+import { getBridgeList as queryBridgeList } from '@/api/ruleengine'
 import { BridgeItem, MQTTOut } from '@/types/rule'
-import { Ref, ref } from 'vue'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
-import useTopologyNodeTooltipNEvent from './useTopologyNodeTooltipNEvent'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 
 export default () => {
-  const { setBridgeList } = useTopologyNodeTooltipNEvent()
+  let bridgeList: Array<BridgeItem> = []
+
   const { cutLabel, addCursorPointerToNodeData, createNodeId, getBridgeTypeFromString } =
     useUtilsForTopology()
 
@@ -64,8 +63,7 @@ export default () => {
 
   const getData = async () => {
     try {
-      const bridgeList = await getBridgeList()
-      setBridgeList(bridgeList)
+      bridgeList = await queryBridgeList()
 
       const { topicNodeArr, bridgeNodeArr, topic2BridgeEdgeArr } = createBridgeNTopicEle(bridgeList)
       const nodeData = {
@@ -80,7 +78,10 @@ export default () => {
     }
   }
 
+  const getBridgeList = () => bridgeList
+
   return {
     getData,
+    getBridgeList,
   }
 }
