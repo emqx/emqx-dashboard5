@@ -82,8 +82,7 @@ export default () => {
       { label: tl('input'), value: fromDataToShow },
       { label: tl('sqlHit'), value: metrics['sql.matched'] },
       { label: tl('sqlFailed'), value: metrics['sql.failed'] },
-      // TODO: speed, ask xing yu
-      { label: tl('currentSpeed'), value: metrics['sql.failed'] },
+      { label: tl('currentSpeed'), value: metrics['sql.matched.rate'] },
       {
         label: tl('status'),
         value: tl(enable ? 'activated' : 'deactivated'),
