@@ -43,6 +43,15 @@ export default (randomPrefix: string) => {
 
   const createEmptyTooltip = (id: string) => ''
 
+  const createSimpleTooltip = (id: string) => {
+    if (!id) {
+      return ''
+    }
+    const container = createContainerEle()
+    container.innerHTML = `<p class="simple-info">${id}</p>`
+    return container
+  }
+
   const createMsgListHTMLStr = (
     msgArr: Array<{ label: string; value: string | number; valueClass?: string }>,
   ) => {
@@ -162,9 +171,9 @@ export default (randomPrefix: string) => {
   }
 
   const createTooltipMap: Record<NodeType, (id: string) => HTMLDivElement | string> = {
-    [OtherNodeType.Topic]: createEmptyTooltip,
+    [OtherNodeType.Topic]: createSimpleTooltip,
     [RuleOutput.Console]: createEmptyTooltip,
-    [OtherNodeType.Event]: createEmptyTooltip,
+    [OtherNodeType.Event]: createSimpleTooltip,
     [OtherNodeType.Rule]: createRuleNodeTooltip,
     [OtherNodeType.Bridge]: createBridgeNodeTooltip,
     [RuleOutput.Republish]: createRepublishNodeTooltip,

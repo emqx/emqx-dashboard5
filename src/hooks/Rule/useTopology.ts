@@ -36,6 +36,15 @@ interface NodeItem {
 
 const RANDOM = Math.random().toString().substring(2, 8)
 const EVENT_INPUT_PREFIX = '$events/'
+const LABEL_MAX_LENGTH_TO_SHOW = 28
+const LABEL_TOO_LONG_SUFFIX = '...'
+
+const cutLabel = (label: string) => {
+  return label.length > 28
+    ? label.substring(0, LABEL_MAX_LENGTH_TO_SHOW - LABEL_TOO_LONG_SUFFIX.length) +
+        LABEL_TOO_LONG_SUFFIX
+    : label
+}
 
 const addCursorPointerToNodeData = (node: NodeItem): NodeItem => {
   return {
@@ -120,7 +129,7 @@ const createInputNodeNInput2RuleEdge = (
   const idOfInputNode = createNodeId(fromData, inputType)
   let node = {
     id: idOfInputNode,
-    label: fromData,
+    label: cutLabel(fromData),
     img: getIconFromInputData(fromData),
   }
   if (inputType === OtherNodeType.Bridge) {
@@ -145,7 +154,7 @@ const createOutputNodeNRule2OutputEdge = (
   const toNode = createNodeId(target as string, outputType)
   let node: NodeItem = {
     id: toNode,
-    label: outputNodeLabel,
+    label: cutLabel(outputNodeLabel),
     img: getIconFromOutputItem(outputData),
   }
   if (outputType === OtherNodeType.Bridge) {
@@ -224,13 +233,13 @@ const createBridgeNTopicEle = (
 
     topicNodeArr.push({
       id: topicNodeId,
-      label: local_topic,
+      label: cutLabel(local_topic),
       img: iconMap.topic,
     })
     bridgeNodeArr.push(
       addCursorPointerToNodeData({
         id: bridgeNodeId,
-        label: id,
+        label: cutLabel(id),
         img: iconMap[iconKey],
       }),
     )
@@ -351,7 +360,7 @@ export default () => {
       ruleNodeList.value = ruleList.map((v: RuleItem) => {
         return {
           id: createIdOfRuleNode(v.id),
-          label: v.name || 'rule id:' + v.id,
+          label: cutLabel(v.name || 'rule id:' + v.id),
           img: iconMap.rule,
           style: {
             cursor: 'pointer',
@@ -395,7 +404,6 @@ export default () => {
       height,
       fitView: true,
       fitViewPadding: [32, 24, 32, 24],
-      linkCenter: true,
       layout: {
         type: 'dagre',
         rankdir: 'LR',
@@ -410,12 +418,21 @@ export default () => {
       minZoom: 0.5,
       maxZoom: 4,
       defaultNode: {
-        size: [190, 50],
+        size: [268, 50],
         type: 'custom-rect-with-icon',
         style: {
           fill: '#FFFFFF',
           stroke: '#e5e5e5',
           radius: 8,
+        },
+        anchorPoints: [
+          [0, 0.5],
+          [1, 0.5],
+        ],
+        labelCfg: {
+          style: {
+            fontSize: 14,
+          },
         },
       },
       defaultEdge: {
