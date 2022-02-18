@@ -104,9 +104,10 @@ export default () => {
 
   const topologyDiagramCanvasEle = ref()
   let graphInstance: undefined | Graph = undefined
-  const { createNodeTooltip, handleNodeClickEvent } = useTopologyNodeTooltipNEvent()
-  const { getData: getRuleNodeNEdgeData } = useTopologyRuleData()
-  const { getData: getBridgeNodeNEdgeData } = useTopologyBridgeData()
+  const { setRuleList, setBridgeList, createNodeTooltip, handleNodeClickEvent } =
+    useTopologyNodeTooltipNEvent()
+  const { getData: getRuleNodeNEdgeData, getRuleList } = useTopologyRuleData()
+  const { getData: getBridgeNodeNEdgeData, getBridgeList } = useTopologyBridgeData()
 
   const tooltip = new G6.Tooltip({
     offsetX: 10,
@@ -131,6 +132,8 @@ export default () => {
 
       bridgePartNodeData.value = bridgeNodeNEdgeData.nodeData
       bridgePartEdgeData.value = bridgeNodeNEdgeData.edgeList
+      setRuleList(getRuleList())
+      setBridgeList(getBridgeList())
       return Promise.resolve()
     } catch (error) {
       console.error(error)

@@ -2,13 +2,11 @@ import { getRules } from '@/api/ruleengine'
 import { RuleOutput } from '@/types/enum'
 import { OutputItem, RuleItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
-import useTopologyNodeTooltipNEvent from './useTopologyNodeTooltipNEvent'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
-import { RULE_TOPOLOGY_ID } from '@/common/constants'
 
 export default () => {
-  const { setRuleList } = useTopologyNodeTooltipNEvent()
+  let ruleList: Array<RuleItem> = []
   const {
     cutLabel,
     addCursorPointerToNodeData,
@@ -115,21 +113,16 @@ export default () => {
 
   const getData = async () => {
     try {
-      const ruleList = await getRules()
-
-      setRuleList(ruleList)
+      ruleList = await getRules()
 
       const { inputNodeList, outputNodeList, input2RuleEdgeList, rule2OutputEdgeList } =
         createNodeNEdgeExceptRuleNode(ruleList)
       const ruleNodeList = ruleList.map((v: RuleItem) => {
-        return {
+        return addCursorPointerToNodeData({
           id: createNodeId(v.id, OtherNodeType.Rule),
           label: cutLabel(v.name || 'rule id:' + v.id),
           img: iconMap.rule,
-          style: {
-            cursor: 'pointer',
-          },
-        }
+        })
       })
 
       const nodeData = {
@@ -148,7 +141,10 @@ export default () => {
     }
   }
 
+  const getRuleList = () => ruleList
+
   return {
     getData,
+    getRuleList,
   }
 }
