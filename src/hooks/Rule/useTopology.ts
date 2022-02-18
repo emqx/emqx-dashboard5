@@ -67,6 +67,7 @@ const defaultNodeConfig = {
 }
 
 const defaultEdgeConfig = {
+  type: 'cubic-horizontal',
   style: { stroke: '#b5b5b5', lineAppendWidth: 3 },
 }
 
@@ -164,8 +165,8 @@ export default () => {
         type: 'dagre',
         rankdir: 'LR',
         align: 'DL',
-        nodesepFunc: () => 1,
-        ranksepFunc: () => 1,
+        nodesep: 8,
+        ranksep: 72,
       },
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'dice-mindmap'],

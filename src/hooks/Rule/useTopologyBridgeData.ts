@@ -42,7 +42,7 @@ export default () => {
       )
       if (
         id.indexOf(BridgeType.MQTT) > -1 &&
-        (bridgeItem as MQTTOut).direction === MQTTBridgeDirection.Out
+        (bridgeItem as MQTTOut).direction === MQTTBridgeDirection.In
       ) {
         topic2BridgeEdgeArr.push({
           source: bridgeNodeId,
