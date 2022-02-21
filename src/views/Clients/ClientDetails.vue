@@ -373,6 +373,7 @@ export default {
     async handleDisconnectGateway() {
       let res = await disconnGatewayClient(this.gateway, this.record.clientid).catch(() => {})
       if (res) {
+        this.$emit('refreshGateway')
         return Promise.resolve()
       } else {
         return Promise.reject()

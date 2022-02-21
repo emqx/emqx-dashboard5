@@ -193,7 +193,7 @@ export default {
   },
   mqueue: {
     zh: '当前 / 最大消息队列',
-    en: 'Current / Max Mqueue',
+    en: 'Current / Max Message Queue',
   },
   heapSize: {
     zh: '进程堆栈大小',
@@ -237,7 +237,7 @@ export default {
   },
   recvCnt: {
     zh: '接收的 TCP 报文数量',
-    en: 'Number of received TCP messages',
+    en: 'Number of received Socket packets',
   },
   recvMsg: {
     zh: '接收的 PUBLISH 报文数量',
@@ -249,11 +249,11 @@ export default {
   },
   recvPkt: {
     zh: '接收的 MQTT 报文数量',
-    en: 'Number of received MQTT messages',
+    en: 'Number of received messages',
   },
   sendCnt: {
     zh: '发送的 TCP 报文数量',
-    en: 'Number of TCP messages sent',
+    en: 'Number of Socket packets sent',
   },
   sendMsg: {
     zh: '发送的 PUBLISH 报文数量',
