@@ -36,7 +36,7 @@ export default {
     en: 'Failed',
   },
   speedNow: {
-    zh: '当前速率(msg/s)',
+    zh: '当前速度(msg/s)',
     en: 'Speed(msg/s)',
   },
   status: {
@@ -298,5 +298,33 @@ export default {
   SQL: {
     zh: 'SQL 语句',
     en: 'SQL',
+  },
+  overview: {
+    zh: '概览',
+    en: 'Overview',
+  },
+  settings: {
+    zh: '设置',
+    en: 'Settings',
+  },
+  executionStatistics: {
+    zh: '运行统计',
+    en: 'Execution Statistics',
+  },
+  resetStatistics: {
+    zh: '重置指标',
+    en: 'Reset statistics',
+  },
+  resetTime: {
+    zh: '重置时间',
+    en: 'Reset time',
+  },
+  nodeStatusDesc: {
+    zh: '每个节点上 Data Bridge 状态和执行情况',
+    en: 'Data bridge status and execution on each node',
+  },
+  reconnect: {
+    zh: '重连',
+    en: 'Reconnect',
   },
 }

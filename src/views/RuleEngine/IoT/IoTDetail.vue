@@ -40,12 +40,12 @@ import { getRuleInfo, updateRules } from '@/api/ruleengine'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage as M } from 'element-plus'
-import { RuleItem } from '@/types/ruleengine'
+import { RuleItem } from '@/types/rule'
 
 export default defineComponent({
   components: { iotform },
   setup() {
-    const rInfo: Ref<RuleItem> = ref({})
+    const rInfo: Ref<RuleItem> = ref({} as RuleItem)
     const route = useRoute()
     const { t } = useI18n()
     const id = route.params.id as string
@@ -85,7 +85,7 @@ export default defineComponent({
 
     const submitUpdateRules = async () => {
       infoLoading.value = true
-      const updateData: RuleItem = {
+      const updateData: Partial<RuleItem> = {
         name: rInfo.value.name,
         sql: rInfo.value.sql,
         enable: rInfo.value.enable,

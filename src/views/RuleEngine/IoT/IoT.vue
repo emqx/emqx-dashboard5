@@ -65,7 +65,7 @@ import { defineComponent, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getRules, updateRules, deleteRules } from '@/api/ruleengine'
 import moment from 'moment'
-import { Rule, RuleItem } from '@/types/ruleengine'
+import { RuleItem } from '@/types/rule'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 
@@ -84,7 +84,7 @@ export default defineComponent({
       iotLoading.value = false
     }
 
-    const startOrStopRule = async (row: Rule) => {
+    const startOrStopRule = async (row: RuleItem) => {
       iotLoading.value = true
       const res = await updateRules(row.id, {
         enable: !row.enable,
