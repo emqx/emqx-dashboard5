@@ -108,6 +108,7 @@
         :gateway="name"
         :clientid="currentClientId"
         :key="currentClientId"
+        @refreshGateway="closeClientDetail"
       ></client-details>
     </el-drawer>
   </div>
@@ -198,6 +199,12 @@ export default defineComponent({
       currentClientId.value = row.clientid
     }
 
+    const closeClientDetail = () => {
+      clientsDetailVisible.value = false
+      currentClientId.value = ''
+      loadGatewayClients()
+    }
+
     const disconnectClient = async function (row) {
       this.$msgbox
         .confirm(t('Clients.willDisconnectTheConnection'), {
@@ -231,6 +238,7 @@ export default defineComponent({
       tbLoading,
       searchGatewayList,
       handleResetSearch,
+      closeClientDetail,
       searchParams,
       nodes,
       clientsDetailVisible,
