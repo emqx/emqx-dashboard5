@@ -132,4 +132,10 @@
       border-color: #00b299ff;
     }
   }
+  // Gateway Authn page
+  .embed-gateway {
+    position: absolute;
+    left: -20px;
+    z-index: 1;
+  }
 }
