@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import useTopology from '@/hooks/Rule/useTopology'
+import useTopology from '@/hooks/Rule/topology/useTopology'
 
 const { topologyDiagramCanvasEle } = useTopology()
 </script>
