@@ -41,7 +41,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'Password'">
-            <el-input type="password" autocomplete="off" v-model="connectorVal.password"></el-input>
+            <el-input type="password" autocomplete="new-password" v-model="connectorVal.password" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
