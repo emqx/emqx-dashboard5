@@ -15,20 +15,18 @@
         </div>
 
         <el-table :data="connectorTb" v-loading="tbLoading">
-          <el-table-column :label="'Connector ID'" sortable prop="id"></el-table-column>
+          <el-table-column :label="tl('name')" sortable prop="name" />
 
-          <el-table-column :label="tl('connType')" sortable prop="type"></el-table-column>
-          <el-table-column
-            :label="tl('bridgeNum')"
-            sortable
-            prop="num_of_bridges"
-          ></el-table-column>
+          <el-table-column :label="tl('connType')" sortable prop="type" />
+          <el-table-column :label="tl('bridgeNum')" sortable prop="num_of_bridges" />
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
-              <el-button size="mini" @click="openEdit(row)">{{ $t('Base.setting') }}</el-button>
-              <el-button size="mini" type="danger" @click="deleteConnectorHandler(row)">{{
-                $t('Base.delete')
-              }}</el-button>
+              <el-button size="mini" @click="openEdit(row)">
+                {{ $t('Base.setting') }}
+              </el-button>
+              <el-button size="mini" type="danger" @click="deleteConnectorHandler(row)">
+                {{ $t('Base.delete') }}
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -38,7 +36,7 @@
           v-model:open="openEditDialog"
           v-model="itemConnector"
           @finish="finishConnectorDialog"
-        ></connector-dialog>
+        />
       </template>
     </router-view>
   </div>

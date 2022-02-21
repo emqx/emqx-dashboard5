@@ -23,6 +23,10 @@ export default {
     zh: '选择 Bridge 类型',
     en: 'Choose A Bridge Type',
   },
+  direction: {
+    zh: '方向',
+    en: 'Direction',
+  },
   SuccessNum: {
     zh: '成功数',
     en: 'Success',
@@ -32,8 +36,8 @@ export default {
     en: 'Failed',
   },
   speedNow: {
-    zh: '当前速率(s)',
-    en: 'Speed/s',
+    zh: '当前速率(msg/s)',
+    en: 'Speed(msg/s)',
   },
   status: {
     zh: '状态',
@@ -288,7 +292,7 @@ export default {
     en: 'Connected',
   },
   disconnected: {
-    zh: '未连接',
+    zh: '已断开',
     en: 'Disconnected',
   },
   SQL: {

@@ -98,3 +98,11 @@ export const transMSNumToString = (num: number): string => {
   }
   return cutNumberDecimal(num / ONE_DAY) + 'd'
 }
+
+export const getLabelFromValueInOptionList = <T>(
+  targetValue: T,
+  optionList: Array<{ value: T; label: string }>,
+): string => {
+  const target = optionList.find(({ value }) => value === targetValue)
+  return target?.label || ''
+}

@@ -39,7 +39,7 @@
 
       <el-row :gutter="30">
         <el-col :span="14">
-          <el-form-item label="Direction">
+          <el-form-item :label="tl('direction')">
             <el-select v-model="mqttBridgeVal.direction">
               <el-option v-for="dr in ['egress', 'ingress']" :key="dr" :value="dr"></el-option>
             </el-select>

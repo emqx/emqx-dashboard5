@@ -15,16 +15,32 @@
           </el-button>
         </div>
 
-        <el-table :data="bridgeTb" v-loading="tbLoading">
-          <el-table-column :label="'Bridge ID'" sortable prop="id"></el-table-column>
-          <el-table-column :label="'Direction'" sortable prop="direction"></el-table-column>
-          <el-table-column
-            :label="tl('SuccessNum')"
-            sortable
-            prop="metrics.success"
-          ></el-table-column>
-          <el-table-column :label="tl('ErrNum')" sortable prop="metrics.failed"></el-table-column>
-          <el-table-column :label="tl('speedNow')" sortable prop="metrics.rate"></el-table-column>
+        <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading">
+          <el-table-column :label="tl('name')">
+            <template #default="{ row }">
+              <div class="bridge-column-first">
+                <img
+                  v-if="row.type"
+                  class="icon-bridge-type"
+                  :src="require(`@/assets/img/${row.type}.png`)"
+                />
+                <div>
+                  <router-link :to="getBridgeDetailPageRoute(row.id)" class="bridge-name">
+                    {{ row.name }}
+                  </router-link>
+                  <span class="bridge-type">{{ getBridgeLabelByTypeValue(row.type) }}</span>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column :label="tl('direction')" sortable prop="direction">
+            <template #default="{ row }">
+              {{ getLabelByDirectionValue(row.direction) }}
+            </template>
+          </el-table-column>
+          <el-table-column :label="tl('SuccessNum')" sortable prop="metrics.success" />
+          <el-table-column :label="tl('ErrNum')" sortable prop="metrics.failed" />
+          <el-table-column :label="tl('speedNow')" sortable prop="metrics.rate" />
           <el-table-column :label="tl('status')" sortable>
             <template #default="{ row }">
               <el-badge
@@ -36,29 +52,21 @@
                     ? 'danger'
                     : 'info'
                 "
-              >
-              </el-badge>
-              <span>{{ row.status }}</span>
+              />
+              <span>{{ getLabelByStatusValue(row.status) }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('Base.operation')" min-width="120">
             <template #default="{ row }">
-              <el-button
-                size="mini"
-                @click="
-                  $router.push({
-                    name: 'bridge-detail',
-                    params: { id: row.id },
-                  })
-                "
-                >{{ $t('Base.setting') }}</el-button
-              >
-              <el-button size="mini" @click="enableOrDisableBridge(row)">{{
-                row.status === 'connected' ? $t('Base.disable') : $t('Base.enable')
-              }}</el-button>
-              <el-button size="mini" type="danger" @click="submitDeleteBridge(row.id)">{{
-                $t('Base.delete')
-              }}</el-button>
+              <el-button size="mini" @click="$router.push(getBridgeDetailPageRoute(row.id))">
+                {{ $t('Base.setting') }}
+              </el-button>
+              <el-button size="mini" @click="enableOrDisableBridge(row)">
+                {{ row.status === 'connected' ? $t('Base.disable') : $t('Base.enable') }}
+              </el-button>
+              <el-button size="mini" type="danger" @click="submitDeleteBridge(row.id)">
+                {{ $t('Base.delete') }}
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -69,18 +77,25 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { getBridgeList, updateBridge, startStopBridge, deleteBridge } from '@/api/ruleengine'
+import { getBridgeList, startStopBridge, deleteBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/ruleengine'
 import _ from 'lodash'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+import useBridgeTypeValue, {
+  useBridgeDirectionTypeValue,
+  useBridgeStatusLabelValue,
+} from '@/hooks/Rule/topology/bridge/useBridgeTypeValue'
 
 export default defineComponent({
   setup() {
     let bridgeTb = ref([])
     let tbLoading = ref(false)
     let { t } = useI18n()
+    const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+    const { getLabelByDirectionValue } = useBridgeDirectionTypeValue()
+    const { getLabelByStatusValue } = useBridgeStatusLabelValue()
 
     const listBridge = async function () {
       tbLoading.value = true
@@ -128,18 +143,49 @@ export default defineComponent({
         .catch(() => {})
     }
 
+    const getBridgeDetailPageRoute = (id: string) => ({
+      name: 'bridge-detail',
+      params: { id },
+    })
+
     onMounted(listBridge)
 
     return {
       Plus,
       tl: (key: string) => t('RuleEngine.' + key),
+      getBridgeLabelByTypeValue,
+      getLabelByDirectionValue,
+      getLabelByStatusValue,
       bridgeTb,
       tbLoading,
       enableOrDisableBridge,
       submitDeleteBridge,
+      getBridgeDetailPageRoute,
     }
   },
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bridge-table {
+  .bridge-column-first {
+    display: flex;
+    align-items: center;
+  }
+  .icon-bridge-type {
+    width: 32px;
+    height: 32px;
+    margin-right: 4px;
+  }
+  .bridge-name {
+    display: block;
+    line-height: 16px;
+    color: var(--el-color-primary);
+  }
+  .bridge-type {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+    line-height: 16px;
+  }
+}
+</style>
