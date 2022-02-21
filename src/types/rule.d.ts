@@ -1,5 +1,5 @@
 import { SSL } from './common'
-import { MQTTBridgeDirection } from './enum'
+import { BridgeStatus, BridgeType, MQTTBridgeDirection } from './enum'
 
 export type Metrics = Record<string, number>
 
@@ -52,8 +52,8 @@ export interface BridgeBaseData {
   name: string
   node_metrics: Array<NodeMetrics>
   node_status: Array<NodeStatus>
-  status: string
-  type: string
+  status: BridgeStatus
+  type: BridgeType
   local_topic: string
 }
 

@@ -282,7 +282,7 @@ code {
   }
   .section-status {
     height: 18px;
-    border-radius: 6px;
+    border-radius: 8px;
   }
 
   .el-tag.el-tag--info {
@@ -298,7 +298,7 @@ code {
       margin-right: 4px;
 
       &.stopped {
-        background-color: #575f6e;
+        background-color: var(--el-color-danger);
       }
     }
   }

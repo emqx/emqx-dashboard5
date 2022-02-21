@@ -1,5 +1,5 @@
 import http from '@/common/http'
-import { BridgeItem, RuleItem } from '@/types/ruleengine'
+import { BridgeItem, RuleItem } from '@/types/rule'
 
 //Bridges
 export function getBridgeList(): Promise<any> {
@@ -10,7 +10,7 @@ export function createBridge(body: Record<string, unknown>): Promise<any> {
   return http.post('/bridges', body)
 }
 
-export function updateBridge(id: string, body: Record<string, unknown>): Promise<any> {
+export function updateBridge(id: string, body: BridgeItem): Promise<any> {
   if (!id) return Promise.reject()
   return http.put('/bridges/' + encodeURIComponent(id), body)
 }
@@ -67,7 +67,7 @@ export function getRuleEvents(): Promise<any> {
   return http.get('/rule_events')
 }
 
-export function updateRules(id: string, body: RuleItem): Promise<any> {
+export function updateRules(id: string, body: Partial<RuleItem>): Promise<any> {
   if (!id) return Promise.reject()
   return http.put('/rules/' + encodeURIComponent(id), body)
 }
