@@ -41,6 +41,9 @@
           <el-button type="primary" :icon="Search" size="small" @click="searchGatewayList()">{{
             $t('Base.search')
           }}</el-button>
+          <el-button size="small" @click="handleResetSearch">
+            {{ $t('Base.reset') }}
+          </el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -181,6 +184,15 @@ export default defineComponent({
       loadGatewayClients()
     }
 
+    const handleResetSearch = () => {
+      searchParams.like_clientid = ''
+      searchParams.like_username = ''
+      searchParams.like_endpoint_name = ''
+      searchParams.node = ''
+      pageParams = {}
+      loadGatewayClients({ page: 1 })
+    }
+
     const openClientDetail = async function (row) {
       clientsDetailVisible.value = true
       currentClientId.value = row.clientid
@@ -218,6 +230,7 @@ export default defineComponent({
       gatewayTable,
       tbLoading,
       searchGatewayList,
+      handleResetSearch,
       searchParams,
       nodes,
       clientsDetailVisible,
