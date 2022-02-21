@@ -3,7 +3,10 @@
     <back-button back-url="/authentication" v-if="!gateway">
       {{ $t('Auth.backAuthnList') }}
     </back-button>
-    <div class="section-header" v-loading.lock="authnDetailLock">
+    <div
+      :class="{ 'section-header': true, 'embed-gateway': !!gateway }"
+      v-loading.lock="authnDetailLock"
+    >
       <div class="section-header__block">
         <template v-if="!gateway">
           <div>
