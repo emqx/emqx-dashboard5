@@ -4,6 +4,14 @@
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'ConfigDocs',
+})
+</script>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 import axios from 'axios'
@@ -11,10 +19,12 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 
 const mdFile = ref('')
 const loadConfigContent = async () => {
-  axios.defaults.baseURL = ''
-  const res = (await axios.get('static/config.md')) as string
-  if (res !== '') {
-    mdFile.value = res
+  const fileRequest = axios.create({
+    baseURL: '',
+  })
+  const res = await fileRequest.get<string>('static/config.md')
+  if (res && res.data !== '') {
+    mdFile.value = res.data
   }
 }
 loadConfigContent()
