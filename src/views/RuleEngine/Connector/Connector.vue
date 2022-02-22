@@ -5,13 +5,9 @@
       <template v-else>
         <div class="section-header">
           <div></div>
-          <el-button
-            size="small"
-            type="primary"
-            :icon="Plus"
-            @click="$router.push({ name: 'connector-create' })"
-            >{{ tl('createConnector') }}</el-button
-          >
+          <el-button size="small" type="primary" :icon="Plus" @click="openCreate">
+            {{ tl('createConnector') }}
+          </el-button>
         </div>
 
         <el-table :data="connectorTb" v-loading="tbLoading">
@@ -31,9 +27,9 @@
           </el-table-column>
         </el-table>
         <connector-dialog
-          :edit="true"
-          v-if="openEditDialog"
-          v-model:open="openEditDialog"
+          :edit="!!itemConnector"
+          v-if="isDialogOpen"
+          v-model:open="isDialogOpen"
           v-model="itemConnector"
           @finish="finishConnectorDialog"
         />
@@ -42,8 +38,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+<script lang="ts" setup>
+import { onMounted, ref, Ref } from 'vue'
 import { getConnectorList, deleteConnector } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { ConnectorItem } from '@/types/ruleengine'
@@ -51,76 +47,65 @@ import ConnectorDialog from '../components/ConnectorDialog.vue'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 
-export default defineComponent({
-  components: { ConnectorDialog },
-  setup() {
-    let connectorTb = ref([])
-    let tbLoading = ref(false)
-    let { t } = useI18n()
-    const openEditDialog = ref(false)
-    const itemConnector = ref({})
+let { t } = useI18n()
 
-    const translate = function (key: string, collection = 'RuleEngine') {
-      return t(collection + '.' + key)
-    }
+let connectorTb = ref([])
+let tbLoading = ref(false)
+const isDialogOpen = ref(false)
+const itemConnector: Ref<undefined | ConnectorItem> = ref(undefined)
 
-    const listConnector = async function () {
+const tl = function (key: string, collection = 'RuleEngine') {
+  return t(collection + '.' + key)
+}
+
+const listConnector = async function () {
+  tbLoading.value = true
+  let res = await getConnectorList().catch(() => {})
+  if (res) {
+    connectorTb.value = res
+  }
+  tbLoading.value = false
+}
+
+const deleteConnectorHandler = async (row: ConnectorItem) => {
+  if (!row.id) return
+  MB.confirm(t('Base.confirmDelete'), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+  })
+    .then(async () => {
       tbLoading.value = true
-      let res = await getConnectorList().catch(() => {})
+      let res = await deleteConnector(row.id).catch(() => {})
       if (res) {
-        connectorTb.value = res
-      }
-      tbLoading.value = false
-    }
-
-    const deleteConnectorHandler = async (row: ConnectorItem) => {
-      if (!row.id) return
-      MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      })
-        .then(async () => {
-          tbLoading.value = true
-          let res = await deleteConnector(row.id).catch(() => {})
-          if (res) {
-            M({
-              type: 'success',
-              message: t('Base.deleteSuccess'),
-            })
-            listConnector()
-          }
-          tbLoading.value = false
+        M({
+          type: 'success',
+          message: t('Base.deleteSuccess'),
         })
-        .catch(() => {})
-    }
-
-    const openEdit = async (row: ConnectorItem) => {
-      openEditDialog.value = true
-      itemConnector.value = row
-    }
-
-    const finishConnectorDialog = async (success: boolean, data: Record<string, unknown>) => {
-      if (success) {
         listConnector()
       }
-    }
+      tbLoading.value = false
+    })
+    .catch(() => {})
+}
 
-    onMounted(listConnector)
+const openCreate = () => {
+  itemConnector.value = undefined
+  isDialogOpen.value = true
+}
 
-    return {
-      Plus,
-      tl: translate,
-      connectorTb,
-      tbLoading,
-      deleteConnectorHandler,
-      openEdit,
-      openEditDialog,
-      itemConnector,
-      finishConnectorDialog,
-    }
-  },
-})
+const openEdit = async (row: ConnectorItem) => {
+  isDialogOpen.value = true
+  itemConnector.value = row
+}
+
+const finishConnectorDialog = async (success: boolean, data: Record<string, unknown>) => {
+  if (success) {
+    listConnector()
+  }
+}
+
+onMounted(listConnector)
 </script>
 
 <style lang="scss"></style>

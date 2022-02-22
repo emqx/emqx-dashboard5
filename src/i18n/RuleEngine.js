@@ -355,4 +355,32 @@ export default {
     zh: '重试间隔',
     en: 'Retry interval',
   },
+  descForCreateConnector: {
+    zh: '连接配置可以在 Data Bridge 中复用',
+    en: 'Connector can be reused in data bridge',
+  },
+  tip: {
+    zh: '提示：',
+    en: 'Tip:',
+  },
+  tipForEditConnector: {
+    zh: '提交后使用此连接的数据桥接将重新启动，可能造成数据丢失或服务中断，请谨慎操作。',
+    en: 'After submitting, the data bridge using this connector will be restarted, which may cause data loss or service interruption, please operate with caution.',
+  },
+  clientIDDesc: {
+    zh: '由于 MQTT 客户端 ID 不允许重复，如果填写了客户端 ID，使用节点独享连接模式时，EMQ X 会在客户端 ID 后添加随机字符串。',
+    en: 'Since the MQTT client ID does not allow duplicates, EMQ X will add a random string after the client ID when using cluster singleton connection mode if the client ID is filled in.',
+  },
+  clientIDPlaceholder: {
+    zh: '留空则自动生成',
+    en: 'Empty will be automatically generated',
+  },
+  testTheConnection: {
+    zh: '测试连接',
+    en: 'Test the connection',
+  },
+  connectionSuccessful: {
+    zh: '连接成功',
+    en: 'Connection is successful',
+  },
 }

@@ -70,6 +70,10 @@ export enum BridgeType {
   MQTT = 'mqtt',
 }
 
+export enum ConnectorType {
+  MQTT = 'mqtt',
+}
+
 export enum MQTTBridgeDirection {
   In = 'ingress',
   Out = 'egress',

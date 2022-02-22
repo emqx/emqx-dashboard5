@@ -1,103 +1,89 @@
 <template>
   <div>
-    <el-form label-position="top">
-      <div class="form-sub-block">
-        <div class="part-header">{{ tl('baseInfo') }}</div>
-        <el-row :gutter="30">
-          <el-col :span="12">
-            <el-form-item :label="tl('connName')">
-              <el-input
-                v-model="connectorVal.name"
-                :placeholder="connectorDefaultVal.name"
-                :disabled="edit"
+    <div class="form-sub-block">
+      <div class="part-header">{{ tl('connParams') }}</div>
+      <el-row :gutter="30">
+        <el-col :span="12">
+          <el-form-item :label="tl('brokerAddress')">
+            <el-input v-model="connectorVal.server" :placeholder="connectorDefaultVal.server" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <label>{{ $t('Clients.clientId') }}</label>
+              <el-tooltip
+                effect="dark"
+                popper-class="form-item-desc-popper"
+                :content="tl('clientIDDesc')"
+                placement="top-start"
+              >
+                <el-icon class="form-item-desc"><question-filled /></el-icon>
+              </el-tooltip>
+            </template>
+            <el-input v-model="connectorVal.clientid" :placeholder="tl('clientIDPlaceholder')" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('username')">
+            <el-input v-model="connectorVal.username" :placeholder="connectorDefaultVal.username" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('password')">
+            <el-input type="password" autocomplete="new-password" v-model="connectorVal.password" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'Keep Alive'">
+            <el-input
+              v-model="connectorVal.keepalive"
+              :placeholder="String(connectorDefaultVal.keepalive)"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('mqttVer')">
+            <el-select v-model="connectorVal.proto_ver">
+              <el-option v-for="ver in ['v3', 'v4', 'v5']" :key="ver" :value="ver" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'Clean Start'">
+            <el-select v-model="connectorVal.clean_start">
+              <el-option v-for="cs in [true, false]" :key="cs" :value="cs" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="form-sub-block">
+      <div class="part-header">{{ tl('connSetting') }}</div>
+      <el-row :gutter="30">
+        <el-col :span="12">
+          <el-form-item :label="tl('connMode')">
+            <el-select v-model="connectorVal.mode">
+              <el-option
+                v-for="cm in modeOptions"
+                :key="cm"
+                :value="cm"
+                :label="tl(`mode_${cm}`)"
               />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="form-sub-block">
-        <div class="part-header">{{ tl('connParams') }}</div>
-        <el-row :gutter="30">
-          <el-col :span="12">
-            <el-form-item :label="tl('brokerAddress')">
-              <el-input v-model="connectorVal.server" :placeholder="connectorDefaultVal.server" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Clients.clientId')">
-              <el-input
-                v-model="connectorVal.clientid"
-                :placeholder="connectorDefaultVal.clientid"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('username')">
-              <el-input
-                v-model="connectorVal.username"
-                :placeholder="connectorDefaultVal.username"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('password')">
-              <el-input
-                type="password"
-                autocomplete="new-password"
-                v-model="connectorVal.password"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Keep Alive'">
-              <el-input
-                v-model="connectorVal.keepalive"
-                :placeholder="String(connectorDefaultVal.keepalive)"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('mqttVer')">
-              <el-select v-model="connectorVal.proto_ver">
-                <el-option v-for="ver in ['v3', 'v4', 'v5']" :key="ver" :value="ver" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Clean Start'">
-              <el-select v-model="connectorVal.clean_start">
-                <el-option v-for="cs in [true, false]" :key="cs" :value="cs" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="form-sub-block">
-        <div class="part-header">{{ tl('connSetting') }}</div>
-        <el-row :gutter="30">
-          <el-col :span="12">
-            <el-form-item :label="tl('connMode')">
-              <el-select v-model="connectorVal.mode">
-                <el-option
-                  v-for="cm in modeOptions"
-                  :key="cm"
-                  :value="cm"
-                  :label="tl(`mode_${cm}`)"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('reconnectInterval')">
-              <InputWithUnit v-model="connectorVal.reconnect_interval" :units="commonTimeUnits" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('retryInterval')">
-              <InputWithUnit v-model="connectorVal.retry_interval" :units="commonTimeUnits" />
-            </el-form-item>
-          </el-col>
-          <!-- <el-col :span="12">
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('reconnectInterval')">
+            <InputWithUnit v-model="connectorVal.reconnect_interval" :units="commonTimeUnits" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('retryInterval')">
+            <InputWithUnit v-model="connectorVal.retry_interval" :units="commonTimeUnits" />
+          </el-form-item>
+        </el-col>
+        <!-- <el-col :span="12">
           <el-form-item :label="tl('bridgeMode')">
             <el-select v-model="connectorVal.bridge_mode">
               <el-option
@@ -108,12 +94,11 @@
             </el-select>
           </el-form-item>
         </el-col> -->
-        </el-row>
-      </div>
+      </el-row>
+    </div>
 
-      <div class="part-header">{{ tl('tlsConfig') }}</div>
-      <TLS-config class="tls-config-form" v-model="tlsParams" />
-    </el-form>
+    <div class="part-header">{{ tl('tlsConfig') }}</div>
+    <TLS-config class="tls-config-form" v-model="tlsParams" />
   </div>
 </template>
 
@@ -125,9 +110,10 @@ import { ref, Ref, reactive, computed, defineComponent, watch, onMounted } from 
 import _ from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
+import { QuestionFilled } from '@element-plus/icons-vue'
 
 export default defineComponent({
-  components: { TLSConfig, InputWithUnit },
+  components: { TLSConfig, InputWithUnit, QuestionFilled },
   props: {
     modelValue: {
       type: Object,
@@ -159,7 +145,6 @@ export default defineComponent({
     const modeOptions = ['cluster_shareload', 'cluster_singleton']
 
     const connectorDefaultVal = {
-      name: '',
       server: 'public-mqtt-broker.emqx.com:1883',
       clientid: '',
       username: '',
