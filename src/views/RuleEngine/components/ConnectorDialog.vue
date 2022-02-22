@@ -5,152 +5,227 @@
       v-model="visible"
       @close="$emit('finish', false)"
     >
-      <connector-mqtt-config
-        v-model="connectorData"
-        v-model:tls="connectorTLS"
-        :edit="edit"
-      ></connector-mqtt-config>
+      <p class="desc-create">{{ tl('descForCreateConnector') }}</p>
+      <el-form label-position="top">
+        <div class="form-sub-block">
+          <div class="part-header">{{ tl('baseInfo') }}</div>
+          <el-row :gutter="30">
+            <el-col :span="12">
+              <el-form-item :label="tl('type')">
+                <el-select v-model="connectorData.type" :disabled="edit">
+                  <el-option
+                    v-for="{ value, label } in connectorTypeOptions"
+                    :key="value"
+                    :value="value"
+                    :label="label"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item :label="tl('connName')">
+                <el-input v-model="connectorData.name" :placeholder="connectorData.name" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+        <connector-mqtt-config
+          :model-value="connectorData"
+          @update:model-value="updateConnectorData"
+          v-model:tls="connectorTLS"
+          :edit="edit"
+        />
+      </el-form>
+      <div class="tip-edit" v-if="edit">
+        <span>{{ tl('tip') }}</span>
+        <p>{{ tl('tipForEditConnector') }}</p>
+      </div>
       <template #footer>
+        <el-button
+          type="primary"
+          size="small"
+          :loading="isTesting"
+          @click="testTheConnection(edit)"
+        >
+          {{ tl('testTheConnection') }}
+        </el-button>
         <el-button
           type="primary"
           size="small"
           :loading="submitLoading"
           @click="submitConnector(edit)"
-          >{{ edit ? $t('Base.update') : $t('Base.add') }}</el-button
         >
-        <el-button size="small" @click="closeDialog()">{{ $t('Base.cancel') }}</el-button>
+          {{ edit ? $t('Base.update') : $t('Base.add') }}
+        </el-button>
+        <el-button size="small" @click="closeDialog()">
+          {{ $t('Base.cancel') }}
+        </el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { computed, defineComponent, getCurrentInstance, ref, Ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import ConnectorMqttConfig from '../Connector/ConnectorMqttConfig.vue'
-// import { tlsConfig } from "@/types/ruleengine";
-import { createConnector, updateConnector } from '@/api/ruleengine'
-import _ from 'lodash'
-// import { Connector } from "@/types/ruleengine";
-import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { ConnectorMqttConfig },
   name: 'ConnectorDialog',
-  emits: ['update:open', 'finish'],
-  props: {
-    edit: {
-      type: Boolean,
-      required: false,
-      default: () => false,
-    },
-    open: {
-      type: Boolean,
-      required: false,
-      default: () => false,
-    },
-    modelValue: {
-      type: Object,
-      required: false,
-      default: () => ({}),
-    },
-    connType: {
-      type: String,
-      required: false,
-      default: () => 'mqtt',
-    },
-  },
-  setup(props, context) {
-    const tlsParamsDefault = {
-      enable: false,
-      verify: 'verify_none',
-      certfile: '',
-      keyfile: '',
-      cacertfile: '',
-    }
-
-    const { t } = useI18n()
-    const connectorData = ref(
-      props.edit
-        ? {
-            ..._.cloneDeep(props.modelValue),
-            name: props.modelValue.id?.split(':')[1],
-          }
-        : {},
-    )
-    const connectorTLS = ref(
-      props.edit && props.modelValue.ssl
-        ? _.cloneDeep(props.modelValue.ssl)
-        : _.cloneDeep(tlsParamsDefault),
-    )
-    const submitLoading = ref(false)
-
-    const visible = computed({
-      get() {
-        return props.open
-      },
-      set(value) {
-        context.emit('update:open', value)
-      },
-    })
-
-    const submitConnector = async (isEdit) => {
-      let res
-      submitLoading.value = true
-      const data = {
-        ...connectorData.value,
-        ssl: { ...connectorTLS.value },
-        type: props.connType,
-      }
-      if (isEdit) {
-        const id = connectorData.value.id
-        // Reflect.deleteProperty(data, "name");
-        Reflect.deleteProperty(data, 'id')
-        Reflect.deleteProperty(data, 'type')
-        Reflect.deleteProperty(data, 'num_of_bridges')
-        res = await updateConnector(id, data).catch(() => {})
-      } else {
-        res = await createConnector(data).catch(() => {})
-      }
-      if (res) {
-        visible.value = false
-        context.emit('finish', true, res)
-        if (!isEdit) {
-          M({ type: 'success', message: t('Base.createSuccess') })
-        } else {
-          M({ type: 'success', message: t('Base.updateSuccess') })
-        }
-      }
-      submitLoading.value = false
-    }
-
-    const closeDialog = () => {
-      visible.value = false
-      context.emit('finish', false)
-    }
-
-    // watch(
-    //   () => [_.cloneDeep(connectorData.value), _.cloneDeep(connectorTLS.value)],
-    //   (val) => {
-    //     if (props.edit) {
-    //       context.emit("update:modelValue", {
-    //         ...val[0],
-    //         tls: { ...val[1] },
-    //       });
-    //     }
-    //   }
-    // );
-
-    return {
-      tl: (key) => t('RuleEngine.' + key),
-      visible,
-      connectorData,
-      connectorTLS,
-      submitLoading,
-      submitConnector,
-      closeDialog,
-    }
-  },
 })
 </script>
-<style lang="scss" scoped></style>
+
+<script setup>
+import { computed, ref, Ref, watch, defineProps, defineEmits } from 'vue'
+import { useI18n } from 'vue-i18n'
+import ConnectorMqttConfig from '../Connector/ConnectorMqttConfig.vue'
+import { createConnector, updateConnector, testConnector } from '@/api/ruleengine'
+import _ from 'lodash'
+import { ElMessage } from 'element-plus'
+import useConnectorTypeValue from '@/hooks/Rule/topology/bridge/useConnectorTypeValue'
+
+const props = defineProps({
+  edit: {
+    type: Boolean,
+    required: false,
+    default: () => false,
+  },
+  open: {
+    type: Boolean,
+    required: false,
+    default: () => false,
+  },
+  modelValue: {
+    type: Object,
+    required: false,
+    default: () => ({}),
+  },
+  connType: {
+    type: String,
+    required: false,
+    default: () => 'mqtt',
+  },
+})
+const emit = defineEmits(['update:open', 'finish'])
+
+const tlsParamsDefault = {
+  enable: false,
+  verify: 'verify_none',
+  certfile: '',
+  keyfile: '',
+  cacertfile: '',
+}
+
+const { t } = useI18n()
+const { connectorTypeOptions } = useConnectorTypeValue()
+const connectorData = ref(
+  props.edit
+    ? {
+        ..._.cloneDeep(props.modelValue),
+        // name: props.modelValue.id?.split(':')[1],
+      }
+    : {},
+)
+const connectorTLS = ref(
+  props.edit && props.modelValue.ssl
+    ? _.cloneDeep(props.modelValue.ssl)
+    : _.cloneDeep(tlsParamsDefault),
+)
+const submitLoading = ref(false)
+const isTesting = ref(false)
+
+const visible = computed({
+  get() {
+    return props.open
+  },
+  set(value) {
+    emit('update:open', value)
+  },
+})
+
+const tl = (key, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+
+const updateConnectorData = (newConnectorData) => {
+  connectorData.value = { ...connectorData.value, ...newConnectorData }
+}
+
+const getConnectorData = () => ({
+  ...connectorData.value,
+  ssl: { ...connectorTLS.value },
+  type: props.connType,
+})
+
+const testTheConnection = async () => {
+  try {
+    isTesting.value = true
+    await testConnector(getConnectorData())
+    ElMessage.success(tl('connectionSuccessful'))
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isTesting.value = false
+  }
+}
+
+const submitConnector = async (isEdit) => {
+  let res
+  submitLoading.value = true
+  const data = getConnectorData()
+  if (isEdit) {
+    const id = connectorData.value.id
+    // Reflect.deleteProperty(data, "name");
+    Reflect.deleteProperty(data, 'id')
+    Reflect.deleteProperty(data, 'type')
+    Reflect.deleteProperty(data, 'num_of_bridges')
+    res = await updateConnector(id, data).catch(() => {})
+  } else {
+    res = await createConnector(data).catch(() => {})
+  }
+  if (res) {
+    visible.value = false
+    emit('finish', true, res)
+    if (!isEdit) {
+      ElMessage({ type: 'success', message: t('Base.createSuccess') })
+    } else {
+      ElMessage({ type: 'success', message: t('Base.updateSuccess') })
+    }
+  }
+  submitLoading.value = false
+}
+
+const closeDialog = () => {
+  visible.value = false
+  emit('finish', false)
+}
+
+// watch(
+//   () => [_.cloneDeep(connectorData.value), _.cloneDeep(connectorTLS.value)],
+//   (val) => {
+//     if (props.edit) {
+//       emit("update:modelValue", {
+//         ...val[0],
+//         tls: { ...val[1] },
+//       });
+//     }
+//   }
+// );
+</script>
+<style lang="scss" scoped>
+:deep(.el-dialog__body) {
+  padding-top: 0;
+}
+.desc-create {
+  margin-bottom: 32px;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+  line-height: 1;
+}
+:deep(.form-sub-block) {
+  margin-bottom: 16px;
+}
+:deep(.el-form-item) {
+  margin-bottom: 12px;
+}
+.tip-edit {
+  margin-top: 28px;
+  p {
+    margin: 4px 0;
+  }
+}
+</style>

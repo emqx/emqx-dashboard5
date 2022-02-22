@@ -1,5 +1,5 @@
 import http from '@/common/http'
-import { BridgeItem, RuleItem } from '@/types/rule'
+import { BridgeItem, ConnectorItem, RuleItem } from '@/types/rule'
 
 //Bridges
 export function getBridgeList(): Promise<any> {
@@ -47,6 +47,10 @@ export function updateConnector(id: string, body: Record<string, unknown>): Prom
 export function deleteConnector(id: string): Promise<any> {
   if (!id) return Promise.reject()
   return http.delete('/connectors/' + encodeURIComponent(id))
+}
+
+export function testConnector(body: ConnectorItem): Promise<void> {
+  return http.post(`/connectors_test`, body)
 }
 
 //Rules

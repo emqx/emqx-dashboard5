@@ -1,5 +1,5 @@
 import { SSL } from './common'
-import { BridgeStatus, BridgeType, MQTTBridgeDirection } from './enum'
+import { BridgeStatus, BridgeType, ConnectorType, MQTTBridgeDirection } from './enum'
 
 export type Metrics = Record<string, number>
 
@@ -84,3 +84,25 @@ export type MQTTIn = MQTTOut & {
 }
 
 export type BridgeItem = HTTPBridge | MQTTOut | MQTTIn
+
+export interface ConnectorBase {
+  name: string
+}
+
+export type ConnectorMQTT = Omit<ConnectorBase, 'type'> & {
+  type: ConnectorType.MQTT
+  clean_start: boolean
+  clientid: string
+  keepalive: string
+  max_inflight: number
+  mode: string
+  password: string
+  proto_ver: string
+  reconnect_interval: string
+  retry_interval: string
+  server: string
+  ssl: SSL
+  username: string
+}
+
+export type ConnectorItem = ConnectorMQTT
