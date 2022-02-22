@@ -1,20 +1,20 @@
 <template>
-  <div>
+  <div class="bridge-config">
     <el-form label-position="top">
       <div class="part-header">{{ tl('baseInfo') }}</div>
-
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('name')">
-            <el-input v-model="httpBridgeVal.name"></el-input>
+            <el-input v-model="httpBridgeVal.name" />
           </el-form-item>
         </el-col>
       </el-row>
       <div class="part-header">{{ tl('mappingInfo') }}</div>
+      <p class="block-desc">{{ tl('mappingDesc') }}</p>
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item label="Local Topic">
-            <el-input v-model="httpBridgeVal.local_topic"></el-input>
+          <el-form-item :label="tl('localTopic')">
+            <el-input v-model="httpBridgeVal.local_topic" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -28,7 +28,7 @@
                 :value="item"
                 :label="String(item).toUpperCase()"
                 :key="item"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -199,6 +199,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/rule.scss';
 .tls-config-form {
   margin-top: 20px;
 }

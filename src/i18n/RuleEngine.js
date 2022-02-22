@@ -63,6 +63,10 @@ export default {
     zh: '映射配置',
     en: 'Mappings',
   },
+  mappingDesc: {
+    zh: '配置 Topic 映射，实现本地-远程 Broker 数据移动',
+    en: 'Configure topic mapping for local-remote broker data exchange',
+  },
   reqSetting: {
     zh: '请求参数',
     en: 'Request Settings',
@@ -96,7 +100,7 @@ export default {
     en: 'Broker',
   },
   mqttVer: {
-    zh: 'MQTT 版本',
+    zh: 'MQTT 协议版本',
     en: 'MQTT Version',
   },
   connMode: {
@@ -132,7 +136,7 @@ export default {
     en: 'Error Retries',
   },
   mqttConn: {
-    zh: 'MQTT连接',
+    zh: 'MQTT 连接',
     en: 'MQTT Connector',
   },
   newMqttConn: {
@@ -326,5 +330,29 @@ export default {
   reconnect: {
     zh: '重连',
     en: 'Reconnect',
+  },
+  remoteTopic: {
+    zh: '远程主题',
+    en: 'Remote topic',
+  },
+  localTopic: {
+    zh: '本地主题',
+    en: 'Local topic',
+  },
+  username: {
+    zh: '用户名',
+    en: 'Username',
+  },
+  password: {
+    zh: '密码',
+    en: 'Password',
+  },
+  reconnectInterval: {
+    zh: '重连间隔',
+    en: 'Reconnect interval',
+  },
+  retryInterval: {
+    zh: '重试间隔',
+    en: 'Retry interval',
   },
 }
