@@ -1,6 +1,6 @@
 export default {
   retainer: {
-    zh: '消息保留',
+    zh: '保留消息',
     en: 'Retainer',
   },
   rewrite: {
