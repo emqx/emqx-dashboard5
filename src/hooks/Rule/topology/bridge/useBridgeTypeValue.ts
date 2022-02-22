@@ -18,6 +18,42 @@ export default () => {
   }
 }
 
+export const useBridgeTypeOptions = () => {
+  const { t } = useI18n()
+
+  const bridgeTypeOptions = [
+    {
+      value: BridgeType.HTTP,
+      valueForRadio: BridgeType.HTTP,
+      label: 'HTTP',
+      desc: t('RuleEngine.bridgeDescHTTP'),
+    },
+    {
+      value: BridgeType.MQTT,
+      valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.In}`,
+      label: 'MQTT Source',
+      desc: t('RuleEngine.bridgeDescMQTTIn'),
+      externalConfig: { direction: MQTTBridgeDirection.In },
+    },
+    {
+      value: BridgeType.MQTT,
+      valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.Out}`,
+      label: 'MQTT Sink',
+      desc: t('RuleEngine.bridgeDescMQTTOut'),
+      externalConfig: {
+        direction: MQTTBridgeDirection.Out,
+      },
+    },
+  ]
+
+  const getTrueTypeObjByRadioValue = (radioValue: string) =>
+    bridgeTypeOptions.find(({ valueForRadio }) => valueForRadio === radioValue)
+  return {
+    bridgeTypeOptions,
+    getTrueTypeObjByRadioValue,
+  }
+}
+
 export const useBridgeDirectionTypeValue = () => {
   const { t } = useI18n()
   const bridgeDirectionList = [

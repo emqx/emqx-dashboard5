@@ -11,7 +11,7 @@
             :icon="Plus"
             @click="$router.push({ name: 'bridge-create' })"
           >
-            {{ tl('createBridge') }}
+            {{ tl('create') }}
           </el-button>
         </div>
 

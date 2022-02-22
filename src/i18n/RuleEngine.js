@@ -1,7 +1,11 @@
 export default {
   createBridge: {
-    zh: '创建Bridge',
-    en: 'Create New Bridge',
+    zh: '创建 Data Bridge',
+    en: 'Create New Data Bridge',
+  },
+  create: {
+    zh: '创建',
+    en: 'Create',
   },
   createConnector: {
     zh: '创建连接',
@@ -12,16 +16,16 @@ export default {
     en: 'Back To Data Bridge List',
   },
   bridgeType: {
-    zh: 'Bridge 类型',
-    en: 'Bridge Type',
+    zh: 'Data Bridge 类型',
+    en: 'Type of Data Bridge',
   },
   chooseConnectorType: {
     zh: '选择连接类型',
     en: 'Choose A Connector Type',
   },
   chooseBridgeType: {
-    zh: '选择 Bridge 类型',
-    en: 'Choose A Bridge Type',
+    zh: '选择 Data Bridge 类型',
+    en: 'Choose The Type of Data Bridge',
   },
   direction: {
     zh: '方向',
@@ -48,12 +52,16 @@ export default {
     en: 'Configuration',
   },
   bridgeDescHTTP: {
-    zh: '集成至HTTP服务',
-    en: 'Integration into HTTP services',
+    zh: '发送数据到 Webhook | HTTP 服务',
+    en: 'Send data to Webhook | HTTP service',
   },
-  bridgeDescMQTT: {
-    zh: '与其他 MQTT Broker 或 IoT 平台建立桥接',
-    en: 'Bridging with other MQTT Broker or IoT platform',
+  bridgeDescMQTTIn: {
+    zh: '连接 MQTT Broker 或 IoT 平台并订阅指定主题的消息',
+    en: 'Connect to MQTT Broker or IoT platform and subscribe to messages on the specified topic',
+  },
+  bridgeDescMQTTOut: {
+    zh: '连接 MQTT Broker 或 IoT 平台并将数据发送到指定主题',
+    en: 'Connect to MQTT Broker or IoT platform and send messages to the specified topic',
   },
   baseInfo: {
     zh: '基本信息',
@@ -382,5 +390,30 @@ export default {
   connectionSuccessful: {
     zh: '连接成功',
     en: 'Connection is successful',
+  },
+  localTopicPlaceholder: {
+    zh: '需要转发的主题，不填则由 IoT Rule 指定',
+    en: 'The topic that needs to be forwarded, will be specified by IoT rule if empty',
+  },
+  remoteTopicPlaceholder: {
+    zh: '桥接数据到远程 Broker 中',
+    en: 'Bridges data to remote broker.',
+  },
+  payload: {
+    zh: '消息模版',
+    en: 'Payload',
+  },
+  payloadDesc: {
+    zh: '支持使用 {0} 读取数据，置空则原样转发消息。',
+    en: 'Supports reading data using {0} , and forwards the message as it is if it is empty.',
+  },
+  // FIXME: can not show brace
+  payloadTempSyntax: {
+    zh: '${field}语法',
+    en: '${field} syntax',
+  },
+  remoteTopicDesc: {
+    zh: '桥接数据到远端 Broker 指定主题中，支持使用 ${field} 语法拼接动态主题',
+    en: 'Bridges data to a remote broker specified topic, and supports splicing dynamic topics using the ${field} syntax.',
   },
 }

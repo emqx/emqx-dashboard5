@@ -20,35 +20,33 @@
         <div class="part-header">
           {{ tl('chooseBridgeType') }}
         </div>
-        <el-row>
-          <el-col :span="24">
-            <el-radio-group class="bridge-type-select" v-model="chosenBridgeType">
-              <el-radio v-for="item in bridgeType" :key="item" :label="item" border>
+        <el-radio-group class="bridge-type-select" v-model="radioSelectedBridgeType">
+          <el-row :gutter="28">
+            <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
+              <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
                 <img
+                  class="bridge-type-item-img"
                   height="80"
                   width="80"
-                  :src="require(`@/assets/img/${item}.png`)"
-                  :alt="item"
+                  :src="require(`@/assets/img/${item.value}.png`)"
+                  :alt="item.label"
                 />
-                <div>
-                  <div class="title">{{ String(item).toUpperCase() }}</div>
-                  <div>{{ tl(`bridgeDesc${String(item).toUpperCase()}`) }}</div>
+                <div class="bridge-type-item-bd">
+                  <div class="title">{{ item.label }}</div>
+                  <span class="bridge-type-desc">{{ item.desc }}</span>
                 </div>
               </el-radio>
-            </el-radio-group>
-          </el-col>
-        </el-row>
+            </el-col>
+          </el-row>
+        </el-radio-group>
       </template>
       <template v-if="stepActive === 1">
         <bridge-http-config
           v-if="chosenBridgeType === 'http'"
           v-model:tls="tlsParams"
           v-model="bridgeData"
-        ></bridge-http-config>
-        <bridge-mqtt-config
-          v-if="chosenBridgeType === 'mqtt'"
-          v-model="bridgeData"
-        ></bridge-mqtt-config>
+        />
+        <bridge-mqtt-config v-if="chosenBridgeType === 'mqtt'" v-model="bridgeData" />
       </template>
     </el-row>
     <el-row class="config-btn">
@@ -58,29 +56,28 @@
         v-if="stepActive === 1"
         :loading="submitLoading"
         @click="submitCreateBridge"
-        >{{ $t('Base.create') }}</el-button
       >
+        {{ $t('Base.create') }}
+      </el-button>
       <el-button
         type="primary"
         size="small"
-        @click="++stepActive"
+        @click="goNextStep"
         v-if="stepActive < 1"
         :disabled="submitLoading"
-        >{{ $t('Base.nextStep') }}</el-button
       >
-      <el-button
-        size="small"
-        @click="--stepActive"
-        v-if="stepActive > 0"
-        :disabled="submitLoading"
-        >{{ $t('Base.backStep') }}</el-button
-      >
+        {{ $t('Base.nextStep') }}
+      </el-button>
+      <el-button size="small" @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
+        {{ $t('Base.backStep') }}
+      </el-button>
       <el-button
         size="small"
         v-if="stepActive === 0"
         @click="$router.push({ name: 'data-bridge' })"
-        >{{ $t('Base.cancel') }}</el-button
       >
+        {{ $t('Base.cancel') }}
+      </el-button>
     </el-row>
     <div></div>
   </div>
@@ -96,6 +93,8 @@ import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
+import { useBridgeTypeOptions } from '@/hooks/Rule/topology/bridge/useBridgeTypeValue'
+import { BridgeType } from '@/types/enum'
 
 export default defineComponent({
   components: { BridgeHttpConfig, BridgeMqttConfig },
@@ -110,8 +109,9 @@ export default defineComponent({
     const stepActive = ref(0)
     const router = useRouter()
     const { t } = useI18n()
-    const bridgeType = ['http', 'mqtt']
-    const chosenBridgeType = ref(bridgeType[0])
+    const { bridgeTypeOptions, getTrueTypeObjByRadioValue } = useBridgeTypeOptions()
+    const radioSelectedBridgeType = ref(bridgeTypeOptions[0].valueForRadio)
+    const chosenBridgeType = ref(bridgeTypeOptions[0].value)
     const submitLoading = ref(false)
     const bridgeData = ref({})
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
@@ -123,18 +123,36 @@ export default defineComponent({
     //   }
     // );
 
+    const handleTypeSelected = () => {
+      const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
+      if (!type) {
+        return
+      }
+      chosenBridgeType.value = type.value
+      if (type.externalConfig) {
+        bridgeData.value = { ...bridgeData.value, ..._.cloneDeep(type.externalConfig) }
+      }
+    }
+
+    const goNextStep = () => {
+      if (stepActive.value === 0) {
+        handleTypeSelected()
+      }
+      stepActive.value += 1
+    }
+
     const submitCreateBridge = async () => {
       let res
       submitLoading.value = true
       switch (chosenBridgeType.value) {
-        case bridgeType[0]:
+        case BridgeType.HTTP:
           res = await createBridge({
             ...bridgeData.value,
             ssl: { ...tlsParams.value },
             type: chosenBridgeType.value,
           }).catch(() => {})
           break
-        case bridgeType[1]:
+        case BridgeType.MQTT:
           res = await createBridge({
             ...bridgeData.value,
             type: chosenBridgeType.value,
@@ -155,8 +173,10 @@ export default defineComponent({
     return {
       tl: (key: string) => t('RuleEngine.' + key),
       stepActive,
-      bridgeType,
+      goNextStep,
+      bridgeTypeOptions,
       chosenBridgeType,
+      radioSelectedBridgeType,
       submitLoading,
       tlsParams,
       bridgeData,
@@ -183,16 +203,24 @@ export default defineComponent({
   }
 
   :deep(.el-radio__label) {
+    position: relative;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 0px;
-    height: 100%;
-    color: #0000007f;
+    padding: 0 0 0 80px;
+    min-height: 80px;
     .title {
+      margin-bottom: 4px;
       font-weight: bold;
       font-size: 14px;
       color: #000;
+    }
+    .bridge-type-desc {
+      color: #0000007f;
+      font-size: 12px;
+      word-break: break-all;
+      white-space: normal;
     }
   }
 }
@@ -202,8 +230,16 @@ export default defineComponent({
   margin-top: 30px;
   width: 70%;
 }
-
 .bridge-type-select {
-  display: flex;
+  width: 100%;
+}
+.bridge-type-item {
+  box-sizing: border-box;
+  width: 100%;
+}
+.bridge-type-item-img {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>
