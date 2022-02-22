@@ -41,26 +41,28 @@
           <BridgeItemOverview :bridge-msg="bridgeInfo" />
         </el-tab-pane>
         <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
-          <div class="setting-area">
-            <bridge-http-config
-              v-if="bridgeInfo.type === 'http'"
-              v-model:tls="bridgeInfo.ssl"
-              v-model="bridgeInfo"
-              :edit="true"
-            />
-            <bridge-mqtt-config v-if="bridgeInfo.type === 'mqtt'" v-model="bridgeInfo" />
-          </div>
-          <div class="btn-area">
-            <el-button
-              type="primary"
-              size="small"
-              v-if="bridgeInfo.type"
-              :loading="infoLoading"
-              @click="updateBridgeInfo()"
-            >
-              {{ $t('Base.update') }}
-            </el-button>
-          </div>
+          <el-card shadow="never" class="app-card">
+            <div class="setting-area">
+              <bridge-http-config
+                v-if="bridgeInfo.type === 'http'"
+                v-model:tls="bridgeInfo.ssl"
+                v-model="bridgeInfo"
+                :edit="true"
+              />
+              <bridge-mqtt-config v-if="bridgeInfo.type === 'mqtt'" v-model="bridgeInfo" />
+            </div>
+            <div class="btn-area">
+              <el-button
+                type="primary"
+                size="small"
+                v-if="bridgeInfo.type"
+                :loading="infoLoading"
+                @click="updateBridgeInfo()"
+              >
+                {{ $t('Base.update') }}
+              </el-button>
+            </div>
+          </el-card>
         </el-tab-pane>
       </el-tabs>
     </div>

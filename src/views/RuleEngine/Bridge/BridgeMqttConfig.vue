@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="bridge-config">
     <el-form label-position="top">
       <div class="part-header">{{ tl('baseInfo') }}</div>
       <el-row :gutter="30">
         <el-col :span="14">
           <el-form-item :label="tl('name')">
-            <el-input v-model="mqttBridgeVal.name"></el-input>
+            <el-input v-model="mqttBridgeVal.name" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -18,8 +18,8 @@
                 :key="item.id"
                 :value="item.id"
                 :label="item.name"
-              ></el-option>
-              <el-option value="_new" :label="tl('newMqttConn')"></el-option>
+              />
+              <el-option value="_new" :label="tl('newMqttConn')" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -31,17 +31,18 @@
             ]"
             :size="20"
             @click="openConnectorDialog(true)"
-            ><edit
-          /></el-icon>
+          >
+            <edit />
+          </el-icon>
         </el-col>
       </el-row>
       <div class="part-header">{{ tl('mappingInfo') }}</div>
-
+      <p class="block-desc">{{ tl('mappingDesc') }}</p>
       <el-row :gutter="30">
         <el-col :span="14">
           <el-form-item :label="tl('direction')">
             <el-select v-model="mqttBridgeVal.direction">
-              <el-option v-for="dr in ['egress', 'ingress']" :key="dr" :value="dr"></el-option>
+              <el-option v-for="dr in ['egress', 'ingress']" :key="dr" :value="dr" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -49,38 +50,38 @@
       <template v-if="mqttBridgeVal.direction === 'ingress'">
         <el-row :gutter="30">
           <el-col :span="10">
-            <el-form-item label="Remote Topic">
+            <el-form-item :label="tl('remoteTopic')">
               <el-input v-model="mqttBridgeVal.remote_topic"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="QoS">
               <el-select v-model="mqttBridgeVal.remote_qos">
-                <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos"></el-option>
+                <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos" />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="30">
           <el-col :span="10">
-            <el-form-item label="Local Topic">
+            <el-form-item :label="tl('localTopic')">
               <el-input v-model="mqttBridgeVal.local_topic"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="QoS">
               <el-select v-model="mqttBridgeVal.local_qos">
-                <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos"></el-option>
+                <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos" />
               </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="4">
-            <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain"></el-checkbox>
+            <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain" />
           </el-col>
           <el-col :span="24">
             <el-form-item label="Payload">
-              <el-input type="textarea" rows="10" v-model="mqttBridgeVal.payload"></el-input>
+              <el-input type="textarea" rows="10" v-model="mqttBridgeVal.payload" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -88,31 +89,31 @@
       <template v-else>
         <el-row :gutter="30">
           <el-col :span="10">
-            <el-form-item label="Local Topic">
-              <el-input v-model="mqttBridgeVal.local_topic"></el-input>
+            <el-form-item :label="tl('localTopic')">
+              <el-input v-model="mqttBridgeVal.local_topic" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="30">
           <el-col :span="10">
-            <el-form-item label="Remote Topic">
-              <el-input v-model="mqttBridgeVal.remote_topic"></el-input>
+            <el-form-item :label="tl('remoteTopic')">
+              <el-input v-model="mqttBridgeVal.remote_topic" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="QoS">
               <el-select v-model="mqttBridgeVal.remote_qos">
-                <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos"></el-option>
+                <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos" />
               </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="4">
-            <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain"></el-checkbox>
+            <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain" />
           </el-col>
           <el-col :span="24">
             <el-form-item label="Payload">
-              <el-input type="textarea" rows="10" v-model="mqttBridgeVal.payload"></el-input>
+              <el-input type="textarea" rows="10" v-model="mqttBridgeVal.payload" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -124,7 +125,7 @@
       v-if="openDialog"
       @finish="finishConnectorDialog"
       v-model="chosenConnectorData"
-    ></connector-dialog>
+    />
   </div>
 </template>
 
@@ -261,6 +262,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/rule.scss';
 .el-checkbox {
   margin-top: 40px;
 }

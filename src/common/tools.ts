@@ -106,3 +106,11 @@ export const getLabelFromValueInOptionList = <T>(
   const target = optionList.find(({ value }) => value === targetValue)
   return target?.label || ''
 }
+
+export const commonTimeUnits = [
+  { value: 'ms', label: 'ms' },
+  { value: 's', label: 's' },
+  { value: 'm', label: 'm' },
+  { value: 'h', label: 'h' },
+  { value: 'd', label: 'd' },
+]
