@@ -263,6 +263,10 @@ export default {
     zh: 'SQL 通过',
     en: 'SQL hit',
   },
+  sqlMatched: {
+    zh: 'SQL 命中',
+    en: 'SQL Matched',
+  },
   sqlFailed: {
     zh: 'SQL 失败',
     en: 'SQL failed',
@@ -294,6 +298,10 @@ export default {
   input: {
     zh: '输入',
     en: 'Input',
+  },
+  source: {
+    zh: '输入',
+    en: 'Source',
   },
   success: {
     zh: '成功',
@@ -427,5 +435,9 @@ export default {
   connectionNodeModeDesc: {
     zh: '节点独享：每个节点上建立一个 MQTT 连接，会在客户端 ID 后附加随机字符串',
     en: 'Cluster Singleton: An MQTT connection is established on each node, with a random string appended to the client ID',
+  },
+  copy: {
+    zh: '复制',
+    en: 'Copy',
   },
 }
