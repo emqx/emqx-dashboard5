@@ -124,3 +124,5 @@ export const commonTimeUnits = [
   { value: 'h', label: 'h' },
   { value: 'd', label: 'd' },
 ]
+
+export const formatNumber = (num: number) => new Intl.NumberFormat().format(num)

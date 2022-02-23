@@ -40,8 +40,8 @@ export default {
     en: 'Failed',
   },
   speedNow: {
-    zh: '当前速度(msg/s)',
-    en: 'Speed(msg/s)',
+    zh: '当前速度',
+    en: 'Speed',
   },
   status: {
     zh: '状态',
@@ -114,6 +114,10 @@ export default {
   connMode: {
     zh: '连接模式',
     en: 'Mode',
+  },
+  cleanStart: {
+    zh: '清除会话',
+    en: 'Clean start',
   },
   bridgeMode: {
     zh: '桥接模式',
@@ -324,12 +328,12 @@ export default {
     en: 'Execution Statistics',
   },
   resetStatistics: {
-    zh: '重置指标',
+    zh: '重置统计数据',
     en: 'Reset statistics',
   },
-  resetTime: {
-    zh: '重置时间',
-    en: 'Reset time',
+  lastResetTime: {
+    zh: '上次重置时间',
+    en: 'Last reset time',
   },
   nodeStatusDesc: {
     zh: '每个节点上 Data Bridge 状态和执行情况',
@@ -415,5 +419,13 @@ export default {
   remoteTopicDesc: {
     zh: '桥接数据到远端 Broker 指定主题中，支持使用 ${field} 语法拼接动态主题',
     en: 'Bridges data to a remote broker specified topic, and supports splicing dynamic topics using the ${field} syntax.',
+  },
+  connectionClusterModeDesc: {
+    zh: '集群共享：整个集群中建立一个 MQTT 连接',
+    en: 'Cluster Shareload: Establish an MQTT connection across the cluster',
+  },
+  connectionNodeModeDesc: {
+    zh: '节点独享：每个节点上建立一个 MQTT 连接，会在客户端 ID 后附加随机字符串',
+    en: 'Cluster Singleton: An MQTT connection is established on each node, with a random string appended to the client ID',
   },
 }

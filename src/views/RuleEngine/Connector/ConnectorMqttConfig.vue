@@ -50,7 +50,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'Clean Start'">
+          <el-form-item :label="tl('cleanStart')">
             <el-select v-model="connectorVal.clean_start">
               <el-option v-for="cs in [true, false]" :key="cs" :value="cs" />
             </el-select>
@@ -62,7 +62,18 @@
       <div class="part-header">{{ tl('connSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="tl('connMode')">
+          <el-form-item>
+            <template #label>
+              <label>{{ tl('connMode') }}</label>
+              <el-tooltip effect="dark" popper-class="form-item-desc-popper" placement="top-start">
+                <template #content>
+                  <span>{{ tl('connectionClusterModeDesc') }}</span>
+                  <br />
+                  <span>{{ tl('connectionNodeModeDesc') }}</span>
+                </template>
+                <el-icon class="form-item-desc"><question-filled /></el-icon>
+              </el-tooltip>
+            </template>
             <el-select v-model="connectorVal.mode">
               <el-option
                 v-for="cm in modeOptions"

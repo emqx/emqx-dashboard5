@@ -40,7 +40,7 @@
           </el-table-column>
           <el-table-column :label="tl('SuccessNum')" sortable prop="metrics.success" />
           <el-table-column :label="tl('ErrNum')" sortable prop="metrics.failed" />
-          <el-table-column :label="tl('speedNow')" sortable prop="metrics.rate" />
+          <el-table-column :label="`${tl('speedNow')}(msg/s)`" sortable prop="metrics.rate" />
           <el-table-column :label="tl('status')" sortable>
             <template #default="{ row }">
               <el-badge
