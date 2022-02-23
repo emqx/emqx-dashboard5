@@ -76,9 +76,10 @@ import { computed, ref, Ref, watch, defineProps, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ConnectorMqttConfig from '../Connector/ConnectorMqttConfig.vue'
 import { createConnector, updateConnector, testConnector } from '@/api/ruleengine'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash'
 import { ElMessage } from 'element-plus'
 import useConnectorTypeValue from '@/hooks/Rule/topology/bridge/useConnectorTypeValue'
+import { createRawSSLParams } from '@/common/tools.ts'
 
 const props = defineProps({
   edit: {
@@ -104,29 +105,10 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:open', 'finish'])
 
-const tlsParamsDefault = {
-  enable: false,
-  verify: 'verify_none',
-  certfile: '',
-  keyfile: '',
-  cacertfile: '',
-}
-
 const { t } = useI18n()
 const { connectorTypeOptions } = useConnectorTypeValue()
-const connectorData = ref(
-  props.edit
-    ? {
-        ..._.cloneDeep(props.modelValue),
-        // name: props.modelValue.id?.split(':')[1],
-      }
-    : {},
-)
-const connectorTLS = ref(
-  props.edit && props.modelValue.ssl
-    ? _.cloneDeep(props.modelValue.ssl)
-    : _.cloneDeep(tlsParamsDefault),
-)
+const connectorData = ref({})
+const connectorTLS = ref(createRawSSLParams())
 const submitLoading = ref(false)
 const isTesting = ref(false)
 
@@ -138,6 +120,17 @@ const visible = computed({
     emit('update:open', value)
   },
 })
+
+const initConnectorAndSSLData = () => {
+  connectorData.value = props.edit
+    ? {
+        ...cloneDeep(props.modelValue),
+        // name: props.modelValue.id?.split(':')[1],
+      }
+    : {}
+  connectorTLS.value =
+    props.edit && props.modelValue.ssl ? cloneDeep(props.modelValue.ssl) : createRawSSLParams()
+}
 
 const tl = (key, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -168,7 +161,7 @@ const submitConnector = async (isEdit) => {
   submitLoading.value = true
   const data = getConnectorData()
   if (isEdit) {
-    const id = connectorData.value.id
+    const { id } = connectorData.value
     // Reflect.deleteProperty(data, "name");
     Reflect.deleteProperty(data, 'id')
     Reflect.deleteProperty(data, 'type')
@@ -194,8 +187,16 @@ const closeDialog = () => {
   emit('finish', false)
 }
 
+initConnectorAndSSLData()
+
+watch(visible, (val) => {
+  if (val) {
+    initConnectorAndSSLData()
+  }
+})
+
 // watch(
-//   () => [_.cloneDeep(connectorData.value), _.cloneDeep(connectorTLS.value)],
+//   () => [cloneDeep(connectorData.value), cloneDeep(connectorTLS.value)],
 //   (val) => {
 //     if (props.edit) {
 //       emit("update:modelValue", {
