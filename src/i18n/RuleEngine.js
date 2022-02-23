@@ -259,9 +259,13 @@ export default {
     zh: '类型',
     en: 'Type',
   },
-  sqlHit: {
+  sqlPassed: {
     zh: 'SQL 通过',
-    en: 'SQL hit',
+    en: 'SQL passed',
+  },
+  sqlPassedDesc: {
+    zh: 'SQL 成功执行并输出结果',
+    en: 'SQL executes successfully and outputs the result',
   },
   sqlMatched: {
     zh: 'SQL 命中',
@@ -286,6 +290,18 @@ export default {
   currentSpeed: {
     zh: '当前速度',
     en: 'Current Speed',
+  },
+  executionSpeed: {
+    zh: '执行速度',
+    en: 'Execution speed',
+  },
+  rateLast5M: {
+    zh: '最近 5 分钟执行速度',
+    en: 'Execution speed in the last 5 minutes',
+  },
+  rateMax: {
+    zh: '最大执行速度',
+    en: 'maximum execution speed',
   },
   activated: {
     zh: '已启用',

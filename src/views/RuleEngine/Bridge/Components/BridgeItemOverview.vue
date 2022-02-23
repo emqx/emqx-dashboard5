@@ -1,5 +1,5 @@
 <template>
-  <div class="bridge-item-overview">
+  <div class="rule-item-overview">
     <el-card shadow="never" class="app-card detail-sub-card">
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
@@ -7,8 +7,8 @@
           <el-icon @click="resetStatistics"><refresh-left /></el-icon>
         </el-tooltip>
       </div>
-      <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p>
-      <el-row class="bridge-statistic">
+      <p class="card-sub-desc">{{ tl('resetTime') }}: TODO:</p>
+      <el-row class="rule-statistic">
         <el-col :span="6">
           <p class="statistic-label">{{ tl('success') }}</p>
           <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.success) }}</p>
@@ -35,8 +35,8 @@
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column prop="metrics.success" :label="tl('success')" />
         <el-table-column prop="metrics.failed" :label="tl('failure')" />
-        <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(msg/s)`" />
-        <el-table-column prop="metrics.rate" :label="tl('status')">
+        <el-table-column prop="metrics.rate" :label="tl('speedNow')" />
+        <el-table-column :label="tl('status')">
           <template #default="{ row }">
             <span
               class="text-status"
@@ -123,54 +123,5 @@ const reconnect = () => {
 </script>
 
 <style lang="scss" scoped>
-p {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.el-card {
-  margin-bottom: 24px;
-}
-.card-hd {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 16px;
-  .el-icon {
-    cursor: pointer;
-    font-size: 18px;
-    padding-top: 2px;
-  }
-}
-.block-title {
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-right: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 22px;
-  color: #1d1d1d;
-}
-.card-sub-desc {
-  margin-bottom: 16px;
-  font-size: 14px;
-  color: var(--el-text-color-secondary);
-  line-height: 20px;
-}
-.bridge-statistic {
-  padding: 20px 0;
-}
-.statistic-label {
-  margin-bottom: 20px;
-}
-.statistic-num {
-  line-height: 25px;
-  font-size: 24px;
-  font-weight: 600;
-  .unit {
-    font-size: 16px;
-    margin-left: 4px;
-  }
-}
-.text-status {
-  margin-right: 8px;
-}
+@import '~@/style/rule.scss';
 </style>
