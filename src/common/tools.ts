@@ -1,6 +1,8 @@
 import vueInstance from '@/main'
+import { SSL } from '@/types/common'
 import Clipboard from 'clipboard'
 import { ElMessage } from 'element-plus'
+import { SSL_VERIFY_VALUE_MAP } from './constants'
 
 export const checkStringWithUnit = (str: string, units: Array<string>): boolean => {
   const reg = new RegExp(`^\\d+(.\\d+)?(${units.join('|')})$`)
@@ -106,6 +108,14 @@ export const getLabelFromValueInOptionList = <T>(
   const target = optionList.find(({ value }) => value === targetValue)
   return target?.label || ''
 }
+
+export const createRawSSLParams = (): SSL => ({
+  enable: false,
+  verify: SSL_VERIFY_VALUE_MAP.get(false) as string,
+  certfile: '',
+  keyfile: '',
+  cacertfile: '',
+})
 
 export const commonTimeUnits = [
   { value: 'ms', label: 'ms' },
