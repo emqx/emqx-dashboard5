@@ -212,7 +212,7 @@ const mqttBridgeDefaultVal = {
   connector: '',
   direction: 'egress',
   retain: false,
-  payload: '',
+  payload: '${payload}',
   local_topic: '',
   remote_topic: '',
   remote_qos: 1,

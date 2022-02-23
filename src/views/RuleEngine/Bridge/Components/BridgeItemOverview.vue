@@ -7,19 +7,22 @@
           <el-icon @click="resetStatistics"><refresh-left /></el-icon>
         </el-tooltip>
       </div>
-      <p class="card-sub-desc">{{ tl('resetTime') }}: TODO:</p>
+      <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p>
       <el-row class="bridge-statistic">
         <el-col :span="6">
           <p class="statistic-label">{{ tl('success') }}</p>
-          <p class="statistic-num">{{ bridgeMsg?.metrics?.success }}</p>
+          <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.success) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('failure') }}</p>
-          <p class="statistic-num">{{ bridgeMsg?.metrics?.failed }}</p>
+          <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.failed) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('speedNow') }}</p>
-          <p class="statistic-num">{{ bridgeMsg?.metrics?.rate }}</p>
+          <p class="statistic-num">
+            <span>{{ formatNumber(bridgeMsg?.metrics?.rate) }}</span>
+            <span class="unit">msg/s</span>
+          </p>
         </el-col>
       </el-row>
     </el-card>
@@ -32,7 +35,7 @@
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column prop="metrics.success" :label="tl('success')" />
         <el-table-column prop="metrics.failed" :label="tl('failure')" />
-        <el-table-column prop="metrics.rate" :label="tl('speedNow')" />
+        <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(msg/s)`" />
         <el-table-column prop="metrics.rate" :label="tl('status')">
           <template #default="{ row }">
             <span
@@ -71,6 +74,7 @@ import { RefreshLeft } from '@element-plus/icons-vue'
 import { BridgeStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
 import { useBridgeStatusLabelValue } from '@/hooks/Rule/topology/bridge/useBridgeTypeValue'
+import { formatNumber } from '@/common/tools'
 
 const props = defineProps({
   bridgeMsg: {
@@ -161,6 +165,10 @@ p {
   line-height: 25px;
   font-size: 24px;
   font-weight: 600;
+  .unit {
+    font-size: 16px;
+    margin-left: 4px;
+  }
 }
 .text-status {
   margin-right: 8px;
