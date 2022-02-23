@@ -36,12 +36,12 @@
       </el-table-column>
       <el-table-column :label="tl('sqlFailed')">
         <template #default="{ row }">
-          {{ row.metrics?.['sql.failed'] }}
+          {{ row.metrics?.['sql.failed.exception'] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('sqlFailed')">
+      <el-table-column :label="`${tl('executionSpeed')}(msg/s)`">
         <template #default="{ row }">
-          {{ row.metrics?.['sql.failed'] }}
+          {{ row.metrics?.['sql.matched.rate'] }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('status')" sortable>

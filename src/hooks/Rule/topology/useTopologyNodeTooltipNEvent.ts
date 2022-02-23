@@ -80,8 +80,8 @@ export default () => {
       { label: tl('name'), value: name },
       { label: 'ID', value: id },
       { label: tl('input'), value: fromDataToShow },
-      { label: tl('sqlHit'), value: metrics['sql.matched'] },
-      { label: tl('sqlFailed'), value: metrics['sql.failed'] },
+      { label: tl('sqlPassed'), value: metrics['sql.passed'] },
+      { label: tl('sqlFailed'), value: metrics['sql.failed.exception'] },
       { label: tl('currentSpeed'), value: metrics['sql.matched.rate'] },
       {
         label: tl('status'),

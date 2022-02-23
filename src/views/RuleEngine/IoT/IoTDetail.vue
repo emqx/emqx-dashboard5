@@ -1,126 +1,145 @@
 <template>
   <div class="iot-detail app-wrapper">
     <router-link class="back-button" :to="{ name: 'iot' }">{{ tl('backToIoTList') }}</router-link>
-    <div class="detail-main" v-loading="infoLoading">
-      <div class="section-header">
-        <div>
-          <span class="title-n-status">
-            <span class="section-title">{{ id }}</span>
-            <el-tag type="info" class="section-status">
-              <span
-                ><i :class="['status', !rInfo.enable && 'stopped']"></i
-                ><span>{{ rInfo.enable ? $t('Base.enable') : $t('Base.disable') }}</span></span
-              >
-            </el-tag>
-          </span>
-        </div>
-        <div>
-          <el-button type="danger" size="small">{{ $t('Base.delete') }}</el-button>
-          <el-button size="small" @click="enableOrDisableRule()">
-            {{ rInfo.enable ? $t('Base.disable') : $t('Base.enable') }}</el-button
-          >
-        </div>
+    <div class="section-header">
+      <div>
+        <span class="title-n-status">
+          <span class="section-title">{{ id }}</span>
+          <el-tag type="info" class="section-status">
+            <span>
+              <i :class="['status', !ruleInfo.enable && 'stopped']" />
+              <span>{{ ruleInfo.enable ? $t('Base.enable') : $t('Base.disable') }}</span>
+            </span>
+          </el-tag>
+        </span>
       </div>
-
-      <iotform v-model="rInfo" :key="iKey"></iotform>
+      <div>
+        <el-button type="danger" size="small">{{ $t('Base.delete') }}</el-button>
+        <el-button size="small" @click="enableOrDisableRule()">
+          {{ ruleInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
+        </el-button>
+      </div>
     </div>
-
-    <el-row class="config-btn">
-      <el-button size="small" type="primary" :loading="infoLoading" @click="submitUpdateRules()">{{
-        $t('Base.update')
-      }}</el-button>
-    </el-row>
+    <el-tabs v-model="activeTab">
+      <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
+        <RuleItemOverview :rule-msg="ruleInfo" />
+      </el-tab-pane>
+      <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
+        <el-card shadow="never" class="app-card" v-loading="infoLoading">
+          <iotform v-model="ruleInfo" :key="iKey" />
+          <el-row class="config-btn">
+            <el-button
+              size="small"
+              type="primary"
+              :loading="infoLoading"
+              @click="submitUpdateRules()"
+            >
+              {{ $t('Base.update') }}
+            </el-button>
+          </el-row>
+        </el-card>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue'
+<script lang="ts" setup>
+import { onMounted, ref, Ref } from 'vue'
 import iotform from '../components/IoTForm.vue'
 import { getRuleInfo, updateRules } from '@/api/ruleengine'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ElMessage as M } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { RuleItem } from '@/types/rule'
+import RuleItemOverview from './components/RuleItemOverview.vue'
 
-export default defineComponent({
-  components: { iotform },
-  setup() {
-    const rInfo: Ref<RuleItem> = ref({} as RuleItem)
-    const route = useRoute()
-    const { t } = useI18n()
-    const id = route.params.id as string
-    const iKey = ref(0)
-    const infoLoading = ref(false)
+enum Tab {
+  Overview,
+  Setting,
+}
 
-    // watch(
-    //   () => rInfo.value,
-    //   (val) => {
-    //     console.log(val);
-    //   }
-    // );
+const ruleInfo: Ref<RuleItem> = ref({} as RuleItem)
+const route = useRoute()
+const { t } = useI18n()
+const id = route.params.id as string
+const iKey = ref(0)
+const infoLoading = ref(false)
+const activeTab = ref(Tab.Overview)
 
-    const loadRuleDetail = async () => {
-      infoLoading.value = true
-      const res = await getRuleInfo(id).catch(() => {})
-      if (res) {
-        rInfo.value = res
-        ++iKey.value
-      }
-      infoLoading.value = false
-    }
+// watch(
+//   () => rInfo.value,
+//   (val) => {
+//     console.log(val);
+//   }
+// );
+const tl = (key: string) => t('RuleEngine.' + key)
 
-    const enableOrDisableRule = async () => {
-      infoLoading.value = true
+const loadRuleDetail = async () => {
+  infoLoading.value = true
+  const res = await getRuleInfo(id).catch(() => {})
+  if (res) {
+    ruleInfo.value = res
+    ++iKey.value
+  }
+  infoLoading.value = false
+}
 
-      const res = await updateRules(id, { enable: !rInfo.value.enable }).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: rInfo.value.enable ? t('Base.disabledSuccess') : t('Base.enableSuccess'),
-        })
-        rInfo.value.enable = !rInfo.value.enable
-      }
-      infoLoading.value = false
-    }
+const enableOrDisableRule = async () => {
+  infoLoading.value = true
 
-    const submitUpdateRules = async () => {
-      infoLoading.value = true
-      const updateData: Partial<RuleItem> = {
-        name: rInfo.value.name,
-        sql: rInfo.value.sql,
-        enable: rInfo.value.enable,
-        description: rInfo.value.description,
-        outputs: rInfo.value.outputs,
-      }
-      const res = await updateRules(id, updateData).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: t('Base.updateSuccess'),
-        })
-        loadRuleDetail()
-      }
-      infoLoading.value = false
-    }
-
-    onMounted(() => {
-      loadRuleDetail()
+  const res = await updateRules(id, { enable: !ruleInfo.value.enable }).catch(() => {})
+  if (res) {
+    ElMessage({
+      type: 'success',
+      message: ruleInfo.value.enable ? t('Base.disabledSuccess') : t('Base.enableSuccess'),
     })
-    return {
-      tl: (key: string) => t('RuleEngine.' + key),
-      id,
-      rInfo,
-      iKey,
-      infoLoading,
-      submitUpdateRules,
-      enableOrDisableRule,
-    }
-  },
+    ruleInfo.value.enable = !ruleInfo.value.enable
+  }
+  infoLoading.value = false
+}
+
+const submitUpdateRules = async () => {
+  infoLoading.value = true
+  const { name, sql, enable, description, outputs } = ruleInfo.value
+  const updateData: Partial<RuleItem> = { name, sql, enable, description, outputs }
+  try {
+    await updateRules(id, updateData)
+    ElMessage({
+      type: 'success',
+      message: t('Base.updateSuccess'),
+    })
+    loadRuleDetail()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    infoLoading.value = false
+  }
+}
+
+onMounted(() => {
+  loadRuleDetail()
 })
 </script>
 
 <style lang="scss" scoped>
 .config-btn {
   margin-top: 50px;
+}
+
+:deep(.el-tabs.el-tabs--top:not(.el-tabs--card) .el-tabs__item.is-top) {
+  padding-left: 0;
+  padding-right: 0;
+  &::before,
+  &::after {
+    content: '';
+    display: inline-block;
+    visibility: hidden;
+  }
+  &::before {
+    width: 20px;
+  }
+  &::after {
+    width: 20px;
+  }
 }
 </style>
