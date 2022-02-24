@@ -456,4 +456,28 @@ export default {
     zh: '复制',
     en: 'Copy',
   },
+  SQLTemplates: {
+    zh: 'SQL 模版',
+    en: 'SQL Templates',
+  },
+  commonSQLTemplates: {
+    zh: '常用 SQL 模板',
+    en: 'Common SQL Templates',
+  },
+  useSQL: {
+    zh: '使用 SQL',
+    en: 'Use this SQL',
+  },
+  usageScenarios: {
+    zh: '应用场景',
+    en: 'Usage scenarios',
+  },
+  exampleOfInput: {
+    zh: '输入消息示例',
+    en: 'Example of input',
+  },
+  processedResults: {
+    zh: '处理结果',
+    en: 'Processed results',
+  },
 }
