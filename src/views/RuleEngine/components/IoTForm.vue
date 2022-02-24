@@ -205,42 +205,8 @@
         <el-button size="small" @click="cancelOpDialog()">{{ $t('Base.cancel') }}</el-button>
       </template>
     </el-dialog>
-
-    <el-dialog :title="tl('testsql')" v-model="testDialog" width="80%">
-      <el-form label-position="top">
-        <el-row :gutter="30">
-          <el-col :span="12">
-            <el-form-item :label="tl('messages')">
-              <el-input type="textarea" rows="5" v-model="testParams.msg"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Metadata'">
-              <key-and-value-editor v-model="testParams.metadata"></key-and-value-editor>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="30">
-          <el-col :span="12">
-            <el-form-item :label="'SQL'">
-              <el-input type="textarea" rows="5" v-model="testParams.sql"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Output'">
-              <el-input type="textarea" rows="5" v-model="testParams.output"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <template #footer>
-        <el-button type="primary" size="small" :loading="testLoading" @click="submitTest()">{{
-          $t('Base.test')
-        }}</el-button>
-        <el-button size="small" @click="cancelTestDialog()">{{ $t('Base.cancel') }}</el-button>
-      </template>
-    </el-dialog>
   </div>
+  <SQLTestDialog v-model="testDialog" :test-data="testParams" :chosen-event="chosenEvent" />
 </template>
 
 <script lang="ts">
@@ -248,14 +214,14 @@ import { defineComponent, ref, Ref, onMounted, watch } from 'vue'
 // import BridgeHttpConfig from "../Bridge/BridgeHttpConfig.vue";
 // import BridgeMqttConfig from "../Bridge/BridgeMqttConfig.vue";
 // import { CaretBottom, CaretTop } from "@element-plus/icons";
-import { getBridgeList, getRuleEvents, testsql } from '@/api/ruleengine'
+import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleItem } from '@/types/ruleengine'
 import { useI18n } from 'vue-i18n'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash'
 import { ElMessageBox as MB, ElMessage as M, ElForm } from 'element-plus'
 import parser from 'js-sql-parser'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import { RuleOutput } from '@/types/enum'
+import SQLTestDialog from './SQLTestDialog.vue'
 
 type OutputForm = {
   type: string
@@ -283,7 +249,7 @@ type RuleEvent = {
 
 export default defineComponent({
   components: {
-    KeyAndValueEditor,
+    SQLTestDialog,
     // CaretTop,
     // CaretBottom,
     // BridgeHttpConfig,
@@ -311,7 +277,6 @@ export default defineComponent({
     const chosenBridge = ref({})
     const sqlFromType = ref('topic')
     const isBridgeEdit = ref(false)
-    const testLoading = ref(false)
     const outputDisableList: Ref<Array<string>> = ref([])
     const editIndex: Ref<number | undefined> = ref(undefined)
     const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent)
@@ -326,8 +291,8 @@ export default defineComponent({
     }
 
     const ruleValue: Ref<RuleItem> = ref({
-      ..._.cloneDeep(ruleValueDefault),
-      ..._.cloneDeep(prop.modelValue),
+      ...cloneDeep(ruleValueDefault),
+      ...cloneDeep(prop.modelValue),
     })
 
     const sqlPartValue = ref({
@@ -361,7 +326,6 @@ export default defineComponent({
       msg: '',
       metadata: {},
       sql: '',
-      output: '',
     })
 
     watch(
@@ -372,12 +336,16 @@ export default defineComponent({
     )
 
     watch(
-      () => [_.cloneDeep(ruleValue.value), _.cloneDeep(sqlPartValue.value)],
+      () => [cloneDeep(ruleValue.value), cloneDeep(sqlPartValue.value)],
       (val) => {
         syncData()
       },
     )
 
+    /**
+     * sync data
+     * Timing of function calls: 1. open test dialog; 2. form value changed; 3. component mounted
+     */
     const syncData = () => {
       const sql = transformSQL()
       context.emit('update:modelValue', { ...ruleValue.value, sql })
@@ -386,6 +354,9 @@ export default defineComponent({
       parseStrSQL()
     }
 
+    /**
+     * trans form(select, from, where) to SQL
+     */
     const transformSQL = () => {
       const tempSql = [
         'SELECT',
@@ -464,7 +435,7 @@ export default defineComponent({
     ) => {
       opEdit.value = !!edit
       opDialog.value = true
-      outputForm.value = _.cloneDeep(outputFormDefault)
+      outputForm.value = cloneDeep(outputFormDefault)
       let item: OutputItem | undefined
       editIndex.value = itemIndex
       if (itemIndex !== undefined) {
@@ -534,8 +505,6 @@ export default defineComponent({
       testDialog.value = true
       syncData()
 
-      testParams.value.output = ''
-
       function findProperEvent(event: string) {
         const properEvent = ruleEventsList.value.find((v: { event: string }) => v.event === event)
         return properEvent
@@ -563,38 +532,6 @@ export default defineComponent({
         const modifiedEvent = findProperEvent('$events/message_publish')
         modifiedEvent && setDataWithEvent(modifiedEvent)
       }
-    }
-
-    const submitTest = async () => {
-      testLoading.value = true
-      const eventType = chosenEvent.value?.event || ''
-      const context = {
-        ...testParams.value.metadata,
-        payload: testParams.value.msg,
-        event_type: eventType.match(/(\$events\/)([\w]+)/)?.[2],
-      }
-
-      const res = await testsql({
-        context,
-        sql: testParams.value.sql,
-      }).catch((e) => {
-        testParams.value.output = e
-      })
-
-      if (res) {
-        try {
-          const text = JSON.stringify(res)
-          testParams.value.output = text
-        } catch (e) {
-          console.log(e)
-          testParams.value.output = res
-        }
-      }
-      testLoading.value = false
-    }
-
-    const cancelTestDialog = () => {
-      testDialog.value = false
     }
 
     const loadRuleEvents = async () => {
@@ -635,6 +572,7 @@ export default defineComponent({
       sqlFromType,
       openTestDialog,
       testDialog,
+      chosenEvent,
       ruleValue,
       opEdit,
       opDialog,
@@ -642,12 +580,9 @@ export default defineComponent({
       ruleEventsList,
       ingressBridgeList,
       egressBridgeList,
-      cancelTestDialog,
       testParams,
-      testLoading,
       deleteOutput,
       editIndex,
-      submitTest,
       getOutputImage,
       briefEditType,
       outputFormRules,
