@@ -54,8 +54,8 @@ import { RuleItem } from '@/types/rule'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 
 enum Tab {
-  Overview,
-  Setting,
+  Overview = '0',
+  Setting = '1',
 }
 
 const ruleInfo: Ref<RuleItem> = ref({} as RuleItem)

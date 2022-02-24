@@ -86,8 +86,8 @@ import { BridgeStatus } from '@/types/enum'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 
 enum Tab {
-  Overview,
-  Setting,
+  Overview = '0',
+  Setting = '1',
 }
 
 const route = useRoute()
