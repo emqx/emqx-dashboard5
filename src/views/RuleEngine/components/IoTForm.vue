@@ -5,12 +5,12 @@
       <el-row>
         <el-col :span="14">
           <el-form-item :label="tl('ruleName')">
-            <el-input v-model="ruleValue.name"></el-input>
+            <el-input v-model="ruleValue.name" />
           </el-form-item>
         </el-col>
         <el-col :span="14">
           <el-form-item :label="tl('note')">
-            <el-input type="textarea" v-model="ruleValue.description"></el-input>
+            <el-input type="textarea" v-model="ruleValue.description" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -25,35 +25,27 @@
           <el-col :span="14">
             <el-form-item label="FROM(Data Source)">
               <el-radio-group v-model="sqlFromType">
-                <el-radio label="topic"></el-radio>
-                <el-radio label="bridge"></el-radio>
-                <el-radio label="event"></el-radio>
+                <el-radio label="topic" />
+                <el-radio label="bridge" />
+                <el-radio label="event" />
               </el-radio-group>
-              <el-input v-if="sqlFromType === 'topic'" v-model="sqlPartValue.from"></el-input>
+              <el-input v-if="sqlFromType === 'topic'" v-model="sqlPartValue.from" />
               <el-select v-if="sqlFromType === 'bridge'" v-model="sqlPartValue.from">
-                <el-option
-                  v-for="item in ingressBridgeList"
-                  :key="item.id"
-                  :value="item.id"
-                ></el-option>
+                <el-option v-for="item in ingressBridgeList" :key="item.id" :value="item.id" />
               </el-select>
               <el-select v-if="sqlFromType === 'event'" v-model="sqlPartValue.from">
-                <el-option
-                  v-for="item in ruleEventsList"
-                  :key="item.event"
-                  :value="item.event"
-                ></el-option>
+                <el-option v-for="item in ruleEventsList" :key="item.event" :value="item.event" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="14">
             <el-form-item label="SELECT(Data Transformation)">
-              <el-input type="textarea" v-model="sqlPartValue.select"></el-input>
+              <el-input type="textarea" v-model="sqlPartValue.select" />
             </el-form-item>
           </el-col>
           <el-col :span="14">
             <el-form-item label="WHERE(Condition)">
-              <el-input type="textarea" v-model="sqlPartValue.where"></el-input>
+              <el-input type="textarea" v-model="sqlPartValue.where" />
             </el-form-item>
           </el-col>
           <el-col>
@@ -65,7 +57,7 @@
         <el-row>
           <el-col :span="16">
             <el-form-item :label="'SQL'">
-              <el-input type="textarea" rows="10" v-model="ruleValue.sql"> </el-input>
+              <el-input type="textarea" rows="10" v-model="ruleValue.sql" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -88,7 +80,7 @@
                 </div>
               </span>
               <span class="output-op">
-                <el-button size="mini" @click="openOpDialog(true, index)">
+                <el-button size="mini" @click="openOutputDialog(true, index)">
                   {{ $t('Base.edit') }}
                 </el-button>
                 <el-button size="mini" type="danger" @click="deleteOutput(index)">
@@ -97,116 +89,20 @@
               </span>
             </div>
           </template>
-          <div class="outputs-item add" @click="openOpDialog()">
+          <div class="outputs-item add" @click="openOutputDialog(false)">
             <span>{{ tl('addOutput') }}</span>
           </div>
         </el-col>
       </el-row>
     </el-form>
-
-    <el-dialog :title="!opEdit ? tl('addOutput') : tl('editOutput')" v-model="opDialog">
-      <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="opForm">
-        <el-row>
-          <el-col :span="14" v-loading="outputLoading">
-            <el-form-item :label="tl('output')" prop="type">
-              <el-select v-model="outputForm.type">
-                <el-option
-                  v-for="bridge in egressBridgeList"
-                  :key="bridge"
-                  :value="bridge.id"
-                  :label="bridge.id"
-                  :disabled="
-                    outputDisableList.includes(bridge.id) &&
-                    bridge.id !== ruleValue.outputs[editIndex]
-                  "
-                ></el-option>
-                <el-option
-                  :value="RuleOutput.Console"
-                  :disabled="
-                    outputDisableList.includes(RuleOutput.Console) &&
-                    RuleOutput.Console !== ruleValue.outputs[editIndex]
-                  "
-                  >{{ tl('consoleOutput') }}</el-option
-                >
-                <el-option
-                  :value="RuleOutput.Republish"
-                  :disabled="
-                    outputDisableList.includes(RuleOutput.Republish) &&
-                    RuleOutput.Republish !== ruleValue.outputs[editIndex]
-                  "
-                >
-                  {{ tl('republish') }}
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <!-- <span
-          class="edit-output"
-          @click="toggleBridgeEdit()"
-          v-if="
-            outputForm.type !== RuleOutput.Republish && outputForm.type !== RuleOutput.Console
-          "
-        >
-          <el-icon v-if="!isBridgeEdit"><caret-bottom></caret-bottom></el-icon>
-          <el-icon v-else><caret-top></caret-top></el-icon>
-          {{ tl("editOutput") }}</span
-        > 
-        <template
-          v-if="
-            isBridgeEdit &&
-            outputForm.type !== RuleOutput.Republish &&
-            outputForm.type !== RuleOutput.Console
-          "
-          ><div class="embedded-config">
-            <bridge-http-config
-              v-if="chosenBridge.type === 'http'"
-            ></bridge-http-config>
-            <bridge-mqtt-config
-              v-if="chosenBridge.type === 'mqtt'"
-            ></bridge-mqtt-config>
-          </div>
-        </template>-->
-        <template v-if="outputForm.type === RuleOutput.Republish">
-          <div class="part-header">{{ tl('paramSetting') }}</div>
-          <el-row>
-            <el-col :span="14">
-              <el-form-item label="Topic">
-                <el-input v-model="outputForm.args.topic"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="14">
-              <el-form-item label="QoS">
-                <el-select v-model="outputForm.args.qos">
-                  <el-option v-for="item in [0, 1, 2]" :value="item" :key="item"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="14">
-              <el-form-item label="Payload">
-                <el-input type="textarea" v-model="outputForm.args.payload"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </template>
-      </el-form>
-      <template #footer>
-        <el-button
-          type="primary"
-          size="small"
-          @click="submitOutput(opEdit)"
-          :loading="outputLoading"
-          >{{ opEdit ? $t('Base.update') : $t('Base.add') }}</el-button
-        >
-        <el-button size="small" @click="cancelOpDialog()">{{ $t('Base.cancel') }}</el-button>
-      </template>
-    </el-dialog>
   </div>
   <SQLTestDialog v-model="testDialog" :test-data="testParams" :chosen-event="chosenEvent" />
+  <RuleOutputsDialog
+    v-model="showOutputDialog"
+    :output="currentOutputItem"
+    :output-disable-list="outputDisableList"
+    @submit="submitOutput"
+  />
 </template>
 
 <script lang="ts">
@@ -215,28 +111,15 @@ import { defineComponent, ref, Ref, onMounted, watch } from 'vue'
 // import BridgeMqttConfig from "../Bridge/BridgeMqttConfig.vue";
 // import { CaretBottom, CaretTop } from "@element-plus/icons";
 import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
-import { BridgeItem, RuleItem } from '@/types/ruleengine'
+import { BridgeItem, RuleForm, BasicRule } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
-import { ElMessageBox as MB, ElMessage as M, ElForm } from 'element-plus'
+import { ElMessageBox as MB } from 'element-plus'
 import parser from 'js-sql-parser'
-import { RuleOutput } from '@/types/enum'
+import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import SQLTestDialog from './SQLTestDialog.vue'
-
-type OutputForm = {
-  type: string
-  args?: Record<string, unknown>
-}
-type OutputItem =
-  | string
-  | {
-      function?: string
-      args?: {
-        topic: string
-        payload: string
-        qos: 0 | 1 | 2
-      }
-    }
+import RuleOutputsDialog from './RuleOutputsDialog.vue'
+import { OutputItem } from '@/types/rule'
 
 type RuleEvent = {
   test_columns: {
@@ -250,6 +133,7 @@ type RuleEvent = {
 export default defineComponent({
   components: {
     SQLTestDialog,
+    RuleOutputsDialog,
     // CaretTop,
     // CaretBottom,
     // BridgeHttpConfig,
@@ -266,22 +150,18 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(prop, context) {
     const { t } = useI18n()
-    const opEdit = ref(false)
-    const opDialog = ref(false)
+    const showOutputDialog = ref(false)
     const testDialog = ref(false)
     const bridgeList = ref([])
     const ingressBridgeList = ref([])
-    const egressBridgeList = ref([])
     const ruleEventsList = ref([])
     const outputLoading = ref(false)
-    const chosenBridge = ref({})
     const sqlFromType = ref('topic')
-    const isBridgeEdit = ref(false)
     const outputDisableList: Ref<Array<string>> = ref([])
     const editIndex: Ref<number | undefined> = ref(undefined)
     const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent)
     const briefEditType = ref(true)
-    const opForm: Ref<typeof ElForm | null> = ref(null)
+    const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
 
     const ruleValueDefault = {
       name: '',
@@ -290,7 +170,7 @@ export default defineComponent({
       description: '',
     }
 
-    const ruleValue: Ref<RuleItem> = ref({
+    const ruleValue: Ref<BasicRule | RuleForm> = ref({
       ...cloneDeep(ruleValueDefault),
       ...cloneDeep(prop.modelValue),
     })
@@ -300,27 +180,6 @@ export default defineComponent({
       select: '*',
       where: '',
     })
-
-    const outputFormDefault: OutputForm = {
-      type: '',
-      args: {
-        topic: '',
-        qos: 0,
-        payload: '',
-      },
-    }
-
-    const outputForm = ref(outputFormDefault)
-
-    const outputFormRules = {
-      type: [
-        {
-          required: true,
-          message: t('RuleEngine.outputTypeRequired'),
-          trigger: ['blur', 'change'],
-        },
-      ],
-    }
 
     const testParams = ref({
       msg: '',
@@ -382,42 +241,11 @@ export default defineComponent({
       outputLoading.value = false
     }
 
-    const submitOutput = (edit = false) => {
-      opForm.value
-        ?.validate()
-        .then(() => {
-          outputLoading.value = true
-          let opObj
-          switch (outputForm.value.type) {
-            case RuleOutput.Console:
-              opObj = { function: outputForm.value.type }
-              break
-            case RuleOutput.Republish:
-              opObj = {
-                function: outputForm.value.type,
-                args: { ...outputForm.value.args },
-              }
-              break
-            default:
-              opObj = outputForm.value.type
-          }
-
-          const output = ruleValue.value.outputs || []
-          if (!edit) {
-            output.push(opObj)
-          } else {
-            editIndex.value !== undefined && output.splice(editIndex.value, 1, opObj)
-          }
-
-          calcDisableList()
-          outputLoading.value = false
-          cancelOpDialog()
-        })
-        .catch(() => {})
-    }
-
     const calcDisableList = () => {
       outputDisableList.value = []
+      if (!Array.isArray(ruleValue.value.outputs)) {
+        return
+      }
       ruleValue.value.outputs?.forEach((v: OutputItem) => {
         if (typeof v === 'string') {
           outputDisableList.value.push(v)
@@ -429,76 +257,53 @@ export default defineComponent({
       })
     }
 
-    const openOpDialog: (edit: boolean, itemIndex: number | undefined) => void = async (
+    const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void = async (
       edit = false,
       itemIndex,
     ) => {
-      opEdit.value = !!edit
-      opDialog.value = true
-      outputForm.value = cloneDeep(outputFormDefault)
+      showOutputDialog.value = true
       let item: OutputItem | undefined
       editIndex.value = itemIndex
-      if (itemIndex !== undefined) {
+      if (itemIndex !== undefined && Array.isArray(ruleValue.value.outputs)) {
         item = ruleValue.value.outputs?.[itemIndex]
       }
-
       if (edit) {
-        if (typeof item === 'string') {
-          outputForm.value.type = item
-        } else if (typeof item === 'object') {
-          outputForm.value.type = item.function || ''
-          if (item.function === RuleOutput.Republish) {
-            outputForm.value.args = item.args
-          }
-        }
+        currentOutputItem.value = item
+      } else {
+        currentOutputItem.value = undefined
       }
-      await loadBridgeList()
       calcDisableList()
-      loadEgressBridgeList()
     }
 
-    const deleteOutput = (itemIndex: number | undefined) => {
-      MB.confirm(t('Base.confirmDelete'), {
+    const submitOutput = (opObj: OutputItem) => {
+      const output = ruleValue.value.outputs || []
+      if (Array.isArray(output)) {
+        if (!currentOutputItem.value) {
+          output.push(opObj)
+        } else {
+          editIndex.value !== undefined && output.splice(editIndex.value, 1, opObj)
+        }
+      }
+      calcDisableList()
+    }
+
+    const deleteOutput = async (itemIndex: number | undefined) => {
+      await MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
       })
-        .then(() => {
-          if (itemIndex !== undefined) {
-            ruleValue.value.outputs?.splice(itemIndex, 1)
-
-            calcDisableList()
-          }
-        })
-        .catch(() => {})
-    }
-
-    const cancelOpDialog = () => {
-      opDialog.value = false
-      opForm.value?.resetFields()
-    }
-
-    const toggleBridgeEdit = () => {
-      if (isBridgeEdit.value) {
-        chosenBridge.value =
-          (outputForm.value.type &&
-            bridgeList.value.find((v: BridgeItem) => v.id === outputForm.value.type)) ||
-          {}
+      if (itemIndex !== undefined && Array.isArray(ruleValue.value.outputs)) {
+        ruleValue.value.outputs?.splice(itemIndex, 1)
+        calcDisableList()
       }
-      isBridgeEdit.value = !isBridgeEdit.value
     }
 
     const loadIngressBridgeList = async () => {
       await loadBridgeList()
       ingressBridgeList.value = bridgeList.value.filter(
-        (v: BridgeItem) => v.direction === 'ingress',
+        (v: BridgeItem) => 'direction' in v && v.direction === MQTTBridgeDirection.In,
       )
-    }
-
-    const loadEgressBridgeList = async () => {
-      await loadBridgeList()
-      // TODO: If the direction is placed in the type later, it needs to be modified here
-      egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => v.direction === 'egress')
     }
 
     const openTestDialog = () => {
@@ -559,34 +364,27 @@ export default defineComponent({
     return {
       tl: (key: string) => t('RuleEngine.' + key),
       bridgeList,
-      toggleBridgeEdit,
       loadIngressBridgeList,
-      openOpDialog,
-      outputForm,
+      openOutputDialog,
       RuleOutput,
-      cancelOpDialog,
       sqlPartValue,
-      submitOutput,
       outputDisableList,
-      chosenBridge,
       sqlFromType,
       openTestDialog,
       testDialog,
       chosenEvent,
       ruleValue,
-      opEdit,
-      opDialog,
+      showOutputDialog,
       outputLoading,
       ruleEventsList,
       ingressBridgeList,
-      egressBridgeList,
       testParams,
       deleteOutput,
       editIndex,
       getOutputImage,
       briefEditType,
-      outputFormRules,
-      opForm,
+      currentOutputItem,
+      submitOutput,
     }
   },
 })
