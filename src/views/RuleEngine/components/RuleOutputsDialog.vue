@@ -1,0 +1,265 @@
+<template>
+  <el-dialog :title="!isEdit ? tl('addOutput') : tl('editOutput')" v-model="showDialog">
+    <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
+      <el-row>
+        <el-col :span="14" v-loading="isLoading">
+          <el-form-item :label="tl('output')" prop="type">
+            <el-select v-model="outputForm.type">
+              <el-option
+                v-for="bridge in egressBridgeList"
+                :key="bridge"
+                :value="bridge.id"
+                :label="bridge.id"
+                :disabled="isDisabledBridge(bridge)"
+              />
+              <el-option
+                :value="RuleOutput.Console"
+                :disabled="isDisabledConsole"
+                :label="tl('consoleOutput')"
+              />
+              <el-option
+                :value="RuleOutput.Republish"
+                :disabled="isDisabledRepublish"
+                :label="tl('republish')"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <!-- <span
+        class="edit-output"
+        @click="toggleBridgeEdit()"
+        v-if="outputForm.type !== RuleOutput.Republish && outputForm.type !== RuleOutput.Console"
+      >
+        <el-icon v-if="!isBridgeEdit"><caret-bottom></caret-bottom></el-icon>
+        <el-icon v-else><caret-top></caret-top></el-icon>
+        {{ tl('editOutput') }}
+      </span>
+      <template
+        v-if="
+          isBridgeEdit &&
+          outputForm.type !== RuleOutput.Republish &&
+          outputForm.type !== RuleOutput.Console
+        "
+      >
+        <div class="embedded-config">
+          <bridge-http-config v-if="chosenBridge.type === 'http'"></bridge-http-config>
+          <bridge-mqtt-config v-if="chosenBridge.type === 'mqtt'"></bridge-mqtt-config>
+        </div>
+      </template> -->
+      <template v-if="outputForm.type === RuleOutput.Republish">
+        <div class="part-header">{{ tl('paramSetting') }}</div>
+        <el-row>
+          <el-col :span="14">
+            <el-form-item label="Topic">
+              <el-input v-model="outputForm.args.topic" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="14">
+            <el-form-item label="QoS">
+              <el-select v-model="outputForm.args.qos">
+                <el-option v-for="item in [0, 1, 2]" :value="item" :key="item" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="14">
+            <el-form-item label="Payload">
+              <el-input type="textarea" v-model="outputForm.args.payload" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </template>
+    </el-form>
+    <template #footer>
+      <el-button type="primary" size="small" @click="submitOutput(isEdit)" :loading="isLoading">
+        {{ isEdit ? $t('Base.update') : $t('Base.add') }}
+      </el-button>
+      <el-button size="small" @click="cancel()">
+        {{ $t('Base.cancel') }}
+      </el-button>
+    </template>
+  </el-dialog>
+</template>
+
+<script lang="ts">
+import { defineComponent, nextTick } from 'vue'
+
+export default defineComponent({
+  name: 'RuleOutputsDialog',
+})
+</script>
+
+<script setup lang="ts">
+import {
+  defineProps,
+  computed,
+  defineEmits,
+  WritableComputedRef,
+  watch,
+  ref,
+  Ref,
+  PropType,
+} from 'vue'
+import { useI18n } from 'vue-i18n'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import { getBridgeList } from '@/api/ruleengine'
+import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
+import { BridgeItem, OutputItem } from '@/types/rule'
+
+type OutputForm = {
+  type: string
+  args?: Record<string, unknown>
+}
+
+const { t } = useI18n()
+const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+  },
+  output: {
+    type: Object as PropType<OutputItem>,
+    required: false,
+  },
+  outputDisableList: {
+    type: Array,
+    required: true,
+  },
+})
+
+const emit = defineEmits(['update:modelValue', 'submit'])
+
+const createRawOutputForm = (): OutputForm => ({
+  type: '',
+  args: {
+    topic: '',
+    qos: 0,
+    payload: '',
+  },
+})
+
+const chosenBridge = ref({})
+const formCom = ref()
+const isLoading = ref(false)
+const bridgeList: Ref<Array<BridgeItem>> = ref([])
+const egressBridgeList: Ref<Array<BridgeItem>> = ref([])
+const outputForm = ref(createRawOutputForm())
+const isBridgeEdit = ref(false)
+
+const outputFormRules = {
+  type: [
+    {
+      required: true,
+      message: t('RuleEngine.outputTypeRequired'),
+      trigger: ['blur', 'change'],
+    },
+  ],
+}
+
+const showDialog: WritableComputedRef<boolean> = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  },
+})
+
+const isEdit = computed(() => !!props.output)
+
+const isDisabledConsole = computed(() => {
+  const isEditingConsole =
+    typeof props.output === 'object' && RuleOutput.Console !== props.output.function
+  return props.outputDisableList.includes(RuleOutput.Console) && !isEditingConsole
+})
+
+const isDisabledRepublish = computed(() => {
+  const isEditingRepublish =
+    typeof props.output === 'object' && RuleOutput.Republish !== props.output.function
+  return props.outputDisableList.includes(RuleOutput.Republish) && !isEditingRepublish
+})
+
+const setFormDataWhenOpenDialog = async () => {
+  const { output } = props
+  if (output) {
+    if (typeof output === 'string') {
+      outputForm.value.type = output
+    } else if (typeof output === 'object') {
+      outputForm.value.type = output.function || ''
+      if (output.function === RuleOutput.Republish) {
+        outputForm.value.args = output.args
+      }
+    }
+  } else {
+    outputForm.value = createRawOutputForm()
+    await nextTick()
+    formCom.value.clearValidate()
+  }
+}
+
+// TODO: can better
+const loadEgressBridgeList = async () => {
+  bridgeList.value = await getBridgeList().catch(() => {})
+  egressBridgeList.value = bridgeList.value.filter(
+    (v: BridgeItem) => 'direction' in v && v.direction === MQTTBridgeDirection.Out,
+  )
+}
+
+const isDisabledBridge = ({ id }: BridgeItem) => {
+  return props.outputDisableList.includes(id) && id !== props.output
+}
+
+const toggleBridgeEdit = () => {
+  if (isBridgeEdit.value) {
+    chosenBridge.value =
+      (outputForm.value.type &&
+        bridgeList.value.find((v: BridgeItem) => v.id === outputForm.value.type)) ||
+      {}
+  }
+  isBridgeEdit.value = !isBridgeEdit.value
+}
+
+const submitOutput = async (edit = false) => {
+  try {
+    await formCom.value?.validate()
+    isLoading.value = true
+    let opObj
+    switch (outputForm.value.type) {
+      case RuleOutput.Console:
+        opObj = { function: outputForm.value.type }
+        break
+      case RuleOutput.Republish:
+        opObj = {
+          function: outputForm.value.type,
+          args: { ...outputForm.value.args },
+        }
+        break
+      default:
+        opObj = outputForm.value.type
+    }
+
+    emit('submit', opObj)
+    showDialog.value = false
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const cancel = () => {
+  showDialog.value = false
+}
+
+watch(showDialog, (val) => {
+  if (val) {
+    loadEgressBridgeList()
+    setFormDataWhenOpenDialog()
+  }
+})
+</script>

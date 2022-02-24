@@ -22,6 +22,7 @@ export interface OutputItemObj {
   args?: {
     payload: string
     topic: string
+    qos: number
   }
 }
 
@@ -33,17 +34,23 @@ export type OutputItem = string | OutputItemObj
 
 export type FromData = Array<string> | string
 
-export interface RuleItem {
-  created_at: string
+export interface BasicRule {
+  name: string
+  sql: string
+  outputs: Array<OutputItem> | OutputItem
   description: string
+}
+
+export interface RuleForm extends BasicRule {
+  created_at: string
   enable: boolean
   from: FromData
-  id: string
   metrics: Metrics
-  name: string
   node_metrics: NodeMetrics
-  outputs: Array<OutputItem> | OutputItem
-  sql: string
+}
+
+export interface RuleItem extends RuleForm {
+  id: string
 }
 
 export interface BridgeBaseData {
