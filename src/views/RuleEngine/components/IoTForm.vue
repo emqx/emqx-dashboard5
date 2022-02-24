@@ -106,20 +106,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, onMounted, watch } from 'vue'
-// import BridgeHttpConfig from "../Bridge/BridgeHttpConfig.vue";
-// import BridgeMqttConfig from "../Bridge/BridgeMqttConfig.vue";
-// import { CaretBottom, CaretTop } from "@element-plus/icons";
-import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
-import { BridgeItem, RuleForm, BasicRule } from '@/types/rule'
-import { useI18n } from 'vue-i18n'
-import { cloneDeep } from 'lodash'
-import { ElMessageBox as MB } from 'element-plus'
-import parser from 'js-sql-parser'
-import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
-import SQLTestDialog from './SQLTestDialog.vue'
-import RuleOutputsDialog from './RuleOutputsDialog.vue'
-import { OutputItem } from '@/types/rule'
+import { defineComponent } from 'vue'
 
 type RuleEvent = {
   test_columns: {
@@ -131,262 +118,243 @@ type RuleEvent = {
 }
 
 export default defineComponent({
-  components: {
-    SQLTestDialog,
-    RuleOutputsDialog,
-    // CaretTop,
-    // CaretBottom,
-    // BridgeHttpConfig,
-    // BridgeMqttConfig,
-  },
   name: 'iot-form',
-  props: {
-    modelValue: {
-      type: Object,
-      required: false,
-      default: () => ({}),
-    },
+})
+</script>
+
+<script lang="ts" setup>
+import { ref, Ref, onMounted, watch, useAttrs, useSlots, defineEmits, defineProps } from 'vue'
+import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
+import { BridgeItem, RuleForm, BasicRule } from '@/types/rule'
+import { useI18n } from 'vue-i18n'
+import { cloneDeep } from 'lodash'
+import { ElMessageBox as MB } from 'element-plus'
+import parser from 'js-sql-parser'
+import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
+import SQLTestDialog from './SQLTestDialog.vue'
+import RuleOutputsDialog from './RuleOutputsDialog.vue'
+import { OutputItem } from '@/types/rule'
+
+const prop = defineProps({
+  modelValue: {
+    type: Object,
+    required: false,
+    default: () => ({}),
   },
-  emits: ['update:modelValue'],
-  setup(prop, context) {
-    const { t } = useI18n()
-    const showOutputDialog = ref(false)
-    const testDialog = ref(false)
-    const bridgeList = ref([])
-    const ingressBridgeList = ref([])
-    const ruleEventsList = ref([])
-    const outputLoading = ref(false)
-    const sqlFromType = ref('topic')
-    const outputDisableList: Ref<Array<string>> = ref([])
-    const editIndex: Ref<number | undefined> = ref(undefined)
-    const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent)
-    const briefEditType = ref(true)
-    const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
+})
+const emit = defineEmits(['update:modelValue'])
 
-    const ruleValueDefault = {
-      name: '',
-      sql: '',
-      outputs: [],
-      description: '',
-    }
+const { t } = useI18n()
+const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const showOutputDialog = ref(false)
+const testDialog = ref(false)
+const bridgeList = ref([])
+const ingressBridgeList = ref([])
+const ruleEventsList = ref([])
+const outputLoading = ref(false)
+const sqlFromType = ref('topic')
+const outputDisableList: Ref<Array<string>> = ref([])
+const editIndex: Ref<number | undefined> = ref(undefined)
+const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent)
+const briefEditType = ref(true)
+const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
 
-    const ruleValue: Ref<BasicRule | RuleForm> = ref({
-      ...cloneDeep(ruleValueDefault),
-      ...cloneDeep(prop.modelValue),
-    })
+const ruleValueDefault = {
+  name: '',
+  sql: '',
+  outputs: [],
+  description: '',
+}
 
-    const sqlPartValue = ref({
-      from: 't/#',
-      select: '*',
-      where: '',
-    })
+const ruleValue: Ref<BasicRule | RuleForm> = ref({
+  ...cloneDeep(ruleValueDefault),
+  ...cloneDeep(prop.modelValue),
+})
 
-    const testParams = ref({
-      msg: '',
-      metadata: {},
-      sql: '',
-    })
+const sqlPartValue = ref({
+  from: 't/#',
+  select: '*',
+  where: '',
+})
 
-    watch(
-      () => sqlFromType.value,
-      () => {
-        sqlPartValue.value.from = ''
-      },
-    )
+const testParams = ref({
+  msg: '',
+  metadata: {},
+  sql: '',
+})
 
-    watch(
-      () => [cloneDeep(ruleValue.value), cloneDeep(sqlPartValue.value)],
-      (val) => {
-        syncData()
-      },
-    )
-
-    /**
-     * sync data
-     * Timing of function calls: 1. open test dialog; 2. form value changed; 3. component mounted
-     */
-    const syncData = () => {
-      const sql = transformSQL()
-      context.emit('update:modelValue', { ...ruleValue.value, sql })
-      testParams.value.sql = sql
-      ruleValue.value.sql = transformSQL()
-      parseStrSQL()
-    }
-
-    /**
-     * trans form(select, from, where) to SQL
-     */
-    const transformSQL = () => {
-      const tempSql = [
-        'SELECT',
-        sqlPartValue.value.select,
-        'FROM',
-        ['"', sqlPartValue.value.from, '"'].join(''),
-      ]
-      if (sqlPartValue.value.where) tempSql.push('WHERE', sqlPartValue.value.where)
-
-      return tempSql.map((v) => String(v).trim()).join(' ')
-    }
-
-    const parseStrSQL = () => {
-      // const ast = parser.parse(ruleValue.value.sql);
-    }
-
-    const loadBridgeList = async () => {
-      outputLoading.value = true
-      const res = await getBridgeList().catch(() => {})
-      if (res) {
-        bridgeList.value = res
-      }
-      outputLoading.value = false
-    }
-
-    const calcDisableList = () => {
-      outputDisableList.value = []
-      if (!Array.isArray(ruleValue.value.outputs)) {
-        return
-      }
-      ruleValue.value.outputs?.forEach((v: OutputItem) => {
-        if (typeof v === 'string') {
-          outputDisableList.value.push(v)
-        } else if (typeof v === 'object') {
-          //republish can be duplicated
-          if (v.function === RuleOutput.Republish) return
-          v.function && outputDisableList.value.push(v.function)
-        }
-      })
-    }
-
-    const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void = async (
-      edit = false,
-      itemIndex,
-    ) => {
-      showOutputDialog.value = true
-      let item: OutputItem | undefined
-      editIndex.value = itemIndex
-      if (itemIndex !== undefined && Array.isArray(ruleValue.value.outputs)) {
-        item = ruleValue.value.outputs?.[itemIndex]
-      }
-      if (edit) {
-        currentOutputItem.value = item
-      } else {
-        currentOutputItem.value = undefined
-      }
-      calcDisableList()
-    }
-
-    const submitOutput = (opObj: OutputItem) => {
-      const output = ruleValue.value.outputs || []
-      if (Array.isArray(output)) {
-        if (!currentOutputItem.value) {
-          output.push(opObj)
-        } else {
-          editIndex.value !== undefined && output.splice(editIndex.value, 1, opObj)
-        }
-      }
-      calcDisableList()
-    }
-
-    const deleteOutput = async (itemIndex: number | undefined) => {
-      await MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      })
-      if (itemIndex !== undefined && Array.isArray(ruleValue.value.outputs)) {
-        ruleValue.value.outputs?.splice(itemIndex, 1)
-        calcDisableList()
-      }
-    }
-
-    const loadIngressBridgeList = async () => {
-      await loadBridgeList()
-      ingressBridgeList.value = bridgeList.value.filter(
-        (v: BridgeItem) => 'direction' in v && v.direction === MQTTBridgeDirection.In,
-      )
-    }
-
-    const openTestDialog = () => {
-      testDialog.value = true
-      syncData()
-
-      function findProperEvent(event: string) {
-        const properEvent = ruleEventsList.value.find((v: { event: string }) => v.event === event)
-        return properEvent
-      }
-
-      function setDataWithEvent(properEvent: RuleEvent) {
-        chosenEvent.value = properEvent
-        testParams.value.msg = chosenEvent.value?.test_columns?.payload
-        testParams.value.metadata = chosenEvent.value?.test_columns
-        Reflect.deleteProperty(testParams.value.metadata, 'payload')
-      }
-
-      if (sqlFromType.value === 'event') {
-        const eventData = findProperEvent(sqlPartValue.value.from)
-        eventData && setDataWithEvent(eventData)
-      } else if (sqlFromType.value === 'topic') {
-        const eventData = findProperEvent(sqlPartValue.value.from)
-        if (eventData) {
-          setDataWithEvent(eventData)
-          return
-        }
-        const modifiedEvent = findProperEvent('$events/message_publish')
-        modifiedEvent && setDataWithEvent(modifiedEvent)
-      } else if (sqlFromType.value === 'bridge') {
-        const modifiedEvent = findProperEvent('$events/message_publish')
-        modifiedEvent && setDataWithEvent(modifiedEvent)
-      }
-    }
-
-    const loadRuleEvents = async () => {
-      const res = await getRuleEvents().catch(() => {})
-      if (res) {
-        ruleEventsList.value = res
-      }
-    }
-
-    const getOutputImage = (item: string) => {
-      try {
-        return require(`@/assets/img/${item}.png`)
-      } catch (e) {
-        //May it be a user defined module
-        console.log('ImgErr:', e)
-      }
-    }
-
-    onMounted(() => {
-      loadIngressBridgeList()
-      loadRuleEvents()
-      syncData()
-    })
-
-    return {
-      tl: (key: string) => t('RuleEngine.' + key),
-      bridgeList,
-      loadIngressBridgeList,
-      openOutputDialog,
-      RuleOutput,
-      sqlPartValue,
-      outputDisableList,
-      sqlFromType,
-      openTestDialog,
-      testDialog,
-      chosenEvent,
-      ruleValue,
-      showOutputDialog,
-      outputLoading,
-      ruleEventsList,
-      ingressBridgeList,
-      testParams,
-      deleteOutput,
-      editIndex,
-      getOutputImage,
-      briefEditType,
-      currentOutputItem,
-      submitOutput,
-    }
+watch(
+  () => sqlFromType.value,
+  () => {
+    sqlPartValue.value.from = ''
   },
+)
+
+watch(
+  () => [cloneDeep(ruleValue.value), cloneDeep(sqlPartValue.value)],
+  (val) => {
+    syncData()
+  },
+)
+
+/**
+ * sync data
+ * Timing of function calls: 1. open test dialog; 2. form value changed; 3. component mounted
+ */
+const syncData = () => {
+  const sql = transformSQL()
+  emit('update:modelValue', { ...ruleValue.value, sql })
+  testParams.value.sql = sql
+  ruleValue.value.sql = transformSQL()
+  parseStrSQL()
+}
+
+/**
+ * trans form(select, from, where) to SQL
+ */
+const transformSQL = () => {
+  const tempSql = [
+    'SELECT',
+    sqlPartValue.value.select,
+    'FROM',
+    ['"', sqlPartValue.value.from, '"'].join(''),
+  ]
+  if (sqlPartValue.value.where) tempSql.push('WHERE', sqlPartValue.value.where)
+
+  return tempSql.map((v) => String(v).trim()).join(' ')
+}
+
+const parseStrSQL = () => {
+  // const ast = parser.parse(ruleValue.value.sql);
+}
+
+const loadBridgeList = async () => {
+  outputLoading.value = true
+  const res = await getBridgeList().catch(() => {})
+  if (res) {
+    bridgeList.value = res
+  }
+  outputLoading.value = false
+}
+
+const calcDisableList = () => {
+  outputDisableList.value = []
+  if (!Array.isArray(ruleValue.value.outputs)) {
+    return
+  }
+  ruleValue.value.outputs?.forEach((v: OutputItem) => {
+    if (typeof v === 'string') {
+      outputDisableList.value.push(v)
+    } else if (typeof v === 'object') {
+      //republish can be duplicated
+      if (v.function === RuleOutput.Republish) return
+      v.function && outputDisableList.value.push(v.function)
+    }
+  })
+}
+
+const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void = async (
+  edit = false,
+  itemIndex,
+) => {
+  showOutputDialog.value = true
+  let item: OutputItem | undefined
+  editIndex.value = itemIndex
+  if (itemIndex !== undefined && Array.isArray(ruleValue.value.outputs)) {
+    item = ruleValue.value.outputs?.[itemIndex]
+  }
+  if (edit) {
+    currentOutputItem.value = item
+  } else {
+    currentOutputItem.value = undefined
+  }
+  calcDisableList()
+}
+
+const submitOutput = (opObj: OutputItem) => {
+  const output = ruleValue.value.outputs || []
+  if (Array.isArray(output)) {
+    if (!currentOutputItem.value) {
+      output.push(opObj)
+    } else {
+      editIndex.value !== undefined && output.splice(editIndex.value, 1, opObj)
+    }
+  }
+  calcDisableList()
+}
+
+const deleteOutput = async (itemIndex: number | undefined) => {
+  await MB.confirm(t('Base.confirmDelete'), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+  })
+  if (itemIndex !== undefined && Array.isArray(ruleValue.value.outputs)) {
+    ruleValue.value.outputs?.splice(itemIndex, 1)
+    calcDisableList()
+  }
+}
+
+const loadIngressBridgeList = async () => {
+  await loadBridgeList()
+  ingressBridgeList.value = bridgeList.value.filter(
+    (v: BridgeItem) => 'direction' in v && v.direction === MQTTBridgeDirection.In,
+  )
+}
+
+const openTestDialog = () => {
+  testDialog.value = true
+  syncData()
+
+  function findProperEvent(event: string) {
+    const properEvent = ruleEventsList.value.find((v: { event: string }) => v.event === event)
+    return properEvent
+  }
+
+  function setDataWithEvent(properEvent: RuleEvent) {
+    chosenEvent.value = properEvent
+    testParams.value.msg = chosenEvent.value?.test_columns?.payload
+    testParams.value.metadata = chosenEvent.value?.test_columns
+    Reflect.deleteProperty(testParams.value.metadata, 'payload')
+  }
+
+  if (sqlFromType.value === 'event') {
+    const eventData = findProperEvent(sqlPartValue.value.from)
+    eventData && setDataWithEvent(eventData)
+  } else if (sqlFromType.value === 'topic') {
+    const eventData = findProperEvent(sqlPartValue.value.from)
+    if (eventData) {
+      setDataWithEvent(eventData)
+      return
+    }
+    const modifiedEvent = findProperEvent('$events/message_publish')
+    modifiedEvent && setDataWithEvent(modifiedEvent)
+  } else if (sqlFromType.value === 'bridge') {
+    const modifiedEvent = findProperEvent('$events/message_publish')
+    modifiedEvent && setDataWithEvent(modifiedEvent)
+  }
+}
+
+const loadRuleEvents = async () => {
+  const res = await getRuleEvents().catch(() => {})
+  if (res) {
+    ruleEventsList.value = res
+  }
+}
+
+const getOutputImage = (item: string) => {
+  try {
+    return require(`@/assets/img/${item}.png`)
+  } catch (e) {
+    //May it be a user defined module
+    console.log('ImgErr:', e)
+  }
+}
+
+onMounted(() => {
+  loadIngressBridgeList()
+  loadRuleEvents()
+  syncData()
 })
 </script>
 

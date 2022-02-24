@@ -7,7 +7,7 @@
           <el-icon @click="resetStatistics"><refresh-left /></el-icon>
         </el-tooltip>
       </div>
-      <p class="card-sub-desc">{{ tl('resetTime') }}: TODO:</p>
+      <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p>
       <el-row class="rule-statistic">
         <el-col :span="6">
           <p class="statistic-label">
