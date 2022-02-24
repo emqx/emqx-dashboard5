@@ -182,6 +182,11 @@
     border-color: #00b299ff;
     color: #ffffffff;
 
+    &.is-plain{
+      background-color: #fff;
+      color: #00b299ff;
+    }
+
     &:hover {
       background-color: #25d0b8ff;
       border-color: #25d0b8ff;

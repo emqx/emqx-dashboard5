@@ -48,8 +48,13 @@
               <el-input type="textarea" v-model="sqlPartValue.where" />
             </el-form-item>
           </el-col>
-          <el-col>
-            <el-button size="small" @click="openTestDialog()">{{ tl('testsql') }}</el-button>
+          <el-col class="sql-ft" :span="14">
+            <el-button type="primary" plain size="small" @click="openTestDialog()">
+              {{ tl('testsql') }}
+            </el-button>
+            <el-button size="mini" plain type="info" @click="showTemplateDrawer">
+              {{ tl('SQLTemplates') }}
+            </el-button>
           </el-col>
         </el-row>
       </template>
@@ -103,6 +108,7 @@
     :output-disable-list="outputDisableList"
     @submit="submitOutput"
   />
+  <SQLTemplateDrawer v-model="isShowTemplateDrawer" />
 </template>
 
 <script lang="ts">
@@ -134,6 +140,7 @@ import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import SQLTestDialog from './SQLTestDialog.vue'
 import RuleOutputsDialog from './RuleOutputsDialog.vue'
 import { OutputItem } from '@/types/rule'
+import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 
 const prop = defineProps({
   modelValue: {
@@ -158,6 +165,8 @@ const editIndex: Ref<number | undefined> = ref(undefined)
 const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent)
 const briefEditType = ref(true)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
+
+const isShowTemplateDrawer = ref(false)
 
 const ruleValueDefault = {
   name: '',
@@ -335,6 +344,10 @@ const openTestDialog = () => {
   }
 }
 
+const showTemplateDrawer = () => {
+  isShowTemplateDrawer.value = true
+}
+
 const loadRuleEvents = async () => {
   const res = await getRuleEvents().catch(() => {})
   if (res) {
@@ -413,5 +426,10 @@ onMounted(() => {
 }
 .part-btn {
   margin-left: 15px;
+}
+
+.sql-ft {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
