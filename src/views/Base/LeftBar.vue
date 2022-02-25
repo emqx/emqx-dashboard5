@@ -142,8 +142,8 @@ export default {
         path: '/advanced',
       },
       {
-        title: 'configDocs',
-        path: '/configDocs',
+        title: 'config-docs',
+        path: '/config-docs',
       },
     ]
 
@@ -188,26 +188,6 @@ export default {
         icon: 'icon-system',
         c: system,
       },
-      // {
-      //   title: 'ruleengine',
-      //   icon: 'icon-guizeyinqing',
-      //   path: '/ruleengine',
-      // },
-      // {
-      //   title: 'modules',
-      //   path: '/modules',
-      //   icon: 'icon-changjingguanli',
-      // },
-      // {
-      //   title: 'setting',
-      //   path: '/setting',
-      //   icon: 'icon-icon_shezhi',
-      // },
-      // {
-      //   title: 'general',
-      //   icon: 'icon-fenzuguanli',
-      //   path: '/general',
-      // },
     ]
   },
 }

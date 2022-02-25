@@ -447,10 +447,10 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/configDocs',
+    path: '/config-docs',
     component: Layout,
     meta: {
-      hideKey: 'configDocs',
+      hideKey: 'config-docs',
       authRequired: true,
     },
     children: [
