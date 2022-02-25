@@ -89,17 +89,16 @@ import { getSubscribe, editSubscribe } from '@/api/advanced'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
-import { QoSLevel } from "@/types/enum.ts";
+import { QoSLevel } from '@/types/enum.ts'
 import { QoSOptions } from '@/common/constants'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'Subscribe',
 
   setup() {
     const { t } = useI18n()
-    const tl = function (key, collection = 'Advanced') {
-      return t(collection + '.' + key)
-    }
+    const { tl } = useI18nTl('Advanced')
     let isEdit = ref(false)
     let opSubs = ref(false)
     let subTbData = ref([])

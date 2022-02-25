@@ -74,14 +74,13 @@ import { getTopicRewrite, editTopicRewrite } from '@/api/advanced'
 import { ElMessageBox as MB } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'Rewrite',
   setup() {
     const { t } = useI18n()
-    const tl = function (key, collection = 'Advanced') {
-      return t(collection + '.' + key)
-    }
+    const { tl } = useI18nTl('Advanced')
 
     let opRewrite = ref(false)
     let rewriteTbData = ref([])
