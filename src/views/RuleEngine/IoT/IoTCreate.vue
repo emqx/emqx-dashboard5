@@ -1,74 +1,69 @@
 <template>
   <div class="iot-create app-wrapper">
     <div class="page-header-title">{{ tl('createIoTRule') }}</div>
-    <iotform v-model="ruleValue"></iotform>
+    <iotform v-model="ruleValue" />
     <el-row class="config-btn">
-      <el-button size="small" type="primary" :loading="submitLoading" @click="submitCreateIoT">{{
-        $t('Base.create')
-      }}</el-button>
+      <el-button size="small" type="primary" :loading="submitLoading" @click="submitCreateIoT">
+        {{ $t('Base.create') }}
+      </el-button>
 
-      <el-button size="small" @click="$router.push({ name: 'iot' })">{{
-        $t('Base.cancel')
-      }}</el-button>
+      <el-button size="small" @click="$router.push({ name: 'iot' })">
+        {{ $t('Base.cancel') }}
+      </el-button>
     </el-row>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, Ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import iotform from '../components/IoTForm.vue'
-import { BridgeItem, RuleItem } from '@/types/ruleengine'
-import { createRules } from '@/api/ruleengine'
-import { useRouter } from 'vue-router'
-import { ElMessage as M } from 'element-plus'
-import _ from 'lodash'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { iotform },
-  setup() {
-    const { t } = useI18n()
-
-    const router = useRouter()
-    const submitLoading = ref(false)
-
-    const ruleValue: Ref<RuleItem> = ref({
-      name: '',
-      sql: '',
-      outputs: [],
-      description: '',
-    })
-
-    // watch(
-    //   () => ruleValue.value,
-    //   (val) => {
-    //     console.log(val);
-    //   }
-    // );
-    const submitCreateIoT = async () => {
-      submitLoading.value = true
-
-      const res = await createRules({
-        ...ruleValue.value,
-      }).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: t('Base.createSuccess'),
-        })
-        router.push({ name: 'iot' })
-      }
-      submitLoading.value = false
-    }
-
-    return {
-      tl: (key: string) => t('RuleEngine.' + key),
-      ruleValue,
-      submitCreateIoT,
-      submitLoading,
-    }
-  },
+  name: 'IoTCreate',
 })
+</script>
+
+<script lang="ts" setup>
+import { ref, Ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import iotform from '../components/IoTForm.vue'
+import { RuleItem } from '@/types/ruleengine'
+import { createRules } from '@/api/ruleengine'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { createRandomString } from '@/common/tools'
+
+const { t } = useI18n()
+const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+
+const router = useRouter()
+const submitLoading = ref(false)
+
+const ruleValue: Ref<RuleItem> = ref({
+  name: `rule:${createRandomString(4)}`,
+  sql: '',
+  outputs: [],
+  description: '',
+})
+
+// watch(
+//   () => ruleValue.value,
+//   (val) => {
+//     console.log(val);
+//   }
+// );
+const submitCreateIoT = async () => {
+  submitLoading.value = true
+
+  try {
+    await createRules({ ...ruleValue.value })
+    ElMessage.success(t('Base.createSuccess'))
+    router.push({ name: 'iot' })
+  } catch (error) {
+    //
+  } finally {
+    submitLoading.value = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>

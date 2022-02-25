@@ -1,104 +1,133 @@
 <template>
   <div class="iot-form">
     <el-form label-position="top">
-      <div class="part-header">{{ tl('baseInfo') }}</div>
-      <el-row>
-        <el-col :span="14">
-          <el-form-item :label="tl('ruleName')">
-            <el-input v-model="ruleValue.name" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="14">
-          <el-form-item :label="tl('note')">
-            <el-input type="textarea" v-model="ruleValue.description" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <div class="part-header">
-        {{ tl('filterData') }}
-        <el-button size="mini" class="part-btn" @click="briefEditType = !briefEditType">
-          {{ tl('changeSqlMethod') }}
-        </el-button>
-      </div>
-      <template v-if="briefEditType">
+      <el-card shadow="never" class="app-card">
+        <div class="part-header">{{ tl('baseInfo') }}</div>
         <el-row>
-          <el-col :span="14">
-            <el-form-item label="FROM(Data Source)">
-              <el-radio-group v-model="sqlFromType">
-                <el-radio label="topic" />
-                <el-radio label="bridge" />
-                <el-radio label="event" />
-              </el-radio-group>
-              <el-input v-if="sqlFromType === 'topic'" v-model="sqlPartValue.from" />
-              <el-select v-if="sqlFromType === 'bridge'" v-model="sqlPartValue.from">
-                <el-option v-for="item in ingressBridgeList" :key="item.id" :value="item.id" />
-              </el-select>
-              <el-select v-if="sqlFromType === 'event'" v-model="sqlPartValue.from">
-                <el-option v-for="item in ruleEventsList" :key="item.event" :value="item.event" />
-              </el-select>
+          <el-col :span="8">
+            <el-form-item :label="tl('name')">
+              <el-input v-model="ruleValue.name" />
             </el-form-item>
-          </el-col>
-          <el-col :span="14">
-            <el-form-item label="SELECT(Data Transformation)">
-              <el-input type="textarea" v-model="sqlPartValue.select" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="14">
-            <el-form-item label="WHERE(Condition)">
-              <el-input type="textarea" v-model="sqlPartValue.where" />
-            </el-form-item>
-          </el-col>
-          <el-col class="sql-ft" :span="14">
-            <el-button type="primary" plain size="small" @click="openTestDialog()">
-              {{ tl('testsql') }}
-            </el-button>
-            <el-button size="mini" plain type="info" @click="showTemplateDrawer">
-              {{ tl('SQLTemplates') }}
-            </el-button>
-          </el-col>
-        </el-row>
-      </template>
-      <template v-else>
-        <el-row>
-          <el-col :span="16">
-            <el-form-item :label="'SQL'">
-              <el-input type="textarea" rows="10" v-model="ruleValue.sql" />
+            <el-form-item :label="tl('note')">
+              <el-input type="textarea" v-model="ruleValue.description" />
             </el-form-item>
           </el-col>
         </el-row>
-      </template>
-      <div class="part-header">{{ tl('output') }}</div>
-      <el-row>
-        <el-col :span="14">
-          <template v-for="(item, index) in ruleValue.outputs" :key="item">
-            <div class="outputs-item">
-              <span>
-                <img
-                  :src="getOutputImage(item.function ? item.function : item.split(':')[0])"
-                  width="80"
-                />
-              </span>
-              <span>
-                <div v-if="!item.function">{{ item.split(':')[1] }}</div>
-                <div class="output-desc">
-                  {{ (item.function ? item.function : item.split(':')[0]).toUpperCase() }}
-                </div>
-              </span>
-              <span class="output-op">
-                <el-button size="mini" @click="openOutputDialog(true, index)">
-                  {{ $t('Base.edit') }}
-                </el-button>
-                <el-button size="mini" type="danger" @click="deleteOutput(index)">
-                  {{ $t('Base.delete') }}
-                </el-button>
-              </span>
+      </el-card>
+
+      <el-card shadow="never" class="app-card">
+        <div class="part-header">{{ tl('filterData') }}</div>
+        <template v-if="briefEditType">
+          <el-row>
+            <el-col :span="14">
+              <el-form-item>
+                <template #label>
+                  <div class="label-container">
+                    <label>{{ tl('dataSource') }}(FROM)</label>
+                    <el-tooltip
+                      effect="dark"
+                      :content="tl('changeSqlMethod')"
+                      placement="top-start"
+                    >
+                      <el-icon class="icon-edit" @click="briefEditType = !briefEditType">
+                        <edit-pen />
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
+                <el-radio-group v-model="sqlFromType">
+                  <el-radio label="topic" />
+                  <el-radio label="bridge" />
+                  <el-radio label="event" />
+                </el-radio-group>
+                <el-input v-if="sqlFromType === 'topic'" v-model="sqlPartValue.from" />
+                <el-select v-if="sqlFromType === 'bridge'" v-model="sqlPartValue.from">
+                  <el-option v-for="item in ingressBridgeList" :key="item.id" :value="item.id" />
+                </el-select>
+                <el-select v-if="sqlFromType === 'event'" v-model="sqlPartValue.from">
+                  <el-option v-for="item in ruleEventsList" :key="item.event" :value="item.event" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="14">
+              <el-form-item :label="`${tl('select')}(SELECT)`">
+                <el-input type="textarea" v-model="sqlPartValue.select" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="14">
+              <el-form-item :label="`${tl('where')}(WHERE)`">
+                <el-input type="textarea" v-model="sqlPartValue.where" />
+              </el-form-item>
+            </el-col>
+            <el-col class="sql-ft" :span="14">
+              <el-button type="primary" plain size="small" @click="openTestDialog()">
+                {{ tl('testsql') }}
+              </el-button>
+              <el-button size="mini" plain type="info" @click="showTemplateDrawer">
+                {{ tl('SQLTemplates') }}
+              </el-button>
+            </el-col>
+          </el-row>
+        </template>
+        <template v-else>
+          <el-row>
+            <el-col :span="16">
+              <el-form-item>
+                <template #label>
+                  <div class="label-container">
+                    <label>SQL</label>
+                    <el-tooltip
+                      effect="dark"
+                      :content="tl('changeFormMethod')"
+                      placement="top-start"
+                    >
+                      <el-icon class="icon-edit" @click="briefEditType = !briefEditType">
+                        <edit-pen />
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template>
+                <el-input type="textarea" rows="10" v-model="ruleValue.sql" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </template>
+      </el-card>
+
+      <el-card shadow="never" class="app-card">
+        <div class="part-header">{{ tl('output') }}</div>
+        <el-row>
+          <el-col :span="14">
+            <template v-for="(item, index) in ruleValue.outputs" :key="item">
+              <div class="outputs-item">
+                <span>
+                  <img
+                    :src="getOutputImage(item.function ? item.function : item.split(':')[0])"
+                    width="80"
+                  />
+                </span>
+                <span>
+                  <div v-if="!item.function">{{ item.split(':')[1] }}</div>
+                  <div class="output-desc">
+                    {{ (item.function ? item.function : item.split(':')[0]).toUpperCase() }}
+                  </div>
+                </span>
+                <span class="output-op">
+                  <el-button size="mini" @click="openOutputDialog(true, index)">
+                    {{ $t('Base.edit') }}
+                  </el-button>
+                  <el-button size="mini" type="danger" @click="deleteOutput(index)">
+                    {{ $t('Base.delete') }}
+                  </el-button>
+                </span>
+              </div>
+            </template>
+            <div class="outputs-item add" @click="openOutputDialog(false)">
+              <span>{{ tl('addOutput') }}</span>
             </div>
-          </template>
-          <div class="outputs-item add" @click="openOutputDialog(false)">
-            <span>{{ tl('addOutput') }}</span>
-          </div>
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
+      </el-card>
     </el-form>
   </div>
   <SQLTestDialog v-model="testDialog" :test-data="testParams" :chosen-event="chosenEvent" />
@@ -129,7 +158,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, onMounted, watch, useAttrs, useSlots, defineEmits, defineProps } from 'vue'
+import { ref, Ref, onMounted, watch, defineEmits, defineProps } from 'vue'
 import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
@@ -141,6 +170,7 @@ import SQLTestDialog from './SQLTestDialog.vue'
 import RuleOutputsDialog from './RuleOutputsDialog.vue'
 import { OutputItem } from '@/types/rule'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
+import { EditPen } from '@element-plus/icons-vue'
 
 const prop = defineProps({
   modelValue: {
@@ -372,6 +402,33 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.el-card {
+  margin-bottom: 20px;
+  .part-header {
+    margin-bottom: 12px;
+  }
+  .el-form-item {
+    margin-bottom: 12px;
+  }
+}
+
+.label-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.icon-edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: #f2f2f2;
+}
+.sql-ft {
+  display: flex;
+  justify-content: space-between;
+}
 .outputs-item {
   height: 92px;
   border: var(--el-border-base);
@@ -423,13 +480,5 @@ onMounted(() => {
 .embedded-config {
   border: var(--el-border-base);
   padding: 30px;
-}
-.part-btn {
-  margin-left: 15px;
-}
-
-.sql-ft {
-  display: flex;
-  justify-content: space-between;
 }
 </style>

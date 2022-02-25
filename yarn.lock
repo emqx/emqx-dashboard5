@@ -1195,10 +1195,15 @@
   dependencies:
     lodash "^4.11.1"
 
-"@element-plus/icons-vue@^0.2.2", "@element-plus/icons-vue@^0.2.4":
+"@element-plus/icons-vue@^0.2.2":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@element-plus/icons-vue/-/icons-vue-0.2.4.tgz#dadcf72f0cea53dc83b7b7db80e1418716d7b02c"
   integrity sha512-RsJNyL58rwxtsjeMy34o8txkL6UlME1stWsUlRpTac6UE9Bx9gdJvnDXbIKhOJqBLX17fBjmposdrn6VTqim2w==
+
+"@element-plus/icons-vue@^0.2.4":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@element-plus/icons-vue/-/icons-vue-0.2.7.tgz#c0b75363098bf1fba414e18706604bfe5057ae1b"
+  integrity sha512-S8kDbfVaWkQvbUYQE1ui448tzaHfUvyESCep9J6uPRlViyQPXjdIfwLBhV6AmQSOfFS8rL+xehJGhvzPXLrSBg==
 
 "@hapi/address@2.x.x":
   version "2.1.4"
