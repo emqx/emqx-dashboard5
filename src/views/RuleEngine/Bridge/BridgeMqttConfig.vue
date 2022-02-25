@@ -75,7 +75,7 @@
             <el-col :span="4">
               <el-form-item label="QoS">
                 <el-select v-model="mqttBridgeVal.remote_qos">
-                  <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos" />
+                  <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -92,7 +92,7 @@
             <el-col :span="4">
               <el-form-item label="QoS">
                 <el-select v-model="mqttBridgeVal.local_qos">
-                  <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos" />
+                  <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -136,7 +136,7 @@
             <el-col :span="4">
               <el-form-item label="QoS">
                 <el-select v-model="mqttBridgeVal.remote_qos">
-                  <el-option v-for="qos in [0, 1, 2]" :key="qos" :value="qos" />
+                  <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -188,6 +188,7 @@ import { getConnectorList } from '@/api/ruleengine'
 import { ConnectorItem } from '@/types/ruleengine'
 import ConnectorDialog from '../components/ConnectorDialog.vue'
 import { ConnectorMQTT } from '@/types/rule'
+import { QoSOptions } from '@/common/constants'
 
 const prop = defineProps({
   modelValue: {

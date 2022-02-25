@@ -89,6 +89,8 @@ import { getSubscribe, editSubscribe } from '@/api/advanced'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
+import { QoSLevel } from "@/types/enum.ts";
+import { QoSOptions } from '@/common/constants'
 
 export default defineComponent({
   name: 'Subscribe',
@@ -102,14 +104,14 @@ export default defineComponent({
     let opSubs = ref(false)
     let subTbData = ref([])
     let subsOptions = reactive({
-      qos: [0, 1, 2],
+      qos: QoSOptions,
       nl: [0, 1],
       rap: [0, 1],
       rh: [0, 1, 2],
     })
     let subsInput = reactive({
       topic: '',
-      qos: 0,
+      qos: QoSLevel.QoS0,
       nl: 0,
       rap: 0,
       rh: 0,

@@ -113,10 +113,10 @@
       <el-form-item prop="qos" label="QoS">
         <!-- <emq-select
           v-model.number="subscriptionsRecord.qos"
-          :field="{ list: [0, 1, 2] }"
+          :field="{ list: QoSOptions }"
         ></emq-select> -->
         <el-select v-model.number="subscriptionsRecord.qos">
-          <el-option v-for="item in [0, 1, 2]" :key="item" :value="item"></el-option>
+          <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -170,12 +170,12 @@
       <el-form-item prop="qos" label="QoS">
         <!-- <emq-select
           v-model.number="messageRecord.qos"
-          :field="{ list: [0, 1, 2] }"
+          :field="{ list: QoSOptions }"
           size="small"
         >
         </emq-select> -->
         <el-select v-model.number="messageRecord.qos">
-          <el-option v-for="item in [0, 1, 2]" :key="item" :value="item"></el-option>
+          <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
 
@@ -270,6 +270,7 @@ import mqtt from 'mqtt'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
+import { QoSOptions } from '@/common/constants'
 
 export default {
   name: 'WebSocketItem',
@@ -286,6 +287,7 @@ export default {
 
   data() {
     return {
+      QoSOptions,
       times: 0,
       cStatus: 0b00000,
       messageRecordRules: {
@@ -522,7 +524,7 @@ export default {
         // 是否超过最大订阅数
         let isMoreMaxSubs = false
         res.forEach((item) => {
-          if (![0, 1, 2].includes(item.qos)) {
+          if (!QoSOptions.includes(item.qos)) {
             isMoreMaxSubs = true
           }
         })

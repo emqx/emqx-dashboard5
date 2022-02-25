@@ -78,3 +78,9 @@ export enum MQTTBridgeDirection {
   In = 'ingress',
   Out = 'egress',
 }
+
+export enum QoSLevel {
+  QoS0,
+  QoS1,
+  QoS2,
+}
