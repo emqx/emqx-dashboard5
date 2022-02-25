@@ -25,7 +25,7 @@ import Rewrite from './components/rewrite.vue'
 import Subscribe from './components/subscribe.vue'
 import Postpone from './components/postpone.vue'
 import Message from './components/message.vue'
-import { useI18n } from 'vue-i18n'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   components: {
@@ -40,11 +40,7 @@ export default defineComponent({
 
     let panesRef = {}
 
-    const { t } = useI18n()
-
-    const tl = function (key, collection = 'Advanced') {
-      return t(collection + '.' + key)
-    }
+    const { tl } = useI18nTl('Advanced')
 
     const clickTab = async function (tab) {
       let tabName = panes.value[tab.index]
@@ -86,7 +82,6 @@ $mid-menu-width: 160px;
   }
   .el-tabs__content {
     margin-left: $mid-menu-width;
-    // padding: 20px;
   }
 }
 

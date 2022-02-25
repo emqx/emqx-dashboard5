@@ -132,6 +132,7 @@ import { dateFormat } from '@/common/utils'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { createClipboardEleWithTargetText } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'Postpone',
@@ -139,10 +140,8 @@ export default defineComponent({
     CommonPagination,
   },
   setup() {
+    const { tl } = useI18nTl('Advanced')
     const { t } = useI18n()
-    const tl = function (key, collection = 'Advanced') {
-      return t(collection + '.' + key)
-    }
 
     let delayedConfig = reactive({
       enable: false,
