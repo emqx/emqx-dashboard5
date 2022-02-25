@@ -60,7 +60,7 @@
           <el-col :span="14">
             <el-form-item label="QoS">
               <el-select v-model="outputForm.args.qos">
-                <el-option v-for="item in [0, 1, 2]" :value="item" :key="item" />
+                <el-option v-for="item in QoSOptions" :value="item" :key="item" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -109,6 +109,7 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import { getBridgeList } from '@/api/ruleengine'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import { BridgeItem, OutputItem } from '@/types/rule'
+import { QoSOptions } from '@/common/constants'
 
 type OutputForm = {
   type: string

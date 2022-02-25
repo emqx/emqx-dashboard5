@@ -1,4 +1,4 @@
-import { PayloadShowByType } from '@/types/enum'
+import { PayloadShowByType, QoSLevel } from '@/types/enum'
 
 export const QoS_LIST = [0, 1, 2]
 
@@ -18,3 +18,5 @@ export const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST = [
 export const RULE_INPUT_EVENT_PREFIX = '$events/'
 
 export const RULE_TOPOLOGY_ID = 'rule-topology'
+
+export const QoSOptions = [QoSLevel.QoS0, QoSLevel.QoS1, QoSLevel.QoS2]

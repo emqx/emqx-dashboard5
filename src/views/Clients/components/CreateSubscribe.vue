@@ -17,10 +17,10 @@
       <el-form-item prop="qos" label="QoS">
         <!-- <emq-select
           v-model="record.qos"
-          :field="{ list: [0, 1, 2] }"
+          :field="{ list: QoSOptions }"
         ></emq-select> -->
         <el-select v-model.number="record.qos">
-          <el-option v-for="item in [0, 1, 2]" :key="item" :value="item"></el-option>
+          <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -38,6 +38,7 @@
 <script>
 import { subscribe } from '@/api/clients'
 import { addGatewayClientSubs } from '@/api/gateway'
+import { QoSOptions } from '@/common/constants'
 
 export default {
   name: 'CreateSubscribe',
@@ -62,6 +63,7 @@ export default {
 
   data() {
     return {
+      QoSOptions,
       record: {
         clientid: this.clientid,
         qos: 0,

@@ -1,5 +1,5 @@
 import { SSL } from './common'
-import { BridgeStatus, BridgeType, ConnectorType, MQTTBridgeDirection } from './enum'
+import { BridgeStatus, BridgeType, ConnectorType, MQTTBridgeDirection, QoSLevel } from './enum'
 
 export type Metrics = Record<string, number>
 
@@ -22,7 +22,7 @@ export interface OutputItemObj {
   args?: {
     payload: string
     topic: string
-    qos: number
+    qos: QoSLevel
   }
 }
 
@@ -83,11 +83,11 @@ export interface MQTTOut extends BridgeBaseData {
   payload: string
   remote_topic: string
   retain: boolean
-  remote_qos: number
+  remote_qos: QoSLevel
 }
 
 export type MQTTIn = MQTTOut & {
-  local_qos: number
+  local_qos: QoSLevel
 }
 
 export type BridgeItem = HTTPBridge | MQTTOut | MQTTIn
