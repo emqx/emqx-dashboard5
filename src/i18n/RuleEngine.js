@@ -211,6 +211,10 @@ export default {
     zh: '输出',
     en: 'Outputs',
   },
+  outputDesc: {
+    zh: '将处理结果输出到数据桥接或内置函数中。',
+    en: 'Output the processing result to a data bridge or built-in function.',
+  },
   addOutput: {
     zh: '添加输出',
     en: 'Add Output',
@@ -354,6 +358,14 @@ export default {
   SQL: {
     zh: 'SQL 语句',
     en: 'SQL',
+  },
+  ruleSQLDesc: {
+    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的 IoT 数据。',
+    en: 'Extract, filter, enrich, and transform IoT data between devices and business systems in real-time using SQL statements.',
+  },
+  doc: {
+    zh: '参考文档',
+    en: 'Doc',
   },
   overview: {
     zh: '概览',
