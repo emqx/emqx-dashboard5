@@ -3,6 +3,7 @@
     v-model="showDrawer"
     :title="tl('commonSQLTemplates')"
     custom-class="SQL-template-drawer"
+    :size="500"
   >
     <el-collapse>
       <el-collapse-item
@@ -15,8 +16,8 @@
           <div class="sub-block-hd">
             <p class="hd-title">{{ tl('SQL') }}</p>
             <div>
-              <el-button type="text">{{ tl('testsql') }}</el-button>
-              <el-button type="text">{{ tl('useSQL') }}</el-button>
+              <el-button type="text" size="mini">{{ tl('testsql') }}</el-button>
+              <el-button type="text" size="mini">{{ tl('useSQL') }}</el-button>
             </div>
           </div>
           <div class="input-container">

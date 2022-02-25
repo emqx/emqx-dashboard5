@@ -12,7 +12,7 @@ export default {
     en: 'Create Connector',
   },
   backDataBridge: {
-    zh: '返回Data Bridge列表',
+    zh: '返回 Data Bridge 列表',
     en: 'Back To Data Bridge List',
   },
   bridgeType: {
@@ -200,11 +200,11 @@ export default {
     en: 'Note',
   },
   ruleName: {
-    zh: '规则Name',
+    zh: '规则 Name',
     en: 'Rule Name',
   },
   filterData: {
-    zh: '数据筛选',
+    zh: '筛选数据',
     en: 'Filter Data',
   },
   output: {
@@ -216,7 +216,7 @@ export default {
     en: 'Add Output',
   },
   consoleOutput: {
-    zh: 'Console输出',
+    zh: 'Console 输出',
     en: 'Console Output',
   },
   republish: {
@@ -232,15 +232,15 @@ export default {
     en: 'Edit The Output',
   },
   testsql: {
-    zh: '测试SQL',
+    zh: '测试 SQL',
     en: 'Test SQL',
   },
   backToIoTList: {
-    zh: '返回IoT规则列表',
+    zh: '返回 IoT 规则列表',
     en: 'Back To IoT Rules List',
   },
   backToBridggeList: {
-    zh: '返回Bridge列表',
+    zh: '返回 Bridge 列表',
     en: 'Back To Bridge List',
   },
   messages: {
@@ -248,8 +248,24 @@ export default {
     en: 'Messages',
   },
   changeSqlMethod: {
-    zh: '切换SQL编辑',
+    zh: '切换 SQL 编辑',
     en: 'Switch SQL Edit',
+  },
+  changeFormMethod: {
+    zh: '切换表单编辑',
+    en: 'Switch Form Edit',
+  },
+  dataSource: {
+    zh: '数据来源',
+    en: 'Data source',
+  },
+  select: {
+    zh: '数据转换',
+    en: 'Select',
+  },
+  where: {
+    zh: '条件',
+    en: 'Where',
   },
   outputTypeRequired: {
     zh: '请填写输出类型',

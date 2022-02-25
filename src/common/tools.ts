@@ -126,3 +126,20 @@ export const commonTimeUnits = [
 ]
 
 export const formatNumber = (num: number) => new Intl.NumberFormat().format(num)
+
+const ZERO_ASCII = 48
+const LOWER_A_ASCII = 97
+const charLib = String.fromCharCode(
+  ...new Array(10)
+    .fill(ZERO_ASCII)
+    .map((item, index) => item + index)
+    .concat(new Array(26).fill(LOWER_A_ASCII).map((item, index) => item + index)),
+)
+
+export const createRandomString = (length = 8) => {
+  const libLength = charLib.length
+  return new Array(length).fill('').reduce((str) => {
+    const randomIndex = Math.floor(Math.random() * libLength)
+    return str + charLib.substring(randomIndex, randomIndex + 1)
+  }, '')
+}
