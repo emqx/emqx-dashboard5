@@ -451,14 +451,13 @@ export default {
     zh: '支持使用 {0} 读取数据，置空则原样转发消息。',
     en: 'Supports reading data using {0} , and forwards the message as it is if it is empty.',
   },
-  // FIXME: can not show brace
   payloadTempSyntax: {
-    zh: '${field}语法',
-    en: '${field} syntax',
+    zh: "${'{'}field{'}'}语法",
+    en: "${'{'}field{'}'} syntax",
   },
   remoteTopicDesc: {
-    zh: '桥接数据到远端 Broker 指定主题中，支持使用 ${field} 语法拼接动态主题',
-    en: 'Bridges data to a remote broker specified topic, and supports splicing dynamic topics using the ${field} syntax.',
+    zh: "桥接数据到远端 Broker 指定主题中，支持使用 ${'{'}field{'}'} 语法拼接动态主题",
+    en: "Bridges data to a remote broker specified topic, and supports splicing dynamic topics using the ${'{'}field{'}'} syntax.",
   },
   connectionClusterModeDesc: {
     zh: '集群共享：整个集群中建立一个 MQTT 连接',
