@@ -206,9 +206,10 @@ const setFormDataWhenOpenDialog = async () => {
 // TODO: can better
 const loadEgressBridgeList = async () => {
   bridgeList.value = await getBridgeList().catch(() => {})
-  egressBridgeList.value = bridgeList.value.filter(
-    (v: BridgeItem) => 'direction' in v && v.direction === MQTTBridgeDirection.Out,
-  )
+  egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
+    const isOutDirection = 'direction' in v && v.direction === MQTTBridgeDirection.Out
+    return !('direction' in v) || isOutDirection
+  })
 }
 
 const isDisabledBridge = ({ id }: BridgeItem) => {

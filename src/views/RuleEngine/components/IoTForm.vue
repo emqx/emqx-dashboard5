@@ -175,9 +175,8 @@ const sqlPartValue = ref({
 })
 
 const testParams = ref({
-  msg: '',
-  metadata: {},
   sql: '',
+  context: {},
 })
 
 watch(
@@ -252,9 +251,7 @@ const openTestDialog = () => {
 
   function setDataWithEvent(properEvent: RuleEvent) {
     chosenEvent.value = properEvent
-    testParams.value.msg = chosenEvent.value?.test_columns?.payload
-    testParams.value.metadata = chosenEvent.value?.test_columns
-    Reflect.deleteProperty(testParams.value.metadata, 'payload')
+    testParams.value.context = chosenEvent.value?.test_columns
   }
 
   if (sqlFromType.value === 'event') {
@@ -304,11 +301,6 @@ onMounted(() => {
   }
 }
 
-.label-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 .icon-edit {
   display: flex;
   align-items: center;
@@ -316,6 +308,7 @@ onMounted(() => {
   width: 24px;
   height: 24px;
   background-color: #f2f2f2;
+  cursor: pointer;
 }
 .sql-ft {
   display: flex;

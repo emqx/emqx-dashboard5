@@ -72,4 +72,9 @@
     color: var(--el-text-color-secondary);
     font-size: 12px;
   }
+  .label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
