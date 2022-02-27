@@ -223,6 +223,26 @@ export default {
     zh: 'Console 输出',
     en: 'Console Output',
   },
+  outputResult: {
+    zh: '输出结果',
+    en: 'Output result',
+  },
+  testData: {
+    zh: '测试数据',
+    en: 'Test data',
+  },
+  switchToFormEditing: {
+    zh: '切换为表单编辑',
+    en: 'Switch to form editing',
+  },
+  switchToJSONEditing: {
+    zh: '切换为 JSON 编辑',
+    en: 'Switch to JSON editing',
+  },
+  resetData: {
+    zh: '重置数据',
+    en: 'Reset data',
+  },
   republish: {
     zh: '消息重发布',
     en: ' Republish',
