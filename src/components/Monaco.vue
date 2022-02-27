@@ -3,100 +3,108 @@
 </template>
 
 <script>
-import * as monaco from 'monaco-editor'
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-// import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
-// import { createMonacoComplete, createMonacoHover } from "@/common/monacoUtils";
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Monaco',
+})
+</script>
 
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: String,
-      required: true,
-    },
-    lang: {
-      type: String,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    // warp: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // provider: {
-    //   type: Array,
-    //   default: () => [],
-    // },
-    scrollLoading: {
-      type: Boolean,
-      default: false,
-    },
-    scrollFunc: {
-      type: Function,
-      default: () => () => {},
-    },
+<script setup>
+import * as monaco from 'monaco-editor'
+import { defineProps, defineEmits, onMounted, onUnmounted, watch } from 'vue'
+
+const prop = defineProps({
+  id: {
+    type: String,
+    required: true,
   },
-  setup(prop) {
-    const editor = ref({})
-    // const editValue = computed(() => {
-    //   console.log(prop.value + "changed");
-    //   return prop.value;
-    // });
+  modelValue: {
+    type: String,
+    required: true,
+  },
+  lang: {
+    type: String,
+    required: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  // warp: {
+  //   type: Boolean,
+  //   default: false,
+  // },
+  // provider: {
+  //   type: Array,
+  //   default: () => [],
+  // },
+  scrollLoading: {
+    type: Boolean,
+    default: false,
+  },
+  scrollFunc: {
+    type: Function,
+    default: () => () => {},
+  },
+})
 
-    const initEditor = () => {
-      const id = `monaco-${prop.id}`
-      const defaultOptions = {
-        value: prop.value,
-        language: prop.lang,
-        readOnly: prop.disabled,
-        // fontSize: 12,
-        automaticLayout: true,
-        scrollBeyondLastLine: false,
-        // theme: "vs",
-        minimap: {
-          enabled: false,
-        },
-        scrollbar: {
-          verticalScrollbarSize: 6,
-          horizontalScrollbarSize: 6,
-        },
-        // hover: {
-        //   delay: 500,
-        //   enabled: true,
-        // },
-      }
+const emit = defineEmits(['update:modelValue'])
 
-      editor.value = monaco.editor.create(document.getElementById(id), defaultOptions)
+// ❗️ editor instance can not be reactive, otherwise it will cause the page to get stuck for unknown reasons
+let editor = {}
+// const editValue = computed(() => {
+//   console.log(prop.modelValue + "changed");
+//   return prop.modelValue;
+// });
 
-      // console.log(editor.value.getModel());
+const initEditor = () => {
+  const id = `monaco-${prop.id}`
+  const defaultOptions = {
+    value: prop.modelValue,
+    language: prop.lang,
+    readOnly: prop.disabled,
+    // fontSize: 12,
+    automaticLayout: true,
+    scrollBeyondLastLine: false,
+    // theme: "vs",
+    minimap: {
+      enabled: false,
+    },
+    scrollbar: {
+      verticalScrollbarSize: 6,
+      horizontalScrollbarSize: 6,
+    },
+    // hover: {
+    //   delay: 500,
+    //   enabled: true,
+    // },
+  }
+
+  editor = monaco.editor.create(document.getElementById(id), defaultOptions)
+  editor.onDidChangeModelContent(async (event) => {
+    const value = editor.getValue()
+    if (value !== editor.modelValue) {
+      emit('update:modelValue', value, event)
     }
-
-    onMounted(() => {
-      initEditor()
-      if (prop.scrollLoading) editor.value.onDidScrollChange(prop.scrollFunc)
-    })
-
-    onUnmounted(() => {
-      // editor.value.dispose();
-    })
-
-    watch(
-      () => prop.value,
-      (val, val2) => {
-        // editor.value.setValue(val);
-      },
-    )
-  },
+  })
 }
+
+onMounted(() => {
+  initEditor()
+  if (prop.scrollLoading) editor.onDidScrollChange(prop.scrollFunc)
+})
+
+onUnmounted(() => {
+  editor.dispose()
+})
+
+watch(
+  () => prop.modelValue,
+  (val, val2) => {
+    // editor.setValue(val);
+  },
+)
 </script>
 
 <style lang="scss">
