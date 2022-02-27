@@ -1,26 +1,42 @@
 <template>
-  <el-dialog :title="tl('testsql')" v-model="showDialog" width="80%">
+  <el-dialog :title="tl('testsql')" v-model="showDialog" :width="1000">
     <el-form label-position="top">
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="tl('messages')">
-            <el-input type="textarea" rows="5" v-model="testParams.msg" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'Metadata'">
-            <KeyAndValueEditor v-model="testParams.metadata" />
+          <el-form-item>
+            <template #label>
+              <div class="label-container">
+                <label>{{ tl('testData') }}</label>
+                <div class="context-handlers">
+                  <el-tooltip effect="dark" :content="tl('doc')" placement="top-start">
+                    <el-icon @click="goDoc"><QuestionFilled /></el-icon>
+                  </el-tooltip>
+                  <el-tooltip effect="dark" :content="tl('resetData')" placement="top-start">
+                    <el-icon @click="resetContext"><Refresh /></el-icon>
+                  </el-tooltip>
+                  <el-icon><MagicStick /></el-icon>
+                  <el-tooltip effect="dark" :content="tooltipForToggleBtn" placement="top-start">
+                    <el-icon @click="toggleInputContextType"><EditPen /></el-icon>
+                  </el-tooltip>
+                </div>
+              </div>
+            </template>
+            <div v-if="inputContextBy === InputContextType.JSON" class="monaco-container">
+              <!-- <el-input type="textarea" rows="5" v-model="testParams.context" /> -->
+              <Monaco :id="createRandomString()" v-model="contextObjStr" lang="json" />
+            </div>
+            <TestSQLContextForm v-else v-model="testParams.context" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="'SQL'">
+          <el-form-item :label="tl('testsql')">
             <el-input type="textarea" rows="5" v-model="testParams.sql" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'Output'">
+          <el-form-item :label="tl('outputResult')">
             <el-input type="textarea" rows="5" v-model="testParams.output" />
           </el-form-item>
         </el-col>
@@ -48,18 +64,28 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, computed, defineEmits, WritableComputedRef, ref, Ref, PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import { testsql } from '@/api/ruleengine'
+import Monaco from '@/components/Monaco.vue'
+import { createRandomString } from '@/common/tools'
+import { QuestionFilled, Refresh, MagicStick, EditPen } from '@element-plus/icons-vue'
+import TestSQLContextForm from './TestSQLContextForm.vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import { ElMessage } from 'element-plus'
+import { cloneDeep } from 'lodash'
 
 interface TestParams {
-  msg: string
-  metadata: Record<string, unknown>
+  context: Record<string, string>
   sql: string
   output: string
 }
 
+enum InputContextType {
+  JSON,
+  Form,
+}
+
 const { t } = useI18n()
-const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const { tl } = useI18nTl('RuleEngine')
 
 const props = defineProps({
   modelValue: {
@@ -77,12 +103,13 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const testParams: Ref<TestParams> = ref({
-  msg: '',
-  metadata: {},
+  context: {},
   sql: '',
   output: '',
 })
+const contextObjStr: Ref<string> = ref('')
 const testLoading = ref(false)
+const inputContextBy = ref(InputContextType.JSON)
 
 const showDialog: WritableComputedRef<boolean> = computed({
   get() {
@@ -93,12 +120,60 @@ const showDialog: WritableComputedRef<boolean> = computed({
   },
 })
 
+const tooltipForToggleBtn = computed(() =>
+  tl(
+    inputContextBy.value === InputContextType.JSON ? 'switchToFormEditing' : 'switchToJSONEditing',
+  ),
+)
+
+const setContextObjStr = () => {
+  try {
+    contextObjStr.value = JSON.stringify(testParams.value.context, null, 2)
+    return Promise.resolve()
+  } catch (error: any) {
+    ElMessage.error(error?.toString())
+    return Promise.reject()
+  }
+}
+
+const setObjByStr = async () => {
+  try {
+    testParams.value.context = JSON.parse(contextObjStr.value)
+    return Promise.resolve()
+  } catch (error: any) {
+    ElMessage.error(error?.toString())
+    return Promise.reject()
+  }
+}
+
+const goDoc = () => {
+  // TODO:
+  window.open('https://www.emqx.io', '_blank')
+}
+
+const resetContext = () => {
+  testParams.value.context = { ...props.testData.context }
+  debugger
+  if (inputContextBy.value === InputContextType.JSON) {
+    setContextObjStr()
+  }
+}
+
+const toggleInputContextType = async () => {
+  if (inputContextBy.value === InputContextType.JSON) {
+    await setObjByStr()
+    inputContextBy.value = InputContextType.Form
+  } else {
+    await setContextObjStr()
+    inputContextBy.value = InputContextType.JSON
+  }
+}
+
 const submitTest = async () => {
   testLoading.value = true
   const eventType = props.chosenEvent?.event || ''
   const context = {
-    ...testParams.value.metadata,
-    payload: testParams.value.msg,
+    ...testParams.value.context,
     event_type: eventType.match(/(\$events\/)([\w]+)/)?.[2],
   }
 
@@ -127,7 +202,30 @@ const cancel = () => {
 
 watch(showDialog, (val) => {
   if (val) {
-    testParams.value = { ...props.testData, output: '' }
+    testParams.value = { ...cloneDeep(props.testData), output: '' }
+    setContextObjStr()
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.label-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.context-handlers {
+  .el-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    &:not(:last-child) {
+      margin-right: 4px;
+    }
+  }
+}
+</style>

@@ -12,7 +12,7 @@ export default defineComponent({
 
 <script setup>
 import * as monaco from 'monaco-editor'
-import { defineProps, defineEmits, onMounted, onUnmounted, watch } from 'vue'
+import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick } from 'vue'
 
 const prop = defineProps({
   id: {
@@ -96,13 +96,24 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  editor.dispose()
+  editor?.dispose()
 })
 
 watch(
   () => prop.modelValue,
-  (val, val2) => {
-    // editor.setValue(val);
+  (val) => {
+    if (val !== editor.getValue()) {
+      editor.setValue(val)
+    }
+  },
+)
+
+watch(
+  () => prop.lang,
+  async () => {
+    editor?.dispose()
+    await nextTick()
+    initEditor()
   },
 )
 </script>
