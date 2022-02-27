@@ -32,7 +32,7 @@
         >
           <monaco
             id="log-trace"
-            :value="logContent"
+            v-model="logContent"
             :scroll-loading="true"
             :scroll-func="scrollLoadFunc"
             lang="powershell"
@@ -133,7 +133,7 @@ export default defineComponent({
       if (logResp && logResp.items) {
         const { meta = {} } = logResp
         logContent.value += logResp.items
-        LOG_VIEW_POSITION += meta.position || BYTEPERPAGE
+        LOG_VIEW_POSITION = meta.position ? meta.position : LOG_VIEW_POSITION + BYTEPERPAGE
       }
     }
     const download = async () => {
