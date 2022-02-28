@@ -1,5 +1,5 @@
 <template>
-  <div class="no-tab-wrapper">
+  <div class="no-tab-wrapper messages">
     <div class="title-desc">{{ tl('eventTitleDesc') }}</div>
     <div class="section-header">
       <div>{{ tl('configMsg') }}</div>

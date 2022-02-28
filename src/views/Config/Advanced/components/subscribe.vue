@@ -1,5 +1,5 @@
 <template>
-  <div class="no-tab-wrapper">
+  <div class="no-tab-wrapper subscribe">
     <div class="section-header">
       <div>{{ tl('internalExp') }}</div>
       <el-button size="small" type="primary" @click="openOpDialog()">{{
