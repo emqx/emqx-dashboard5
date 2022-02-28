@@ -1,6 +1,6 @@
 <template>
   <div class="advanced">
-    <SubTabMenu v-slot="{ pane }" :panes="panes" @tab-click="handleClickTab">
+    <SubTabMenu v-slot="{ pane }" :panes="panes" i18nKeyword="Advanced" @tab-click="handleClickTab">
       <component
         :is="pane"
         class="item-page"
@@ -23,6 +23,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSubTabMenu from '@/hooks/useSubTabMenu'
 
 export default defineComponent({
+  name: 'Advanced',
   components: {
     Rewrite,
     Retainer,

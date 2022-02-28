@@ -24,10 +24,14 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true,
     },
+    i18nKeyword: {
+      type: String,
+      required: true,
+    },
   },
   emits: ['tab-click'],
   setup(props, ctx) {
-    const { tl } = useI18nTl('Advanced')
+    const { tl } = useI18nTl(props.i18nKeyword)
 
     const clickTab = async function (tab: SubTabComponent) {
       ctx.emit('tab-click', tab)
