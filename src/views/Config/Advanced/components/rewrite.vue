@@ -1,5 +1,5 @@
 <template>
-  <div class="no-tab-wrapper">
+  <div class="no-tab-wrapper rewrite">
     <div class="section-header">
       <div></div>
       <el-button size="small" type="primary" @click="openOpDialog()">{{
