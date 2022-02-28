@@ -243,6 +243,10 @@ export default {
     zh: '重置数据',
     en: 'Reset data',
   },
+  formatJSON: {
+    zh: 'JSON 格式化',
+    en: 'Format JSON',
+  },
   republish: {
     zh: '消息重发布',
     en: ' Republish',

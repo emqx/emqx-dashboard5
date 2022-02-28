@@ -55,7 +55,7 @@ const prop = defineProps({
 const emit = defineEmits(['update:modelValue', 'focus', 'blur'])
 
 // ❗️ editor instance can not be reactive, otherwise it will cause the page to get stuck for unknown reasons
-let editor = {}
+let editor = null
 
 const initEditor = () => {
   const id = `monaco-${prop.id}`
