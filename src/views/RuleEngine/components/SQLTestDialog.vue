@@ -14,7 +14,9 @@
                   <el-tooltip effect="dark" :content="tl('resetData')" placement="top-start">
                     <el-icon @click="resetContext"><Refresh /></el-icon>
                   </el-tooltip>
-                  <el-icon><MagicStick /></el-icon>
+                  <el-tooltip effect="dark" :content="tl('formatJSON')" placement="top-start">
+                    <el-icon @click="formatJSON"><MagicStick /></el-icon>
+                  </el-tooltip>
                   <el-tooltip effect="dark" :content="tooltipForToggleBtn" placement="top-start">
                     <el-icon @click="toggleInputContextType"><EditPen /></el-icon>
                   </el-tooltip>
@@ -153,7 +155,6 @@ const setObjByStr = async () => {
 
 const lineReg = /\s*"(\w+)":.+/
 const createLineDecoration = (lineContent: string): string => {
-  console.log({ lineContent })
   const matchRet = lineContent.match(lineReg)
 
   if (matchRet && matchRet.length >= 2) {
@@ -171,9 +172,16 @@ const goDoc = () => {
 
 const resetContext = () => {
   testParams.value.context = { ...props.testData.context }
-  debugger
   if (inputContextBy.value === InputContextType.JSON) {
     setContextObjStr()
+  }
+}
+
+const formatJSON = () => {
+  try {
+    contextObjStr.value = JSON.stringify(JSON.parse(contextObjStr.value), null, 2)
+  } catch (error: any) {
+    ElMessage.error(error.message)
   }
 }
 
