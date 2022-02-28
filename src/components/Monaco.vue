@@ -47,16 +47,15 @@ const prop = defineProps({
     type: Function,
     default: () => () => {},
   },
+  decorationFunc: {
+    type: Function,
+  },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'focus', 'blur'])
 
 // ❗️ editor instance can not be reactive, otherwise it will cause the page to get stuck for unknown reasons
 let editor = {}
-// const editValue = computed(() => {
-//   console.log(prop.modelValue + "changed");
-//   return prop.modelValue;
-// });
 
 const initEditor = () => {
   const id = `monaco-${prop.id}`
@@ -90,8 +89,45 @@ const initEditor = () => {
   })
 }
 
+let decorations = []
+const handleLineDecoration = () => {
+  const createLineDecoration = prop.decorationFunc
+  editor.onDidFocusEditorText(() => {
+    let curLineNumber = -1
+    editor?.onDidChangeCursorPosition((e) => {
+      const { lineNumber } = e.position
+      if (lineNumber === curLineNumber) {
+        return
+      }
+      curLineNumber = lineNumber
+      decorations = editor?.deltaDecorations(decorations, [])
+      const lineContent = editor.getModel()?.getLineContent(lineNumber)
+      const endColumn = lineContent?.length + 1
+      setTimeout(() => {
+        decorations = editor?.deltaDecorations(decorations, [
+          {
+            range: new monaco.Range(lineNumber, 1, lineNumber, endColumn),
+            options: {
+              after: {
+                content: createLineDecoration(lineContent),
+                inlineClassName: 'my-inline-decoration',
+              },
+            },
+          },
+        ])
+      }, 128)
+    })
+  })
+  editor.onDidBlurEditorText(() => {
+    decorations = editor?.deltaDecorations(decorations, [])
+  })
+}
+
 onMounted(() => {
   initEditor()
+  if (prop.decorationFunc && typeof prop.decorationFunc === 'function') {
+    handleLineDecoration()
+  }
   if (prop.scrollLoading) editor.onDidScrollChange(prop.scrollFunc)
 })
 
@@ -122,5 +158,11 @@ watch(
 .monaco-view {
   height: 100%;
   position: relative;
+}
+.my-inline-decoration {
+  position: relative;
+  left: 50px;
+  color: #dadada !important;
+  user-select: none;
 }
 </style>

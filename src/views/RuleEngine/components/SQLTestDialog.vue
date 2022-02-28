@@ -23,7 +23,12 @@
             </template>
             <div v-if="inputContextBy === InputContextType.JSON" class="monaco-container">
               <!-- <el-input type="textarea" rows="5" v-model="testParams.context" /> -->
-              <Monaco :id="createRandomString()" v-model="contextObjStr" lang="json" />
+              <Monaco
+                :id="createRandomString()"
+                v-model="contextObjStr"
+                lang="json"
+                :decoration-func="createLineDecoration"
+              />
             </div>
             <TestSQLContextForm v-else v-model="testParams.context" />
           </el-form-item>
@@ -144,6 +149,19 @@ const setObjByStr = async () => {
     ElMessage.error(error?.toString())
     return Promise.reject()
   }
+}
+
+const lineReg = /\s*"(\w+)":.+/
+const createLineDecoration = (lineContent: string): string => {
+  console.log({ lineContent })
+  const matchRet = lineContent.match(lineReg)
+
+  if (matchRet && matchRet.length >= 2) {
+    const [totalStr, key] = matchRet
+    // TODO: get desc by key
+    return key
+  }
+  return ''
 }
 
 const goDoc = () => {
