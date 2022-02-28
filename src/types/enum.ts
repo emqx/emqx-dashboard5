@@ -84,3 +84,9 @@ export enum QoSLevel {
   QoS1,
   QoS2,
 }
+
+export enum RuleInputType {
+  Topic = 'topic',
+  Bridge = 'bridge',
+  Event = 'event',
+}

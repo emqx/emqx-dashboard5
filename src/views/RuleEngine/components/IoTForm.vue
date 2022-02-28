@@ -40,15 +40,15 @@
                   </div>
                 </template>
                 <el-radio-group v-model="sqlFromType">
-                  <el-radio label="topic" />
-                  <el-radio label="bridge" />
-                  <el-radio label="event" />
+                  <el-radio :label="RuleInputType.Topic" />
+                  <el-radio :label="RuleInputType.Bridge" />
+                  <el-radio :label="RuleInputType.Event" />
                 </el-radio-group>
-                <el-input v-if="sqlFromType === 'topic'" v-model="sqlPartValue.from" />
-                <el-select v-if="sqlFromType === 'bridge'" v-model="sqlPartValue.from">
+                <el-input v-if="sqlFromType === RuleInputType.Topic" v-model="sqlPartValue.from" />
+                <el-select v-if="sqlFromType === RuleInputType.Bridge" v-model="sqlPartValue.from">
                   <el-option v-for="item in ingressBridgeList" :key="item.id" :value="item.id" />
                 </el-select>
-                <el-select v-if="sqlFromType === 'event'" v-model="sqlPartValue.from">
+                <el-select v-if="sqlFromType === RuleInputType.Event" v-model="sqlPartValue.from">
                   <el-option v-for="item in ruleEventsList" :key="item.event" :value="item.event" />
                 </el-select>
               </el-form-item>
@@ -107,15 +107,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-type RuleEvent = {
-  test_columns: {
-    payload: string
-    qos: number
-  }
-  event: string
-  columns: Array<string>
-}
-
 export default defineComponent({
   name: 'iot-form',
 })
@@ -124,11 +115,11 @@ export default defineComponent({
 <script lang="ts" setup>
 import { ref, Ref, onMounted, watch, defineEmits, defineProps } from 'vue'
 import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
-import { BridgeItem, RuleForm, BasicRule } from '@/types/rule'
+import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
 import parser from 'js-sql-parser'
-import { MQTTBridgeDirection } from '@/types/enum'
+import { MQTTBridgeDirection, RuleInputType } from '@/types/enum'
 import SQLTestDialog from './SQLTestDialog.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import { EditPen } from '@element-plus/icons-vue'
@@ -147,10 +138,10 @@ const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const testDialog = ref(false)
 const bridgeList = ref([])
-const ingressBridgeList = ref([])
-const ruleEventsList = ref([])
+const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
+const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const outputLoading = ref(false)
-const sqlFromType = ref('topic')
+const sqlFromType = ref(RuleInputType.Topic)
 const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent)
 const briefEditType = ref(true)
 
@@ -254,10 +245,10 @@ const openTestDialog = () => {
     testParams.value.context = chosenEvent.value?.test_columns
   }
 
-  if (sqlFromType.value === 'event') {
+  if (sqlFromType.value === RuleInputType.Event) {
     const eventData = findProperEvent(sqlPartValue.value.from)
     eventData && setDataWithEvent(eventData)
-  } else if (sqlFromType.value === 'topic') {
+  } else if (sqlFromType.value === RuleInputType.Topic) {
     const eventData = findProperEvent(sqlPartValue.value.from)
     if (eventData) {
       setDataWithEvent(eventData)
@@ -265,7 +256,7 @@ const openTestDialog = () => {
     }
     const modifiedEvent = findProperEvent('$events/message_publish')
     modifiedEvent && setDataWithEvent(modifiedEvent)
-  } else if (sqlFromType.value === 'bridge') {
+  } else if (sqlFromType.value === RuleInputType.Bridge) {
     const modifiedEvent = findProperEvent('$events/message_publish')
     modifiedEvent && setDataWithEvent(modifiedEvent)
   }
