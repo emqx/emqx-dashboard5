@@ -1,4 +1,4 @@
-import { SSL } from './common'
+import { BackendI18n, SSL } from './common'
 import { BridgeStatus, BridgeType, ConnectorType, MQTTBridgeDirection, QoSLevel } from './enum'
 
 export type Metrics = Record<string, number>
@@ -113,3 +113,12 @@ export type ConnectorMQTT = Omit<ConnectorBase, 'type'> & {
 }
 
 export type ConnectorItem = ConnectorMQTT
+
+export interface RuleEvent {
+  columns: string[]
+  description: BackendI18n
+  event: string
+  sql_example: string
+  test_columns: Record<string, string>
+  title: BackendI18n
+}
