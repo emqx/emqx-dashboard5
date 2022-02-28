@@ -385,7 +385,7 @@ export default {
   },
   doc: {
     zh: '参考文档',
-    en: 'Doc',
+    en: 'Document',
   },
   overview: {
     zh: '概览',
