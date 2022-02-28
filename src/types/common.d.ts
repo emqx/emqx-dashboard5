@@ -22,3 +22,8 @@ export interface SSL {
   keyfile: string
   verify: string
 }
+
+export interface BackendI18n {
+  zh: string
+  en: string
+}
