@@ -206,7 +206,7 @@
       </el-row>
       <template #footer>
         <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
-          <el-select v-model="payloadShowBy" size="small" @change="initCopyBtn">
+          <el-select v-model="payloadShowBy" size="small">
             <el-option
               v-for="item in payloadShowByOptions"
               :key="item"
@@ -216,8 +216,9 @@
           </el-select>
           <div>
             <span v-if="isCopyShow" class="payload-copied">{{ $t('Base.copied') }}</span>
-
-            <el-button size="small" ref="copyBtnCom">{{ $t('Base.copy') }}</el-button>
+            <el-button size="small" @click="copyText(payloadForShow)">
+              {{ $t('Base.copy') }}
+            </el-button>
           </div>
         </div>
       </template>
@@ -239,14 +240,15 @@ import useShowTextByDifferent from '@/hooks/Auth/useShowTextByDifferent'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
-import { createClipboardEleWithTargetText } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import useCopy from '@/hooks/useCopy'
 
 export default defineComponent({
   name: 'Retainer',
   setup() {
     const { t } = useI18n()
     const { tl } = useI18nTl('Advanced')
+    const { copyText } = useCopy(copySuccess)
 
     let retainerConfig = reactive({
       max_payload_size: [1, 'MB'],
@@ -284,8 +286,6 @@ export default defineComponent({
     let payloadDetail = ref('')
     let payloadLoading = ref(false)
     let retainerForm = ref(null)
-    const copyBtnCom = ref()
-    let clipboardInstance = undefined
     let isCopyShow = ref(false)
     const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
       useShowTextByDifferent()
@@ -519,7 +519,6 @@ export default defineComponent({
       }
       payloadLoading.value = false
       await nextTick()
-      initCopyBtn()
     }
 
     onMounted(() => {
@@ -530,18 +529,6 @@ export default defineComponent({
     const reloading = () => {
       loadConfigData()
       loadTbData()
-    }
-
-    const initCopyBtn = () => {
-      clipboardInstance && clipboardInstance?.destroy()
-      const btnEle = copyBtnCom.value?.$el
-      if (btnEle) {
-        clipboardInstance = createClipboardEleWithTargetText(
-          copyBtnCom.value.$el,
-          payloadForShow.value,
-          copySuccess,
-        )
-      }
     }
 
     let copyShowTimeout = ref(null)
@@ -579,10 +566,9 @@ export default defineComponent({
       retainerRules,
       retainerForm,
       dateFormat,
-      initCopyBtn,
       copySuccess,
-      copyBtnCom,
       isCopyShow,
+      copyText,
     }
   },
 })
