@@ -138,6 +138,10 @@ export default {
 
     let config = [
       {
+        title: 'basic-config',
+        path: '/basic-config',
+      },
+      {
         title: 'advanced',
         path: '/advanced',
       },
