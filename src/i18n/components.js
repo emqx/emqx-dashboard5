@@ -179,6 +179,10 @@ export default {
     zh: '配置',
     en: 'Configuration',
   },
+  'basic-config': {
+    zh: '基础配置',
+    en: 'Basic Config',
+  },
   advanced: {
     zh: 'MQTT高级特性',
     en: 'MQTT Advanced Feat.',

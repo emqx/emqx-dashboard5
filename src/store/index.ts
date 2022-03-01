@@ -11,9 +11,6 @@ export default createStore({
     edition: localStorage.getItem('edition'),
   },
   actions: {
-    UPDATE_MODULE({ commit }, selectedModule) {
-      commit('UPDATE_MODULE', selectedModule)
-    },
     SET_ALERT_COUNT({ commit }, count = 0) {
       commit('SET_ALERT_COUNT', count)
     },
@@ -31,10 +28,6 @@ export default createStore({
     },
   },
   mutations: {
-    UPDATE_MODULE(state, selectedModule) {
-      localStorage.setItem('selectedModule', JSON.stringify(selectedModule))
-      state.selectedModule = selectedModule
-    },
     SET_ALERT_COUNT(state, count) {
       state.alertCount = count
     },
