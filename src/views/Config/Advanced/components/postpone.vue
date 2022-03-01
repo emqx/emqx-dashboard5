@@ -98,7 +98,7 @@
       </el-row>
       <template #footer>
         <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
-          <el-select v-model="payloadShowBy" size="small" @change="initCopyBtn">
+          <el-select v-model="payloadShowBy" size="small">
             <el-option
               v-for="item in payloadShowByOptions"
               :key="item"
@@ -109,16 +109,17 @@
           <div>
             <span v-if="isCopyShow" class="payload-copied">{{ $t('Base.copied') }}</span>
 
-            <el-button size="small" ref="copyBtnCom">{{ $t('Base.copy') }}</el-button>
+            <el-button size="small" @click="copyText(payloadForShow)">
+              {{ $t('Base.copy') }}
+            </el-button>
           </div>
         </div>
       </template>
     </el-dialog>
   </div>
 </template>
-
 <script>
-import { defineComponent, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import {
   getDelayedConfig,
   editDelayedConfig,
@@ -131,8 +132,8 @@ import useShowTextByDifferent from '@/hooks/Auth/useShowTextByDifferent'
 import { dateFormat } from '@/common/utils'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { createClipboardEleWithTargetText } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import useCopy from '@/hooks/useCopy'
 
 export default defineComponent({
   name: 'Postpone',
@@ -142,6 +143,7 @@ export default defineComponent({
   setup() {
     const { tl } = useI18nTl('Advanced')
     const { t } = useI18n()
+    const { copyText } = useCopy(copySuccess)
 
     let delayedConfig = reactive({
       enable: false,
@@ -170,8 +172,6 @@ export default defineComponent({
     let payloadDialog = ref(false)
     let payloadLoading = ref(false)
     let payloadDetail = ref('')
-    const copyBtnCom = ref()
-    let clipboardInstance = undefined
     let isCopyShow = ref(false)
     let pageMeta = ref({})
     const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
@@ -263,8 +263,6 @@ export default defineComponent({
         //todo
       }
       payloadLoading.value = false
-      await nextTick()
-      initCopyBtn()
     }
 
     const toggleStatus = async () => {
@@ -302,17 +300,6 @@ export default defineComponent({
     onMounted(reloading)
 
     let copyShowTimeout = ref(null)
-    const initCopyBtn = () => {
-      clipboardInstance && clipboardInstance?.destroy()
-      const btnEle = copyBtnCom.value?.$el
-      if (btnEle) {
-        clipboardInstance = createClipboardEleWithTargetText(
-          btnEle,
-          payloadForShow.value,
-          copySuccess,
-        )
-      }
-    }
     const copySuccess = () => {
       isCopyShow.value = true
       clearTimeout(copyShowTimeout.value)
@@ -348,10 +335,9 @@ export default defineComponent({
       payloadShowBy,
       payloadShowByOptions,
       dateFormat,
-      copyBtnCom,
       isCopyShow,
-      initCopyBtn,
       copySuccess,
+      copyText,
       pageMeta,
     }
   },
