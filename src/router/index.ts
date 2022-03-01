@@ -17,6 +17,7 @@ import ClientDetails from '@/views/Clients/ClientDetails.vue'
 import Topics from '@/views/Topics/Topics.vue'
 import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
 import Advanced from '@/views/Config/Advanced/Advanced.vue'
+import BasicConfig from '@/views/Config/BasicConfig/BasicConfig.vue'
 import Users from '@/views/General/Users.vue'
 import Blacklist from '@/views/General/Blacklist.vue'
 import Gateway from '@/views/Gateway/Gateway.vue'
@@ -428,6 +429,21 @@ export const routes: Array<RouteRecordRaw> = [
             component: ConnectorCreate,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: '/basic-config',
+    component: Layout,
+    meta: {
+      hideKey: 'basic-config',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'basic-config',
+        component: BasicConfig,
       },
     ],
   },
