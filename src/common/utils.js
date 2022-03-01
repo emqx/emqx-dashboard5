@@ -1,4 +1,3 @@
-import Clipboard from 'clipboard'
 // import sqlFormatter from "sql-formatter";
 // import parser from "js-sql-parser";
 import store from '@/store'
@@ -270,32 +269,6 @@ export const dateFormat = (date) => {
 //   // form 综合排序
 //   return { form, rules };
 // }
-
-/**
- * 复制到剪切板
- * @param el 复制指令绑定的元素，binding 剪切板配置，包括值value，成功失败时的回调函数
- * @return el: DOM
- */
-export const cpoyToClipboard = (el, binding) => {
-  const clipboard = new Clipboard(el, {
-    text() {
-      return binding.value
-    },
-    acttion() {
-      return 'copy'
-    },
-  })
-  clipboard.on('success', (e) => {
-    const callback = el._v_clipboard_success
-    callback && callback(e)
-  })
-  clipboard.on('error', (e) => {
-    const callback = el._v_clipboard_error
-    callback && callback(e)
-  })
-  el._v_clipboard = clipboard
-  return el
-}
 
 /**
  * sql 语句格式化

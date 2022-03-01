@@ -73,7 +73,7 @@
                 {{ $t('Auth.exampleDataCmd') }}
               </div>
               <code-view lang="javascript" :code="helpContent"></code-view>
-              <el-button size="small" ref="copyBtnCom">
+              <el-button size="small" @click="copyText(helpContent)">
                 {{ $t('Base.copy') }}
               </el-button>
             </div>
@@ -95,9 +95,8 @@ import CodeView from '@/components/CodeView'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import TLSConfig from './TLSConfig.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import useCopy from '@/hooks/useCopy'
+import useCopy from '@/hooks/useCopy.ts'
 import { useRoute } from 'vue-router'
-import { createClipboardEleWithTargetText } from '@/common/tools'
 
 export default defineComponent({
   name: 'HttpConfig',
@@ -160,8 +159,6 @@ export default defineComponent({
         res.json(data)
       })
     `
-    const copyBtnCom = ref()
-    let clipboardInstance = undefined
     const id = computed(function () {
       const { id, type } = route.params
       return id || type
@@ -170,36 +167,21 @@ export default defineComponent({
       const { body } = httpConfig
       httpConfig.body = JSON.stringify(body, null, 2)
     }
-    const initCopyBtn = () => {
-      clipboardInstance && clipboardInstance?.destroy()
-      clipboardInstance = createClipboardEleWithTargetText(
-        copyBtnCom.value.$el,
-        helpContent,
-        copySuccess,
-      )
-    }
-    const { copySuccess } = useCopy(() => {
+    const { copySuccess, copyText } = useCopy(() => {
       needHelp.value = false
     })
     const toggleNeedHelp = async () => {
       needHelp.value = !needHelp.value
-      if (needHelp.value) {
-        await nextTick()
-        initCopyBtn()
-      }
     }
     const setDefaultContent = () => {
       httpConfig.body = defaultContent
     }
-    onUnmounted(() => {
-      clipboardInstance && clipboardInstance?.destroy()
-    })
     return {
       helpContent,
       httpConfig,
       needHelp,
-      copyBtnCom,
       toggleNeedHelp,
+      copyText,
       copySuccess,
       setDefaultContent,
     }

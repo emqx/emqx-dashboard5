@@ -16,7 +16,7 @@
                 <el-input v-model="APIKeyData.api_key" disabled />
               </el-col>
               <el-col :span="3">
-                <el-button ref="btnCopyAPIKey">{{ $t('Base.copy') }}</el-button>
+                <el-button @click="copyText(APIKeyData.api_key)">{{ $t('Base.copy') }}</el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -28,7 +28,9 @@
                 <el-input v-model="APIKeyData.api_secret" disabled />
               </el-col>
               <el-col :span="3">
-                <el-button ref="btnCopySecretKey">{{ $t('Base.copy') }}</el-button>
+                <el-button @click="copyText(APIKeyData.api_secret)">
+                  {{ $t('Base.copy') }}
+                </el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -44,11 +46,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, defineEmits, ref, Ref, watch, PropType, nextTick } from 'vue'
+import { computed, defineProps, defineEmits, ref, Ref, watch, PropType } from 'vue'
 import { ElDialog } from 'element-plus'
-import { createClipboardEleWithTargetText } from '@/common/tools'
-import Clipboard from 'Clipboard'
 import { APIKey } from '@/types/systemModule'
+import useCopy from '@/hooks/useCopy'
 
 const props = defineProps({
   modelValue: {
@@ -63,11 +64,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const APIKeyData: Ref<APIKey> = ref({} as APIKey)
 
-const btnCopyAPIKey = ref()
-const btnCopySecretKey = ref()
-let APIKeyClipboardInstance: undefined | Clipboard = undefined
-let secretKeyClipboardInstance: undefined | Clipboard = undefined
-
+const { copyText } = useCopy()
 const showDialog = computed({
   get: () => props.modelValue,
   set: (val: boolean) => {
@@ -78,23 +75,8 @@ const showDialog = computed({
 watch(showDialog, async (val) => {
   if (val && props.data) {
     APIKeyData.value = props.data
-    await nextTick()
-    initCopyTool()
   }
 })
-
-const initCopyTool = () => {
-  APIKeyClipboardInstance && APIKeyClipboardInstance?.destroy()
-  secretKeyClipboardInstance && secretKeyClipboardInstance?.destroy()
-  APIKeyClipboardInstance = createClipboardEleWithTargetText(
-    btnCopyAPIKey.value.$el,
-    APIKeyData.value.api_key,
-  )
-  secretKeyClipboardInstance = createClipboardEleWithTargetText(
-    btnCopySecretKey.value.$el,
-    APIKeyData.value.api_secret,
-  )
-}
 </script>
 
 <style lang="scss">

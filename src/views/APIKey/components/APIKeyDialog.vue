@@ -50,7 +50,9 @@
                 <el-input v-model="formData.api_key" disabled />
               </el-col>
               <el-col :span="3">
-                <el-button ref="btnCopyAPIKey">{{ tl('copy', 'Base') }}</el-button>
+                <el-button ref="btnCopyAPIKey" @click="copyText(formData.api_key)">
+                  {{ tl('copy', 'Base') }}
+                </el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -98,9 +100,8 @@ import { useI18n } from 'vue-i18n'
 import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
 import { createAPIKey, updateAPIKey } from '@/api/systemModule'
 import { ElInput } from 'element-plus'
-import Clipboard from 'clipboard'
-import { createClipboardEleWithTargetText } from '@/common/tools'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
+import useCopy from '@/hooks/useCopy'
 
 export type OperationType = 'create' | 'view' | 'edit'
 
@@ -158,7 +159,6 @@ const isEnableOptions = [
 const isSubmitting = ref(false)
 
 const btnCopyAPIKey = ref()
-let APIKeyClipboardInstance: undefined | Clipboard = undefined
 
 const createdResult: Ref<APIKey | undefined> = ref(undefined)
 const showResultDialog: Ref<boolean> = ref(false)
@@ -185,7 +185,6 @@ watch(showDialog, async (val) => {
       formData.value = { ...(props.APIKeyData as APIKey) }
       if (props.operationType === 'view') {
         await nextTick()
-        initCopyTool()
       }
     } else {
       formData.value = createRawFormData()
@@ -195,13 +194,7 @@ watch(showDialog, async (val) => {
   }
 })
 
-const initCopyTool = () => {
-  APIKeyClipboardInstance && APIKeyClipboardInstance?.destroy()
-  APIKeyClipboardInstance = createClipboardEleWithTargetText(
-    btnCopyAPIKey.value.$el,
-    (formData.value as APIKey).api_key,
-  )
-}
+const { copyText } = useCopy()
 
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
