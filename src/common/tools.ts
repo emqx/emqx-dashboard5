@@ -143,3 +143,65 @@ export const createRandomString = (length = 8) => {
     return str + charLib.substring(randomIndex, randomIndex + 1)
   }, '')
 }
+
+export const fallbackCopyTextToClipboard = async (text: string) => {
+  const textArea = document.createElement('textarea')
+  textArea.value = text
+
+  textArea.style.top = '0'
+  textArea.style.left = '0'
+  textArea.style.position = 'fixed'
+
+  document.body.appendChild(textArea)
+  textArea.focus()
+  textArea.select()
+
+  try {
+    const successful = document.execCommand('copy')
+    if (successful) {
+      return Promise.resolve()
+    } else {
+      return Promise.reject()
+    }
+  } catch (err) {
+    return Promise.reject()
+  } finally {
+    document.body.removeChild(textArea)
+  }
+}
+
+export const copyToClipboard = (text: string) => {
+  if (!navigator.clipboard) {
+    return fallbackCopyTextToClipboard(text)
+  }
+  return navigator.clipboard.writeText(text)
+}
+
+export const getKeywordsFromSQL = (sqlStr: string) => {
+  const sql = sqlStr.replace(/\n/g, ' ').trim()
+  let fieldStr = ''
+  let fromStr = ''
+  let whereStr = ''
+
+  const matchResult = sql.match(/SELECT(.+)FROM(.+)WHERE(.+)/) ?? sql.match(/SELECT(.+)FROM(.+)/)
+  if (matchResult && matchResult.length >= 3) {
+    const [totalSQL, fields, from, where] = matchResult
+    fieldStr = fields.trim()
+    fromStr = from
+      .trim()
+      .split(',')
+      .map((item) => {
+        const ret = item.trim()
+        return ret.replace(/'|"/g, '')
+      })
+      .join(', ')
+    if (where) {
+      whereStr = where.trim()
+    }
+  }
+  return {
+    fieldStr,
+    fromStr,
+    whereStr,
+  }
+}

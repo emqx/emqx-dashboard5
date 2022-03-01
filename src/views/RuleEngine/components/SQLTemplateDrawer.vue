@@ -17,12 +17,16 @@
             <p class="hd-title">{{ tl('SQL') }}</p>
             <div>
               <el-button type="text" size="mini">{{ tl('testsql') }}</el-button>
-              <el-button type="text" size="mini">{{ tl('useSQL') }}</el-button>
+              <el-button type="text" size="mini" @click="useSQL(item.sql)">
+                {{ tl('useSQL') }}
+              </el-button>
             </div>
           </div>
           <div class="input-container">
-            <el-input type="textarea" v-model="item.sql" :rows="10" />
-            <el-icon class="icon-copy"><copy-document /></el-icon>
+            <div class="monaco-container">
+              <Monaco :id="createRandomString()" v-model="item.sql" lang="sql" />
+            </div>
+            <el-icon class="icon-copy" @click="copyText(item.sql)"><copy-document /></el-icon>
           </div>
         </section>
 
@@ -38,8 +42,10 @@
             <p class="hd-title">{{ tl('exampleOfInput') }}</p>
           </div>
           <div class="input-container">
-            <el-input type="textarea" v-model="item.input" :rows="10" />
-            <el-icon class="icon-copy"><copy-document /></el-icon>
+            <div class="monaco-container">
+              <Monaco :id="createRandomString()" v-model="item.input" lang="json" />
+            </div>
+            <el-icon class="icon-copy" @click="copyText(item.input)"><copy-document /></el-icon>
           </div>
         </section>
 
@@ -48,8 +54,10 @@
             <p class="hd-title">{{ tl('processedResults') }}</p>
           </div>
           <div class="input-container">
-            <el-input type="textarea" v-model="item.outputs" :rows="10" />
-            <el-icon class="icon-copy"><copy-document /></el-icon>
+            <div class="monaco-container">
+              <Monaco :id="createRandomString()" v-model="item.outputs" lang="json" />
+            </div>
+            <el-icon class="icon-copy" @click="copyText(item.outputs)"><copy-document /></el-icon>
           </div>
         </section>
       </el-collapse-item>
@@ -69,6 +77,9 @@ export default defineComponent({
 import { ref, defineProps, computed, defineEmits, WritableComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { CopyDocument } from '@element-plus/icons-vue'
+import { copyToClipboard, createRandomString } from '@/common/tools'
+import { ElMessage } from 'element-plus'
+import Monaco from '@/components/Monaco.vue'
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
@@ -89,7 +100,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'use-sql'])
 
 const showDrawer: WritableComputedRef<boolean> = computed({
   get() {
@@ -99,6 +110,20 @@ const showDrawer: WritableComputedRef<boolean> = computed({
     emit('update:modelValue', val)
   },
 })
+
+const useSQL = (SQLContent: string) => {
+  emit('use-sql', SQLContent)
+  showDrawer.value = false
+}
+
+const copyText = async (text: string) => {
+  try {
+    await copyToClipboard(text)
+    ElMessage.success(t('Base.copied'))
+  } catch (error) {
+    ElMessage.error(t('Base.opErr'))
+  }
+}
 </script>
 
 <style lang="scss">
