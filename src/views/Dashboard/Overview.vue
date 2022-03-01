@@ -46,7 +46,7 @@
             </div>
 
             <div class="content">
-              <span>{{ currentMetrics.subscription }}</span>
+              <span>{{ _formatNumber(currentMetrics.subscription) }}</span>
               <div class="flux-wrapper">
                 <simple-line
                   v-model="currentMetricsLogs.subscription"
