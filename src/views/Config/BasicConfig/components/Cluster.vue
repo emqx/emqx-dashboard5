@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import SchemaForm from '@/components/SchemaForm.vue'
+import SchemaForm from '@/components/SchemaForm'
 
 export default defineComponent({
   name: 'Cluster',

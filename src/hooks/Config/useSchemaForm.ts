@@ -1,49 +1,6 @@
 import { inject, ref, Ref, watch } from 'vue'
 import _ from 'lodash'
-
-type InjectSchema = Ref<any> | undefined
-
-interface Properties {
-  [key: string]: {
-    $ref?: string
-    description: string
-    label: string
-    default: any
-    symbols?: string[]
-    type: string
-    parent?: string
-    properties?: Properties
-  }
-}
-
-interface Component {
-  type: string
-  properties: Properties
-}
-
-interface Components {
-  schemas: {
-    [key: string]: {
-      type: string
-      properties: Properties
-      required?: string[]
-    }
-  }
-}
-
-interface Schema {
-  components: Components
-  paths: {
-    [key: string]: {
-      get: {
-        $ref: string
-      }
-      put: {
-        $ref: string
-      }
-    }
-  }
-}
+import { InjectSchema, Properties, Component, Schema } from '@/types/schemaForm'
 
 export default function useSchemaForm(path: string): {
   schema: InjectSchema
