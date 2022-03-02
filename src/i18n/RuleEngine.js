@@ -19,6 +19,10 @@ export default {
     zh: 'Data Bridge 类型',
     en: 'Type of Data Bridge',
   },
+  dataBridge: {
+    zh: '数据桥接',
+    en: 'Data bridge',
+  },
   chooseConnectorType: {
     zh: '选择连接类型',
     en: 'Choose A Connector Type',
@@ -530,5 +534,13 @@ export default {
   processedResults: {
     zh: '处理结果',
     en: 'Processed results',
+  },
+  customTopic: {
+    zh: '自定义主题',
+    en: 'Custom topic',
+  },
+  clientEvent: {
+    zh: '客户端事件',
+    en: 'Client event',
   },
 }
