@@ -136,6 +136,19 @@ watch(
   },
 )
 
+watch(
+  () => props.ingressBridgeList,
+  () => {
+    setSelected()
+  },
+)
+watch(
+  () => props.eventList,
+  () => {
+    setSelected()
+  },
+)
+
 const inputTopic = async () => {
   await nextTick()
   isInputTopic.value = true

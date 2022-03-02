@@ -291,6 +291,10 @@ export default {
     zh: '数据来源',
     en: 'Data source',
   },
+  addDataSource: {
+    zh: '添加数据来源',
+    en: 'Add data source',
+  },
   select: {
     zh: '数据转换',
     en: 'Select',
