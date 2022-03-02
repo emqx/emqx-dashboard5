@@ -34,18 +34,11 @@
                   </el-tooltip>
                 </div>
               </template>
-              <el-radio-group v-model="sqlFromType">
-                <el-radio :label="RuleInputType.Topic" />
-                <el-radio :label="RuleInputType.Bridge" />
-                <el-radio :label="RuleInputType.Event" />
-              </el-radio-group>
-              <el-input v-if="sqlFromType === RuleInputType.Topic" v-model="sqlPartValue.from" />
-              <el-select v-if="sqlFromType === RuleInputType.Bridge" v-model="sqlPartValue.from">
-                <el-option v-for="item in ingressBridgeList" :key="item.id" :value="item.id" />
-              </el-select>
-              <el-select v-if="sqlFromType === RuleInputType.Event" v-model="sqlPartValue.from">
-                <el-option v-for="item in ruleEventsList" :key="item.event" :value="item.event" />
-              </el-select>
+              <FromSelectList
+                v-model="sqlPartValue.from"
+                :ingress-bridge-list="ingressBridgeList"
+                :event-list="ruleEventsList"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="14">
@@ -118,6 +111,9 @@ import { EditPen } from '@element-plus/icons-vue'
 import RuleOutputs from './RuleOutputs.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
+import FromSelectList from './FromSelectList.vue'
+
+const FROM_SEPARATOR = ','
 
 const prop = defineProps({
   modelValue: {
@@ -135,7 +131,6 @@ const bridgeList = ref([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const outputLoading = ref(false)
-const sqlFromType = ref(RuleInputType.Topic)
 const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent)
 const briefEditType = ref(true)
 
@@ -154,7 +149,7 @@ const ruleValue: Ref<BasicRule | RuleForm> = ref({
 })
 
 const sqlPartValue = ref({
-  from: 't/#',
+  from: ['t/#'],
   select: '*',
   where: '',
 })
@@ -163,13 +158,6 @@ const testParams = ref({
   sql: '',
   context: {},
 })
-
-watch(
-  () => sqlFromType.value,
-  () => {
-    sqlPartValue.value.from = ''
-  },
-)
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
@@ -194,7 +182,7 @@ const syncSQLDataToForm = () => {
   let { sql = '' } = ruleValue.value
   const { fieldStr, fromStr, whereStr } = getKeywordsFromSQL(sql)
   sqlPartValue.value = {
-    from: fromStr,
+    from: fromStr.split(FROM_SEPARATOR),
     select: fieldStr,
     where: whereStr,
   }
@@ -209,6 +197,10 @@ const syncData = () => {
   emit('update:modelValue', { ...ruleValue.value, sql })
 }
 
+const transFromDataArrToStr = () => {
+  return sqlPartValue.value.from.map((item) => `"${item}"`).join(FROM_SEPARATOR)
+}
+
 /**
  * trans form(select, from, where) to SQL
  */
@@ -218,7 +210,7 @@ const transformSQL = () => {
     sqlPartValue.value.select,
     '\n ',
     'FROM',
-    ['"', sqlPartValue.value.from, '"'].join(''),
+    [transFromDataArrToStr()].join(''),
   ]
   if (sqlPartValue.value.where) tempSql.push('\nWHERE\n', ` ${sqlPartValue.value.where}`)
 
@@ -241,6 +233,16 @@ const loadIngressBridgeList = async () => {
   )
 }
 
+const judgeInputType = (input: string) => {
+  if (bridgeList.value.some(({ id }) => id === input)) {
+    return RuleInputType.Bridge
+  }
+  if (ruleEventsList.value.some(({ event }) => event === input)) {
+    return RuleInputType.Event
+  }
+  return RuleInputType.Topic
+}
+
 const openTestDialog = () => {
   testDialog.value = true
   syncData()
@@ -255,18 +257,20 @@ const openTestDialog = () => {
     testParams.value.context = chosenEvent.value?.test_columns
   }
 
-  if (sqlFromType.value === RuleInputType.Event) {
-    const eventData = findProperEvent(sqlPartValue.value.from)
+  const from = sqlPartValue.value.from[0]
+  const inputType = judgeInputType(from)
+  if (inputType === RuleInputType.Event) {
+    const eventData = findProperEvent(from)
     eventData && setDataWithEvent(eventData)
-  } else if (sqlFromType.value === RuleInputType.Topic) {
-    const eventData = findProperEvent(sqlPartValue.value.from)
+  } else if (inputType === RuleInputType.Topic) {
+    const eventData = findProperEvent(from)
     if (eventData) {
       setDataWithEvent(eventData)
       return
     }
     const modifiedEvent = findProperEvent('$events/message_publish')
     modifiedEvent && setDataWithEvent(modifiedEvent)
-  } else if (sqlFromType.value === RuleInputType.Bridge) {
+  } else if (inputType === RuleInputType.Bridge) {
     const modifiedEvent = findProperEvent('$events/message_publish')
     modifiedEvent && setDataWithEvent(modifiedEvent)
   }
@@ -279,7 +283,7 @@ const showTemplateDrawer = () => {
 const useSQLTemplate = (SQLTemp: string) => {
   const { fieldStr, fromStr, whereStr } = getKeywordsFromSQL(SQLTemp)
   sqlPartValue.value = {
-    from: fromStr,
+    from: fromStr.split(FROM_SEPARATOR),
     select: fieldStr,
     where: whereStr,
   }
