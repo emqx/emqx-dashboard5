@@ -13,9 +13,9 @@ module.exports = {
       },
     },
   },
-  // css: {
-  //   loaderOptions: {},
-  // },
+  css: {
+    requireModuleExtension: true,
+  },
   assetsDir: 'static',
   // runtimeCompiler: true,
   publicPath: '/',

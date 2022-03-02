@@ -25,13 +25,13 @@
       <el-table-column prop="node" :label="$t('RuleEngine.node')" sortable></el-table-column>
       <el-table-column prop="filename" :label="$t('Backup.filename')" sortable></el-table-column>
       <el-table-column prop="size" :label="$t('Backup.size')" sortable>
-        <template slot-scope="{ row }">
+        <template v-slot="{ row }">
           {{ row.size | renderSize }}
         </template>
       </el-table-column>
       <el-table-column prop="created_at" :label="$t('Backup.createAt')" sortable></el-table-column>
       <el-table-column :label="$t('Base.operation')">
-        <template slot-scope="{ row }">
+        <template v-slot="{ row }">
           <el-button size="mini" @click="handleDownload(row)"
             >{{ $t('Backup.download') }}
           </el-button>
