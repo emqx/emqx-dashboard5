@@ -4,6 +4,7 @@ import { Properties } from '@/types/schemaForm'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import InputArray from '@/components/InputArray.vue'
+import '@/style/schemaForm.scss'
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -64,7 +65,7 @@ const SchemaForm = defineComponent({
     const getColFormItem = (property: Properties[string]) => (
       <el-col span={16}>
         <el-form-item label={property.label}>
-          <p>{property.description}</p>
+          <p class="item-desc">{property.description}</p>
           {setControl(property)}
         </el-form-item>
       </el-col>
@@ -97,7 +98,7 @@ const SchemaForm = defineComponent({
       const schemaForm = renderLayout(getComponents(properties))
       return schemaForm
     }
-    return () => renderSchemaForm(components.value)
+    return () => <div class="schema-form">{renderSchemaForm(components.value)}</div>
   },
 })
 

@@ -1,0 +1,22 @@
+.schema-form {
+  .el-form-item__label {
+    color: var(--el-text-color-primary);
+    line-height: 28px;
+  }
+  .item-desc {
+    margin: 0;
+    color: var(--el-text-color-regular);
+  }
+  .el-form-item {
+    margin-top: 6px;
+  }
+  [class*=el-col-] {
+    padding: 0px 16px;
+    transition: all .2s ease;
+    border-left: 4px solid transparent;
+    &:hover {
+      background: #FAFAFA;
+      border-left: 4px solid var(--el-color-primary);
+    }
+  }
+}
