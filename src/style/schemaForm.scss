@@ -12,11 +12,16 @@
   }
   [class*=el-col-] {
     padding: 0px 16px;
+  }
+  .el-col-16 {
     transition: all .2s ease;
     border-left: 4px solid transparent;
     &:hover {
       background: #FAFAFA;
       border-left: 4px solid var(--el-color-primary);
     }
+  }
+  .part-header {
+    font-size: 16px;
   }
 }

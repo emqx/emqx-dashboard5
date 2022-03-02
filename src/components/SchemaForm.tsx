@@ -62,14 +62,27 @@ const SchemaForm = defineComponent({
       }
     }
 
-    const getColFormItem = (property: Properties[string]) => (
-      <el-col span={16}>
-        <el-form-item label={property.label}>
-          <p class="item-desc">{property.description}</p>
-          {setControl(property)}
-        </el-form-item>
-      </el-col>
-    )
+    const getColFormItem = (property: Properties[string], groupName?: string) => {
+      const colItem = (
+        <el-col span={16}>
+          <el-form-item label={property.label}>
+            <p class="item-desc">{property.description}</p>
+            {setControl(property)}
+          </el-form-item>
+        </el-col>
+      )
+      if (groupName) {
+        return (
+          <>
+            <el-col span={24}>
+              <div class="part-header">{groupName}</div>
+            </el-col>
+            {colItem}
+          </>
+        )
+      }
+      return colItem
+    }
 
     const renderLayout = (contents: JSX.Element[]) => (
       <el-form label-position="top">
@@ -78,14 +91,23 @@ const SchemaForm = defineComponent({
     )
 
     const getComponents = (properties: Properties) => {
+      let [groupName, oldGroupName] = ['Basic', '']
       const elements: JSX.Element[] = []
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {
           const property = properties[key]
           if (property.properties) {
-            setComponents(property.properties)
+            const { label, properties } = property
+            groupName = label
+            setComponents(properties)
           } else {
-            const elFormItem = getColFormItem(property)
+            let elFormItem = <></>
+            if (groupName !== oldGroupName) {
+              oldGroupName = groupName
+              elFormItem = getColFormItem(property, groupName)
+            } else if (groupName === oldGroupName) {
+              elFormItem = getColFormItem(property)
+            }
             elements.push(elFormItem)
           }
         })
