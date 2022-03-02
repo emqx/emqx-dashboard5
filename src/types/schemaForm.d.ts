@@ -11,6 +11,9 @@ export interface Properties {
     maximum?: number
     minimum?: number
     parent?: string
+    items: {
+      type: string
+    }
     properties?: Properties
   }
 }

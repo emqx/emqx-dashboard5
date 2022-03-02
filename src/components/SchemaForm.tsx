@@ -3,11 +3,14 @@ import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import { Properties } from '@/types/schemaForm'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import InputArray from '@/components/InputArray.vue'
 
 const SchemaForm = defineComponent({
+  name: 'SchemaForm',
   components: {
     TimeInputWithUnitSelect,
     InputWithUnit,
+    InputArray,
   },
   props: {
     path: {
@@ -52,9 +55,7 @@ const SchemaForm = defineComponent({
         case 'byteSize':
           return <input-with-unit units={byteSizeUnit}></input-with-unit>
         case 'array':
-          return <div>This is array</div>
-        case 'ip_port':
-          return <div>This is ip_port</div>
+          return <input-array></input-array>
         default:
           break
       }
