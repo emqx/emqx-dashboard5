@@ -289,7 +289,7 @@ export default {
   },
   notPromptAgain: {
     zh: '不再提示',
-    en: "Stop showing this",
+    en: 'Stop showing this',
   },
   licenseExpiryTip: {
     zh: `
