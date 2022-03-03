@@ -37,7 +37,7 @@ const SchemaForm = defineComponent({
         value: 'Kb',
       },
     ]
-    const setControl = (property: Properties[string]) => {
+    const switchComponent = (property: Properties[string]) => {
       switch (property.type) {
         case 'string':
           return <el-input placeholder={property.default}></el-input>
@@ -53,14 +53,25 @@ const SchemaForm = defineComponent({
           )
         case 'boolean':
           return <el-switch></el-switch>
+        case 'array':
+          return <input-array></input-array>
         case 'duration':
           return <time-input-with-unit-select></time-input-with-unit-select>
         case 'byteSize':
-          return <input-with-unit units={byteSizeUnit}></input-with-unit>
-        case 'array':
-          return <input-array></input-array>
+          return <input-with-unit units={['MB', 'G', 'KB']}></input-with-unit>
+        case 'percent':
+          return <input-with-unit units={['%']}></input-with-unit>
+        case 'comma_separated_string':
+          return <el-input placeholder={property.default}></el-input>
         default:
           break
+      }
+    }
+    const setControl = (property: Properties[string]) => {
+      if (property.type) {
+        return switchComponent(property)
+      } else if (property.oneOf) {
+        return <div>oneof</div>
       }
     }
 
