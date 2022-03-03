@@ -34,6 +34,7 @@ loadConfigContent()
 .config-docs-content {
   h1 {
     font-size: 1.75rem;
+    padding-top: 60px;
   }
   h2 {
     font-size: 1.5rem;

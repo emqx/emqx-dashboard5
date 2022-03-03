@@ -5,6 +5,7 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import InputArray from '@/components/InputArray.vue'
 import '@/style/schemaForm.scss'
+import { useI18n } from 'vue-i18n'
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -20,6 +21,7 @@ const SchemaForm = defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n()
     const { components }: { components: Ref<Properties> } = useSchemaForm(props.path)
     const byteSizeUnit = [
       {
@@ -75,7 +77,7 @@ const SchemaForm = defineComponent({
         return (
           <>
             <el-col span={24}>
-              <div class="part-header">{groupName}</div>
+              <div class="group-title">{groupName}</div>
             </el-col>
             {colItem}
           </>
@@ -91,7 +93,7 @@ const SchemaForm = defineComponent({
     )
 
     const getComponents = (properties: Properties) => {
-      let [groupName, oldGroupName] = ['Basic', '']
+      let [groupName, oldGroupName] = [t('Clients.basicInfo'), '']
       const elements: JSX.Element[] = []
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {

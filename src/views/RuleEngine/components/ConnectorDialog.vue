@@ -72,7 +72,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { computed, ref, Ref, watch, defineProps, defineEmits } from 'vue'
+import { computed, ref, watch, defineProps, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ConnectorMqttConfig from '../Connector/ConnectorMqttConfig.vue'
 import { createConnector, updateConnector, testConnector } from '@/api/ruleengine'
