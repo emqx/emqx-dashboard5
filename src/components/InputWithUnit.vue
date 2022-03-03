@@ -24,14 +24,24 @@ const props = defineProps({
     type: String,
   },
   units: {
-    type: Array as PropType<Array<{ label: string; value: string }>>,
+    type: Array as PropType<Array<{ label: string; value: string } | string>>,
   },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
+const units = props.units?.map((unit) => {
+  if (typeof unit === 'string') {
+    return { label: unit, value: unit }
+  }
+  return {
+    label: unit.label,
+    value: unit.value,
+  }
+})
+
 const strRegExp = computed(() => {
-  return new RegExp(`^(\\d+(\\.\\d*)?)?(${props.units?.map(({ value }) => value).join('|')})$`)
+  return new RegExp(`^(\\d+(\\.\\d*)?)?(${units?.map(({ value }) => value).join('|')})$`)
 })
 
 const modelValueMatchReg = computed(() => {
@@ -58,7 +68,7 @@ const unit: WritableComputedRef<string> = computed({
       return unit
     }
     if (!props.modelValue) {
-      return props.units && props.units.length > 0 ? props.units[0].value : ''
+      return units && units.length > 0 ? units[0].value : ''
     }
     return ''
   },
