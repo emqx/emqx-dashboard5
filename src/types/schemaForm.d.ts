@@ -14,7 +14,7 @@ export interface Properties {
     items: {
       type: string
     }
-    oneOf: Properties[]
+    oneOf: Properties[string][]
     properties?: Properties
   }
 }
