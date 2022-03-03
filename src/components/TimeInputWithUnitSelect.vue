@@ -2,8 +2,10 @@
   <el-input class="time-input-with-unit-select" v-model.number.trim="timeValue">
     <template #append>
       <el-select v-model="unit">
-        <el-option value="s" label="s" />
-        <el-option value="ms" label="ms" />
+        <el-option value="h" :label="$t('Base.hour')" />
+        <el-option value="m" :label="$t('Base.minute')" />
+        <el-option value="s" :label="$t('Base.second')" />
+        <el-option value="ms" :label="$t('Base.milliseconds')" />
       </el-select>
     </template>
   </el-input>
@@ -15,7 +17,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'TimeInputWithUnitSelect',
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -23,10 +25,10 @@ export default defineComponent({
   computed: {
     inputValue: {
       get() {
-        return this.value
+        return this.modelValue
       },
       set(val) {
-        this.$emit('input', val)
+        this.$emit('update:modelValue', val)
       },
     },
     timeValue: {
@@ -39,7 +41,7 @@ export default defineComponent({
     },
     unit: {
       get() {
-        return this.inputValue.slice(-2) === 'ms' ? 'ms' : 's'
+        return this.inputValue.replace(/[0-9]+/g, '')
       },
       set(val) {
         this.inputValue = this.timeValue + val
