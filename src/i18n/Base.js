@@ -253,7 +253,11 @@ export default {
   },
   hour: {
     zh: '小时',
-    en: 'Hour',
+    en: 'hour',
+  },
+  milliseconds: {
+    zh: '毫秒',
+    en: 'milliseconds',
   },
   up: {
     zh: '上移',
