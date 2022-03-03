@@ -33,9 +33,13 @@ export default defineComponent({
     const schema = ref({})
     provide('schema', schema)
     const loadSchemaConfig = async () => {
-      const res = await schemaRequest.get('static/schema.json')
-      if (res.data) {
-        schema.value = res.data
+      try {
+        const res = await schemaRequest.get('static/schema.json')
+        if (res.data) {
+          schema.value = res.data
+        }
+      } catch (error) {
+        // ignore error
       }
     }
     loadSchemaConfig()
@@ -49,4 +53,11 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.basic-config {
+  .sec-header-title {
+    padding: 0;
+    padding-left: 34px;
+  }
+}
+</style>
