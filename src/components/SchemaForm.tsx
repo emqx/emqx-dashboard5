@@ -23,24 +23,11 @@ const SchemaForm = defineComponent({
   setup(props) {
     const { t } = useI18n()
     const { components }: { components: Ref<Properties> } = useSchemaForm(props.path)
-    const byteSizeUnit = [
-      {
-        label: 'MB',
-        value: 'MB',
-      },
-      {
-        label: 'G',
-        value: 'G',
-      },
-      {
-        label: 'Kb',
-        value: 'Kb',
-      },
-    ]
     const switchComponent = (property: Properties[string]) => {
+      const stringInput = <el-input placeholder={property.default}></el-input>
       switch (property.type) {
         case 'string':
-          return <el-input placeholder={property.default}></el-input>
+          return stringInput
         case 'number':
           return <el-input type="number" placeholder={property.default.toString()}></el-input>
         case 'enum':
@@ -62,16 +49,19 @@ const SchemaForm = defineComponent({
         case 'percent':
           return <input-with-unit units={['%']}></input-with-unit>
         case 'comma_separated_string':
-          return <el-input placeholder={property.default}></el-input>
+          return stringInput
         default:
-          break
+          return stringInput
       }
     }
     const setControl = (property: Properties[string]) => {
       if (property.type) {
         return switchComponent(property)
       } else if (property.oneOf) {
-        return <div>oneof</div>
+        const oneofs = property.oneOf.map((item: Properties[string]) => {
+          return switchComponent(item)
+        })
+        return <div class="oneof-item">{oneofs}</div>
       }
     }
 
@@ -79,7 +69,7 @@ const SchemaForm = defineComponent({
       const colItem = (
         <el-col span={16}>
           <el-form-item label={property.label}>
-            <p class="item-desc">{property.description}</p>
+            <p class="item-desc" v-html={property.description}></p>
             {setControl(property)}
           </el-form-item>
         </el-col>
