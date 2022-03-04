@@ -11,6 +11,7 @@ export interface Properties {
     maximum?: number
     minimum?: number
     parent?: string
+    readOnly?: boolean
     items: {
       type: string
     }
