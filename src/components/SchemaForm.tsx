@@ -1,4 +1,4 @@
-import { defineComponent, ref, Ref, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import { Properties } from '@/types/schemaForm'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
@@ -31,14 +31,14 @@ const SchemaForm = defineComponent({
   },
   setup(props, ctx) {
     const configForm = ref<{ [key: string]: any }>({})
+    const { components, flattenConfigs, unflattenConfigs } = useSchemaForm(props.path)
     watch(
       () => props.form,
       (value) => {
-        configForm.value = _.cloneDeep(value)
+        configForm.value = _.cloneDeep(flattenConfigs(value))
       },
     )
     const { t } = useI18n()
-    const { components }: { components: Ref<Properties> } = useSchemaForm(props.path)
     const switchComponent = (property: Properties[string], key: string) => {
       const stringInput = (
         <el-input
@@ -142,7 +142,8 @@ const SchemaForm = defineComponent({
     }
 
     const save = () => {
-      ctx.emit('save', configForm.value)
+      const value = unflattenConfigs(configForm.value)
+      ctx.emit('save', value)
     }
 
     const renderLayout = (contents: JSX.Element[]) => (
