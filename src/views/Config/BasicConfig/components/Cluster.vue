@@ -40,8 +40,6 @@ export default defineComponent({
       const data = {
         ...val,
       }
-      console.log(data)
-      console.log(configs.value)
       try {
         await updateClusterConfigs(data)
         ElMessage.success(t('Base.updateSuccess'))

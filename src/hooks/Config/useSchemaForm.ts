@@ -29,16 +29,17 @@ export default function useSchemaForm(path: string): {
   // https://www.lodashjs.com/docs/lodash.get
   const getComponentByRef = (data: Schema, ref: string): Component => _.get(data, filter(ref), {})
   const getComponents = (data: Schema) => {
-    const transComponents = (component: Component): Properties => {
+    const transComponents = (component: Component, path?: string): Properties => {
       const res: Properties = {}
       const { properties, type } = component
       if (type === 'object' && properties) {
         Object.keys(properties).forEach((key) => {
           const property = properties[key]
+          property.path = path ? `${path}.${key}` : key
           const { $ref } = property
           if ($ref) {
             const component = getComponentByRef(data, $ref)
-            property.properties = transComponents(component)
+            property.properties = transComponents(component, property.path)
           }
           res[key] = property
         })
