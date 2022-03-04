@@ -10,7 +10,7 @@ export interface Properties {
     type: string
     maximum?: number
     minimum?: number
-    parent?: string
+    path?: string
     readOnly?: boolean
     items: {
       type: string
