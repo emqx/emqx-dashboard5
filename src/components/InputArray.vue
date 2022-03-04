@@ -13,7 +13,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'InputArray',
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: () => [],
     },
@@ -23,13 +23,15 @@ export default defineComponent({
       inputValue: '',
     }
   },
-  methods: {
-    handleBlur() {
-      this.$emit('input', this.inputValue.split(','))
+  watch: {
+    modelValue(val) {
+      this.inputValue = val.join(',')
     },
   },
-  created() {
-    this.inpputValue = this.value.join(',')
+  methods: {
+    handleBlur() {
+      this.$emit('update:modelValue', this.inputValue.split(','))
+    },
   },
 })
 </script>
