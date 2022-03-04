@@ -11,19 +11,22 @@
   .el-form-item {
     margin-top: 6px;
   }
-  [class*=el-col-] {
+  [class*='el-col-'] {
     padding: 0px 16px;
   }
   .el-col-16 {
-    transition: all .2s ease;
+    transition: all 0.2s ease;
     border-left: 4px solid transparent;
     &:hover {
-      background: #FAFAFA;
+      background: #fafafa;
       border-left: 4px solid var(--el-color-primary);
     }
   }
   .oneof-item {
     display: flex;
+  }
+  .btn-col {
+    margin: 40px 0 60px 0;
   }
   .group-title {
     font-size: 18px;
