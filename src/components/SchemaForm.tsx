@@ -39,12 +39,16 @@ const SchemaForm = defineComponent({
       },
     )
     const { t } = useI18n()
-    const switchComponent = (property: Properties[string], key: string) => {
+    const switchComponent = (property: Properties[string]) => {
+      const { path } = property
+      if (!path) {
+        return
+      }
       const stringInput = (
         <el-input
           disabled={property.readOnly}
           placeholder={property.default}
-          v-model={configForm.value[key]}
+          v-model={configForm.value[path]}
         ></el-input>
       )
       switch (property.type) {
@@ -55,7 +59,7 @@ const SchemaForm = defineComponent({
             <el-input
               type="number"
               disabled={property.readOnly}
-              v-model={configForm.value[key]}
+              v-model={configForm.value[path]}
               placeholder={property.default.toString()}
             ></el-input>
           )
@@ -64,7 +68,7 @@ const SchemaForm = defineComponent({
             <el-select
               disabled={property.readOnly}
               placeholder={property.default}
-              v-model={configForm.value[key]}
+              v-model={configForm.value[path]}
             >
               {property.symbols?.map((opt) => (
                 <el-option value={opt} label={opt}></el-option>
@@ -73,24 +77,27 @@ const SchemaForm = defineComponent({
           )
         case 'boolean':
           return (
-            <el-switch disabled={property.readOnly} v-model={configForm.value[key]}></el-switch>
+            <el-switch disabled={property.readOnly} v-model={configForm.value[path]}></el-switch>
           )
         case 'array':
           return (
-            <input-array disabled={property.readOnly} v-model={configForm.value[key]}></input-array>
+            <input-array
+              disabled={property.readOnly}
+              v-model={configForm.value[path]}
+            ></input-array>
           )
         case 'duration':
           return (
             <time-input-with-unit-select
               disabled={property.readOnly}
-              v-model={configForm.value[key]}
+              v-model={configForm.value[path]}
             ></time-input-with-unit-select>
           )
         case 'byteSize':
           return (
             <input-with-unit
               disabled={property.readOnly}
-              v-model={configForm.value[key]}
+              v-model={configForm.value[path]}
               units={['MB', 'G', 'KB']}
             ></input-with-unit>
           )
@@ -98,7 +105,7 @@ const SchemaForm = defineComponent({
           return (
             <input-with-unit
               disabled={property.readOnly}
-              v-model={configForm.value[key]}
+              v-model={configForm.value[path]}
               units={['%']}
             ></input-with-unit>
           )
@@ -108,23 +115,24 @@ const SchemaForm = defineComponent({
           return stringInput
       }
     }
-    const setControl = (property: Properties[string], key: string) => {
+    const setControl = (property: Properties[string]) => {
       if (property.type) {
-        return switchComponent(property, key)
+        return switchComponent(property)
       } else if (property.oneOf) {
         const oneofs = property.oneOf.map((item: Properties[string]) => {
-          return switchComponent(item, key)
+          item.path = property.path
+          return switchComponent(item)
         })
         return <div class="oneof-item">{oneofs}</div>
       }
     }
 
-    const getColFormItem = (key: string, property: Properties[string], groupName?: string) => {
+    const getColFormItem = (property: Properties[string], groupName?: string) => {
       const colItem = (
         <el-col span={16}>
-          <el-form-item label={property.label} prop={key}>
+          <el-form-item label={property.label} prop={property.path}>
             <p class="item-desc" v-html={property.description}></p>
-            {setControl(property, key)}
+            {setControl(property)}
           </el-form-item>
         </el-col>
       )
@@ -173,9 +181,9 @@ const SchemaForm = defineComponent({
             let elFormItem = <></>
             if (groupName !== oldGroupName) {
               oldGroupName = groupName
-              elFormItem = getColFormItem(key, property, groupName)
+              elFormItem = getColFormItem(property, groupName)
             } else if (groupName === oldGroupName) {
-              elFormItem = getColFormItem(key, property)
+              elFormItem = getColFormItem(property)
             }
             elements.push(elFormItem)
           }
@@ -186,7 +194,6 @@ const SchemaForm = defineComponent({
     }
 
     const renderSchemaForm = (properties: Properties) => {
-      console.log(properties)
       const schemaForm = renderLayout(getComponents(properties))
       return schemaForm
     }
