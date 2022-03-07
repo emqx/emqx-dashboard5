@@ -279,6 +279,10 @@ export default {
     zh: '更多',
     en: 'More',
   },
+  or: {
+    zh: '或',
+    en: 'Or',
+  },
   content: {
     zh: '目录',
     en: 'Content',

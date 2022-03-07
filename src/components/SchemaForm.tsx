@@ -1,9 +1,9 @@
 import { defineComponent, ref, watch } from 'vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import { Properties } from '@/types/schemaForm'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import InputArray from '@/components/InputArray.vue'
+import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
+import InputWithUnit from './InputWithUnit.vue'
+import InputArray from './InputArray.vue'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
 import '@/style/schemaForm.scss'
@@ -49,6 +49,7 @@ const SchemaForm = defineComponent({
           disabled={property.readOnly}
           placeholder={property.default}
           v-model={configForm.value[path]}
+          clearable
         ></el-input>
       )
       switch (property.type) {
@@ -61,6 +62,7 @@ const SchemaForm = defineComponent({
               disabled={property.readOnly}
               v-model={configForm.value[path]}
               placeholder={property.default.toString()}
+              clearable
             ></el-input>
           )
         case 'enum':
@@ -69,6 +71,7 @@ const SchemaForm = defineComponent({
               disabled={property.readOnly}
               placeholder={property.default}
               v-model={configForm.value[path]}
+              clearable
             >
               {property.symbols?.map((opt) => (
                 <el-option value={opt} label={opt}></el-option>
@@ -119,9 +122,13 @@ const SchemaForm = defineComponent({
       if (property.type) {
         return switchComponent(property)
       } else if (property.oneOf) {
-        const oneofs = property.oneOf.map((item: Properties[string]) => {
+        const oneofs = property.oneOf.map((item: Properties[string], index) => {
           item.path = property.path
-          return switchComponent(item)
+          const oneofComponent = switchComponent(item)
+          if (index !== property.oneOf.length -1) {
+            return <>{oneofComponent}<span class="split">{t('Base.or')}</span></>
+          }
+          return oneofComponent
         })
         return <div class="oneof-item">{oneofs}</div>
       }

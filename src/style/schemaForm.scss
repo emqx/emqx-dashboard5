@@ -24,6 +24,9 @@
   }
   .oneof-item {
     display: flex;
+    .split {
+      margin: 0 12px;
+    }
   }
   .btn-col {
     margin: 40px 0 60px 0;
