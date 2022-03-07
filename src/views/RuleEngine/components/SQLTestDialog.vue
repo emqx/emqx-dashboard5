@@ -3,26 +3,41 @@
     <el-form label-position="top">
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item>
-            <template #label>
-              <div class="label-container">
-                <label>{{ tl('testData') }}</label>
-                <div class="context-handlers">
-                  <el-tooltip effect="dark" :content="tl('doc')" placement="top-start">
-                    <el-icon @click="goDoc"><QuestionFilled /></el-icon>
-                  </el-tooltip>
-                  <el-tooltip effect="dark" :content="tl('resetData')" placement="top-start">
-                    <el-icon @click="resetContext"><Refresh /></el-icon>
-                  </el-tooltip>
-                  <el-tooltip effect="dark" :content="tl('formatJSON')" placement="top-start">
-                    <el-icon @click="formatJSON"><MagicStick /></el-icon>
-                  </el-tooltip>
-                  <el-tooltip effect="dark" :content="tooltipForToggleBtn" placement="top-start">
-                    <el-icon @click="toggleInputContextType"><EditPen /></el-icon>
-                  </el-tooltip>
-                </div>
+          <el-form-item :label="tl('testData')">
+            <div class="label-container">
+              <div class="from-select-container">
+                <label>{{ tl('dataSource') }}</label>
+                <FromSelect
+                  v-model="dataType"
+                  :ingress-bridge-list="ingressBridgeList"
+                  :event-list="eventList"
+                  @change="handleDataSourceChanged"
+                  mini
+                />
+                <el-tooltip
+                  v-if="isDataTypeNoMatchSQL"
+                  effect="dark"
+                  :content="tl('dataTypeSQLNoMatch')"
+                  placement="top-start"
+                >
+                  <el-icon class="icon-warning"><WarningFilled /></el-icon>
+                </el-tooltip>
               </div>
-            </template>
+              <div class="context-handlers">
+                <el-tooltip effect="dark" :content="tl('doc')" placement="top-start">
+                  <el-icon @click="goDoc"><QuestionFilled /></el-icon>
+                </el-tooltip>
+                <el-tooltip effect="dark" :content="tl('resetData')" placement="top-start">
+                  <el-icon @click="resetContext"><Refresh /></el-icon>
+                </el-tooltip>
+                <el-tooltip effect="dark" :content="tl('formatJSON')" placement="top-start">
+                  <el-icon @click="formatJSON"><MagicStick /></el-icon>
+                </el-tooltip>
+                <el-tooltip effect="dark" :content="tooltipForToggleBtn" placement="top-start">
+                  <el-icon @click="toggleInputContextType"><EditPen /></el-icon>
+                </el-tooltip>
+              </div>
+            </div>
             <div v-if="inputContextBy === InputContextType.JSON" class="monaco-container">
               <!-- <el-input type="textarea" rows="5" v-model="testParams.context" /> -->
               <Monaco
@@ -39,23 +54,39 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('testsql')">
-            <el-input type="textarea" rows="5" v-model="testParams.sql" />
+            <div class="monaco-container">
+              <Monaco
+                :id="createRandomString()"
+                v-model="testParams.sql"
+                lang="sql"
+                @change="handleSQLChanged"
+              />
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('outputResult')">
-            <el-input type="textarea" rows="5" v-model="testParams.output" />
+            <div class="monaco-container">
+              <Monaco :id="createRandomString()" v-model="testParams.output" lang="json" />
+            </div>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <template #footer>
-      <el-button type="primary" size="small" :loading="testLoading" @click="submitTest()">
-        {{ $t('Base.test') }}
-      </el-button>
-      <el-button size="small" @click="cancel">
-        {{ $t('Base.cancel') }}
-      </el-button>
+      <div class="ft-flex">
+        <el-button type="primary" size="small" :loading="testLoading" @click="submitTest()">
+          {{ $t('Base.test') }}
+        </el-button>
+        <div>
+          <el-button type="primary" size="small" @click="save">
+            {{ $t('Base.save') }}
+          </el-button>
+          <el-button size="small" @click="cancel">
+            {{ $t('Base.cancel') }}
+          </el-button>
+        </div>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -73,12 +104,17 @@ import { defineProps, computed, defineEmits, WritableComputedRef, ref, Ref, Prop
 import { useI18n } from 'vue-i18n'
 import { testsql } from '@/api/ruleengine'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString } from '@/common/tools'
+import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import { QuestionFilled, Refresh, MagicStick, EditPen } from '@element-plus/icons-vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
 import { cloneDeep } from 'lodash'
+import FromSelect from '../components/FromSelect.vue'
+import { BridgeItem, RuleEvent } from '@/types/rule'
+import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { WarningFilled } from '@element-plus/icons-vue'
+import { RuleInputType } from '@/types/enum'
 
 interface TestParams {
   context: Record<string, string>
@@ -102,12 +138,18 @@ const props = defineProps({
     type: Object as PropType<Omit<TestParams, 'output'>>,
     required: true,
   },
-  chosenEvent: {
-    type: Object,
+  firstInputItem: {
+    type: String,
+  },
+  eventList: {
+    type: Array as PropType<Array<RuleEvent>>,
+  },
+  ingressBridgeList: {
+    type: Array as PropType<Array<BridgeItem>>,
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'save'])
 
 const testParams: Ref<TestParams> = ref({
   context: {},
@@ -117,6 +159,8 @@ const testParams: Ref<TestParams> = ref({
 const contextObjStr: Ref<string> = ref('')
 const testLoading = ref(false)
 const inputContextBy = ref(InputContextType.JSON)
+const dataType: Ref<string> = ref('')
+const isDataTypeNoMatchSQL = ref(false)
 
 const showDialog: WritableComputedRef<boolean> = computed({
   get() {
@@ -195,9 +239,70 @@ const toggleInputContextType = async () => {
   }
 }
 
+const { findInputTypeNTarget, getTestColumns, transFromStrToFromArr } = useRuleUtils()
+
+const compareTargetNFromStr = (
+  targetType: RuleInputType,
+  target: BridgeItem | RuleEvent | string,
+  fromStr: string,
+): boolean => {
+  const inputs = transFromStrToFromArr(fromStr)
+  let targetStrToCompare = ''
+
+  if (inputs.length > 1) {
+    return false
+  }
+
+  // when comparing, if the type is topic, compare the target directly;
+  // if type is event, compare target.event
+  // if type is bridge, compare bridge.id
+  switch (targetType) {
+    case RuleInputType.Topic:
+      targetStrToCompare = target as string
+      break
+    case RuleInputType.Event:
+      targetStrToCompare = (target as RuleEvent).event
+      break
+    case RuleInputType.Bridge:
+      targetStrToCompare = (target as BridgeItem).id
+      break
+  }
+  return targetStrToCompare === inputs[0]
+}
+
+const setContext = (obj: Record<string, string>) => {
+  testParams.value.context = obj
+  setContextObjStr()
+}
+
+const handleDataSourceChanged = ({ value }: { value: string }) => {
+  // The data type switch will not change the SQL, but if the data type does not match the SQL,
+  // a warning will be issued indicating that the data type does not match the SQL
+  const { eventList = [], ingressBridgeList = [] } = props
+
+  const { type, target } = findInputTypeNTarget(value, eventList, ingressBridgeList)
+  const { fromStr } = getKeywordsFromSQL(testParams.value.sql)
+  isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
+
+  const testColumns = getTestColumns(type, value, props.eventList || [])
+  setContext(testColumns)
+}
+
+const handleSQLChanged = () => {
+  const { eventList = [], ingressBridgeList = [] } = props
+
+  const { fromStr } = getKeywordsFromSQL(testParams.value.sql)
+  const inputs = transFromStrToFromArr(fromStr)
+  const { type: firstInputType } = findInputTypeNTarget(inputs[0], eventList, ingressBridgeList)
+  dataType.value = inputs[0]
+
+  const testColumns = getTestColumns(firstInputType, inputs[0], eventList)
+  setContext(testColumns)
+}
+
 const submitTest = async () => {
   testLoading.value = true
-  const eventType = props.chosenEvent?.event || ''
+  const eventType = props.firstInputItem || ''
   const context = {
     ...testParams.value.context,
     event_type: eventType.match(/(\$events\/)([\w]+)/)?.[2],
@@ -222,6 +327,11 @@ const submitTest = async () => {
   testLoading.value = false
 }
 
+const save = () => {
+  emit('save', testParams.value.sql)
+  cancel()
+}
+
 const cancel = () => {
   showDialog.value = false
 }
@@ -229,6 +339,7 @@ const cancel = () => {
 watch(showDialog, (val) => {
   if (val) {
     testParams.value = { ...cloneDeep(props.testData), output: '' }
+    dataType.value = props.firstInputItem || ''
     setContextObjStr()
   }
 })
@@ -239,6 +350,17 @@ watch(showDialog, (val) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.from-select-container {
+  display: flex;
+  align-items: center;
+  label {
+    flex-shrink: 0;
+    color: var(--el-text-color-secondary);
+  }
+}
+.icon-warning {
+  color: var(--el-color-warning);
 }
 .context-handlers {
   .el-icon {
@@ -253,5 +375,12 @@ watch(showDialog, (val) => {
       margin-right: 4px;
     }
   }
+}
+.monaco-container {
+  height: 200px;
+}
+.ft-flex {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

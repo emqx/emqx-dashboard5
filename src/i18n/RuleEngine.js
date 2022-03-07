@@ -547,4 +547,8 @@ export default {
     zh: '客户端事件',
     en: 'Client event',
   },
+  dataTypeSQLNoMatch: {
+    zh: '数据类型与 SQL 不匹配',
+    en: 'Data type does not match SQL',
+  },
 }

@@ -7,6 +7,7 @@
     @keyup.enter="handleTopicInput"
     @blur="handleTopicInput"
     @change="handleSelectedChanged"
+    :class="{ 'is-mini': mini }"
     :popper-class="`from-select-popper ${isInputTopic ? 'is-hidden' : ''}`"
   >
     <el-option-group :label="tl('customTopic')">
@@ -80,6 +81,10 @@ const props = defineProps({
   },
   eventList: {
     type: Array as PropType<Array<RuleEvent>>,
+  },
+  mini: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'change'])
@@ -219,6 +224,12 @@ setSelected()
 }
 .item-id {
   color: var(--el-text-color-secondary);
+}
+.is-mini {
+  :deep(.el-input.is-focus .el-input__inner),
+  :deep(.el-input .el-input__inner) {
+    border-color: transparent;
+  }
 }
 </style>
 
