@@ -20,3 +20,5 @@ export const RULE_INPUT_EVENT_PREFIX = '$events/'
 export const RULE_TOPOLOGY_ID = 'rule-topology'
 
 export const QoSOptions = [QoSLevel.QoS0, QoSLevel.QoS1, QoSLevel.QoS2]
+
+export const RULE_FROM_SEPARATOR = ','

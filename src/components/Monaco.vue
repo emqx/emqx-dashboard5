@@ -52,7 +52,7 @@ const prop = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'focus', 'blur'])
+const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
 
 // ❗️ editor instance can not be reactive, otherwise it will cause the page to get stuck for unknown reasons
 let editor = null
@@ -85,6 +85,7 @@ const initEditor = () => {
     const value = editor.getValue()
     if (value !== editor.modelValue) {
       emit('update:modelValue', value, event)
+      emit('change', value)
     }
   })
 }
