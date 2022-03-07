@@ -16,7 +16,9 @@
           <div class="sub-block-hd">
             <p class="hd-title">{{ tl('SQL') }}</p>
             <div>
-              <el-button type="text" size="mini">{{ tl('testsql') }}</el-button>
+              <el-button type="text" size="mini" @click="testSQL(item.sql)">
+                {{ tl('testsql') }}
+              </el-button>
               <el-button type="text" size="mini" @click="useSQL(item.sql)">
                 {{ tl('useSQL') }}
               </el-button>
@@ -100,7 +102,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'use-sql'])
+const emit = defineEmits(['update:modelValue', 'use-sql', 'test-sql'])
 
 const showDrawer: WritableComputedRef<boolean> = computed({
   get() {
@@ -110,6 +112,11 @@ const showDrawer: WritableComputedRef<boolean> = computed({
     emit('update:modelValue', val)
   },
 })
+
+const testSQL = (SQLContent: string) => {
+  emit('test-sql', SQLContent)
+  showDrawer.value = false
+}
 
 const useSQL = (SQLContent: string) => {
   emit('use-sql', SQLContent)

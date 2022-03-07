@@ -43,12 +43,16 @@
           </el-col>
           <el-col :span="14">
             <el-form-item :label="`${tl('select')}(SELECT)`">
-              <el-input type="textarea" v-model="sqlPartValue.select" />
+              <div class="monaco-container is-small">
+                <Monaco :id="createRandomString()" v-model="sqlPartValue.select" lang="sql" />
+              </div>
             </el-form-item>
           </el-col>
           <el-col :span="14">
             <el-form-item :label="`${tl('where')}(WHERE)`">
-              <el-input type="textarea" v-model="sqlPartValue.where" />
+              <div class="monaco-container is-small">
+                <Monaco :id="createRandomString()" v-model="sqlPartValue.where" lang="sql" />
+              </div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -68,7 +72,6 @@
               <div class="monaco-container">
                 <Monaco :id="createRandomString()" v-model="ruleValue.sql" lang="sql" />
               </div>
-              <!-- <el-input type="textarea" rows="10" v-model="ruleValue.sql" /> -->
             </el-form-item>
           </el-col>
         </el-row>
@@ -94,7 +97,11 @@
     :event-list="ruleEventsList"
     @save="saveSQLFromTest"
   />
-  <SQLTemplateDrawer v-model="isShowTemplateDrawer" @use-sql="useSQLTemplate" />
+  <SQLTemplateDrawer
+    v-model="isShowTemplateDrawer"
+    @use-sql="useSQLTemplate"
+    @test-sql="testSQLTemplate"
+  />
 </template>
 
 <script lang="ts">
@@ -253,7 +260,6 @@ const judgeInputType = (input: string) => {
 }
 
 const openTestDialog = () => {
-  testDialog.value = true
   syncData()
 
   const from = sqlPartValue.value.from[0]
@@ -261,6 +267,8 @@ const openTestDialog = () => {
   const inputType = judgeInputType(from)
   const testColumns = getTestColumns(inputType, from, ruleEventsList.value)
   testParams.value.context = testColumns
+
+  testDialog.value = true
 }
 
 const showTemplateDrawer = () => {
@@ -275,6 +283,21 @@ const useSQLTemplate = (SQLTemp: string) => {
     where: whereStr,
   }
   ruleValue.value.sql = SQLTemp
+}
+
+const testSQLTemplate = (SQLTemp: string) => {
+  const { fromStr } = getKeywordsFromSQL(SQLTemp)
+  const fromArr = transFromStrToFromArr(fromStr)
+  const inputType = judgeInputType(fromArr[0])
+  const testColumns = getTestColumns(inputType, fromArr[0], ruleEventsList.value)
+
+  firstInputItem.value = fromArr[0]
+  testParams.value = {
+    sql: SQLTemp,
+    context: testColumns,
+  }
+
+  testDialog.value = true
 }
 
 const saveSQLFromTest = useSQLTemplate
