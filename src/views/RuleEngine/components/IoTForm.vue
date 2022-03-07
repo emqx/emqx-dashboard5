@@ -86,7 +86,14 @@
       <RuleOutputs v-model="ruleValue" />
     </el-form>
   </div>
-  <SQLTestDialog v-model="testDialog" :test-data="testParams" :chosen-event="chosenEvent" />
+  <SQLTestDialog
+    v-model="testDialog"
+    :test-data="testParams"
+    :first-input-item="firstInputItem"
+    :ingress-bridge-list="ingressBridgeList"
+    :event-list="ruleEventsList"
+    @save="saveSQLFromTest"
+  />
   <SQLTemplateDrawer v-model="isShowTemplateDrawer" @use-sql="useSQLTemplate" />
 </template>
 
@@ -112,8 +119,8 @@ import RuleOutputs from './RuleOutputs.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import FromSelectList from './FromSelectList.vue'
-
-const FROM_SEPARATOR = ','
+import { RULE_FROM_SEPARATOR } from '@/common/constants'
+import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 
 const prop = defineProps({
   modelValue: {
@@ -131,7 +138,7 @@ const bridgeList = ref([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const outputLoading = ref(false)
-const chosenEvent: Ref<RuleEvent> = ref({} as RuleEvent)
+const firstInputItem: Ref<string> = ref('')
 const briefEditType = ref(true)
 
 const isShowTemplateDrawer = ref(false)
@@ -166,6 +173,8 @@ watch(
   },
 )
 
+const { getTestColumns, transFromStrToFromArr } = useRuleUtils()
+
 /**
  * sync data
  * Timing of function calls: 1. open test dialog; 2. form value changed; 3. component mounted
@@ -182,7 +191,7 @@ const syncSQLDataToForm = () => {
   let { sql = '' } = ruleValue.value
   const { fieldStr, fromStr, whereStr } = getKeywordsFromSQL(sql)
   sqlPartValue.value = {
-    from: fromStr.split(FROM_SEPARATOR),
+    from: transFromStrToFromArr(fromStr),
     select: fieldStr,
     where: whereStr,
   }
@@ -198,7 +207,7 @@ const syncData = () => {
 }
 
 const transFromDataArrToStr = () => {
-  return sqlPartValue.value.from.map((item) => `"${item}"`).join(FROM_SEPARATOR)
+  return sqlPartValue.value.from.map((item) => `"${item}"`).join(`${RULE_FROM_SEPARATOR} `)
 }
 
 /**
@@ -247,33 +256,11 @@ const openTestDialog = () => {
   testDialog.value = true
   syncData()
 
-  function findProperEvent(event: string) {
-    const properEvent = ruleEventsList.value.find((v: { event: string }) => v.event === event)
-    return properEvent
-  }
-
-  function setDataWithEvent(properEvent: RuleEvent) {
-    chosenEvent.value = properEvent
-    testParams.value.context = chosenEvent.value?.test_columns
-  }
-
   const from = sqlPartValue.value.from[0]
+  firstInputItem.value = from
   const inputType = judgeInputType(from)
-  if (inputType === RuleInputType.Event) {
-    const eventData = findProperEvent(from)
-    eventData && setDataWithEvent(eventData)
-  } else if (inputType === RuleInputType.Topic) {
-    const eventData = findProperEvent(from)
-    if (eventData) {
-      setDataWithEvent(eventData)
-      return
-    }
-    const modifiedEvent = findProperEvent('$events/message_publish')
-    modifiedEvent && setDataWithEvent(modifiedEvent)
-  } else if (inputType === RuleInputType.Bridge) {
-    const modifiedEvent = findProperEvent('$events/message_publish')
-    modifiedEvent && setDataWithEvent(modifiedEvent)
-  }
+  const testColumns = getTestColumns(inputType, from, ruleEventsList.value)
+  testParams.value.context = testColumns
 }
 
 const showTemplateDrawer = () => {
@@ -283,12 +270,14 @@ const showTemplateDrawer = () => {
 const useSQLTemplate = (SQLTemp: string) => {
   const { fieldStr, fromStr, whereStr } = getKeywordsFromSQL(SQLTemp)
   sqlPartValue.value = {
-    from: fromStr.split(FROM_SEPARATOR),
+    from: transFromStrToFromArr(fromStr),
     select: fieldStr,
     where: whereStr,
   }
   ruleValue.value.sql = SQLTemp
 }
+
+const saveSQLFromTest = useSQLTemplate
 
 const loadRuleEvents = async () => {
   const res = await getRuleEvents().catch(() => {})
