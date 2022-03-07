@@ -61,7 +61,7 @@ const SchemaForm = defineComponent({
               type="number"
               disabled={property.readOnly}
               v-model={configForm.value[path]}
-              placeholder={property.default.toString()}
+              placeholder={property.default?.toString()}
               clearable
             ></el-input>
           )
