@@ -100,7 +100,7 @@ import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
-import { useBridgeTypeOptions } from '@/hooks/Rule/topology/bridge/useBridgeTypeValue'
+import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 

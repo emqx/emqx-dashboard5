@@ -73,7 +73,7 @@ import { useI18n } from 'vue-i18n'
 import { RefreshLeft } from '@element-plus/icons-vue'
 import { BridgeStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
-import { useBridgeStatusLabelValue } from '@/hooks/Rule/topology/bridge/useBridgeTypeValue'
+import { useBridgeStatusLabelValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { formatNumber } from '@/common/tools'
 
 const props = defineProps({

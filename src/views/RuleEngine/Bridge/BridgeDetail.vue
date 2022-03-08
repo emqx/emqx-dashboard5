@@ -82,7 +82,7 @@ import BridgeMqttConfig from './BridgeMqttConfig.vue'
 import { ElMessage } from 'element-plus'
 import useBridgeTypeValue, {
   useBridgeStatusLabelValue,
-} from '@/hooks/Rule/topology/bridge/useBridgeTypeValue'
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeStatus } from '@/types/enum'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 

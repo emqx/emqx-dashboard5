@@ -78,7 +78,7 @@ import ConnectorMqttConfig from '../Connector/ConnectorMqttConfig.vue'
 import { createConnector, updateConnector, testConnector } from '@/api/ruleengine'
 import { cloneDeep } from 'lodash'
 import { ElMessage } from 'element-plus'
-import useConnectorTypeValue from '@/hooks/Rule/topology/bridge/useConnectorTypeValue'
+import useConnectorTypeValue from '@/hooks/Rule/bridge/useConnectorTypeValue'
 import { createRawSSLParams } from '@/common/tools.ts'
 
 const props = defineProps({

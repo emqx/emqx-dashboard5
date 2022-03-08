@@ -86,7 +86,7 @@ import { Plus } from '@element-plus/icons-vue'
 import useBridgeTypeValue, {
   useBridgeDirectionTypeValue,
   useBridgeStatusLabelValue,
-} from '@/hooks/Rule/topology/bridge/useBridgeTypeValue'
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 
 export default defineComponent({
   setup() {
