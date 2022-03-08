@@ -53,9 +53,20 @@ export const useRuleUtils = () => {
   const transFromStrToFromArr = (fromStr: string) =>
     fromStr.split(RULE_FROM_SEPARATOR).map((item) => item.trim())
 
+  const transFromDataArrToStr = (from: Array<string>) => {
+    return from.map((item) => `"${item}"`).join(`${RULE_FROM_SEPARATOR} `)
+  }
+
+  const transSQLFormDataToSQL = (select: string, from: Array<string>, where?: string) => {
+    const tempSql = ['SELECT', select, '\n ', 'FROM', transFromDataArrToStr(from)]
+    if (where) tempSql.push('\nWHERE\n', ` ${where}`)
+    return tempSql.map((v) => v.toString()).join(' ')
+  }
+
   return {
     findInputTypeNTarget,
     getTestColumns,
     transFromStrToFromArr,
+    transSQLFormDataToSQL,
   }
 }

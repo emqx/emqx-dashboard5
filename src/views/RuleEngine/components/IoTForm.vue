@@ -126,8 +126,10 @@ import RuleOutputs from './RuleOutputs.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import FromSelectList from './FromSelectList.vue'
-import { RULE_FROM_SEPARATOR } from '@/common/constants'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+
+const DEFAULT_FROM = 't/#'
+const DEFAULT_SELECT = '*'
 
 const prop = defineProps({
   modelValue: {
@@ -139,6 +141,8 @@ const prop = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
+const { getTestColumns, transFromStrToFromArr, findInputTypeNTarget, transSQLFormDataToSQL } =
+  useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const testDialog = ref(false)
 const bridgeList = ref([])
@@ -152,19 +156,20 @@ const isShowTemplateDrawer = ref(false)
 
 const ruleValueDefault = {
   name: '',
-  sql: '',
+  sql: transSQLFormDataToSQL(DEFAULT_SELECT, [DEFAULT_FROM]),
   outputs: [],
   description: '',
 }
 
+let modelValueCache = ''
 const ruleValue: Ref<BasicRule | RuleForm> = ref({
   ...cloneDeep(ruleValueDefault),
   ...cloneDeep(prop.modelValue),
 })
 
 const sqlPartValue = ref({
-  from: ['t/#'],
-  select: '*',
+  from: [DEFAULT_FROM],
+  select: DEFAULT_SELECT,
   where: '',
 })
 
@@ -180,7 +185,24 @@ watch(
   },
 )
 
-const { getTestColumns, transFromStrToFromArr } = useRuleUtils()
+watch(
+  () => prop.modelValue,
+  (val) => {
+    if (JSON.stringify(val) !== modelValueCache) {
+      setRuleValue()
+    }
+  },
+)
+
+const setRuleValue = () => {
+  ruleValue.value = {
+    ...cloneDeep(ruleValueDefault),
+    ...cloneDeep(prop.modelValue),
+  }
+  if (briefEditType.value) {
+    syncSQLDataToForm()
+  }
+}
 
 /**
  * sync data
@@ -210,27 +232,17 @@ const syncData = () => {
   } else {
     syncSQLDataToForm()
   }
-  emit('update:modelValue', { ...ruleValue.value, sql })
-}
-
-const transFromDataArrToStr = () => {
-  return sqlPartValue.value.from.map((item) => `"${item}"`).join(`${RULE_FROM_SEPARATOR} `)
+  const value = { ...ruleValue.value, sql }
+  modelValueCache = JSON.stringify(value)
+  emit('update:modelValue', value)
 }
 
 /**
  * trans form(select, from, where) to SQL
  */
 const transformSQL = () => {
-  const tempSql = [
-    'SELECT',
-    sqlPartValue.value.select,
-    '\n ',
-    'FROM',
-    [transFromDataArrToStr()].join(''),
-  ]
-  if (sqlPartValue.value.where) tempSql.push('\nWHERE\n', ` ${sqlPartValue.value.where}`)
-
-  return tempSql.map((v) => v.toString()).join(' ')
+  const { select, from, where } = sqlPartValue.value
+  return transSQLFormDataToSQL(select, from, where)
 }
 
 const loadBridgeList = async () => {
@@ -249,22 +261,16 @@ const loadIngressBridgeList = async () => {
   )
 }
 
-const judgeInputType = (input: string) => {
-  if (bridgeList.value.some(({ id }) => id === input)) {
-    return RuleInputType.Bridge
-  }
-  if (ruleEventsList.value.some(({ event }) => event === input)) {
-    return RuleInputType.Event
-  }
-  return RuleInputType.Topic
-}
-
 const openTestDialog = () => {
   syncData()
 
   const from = sqlPartValue.value.from[0]
   firstInputItem.value = from
-  const inputType = judgeInputType(from)
+  const { type: inputType } = findInputTypeNTarget(
+    from,
+    ruleEventsList.value,
+    ingressBridgeList.value,
+  )
   const testColumns = getTestColumns(inputType, from, ruleEventsList.value)
   testParams.value.context = testColumns
 
@@ -288,7 +294,11 @@ const useSQLTemplate = (SQLTemp: string) => {
 const testSQLTemplate = (SQLTemp: string) => {
   const { fromStr } = getKeywordsFromSQL(SQLTemp)
   const fromArr = transFromStrToFromArr(fromStr)
-  const inputType = judgeInputType(fromArr[0])
+  const { type: inputType } = findInputTypeNTarget(
+    fromArr[0],
+    ruleEventsList.value,
+    ingressBridgeList.value,
+  )
   const testColumns = getTestColumns(inputType, fromArr[0], ruleEventsList.value)
 
   firstInputItem.value = fromArr[0]
@@ -312,7 +322,7 @@ const loadRuleEvents = async () => {
 onMounted(() => {
   loadIngressBridgeList()
   loadRuleEvents()
-  syncFormDataToSQL()
+  setRuleValue()
 })
 </script>
 

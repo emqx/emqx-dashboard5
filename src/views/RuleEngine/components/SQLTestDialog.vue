@@ -79,7 +79,7 @@
           {{ $t('Base.test') }}
         </el-button>
         <div>
-          <el-button type="primary" size="small" @click="save">
+          <el-button type="primary" size="small" @click="save" v-if="canSave">
             {{ $t('Base.save') }}
           </el-button>
           <el-button size="small" @click="cancel">
@@ -146,6 +146,10 @@ const props = defineProps({
   },
   ingressBridgeList: {
     type: Array as PropType<Array<BridgeItem>>,
+  },
+  canSave: {
+    type: Boolean,
+    default: true,
   },
 })
 

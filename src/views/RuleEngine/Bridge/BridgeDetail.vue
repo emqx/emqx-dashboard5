@@ -142,7 +142,6 @@ const loadBridgeInfo = async () => {
 }
 
 const updateBridgeInfo = async () => {
-  debugger
   infoLoading.value = true
 
   const res = await updateBridge(bridgeInfo.value.id, bridgeInfo.value).catch(() => {})
