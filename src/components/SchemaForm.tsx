@@ -125,8 +125,13 @@ const SchemaForm = defineComponent({
         const oneofs = property.oneOf.map((item: Properties[string], index) => {
           item.path = property.path
           const oneofComponent = switchComponent(item)
-          if (index !== property.oneOf.length -1) {
-            return <>{oneofComponent}<span class="split">{t('Base.or')}</span></>
+          if (index !== property.oneOf.length - 1) {
+            return (
+              <>
+                {oneofComponent}
+                <span class="split">{t('Base.or')}</span>
+              </>
+            )
           }
           return oneofComponent
         })
