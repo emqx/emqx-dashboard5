@@ -14,41 +14,50 @@
             <span>{{ tl('sqlMatched') }}</span>
             <InfoTooltip />
           </p>
-          <p class="statistic-num">{{ ruleMetrics['sql.matched'] }}</p>
+          <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.matched']) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">
             <span>{{ tl('sqlPassed') }}</span>
             <InfoTooltip :content="tl('sqlPassedDesc')" />
           </p>
-          <p class="statistic-num">{{ ruleMetrics['sql.passed'] }}</p>
+          <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.passed']) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">
             <span>{{ tl('sqlFailed') }}</span>
             <InfoTooltip :content="tl('sqlFailedDesc')" />
           </p>
-          <p class="statistic-num">{{ ruleMetrics['sql.failed.exception'] }}</p>
+          <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.failed.exception']) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">
             <span>{{ tl('sqlNoResult') }}</span>
             <InfoTooltip :content="tl('sqlNoResultDesc')" />
           </p>
-          <p class="statistic-num">{{ ruleMetrics['sql.failed.no_result'] }}</p>
+          <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.failed.no_result']) }}</p>
         </el-col>
 
         <el-col :span="6">
           <p class="statistic-label">{{ tl('executionSpeed') }}</p>
-          <p class="statistic-num">{{ ruleMetrics['sql.matched.rate'] }}</p>
+          <p class="statistic-num">
+            {{ formatNumber(ruleMetrics['sql.matched.rate']) }}
+            <span class="unit">msg/s</span>
+          </p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('rateLast5M') }}</p>
-          <p class="statistic-num">{{ ruleMetrics['sql.matched.rate.last5m'] }}</p>
+          <p class="statistic-num">
+            {{ formatNumber(ruleMetrics['sql.matched.rate.last5m']) }}
+            <span class="unit">msg/s</span>
+          </p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('rateMax') }}</p>
-          <p class="statistic-num">{{ ruleMetrics['sql.matched.rate.max'] }}</p>
+          <p class="statistic-num">
+            {{ formatNumber(ruleMetrics['sql.matched.rate.max']) }}
+            <span class="unit">msg/s</span>
+          </p>
         </el-col>
       </el-row>
     </el-card>
@@ -138,6 +147,7 @@ import { useI18n } from 'vue-i18n'
 import { RefreshLeft } from '@element-plus/icons-vue'
 import { RuleItem, NodeMetrics, NodeStatus, Metrics } from '@/types/rule'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import { formatNumber } from '@/common/tools'
 
 const props = defineProps({
   ruleMsg: {
