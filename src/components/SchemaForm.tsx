@@ -40,9 +40,12 @@ const SchemaForm = defineComponent({
     )
     const { t } = useI18n()
     const switchComponent = (property: Properties[string]) => {
-      const { path } = property
-      if (!path) {
-        return
+      let { path } = property
+      if (!path) return
+      if (/\$\w+/g.test(path)) {
+        // FIXME: default string value is only temporary.
+        // Replace the variable characters in the path with real words, e.g. file_handle.$name -> file_handle.default
+        path = path.replace(/\$\w+/g, 'default')
       }
       const stringInput = (
         <el-input

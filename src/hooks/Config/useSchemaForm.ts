@@ -15,7 +15,9 @@ export default function useSchemaForm(path: string): {
   ) => {
     [key: string]: any
   }
-  unflattenConfigs: (obj: { [key: string]: any }) => any
+  unflattenConfigs: (obj: { [key: string]: any }) => {
+    [key: string]: any
+  }
 } {
   const schema: InjectSchema = inject('schema')
   const components = ref<Properties>({})
