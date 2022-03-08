@@ -30,9 +30,10 @@
             </span>
           </div>
         </template>
-        <div class="outputs-item add" @click="openOutputDialog(false)">
+        <el-button class="btn-add" type="primary" @click="openOutputDialog(false)" plain>
+          <el-icon><plus /></el-icon>
           <span>{{ tl('addOutput') }}</span>
-        </div>
+        </el-button>
       </el-col>
     </el-row>
   </el-card>
@@ -60,6 +61,7 @@ import RuleOutputsDialog from './RuleOutputsDialog.vue'
 import { RuleOutput } from '@/types/enum'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox as MB } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
 
 const props = defineProps({
   modelValue: {
@@ -181,9 +183,6 @@ const getOutputImage = (item: string) => {
     visibility: hidden;
   }
 
-  &.add {
-    justify-content: center;
-  }
   &:first-of-type {
     margin-top: 20px;
   }
@@ -194,6 +193,18 @@ const getOutputImage = (item: string) => {
       color: var(--el-color-primary);
       visibility: visible;
     }
+  }
+}
+
+.btn-add {
+  height: 40px;
+  margin-top: 12px;
+  :deep(span) {
+    display: flex;
+    align-items: center;
+  }
+  .el-icon {
+    font-size: 16px;
   }
 }
 
