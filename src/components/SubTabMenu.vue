@@ -51,7 +51,7 @@ $mid-menu-width: 160px;
 .sec-header-title {
   font-size: 24px;
   font-weight: 700;
-  padding: 0 20px 15px;
+  padding: 20px 15px;
 }
 :deep(.el-tabs--left) {
   .el-tabs__header.is-left {

@@ -58,7 +58,7 @@ export default defineComponent({
 <style lang="scss">
 .basic-config {
   .sec-header-title {
-    padding: 0;
+    padding: 20px;
     padding-left: 34px;
   }
 }
