@@ -551,4 +551,20 @@ export default {
     zh: '数据类型与 SQL 不匹配',
     en: 'Data type does not match SQL',
   },
+  parametersPreview: {
+    zh: '参数预览',
+    en: 'Parameters preview',
+  },
+  backBridgeList: {
+    zh: '返回 Bridge 列表',
+    en: 'Back To Bridge List',
+  },
+  backRuleEdit: {
+    zh: '返回规则编辑',
+    en: 'Back To Rule Editing',
+  },
+  backToRuleCreation: {
+    zh: '返回规则创建',
+    en: 'Back To Rule Creation',
+  },
 }

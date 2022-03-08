@@ -1,5 +1,8 @@
 <template>
   <div class="app-wrapper">
+    <router-link class="back-button" :to="backRoute">
+      {{ backBtnText }}
+    </router-link>
     <div class="data-bridge-create">
       <!-- <back-button back-url="/bridge">
         {{ tl('backDataBridge') }}
@@ -77,11 +80,7 @@
           >
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button
-            size="small"
-            v-if="stepActive === 0"
-            @click="$router.push({ name: 'data-bridge' })"
-          >
+          <el-button size="small" v-if="stepActive === 0" @click="cancel">
             {{ $t('Base.cancel') }}
           </el-button>
         </el-row>
@@ -92,21 +91,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, watch } from 'vue'
+import { computed, defineComponent, ref, Ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
 import { tlsConfig } from '@/types/ruleengine'
 import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
 import { useBridgeTypeOptions } from '@/hooks/Rule/topology/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   components: { BridgeHttpConfig, BridgeMqttConfig },
   setup() {
+    const { tl } = useI18nTl('RuleEngine')
+
     const tlsParamsDefault: tlsConfig = {
       enable: false,
       verify: 'verify_none',
@@ -116,6 +118,7 @@ export default defineComponent({
     }
     const stepActive = ref(0)
     const router = useRouter()
+    const route = useRoute()
     const { t } = useI18n()
     const { bridgeTypeOptions, getTrueTypeObjByRadioValue } = useBridgeTypeOptions()
     const radioSelectedBridgeType = ref(bridgeTypeOptions[0].valueForRadio)
@@ -123,6 +126,28 @@ export default defineComponent({
     const submitLoading = ref(false)
     const bridgeData = ref({})
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
+
+    const isFromRule = computed(
+      () =>
+        route.name === 'create-bridge-for-create-iot' ||
+        route.name === 'create-bridge-for-edit-iot',
+    )
+
+    const backBtnText = computed(() => {
+      let key = 'backBridgeList'
+      if (isFromRule.value) {
+        key = route.params.from.indexOf('detail') > -1 ? 'backRuleEdit' : 'backToRuleCreation'
+      }
+      return tl(key)
+    })
+
+    const backRoute = computed(() => {
+      let name = 'data-bridge'
+      if (isFromRule.value) {
+        name = route.params.from.indexOf('detail') > -1 ? 'iot-detail' : 'iot-create'
+      }
+      return { name }
+    })
 
     // watch(
     //   () => [_.cloneDeep(bridgeData.value), _.cloneDeep(tlsParams.value)],
@@ -149,6 +174,14 @@ export default defineComponent({
       stepActive.value += 1
     }
 
+    const cancel = () => {
+      if (!isFromRule.value) {
+        router.push({ name: 'data-bridge' })
+      } else {
+        router.push({ name: route.params.from as string })
+      }
+    }
+
     const submitCreateBridge = async () => {
       let res
       submitLoading.value = true
@@ -173,13 +206,19 @@ export default defineComponent({
           type: 'success',
           message: t('Base.createSuccess'),
         })
-        router.push({ name: 'data-bridge' })
+        if (!isFromRule.value) {
+          router.push({ name: 'data-bridge' })
+        } else {
+          router.push({ name: route.params.from as string, params: { bridgeId: res.id } })
+        }
       }
       submitLoading.value = false
     }
 
     return {
-      tl: (key: string) => t('RuleEngine.' + key),
+      tl,
+      backBtnText,
+      backRoute,
       stepActive,
       goNextStep,
       bridgeTypeOptions,
@@ -188,6 +227,7 @@ export default defineComponent({
       submitLoading,
       tlsParams,
       bridgeData,
+      cancel,
       submitCreateBridge,
     }
   },
