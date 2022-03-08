@@ -4,12 +4,12 @@
     <BridgeHttpConfig
       v-if="bridgeData?.type === BridgeType.HTTP"
       v-model="bridgeData"
-      :edit="false"
+      :disabled="true"
     />
     <BridgeMqttConfig
       v-else-if="bridgeData?.type === BridgeType.MQTT"
       v-model="bridgeData"
-      :edit="false"
+      :disabled="true"
     />
   </div>
 </template>

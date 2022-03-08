@@ -49,7 +49,11 @@
                   v-model="bridgeInfo"
                   :edit="true"
                 />
-                <bridge-mqtt-config v-if="bridgeInfo.type === 'mqtt'" v-model="bridgeInfo" />
+                <bridge-mqtt-config
+                  v-if="bridgeInfo.type === 'mqtt'"
+                  v-model="bridgeInfo"
+                  :edit="true"
+                />
               </div>
               <div class="btn-area">
                 <el-button
@@ -138,6 +142,7 @@ const loadBridgeInfo = async () => {
 }
 
 const updateBridgeInfo = async () => {
+  debugger
   infoLoading.value = true
 
   const res = await updateBridge(bridgeInfo.value.id, bridgeInfo.value).catch(() => {})

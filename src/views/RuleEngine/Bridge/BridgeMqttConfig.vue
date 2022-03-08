@@ -1,12 +1,12 @@
 <template>
   <div class="bridge-config">
-    <el-form label-position="top" :disabled="!edit">
+    <el-form label-position="top" :disabled="disabled">
       <section>
         <div class="part-header">{{ tl('baseInfo') }}</div>
         <el-row :gutter="30">
           <el-col :span="14">
             <el-form-item :label="tl('name')">
-              <el-input v-model="mqttBridgeVal.name" />
+              <el-input v-model="mqttBridgeVal.name" :disabled="edit" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -196,10 +196,13 @@ const prop = defineProps({
     required: false,
     default: () => ({}),
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
   edit: {
     type: Boolean,
-    required: false,
-    default: () => true,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue'])

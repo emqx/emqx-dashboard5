@@ -1,4 +1,5 @@
 import { SSL } from '@/types/common'
+import { BridgeItem, ConnectorItem } from '@/types/rule'
 import { SSL_VERIFY_VALUE_MAP } from './constants'
 
 export const checkStringWithUnit = (str: string, units: Array<string>): boolean => {
@@ -107,7 +108,10 @@ export const commonTimeUnits = [
   { value: 'd', label: 'd' },
 ]
 
-export const formatNumber = (num: number) => new Intl.NumberFormat().format(num)
+export const formatNumber = (num: number) => {
+  const ret = new Intl.NumberFormat().format(num)
+  return ret === 'NaN' ? '' : ret
+}
 
 const ZERO_ASCII = 48
 const LOWER_A_ASCII = 97
@@ -187,3 +191,10 @@ export const getKeywordsFromSQL = (sqlStr: string) => {
     whereStr,
   }
 }
+
+export const getBridgeKey = ({
+  type,
+  name,
+}: Omit<BridgeItem, 'id'> | Omit<ConnectorItem, 'id'>): string => `${type}:${name}`
+
+export const getConnectorKey = getBridgeKey

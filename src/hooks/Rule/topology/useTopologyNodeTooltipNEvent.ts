@@ -78,7 +78,6 @@ export default () => {
 
     const msgArr = [
       { label: tl('name'), value: name },
-      { label: 'ID', value: id },
       { label: tl('input'), value: fromDataToShow },
       { label: tl('sqlPassed'), value: metrics['sql.passed'] },
       { label: tl('sqlFailed'), value: metrics['sql.failed.exception'] },
@@ -117,7 +116,6 @@ export default () => {
     const msgArr = [
       { label: tl('type'), value: type.toUpperCase() },
       { label: tl('name'), value: name },
-      { label: 'ID', value: id },
       { label: tl('success'), value: metrics.success },
       { label: tl('failure'), value: metrics.failed },
       { label: tl('currentSpeed'), value: metrics.rate + ' Msg/s' },

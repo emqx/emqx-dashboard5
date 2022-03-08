@@ -22,7 +22,11 @@
                 </el-select>
               </el-form-item>
               <el-form-item :label="tl('connName')">
-                <el-input v-model="connectorData.name" :placeholder="connectorData.name" />
+                <el-input
+                  v-model="connectorData.name"
+                  :placeholder="connectorData.name"
+                  :disabled="edit"
+                />
               </el-form-item>
             </el-col>
           </el-row>

@@ -1,18 +1,41 @@
 import http from '@/common/http'
+import { getBridgeKey, getConnectorKey } from '@/common/tools'
 import { BridgeItem, ConnectorItem, RuleItem } from '@/types/rule'
 
 //Bridges
-export function getBridgeList(): Promise<any> {
-  return http.get('/bridges')
+export async function getBridgeList(): Promise<any> {
+  try {
+    const data = await http.get('/bridges')
+    return Promise.resolve(
+      data.map((item: Omit<BridgeItem, 'id'>) => {
+        return {
+          id: getBridgeKey(item),
+          ...item,
+        }
+      }),
+    )
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
-export function createBridge(body: Record<string, unknown>): Promise<any> {
-  return http.post('/bridges', body)
+export async function createBridge(body: Record<string, unknown>): Promise<BridgeItem> {
+  try {
+    const data = await http.post('/bridges', body)
+    return Promise.resolve({ ...data, id: getBridgeKey(data) })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
-export function updateBridge(id: string, body: BridgeItem): Promise<any> {
+export async function updateBridge(id: string, body: BridgeItem): Promise<any> {
   if (!id) return Promise.reject()
-  return http.put('/bridges/' + encodeURIComponent(id), body)
+  try {
+    const data = await http.put('/bridges/' + encodeURIComponent(id), body)
+    return Promise.resolve({ ...data, id: getBridgeKey(data) })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export function startStopBridge(id: string, op: 'start' | 'stop'): Promise<any> {
@@ -20,9 +43,14 @@ export function startStopBridge(id: string, op: 'start' | 'stop'): Promise<any> 
   return http.post(`/bridges/${encodeURIComponent(id)}/operation/${op}`)
 }
 
-export function getBridgeInfo(id: string): Promise<any> {
+export async function getBridgeInfo(id: string): Promise<any> {
   if (!id) return Promise.reject()
-  return http.get('/bridges/' + encodeURIComponent(id))
+  try {
+    const data = await http.get('/bridges/' + encodeURIComponent(id))
+    return Promise.resolve({ ...data, id: getBridgeKey(data) })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export function deleteBridge(id: string): Promise<any> {
@@ -31,17 +59,39 @@ export function deleteBridge(id: string): Promise<any> {
 }
 
 //Connectors
-export function getConnectorList(): Promise<any> {
-  return http.get('/connectors')
+export async function getConnectorList(): Promise<any> {
+  try {
+    const data = await http.get('/connectors')
+    return Promise.resolve(
+      data.map((item: Omit<ConnectorItem, 'id'>) => {
+        return {
+          id: getConnectorKey(item),
+          ...item,
+        }
+      }),
+    )
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
-export function createConnector(body: Record<string, unknown>): Promise<any> {
-  return http.post('/connectors', body)
+export async function createConnector(body: Record<string, unknown>): Promise<ConnectorItem> {
+  try {
+    const data = await http.post('/connectors', body)
+    return Promise.resolve({ id: getConnectorKey(data), ...data })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
-export function updateConnector(id: string, body: Record<string, unknown>): Promise<any> {
+export async function updateConnector(id: string, body: Record<string, unknown>): Promise<any> {
   if (!id) return Promise.reject()
-  return http.put('/connectors/' + encodeURIComponent(id), body)
+  try {
+    const data = await http.put('/connectors/' + encodeURIComponent(id), body)
+    return Promise.resolve({ id: getConnectorKey(data), ...data })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export function deleteConnector(id: string): Promise<any> {
