@@ -14,9 +14,14 @@
         </span>
       </div>
       <div>
-        <el-button type="danger" size="small">{{ $t('Base.delete') }}</el-button>
+        <el-button size="small" @click="testSQL">
+          {{ tl('testsql') }}
+        </el-button>
         <el-button size="small" @click="enableOrDisableRule()">
           {{ ruleInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
+        </el-button>
+        <el-button type="danger" size="small">
+          {{ $t('Base.delete') }}
         </el-button>
       </div>
     </div>
@@ -24,7 +29,7 @@
       <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
         <RuleItemOverview :rule-msg="ruleInfo" />
       </el-tab-pane>
-      <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
+      <el-tab-pane :label="tl('settings')" :name="Tab.Setting" lazy>
         <el-card shadow="never" class="app-card" v-loading="infoLoading">
           <iotform v-model="ruleInfo" :key="iKey" />
           <el-row class="config-btn">
@@ -41,17 +46,30 @@
       </el-tab-pane>
     </el-tabs>
   </div>
+  <SQLTestDialog
+    v-model="isSQLTestDialogShow"
+    :test-data="SQLTestParams"
+    :first-input-item="ruleFirstInputItem"
+    :ingress-bridge-list="ingressBridgeList"
+    :event-list="eventList"
+    :can-save="false"
+  />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from 'vue'
 import iotform from '../components/IoTForm.vue'
-import { getRuleInfo, updateRules } from '@/api/ruleengine'
+import { getBridgeList, getRuleEvents, getRuleInfo, updateRules } from '@/api/ruleengine'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
-import { RuleItem } from '@/types/rule'
+import { BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import RuleItemOverview from './components/RuleItemOverview.vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import SQLTestDialog from '../components/SQLTestDialog.vue'
+import { getKeywordsFromSQL } from '@/common/tools'
+import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { MQTTBridgeDirection } from '@/types/enum'
 
 enum Tab {
   Overview = '0',
@@ -65,6 +83,16 @@ const id = route.params.id as string
 const iKey = ref(0)
 const infoLoading = ref(false)
 const activeTab = ref(Tab.Overview)
+const isSQLTestDialogShow = ref(false)
+const SQLTestParams = ref({
+  sql: '',
+  context: {},
+})
+const ruleFirstInputItem = ref('')
+const eventList: Ref<Array<RuleEvent>> = ref([])
+const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
+
+const { tl } = useI18nTl('RuleEngine')
 
 // watch(
 //   () => rInfo.value,
@@ -72,7 +100,6 @@ const activeTab = ref(Tab.Overview)
 //     console.log(val);
 //   }
 // );
-const tl = (key: string) => t('RuleEngine.' + key)
 
 const loadRuleDetail = async () => {
   infoLoading.value = true
@@ -82,6 +109,25 @@ const loadRuleDetail = async () => {
     ++iKey.value
   }
   infoLoading.value = false
+}
+
+const loadRuleEvents = async () => {
+  try {
+    eventList.value = await getRuleEvents()
+  } catch (error) {
+    //
+  }
+}
+
+const getIngressBridgeList = async () => {
+  try {
+    const data = await getBridgeList()
+    ingressBridgeList.value = data.filter(
+      (v: BridgeItem) => 'direction' in v && v.direction === MQTTBridgeDirection.In,
+    )
+  } catch (error) {
+    //
+  }
 }
 
 const enableOrDisableRule = async () => {
@@ -96,6 +142,27 @@ const enableOrDisableRule = async () => {
     ruleInfo.value.enable = !ruleInfo.value.enable
   }
   infoLoading.value = false
+}
+
+const { getTestColumns, transFromStrToFromArr, findInputTypeNTarget } = useRuleUtils()
+const testSQL = async () => {
+  await Promise.all([loadRuleEvents(), getIngressBridgeList()])
+  const { fromStr } = getKeywordsFromSQL(ruleInfo.value.sql)
+  const fromArr = transFromStrToFromArr(fromStr)
+  const { type: inputType } = findInputTypeNTarget(
+    fromArr[0],
+    eventList.value,
+    ingressBridgeList.value,
+  )
+  const testColumns = getTestColumns(inputType, fromArr[0], eventList.value)
+
+  ruleFirstInputItem.value = fromArr[0]
+  SQLTestParams.value = {
+    sql: ruleInfo.value.sql,
+    context: testColumns,
+  }
+
+  isSQLTestDialogShow.value = true
 }
 
 const submitUpdateRules = async () => {
