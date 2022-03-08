@@ -1,8 +1,8 @@
 <template>
-  <div class="app-wrapper data-bridge">
-    <router-view v-slot="{ Component }">
-      <component :is="Component" v-if="Component"></component>
-      <template v-else>
+  <router-view v-slot="{ Component }">
+    <component :is="Component" v-if="Component"></component>
+    <template v-else>
+      <div class="app-wrapper data-bridge">
         <div class="section-header">
           <div></div>
           <el-button size="small" type="primary" :icon="Plus" @click="openCreate">
@@ -33,9 +33,9 @@
           v-model="itemConnector"
           @finish="finishConnectorDialog"
         />
-      </template>
-    </router-view>
-  </div>
+      </div>
+    </template>
+  </router-view>
 </template>
 
 <script lang="ts" setup>

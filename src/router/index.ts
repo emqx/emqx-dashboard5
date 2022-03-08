@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Login from '@/views/Base/Login.vue'
 import store from '@/store'
 import Layout from '@/views/Base/Layout.vue'
+import KeepAliveChildren from '@/views/Base/KeepAliveChildren.vue'
 import Overview from '@/views/Dashboard/Overview.vue'
 import Nodes from '@/views/Dashboard/Nodes.vue'
 import Metrics from '@/views/Dashboard/Metrics.vue'
@@ -380,8 +381,20 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'create',
-        name: 'iot-create',
-        component: IoTCreate,
+        component: KeepAliveChildren,
+        redirect: 'form',
+        children: [
+          {
+            path: 'create',
+            name: 'iot-create',
+            component: IoTCreate,
+          },
+          {
+            path: 'bridge',
+            name: 'bridge-for-iot',
+            component: BridgeCreate,
+          },
+        ],
       },
       {
         path: 'detail/:id',
@@ -399,6 +412,7 @@ export const routes: Array<RouteRecordRaw> = [
       hideKey: 'bridge',
       authRequired: true,
       subMenu: true,
+      showSubMenuInFirstLevel: true,
     },
     children: [
       {
@@ -500,14 +514,14 @@ export const routes: Array<RouteRecordRaw> = [
       hideKey: 'websocket',
       authRequired: true,
     },
+    props: {
+      keepAlive: true,
+    },
     children: [
       {
         path: '',
         name: 'websocket',
         component: Websocket,
-        meta: {
-          keepAlive: true,
-        },
       },
     ],
   },

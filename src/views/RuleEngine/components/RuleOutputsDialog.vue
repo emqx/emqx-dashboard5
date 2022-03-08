@@ -4,25 +4,31 @@
       <el-row>
         <el-col :span="14" v-loading="isLoading">
           <el-form-item :label="tl('output')" prop="type">
-            <el-select v-model="outputForm.type">
-              <el-option
-                v-for="bridge in egressBridgeList"
-                :key="bridge"
-                :value="bridge.id"
-                :label="bridge.id"
-                :disabled="isDisabledBridge(bridge)"
-              />
-              <el-option
-                :value="RuleOutput.Console"
-                :disabled="isDisabledConsole"
-                :label="tl('consoleOutput')"
-              />
-              <el-option
-                :value="RuleOutput.Republish"
-                :disabled="isDisabledRepublish"
-                :label="tl('republish')"
-              />
-            </el-select>
+            <div class="form-item-content">
+              <el-select v-model="outputForm.type">
+                <el-option
+                  v-for="bridge in egressBridgeList"
+                  :key="bridge"
+                  :value="bridge.id"
+                  :label="bridge.id"
+                  :disabled="isDisabledBridge(bridge)"
+                />
+                <el-option
+                  :value="RuleOutput.Console"
+                  :disabled="isDisabledConsole"
+                  :label="tl('consoleOutput')"
+                />
+                <el-option
+                  :value="RuleOutput.Republish"
+                  :disabled="isDisabledRepublish"
+                  :label="tl('republish')"
+                />
+              </el-select>
+              <div class="handlers-container">
+                <el-icon class="btn-handler" @click="editBridge"><edit /></el-icon>
+                <el-icon class="btn-handler" @click="addBridge"><plus /></el-icon>
+              </div>
+            </div>
           </el-form-item>
         </el-col>
       </el-row>
@@ -110,12 +116,15 @@ import { getBridgeList } from '@/api/ruleengine'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import { BridgeItem, OutputItem } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
+import { useRouter } from 'vue-router'
+import { Plus, Edit } from '@element-plus/icons-vue'
 
 type OutputForm = {
   type: string
   args?: Record<string, unknown>
 }
 
+const router = useRouter()
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -216,6 +225,14 @@ const isDisabledBridge = ({ id }: BridgeItem) => {
   return props.outputDisableList.includes(id) && id !== props.output
 }
 
+const editBridge = () => {
+  // TODO:
+}
+
+const addBridge = () => {
+  router.push({ name: 'bridge-for-iot', query: { from: 'iot-create' } })
+}
+
 const toggleBridgeEdit = () => {
   if (isBridgeEdit.value) {
     chosenBridge.value =
@@ -265,3 +282,26 @@ watch(showDialog, (val) => {
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.form-item-content {
+  display: flex;
+  .handlers-container {
+    display: flex;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+  .btn-handler {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 8px;
+    border: 1px solid var(--el-border-color-base);
+    color: var(--el-text-color-secondary);
+    border-radius: 2px;
+  }
+}
+</style>

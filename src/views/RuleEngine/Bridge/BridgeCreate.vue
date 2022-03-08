@@ -1,85 +1,93 @@
 <template>
-  <div class="data-bridge-create">
-    <!-- <back-button back-url="/bridge">
-      {{ tl('backDataBridge') }}
-    </back-button> -->
-    <div class="page-header-title">
-      {{ tl('createBridge') }}
+  <div class="app-wrapper">
+    <div class="data-bridge-create">
+      <!-- <back-button back-url="/bridge">
+        {{ tl('backDataBridge') }}
+      </back-button> -->
+      <div class="page-header-title">
+        {{ tl('createBridge') }}
+      </div>
+      <el-card shadow="never" class="app-card">
+        <el-row>
+          <el-col :span="12">
+            <el-steps :active="stepActive" finish-status="success">
+              <el-step :title="tl('bridgeType')"> </el-step>
+              <el-step :title="tl('configuration')"></el-step>
+            </el-steps>
+          </el-col>
+        </el-row>
+        <el-row class="config-body">
+          <template v-if="stepActive === 0">
+            <div class="part-header">
+              {{ tl('chooseBridgeType') }}
+            </div>
+            <el-radio-group class="bridge-type-select" v-model="radioSelectedBridgeType">
+              <el-row :gutter="28">
+                <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
+                  <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
+                    <img
+                      class="bridge-type-item-img"
+                      height="80"
+                      width="80"
+                      :src="require(`@/assets/img/${item.value}.png`)"
+                      :alt="item.label"
+                    />
+                    <div class="bridge-type-item-bd">
+                      <div class="title">{{ item.label }}</div>
+                      <span class="bridge-type-desc">{{ item.desc }}</span>
+                    </div>
+                  </el-radio>
+                </el-col>
+              </el-row>
+            </el-radio-group>
+          </template>
+          <template v-if="stepActive === 1">
+            <bridge-http-config
+              v-if="chosenBridgeType === 'http'"
+              v-model:tls="tlsParams"
+              v-model="bridgeData"
+            />
+            <bridge-mqtt-config v-if="chosenBridgeType === 'mqtt'" v-model="bridgeData" />
+          </template>
+        </el-row>
+        <el-row class="config-btn">
+          <el-button
+            size="small"
+            type="primary"
+            v-if="stepActive === 1"
+            :loading="submitLoading"
+            @click="submitCreateBridge"
+          >
+            {{ $t('Base.create') }}
+          </el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="goNextStep"
+            v-if="stepActive < 1"
+            :disabled="submitLoading"
+          >
+            {{ $t('Base.nextStep') }}
+          </el-button>
+          <el-button
+            size="small"
+            @click="--stepActive"
+            v-if="stepActive > 0"
+            :disabled="submitLoading"
+          >
+            {{ $t('Base.backStep') }}
+          </el-button>
+          <el-button
+            size="small"
+            v-if="stepActive === 0"
+            @click="$router.push({ name: 'data-bridge' })"
+          >
+            {{ $t('Base.cancel') }}
+          </el-button>
+        </el-row>
+        <div></div>
+      </el-card>
     </div>
-
-    <el-row>
-      <el-col :span="12">
-        <el-steps :active="stepActive" finish-status="success">
-          <el-step :title="tl('bridgeType')"> </el-step>
-          <el-step :title="tl('configuration')"></el-step>
-        </el-steps>
-      </el-col>
-    </el-row>
-    <el-row class="config-body">
-      <template v-if="stepActive === 0">
-        <div class="part-header">
-          {{ tl('chooseBridgeType') }}
-        </div>
-        <el-radio-group class="bridge-type-select" v-model="radioSelectedBridgeType">
-          <el-row :gutter="28">
-            <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
-              <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
-                <img
-                  class="bridge-type-item-img"
-                  height="80"
-                  width="80"
-                  :src="require(`@/assets/img/${item.value}.png`)"
-                  :alt="item.label"
-                />
-                <div class="bridge-type-item-bd">
-                  <div class="title">{{ item.label }}</div>
-                  <span class="bridge-type-desc">{{ item.desc }}</span>
-                </div>
-              </el-radio>
-            </el-col>
-          </el-row>
-        </el-radio-group>
-      </template>
-      <template v-if="stepActive === 1">
-        <bridge-http-config
-          v-if="chosenBridgeType === 'http'"
-          v-model:tls="tlsParams"
-          v-model="bridgeData"
-        />
-        <bridge-mqtt-config v-if="chosenBridgeType === 'mqtt'" v-model="bridgeData" />
-      </template>
-    </el-row>
-    <el-row class="config-btn">
-      <el-button
-        size="small"
-        type="primary"
-        v-if="stepActive === 1"
-        :loading="submitLoading"
-        @click="submitCreateBridge"
-      >
-        {{ $t('Base.create') }}
-      </el-button>
-      <el-button
-        type="primary"
-        size="small"
-        @click="goNextStep"
-        v-if="stepActive < 1"
-        :disabled="submitLoading"
-      >
-        {{ $t('Base.nextStep') }}
-      </el-button>
-      <el-button size="small" @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
-        {{ $t('Base.backStep') }}
-      </el-button>
-      <el-button
-        size="small"
-        v-if="stepActive === 0"
-        @click="$router.push({ name: 'data-bridge' })"
-      >
-        {{ $t('Base.cancel') }}
-      </el-button>
-    </el-row>
-    <div></div>
   </div>
 </template>
 

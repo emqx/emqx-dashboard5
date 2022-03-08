@@ -25,7 +25,7 @@
           <el-header :style="{ left: elMainStyle, height: 'auto' }">
             <nav-header></nav-header>
             <el-menu
-              v-if="hasSubMenu"
+              v-if="hasSubMenu && showSubMenu"
               :default-active="defaultSubMenu"
               :key="defaultSubMenu"
               mode="horizontal"
@@ -46,15 +46,15 @@
           <div
             :style="{
               position: 'relative',
-              marginTop: hasSubMenu ? '120px' : '70px',
+              marginTop: hasSubMenu && showSubMenu ? '120px' : '60px',
             }"
           >
             <router-view v-slot="{ Component, route }">
               <keep-alive>
-                <component :is="Component" :key="route.fullPath" v-if="route.meta.keepAlive" />
+                <component v-if="keepAlive" :is="Component" :key="route.fullPath" />
               </keep-alive>
-              <component :is="Component" :key="route.fullPath" v-if="!route.meta.keepAlive" />
             </router-view>
+            <router-view v-if="!keepAlive" />
           </div>
         </el-main>
       </el-container>
@@ -76,8 +76,11 @@ export default {
     LeftBar,
   },
 
-  data() {
-    return {}
+  props: {
+    keepAlive: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     kebab2pascal(s) {
@@ -108,6 +111,14 @@ export default {
     hasSubMenu() {
       const { meta } = this.topLvRoute
       return meta && meta.subMenu
+    },
+    showSubMenu() {
+      const { meta, children, path } = this.topLvRoute
+      const showSubMenuInFirstLevel = meta.showSubMenuInFirstLevel || false
+      if (showSubMenuInFirstLevel) {
+        return children.some(({ path: childPath }) => `${path}/${childPath}` === this.$route.path)
+      }
+      return true
     },
   },
 }
@@ -187,5 +198,13 @@ export default {
 .top-submenu {
   transition: none;
   padding: 0 30px;
+}
+
+.layout-body {
+  position: relative;
+  margin-top: 60px;
+  &.has-sub-menu {
+    margin-top: 120px;
+  }
 }
 </style>
