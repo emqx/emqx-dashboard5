@@ -14,13 +14,13 @@
         </span>
       </div>
       <div>
-        <el-button size="small" @click="testSQL">
+        <el-button size="small" @click="testSQL" v-if="activeTab !== Tab.Setting">
           {{ tl('testsql') }}
         </el-button>
         <el-button size="small" @click="enableOrDisableRule()">
           {{ ruleInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
-        <el-button type="danger" size="small">
+        <el-button type="danger" size="small" @click="deleteRule">
           {{ $t('Base.delete') }}
         </el-button>
       </div>
@@ -30,7 +30,7 @@
         <RuleItemOverview :rule-msg="ruleInfo" />
       </el-tab-pane>
       <el-tab-pane :label="tl('settings')" :name="Tab.Setting" lazy>
-        <el-card shadow="never" class="app-card" v-loading="infoLoading">
+        <div v-loading="infoLoading">
           <iotform v-model="ruleInfo" :key="iKey" />
           <el-row class="config-btn">
             <el-button
@@ -42,7 +42,7 @@
               {{ $t('Base.update') }}
             </el-button>
           </el-row>
-        </el-card>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -59,10 +59,16 @@
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from 'vue'
 import iotform from '../components/IoTForm.vue'
-import { getBridgeList, getRuleEvents, getRuleInfo, updateRules } from '@/api/ruleengine'
-import { useRoute } from 'vue-router'
+import {
+  deleteRules,
+  getBridgeList,
+  getRuleEvents,
+  getRuleInfo,
+  updateRules,
+} from '@/api/ruleengine'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -78,6 +84,7 @@ enum Tab {
 
 const ruleInfo: Ref<RuleItem> = ref({} as RuleItem)
 const route = useRoute()
+const router = useRouter()
 const { t } = useI18n()
 const id = route.params.id as string
 const iKey = ref(0)
@@ -163,6 +170,17 @@ const testSQL = async () => {
   }
 
   isSQLTestDialogShow.value = true
+}
+
+const deleteRule = async () => {
+  await ElMessageBox.confirm(t('Base.confirmDelete'), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+  })
+  await deleteRules(id)
+  ElMessage.success(t('Base.deleteSuccess'))
+  router.push({ name: 'iot' })
 }
 
 const submitUpdateRules = async () => {
