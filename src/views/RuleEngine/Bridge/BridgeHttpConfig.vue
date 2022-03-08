@@ -1,11 +1,11 @@
 <template>
   <div class="bridge-config">
-    <el-form label-position="top" :disabled="!edit">
+    <el-form label-position="top" :disabled="disabled">
       <div class="part-header">{{ tl('baseInfo') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('name')">
-            <el-input v-model="httpBridgeVal.name" />
+            <el-input v-model="httpBridgeVal.name" :disabled="edit" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -147,10 +147,14 @@ export default defineComponent({
       required: false,
       default: () => ({}),
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     edit: {
       type: Boolean,
       required: false,
-      default: () => true,
+      default: false,
     },
   },
   setup(props, context) {

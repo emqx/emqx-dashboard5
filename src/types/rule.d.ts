@@ -54,6 +54,9 @@ export interface RuleItem extends RuleForm {
 }
 
 export interface BridgeBaseData {
+  /**
+   * create by front end {type}:{name}
+   */
   id: string
   metrics: Metrics
   name: string
@@ -97,6 +100,10 @@ export interface ConnectorBase {
 }
 
 export type ConnectorMQTT = Omit<ConnectorBase, 'type'> & {
+  /**
+   * create by front end {type}:{name}
+   */
+  id: string
   type: ConnectorType.MQTT
   clean_start: boolean
   clientid: string
