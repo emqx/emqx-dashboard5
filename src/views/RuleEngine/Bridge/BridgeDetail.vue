@@ -1,77 +1,78 @@
 <template>
-  <div class="bridge-detail">
-    <router-link class="back-button" :to="{ name: 'data-bridge' }">
-      {{ tl('backToBridggeList') }}
-    </router-link>
-
-    <div class="detail-main" v-loading="infoLoading">
-      <div class="section-header">
-        <div>
-          <img :src="bridgeInfo.type && require(`@/assets/img/${bridgeInfo.type}.png`)" />
-          <div class="title-n-status">
-            <p class="section-title">{{ bridgeInfo.name }}</p>
-            <div class="info-tags">
-              <el-tag type="info" class="section-status">
-                <span>
-                  <i
-                    :class="['status', bridgeInfo.status !== BridgeStatus.Connected && 'stopped']"
-                  />
-                  <span class="text-status" :class="statusTextClass">
-                    {{ getLabelByStatusValue(bridgeInfo.status) }}
+  <div class="app-wrapper">
+    <div class="bridge-detail">
+      <router-link class="back-button" :to="backRoute">
+        {{ backBtnText }}
+      </router-link>
+      <div class="detail-main" v-loading="infoLoading">
+        <div class="section-header">
+          <div>
+            <img :src="bridgeInfo.type && require(`@/assets/img/${bridgeInfo.type}.png`)" />
+            <div class="title-n-status">
+              <p class="section-title">{{ bridgeInfo.name }}</p>
+              <div class="info-tags">
+                <el-tag type="info" class="section-status">
+                  <span>
+                    <i
+                      :class="['status', bridgeInfo.status !== BridgeStatus.Connected && 'stopped']"
+                    />
+                    <span class="text-status" :class="statusTextClass">
+                      {{ getLabelByStatusValue(bridgeInfo.status) }}
+                    </span>
                   </span>
-                </span>
-              </el-tag>
-              <el-tag type="info" class="section-status">
-                {{ getBridgeLabelByTypeValue(bridgeInfo.type) }}
-              </el-tag>
+                </el-tag>
+                <el-tag type="info" class="section-status">
+                  {{ getBridgeLabelByTypeValue(bridgeInfo.type) }}
+                </el-tag>
+              </div>
             </div>
           </div>
+          <div>
+            <el-button type="danger" size="small">
+              {{ $t('Base.delete') }}
+            </el-button>
+            <el-button size="small" @click="enableOrDisableBridge">
+              {{ bridgeInfo.status === 'connected' ? $t('Base.disable') : $t('Base.enable') }}
+            </el-button>
+          </div>
         </div>
-        <div>
-          <el-button type="danger" size="small">
-            {{ $t('Base.delete') }}
-          </el-button>
-          <el-button size="small" @click="enableOrDisableBridge">
-            {{ bridgeInfo.status === 'connected' ? $t('Base.disable') : $t('Base.enable') }}
-          </el-button>
-        </div>
+        <el-tabs v-model="activeTab">
+          <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
+            <BridgeItemOverview :bridge-msg="bridgeInfo" />
+          </el-tab-pane>
+          <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
+            <el-card shadow="never" class="app-card">
+              <div class="setting-area">
+                <bridge-http-config
+                  v-if="bridgeInfo.type === 'http'"
+                  v-model:tls="bridgeInfo.ssl"
+                  v-model="bridgeInfo"
+                  :edit="true"
+                />
+                <bridge-mqtt-config v-if="bridgeInfo.type === 'mqtt'" v-model="bridgeInfo" />
+              </div>
+              <div class="btn-area">
+                <el-button
+                  type="primary"
+                  size="small"
+                  v-if="bridgeInfo.type"
+                  :loading="infoLoading"
+                  @click="updateBridgeInfo()"
+                >
+                  {{ $t('Base.update') }}
+                </el-button>
+              </div>
+            </el-card>
+          </el-tab-pane>
+        </el-tabs>
       </div>
-      <el-tabs v-model="activeTab">
-        <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
-          <BridgeItemOverview :bridge-msg="bridgeInfo" />
-        </el-tab-pane>
-        <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
-          <el-card shadow="never" class="app-card">
-            <div class="setting-area">
-              <bridge-http-config
-                v-if="bridgeInfo.type === 'http'"
-                v-model:tls="bridgeInfo.ssl"
-                v-model="bridgeInfo"
-                :edit="true"
-              />
-              <bridge-mqtt-config v-if="bridgeInfo.type === 'mqtt'" v-model="bridgeInfo" />
-            </div>
-            <div class="btn-area">
-              <el-button
-                type="primary"
-                size="small"
-                v-if="bridgeInfo.type"
-                :loading="infoLoading"
-                @click="updateBridgeInfo()"
-              >
-                {{ $t('Base.update') }}
-              </el-button>
-            </div>
-          </el-card>
-        </el-tab-pane>
-      </el-tabs>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, Ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onActivated, onMounted, ref, Ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { getBridgeInfo, updateBridge, startStopBridge } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
 import _ from 'lodash'
@@ -91,6 +92,7 @@ enum Tab {
 }
 
 const route = useRoute()
+const router = useRouter()
 const id = route.params.id as string
 const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const { t } = useI18n()
@@ -106,6 +108,26 @@ const { getLabelByStatusValue } = useBridgeStatusLabelValue()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
+const isFromRule = computed(
+  () => route.name === 'edit-bridge-for-create-iot' || route.name === 'edit-bridge-for-edit-iot',
+)
+
+const backBtnText = computed(() => {
+  let key = 'backBridgeList'
+  if (isFromRule.value) {
+    key = route.params.from.indexOf('detail') > -1 ? 'backRuleEdit' : 'backToRuleCreation'
+  }
+  return tl(key)
+})
+
+const backRoute = computed(() => {
+  let name = 'data-bridge'
+  if (isFromRule.value) {
+    name = route.params.from.indexOf('detail') > -1 ? 'iot-detail' : 'iot-create'
+  }
+  return { name }
+})
+
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   const res = await getBridgeInfo(id).catch(() => {})
@@ -120,7 +142,11 @@ const updateBridgeInfo = async () => {
 
   const res = await updateBridge(bridgeInfo.value.id, bridgeInfo.value).catch(() => {})
   if (res) {
-    ElMessage({ type: 'success', message: t('Base.updateSuccess') })
+    if (!isFromRule.value) {
+      ElMessage({ type: 'success', message: t('Base.updateSuccess') })
+    } else {
+      router.push({ name: route.params.from as string, params: { bridgeId: res.id } })
+    }
   }
   infoLoading.value = false
 }
@@ -148,8 +174,19 @@ const enableOrDisableBridge = async () => {
   infoLoading.value = false
 }
 
+const setActiveTab = () => {
+  const { params } = route
+  if (params.activeTab && params.activeTab === 'Setting') {
+    activeTab.value = Tab.Setting
+  }
+}
+
 onMounted(() => {
   loadBridgeInfo()
+})
+
+onActivated(() => {
+  setActiveTab()
 })
 </script>
 

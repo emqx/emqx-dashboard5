@@ -382,24 +382,46 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'create',
         component: KeepAliveChildren,
-        redirect: 'form',
+        redirect: '/iot/create/form',
         children: [
           {
-            path: 'create',
+            path: 'form',
             name: 'iot-create',
             component: IoTCreate,
           },
           {
             path: 'bridge',
-            name: 'bridge-for-iot',
+            name: 'create-bridge-for-create-iot',
             component: BridgeCreate,
+          },
+          {
+            path: 'bridge/detail',
+            name: 'edit-bridge-for-create-iot',
+            component: BridgeDetail,
           },
         ],
       },
       {
         path: 'detail/:id',
-        name: 'iot-detail',
-        component: IoTDetail,
+        component: KeepAliveChildren,
+        redirect: '/iot/detail/:id/info',
+        children: [
+          {
+            path: 'info',
+            name: 'iot-detail',
+            component: IoTDetail,
+          },
+          {
+            path: 'bridge',
+            name: 'create-bridge-for-edit-iot',
+            component: BridgeCreate,
+          },
+          {
+            path: 'bridge/detail',
+            name: 'edit-bridge-for-edit-iot',
+            component: BridgeDetail,
+          },
+        ],
       },
     ],
   },

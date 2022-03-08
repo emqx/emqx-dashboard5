@@ -1,6 +1,6 @@
 <template>
   <div class="bridge-config">
-    <el-form label-position="top">
+    <el-form label-position="top" :disabled="!edit">
       <div class="part-header">{{ tl('baseInfo') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
@@ -122,6 +122,12 @@ import TLSConfig from '../components/TLSConfig.vue'
 import _ from 'lodash'
 import Monaco from '@/components/Monaco.vue'
 import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
+import { HTTPBridge } from '@/types/rule'
+
+type HTTPFormData = Omit<HTTPBridge, 'connect_timeout' | 'request_timeout'> & {
+  connect_timeout: [number, string]
+  request_timeout: [number, string]
+}
 
 export default defineComponent({
   components: {
@@ -144,7 +150,7 @@ export default defineComponent({
     edit: {
       type: Boolean,
       required: false,
-      default: () => false,
+      default: () => true,
     },
   },
   setup(props, context) {
@@ -171,22 +177,47 @@ export default defineComponent({
       request_timeout: [5, 's'],
       max_retries: 3,
     }
-    const httpBridgeVal = reactive({
+
+    let modelValueCache = ''
+    const httpBridgeVal = ref({
       ..._.cloneDeep(httpBridgeDefaultVal),
+      // FIXME: Use an existing component
       ...transformStrToUnitArray(props.modelValue, ['connect_timeout', 'request_timeout']),
     })
 
     const tlsParams = computed(() => props.tls)
 
+    const initHttpBridgeVal = () => {
+      httpBridgeVal.value = {
+        ..._.cloneDeep(httpBridgeDefaultVal),
+        ...transformStrToUnitArray(props.modelValue, ['connect_timeout', 'request_timeout']),
+      }
+    }
+
+    const updateModelValue = (val: HTTPFormData) => {
+      const value = transformUnitArrayToStr(val)
+      modelValueCache = JSON.stringify(value)
+      context.emit('update:modelValue', value)
+    }
+
     watch(
-      () => _.cloneDeep(httpBridgeVal),
+      () => _.cloneDeep(httpBridgeVal.value),
       (val) => {
-        context.emit('update:modelValue', transformUnitArrayToStr(val))
+        updateModelValue(val)
+      },
+    )
+
+    watch(
+      () => props.modelValue,
+      (val) => {
+        if (JSON.stringify(val) !== modelValueCache) {
+          initHttpBridgeVal()
+        }
       },
     )
 
     onMounted(() => {
-      context.emit('update:modelValue', transformUnitArrayToStr(httpBridgeVal))
+      updateModelValue(httpBridgeVal.value)
     })
 
     return {

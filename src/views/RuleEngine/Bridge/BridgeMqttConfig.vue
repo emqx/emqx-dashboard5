@@ -1,6 +1,6 @@
 <template>
   <div class="bridge-config">
-    <el-form label-position="top">
+    <el-form label-position="top" :disabled="!edit">
       <section>
         <div class="part-header">{{ tl('baseInfo') }}</div>
         <el-row :gutter="30">
@@ -22,7 +22,7 @@
                     :label="item.name"
                   />
                 </el-select>
-                <div class="icon-connector-handler-container">
+                <div class="icon-connector-handler-container" v-if="edit">
                   <el-icon
                     :class="[
                       'icon-connector-handler',
@@ -199,7 +199,7 @@ const prop = defineProps({
   edit: {
     type: Boolean,
     required: false,
-    default: () => false,
+    default: () => true,
   },
 })
 const emit = defineEmits(['update:modelValue'])
@@ -220,7 +220,8 @@ const mqttBridgeDefaultVal = {
   local_qos: 1,
 }
 
-const mqttBridgeVal = reactive({
+let modelValueCache = ''
+const mqttBridgeVal = ref({
   ..._.cloneDeep(mqttBridgeDefaultVal),
   ..._.cloneDeep(prop.modelValue),
 })
@@ -229,6 +230,13 @@ const connectorLoading = ref(false)
 const chosenConnectorData = ref({})
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+
+const initMqttBridgeVal = () => {
+  mqttBridgeVal.value = {
+    ..._.cloneDeep(mqttBridgeDefaultVal),
+    ..._.cloneDeep(prop.modelValue),
+  }
+}
 
 const loadConnectorList = async () => {
   connectorLoading.value = true
@@ -242,13 +250,14 @@ const loadConnectorList = async () => {
 }
 
 const openConnectorDialog = (isEdit: boolean) => {
-  if (isEdit && !mqttBridgeVal.connector) {
+  if (isEdit && !mqttBridgeVal.value.connector) {
     return
   }
   isDialogForEdit.value = isEdit
   isOpenDialog.value = true
   chosenConnectorData.value =
-    (isEdit && connectorList.value.find((v: ConnectorItem) => v.id === mqttBridgeVal.connector)) ||
+    (isEdit &&
+      connectorList.value.find((v: ConnectorItem) => v.id === mqttBridgeVal.value.connector)) ||
     {}
 }
 
@@ -259,9 +268,9 @@ const finishConnectorDialog = async (success: boolean, data: Record<string, unkn
 
   if (!isDialogForEdit.value) {
     if (!success) {
-      mqttBridgeVal.connector = ''
+      mqttBridgeVal.value.connector = ''
     } else {
-      mqttBridgeVal.connector = (data.id as string) || ''
+      mqttBridgeVal.value.connector = (data.id as string) || ''
     }
   } else {
     //todo
@@ -278,16 +287,26 @@ const transformData = (val: Record<string, unknown>) => {
   return data
 }
 
+const updateModelValue = (val: ConnectorMQTT) => {
+  const value = transformData(val)
+  modelValueCache = JSON.stringify(value)
+  emit('update:modelValue', value)
+}
+
+watch(() => _.cloneDeep(mqttBridgeVal.value), updateModelValue)
+
 watch(
-  () => _.cloneDeep(mqttBridgeVal),
+  () => prop.modelValue,
   (val) => {
-    emit('update:modelValue', transformData(val))
+    if (JSON.stringify(val) !== modelValueCache) {
+      initMqttBridgeVal()
+    }
   },
 )
 
 onMounted(() => {
   loadConnectorList()
-  emit('update:modelValue', transformData(mqttBridgeVal))
+  updateModelValue(mqttBridgeVal.value)
 })
 </script>
 
@@ -299,10 +318,8 @@ onMounted(() => {
 .connector-select-container {
   display: flex;
   align-items: flex-start;
-  .el-select {
-    margin-right: 16px;
-  }
   .icon-connector-handler-container {
+    margin-left: 16px;
     flex-shrink: 0;
   }
 }
