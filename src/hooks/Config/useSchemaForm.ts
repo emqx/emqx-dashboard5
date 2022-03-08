@@ -54,6 +54,9 @@ export default function useSchemaForm(path: string): {
   const handleInjectChanged = (data: Schema) => {
     components.value = getComponents(data)
   }
+  if (schema.value.paths) {
+    handleInjectChanged(schema.value)
+  }
   // { a: { b: c: 1 } } => { 'a.b.c': 1 }
   const flattenConfigs = (
     obj: { [key: string]: any },

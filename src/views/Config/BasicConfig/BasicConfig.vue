@@ -17,15 +17,17 @@ import axios from 'axios'
 import SubTabMenu from '@/components/SubTabMenu.vue'
 import useSubTabMenu from '@/hooks/useSubTabMenu'
 import Cluster from './components/Cluster.vue'
+import Log from './components/Log.vue'
 
 export default defineComponent({
   name: 'BasicConfig',
   components: {
     SubTabMenu,
     Cluster,
+    Log,
   },
   setup() {
-    const panes = ref(['cluster'])
+    const panes = ref(['cluster', 'log'])
     const { handleClickTab, setPaneRef } = useSubTabMenu(panes.value)
     const schemaRequest = axios.create({
       baseURL: '',

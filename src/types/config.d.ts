@@ -69,3 +69,78 @@ export interface K8s {
   namespace: string
   suffix: string
 }
+
+export interface Log {
+  console_handler: ConsoleHandler
+  file_handlers: FileHandlers
+  error_logger: string
+}
+
+export interface ConsoleHandler {
+  enable: boolean
+  level: string
+  time_offset: string
+  chars_limit: string
+  formatter: string
+  single_line: boolean
+  sync_mode_qlen: number
+  drop_mode_qlen: number
+  flush_qlen: number
+  overload_kill: OverloadKill
+  burst_limit: BurstLimit
+  supervisor_reports: string
+  max_depth: number
+}
+
+export interface OverloadKill {
+  enable: boolean
+  mem_size: string
+  qlen: number
+  restart_after: string
+}
+
+export interface BurstLimit {
+  enable: boolean
+  max_count: number
+  window_time: string
+}
+
+export interface FileHandlers {
+  $name: Name
+}
+
+export interface Name {
+  file: string
+  rotation: Rotation
+  max_size: string
+  level: string
+  time_offset: string
+  chars_limit: string
+  formatter: string
+  single_line: boolean
+  sync_mode_qlen: number
+  drop_mode_qlen: number
+  flush_qlen: number
+  overload_kill: OverloadKill2
+  burst_limit: BurstLimit2
+  supervisor_reports: string
+  max_depth: number
+}
+
+export interface Rotation {
+  enable: boolean
+  count: number
+}
+
+export interface OverloadKill2 {
+  enable: boolean
+  mem_size: string
+  qlen: number
+  restart_after: string
+}
+
+export interface BurstLimit2 {
+  enable: boolean
+  max_count: number
+  window_time: string
+}
