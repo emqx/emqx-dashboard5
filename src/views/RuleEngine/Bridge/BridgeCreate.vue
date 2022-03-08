@@ -127,10 +127,8 @@ export default defineComponent({
     const bridgeData = ref({})
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
 
-    const isFromRule = computed(
-      () =>
-        route.name === 'create-bridge-for-create-iot' ||
-        route.name === 'create-bridge-for-edit-iot',
+    const isFromRule = computed(() =>
+      ['create-bridge-for-create-iot', 'create-bridge-for-edit-iot'].includes(route.name as string),
     )
 
     const backBtnText = computed(() => {

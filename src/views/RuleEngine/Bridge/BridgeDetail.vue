@@ -108,8 +108,8 @@ const { getLabelByStatusValue } = useBridgeStatusLabelValue()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
-const isFromRule = computed(
-  () => route.name === 'edit-bridge-for-create-iot' || route.name === 'edit-bridge-for-edit-iot',
+const isFromRule = computed(() =>
+  ['edit-bridge-for-create-iot', 'edit-bridge-for-edit-iot'].includes(route.name as string),
 )
 
 const backBtnText = computed(() => {
