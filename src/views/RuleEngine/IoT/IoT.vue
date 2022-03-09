@@ -24,7 +24,10 @@
       <el-table-column :label="tl('source')" sortable>
         <!-- TODO: highlight -->
         <template #default="{ row }">
-          <el-tooltip effect="dark" :content="row.sql" placement="top-start">
+          <el-tooltip effect="dark" placement="top-start" popper-class="code-popper">
+            <template #content>
+              <CodeView lang="sql" :code="row.sql" />
+            </template>
             <span>{{ row.from.join(',') }}</span>
           </el-tooltip>
         </template>
@@ -87,6 +90,7 @@ import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import TableItemDropDown from './components/TableItemDropDown.vue'
 import RuleItemStatus from './components/RuleItemStatus.vue'
+import CodeView from '@/components/CodeView.vue'
 
 const { t } = useI18n()
 const ruleTable: Ref<Array<RuleItem>> = ref([])
@@ -172,6 +176,15 @@ onMounted(() => {
         color: unset;
       }
     }
+  }
+}
+</style>
+<style lang="scss">
+.code-popper.el-popper {
+  padding: 0;
+  .code-view {
+    margin: 0;
+    padding: 12px;
   }
 }
 </style>

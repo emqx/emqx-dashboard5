@@ -6,6 +6,18 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { OtherNodeType, NodeType } from './topologyType'
+import hljs from 'highlight.js/lib/core'
+import sql from 'highlight.js/lib/languages/sql'
+
+hljs.registerLanguage('sql', sql)
+
+const highlightSQL = (sql: string): string => {
+  try {
+    return hljs.highlight(sql, { language: 'sql' }).value
+  } catch (error) {
+    return sql
+  }
+}
 
 export default () => {
   const { t } = useI18n()
@@ -96,7 +108,7 @@ export default () => {
       </ul>
       <div>
         <label>${tl('SQL')}</label>
-        <div class="sql-container">${sql}</div>
+        <div class="sql-container">${highlightSQL(sql)}</div>
       </div>
     `
     return container
