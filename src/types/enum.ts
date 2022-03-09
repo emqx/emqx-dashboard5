@@ -43,6 +43,7 @@ export enum ConnectionStatus {
 export enum BridgeStatus {
   Connected = 'connected',
   Disconnected = 'disconnected',
+  Connecting = 'connecting',
 }
 
 // [ top, bottom, before, after ]

@@ -2,7 +2,7 @@
   <el-tooltip
     placement="right"
     popper-class="tooltip-node-status-list"
-    :disabled="!(statusData.details && Array.isArray(statusData.details))"
+    :disabled="isTooltipDisabled"
   >
     <span class="node-status" :class="{ tag: isTag }">
       <el-badge is-dot :type="statusData.statusClass" />
@@ -38,7 +38,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType } from 'vue'
+import { defineProps, PropType, computed } from 'vue'
 import { TargetStatusWithDetail } from '@/types/common'
 
 const props = defineProps({
@@ -56,6 +56,11 @@ const props = defineProps({
     default: false,
   },
 })
+
+const isTooltipDisabled = computed(() => {
+  const { statusData } = props
+  return !(statusData.details && Array.isArray(statusData.details) && statusData.details.length > 0)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -72,8 +77,11 @@ const props = defineProps({
     padding-right: 16px;
     font-size: 12px;
     color: #8d96a2;
-    background: #e7edf8;
-    border-radius: 12px;
+    background: #eff3fe;
+    border-radius: 8px;
+    .text-status {
+      font-weight: normal;
+    }
 
     .el-badge {
       padding-top: 5px;

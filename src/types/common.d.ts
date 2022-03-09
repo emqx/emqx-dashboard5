@@ -39,5 +39,5 @@ export type StatusDetailOfEachNode = Array<{
 export interface TargetStatusWithDetail {
   statusClass: NodeStatusClass
   statusLabel: string
-  details: StatusDetailOfEachNode | undefined
+  details: StatusDetailOfEachNode
 }

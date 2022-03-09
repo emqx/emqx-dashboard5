@@ -31,7 +31,7 @@ const statusData = computed(() => {
           statusLabel: getStatusLabel(enable),
           statusClass: getStatusClass(enable),
         }))
-      : undefined
+      : []
   return {
     details,
     statusLabel: getStatusLabel(rule?.enable),
