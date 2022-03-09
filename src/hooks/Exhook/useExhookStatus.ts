@@ -1,4 +1,4 @@
-import { ExhookStatus } from '@/types/enum'
+import { ExhookStatus, NodeStatusClass } from '@/types/enum'
 import { Exhook } from '@/types/systemModule'
 
 export default (tl: (key: string, moduleName?: string) => string) => {
@@ -19,13 +19,13 @@ export default (tl: (key: string, moduleName?: string) => string) => {
     return ret
   }
 
-  const dotClass = (status: ExhookStatus) =>
+  const dotClass = (status: ExhookStatus): NodeStatusClass =>
     ({
-      [ExhookStatus.Running]: 'success',
-      [ExhookStatus.Waiting]: 'warning',
-      [ExhookStatus.Stopped]: 'danger',
-      [ExhookStatus.Error]: 'danger',
-    }[status] || 'danger')
+      [ExhookStatus.Running]: NodeStatusClass.Success,
+      [ExhookStatus.Waiting]: NodeStatusClass.Warning,
+      [ExhookStatus.Stopped]: NodeStatusClass.Danger,
+      [ExhookStatus.Error]: NodeStatusClass.Danger,
+    }[status] || NodeStatusClass.Danger)
 
   const statusText = (status: ExhookStatus) =>
     ({

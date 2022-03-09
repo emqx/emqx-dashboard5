@@ -16,6 +16,7 @@
                   </span>
                 </span>
                 <template #content>
+                  <!-- TODO:use StatusDetailsOfEachNode -->
                   <div class="status-detail">
                     <ul class="node-status-list">
                       <li
