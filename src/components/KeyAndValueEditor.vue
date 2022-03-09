@@ -51,6 +51,10 @@ export default defineComponent({
       type: Object,
       default: null,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, context) {
     const rowData: kvRow = {

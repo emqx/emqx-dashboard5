@@ -3,6 +3,7 @@
     class="input-array"
     v-model.trim="inputValue"
     type="textarea"
+    :disabled="disabled"
     @blur="handleBlur"
   ></el-input>
 </template>
@@ -16,6 +17,10 @@ export default defineComponent({
     modelValue: {
       type: Array,
       default: () => [],
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

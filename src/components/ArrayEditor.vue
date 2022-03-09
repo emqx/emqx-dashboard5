@@ -6,6 +6,7 @@
           v-if="type === 'string'"
           v-model.trim="row.value"
           class="key-input"
+          :disabled="disabled"
           @input="atInputChange"
         ></el-input>
         <el-input
@@ -13,11 +14,12 @@
           v-model.number="row.value"
           type="number"
           class="key-input"
+          :disabled="disabled"
           @input="atInputChange"
         ></el-input>
       </template>
     </el-table-column>
-    <el-table-column width="70">
+    <el-table-column v-if="!disabled" width="70">
       <template #header>
         <a href="javascript:;" class="btn" @click="addColumn">
           {{ $t('Base.add') }}
