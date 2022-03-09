@@ -1,7 +1,12 @@
 <template>
-  <el-input class="time-input-with-unit-select" v-model.number.trim="numPart" :disabled="disabled">
+  <el-input
+    class="time-input-with-unit-select"
+    v-model.number.trim="numPart"
+    :disabled="disabled"
+    @change="$emit('change')"
+  >
     <template #append>
-      <el-select v-model="unit" :disabled="disabled">
+      <el-select v-model="unit" :disabled="disabled" @change="$emit('change')">
         <el-option v-for="{ label, value } in units" :key="value" :value="value" :label="label" />
       </el-select>
     </template>

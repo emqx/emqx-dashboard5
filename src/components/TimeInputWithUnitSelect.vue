@@ -3,9 +3,10 @@
     class="time-input-with-unit-select"
     v-model.number.trim="timeValue"
     :disabled="disabled"
+    @change="$emit('change')"
   >
     <template #append>
-      <el-select v-model="unit" :disabled="disabled">
+      <el-select v-model="unit" :disabled="disabled" @change="$emit('change')">
         <el-option value="h" :label="$t('Base.hour')" />
         <el-option value="m" :label="$t('Base.minute')" />
         <el-option value="s" :label="$t('Base.second')" />

@@ -106,7 +106,7 @@ export interface BurstLimit {
 }
 
 export interface FileHandlers {
-  $name: Name
+  [key: string]: Name
 }
 
 export interface Name {
