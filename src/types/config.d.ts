@@ -144,3 +144,39 @@ export interface BurstLimit2 {
   max_count: number
   window_time: string
 }
+
+export interface Dashboard {
+  listeners: Listener[]
+  default_username: string
+  default_password: string
+  sample_interval: string
+  token_expired_time: string
+  cors: boolean
+}
+
+export interface Listener {
+  protocol: string
+  bind: number
+  num_acceptors: number
+  max_connections: number
+  backlog: number
+  send_timeout: string
+  inet6: boolean
+  ipv6_v6only: boolean
+  enable?: boolean
+  cacertfile?: string
+  certfile?: string
+  keyfile?: string
+  verify?: string
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  user_lookup_fun?: string
+  secure_renegotiate?: boolean
+  dhfile?: string
+  honor_cipher_order?: boolean
+  client_renegotiation?: boolean
+  handshake_timeout?: string
+}
