@@ -19,11 +19,14 @@
             </div>
           </div>
           <div>
-            <el-button type="danger" size="small">
-              {{ $t('Base.delete') }}
+            <el-button size="small" @click="goDoc">
+              {{ tl('readMore') }}
             </el-button>
             <el-button size="small" @click="enableOrDisableBridge">
               {{ bridgeInfo.status === 'connected' ? $t('Base.disable') : $t('Base.enable') }}
+            </el-button>
+            <el-button type="danger" size="small">
+              {{ $t('Base.delete') }}
             </el-button>
           </div>
         </div>
@@ -123,6 +126,11 @@ const loadBridgeInfo = async () => {
     bridgeInfo.value = res
   }
   infoLoading.value = false
+}
+
+const goDoc = () => {
+  // TODO:
+  window.open('https://www.emqx.io/', '_blank')
 }
 
 const updateBridgeInfo = async () => {

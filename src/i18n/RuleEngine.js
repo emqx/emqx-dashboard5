@@ -571,4 +571,8 @@ export default {
     zh: '返回规则创建',
     en: 'Back To Rule Creation',
   },
+  readMore: {
+    zh: '了解更多',
+    en: 'Read More',
+  },
 }
