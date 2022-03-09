@@ -4,6 +4,7 @@ import { Properties } from '@/types/schemaForm'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import ArrayEditor from './ArrayEditor.vue'
+import Oneof from './Oneof.vue'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
 import '@/style/schemaForm.scss'
@@ -14,6 +15,7 @@ const SchemaForm = defineComponent({
     TimeInputWithUnitSelect,
     InputWithUnit,
     ArrayEditor,
+    Oneof,
   },
   props: {
     path: {
@@ -88,8 +90,11 @@ const SchemaForm = defineComponent({
         case 'array':
           if (['number', 'string'].includes(property.items.type)) {
             return (
-              <array-editor v-model={configForm.value[path]} disabled={property.readOnly} type={property.items.type}>
-              </array-editor>
+              <array-editor
+                v-model={configForm.value[path]}
+                disabled={property.readOnly}
+                type={property.items.type}
+              ></array-editor>
             )
           }
           return <div>object-array</div>
@@ -118,29 +123,24 @@ const SchemaForm = defineComponent({
           )
         case 'comma_separated_string':
           return stringInput
+        case 'oneof':
+          return (
+            <oneof
+              v-model={configForm.value[path]}
+              items={property.oneOf}
+              disabled={property.readOnly}
+            ></oneof>
+          )
         default:
           return stringInput
       }
     }
     const setControl = (property: Properties[string]) => {
-      if (property.type) {
-        return switchComponent(property)
-      } else if (property.oneOf) {
-        const oneofs = property.oneOf.map((item: Properties[string], index) => {
-          item.path = property.path
-          const oneofComponent = switchComponent(item)
-          if (index !== property.oneOf.length - 1) {
-            return (
-              <>
-                {oneofComponent}
-                <span class="split">{t('Base.or')}</span>
-              </>
-            )
-          }
-          return oneofComponent
-        })
-        return <div class="oneof-item">{oneofs}</div>
+      if (property.oneOf && !property.type) {
+        property.type = 'oneof'
       }
+      if (!property.type) return
+      return switchComponent(property)
     }
 
     const getColFormItem = (property: Properties[string], groupName?: string) => {
