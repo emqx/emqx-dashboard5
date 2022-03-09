@@ -25,7 +25,7 @@
     <el-tabs v-model="activeName">
       <el-tab-pane :label="tl('overview')" name="overview">
         <el-card shadow="never" class="app-card exhook-metrics-card">
-          <h6>{{ tl('metricsData') }}</h6>
+          <h6 class="block-title metrics-title">{{ tl('metricsData') }}</h6>
           <div class="metrics-data-content">
             <el-row>
               <el-col :span="4">
@@ -160,6 +160,7 @@ const updateExhookStatus = async (enable: boolean) => {
   try {
     await updateExhookEnable(exhookData.value, enable)
     getExhookDetail()
+    queryRegisteredHooks()
   } catch (error) {
     console.error(error)
   }
@@ -217,6 +218,9 @@ queryRegisteredHooks()
 }
 .exhook-metrics-card {
   margin-bottom: 28px;
+}
+.metrics-title {
+  margin-bottom: 12px;
 }
 .metric-num {
   font-size: 24px;

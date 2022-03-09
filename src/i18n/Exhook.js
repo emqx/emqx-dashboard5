@@ -28,12 +28,12 @@ export default {
     en: 'Status',
   },
   backList: {
-    zh: '返回 Exhook 列表',
-    en: 'Back To Exhook List',
+    zh: '返回 ExHook 列表',
+    en: 'Back To ExHook List',
   },
   addExhook: {
-    zh: '添加 Exhook',
-    en: 'Add Exhook',
+    zh: '添加 ExHook',
+    en: 'Add ExHook',
   },
   basicInfo: {
     zh: '基本信息',

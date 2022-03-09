@@ -8,7 +8,7 @@
     size="small"
   >
     <div class="form-sub-block">
-      <p class="form-sub-block-title">{{ tl('basicInfo') }}</p>
+      <p class="block-title form-sub-block-title">{{ tl('basicInfo') }}</p>
       <el-row :gutter="24">
         <el-col :span="12">
           <el-form-item required prop="name" :label="tl('name')">
@@ -18,7 +18,7 @@
       </el-row>
     </div>
     <div class="form-sub-block">
-      <p class="form-sub-block-title">{{ tl('connectionParameters') }}</p>
+      <p class="block-title form-sub-block-title">{{ tl('connectionParameters') }}</p>
       <el-row :gutter="24">
         <el-col :span="12">
           <el-form-item required prop="url" label="URL">
@@ -28,7 +28,7 @@
       </el-row>
       <el-row :gutter="24">
         <el-col :span="12">
-          <el-form-item required prop="pool_size" label="Pool Size">
+          <el-form-item required prop="pool_size" label="Pool size">
             <el-input v-model.number="formData.pool_size" />
           </el-form-item>
         </el-col>
@@ -124,7 +124,7 @@ const timeoutUnits = [
 const rules = {
   name: createRequiredRule(tl('name')),
   url: createRequiredRule('URL'),
-  pool_size: [...createRequiredRule('Pool Size'), ...createIntFieldRule()],
+  pool_size: [...createRequiredRule('Pool size'), ...createIntFieldRule()],
   request_timeout: createStringWithUnitFieldRule(timeoutUnits.map(({ value }) => value)),
   failed_action: createRequiredRule(tl('failedAction'), 'select'),
   auto_reconnect: createRequiredRule(tl('autoReconnect'), 'select'),
@@ -136,3 +136,9 @@ defineExpose({
   validate,
 })
 </script>
+
+<style lang="scss" scoped>
+.form-sub-block-title {
+  margin-bottom: 8px;
+}
+</style>

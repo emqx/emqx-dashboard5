@@ -74,13 +74,6 @@ const submit = async () => {
   width: 70%;
   margin-bottom: 36px;
 }
-.form-sub-block-title {
-  margin-top: 0;
-  margin-bottom: 8px;
-  color: #000000;
-  font-weight: bold;
-  line-height: 20px;
-}
 .form-sub-block {
   margin-bottom: 8px;
 }
