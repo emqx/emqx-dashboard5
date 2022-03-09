@@ -3,7 +3,7 @@ import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import { Properties } from '@/types/schemaForm'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import InputWithUnit from './InputWithUnit.vue'
-import InputArray from './InputArray.vue'
+import ArrayEditor from './ArrayEditor.vue'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
 import '@/style/schemaForm.scss'
@@ -13,7 +13,7 @@ const SchemaForm = defineComponent({
   components: {
     TimeInputWithUnitSelect,
     InputWithUnit,
-    InputArray,
+    ArrayEditor,
   },
   props: {
     path: {
@@ -86,12 +86,13 @@ const SchemaForm = defineComponent({
             <el-switch disabled={property.readOnly} v-model={configForm.value[path]}></el-switch>
           )
         case 'array':
-          return (
-            <input-array
-              disabled={property.readOnly}
-              v-model={configForm.value[path]}
-            ></input-array>
-          )
+          if (['number', 'string'].includes(property.items.type)) {
+            return (
+              <array-editor v-model={configForm.value[path]} disabled={property.readOnly} type={property.items.type}>
+              </array-editor>
+            )
+          }
+          return <div>object-array</div>
         case 'duration':
           return (
             <time-input-with-unit-select
