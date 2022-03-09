@@ -67,7 +67,7 @@
       <div class="part-header">{{ tl('connSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="'Pool Size'">
+          <el-form-item :label="'Pool size'">
             <el-input v-model="httpBridgeVal.pool_size"> </el-input>
           </el-form-item>
         </el-col>
