@@ -1,3 +1,5 @@
+import { NodeStatusClass } from './enum'
+
 export interface PageData {
   count: number
   limit: number
@@ -26,4 +28,16 @@ export interface SSL {
 export interface BackendI18n {
   zh: string
   en: string
+}
+
+export type StatusDetailOfEachNode = Array<{
+  node: string
+  statusClass: NodeStatusClass
+  statusLabel: string
+}>
+
+export interface TargetStatusWithDetail {
+  statusClass: NodeStatusClass
+  statusLabel: string
+  details: StatusDetailOfEachNode
 }

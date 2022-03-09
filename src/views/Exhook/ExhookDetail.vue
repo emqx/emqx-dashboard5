@@ -3,7 +3,7 @@
     <div class="exhook-detail-hd">
       <div>
         <h6 class="exhook-detail-title">{{ exhookName }}</h6>
-        <ExhookItemStatus :exhook="exhookData" />
+        <ExhookItemStatus :exhook="exhookData" is-tag />
       </div>
       <div>
         <el-button type="danger" size="small" @click="handleDelete">
@@ -197,26 +197,6 @@ queryRegisteredHooks()
     line-height: 25px;
     font-size: 24px;
     font-weight: 600;
-  }
-  :deep(.exhook-status) {
-    display: flex;
-    align-items: center;
-    height: 20px;
-    padding-left: 16px;
-    padding-right: 16px;
-    font-size: 12px;
-    color: #8d96a2;
-    background: #e7edf8;
-    border-radius: 12px;
-
-    .el-badge {
-      padding-top: 5px;
-      margin-right: 4px;
-      line-height: 1;
-    }
-    :deep(.el-badge__content) {
-      border: none;
-    }
   }
 }
 :deep(.el-tabs.el-tabs--top:not(.el-tabs--card) .el-tabs__item.is-top) {

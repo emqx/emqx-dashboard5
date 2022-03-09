@@ -90,3 +90,9 @@ export enum RuleInputType {
   Bridge = 'bridge',
   Event = 'event',
 }
+
+export enum NodeStatusClass {
+  Success = 'success',
+  Warning = 'warning',
+  Danger = 'danger',
+}
