@@ -1,7 +1,7 @@
 <template>
-  <el-input class="time-input-with-unit-select" v-model.number.trim="numPart">
+  <el-input class="time-input-with-unit-select" v-model.number.trim="numPart" :disabled="disabled">
     <template #append>
-      <el-select v-model="unit">
+      <el-select v-model="unit" :disabled="disabled">
         <el-option v-for="{ label, value } in units" :key="value" :value="value" :label="label" />
       </el-select>
     </template>
@@ -25,6 +25,10 @@ const props = defineProps({
   },
   units: {
     type: Array as PropType<Array<{ label: string; value: string } | string>>,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 })
 
