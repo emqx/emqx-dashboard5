@@ -66,7 +66,10 @@ export interface BridgeBaseData {
   metrics: Metrics
   name: string
   node_metrics: Array<NodeMetrics>
-  node_status: Array<NodeStatus>
+  node_status: Array<{
+    node: string
+    status: BridgeStatus
+  }>
   status: BridgeStatus
   type: BridgeType
   local_topic: string

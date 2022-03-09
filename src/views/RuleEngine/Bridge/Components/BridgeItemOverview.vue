@@ -73,8 +73,8 @@ import { useI18n } from 'vue-i18n'
 import { RefreshLeft } from '@element-plus/icons-vue'
 import { BridgeStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
-import { useBridgeStatusLabelValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { formatNumber } from '@/common/tools'
+import useBridgeItemStatus from '@/hooks/Rule/bridge/useBridgeItemStatus'
 
 const props = defineProps({
   bridgeMsg: {
@@ -84,7 +84,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['reset', 'reconnect'])
-const { getLabelByStatusValue } = useBridgeStatusLabelValue()
+const { getStatusLabel: getLabelByStatusValue } = useBridgeItemStatus()
 
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
   const nodeStatusData = props.bridgeMsg?.node_status

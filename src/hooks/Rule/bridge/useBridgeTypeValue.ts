@@ -69,19 +69,3 @@ export const useBridgeDirectionTypeValue = () => {
     getLabelByDirectionValue,
   }
 }
-
-export const useBridgeStatusLabelValue = () => {
-  const { t } = useI18n()
-  const bridgeStatusList = [
-    { value: BridgeStatus.Connected, label: t('RuleEngine.connected') },
-    { value: BridgeStatus.Disconnected, label: t('RuleEngine.disconnected') },
-  ]
-
-  const getLabelByStatusValue = (directionValue: BridgeStatus) => {
-    return getLabelFromValueInOptionList(directionValue, bridgeStatusList)
-  }
-
-  return {
-    getLabelByStatusValue,
-  }
-}

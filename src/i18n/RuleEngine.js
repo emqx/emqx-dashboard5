@@ -387,6 +387,10 @@ export default {
     zh: '已断开',
     en: 'Disconnected',
   },
+  connecting: {
+    zh: '连接中',
+    en: 'Connecting',
+  },
   SQL: {
     zh: 'SQL 语句',
     en: 'SQL',

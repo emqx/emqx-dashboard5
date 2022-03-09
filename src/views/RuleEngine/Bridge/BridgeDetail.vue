@@ -11,16 +11,7 @@
             <div class="title-n-status">
               <p class="section-title">{{ bridgeInfo.name }}</p>
               <div class="info-tags">
-                <el-tag type="info" class="section-status">
-                  <span>
-                    <i
-                      :class="['status', bridgeInfo.status !== BridgeStatus.Connected && 'stopped']"
-                    />
-                    <span class="text-status" :class="statusTextClass">
-                      {{ getLabelByStatusValue(bridgeInfo.status) }}
-                    </span>
-                  </span>
-                </el-tag>
+                <BridgeItemStatus :bridge="bridgeInfo" is-tag />
                 <el-tag type="info" class="section-status">
                   {{ getBridgeLabelByTypeValue(bridgeInfo.type) }}
                 </el-tag>
@@ -84,11 +75,9 @@ import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
 import { ElMessage } from 'element-plus'
-import useBridgeTypeValue, {
-  useBridgeStatusLabelValue,
-} from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeStatus } from '@/types/enum'
+import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
+import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 
 enum Tab {
   Overview = '0',
@@ -103,12 +92,7 @@ const { t } = useI18n()
 const infoLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 
-const statusTextClass = computed(() => {
-  return bridgeInfo.value.status === BridgeStatus.Connected ? 'success' : 'danger'
-})
-
 const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
-const { getLabelByStatusValue } = useBridgeStatusLabelValue()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -210,7 +194,8 @@ onActivated(() => {
   line-height: 22px;
 }
 .info-tags {
-  .el-tag {
+  .el-tag,
+  :deep(.node-status) {
     margin-right: 8px;
   }
 }

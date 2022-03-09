@@ -43,17 +43,7 @@
           <el-table-column :label="`${tl('speedNow')}(msg/s)`" sortable prop="metrics.rate" />
           <el-table-column :label="tl('status')" sortable>
             <template #default="{ row }">
-              <el-badge
-                is-dot
-                :type="
-                  row.status === 'connected'
-                    ? 'primary'
-                    : row.status === 'disconnected'
-                    ? 'danger'
-                    : 'info'
-                "
-              />
-              <span>{{ getLabelByStatusValue(row.status) }}</span>
+              <BridgeItemStatus :bridge="row" />
             </template>
           </el-table-column>
           <el-table-column :label="$t('Base.operation')" min-width="120">
@@ -85,18 +75,18 @@ import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import useBridgeTypeValue, {
   useBridgeDirectionTypeValue,
-  useBridgeStatusLabelValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { onBeforeRouteUpdate } from 'vue-router'
+import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 
 export default defineComponent({
+  components: { BridgeItemStatus },
   setup() {
     let bridgeTb = ref([])
     let tbLoading = ref(false)
     let { t } = useI18n()
     const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
     const { getLabelByDirectionValue } = useBridgeDirectionTypeValue()
-    const { getLabelByStatusValue } = useBridgeStatusLabelValue()
 
     const listBridge = async function () {
       tbLoading.value = true
@@ -162,7 +152,6 @@ export default defineComponent({
       tl: (key: string) => t('RuleEngine.' + key),
       getBridgeLabelByTypeValue,
       getLabelByDirectionValue,
-      getLabelByStatusValue,
       bridgeTb,
       tbLoading,
       enableOrDisableBridge,
