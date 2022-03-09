@@ -46,8 +46,7 @@
       </el-table-column>
       <el-table-column :label="tl('status')" sortable>
         <template #default="{ row }">
-          <el-badge is-dot :type="row.enable ? 'primary' : 'danger'" />
-          {{ row.enable ? $t('Base.enable') : $t('Base.disable') }}
+          <RuleItemStatus :rule="row" />
         </template>
       </el-table-column>
       <el-table-column :label="tl('createdAt')" sortable>
@@ -87,6 +86,7 @@ import { RuleItem } from '@/types/rule'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import TableItemDropDown from './components/TableItemDropDown.vue'
+import RuleItemStatus from './components/RuleItemStatus.vue'
 
 const { t } = useI18n()
 const ruleTable: Ref<Array<RuleItem>> = ref([])

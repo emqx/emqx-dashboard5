@@ -1,5 +1,9 @@
 <template>
-  <el-tooltip placement="right" popper-class="tooltip-node-status-list">
+  <el-tooltip
+    placement="right"
+    popper-class="tooltip-node-status-list"
+    :disabled="!(statusData.details && Array.isArray(statusData.details))"
+  >
     <span class="node-status" :class="{ tag: isTag }">
       <el-badge is-dot :type="statusData.statusClass" />
       <span class="text-status" :class="statusData.statusClass">
@@ -55,6 +59,9 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-badge__content--success) {
+  background-color: var(--el-color-primary);
+}
 .node-status {
   cursor: default;
   &.tag {

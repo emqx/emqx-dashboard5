@@ -47,6 +47,11 @@ export interface RuleForm extends BasicRule {
   from: FromData
   metrics: Metrics
   node_metrics: NodeMetrics
+  // TODO: confirm API
+  node_status: Array<{
+    node: string
+    enable: boolean
+  }>
 }
 
 export interface RuleItem extends RuleForm {

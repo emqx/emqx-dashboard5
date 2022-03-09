@@ -5,12 +5,7 @@
       <div>
         <span class="title-n-status">
           <span class="section-title">{{ id }}</span>
-          <el-tag type="info" class="section-status">
-            <span>
-              <i :class="['status', !ruleInfo.enable && 'stopped']" />
-              <span>{{ ruleInfo.enable ? $t('Base.enable') : $t('Base.disable') }}</span>
-            </span>
-          </el-tag>
+          <RuleItemStatus :rule="ruleInfo" is-tag />
         </span>
       </div>
       <div>
@@ -76,6 +71,7 @@ import SQLTestDialog from '../components/SQLTestDialog.vue'
 import { getKeywordsFromSQL } from '@/common/tools'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { MQTTBridgeDirection } from '@/types/enum'
+import RuleItemStatus from './components/RuleItemStatus.vue'
 
 enum Tab {
   Overview = '0',
