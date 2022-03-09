@@ -87,6 +87,7 @@ import useBridgeTypeValue, {
   useBridgeDirectionTypeValue,
   useBridgeStatusLabelValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { onBeforeRouteUpdate } from 'vue-router'
 
 export default defineComponent({
   setup() {
@@ -149,6 +150,12 @@ export default defineComponent({
     })
 
     onMounted(listBridge)
+
+    onBeforeRouteUpdate((to) => {
+      if (to.name === 'data-bridge') {
+        listBridge()
+      }
+    })
 
     return {
       Plus,
