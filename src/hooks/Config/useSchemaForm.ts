@@ -67,8 +67,14 @@ export default function useSchemaForm(path: string): {
       }
       return res
     }
-    const { $ref } = data.paths[path].get
-    const component = getComponentByRef(data, $ref)
+    const { $ref, type, properties } = data.paths[path].get
+    let ref = ''
+    if ($ref) {
+      ref = $ref
+    } else if (type === 'object' && properties.$name && properties.$name.$ref) {
+      ref = properties.$name.$ref
+    }
+    const component = getComponentByRef(data, ref)
     const components = transComponents(component)
     return components
   }

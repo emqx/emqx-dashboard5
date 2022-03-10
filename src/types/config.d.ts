@@ -180,3 +180,84 @@ export interface Listener {
   client_renegotiation?: boolean
   handshake_timeout?: string
 }
+
+export interface Zone {
+  [key: string]: Name
+}
+
+export interface Name {
+  mqtt: Mqtt
+  stats: Stats
+  flapping_detect: FlappingDetect
+  force_shutdown: ForceShutdown
+  conn_congestion: ConnCongestion
+  force_gc: ForceGc
+  overload_protection: OverloadProtection
+}
+
+export interface Mqtt {
+  idle_timeout: string
+  max_packet_size: string
+  max_clientid_len: number
+  max_topic_levels: number
+  max_qos_allowed: string
+  max_topic_alias: number
+  retain_available: boolean
+  wildcard_subscription: boolean
+  shared_subscription: boolean
+  ignore_loop_deliver: boolean
+  strict_mode: boolean
+  response_information: string
+  server_keepalive: string
+  keepalive_backoff: number
+  max_subscriptions: string
+  upgrade_qos: boolean
+  max_inflight: number
+  retry_interval: string
+  max_awaiting_rel: string
+  await_rel_timeout: string
+  session_expiry_interval: string
+  max_mqueue_len: string
+  mqueue_priorities: string
+  mqueue_default_priority: string
+  mqueue_store_qos0: boolean
+  use_username_as_clientid: boolean
+  peer_cert_as_username: string
+  peer_cert_as_clientid: string
+}
+
+export interface Stats {
+  enable: boolean
+}
+
+export interface FlappingDetect {
+  enable: boolean
+  max_count: number
+  window_time: string
+  ban_time: string
+}
+
+export interface ForceShutdown {
+  enable: boolean
+  max_message_queue_len: number
+  max_heap_size: string
+}
+
+export interface ConnCongestion {
+  enable_alarm: boolean
+  min_alarm_sustain_duration: string
+}
+
+export interface ForceGc {
+  enable: boolean
+  count: number
+  bytes: string
+}
+
+export interface OverloadProtection {
+  enable: boolean
+  backoff_delay: number
+  backoff_gc: boolean
+  backoff_hibernation: boolean
+  backoff_new_conn: boolean
+}
