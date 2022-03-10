@@ -57,14 +57,7 @@
               <el-form-item>
                 <template #label>
                   <label>{{ tl('remoteTopic') }}</label>
-                  <el-tooltip
-                    effect="dark"
-                    popper-class="form-item-desc-popper"
-                    :content="tl('remoteTopicDesc')"
-                    placement="top-start"
-                  >
-                    <el-icon class="form-item-desc"><question-filled /></el-icon>
-                  </el-tooltip>
+                  <InfoTooltip :content="tl('remoteTopicDesc')" />
                 </template>
                 <el-input
                   v-model="mqttBridgeVal.remote_topic"
@@ -118,14 +111,7 @@
               <el-form-item :label="tl('remoteTopic')">
                 <template #label>
                   <label>{{ tl('remoteTopic') }}</label>
-                  <el-tooltip
-                    effect="dark"
-                    popper-class="form-item-desc-popper"
-                    :content="tl('remoteTopicDesc')"
-                    placement="top-start"
-                  >
-                    <el-icon class="form-item-desc"><question-filled /></el-icon>
-                  </el-tooltip>
+                  <InfoTooltip :content="tl('remoteTopicDesc')" />
                 </template>
                 <el-input
                   v-model="mqttBridgeVal.remote_topic"
@@ -182,13 +168,14 @@ export default defineComponent({
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { defineProps, onMounted, reactive, ref, PropType, watch, defineEmits } from 'vue'
-import { Edit, Plus, QuestionFilled } from '@element-plus/icons-vue'
+import { Edit, Plus } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { getConnectorList } from '@/api/ruleengine'
 import { ConnectorItem } from '@/types/ruleengine'
 import ConnectorDialog from '../components/ConnectorDialog.vue'
 import { ConnectorMQTT } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const prop = defineProps({
   modelValue: {

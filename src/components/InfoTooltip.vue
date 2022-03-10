@@ -1,5 +1,11 @@
 <template>
-  <el-tooltip effect="dark" :content="content" placement="top-start">
+  <el-tooltip
+    effect="dark"
+    popper-class="info-tooltip"
+    placement="top-start"
+    :content="content"
+    :width="300"
+  >
     <template v-if="$slots.content" #content>
       <slot name="content"></slot>
     </template>
@@ -39,5 +45,11 @@ const props = defineProps({
   cursor: pointer;
   border-radius: (12px) / 2;
   opacity: 0.8;
+}
+</style>
+
+<style lang="scss">
+.info-tooltip {
+  max-width: 360px;
 }
 </style>
