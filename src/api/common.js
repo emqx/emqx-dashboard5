@@ -25,9 +25,6 @@ export function loadCurrentMetrics() {
   return http.get('/monitor/current')
 }
 
-export function loadMetricsLog(type) {
-  return http.get('/monitor' + (type ? '/counters/' + type : ''))
-}
 //metrics integration
 export function getStatsd() {
   return http.get('/statsd')

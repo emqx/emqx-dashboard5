@@ -28,9 +28,10 @@ export default defineComponent({
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
 import Moment from 'moment'
-import { loadMetricsLog } from '@/api/common'
+import { loadChartData } from '@/api/common'
 import { ref, reactive, computed, onUnmounted, onMounted, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ChartType } from '@/types/enum'
 
 type ChartData = Array<{
   xData: Array<string>
@@ -44,28 +45,30 @@ const chartDataFill = (length: number): ChartData => {
 }
 
 const dataTypeMap = reactive({
-  dropped: t('Dashboard.messageDrop'),
-  connection: t('Dashboard.connection'),
-  route: t('Dashboard.topics'),
-  subscriptions: t('Dashboard.Subscription'),
-  sent: t('Dashboard.messageOut'),
-  received: t('Dashboard.messageIn'),
+  [ChartType.Dropped]: t('Dashboard.messageDrop'),
+  [ChartType.Connections]: t('Dashboard.connection'),
+  [ChartType.Routes]: t('Dashboard.topics'),
+  [ChartType.Subscriptions]: t('Dashboard.Subscription'),
+  [ChartType.Sent]: t('Dashboard.messageOut'),
+  [ChartType.Received]: t('Dashboard.messageIn'),
 })
-const metricLog: Record<string, ChartData> = reactive({
-  dropped: chartDataFill(32),
-  connection: chartDataFill(32),
-  route: chartDataFill(32),
-  subscriptions: chartDataFill(32),
-  sent: chartDataFill(32),
-  received: chartDataFill(32),
+const metricLog: Record<ChartType, ChartData> = reactive({
+  [ChartType.Dropped]: chartDataFill(32),
+  [ChartType.Connections]: chartDataFill(32),
+  [ChartType.Routes]: chartDataFill(32),
+  [ChartType.Subscriptions]: chartDataFill(32),
+  [ChartType.Sent]: chartDataFill(32),
+  [ChartType.Received]: chartDataFill(32),
+  [ChartType.ReceivedBytes]: chartDataFill(32),
+  [ChartType.SentBytes]: chartDataFill(32),
 })
-const dataTypeList = reactive([
-  'dropped',
-  'connection',
-  'route',
-  'subscriptions',
-  'sent',
-  'received',
+const dataTypeList: Array<ChartType> = reactive([
+  ChartType.Dropped,
+  ChartType.Connections,
+  ChartType.Routes,
+  ChartType.Subscriptions,
+  ChartType.Sent,
+  ChartType.Received,
 ])
 const timerMetrics: Ref<null | number> = ref(null)
 
@@ -85,8 +88,8 @@ const chartColorList = computed(() => {
   }
   return {
     dropped: getLineColors(0),
-    connection: getLineColors(1),
-    route: getLineColors(2),
+    connections: getLineColors(1),
+    routes: getLineColors(2),
     subscriptions: getLineColors(3),
     sent: getLineColors(4),
     received: getLineColors(5),
@@ -97,23 +100,17 @@ const _formatTime = (time: number) => {
   return Moment(time).format('HH:mm')
 }
 
-const loadMetricsLogData = () => {
-  let maxLen = 200
-  dataTypeList.forEach(async (typeName) => {
-    let data = await loadMetricsLog(typeName).catch(() => {})
+const loadMetricsLogData = async () => {
+  const data = await loadChartData()
+  dataTypeList.forEach((typeName) => {
     metricLog[typeName] = chartDataFill(1)
-    const currentData = metricLog[typeName][0]
-
-    if (data) {
-      if (data.length > maxLen) {
-        data = data.slice(-maxLen)
-      }
-      data.forEach((item, key) => {
-        if (key > maxLen) return
-        currentData.xData.push(_formatTime(item.timestamp))
-        currentData.yData.push(item.count)
-      })
-    }
+  })
+  data.forEach((data) => {
+    dataTypeList.forEach((typeName) => {
+      const currentData = metricLog[typeName][0]
+      currentData.xData.push(_formatTime(data.time_stamp))
+      currentData.yData.push(data[typeName])
+    })
   })
 }
 

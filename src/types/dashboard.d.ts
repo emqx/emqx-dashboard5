@@ -3,6 +3,18 @@ export interface CounterItem {
   timestamp: number
 }
 
+export interface ChartDataItem {
+  connections: number
+  dropped: number
+  received: number
+  received_bytes: number
+  routes: number
+  sent: number
+  sent_bytes: number
+  subscriptions: number
+  time_stamp: number
+}
+
 export type NodeStatisticalData = { node: string } & {
   [fieldName: string]: number
 }

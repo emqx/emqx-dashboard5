@@ -103,3 +103,14 @@ export enum SlowSubType {
   Internal = 'internal',
   Whole = 'whole',
 }
+
+export enum ChartType {
+  Connections = 'connections',
+  Dropped = 'dropped',
+  Received = 'received',
+  ReceivedBytes = 'received_bytes',
+  Routes = 'routes',
+  Sent = 'sent',
+  SentBytes = 'sent_bytes',
+  Subscriptions = 'subscriptions',
+}

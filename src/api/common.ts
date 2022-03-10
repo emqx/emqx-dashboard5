@@ -1,6 +1,13 @@
 import http from '@/common/http'
 import { ListDataWithPagination } from '@/types/common'
-import { CounterItem, NodeMsg, NodeStatisticalData, Prometheus, StatsD } from '@/types/dashboard'
+import {
+  ChartDataItem,
+  CounterItem,
+  NodeMsg,
+  NodeStatisticalData,
+  Prometheus,
+  StatsD,
+} from '@/types/dashboard'
 
 //account
 export function login(user: { password: string; username: string }): Promise<{
@@ -33,9 +40,10 @@ export function loadCurrentMetrics(): Promise<Record<string, number>> {
   return http.get('/monitor/current')
 }
 
-export function loadMetricsLog(type?: string): Promise<Array<CounterItem>> {
-  return http.get('/monitor' + (type ? '/counters/' + type : ''))
+export function loadChartData(): Promise<Array<ChartDataItem>> {
+  return http.get('/monitor')
 }
+
 //metrics integration
 export function getStatsd(): Promise<StatsD> {
   return http.get('/statsd')
