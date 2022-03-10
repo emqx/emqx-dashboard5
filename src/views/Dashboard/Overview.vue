@@ -8,15 +8,11 @@
               {{ $t('Dashboard.currentMessageOutRate') }}
             </div>
             <div class="content">
-              <span>{{ currentMetrics.sent }}</span>
+              <span>{{ currentMetrics.sent_rate }}</span>
               <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
 
               <div class="flux-wrapper">
-                <simple-line
-                  :value="currentMetricsLogs.sent"
-                  type="bar"
-                  color="#34c388"
-                ></simple-line>
+                <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#34c388" />
               </div>
             </div>
           </el-card>
@@ -29,11 +25,11 @@
             </div>
 
             <div class="content">
-              <span>{{ currentMetrics.received }}</span>
+              <span>{{ currentMetrics.received_rate }}</span>
               <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
 
               <div class="flux-wrapper">
-                <simple-line v-model="currentMetricsLogs.received" type="bar"></simple-line>
+                <simple-line :value="currentMetricsLogs.received_rate" type="bar" />
               </div>
             </div>
           </el-card>
@@ -46,13 +42,9 @@
             </div>
 
             <div class="content">
-              <span>{{ _formatNumber(currentMetrics.subscription) }}</span>
+              <span>{{ _formatNumber(currentMetrics.subscriptions) }}</span>
               <div class="flux-wrapper">
-                <simple-line
-                  v-model="currentMetricsLogs.subscription"
-                  color="#58afff"
-                  type="bar"
-                ></simple-line>
+                <simple-line :value="currentMetricsLogs.subscriptions" color="#58afff" type="bar" />
               </div>
             </div>
           </el-card>
@@ -65,7 +57,7 @@
             </div>
 
             <div class="content">
-              <span>{{ _formatNumber(currentMetrics.connection) }}</span>
+              <span>{{ _formatNumber(currentMetrics.connections) }}</span>
               <el-progress
                 class="status-progress"
                 :stroke-width="24"
@@ -207,38 +199,38 @@ const noprompt: Ref<boolean> = ref(false)
 
 let license: Record<string, number | boolean> = reactive({})
 const currentMetricsLogs: Record<string, MetricData> = reactive({
-  received: {
+  received_rate: {
     x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
-  sent: {
+  sent_rate: {
     x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
-  subscription: {
+  subscriptions: {
     x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
 })
 const currentMetrics: Ref<Record<string, number>> = ref({
   node: 0, // 节点数
-  received: 0, // 消息 in 速率
-  sent: 0, // 消息 out 速率
-  subscription: 0, // 订阅数
-  connection: 0, // 连接数
+  received_rate: 0, // 消息 in 速率
+  sent_rate: 0, // 消息 out 速率
+  subscriptions: 0, // 订阅数
+  connections: 0, // 连接数
 })
 let timerData: undefined | number = undefined
 
 const licensePercentage = computed(() => {
-  const { connection } = currentMetrics.value
+  const { connections } = currentMetrics.value
   const { max_connections } = license
-  return calcPercentage(connection, max_connections)
+  return calcPercentage(connections, max_connections)
 })
 
 const formatConnection = computed(() => {
-  const { connection } = currentMetrics.value
+  const { connections } = currentMetrics.value
   const { max_connections } = license
-  return `${_formatNumber(connection)} / ${_formatNumber(max_connections as number)}`
+  return `${_formatNumber(connections)} / ${_formatNumber(max_connections as number)}`
 })
 
 const liceEvaTipShowChange = (val: boolean) => {
@@ -284,13 +276,14 @@ const getNow = () => {
   return Moment().format('HH:mm:ss')
 }
 const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
-  ;['received', 'sent', 'subscription'].forEach((key) => {
+  ;['received_rate', 'sent_rate', 'subscriptions'].forEach((key) => {
     currentMetricsLogs[key] = currentMetricsLogs[key] || {
       x: [],
       y: [],
     }
     const currentValue = state[key] || 0
     currentMetricsLogs[key].x.push(getNow())
+
     currentMetricsLogs[key].y.push(currentValue)
     if (currentMetricsLogs[key].x.length >= 16) {
       currentMetricsLogs[key].x.shift()
@@ -304,7 +297,7 @@ loadData()
 // clearInterval(this.timerData)
 timerData = setInterval(() => {
   loadData()
-}, 30 * 1000)
+}, 2 * 1000)
 
 onUnmounted(() => {
   clearInterval(timerData)
@@ -349,7 +342,7 @@ onUnmounted(() => {
       width: 100%;
       box-sizing: border-box;
 
-      .simple-line {
+      :deep(.simple-line) {
         box-sizing: border-box;
         height: 32px;
       }
