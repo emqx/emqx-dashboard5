@@ -5,7 +5,7 @@ import { DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 
 export default function useAuthnCreate() {
   const getBuiltInConfig = (type) => {
-    if (type === 'password-based') {
+    if (type === 'password_based') {
       return {
         user_id_type: 'username',
         ...getPasswordHashAlgorithmObj(),
@@ -122,11 +122,11 @@ export default function useAuthnCreate() {
   } = useProcessAuthData()
   const factory = (mechanism, backend) => {
     switch (mechanism) {
-      case 'password-based':
+      case 'password_based':
         if (backend === 'http') {
           return getHttpConfig()
         } else if (backend === 'built-in-database') {
-          return getBuiltInConfig('password-based')
+          return getBuiltInConfig('password_based')
         } else if (backend === 'mysql' || backend === 'postgresql') {
           return getDatabaseConfig(backend)
         } else if (backend === 'redis') {
