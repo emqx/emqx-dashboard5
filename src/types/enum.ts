@@ -97,3 +97,9 @@ export enum NodeStatusClass {
   Warning = 'warning',
   Danger = 'danger',
 }
+
+export enum SlowSubType {
+  Response = 'response',
+  Internal = 'internal',
+  Whole = 'whole',
+}

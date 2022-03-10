@@ -1,19 +1,18 @@
-import { QoSLevel } from './enum'
+import { QoSLevel, SlowSubType } from './enum'
 
 export interface SlowSubConfig {
   enable: boolean
-  expire_interval: string
-  notice_batch_size: number
-  notice_qos: QoSLevel
   threshold: string
+  expire_interval: string
   top_k_num: number
-  notice_interval: string
+  stats_type: SlowSubType
 }
 
 export interface SlowSubStatistic {
   clientid: string
-  latency: number
-  type: 'average' | 'expire'
+  node: string
+  topic: string
+  timespan: string
   last_update_time: string
 }
 

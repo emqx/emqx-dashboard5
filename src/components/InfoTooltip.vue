@@ -1,5 +1,8 @@
 <template>
   <el-tooltip effect="dark" :content="content" placement="top-start">
+    <template v-if="$slots.content" #content>
+      <slot name="content"></slot>
+    </template>
     <i class="icon-question">?</i>
   </el-tooltip>
 </template>

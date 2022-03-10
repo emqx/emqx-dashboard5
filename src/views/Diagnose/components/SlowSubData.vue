@@ -1,19 +1,6 @@
 <template>
   <div class="slow-sub-data">
     <div class="slow-sub-data-bar">
-      <el-radio-group
-        v-model="slowReasonFilter"
-        size="medium"
-        @change="reloadStatistics({ page: 1, limit })"
-      >
-        <el-radio-button
-          v-for="{ label, value } in slowReasonFilterOptions"
-          :key="value"
-          :label="value"
-        >
-          {{ label }}
-        </el-radio-button>
-      </el-radio-group>
       <div>
         <el-button size="small" class="link-btn">
           <router-link :to="{ name: 'slow-sub-config' }">
@@ -24,7 +11,7 @@
           </router-link>
         </el-button>
         <el-button type="danger" @click="clearData" size="small">
-          {{ $t('SlowSub.clearData') }}
+          {{ tl('clearData') }}
         </el-button>
       </div>
     </div>
@@ -41,30 +28,14 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column>
-        <template #header>
-          <span>{{ $t('General.reason') }}</span>
-          <el-popover placement="top-start" width="320" trigger="hover">
-            <div>
-              <b>{{ $t('SlowSub.messageBacklog') }}</b>
-              {{ ': ' + $t('SlowSub.messageBacklogDesc') }}
-              <br />
-              <b>{{ $t('SlowSub.highAverageTime') }}</b>
-              {{ ': ' + $t('SlowSub.highAverageTimeDesc') }}
-            </div>
-            <template #reference>
-              <el-icon><QuestionFilled class="el-icon-question" /></el-icon>
-            </template>
-          </el-popover>
-        </template>
+      <el-table-column prop="topic" :label="tl('topic')" />
+      <el-table-column prop="timespan" :label="tl('duration')" sortable="custom">
         <template #default="{ row }">
-          {{ reasonText(row.type) }}
+          {{ formatTime(row.timespan) }}
         </template>
       </el-table-column>
-      <el-table-column prop="latency" :label="$t('SlowSub.latencyTime')" sortable="custom">
-        <template #default="{ row }"> {{ formatTime(row.latency) }} </template>
-      </el-table-column>
-      <el-table-column prop="last_update_time" :label="$t('SlowSub.updated')">
+      <el-table-column prop="node" :label="$t('Clients.node')" />
+      <el-table-column prop="last_update_time" :label="tl('updated')">
         <template #default="{ row }">
           {{ moment(row.last_update_time).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
@@ -94,9 +65,12 @@ import { clearSlowSubData, querySlowSubStatistics } from '@/api/diagnose'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import usePaging from '@/hooks/usePaging'
-import { Tools, QuestionFilled } from '@element-plus/icons-vue'
+import { Tools } from '@element-plus/icons-vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import { createRandomString } from '@/common/tools'
 
 const { t } = useI18n()
+const { tl } = useI18nTl('SlowSub')
 
 const statistics: Ref<Array<SlowSubStatistic>> = ref([])
 const { page, limit, count } = usePageController()
@@ -108,27 +82,10 @@ const pageController = computed(() => ({
 const { setTotalData, getAPageData } = usePaging()
 let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined = undefined
 
-const VALUE_FOR_NOT_FILTER = 'all'
-const slowReasonFilter = ref(VALUE_FOR_NOT_FILTER)
-const slowReasonFilterOptions = [
-  {
-    label: t('Base.all'),
-    value: VALUE_FOR_NOT_FILTER,
-  },
-  {
-    label: t('SlowSub.timeConsuming'),
-    value: 'average',
-  },
-  {
-    label: t('SlowSub.messageBacklog'),
-    value: 'expire',
-  },
-]
-
 const getTotalStatistics = async () => {
   try {
-    const totalData = await querySlowSubStatistics()
-    setTotalData(totalData)
+    const { data = [] } = await querySlowSubStatistics()
+    setTotalData(data)
     getPageData()
   } catch (error) {
     //
@@ -136,11 +93,7 @@ const getTotalStatistics = async () => {
 }
 
 const getPageData = () => {
-  const filters =
-    slowReasonFilter.value === VALUE_FOR_NOT_FILTER
-      ? []
-      : [{ key: 'type', value: slowReasonFilter.value }]
-  const { data, meta } = getAPageData({ page: page.value, limit: limit.value }, filters, sortFrom)
+  const { data, meta } = getAPageData({ page: page.value, limit: limit.value }, [], sortFrom)
   statistics.value = data
   count.value = meta.count || 0
 }
@@ -172,7 +125,7 @@ const reloadStatistics = (pageData: { page: number; limit: number }) => {
 
 const clearData = async () => {
   try {
-    await ElMessageBox.confirm(t('SlowSub.confirmClearData'), {
+    await ElMessageBox.confirm(tl('confirmClearData'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
       type: 'warning',
@@ -183,15 +136,6 @@ const clearData = async () => {
   } catch (error) {
     //
   }
-}
-
-const reasonText = (reason: 'average' | 'expire') => {
-  return (
-    {
-      average: t('SlowSub.highAverageTime'),
-      expire: t('SlowSub.messageBacklog'),
-    }[reason] || ''
-  )
 }
 
 const formatTime = (time: number) => {
@@ -208,7 +152,7 @@ getTotalStatistics()
 .slow-sub-data {
   .slow-sub-data-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
     margin-bottom: 40px;
   }

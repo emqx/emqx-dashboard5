@@ -126,10 +126,10 @@ export default {
         title: 'topic-metrics',
         path: '/topic-metrics',
       },
-      // {
-      //   title: "slow-sub",
-      //   path: "/slow-sub",
-      // },
+      {
+        title: 'slow-sub',
+        path: '/slow-sub',
+      },
       {
         title: 'log-trace',
         path: '/log-trace',
