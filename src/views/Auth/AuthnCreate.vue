@@ -16,7 +16,7 @@
         {{ $t('Auth.selectMechanism') }}
       </div>
       <el-radio-group v-model="mechanism">
-        <el-radio class="mechanism" label="password-based" border> Password-Based </el-radio>
+        <el-radio class="mechanism" label="password_based" border> Password-Based </el-radio>
         <el-badge :value="$t('Modules.added')" :hidden="!addedAuthn.includes('jwt')" class="item">
           <el-radio class="mechanism" label="jwt" border :disabled="addedAuthn.includes('jwt')">
             JWT
@@ -26,7 +26,7 @@
           {{ $t('Auth.scram') }}
         </el-radio>
       </el-radio-group>
-      <p v-if="mechanism === 'password-based'" class="item-description">
+      <p v-if="mechanism === 'password_based'" class="item-description">
         {{ $t('Auth.passwordBasedDesc') }}
       </p>
       <p v-else-if="mechanism === 'jwt'" class="item-description">
@@ -202,7 +202,7 @@ export default defineComponent({
   setup(props) {
     const { t } = useI18n()
     const router = useRouter()
-    const mechanism = ref('password-based')
+    const mechanism = ref('password_based')
     const backend = ref('')
     const databases = ref([])
     const others = ref([])
@@ -211,7 +211,7 @@ export default defineComponent({
     const configData = ref({})
     const { factory, create } = useAuthnCreate()
     const supportBackendMap = {
-      'password-based': {
+      password_based: {
         'built-in-database': 'Built-in database',
         mysql: 'MySQL',
         mongodb: 'MongoDB',
