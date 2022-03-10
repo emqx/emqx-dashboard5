@@ -299,4 +299,8 @@ export default {
     zh: '启用 TLS',
     en: 'Enable TLS',
   },
+  noData: {
+    zh: '暂无数据',
+    en: 'No data',
+  },
 }
