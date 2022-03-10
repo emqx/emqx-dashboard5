@@ -103,4 +103,28 @@ export default {
     zh: '更新时间',
     en: 'Updated',
   },
+  statsType: {
+    zh: '时延统计类型',
+    en: 'Stats Type',
+  },
+  topic: {
+    zh: '主题',
+    en: 'Topic',
+  },
+  duration: {
+    zh: '时长',
+    en: 'Duration',
+  },
+  typeResponseDesc: {
+    zh: '客户端响应耗时',
+    en: 'Client response time',
+  },
+  typeInternalDesc: {
+    zh: 'EMQX 内部中转时间',
+    en: 'EMQX internal transfer time',
+  },
+  wholeTypeDesc: {
+    zh: '传输完成的全流程时间',
+    en: 'The total time the delivery was completed',
+  },
 }

@@ -21,16 +21,7 @@
               <el-form-item required prop="threshold">
                 <template #label>
                   {{ $t('SlowSub.statsThreshold') }}
-                  <el-popover
-                    placement="top-start"
-                    :width="280"
-                    trigger="hover"
-                    :content="$t('SlowSub.statsThresholdDesc')"
-                  >
-                    <template #reference>
-                      <el-icon><QuestionFilled /></el-icon>
-                    </template>
-                  </el-popover>
+                  <InfoTooltip :content="$t('SlowSub.statsThresholdDesc')" />
                 </template>
                 <el-input v-model="configForm.threshold" />
               </el-form-item>
@@ -39,85 +30,40 @@
               <el-form-item required prop="top_k_num">
                 <template #label>
                   {{ $t('SlowSub.maximumNumberOfStatistics') }}
-                  <el-popover
-                    placement="top-start"
-                    :width="280"
-                    trigger="hover"
-                    :content="$t('SlowSub.maximumNumberOfStatisticsDesc')"
-                  >
-                    <template #reference>
-                      <el-icon><QuestionFilled /></el-icon>
-                    </template>
-                  </el-popover>
+                  <InfoTooltip :content="$t('SlowSub.maximumNumberOfStatisticsDesc')" />
                 </template>
                 <el-input v-model.number="configForm.top_k_num" />
               </el-form-item>
             </el-col>
-
             <el-col :span="12">
               <el-form-item required prop="expire_interval">
                 <template #label>
                   {{ $t('SlowSub.evictionTimeOfRecord') }}
-                  <el-popover
-                    placement="top-start"
-                    :width="280"
-                    trigger="hover"
-                    :content="$t('SlowSub.evictionTimeOfRecordDesc')"
-                  >
-                    <template #reference>
-                      <el-icon><QuestionFilled /></el-icon>
-                    </template>
-                  </el-popover>
+                  <InfoTooltip :content="$t('SlowSub.evictionTimeOfRecordDesc')" />
                 </template>
                 <el-input v-model="configForm.expire_interval" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item required prop="notice_interval">
+              <el-form-item required prop="stats_type">
                 <template #label>
-                  {{ $t('SlowSub.noticeInterval') }}
-                  <el-popover
-                    placement="top-start"
-                    :width="280"
-                    trigger="hover"
-                    :content="$t('SlowSub.noticeIntervalDesc')"
-                  >
-                    <template #reference>
-                      <el-icon><QuestionFilled /></el-icon>
+                  {{ $t('SlowSub.statsType') }}
+                  <InfoTooltip>
+                    <template #content>
+                      <div class="type-desc" v-for="{ value, desc } in slowTypeOpts" :key="value">
+                        {{ value }} : {{ desc }}
+                      </div>
                     </template>
-                  </el-popover>
+                  </InfoTooltip>
                 </template>
-                <el-input v-model="configForm.notice_interval" />
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="12">
-              <el-form-item :label="$t('SlowSub.noticeQoS')" required prop="notice_qos">
-                <el-select v-model="configForm.notice_qos">
-                  <el-option v-for="item in QoS_LIST" :key="item" :value="item" :label="item" />
+                <el-select v-model="configForm.stats_type">
+                  <el-option
+                    v-for="{ value } in slowTypeOpts"
+                    :key="value"
+                    :label="value"
+                    :value="value"
+                  />
                 </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item
-                :label="$t('SlowSub.noticeBatchSize')"
-                required
-                prop="notice_batch_size"
-              >
-                <template #label>
-                  {{ $t('SlowSub.noticeBatchSize') }}
-                  <el-popover
-                    placement="top-start"
-                    :width="280"
-                    trigger="hover"
-                    :content="$t('SlowSub.noticeBatchSizeDesc')"
-                  >
-                    <template #reference>
-                      <el-icon><QuestionFilled /></el-icon>
-                    </template>
-                  </el-popover>
-                </template>
-                <el-input v-model.number="configForm.notice_batch_size" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -149,15 +95,17 @@ export default defineComponent({
 <script setup lang="ts">
 import { ref, Ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { QoS_LIST } from '@/common/constants'
 import { querySlowSubConfig, updateSlowSubConfig } from '@/api/diagnose'
 import { SlowSubConfig } from '@/types/diagnose'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import useFormRules from '@/hooks/useFormRules'
-import { QuestionFilled } from '@element-plus/icons-vue'
+import { SlowSubType } from '@/types/enum'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import useI18nTl from '@/hooks/useI18nTl'
 
 const { t } = useI18n()
+const { tl } = useI18nTl('SlowSub')
 const router = useRouter()
 
 const { createRequiredRule, createIntFieldRule, createStringWithUnitFieldRule } = useFormRules()
@@ -169,8 +117,6 @@ const fieldNameMap = {
   threshold: 'statsThreshold',
   top_k_num: 'maximumNumberOfStatistics',
   expire_interval: 'evictionTimeOfRecord',
-  notice_interval: 'noticeInterval',
-  notice_batch_size: 'noticeBatchSize',
 }
 const rulesOfConfigForm = {
   threshold: [
@@ -185,15 +131,13 @@ const rulesOfConfigForm = {
     ...createRequiredRule(t(`SlowSub.${fieldNameMap.expire_interval}`)),
     ...createStringWithUnitFieldRule(['ms', 's']),
   ],
-  notice_interval: [
-    ...createRequiredRule(t(`SlowSub.${fieldNameMap.notice_interval}`)),
-    ...createStringWithUnitFieldRule(['ms', 's'], 0, 3600),
-  ],
-  notice_batch_size: [
-    ...createRequiredRule(t(`SlowSub.${fieldNameMap.notice_batch_size}`)),
-    ...createIntFieldRule(),
-  ],
 }
+
+const slowTypeOpts = [
+  { value: SlowSubType.Whole, desc: tl('wholeTypeDesc') },
+  { value: SlowSubType.Internal, desc: tl('typeInternalDesc') },
+  { value: SlowSubType.Response, desc: tl('typeResponseDesc') },
+]
 
 const getConfig = async () => {
   try {
@@ -253,6 +197,9 @@ getConfig()
   font-size: 18px;
   color: #000;
   line-height: 25px;
+}
+.type-desc {
+  line-height: 1.5;
 }
 .btn-update {
   padding-left: 30px;
