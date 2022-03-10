@@ -1,4 +1,4 @@
-import { onMounted, ref, onUnmounted, Ref } from 'vue'
+import { onMounted, ref, onUnmounted, Ref, computed } from 'vue'
 import G6, { Graph, ModelConfig, IGroup } from '@antv/g6'
 import { NodeItem, EdgeItem } from './topologyType'
 import useTopologyNodeTooltipNEvent from './useTopologyNodeTooltipNEvent'
@@ -75,6 +75,7 @@ const defaultEdgeConfig = {
 // const toolbar = new G6.ToolBar()
 
 export default () => {
+  const isDataLoading = ref(false)
   /* 
     simple desc
     1. topic/event/bridge -> rule -> console/republish/bridge(multi)
@@ -117,12 +118,22 @@ export default () => {
     fixToNode: [0.8, 0.5],
   })
 
+  const isNoData = computed(() => {
+    return [rulePartNodeData, bridgePartNodeData].every((obj) => {
+      const nodes = obj.value
+      return Object.keys(nodes).every(
+        (key) => (nodes[key as keyof typeof nodes] as Array<NodeItem>).length === 0,
+      )
+    })
+  })
+
   const bindClickNodeEvent = () => {
     graphInstance?.on('node:click', handleNodeClickEvent)
   }
 
   const getRequiredList = async () => {
     try {
+      isDataLoading.value = true
       const [ruleNodeNEdgeData, bridgeNodeNEdgeData] = await Promise.all([
         getRuleNodeNEdgeData(),
         getBridgeNodeNEdgeData(),
@@ -138,6 +149,8 @@ export default () => {
     } catch (error) {
       console.error(error)
       return Promise.reject()
+    } finally {
+      isDataLoading.value = false
     }
   }
 
@@ -196,5 +209,5 @@ export default () => {
     graphInstance?.destroy && graphInstance.destroy()
   })
 
-  return { topologyDiagramCanvasEle }
+  return { isDataLoading, isNoData, topologyDiagramCanvasEle }
 }

@@ -1,15 +1,19 @@
 <template>
-  <div class="app-wrapper flow-chart">
+  <div class="app-wrapper flow-chart" v-loading="isDataLoading">
     <div class="topology-wrap">
-      <div id="rule-topology" ref="topologyDiagramCanvasEle"></div>
+      <div id="rule-topology" ref="topologyDiagramCanvasEle" v-if="!isNoData"></div>
+      <p class="topology-placeholder" v-else>{{ t('Base.noData') }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import useTopology from '@/hooks/Rule/topology/useTopology'
+import { useI18n } from 'vue-i18n'
 
-const { topologyDiagramCanvasEle } = useTopology()
+const { isDataLoading, topologyDiagramCanvasEle, isNoData } = useTopology()
+
+const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped>
@@ -56,6 +60,12 @@ const { topologyDiagramCanvasEle } = useTopology()
     margin-top: 8px;
     padding: 4px;
   }
+}
+.topology-placeholder {
+  line-height: 700px;
+  text-align: center;
+  font-size: 24px;
+  color: var(--el-text-color-secondary);
 }
 :deep(.g6-component-tooltip) {
   border: none;
