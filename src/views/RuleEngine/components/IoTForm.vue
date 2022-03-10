@@ -127,9 +127,7 @@ import Monaco from '@/components/Monaco.vue'
 import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import FromSelectList from './FromSelectList.vue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
-
-const DEFAULT_FROM = 't/#'
-const DEFAULT_SELECT = '*'
+import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 
 const prop = defineProps({
   modelValue: {

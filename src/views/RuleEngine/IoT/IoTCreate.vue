@@ -31,16 +31,19 @@ import { createRules } from '@/api/ruleengine'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { createRandomString } from '@/common/tools'
+import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
+import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const { transSQLFormDataToSQL } = useRuleUtils()
 
 const router = useRouter()
 const submitLoading = ref(false)
 
 const ruleValue: Ref<RuleItem> = ref({
   name: `rule:${createRandomString(4)}`,
-  sql: '',
+  sql: transSQLFormDataToSQL(DEFAULT_SELECT, [DEFAULT_FROM]),
   outputs: [],
   description: '',
 })
