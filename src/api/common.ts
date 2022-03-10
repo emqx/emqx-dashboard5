@@ -37,7 +37,7 @@ export function loadMetrics(): Promise<Array<NodeStatisticalData>> {
 }
 
 export function loadCurrentMetrics(): Promise<Record<string, number>> {
-  return http.get('/monitor/current')
+  return http.get('/monitor_current')
 }
 
 export function loadChartData(): Promise<Array<ChartDataItem>> {

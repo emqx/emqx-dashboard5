@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineProps, ref, reactive, watch, onMounted, Ref } from 'vue'
+import { defineProps, ref, nextTick, watch, onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 import * as echarts from 'echarts/lib/echarts'
 import { ECharts, EChartsOption, LineSeriesOption } from 'echarts'
@@ -42,7 +42,7 @@ const props = defineProps({
 })
 
 const chartEl = ref()
-const chart: Ref<ECharts | null> = ref(null)
+let chartInstance: ECharts | null = null
 const option: EChartsOption = reactive({
   color: [props.color],
   grid: {
@@ -91,7 +91,7 @@ const option: EChartsOption = reactive({
 })
 
 watch(
-  () => props.value,
+  () => JSON.stringify(props.value),
   () => {
     setSeriesConfig()
   },
@@ -104,12 +104,8 @@ watch(
   },
 )
 
-const setSeriesConfig = () => {
+const setSeriesConfig = async () => {
   const { color, type } = props
-  let Dom = chartEl.value
-  if (!Dom) return
-  echarts.dispose(Dom)
-  chart.value = echarts.init(Dom)
   option.series = [
     {
       data: props.value.y,
@@ -128,8 +124,20 @@ const setSeriesConfig = () => {
       },
     },
   ] as Array<LineSeriesOption>
-  chart.value?.setOption(option)
+  chartInstance?.setOption({ ...option })
 }
 
-onMounted(setSeriesConfig)
+const initChart = async () => {
+  if (chartInstance) {
+    chartInstance.dispose()
+  }
+  let Dom = chartEl.value
+  if (!Dom) return
+  chartInstance = echarts.init(Dom)
+}
+
+onMounted(() => {
+  initChart()
+  setSeriesConfig()
+})
 </script>
