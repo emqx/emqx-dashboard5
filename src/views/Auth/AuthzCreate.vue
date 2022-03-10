@@ -52,7 +52,7 @@
           auth-type="authz"
           v-model="configData"
         ></http-config>
-        <p v-else-if="type === 'built-in-database'" class="item-description">
+        <p v-else-if="type === 'built_in_database'" class="item-description">
           {{ $t('Auth.builtInDatabaseDesc') }}
         </p>
         <database-config
@@ -112,8 +112,8 @@ export default defineComponent({
       { label: 'File', value: 'file', img: require('@/assets/img/file.png') },
       {
         label: 'Built-in database',
-        value: 'built-in-database',
-        img: require('@/assets/img/built-in-database.png'),
+        value: 'built_in_database',
+        img: require('@/assets/img/built_in_database.png'),
       },
       {
         label: 'MySQL',

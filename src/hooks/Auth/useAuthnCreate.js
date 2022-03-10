@@ -125,7 +125,7 @@ export default function useAuthnCreate() {
       case 'password_based':
         if (backend === 'http') {
           return getHttpConfig()
-        } else if (backend === 'built-in-database') {
+        } else if (backend === 'built_in_database') {
           return getBuiltInConfig('password_based')
         } else if (backend === 'mysql' || backend === 'postgresql') {
           return getDatabaseConfig(backend)
@@ -136,7 +136,7 @@ export default function useAuthnCreate() {
         }
         break
       case 'scram':
-        if (backend === 'built-in-database') {
+        if (backend === 'built_in_database') {
           return getBuiltInConfig('scram')
         }
         break

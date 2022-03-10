@@ -46,7 +46,7 @@
             v-model="configData"
           ></http-config>
           <built-in-config
-            v-else-if="currBackend === 'built-in-database'"
+            v-else-if="currBackend === 'built_in_database'"
             :type="configData.mechanism"
             v-model="configData"
           ></built-in-config>
@@ -63,7 +63,7 @@
         </el-button>
       </el-tab-pane>
       <el-tab-pane
-        v-if="currBackend === 'built-in-database'"
+        v-if="currBackend === 'built_in_database'"
         :label="$t('Auth.userConfig')"
         :lazy="true"
       >
@@ -154,7 +154,7 @@ export default defineComponent({
       mysql: 'MySQL',
       postgresql: 'PostgreSQL',
       http: 'HTTP Server',
-      'built-in-database': 'Built in Database',
+      built_in_database: 'Built in Database',
       jwt: 'JWT',
     }
     loadData()

@@ -123,7 +123,7 @@
           auth-type="authn"
         ></database-config>
         <built-in-config
-          v-else-if="backend === 'built-in-database'"
+          v-else-if="backend === 'built_in_database'"
           v-model="configData"
           :type="mechanism"
         ></built-in-config>
@@ -212,7 +212,7 @@ export default defineComponent({
     const { factory, create } = useAuthnCreate()
     const supportBackendMap = {
       password_based: {
-        'built-in-database': 'Built-in database',
+        built_in_database: 'Built-in database',
         mysql: 'MySQL',
         mongodb: 'MongoDB',
         postgresql: 'PostgreSQL',
@@ -221,7 +221,7 @@ export default defineComponent({
       },
       jwt: {},
       scram: {
-        'built-in-database': 'Built-in database',
+        built_in_database: 'Built-in database',
       },
     }
     const saveLoading = ref(false)

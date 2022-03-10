@@ -90,28 +90,28 @@ export function moveAuthn(id: string, body: { [key: string]: any }) {
 }
 
 export function loadBuiltInDatabaseData(type: string, params = {}) {
-  return http.get(`/authorization/sources/built-in-database/${type}`, {
+  return http.get(`/authorization/sources/built_in_database/${type}`, {
     params,
   })
 }
 
 export function createBuiltInDatabaseData(type: string, body: { [key: string]: any }) {
-  return http.post(`/authorization/sources/built-in-database/${type}`, body)
+  return http.post(`/authorization/sources/built_in_database/${type}`, body)
 }
 
 export function deleteBuiltInDatabaseData(type: string, key: string) {
-  return http.delete(`/authorization/sources/built-in-database/${type}/${encodeURIComponent(key)}`)
+  return http.delete(`/authorization/sources/built_in_database/${type}/${encodeURIComponent(key)}`)
 }
 
 export function updateBuiltInDatabaseData(type: string, key: string, body: { [key: string]: any }) {
   return http.put(
-    `/authorization/sources/built-in-database/${type}/${encodeURIComponent(key)}`,
+    `/authorization/sources/built_in_database/${type}/${encodeURIComponent(key)}`,
     body,
   )
 }
 
 export function updateAllBuiltInDatabaseData(body = {}) {
-  return http.put('/authorization/sources/built-in-database/all', body)
+  return http.put('/authorization/sources/built_in_database/all', body)
 }
 
 export default {}
