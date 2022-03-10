@@ -22,7 +22,7 @@
       </div>
     </div>
     <el-tabs v-if="!authzDetailLock">
-      <el-tab-pane v-if="type === 'built-in-database'" :label="$t('Auth.userConfig')" :lazy="true">
+      <el-tab-pane v-if="type === 'built_in_database'" :label="$t('Auth.userConfig')" :lazy="true">
         <built-in-manager></built-in-manager>
       </el-tab-pane>
       <el-tab-pane v-else :label="$t('Auth.config')" :lazy="true">
@@ -90,7 +90,7 @@ export default defineComponent({
       http: 'HTTP Server',
       mongodb: 'MongoDB',
       redis: 'Redis',
-      'built-in-database': 'Built-in database',
+      built_in_database: 'Built-in database',
     }
     const configData = ref({
       ssl: { enable: false },

@@ -101,7 +101,7 @@ export default function useAuthzCreate() {
         return getMongodbConfig()
       case 'redis':
         return getRedisConfig()
-      case 'built-in-database':
+      case 'built_in_database':
         return {}
     }
   }
