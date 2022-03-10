@@ -38,7 +38,9 @@ export interface Schema {
   paths: {
     [key: string]: {
       get: {
-        $ref: string
+        type: string
+        properties: Properties
+        $ref?: string
       }
       put: {
         $ref: string

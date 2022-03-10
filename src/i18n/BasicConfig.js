@@ -3,6 +3,10 @@ export default {
     zh: '集群',
     en: 'Cluster',
   },
+  zone: {
+    zh: 'Zone',
+    en: 'Zone',
+  },
   log: {
     zh: '日志',
     en: 'Log',
