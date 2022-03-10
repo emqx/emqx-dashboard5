@@ -38,6 +38,13 @@
         :units="['MB', 'G', 'KB']"
         @change="handleValChange(bindForms[index].byteSize, 'byteSize')"
       ></input-with-unit>
+      <el-input
+        v-model="bindForms[index].ip_port"
+        v-else-if="item.type === 'ip_port'"
+        :disabled="disabled"
+        @change="handleValChange(bindForms[index].ip_port, 'ip_port')"
+        clearable
+      ></el-input>
       <div v-if="index !== items.length - 1" class="split">{{ $t('Base.or') }}</div>
     </div>
   </div>
@@ -47,6 +54,7 @@
 import { defineComponent, PropType, ref, watch } from 'vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import InputWithUnit from './InputWithUnit.vue'
+import { IP_REG } from '@/common/constants'
 import { Properties } from '@/types/schemaForm'
 
 export default defineComponent({
@@ -99,6 +107,8 @@ export default defineComponent({
           setFormValue(val, 'duration')
         } else if (/MB|KB|G+/g.test(val)) {
           setFormValue(val, 'byteSize')
+        } else if (IP_REG.test(val)) {
+          setFormValue(val, 'ip_port')
         } else {
           setFormValue(val, 'string')
         }
