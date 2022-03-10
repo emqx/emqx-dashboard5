@@ -152,7 +152,7 @@ getTotalStatistics()
 .slow-sub-data {
   .slow-sub-data-bar {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 40px;
   }
