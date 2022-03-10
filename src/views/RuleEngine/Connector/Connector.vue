@@ -13,7 +13,11 @@
         <el-table :data="connectorTb" v-loading="tbLoading">
           <el-table-column :label="tl('name')" sortable prop="name" />
 
-          <el-table-column :label="tl('connType')" sortable prop="type" />
+          <el-table-column :label="tl('connType')" sortable prop="type">
+            <template #default="{ row }">
+              {{ getConnectorLabelByValue(row.type) }}
+            </template>
+          </el-table-column>
           <el-table-column :label="tl('bridgeNum')" sortable prop="num_of_bridges" />
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
@@ -46,6 +50,7 @@ import { ConnectorItem } from '@/types/ruleengine'
 import ConnectorDialog from '../components/ConnectorDialog.vue'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+import useConnectorTypeValue from '@/hooks/Rule/bridge/useConnectorTypeValue'
 
 let { t } = useI18n()
 
@@ -53,6 +58,7 @@ let connectorTb = ref([])
 let tbLoading = ref(false)
 const isDialogOpen = ref(false)
 const itemConnector: Ref<undefined | ConnectorItem> = ref(undefined)
+const { getConnectorLabelByValue } = useConnectorTypeValue()
 
 const tl = function (key: string, collection = 'RuleEngine') {
   return t(collection + '.' + key)

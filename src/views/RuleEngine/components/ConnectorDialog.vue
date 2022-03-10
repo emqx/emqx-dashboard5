@@ -12,13 +12,23 @@
           <el-row :gutter="30">
             <el-col :span="12">
               <el-form-item :label="tl('type')">
-                <el-select v-model="connectorData.type" :disabled="edit">
+                <el-select
+                  class="type-select"
+                  :class="typeSelectClass"
+                  v-model="connectorData.type"
+                  :disabled="edit"
+                >
                   <el-option
                     v-for="{ value, label } in connectorTypeOptions"
                     :key="value"
                     :value="value"
                     :label="label"
-                  />
+                  >
+                    <div class="option-content">
+                      <img :src="require(`@/assets/img/${value}.png`)" width="20" />
+                      <span>{{ label }}</span>
+                    </div>
+                  </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item :label="tl('connName')">
@@ -84,6 +94,7 @@ import { cloneDeep } from 'lodash'
 import { ElMessage } from 'element-plus'
 import useConnectorTypeValue from '@/hooks/Rule/bridge/useConnectorTypeValue'
 import { createRawSSLParams } from '@/common/tools.ts'
+import { ConnectorType } from '@/types/enum'
 
 const props = defineProps({
   edit: {
@@ -125,13 +136,22 @@ const visible = computed({
   },
 })
 
+const typeSelectClass = computed(() => {
+  if (!connectorData.value.type) {
+    return ''
+  }
+  return `has-icon is-${connectorData.value.type}`
+})
+
 const initConnectorAndSSLData = () => {
   connectorData.value = props.edit
     ? {
         ...cloneDeep(props.modelValue),
         // name: props.modelValue.id?.split(':')[1],
       }
-    : {}
+    : {
+        type: ConnectorType.MQTT,
+      }
   connectorTLS.value =
     props.edit && props.modelValue.ssl ? cloneDeep(props.modelValue.ssl) : createRawSSLParams()
 }
@@ -231,6 +251,51 @@ watch(visible, (val) => {
   margin-top: 28px;
   p {
     margin: 4px 0;
+  }
+}
+
+.type-select {
+  $icon-size: 24px;
+  $icon-left: 8px;
+  &.has-icon {
+    :deep(.el-input) {
+      &::before {
+        position: absolute;
+        top: 50%;
+        left: 8px;
+        transform: translateY(-50%);
+        content: '';
+        display: block;
+        width: $icon-size;
+        height: $icon-size;
+      }
+    }
+    :deep(.el-input__inner) {
+      padding-left: $icon-size + $icon-left + 8px;
+    }
+  }
+
+  &.is-mqtt {
+    :deep(.el-input) {
+      &::before {
+        background-image: url(~@/assets/img/mqtt.png);
+        background-size: contain;
+      }
+    }
+  }
+}
+// :deep(.el-select-dropdown__item) {
+//   padding: 0 12px;
+// }
+.el-select-dropdown__item {
+  padding: 0 12px;
+}
+
+.option-content {
+  display: flex;
+  align-items: center;
+  img {
+    margin-right: 4px;
   }
 }
 </style>
