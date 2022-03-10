@@ -146,7 +146,7 @@ export interface BurstLimit2 {
 }
 
 export interface Dashboard {
-  listeners: Listener[]
+  listeners: Listener[] | Listener
   default_username: string
   default_password: string
   sample_interval: string

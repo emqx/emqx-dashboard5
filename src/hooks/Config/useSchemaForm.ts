@@ -50,6 +50,14 @@ export default function useSchemaForm(path: string): {
               type: property.type,
             }
             property.properties = transComponents(component, property.path)
+          } else if (property.type === 'array' && property.items && property.items.oneOf) {
+            property.items.oneOf.forEach((item) => {
+              if (item.$ref) {
+                const component = getComponentByRef(data, item.$ref)
+                item.path = property.path
+                item.properties = transComponents(component, item.path)
+              }
+            })
           }
           if (!label) {
             property.label = lastLabel

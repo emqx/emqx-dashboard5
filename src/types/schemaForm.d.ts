@@ -12,9 +12,7 @@ export interface Properties {
     minimum?: number
     path?: string
     readOnly?: boolean
-    items: {
-      type: string
-    }
+    items: Properties[string]
     oneOf: Properties[string][]
     properties?: Properties
   }

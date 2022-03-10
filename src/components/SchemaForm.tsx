@@ -9,6 +9,11 @@ import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
 import '@/style/schemaForm.scss'
 
+interface FormItemMeta {
+  col: number
+  groupName?: string
+}
+
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
   components: {
@@ -41,7 +46,14 @@ const SchemaForm = defineComponent({
       },
     )
     const { t } = useI18n()
-    const switchComponent = (property: Properties[string]) => {
+    const conditionCard = (properties: Properties) => {
+      return (
+        <el-card shadow="never" class="app-card properties-card">
+          <el-row>{getComponents(properties, { col: 24 })}</el-row>
+        </el-card>
+      )
+    }
+    const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       let { path } = property
       if (!path) return
       if (/\$\w+/g.test(path)) {
@@ -96,8 +108,15 @@ const SchemaForm = defineComponent({
                 type={property.items.type}
               ></array-editor>
             )
+          } else if (property.items.oneOf) {
+            const [first, second] = property.items.oneOf
+            Object.assign(first.properties, second.properties)
+            if (first.properties) {
+              const components = conditionCard(first.properties)
+              return <div>{components}</div>
+            }
           }
-          return <div>object-array</div>
+          return
         case 'duration':
           return (
             <time-input-with-unit-select
@@ -143,9 +162,9 @@ const SchemaForm = defineComponent({
       return switchComponent(property)
     }
 
-    const getColFormItem = (property: Properties[string], groupName?: string) => {
+    const getColFormItem = (property: Properties[string], { col, groupName }: FormItemMeta) => {
       const colItem = (
-        <el-col span={16}>
+        <el-col span={col}>
           <el-form-item label={property.label} prop={property.path}>
             <p class="item-desc" v-html={property.description}></p>
             {setControl(property)}
@@ -183,8 +202,8 @@ const SchemaForm = defineComponent({
       </el-form>
     )
 
-    const getComponents = (properties: Properties) => {
-      let [groupName, oldGroupName] = [t('Clients.basicInfo'), '']
+    const getComponents = (properties: Properties, meta: FormItemMeta) => {
+      let [groupName, oldGroupName] = [meta.groupName || '', '']
       const elements: JSX.Element[] = []
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {
@@ -197,9 +216,9 @@ const SchemaForm = defineComponent({
             let elFormItem = <></>
             if (groupName !== oldGroupName) {
               oldGroupName = groupName
-              elFormItem = getColFormItem(property, groupName)
+              elFormItem = getColFormItem(property, { groupName, col: meta.col })
             } else if (groupName === oldGroupName) {
-              elFormItem = getColFormItem(property)
+              elFormItem = getColFormItem(property, { col: meta.col })
             }
             elements.push(elFormItem)
           }
@@ -210,7 +229,9 @@ const SchemaForm = defineComponent({
     }
 
     const renderSchemaForm = (properties: Properties) => {
-      const schemaForm = renderLayout(getComponents(properties))
+      const schemaForm = renderLayout(
+        getComponents(properties, { groupName: t('Clients.basicInfo'), col: 16 }),
+      )
       return schemaForm
     }
     return () => <div class="schema-form">{renderSchemaForm(components.value)}</div>

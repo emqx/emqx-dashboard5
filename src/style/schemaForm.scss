@@ -14,6 +14,10 @@
   [class*='el-col-'] {
     padding: 0px 16px;
   }
+  .app-card.properties-card .el-col-24 {
+    padding-bottom: 12px;
+  }
+  .app-card.properties-card .el-col-24,
   .el-col-16 {
     transition: all 0.2s ease;
     border-left: 4px solid transparent;
