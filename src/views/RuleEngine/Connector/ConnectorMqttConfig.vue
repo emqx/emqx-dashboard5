@@ -12,14 +12,7 @@
           <el-form-item>
             <template #label>
               <label>{{ $t('Clients.clientId') }}</label>
-              <el-tooltip
-                effect="dark"
-                popper-class="form-item-desc-popper"
-                :content="tl('clientIDDesc')"
-                placement="top-start"
-              >
-                <el-icon class="form-item-desc"><question-filled /></el-icon>
-              </el-tooltip>
+              <InfoTooltip :content="tl('clientIDDesc')" />
             </template>
             <el-input v-model="connectorVal.clientid" :placeholder="tl('clientIDPlaceholder')" />
           </el-form-item>
@@ -65,14 +58,13 @@
           <el-form-item>
             <template #label>
               <label>{{ tl('connMode') }}</label>
-              <el-tooltip effect="dark" popper-class="form-item-desc-popper" placement="top-start">
+              <InfoTooltip>
                 <template #content>
                   <span>{{ tl('connectionClusterModeDesc') }}</span>
                   <br />
                   <span>{{ tl('connectionNodeModeDesc') }}</span>
                 </template>
-                <el-icon class="form-item-desc"><question-filled /></el-icon>
-              </el-tooltip>
+              </InfoTooltip>
             </template>
             <el-select v-model="connectorVal.mode">
               <el-option
@@ -121,10 +113,10 @@ import { ref, Ref, reactive, computed, defineComponent, watch, onMounted } from 
 import _ from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
-import { QuestionFilled } from '@element-plus/icons-vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 export default defineComponent({
-  components: { TLSConfig, InputWithUnit, QuestionFilled },
+  components: { TLSConfig, InputWithUnit, InfoTooltip },
   props: {
     modelValue: {
       type: Object,
