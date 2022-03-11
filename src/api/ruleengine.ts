@@ -58,6 +58,10 @@ export function deleteBridge(id: string): Promise<any> {
   return http.delete('/bridges/' + encodeURIComponent(id))
 }
 
+export function reconnectBridgeForNode(node: string, bridgeID: string) {
+  return http.post(`/nodes/${node}/bridges/${bridgeID}/operation/restart`)
+}
+
 //Connectors
 export async function getConnectorList(): Promise<any> {
   try {

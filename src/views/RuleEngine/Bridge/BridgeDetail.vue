@@ -32,7 +32,7 @@
         </div>
         <el-tabs v-model="activeTab">
           <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
-            <BridgeItemOverview :bridge-msg="bridgeInfo" />
+            <BridgeItemOverview :bridge-msg="bridgeInfo" @reconnect="loadBridgeInfo" />
           </el-tab-pane>
           <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
             <el-card shadow="never" class="app-card">
