@@ -91,8 +91,7 @@
   </div>
   <SQLTestDialog
     v-model="testDialog"
-    :test-data="testParams"
-    :first-input-item="firstInputItem"
+    :sql="testSQL"
     :ingress-bridge-list="ingressBridgeList"
     :event-list="ruleEventsList"
     @save="saveSQLFromTest"
@@ -139,15 +138,13 @@ const prop = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t } = useI18n()
-const { getTestColumns, transFromStrToFromArr, findInputTypeNTarget, transSQLFormDataToSQL } =
-  useRuleUtils()
+const { transFromStrToFromArr, transSQLFormDataToSQL } = useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const testDialog = ref(false)
 const bridgeList = ref([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const outputLoading = ref(false)
-const firstInputItem: Ref<string> = ref('')
 const briefEditType = ref(true)
 
 const isShowTemplateDrawer = ref(false)
@@ -171,10 +168,7 @@ const sqlPartValue = ref({
   where: '',
 })
 
-const testParams = ref({
-  sql: '',
-  context: {},
-})
+const testSQL = ref('')
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
@@ -210,7 +204,7 @@ const setRuleValue = () => {
  */
 const syncFormDataToSQL = () => {
   const sql = transformSQL()
-  testParams.value.sql = sql
+  testSQL.value = sql
   ruleValue.value.sql = sql
   return sql
 }
@@ -261,17 +255,6 @@ const loadIngressBridgeList = async () => {
 
 const openTestDialog = () => {
   syncData()
-
-  const from = sqlPartValue.value.from[0]
-  firstInputItem.value = from
-  const { type: inputType } = findInputTypeNTarget(
-    from,
-    ruleEventsList.value,
-    ingressBridgeList.value,
-  )
-  const testColumns = getTestColumns(inputType, from, ruleEventsList.value)
-  testParams.value.context = testColumns
-
   testDialog.value = true
 }
 
@@ -290,21 +273,7 @@ const useSQLTemplate = (SQLTemp: string) => {
 }
 
 const testSQLTemplate = (SQLTemp: string) => {
-  const { fromStr } = getKeywordsFromSQL(SQLTemp)
-  const fromArr = transFromStrToFromArr(fromStr)
-  const { type: inputType } = findInputTypeNTarget(
-    fromArr[0],
-    ruleEventsList.value,
-    ingressBridgeList.value,
-  )
-  const testColumns = getTestColumns(inputType, fromArr[0], ruleEventsList.value)
-
-  firstInputItem.value = fromArr[0]
-  testParams.value = {
-    sql: SQLTemp,
-    context: testColumns,
-  }
-
+  testSQL.value = SQLTemp
   testDialog.value = true
 }
 

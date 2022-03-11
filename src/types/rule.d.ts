@@ -129,11 +129,16 @@ export type ConnectorMQTT = Omit<ConnectorBase, 'type'> & {
 
 export type ConnectorItem = ConnectorMQTT
 
+/**
+ * 0: template 1: desc
+ */
+export type TestColumnItem = [string, string]
+
 export interface RuleEvent {
   columns: string[]
   description: BackendI18n
   event: string
   sql_example: string
-  test_columns: Record<string, string>
+  test_columns: Record<string, TestColumnItem>
   title: BackendI18n
 }

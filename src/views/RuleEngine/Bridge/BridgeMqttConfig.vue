@@ -22,7 +22,7 @@
                     :label="item.name"
                   />
                 </el-select>
-                <div class="icon-connector-handler-container" v-if="edit">
+                <div class="icon-connector-handler-container" v-if="!disabled">
                   <el-icon
                     :class="[
                       'icon-connector-handler',
