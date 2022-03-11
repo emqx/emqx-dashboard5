@@ -80,9 +80,9 @@
             <el-button type="primary" plain size="small" @click="openTestDialog()">
               {{ tl('testsql') }}
             </el-button>
-            <el-button size="mini" plain type="info" @click="showTemplateDrawer">
+            <!-- <el-button size="mini" plain type="info" @click="showTemplateDrawer">
               {{ tl('SQLTemplates') }}
-            </el-button>
+            </el-button> -->
           </el-col>
         </el-row>
       </el-card>
