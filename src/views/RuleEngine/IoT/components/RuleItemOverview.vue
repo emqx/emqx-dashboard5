@@ -3,16 +3,16 @@
     <el-card shadow="never" class="app-card detail-sub-card">
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
-        <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
+        <!-- <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
           <el-icon @click="resetStatistics"><refresh-left /></el-icon>
-        </el-tooltip>
+        </el-tooltip> -->
       </div>
-      <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p>
+      <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic">
         <el-col :span="6">
           <p class="statistic-label">
             <span>{{ tl('sqlMatched') }}</span>
-            <InfoTooltip />
+            <InfoTooltip :content="tl('sqlMatchedDesc')" />
           </p>
           <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.matched']) }}</p>
         </el-col>
@@ -71,7 +71,7 @@
         <el-table-column>
           <template #header>
             <span>{{ tl('sqlMatched') }}</span>
-            <InfoTooltip :content="'TODO:'" />
+            <InfoTooltip :content="tl('sqlMatchedDesc')" />
           </template>
           <template #default="{ row }">
             {{ row.metrics['sql.matched'] }}
@@ -121,13 +121,13 @@
             {{ row.metrics['sql.matched.rate.max'] }}
           </template>
         </el-table-column>
-        <el-table-column :label="tl('status')">
+        <!-- <el-table-column :label="tl('status')">
           <template #default="{ row }">
             <span class="text-status" :class="row.enable ? 'success' : 'danger'">
               {{ row.enable ? tl('enable', 'Base') : tl('disable', 'Base') }}
             </span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </el-card>
   </div>

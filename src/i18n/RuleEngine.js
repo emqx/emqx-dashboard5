@@ -323,6 +323,10 @@ export default {
     zh: 'SQL 命中',
     en: 'SQL Matched',
   },
+  sqlMatchedDesc: {
+    zh: 'SQL 成功执行并输出结果',
+    en: 'SQL executes successfully and outputs the result',
+  },
   sqlFailed: {
     zh: 'SQL 失败',
     en: 'SQL failed',
