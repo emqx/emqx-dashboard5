@@ -199,7 +199,7 @@ export default defineComponent({
     const removeTab = async (targetName: string) => {
       const tabs = editableTabs.value
       let activeName = currTab.value
-      if (tabs.length === 1 || activeName === 'global') {
+      if (tabs.length === 1 || targetName === 'global') {
         return
       }
       await ElMessageBox.confirm(tl('confirmRemove', { name: targetName }), {
