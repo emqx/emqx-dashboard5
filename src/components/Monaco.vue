@@ -14,6 +14,11 @@ export default defineComponent({
 import * as monaco from 'monaco-editor'
 import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick } from 'vue'
 
+/**
+ * for placeholder to show full desc
+ */
+const DESC_SUFFIX = '    '
+
 const prop = defineProps({
   id: {
     type: String,
@@ -110,7 +115,7 @@ const handleLineDecoration = () => {
             range: new monaco.Range(lineNumber, 1, lineNumber, endColumn),
             options: {
               after: {
-                content: createLineDecoration(lineContent),
+                content: createLineDecoration(lineContent) + DESC_SUFFIX,
                 inlineClassName: 'my-inline-decoration',
               },
             },

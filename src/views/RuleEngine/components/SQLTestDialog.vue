@@ -109,9 +109,8 @@ import { QuestionFilled, Refresh, MagicStick, EditPen } from '@element-plus/icon
 import TestSQLContextForm from './TestSQLContextForm.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
 import FromSelect from '../components/FromSelect.vue'
-import { BridgeItem, RuleEvent } from '@/types/rule'
+import { BridgeItem,  RuleEvent } from '@/types/rule'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { RuleInputType } from '@/types/enum'
@@ -134,18 +133,17 @@ const props = defineProps({
   modelValue: {
     type: Boolean,
   },
-  testData: {
-    type: Object as PropType<Omit<TestParams, 'output'>>,
-    required: true,
-  },
-  firstInputItem: {
+  sql: {
     type: String,
+    default: '',
   },
   eventList: {
     type: Array as PropType<Array<RuleEvent>>,
+    required: true,
   },
   ingressBridgeList: {
     type: Array as PropType<Array<BridgeItem>>,
+    required: true,
   },
   canSave: {
     type: Boolean,
@@ -165,6 +163,7 @@ const testLoading = ref(false)
 const inputContextBy = ref(InputContextType.JSON)
 const dataType: Ref<string> = ref('')
 const isDataTypeNoMatchSQL = ref(false)
+let testColumnDescMap: Record<string, string> = {}
 
 const showDialog: WritableComputedRef<boolean> = computed({
   get() {
@@ -181,6 +180,8 @@ const tooltipForToggleBtn = computed(() =>
   ),
 )
 
+const { TOPIC_EVENT, findInputTypeNTarget, getTestColumns, transFromStrToFromArr } = useRuleUtils()
+
 const setContextObjStr = () => {
   try {
     contextObjStr.value = JSON.stringify(testParams.value.context, null, 2)
@@ -188,6 +189,21 @@ const setContextObjStr = () => {
   } catch (error: any) {
     ElMessage.error(error?.toString())
     return Promise.reject()
+  }
+}
+
+const setDataTypeNContext = () => {
+  const { sql, eventList, ingressBridgeList } = props
+  const { fromStr } = getKeywordsFromSQL(sql)
+  const fromArr = transFromStrToFromArr(fromStr)
+  const { type: inputType } = findInputTypeNTarget(fromArr[0], eventList, ingressBridgeList)
+  const { context, descMap } = getTestColumns(inputType, fromArr[0], eventList)
+  testColumnDescMap = descMap
+  dataType.value = fromArr[0]
+  testParams.value = {
+    sql,
+    context,
+    output: '',
   }
 }
 
@@ -207,8 +223,7 @@ const createLineDecoration = (lineContent: string): string => {
 
   if (matchRet && matchRet.length >= 2) {
     const [totalStr, key] = matchRet
-    // TODO: get desc by key
-    return key
+    return testColumnDescMap[key] || ''
   }
   return ''
 }
@@ -219,7 +234,7 @@ const goDoc = () => {
 }
 
 const resetContext = () => {
-  testParams.value.context = { ...props.testData.context }
+  handleDataSourceChanged({ value: dataType.value })
   if (inputContextBy.value === InputContextType.JSON) {
     setContextObjStr()
   }
@@ -242,8 +257,6 @@ const toggleInputContextType = async () => {
     inputContextBy.value = InputContextType.JSON
   }
 }
-
-const { findInputTypeNTarget, getTestColumns, transFromStrToFromArr } = useRuleUtils()
 
 const compareTargetNFromStr = (
   targetType: RuleInputType,
@@ -288,8 +301,8 @@ const handleDataSourceChanged = ({ value }: { value: string }) => {
   const { fromStr } = getKeywordsFromSQL(testParams.value.sql)
   isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
 
-  const testColumns = getTestColumns(type, value, props.eventList || [])
-  setContext(testColumns)
+  const { context } = getTestColumns(type, value, props.eventList || [])
+  setContext(context)
 }
 
 const handleSQLChanged = () => {
@@ -300,18 +313,28 @@ const handleSQLChanged = () => {
   const { type: firstInputType } = findInputTypeNTarget(inputs[0], eventList, ingressBridgeList)
   dataType.value = inputs[0]
 
-  const testColumns = getTestColumns(firstInputType, inputs[0], eventList)
-  setContext(testColumns)
+  const { context } = getTestColumns(firstInputType, inputs[0], eventList)
+  setContext(context)
+}
+
+const getEventTypeInContext = () => {
+  const { eventList = [], ingressBridgeList = [] } = props
+  const { type, target } = findInputTypeNTarget(dataType.value, eventList, ingressBridgeList)
+  if (type === RuleInputType.Event) {
+    return dataType.value.match(/(\$events\/)([\w]+)/)?.[2]
+  }
+  if (type === RuleInputType.Bridge) {
+    return `$bridges/${(target as BridgeItem).type}:*`
+  }
+  return TOPIC_EVENT.match(/(\$events\/)([\w]+)/)?.[2]
 }
 
 const submitTest = async () => {
   testLoading.value = true
-  const eventType = props.firstInputItem || ''
   const context = {
     ...testParams.value.context,
-    event_type: eventType.match(/(\$events\/)([\w]+)/)?.[2],
+    event_type: getEventTypeInContext(),
   }
-
   const res = await testsql({
     context,
     sql: testParams.value.sql,
@@ -342,8 +365,7 @@ const cancel = () => {
 
 watch(showDialog, (val) => {
   if (val) {
-    testParams.value = { ...cloneDeep(props.testData), output: '' }
-    dataType.value = props.firstInputItem || ''
+    setDataTypeNContext()
     setContextObjStr()
   }
 })

@@ -43,8 +43,7 @@
   </div>
   <SQLTestDialog
     v-model="isSQLTestDialogShow"
-    :test-data="SQLTestParams"
-    :first-input-item="ruleFirstInputItem"
+    :sql="SQLForTest"
     :ingress-bridge-list="ingressBridgeList"
     :event-list="eventList"
     :can-save="false"
@@ -68,8 +67,6 @@ import { BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import SQLTestDialog from '../components/SQLTestDialog.vue'
-import { getKeywordsFromSQL } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { MQTTBridgeDirection } from '@/types/enum'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 
@@ -87,11 +84,7 @@ const iKey = ref(0)
 const infoLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 const isSQLTestDialogShow = ref(false)
-const SQLTestParams = ref({
-  sql: '',
-  context: {},
-})
-const ruleFirstInputItem = ref('')
+const SQLForTest = ref('')
 const eventList: Ref<Array<RuleEvent>> = ref([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 
@@ -147,24 +140,9 @@ const enableOrDisableRule = async () => {
   infoLoading.value = false
 }
 
-const { getTestColumns, transFromStrToFromArr, findInputTypeNTarget } = useRuleUtils()
 const testSQL = async () => {
   await Promise.all([loadRuleEvents(), getIngressBridgeList()])
-  const { fromStr } = getKeywordsFromSQL(ruleInfo.value.sql)
-  const fromArr = transFromStrToFromArr(fromStr)
-  const { type: inputType } = findInputTypeNTarget(
-    fromArr[0],
-    eventList.value,
-    ingressBridgeList.value,
-  )
-  const testColumns = getTestColumns(inputType, fromArr[0], eventList.value)
-
-  ruleFirstInputItem.value = fromArr[0]
-  SQLTestParams.value = {
-    sql: ruleInfo.value.sql,
-    context: testColumns,
-  }
-
+  SQLForTest.value = ruleInfo.value.sql
   isSQLTestDialogShow.value = true
 }
 

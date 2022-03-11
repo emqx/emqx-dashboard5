@@ -21,7 +21,7 @@
       :label="tl('clientEvent')"
     >
       <el-option
-        v-for="item in eventList"
+        v-for="item in eventOptions"
         :key="item.event"
         :value="item.event"
         :label="item.title[locale]"
@@ -112,6 +112,11 @@ const selected = computed({
     emit('update:modelValue', val)
   },
 })
+
+const bridgeEventReg = /^\$bridges\//
+const eventOptions = computed(() =>
+  props.eventList?.filter(({ event }) => !bridgeEventReg.test(event)),
+)
 
 let selectedValueForProxyTopic = ref('')
 
