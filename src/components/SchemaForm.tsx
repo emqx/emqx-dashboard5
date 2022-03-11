@@ -28,7 +28,6 @@ const SchemaForm = defineComponent({
       required: true,
     },
     form: {
-      type: Object,
       required: true,
     },
     btnLoading: {

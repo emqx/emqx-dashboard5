@@ -181,11 +181,11 @@ export interface Listener {
   handshake_timeout?: string
 }
 
-export interface Zone {
-  [key: string]: Name
+export interface Zones {
+  [key: string]: Zone
 }
 
-export interface Name {
+export interface Zone {
   mqtt: Mqtt
   stats: Stats
   flapping_detect: FlappingDetect
