@@ -11,8 +11,8 @@
       </span>
     </span>
     <template #content>
-      <div class="status-detail" v-if="Array.isArray(statusData.details)">
-        <ul class="node-status-list">
+      <div class="status-detail">
+        <ul class="node-status-list" v-if="Array.isArray(statusData.details)">
           <li
             class="node-status-item"
             v-for="{ node, statusClass, statusLabel } in statusData.details"

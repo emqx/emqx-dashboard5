@@ -9,15 +9,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item>
-            <template #label>
-              <label>{{ $t('Clients.clientId') }}</label>
-              <InfoTooltip :content="tl('clientIDDesc')" />
-            </template>
-            <el-input v-model="connectorVal.clientid" :placeholder="tl('clientIDPlaceholder')" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item :label="tl('username')">
             <el-input v-model="connectorVal.username" :placeholder="connectorDefaultVal.username" />
           </el-form-item>
