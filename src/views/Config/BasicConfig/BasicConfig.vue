@@ -40,7 +40,7 @@ export default defineComponent({
     provide('schema', schema)
     const loadSchemaConfig = async () => {
       try {
-        const res = await schemaRequest.get('static/schema.json')
+        const res = await schemaRequest.get('static/hot-config-schema.json')
         if (res.data) {
           schema.value = res.data
         }

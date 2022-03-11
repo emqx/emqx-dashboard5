@@ -4,6 +4,7 @@
             "limiter.bucket": {
                 "properties": {
                     "zone": {
+                        "default": "default",
                         "description": "The bucket's zone",
                         "label": "zone",
                         "type": "string"
@@ -17,40 +18,6 @@
                         "description": "TODO(Rquired description): per_client",
                         "label": "per_client",
                         "$ref": "#/components/schemas/limiter.client_bucket"
-                    }
-                },
-                "type": "object"
-            },
-            "modules.rewrite": {
-                "properties": {
-                    "action": {
-                        "description": "Action",
-                        "example": "publish",
-                        "label": "action",
-                        "symbols": [
-                            "subscribe",
-                            "publish",
-                            "all"
-                        ],
-                        "type": "enum"
-                    },
-                    "source_topic": {
-                        "description": "Origin Topic",
-                        "example": "x/#",
-                        "label": "source_topic",
-                        "type": "string"
-                    },
-                    "dest_topic": {
-                        "description": "Destination Topic",
-                        "example": "z/y/$1",
-                        "label": "dest_topic",
-                        "type": "string"
-                    },
-                    "re": {
-                        "description": "Regular expressions",
-                        "example": "^x/y/(.+)$",
-                        "label": "re",
-                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -227,130 +194,6 @@
                 },
                 "type": "object"
             },
-            "configuration.node": {
-                "required": [
-                    "data_dir"
-                ],
-                "properties": {
-                    "name": {
-                        "default": "emqx@127.0.0.1",
-                        "description": "Unique name of the EMQX node. It must follow <code>%name%@FQDN</code> or\n <code>%name%@IP</code> format.",
-                        "label": "name",
-                        "type": "string"
-                    },
-                    "cookie": {
-                        "default": "emqxsecretcookie",
-                        "description": "Secret cookie is a random string that should be the same on all nodes in\n the given EMQX cluster, but unique per EMQX cluster. It is used to prevent EMQX nodes that\n belong to different clusters from accidentally connecting to each other.",
-                        "label": "cookie",
-                        "type": "string"
-                    },
-                    "data_dir": {
-                        "description": "Path to the persistent data directory. It must be unique per broker instance.",
-                        "label": "data_dir",
-                        "type": "string"
-                    },
-                    "config_files": {
-                        "description": "List of configuration files that are read during startup. The order is\n significant: later configuration files override the previous ones.",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "config_files",
-                        "type": "array"
-                    },
-                    "global_gc_interval": {
-                        "default": "15m",
-                        "description": "Periodic garbage collection interval.",
-                        "label": "global_gc_interval",
-                        "type": "duration"
-                    },
-                    "crash_dump_file": {
-                        "description": "Location of the crash dump file",
-                        "label": "crash_dump_file",
-                        "type": "string"
-                    },
-                    "crash_dump_seconds": {
-                        "default": "30s",
-                        "description": "The number of seconds that the broker is allowed to spend writing\na crash dump",
-                        "label": "crash_dump_seconds",
-                        "type": "duration"
-                    },
-                    "crash_dump_bytes": {
-                        "default": "100MB",
-                        "description": "The maximum size of a crash dump file in bytes.",
-                        "label": "crash_dump_bytes",
-                        "type": "byteSize"
-                    },
-                    "dist_net_ticktime": {
-                        "default": "2m",
-                        "description": "This is the approximate time an EMQX node may be unresponsive until it is considered down and thereby disconnected.",
-                        "label": "dist_net_ticktime",
-                        "type": "duration"
-                    },
-                    "dist_listen_min": {
-                        "default": 6369,
-                        "description": "Lower bound for the port range where EMQX broker listens for peer connections.",
-                        "label": "dist_listen_min",
-                        "maximum": 65535,
-                        "minimum": 1024,
-                        "type": "number"
-                    },
-                    "dist_listen_max": {
-                        "default": 6369,
-                        "description": "Upper bound for the port range where EMQX broker listens for peer connections.",
-                        "label": "dist_listen_max",
-                        "maximum": 65535,
-                        "minimum": 1024,
-                        "type": "number"
-                    },
-                    "backtrace_depth": {
-                        "default": 23,
-                        "description": "Maximum depth of the call stack printed in error messages and\n <code>process_info</code>.",
-                        "label": "backtrace_depth",
-                        "type": "number"
-                    },
-                    "applications": {
-                        "default": "",
-                        "description": "List of Erlang applications that shall be rebooted when the EMQX broker joins\n the cluster.",
-                        "label": "applications",
-                        "type": "comma_separated_string"
-                    },
-                    "etc_dir": {
-                        "description": "<code>etc</code> dir for the node",
-                        "label": "etc_dir",
-                        "type": "string"
-                    },
-                    "cluster_call": {
-                        "description": "TODO(Rquired description): cluster_call",
-                        "label": "cluster_call",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_call"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_schema.force_shutdown": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
-                    },
-                    "max_message_queue_len": {
-                        "default": 1000,
-                        "description": "TODO(Rquired description): max_message_queue_len",
-                        "label": "max_message_queue_len",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "max_heap_size": {
-                        "default": "32MB",
-                        "description": "TODO(Rquired description): max_heap_size",
-                        "label": "max_heap_size",
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            },
             "emqx_schema.ssl_client_opts": {
                 "properties": {
                     "enable": {
@@ -523,35 +366,6 @@
                         "description": "TODO(Rquired description): ssl",
                         "label": "ssl",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_schema.flapping_detect": {
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
-                    },
-                    "max_count": {
-                        "default": 15,
-                        "description": "TODO(Rquired description): max_count",
-                        "label": "max_count",
-                        "type": "number"
-                    },
-                    "window_time": {
-                        "default": "1m",
-                        "description": "TODO(Rquired description): window_time",
-                        "label": "window_time",
-                        "type": "duration"
-                    },
-                    "ban_time": {
-                        "default": "5m",
-                        "description": "TODO(Rquired description): ban_time",
-                        "label": "ban_time",
-                        "type": "duration"
                     }
                 },
                 "type": "object"
@@ -819,19 +633,6 @@
                 },
                 "type": "object"
             },
-            "auto_subscribe.auto_subscribe": {
-                "properties": {
-                    "topics": {
-                        "description": "TODO(Rquired description): topics",
-                        "items": {
-                            "$ref": "#/components/schemas/auto_subscribe.topic"
-                        },
-                        "label": "topics",
-                        "type": "array"
-                    }
-                },
-                "type": "object"
-            },
             "connector-http.request": {
                 "properties": {
                     "method": {
@@ -864,42 +665,6 @@
                         "description": "The timeout when sending request to the HTTP server",
                         "label": "request_timeout",
                         "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_schema.overload_protection": {
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "React on system overload or not",
-                        "label": "enable",
-                        "type": "boolean"
-                    },
-                    "backoff_delay": {
-                        "default": 1,
-                        "description": "Some unimportant tasks could be delayed for execution, here set the delays in ms",
-                        "label": "backoff_delay",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "backoff_gc": {
-                        "default": false,
-                        "description": "Skip forceful GC if necessary",
-                        "label": "backoff_gc",
-                        "type": "boolean"
-                    },
-                    "backoff_hibernation": {
-                        "default": true,
-                        "description": "Skip process hibernation if necessary",
-                        "label": "backoff_hibernation",
-                        "type": "boolean"
-                    },
-                    "backoff_new_conn": {
-                        "default": true,
-                        "description": "Close new incoming connections if necessary",
-                        "label": "backoff_new_conn",
-                        "type": "boolean"
                     }
                 },
                 "type": "object"
@@ -1105,7 +870,7 @@
                 "properties": {
                     "payload_encode": {
                         "default": "text",
-                        "description": "\nDetermine the format of the payload format in the trace file.<br>\n`text`: Text-based protocol or plain text protocol. It is recommended when payload is JSON encoded.<br>\n`hex`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br>\n`hidden`: payload is obfuscated as `******`\n        ",
+                        "description": "\nDetermine the format of the payload format in the trace file.<br>\n`text`: Text-based protocol or plain text protocol.\n It is recommended when payload is JSON encoded.<br>\n`hex`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br>\n`hidden`: payload is obfuscated as `******`\n        ",
                         "label": "payload_encode",
                         "symbols": [
                             "hex",
@@ -1209,6 +974,79 @@
                 },
                 "type": "object"
             },
+            "emqx_conf_schema.cluster": {
+                "properties": {
+                    "name": {
+                        "default": "emqxcl",
+                        "description": "TODO(Rquired description): name",
+                        "label": "name",
+                        "type": "string"
+                    },
+                    "discovery_strategy": {
+                        "default": "manual",
+                        "description": "TODO(Rquired description): discovery_strategy",
+                        "label": "discovery_strategy",
+                        "symbols": [
+                            "manual",
+                            "static",
+                            "mcast",
+                            "dns",
+                            "etcd",
+                            "k8s"
+                        ],
+                        "type": "enum"
+                    },
+                    "autoclean": {
+                        "default": "5m",
+                        "description": "TODO(Rquired description): autoclean",
+                        "label": "autoclean",
+                        "type": "duration"
+                    },
+                    "autoheal": {
+                        "default": true,
+                        "description": "TODO(Rquired description): autoheal",
+                        "label": "autoheal",
+                        "type": "boolean"
+                    },
+                    "static": {
+                        "description": "TODO(Rquired description): static",
+                        "label": "static",
+                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_static"
+                    },
+                    "mcast": {
+                        "description": "TODO(Rquired description): mcast",
+                        "label": "mcast",
+                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_mcast"
+                    },
+                    "proto_dist": {
+                        "default": "inet_tcp",
+                        "description": "TODO(Rquired description): proto_dist",
+                        "label": "proto_dist",
+                        "symbols": [
+                            "inet_tcp",
+                            "inet6_tcp",
+                            "inet_tls"
+                        ],
+                        "type": "enum"
+                    },
+                    "dns": {
+                        "description": "TODO(Rquired description): dns",
+                        "label": "dns",
+                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_dns"
+                    },
+                    "etcd": {
+                        "description": "TODO(Rquired description): etcd",
+                        "label": "etcd",
+                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_etcd"
+                    },
+                    "k8s": {
+                        "description": "TODO(Rquired description): k8s",
+                        "label": "k8s",
+                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_k8s"
+                    }
+                },
+                "type": "object"
+            },
             "emqx_schema.sysmon_os": {
                 "properties": {
                     "cpu_check_interval": {
@@ -1260,6 +1098,32 @@
                 },
                 "type": "object"
             },
+            "emqx_conf_schema.log": {
+                "properties": {
+                    "console_handler": {
+                        "description": "TODO(Rquired description): console_handler",
+                        "label": "console_handler",
+                        "$ref": "#/components/schemas/emqx_conf_schema.console_handler"
+                    },
+                    "file_handlers": {
+                        "description": "TODO(Rquired description): file_handlers",
+                        "label": "file_handlers",
+                        "properties": {
+                            "$name": {
+                                "$ref": "#/components/schemas/emqx_conf_schema.log_file_handler"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "error_logger": {
+                        "default": "silent",
+                        "description": "TODO(Rquired description): error_logger",
+                        "label": "error_logger",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "emqx_conf_schema.cluster_k8s": {
                 "properties": {
                     "apiserver": {
@@ -1300,41 +1164,6 @@
                         "description": "TODO(Rquired description): suffix",
                         "label": "suffix",
                         "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "statsd.statsd": {
-                "required": [
-                    "flush_time_interval",
-                    "sample_time_interval",
-                    "server",
-                    "enable"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
-                    },
-                    "server": {
-                        "default": "127.0.0.1:8125",
-                        "description": "TODO(Rquired description): server",
-                        "label": "server",
-                        "type": "ip_port"
-                    },
-                    "sample_time_interval": {
-                        "default": "10s",
-                        "description": "TODO(Rquired description): sample_time_interval",
-                        "label": "sample_time_interval",
-                        "type": "duration"
-                    },
-                    "flush_time_interval": {
-                        "default": "10s",
-                        "description": "TODO(Rquired description): flush_time_interval",
-                        "label": "flush_time_interval",
-                        "type": "duration"
                     }
                 },
                 "type": "object"
@@ -1487,48 +1316,6 @@
                 },
                 "type": "object"
             },
-            "retainer.mnesia_config": {
-                "properties": {
-                    "type": {
-                        "description": "TODO(Rquired description): type",
-                        "label": "type",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "built_in_database"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "storage_type": {
-                        "default": "ram",
-                        "description": "TODO(Rquired description): storage_type",
-                        "label": "storage_type",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "disc"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "symbols": [
-                                    "ram"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "max_retained_messages": {
-                        "default": 0,
-                        "description": "TODO(Rquired description): max_retained_messages",
-                        "label": "max_retained_messages",
-                        "type": "number"
-                    }
-                },
-                "type": "object"
-            },
             "emqx_conf_schema.console_handler": {
                 "properties": {
                     "enable": {
@@ -1646,274 +1433,6 @@
                                 "type": "enum"
                             }
                         ]
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_schema.mqtt": {
-                "properties": {
-                    "idle_timeout": {
-                        "default": "15s",
-                        "description": "Close TCP connections from the clients that have not sent MQTT CONNECT\nmessage within this interval.",
-                        "label": "idle_timeout",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "max_packet_size": {
-                        "default": "1MB",
-                        "description": "Maximum MQTT packet size allowed.",
-                        "label": "max_packet_size",
-                        "type": "byteSize"
-                    },
-                    "max_clientid_len": {
-                        "default": 65535,
-                        "description": "Maximum allowed length of MQTT clientId.",
-                        "label": "max_clientid_len",
-                        "maximum": 65535,
-                        "minimum": 23,
-                        "type": "number"
-                    },
-                    "max_topic_levels": {
-                        "default": 65535,
-                        "description": "Maximum topic levels allowed.",
-                        "label": "max_topic_levels",
-                        "maximum": 65535,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "max_qos_allowed": {
-                        "default": 2,
-                        "description": "Maximum QoS allowed.",
-                        "label": "max_qos_allowed",
-                        "symbols": [
-                            0,
-                            1,
-                            2
-                        ],
-                        "type": "enum"
-                    },
-                    "max_topic_alias": {
-                        "default": 65535,
-                        "description": "Maximum Topic Alias, 0 means no topic alias supported.",
-                        "label": "max_topic_alias",
-                        "maximum": 65535,
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "retain_available": {
-                        "default": true,
-                        "description": "Support MQTT retained messages.",
-                        "label": "retain_available",
-                        "type": "boolean"
-                    },
-                    "wildcard_subscription": {
-                        "default": true,
-                        "description": "Support MQTT Wildcard Subscriptions.",
-                        "label": "wildcard_subscription",
-                        "type": "boolean"
-                    },
-                    "shared_subscription": {
-                        "default": true,
-                        "description": "Support MQTT Shared Subscriptions.",
-                        "label": "shared_subscription",
-                        "type": "boolean"
-                    },
-                    "ignore_loop_deliver": {
-                        "default": false,
-                        "description": "Ignore loop delivery of messages for MQTT v3.1.1.",
-                        "label": "ignore_loop_deliver",
-                        "type": "boolean"
-                    },
-                    "strict_mode": {
-                        "default": false,
-                        "description": "Parse the MQTT frame in strict mode.",
-                        "label": "strict_mode",
-                        "type": "boolean"
-                    },
-                    "response_information": {
-                        "default": "",
-                        "description": "Specify the response information returned to the client\nThis feature is disabled if is set to \"\".",
-                        "label": "response_information",
-                        "type": "string"
-                    },
-                    "server_keepalive": {
-                        "default": "disabled",
-                        "description": "'Server Keep Alive' of MQTT 5.0.\nIf the server returns a 'Server Keep Alive' in the CONNACK packet,\nthe client MUST use that value instead of the value it sent as the 'Keep Alive'.",
-                        "label": "server_keepalive",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "keepalive_backoff": {
-                        "default": 0.75,
-                        "description": "The backoff for MQTT keepalive timeout. The broker will close the connection\nafter idling for 'Keepalive * backoff * 2'.",
-                        "label": "keepalive_backoff",
-                        "type": "number"
-                    },
-                    "max_subscriptions": {
-                        "default": "infinity",
-                        "description": "Maximum number of subscriptions allowed.",
-                        "label": "max_subscriptions",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "upgrade_qos": {
-                        "default": false,
-                        "description": "Force upgrade of QoS level according to subscription.",
-                        "label": "upgrade_qos",
-                        "type": "boolean"
-                    },
-                    "max_inflight": {
-                        "default": 32,
-                        "description": "Maximum size of the Inflight Window storing QoS1/2 messages delivered but un-acked.",
-                        "label": "max_inflight",
-                        "maximum": 65535,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "retry_interval": {
-                        "default": "30s",
-                        "description": "Retry interval for QoS1/2 message delivering.",
-                        "label": "retry_interval",
-                        "type": "duration"
-                    },
-                    "max_awaiting_rel": {
-                        "default": 100,
-                        "description": "Maximum QoS2 packets (Client -> Broker) awaiting PUBREL.",
-                        "label": "max_awaiting_rel",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "await_rel_timeout": {
-                        "default": "300s",
-                        "description": "The QoS2 messages (Client -> Broker) will be dropped if awaiting PUBREL timeout.",
-                        "label": "await_rel_timeout",
-                        "type": "duration"
-                    },
-                    "session_expiry_interval": {
-                        "default": "2h",
-                        "description": "Default session expiry interval for MQTT V3.1.1 connections.",
-                        "label": "session_expiry_interval",
-                        "type": "duration"
-                    },
-                    "max_mqueue_len": {
-                        "default": 1000,
-                        "description": "Maximum queue length. Enqueued messages when persistent client disconnected,\nor inflight window is full.",
-                        "label": "max_mqueue_len",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "minimum": 0,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "mqueue_priorities": {
-                        "default": "disabled",
-                        "description": "Topic priorities.<br>\nThere's no priority table by default, hence all messages are treated equal.<br>\nPriority number [1-255]<br>\n\n**NOTE**: Comma and equal signs are not allowed for priority topic names.<br>\n**NOTE**: Messages for topics not in the priority table are treated as\neither highest or lowest priority depending on the configured value for\n<code>mqtt.mqueue_default_priority</code>.\n<br><br>\n**Examples**:\nTo configure <code>\"topic/1\" > \"topic/2\"</code>:<br/>\n<code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code>",
-                        "label": "mqueue_priorities",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "mqueue_default_priority": {
-                        "default": "lowest",
-                        "description": "Default to the highest priority for topics not matching priority table.",
-                        "label": "mqueue_default_priority",
-                        "symbols": [
-                            "highest",
-                            "lowest"
-                        ],
-                        "type": "enum"
-                    },
-                    "mqueue_store_qos0": {
-                        "default": true,
-                        "description": "Support enqueue QoS0 messages.",
-                        "label": "mqueue_store_qos0",
-                        "type": "boolean"
-                    },
-                    "use_username_as_clientid": {
-                        "default": false,
-                        "description": "Replace client ID with the username.",
-                        "label": "use_username_as_clientid",
-                        "type": "boolean"
-                    },
-                    "peer_cert_as_username": {
-                        "default": "disabled",
-                        "description": "Use the CN, DN or CRT field from the client certificate as a username.\nOnly works for the TLS connection.",
-                        "label": "peer_cert_as_username",
-                        "symbols": [
-                            "disabled",
-                            "cn",
-                            "dn",
-                            "crt",
-                            "pem",
-                            "md5"
-                        ],
-                        "type": "enum"
-                    },
-                    "peer_cert_as_clientid": {
-                        "default": "disabled",
-                        "description": "Use the CN, DN or CRT field from the client certificate as a clientid.\nOnly works for the TLS connection.",
-                        "label": "peer_cert_as_clientid",
-                        "symbols": [
-                            "disabled",
-                            "cn",
-                            "dn",
-                            "crt",
-                            "pem",
-                            "md5"
-                        ],
-                        "type": "enum"
                     }
                 },
                 "type": "object"
@@ -2149,6 +1668,21 @@
                 },
                 "type": "object"
             },
+            "limiter.shared_limiter_opts": {
+                "properties": {
+                    "bucket": {
+                        "description": "Token bucket",
+                        "label": "bucket",
+                        "properties": {
+                            "$bucket_id": {
+                                "$ref": "#/components/schemas/limiter.bucket"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "zone.force_gc": {
                 "properties": {
                     "enable": {
@@ -2187,26 +1721,10 @@
                 },
                 "type": "object"
             },
-            "modules.delayed": {
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
-                    },
-                    "max_delayed_messages": {
-                        "description": "TODO(Rquired description): max_delayed_messages",
-                        "label": "max_delayed_messages",
-                        "type": "number"
-                    }
-                },
-                "type": "object"
-            },
             "emqx_connector_mongo.topology": {
                 "properties": {
                     "pool_size": {
-                        "default": 8,
+                        "default": 1,
                         "description": "TODO(Rquired description): pool_size",
                         "label": "pool_size",
                         "type": "number"
@@ -2260,29 +1778,6 @@
                     "min_heartbeat_frequency_ms": {
                         "description": "TODO(Rquired description): min_heartbeat_frequency_ms",
                         "label": "min_heartbeat_frequency_ms",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "retainer.flow_control": {
-                "properties": {
-                    "max_read_number": {
-                        "default": 0,
-                        "description": "TODO(Rquired description): max_read_number",
-                        "label": "max_read_number",
-                        "type": "number"
-                    },
-                    "msg_deliver_quota": {
-                        "default": 0,
-                        "description": "TODO(Rquired description): msg_deliver_quota",
-                        "label": "msg_deliver_quota",
-                        "type": "number"
-                    },
-                    "quota_release_interval": {
-                        "default": "0ms",
-                        "description": "TODO(Rquired description): quota_release_interval",
-                        "label": "quota_release_interval",
                         "type": "duration"
                     }
                 },
@@ -2632,55 +2127,6 @@
                 },
                 "type": "object"
             },
-            "retainer.retainer": {
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
-                    },
-                    "msg_expiry_interval": {
-                        "default": "0s",
-                        "description": "TODO(Rquired description): msg_expiry_interval",
-                        "label": "msg_expiry_interval",
-                        "type": "duration"
-                    },
-                    "msg_clear_interval": {
-                        "default": "0s",
-                        "description": "TODO(Rquired description): msg_clear_interval",
-                        "label": "msg_clear_interval",
-                        "type": "duration"
-                    },
-                    "flow_control": {
-                        "description": "TODO(Rquired description): flow_control",
-                        "label": "flow_control",
-                        "$ref": "#/components/schemas/retainer.flow_control"
-                    },
-                    "max_payload_size": {
-                        "default": "1MB",
-                        "description": "TODO(Rquired description): max_payload_size",
-                        "label": "max_payload_size",
-                        "type": "byteSize"
-                    },
-                    "stop_publish_clear_msg": {
-                        "default": false,
-                        "description": "TODO(Rquired description): stop_publish_clear_msg",
-                        "label": "stop_publish_clear_msg",
-                        "type": "boolean"
-                    },
-                    "config": {
-                        "description": "TODO(Rquired description): config",
-                        "label": "config",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/retainer.mnesia_config"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
             "authn-jwt.hmac-based": {
                 "required": [
                     "mechanism"
@@ -2931,17 +2377,6 @@
                         "description": "TODO(Rquired description): ssl",
                         "label": "ssl",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_schema.stats": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
                     }
                 },
                 "type": "object"
@@ -3425,103 +2860,6 @@
                 },
                 "type": "object"
             },
-            "configuration.cluster": {
-                "properties": {
-                    "name": {
-                        "default": "emqxcl",
-                        "description": "TODO(Rquired description): name",
-                        "label": "name",
-                        "type": "string"
-                    },
-                    "discovery_strategy": {
-                        "default": "manual",
-                        "description": "TODO(Rquired description): discovery_strategy",
-                        "label": "discovery_strategy",
-                        "symbols": [
-                            "manual",
-                            "static",
-                            "mcast",
-                            "dns",
-                            "etcd",
-                            "k8s"
-                        ],
-                        "type": "enum"
-                    },
-                    "autoclean": {
-                        "default": "5m",
-                        "description": "TODO(Rquired description): autoclean",
-                        "label": "autoclean",
-                        "type": "duration"
-                    },
-                    "autoheal": {
-                        "default": true,
-                        "description": "TODO(Rquired description): autoheal",
-                        "label": "autoheal",
-                        "type": "boolean"
-                    },
-                    "static": {
-                        "description": "TODO(Rquired description): static",
-                        "label": "static",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_static"
-                    },
-                    "mcast": {
-                        "description": "TODO(Rquired description): mcast",
-                        "label": "mcast",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_mcast"
-                    },
-                    "proto_dist": {
-                        "default": "inet_tcp",
-                        "description": "TODO(Rquired description): proto_dist",
-                        "label": "proto_dist",
-                        "symbols": [
-                            "inet_tcp",
-                            "inet6_tcp",
-                            "inet_tls"
-                        ],
-                        "type": "enum"
-                    },
-                    "dns": {
-                        "description": "TODO(Rquired description): dns",
-                        "label": "dns",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_dns"
-                    },
-                    "etcd": {
-                        "description": "TODO(Rquired description): etcd",
-                        "label": "etcd",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_etcd"
-                    },
-                    "k8s": {
-                        "description": "TODO(Rquired description): k8s",
-                        "label": "k8s",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_k8s"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_schema.force_gc": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
-                    },
-                    "count": {
-                        "default": 16000,
-                        "description": "GC the process after this many received messages.",
-                        "label": "count",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "bytes": {
-                        "default": "16MB",
-                        "description": "GC the process after specified number of bytes have passed through.",
-                        "label": "bytes",
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            },
             "authn-hash.other_algorithms": {
                 "properties": {
                     "name": {
@@ -3545,16 +2883,6 @@
                             "suffix"
                         ],
                         "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "modules.topic_metrics": {
-                "properties": {
-                    "topic": {
-                        "description": "TODO(Rquired description): topic",
-                        "label": "topic",
-                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -4087,55 +3415,6 @@
                 },
                 "type": "object"
             },
-            "configuration.log": {
-                "properties": {
-                    "console_handler": {
-                        "description": "TODO(Rquired description): console_handler",
-                        "label": "console_handler",
-                        "$ref": "#/components/schemas/emqx_conf_schema.console_handler"
-                    },
-                    "file_handlers": {
-                        "description": "TODO(Rquired description): file_handlers",
-                        "label": "file_handlers",
-                        "properties": {
-                            "$name": {
-                                "$ref": "#/components/schemas/emqx_conf_schema.log_file_handler"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "error_logger": {
-                        "default": "silent",
-                        "description": "TODO(Rquired description): error_logger",
-                        "label": "error_logger",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "prometheus.prometheus": {
-                "properties": {
-                    "push_gateway_server": {
-                        "default": "http://127.0.0.1:9091",
-                        "description": "TODO(Rquired description): push_gateway_server",
-                        "label": "push_gateway_server",
-                        "type": "string"
-                    },
-                    "interval": {
-                        "default": "15s",
-                        "description": "TODO(Rquired description): interval",
-                        "label": "interval",
-                        "type": "duration"
-                    },
-                    "enable": {
-                        "default": false,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
             "authn-hash.bcrypt": {
                 "properties": {
                     "name": {
@@ -4145,23 +3424,6 @@
                             "bcrypt"
                         ],
                         "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_schema.conn_congestion": {
-                "properties": {
-                    "enable_alarm": {
-                        "default": false,
-                        "description": "TODO(Rquired description): enable_alarm",
-                        "label": "enable_alarm",
-                        "type": "boolean"
-                    },
-                    "min_alarm_sustain_duration": {
-                        "default": "1m",
-                        "description": "TODO(Rquired description): min_alarm_sustain_duration",
-                        "label": "min_alarm_sustain_duration",
-                        "type": "duration"
                     }
                 },
                 "type": "object"
@@ -4342,17 +3604,6 @@
                 },
                 "type": "object"
             },
-            "modules.telemetry": {
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "TODO(Rquired description): enable",
-                        "label": "enable",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
             "emqx_schema.mqtt_tcp_listener": {
                 "required": [
                     "bind"
@@ -4498,38 +3749,6 @@
             },
             "emqx_schema.broker": {
                 "properties": {
-                    "sys_msg_interval": {
-                        "default": "1m",
-                        "description": "TODO(Rquired description): sys_msg_interval",
-                        "label": "sys_msg_interval",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "sys_heartbeat_interval": {
-                        "default": "30s",
-                        "description": "TODO(Rquired description): sys_heartbeat_interval",
-                        "label": "sys_heartbeat_interval",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
                     "enable_session_registry": {
                         "default": true,
                         "description": "TODO(Rquired description): enable_session_registry",
@@ -4716,7 +3935,7 @@
                         "type": "boolean"
                     },
                     "strict_mode": {
-                        "description": "Parse the MQTT frame in strict mode.",
+                        "description": "Parse MQTT messages in strict mode. When set to true, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected",
                         "label": "strict_mode",
                         "type": "boolean"
                     },
@@ -4966,6 +4185,11 @@
                         "description": "TODO(Rquired description): message_routing",
                         "label": "message_routing",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
+                    },
+                    "shared": {
+                        "description": "TODO(Rquired description): shared",
+                        "label": "shared",
+                        "$ref": "#/components/schemas/limiter.shared_limiter_opts"
                     }
                 },
                 "type": "object"
@@ -5191,53 +4415,6 @@
                 },
                 "type": "object"
             },
-            "modules.event_message": {
-                "properties": {
-                    "client_connected": {
-                        "default": false,
-                        "description": "Enable/disable client_connected event messages",
-                        "label": "client_connected",
-                        "type": "boolean"
-                    },
-                    "client_disconnected": {
-                        "default": false,
-                        "description": "Enable/disable client_disconnected event messages",
-                        "label": "client_disconnected",
-                        "type": "boolean"
-                    },
-                    "client_subscribed": {
-                        "default": false,
-                        "description": "Enable/disable client_subscribed event messages",
-                        "label": "client_subscribed",
-                        "type": "boolean"
-                    },
-                    "client_unsubscribed": {
-                        "default": false,
-                        "description": "Enable/disable client_unsubscribed event messages",
-                        "label": "client_unsubscribed",
-                        "type": "boolean"
-                    },
-                    "message_delivered": {
-                        "default": false,
-                        "description": "Enable/disable message_delivered event messages",
-                        "label": "message_delivered",
-                        "type": "boolean"
-                    },
-                    "message_acked": {
-                        "default": false,
-                        "description": "Enable/disable message_acked event messages",
-                        "label": "message_acked",
-                        "type": "boolean"
-                    },
-                    "message_dropped": {
-                        "default": false,
-                        "description": "Enable/disable message_dropped event messages",
-                        "label": "message_dropped",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
             "limiter.limiter_opts": {
                 "properties": {
                     "global": {
@@ -5283,6 +4460,77 @@
                         "maximum": 2048,
                         "minimum": 1,
                         "type": "number"
+                    }
+                },
+                "type": "object"
+            },
+            "emqx_schema.event_names": {
+                "properties": {
+                    "client_connected": {
+                        "default": true,
+                        "description": "TODO(Rquired description): client_connected",
+                        "label": "client_connected",
+                        "type": "boolean"
+                    },
+                    "client_disconnected": {
+                        "default": true,
+                        "description": "TODO(Rquired description): client_disconnected",
+                        "label": "client_disconnected",
+                        "type": "boolean"
+                    },
+                    "client_subscribed": {
+                        "default": false,
+                        "description": "TODO(Rquired description): client_subscribed",
+                        "label": "client_subscribed",
+                        "type": "boolean"
+                    },
+                    "client_unsubscribed": {
+                        "default": false,
+                        "description": "TODO(Rquired description): client_unsubscribed",
+                        "label": "client_unsubscribed",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "emqx_schema.sys_topics": {
+                "properties": {
+                    "sys_msg_interval": {
+                        "default": "1m",
+                        "description": "TODO(Rquired description): sys_msg_interval",
+                        "label": "sys_msg_interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "disabled"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "sys_heartbeat_interval": {
+                        "default": "30s",
+                        "description": "TODO(Rquired description): sys_heartbeat_interval",
+                        "label": "sys_heartbeat_interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "disabled"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "sys_event_messages": {
+                        "description": "Whether to enable Client lifecycle event messages publish.<br/>\nThe following options are not only for enabling MQTT client event messages\npublish but also for Gateway clients. However, these kinds of clients type\nare distinguished by the Topic prefix:\n- For the MQTT client, its event topic format is:<br/>\n  <code>$SYS/broker/<node>/clients/<clientid>/<event></code><br/>\n- For the Gateway client, it is\n  <code>$SYS/broker/<node>/gateway/<gateway-name>/clients/<clientid>/<event></code>",
+                        "label": "sys_event_messages",
+                        "$ref": "#/components/schemas/emqx_schema.event_names"
                     }
                 },
                 "type": "object"
@@ -5412,48 +4660,102 @@
                 },
                 "type": "object"
             },
-            "auto_subscribe.topic": {
+            "emqx_conf_schema.node": {
+                "required": [
+                    "data_dir"
+                ],
                 "properties": {
-                    "topic": {
-                        "description": "TODO(Rquired description): topic",
-                        "example": "/clientid/${clientid}/username/${username}/host/${host}/port/${port}",
-                        "label": "topic",
+                    "name": {
+                        "default": "emqx@127.0.0.1",
+                        "description": "Unique name of the EMQX node. It must follow <code>%name%@FQDN</code> or\n <code>%name%@IP</code> format.",
+                        "label": "name",
                         "type": "string"
                     },
-                    "qos": {
-                        "default": 0,
-                        "description": "TODO(Rquired description): qos",
-                        "label": "qos",
-                        "symbols": [
-                            0,
-                            1,
-                            2
-                        ],
-                        "type": "enum"
+                    "cookie": {
+                        "default": "emqxsecretcookie",
+                        "description": "Secret cookie is a random string that should be the same on all nodes in\n the given EMQX cluster, but unique per EMQX cluster. It is used to prevent EMQX nodes that\n belong to different clusters from accidentally connecting to each other.",
+                        "label": "cookie",
+                        "type": "string"
                     },
-                    "rh": {
-                        "default": 0,
-                        "description": "TODO(Rquired description): rh",
-                        "label": "rh",
-                        "maximum": 2,
-                        "minimum": 0,
+                    "data_dir": {
+                        "description": "\nPath to the persistent data directory.\nPossible auto-created sub-directories are:\n  - `mnesia/<node_name>`: EMQX's built-in database directory.\n    For example, `mnesia/emqx@127.0.0.1`.\n    There should be only one such sub directory.\n    Meaning, in case the node is to be renamed (to e.g. `emqx@10.0.1.1`),\n    the old dir should be deleted first.\n  - `configs`: Generated configs at boot time, and cluster/local override configs.\n  - `patches`: Hot-patch beam files are to be placed here.\n  - `trace`: Trace log files.\n\n**NOTE**: One data dir cannot be shared by two or more EMQX nodes.\n",
+                        "label": "data_dir",
+                        "type": "string"
+                    },
+                    "config_files": {
+                        "description": "List of configuration files that are read during startup. The order is\n significant: later configuration files override the previous ones.",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "config_files",
+                        "type": "array"
+                    },
+                    "global_gc_interval": {
+                        "default": "15m",
+                        "description": "Periodic garbage collection interval.",
+                        "label": "global_gc_interval",
+                        "type": "duration"
+                    },
+                    "crash_dump_file": {
+                        "description": "Location of the crash dump file",
+                        "label": "crash_dump_file",
+                        "type": "string"
+                    },
+                    "crash_dump_seconds": {
+                        "default": "30s",
+                        "description": "The number of seconds that the broker is allowed to spend writing\na crash dump",
+                        "label": "crash_dump_seconds",
+                        "type": "duration"
+                    },
+                    "crash_dump_bytes": {
+                        "default": "100MB",
+                        "description": "The maximum size of a crash dump file in bytes.",
+                        "label": "crash_dump_bytes",
+                        "type": "byteSize"
+                    },
+                    "dist_net_ticktime": {
+                        "default": "2m",
+                        "description": "This is the approximate time an EMQX node may be unresponsive until it is considered down and thereby disconnected.",
+                        "label": "dist_net_ticktime",
+                        "type": "duration"
+                    },
+                    "dist_listen_min": {
+                        "default": 6369,
+                        "description": "Lower bound for the port range where EMQX broker listens for peer connections.",
+                        "label": "dist_listen_min",
+                        "maximum": 65535,
+                        "minimum": 1024,
                         "type": "number"
                     },
-                    "rap": {
-                        "default": 0,
-                        "description": "TODO(Rquired description): rap",
-                        "label": "rap",
-                        "maximum": 1,
-                        "minimum": 0,
+                    "dist_listen_max": {
+                        "default": 6369,
+                        "description": "Upper bound for the port range where EMQX broker listens for peer connections.",
+                        "label": "dist_listen_max",
+                        "maximum": 65535,
+                        "minimum": 1024,
                         "type": "number"
                     },
-                    "nl": {
-                        "default": 0,
-                        "description": "TODO(Rquired description): nl",
-                        "label": "nl",
-                        "maximum": 1,
-                        "minimum": 0,
+                    "backtrace_depth": {
+                        "default": 23,
+                        "description": "Maximum depth of the call stack printed in error messages and\n <code>process_info</code>.",
+                        "label": "backtrace_depth",
                         "type": "number"
+                    },
+                    "applications": {
+                        "default": "",
+                        "description": "List of Erlang applications that shall be rebooted when the EMQX broker joins\n the cluster.",
+                        "label": "applications",
+                        "type": "comma_separated_string"
+                    },
+                    "etc_dir": {
+                        "description": "<code>etc</code> dir for the node",
+                        "label": "etc_dir",
+                        "type": "string"
+                    },
+                    "cluster_call": {
+                        "description": "TODO(Rquired description): cluster_call",
+                        "label": "cluster_call",
+                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_call"
                     }
                 },
                 "type": "object"
@@ -6066,60 +5368,35 @@
                         },
                         "type": "object"
                     },
-                    "mqtt": {
-                        "description": "Global MQTT configuration.<br>\nThe configs here work as default values which can be overridden\nin <code>zone</code> configs",
-                        "label": "mqtt",
-                        "$ref": "#/components/schemas/emqx_schema.mqtt"
-                    },
                     "node": {
                         "description": "Node name, cookie, config & data directories and the Erlang virtual machine (BEAM) boot parameters.",
                         "label": "node",
-                        "$ref": "#/components/schemas/configuration.node"
+                        "$ref": "#/components/schemas/emqx_conf_schema.node"
                     },
                     "cluster": {
                         "description": "EMQX nodes can form a cluster to scale up the total capacity.<br>Here holds the configs to instruct how individual nodes can discover each other.",
                         "label": "cluster",
-                        "$ref": "#/components/schemas/configuration.cluster"
+                        "$ref": "#/components/schemas/emqx_conf_schema.cluster"
                     },
                     "log": {
                         "description": "Configure logging backends (to console or to file), and logging level for each logger backend.",
                         "label": "log",
-                        "$ref": "#/components/schemas/configuration.log"
+                        "$ref": "#/components/schemas/emqx_conf_schema.log"
                     },
                     "broker": {
                         "description": "TODO(Rquired description): broker",
                         "label": "broker",
                         "$ref": "#/components/schemas/emqx_schema.broker"
                     },
+                    "sys_topics": {
+                        "description": "TODO(Rquired description): sys_topics",
+                        "label": "sys_topics",
+                        "$ref": "#/components/schemas/emqx_schema.sys_topics"
+                    },
                     "rate_limit": {
                         "description": "TODO(Rquired description): rate_limit",
                         "label": "rate_limit",
                         "$ref": "#/components/schemas/emqx_schema.rate_limit"
-                    },
-                    "force_shutdown": {
-                        "description": "TODO(Rquired description): force_shutdown",
-                        "label": "force_shutdown",
-                        "$ref": "#/components/schemas/emqx_schema.force_shutdown"
-                    },
-                    "overload_protection": {
-                        "description": "TODO(Rquired description): overload_protection",
-                        "label": "overload_protection",
-                        "$ref": "#/components/schemas/emqx_schema.overload_protection"
-                    },
-                    "force_gc": {
-                        "description": "Force the MQTT connection process garbage collection after\nthis number of messages or bytes have passed through.",
-                        "label": "force_gc",
-                        "$ref": "#/components/schemas/emqx_schema.force_gc"
-                    },
-                    "conn_congestion": {
-                        "description": "TODO(Rquired description): conn_congestion",
-                        "label": "conn_congestion",
-                        "$ref": "#/components/schemas/emqx_schema.conn_congestion"
-                    },
-                    "stats": {
-                        "description": "TODO(Rquired description): stats",
-                        "label": "stats",
-                        "$ref": "#/components/schemas/emqx_schema.stats"
                     },
                     "sysmon": {
                         "description": "TODO(Rquired description): sysmon",
@@ -6131,11 +5408,6 @@
                         "label": "alarm",
                         "$ref": "#/components/schemas/emqx_schema.alarm"
                     },
-                    "flapping_detect": {
-                        "description": "TODO(Rquired description): flapping_detect",
-                        "label": "flapping_detect",
-                        "$ref": "#/components/schemas/emqx_schema.flapping_detect"
-                    },
                     "persistent_session_store": {
                         "description": "TODO(Rquired description): persistent_session_store",
                         "label": "persistent_session_store",
@@ -6146,61 +5418,10 @@
                         "label": "trace",
                         "$ref": "#/components/schemas/emqx_schema.trace"
                     },
-                    "retainer": {
-                        "description": "TODO(Rquired description): retainer",
-                        "label": "retainer",
-                        "$ref": "#/components/schemas/retainer.retainer"
-                    },
-                    "statsd": {
-                        "description": "TODO(Rquired description): statsd",
-                        "label": "statsd",
-                        "$ref": "#/components/schemas/statsd.statsd"
-                    },
-                    "auto_subscribe": {
-                        "description": "TODO(Rquired description): auto_subscribe",
-                        "label": "auto_subscribe",
-                        "$ref": "#/components/schemas/auto_subscribe.auto_subscribe"
-                    },
-                    "delayed": {
-                        "description": "TODO(Rquired description): delayed",
-                        "label": "delayed",
-                        "$ref": "#/components/schemas/modules.delayed"
-                    },
-                    "telemetry": {
-                        "description": "TODO(Rquired description): telemetry",
-                        "label": "telemetry",
-                        "$ref": "#/components/schemas/modules.telemetry"
-                    },
-                    "event_message": {
-                        "description": "TODO(Rquired description): event_message",
-                        "label": "event_message",
-                        "$ref": "#/components/schemas/modules.event_message"
-                    },
-                    "rewrite": {
-                        "description": "TODO(Rquired description): rewrite",
-                        "items": {
-                            "$ref": "#/components/schemas/modules.rewrite"
-                        },
-                        "label": "rewrite",
-                        "type": "array"
-                    },
-                    "topic_metrics": {
-                        "description": "TODO(Rquired description): topic_metrics",
-                        "items": {
-                            "$ref": "#/components/schemas/modules.topic_metrics"
-                        },
-                        "label": "topic_metrics",
-                        "type": "array"
-                    },
                     "dashboard": {
                         "description": "TODO(Rquired description): dashboard",
                         "label": "dashboard",
                         "$ref": "#/components/schemas/dashboard.dashboard"
-                    },
-                    "prometheus": {
-                        "description": "TODO(Rquired description): prometheus",
-                        "label": "prometheus",
-                        "$ref": "#/components/schemas/prometheus.prometheus"
                     },
                     "limiter": {
                         "description": "TODO(Rquired description): limiter",
@@ -6219,14 +5440,6 @@
                 "$ref": "#/components/schemas/emqx_schema.alarm"
             }
         },
-        "/configs/auto_subscribe": {
-            "get": {
-                "$ref": "#/components/schemas/auto_subscribe.auto_subscribe"
-            },
-            "put": {
-                "$ref": "#/components/schemas/auto_subscribe.auto_subscribe"
-            }
-        },
         "/configs/broker": {
             "get": {
                 "$ref": "#/components/schemas/emqx_schema.broker"
@@ -6237,18 +5450,10 @@
         },
         "/configs/cluster": {
             "get": {
-                "$ref": "#/components/schemas/configuration.cluster"
+                "$ref": "#/components/schemas/emqx_conf_schema.cluster"
             },
             "put": {
-                "$ref": "#/components/schemas/configuration.cluster"
-            }
-        },
-        "/configs/conn_congestion": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_schema.conn_congestion"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_schema.conn_congestion"
+                "$ref": "#/components/schemas/emqx_conf_schema.cluster"
             }
         },
         "/configs/dashboard": {
@@ -6259,44 +5464,86 @@
                 "$ref": "#/components/schemas/dashboard.dashboard"
             }
         },
-        "/configs/delayed": {
+        "/configs/global_zone": {
             "get": {
-                "$ref": "#/components/schemas/modules.delayed"
+                "properties": {
+                    "mqtt": {
+                        "description": "TODO(Rquired description): mqtt",
+                        "label": "mqtt",
+                        "$ref": "#/components/schemas/zone.mqtt"
+                    },
+                    "stats": {
+                        "description": "TODO(Rquired description): stats",
+                        "label": "stats",
+                        "$ref": "#/components/schemas/zone.stats"
+                    },
+                    "flapping_detect": {
+                        "description": "TODO(Rquired description): flapping_detect",
+                        "label": "flapping_detect",
+                        "$ref": "#/components/schemas/zone.flapping_detect"
+                    },
+                    "force_shutdown": {
+                        "description": "TODO(Rquired description): force_shutdown",
+                        "label": "force_shutdown",
+                        "$ref": "#/components/schemas/zone.force_shutdown"
+                    },
+                    "conn_congestion": {
+                        "description": "TODO(Rquired description): conn_congestion",
+                        "label": "conn_congestion",
+                        "$ref": "#/components/schemas/zone.conn_congestion"
+                    },
+                    "force_gc": {
+                        "description": "TODO(Rquired description): force_gc",
+                        "label": "force_gc",
+                        "$ref": "#/components/schemas/zone.force_gc"
+                    },
+                    "overload_protection": {
+                        "description": "TODO(Rquired description): overload_protection",
+                        "label": "overload_protection",
+                        "$ref": "#/components/schemas/zone.overload_protection"
+                    }
+                },
+                "type": "object"
             },
             "put": {
-                "$ref": "#/components/schemas/modules.delayed"
-            }
-        },
-        "/configs/event_message": {
-            "get": {
-                "$ref": "#/components/schemas/modules.event_message"
-            },
-            "put": {
-                "$ref": "#/components/schemas/modules.event_message"
-            }
-        },
-        "/configs/flapping_detect": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_schema.flapping_detect"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_schema.flapping_detect"
-            }
-        },
-        "/configs/force_gc": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_schema.force_gc"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_schema.force_gc"
-            }
-        },
-        "/configs/force_shutdown": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_schema.force_shutdown"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_schema.force_shutdown"
+                "properties": {
+                    "mqtt": {
+                        "description": "TODO(Rquired description): mqtt",
+                        "label": "mqtt",
+                        "$ref": "#/components/schemas/zone.mqtt"
+                    },
+                    "stats": {
+                        "description": "TODO(Rquired description): stats",
+                        "label": "stats",
+                        "$ref": "#/components/schemas/zone.stats"
+                    },
+                    "flapping_detect": {
+                        "description": "TODO(Rquired description): flapping_detect",
+                        "label": "flapping_detect",
+                        "$ref": "#/components/schemas/zone.flapping_detect"
+                    },
+                    "force_shutdown": {
+                        "description": "TODO(Rquired description): force_shutdown",
+                        "label": "force_shutdown",
+                        "$ref": "#/components/schemas/zone.force_shutdown"
+                    },
+                    "conn_congestion": {
+                        "description": "TODO(Rquired description): conn_congestion",
+                        "label": "conn_congestion",
+                        "$ref": "#/components/schemas/zone.conn_congestion"
+                    },
+                    "force_gc": {
+                        "description": "TODO(Rquired description): force_gc",
+                        "label": "force_gc",
+                        "$ref": "#/components/schemas/zone.force_gc"
+                    },
+                    "overload_protection": {
+                        "description": "TODO(Rquired description): overload_protection",
+                        "label": "overload_protection",
+                        "$ref": "#/components/schemas/zone.overload_protection"
+                    }
+                },
+                "type": "object"
             }
         },
         "/configs/limiter": {
@@ -6317,34 +5564,18 @@
         },
         "/configs/log": {
             "get": {
-                "$ref": "#/components/schemas/configuration.log"
+                "$ref": "#/components/schemas/emqx_conf_schema.log"
             },
             "put": {
-                "$ref": "#/components/schemas/configuration.log"
-            }
-        },
-        "/configs/mqtt": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_schema.mqtt"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_schema.mqtt"
+                "$ref": "#/components/schemas/emqx_conf_schema.log"
             }
         },
         "/configs/node": {
             "get": {
-                "$ref": "#/components/schemas/configuration.node"
+                "$ref": "#/components/schemas/emqx_conf_schema.node"
             },
             "put": {
-                "$ref": "#/components/schemas/configuration.node"
-            }
-        },
-        "/configs/overload_protection": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_schema.overload_protection"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_schema.overload_protection"
+                "$ref": "#/components/schemas/emqx_conf_schema.node"
             }
         },
         "/configs/persistent_session_store": {
@@ -6355,14 +5586,6 @@
                 "$ref": "#/components/schemas/emqx_schema.persistent_session_store"
             }
         },
-        "/configs/prometheus": {
-            "get": {
-                "$ref": "#/components/schemas/prometheus.prometheus"
-            },
-            "put": {
-                "$ref": "#/components/schemas/prometheus.prometheus"
-            }
-        },
         "/configs/rate_limit": {
             "get": {
                 "$ref": "#/components/schemas/emqx_schema.rate_limit"
@@ -6371,42 +5594,12 @@
                 "$ref": "#/components/schemas/emqx_schema.rate_limit"
             }
         },
-        "/configs/retainer": {
+        "/configs/sys_topics": {
             "get": {
-                "$ref": "#/components/schemas/retainer.retainer"
+                "$ref": "#/components/schemas/emqx_schema.sys_topics"
             },
             "put": {
-                "$ref": "#/components/schemas/retainer.retainer"
-            }
-        },
-        "/configs/rewrite": {
-            "get": {
-                "items": {
-                    "$ref": "#/components/schemas/modules.rewrite"
-                },
-                "type": "array"
-            },
-            "put": {
-                "items": {
-                    "$ref": "#/components/schemas/modules.rewrite"
-                },
-                "type": "array"
-            }
-        },
-        "/configs/stats": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_schema.stats"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_schema.stats"
-            }
-        },
-        "/configs/statsd": {
-            "get": {
-                "$ref": "#/components/schemas/statsd.statsd"
-            },
-            "put": {
-                "$ref": "#/components/schemas/statsd.statsd"
+                "$ref": "#/components/schemas/emqx_schema.sys_topics"
             }
         },
         "/configs/sysmon": {
@@ -6415,28 +5608,6 @@
             },
             "put": {
                 "$ref": "#/components/schemas/emqx_schema.sysmon"
-            }
-        },
-        "/configs/telemetry": {
-            "get": {
-                "$ref": "#/components/schemas/modules.telemetry"
-            },
-            "put": {
-                "$ref": "#/components/schemas/modules.telemetry"
-            }
-        },
-        "/configs/topic_metrics": {
-            "get": {
-                "items": {
-                    "$ref": "#/components/schemas/modules.topic_metrics"
-                },
-                "type": "array"
-            },
-            "put": {
-                "items": {
-                    "$ref": "#/components/schemas/modules.topic_metrics"
-                },
-                "type": "array"
             }
         },
         "/configs/trace": {
