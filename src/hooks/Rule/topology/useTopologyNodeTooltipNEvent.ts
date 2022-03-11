@@ -142,25 +142,21 @@ export default () => {
     return container
   }
 
-  const createRepublishNodeTooltip = (ruleID: string) => {
-    const targetRule = ruleList.find(({ id }) => id === ruleID)
-
-    if (!targetRule) {
+  /**
+   *
+   * @param ruleIDConcatTopic {ruleID}:{Topic}
+   */
+  const createRepublishNodeTooltip = (ruleIDConcatTopic: string) => {
+    const reg = new RegExp(`^${ruleList.map(({ id }) => id).join('|')}:(.+)`)
+    const matchResult = ruleIDConcatTopic.match(reg)
+    if (!matchResult || matchResult.length < 2) {
       return ''
     }
+    const [totalStr, topicStr] = matchResult
     const container = createContainerEle()
-    let topic = ''
-    if (Array.isArray(targetRule.outputs)) {
-      const targetOutput = targetRule.outputs.find((outputItem) => {
-        return typeof outputItem === 'object' && outputItem.function === RuleOutput.Republish
-      })
-      topic = targetOutput ? (targetOutput as OutputItemObj).args?.topic || '' : ''
-    } else if (typeof targetRule.outputs === 'object') {
-      topic = (targetRule.outputs as OutputItemObj).args?.topic || ''
-    }
     container.innerHTML = `
     <ul>
-      ${createMsgListHTMLStr([{ value: topic, label: 'Topic' }])}
+      ${createMsgListHTMLStr([{ value: topicStr, label: 'Topic' }])}
     </ul>
     `
     return container
