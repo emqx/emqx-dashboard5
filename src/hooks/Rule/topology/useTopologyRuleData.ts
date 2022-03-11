@@ -1,6 +1,6 @@
 import { getRules } from '@/api/ruleengine'
 import { RuleOutput } from '@/types/enum'
-import { OutputItem, RuleItem } from '@/types/rule'
+import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
@@ -37,15 +37,27 @@ export default () => {
     }
   }
 
+  const getTargetStrInNodeId = (outputData: OutputItem, ruleID: string) => {
+    const outputType = judgeOutputType(outputData)
+
+    const isConsole = outputType === RuleOutput.Console
+    const isRepublish = outputType === RuleOutput.Republish
+    // When output is console or republish, nodes need to be created separately for each rule.
+    if (isConsole) {
+      return ruleID
+    }
+    if (isRepublish) {
+      return `${ruleID}:${(outputData as OutputItemObj)?.args?.topic}`
+    }
+    return outputData
+  }
+
   const createOutputNodeNRule2OutputEdge = (
     outputData: OutputItem,
     ruleID: string,
   ): { node: NodeItem; edge: EdgeItem } => {
     const outputType = judgeOutputType(outputData)
-    const isConsoleOrRepublish =
-      outputType === RuleOutput.Console || outputType === RuleOutput.Republish
-    // When output is console or republish, nodes need to be created separately for each rule.
-    const target = isConsoleOrRepublish ? ruleID : outputData
+    const target = getTargetStrInNodeId(outputData, ruleID)
     const outputNodeLabel = typeof outputData === 'object' ? outputData?.function || '' : outputData
     const toNode = createNodeId(target as string, outputType)
     let node: NodeItem = {

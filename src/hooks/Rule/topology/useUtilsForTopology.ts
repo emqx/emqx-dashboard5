@@ -9,7 +9,8 @@ export default () => {
   Node Id Format:
   bridge, event, rule, topic: {randomStr}-{type:bridge | event | rule | topic}-{id|name}]
   Because except for these two, other identical nodes must be merged
-  console, republish: {randomStr}-{type:console | republish}-{ruleID}]
+  console:  {randomStr}-{type:console | republish}-{ruleID}]
+  republish: {randomStr}-{type:console | republish}-{ruleID}:{republish topic}]
  */
   // When output is console or republish, nodes need to be created separately for each rule.
 
