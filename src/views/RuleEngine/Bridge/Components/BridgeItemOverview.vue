@@ -3,11 +3,11 @@
     <el-card shadow="never" class="app-card detail-sub-card">
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
-        <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
+        <!-- <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
           <el-icon @click="resetStatistics"><refresh-left /></el-icon>
-        </el-tooltip>
+        </el-tooltip> -->
       </div>
-      <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p>
+      <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic">
         <el-col :span="6">
           <p class="statistic-label">{{ tl('success') }}</p>
@@ -38,17 +38,15 @@
         <el-table-column prop="metrics.rate" :label="tl('speedNow')" />
         <el-table-column :label="tl('status')">
           <template #default="{ row }">
-            <span
-              class="text-status"
-              :class="row.status === BridgeStatus.Connected ? 'success' : 'danger'"
-            >
+            <span class="text-status" :class="getStatusClass(row.status)">
               {{ getLabelByStatusValue(row.status) }}
             </span>
             <el-button
               size="mini"
               type="primary"
               v-if="row.status === BridgeStatus.Disconnected"
-              @click="reconnect"
+              @click="reconnect(row)"
+              :loading="nodeConnectingStatusMap[row.node]"
             >
               {{ tl('reconnect') }}
             </el-button>
@@ -68,13 +66,14 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, defineEmits, computed, ComputedRef } from 'vue'
+import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RefreshLeft } from '@element-plus/icons-vue'
 import { BridgeStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
 import { formatNumber } from '@/common/tools'
 import useBridgeItemStatus from '@/hooks/Rule/bridge/useBridgeItemStatus'
+import { reconnectBridgeForNode } from '@/api/ruleengine'
 
 const props = defineProps({
   bridgeMsg: {
@@ -84,7 +83,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['reset', 'reconnect'])
-const { getStatusLabel: getLabelByStatusValue } = useBridgeItemStatus()
+const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useBridgeItemStatus()
+
+const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
 
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
   const nodeStatusData = props.bridgeMsg?.node_status
@@ -116,10 +117,23 @@ const resetStatistics = async () => {
   emit('reset')
 }
 
-const reconnect = () => {
-  // TODO:
+const setNodeConnectingStatusMap = () => {
+  nodeConnectingStatusMap.value = props.bridgeMsg.node_status.reduce((obj, nodeStatusItem) => {
+    return {
+      ...obj,
+      [nodeStatusItem.node]: false,
+    }
+  }, {})
+}
+
+const reconnect = async ({ node }: NodeMetrics) => {
+  nodeConnectingStatusMap.value[node] = true
+  await reconnectBridgeForNode(node, props.bridgeMsg.id)
+  nodeConnectingStatusMap.value[node] = false
   emit('reconnect')
 }
+
+watch(() => props.bridgeMsg, setNodeConnectingStatusMap)
 </script>
 
 <style lang="scss" scoped>
