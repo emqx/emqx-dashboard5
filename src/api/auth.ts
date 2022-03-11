@@ -111,7 +111,7 @@ export function updateBuiltInDatabaseData(type: string, key: string, body: { [ke
 }
 
 export function updateAllBuiltInDatabaseData(body = {}) {
-  return http.put('/authorization/sources/built_in_database/all', body)
+  return http.post('/authorization/sources/built_in_database/all', body)
 }
 
 export default {}
