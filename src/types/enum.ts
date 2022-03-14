@@ -47,11 +47,11 @@ export enum BridgeStatus {
 }
 
 // [ top, bottom, before, after ]
-export enum ExhookPosition {
+export enum TargetPosition {
   Top = 'top',
   Bottom = 'bottom',
-  Before = 'before',
-  After = 'after',
+  Before = 'before:',
+  After = 'after:',
 }
 
 export enum ExhookStatus {

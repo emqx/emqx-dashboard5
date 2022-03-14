@@ -33,14 +33,14 @@
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
-        <template #default="{ row }">
+        <template #default="{ row, $index }">
           <table-dropdown
             :row-data="row"
             :table-data-len="authzList.length"
             :position="findIndex(row)"
             @update="handleUpdate"
             @delete="handleDelete"
-            @move="handleMove"
+            @move="handleMove($event, $index)"
             @setting="handleSetting"
           ></table-dropdown>
         </template>
@@ -58,6 +58,8 @@ import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Setting } from '@element-plus/icons-vue'
 import { AuthzSourceItem } from '@/types/auth'
+import useHandleAuthzItem from '@/hooks/Auth/useHandleAuthzItem'
+import useMove from '@/hooks/useMove'
 
 export default defineComponent({
   name: 'Authz',
@@ -84,12 +86,15 @@ export default defineComponent({
       }
       lockTable.value = false
     }
+
     loadData()
+
     const handleUpdate = async (row: AuthzSourceItem) => {
       const { img, ...data } = row
       await updateAuthz(row.type, data)
       loadData()
     }
+
     const handleDelete = async function ({ type }: AuthzSourceItem) {
       MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
@@ -102,19 +107,32 @@ export default defineComponent({
         })
         .catch(() => {})
     }
-    const handleMove = async function ({ type }: AuthzSourceItem, position: string) {
-      const data = {
-        position,
-      }
-      await moveAuthz(type, data)
-      loadData()
+
+    const { moveAuthzBeforeAnotherAuthz, moveAuthzToTop, moveAuthzToBottom } = useHandleAuthzItem()
+
+    const { handleDragEvent } = useMove(
+      {
+        moveToBottom: moveAuthzToBottom,
+        moveToTop: moveAuthzToTop,
+        moveBeforeAnotherTarget: moveAuthzBeforeAnotherAuthz,
+      },
+      undefined,
+      loadData,
+    )
+
+    const handleMove = async function (direction: string, oldIndex: number) {
+      const newIndex = direction === 'up' ? oldIndex - 1 : oldIndex + 1
+      handleDragEvent(newIndex, oldIndex, authzList.value)
     }
+
     const handleSetting = function ({ type }: AuthzSourceItem) {
       router.push({ path: `/authorization/detail/${type}` })
     }
+
     const findIndex = (row: AuthzSourceItem) => {
       return authzList.value.findIndex((item) => item.type === row.type)
     }
+
     return {
       Plus,
       Setting,

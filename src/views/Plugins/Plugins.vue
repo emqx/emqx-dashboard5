@@ -101,6 +101,7 @@ import usePaging, { FilterItem } from '@/hooks/usePaging'
 import { queryPlugins } from '@/api/plugins'
 import { SortableEvent } from 'sortablejs'
 import useSortableTable from '@/hooks/useSortableTable'
+import useMove from '@/hooks/useMove'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -184,29 +185,9 @@ const goInstall = () => {
   router.push({ name: 'plugin-install' })
 }
 
-const handleOrderChanged = async (evt: SortableEvent) => {
-  const { newIndex, oldIndex } = evt
-  if (newIndex === undefined || oldIndex === undefined) {
-    return
-  }
-  const targetPlugin = pluginListToShow.value[oldIndex]
-  const isTheLast = evt.newIndex === pluginListToShow.value.length - 1
-  const isDown = newIndex - oldIndex > 0
-  const relatedPlugin = pluginListToShow.value[isDown ? newIndex + 1 : newIndex]
-  try {
-    if (isTheLast) {
-      await movePluginAfterAnotherPlugin(targetPlugin, pluginListToShow.value[newIndex])
-    } else {
-      await movePluginBeforeAnotherPlugin(targetPlugin, relatedPlugin)
-    }
-  } catch (error) {
-    setTotalData([])
-    console.error(error)
-  } finally {
-    queryListData()
-  }
+const emptyTotalData = () => {
+  setTotalData([])
 }
-const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 
 const queryListData = async () => {
   try {
@@ -226,7 +207,6 @@ const moveToTop = async (plugin: PluginItem) => {
   try {
     await movePluginToTop(plugin)
   } catch (error) {
-    setTotalData([])
     console.error(error)
   } finally {
     queryListData()
@@ -236,14 +216,31 @@ const moveToTop = async (plugin: PluginItem) => {
 const moveToBottom = async (plugin: PluginItem) => {
   try {
     await movePluginToBottom(plugin)
-    queryListData()
   } catch (error) {
-    setTotalData([])
     console.error(error)
   } finally {
     queryListData()
   }
 }
+
+const { handleDragEvent } = useMove(
+  {
+    moveToBottom: movePluginToBottom,
+    moveToTop: movePluginToTop,
+    moveBeforeAnotherTarget: movePluginBeforeAnotherPlugin,
+  },
+  emptyTotalData,
+  queryListData,
+)
+
+const handleOrderChanged = async (evt: SortableEvent) => {
+  const { newIndex, oldIndex } = evt
+  if (newIndex === undefined || oldIndex === undefined) {
+    return
+  }
+  handleDragEvent(newIndex, oldIndex, pluginListToShow.value)
+}
+const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 
 const detailLink = ({ name, rel_vsn }: PluginItem) => ({
   name: 'plugin-detail',

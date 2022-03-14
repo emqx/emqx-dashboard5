@@ -1,5 +1,4 @@
 import http from '@/common/http'
-import { ExhookPosition } from '@/types/enum'
 import { Exhook, ExhookFormForCreate, RegisteredHook } from '@/types/systemModule'
 import { AxiosResponse } from 'axios'
 
@@ -35,9 +34,6 @@ export const queryExhookRegisteredHooks = (name: string): Promise<Array<Register
   return http.get(`/exhooks/${name}/hooks`)
 }
 
-export const moveExhook = (
-  name: string,
-  position: { position: ExhookPosition; related?: string },
-): Promise<AxiosResponse> => {
-  return http.post(`/exhooks/${name}/move`, position)
+export const moveExhook = (name: string, positionStr: string): Promise<AxiosResponse> => {
+  return http.post(`/exhooks/${name}/move`, { position: positionStr })
 }

@@ -27,7 +27,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
-        <template #default="{ row }">
+        <template #default="{ row, $index }">
           <table-dropdown
             :row-data="row"
             :table-data-len="authnList.length"
@@ -35,7 +35,7 @@
             @update="handleUpdate"
             @delete="handleDelete"
             @setting="handleSetting"
-            @move="handleMove"
+            @move="handleMove($event, $index)"
           ></table-dropdown>
         </template>
       </el-table-column>
@@ -46,12 +46,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import TableDropdown from './components/TableDropdown.vue'
-import { listAuthn, updateAuthn, deleteAuthn, moveAuthn } from '@/api/auth'
+import { listAuthn, updateAuthn, deleteAuthn } from '@/api/auth'
 import { useRouter } from 'vue-router'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
+import useHandleAuthnItem from '@/hooks/Auth/useHandleAuthnItem'
+import useMove from '@/hooks/useMove'
 
 export default defineComponent({
   name: 'Authn',
@@ -106,12 +108,19 @@ export default defineComponent({
     const handleSetting = function ({ id }: AuthnItem) {
       router.push({ path: `/authentication/detail/${id}` })
     }
-    const handleMove = async function ({ id }: AuthnItem, position: string) {
-      const data = {
-        position,
-      }
-      await moveAuthn(id, data)
-      loadData()
+    const { moveAuthnBeforeAnotherAuthn, moveAuthnToTop, moveAuthnToBottom } = useHandleAuthnItem()
+    const { handleDragEvent } = useMove(
+      {
+        moveToBottom: moveAuthnToBottom,
+        moveToTop: moveAuthnToTop,
+        moveBeforeAnotherTarget: moveAuthnBeforeAnotherAuthn,
+      },
+      undefined,
+      loadData,
+    )
+    const handleMove = async function (direction: string, oldIndex: number) {
+      const newIndex = direction === 'up' ? oldIndex - 1 : oldIndex + 1
+      handleDragEvent(newIndex, oldIndex, authnList.value)
     }
     const findIndex = (row: AuthnItem) => {
       return authnList.value.findIndex((item) => {

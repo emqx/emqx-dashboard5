@@ -2,7 +2,6 @@ type EventMap = {
   moveToBottom: (target: any) => Promise<any>
   moveToTop: (target: any) => Promise<any>
   moveBeforeAnotherTarget: (target: any, anotherTarget: any) => Promise<any>
-  moveAfterAnotherTarget: (target: any, anotherTarget: any) => Promise<any>
 }
 
 export default (eventMap: EventMap, errorHandlerFunc?: () => void, finallyAction?: () => void) => {

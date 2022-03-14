@@ -2,7 +2,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { updateExhook, deleteExhook as requestDeleteExhook, moveExhook } from '@/api/exhook'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
-import { ExhookPosition } from '@/types/enum'
+import { TargetPosition } from '@/types/enum'
 
 export default () => {
   const { t } = useI18n()
@@ -50,25 +50,19 @@ export default () => {
   }
 
   const moveExhookToTop = (exhookItem: Exhook) => {
-    return moveExhook(exhookItem.name, { position: ExhookPosition.Top, related: '' })
+    return moveExhook(exhookItem.name, TargetPosition.Top)
   }
 
   const moveExhookToBottom = (exhookItem: Exhook) => {
-    return moveExhook(exhookItem.name, { position: ExhookPosition.Bottom, related: '' })
+    return moveExhook(exhookItem.name, TargetPosition.Bottom)
   }
 
   const moveExhookBeforeAnotherExhook = (exhookItem: Exhook, anotherExhook: Exhook) => {
-    return moveExhook(exhookItem.name, {
-      position: ExhookPosition.Before,
-      related: anotherExhook.name,
-    })
+    return moveExhook(exhookItem.name, `${TargetPosition.Before}${anotherExhook.name}`)
   }
 
   const moveExhookAfterAnotherExhook = (exhookItem: Exhook, anotherExhook: Exhook) => {
-    return moveExhook(exhookItem.name, {
-      position: ExhookPosition.After,
-      related: anotherExhook.name,
-    })
+    return moveExhook(exhookItem.name, `${TargetPosition.After}${anotherExhook.name}`)
   }
 
   return {

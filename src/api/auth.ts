@@ -41,8 +41,10 @@ export function loadAuthz(type: string) {
   return http.get(`/authorization/sources/${encodeURIComponent(type)}`)
 }
 
-export function moveAuthz(type: string, body = {}) {
-  return http.post(`/authorization/sources/${encodeURIComponent(type)}/move`, body)
+export function moveAuthz(type: string, positionStr: string) {
+  return http.post(`/authorization/sources/${encodeURIComponent(type)}/move`, {
+    position: positionStr,
+  })
 }
 
 export function createAuthn(body = {}) {
@@ -85,8 +87,8 @@ export function updateAuthnUser(id: string, userId: string, body: { [key: string
   )
 }
 
-export function moveAuthn(id: string, body: { [key: string]: any }) {
-  return http.post(`/authentication/${encodeURIComponent(id)}/move`, body)
+export function moveAuthn(id: string, positionStr: string) {
+  return http.post(`/authentication/${encodeURIComponent(id)}/move`, { position: positionStr })
 }
 
 export function loadBuiltInDatabaseData(type: string, params = {}) {
