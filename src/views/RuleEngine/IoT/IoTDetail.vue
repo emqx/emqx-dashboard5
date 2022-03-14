@@ -99,12 +99,14 @@ const { tl } = useI18nTl('RuleEngine')
 
 const loadRuleDetail = async () => {
   infoLoading.value = true
-  const res = await getRuleInfo(id).catch(() => {})
-  if (res) {
-    ruleInfo.value = res
+  try {
+    ruleInfo.value = await getRuleInfo(id)
     ++iKey.value
+  } catch (error) {
+    console.error(error)
+  } finally {
+    infoLoading.value = false
   }
-  infoLoading.value = false
 }
 
 const loadRuleEvents = async () => {
@@ -128,16 +130,15 @@ const getIngressBridgeList = async () => {
 
 const enableOrDisableRule = async () => {
   infoLoading.value = true
-
-  const res = await updateRules(id, { enable: !ruleInfo.value.enable }).catch(() => {})
-  if (res) {
-    ElMessage({
-      type: 'success',
-      message: ruleInfo.value.enable ? t('Base.disabledSuccess') : t('Base.enableSuccess'),
-    })
+  try {
+    await updateRules(id, { enable: !ruleInfo.value.enable })
+    ElMessage.success(t(ruleInfo.value.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'))
     ruleInfo.value.enable = !ruleInfo.value.enable
+  } catch (error) {
+    console.error(error)
+  } finally {
+    infoLoading.value = false
   }
-  infoLoading.value = false
 }
 
 const testSQL = async () => {

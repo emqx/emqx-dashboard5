@@ -101,7 +101,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, computed, defineEmits, WritableComputedRef, ref, Ref, PropType } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { testsql } from '@/api/ruleengine'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
@@ -126,7 +125,6 @@ enum InputContextType {
   Form,
 }
 
-const { t } = useI18n()
 const { tl } = useI18nTl('RuleEngine')
 
 const props = defineProps({

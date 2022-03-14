@@ -70,7 +70,6 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { getBridgeList, startStopBridge, deleteBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/ruleengine'
-import _ from 'lodash'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import useBridgeTypeValue, {
@@ -90,48 +89,45 @@ export default defineComponent({
 
     const listBridge = async function () {
       tbLoading.value = true
-      let res = await getBridgeList().catch(() => {})
-      if (res) {
-        bridgeTb.value = res
+      try {
+        bridgeTb.value = await getBridgeList()
+      } catch (error) {
+        console.error(error)
+      } finally {
+        tbLoading.value = false
       }
-      tbLoading.value = false
     }
 
     const enableOrDisableBridge = async (row: BridgeItem) => {
       tbLoading.value = true
       const statusToSend = row.status === 'connected' ? 'stop' : 'start'
       const sucMessage = row.status === 'connected' ? 'Base.disabledSuccess' : 'Base.enableSuccess'
-      let res = await startStopBridge(row.id, statusToSend).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: t(sucMessage),
-        })
+      try {
+        await startStopBridge(row.id, statusToSend)
+        M.success(t(sucMessage))
         listBridge()
+      } catch (error) {
+        console.error(error)
+      } finally {
+        tbLoading.value = false
       }
-      tbLoading.value = false
     }
 
     const submitDeleteBridge = async (id: string) => {
-      MB.confirm(t('Base.confirmDelete'), {
+      await MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
       })
-        .then(async () => {
-          tbLoading.value = true
-
-          const res = await deleteBridge(id).catch(() => {})
-          if (res) {
-            M({
-              type: 'success',
-              message: t('Base.deleteSuccess'),
-            })
-            listBridge()
-            tbLoading.value = false
-          }
-        })
-        .catch(() => {})
+      tbLoading.value = true
+      try {
+        await deleteBridge(id)
+        M.success(t('Base.deleteSuccess'))
+        listBridge()
+        tbLoading.value = false
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     const getBridgeDetailPageRoute = (id: string) => ({

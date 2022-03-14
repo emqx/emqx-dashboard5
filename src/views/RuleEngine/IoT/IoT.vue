@@ -100,26 +100,26 @@ const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
 const getRulesList = async () => {
   iotLoading.value = true
-  let res = await getRules().catch(() => {})
-  if (res) {
-    ruleTable.value = res
+  try {
+    ruleTable.value = await getRules()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    iotLoading.value = false
   }
-  iotLoading.value = false
 }
 
 const startOrStopRule = async (row: RuleItem) => {
   iotLoading.value = true
-  const res = await updateRules(row.id, {
-    enable: !row.enable,
-  }).catch(() => {})
-  if (res) {
-    M({
-      type: 'success',
-      message: row.enable ? t('Base.disabledSuccess') : t('Base.enableSuccess'),
-    })
+  try {
+    await updateRules(row.id, { enable: !row.enable })
+    M.success(t(row.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'))
     getRulesList()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    iotLoading.value = false
   }
-  iotLoading.value = false
 }
 
 const resetRuleItemStatistics = () => {
@@ -132,26 +132,21 @@ const copyRuleItem = () => {
 
 const submitDeleteRules = async ({ id }: RuleItem) => {
   if (!id) return
-  MB.confirm(t('Base.confirmDelete'), {
+  await MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'warning',
   })
-    .then(async () => {
-      iotLoading.value = true
+  iotLoading.value = true
 
-      const res = await deleteRules(id).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: t('Base.deleteSuccess'),
-        })
-        iotLoading.value = false
-
-        getRulesList()
-      }
-    })
-    .catch(() => {})
+  try {
+    await deleteRules(id)
+    M.success(t('Base.deleteSuccess'))
+    iotLoading.value = false
+    getRulesList()
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 onMounted(() => {

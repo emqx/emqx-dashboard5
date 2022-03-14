@@ -167,7 +167,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { defineProps, onMounted, reactive, ref, PropType, watch, defineEmits } from 'vue'
+import { defineProps, onMounted, ref, PropType, watch, defineEmits } from 'vue'
 import { Edit, Plus } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { getConnectorList } from '@/api/ruleengine'
@@ -230,13 +230,13 @@ const initMqttBridgeVal = () => {
 
 const loadConnectorList = async () => {
   connectorLoading.value = true
-  const res = await getConnectorList().catch(() => {})
-  if (res) {
-    connectorList.value = res
-  } else {
-    //todo
+  try {
+    connectorList.value = await getConnectorList()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    connectorLoading.value = false
   }
-  connectorLoading.value = false
 }
 
 const openConnectorDialog = (isEdit: boolean) => {
@@ -253,7 +253,11 @@ const openConnectorDialog = (isEdit: boolean) => {
 
 const finishConnectorDialog = async (success: boolean, data: Record<string, unknown>) => {
   if (success) {
-    await loadConnectorList().catch(() => {})
+    try {
+      await loadConnectorList()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   if (!isDialogForEdit.value) {

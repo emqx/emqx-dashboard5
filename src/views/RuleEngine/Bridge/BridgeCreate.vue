@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, Ref, watch } from 'vue'
+import { computed, defineComponent, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
@@ -147,13 +147,6 @@ export default defineComponent({
       return { name }
     })
 
-    // watch(
-    //   () => [_.cloneDeep(bridgeData.value), _.cloneDeep(tlsParams.value)],
-    //   (val) => {
-    //     console.log(val);
-    //   }
-    // );
-
     const handleTypeSelected = () => {
       const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
       if (!type) {
@@ -183,34 +176,35 @@ export default defineComponent({
     const submitCreateBridge = async () => {
       let res
       submitLoading.value = true
-      switch (chosenBridgeType.value) {
-        case BridgeType.HTTP:
-          res = await createBridge({
-            ...bridgeData.value,
-            ssl: { ...tlsParams.value },
-            type: chosenBridgeType.value,
-          }).catch(() => {})
-          break
-        case BridgeType.MQTT:
-          res = await createBridge({
-            ...bridgeData.value,
-            type: chosenBridgeType.value,
-          }).catch(() => {})
-          break
-      }
 
-      if (res) {
-        M({
-          type: 'success',
-          message: t('Base.createSuccess'),
-        })
+      try {
+        switch (chosenBridgeType.value) {
+          case BridgeType.HTTP:
+            res = await createBridge({
+              ...bridgeData.value,
+              ssl: { ...tlsParams.value },
+              type: chosenBridgeType.value,
+            })
+            break
+          case BridgeType.MQTT:
+            res = await createBridge({
+              ...bridgeData.value,
+              type: chosenBridgeType.value,
+            })
+            break
+        }
+        M.success(t('Base.createSuccess'))
+
         if (!isFromRule.value) {
           router.push({ name: 'data-bridge' })
         } else {
           router.push({ name: route.params.from as string, params: { bridgeId: res.id } })
         }
+      } catch (error) {
+        console.error(error)
+      } finally {
+        submitLoading.value = false
       }
-      submitLoading.value = false
     }
 
     return {

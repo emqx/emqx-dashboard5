@@ -79,10 +79,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, Ref } from 'vue'
+import { defineComponent, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ConnectorMqttConfig from './ConnectorMqttConfig.vue'
-import _ from 'lodash'
 import { createConnector } from '@/api/ruleengine'
 import { useRouter } from 'vue-router'
 import { tlsConfig } from '@/types/ruleengine'
@@ -109,27 +108,20 @@ export default defineComponent({
 
     const submitCreateConnector = async () => {
       submitLoading.value = true
-      let res = await createConnector({
-        ...connectorData.value,
-        type: chosenConnectorType.value,
-        ssl: { ...connectorTLS.value },
-      }).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: t('Base.createSuccess'),
+      try {
+        await createConnector({
+          ...connectorData.value,
+          type: chosenConnectorType.value,
+          ssl: { ...connectorTLS.value },
         })
+        M.success(t('Base.createSuccess'))
+      } catch (error) {
+        console.error(error)
+      } finally {
+        submitLoading.value = false
+        router.push({ name: 'bridge-connector' })
       }
-      submitLoading.value = false
-      router.push({ name: 'bridge-connector' })
     }
-
-    // watch(
-    //   () => [_.cloneDeep(connectorData.value), _.cloneDeep(connectorTLS.value)],
-    //   (val) => {
-    //     console.log(val);
-    //   }
-    // );
 
     return {
       tl: (key: string) => t('RuleEngine.' + key),
