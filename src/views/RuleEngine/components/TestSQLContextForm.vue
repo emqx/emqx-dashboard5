@@ -37,7 +37,7 @@ export default defineComponent({
 </script> -->
 
 <script setup lang="ts">
-import { ref, computed, defineProps, defineEmits, PropType, watch, WritableComputedRef } from 'vue'
+import { ref, computed, defineProps, defineEmits, PropType, WritableComputedRef } from 'vue'
 import Monaco from '@/components/Monaco.vue'
 import StretchHeight from './StretchHeight.vue'
 import { createRandomString } from '@/common/tools'

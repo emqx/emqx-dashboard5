@@ -73,7 +73,6 @@ import { computed, onActivated, onMounted, ref, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getBridgeInfo, updateBridge, startStopBridge } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
-import _ from 'lodash'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
@@ -121,11 +120,13 @@ const backRoute = computed(() => {
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
-  const res = await getBridgeInfo(id).catch(() => {})
-  if (res) {
-    bridgeInfo.value = res
+  try {
+    bridgeInfo.value = await getBridgeInfo(id)
+  } catch (error) {
+    console.error(error)
+  } finally {
+    infoLoading.value = false
   }
-  infoLoading.value = false
 }
 
 const goDoc = () => {
@@ -135,39 +136,34 @@ const goDoc = () => {
 
 const updateBridgeInfo = async () => {
   infoLoading.value = true
-
-  const res = await updateBridge(bridgeInfo.value.id, bridgeInfo.value).catch(() => {})
-  if (res) {
+  try {
+    const res = await updateBridge(bridgeInfo.value.id, bridgeInfo.value)
     if (!isFromRule.value) {
-      ElMessage({ type: 'success', message: t('Base.updateSuccess') })
+      ElMessage.success(t('Base.updateSuccess'))
     } else {
       router.push({ name: route.params.from as string, params: { bridgeId: res.id } })
     }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    infoLoading.value = false
   }
-  infoLoading.value = false
 }
-
-// watch(
-//   () => [_.cloneDeep(bridgeInfo.value)],
-//   (val) => {
-//     console.log(val);
-//   }
-// );
 
 const enableOrDisableBridge = async () => {
   infoLoading.value = true
   const statusToSend = bridgeInfo.value.status === 'connected' ? 'stop' : 'start'
   const sucMessage =
     bridgeInfo.value.status === 'connected' ? 'Base.disabledSuccess' : 'Base.enableSuccess'
-  let res = await startStopBridge(bridgeInfo.value.id, statusToSend).catch(() => {})
-  if (res) {
-    ElMessage({
-      type: 'success',
-      message: t(sucMessage),
-    })
+  try {
+    await startStopBridge(bridgeInfo.value.id, statusToSend)
+    ElMessage.success(t(sucMessage))
     loadBridgeInfo()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    infoLoading.value = false
   }
-  infoLoading.value = false
 }
 
 const setActiveTab = () => {

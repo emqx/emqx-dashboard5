@@ -49,12 +49,6 @@
       </el-row>
       <div class="part-header">Body</div>
       <el-row :gutter="30">
-        <!-- <monaco
-          id="bridge-body"
-          lang="json"
-          v-model:value="httpBridgeVal.body"
-          class="editor"
-        ></monaco> -->
         <el-col :span="24">
           <el-input
             type="textarea"
@@ -116,11 +110,10 @@
 <script lang="ts">
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import { useI18n } from 'vue-i18n'
-import { computed, defineComponent, ref, Ref, reactive, watch, onMounted } from 'vue'
+import { computed, defineComponent, ref, Ref, watch, onMounted } from 'vue'
 import TLSConfig from '../components/TLSConfig.vue'
 // import { tlsConfig } from "@/types/ruleengine";
 import _ from 'lodash'
-import Monaco from '@/components/Monaco.vue'
 import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { HTTPBridge } from '@/types/rule'
 
@@ -133,7 +126,6 @@ export default defineComponent({
   components: {
     KeyAndValueEditor,
     TLSConfig,
-    // Monaco
   },
   name: '',
   props: {

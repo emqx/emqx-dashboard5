@@ -184,26 +184,26 @@ const submitConnector = async (isEdit) => {
   let res
   submitLoading.value = true
   const data = getConnectorData()
-  if (isEdit) {
-    const { id } = connectorData.value
-    // Reflect.deleteProperty(data, "name");
-    Reflect.deleteProperty(data, 'id')
-    Reflect.deleteProperty(data, 'type')
-    Reflect.deleteProperty(data, 'num_of_bridges')
-    res = await updateConnector(id, data).catch(() => {})
-  } else {
-    res = await createConnector(data).catch(() => {})
-  }
-  if (res) {
+
+  try {
+    if (isEdit) {
+      const { id } = connectorData.value
+      // Reflect.deleteProperty(data, "name");
+      Reflect.deleteProperty(data, 'id')
+      Reflect.deleteProperty(data, 'type')
+      Reflect.deleteProperty(data, 'num_of_bridges')
+      res = await updateConnector(id, data)
+    } else {
+      res = await createConnector(data)
+    }
     visible.value = false
     emit('finish', true, res)
-    if (!isEdit) {
-      ElMessage({ type: 'success', message: t('Base.createSuccess') })
-    } else {
-      ElMessage({ type: 'success', message: t('Base.updateSuccess') })
-    }
+    ElMessage.success(t(!isEdit ? 'Base.createSuccess' : 'Base.updateSuccess'))
+  } catch (error) {
+    console.error(error)
+  } finally {
+    submitLoading.value = false
   }
-  submitLoading.value = false
 }
 
 const closeDialog = () => {

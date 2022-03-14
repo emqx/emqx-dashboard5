@@ -66,33 +66,32 @@ const tl = function (key: string, collection = 'RuleEngine') {
 
 const listConnector = async function () {
   tbLoading.value = true
-  let res = await getConnectorList().catch(() => {})
-  if (res) {
-    connectorTb.value = res
+  try {
+    connectorTb.value = await getConnectorList()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    tbLoading.value = false
   }
-  tbLoading.value = false
 }
 
 const deleteConnectorHandler = async (row: ConnectorItem) => {
   if (!row.id) return
-  MB.confirm(t('Base.confirmDelete'), {
+  await MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'warning',
   })
-    .then(async () => {
-      tbLoading.value = true
-      let res = await deleteConnector(row.id).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: t('Base.deleteSuccess'),
-        })
-        listConnector()
-      }
-      tbLoading.value = false
-    })
-    .catch(() => {})
+  tbLoading.value = true
+  try {
+    await deleteConnector(row.id)
+    M.success(t('Base.deleteSuccess'))
+    listConnector()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    tbLoading.value = false
+  }
 }
 
 const openCreate = () => {

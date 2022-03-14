@@ -117,7 +117,7 @@ import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
-import { MQTTBridgeDirection, RuleInputType } from '@/types/enum'
+import { MQTTBridgeDirection } from '@/types/enum'
 import SQLTestDialog from './SQLTestDialog.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import { EditPen } from '@element-plus/icons-vue'
@@ -239,11 +239,14 @@ const transformSQL = () => {
 
 const loadBridgeList = async () => {
   outputLoading.value = true
-  const res = await getBridgeList().catch(() => {})
-  if (res) {
+  try {
+    const res = await getBridgeList()
     bridgeList.value = res
+  } catch (error) {
+    console.error(error)
+  } finally {
+    outputLoading.value = false
   }
-  outputLoading.value = false
 }
 
 const loadIngressBridgeList = async () => {
@@ -280,9 +283,10 @@ const testSQLTemplate = (SQLTemp: string) => {
 const saveSQLFromTest = useSQLTemplate
 
 const loadRuleEvents = async () => {
-  const res = await getRuleEvents().catch(() => {})
-  if (res) {
-    ruleEventsList.value = res
+  try {
+    ruleEventsList.value = await getRuleEvents()
+  } catch (error) {
+    console.error(error)
   }
 }
 

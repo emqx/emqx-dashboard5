@@ -23,7 +23,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, watch } from 'vue'
+import { ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import iotform from '../components/IoTForm.vue'
 import { RuleItem } from '@/types/ruleengine'
@@ -48,12 +48,6 @@ const ruleValue: Ref<RuleItem> = ref({
   description: '',
 })
 
-// watch(
-//   () => ruleValue.value,
-//   (val) => {
-//     console.log(val);
-//   }
-// );
 const submitCreateIoT = async () => {
   submitLoading.value = true
 

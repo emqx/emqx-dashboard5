@@ -110,7 +110,6 @@ import {
   nextTick,
 } from 'vue'
 import { useI18n } from 'vue-i18n'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import { getBridgeList } from '@/api/ruleengine'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import { BridgeItem, OutputItem } from '@/types/rule'
@@ -220,11 +219,15 @@ const setFormDataWhenOpenDialog = async () => {
 }
 
 const loadEgressBridgeList = async () => {
-  bridgeList.value = await getBridgeList().catch(() => {})
-  egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
-    const isOutDirection = 'direction' in v && v.direction === MQTTBridgeDirection.Out
-    return !('direction' in v) || isOutDirection
-  })
+  try {
+    bridgeList.value = await getBridgeList()
+    egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
+      const isOutDirection = 'direction' in v && v.direction === MQTTBridgeDirection.Out
+      return !('direction' in v) || isOutDirection
+    })
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const isDisabledBridge = ({ id }: BridgeItem) => {
