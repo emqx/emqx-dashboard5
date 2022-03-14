@@ -2,16 +2,9 @@ import { uninstallPlugin } from '@/api/plugins'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import { PluginItem } from '@/types/plugin'
-import { PluginStatus, StatusCommandSendToPlugin } from '@/types/enum'
+import { PluginStatus, StatusCommandSendToPlugin, TargetPosition } from '@/types/enum'
 import { updatePluginStatus } from '@/api/plugins'
 import { movePluginPosition } from '@/api/plugins'
-
-enum PluginMovePosition {
-  Top = 'top',
-  Bottom = 'bottom',
-  BeforePrefix = 'before:',
-  AfterPrefix = 'after:',
-}
 
 export default () => {
   const { t } = useI18n()
@@ -96,24 +89,24 @@ export default () => {
   }
 
   const movePluginToTop = (pluginItem: PluginItem) => {
-    return movePluginPosition(concatNameWithVersion(pluginItem), PluginMovePosition.Top)
+    return movePluginPosition(concatNameWithVersion(pluginItem), TargetPosition.Top)
   }
 
   const movePluginToBottom = (pluginItem: PluginItem) => {
-    return movePluginPosition(concatNameWithVersion(pluginItem), PluginMovePosition.Bottom)
+    return movePluginPosition(concatNameWithVersion(pluginItem), TargetPosition.Bottom)
   }
 
   const movePluginBeforeAnotherPlugin = (pluginItem: PluginItem, anotherPlugin: PluginItem) => {
     return movePluginPosition(
       concatNameWithVersion(pluginItem),
-      PluginMovePosition.BeforePrefix + concatNameWithVersion(anotherPlugin),
+      TargetPosition.Before + concatNameWithVersion(anotherPlugin),
     )
   }
 
   const movePluginAfterAnotherPlugin = (pluginItem: PluginItem, anotherPlugin: PluginItem) => {
     return movePluginPosition(
       concatNameWithVersion(pluginItem),
-      PluginMovePosition.AfterPrefix + concatNameWithVersion(anotherPlugin),
+      TargetPosition.After + concatNameWithVersion(anotherPlugin),
     )
   }
 

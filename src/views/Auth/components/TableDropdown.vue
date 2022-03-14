@@ -82,10 +82,10 @@ export default defineComponent({
           ctx.emit('delete', row)
           break
         case 'moveUp':
-          ctx.emit('move', row, 'top')
+          ctx.emit('move', 'up')
           break
         case 'moveDown':
-          ctx.emit('move', row, 'bottom')
+          ctx.emit('move', 'down')
           break
         default:
           break
