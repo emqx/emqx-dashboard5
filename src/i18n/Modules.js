@@ -96,7 +96,7 @@ export default {
     en: 'Confirm to delete the Module?',
   },
   authentication: {
-    zh: '认证鉴权',
+    zh: '认证授权',
     en: 'Authentication',
   },
   protocols: {

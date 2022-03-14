@@ -28,7 +28,7 @@ export default {
     en: 'ACL',
   },
   auth: {
-    zh: '认证鉴权',
+    zh: '认证授权',
     en: 'Access Control',
   },
   authentication: {
@@ -36,7 +36,7 @@ export default {
     en: 'Authentication',
   },
   authorization: {
-    zh: '权限',
+    zh: '权限控制',
     en: 'Authorization',
   },
   dashboard: {
@@ -185,7 +185,7 @@ export default {
   },
   advanced: {
     zh: 'MQTT高级特性',
-    en: 'MQTT Advanced Feat.',
+    en: 'MQTT Advanced Features',
   },
   'config-docs': {
     zh: '配置文档',

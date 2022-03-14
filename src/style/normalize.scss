@@ -25,15 +25,28 @@
 }
 
 .el-menu{
+    $menu-item-height: 50px;
     border-right: none;
     .el-menu-item.is-active,&.el-menu--collapse .el-sub-menu.is-active{
         background-color: #00b29915;
         font-weight: 900;
     }
 
-    span{
-        text-indent: 10px;
-        display: inline-block;
+    .el-sub-menu {
+        .el-menu-item {
+          padding: 0 15px 0 45px;
+        }
+    }
+
+    .menu-item-title{
+        $line-height: 20px;
+        padding-left: 10px;
+        margin-top: 0;
+        margin-bottom: 0;
+        white-space: normal;
+        line-height: $line-height;
+        padding-top: ($menu-item-height - $line-height) / 2;
+        padding-bottom: ($menu-item-height - $line-height) / 2;
     }
 
     &.el-menu--horizontal{
