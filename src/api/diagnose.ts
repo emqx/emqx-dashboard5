@@ -14,7 +14,7 @@ export const clearSlowSubData = () => {
   return http.delete('/slow_subscriptions')
 }
 
-export const querySlowSubStatistics = async (): Promise<{ data: Array<SlowSubStatistic> }> => {
+export const querySlowSubStatistics = async (): Promise<Array<SlowSubStatistic>> => {
   try {
     const { data = [] } = await http.get('/slow_subscriptions', {
       params: { limit: 1000, page: 1 },

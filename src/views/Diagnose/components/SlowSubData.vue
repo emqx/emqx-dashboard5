@@ -84,7 +84,7 @@ let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined = undefined
 
 const getTotalStatistics = async () => {
   try {
-    const { data = [] } = await querySlowSubStatistics()
+    const data = await querySlowSubStatistics()
     setTotalData(data)
     getPageData()
   } catch (error) {
