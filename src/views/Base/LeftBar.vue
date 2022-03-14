@@ -12,12 +12,16 @@
             <el-sub-menu :index="'' + i" :key="i">
               <template #title>
                 <i :class="['iconx', menu.icon]"></i>
-                <span>{{ $t(`components.${menu.title}`) }}</span>
+                <p class="menu-item-title">
+                  {{ $t(`components.${menu.title}`) }}
+                </p>
               </template>
               <template v-for="item in menu.c" :key="item.title">
                 <el-menu-item :index="item.path">
                   <template #title>
-                    {{ $t(`components.${item.title}`) }}
+                    <p class="menu-item-title">
+                      {{ $t(`components.${item.title}`) }}
+                    </p>
                   </template>
                 </el-menu-item>
               </template>
@@ -26,7 +30,7 @@
           <template v-else>
             <el-menu-item :key="menu.title" :index="menu.path">
               <i :class="['iconx', menu.icon]"></i>
-              <span>{{ $t(`components.${menu.title}`) }}</span>
+              <p class="menu-item-title">{{ $t(`components.${menu.title}`) }}</p>
             </el-menu-item>
           </template>
         </template>

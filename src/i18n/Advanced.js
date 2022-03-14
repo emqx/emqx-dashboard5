@@ -103,9 +103,9 @@ export default {
     zh: '配置需要启用的事件消息',
     en: 'Configure event messages that need to be enabled',
   },
-  internalExp: {
-    zh: '内置表达式',
-    en: 'Auto subscribe using pattern',
+  internalPatterns: {
+    zh: '内置规则',
+    en: 'Build-In Patterns',
   },
   client_connected: {
     en: 'Clients have already connected',
