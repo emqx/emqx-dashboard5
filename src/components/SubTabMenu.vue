@@ -34,6 +34,7 @@ export default defineComponent({
     const { tl } = useI18nTl(props.i18nKeyword)
 
     const clickTab = async function (tab: SubTabComponent) {
+      window.scrollTo(0, 0)
       ctx.emit('tab-click', tab)
     }
 
