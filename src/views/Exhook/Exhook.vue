@@ -79,6 +79,7 @@ import { queryExhooks } from '@/api/exhook'
 import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
+import useMove from '@/hooks/useMove'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -87,6 +88,10 @@ const exhooks: Ref<Array<Exhook>> = ref([])
 const isTableLoading = ref(false)
 
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
+
+const emptyExhooks = () => {
+  exhooks.value = []
+}
 
 const getExhooks = async () => {
   isTableLoading.value = true
@@ -150,29 +155,23 @@ const handleDeleteExhook = async (exhook: Exhook) => {
   getExhooks()
 }
 
+const { handleDragEvent } = useMove(
+  {
+    moveToBottom: moveExhookToBottom,
+    moveToTop: moveExhookToTop,
+    moveBeforeAnotherTarget: moveExhookBeforeAnotherExhook,
+    moveAfterAnotherTarget: moveExhookAfterAnotherExhook,
+  },
+  emptyExhooks,
+  getExhooks,
+)
+
 const handleOrderChanged = async (evt: SortableEvent) => {
   const { newIndex, oldIndex } = evt
   if (newIndex === undefined || oldIndex === undefined) {
     return
   }
-
-  const targetExhook = exhooks.value[oldIndex]
-  const isTheLast = evt.newIndex === exhooks.value.length - 1
-  const isDown = newIndex - oldIndex > 0
-  const relatedExhook = exhooks.value[isDown ? newIndex + 1 : newIndex]
-  try {
-    if (isTheLast) {
-      await moveExhookToBottom(targetExhook)
-    } else {
-      await moveExhookBeforeAnotherExhook(targetExhook, relatedExhook)
-    }
-  } catch (error) {
-    console.error(error)
-    // empty the array first when an error occurs, otherwise the view will not be updated
-    exhooks.value = []
-  } finally {
-    getExhooks()
-  }
+  handleDragEvent(newIndex, oldIndex, exhooks.value)
 }
 
 const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
