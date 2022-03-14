@@ -227,6 +227,7 @@ const { handleDragEvent } = useMove(
     moveToBottom: movePluginToBottom,
     moveToTop: movePluginToTop,
     moveBeforeAnotherTarget: movePluginBeforeAnotherPlugin,
+    moveAfterAnotherTarget: movePluginAfterAnotherPlugin,
   },
   emptyTotalData,
   queryListData,
@@ -237,14 +238,7 @@ const handleOrderChanged = async (evt: SortableEvent) => {
   if (newIndex === undefined || oldIndex === undefined) {
     return
   }
-  if (isTableFiltered.value && newIndex === pluginListToShow.value.length - 1) {
-    movePluginAfterAnotherPlugin(
-      pluginListToShow.value[oldIndex],
-      pluginListToShow.value[newIndex - 1],
-    )
-  } else {
-    handleDragEvent(newIndex, oldIndex, pluginListToShow.value)
-  }
+  handleDragEvent(newIndex, oldIndex, pluginListToShow.value, isTableFiltered.value)
 }
 const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 

@@ -111,6 +111,7 @@ const {
   moveExhookToTop,
   moveExhookToBottom,
   moveExhookBeforeAnotherExhook,
+  moveExhookAfterAnotherExhook,
 } = useHandleExhookItem()
 
 const moveExhookItemToTop = async (row: Exhook) => {
@@ -159,6 +160,7 @@ const { handleDragEvent } = useMove(
     moveToBottom: moveExhookToBottom,
     moveToTop: moveExhookToTop,
     moveBeforeAnotherTarget: moveExhookBeforeAnotherExhook,
+    moveAfterAnotherTarget: moveExhookAfterAnotherExhook,
   },
   emptyExhooks,
   getExhooks,

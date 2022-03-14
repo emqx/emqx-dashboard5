@@ -6,6 +6,9 @@ export default () => {
   const moveAuthzBeforeAnotherAuthz = (authz: AuthzSourceItem, anotherAuthz: AuthzSourceItem) => {
     return moveAuthz(authz.type, `${TargetPosition.Before}${anotherAuthz.type}`)
   }
+  const moveAuthzAfterAnotherAuthz = (authz: AuthzSourceItem, anotherAuthz: AuthzSourceItem) => {
+    return moveAuthz(authz.type, `${TargetPosition.After}${anotherAuthz.type}`)
+  }
   const moveAuthzToTop = (authz: AuthzSourceItem) => {
     return moveAuthz(authz.type, TargetPosition.Top)
   }
@@ -14,6 +17,7 @@ export default () => {
   }
   return {
     moveAuthzBeforeAnotherAuthz,
+    moveAuthzAfterAnotherAuthz,
     moveAuthzToTop,
     moveAuthzToBottom,
   }

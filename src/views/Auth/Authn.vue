@@ -108,12 +108,18 @@ export default defineComponent({
     const handleSetting = function ({ id }: AuthnItem) {
       router.push({ path: `/authentication/detail/${id}` })
     }
-    const { moveAuthnBeforeAnotherAuthn, moveAuthnToTop, moveAuthnToBottom } = useHandleAuthnItem()
+    const {
+      moveAuthnBeforeAnotherAuthn,
+      moveAuthnAfterAnotherAuthn,
+      moveAuthnToTop,
+      moveAuthnToBottom,
+    } = useHandleAuthnItem()
     const { handleDragEvent } = useMove(
       {
         moveToBottom: moveAuthnToBottom,
         moveToTop: moveAuthnToTop,
         moveBeforeAnotherTarget: moveAuthnBeforeAnotherAuthn,
+        moveAfterAnotherTarget: moveAuthnAfterAnotherAuthn,
       },
       undefined,
       loadData,

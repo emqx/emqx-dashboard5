@@ -2,10 +2,16 @@ type EventMap = {
   moveToBottom: (target: any) => Promise<any>
   moveToTop: (target: any) => Promise<any>
   moveBeforeAnotherTarget: (target: any, anotherTarget: any) => Promise<any>
+  moveAfterAnotherTarget: (target: any, anotherTarget: any) => Promise<any>
 }
 
 export default (eventMap: EventMap, errorHandlerFunc?: () => void, finallyAction?: () => void) => {
-  const handleDragEvent = async (newIndex: number, oldIndex: number, list: Array<any>) => {
+  const handleDragEvent = async (
+    newIndex: number,
+    oldIndex: number,
+    list: Array<any>,
+    isFiltered = false,
+  ) => {
     if (newIndex === undefined || oldIndex === undefined) {
       return Promise.reject()
     }
@@ -16,7 +22,11 @@ export default (eventMap: EventMap, errorHandlerFunc?: () => void, finallyAction
     const anotherTarget = list[isDown ? newIndex + 1 : newIndex]
     try {
       if (isTheLast) {
-        await eventMap.moveToBottom(target)
+        if (isFiltered) {
+          await eventMap.moveAfterAnotherTarget(target, list[newIndex])
+        } else {
+          await eventMap.moveToBottom(target)
+        }
       } else {
         await eventMap.moveBeforeAnotherTarget(target, anotherTarget)
       }
