@@ -133,7 +133,6 @@ const {
   disablePlugin,
   enablePlugin,
   uninstall,
-  goDoc,
   getPluginAuthorString,
   getTheWorstStatus,
   pluginTotalStatus,
@@ -238,7 +237,14 @@ const handleOrderChanged = async (evt: SortableEvent) => {
   if (newIndex === undefined || oldIndex === undefined) {
     return
   }
-  handleDragEvent(newIndex, oldIndex, pluginListToShow.value)
+  if (isTableFiltered.value && newIndex === pluginListToShow.value.length - 1) {
+    movePluginAfterAnotherPlugin(
+      pluginListToShow.value[oldIndex],
+      pluginListToShow.value[newIndex - 1],
+    )
+  } else {
+    handleDragEvent(newIndex, oldIndex, pluginListToShow.value)
+  }
 }
 const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 
