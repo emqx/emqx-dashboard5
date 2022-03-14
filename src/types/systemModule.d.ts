@@ -1,4 +1,4 @@
-import { ExhookStatus } from './enum'
+import { ExhookFailedAction, ExhookStatus } from './enum'
 
 export interface APIKeyFormWhenCreating {
   name: string
@@ -20,9 +20,9 @@ export interface APIKey extends APIKeyFormWhenCreating {
 export type APIKeyFormWhenEditing = Pick<APIKey, 'name' | 'expired_at' | 'desc' | 'enable'>
 
 export interface ExhookFormForCreate {
-  auto_reconnect: string
+  auto_reconnect: boolean
   enable: boolean
-  failed_action: string
+  failed_action: ExhookFailedAction
   name: string
   pool_size: number | undefined
   request_timeout: string

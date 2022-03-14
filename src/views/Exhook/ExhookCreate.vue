@@ -24,20 +24,21 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import ExhookForm from './components/ExhookForm.vue'
-import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
+import { ExhookFormForCreate } from '@/types/systemModule'
 import { createExhook } from '@/api/exhook'
+import { ExhookFailedAction } from '@/types/enum'
 
 const router = useRouter()
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
 
 const createRawExhookForm = () => ({
-  auto_reconnect: '',
+  auto_reconnect: true,
   enable: false,
-  failed_action: '',
+  failed_action: ExhookFailedAction.Deny,
   name: '',
-  pool_size: undefined,
-  request_timeout: '',
+  pool_size: 16,
+  request_timeout: '5000ms',
   ssl: {
     cacertfile: '',
     certfile: '',
@@ -65,7 +66,6 @@ const submit = async () => {
   } finally {
     isSubmitting.value = false
   }
-  // TODO:
 }
 </script>
 
