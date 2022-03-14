@@ -108,13 +108,19 @@ export default defineComponent({
         .catch(() => {})
     }
 
-    const { moveAuthzBeforeAnotherAuthz, moveAuthzToTop, moveAuthzToBottom } = useHandleAuthzItem()
+    const {
+      moveAuthzBeforeAnotherAuthz,
+      moveAuthzAfterAnotherAuthz,
+      moveAuthzToTop,
+      moveAuthzToBottom,
+    } = useHandleAuthzItem()
 
     const { handleDragEvent } = useMove(
       {
         moveToBottom: moveAuthzToBottom,
         moveToTop: moveAuthzToTop,
         moveBeforeAnotherTarget: moveAuthzBeforeAnotherAuthz,
+        moveAfterAnotherTarget: moveAuthzAfterAnotherAuthz,
       },
       undefined,
       loadData,

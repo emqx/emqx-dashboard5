@@ -6,6 +6,9 @@ export default () => {
   const moveAuthnBeforeAnotherAuthn = (authn: AuthnItem, anotherAuthn: AuthnItem) => {
     return moveAuthn(authn.id, `${TargetPosition.Before}${anotherAuthn.id}`)
   }
+  const moveAuthnAfterAnotherAuthn = (authn: AuthnItem, anotherAuthn: AuthnItem) => {
+    return moveAuthn(authn.id, `${TargetPosition.After}${anotherAuthn.id}`)
+  }
   const moveAuthnToTop = (authn: AuthnItem) => {
     return moveAuthn(authn.id, TargetPosition.Top)
   }
@@ -14,6 +17,7 @@ export default () => {
   }
   return {
     moveAuthnBeforeAnotherAuthn,
+    moveAuthnAfterAnotherAuthn,
     moveAuthnToTop,
     moveAuthnToBottom,
   }
