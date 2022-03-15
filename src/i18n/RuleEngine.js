@@ -607,4 +607,8 @@ export default {
     zh: '请求体',
     en: 'Body',
   },
+  forwardToLocalTopic: {
+    zh: '转发到本地主题',
+    en: 'Forward to local topic',
+  },
 }
