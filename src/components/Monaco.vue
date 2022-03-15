@@ -55,12 +55,24 @@ const prop = defineProps({
   decorationFunc: {
     type: Function,
   },
+  jsonWithoutValidate: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
 
 // ❗️ editor instance can not be reactive, otherwise it will cause the page to get stuck for unknown reasons
 let editor = null
+
+const setJSONValidate = () => {
+  if (prop.lang === 'json') {
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: !prop.jsonWithoutValidate,
+    })
+  }
+}
 
 const initEditor = () => {
   const id = `monaco-${prop.id}`
@@ -84,7 +96,7 @@ const initEditor = () => {
     //   enabled: true,
     // },
   }
-
+  setJSONValidate()
   editor = monaco.editor.create(document.getElementById(id), defaultOptions)
   editor.onDidChangeModelContent(async (event) => {
     const value = editor.getValue()

@@ -99,7 +99,7 @@ export const useRuleUtils = () => {
       .split(',')
       .map((item) => item.trim())
       .join(',\n  ')
-    const tempSql = ['SELECT ', selectStr, '\n', 'FROM ', transFromDataArrToStr(from)]
+    const tempSql = ['SELECT\n  ', selectStr, '\n', 'FROM\n  ', transFromDataArrToStr(from)]
     if (where) tempSql.push('\nWHERE', ` ${where}`)
     return tempSql.map((v) => v.toString()).join('')
   }

@@ -41,7 +41,7 @@ export async function updateBridge(id: string, body: BridgeItem): Promise<any> {
   }
 }
 
-export function startStopBridge(id: string, op: 'start' | 'stop'): Promise<any> {
+export function startStopBridge(id: string, op: 'enable' | 'disable'): Promise<any> {
   if (!id) return Promise.reject()
   return http.post(`/bridges/${encodeURIComponent(id)}/operation/${op}`)
 }

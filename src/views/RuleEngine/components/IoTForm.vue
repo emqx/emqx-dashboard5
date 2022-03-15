@@ -145,7 +145,7 @@ const bridgeList = ref([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const outputLoading = ref(false)
-const briefEditType = ref(true)
+const briefEditType = ref(false)
 
 const isShowTemplateDrawer = ref(false)
 

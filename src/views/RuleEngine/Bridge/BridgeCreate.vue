@@ -30,8 +30,8 @@
                   <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
                     <img
                       class="bridge-type-item-img"
-                      height="60"
-                      width="60"
+                      height="52"
+                      width="52"
                       :src="require(`@/assets/img/${item.value}.png`)"
                       :alt="item.label"
                     />
@@ -248,8 +248,8 @@ export default defineComponent({
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 0 0 0 60px;
-    min-height: 60px;
+    padding: 0 0 0 52px;
+    min-height: 52px;
     .title {
       margin-bottom: 4px;
       font-weight: bold;
