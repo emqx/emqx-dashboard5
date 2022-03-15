@@ -72,6 +72,19 @@
           <p class="block-desc">{{ tl('mqttSourceTransDescDetail') }}</p>
           <el-row :gutter="30">
             <el-col :span="10">
+              <el-form-item :label="tl('forwardToLocalTopic')">
+                <el-select
+                  v-model="isForwardToLocalTopic"
+                  @change="handleIsForwardToLocalTopicChanged"
+                >
+                  <el-option :label="$t('Base.yes')" :value="true" />
+                  <el-option :label="$t('Base.no')" :value="false" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="30" v-if="isForwardToLocalTopic">
+            <el-col :span="10">
               <el-form-item :label="tl('localTopic')">
                 <el-input
                   v-model="mqttBridgeVal.local_topic"
@@ -167,7 +180,7 @@
             </el-col>
           </el-row>
         </template>
-        <el-row>
+        <el-row v-if="isShowPayload">
           <el-col :span="24">
             <el-form-item>
               <template #label>
@@ -262,11 +275,18 @@ const mqttBridgeVal = ref({
 const connectorList = ref([])
 const connectorLoading = ref(false)
 const chosenConnectorData = ref({})
+const isForwardToLocalTopic = ref(true)
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
 const btnEditConnectorClass = computed(() =>
   mqttBridgeVal.value.connector === '_new' || !mqttBridgeVal.value.connector ? 'disabled' : '',
+)
+
+const isShowPayload = computed(
+  () =>
+    (mqttBridgeVal.value.direction === 'ingress' && isForwardToLocalTopic.value) ||
+    mqttBridgeVal.value.direction !== 'ingress',
 )
 
 const initMqttBridgeVal = () => {
@@ -327,6 +347,24 @@ const transformData = (val: Record<string, unknown>) => {
     Reflect.deleteProperty(data, 'local_qos')
   }
   return data
+}
+
+const handleIsForwardToLocalTopicChanged = () => {
+  if (!isForwardToLocalTopic.value) {
+    Reflect.deleteProperty(mqttBridgeVal.value, 'local_topic')
+    Reflect.deleteProperty(mqttBridgeVal.value, 'local_qos')
+    Reflect.deleteProperty(mqttBridgeVal.value, 'retain')
+    Reflect.deleteProperty(mqttBridgeVal.value, 'payload')
+  } else {
+    const { local_topic, local_qos, retain, payload } = mqttBridgeDefaultVal
+    mqttBridgeVal.value = {
+      ...mqttBridgeVal.value,
+      local_topic,
+      local_qos,
+      retain,
+      payload,
+    }
+  }
 }
 
 const updateModelValue = (val: ConnectorMQTT) => {
