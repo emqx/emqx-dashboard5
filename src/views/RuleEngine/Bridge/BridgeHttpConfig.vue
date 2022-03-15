@@ -10,15 +10,18 @@
         </el-col>
       </el-row>
       <div class="part-header">{{ tl('mappingInfo') }}</div>
-      <p class="block-desc">{{ tl('mappingDesc') }}</p>
+      <p class="block-primary-desc">{{ tl('bridgeDataInDesc') }}</p>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('localTopic')">
-            <el-input v-model="httpBridgeVal.local_topic" />
+            <el-input
+              v-model="httpBridgeVal.local_topic"
+              :placeholder="tl('localTopicPlaceholder')"
+            />
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl('reqSetting') }}</div>
+      <p class="block-primary-desc">{{ tl('bridgeDataOutDesc') }}</p>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('method')">
@@ -38,26 +41,31 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">Headers</div>
       <el-row>
         <el-col>
-          <key-and-value-editor
-            v-model="httpBridgeVal.headers"
-            class="kv-editor"
-          ></key-and-value-editor>
+          <el-form-item :label="tl('headers')">
+            <key-and-value-editor v-model="httpBridgeVal.headers" class="kv-editor" />
+          </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">Body</div>
       <el-row :gutter="30">
         <el-col :span="24">
-          <div class="monaco-container">
-            <Monaco
-              :id="createRandomString()"
-              v-model="httpBridgeVal.body"
-              lang="json"
-              json-without-validate
-            />
-          </div>
+          <el-form-item>
+            <template #label>
+              <label>{{ tl('body') }}</label>
+              <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
+                <a href="TODO:" target="_blank">{{ tl('payloadTempSyntax') }}</a>
+              </i18n-t>
+            </template>
+            <div class="monaco-container">
+              <Monaco
+                :id="createRandomString()"
+                v-model="httpBridgeVal.body"
+                lang="json"
+                json-without-validate
+              />
+            </div>
+          </el-form-item>
         </el-col>
       </el-row>
       <div class="part-header">{{ tl('connSetting') }}</div>
@@ -236,14 +244,17 @@ export default defineComponent({
 .tls-config-form {
   margin-top: 20px;
 }
-.kv-editor {
-  margin-top: 20px;
-}
 .editor {
   border: var(--el-border-base);
   flex-grow: 1;
   height: 200px;
   margin-top: 20px;
+}
+
+.payload-desc {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: var(--el-text-color-secondary);
 }
 .monaco-container {
   margin-top: 12px;
