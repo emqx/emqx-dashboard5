@@ -13,7 +13,8 @@
     margin-bottom: 6px;
   }
   [class*='el-col-'] {
-    padding: 0px 24px;
+    padding: 0px 32px;
+    position: relative;
   }
   .app-card.properties-card {
     .el-col-24 {
@@ -31,12 +32,27 @@
       padding: 8px 16px 16px;
     }
     &:hover {
+      .schema-col-setting {
+        .setting-btn {
+          visibility: visible;
+        }
+      }
       .app-card.properties-card .el-col-24 {
+        .schema-col-setting {
+          .setting-btn {
+            visibility: hidden;
+          }
+        }
         .el-form-item {
           background: transparent;
           border-left: 4px solid transparent;
         }
         &:hover {
+          .schema-col-setting {
+            .setting-btn {
+              visibility: visible;
+            }
+          }
           .el-form-item {
             background: #fafafa;
             border-left: 4px solid var(--el-color-primary);
@@ -56,5 +72,19 @@
     font-size: 18px;
     font-weight: bold;
     padding: 20px 20px 8px;
+  }
+  .schema-col-setting {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    .setting-btn {
+      visibility: hidden;
+      font-size: 16px;
+      color: var(--el-text-color-primary);
+      &:hover,
+      &:focus {
+        visibility: visible;
+      }
+    }
   }
 }

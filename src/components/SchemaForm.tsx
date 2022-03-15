@@ -7,6 +7,7 @@ import ArrayEditor from './ArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
+import { Setting } from '@element-plus/icons-vue'
 import '@/style/schemaForm.scss'
 
 interface FormItemMeta {
@@ -21,6 +22,7 @@ const SchemaForm = defineComponent({
     InputWithUnit,
     ArrayEditor,
     Oneof,
+    Setting,
   },
   props: {
     path: {
@@ -45,6 +47,11 @@ const SchemaForm = defineComponent({
       },
     )
     const { t } = useI18n()
+    const resetValue = (property: Properties[string]) => {
+      if (property.path && property.default) {
+        configForm.value[property.path] = property.default
+      }
+    }
     const conditionCard = (properties: Properties) => {
       return (
         <el-card shadow="never" class="app-card properties-card">
@@ -162,8 +169,27 @@ const SchemaForm = defineComponent({
     }
 
     const getColFormItem = (property: Properties[string], { col, groupName }: FormItemMeta) => {
+      const handleCommand = (command: string) => {
+        if (command === 'reset') {
+          resetValue(property)
+        }
+      }
+      const slots = {
+        dropdown: () => (
+          <el-dropdown-menu>
+            <el-dropdown-item command="reset">{t('Base.reset')}</el-dropdown-item>
+          </el-dropdown-menu>
+        ),
+      }
       const colItem = (
         <el-col span={col}>
+          <el-dropdown class="schema-col-setting" v-slots={slots} onCommand={handleCommand}>
+            <a class="setting-btn">
+              <el-icon>
+                <Setting />
+              </el-icon>
+            </a>
+          </el-dropdown>
           <el-form-item label={property.label} prop={property.path}>
             <p class="item-desc" v-html={property.description}></p>
             {setControl(property)}
