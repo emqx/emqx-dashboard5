@@ -91,13 +91,17 @@ export const useRuleUtils = () => {
     fromStr.split(RULE_FROM_SEPARATOR).map((item) => item.trim())
 
   const transFromDataArrToStr = (from: Array<string>) => {
-    return from.map((item) => `"${item}"`).join(`${RULE_FROM_SEPARATOR} `)
+    return from.map((item) => `"${item}"`).join(`${RULE_FROM_SEPARATOR}\n  `)
   }
 
   const transSQLFormDataToSQL = (select: string, from: Array<string>, where?: string) => {
-    const tempSql = ['SELECT', select, '\n ', 'FROM', transFromDataArrToStr(from)]
-    if (where) tempSql.push('\nWHERE\n', ` ${where}`)
-    return tempSql.map((v) => v.toString()).join(' ')
+    const selectStr = select
+      .split(',')
+      .map((item) => item.trim())
+      .join(',\n  ')
+    const tempSql = ['SELECT ', selectStr, '\n', 'FROM ', transFromDataArrToStr(from)]
+    if (where) tempSql.push('\nWHERE', ` ${where}`)
+    return tempSql.map((v) => v.toString()).join('')
   }
 
   return {
