@@ -103,6 +103,7 @@ import { ElMessage as M } from 'element-plus'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 
 export default defineComponent({
   components: { BridgeHttpConfig, BridgeMqttConfig },
@@ -147,6 +148,8 @@ export default defineComponent({
       return { name }
     })
 
+    const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+
     const handleTypeSelected = () => {
       const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
       if (!type) {
@@ -187,10 +190,12 @@ export default defineComponent({
             })
             break
           case BridgeType.MQTT:
-            res = await createBridge({
-              ...bridgeData.value,
-              type: chosenBridgeType.value,
-            })
+            res = await createBridge(
+              handleBridgeDataBeforeSubmit({
+                ...bridgeData.value,
+                type: chosenBridgeType.value,
+              }),
+            )
             break
         }
         M.success(t('Base.createSuccess'))
