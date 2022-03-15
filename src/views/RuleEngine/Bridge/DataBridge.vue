@@ -100,7 +100,7 @@ export default defineComponent({
 
     const enableOrDisableBridge = async (row: BridgeItem) => {
       tbLoading.value = true
-      const statusToSend = row.status === 'connected' ? 'stop' : 'start'
+      const statusToSend = row.status === 'connected' ? 'disable' : 'enable'
       const sucMessage = row.status === 'connected' ? 'Base.disabledSuccess' : 'Base.enableSuccess'
       try {
         await startStopBridge(row.id, statusToSend)

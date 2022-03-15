@@ -50,12 +50,14 @@
       <div class="part-header">Body</div>
       <el-row :gutter="30">
         <el-col :span="24">
-          <el-input
-            type="textarea"
-            rows="10"
-            style="margin-top: 20px"
-            v-model="httpBridgeVal.body"
-          ></el-input>
+          <div class="monaco-container">
+            <Monaco
+              :id="createRandomString()"
+              v-model="httpBridgeVal.body"
+              lang="json"
+              json-without-validate
+            />
+          </div>
         </el-col>
       </el-row>
       <div class="part-header">{{ tl('connSetting') }}</div>
@@ -116,6 +118,8 @@ import TLSConfig from '../components/TLSConfig.vue'
 import _ from 'lodash'
 import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { HTTPBridge } from '@/types/rule'
+import Monaco from '@/components/Monaco.vue'
+import { createRandomString } from '@/common/tools'
 
 type HTTPFormData = Omit<HTTPBridge, 'connect_timeout' | 'request_timeout'> & {
   connect_timeout: [number, string]
@@ -126,6 +130,7 @@ export default defineComponent({
   components: {
     KeyAndValueEditor,
     TLSConfig,
+    Monaco,
   },
   name: '',
   props: {
@@ -166,7 +171,7 @@ export default defineComponent({
       headers: {
         'content-type': 'application/json',
       },
-      body: '',
+      body: '${payload}',
       pool_size: 4,
       enable_pipelining: true,
       connect_timeout: [5, 's'],
@@ -218,6 +223,7 @@ export default defineComponent({
 
     return {
       tl: (key: string) => t('RuleEngine.' + key),
+      createRandomString,
       tlsParams,
       httpBridgeVal,
     }
@@ -238,5 +244,8 @@ export default defineComponent({
   flex-grow: 1;
   height: 200px;
   margin-top: 20px;
+}
+.monaco-container {
+  margin-top: 12px;
 }
 </style>

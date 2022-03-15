@@ -141,7 +141,14 @@
                   <a href="TODO:" target="_blank">{{ tl('payloadTempSyntax') }}</a>
                 </i18n-t>
               </template>
-              <el-input type="textarea" rows="10" v-model="mqttBridgeVal.payload" />
+              <div class="monaco-container">
+                <Monaco
+                  :id="createRandomString()"
+                  v-model="mqttBridgeVal.payload"
+                  lang="json"
+                  json-without-validate
+                />
+              </div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -176,6 +183,8 @@ import ConnectorDialog from '../components/ConnectorDialog.vue'
 import { ConnectorMQTT } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import Monaco from '@/components/Monaco.vue'
+import { createRandomString } from '@/common/tools'
 
 const prop = defineProps({
   modelValue: {

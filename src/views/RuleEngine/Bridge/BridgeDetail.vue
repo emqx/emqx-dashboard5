@@ -152,7 +152,7 @@ const updateBridgeInfo = async () => {
 
 const enableOrDisableBridge = async () => {
   infoLoading.value = true
-  const statusToSend = bridgeInfo.value.status === 'connected' ? 'stop' : 'start'
+  const statusToSend = bridgeInfo.value.status === 'connected' ? 'disable' : 'enable'
   const sucMessage =
     bridgeInfo.value.status === 'connected' ? 'Base.disabledSuccess' : 'Base.enableSuccess'
   try {
