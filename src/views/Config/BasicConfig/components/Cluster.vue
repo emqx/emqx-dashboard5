@@ -1,5 +1,5 @@
 <template>
-  <div class="no-tab-wrapper cluster">
+  <div class="cluster">
     <schema-form
       path="/configs/cluster"
       :form="configs"
