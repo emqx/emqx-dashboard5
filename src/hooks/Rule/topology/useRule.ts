@@ -25,7 +25,7 @@ export const useRuleUtils = () => {
       }
     }
 
-    const bridgeItem = bridgeList.find(({ id }) => id === inputItem)
+    const bridgeItem = bridgeList.find(({ idForRuleFrom }) => idForRuleFrom === inputItem)
     if (bridgeItem) {
       return {
         type: RuleInputType.Bridge,

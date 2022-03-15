@@ -195,6 +195,6 @@ export const getKeywordsFromSQL = (sqlStr: string) => {
 export const getBridgeKey = ({
   type,
   name,
-}: Omit<BridgeItem, 'id'> | Omit<ConnectorItem, 'id'>): string => `${type}:${name}`
+}: Omit<BridgeItem, 'id' | 'idForRuleFrom'> | Omit<ConnectorItem, 'id'>): string => `${type}:${name}`
 
 export const getConnectorKey = getBridgeKey

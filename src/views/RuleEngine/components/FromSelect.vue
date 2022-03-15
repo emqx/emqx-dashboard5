@@ -41,13 +41,13 @@
       <el-option
         v-for="item in ingressBridgeList"
         :key="item.id"
-        :value="item.id"
-        :label="item.name"
+        :value="item.idForRuleFrom"
+        :label="item.id"
         @click="clickBridge"
       >
         <div class="option-content">
           <p>{{ item.name }}</p>
-          <span class="item-id">{{ item.id }}</span>
+          <span class="item-id">{{ item.idForRuleFrom }}</span>
         </div>
       </el-option>
     </el-option-group>

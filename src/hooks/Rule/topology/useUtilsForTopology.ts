@@ -1,8 +1,13 @@
 import iconMap from '@/assets/topologyIcon/index'
-import { RULE_INPUT_EVENT_PREFIX, RULE_TOPOLOGY_ID } from '@/common/constants'
+import {
+  RULE_INPUT_BRIDGE_TYPE_PREFIX,
+  RULE_INPUT_EVENT_PREFIX,
+  RULE_TOPOLOGY_ID,
+} from '@/common/constants'
 import { BridgeType, RuleOutput } from '@/types/enum'
 import { OutputItem } from '@/types/rule'
 import { NodeItem, NodeType, OtherNodeType, RuleInputType, RuleOutputType } from './topologyType'
+import { escapeRegExp } from 'lodash'
 
 export default () => {
   /* 
@@ -43,8 +48,8 @@ export default () => {
       return OtherNodeType.Event
     }
     // now has mqtt & http
-    const bridgeTypeList = [BridgeType.MQTT, BridgeType.HTTP]
-    if (bridgeTypeList.some((item) => from.indexOf(item) > -1)) {
+    const reg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
+    if (reg.test(from)) {
       return OtherNodeType.Bridge
     }
     return OtherNodeType.Topic

@@ -1,3 +1,4 @@
+import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
 import { getBridgeKey, getConnectorKey } from '@/common/tools'
 import { BridgeItem, ConnectorItem, RuleItem } from '@/types/rule'
@@ -7,9 +8,11 @@ export async function getBridgeList(): Promise<any> {
   try {
     const data = await http.get('/bridges')
     return Promise.resolve(
-      data.map((item: Omit<BridgeItem, 'id'>) => {
+      data.map((item: Omit<BridgeItem, 'id' | 'idForRuleFrom'>) => {
+        const id = getBridgeKey(item)
         return {
-          id: getBridgeKey(item),
+          id,
+          idForRuleFrom: `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${id}`,
           ...item,
         }
       }),
