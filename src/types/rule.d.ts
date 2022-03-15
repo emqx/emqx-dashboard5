@@ -63,6 +63,10 @@ export interface BridgeBaseData {
    * create by front end {type}:{name}
    */
   id: string
+  /**
+   * $bridges/${id} fill in from when create/edit rule
+   */
+  idForRuleFrom: string
   metrics: Metrics
   name: string
   node_metrics: Array<NodeMetrics>

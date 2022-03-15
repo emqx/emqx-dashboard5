@@ -4,6 +4,7 @@ import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
+import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 
 export default () => {
   let ruleList: Array<RuleItem> = []
@@ -22,10 +23,18 @@ export default () => {
     ruleID: string,
   ): { node: NodeItem; edge: EdgeItem } => {
     const inputType = judgeInputType(fromData)
-    const idOfInputNode = createNodeId(fromData, inputType)
+    /**
+     * before cut length, if is bridge, cut prefix
+     */
+    const rawFrom =
+      inputType === OtherNodeType.Bridge
+        ? fromData.slice(RULE_INPUT_BRIDGE_TYPE_PREFIX.length)
+        : fromData
+    const idOfInputNode = createNodeId(rawFrom, inputType)
+
     let node = {
       id: idOfInputNode,
-      label: cutLabel(fromData),
+      label: cutLabel(rawFrom),
       img: getIconFromInputData(fromData),
     }
     if (inputType === OtherNodeType.Bridge) {
