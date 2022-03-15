@@ -27,11 +27,13 @@ export default () => {
       const topicNodeId = createNodeId(local_topic, OtherNodeType.Topic)
       const bridgeNodeId = createNodeId(id, OtherNodeType.Bridge)
 
-      topicNodeArr.push({
-        id: topicNodeId,
-        label: cutLabel(local_topic),
-        img: iconMap.topic,
-      })
+      if (local_topic) {
+        topicNodeArr.push({
+          id: topicNodeId,
+          label: cutLabel(local_topic),
+          img: iconMap.topic,
+        })
+      }
       bridgeNodeArr.push(
         addCursorPointerToNodeData({
           id: bridgeNodeId,
