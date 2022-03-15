@@ -92,15 +92,15 @@ export default {
     en: 'Basic Configration',
   },
   maxHeader: {
-    zh: '最大Header数',
+    zh: '最大 Header 数',
     en: 'Max Header',
   },
   maxHeaderLen: {
-    zh: '单个Header最大长度',
+    zh: '单个 Header 最大长度',
     en: 'Max Each Header Length',
   },
   maxBodyLen: {
-    zh: '最大Body长度',
+    zh: '最大 Body 长度',
     en: 'Max Body Length',
   },
   idleTime: {
@@ -140,7 +140,7 @@ export default {
     en: 'You can configure authentication after enable the gateway.When client authentication is enabled, clients that fail to pass authentication cannot connect to the cluster.',
   },
   predefinedTopic: {
-    zh: '预设Topic列表',
+    zh: '预设 Topic 列表',
     en: 'Predefined Topic List',
   },
   broadcast: {
@@ -148,7 +148,7 @@ export default {
     en: 'Enable Broadcast',
   },
   qos3: {
-    zh: '启用QoS3',
+    zh: '启用 QoS3',
     en: 'Enable QoS3',
   },
   connectionRequire: {
@@ -236,7 +236,7 @@ export default {
     en: 'Send Timeout Close',
   },
   sslversion: {
-    zh: 'SSL版本',
+    zh: 'SSL 版本',
     en: 'SSL Versions',
   },
   dtlsversion: {
@@ -256,7 +256,7 @@ export default {
     en: 'EndPoint Name',
   },
   ipaddress: {
-    zh: 'IP地址',
+    zh: 'IP 地址',
     en: 'IP Address',
   },
   connectedAt: {

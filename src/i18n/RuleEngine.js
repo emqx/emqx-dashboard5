@@ -156,11 +156,11 @@ export default {
     en: 'MQTT Connector',
   },
   newMqttConn: {
-    zh: '新建MQTT连接',
+    zh: '创建 MQTT 连接',
     en: 'New MQTT Connector',
   },
   newConn: {
-    zh: '新建连接',
+    zh: '创建连接',
     en: 'New Connector',
   },
   editConn: {
@@ -176,7 +176,7 @@ export default {
     en: 'Name',
   },
   createIoTRule: {
-    zh: '新建IoT规则',
+    zh: '创建 IoT 规则',
     en: 'Create IoT Rule',
   },
   mode_cluster_shareload: {

@@ -194,7 +194,7 @@ export default {
     en: 'Confirm Delete?',
   },
   tabJwt: {
-    zh: 'JWT工具',
+    zh: 'JWT 工具',
     en: 'JWT Tools',
   },
   tabSasl: {

@@ -184,7 +184,7 @@ export default {
     en: 'Basic Config',
   },
   advanced: {
-    zh: 'MQTT高级特性',
+    zh: 'MQTT 高级特性',
     en: 'MQTT Advanced Features',
   },
   'config-docs': {
