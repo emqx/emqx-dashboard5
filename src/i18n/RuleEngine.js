@@ -579,4 +579,32 @@ export default {
     zh: '了解更多',
     en: 'Read More',
   },
+  bridgeDataInDesc: {
+    zh: '你想转发哪个主题的数据？',
+    en: 'Which topic do you want to forward data on?',
+  },
+  bridgeDataOutDesc: {
+    zh: '你想将数据转发到什么地方？',
+    en: 'Where do you want to forward the data to?',
+  },
+  mqttSourceMappingDesc: {
+    zh: '你想从哪个地方获取数据？',
+    en: 'Where do you want to get the data from?',
+  },
+  mqttSourceTransDesc: {
+    zh: '是否同时将数据转发到 EMQX 指定主题中？',
+    en: 'Is the data also forwarded to the EMQX specified topic?',
+  },
+  mqttSourceTransDescDetail: {
+    zh: '任何情況下都可以使用 IoT Rule 处理 Source 中的数据，您也可以不经 IoT Rule 直接转发数据到本地主题中。',
+    en: 'You can use IoT Rule in any case to process data in the source, or you can forward data directly to the local topic without an IoT Rule.',
+  },
+  headers: {
+    zh: '请求头',
+    en: 'Headers',
+  },
+  body: {
+    zh: '请求体',
+    en: 'Body',
+  },
 }

@@ -10,48 +10,43 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-loading="connectorLoading" :gutter="30">
-          <el-col :span="14">
-            <el-form-item :label="tl('mqttConn')">
-              <div class="connector-select-container">
-                <el-select v-model="mqttBridgeVal.connector">
-                  <el-option
-                    v-for="item in connectorList"
-                    :key="item.id"
-                    :value="item.id"
-                    :label="item.name"
-                  />
-                </el-select>
-                <div class="icon-connector-handler-container" v-if="!disabled">
-                  <el-icon
-                    :class="[
-                      'icon-connector-handler',
-                      mqttBridgeVal.connector === '_new' || !mqttBridgeVal.connector
-                        ? 'disabled'
-                        : '',
-                    ]"
-                    :size="20"
-                    @click="openConnectorDialog(true)"
-                  >
-                    <edit />
-                  </el-icon>
-                  <el-icon
-                    class="icon-connector-handler"
-                    :size="20"
-                    @click="openConnectorDialog(false)"
-                  >
-                    <plus />
-                  </el-icon>
-                </div>
-              </div>
-            </el-form-item>
-          </el-col>
-        </el-row>
       </section>
       <section>
         <div class="part-header">{{ tl('mappingInfo') }}</div>
-        <p class="block-desc">{{ tl('mappingDesc') }}</p>
         <template v-if="mqttBridgeVal.direction === 'ingress'">
+          <p class="block-primary-desc">{{ tl('mqttSourceMappingDesc') }}</p>
+          <el-row v-loading="connectorLoading" :gutter="30">
+            <el-col :span="10">
+              <el-form-item :label="tl('mqttConn')">
+                <div class="connector-select-container">
+                  <el-select v-model="mqttBridgeVal.connector">
+                    <el-option
+                      v-for="item in connectorList"
+                      :key="item.id"
+                      :value="item.id"
+                      :label="item.name"
+                    />
+                  </el-select>
+                  <div class="icon-connector-handler-container" v-if="!disabled">
+                    <el-icon
+                      :class="['icon-connector-handler', btnEditConnectorClass]"
+                      :size="20"
+                      @click="openConnectorDialog(true)"
+                    >
+                      <edit />
+                    </el-icon>
+                    <el-icon
+                      class="icon-connector-handler"
+                      :size="20"
+                      @click="openConnectorDialog(false)"
+                    >
+                      <plus />
+                    </el-icon>
+                  </div>
+                </div>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row :gutter="30">
             <el-col :span="10">
               <el-form-item>
@@ -73,6 +68,8 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <p class="block-primary-desc">{{ tl('mqttSourceTransDesc') }}</p>
+          <p class="block-desc">{{ tl('mqttSourceTransDescDetail') }}</p>
           <el-row :gutter="30">
             <el-col :span="10">
               <el-form-item :label="tl('localTopic')">
@@ -91,11 +88,14 @@
             </el-col>
 
             <el-col :span="4">
-              <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain" />
+              <el-form-item label="Retain">
+                <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain" />
+              </el-form-item>
             </el-col>
           </el-row>
         </template>
         <template v-else>
+          <p class="block-primary-desc">{{ tl('bridgeDataInDesc') }}</p>
           <el-row :gutter="30">
             <el-col :span="10">
               <el-form-item :label="tl('localTopic')">
@@ -103,6 +103,39 @@
                   v-model="mqttBridgeVal.local_topic"
                   :placeholder="tl('localTopicPlaceholder')"
                 />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <p class="block-primary-desc">{{ tl('bridgeDataOutDesc') }}</p>
+          <el-row v-loading="connectorLoading" :gutter="30">
+            <el-col :span="10">
+              <el-form-item :label="tl('mqttConn')">
+                <div class="connector-select-container">
+                  <el-select v-model="mqttBridgeVal.connector">
+                    <el-option
+                      v-for="item in connectorList"
+                      :key="item.id"
+                      :value="item.id"
+                      :label="item.name"
+                    />
+                  </el-select>
+                  <div class="icon-connector-handler-container" v-if="!disabled">
+                    <el-icon
+                      :class="['icon-connector-handler', btnEditConnectorClass]"
+                      :size="20"
+                      @click="openConnectorDialog(true)"
+                    >
+                      <edit />
+                    </el-icon>
+                    <el-icon
+                      class="icon-connector-handler"
+                      :size="20"
+                      @click="openConnectorDialog(false)"
+                    >
+                      <plus />
+                    </el-icon>
+                  </div>
+                </div>
               </el-form-item>
             </el-col>
           </el-row>
@@ -128,7 +161,9 @@
             </el-col>
 
             <el-col :span="4">
-              <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain" />
+              <el-form-item label="Retain">
+                <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain" />
+              </el-form-item>
             </el-col>
           </el-row>
         </template>
@@ -165,7 +200,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'BridgeMqttConfig',
@@ -229,6 +264,10 @@ const connectorLoading = ref(false)
 const chosenConnectorData = ref({})
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+
+const btnEditConnectorClass = computed(() =>
+  mqttBridgeVal.value.connector === '_new' || !mqttBridgeVal.value.connector ? 'disabled' : '',
+)
 
 const initMqttBridgeVal = () => {
   mqttBridgeVal.value = {
@@ -315,9 +354,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @import '@/style/rule.scss';
-.el-checkbox {
-  margin-top: 40px;
-}
 .connector-select-container {
   display: flex;
   align-items: flex-start;
