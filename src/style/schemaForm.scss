@@ -15,10 +15,15 @@
   [class*='el-col-'] {
     padding: 0px 24px;
   }
-  .app-card.properties-card .el-col-24 {
-    padding-bottom: 12px;
+  .app-card.properties-card {
+    .el-col-24 {
+      padding-bottom: 12px;
+    }
+    .el-card__body {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   }
-  .app-card.properties-card .el-col-24,
   .el-col-16 {
     .el-form-item {
       transition: all 0.2s ease;
@@ -26,6 +31,18 @@
       padding: 8px 16px 16px;
     }
     &:hover {
+      .app-card.properties-card .el-col-24 {
+        .el-form-item {
+          background: transparent;
+          border-left: 4px solid transparent;
+        }
+        &:hover {
+          .el-form-item {
+            background: #fafafa;
+            border-left: 4px solid var(--el-color-primary);
+          }
+        }
+      }
       .el-form-item {
         background: #fafafa;
         border-left: 4px solid var(--el-color-primary);
