@@ -1,6 +1,7 @@
 <template>
   <el-input
     class="time-input-with-unit-select"
+    type="number"
     v-model.number.trim="timeValue"
     :disabled="disabled"
     @change="$emit('change')"
