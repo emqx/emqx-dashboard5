@@ -315,6 +315,7 @@ onMounted(() => {
   justify-content: center;
   width: 24px;
   height: 24px;
+  border-radius: 2px;
   background-color: #f2f2f2;
   cursor: pointer;
 }

@@ -302,7 +302,7 @@ export default {
   licenseEvaluationTip: {
     zh: `
     当前正在使用评估 License，限制为10个连接。请<a target="_blank"  href="https://www.emqx.com/zh/apply-licenses/emqx">升级 License</a> 。<br/>
-    如已购买License，请使用 <code>emqx ctl license update</code> 命令进行升级`,
+    如已购买 License，请使用 <code>emqx ctl license update</code> 命令进行升级`,
     en: `
     You are using a 10-connection evaluation license. Please<a target="_blank"  href="https://www.emqx.com/en/apply-licenses/emqx"> upgrade license </a>.<br/>
     If you have already received a license, please update with command <code>emqx ctl license update</code>`,

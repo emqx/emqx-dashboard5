@@ -393,6 +393,7 @@ watch(showDialog, (val) => {
     justify-content: center;
     width: 20px;
     height: 20px;
+    border-radius: 2px;
     background-color: #f1f1f1;
     cursor: pointer;
     &:not(:last-child) {

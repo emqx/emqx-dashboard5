@@ -57,7 +57,7 @@
           {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" min-width="100">
+      <el-table-column :label="$t('Base.operation')" min-width="108">
         <template #default="{ row }">
           <el-button
             size="mini"

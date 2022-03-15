@@ -1,10 +1,10 @@
 export default {
   activeList: {
-    zh: '活跃中的Trace列表',
+    zh: '活跃中的 Trace 列表',
     en: 'Active Log Trace List',
   },
   finishedList: {
-    zh: '已完成的Trace列表',
+    zh: '已完成的 Trace 列表',
     en: 'Finished Log Trace List',
   },
   name: {
@@ -68,19 +68,19 @@ export default {
     en: 'Create Trace',
   },
   viewLog: {
-    zh: '查看Trace',
+    zh: '查看 Trace',
     en: 'View Trace',
   },
   createSuc: {
-    zh: '创建Trace成功',
+    zh: '创建 Trace 成功',
     en: 'Create Log Trace Successfully',
   },
   stopSuc: {
-    zh: '停止Trace成功',
+    zh: '停止 Trace 成功',
     en: 'Stop Log Trace Successfully',
   },
   deleteSuc: {
-    zh: '删除Trace成功',
+    zh: '删除 Trace 成功',
     en: 'Delete Log Trace Successfully',
   },
   tooLargeLog: {
@@ -88,7 +88,7 @@ export default {
     en: 'The Trace is too long, you better download to view',
   },
   confirmDeleteTrace: {
-    zh: '确定删除该Trace',
+    zh: '确定删除该 Trace',
     en: 'Confirm to delete this Trace',
   },
   needStartTime: {

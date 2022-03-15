@@ -76,11 +76,11 @@ export default {
     en: 'Custom',
   },
   sTopic: {
-    zh: '源Topic',
+    zh: '源 Topic',
     en: 'Source Topic',
   },
   dTopic: {
-    zh: '目标Topic',
+    zh: '目标 Topic',
     en: 'Dest. Topic',
   },
   delayedTime: {

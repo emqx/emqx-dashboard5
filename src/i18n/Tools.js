@@ -140,7 +140,7 @@ export default {
     en: '{name} is ',
   },
   addTopic: {
-    zh: '添加Topic',
+    zh: '添加 Topic',
     en: 'Add Topic',
   },
   msgIn: {
