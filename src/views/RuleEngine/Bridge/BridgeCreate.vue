@@ -30,8 +30,8 @@
                   <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
                     <img
                       class="bridge-type-item-img"
-                      height="80"
-                      width="80"
+                      height="60"
+                      width="60"
                       :src="require(`@/assets/img/${item.value}.png`)"
                       :alt="item.label"
                     />
@@ -233,11 +233,11 @@ export default defineComponent({
 
 .el-radio.is-bordered {
   border-radius: 0px;
-  padding: 0px 10px;
+  padding: 0px 10px 0 8px;
   min-width: 40%;
   border: 2px solid #e4e4e4;
   margin-top: 16px;
-  height: unset;
+  height: 100%;
   :deep(.el-radio__input) {
     display: none;
   }
@@ -248,8 +248,8 @@ export default defineComponent({
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 0 0 0 80px;
-    min-height: 80px;
+    padding: 0 0 0 60px;
+    min-height: 60px;
     .title {
       margin-bottom: 4px;
       font-weight: bold;
@@ -261,6 +261,10 @@ export default defineComponent({
       font-size: 12px;
       word-break: break-all;
       white-space: normal;
+    }
+    .bridge-type-item-bd {
+      padding-top: 12px;
+      padding-bottom: 12px;
     }
   }
 }
@@ -279,7 +283,8 @@ export default defineComponent({
 }
 .bridge-type-item-img {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
+  transform: translateY(-50%);
 }
 </style>
