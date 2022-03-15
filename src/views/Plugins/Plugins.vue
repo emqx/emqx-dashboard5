@@ -48,7 +48,7 @@
                     v-for="{ node, status } in row.running_status"
                     :key="node"
                   >
-                    <span class="text-status" :class="statusTextClass(row)">
+                    <span class="text-status" :class="statusTextClass(status)">
                       {{ statusText(status) }}
                     </span>
                     <span class="node-name">{{ node }}</span>
