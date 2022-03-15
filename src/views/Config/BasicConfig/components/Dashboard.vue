@@ -1,5 +1,5 @@
 <template>
-  <div class="no-tab-wrapper dashboard">
+  <div class="dashboard">
     <schema-form
       path="/configs/dashboard"
       :form="configs"

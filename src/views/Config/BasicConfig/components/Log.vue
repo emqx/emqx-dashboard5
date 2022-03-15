@@ -1,5 +1,5 @@
 <template>
-  <div class="no-tab-wrapper log">
+  <div class="log">
     <schema-form
       path="/configs/log"
       :form="configs"

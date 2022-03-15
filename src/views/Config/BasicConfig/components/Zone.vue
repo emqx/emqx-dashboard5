@@ -17,7 +17,7 @@
         :name="item.name"
       >
         <p class="zone-tip">{{ tl('zoneTip') }}</p>
-        <el-card shadow="never" class="app-card">
+        <el-card shadow="never" class="app-card zone-card">
           <schema-form
             path="/configs/zones"
             :form="configs[item.name]"
@@ -260,6 +260,10 @@ export default defineComponent({
   .zone-tip {
     line-height: 40px;
     color: var(--el-text-color-regular);
+  }
+  .zone-card .el-card__body {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 </style>
