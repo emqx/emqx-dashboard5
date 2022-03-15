@@ -48,8 +48,8 @@ export enum BridgeStatus {
 
 // [ top, bottom, before, after ]
 export enum TargetPosition {
-  Top = 'top',
-  Bottom = 'bottom',
+  Top = 'front',
+  Bottom = 'rear',
   Before = 'before:',
   After = 'after:',
 }
