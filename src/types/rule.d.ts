@@ -77,6 +77,7 @@ export interface BridgeBaseData {
   status: BridgeStatus
   type: BridgeType
   local_topic: string
+  enable: boolean
 }
 
 export interface HTTPBridge extends BridgeBaseData {

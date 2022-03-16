@@ -52,7 +52,7 @@
                 {{ $t('Base.setting') }}
               </el-button>
               <el-button size="mini" @click="enableOrDisableBridge(row)">
-                {{ row.status === 'connected' ? $t('Base.disable') : $t('Base.enable') }}
+                {{ row.enable ? $t('Base.disable') : $t('Base.enable') }}
               </el-button>
               <el-button size="mini" type="danger" @click="submitDeleteBridge(row.id)">
                 {{ $t('Base.delete') }}
@@ -69,7 +69,7 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import { getBridgeList, startStopBridge, deleteBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
-import { BridgeItem } from '@/types/ruleengine'
+import { BridgeItem } from '@/types/rule'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import useBridgeTypeValue, {
@@ -100,8 +100,8 @@ export default defineComponent({
 
     const enableOrDisableBridge = async (row: BridgeItem) => {
       tbLoading.value = true
-      const statusToSend = row.status === 'connected' ? 'disable' : 'enable'
-      const sucMessage = row.status === 'connected' ? 'Base.disabledSuccess' : 'Base.enableSuccess'
+      const statusToSend = row.enable ? 'disable' : 'enable'
+      const sucMessage = row.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'
       try {
         await startStopBridge(row.id, statusToSend)
         M.success(t(sucMessage))
