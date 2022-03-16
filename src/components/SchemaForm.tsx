@@ -36,6 +36,10 @@ const SchemaForm = defineComponent({
       type: Boolean,
       default: false,
     },
+    canRemoveConfig: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const configForm = ref<{ [key: string]: any }>({})
@@ -50,6 +54,11 @@ const SchemaForm = defineComponent({
     const resetValue = (property: Properties[string]) => {
       if (property.path && property.default) {
         configForm.value[property.path] = property.default
+      }
+    }
+    const removeValue = (property: Properties[string]) => {
+      if (property.path) {
+        Reflect.deleteProperty(configForm.value, property.path)
       }
     }
     const conditionCard = (properties: Properties) => {
@@ -172,12 +181,17 @@ const SchemaForm = defineComponent({
       const handleCommand = (command: string) => {
         if (command === 'reset') {
           resetValue(property)
+        } else if (command === 'remove') {
+          removeValue(property)
         }
       }
       const slots = {
         dropdown: () => (
           <el-dropdown-menu>
             <el-dropdown-item command="reset">{t('Base.reset')}</el-dropdown-item>
+            <el-dropdown-item v-show={props.canRemoveConfig} command="remove">
+              {t('Settings.remove')}
+            </el-dropdown-item>
           </el-dropdown-menu>
         ),
       }
