@@ -114,3 +114,15 @@ export enum ChartType {
   SentBytes = 'sent_bytes',
   Subscriptions = 'subscriptions',
 }
+
+export enum MongoType {
+  Single = 'single',
+  Sharded = 'sharded',
+  Rs = 'rs',
+}
+
+export enum RedisType {
+  Single = 'single',
+  Sentinel = 'sentinel',
+  Cluster = 'cluster',
+}

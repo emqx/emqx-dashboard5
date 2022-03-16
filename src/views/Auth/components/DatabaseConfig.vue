@@ -72,7 +72,7 @@
             <el-input v-model="databaseConfig.password" type="password"></el-input>
           </el-form-item>
         </el-col>
-        <template v-if="isMongoDB">
+        <template v-if="isMongoDB && databaseConfig.mongo_type === 'rs'">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.readMode')">
               <el-select v-model="databaseConfig.r_mode">
