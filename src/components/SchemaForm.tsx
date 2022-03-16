@@ -51,15 +51,24 @@ const SchemaForm = defineComponent({
       },
     )
     const { t } = useI18n()
+    const replaceVarPath = (path: string) => {
+      let _path = path
+      if (/\$\w+/g.test(_path)) {
+        // FIXME: default string value is only temporary.
+        // Replace the variable characters in the path with real words, e.g. file_handle.$name -> file_handle.default
+        _path = _path.replace(/\$\w+/g, 'default')
+      }
+      return _path
+    }
     const resetValue = (property: Properties[string]) => {
-      if (property.path && property.default) {
+      if (!property.path) return
+      if (property.default) {
         configForm.value[property.path] = property.default
       }
     }
     const removeValue = (property: Properties[string]) => {
-      if (property.path) {
-        Reflect.deleteProperty(configForm.value, property.path)
-      }
+      if (!property.path) return
+      Reflect.deleteProperty(configForm.value, property.path)
     }
     const conditionCard = (properties: Properties) => {
       return (
@@ -69,13 +78,9 @@ const SchemaForm = defineComponent({
       )
     }
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
-      let { path } = property
-      if (!path) return
-      if (/\$\w+/g.test(path)) {
-        // FIXME: default string value is only temporary.
-        // Replace the variable characters in the path with real words, e.g. file_handle.$name -> file_handle.default
-        path = path.replace(/\$\w+/g, 'default')
-      }
+      if (!property.path) return
+      property.path = replaceVarPath(property.path)
+      const { path } = property
       const stringInput = (
         <el-input
           disabled={property.readOnly}
@@ -197,7 +202,12 @@ const SchemaForm = defineComponent({
       }
       const colItem = (
         <el-col span={col}>
-          <el-dropdown class="schema-col-setting" v-slots={slots} onCommand={handleCommand}>
+          <el-dropdown
+            class="schema-col-setting"
+            trigger="click"
+            v-slots={slots}
+            onCommand={handleCommand}
+          >
             <a class="setting-btn">
               <el-icon>
                 <Setting />
