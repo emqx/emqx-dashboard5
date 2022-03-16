@@ -113,7 +113,7 @@ export default defineComponent({
       {
         label: 'Built-in database',
         value: 'built_in_database',
-        img: require('@/assets/img/built_in_database.png'),
+        img: require('@/assets/img/built-in-database.png'),
       },
       {
         label: 'MySQL',
