@@ -5,7 +5,7 @@ export function loadApp() {
 }
 
 export function showApp(appid) {
-  return http.get(`/apps/${appid}`)
+  return http.get(`/apps/${encodeURIComponent(appid)}`)
 }
 
 export function createApp(body = {}) {
@@ -13,11 +13,11 @@ export function createApp(body = {}) {
 }
 
 export function updateApp(appid, body = {}) {
-  return http.put(`/apps/${appid}`, body)
+  return http.put(`/apps/${encodeURIComponent(appid)}`, body)
 }
 
 export function destroyAPP(appid) {
-  return http.delete(`/apps/${appid}`)
+  return http.delete(`/apps/${encodeURIComponent(appid)}`)
 }
 
 export function loadUser() {
@@ -29,15 +29,15 @@ export function createUser(body = {}) {
 }
 
 export function updateUser(username, body = {}) {
-  return http.put(`/users/${username}`, body)
+  return http.put(`/users/${encodeURIComponent(username)}`, body)
 }
 
 export function changePassword(username, body = {}) {
-  return http.put(`/users/${username}/change_pwd`, body)
+  return http.put(`/users/${encodeURIComponent(username)}/change_pwd`, body)
 }
 
 export function destroyUser(username) {
-  return http.delete(`/users/${username}`)
+  return http.delete(`/users/${encodeURIComponent(username)}`)
 }
 
 export function loadBlacklist(params = {}) {
