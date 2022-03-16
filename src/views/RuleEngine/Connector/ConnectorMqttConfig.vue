@@ -45,7 +45,7 @@
     <div class="form-sub-block">
       <div class="part-header">{{ tl('connSetting') }}</div>
       <el-row :gutter="30">
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item>
             <template #label>
               <label>{{ tl('connMode') }}</label>
@@ -66,7 +66,7 @@
               />
             </el-select>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="12">
           <el-form-item :label="tl('reconnectInterval')">
             <InputWithUnit v-model="connectorVal.reconnect_interval" :units="commonTimeUnits" />
@@ -107,7 +107,7 @@ import { commonTimeUnits } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
 export default defineComponent({
-  components: { TLSConfig, InputWithUnit, InfoTooltip },
+  components: { TLSConfig, InputWithUnit },
   props: {
     modelValue: {
       type: Object,

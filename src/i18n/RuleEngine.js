@@ -180,11 +180,11 @@ export default {
     en: 'Create IoT Rule',
   },
   mode_cluster_shareload: {
-    zh: '集群共享模式',
+    zh: '节点独立连接',
     en: 'Cluster Shareload',
   },
   mode_cluster_singleton: {
-    zh: '节点独立连接',
+    zh: '集群共享模式',
     en: 'Cluster Singleton',
   },
   listTable: {
