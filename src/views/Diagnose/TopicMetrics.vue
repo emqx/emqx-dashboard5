@@ -81,31 +81,47 @@
         </template>
       </el-table-column>
       <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
-      <el-table-column :label="tl('msgIn')" sortable :sort-method="sorting">
+      <el-table-column
+        :label="tl('msgIn')"
+        sortable
+        :sort-by="({ metrics }) => metrics['messages.in.count']"
+      >
         <template #default="{ row }">
           {{ row.metrics['messages.in.count'] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('msgOut')" sortable :sort-method="sorting">
+      <el-table-column
+        :label="tl('msgOut')"
+        sortable
+        :sort-by="({ metrics }) => metrics['messages.out.count']"
+      >
         <template #default="{ row }">
           {{ row.metrics['messages.out.count'] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('msgDrop')" sortable :sort-method="sorting">
+      <el-table-column
+        :label="tl('msgDrop')"
+        sortable
+        :sort-by="({ metrics }) => metrics['messages.dropped.count']"
+      >
         <template #default="{ row }">
           {{ row.metrics['messages.dropped.count'] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('startTime')" sortable :sort-method="sorting">
+      <el-table-column
+        :label="tl('startTime')"
+        sortable
+        :sort-by="({ create_time }) => new Date(create_time).getTime()"
+      >
         <template #default="{ row }">
           {{ (row.reset_at && df(row.reset_at)) || (row.create_time && df(row.create_time)) }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button size="mini" @click="loadMetricsFromTopic(row, $index)">{{
-            $t('Base.view')
-          }}</el-button>
+          <el-button size="mini" @click="loadMetricsFromTopic(row, $index)">
+            {{ $t('Base.view') }}
+          </el-button>
           <el-button size="mini" @click="resetTopic(row)">{{ $t('Base.reset') }}</el-button>
           <el-button size="mini" type="danger" @click="deleteTopic(row)">
             {{ $t('Base.delete') }}
@@ -130,9 +146,9 @@
       <template #footer>
         <div class="dialog-align-footer">
           <el-button size="small" @click="addVisible = false">{{ $t('Base.cancel') }}</el-button>
-          <el-button type="primary" size="small" @click="addTopic()" :loading="addLoading">{{
-            $t('Base.add')
-          }}</el-button>
+          <el-button type="primary" size="small" @click="addTopic()" :loading="addLoading">
+            {{ $t('Base.add') }}
+          </el-button>
         </div>
       </template>
     </el-dialog>
@@ -276,11 +292,6 @@ export default defineComponent({
       }
     }
 
-    //yes ,its a element plus bug
-    const sorting = (a, b) => {
-      // console.log(a, b);
-    }
-
     onMounted(loadTopicMetrics)
 
     return {
@@ -301,7 +312,6 @@ export default defineComponent({
       tableExpandRowKeys,
       loadMetricsFromTopic,
       addLoading,
-      sorting,
     }
   },
 })
