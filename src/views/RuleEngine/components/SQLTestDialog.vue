@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="tl('testsql')" v-model="showDialog" :width="1000">
+  <el-dialog
+    :title="tl('testsql')"
+    v-model="showDialog"
+    top="60px"
+    :width="1000"
+    custom-class="SQL-test-dialog"
+  >
     <el-form label-position="top">
       <el-row :gutter="30">
         <el-col :span="12">
@@ -342,7 +348,7 @@ const submitTest = async () => {
 
   if (res) {
     try {
-      const text = JSON.stringify(res)
+      const text = JSON.stringify(res, null, 2)
       testParams.value.output = text
     } catch (e) {
       console.log(e)
@@ -402,10 +408,19 @@ watch(showDialog, (val) => {
   }
 }
 .monaco-container {
-  height: 200px;
+  height: 180px;
 }
 .ft-flex {
   display: flex;
   justify-content: space-between;
+}
+</style>
+
+<style lang="scss">
+.SQL-test-dialog {
+  .el-dialog__body {
+    padding-top: 8px;
+    padding-bottom: 4px;
+  }
 }
 </style>

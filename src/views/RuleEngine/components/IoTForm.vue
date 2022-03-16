@@ -223,6 +223,7 @@ const syncData = () => {
     sql = syncFormDataToSQL()
   } else {
     syncSQLDataToForm()
+    testSQL.value = sql
   }
   const value = { ...ruleValue.value, sql }
   modelValueCache = JSON.stringify(value)
