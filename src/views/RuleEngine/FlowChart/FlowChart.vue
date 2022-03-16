@@ -59,6 +59,7 @@ const { t } = useI18n()
     background-color: #000;
     margin-top: 8px;
     padding: 4px;
+    overflow-x: scroll;
   }
 }
 .topology-placeholder {
