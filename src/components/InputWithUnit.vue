@@ -31,6 +31,9 @@ const props = defineProps({
   units: {
     type: Array as PropType<Array<{ label: string; value: string } | string>>,
   },
+  defaultUnit: {
+    type: String,
+  },
   disabled: {
     type: Boolean,
     default: false,
@@ -77,7 +80,13 @@ const unit: WritableComputedRef<string> = computed({
       return unit
     }
     if (!props.modelValue) {
-      return units && units.length > 0 ? units[0].value : ''
+      if (units && units.length > 0) {
+        if (props.defaultUnit && units.some(({ value }) => value === props.defaultUnit)) {
+          return props.defaultUnit
+        }
+        return units[0].value
+      }
+      return ''
     }
     return ''
   },

@@ -6,7 +6,7 @@
       @close="$emit('finish', false)"
     >
       <p class="desc-create">{{ tl('descForCreateConnector') }}</p>
-      <el-form label-position="top">
+      <el-form :model="connectorData" ref="formCom" label-position="top" :rules="formRules">
         <div class="form-sub-block">
           <div class="part-header">{{ tl('baseInfo') }}</div>
           <el-row :gutter="30">
@@ -31,7 +31,7 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item :label="tl('connName')">
+              <el-form-item :label="tl('connName')" prop="name" required>
                 <el-input
                   v-model="connectorData.name"
                   :placeholder="connectorData.name"
@@ -86,7 +86,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { computed, ref, watch, defineProps, defineEmits } from 'vue'
+import { computed, ref, watch, defineProps, defineEmits, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ConnectorMqttConfig from '../Connector/ConnectorMqttConfig.vue'
 import { createConnector, updateConnector, testConnector } from '@/api/ruleengine'
@@ -95,6 +95,8 @@ import { ElMessage } from 'element-plus'
 import useConnectorTypeValue from '@/hooks/Rule/bridge/useConnectorTypeValue'
 import { createRawSSLParams } from '@/common/tools.ts'
 import { ConnectorType } from '@/types/enum'
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   edit: {
@@ -121,11 +123,18 @@ const props = defineProps({
 const emit = defineEmits(['update:open', 'finish'])
 
 const { t } = useI18n()
+const { tl } = useI18nTl('RuleEngine')
 const { connectorTypeOptions } = useConnectorTypeValue()
 const connectorData = ref({})
 const connectorTLS = ref(createRawSSLParams())
 const submitLoading = ref(false)
 const isTesting = ref(false)
+
+const { createRequiredRule } = useFormRules()
+const formCom = ref()
+const formRules = {
+  name: createRequiredRule(tl('connName')),
+}
 
 const visible = computed({
   get() {
@@ -156,8 +165,6 @@ const initConnectorAndSSLData = () => {
     props.edit && props.modelValue.ssl ? cloneDeep(props.modelValue.ssl) : createRawSSLParams()
 }
 
-const tl = (key, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
-
 const updateConnectorData = (newConnectorData) => {
   connectorData.value = { ...connectorData.value, ...newConnectorData }
 }
@@ -181,6 +188,7 @@ const testTheConnection = async () => {
 }
 
 const submitConnector = async (isEdit) => {
+  await formCom.value.validate()
   let res
   submitLoading.value = true
   const data = getConnectorData()
@@ -213,9 +221,11 @@ const closeDialog = () => {
 
 initConnectorAndSSLData()
 
-watch(visible, (val) => {
+watch(visible, async (val) => {
   if (val) {
     initConnectorAndSSLData()
+    await nextTick()
+    formCom.value.clearValidate()
   }
 })
 

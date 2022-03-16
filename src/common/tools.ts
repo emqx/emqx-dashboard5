@@ -100,13 +100,7 @@ export const createRawSSLParams = (): SSL => ({
   cacertfile: '',
 })
 
-export const commonTimeUnits = [
-  { value: 'ms', label: 'ms' },
-  { value: 's', label: 's' },
-  { value: 'm', label: 'm' },
-  { value: 'h', label: 'h' },
-  { value: 'd', label: 'd' },
-]
+export const commonTimeUnits = ['ms', 's', 'm', 'h', 'd']
 
 export const formatNumber = (num: number) => {
   const ret = new Intl.NumberFormat().format(num)

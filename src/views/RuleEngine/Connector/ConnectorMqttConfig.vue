@@ -69,12 +69,20 @@
         </el-col> -->
         <el-col :span="12">
           <el-form-item :label="tl('reconnectInterval')">
-            <InputWithUnit v-model="connectorVal.reconnect_interval" :units="commonTimeUnits" />
+            <InputWithUnit
+              v-model="connectorVal.reconnect_interval"
+              :units="commonTimeUnits"
+              default-unit="s"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('retryInterval')">
-            <InputWithUnit v-model="connectorVal.retry_interval" :units="commonTimeUnits" />
+            <InputWithUnit
+              v-model="connectorVal.retry_interval"
+              :units="commonTimeUnits"
+              default-unit="s"
+            />
           </el-form-item>
         </el-col>
         <!-- <el-col :span="12">
@@ -105,6 +113,9 @@ import _ from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import { ConnectorItem } from '@/types/rule'
+
+type ConnectorForm = Partial<ConnectorItem>
 
 export default defineComponent({
   components: { TLSConfig, InputWithUnit },
@@ -149,14 +160,14 @@ export default defineComponent({
       mode: modeOptions[0],
     }
     const matchedKeepalive = String(prop.modelValue.keepalive).match(/([\d]+)/)
-    const connectorVal = reactive({
+    const connectorVal: ConnectorForm = reactive({
       ..._.cloneDeep(connectorDefaultVal),
       ..._.cloneDeep({
         ...prop.modelValue,
         keepalive:
           (matchedKeepalive?.length && matchedKeepalive[1]) || connectorDefaultVal.keepalive,
       }),
-    })
+    }) as ConnectorForm
 
     watch(
       () => _.cloneDeep(connectorVal),
@@ -177,10 +188,17 @@ export default defineComponent({
     })
 
     const transformValue = (obj: Record<string, unknown>) => {
-      return _.cloneDeep({
-        ...obj,
-        keepalive: obj.keepalive + 's',
+      let ret = _.cloneDeep(obj)
+      ret.keepalive = ret.keepalive + 's'
+
+      const fields = ['reconnect_interval', 'retry_interval']
+      const reg = new RegExp(`^${commonTimeUnits.join('|')}$`)
+      fields.forEach((key) => {
+        if (reg.test(obj[key] as string)) {
+          ret = _.omit(ret, key)
+        }
       })
+      return ret
     }
 
     return {
