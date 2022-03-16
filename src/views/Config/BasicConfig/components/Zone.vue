@@ -22,6 +22,7 @@
             path="/configs/zones"
             :form="configs[item.name]"
             :btn-loading="saveLoading"
+            :can-remove-config="item.name !== 'global'"
             @save="handleSave"
           ></schema-form>
         </el-card>
