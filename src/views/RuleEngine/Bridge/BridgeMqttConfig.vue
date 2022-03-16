@@ -351,10 +351,10 @@ const transformData = (val: Record<string, unknown>) => {
 
 const handleIsForwardToLocalTopicChanged = () => {
   if (!isForwardToLocalTopic.value) {
-    Reflect.deleteProperty(mqttBridgeVal.value, 'local_topic')
-    Reflect.deleteProperty(mqttBridgeVal.value, 'local_qos')
-    Reflect.deleteProperty(mqttBridgeVal.value, 'retain')
-    Reflect.deleteProperty(mqttBridgeVal.value, 'payload')
+    const needDeleteFields = ['local_topic', 'local_qos', 'retain', 'payload']
+    needDeleteFields.forEach((fieldName) => {
+      Reflect.deleteProperty(mqttBridgeVal.value, fieldName)
+    })
   } else {
     const { local_topic, local_qos, retain, payload } = mqttBridgeDefaultVal
     mqttBridgeVal.value = {
