@@ -133,7 +133,6 @@ export default defineComponent({
       loadData(false)
     }
     const updateGlobalZone = async (val: Zone) => {
-      saveLoading.value = true
       const data: Zone = {
         ...val,
       }
@@ -165,6 +164,7 @@ export default defineComponent({
       }
     }
     const handleSave = async (val: Zone) => {
+      saveLoading.value = true
       if (currTab.value === 'global') {
         updateGlobalZone(val)
       } else {

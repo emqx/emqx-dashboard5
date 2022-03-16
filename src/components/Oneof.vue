@@ -96,22 +96,39 @@ export default defineComponent({
         }
       })
     }
+    const catchValType = (val: any) => {
+      if (['disable', 'infinity', 'unlimited', 'disabled'].includes(val)) {
+        return 'enum'
+      }
+      if (typeof val === 'number') {
+        setFormValue(val, 'number')
+        return 'number'
+      }
+      if (/s|ms|h|m+/g.test(val)) {
+        setFormValue(val, 'duration')
+        return 'duration'
+      }
+      if (/MB|KB|G+/g.test(val)) {
+        setFormValue(val, 'byteSize')
+        return 'byteSize'
+      }
+      if (IP_REG.test(val)) {
+        setFormValue(val, 'ip_port')
+        return 'ip_port'
+      }
+      return 'string'
+    }
     watch(
       () => props.modelValue,
-      (val: any) => {
-        if (['disable', 'infinity', 'unlimited', 'disabled'].includes(val)) {
-          setFormValue(val, 'enum')
-        } else if (typeof val === 'number') {
-          setFormValue(val, 'number')
-        } else if (/s|ms|h|m+/g.test(val)) {
-          setFormValue(val, 'duration')
-        } else if (/MB|KB|G+/g.test(val)) {
-          setFormValue(val, 'byteSize')
-        } else if (IP_REG.test(val)) {
-          setFormValue(val, 'ip_port')
-        } else {
-          setFormValue(val, 'string')
+      (val: any, oldVal: any) => {
+        let type = catchValType(val)
+        if (val === undefined && oldVal) {
+          type = catchValType(oldVal)
+        } else if (val && oldVal && oldVal !== val) {
+          const oldType = catchValType(oldVal)
+          setFormValue('', oldType)
         }
+        setFormValue(val, type)
       },
     )
     const handleValChange = (val: string | number, type: string) => {
