@@ -33,17 +33,18 @@ export default function useProcessAuthData() {
   }
   const processMongoDBConfig = (data) => {
     try {
-      const tempData = _.cloneDeep(data)
+      let tempData = _.cloneDeep(data)
       const { mongo_type, selector } = data
+      const needDeleteFields = []
       if (mongo_type !== 'single') {
-        delete tempData.server
+        needDeleteFields.push('server')
       } else {
-        delete tempData.replica_set_name
-        delete tempData.servers
+        needDeleteFields.push('servers', 'replica_set_name')
       }
       if (mongo_type !== 'rs') {
-        delete tempData.w_mode
+        needDeleteFields.push('w_mode', 'r_mode')
       }
+      tempData = _.omit(tempData, needDeleteFields)
       if (selector !== '' && selector !== undefined) {
         tempData.selector = parseJSONSafely(selector)
       } else {
