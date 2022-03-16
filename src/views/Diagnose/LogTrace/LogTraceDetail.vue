@@ -70,6 +70,7 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const route = useRoute()
+    const monacoContainer = ref()
     const initialHeight = ref(300)
     const logContent = ref('')
     const viewNodeLoading = ref(false)
@@ -79,15 +80,18 @@ export default defineComponent({
     const nextPageLoading = ref('')
 
     const countInitialHeight = () => {
+      const offsetTop = (monacoContainer.value?.getBoundingClientRect()?.top || 250) + 30
       const windowHeight = window.innerHeight
-      initialHeight.value = windowHeight - 200
+      initialHeight.value = windowHeight - offsetTop
     }
 
     const loadCurrentNodes = async () => {
-      const data = await loadNodes().catch(() => {})
-      if (data) {
+      try {
+        const data = await loadNodes()
         currentNodes.value = data
         node.value = currentNodes.value[0]?.node || ''
+      } catch (error) {
+        console.error(error)
       }
     }
 
@@ -156,6 +160,7 @@ export default defineComponent({
 
     return {
       tl: (key: string) => t('LogTrace.' + key),
+      monacoContainer,
       initialHeight,
       download,
       logContent,
