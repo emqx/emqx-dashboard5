@@ -114,7 +114,9 @@ export default function useAuthzCreate() {
         break
     }
     data.type = type
-    data.ssl = handleSSLDataBeforeSubmit(data.ssl)
+    if (data.ssl && typeof data.ssl === 'object') {
+      data.ssl = handleSSLDataBeforeSubmit(data.ssl)
+    }
     return data
   }
   return {

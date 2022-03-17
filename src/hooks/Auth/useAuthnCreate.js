@@ -157,7 +157,9 @@ export default function useAuthnCreate() {
     }
     data.mechanism = mechanism
     data = processPasswordHashAlgorithmData(data)
-    data.ssl = handleSSLDataBeforeSubmit(data.ssl)
+    if (data.ssl && typeof data.ssl === 'object') {
+      data.ssl = handleSSLDataBeforeSubmit(data.ssl)
+    }
     return data
   }
   return {
