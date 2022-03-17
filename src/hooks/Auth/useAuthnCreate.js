@@ -2,8 +2,10 @@ import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
 import { getPasswordHashAlgorithmObj } from './usePasswordHashAlgorithmData'
 import { DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
+import useSSL from '@/hooks/useSSL'
 
 export default function useAuthnCreate() {
+  const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
   const getBuiltInConfig = (type) => {
     if (type === 'password_based') {
       return {
@@ -35,10 +37,7 @@ export default function useAuthnCreate() {
       connect_timeout: '5s',
       request_timeout: '5s',
       enable_pipelining: true,
-      ssl: {
-        enable: false,
-        verify: DEFAULT_SSL_VERIFY_VALUE,
-      },
+      ssl: createSSLForm(),
     }
   }
   const getDatabaseConfig = (backend) => {
@@ -49,10 +48,7 @@ export default function useAuthnCreate() {
       database: '',
       pool_size: 8,
       auto_reconnect: true,
-      ssl: {
-        enable: false,
-        verify: DEFAULT_SSL_VERIFY_VALUE,
-      },
+      ssl: createSSLForm(),
       query: '',
       ...getPasswordHashAlgorithmObj(),
     }
@@ -73,10 +69,7 @@ export default function useAuthnCreate() {
       ...getPasswordHashAlgorithmObj(),
       pool_size: 8,
       cmd: '',
-      ssl: {
-        enable: false,
-        verify: DEFAULT_SSL_VERIFY_VALUE,
-      },
+      ssl: createSSLForm(),
     }
   }
   const getMongodbConfig = () => {
@@ -93,10 +86,7 @@ export default function useAuthnCreate() {
       w_mode: 'safe',
       ...getPasswordHashAlgorithmObj(),
       pool_size: 8,
-      ssl: {
-        enable: false,
-        verify: DEFAULT_SSL_VERIFY_VALUE,
-      },
+      ssl: createSSLForm(),
       topology: {
         connect_timeout_ms: 20000,
       },
@@ -167,6 +157,7 @@ export default function useAuthnCreate() {
     }
     data.mechanism = mechanism
     data = processPasswordHashAlgorithmData(data)
+    data.ssl = handleSSLDataBeforeSubmit(data.ssl)
     return data
   }
   return {
