@@ -1,5 +1,6 @@
 import http from '@/common/http'
 
+/* Retainer */
 export function getRetainer() {
   return http.get('/mqtt/retainer')
 }
@@ -23,6 +24,7 @@ export function delRetainerTopic(topic) {
   return http.delete('/mqtt/retainer/message/' + encodeURIComponent(topic))
 }
 
+/* Rewrite */
 export function getTopicRewrite() {
   return http.get('/mqtt/topic_rewrite')
 }
@@ -32,6 +34,7 @@ export function editTopicRewrite(body) {
   return http.put('/mqtt/topic_rewrite', data)
 }
 
+/* Proxy subscription */
 export function getSubscribe() {
   return http.get('/mqtt/auto_subscribe')
 }
@@ -41,6 +44,7 @@ export function editSubscribe(body) {
   return http.put('/mqtt/auto_subscribe', data)
 }
 
+/* Delayed */
 export function getDelayedConfig() {
   return http.get('/mqtt/delayed')
 }
@@ -54,16 +58,17 @@ export function getDelayedList(params) {
   return http.get('/mqtt/delayed/messages', { params: params })
 }
 
-export function getDelayedInfo(id) {
-  if (id == null) return
-  return http.get('/mqtt/delayed/messages/' + encodeURIComponent(id))
+export function getDelayedInfo(node, id) {
+  if (!node || id == null) return
+  return http.get(`/mqtt/delayed/messages/${encodeURIComponent(node)}/${encodeURIComponent(id)}`)
 }
 
-export function delDelayedInfo(id) {
-  if (null == id) return
-  return http.delete('/mqtt/delayed/messages/' + encodeURIComponent(id))
+export function delDelayedInfo(node, id) {
+  if (!node || null == id) return
+  return http.delete(`/mqtt/delayed/messages/${encodeURIComponent(node)}/${encodeURIComponent(id)}`)
 }
 
+/* Event msg */
 export function getEventMsg() {
   return http.get('/mqtt/event_message')
 }
