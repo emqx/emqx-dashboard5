@@ -1,8 +1,11 @@
 import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
 import { DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
+import useSSL from '@/hooks/useSSL'
 
 export default function useAuthzCreate() {
+  const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
+
   const getFileConfig = () => {
     return {
       rules: `{allow, {username, "dashboard"}, subscribe, ["$SYS/#"]}.
@@ -18,10 +21,7 @@ export default function useAuthzCreate() {
       database: '',
       pool_size: 8,
       auto_reconnect: true,
-      ssl: {
-        enable: false,
-        verify: DEFAULT_SSL_VERIFY_VALUE,
-      },
+      ssl: createSSLForm(),
       query: '',
     }
   }
@@ -44,10 +44,7 @@ export default function useAuthzCreate() {
       connect_timeout: '5s',
       request_timeout: '5s',
       enable_pipelining: true,
-      ssl: {
-        enable: false,
-        verify: DEFAULT_SSL_VERIFY_VALUE,
-      },
+      ssl: createSSLForm(),
     }
   }
   const getMongodbConfig = () => {
@@ -61,10 +58,7 @@ export default function useAuthzCreate() {
       r_mode: 'master',
       w_mode: 'safe',
       pool_size: 8,
-      ssl: {
-        enable: false,
-        verify: DEFAULT_SSL_VERIFY_VALUE,
-      },
+      ssl: createSSLForm(),
       topology: {
         connect_timeout_ms: 20000,
       },
@@ -81,10 +75,7 @@ export default function useAuthzCreate() {
       password: '',
       pool_size: 8,
       cmd: '',
-      ssl: {
-        enable: false,
-        verify: DEFAULT_SSL_VERIFY_VALUE,
-      },
+      ssl: createSSLForm(),
     }
   }
   const factory = (type) => {
@@ -123,6 +114,7 @@ export default function useAuthzCreate() {
         break
     }
     data.type = type
+    data.ssl = handleSSLDataBeforeSubmit(data.ssl)
     return data
   }
   return {
