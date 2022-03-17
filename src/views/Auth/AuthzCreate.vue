@@ -111,7 +111,7 @@ export default defineComponent({
     const typeList = ref([
       { label: 'File', value: 'file', img: require('@/assets/img/file.png') },
       {
-        label: 'Built-in database',
+        label: 'Built-in Database',
         value: 'built_in_database',
         img: require('@/assets/img/built_in_database.png'),
       },

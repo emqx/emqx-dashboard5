@@ -189,7 +189,9 @@ export default defineComponent({
     cancelFunc: {
       type: Function,
       required: false,
-      default: () => {},
+      default: () => {
+        return true
+      },
     },
     createFunc: {
       type: Function,
@@ -212,7 +214,7 @@ export default defineComponent({
     const { factory, create } = useAuthnCreate()
     const supportBackendMap = {
       password_based: {
-        built_in_database: 'Built-in database',
+        built_in_database: 'Built-in Database',
         mysql: 'MySQL',
         mongodb: 'MongoDB',
         postgresql: 'PostgreSQL',
@@ -221,7 +223,7 @@ export default defineComponent({
       },
       jwt: {},
       scram: {
-        built_in_database: 'Built-in database',
+        built_in_database: 'Built-in Database',
       },
     }
     const saveLoading = ref(false)
