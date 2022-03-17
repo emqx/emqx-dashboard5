@@ -14,8 +14,8 @@
           <el-row :gutter="30">
             <el-col :span="16">
               <el-form-item :label="tl('storageType')">
-                <el-select v-model="retainerConfig.config.type">
-                  <el-option value="built_in_database" :label="tl('builtInDatabase')"></el-option>
+                <el-select v-model="retainerConfig.backend.type">
+                  <el-option value="built_in_database" :label="tl('builtInDatabase')" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -23,9 +23,9 @@
           <el-row :gutter="30">
             <el-col :span="16">
               <el-form-item :label="tl('storage')">
-                <el-select v-model="retainerConfig.config.storage_type">
-                  <el-option value="ram"></el-option>
-                  <el-option value="disc"></el-option>
+                <el-select v-model="retainerConfig.backend.storage_type">
+                  <el-option value="ram" />
+                  <el-option value="disc" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -33,16 +33,16 @@
           <div class="part-header">{{ tl('policy') }}</div>
           <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item label="Max Retained Messages" prop="config.max_retained_messages">
+              <el-form-item label="Max Retained Messages" prop="backend.max_retained_messages">
                 <el-input
-                  v-model.number="retainerConfig.config.max_retained_messages"
+                  v-model.number="retainerConfig.backend.max_retained_messages"
                   :readonly="selOptions.retained == 'unlimited'"
                   maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.retained">
-                      <el-option value="unlimited" :label="tl('unlimited')"></el-option>
-                      <el-option value="custom" :label="tl('custom')"></el-option>
+                      <el-option value="unlimited" :label="tl('unlimited')" />
+                      <el-option value="custom" :label="tl('custom')" />
                     </el-select>
                   </template>
                 </el-input>
@@ -53,8 +53,8 @@
                 <el-input v-model.number="retainerConfig.max_payload_size[0]" maxlength="6">
                   <template #append>
                     <el-select v-model="selOptions.payload">
-                      <el-option value="KB" label="KB"></el-option>
-                      <el-option value="MB" label="MB"></el-option>
+                      <el-option value="KB" label="KB" />
+                      <el-option value="MB" label="MB" />
                     </el-select>
                   </template>
                 </el-input>
@@ -71,10 +71,10 @@
                 >
                   <template #append>
                     <el-select v-model="selOptions.expiry">
-                      <el-option value="0s" :label="tl('noExp')"></el-option>
-                      <el-option value="s" :label="tl('sec')"></el-option>
-                      <el-option value="m" :label="tl('min')"></el-option>
-                      <el-option value="h" :label="tl('hour')"></el-option>
+                      <el-option value="0s" :label="tl('noExp')" />
+                      <el-option value="s" :label="tl('sec')" />
+                      <el-option value="m" :label="tl('min')" />
+                      <el-option value="h" :label="tl('hour')" />
                     </el-select>
                   </template>
                 </el-input>
@@ -89,10 +89,10 @@
                 >
                   <template #append>
                     <el-select v-model="selOptions.clean">
-                      <el-option value="0s" :label="tl('disable')"></el-option>
-                      <el-option value="s" :label="tl('sec')"></el-option>
-                      <el-option value="m" :label="tl('min')"></el-option>
-                      <el-option value="h" :label="tl('hour')"></el-option>
+                      <el-option value="0s" :label="tl('disable')" />
+                      <el-option value="s" :label="tl('sec')" />
+                      <el-option value="m" :label="tl('min')" />
+                      <el-option value="h" :label="tl('hour')" />
                     </el-select>
                   </template>
                 </el-input>
@@ -102,32 +102,32 @@
           <div class="part-header">{{ tl('flowControl') }}</div>
           <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item :label="tl('readNumber')" prop="flow_control.max_read_number">
+              <el-form-item :label="tl('readNumber')" prop="flow_control.batch_read_number">
                 <el-input
-                  v-model.number="retainerConfig.flow_control.max_read_number"
+                  v-model.number="retainerConfig.flow_control.batch_read_number"
                   :readonly="selOptions.read == 'unlimited'"
                   maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.read">
-                      <el-option value="unlimited" :label="tl('unlimited')"></el-option>
-                      <el-option value="custom" :label="tl('custom')"></el-option>
+                      <el-option value="unlimited" :label="tl('unlimited')" />
+                      <el-option value="custom" :label="tl('custom')" />
                     </el-select>
                   </template>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item :label="tl('deliverQuota')" prop="flow_control.msg_deliver_quota">
+              <el-form-item :label="tl('deliverQuota')" prop="flow_control.batch_deliver_number">
                 <el-input
-                  v-model.number="retainerConfig.flow_control.msg_deliver_quota"
+                  v-model.number="retainerConfig.flow_control.batch_deliver_number"
                   :readonly="selOptions.deliver == 'unlimited'"
                   maxlength="6"
                 >
                   <template #append>
                     <el-select v-model="selOptions.deliver">
-                      <el-option value="unlimited" :label="tl('unlimited')"></el-option>
-                      <el-option value="custom" :label="tl('custom')"></el-option>
+                      <el-option value="unlimited" :label="tl('unlimited')" />
+                      <el-option value="custom" :label="tl('custom')" />
                     </el-select>
                   </template>
                 </el-input>
@@ -136,21 +136,8 @@
           </el-row>
           <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item
-                :label="tl('releaseInterval')"
-                prop="flow_control.quota_release_interval[0]"
-              >
-                <el-input
-                  v-model.number="retainerConfig.flow_control.quota_release_interval[0]"
-                  maxlength="6"
-                >
-                  <template #append>
-                    <el-select v-model="selOptions.release">
-                      <el-option value="s" :label="tl('sec')"></el-option>
-                      <el-option value="m" :label="tl('min')"></el-option>
-                    </el-select>
-                  </template>
-                </el-input>
+              <el-form-item label="Limiter" prop="flow_control.limiter_bucket_name">
+                <el-input v-model.number="retainerConfig.flow_control.limiter_bucket_name" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -164,20 +151,20 @@
         <el-row>
           <el-col :span="13">{{ tl('enableDesc') }}</el-col>
           <el-col :span="6">
-            <el-switch v-model="retainerConfig.enable" @change="toggleStatus()"></el-switch>
+            <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
           </el-col>
         </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')">
         <el-table :data="tbData" v-loading="tbLoading">
-          <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
-          <el-table-column :label="'QoS'" prop="qos" sortable></el-table-column>
+          <el-table-column :label="'Topic'" prop="topic" sortable />
+          <el-table-column :label="'QoS'" prop="qos" sortable />
           <el-table-column :label="'Payload'">
             <template #default="{ row }">
               <el-button size="mini" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="From Client ID" prop="from_clientid" sortable></el-table-column>
+          <el-table-column label="From Client ID" prop="from_clientid" sortable />
           <el-table-column :label="tl('createDate')" sortable>
             <template #default="{ row }">
               {{ row.publish_at && dateFormat(row.publish_at) }}
@@ -202,7 +189,7 @@
           placeholder="Payload"
           v-model="payloadForShow"
           readonly
-        ></el-input>
+        />
       </el-row>
       <template #footer>
         <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
@@ -254,16 +241,15 @@ export default defineComponent({
       max_payload_size: [1, 'MB'],
       msg_clear_interval: [0, 's'],
       msg_expiry_interval: [0, 's'],
-      config: {
-        storage: 'ram',
-        storage_type: '',
+      backend: {
+        storage_type: 'ram',
         type: 'built_in_database',
         max_retained_messages: 0,
       },
       flow_control: {
-        max_read_number: 0,
-        msg_deliver_quota: 0,
-        quota_release_interval: [0, 's'],
+        batch_read_number: 0,
+        batch_deliver_number: 0,
+        limiter_bucket_name: 'retainer',
       },
       enable: false,
     })
@@ -305,7 +291,7 @@ export default defineComponent({
     ]
 
     const retainerRules = ref({
-      config: {
+      backend: {
         max_retained_messages: validatorRules,
       },
       max_payload_size: {
@@ -318,25 +304,25 @@ export default defineComponent({
         0: validatorRules,
       },
       flow_control: {
-        max_read_number: validatorRules,
-        msg_deliver_quota: validatorRules,
-        quota_release_interval: {
-          0: validatorRules,
-        },
+        batch_read_number: validatorRules,
+        batch_deliver_number: validatorRules,
+        // TODO: rule for limiter_bucket_name
       },
     })
 
     watch(
       () => ({ ...selOptions }),
-      (newV, oldV) => {
+      async (newV, oldV) => {
+        // wait derivedOptionsFromConfig finished
+        await nextTick()
         if (newV.retained == 'unlimited') {
-          retainerConfig.config.max_retained_messages = 0
+          retainerConfig.backend.max_retained_messages = 0
         }
         if (newV.read == 'unlimited') {
-          retainerConfig.flow_control.max_read_number = 0
+          retainerConfig.flow_control.batch_read_number = 0
         }
         if (newV.deliver == 'unlimited') {
-          retainerConfig.flow_control.msg_deliver_quota = 0
+          retainerConfig.flow_control.batch_deliver_number = 0
         }
 
         if (newV.expiry == '0s') {
@@ -353,9 +339,6 @@ export default defineComponent({
         if (newV.payload != oldV.payload) {
           retainerConfig.max_payload_size[1] = newV.payload
         }
-        if (newV.release != oldV.release) {
-          retainerConfig.flow_control.quota_release_interval[1] = newV.release
-        }
       },
     )
 
@@ -363,15 +346,18 @@ export default defineComponent({
       configLoading.value = true
       configEnable.value = true
       retainerForm.value?.resetFields()
-      let res = await getRetainer().catch(() => {})
-      if (res) {
-        Object.assign(retainerConfig, res)
-        getConfigFormEnable()
-        derivedOptionsFromConfig()
-      } else {
-        //todo
+      try {
+        let res = await getRetainer()
+        if (res) {
+          Object.assign(retainerConfig, res)
+          getConfigFormEnable()
+          derivedOptionsFromConfig()
+        }
+      } catch (error) {
+        console.error(error)
+      } finally {
+        configLoading.value = false
       }
-      configLoading.value = false
     }
 
     const getConfigFormEnable = () => {
@@ -384,7 +370,7 @@ export default defineComponent({
 
     const derivedOptionsFromConfig = () => {
       let config = retainerConfig
-      if (config?.config?.max_retained_messages === 0) {
+      if (config?.backend?.max_retained_messages === 0) {
         selOptions.retained = 'unlimited'
       } else {
         selOptions.retained = 'custom'
@@ -405,20 +391,15 @@ export default defineComponent({
         selOptions.clean = matching[1] === '0' ? config.msg_clear_interval : matching[2]
         config.msg_clear_interval = [+matching[1], matching[2]]
       }
-      if (config?.flow_control?.max_read_number === 0) {
+      if (config?.flow_control?.batch_read_number === 0) {
         selOptions.read = 'unlimited'
       } else {
         selOptions.read = 'custom'
       }
-      if (config?.flow_control?.msg_deliver_quota === 0) {
+      if (config?.flow_control?.batch_deliver_number === 0) {
         selOptions.deliver = 'unlimited'
       } else {
         selOptions.deliver = 'custom'
-      }
-      if (config?.flow_control?.quota_release_interval) {
-        let matching = config.flow_control.quota_release_interval.match(/(\d+)(\w)/)
-        selOptions.release = matching[2]
-        config.flow_control.quota_release_interval = [+matching[1], matching[2]]
       }
     }
 
