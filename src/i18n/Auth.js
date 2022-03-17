@@ -200,12 +200,12 @@ export default {
     en: 'Single',
   },
   connectTimeout: {
-    zh: '连接超时（毫秒）',
-    en: 'Connect Timeout (ms)',
+    zh: '连接超时',
+    en: 'Connect Timeout',
   },
   requestTimeout: {
-    zh: '请求超时（毫秒）',
-    en: 'Request Timeout (ms)',
+    zh: '请求超时',
+    en: 'Request Timeout',
   },
   selector: {
     zh: '查询 Selector',
@@ -260,8 +260,8 @@ export default {
     en: 'Algorithm',
   },
   refreshInterval: {
-    zh: 'JWKS 刷新间隔（毫秒）',
-    en: 'JWKS Refresh Interval (ms)',
+    zh: 'JWKS 刷新间隔',
+    en: 'JWKS Refresh Interval',
   },
   builtInDatabaseDesc: {
     zh: 'Built-in database 权限控制无需配置参数，请点击创建按钮完成操作',
