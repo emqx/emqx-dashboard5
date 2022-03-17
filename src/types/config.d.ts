@@ -261,3 +261,16 @@ export interface OverloadProtection {
   backoff_hibernation: boolean
   backoff_new_conn: boolean
 }
+
+export interface DelayedItem {
+  delayed_interval: number
+  delayed_remaining: number
+  expected_at: string
+  from_clientid: string
+  from_username: string
+  msgid: string
+  node: string
+  publish_at: string
+  qos: number
+  topic: string
+}

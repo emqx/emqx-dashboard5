@@ -20,8 +20,8 @@
                 >
                   <template #append>
                     <el-select v-model="delayedOption">
-                      <el-option value="unlimited" :label="tl('unlimited')"></el-option>
-                      <el-option value="custom" :label="tl('custom')"></el-option>
+                      <el-option value="unlimited" :label="tl('unlimited')" />
+                      <el-option value="custom" :label="tl('custom')" />
                     </el-select>
                   </template>
                 </el-input>
@@ -30,39 +30,31 @@
           </el-row>
         </el-form>
         <el-row>
-          <el-button size="small" type="primary" @click="updateDelayedConfig()">{{
-            $t('Base.update')
-          }}</el-button>
+          <el-button size="small" type="primary" @click="updateDelayedConfig()">
+            {{ $t('Base.update') }}
+          </el-button>
         </el-row>
         <div class="part-header">{{ tl('enable') }}</div>
 
         <el-row>
           <el-col :span="13">{{ tl('enableDescDelay') }}</el-col>
           <el-col :span="6">
-            <el-switch v-model="delayedConfig.enable" @change="toggleStatus()"></el-switch>
+            <el-switch v-model="delayedConfig.enable" @change="toggleStatus()" />
           </el-col>
         </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')" v-loading="tbLoading">
         <el-table :data="delayedTbData">
-          <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
-          <el-table-column :label="'QoS'" prop="qos" sortable></el-table-column>
+          <el-table-column :label="'Topic'" prop="topic" sortable />
+          <el-table-column :label="'QoS'" prop="qos" sortable />
           <el-table-column :label="'Payload'">
             <template #default="{ row }">
               <el-button size="mini" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="From Client ID" prop="from_clientid" sortable></el-table-column>
-          <el-table-column
-            :label="tl('delayedTime')"
-            prop="delayed_interval"
-            sortable
-          ></el-table-column>
-          <el-table-column
-            :label="tl('remainTime')"
-            prop="delayed_remaining"
-            sortable
-          ></el-table-column>
+          <el-table-column label="From Client ID" prop="from_clientid" sortable />
+          <el-table-column :label="tl('delayedTime')" prop="delayed_interval" sortable />
+          <el-table-column :label="tl('remainTime')" prop="delayed_remaining" sortable />
           <el-table-column :label="tl('publishTime')" sortable>
             <template #default="{ row }">
               {{ row.publish_at && dateFormat(row.publish_at) }}
@@ -71,17 +63,14 @@
 
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
-              <el-button size="mini" type="danger" @click="deleteDelayedInfo(row)">{{
-                $t('Base.delete')
-              }}</el-button>
+              <el-button size="mini" type="danger" @click="deleteDelayedInfo(row)">
+                {{ $t('Base.delete') }}
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
         <div class="emq-table-footer">
-          <common-pagination
-            @loadPage="loadDelayedList"
-            v-model:metaData="pageMeta"
-          ></common-pagination>
+          <common-pagination @loadPage="loadDelayedList" v-model:metaData="pageMeta" />
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -94,7 +83,7 @@
           placeholder="Payload"
           v-model="payloadForShow"
           readonly
-        ></el-input>
+        />
       </el-row>
       <template #footer>
         <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
@@ -231,38 +220,39 @@ export default defineComponent({
     }
 
     const deleteDelayedInfo = async function (row) {
-      MB.confirm(t('Base.confirmDelete'), {
+      await MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
       })
-        .then(async () => {
-          const { msgid } = row
-          if (!msgid) return
-          let res = await delDelayedInfo(msgid).catch(() => {})
-          if (res) {
-            // p.value.$emit("loadPage");
-            loadDelayedList()
-          } else {
-            //todo
-          }
-        })
-        .catch(() => {})
+      const { msgid, node } = row
+      if (!msgid || !node) {
+        return
+      }
+      try {
+        await delDelayedInfo(node, msgid)
+        loadDelayedList()
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     const checkPayload = async function (row) {
       payloadDialog.value = true
       payloadLoading.value = true
       payloadDetail.value = ''
-      const { msgid } = row
-      let res = await getDelayedInfo(msgid).catch(() => {})
-      if (res) {
-        payloadDetail.value = res?.payload
-        setRawText(payloadDetail.value)
-      } else {
-        //todo
+      const { msgid, node } = row
+      try {
+        let res = await getDelayedInfo(node, msgid)
+        if (res) {
+          payloadDetail.value = res?.payload
+          setRawText(payloadDetail.value)
+        }
+      } catch (error) {
+        console.error(error)
+      } finally {
+        payloadLoading.value = false
       }
-      payloadLoading.value = false
     }
 
     const toggleStatus = async () => {
