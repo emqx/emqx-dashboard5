@@ -73,7 +73,11 @@ export default defineComponent({
       if (res) {
         authnList.value = res.map((item) => {
           if (item.mechanism !== 'jwt') {
-            item.img = require(`@/assets/img/${item.backend}.png`)
+            try {
+              item.img = require(`@/assets/img/${item.backend}.png`)
+            } catch {
+              item.img = ''
+            }
           }
           return item
         })

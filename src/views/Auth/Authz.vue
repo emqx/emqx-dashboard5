@@ -77,10 +77,18 @@ export default defineComponent({
         lockTable.value = false
       })
       if (res) {
-        authzList.value = res.sources.map((item) => ({
-          ...item,
-          img: require(`@/assets/img/${item.type}.png`),
-        }))
+        authzList.value = res.sources.map((item) => {
+          let img = ''
+          try {
+            img = require(`@/assets/img/${item.type}.png`)
+          } catch (error) {
+            console.error(error)
+          }
+          return {
+            ...item,
+            img,
+          }
+        })
         const addedAuthz = authzList.value.map((authz) => authz.type)
         sessionStorage.setItem('addedAuthz', JSON.stringify(addedAuthz))
       }
