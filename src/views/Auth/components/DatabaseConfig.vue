@@ -46,7 +46,7 @@
           </el-form-item>
         </el-col>
         <!-- Redis -->
-        <el-col v-if="isRedis && databaseConfig.redis_type !== 'single'" :span="12">
+        <el-col v-if="isRedis && databaseConfig.redis_type === 'sentinel'" :span="12">
           <el-form-item :label="$t('Auth.sentinel')">
             <el-input v-model="databaseConfig.sentinel"></el-input>
           </el-form-item>
