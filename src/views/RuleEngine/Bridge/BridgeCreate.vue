@@ -74,7 +74,7 @@
           </el-button>
           <el-button
             size="small"
-            @click="--stepActive"
+            @click="goPreStep"
             v-if="stepActive > 0"
             :disabled="submitLoading"
           >
@@ -110,6 +110,8 @@ export default defineComponent({
   setup() {
     const { tl } = useI18nTl('RuleEngine')
 
+    const createBridgeData = () => ({})
+
     const tlsParamsDefault: tlsConfig = {
       enable: false,
       verify: 'verify_none',
@@ -125,7 +127,7 @@ export default defineComponent({
     const radioSelectedBridgeType = ref(bridgeTypeOptions[0].valueForRadio)
     const chosenBridgeType = ref(bridgeTypeOptions[0].value)
     const submitLoading = ref(false)
-    const bridgeData = ref({})
+    const bridgeData = ref(createBridgeData())
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
 
     const isFromRule = computed(() =>
@@ -159,6 +161,11 @@ export default defineComponent({
       if (type.externalConfig) {
         bridgeData.value = { ...bridgeData.value, ..._.cloneDeep(type.externalConfig) }
       }
+    }
+
+    const goPreStep = () => {
+      stepActive.value -= 1
+      bridgeData.value = createBridgeData()
     }
 
     const goNextStep = () => {
@@ -217,6 +224,7 @@ export default defineComponent({
       backBtnText,
       backRoute,
       stepActive,
+      goPreStep,
       goNextStep,
       bridgeTypeOptions,
       chosenBridgeType,
