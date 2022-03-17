@@ -25,7 +25,7 @@
             <el-button size="small" @click="enableOrDisableBridge">
               {{ bridgeInfo.status === 'connected' ? $t('Base.disable') : $t('Base.enable') }}
             </el-button>
-            <el-button type="danger" size="small">
+            <el-button type="danger" size="small" @click="deleteBridge">
               {{ $t('Base.delete') }}
             </el-button>
           </div>
@@ -71,12 +71,17 @@
 <script lang="ts" setup>
 import { computed, onActivated, onMounted, ref, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getBridgeInfo, updateBridge, startStopBridge } from '@/api/ruleengine'
+import {
+  getBridgeInfo,
+  updateBridge,
+  startStopBridge,
+  deleteBridge as requestDeleteBridge,
+} from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
@@ -163,6 +168,21 @@ const enableOrDisableBridge = async () => {
     console.error(error)
   } finally {
     infoLoading.value = false
+  }
+}
+
+const deleteBridge = async () => {
+  await ElMessageBox.confirm(t('Base.confirmDelete'), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+  })
+  try {
+    await requestDeleteBridge(id)
+    ElMessage.success(t('Base.deleteSuccess'))
+    router.push({ name: 'data-bridge' })
+  } catch (error) {
+    console.error(error)
   }
 }
 
