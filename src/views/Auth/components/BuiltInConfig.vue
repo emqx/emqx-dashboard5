@@ -1,6 +1,6 @@
 <template>
   <div class="built-in-config config">
-    <div class="create-form-title">Build-in-Database</div>
+    <div class="create-form-title">Built-in Database</div>
     <el-form class="create-form" size="small" label-position="top">
       <el-row :gutter="20">
         <template v-if="type !== 'scram'">
