@@ -18,7 +18,7 @@
                   :ingress-bridge-list="ingressBridgeList"
                   :event-list="eventList"
                   @change="handleDataSourceChanged"
-                  mini
+                  for-test
                 />
                 <el-tooltip
                   v-if="isDataTypeNoMatchSQL"
@@ -202,8 +202,13 @@ const setDataTypeNContext = () => {
   const fromArr = transFromStrToFromArr(fromStr)
   const { type: inputType } = findInputTypeNTarget(fromArr[0], eventList, ingressBridgeList)
   const { context, descMap } = getTestColumns(inputType, fromArr[0], eventList)
+
   testColumnDescMap = descMap
-  dataType.value = fromArr[0]
+  if (inputType === RuleInputType.Topic) {
+    dataType.value = TOPIC_EVENT
+  } else {
+    dataType.value = fromArr[0]
+  }
   testParams.value = {
     sql,
     context,
@@ -274,7 +279,10 @@ const compareTargetNFromStr = (
     return false
   }
 
-  // when comparing, if the type is topic, compare the target directly;
+  const { eventList = [], ingressBridgeList = [] } = props
+  const { type: typeInSQL } = findInputTypeNTarget(inputs[0], eventList, ingressBridgeList)
+  const typeNeedToCompare = typeInSQL === RuleInputType.Topic ? TOPIC_EVENT : inputs[0]
+  // when comparing, if the type is topic, compare the TOPIC_EVENT;
   // if type is event, compare target.event
   // if type is bridge, compare bridge.id
   switch (targetType) {
@@ -285,10 +293,10 @@ const compareTargetNFromStr = (
       targetStrToCompare = (target as RuleEvent).event
       break
     case RuleInputType.Bridge:
-      targetStrToCompare = (target as BridgeItem).id
+      targetStrToCompare = (target as BridgeItem).idForRuleFrom
       break
   }
-  return targetStrToCompare === inputs[0]
+  return targetStrToCompare === typeNeedToCompare
 }
 
 const setContext = (obj: Record<string, string>) => {

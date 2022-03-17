@@ -7,10 +7,10 @@
     @keyup.enter="handleTopicInput"
     @blur="handleTopicInput"
     @change="handleSelectedChanged"
-    :class="{ 'is-mini': mini }"
+    :class="{ 'is-mini': forTest }"
     :popper-class="`from-select-popper ${isInputTopic ? 'is-hidden' : ''}`"
   >
-    <el-option-group :label="tl('customTopic')">
+    <el-option-group :label="tl('customTopic')" v-if="!forTest">
       <el-option :label="topicOptionLabel" :value="topicOptionValue" @click="inputTopic">
         {{ tl('customTopic') }}
       </el-option>
@@ -82,7 +82,10 @@ const props = defineProps({
   eventList: {
     type: Array as PropType<Array<RuleEvent>>,
   },
-  mini: {
+  /**
+   * hide custom topic when it is true and has special style
+   */
+  forTest: {
     type: Boolean,
     default: false,
   },
