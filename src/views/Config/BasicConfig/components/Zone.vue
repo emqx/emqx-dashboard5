@@ -196,6 +196,7 @@ export default defineComponent({
       addTabDialog.value = false
       await nextTick()
       configs[newTabName] = findTab.config
+      updateZone(findTab.config as Zone, newTabName)
     }
     const removeTab = async (targetName: string) => {
       const tabs = editableTabs.value
