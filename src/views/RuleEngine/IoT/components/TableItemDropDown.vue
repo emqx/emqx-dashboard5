@@ -14,12 +14,12 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="resetStatistics">
+        <!-- <el-dropdown-item command="resetStatistics">
           {{ tl('resetStatistics') }}
-        </el-dropdown-item>
-        <el-dropdown-item command="copy">
+        </el-dropdown-item> -->
+        <!-- <el-dropdown-item command="copy">
           {{ tl('copy') }}
-        </el-dropdown-item>
+        </el-dropdown-item> -->
         <el-dropdown-item command="delete" class="danger">
           {{ tl('delete', 'Base') }}
         </el-dropdown-item>
