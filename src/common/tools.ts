@@ -163,7 +163,7 @@ export const getKeywordsFromSQL = (sqlStr: string) => {
   let fromStr = ''
   let whereStr = ''
 
-  const matchResult = sql.match(/SELECT(.+)FROM(.+)WHERE(.+)/) ?? sql.match(/SELECT(.+)FROM(.+)/)
+  const matchResult = sql.match(/SELECT(.+)FROM(.+)WHERE(.+)/i) ?? sql.match(/SELECT(.+)FROM(.+)/i)
   if (matchResult && matchResult.length >= 3) {
     const [totalSQL, fields, from, where] = matchResult
     fieldStr = fields.trim()
