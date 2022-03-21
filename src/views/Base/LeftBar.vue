@@ -12,7 +12,7 @@
             <el-sub-menu :index="'' + i" :key="i">
               <template #title>
                 <i :class="['iconx', menu.icon]"></i>
-                <p class="menu-item-title">
+                <p class="menu-item-title first-level">
                   {{ $t(`components.${menu.title}`) }}
                 </p>
               </template>
@@ -30,7 +30,7 @@
           <template v-else>
             <el-menu-item :key="menu.title" :index="menu.path">
               <i :class="['iconx', menu.icon]"></i>
-              <p class="menu-item-title">{{ $t(`components.${menu.title}`) }}</p>
+              <p class="menu-item-title first-level">{{ $t(`components.${menu.title}`) }}</p>
             </el-menu-item>
           </template>
         </template>
