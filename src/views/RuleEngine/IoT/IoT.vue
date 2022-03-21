@@ -71,7 +71,7 @@
           <TableItemDropDown
             :row-data="row"
             @resetStatistics="resetRuleItemStatistics"
-            @copy="copyRuleItem"
+            @copy="copyRuleItem(row)"
             @delete="submitDeleteRules"
           />
         </template>
@@ -91,10 +91,12 @@ import { Plus } from '@element-plus/icons-vue'
 import TableItemDropDown from './components/TableItemDropDown.vue'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 import CodeView from '@/components/CodeView.vue'
+import useCopyRule from '@/hooks/Rule/rule/useCopyRule'
 
 const { t } = useI18n()
 const ruleTable: Ref<Array<RuleItem>> = ref([])
 const iotLoading: Ref<boolean> = ref(false)
+const { copyRule } = useCopyRule()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -126,8 +128,8 @@ const resetRuleItemStatistics = () => {
   // TODO:
 }
 
-const copyRuleItem = () => {
-  // TODO:
+const copyRuleItem = (rule: RuleItem) => {
+  copyRule(rule)
 }
 
 const submitDeleteRules = async ({ id }: RuleItem) => {
