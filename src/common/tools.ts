@@ -193,3 +193,42 @@ export const getBridgeKey = ({
   `${type}:${name}`
 
 export const getConnectorKey = getBridgeKey
+
+export const usefulMemoryUnit = ['Byte', 'KB', 'MB', 'GB']
+
+const ONE_KB = 1024
+const ONE_MB = ONE_KB * 1024
+const ONE_GB = ONE_MB * 1024
+
+export const transMemorySizeNumToStr = (byte: number) => {
+  if (byte < ONE_KB) {
+    return byte + 'Byte'
+  }
+  if (byte < ONE_MB) {
+    return byte / ONE_KB + 'KB'
+  }
+  if (byte < ONE_GB) {
+    return byte / ONE_MB + 'MB'
+  }
+  return byte / ONE_GB + 'GB'
+}
+
+const memoryStrReg = new RegExp(`^(\\d+(\\.\\d+)?)(${usefulMemoryUnit.join('|')})$`)
+export const transMemorySizeStrToNum = (sizeStr: string): number | string => {
+  const matchResult = sizeStr.match(memoryStrReg)
+  if (!matchResult) {
+    return sizeStr
+  }
+  const [totalStr, numPart, decimalPart, unit] = matchResult
+  switch (unit) {
+    case 'Byte':
+      return Number(numPart)
+    case 'KB':
+      return Number(numPart) * ONE_KB
+    case 'MB':
+      return Number(numPart) * ONE_MB
+    case 'GB':
+      return Number(numPart) * ONE_GB
+  }
+  return parseFloat(sizeStr)
+}
