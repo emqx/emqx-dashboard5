@@ -28,7 +28,9 @@
             <template #content>
               <CodeView lang="sql" :code="row.sql" />
             </template>
-            <span>{{ row.from.join(',') }}</span>
+            <div>
+              <span class="input-item" v-for="item in row.from" :key="item">{{ item }}</span>
+            </div>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -57,7 +59,7 @@
           {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" min-width="108">
+      <el-table-column :label="$t('Base.operation')" min-width="150">
         <template #default="{ row }">
           <el-button
             size="mini"
@@ -173,6 +175,12 @@ onMounted(() => {
         color: unset;
       }
     }
+  }
+}
+.input-item {
+  display: block;
+  &:not(:last-child)::after {
+    content: ',';
   }
 }
 </style>
