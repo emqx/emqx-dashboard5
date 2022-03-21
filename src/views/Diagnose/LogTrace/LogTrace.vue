@@ -17,25 +17,30 @@
           {{ row[row.type] }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('LogTrace.startEndTime')" min-width="90" sortable>
+      <el-table-column
+        :label="$t('LogTrace.startEndTime')"
+        min-width="90"
+        sortable
+        :sort-by="({ start_at }) => new Date(start_at).getTime()"
+      >
         <template #default="{ row }">
-          {{ moment(row.start_at).format('YYYY-MM-DD HH:mm:ss') }}<br />{{
-            moment(row.end_at).format('YYYY-MM-DD HH:mm:ss')
-          }}
+          {{ moment(row.start_at).format('YYYY-MM-DD HH:mm:ss') }}
+          <br />
+          {{ moment(row.end_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('LogTrace.status')" sortable>
+      <el-table-column :label="$t('LogTrace.status')" prop="status" sortable>
         <template #default="{ row }">
           <el-badge
             is-dot
             :type="
               row.status === 'running' ? 'primary' : row.status === 'stopped' ? 'danger' : 'info'
             "
-          ></el-badge
-          ><span>{{ row.status && $t('LogTrace.s' + row.status) }}</span>
+          />
+          <span>{{ row.status && $t('LogTrace.s' + row.status) }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('LogTrace.logSize')" sortable>
+      <el-table-column :label="$t('LogTrace.logSize')" prop="log_size" sortable>
         <template #default="{ row }">
           {{
             (Object.keys(row.log_size).reduce((c, v) => c + row.log_size[v], 0) / 1024).toFixed(2)
@@ -52,18 +57,19 @@
                 params: { id: row.name },
               })
             "
-            >{{ $t('LogTrace.view') }}</el-button
           >
+            {{ $t('LogTrace.view') }}
+          </el-button>
           <el-button size="mini" @click="download(row)">{{ $t('LogTrace.download') }}</el-button>
           <template v-if="row.status !== 'stopped'">
-            <el-button size="mini" type="danger" @click="stopTraceHandler(row)">{{
-              $t('LogTrace.stop')
-            }}</el-button>
+            <el-button size="mini" type="danger" @click="stopTraceHandler(row)">
+              {{ $t('LogTrace.stop') }}
+            </el-button>
           </template>
           <template v-else>
-            <el-button size="mini" type="danger" @click="deleteTraceHandler(row)">{{
-              $t('LogTrace.delete')
-            }}</el-button>
+            <el-button size="mini" type="danger" @click="deleteTraceHandler(row)">
+              {{ $t('LogTrace.delete') }}
+            </el-button>
           </template>
         </template>
       </el-table-column>
@@ -91,23 +97,23 @@
                   :key="value"
                   :value="value"
                   :label="label"
-                ></el-option>
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="18" v-if="record.type === 'topic'">
             <el-form-item label="Topic" prop="topic">
-              <el-input v-model="record.topic"></el-input>
+              <el-input v-model="record.topic" />
             </el-form-item>
           </el-col>
           <el-col :span="18" v-if="record.type === 'clientid'">
             <el-form-item label="Client ID" prop="clientid">
-              <el-input v-model="record.clientid"></el-input>
+              <el-input v-model="record.clientid" />
             </el-form-item>
           </el-col>
           <el-col :span="18" v-if="record.type === 'ip_address'">
             <el-form-item label="IP Address" prop="ip_address">
-              <el-input v-model="record.ip_address"></el-input>
+              <el-input v-model="record.ip_address" />
             </el-form-item>
           </el-col>
           <el-col :span="18" style="clear: both">
@@ -117,7 +123,7 @@
                 :start-placeholder="$t('LogTrace.startTime')"
                 :end-placeholder="$t('LogTrace.endTime')"
                 v-model="record.startTime"
-              ></el-date-picker>
+              />
             </el-form-item>
           </el-col>
         </el-row>
