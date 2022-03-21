@@ -2,7 +2,9 @@ import { LOCAL_STORAGE_KEY_MAP } from '@/common/constants'
 import { RuleItem } from '@/types/rule'
 import { useRouter } from 'vue-router'
 
-export default () => {
+export default (): {
+  copyRule: (rule: RuleItem) => void
+} => {
   const router = useRouter()
 
   const copyRule = (rule: RuleItem) => {

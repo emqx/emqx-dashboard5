@@ -104,7 +104,7 @@ const openEdit = async (row: ConnectorItem) => {
   itemConnector.value = row
 }
 
-const finishConnectorDialog = async (success: boolean, data: Record<string, unknown>) => {
+const finishConnectorDialog = async (success: boolean) => {
   if (success) {
     listConnector()
   }

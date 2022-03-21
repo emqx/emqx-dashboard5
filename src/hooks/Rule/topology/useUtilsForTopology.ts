@@ -9,7 +9,16 @@ import { OutputItem } from '@/types/rule'
 import { NodeItem, NodeType, OtherNodeType, RuleInputType, RuleOutputType } from './topologyType'
 import { escapeRegExp } from 'lodash'
 
-export default () => {
+export default (): {
+  cutLabel: (label: string) => string
+  addCursorPointerToNodeData: (node: NodeItem) => NodeItem
+  judgeInputType: (from: string) => RuleInputType
+  judgeOutputType: (output: OutputItem) => RuleOutputType
+  createNodeId: (target: string, targetType: NodeType) => string
+  getBridgeTypeFromString: (str: string) => BridgeType
+  getIconFromInputData: (input: string) => SVGElement
+  getIconFromOutputItem: (output: OutputItem) => SVGAElement
+} => {
   /* 
   Node Id Format:
   bridge, event, rule, topic: {randomStr}-{type:bridge | event | rule | topic}-{id|name}]

@@ -6,7 +6,20 @@ import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 
-export default () => {
+export default (): {
+  getData: () => Promise<{
+    nodeData: {
+      input: Array<NodeItem>
+      rule: Array<NodeItem>
+      output: Array<NodeItem>
+    }
+    edgeData: {
+      rule2Output: Array<EdgeItem>
+      input2Rule: Array<EdgeItem>
+    }
+  }>
+  getRuleList: () => Array<RuleItem>
+} => {
   let ruleList: Array<RuleItem> = []
   const {
     cutLabel,

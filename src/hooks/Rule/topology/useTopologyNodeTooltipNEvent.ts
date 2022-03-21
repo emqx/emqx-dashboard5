@@ -1,6 +1,6 @@
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
-import { BridgeStatus, RuleOutput } from '@/types/enum'
-import { RuleItem, BridgeItem, OutputItemObj } from '@/types/rule'
+import { RuleOutput } from '@/types/enum'
+import { RuleItem, BridgeItem } from '@/types/rule'
 import { IG6GraphEvent } from '@antv/g6'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
@@ -20,7 +20,12 @@ const highlightSQL = (sql: string): string => {
   }
 }
 
-export default () => {
+export default (): {
+  setRuleList: (ruleArr: Array<RuleItem>) => void
+  setBridgeList: (bridgeArr: Array<BridgeItem>) => void
+  createNodeTooltip: (e?: IG6GraphEvent | undefined) => HTMLDivElement | string
+  handleNodeClickEvent: (e: IG6GraphEvent) => void
+} => {
   const { t } = useI18n()
   const router = useRouter()
 
@@ -54,7 +59,7 @@ export default () => {
     return container
   }
 
-  const createEmptyTooltip = (id: string) => ''
+  const createEmptyTooltip = () => ''
 
   const createSimpleTooltip = (id: string) => {
     if (!id) {
@@ -85,7 +90,7 @@ export default () => {
       return ''
     }
     const container = createContainerEle()
-    const { name, id, from, metrics, enable, created_at, sql } = targetRule
+    const { name, from, metrics, enable, created_at, sql } = targetRule
     const fromDataToShow = Array.isArray(from) ? from.join('') : from
     const statusClass = `text-status ${enable ? 'success' : 'danger'}`
 
@@ -123,7 +128,7 @@ export default () => {
     }
 
     const container = createContainerEle()
-    const { type, name, id, metrics, status } = targetBridge
+    const { type, name, metrics, status } = targetBridge
     const statusStr = getStatusLabel(status)
     const statusClass = getStatusClass(status)
 
@@ -154,7 +159,7 @@ export default () => {
     if (!matchResult || matchResult.length < 2) {
       return ''
     }
-    const [totalStr, topicStr] = matchResult
+    const [, topicStr] = matchResult
     const container = createContainerEle()
     container.innerHTML = `
     <ul>
@@ -169,7 +174,7 @@ export default () => {
     if (!matchResult) {
       return {}
     }
-    const [nodeIDStr, randomStr, type, id] = matchResult
+    const [, , type, id] = matchResult
 
     return {
       id,
@@ -199,7 +204,7 @@ export default () => {
       return ''
     }
 
-    const { label, id } = model
+    const { id } = model
     const { type: nodeType, id: targetID } = getNodeTypeNTargetIDByNodeID(id)
     if (!nodeType || !targetID) {
       return ''

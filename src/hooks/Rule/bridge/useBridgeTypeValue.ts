@@ -1,9 +1,17 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
-import { BridgeStatus, BridgeType } from '@/types/enum'
+import { OptionList } from '@/types/common'
+import { BridgeType } from '@/types/enum'
 import { MQTTBridgeDirection } from '@/types/enum'
+import { BridgeItem } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 
-export default () => {
+export default (): {
+  bridgeTypeList: Array<{
+    value: BridgeType
+    label: string
+  }>
+  getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
+} => {
   const bridgeTypeList = [
     { value: BridgeType.HTTP, label: 'HTTP' },
     { value: BridgeType.MQTT, label: 'MQTT' },
@@ -19,10 +27,21 @@ export default () => {
   }
 }
 
-export const useBridgeTypeOptions = () => {
+interface BridgeTypeOptions {
+  value: BridgeType
+  valueForRadio: string
+  label: string
+  desc: string
+  externalConfig?: Partial<BridgeItem>
+}
+
+export const useBridgeTypeOptions = (): {
+  bridgeTypeOptions: BridgeTypeOptions[]
+  getTrueTypeObjByRadioValue: (radioValue: string) => BridgeTypeOptions | undefined
+} => {
   const { t } = useI18n()
 
-  const bridgeTypeOptions = [
+  const bridgeTypeOptions: Array<BridgeTypeOptions> = [
     {
       value: BridgeType.HTTP,
       valueForRadio: BridgeType.HTTP,
@@ -55,9 +74,12 @@ export const useBridgeTypeOptions = () => {
   }
 }
 
-export const useBridgeDirectionTypeValue = () => {
+export const useBridgeDirectionTypeValue = (): {
+  bridgeDirectionList: OptionList<MQTTBridgeDirection>
+  getLabelByDirectionValue: (directionValue: MQTTBridgeDirection) => string
+} => {
   const { t } = useI18n()
-  const bridgeDirectionList = [
+  const bridgeDirectionList: OptionList<MQTTBridgeDirection> = [
     { value: MQTTBridgeDirection.In, label: t('RuleEngine.input') },
     { value: MQTTBridgeDirection.Out, label: t('RuleEngine.output') },
   ]
@@ -69,6 +91,7 @@ export const useBridgeDirectionTypeValue = () => {
   }
 
   return {
+    bridgeDirectionList,
     getLabelByDirectionValue,
   }
 }

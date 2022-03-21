@@ -1,3 +1,4 @@
+@use "sass:math";
 @forward "element-plus/theme-chalk/src/common/var.scss"with ($menu:('text-color':var(--el-text-color-secondary),
     'bg-color':#282e38ff,
     'hover-bg-color':#00b29915,
@@ -52,8 +53,8 @@
     margin-bottom: 0;
     white-space: normal;
     line-height: $line-height;
-    padding-top: ($menu-item-height - $line-height) / 2;
-    padding-bottom: ($menu-item-height - $line-height) / 2;
+    padding-top: math.div($menu-item-height - $line-height, 2);
+    padding-bottom: math.div($menu-item-height - $line-height, 2);
   }
 
   &.el-menu--horizontal {
