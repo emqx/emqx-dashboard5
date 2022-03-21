@@ -90,13 +90,14 @@ import { computed, ref, watch, defineProps, defineEmits, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ConnectorMqttConfig from '../Connector/ConnectorMqttConfig.vue'
 import { createConnector, updateConnector, testConnector } from '@/api/ruleengine'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, omit } from 'lodash'
 import { ElMessage } from 'element-plus'
 import useConnectorTypeValue from '@/hooks/Rule/bridge/useConnectorTypeValue'
 import { createRawSSLParams } from '@/common/tools.ts'
 import { ConnectorType } from '@/types/enum'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { commonTimeUnits } from '@/common/tools'
 
 const props = defineProps({
   edit: {
@@ -169,11 +170,19 @@ const updateConnectorData = (newConnectorData) => {
   connectorData.value = { ...connectorData.value, ...newConnectorData }
 }
 
-const getConnectorData = () => ({
-  ...connectorData.value,
-  ssl: { ...connectorTLS.value },
-  type: props.connType,
-})
+const getConnectorData = () => {
+  let ret = { ...connectorData.value, ssl: { ...connectorTLS.value }, type: props.connType }
+
+  const fields = ['reconnect_interval', 'retry_interval']
+  const reg = new RegExp(`^(${commonTimeUnits.join('|')})$`)
+  fields.forEach((key) => {
+    if (reg.test(ret[key])) {
+      ret = omit(ret, key)
+    }
+  })
+
+  return ret
+}
 
 const testTheConnection = async () => {
   try {

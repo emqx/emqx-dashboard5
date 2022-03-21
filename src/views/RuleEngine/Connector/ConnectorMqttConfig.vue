@@ -190,14 +190,6 @@ export default defineComponent({
     const transformValue = (obj: Record<string, unknown>) => {
       let ret = _.cloneDeep(obj)
       ret.keepalive = ret.keepalive + 's'
-
-      const fields = ['reconnect_interval', 'retry_interval']
-      const reg = new RegExp(`^${commonTimeUnits.join('|')}$`)
-      fields.forEach((key) => {
-        if (reg.test(obj[key] as string)) {
-          ret = _.omit(ret, key)
-        }
-      })
       return ret
     }
 
