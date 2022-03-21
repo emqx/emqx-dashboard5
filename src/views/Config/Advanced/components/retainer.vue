@@ -22,7 +22,7 @@
           </el-row>
           <el-row :gutter="30">
             <el-col :span="16">
-              <el-form-item :label="tl('storage')">
+              <el-form-item :label="tl('storage')" required prop="backend.storage_type">
                 <el-select v-model="retainerConfig.backend.storage_type">
                   <el-option value="ram" />
                   <el-option value="disc" />
@@ -137,7 +137,7 @@
           <el-row :gutter="30">
             <el-col :span="8">
               <el-form-item label="Limiter" prop="flow_control.limiter_bucket_name">
-                <el-input v-model.number="retainerConfig.flow_control.limiter_bucket_name" />
+                <el-input v-model="retainerConfig.flow_control.limiter_bucket_name" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -229,6 +229,7 @@ import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
 import useCopy from '@/hooks/useCopy'
+import useFormRules from '@/hooks/useFormRules'
 
 export default defineComponent({
   name: 'Retainer',
@@ -236,6 +237,7 @@ export default defineComponent({
     const { t } = useI18n()
     const { tl } = useI18nTl('Advanced')
     const { copyText } = useCopy(copySuccess)
+    const { createRequiredRule } = useFormRules()
 
     let retainerConfig = reactive({
       max_payload_size: [1, 'MB'],
@@ -293,6 +295,7 @@ export default defineComponent({
     const retainerRules = ref({
       backend: {
         max_retained_messages: validatorRules,
+        storage_type: createRequiredRule('Storage', 'select'),
       },
       max_payload_size: {
         0: validatorRules,
@@ -306,7 +309,6 @@ export default defineComponent({
       flow_control: {
         batch_read_number: validatorRules,
         batch_deliver_number: validatorRules,
-        // TODO: rule for limiter_bucket_name
       },
     })
 

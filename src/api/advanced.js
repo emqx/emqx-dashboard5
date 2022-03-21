@@ -1,8 +1,28 @@
 import http from '@/common/http'
+import { transMemorySizeNumToStr } from '@/common/tools'
 
 /* Retainer */
-export function getRetainer() {
-  return http.get('/mqtt/retainer')
+export async function getRetainer() {
+  try {
+    const ret = await http.get('/mqtt/retainer')
+    let { max_payload_size, msg_clear_interval, msg_expiry_interval } = ret
+    max_payload_size =
+      typeof max_payload_size === 'number'
+        ? transMemorySizeNumToStr(max_payload_size)
+        : max_payload_size
+    msg_clear_interval =
+      typeof msg_clear_interval === 'number' ? msg_clear_interval + 's' : msg_clear_interval
+    msg_expiry_interval =
+      typeof msg_expiry_interval === 'number' ? msg_expiry_interval + 's' : msg_expiry_interval
+    return Promise.resolve({
+      ...ret,
+      max_payload_size,
+      msg_clear_interval,
+      msg_expiry_interval,
+    })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export function updateRetainer(body) {
