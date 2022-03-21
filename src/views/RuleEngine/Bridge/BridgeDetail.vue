@@ -23,7 +23,7 @@
               {{ tl('readMore') }}
             </el-button>
             <el-button size="small" @click="enableOrDisableBridge">
-              {{ bridgeInfo.status === 'connected' ? $t('Base.disable') : $t('Base.enable') }}
+              {{ bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
             </el-button>
             <el-button type="danger" size="small" @click="deleteBridge">
               {{ $t('Base.delete') }}
