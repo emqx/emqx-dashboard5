@@ -41,3 +41,8 @@ export interface TargetStatusWithDetail {
   statusLabel: string
   details: StatusDetailOfEachNode
 }
+
+export type OptionList<T> = Array<{
+  value: T
+  label: string
+}>

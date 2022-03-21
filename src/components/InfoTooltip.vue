@@ -30,6 +30,7 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:math';
 .icon-question {
   display: inline-block;
   width: 12px;
@@ -43,7 +44,7 @@ const props = defineProps({
   transform: scale(0.8);
   transform-origin: top;
   cursor: pointer;
-  border-radius: (12px) / 2;
+  border-radius: math.div(12px, 2);
   opacity: 0.8;
 }
 </style>

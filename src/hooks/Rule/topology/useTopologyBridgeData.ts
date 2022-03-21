@@ -5,7 +5,16 @@ import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 
-export default () => {
+export default (): {
+  getData: () => Promise<{
+    nodeData: {
+      bridge: Array<NodeItem>
+      topic: Array<NodeItem>
+    }
+    edgeList: Array<EdgeItem>
+  }>
+  getBridgeList: () => BridgeItem[]
+} => {
   let bridgeList: Array<BridgeItem> = []
 
   const { cutLabel, addCursorPointerToNodeData, createNodeId, getBridgeTypeFromString } =
@@ -63,7 +72,13 @@ export default () => {
     }
   }
 
-  const getData = async () => {
+  const getData = async (): Promise<{
+    nodeData: {
+      bridge: Array<NodeItem>
+      topic: Array<NodeItem>
+    }
+    edgeList: Array<EdgeItem>
+  }> => {
     try {
       bridgeList = await queryBridgeList()
 

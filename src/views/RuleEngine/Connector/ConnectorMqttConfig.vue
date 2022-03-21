@@ -107,8 +107,7 @@
 <script lang="ts">
 import TLSConfig from '../components/TLSConfig.vue'
 import { useI18n } from 'vue-i18n'
-import { ref, Ref, reactive, computed, defineComponent, watch, onMounted } from 'vue'
-// import { tlsConfig } from "@/types/ruleengine";
+import { reactive, computed, defineComponent, watch, onMounted } from 'vue'
 import _ from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
@@ -138,14 +137,6 @@ export default defineComponent({
   },
   setup(prop, context) {
     const { t } = useI18n()
-    // const tlsParamsDefault = {
-    //   enable: false,
-    //   verify: false,
-    //   certfile: "",
-    //   keyfile: "",
-    //   cacertfile: "",
-    // };
-    // const tlsParams: Ref<tlsConfig> = ref({ ..._.cloneDeep(tlsParamsDefault) });
     const tlsParams = computed(() => prop.tls)
     const modeOptions = ['cluster_shareload', 'cluster_singleton']
 

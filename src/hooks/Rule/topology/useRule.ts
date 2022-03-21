@@ -1,9 +1,29 @@
 import { RULE_FROM_SEPARATOR } from '@/common/constants'
 import { BridgeType, RuleInputType } from '@/types/enum'
-import { BridgeItem, RuleEvent, RuleItem, TestColumnItem } from '@/types/rule'
+import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 
-export const useRuleUtils = () => {
+export const useRuleUtils = (): {
+  TOPIC_EVENT: string
+  findInputTypeNTarget: (
+    inputItem: string,
+    eventList: Array<RuleEvent>,
+    bridgeList: Array<BridgeItem>,
+  ) => {
+    type: RuleInputType
+    target: BridgeItem | RuleEvent | string
+  }
+  getTestColumns: (
+    type: RuleInputType,
+    value: string,
+    eventList: Array<RuleEvent>,
+  ) => {
+    context: Record<string, string>
+    descMap: Record<string, string>
+  }
+  transFromStrToFromArr: (fromStr: string) => Array<string>
+  transSQLFormDataToSQL: (select: string, from: Array<string>, where?: string | undefined) => string
+} => {
   const TOPIC_EVENT = '$events/message_publish'
 
   const { bridgeTypeList } = useBridgeTypeValue()
@@ -43,14 +63,14 @@ export const useRuleUtils = () => {
    * The id of bridge is spliced together by the front end, and the format is {type}:{name}
    * According to this rule to judge the type
    */
-  const judgeBridgeTypeById = (bridgeId: string) => {
+  const judgeBridgeTypeById = (bridgeId: string): BridgeType => {
     const reg = new RegExp(`^(${bridgeTypeValueList.join('|')}):`)
     const matchResult = bridgeId.match(reg)
     if (!matchResult || matchResult.length < 2) {
       return BridgeType.MQTT
     }
-    const [matchStr, bridgeType] = matchResult
-    return bridgeType
+    const [, bridgeType] = matchResult
+    return bridgeType as BridgeType
   }
 
   /**
@@ -87,14 +107,14 @@ export const useRuleUtils = () => {
     }
   }
 
-  const transFromStrToFromArr = (fromStr: string) =>
+  const transFromStrToFromArr = (fromStr: string): Array<string> =>
     fromStr.split(RULE_FROM_SEPARATOR).map((item) => item.trim())
 
-  const transFromDataArrToStr = (from: Array<string>) => {
+  const transFromDataArrToStr = (from: Array<string>): string => {
     return from.map((item) => `"${item}"`).join(`${RULE_FROM_SEPARATOR}\n  `)
   }
 
-  const transSQLFormDataToSQL = (select: string, from: Array<string>, where?: string) => {
+  const transSQLFormDataToSQL = (select: string, from: Array<string>, where?: string): string => {
     const selectStr = select
       .split(',')
       .map((item) => item.trim())

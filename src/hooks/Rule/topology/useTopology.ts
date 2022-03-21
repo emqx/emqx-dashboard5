@@ -1,4 +1,4 @@
-import { onMounted, ref, onUnmounted, Ref, computed } from 'vue'
+import { onMounted, ref, onUnmounted, Ref, computed, ComputedRef } from 'vue'
 import G6, { Graph, ModelConfig, IGroup } from '@antv/g6'
 import { NodeItem, EdgeItem } from './topologyType'
 import useTopologyNodeTooltipNEvent from './useTopologyNodeTooltipNEvent'
@@ -25,17 +25,15 @@ const registerCustomNode = () => {
           return
         }
         let rectWidth = 0
-        let rectHeight = 0
         const iconWidth = 16
         const iconHeight = 16
         if (Array.isArray(config.size)) {
-          ;[rectWidth, rectHeight] = config.size
+          ;[rectWidth] = config.size
         } else if (typeof config.size === 'number') {
           rectWidth = config.size
-          rectHeight = config.size
         }
 
-        const image = group.addShape('image', {
+        group.addShape('image', {
           attrs: {
             x: -rectWidth / 2 + 16,
             y: -iconHeight / 2,
@@ -74,7 +72,11 @@ const defaultEdgeConfig = {
 // TODO:
 // const toolbar = new G6.ToolBar()
 
-export default () => {
+export default (): {
+  isDataLoading: Ref<boolean>
+  isNoData: ComputedRef<boolean>
+  topologyDiagramCanvasEle: Ref<any>
+} => {
   const isDataLoading = ref(false)
   /* 
     simple desc
