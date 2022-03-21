@@ -23,10 +23,20 @@
   $menu-item-height: 50px;
   border-right: none;
 
+  .iconx {
+    flex-shrink: 0;
+  }
+
   .el-menu-item.is-active,
-  &.el-menu--collapse .el-sub-menu.is-active {
-    background-color: #00b29915;
-    font-weight: 900;
+  &.el-menu--collapse {
+    .el-sub-menu.is-active {
+      background-color: #00b29915;
+      font-weight: 900;
+    }
+
+    .menu-item-title.first-level{
+      display: none;
+    }
   }
 
   .el-sub-menu {
