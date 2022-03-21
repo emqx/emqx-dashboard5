@@ -28,7 +28,7 @@
                 <div class="label-container">
                   <label>{{ tl('dataSource') }}(FROM)</label>
                   <el-tooltip effect="dark" :content="tl('changeSqlMethod')" placement="top-start">
-                    <el-icon class="icon-edit" @click="briefEditType = !briefEditType">
+                    <el-icon class="icon-edit" @click="toggleTypeForEditSQL">
                       <edit-pen />
                     </el-icon>
                   </el-tooltip>
@@ -63,7 +63,7 @@
                 <div class="label-container">
                   <label>SQL</label>
                   <el-tooltip effect="dark" :content="tl('changeFormMethod')" placement="top-start">
-                    <el-icon class="icon-edit" @click="briefEditType = !briefEditType">
+                    <el-icon class="icon-edit" @click="toggleTypeForEditSQL">
                       <edit-pen />
                     </el-icon>
                   </el-tooltip>
@@ -289,6 +289,15 @@ const loadRuleEvents = async () => {
   } catch (error) {
     console.error(error)
   }
+}
+
+const toggleTypeForEditSQL = () => {
+  if (briefEditType.value) {
+    syncFormDataToSQL()
+  } else {
+    syncSQLDataToForm()
+  }
+  briefEditType.value = !briefEditType.value
 }
 
 onMounted(() => {
