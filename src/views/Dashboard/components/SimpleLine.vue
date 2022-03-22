@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineProps, ref, nextTick, watch, onMounted, reactive } from 'vue'
+import { defineProps, ref, watch, onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 import * as echarts from 'echarts/lib/echarts'
 import { ECharts, EChartsOption, LineSeriesOption } from 'echarts'

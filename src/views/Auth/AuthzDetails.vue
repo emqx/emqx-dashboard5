@@ -62,6 +62,7 @@ import { loadAuthz, deleteAuthz, updateAuthz } from '@/api/auth'
 import FileConfig from './components/FileConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
+import useAuth from '@/hooks/Auth/useAuth'
 import BuiltInManager from './components/BuiltInManager.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -82,16 +83,7 @@ export default defineComponent({
     const { t } = useI18n()
     const route = useRoute()
     const router = useRouter()
-
-    const titleMap = {
-      mysql: 'MySQL',
-      file: 'File',
-      postgresql: 'PostgreSQL',
-      http: 'HTTP Server',
-      mongodb: 'MongoDB',
-      redis: 'Redis',
-      built_in_database: 'Built-in database',
-    }
+    const { titleMap } = useAuth()
     const configData = ref({
       ssl: { enable: false },
     })

@@ -4,16 +4,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-// import resizeChart from "@/mixins/resizeChart";
 
 export default defineComponent({
   name: 'PolylineChart',
-  // mixins: [resizeChart],
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps, reactive, ref, watch, onMounted, PropType, Ref } from 'vue'
+import { defineProps, ref, watch, onMounted, PropType, Ref } from 'vue'
 import * as echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'

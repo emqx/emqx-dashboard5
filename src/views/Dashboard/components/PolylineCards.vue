@@ -45,22 +45,22 @@ const chartDataFill = (length: number): ChartData => {
 }
 
 const dataTypeMap = reactive({
-  [ChartType.Dropped]: t('Dashboard.messageDrop'),
-  [ChartType.Connections]: t('Dashboard.connection'),
+  [ChartType.Connections]: t('Dashboard.currentConnection'),
   [ChartType.Routes]: t('Dashboard.topics'),
   [ChartType.Subscriptions]: t('Dashboard.Subscription'),
-  [ChartType.Sent]: t('Dashboard.messageOut'),
   [ChartType.Received]: t('Dashboard.messageIn'),
+  [ChartType.Sent]: t('Dashboard.messageOut'),
+  [ChartType.Dropped]: t('Dashboard.messageDrop'),
 })
 const metricLog: Record<ChartType, ChartData> = reactive({
-  [ChartType.Dropped]: chartDataFill(32),
   [ChartType.Connections]: chartDataFill(32),
   [ChartType.Routes]: chartDataFill(32),
   [ChartType.Subscriptions]: chartDataFill(32),
   [ChartType.Sent]: chartDataFill(32),
+  [ChartType.Dropped]: chartDataFill(32),
   [ChartType.Received]: chartDataFill(32),
-  [ChartType.ReceivedBytes]: chartDataFill(32),
   [ChartType.SentBytes]: chartDataFill(32),
+  [ChartType.ReceivedBytes]: chartDataFill(32),
 })
 const dataTypeList: Array<ChartType> = reactive([
   ChartType.Dropped,

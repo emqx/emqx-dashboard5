@@ -22,7 +22,7 @@
       <el-table-column prop="type" :label="$t('Auth.dataSource')">
         <template #default="{ row }">
           <img :src="row.img" width="48" />
-          <span>{{ row.type }}</span>
+          <span>{{ titleMap[row.type] }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Auth.status')">
@@ -52,7 +52,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import TableDropdown from './components/TableDropdown.vue'
-import { listAuthz, updateAuthz, deleteAuthz, moveAuthz } from '@/api/auth'
+import { listAuthz, updateAuthz, deleteAuthz } from '@/api/auth'
 import router from '@/router'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -60,6 +60,7 @@ import { Plus, Setting } from '@element-plus/icons-vue'
 import { AuthzSourceItem } from '@/types/auth'
 import useHandleAuthzItem from '@/hooks/Auth/useHandleAuthzItem'
 import useMove from '@/hooks/useMove'
+import useAuth from '@/hooks/Auth/useAuth'
 
 export default defineComponent({
   name: 'Authz',
@@ -71,6 +72,7 @@ export default defineComponent({
 
     const authzList = ref<AuthzSourceItem[]>([])
     const lockTable = ref(false)
+    const { titleMap } = useAuth()
     const loadData = async () => {
       lockTable.value = true
       const res: { sources: AuthzSourceItem[] } = await listAuthz().catch(() => {
@@ -152,6 +154,7 @@ export default defineComponent({
       Setting,
       lockTable,
       authzList,
+      titleMap,
       handleUpdate,
       handleDelete,
       handleMove,

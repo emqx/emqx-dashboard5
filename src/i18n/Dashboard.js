@@ -1,7 +1,7 @@
 export default {
   networkGraph: {
-    en: 'Cluster Topology',
-    zh: '拓扑图',
+    en: 'EMQX Cluster',
+    zh: 'EMQX 集群拓扑',
   },
   shareSubscription: {
     zh: '共享订阅',
@@ -16,8 +16,8 @@ export default {
     en: 'Retained',
   },
   connectionsTips: {
-    zh: '当前活跃连接数',
-    en: 'Active connections',
+    zh: '活跃连接数',
+    en: 'Active Connections',
   },
   view: {
     zh: '查看',
@@ -183,10 +183,6 @@ export default {
     zh: '集群中节点数',
     en: 'Nodes',
   },
-  messageOut: {
-    zh: '消息发出',
-    en: 'Message Out',
-  },
   strip: {
     zh: '条',
     en: 'msg',
@@ -195,21 +191,25 @@ export default {
     zh: '秒',
     en: 's',
   },
+  messageOut: {
+    zh: '消息发出',
+    en: 'Outgoing Messages',
+  },
   currentMessageOutRate: {
-    zh: '当前消息发出速度',
-    en: 'Outbound rate',
+    zh: '消息流出速率',
+    en: 'Outgoing Messages Rate',
   },
   messageIn: {
     zh: '消息流入',
-    en: 'Inbound',
+    en: 'Incoming Messages',
   },
   currentMessageInRate: {
-    zh: '当前消息流入速度',
-    en: 'Inbound rate',
+    zh: '消息流入速率',
+    en: 'Incoming Messages Rate',
   },
   subscriptionNumber: {
-    zh: '订阅数',
-    en: 'Subscriptions',
+    zh: '订阅速率',
+    en: 'Subscription Rate',
   },
   topicNumber: {
     zh: '集群订阅关系数',
@@ -217,7 +217,7 @@ export default {
   },
   connection: {
     zh: '连接',
-    en: 'Connection',
+    en: 'Connections',
   },
   connectionNumber: {
     zh: '连接数',
@@ -269,14 +269,14 @@ export default {
   },
   messageDrop: {
     zh: '消息丢弃',
-    en: 'Messages Droped',
+    en: 'Dropped Messages',
   },
   topics: {
-    zh: '主题',
+    zh: '主题数',
     en: 'Topics',
   },
   Subscription: {
-    zh: '订阅',
+    zh: '订阅数',
     en: 'Subscriptions',
   },
   message: {

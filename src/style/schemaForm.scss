@@ -4,9 +4,12 @@
     line-height: 30px;
     font-size: 16px;
   }
+  .el-form-item__content {
+    line-height: 32px;
+  }
   .item-desc {
     margin: 0 0 6px 0;
-    color: var(--el-text-color-regular);
+    color: #00000066;
   }
   .el-form-item {
     margin-top: 6px;
