@@ -41,11 +41,13 @@
                   v-if="bridgeInfo.type === 'http'"
                   v-model:tls="bridgeInfo.ssl"
                   v-model="bridgeInfo"
+                  ref="formCom"
                   :edit="true"
                 />
                 <bridge-mqtt-config
                   v-if="bridgeInfo.type === 'mqtt'"
                   v-model="bridgeInfo"
+                  ref="formCom"
                   :edit="true"
                 />
               </div>
@@ -99,6 +101,8 @@ const { t } = useI18n()
 const infoLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 
+const formCom = ref()
+
 const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
@@ -140,6 +144,7 @@ const goDoc = () => {
 }
 
 const updateBridgeInfo = async () => {
+  await formCom.value.validate()
   infoLoading.value = true
   try {
     const res = await updateBridge(bridgeInfo.value.id, bridgeInfo.value)
