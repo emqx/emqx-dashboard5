@@ -11,7 +11,7 @@
           <div class="part-header">{{ tl('baseInfo') }}</div>
           <el-row :gutter="30">
             <el-col :span="12">
-              <el-form-item :label="tl('type')">
+              <el-form-item :label="tl('type')" required prop="type">
                 <el-select
                   class="type-select"
                   :class="typeSelectClass"
@@ -134,6 +134,7 @@ const isTesting = ref(false)
 const { createRequiredRule } = useFormRules()
 const formCom = ref()
 const formRules = {
+  type: createRequiredRule(tl('type'), 'select'),
   name: createRequiredRule(tl('connName')),
 }
 
