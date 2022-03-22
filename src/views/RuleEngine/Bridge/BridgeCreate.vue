@@ -110,7 +110,9 @@ export default defineComponent({
   setup() {
     const { tl } = useI18nTl('RuleEngine')
 
-    const createBridgeData = () => ({})
+    const createBridgeData = () => ({
+      local_topic: '',
+    })
 
     const tlsParamsDefault: tlsConfig = {
       enable: false,
