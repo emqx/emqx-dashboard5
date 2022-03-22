@@ -85,6 +85,7 @@ import JwtConfig from './components/JwtConfig.vue'
 import DataManager from './components/DataManager.vue'
 import { updateAuthn, deleteAuthn } from '@/api/auth'
 import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
+import useAuth from '@/hooks/Auth/useAuth'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
@@ -150,13 +151,7 @@ export default defineComponent({
         configData.value = res
       }
     }
-    const titleMap = {
-      mysql: 'MySQL',
-      postgresql: 'PostgreSQL',
-      http: 'HTTP Server',
-      built_in_database: 'Built in Database',
-      jwt: 'JWT',
-    }
+    const { titleMap } = useAuth()
     loadData()
     const handleUpdate = async function ({ enable }) {
       const { create } = useAuthnCreate()

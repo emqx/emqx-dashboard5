@@ -12,13 +12,13 @@
       </el-button>
     </div>
     <el-table class="auth-table" :data="authnList" v-loading.lock="lockTable">
-      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')"></el-table-column>
       <el-table-column prop="backend" :label="$t('Auth.dataSource')">
         <template #default="{ row }">
           <img :src="row.img" width="48" />
-          <span>{{ row.backend }}</span>
+          <span>{{ titleMap[row.backend] }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')"></el-table-column>
       <el-table-column prop="enable" :label="$t('Auth.status')">
         <template #default="{ row }">
           <span :class="['status', { disabled: !row.enable }]">
@@ -54,6 +54,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
 import useHandleAuthnItem from '@/hooks/Auth/useHandleAuthnItem'
 import useMove from '@/hooks/useMove'
+import useAuth from '@/hooks/Auth/useAuth'
 
 export default defineComponent({
   name: 'Authn',
@@ -65,6 +66,7 @@ export default defineComponent({
     const { t } = useI18n()
     const authnList = ref<AuthnItem[]>([])
     const lockTable = ref(false)
+    const { titleMap } = useAuth()
     const loadData = async () => {
       lockTable.value = true
       const res: AuthnItem[] = await listAuthn().catch(() => {
@@ -93,6 +95,7 @@ export default defineComponent({
     }
     loadData()
     const handleUpdate = async (row: AuthnItem) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { img, ...data } = row
       await updateAuthn(row.id, data)
       loadData()
@@ -142,6 +145,7 @@ export default defineComponent({
       Plus,
       lockTable,
       authnList,
+      titleMap,
       handleUpdate,
       handleDelete,
       handleSetting,

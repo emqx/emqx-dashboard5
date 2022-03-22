@@ -5,32 +5,16 @@
         <el-col :span="12">
           <el-card shadow="never" class="app-card">
             <div class="app-card-title">
-              {{ $t('Dashboard.currentMessageOutRate') }}
+              {{ $t('Dashboard.connectionsTips') }}
             </div>
             <div class="content">
-              <span>{{ currentMetrics.sent_rate }}</span>
-              <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
-
-              <div class="flux-wrapper">
-                <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#34c388" />
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-
-        <el-col :span="12">
-          <el-card shadow="never" class="app-card">
-            <div class="app-card-title">
-              {{ $t('Dashboard.currentMessageInRate') }}
-            </div>
-
-            <div class="content">
-              <span>{{ currentMetrics.received_rate }}</span>
-              <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
-
-              <div class="flux-wrapper">
-                <simple-line :value="currentMetricsLogs.received_rate" type="bar" />
-              </div>
+              <span>{{ _formatNumber(currentMetrics.connections) }}</span>
+              <el-progress
+                class="status-progress"
+                :stroke-width="24"
+                :percentage="licensePercentage"
+                :format="() => ''"
+              ></el-progress>
             </div>
           </el-card>
         </el-col>
@@ -40,7 +24,6 @@
             <div class="app-card-title">
               {{ $t('Dashboard.subscriptionNumber') }}
             </div>
-
             <div class="content">
               <span>{{ _formatNumber(currentMetrics.subscriptions) }}</span>
               <div class="flux-wrapper">
@@ -53,18 +36,29 @@
         <el-col :span="12">
           <el-card shadow="never" class="app-card">
             <div class="app-card-title">
-              {{ $t('Dashboard.connectionsTips') }}
+              {{ $t('Dashboard.currentMessageInRate') }}
             </div>
-
             <div class="content">
-              <span>{{ _formatNumber(currentMetrics.connections) }}</span>
-              <el-progress
-                class="status-progress"
-                :stroke-width="24"
-                :percentage="licensePercentage"
-                :format="() => ''"
-                :color="getProgressColor(licensePercentage, '#2A78FFFF')"
-              ></el-progress>
+              <span>{{ currentMetrics.received_rate }}</span>
+              <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
+              <div class="flux-wrapper">
+                <simple-line :value="currentMetricsLogs.received_rate" type="bar" />
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+
+        <el-col :span="12">
+          <el-card shadow="never" class="app-card">
+            <div class="app-card-title">
+              {{ $t('Dashboard.currentMessageOutRate') }}
+            </div>
+            <div class="content">
+              <span>{{ currentMetrics.sent_rate }}</span>
+              <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
+              <div class="flux-wrapper">
+                <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#34c388" />
+              </div>
             </div>
           </el-card>
         </el-col>
@@ -164,8 +158,6 @@
         </div>
       </template>
     </el-dialog>
-
-    <!-- <metrics-charts></metrics-charts> -->
   </div>
 </template>
 
@@ -179,12 +171,11 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { ref, reactive, computed, onUnmounted, Ref } from 'vue'
-import SimpleLine from './components/SimpleLine'
-import PolylineCards from './components/PolylineCards'
+import SimpleLine from './components/SimpleLine.vue'
+import PolylineCards from './components/PolylineCards.vue'
 import NodesGraph from './components/NodesGraph.vue'
-// import PercentageCards from './components/PercentageCards'
 import Moment from 'moment'
-import { loadCurrentMetrics, loadLicenseInfo } from '@/api/common'
+import { loadCurrentMetrics } from '@/api/common'
 import { calcPercentage, getProgressColor } from '@/common/utils'
 
 interface MetricData {
@@ -243,26 +234,6 @@ const _formatNumber = (num: number) => {
   return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, '$1,')
 }
 
-const loadLicenseData = async () => {
-  let res = await loadLicenseInfo().catch(() => {})
-  if (!res) {
-    return
-  }
-  license = res
-  // evaluation 许可证
-  if (
-    license.customer_type === evaluation.value &&
-    localStorage.getItem('licenseTipVisible') !== 'false'
-  ) {
-    licenseTipVisible.value = true
-    isLicenseExpiry.value = false
-  }
-  // 证书过期
-  if (license.expiry === true) {
-    licenseTipVisible.value = true
-    isLicenseExpiry.value = true
-  }
-}
 const loadData = async () => {
   const state = await loadCurrentMetrics().catch(() => {})
   if (!state) {
@@ -293,8 +264,9 @@ const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
 }
 
 loadData()
-// loadLicenseData()
-// clearInterval(this.timerData)
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 timerData = setInterval(() => {
   loadData()
 }, 2 * 1000)

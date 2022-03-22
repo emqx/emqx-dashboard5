@@ -20,7 +20,7 @@
               <el-col :span="14">{{ currentInfo[1]['topics.count'] }}</el-col>
             </el-row>
             <el-row>
-              <el-col :span="10">{{ tl('subscription') }}:</el-col>
+              <el-col :span="10">{{ tl('Subscription') }}:</el-col>
               <el-col :span="14">{{ currentInfo[1]['subscriptions.count'] }}</el-col>
             </el-row>
             <el-row>
@@ -28,7 +28,7 @@
               <el-col :span="14">{{ currentInfo[0]['max_fds'] }}</el-col>
             </el-row>
             <el-row>
-              <el-col :span="10">CPU:</el-col>
+              <el-col :span="10">CPU Load:</el-col>
               <el-col :span="14">
                 <el-tooltip
                   class="box-item"
@@ -292,7 +292,7 @@ onUnmounted(() => {
   }
   .el-row {
     line-height: 1.8;
-    :first-child {
+    .el-col:first-child {
       color: #8d96a2;
       word-break: break-all;
       padding-right: 5px;
