@@ -1,15 +1,15 @@
 export default {
-  fieldRequiredError: {
-    zh: '填写错误：数值范围为 {min} - {max}',
-    en: 'Fill in the error: the number range is {min} - {max}',
-  },
   errorRange: {
     zh: '填写错误：数值范围为 {min} - {max}',
     en: 'Fill in the error: the number range is {min} - {max}',
   },
   minimumError: {
-    zh: '请输入大于 {min} 的数',
-    en: 'Please enter a number greater than {min}',
+    zh: '请输入大于等于 {min} 的数',
+    en: 'Please enter a number greater than or equal {min}',
+  },
+  maximumError: {
+    zh: '请输入小于等于 {max} 的数',
+    en: 'Please enter a number less than or equal {max}',
   },
   errorType: {
     zh: '类型错误：请填写 {type} 类型',
