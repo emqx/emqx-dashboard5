@@ -108,17 +108,35 @@
           </el-row>
         </template>
         <template v-else>
-          <p class="block-primary-desc">{{ tl('bridgeDataInDesc') }}</p>
+          <p class="block-primary-desc">{{ tl('mqttSourceTransDesc') }}</p>
+          <p class="block-desc">{{ tl('mqttSourceTransDescDetail') }}</p>
           <el-row :gutter="30">
             <el-col :span="10">
-              <el-form-item :label="tl('localTopic')">
-                <el-input
-                  v-model="mqttBridgeVal.local_topic"
-                  :placeholder="tl('localTopicPlaceholder')"
-                />
+              <el-form-item :label="tl('forwardToLocalTopic')">
+                <el-select
+                  v-model="isForwardToLocalTopic"
+                  @change="handleIsForwardToLocalTopicChanged"
+                >
+                  <el-option :label="$t('Base.yes')" :value="true" />
+                  <el-option :label="$t('Base.no')" :value="false" />
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
+
+          <template v-if="isForwardToLocalTopic">
+            <p class="block-primary-desc">{{ tl('bridgeDataInDesc') }}</p>
+            <el-row :gutter="30">
+              <el-col :span="10">
+                <el-form-item :label="tl('localTopic')">
+                  <el-input
+                    v-model="mqttBridgeVal.local_topic"
+                    :placeholder="tl('localTopicPlaceholder')"
+                  />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </template>
           <p class="block-primary-desc">{{ tl('bridgeDataOutDesc') }}</p>
           <el-row v-loading="connectorLoading" :gutter="30">
             <el-col :span="10">
@@ -222,21 +240,22 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { defineProps, onMounted, ref, PropType, watch, defineEmits } from 'vue'
+import { defineProps, onMounted, ref, PropType, watch, defineEmits, Ref } from 'vue'
 import { Edit, Plus } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { getConnectorList } from '@/api/ruleengine'
-import { ConnectorItem } from '@/types/ruleengine'
 import ConnectorDialog from '../components/ConnectorDialog.vue'
-import { ConnectorMQTT } from '@/types/rule'
+import { MQTTIn, MQTTOut, ConnectorItem } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString } from '@/common/tools'
 
+type MQTTBridge = MQTTIn | MQTTOut
+
 const prop = defineProps({
   modelValue: {
-    type: Object as PropType<ConnectorMQTT>,
+    type: Object as PropType<MQTTBridge>,
     required: false,
     default: () => ({}),
   },
@@ -268,14 +287,11 @@ const mqttBridgeDefaultVal = {
 }
 
 let modelValueCache = ''
-const mqttBridgeVal = ref({
-  ..._.cloneDeep(mqttBridgeDefaultVal),
-  ..._.cloneDeep(prop.modelValue),
-})
-const connectorList = ref([])
-const connectorLoading = ref(false)
-const chosenConnectorData = ref({})
-const isForwardToLocalTopic = ref(true)
+const mqttBridgeVal: Ref<MQTTBridge> = ref({} as MQTTBridge)
+const connectorList: Ref<Array<ConnectorItem>> = ref([])
+const connectorLoading: Ref<boolean> = ref(false)
+const chosenConnectorData: Ref<ConnectorItem | Record<string, unknown>> = ref({})
+const isForwardToLocalTopic: Ref<boolean> = ref(true)
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -290,9 +306,16 @@ const isShowPayload = computed(
 )
 
 const initMqttBridgeVal = () => {
+  const { modelValue } = prop
+  if (modelValue.local_topic === undefined) {
+    isForwardToLocalTopic.value = false
+  }
   mqttBridgeVal.value = {
     ..._.cloneDeep(mqttBridgeDefaultVal),
     ..._.cloneDeep(prop.modelValue),
+  }
+  if (!isForwardToLocalTopic.value) {
+    handleIsForwardToLocalTopicChanged()
   }
 }
 
@@ -339,7 +362,7 @@ const finishConnectorDialog = async (success: boolean, data: Record<string, unkn
   }
 }
 
-const transformData = (val: Record<string, unknown>) => {
+const transformData = (val: MQTTBridge) => {
   let data = {
     ..._.cloneDeep(val),
   }
@@ -349,7 +372,7 @@ const transformData = (val: Record<string, unknown>) => {
   return data
 }
 
-const handleIsForwardToLocalTopicChanged = () => {
+const handleIsForwardToLocalTopicChangedInSourceType = () => {
   if (!isForwardToLocalTopic.value) {
     const needDeleteFields = ['local_topic', 'local_qos', 'retain', 'payload']
     mqttBridgeVal.value = _.omit(mqttBridgeVal.value, needDeleteFields) as any
@@ -365,7 +388,23 @@ const handleIsForwardToLocalTopicChanged = () => {
   }
 }
 
-const updateModelValue = (val: ConnectorMQTT) => {
+const handleIsForwardToLocalTopicChangedInSinkType = () => {
+  if (!isForwardToLocalTopic.value) {
+    mqttBridgeVal.value = _.omit(mqttBridgeVal.value, 'local_topic') as any
+  } else {
+    mqttBridgeVal.value = { ...mqttBridgeVal.value, local_topic: mqttBridgeDefaultVal.local_topic }
+  }
+}
+
+const handleIsForwardToLocalTopicChanged = () => {
+  if (mqttBridgeVal.value.direction === 'ingress') {
+    handleIsForwardToLocalTopicChangedInSourceType()
+  } else {
+    handleIsForwardToLocalTopicChangedInSinkType()
+  }
+}
+
+const updateModelValue = (val: MQTTBridge) => {
   const value = transformData(val)
   modelValueCache = JSON.stringify(value)
   emit('update:modelValue', value)
@@ -383,6 +422,7 @@ watch(
 )
 
 onMounted(() => {
+  initMqttBridgeVal()
   loadConnectorList()
   updateModelValue(mqttBridgeVal.value)
 })
