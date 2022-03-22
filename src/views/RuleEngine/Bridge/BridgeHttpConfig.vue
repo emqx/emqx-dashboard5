@@ -1,10 +1,16 @@
 <template>
   <div class="bridge-config">
-    <el-form label-position="top" :disabled="disabled">
+    <el-form
+      ref="formCom"
+      label-position="top"
+      :disabled="disabled"
+      :rules="formRules"
+      :model="httpBridgeVal"
+    >
       <div class="part-header">{{ tl('baseInfo') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="tl('name')">
+          <el-form-item :label="tl('name')" required prop="name">
             <el-input v-model="httpBridgeVal.name" :disabled="edit" />
           </el-form-item>
         </el-col>
@@ -24,7 +30,7 @@
       <p class="block-primary-desc">{{ tl('bridgeDataOutDesc') }}</p>
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="tl('method')">
+          <el-form-item :label="tl('method')" required prop="method">
             <el-select v-model="httpBridgeVal.method">
               <el-option
                 v-for="item in ['post', 'get', 'put', 'delete']"
@@ -36,8 +42,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'URL'">
-            <el-input v-model="httpBridgeVal.url"></el-input>
+          <el-form-item :label="'URL'" required prop="url">
+            <template #label>
+              <label>URL</label>
+              <InfoTooltip :content="tl('httpBridgeURLFieldDesc')" />
+            </template>
+            <el-input v-model="httpBridgeVal.url" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -71,14 +81,14 @@
       <div class="part-header">{{ tl('connSetting') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="'Pool size'">
-            <el-input v-model="httpBridgeVal.pool_size"> </el-input>
+          <el-form-item :label="'Pool size'" required prop="pool_size">
+            <el-input v-model.number="httpBridgeVal.pool_size" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('enablePipeline')">
             <el-select v-model="httpBridgeVal.enable_pipelining">
-              <el-option v-for="ep in [true, false]" :key="ep" :value="ep"></el-option>
+              <el-option v-for="ep in [true, false]" :key="ep" :value="ep" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -87,7 +97,7 @@
             <el-input v-model.number="httpBridgeVal.connect_timeout[0]">
               <template #append>
                 <el-select v-model="httpBridgeVal.connect_timeout[1]">
-                  <el-option value="s"></el-option>
+                  <el-option value="s" />
                 </el-select>
               </template>
             </el-input>
@@ -98,36 +108,37 @@
             <el-input v-model.number="httpBridgeVal.request_timeout[0]">
               <template #append>
                 <el-select v-model="httpBridgeVal.request_timeout[1]">
-                  <el-option value="s"></el-option>
+                  <el-option value="s" />
                 </el-select>
               </template>
             </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('errRetry')">
-            <el-input v-model="httpBridgeVal.max_retries"> </el-input>
+          <el-form-item :label="tl('errRetry')" required prop="max_retries">
+            <el-input v-model.number="httpBridgeVal.max_retries" />
           </el-form-item>
         </el-col>
       </el-row>
       <div class="part-header">{{ tl('tlsConfig') }}</div>
 
-      <TLS-config class="tls-config-form" v-model="tlsParams"></TLS-config>
+      <TLS-config class="tls-config-form" v-model="tlsParams" />
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import { useI18n } from 'vue-i18n'
-import { computed, defineComponent, ref, Ref, watch, onMounted } from 'vue'
+import { computed, defineComponent, ref, watch, onMounted } from 'vue'
 import TLSConfig from '../components/TLSConfig.vue'
-// import { tlsConfig } from "@/types/ruleengine";
 import _ from 'lodash'
 import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { HTTPBridge } from '@/types/rule'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString } from '@/common/tools'
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 type HTTPFormData = Omit<HTTPBridge, 'connect_timeout' | 'request_timeout'> & {
   connect_timeout: [number, string]
@@ -139,6 +150,7 @@ export default defineComponent({
     KeyAndValueEditor,
     TLSConfig,
     Monaco,
+    InfoTooltip,
   },
   name: '',
   props: {
@@ -163,19 +175,12 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const { t } = useI18n()
-    // const tlsParams: Ref<tlsConfig> = ref({
-    //   enable: false,
-    //   verify: false,
-    //   certfile: "",
-    //   keyfile: "",
-    //   cacertfile: "",
-    // });
+    const { tl } = useI18nTl('RuleEngine')
     const httpBridgeDefaultVal = {
       name: '',
       local_topic: '',
       method: 'post',
-      url: 'http://localhost:8080/api',
+      url: 'http://',
       headers: {
         'content-type': 'application/json',
       },
@@ -196,6 +201,16 @@ export default defineComponent({
 
     const tlsParams = computed(() => props.tls)
 
+    const { createRequiredRule, createIntFieldRule } = useFormRules()
+    const formCom = ref()
+    const formRules = ref({
+      name: createRequiredRule(tl('name')),
+      method: createRequiredRule(tl('method'), 'select'),
+      url: createRequiredRule('URL'),
+      pool_size: [...createRequiredRule('Pool size'), ...createIntFieldRule(1)],
+      max_retries: [...createRequiredRule(tl('errRetry')), ...createIntFieldRule(1)],
+    })
+
     const initHttpBridgeVal = () => {
       httpBridgeVal.value = {
         ..._.cloneDeep(httpBridgeDefaultVal),
@@ -207,6 +222,10 @@ export default defineComponent({
       const value = transformUnitArrayToStr(val)
       modelValueCache = JSON.stringify(value)
       context.emit('update:modelValue', value)
+    }
+
+    const validate = () => {
+      return formCom.value.validate()
     }
 
     watch(
@@ -230,10 +249,13 @@ export default defineComponent({
     })
 
     return {
-      tl: (key: string) => t('RuleEngine.' + key),
+      tl,
       createRandomString,
+      formCom,
+      formRules,
       tlsParams,
       httpBridgeVal,
+      validate,
     }
   },
 })

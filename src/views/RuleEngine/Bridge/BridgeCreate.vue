@@ -49,8 +49,13 @@
               v-if="chosenBridgeType === 'http'"
               v-model:tls="tlsParams"
               v-model="bridgeData"
+              ref="formCom"
             />
-            <bridge-mqtt-config v-if="chosenBridgeType === 'mqtt'" v-model="bridgeData" />
+            <bridge-mqtt-config
+              v-if="chosenBridgeType === 'mqtt'"
+              v-model="bridgeData"
+              ref="formCom"
+            />
           </template>
         </el-row>
         <el-row class="config-btn">
@@ -132,6 +137,8 @@ export default defineComponent({
     const bridgeData = ref(createBridgeData())
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
 
+    const formCom = ref()
+
     const isFromRule = computed(() =>
       ['create-bridge-for-create-iot', 'create-bridge-for-edit-iot'].includes(route.name as string),
     )
@@ -186,7 +193,8 @@ export default defineComponent({
     }
 
     const submitCreateBridge = async () => {
-      let res
+      let res = undefined
+      await formCom.value.validate()
       submitLoading.value = true
 
       try {
@@ -234,6 +242,7 @@ export default defineComponent({
       submitLoading,
       tlsParams,
       bridgeData,
+      formCom,
       cancel,
       submitCreateBridge,
     }

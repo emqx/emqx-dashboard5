@@ -1,10 +1,22 @@
 import { useI18n } from 'vue-i18n'
 import { checkStringWithUnit, checkInRange } from '@/common/tools'
-import { RuleInValidatorParam } from '@/types/common'
+import { InternalRuleItem, RuleItem } from 'async-validator'
 
-export default () => {
+export default (): {
+  createRequiredRule: (name: string, type?: 'input' | 'select') => Array<RuleItem>
+  createIntFieldRule: (min?: number | undefined, max?: number | undefined) => Array<RuleItem>
+  createStringWithUnitFieldRule: (
+    units: Array<string>,
+    min?: number | undefined,
+    max?: number | undefined,
+  ) => Array<RuleItem>
+} => {
   const { t } = useI18n()
-  const createRequiredRule = (name: string, type: 'input' | 'select' = 'input') => {
+
+  const createRequiredRule = (
+    name: string,
+    type: 'input' | 'select' = 'input',
+  ): Array<RuleItem> => {
     return [
       {
         required: true,
@@ -15,33 +27,45 @@ export default () => {
       },
     ]
   }
-  const createIntFieldRule = (min?: number, max?: number) => {
-    const ret = [
+
+  const createIntFieldRule = (min?: number, max?: number): Array<RuleItem> => {
+    const ret: Array<RuleItem> = [
       {
-        validator(rule: RuleInValidatorParam, val: string) {
-          if (!/^-?\d*$/.test(val)) {
-            return [new Error(t('Rule.errorType', { type: t('Rule.int') }))]
-          }
-          return []
-        },
+        type: 'number',
+        message: t('Rule.errorType', { type: t('Rule.int') }),
       },
     ]
     if (min !== undefined && max !== undefined) {
       ret.push({
-        validator(rule: RuleInValidatorParam, val: string) {
-          if (!checkInRange(Number(val), min, max)) {
-            return [new Error(t('Rule.errorRange', { min, max }))]
-          }
-          return []
-        },
+        type: 'number',
+        min,
+        max,
+        message: t('Rule.errorRange', { min, max }),
+      })
+    } else if (min !== undefined) {
+      ret.push({
+        type: 'number',
+        min,
+        message: t('Rule.minimumError', { min }),
+      })
+    } else if (max !== undefined) {
+      ret.push({
+        type: 'number',
+        max,
+        message: t('Rule.maximumError', { max }),
       })
     }
     return ret
   }
-  const createStringWithUnitFieldRule = (units: Array<string>, min?: number, max?: number) => {
+
+  const createStringWithUnitFieldRule = (
+    units: Array<string>,
+    min?: number,
+    max?: number,
+  ): Array<RuleItem> => {
     const ret = [
       {
-        validator(rule: RuleInValidatorParam, val: string) {
+        validator(rule: InternalRuleItem, val: string) {
           if (!checkStringWithUnit(val, units)) {
             return [new Error(t('Rule.formatError'))]
           }
@@ -52,7 +76,7 @@ export default () => {
     ]
     if (min !== undefined && max !== undefined) {
       ret.push({
-        validator(rule: RuleInValidatorParam, val: string) {
+        validator(rule: InternalRuleItem, val: string) {
           if (!checkInRange(parseFloat(val), min, max)) {
             return [new Error(t('Rule.errorRange', { min, max }))]
           }

@@ -148,7 +148,7 @@ export default {
     en: 'Request Timeout',
   },
   errRetry: {
-    zh: '错误重试',
+    zh: '错误重试次数',
     en: 'Error Retries',
   },
   mqttConn: {
@@ -610,5 +610,9 @@ export default {
   forwardToLocalTopic: {
     zh: '转发到本地主题',
     en: 'Forward to local topic',
+  },
+  httpBridgeURLFieldDesc: {
+    zh: "支持使用 ${'{'}field{'}'} 语法提取数据拼接 URL",
+    en: "Supports extracting data concatenated URLs using the ${'{'}field{'}'} syntax",
   },
 }

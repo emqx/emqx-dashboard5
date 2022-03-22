@@ -7,8 +7,18 @@ export const checkStringWithUnit = (str: string, units: Array<string>): boolean 
   return reg.test(str)
 }
 
-export const checkInRange = (val: number, min: number, max: number): boolean =>
-  val >= min && val <= max
+export const checkInRange = (val: number, min?: number, max?: number): boolean => {
+  if (min !== undefined && max !== undefined) {
+    return val >= min && val <= max
+  }
+  if (min !== undefined) {
+    return val >= min
+  }
+  if (max !== undefined) {
+    return val <= max
+  }
+  return true
+}
 
 export const downloadBlobData = (blobRes: {
   data: Blob
