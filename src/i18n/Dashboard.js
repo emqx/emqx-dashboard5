@@ -1,7 +1,7 @@
 export default {
   networkGraph: {
-    en: 'EMQX Cluster',
-    zh: 'EMQX 集群拓扑',
+    en: 'Cluster',
+    zh: '集群拓扑',
   },
   shareSubscription: {
     zh: '共享订阅',
@@ -145,7 +145,7 @@ export default {
   },
   packetStatisticsOfNodes: {
     zh: '节点的报文信息, 消息统计与流量收发统计',
-    en: 'Packet statistics of nodes、Message I/O Statistics',
+    en: 'Packet statistics of nodes, Message I/O Statistics',
   },
   mqttPackages: {
     zh: '报文',
@@ -197,7 +197,7 @@ export default {
   },
   currentMessageOutRate: {
     zh: '消息流出速率',
-    en: 'Outgoing Messages Rate',
+    en: 'Outgoing Rate',
   },
   messageIn: {
     zh: '消息流入',
@@ -205,11 +205,11 @@ export default {
   },
   currentMessageInRate: {
     zh: '消息流入速率',
-    en: 'Incoming Messages Rate',
+    en: 'Incoming Rate',
   },
   subscriptionNumber: {
-    zh: '订阅速率',
-    en: 'Subscription Rate',
+    zh: '订阅数',
+    en: 'Subscriptions',
   },
   topicNumber: {
     zh: '集群订阅关系数',
