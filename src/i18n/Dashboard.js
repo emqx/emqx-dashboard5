@@ -145,7 +145,7 @@ export default {
   },
   packetStatisticsOfNodes: {
     zh: '节点的报文信息, 消息统计与流量收发统计',
-    en: 'Packet statistics of nodes、Message I/O Statistics',
+    en: 'Packet statistics of nodes, Message I/O Statistics',
   },
   mqttPackages: {
     zh: '报文',
