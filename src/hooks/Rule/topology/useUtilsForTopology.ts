@@ -18,6 +18,7 @@ export default (): {
   getBridgeTypeFromString: (str: string) => BridgeType
   getIconFromInputData: (input: string) => SVGElement
   getIconFromOutputItem: (output: OutputItem) => SVGAElement
+  getBridgeNodeLabel: (bridgeID: string) => string
 } => {
   /* 
   Node Id Format:
@@ -106,6 +107,8 @@ export default (): {
     }
   }
 
+  const getBridgeNodeLabel = (bridgeID: string): string => bridgeID.slice(bridgeID.indexOf(':') + 1)
+
   return {
     cutLabel,
     addCursorPointerToNodeData,
@@ -115,5 +118,6 @@ export default (): {
     getBridgeTypeFromString,
     getIconFromInputData,
     getIconFromOutputItem,
+    getBridgeNodeLabel,
   }
 }

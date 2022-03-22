@@ -29,6 +29,7 @@ export default (): {
     createNodeId,
     getIconFromInputData,
     getIconFromOutputItem,
+    getBridgeNodeLabel,
   } = useUtilsForTopology()
 
   const createInputNodeNInput2RuleEdge = (
@@ -47,7 +48,7 @@ export default (): {
 
     let node = {
       id: idOfInputNode,
-      label: cutLabel(rawFrom),
+      label: cutLabel(getBridgeNodeLabel(rawFrom)),
       img: getIconFromInputData(fromData),
     }
     if (inputType === OtherNodeType.Bridge) {

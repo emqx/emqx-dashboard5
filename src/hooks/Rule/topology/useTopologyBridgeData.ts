@@ -17,8 +17,13 @@ export default (): {
 } => {
   let bridgeList: Array<BridgeItem> = []
 
-  const { cutLabel, addCursorPointerToNodeData, createNodeId, getBridgeTypeFromString } =
-    useUtilsForTopology()
+  const {
+    cutLabel,
+    addCursorPointerToNodeData,
+    createNodeId,
+    getBridgeTypeFromString,
+    getBridgeNodeLabel,
+  } = useUtilsForTopology()
 
   const createBridgeNTopicEle = (
     bridgeArr: Array<BridgeItem>,
@@ -46,7 +51,7 @@ export default (): {
       bridgeNodeArr.push(
         addCursorPointerToNodeData({
           id: bridgeNodeId,
-          label: cutLabel(id),
+          label: cutLabel(getBridgeNodeLabel(id)),
           img: iconMap[iconKey],
         }),
       )
