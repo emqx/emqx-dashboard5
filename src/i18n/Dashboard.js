@@ -185,7 +185,7 @@ export default {
   },
   messageOut: {
     zh: '消息发出',
-    en: 'Message Out',
+    en: 'Outbound',
   },
   strip: {
     zh: '条',

@@ -425,12 +425,12 @@ export default {
     en: 'Shared subscription distribution policies',
   },
   broker_sys_heartbeat: {
-    zh: 'Broker 健康状态发布间隔',
-    en: 'Broker Health status publish interval',
+    zh: '健康状态发布间隔',
+    en: 'Health status publish interval',
   },
   broker_sys_interval: {
-    zh: 'Broker 统计信息发布间隔',
-    en: 'Broker statistics release interval',
+    zh: '统计信息发布间隔',
+    en: 'Statistics release interval',
   },
   // baseSettings end
   confirmUpdateListener: {
