@@ -1,11 +1,17 @@
 <template>
   <div class="bridge-config">
-    <el-form label-position="top" :disabled="disabled">
+    <el-form
+      ref="formCom"
+      label-position="top"
+      :model="mqttBridgeVal"
+      :rules="formRules"
+      :disabled="disabled"
+    >
       <section>
         <div class="part-header">{{ tl('baseInfo') }}</div>
         <el-row :gutter="30">
           <el-col :span="14">
-            <el-form-item :label="tl('name')">
+            <el-form-item :label="tl('name')" required prop="name">
               <el-input v-model="mqttBridgeVal.name" :disabled="edit" />
             </el-form-item>
           </el-col>
@@ -13,11 +19,11 @@
       </section>
       <section>
         <div class="part-header">{{ tl('mappingInfo') }}</div>
-        <template v-if="mqttBridgeVal.direction === 'ingress'">
+        <template v-if="mqttBridgeVal.direction === MQTTBridgeDirection.In">
           <p class="block-primary-desc">{{ tl('mqttSourceMappingDesc') }}</p>
           <el-row v-loading="connectorLoading" :gutter="30">
             <el-col :span="10">
-              <el-form-item :label="tl('mqttConn')">
+              <el-form-item :label="tl('mqttConn')" prop="connector" required>
                 <div class="connector-select-container">
                   <el-select v-model="mqttBridgeVal.connector">
                     <el-option
@@ -49,7 +55,7 @@
           </el-row>
           <el-row :gutter="30">
             <el-col :span="10">
-              <el-form-item>
+              <el-form-item required prop="remote_topic">
                 <template #label>
                   <label>{{ tl('remoteTopic') }}</label>
                   <InfoTooltip :content="tl('remoteTopicDesc')" />
@@ -85,10 +91,10 @@
           </el-row>
           <el-row :gutter="30" v-if="isForwardToLocalTopic">
             <el-col :span="10">
-              <el-form-item :label="tl('localTopic')">
+              <el-form-item :label="tl('localTopic')" required prop="local_topic">
                 <el-input
                   v-model="mqttBridgeVal.local_topic"
-                  :placeholder="tl('localTopicPlaceholder')"
+                  :placeholder="tl('inBridgeLocalTopicPlaceholder')"
                 />
               </el-form-item>
             </el-col>
@@ -131,7 +137,7 @@
                 <el-form-item :label="tl('localTopic')">
                   <el-input
                     v-model="mqttBridgeVal.local_topic"
-                    :placeholder="tl('localTopicPlaceholder')"
+                    :placeholder="tl('outBridgeLocalTopicPlaceholder')"
                   />
                 </el-form-item>
               </el-col>
@@ -140,7 +146,7 @@
           <p class="block-primary-desc">{{ tl('bridgeDataOutDesc') }}</p>
           <el-row v-loading="connectorLoading" :gutter="30">
             <el-col :span="10">
-              <el-form-item :label="tl('mqttConn')">
+              <el-form-item :label="tl('mqttConn')" prop="connector" required>
                 <div class="connector-select-container">
                   <el-select v-model="mqttBridgeVal.connector">
                     <el-option
@@ -172,7 +178,7 @@
           </el-row>
           <el-row :gutter="30">
             <el-col :span="10">
-              <el-form-item :label="tl('remoteTopic')">
+              <el-form-item :label="tl('remoteTopic')" required prop="remote_topic">
                 <template #label>
                   <label>{{ tl('remoteTopic') }}</label>
                   <InfoTooltip :content="tl('remoteTopicDesc')" />
@@ -239,8 +245,17 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
-import { defineProps, onMounted, ref, PropType, watch, defineEmits, Ref } from 'vue'
+import {
+  defineProps,
+  onMounted,
+  ref,
+  PropType,
+  watch,
+  defineEmits,
+  Ref,
+  defineExpose,
+  nextTick,
+} from 'vue'
 import { Edit, Plus } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { getConnectorList } from '@/api/ruleengine'
@@ -250,6 +265,9 @@ import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString } from '@/common/tools'
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
+import { MQTTBridgeDirection } from '@/types/enum'
 
 type MQTTBridge = MQTTIn | MQTTOut
 
@@ -270,14 +288,12 @@ const prop = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-const { t } = useI18n()
-
 const isOpenDialog = ref(false)
 const isDialogForEdit = ref(false)
 const mqttBridgeDefaultVal = {
   name: '',
   connector: '',
-  direction: 'egress',
+  direction: MQTTBridgeDirection.Out,
   retain: false,
   payload: '${payload}',
   local_topic: '',
@@ -293,7 +309,19 @@ const connectorLoading: Ref<boolean> = ref(false)
 const chosenConnectorData: Ref<ConnectorItem | Record<string, unknown>> = ref({})
 const isForwardToLocalTopic: Ref<boolean> = ref(true)
 
-const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const { tl } = useI18nTl('RuleEngine')
+
+const { createRequiredRule } = useFormRules()
+const formCom = ref()
+const formRules = computed(() => ({
+  name: createRequiredRule(tl('name')),
+  connector: createRequiredRule(tl('mqttConn'), 'select'),
+  remote_topic: createRequiredRule(tl('remoteTopic')),
+  local_topic:
+    mqttBridgeVal.value.direction === MQTTBridgeDirection.In
+      ? createRequiredRule(tl('localTopic'))
+      : [],
+}))
 
 const btnEditConnectorClass = computed(() =>
   mqttBridgeVal.value.connector === '_new' || !mqttBridgeVal.value.connector ? 'disabled' : '',
@@ -301,11 +329,11 @@ const btnEditConnectorClass = computed(() =>
 
 const isShowPayload = computed(
   () =>
-    (mqttBridgeVal.value.direction === 'ingress' && isForwardToLocalTopic.value) ||
-    mqttBridgeVal.value.direction !== 'ingress',
+    (mqttBridgeVal.value.direction === MQTTBridgeDirection.In && isForwardToLocalTopic.value) ||
+    mqttBridgeVal.value.direction !== MQTTBridgeDirection.In,
 )
 
-const initMqttBridgeVal = () => {
+const initMqttBridgeVal = async () => {
   const { modelValue } = prop
   if (modelValue.local_topic === undefined) {
     isForwardToLocalTopic.value = false
@@ -366,7 +394,7 @@ const transformData = (val: MQTTBridge) => {
   let data = {
     ..._.cloneDeep(val),
   }
-  if (val.direction === 'egress') {
+  if (val.direction === MQTTBridgeDirection.Out) {
     Reflect.deleteProperty(data, 'local_qos')
   }
   return data
@@ -396,18 +424,28 @@ const handleIsForwardToLocalTopicChangedInSinkType = () => {
   }
 }
 
-const handleIsForwardToLocalTopicChanged = () => {
-  if (mqttBridgeVal.value.direction === 'ingress') {
+const handleIsForwardToLocalTopicChanged = async () => {
+  if (mqttBridgeVal.value.direction === MQTTBridgeDirection.In) {
     handleIsForwardToLocalTopicChangedInSourceType()
   } else {
     handleIsForwardToLocalTopicChangedInSinkType()
   }
+  await nextTick()
+  clearValidate()
 }
 
 const updateModelValue = (val: MQTTBridge) => {
   const value = transformData(val)
   modelValueCache = JSON.stringify(value)
   emit('update:modelValue', value)
+}
+
+const validate = () => {
+  return formCom.value.validate()
+}
+
+const clearValidate = () => {
+  return formCom.value?.clearValidate()
 }
 
 watch(() => _.cloneDeep(mqttBridgeVal.value), updateModelValue)
@@ -421,11 +459,14 @@ watch(
   },
 )
 
+initMqttBridgeVal()
+
 onMounted(() => {
-  initMqttBridgeVal()
   loadConnectorList()
   updateModelValue(mqttBridgeVal.value)
 })
+
+defineExpose({ validate, clearValidate })
 </script>
 
 <style lang="scss" scoped>
