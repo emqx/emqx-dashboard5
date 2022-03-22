@@ -22,7 +22,7 @@
           <el-form-item :label="tl('localTopic')">
             <el-input
               v-model="httpBridgeVal.local_topic"
-              :placeholder="tl('localTopicPlaceholder')"
+              :placeholder="tl('outBridgeLocalTopicPlaceholder')"
             />
           </el-form-item>
         </el-col>
@@ -228,6 +228,10 @@ export default defineComponent({
       return formCom.value.validate()
     }
 
+    const clearValidate = () => {
+      return formCom.value.clearValidate()
+    }
+
     watch(
       () => _.cloneDeep(httpBridgeVal.value),
       (val) => {
@@ -256,6 +260,7 @@ export default defineComponent({
       tlsParams,
       httpBridgeVal,
       validate,
+      clearValidate,
     }
   },
 })

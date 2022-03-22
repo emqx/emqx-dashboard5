@@ -487,9 +487,13 @@ export default {
     zh: '连接成功',
     en: 'Connection is successful',
   },
-  localTopicPlaceholder: {
+  outBridgeLocalTopicPlaceholder: {
     zh: '需要转发的主题，不填则由 IoT Rule 指定',
     en: 'The topic that needs to be forwarded, will be specified by IoT rule if empty',
+  },
+  inBridgeLocalTopicPlaceholder: {
+    zh: '默认由 IoT Rule 处理',
+    en: 'It is handled by IoT Rule by default',
   },
   remoteTopicPlaceholder: {
     zh: '桥接数据到远程 Broker 中',
