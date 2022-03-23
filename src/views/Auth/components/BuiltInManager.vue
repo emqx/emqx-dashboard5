@@ -44,7 +44,7 @@
           <el-button size="mini" @click="handleEdit(row, $index)">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="mini" @click="handleDelete(row, $index)">
+          <el-button size="mini" plain type="danger" @click="handleDelete(row, $index)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -82,7 +82,7 @@
             <el-button size="mini" @click="handleEdit(row, $index)">
               {{ $t('Base.edit') }}
             </el-button>
-            <el-button size="mini" @click="handleDelete(row, $index)">
+            <el-button size="mini" plain type="danger" @click="handleDelete(row, $index)">
               {{ $t('Base.delete') }}
             </el-button>
           </template>
