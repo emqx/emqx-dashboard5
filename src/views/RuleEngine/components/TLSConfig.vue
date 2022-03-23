@@ -2,7 +2,7 @@
   <div class="tls-config">
     <el-row>
       <el-col :span="16">
-        <el-checkbox v-model="record.enable" :label="$t('Auth.enableTLS')" border />
+        <el-checkbox v-model="record.enable" :label="$t('Base.enableTLS')" border />
         <el-checkbox
           v-model="record.verify"
           :label="$t('Auth.tlsVerify')"
