@@ -13,7 +13,7 @@
               <div class="info-tags">
                 <BridgeItemStatus :bridge="bridgeInfo" is-tag />
                 <el-tag type="info" class="section-status">
-                  {{ getBridgeLabelByTypeValue(bridgeInfo.type) }}
+                  {{ getTypeStr(bridgeInfo) }}
                 </el-tag>
               </div>
             </div>
@@ -84,7 +84,7 @@ import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useBridgeTypeValue, { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 
@@ -104,6 +104,7 @@ const activeTab = ref(Tab.Overview)
 const formCom = ref()
 
 const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+const { getTypeStr } = useBridgeTypeOptions()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
