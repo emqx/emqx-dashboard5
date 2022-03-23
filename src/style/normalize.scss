@@ -157,13 +157,17 @@
     //   --el-button-active-font-color:#e34242ff;
     //   --el-button-active-background-color:#ffffffff;
     //   --el-button-active-border-color:#e34242ff;
+    &.is-plain {
+      color: #ff7c7cff;
+      border-color: #ff7c7cff;
+      background-color: #ffffffff;
+    }
     &:hover,
     &:active,
     &:focus {
       color: #ff7c7cff;
       border-color: #ff7c7cff;
       background-color: #ffffffff;
-
     }
 
     &.is-disabled {
@@ -178,41 +182,6 @@
       }
     }
   }
-
-  //   &--default{
-  //     --el-button-font-color:#1d1d1dff;
-  //     --el-button-background-color:#ffffffff;
-  //     --el-button-border-color:#1d1d1dff;
-  //     --el-button-hover-color:#00b299ff;
-  //     --el-button-active-font-color:#1d1d1dff;
-  //     --el-button-active-background-color:#ffffffff;
-  //     --el-button-active-border-color:#1d1d1dff;
-  //     &.is-disabled{
-  //         &,&:hover,&:focus,&:active{
-  //             border-color: #c8c8c8;
-  //         color: #c8c8c8;
-  //         background-color: #ffffff;
-  //         }
-  //       }
-  //   }
-
-  // &--primary{
-  //   --el-button-font-color:#ffffffff;
-  //   --el-button-background-color:#00b299ff;
-  //   --el-button-border-color:#00b299ff;
-  //   --el-button-hover-color:#25d0b8ff;
-  //   --el-button-active-font-color:#ffffffff;
-  //   --el-button-active-background-color:#00b299ff;
-  //   --el-button-active-border-color:#00b299ff;
-  //   &.is-disabled{
-  //       &,&:hover,&:focus,&:active{
-  //           background-color: #9edcd3ff;
-  //       border-color: #9edcd3ff;
-  //       color:#ffffffff;
-  //       }
-  //     }
-  // }
-
 
   &.el-button--primary {
     background-color: #00b299ff;

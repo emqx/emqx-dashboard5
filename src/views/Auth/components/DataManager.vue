@@ -43,23 +43,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-dropdown class="table-dropdown" @command="handleCommand(row, $event)">
-            <el-button class="dropdown-btn" size="mini">
-              <el-icon><More /></el-icon>
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="edit">
-                  <el-icon><Edit /></el-icon>
-                  {{ $t('Base.edit') }}
-                </el-dropdown-item>
-                <el-dropdown-item command="delete">
-                  <el-icon><Delete /></el-icon>
-                  {{ $t('Base.delete') }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <el-button size="mini" @click="handleEdit(row)">
+            {{ $t('Base.edit') }}
+          </el-button>
+          <el-button size="mini" plain type="danger" @click="handleDelete(row)">
+            {{ $t('Base.delete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -125,13 +114,11 @@ import { useRoute } from 'vue-router'
 import commonPagination from '@/components/commonPagination.vue'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus, More, Edit, Delete, Search } from '@element-plus/icons-vue'
+import { Plus, Search } from '@element-plus/icons-vue'
 import { DataManagerItem } from '@/types/auth'
 
-type Command = 'edit' | 'delete'
-
 export default defineComponent({
-  components: { commonPagination, More, Edit, Delete },
+  components: { commonPagination },
 
   name: 'DataManager',
   props: {
@@ -211,33 +198,32 @@ export default defineComponent({
       isEdit.value = false
       dialogVisible.value = true
     }
-    const handleCommand = async function (row: DataManagerItem, command: Command) {
-      if (command === 'delete') {
-        MB.confirm(t('Base.confirmDelete'), {
-          confirmButtonText: t('Base.confirm'),
-          cancelButtonText: t('Base.cancel'),
-          type: 'warning',
-        })
-          .then(async () => {
-            if (prop.gateway) {
-              await deleteGatewayUser(prop.gateway, row.user_id)
-            } else {
-              await deleteAuthnUser(id.value, row.user_id)
-            }
-            loadData({ page: 1 })
-          })
-          .catch(() => {
-            // cancel
-          })
-      } else if (command === 'edit') {
-        dialogVisible.value = true
-        isEdit.value = true
-        record.value = {
-          user_id: row.user_id,
-          is_superuser: row.is_superuser,
-          password: '',
-        }
+    const handleEdit = (row: DataManagerItem) => {
+      dialogVisible.value = true
+      isEdit.value = true
+      record.value = {
+        user_id: row.user_id,
+        is_superuser: row.is_superuser,
+        password: '',
       }
+    }
+    const handleDelete = (row: DataManagerItem) => {
+      MB.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      })
+        .then(async () => {
+          if (prop.gateway) {
+            await deleteGatewayUser(prop.gateway, row.user_id)
+          } else {
+            await deleteAuthnUser(id.value, row.user_id)
+          }
+          loadData({ page: 1 })
+        })
+        .catch(() => {
+          // cancel
+        })
     }
     const save = async () => {
       let validation = await recordForm.value.validate()
@@ -342,7 +328,8 @@ export default defineComponent({
       loadData,
       save,
       addCommand,
-      handleCommand,
+      handleEdit,
+      handleDelete,
       getRules,
       getFiledLabel,
     }
@@ -360,9 +347,6 @@ export default defineComponent({
   .el-checkbox.is-bordered {
     margin: 0;
     padding: 0 30px;
-  }
-  .dropdown-btn {
-    padding: 1px 6px;
   }
 }
 </style>
