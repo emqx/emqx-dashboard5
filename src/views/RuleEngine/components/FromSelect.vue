@@ -9,14 +9,20 @@
     @change="handleSelectedChanged"
     :class="{ 'is-mini': forTest }"
     :popper-class="`from-select-popper ${isInputTopic ? 'is-hidden' : ''}`"
+    :filter-method="filterMethod"
   >
-    <el-option-group :label="tl('customTopic')" v-if="!forTest">
-      <el-option :label="topicOptionLabel" :value="topicOptionValue" @click="inputTopic">
+    <el-option-group :key="EMPTY_TOPIC_VALUE" :label="tl('customTopic')" v-if="!forTest">
+      <el-option
+        :key="topicOptionValue"
+        :label="topicOptionLabel"
+        :value="topicOptionValue"
+        @click="inputTopic"
+      >
         {{ tl('customTopic') }}
       </el-option>
     </el-option-group>
     <el-option-group
-      v-if="eventList && eventList.length"
+      v-if="eventOptions && eventOptions.length"
       :key="tl('clientEvent')"
       :label="tl('clientEvent')"
     >
@@ -34,15 +40,15 @@
       </el-option>
     </el-option-group>
     <el-option-group
-      v-if="ingressBridgeList && ingressBridgeList.length"
+      v-if="bridgeOptions && bridgeOptions.length"
       :key="tl('dataBridge')"
       :label="tl('dataBridge')"
     >
       <el-option
-        v-for="item in ingressBridgeList"
-        :key="item.id"
+        v-for="item in bridgeOptions"
+        :key="item.idForRuleFrom"
         :value="item.idForRuleFrom"
-        :label="item.id"
+        :label="item.name"
         @click="clickBridge"
       >
         <div class="option-content">
@@ -116,9 +122,24 @@ const selected = computed({
   },
 })
 
+const filterStr = ref('')
+
 const bridgeEventReg = /^\$bridges\//
 const eventOptions = computed(() =>
-  props.eventList?.filter(({ event }) => !bridgeEventReg.test(event)),
+  props.eventList
+    ?.filter(({ event }) => !bridgeEventReg.test(event))
+    .filter(
+      ({ title, event }) =>
+        title[locale.value].indexOf(filterStr.value) > -1 ||
+        event.lastIndexOf(filterStr.value) > -1,
+    ),
+)
+
+const bridgeOptions = computed(() =>
+  props.ingressBridgeList?.filter(
+    ({ name, idForRuleFrom }) =>
+      name.indexOf(filterStr.value) > -1 || idForRuleFrom.lastIndexOf(filterStr.value) > -1,
+  ),
 )
 
 let selectedValueForProxyTopic = ref('')
@@ -155,12 +176,17 @@ watch(
     setSelected()
   },
 )
+
 watch(
   () => props.eventList,
   () => {
     setSelected()
   },
 )
+
+const filterMethod = (val: string) => {
+  filterStr.value = val
+}
 
 const inputTopic = async () => {
   await nextTick()
@@ -181,6 +207,7 @@ const handleTopicInput = async () => {
     window.setTimeout(() => {
       isInputTopic.value = false
     }, 100)
+    filterStr.value = ''
   }
 }
 
@@ -207,7 +234,7 @@ const setSelected = () => {
   if (!modelValue) {
     return
   }
-  if (ingressBridgeList?.some(({ id }) => id === modelValue)) {
+  if (ingressBridgeList?.some(({ idForRuleFrom }) => idForRuleFrom === modelValue)) {
     selectedInputType.value = RuleInputType.Bridge
     return
   }
