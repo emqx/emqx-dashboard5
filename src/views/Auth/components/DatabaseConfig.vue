@@ -29,10 +29,10 @@
             (isMongoDB && databaseConfig.mongo_type !== 'single') ||
             (isRedis && databaseConfig.redis_type !== 'single')
           "
-          :span="12"
+          :span="24"
         >
           <el-form-item :label="$t('Auth.servers')">
-            <el-input v-model="databaseConfig.servers" type="textarea"></el-input>
+            <el-input v-model="databaseConfig.servers" type="textarea" :rows="3"></el-input>
           </el-form-item>
         </el-col>
         <el-col v-else :span="12">
@@ -98,7 +98,7 @@
     <div class="part-header">
       {{ $t('Auth.connectConfig') }}
     </div>
-    <el-form class="create-form" label-position="top" size="small">
+    <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Pool size">
@@ -127,7 +127,7 @@
         {{ $t('Base.help') }}
       </el-button>
     </div>
-    <el-form class="create-form" label-position="top" size="small">
+    <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
         <!-- MySQL & PgSQL -->
         <template v-if="isMySQL || isPgSQL">
