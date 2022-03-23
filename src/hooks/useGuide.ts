@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 
-export default function useGuide(before) {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export default function useGuide(before: () => void) {
   const activeGuidesIndex = ref([0])
   const step = ref(0)
   const handleNext = function () {

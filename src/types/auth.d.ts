@@ -16,9 +16,29 @@ export interface AuthzSourceItem {
 }
 
 export interface AuthnItem {
+  backend: string
+  enable: boolean
   id: string
   mechanism: string
-  backend: string
+  password_hash_algorithm?: PasswordHashAlgorithm
+  user_id_type?: string
+  body?: Body
+  connect_timeout?: string
+  enable_pipelining?: boolean
+  headers?: Headers
+  max_retries?: number
+  method?: string
+  pool_size?: number
+  request_timeout?: string
+  retry_interval?: string
+  ssl?: Ssl
+  url?: string
+  auto_reconnect?: boolean
+  cmd?: string
+  database?: number
+  password?: string
+  redis_type?: string
+  servers?: string
   img?: string
 }
 

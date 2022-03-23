@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, watch } from 'vue'
 import Monaco from '@/components/Monaco.vue'
 

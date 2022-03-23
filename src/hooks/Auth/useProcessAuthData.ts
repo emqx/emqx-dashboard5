@@ -3,8 +3,9 @@ import _ from 'lodash'
 import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
 import { parseJSONSafely } from '@/common/tools'
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useProcessAuthData() {
-  const processHttpConfig = (data) => {
+  const processHttpConfig = (data: any) => {
     try {
       const tempData = _.cloneDeep(data)
       const { body } = data
@@ -14,11 +15,11 @@ export default function useProcessAuthData() {
         tempData.body = undefined
       }
       return tempData
-    } catch (error) {
+    } catch (error: any) {
       M.error(error.toString())
     }
   }
-  const processRedisConfig = (data) => {
+  const processRedisConfig = (data: any) => {
     const tempData = _.cloneDeep(data)
     const { redis_type } = data
     if (redis_type !== 'sentinel') {
@@ -31,7 +32,7 @@ export default function useProcessAuthData() {
     }
     return tempData
   }
-  const processMongoDBConfig = (data) => {
+  const processMongoDBConfig = (data: any) => {
     try {
       let tempData = _.cloneDeep(data)
       const { mongo_type, selector } = data
@@ -51,11 +52,11 @@ export default function useProcessAuthData() {
         tempData.selector = undefined
       }
       return tempData
-    } catch (error) {
+    } catch (error: any) {
       M.error(error.toString())
     }
   }
-  const processJwtConfig = (data) => {
+  const processJwtConfig = (data: any) => {
     const {
       use_jwks,
       algorithm,
@@ -66,7 +67,7 @@ export default function useProcessAuthData() {
       refresh_interval,
       verify_claims,
     } = data
-    const tempData = {
+    const tempData: any = {
       use_jwks,
       verify_claims,
     }
@@ -84,7 +85,7 @@ export default function useProcessAuthData() {
     }
     return tempData
   }
-  const processPasswordHashAlgorithmData = (data) => {
+  const processPasswordHashAlgorithmData = (data: any) => {
     const ret = _.cloneDeep(data)
     if ('password_hash_algorithm' in ret) {
       ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(ret.password_hash_algorithm)

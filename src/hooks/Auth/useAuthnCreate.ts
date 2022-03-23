@@ -1,12 +1,12 @@
 import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
 import { getPasswordHashAlgorithmObj } from './usePasswordHashAlgorithmData'
-import { DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 import useSSL from '@/hooks/useSSL'
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthnCreate() {
   const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
-  const getBuiltInConfig = (type) => {
+  const getBuiltInConfig = (type: string) => {
     if (type === 'password_based') {
       return {
         user_id_type: 'username',
@@ -30,7 +30,7 @@ export default function useAuthnCreate() {
           username: '${username}',
           password: '${password}',
         },
-        '',
+        null,
         2,
       ),
       pool_size: 8,
@@ -40,8 +40,8 @@ export default function useAuthnCreate() {
       ssl: createSSLForm(),
     }
   }
-  const getDatabaseConfig = (backend) => {
-    const data = {
+  const getDatabaseConfig = (backend: string) => {
+    const data: any = {
       server: '',
       username: 'root',
       password: '',
@@ -110,7 +110,7 @@ export default function useAuthnCreate() {
     processJwtConfig,
     processPasswordHashAlgorithmData,
   } = useProcessAuthData()
-  const factory = (mechanism, backend) => {
+  const factory = (mechanism: string, backend: string) => {
     switch (mechanism) {
       case 'password_based':
         if (backend === 'http') {
@@ -134,8 +134,8 @@ export default function useAuthnCreate() {
         return getJwtConfig()
     }
   }
-  const create = (config, backend, mechanism) => {
-    let data = {}
+  const create = (config: any, backend: string, mechanism: string) => {
+    let data: any = {}
     if (mechanism === 'jwt') {
       data = processJwtConfig(config)
     } else {

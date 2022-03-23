@@ -155,7 +155,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import BackButton from './components/BackButton.vue'
 import GuideBar from '@/components/GuideBar.vue'
@@ -206,13 +206,13 @@ export default defineComponent({
     const router = useRouter()
     const mechanism = ref('password_based')
     const backend = ref('')
-    const databases = ref([])
-    const others = ref([])
+    const databases = ref<Record<string, any>[]>([])
+    const others = ref<Record<string, any>[]>([])
     const isWork = ref(false)
     const testRes = ref(null)
     const configData = ref({})
     const { factory, create } = useAuthnCreate()
-    const supportBackendMap = {
+    const supportBackendMap: any = {
       password_based: {
         built_in_database: 'Built-in Database',
         mysql: 'MySQL',
@@ -228,7 +228,7 @@ export default defineComponent({
     }
     const saveLoading = ref(false)
     const addedAuthn = computed(() => {
-      return JSON.parse(sessionStorage.getItem('addedAuthn')) || []
+      return JSON.parse(sessionStorage.getItem('addedAuthn') as string) || []
     })
     const getGuideList = function () {
       return [t('Auth.mechanism'), t('Auth.dataSource'), t('Auth.config')]

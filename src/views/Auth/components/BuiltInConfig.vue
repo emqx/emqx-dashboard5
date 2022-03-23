@@ -1,7 +1,7 @@
 <template>
   <div class="built-in-config config">
     <div class="create-form-title">Built-in Database</div>
-    <el-form class="create-form" size="small" label-position="top">
+    <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
         <template v-if="type !== 'scram'">
           <el-col :span="12">
@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, watch } from 'vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
@@ -58,7 +58,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
-    const builtConfig = reactive(props.modelValue)
+    const builtConfig = reactive(props.modelValue) as any
     watch(builtConfig, (value) => {
       ctx.emit('update:modelValue', value)
     })
