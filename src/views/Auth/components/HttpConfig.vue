@@ -39,7 +39,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$t('Auth.enablePipelining')">
+          <el-form-item :label="$t('Base.enablePipelining')">
             <el-select v-model="httpConfig.enable_pipelining">
               <el-option :value="true" label="True"></el-option>
               <el-option :value="false" label="False"></el-option>

@@ -24,7 +24,7 @@
               </el-select>
             </el-form-item>
             <div class="part-header">{{ $t('Auth.authzCache') }}</div>
-            <el-form-item :label="$t('Auth.enableCache')">
+            <el-form-item :label="$t('Base.enableCache')">
               <el-select v-model="record.cache.enable">
                 <el-option :value="true" :label="$t('Base.yes')"></el-option>
                 <el-option :value="false" :label="$t('Base.no')"></el-option>

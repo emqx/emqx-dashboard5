@@ -17,7 +17,7 @@
           {{ $t('Base.delete') }}
         </el-button>
         <el-button size="small" @click="handleUpdate(configData)">
-          {{ configData.enable ? $t('Auth.disable') : $t('Auth.enable') }}
+          {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
       </div>
     </div>

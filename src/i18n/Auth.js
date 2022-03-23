@@ -119,14 +119,6 @@ export default {
     zh: '下移',
     en: 'Move down',
   },
-  enable: {
-    zh: '启用',
-    en: 'Enable',
-  },
-  disable: {
-    zh: '停用',
-    en: 'Disable',
-  },
   authzSetting: {
     zh: '权限控制设置',
     en: 'Authorization Setting',
