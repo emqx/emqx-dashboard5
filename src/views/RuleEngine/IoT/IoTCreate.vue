@@ -5,7 +5,7 @@
     </router-link>
     <div class="iot-create">
       <div class="page-header-title">{{ tl('createIoTRule') }}</div>
-      <iotform v-model="ruleValue" />
+      <iotform ref="formCom" v-model="ruleValue" />
       <el-row class="config-btn">
         <el-button size="small" type="primary" :loading="submitLoading" @click="submitCreateIoT">
           {{ $t('Base.create') }}
@@ -57,6 +57,8 @@ const ruleValue: Ref<RuleItem> = ref({
   description: '',
 })
 
+const formCom = ref()
+
 const checkRuleClipStatus = () => {
   if (route.query.action === 'copy') {
     const ruleStr = localStorage.getItem(LOCAL_STORAGE_KEY_MAP.RULE_FOR_COPY)
@@ -71,6 +73,8 @@ const checkRuleClipStatus = () => {
 }
 
 const submitCreateIoT = async () => {
+  await formCom.value.validate()
+
   submitLoading.value = true
 
   try {

@@ -26,7 +26,7 @@
       </el-tab-pane>
       <el-tab-pane :label="tl('settings')" :name="Tab.Setting" lazy>
         <div v-loading="infoLoading">
-          <iotform v-model="ruleInfo" :key="iKey" />
+          <iotform ref="formCom" v-model="ruleInfo" :key="iKey" />
           <el-row class="config-btn">
             <el-button
               size="small"
@@ -87,6 +87,8 @@ const isSQLTestDialogShow = ref(false)
 const SQLForTest = ref('')
 const eventList: Ref<Array<RuleEvent>> = ref([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
+
+const formCom = ref()
 
 const { tl } = useI18nTl('RuleEngine')
 
@@ -159,6 +161,7 @@ const deleteRule = async () => {
 }
 
 const submitUpdateRules = async () => {
+  await formCom.value.validate()
   infoLoading.value = true
   const { name, sql, enable, description, outputs } = ruleInfo.value
   const updateData: Partial<RuleItem> = { name, sql, enable, description, outputs }
