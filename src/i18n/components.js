@@ -55,10 +55,6 @@ export default {
     zh: '连接',
     en: 'Connections',
   },
-  // usersAcl: {
-  //   zh: '认证鉴权',
-  //   en: 'Users & ACL',
-  // },
   clients: {
     zh: '客户端',
     en: 'Clients',
@@ -124,8 +120,8 @@ export default {
     en: 'Tools',
   },
   websocket: {
-    zh: 'Websocket',
-    en: 'Websocket',
+    zh: 'Websocket 客户端',
+    en: 'Websocket Client',
   },
   'topic-metrics': {
     zh: '主题监控',

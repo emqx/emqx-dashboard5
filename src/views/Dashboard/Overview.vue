@@ -108,56 +108,7 @@
           </li>
         </template>
       </ul>
-
-      <div class="license-card-footer">
-        <div
-          v-if="license.customer_type === evaluation"
-          class="description"
-          v-html="$t('Dashboard.licenseEvaluationTip')"
-        ></div>
-        <div
-          v-else-if="license.expiry === true"
-          class="description"
-          v-html="$t('Dashboard.licenseExpiryTip')"
-        ></div>
-        <div v-else class="description">
-          {{ $t('Dashboard.beforeTheCertificateExpires') }}
-        </div>
-        <div
-          v-if="
-            license.type === 'trial' &&
-            license.customer_type !== evaluation &&
-            license.expiry === false
-          "
-          class="oper"
-        >
-          <el-tag type="danger">{{ $t('Dashboard.trialEdition') }}</el-tag>
-        </div>
-      </div>
     </div>
-
-    <el-dialog
-      v-model="licenseTipVisible"
-      :close-on-click-modal="false"
-      :title="$t('Base.warning')"
-    >
-      <div class="tip-content">
-        <span v-if="!isLicenseExpiry" v-html="$t('Dashboard.licenseEvaluationTip')"></span>
-        <span v-else v-html="$t('Dashboard.licenseExpiryTip')"></span>
-      </div>
-      <div v-if="!isLicenseExpiry" class="tip-checkbox">
-        <el-checkbox v-model="noprompt" @change="liceEvaTipShowChange">{{
-          $t('Dashboard.notPromptAgain')
-        }}</el-checkbox>
-      </div>
-      <template #footer>
-        <div>
-          <el-button type="primary" size="small" @click="licenseTipVisible = false">{{
-            $t('Dashboard.konw')
-          }}</el-button>
-        </div>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
@@ -184,9 +135,6 @@ interface MetricData {
 }
 
 const evaluation: Ref<number> = ref(10)
-const licenseTipVisible: Ref<boolean> = ref(false)
-const isLicenseExpiry: Ref<boolean> = ref(false)
-const noprompt: Ref<boolean> = ref(false)
 
 let license: Record<string, number | boolean> = reactive({})
 const currentMetricsLogs: Record<string, MetricData> = reactive({
@@ -224,11 +172,6 @@ const formatConnection = computed(() => {
   return `${_formatNumber(connections)} / ${_formatNumber(max_connections as number)}`
 })
 
-const liceEvaTipShowChange = (val: boolean) => {
-  if (val) {
-    localStorage.setItem('licenseTipVisible', String(false))
-  }
-}
 const _formatNumber = (num: number) => {
   let number = String(parseInt(num.toString()))
   return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, '$1,')
@@ -265,8 +208,6 @@ const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
 
 loadData()
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 timerData = setInterval(() => {
   loadData()
 }, 2 * 1000)
@@ -283,7 +224,6 @@ onUnmounted(() => {
   .nodes-graph {
     overflow: hidden;
     width: 50%;
-    // display: inline-grid;
   }
   .nodes-graph {
     margin: 10px;
@@ -325,64 +265,6 @@ onUnmounted(() => {
     }
   }
 }
-
-.license-card {
-  margin: 30px 10px 10px;
-
-  .license-card-footer {
-    display: flex;
-    margin-top: 12px;
-
-    .description {
-      font-size: 12px;
-      color: #b2b2b2;
-      max-width: 50%;
-    }
-
-    .oper {
-      width: 100px;
-      text-align: center;
-      font-size: 14px;
-      .el-tag {
-        display: block;
-      }
-    }
-  }
-}
-
-.license-field {
-  list-style-type: none;
-  padding-left: 0;
-
-  .item {
-    font-size: 14px;
-    color: #666;
-    padding: 6px 0;
-
-    .key {
-      margin-right: 24px;
-    }
-
-    .value {
-      color: #333;
-
-      &.broker {
-        margin-top: 6px;
-      }
-    }
-
-    .content {
-      margin-top: 15px;
-    }
-  }
-}
-
-.lisence-title {
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: 700;
-}
-
 .tip-checkbox {
   margin-top: 20px;
   .el-checkbox {
