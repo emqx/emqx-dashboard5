@@ -39,13 +39,13 @@
             auth-type="authz"
             v-model="configData"
           ></http-config>
-          <el-button type="primary" @click="handleUpdate">
+          <el-button type="primary" @click="handleUpdate" size="small">
             {{ $t('Base.update') }}
           </el-button>
           <!-- <el-button @click="handleTest">
           {{ $t('Base.test') }}
         </el-button> -->
-          <el-button @click="$router.push('/authorization')">
+          <el-button @click="$router.push('/authorization')" size="small">
             {{ $t('Base.cancel') }}
           </el-button>
         </el-card>

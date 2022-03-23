@@ -1,7 +1,7 @@
 <template>
   <div class="http-config config">
     <div class="create-form-title">HTTP</div>
-    <el-form class="create-form" label-position="top" size="small">
+    <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="$t('Auth.method')">
@@ -26,7 +26,7 @@
     <div class="create-form-title">
       {{ $t('Auth.connectConfig') }}
     </div>
-    <el-form class="create-form" label-position="top" size="small">
+    <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Pool size">
@@ -56,7 +56,7 @@
         {{ $t('Base.help') }}
       </el-button>
     </div>
-    <el-form class="create-form" label-position="top" size="small">
+    <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="$t('Auth.requestTimeout')">

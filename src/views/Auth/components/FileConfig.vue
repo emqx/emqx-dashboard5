@@ -1,10 +1,10 @@
 <template>
   <div class="file-config config">
-    <div class="create-form-title">File-ACL</div>
+    <div class="create-form-title">ACL File</div>
     <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="$t('components.rules')">
+          <el-form-item>
             <div class="viewer-container" ref="monacoContainer">
               <monaco id="acl-file-editor" v-model="fileConfig.rules" lang="plaintext"></monaco>
             </div>
@@ -49,7 +49,7 @@ export default defineComponent({
     border: 1px solid #ddd;
     margin-top: 30px;
     width: 100%;
-    height: 280px;
+    height: 380px;
   }
 }
 </style>
