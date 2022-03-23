@@ -51,7 +51,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'change'])
 
 const { tl } = useI18nTl('RuleEngine')
 
@@ -76,6 +76,7 @@ const handleInputItemChanged = () => {
     'update:modelValue',
     inputList.value.filter(({ value }) => !!value).map(({ value }) => value),
   )
+  emit('change')
 }
 
 const deleteInputItem = (index: number) => {

@@ -242,3 +242,5 @@ export const transMemorySizeStrToNum = (sizeStr: string): number | string => {
   }
   return parseFloat(sizeStr)
 }
+
+export const checkIsValidArr = (arr: Array<any>): boolean => arr.filter((item) => !!item).length > 0

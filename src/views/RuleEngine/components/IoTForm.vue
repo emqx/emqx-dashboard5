@@ -1,11 +1,11 @@
 <template>
   <div class="iot-form">
-    <el-form label-position="top" size="small">
+    <el-form ref="formCom" :model="ruleValue" :rules="formRules" label-position="top" size="small">
       <el-card shadow="never" class="app-card">
         <div class="part-header">{{ tl('baseInfo') }}</div>
         <el-row>
           <el-col :span="8">
-            <el-form-item :label="tl('name')">
+            <el-form-item :label="tl('name')" required prop="name">
               <el-input v-model="ruleValue.name" />
             </el-form-item>
             <el-form-item :label="tl('note')">
@@ -23,7 +23,7 @@
         </div>
         <el-row v-if="briefEditType">
           <el-col :span="14">
-            <el-form-item>
+            <el-form-item class="self-required" :error="sqlPartValueFormError.from">
               <template #label>
                 <div class="label-container">
                   <label>{{ tl('dataSource') }}(FROM)</label>
@@ -38,18 +38,24 @@
                 v-model="sqlPartValue.from"
                 :ingress-bridge-list="ingressBridgeList"
                 :event-list="ruleEventsList"
+                @change="checkSQLPartValue('from')"
               />
             </el-form-item>
           </el-col>
           <el-col :span="14">
-            <el-form-item :label="`${tl('select')}(SELECT)`">
+            <el-form-item :label="`${tl('select')}(SELECT)`" :error="sqlPartValueFormError.select">
               <div class="monaco-container is-small">
-                <Monaco :id="createRandomString()" v-model="sqlPartValue.select" lang="sql" />
+                <Monaco
+                  :id="createRandomString()"
+                  v-model="sqlPartValue.select"
+                  lang="sql"
+                  @change="checkSQLPartValue('select')"
+                />
               </div>
             </el-form-item>
           </el-col>
           <el-col :span="14">
-            <el-form-item :label="`${tl('where')}(WHERE)`">
+            <el-form-item :label="`${tl('where')}(WHERE)`" :error="sqlPartValueFormError.where">
               <div class="monaco-container is-small">
                 <Monaco :id="createRandomString()" v-model="sqlPartValue.where" lang="sql" />
               </div>
@@ -58,7 +64,7 @@
         </el-row>
         <el-row v-else>
           <el-col :span="14">
-            <el-form-item>
+            <el-form-item required prop="sql" class="self-required">
               <template #label>
                 <div class="label-container">
                   <label>SQL</label>
@@ -70,7 +76,12 @@
                 </div>
               </template>
               <div class="monaco-container">
-                <Monaco :id="createRandomString()" v-model="ruleValue.sql" lang="sql" />
+                <Monaco
+                  :id="createRandomString()"
+                  v-model="ruleValue.sql"
+                  lang="sql"
+                  @change="validate"
+                />
               </div>
             </el-form-item>
           </el-col>
@@ -112,7 +123,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, onMounted, watch, defineEmits, defineProps } from 'vue'
+import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose } from 'vue'
 import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
@@ -123,10 +134,11 @@ import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import { EditPen } from '@element-plus/icons-vue'
 import RuleOutputs from './RuleOutputs.vue'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
+import { createRandomString, getKeywordsFromSQL, checkIsValidArr } from '@/common/tools'
 import FromSelectList from './FromSelectList.vue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
+import useFormRules from '@/hooks/useFormRules'
 
 const prop = defineProps({
   modelValue: {
@@ -167,8 +179,23 @@ const sqlPartValue = ref({
   select: DEFAULT_SELECT,
   where: '',
 })
+const sqlPartValueFormError = ref({
+  from: '',
+  select: '',
+})
+const fieldLabelMap = {
+  from: tl('dataSource'),
+  select: tl('select'),
+}
 
 const testSQL = ref('')
+
+const { createRequiredRule } = useFormRules()
+const formCom = ref()
+const formRules = {
+  name: createRequiredRule(tl('name')),
+  sql: createRequiredRule(tl('SQL')),
+}
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
@@ -300,11 +327,41 @@ const toggleTypeForEditSQL = () => {
   briefEditType.value = !briefEditType.value
 }
 
+const selfValidate = () => {
+  if (!briefEditType.value) {
+    return Promise.resolve()
+  }
+  type Keys = Array<keyof typeof sqlPartValueFormError.value>
+  const keys: Keys = Object.keys(sqlPartValueFormError.value) as Keys
+  keys.forEach((key) => checkSQLPartValue(key))
+  const pass = keys.every((key) => !sqlPartValueFormError.value[key])
+  return pass ? Promise.resolve() : Promise.reject()
+}
+
+const checkSQLPartValue = (key: keyof typeof sqlPartValueFormError.value) => {
+  const target = sqlPartValue.value[key]
+  const isValid = !(
+    (typeof target === 'string' && !target) ||
+    (Array.isArray(target) && !checkIsValidArr(target))
+  )
+  sqlPartValueFormError.value[key] = isValid
+    ? ''
+    : t('Rule.inputFieldRequiredError', {
+        name: fieldLabelMap[key],
+      })
+}
+
+const validate = () => {
+  return Promise.all([selfValidate(), formCom.value?.validate()])
+}
+
 onMounted(() => {
   loadIngressBridgeList()
   loadRuleEvents()
   setRuleValue()
 })
+
+defineExpose({ validate })
 </script>
 
 <style lang="scss">
@@ -329,6 +386,25 @@ onMounted(() => {
   background-color: #f2f2f2;
   cursor: pointer;
 }
+.el-form-item.is-required.self-required:not(.is-no-asterisk) {
+  :deep(.el-form-item__label:after) {
+    content: '';
+    display: none;
+  }
+  .label-container > label::after {
+    content: '*';
+    color: var(--el-color-danger);
+    margin-left: 4px;
+  }
+}
+.el-form-item.is-error .monaco-container {
+  border-color: var(--el-color-danger);
+}
+
+.monaco-container {
+  margin-bottom: 20px;
+}
+
 .sql-ft {
   display: flex;
   justify-content: space-between;

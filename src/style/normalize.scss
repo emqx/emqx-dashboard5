@@ -361,3 +361,17 @@
     }
   }
 }
+
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before, 
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label-wrap > .el-form-item__label:before {
+  content: "";
+  display: none;
+  margin-right: 0;
+}
+
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:after, 
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label-wrap > .el-form-item__label:after {
+  content: "*";
+  color: var(--el-color-danger);
+  margin-left: 4px;
+}
