@@ -28,14 +28,9 @@
                   <router-link :to="getBridgeDetailPageRoute(row.id)" class="bridge-name">
                     {{ row.name }}
                   </router-link>
-                  <span class="bridge-type">{{ getBridgeLabelByTypeValue(row.type) }}</span>
+                  <span class="bridge-type">{{ getTypeStr(row) }}</span>
                 </div>
               </div>
-            </template>
-          </el-table-column>
-          <el-table-column :label="tl('direction')" sortable prop="direction">
-            <template #default="{ row }">
-              {{ getLabelByDirectionValue(row.direction) }}
             </template>
           </el-table-column>
           <el-table-column :label="tl('SuccessNum')" sortable prop="metrics.success" />
@@ -72,9 +67,7 @@ import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import useBridgeTypeValue, {
-  useBridgeDirectionTypeValue,
-} from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { onBeforeRouteUpdate } from 'vue-router'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 
@@ -84,8 +77,7 @@ export default defineComponent({
     let bridgeTb = ref([])
     let tbLoading = ref(false)
     let { t } = useI18n()
-    const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
-    const { getLabelByDirectionValue } = useBridgeDirectionTypeValue()
+    const { getTypeStr } = useBridgeTypeOptions()
 
     const listBridge = async function () {
       tbLoading.value = true
@@ -146,8 +138,7 @@ export default defineComponent({
     return {
       Plus,
       tl: (key: string) => t('RuleEngine.' + key),
-      getBridgeLabelByTypeValue,
-      getLabelByDirectionValue,
+      getTypeStr,
       bridgeTb,
       tbLoading,
       enableOrDisableBridge,

@@ -5,7 +5,7 @@ import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 
-export default (): {
+const useBridgeTypeValue = (): {
   bridgeTypeList: Array<{
     value: BridgeType
     label: string
@@ -27,6 +27,8 @@ export default (): {
   }
 }
 
+export default useBridgeTypeValue
+
 interface BridgeTypeOptions {
   value: BridgeType
   valueForRadio: string
@@ -38,6 +40,7 @@ interface BridgeTypeOptions {
 export const useBridgeTypeOptions = (): {
   bridgeTypeOptions: BridgeTypeOptions[]
   getTrueTypeObjByRadioValue: (radioValue: string) => BridgeTypeOptions | undefined
+  getTypeStr: (bridge: BridgeItem) => string
 } => {
   const { t } = useI18n()
 
@@ -68,30 +71,18 @@ export const useBridgeTypeOptions = (): {
 
   const getTrueTypeObjByRadioValue = (radioValue: string) =>
     bridgeTypeOptions.find(({ valueForRadio }) => valueForRadio === radioValue)
+
+  const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+
+  const getTypeStr = (bridge: BridgeItem): string => {
+    const directionStr =
+      'direction' in bridge && bridge.direction === MQTTBridgeDirection.In ? 'Source' : 'Sink'
+    return `${getBridgeLabelByTypeValue(bridge.type)} ${directionStr}`
+  }
+
   return {
     bridgeTypeOptions,
     getTrueTypeObjByRadioValue,
-  }
-}
-
-export const useBridgeDirectionTypeValue = (): {
-  bridgeDirectionList: OptionList<MQTTBridgeDirection>
-  getLabelByDirectionValue: (directionValue: MQTTBridgeDirection) => string
-} => {
-  const { t } = useI18n()
-  const bridgeDirectionList: OptionList<MQTTBridgeDirection> = [
-    { value: MQTTBridgeDirection.In, label: t('RuleEngine.input') },
-    { value: MQTTBridgeDirection.Out, label: t('RuleEngine.output') },
-  ]
-
-  const getLabelByDirectionValue = (directionValue: MQTTBridgeDirection) => {
-    return directionValue === MQTTBridgeDirection.In
-      ? t('RuleEngine.input')
-      : t('RuleEngine.output')
-  }
-
-  return {
-    bridgeDirectionList,
-    getLabelByDirectionValue,
+    getTypeStr,
   }
 }

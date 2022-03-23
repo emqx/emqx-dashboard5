@@ -9,6 +9,7 @@ import { OtherNodeType, NodeType } from './topologyType'
 import hljs from 'highlight.js/lib/core'
 import sql from 'highlight.js/lib/languages/sql'
 import useBridgeItemStatus from '../bridge/useBridgeItemStatus'
+import { useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
 
 hljs.registerLanguage('sql', sql)
 
@@ -121,6 +122,8 @@ export default (): {
   }
 
   const { getStatusLabel, getStatusClass } = useBridgeItemStatus()
+  const { getTypeStr } = useBridgeTypeOptions()
+
   const createBridgeNodeTooltip = (bridgeID: string) => {
     const targetBridge = bridgeList.find(({ id }) => id === bridgeID)
     if (!targetBridge) {
@@ -133,7 +136,7 @@ export default (): {
     const statusClass = getStatusClass(status)
 
     const msgArr = [
-      { label: tl('type'), value: type.toUpperCase() },
+      { label: tl('type'), value: getTypeStr(targetBridge) },
       { label: tl('name'), value: name },
       { label: tl('success'), value: metrics.success },
       { label: tl('failure'), value: metrics.failed },
