@@ -24,26 +24,28 @@
               </el-select>
             </el-form-item>
             <div class="part-header">{{ $t('Auth.authzCache') }}</div>
-            <el-form-item :label="$t('Base.enableCache')">
+            <el-form-item :label="$t('Auth.enableCache')">
               <el-select v-model="record.cache.enable">
                 <el-option :value="true" :label="$t('Base.yes')"></el-option>
                 <el-option :value="false" :label="$t('Base.no')"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item :label="$t('Auth.maxSize')">
-              <el-input v-model.number="record.cache.max_size" placeholder="32"></el-input>
-            </el-form-item>
-            <el-form-item :label="$t('Auth.ttl')">
-              <el-input v-model.number="record.cache.ttl" placeholder="1">
-                <template #append>
-                  <el-select v-model="record.cache.unit">
-                    <el-option value="s" :label="$t('Base.second')"></el-option>
-                    <el-option value="m" :label="$t('Base.minute')"></el-option>
-                    <el-option value="h" :label="$t('Base.hour')"></el-option>
-                  </el-select>
-                </template>
-              </el-input>
-            </el-form-item>
+            <template v-if="record.cache.enable">
+              <el-form-item :label="$t('Auth.maxSize')">
+                <el-input v-model.number="record.cache.max_size" placeholder="32"></el-input>
+              </el-form-item>
+              <el-form-item :label="$t('Auth.ttl')">
+                <el-input v-model.number="record.cache.ttl" placeholder="1">
+                  <template #append>
+                    <el-select v-model="record.cache.unit">
+                      <el-option value="s" :label="$t('Base.second')"></el-option>
+                      <el-option value="m" :label="$t('Base.minute')"></el-option>
+                      <el-option value="h" :label="$t('Base.hour')"></el-option>
+                    </el-select>
+                  </template>
+                </el-input>
+              </el-form-item>
+            </template>
           </el-form>
           <el-button type="primary" @click="save" size="small">{{ $t('Base.save') }}</el-button>
           <el-button @click="$router.push('/authorization')" size="small">
