@@ -42,8 +42,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import { Top, Bottom, Delete, CaretBottom } from '@element-plus/icons-vue'
+import { AuthnItem } from '@/types/auth'
 
 export default defineComponent({
   name: 'TableDropdown',
@@ -55,7 +56,7 @@ export default defineComponent({
     },
     rowData: {
       required: true,
-      type: Object,
+      type: Object as PropType<AuthnItem>,
     },
     position: {
       required: true,
@@ -68,10 +69,7 @@ export default defineComponent({
     const dropdownVisibleChanged = (value: boolean) => {
       dropdownVisible.value = value
     }
-    const handleCommand = function (
-      row: Record<string, any>,
-      command: 'setting' | 'delete' | 'moveUp' | 'moveDown' | 'disable' | 'enable',
-    ) {
+    const handleCommand = function (row: AuthnItem, command: 'delete' | 'moveUp' | 'moveDown') {
       switch (command) {
         case 'delete':
           ctx.emit('delete', row)

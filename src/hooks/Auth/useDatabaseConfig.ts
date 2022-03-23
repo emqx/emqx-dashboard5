@@ -1,7 +1,19 @@
-import { watch, reactive, ref, computed } from 'vue'
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { watch, reactive, ref, computed, SetupContext } from 'vue'
 import { useRoute } from 'vue-router'
 
-export default function useDatabaseConfig({ database, modelValue, authType }, { emit }) {
+export default function useDatabaseConfig(
+  {
+    database,
+    modelValue,
+    authType,
+  }: {
+    database: string
+    modelValue: any
+    authType: string
+  },
+  { emit }: SetupContext<'update:modelValue'[]>,
+) {
   const route = useRoute()
   const defaultContent = ref('')
   const databaseConfig = reactive(modelValue)

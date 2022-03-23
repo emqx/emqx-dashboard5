@@ -39,7 +39,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$t('Base.enablePipelining')">
+          <el-form-item :label="$t('Auth.enablePipelining')">
             <el-select v-model="httpConfig.enable_pipelining">
               <el-option :value="true" label="True"></el-option>
               <el-option :value="false" label="False"></el-option>
@@ -58,6 +58,11 @@
     </div>
     <el-form class="create-form" label-position="top" size="small">
       <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="$t('Auth.requestTimeout')">
+            <time-input-with-unit-select v-model="httpConfig.request_timeout" />
+          </el-form-item>
+        </el-col>
         <el-col :span="24">
           <el-form-item label="Body">
             <el-input v-model="httpConfig.body" type="textarea" :rows="6"></el-input>
@@ -79,11 +84,6 @@
             </div>
           </el-col>
         </el-collapse-transition>
-        <el-col :span="12">
-          <el-form-item :label="$t('Auth.requestTimeout')">
-            <time-input-with-unit-select v-model="httpConfig.request_timeout" />
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
   </div>

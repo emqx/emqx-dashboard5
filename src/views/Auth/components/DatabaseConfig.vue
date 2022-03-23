@@ -4,7 +4,7 @@
     <div class="part-header">
       {{ $t('Auth.connect') }}
     </div>
-    <el-form class="create-form" label-position="top" size="small">
+    <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
         <el-col v-if="isRedis" :span="12">
           <el-form-item :label="$t('Auth.redisType')">
@@ -227,14 +227,14 @@
   </div>
 </template>
 
-<script>
-import { computed, defineComponent, nextTick, onUnmounted, ref } from 'vue'
-import CodeView from '@/components/CodeView'
+<script lang="ts">
+import { computed, defineComponent, ref } from 'vue'
+import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 import TLSConfig from './TLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
-import useCopy from '@/hooks/useCopy.ts'
+import useCopy from '@/hooks/useCopy'
 
 export default defineComponent({
   name: 'DatabaseConfig',
@@ -258,7 +258,7 @@ export default defineComponent({
   setup(props, ctx) {
     const { databaseConfig, defaultContent, helpContent } = useDatabaseConfig(props, ctx)
     const needHelp = ref(false)
-    const setDefaultContent = (dataKey) => {
+    const setDefaultContent = (dataKey: string) => {
       databaseConfig[dataKey] = defaultContent.value
     }
     const isMongoDB = computed(() => props.database === 'mongodb')

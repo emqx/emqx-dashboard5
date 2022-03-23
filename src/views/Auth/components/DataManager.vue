@@ -43,10 +43,10 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" @click="handleEdit(row)">
+          <el-button @click="handleEdit(row)">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="mini" plain type="danger" @click="handleDelete(row)">
+          <el-button plain type="danger" @click="handleDelete(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -62,18 +62,12 @@
       v-model="dialogVisible"
       @open="handleDialogOpen"
     >
-      <el-form
-        ref="recordForm"
-        :model="record"
-        :rules="getRules()"
-        label-position="top"
-        size="small"
-      >
+      <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
-          <el-input size="small" v-model="record.user_id" :disabled="isEdit"></el-input>
+          <el-input v-model="record.user_id" :disabled="isEdit"></el-input>
         </el-form-item>
         <el-form-item prop="password" :label="$t('General.password')">
-          <el-input size="small" v-model="record.password" type="password"></el-input>
+          <el-input v-model="record.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
           <div>

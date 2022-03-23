@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import useProcessAuthData from './useProcessAuthData'
-import { DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 import useSSL from '@/hooks/useSSL'
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthzCreate() {
   const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
 
@@ -37,7 +37,7 @@ export default function useAuthzCreate() {
           username: '${username}',
           password: '${password}',
         },
-        '',
+        null,
         2,
       ),
       pool_size: 8,
@@ -78,7 +78,7 @@ export default function useAuthzCreate() {
       ssl: createSSLForm(),
     }
   }
-  const factory = (type) => {
+  const factory = (type: string) => {
     switch (type) {
       case 'file':
         return getFileConfig()
@@ -97,8 +97,8 @@ export default function useAuthzCreate() {
     }
   }
   const { processHttpConfig, processMongoDBConfig, processRedisConfig } = useProcessAuthData()
-  const create = (config, type) => {
-    let data = {}
+  const create = (config: any, type: string) => {
+    let data: any = {}
     switch (type) {
       case 'http':
         data = processHttpConfig(config)
