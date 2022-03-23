@@ -88,7 +88,7 @@ export default function useAuthnCreate() {
       pool_size: 8,
       ssl: createSSLForm(),
       topology: {
-        connect_timeout_ms: 20000,
+        connect_timeout_ms: '20s',
       },
     }
   }

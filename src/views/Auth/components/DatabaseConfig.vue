@@ -115,7 +115,7 @@
         </el-col>
         <el-col v-if="isMongoDB" :span="12">
           <el-form-item :label="$t('Auth.connectTimeout')">
-            <el-input v-model.number="databaseConfig.topology.connect_timeout_ms"></el-input>
+            <time-input-with-unit-select v-model="databaseConfig.topology.connect_timeout_ms" />
           </el-form-item>
         </el-col>
       </el-row>
