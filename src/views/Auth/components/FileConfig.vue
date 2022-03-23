@@ -44,12 +44,4 @@ export default defineComponent({
 
 <style lang="scss">
 @import '../style/authConfig.scss';
-.file-config {
-  .viewer-container {
-    border: 1px solid #ddd;
-    margin-top: 30px;
-    width: 100%;
-    height: 380px;
-  }
-}
 </style>

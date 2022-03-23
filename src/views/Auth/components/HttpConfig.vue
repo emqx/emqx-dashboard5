@@ -65,7 +65,9 @@
         </el-col>
         <el-col :span="24">
           <el-form-item label="Body">
-            <el-input v-model="httpConfig.body" type="textarea" :rows="6"></el-input>
+            <div class="viewer-container" ref="monacoContainer">
+              <monaco id="acl-file-editor" v-model="httpConfig.body" lang="json"></monaco>
+            </div>
             <el-button class="bottom-btn" size="mini" @click="setDefaultContent">
               {{ $t('Auth.setDefault') }}
             </el-button>
@@ -89,13 +91,14 @@
   </div>
 </template>
 
-<script>
-import { computed, defineComponent, nextTick, onUnmounted, reactive, ref, watch } from 'vue'
-import CodeView from '@/components/CodeView'
+<script lang="ts">
+import { computed, defineComponent, reactive, ref, watch } from 'vue'
+import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import TLSConfig from './TLSConfig.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import useCopy from '@/hooks/useCopy.ts'
+import useCopy from '@/hooks/useCopy'
+import Monaco from '@/components/Monaco.vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -105,6 +108,7 @@ export default defineComponent({
     CodeView,
     TLSConfig,
     TimeInputWithUnitSelect,
+    Monaco,
   },
 
   props: {
@@ -191,4 +195,9 @@ export default defineComponent({
 
 <style lang="scss">
 @import '../style/authConfig.scss';
+.http-config.config {
+  .viewer-container {
+    height: 200px;
+  }
+}
 </style>
