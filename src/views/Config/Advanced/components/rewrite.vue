@@ -2,9 +2,7 @@
   <div class="no-tab-wrapper rewrite">
     <div class="section-header">
       <div></div>
-      <el-button size="small" type="primary" @click="openOpDialog()">{{
-        $t('Base.add')
-      }}</el-button>
+      <el-button type="primary" @click="openOpDialog()">{{ $t('Base.add') }}</el-button>
     </div>
 
     <el-table :data="rewriteTbData" v-loading="tbDataLoading">
@@ -14,8 +12,8 @@
       <el-table-column :label="tl('dTopic')" prop="dest_topic" sortable></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
-          <el-button size="mini" type="danger" @click="deleteRewrite(row)">{{
+          <el-button size="small" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
+          <el-button size="small" type="danger" @click="deleteRewrite(row)">{{
             $t('Base.delete')
           }}</el-button>
         </template>
@@ -54,14 +52,10 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button
-          size="small"
-          type="primary"
-          @click="submitRewrite(isEdit)"
-          :loading="submitLoading"
-          >{{ isEdit ? $t('Base.update') : $t('Base.add') }}</el-button
-        >
-        <el-button size="small" @click="opRewrite = false">{{ $t('Base.cancel') }}</el-button>
+        <el-button type="primary" @click="submitRewrite(isEdit)" :loading="submitLoading">{{
+          isEdit ? $t('Base.update') : $t('Base.add')
+        }}</el-button>
+        <el-button @click="opRewrite = false">{{ $t('Base.cancel') }}</el-button>
       </template>
     </el-dialog>
   </div>

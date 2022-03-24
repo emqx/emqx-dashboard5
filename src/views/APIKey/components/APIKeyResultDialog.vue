@@ -7,7 +7,7 @@
     :z-index="2000"
   >
     <p class="result-tip">{{ $t('APIKey.resultTip') }}</p>
-    <el-form ref="formCom" label-position="top" size="small">
+    <el-form ref="formCom" label-position="top">
       <el-row :gutter="24">
         <el-col :span="24">
           <el-form-item label="API Key">
@@ -39,7 +39,7 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button size="small" @click="showDialog = false">{{ $t('APIKey.close') }}</el-button>
+        <el-button @click="showDialog = false">{{ $t('APIKey.close') }}</el-button>
       </span>
     </template>
   </el-dialog>

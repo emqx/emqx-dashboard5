@@ -17,7 +17,6 @@
     </template>
     <el-button
       type="primary"
-      size="small"
       :loading="updateLoading"
       @click="updateGatewayInfo()"
       :disabled="basicData.status === 'unloaded'"

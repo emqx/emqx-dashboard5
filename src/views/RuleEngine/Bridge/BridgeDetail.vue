@@ -19,13 +19,13 @@
             </div>
           </div>
           <div>
-            <el-button size="small" @click="goDoc">
+            <el-button @click="goDoc">
               {{ tl('readMore') }}
             </el-button>
-            <el-button size="small" @click="enableOrDisableBridge">
+            <el-button @click="enableOrDisableBridge">
               {{ bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
             </el-button>
-            <el-button type="danger" size="small" @click="deleteBridge">
+            <el-button type="danger" @click="deleteBridge">
               {{ $t('Base.delete') }}
             </el-button>
           </div>
@@ -54,7 +54,6 @@
               <div class="btn-area">
                 <el-button
                   type="primary"
-                  size="small"
                   v-if="bridgeInfo.type"
                   :loading="infoLoading"
                   @click="updateBridgeInfo()"

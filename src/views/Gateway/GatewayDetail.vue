@@ -14,13 +14,8 @@
         </span>
       </div>
       <div>
-        <!-- <el-button type="danger"  size="small">{{ $t('Base.delete') }}</el-button> -->
-        <el-button
-          size="small"
-          type="danger"
-          :disabled="gInfo.status !== 'running'"
-          @click="gatewayStop()"
-        >
+        <!-- <el-button type="danger" >{{ $t('Base.delete') }}</el-button> -->
+        <el-button type="danger" :disabled="gInfo.status !== 'running'" @click="gatewayStop()">
           {{ $t('Base.stop') }}</el-button
         >
       </div>

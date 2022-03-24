@@ -3,10 +3,10 @@
     <el-form @keyup.enter="handleSearch">
       <el-row class="search-wrapper">
         <el-col :span="8">
-          <el-input v-model="searchValue" size="small" :placeholder="$t('Topics.topic')"></el-input>
+          <el-input v-model="searchValue" :placeholder="$t('Topics.topic')"></el-input>
         </el-col>
         <el-col :span="8">
-          <el-button type="primary" :icon="Search" size="small" @click="handleSearch">
+          <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
           </el-button>
         </el-col>

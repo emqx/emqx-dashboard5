@@ -9,13 +9,13 @@
         </span>
       </div>
       <div>
-        <el-button size="small" @click="testSQL" v-if="activeTab !== Tab.Setting">
+        <el-button @click="testSQL" v-if="activeTab !== Tab.Setting">
           {{ tl('testsql') }}
         </el-button>
-        <el-button size="small" @click="enableOrDisableRule()">
+        <el-button @click="enableOrDisableRule()">
           {{ ruleInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
-        <el-button type="danger" size="small" @click="deleteRule">
+        <el-button type="danger" @click="deleteRule">
           {{ $t('Base.delete') }}
         </el-button>
       </div>
@@ -28,12 +28,7 @@
         <div v-loading="infoLoading">
           <iotform ref="formCom" v-model="ruleInfo" :key="iKey" />
           <el-row class="config-btn">
-            <el-button
-              size="small"
-              type="primary"
-              :loading="infoLoading"
-              @click="submitUpdateRules()"
-            >
+            <el-button type="primary" :loading="infoLoading" @click="submitUpdateRules()">
               {{ $t('Base.update') }}
             </el-button>
           </el-row>

@@ -2,7 +2,7 @@
   <div class="exhook app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" size="small" @click="addExhook">
+      <el-button type="primary" @click="addExhook">
         {{ $t('Base.add') }}
       </el-button>
     </div>
@@ -47,13 +47,13 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" @click="goExhookDetail(row)">
+          <el-button size="small" @click="goExhookDetail(row)">
             {{ tl('setting', 'Base') }}
           </el-button>
-          <el-button size="mini" v-if="!row.enable" @click="changeExhookStatus(row, true)">
+          <el-button size="small" v-if="!row.enable" @click="changeExhookStatus(row, true)">
             {{ tl('enable', 'Base') }}
           </el-button>
-          <el-button size="mini" v-else @click="changeExhookStatus(row, false)">
+          <el-button size="small" v-else @click="changeExhookStatus(row, false)">
             {{ tl('disable', 'Base') }}
           </el-button>
           <TableItemDropdown

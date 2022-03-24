@@ -14,7 +14,9 @@
         </el-button>
       </li>
     </ul>
-    <el-button plain class="btn-add" @click="addInputItem">{{ tl('addDataSource') }}</el-button>
+    <el-button type="primary" plain class="btn-add" @click="addInputItem">
+      {{ tl('addDataSource') }}
+    </el-button>
   </div>
 </template>
 
@@ -93,6 +95,7 @@ setInputList()
 
 <style lang="scss" scoped>
 .from-select-list {
+  width: 100%;
   .input-list {
     padding-left: 0;
     margin-top: 0;
@@ -126,8 +129,6 @@ setInputList()
   }
   .btn-add {
     width: 100%;
-    border-color: var(--el-button-border-color);
-    color: var(--el-text-color-regular);
   }
 }
 </style>

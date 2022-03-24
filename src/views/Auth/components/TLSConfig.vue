@@ -25,7 +25,7 @@
                   placeholder="Begins with -----BEGIN CERTIFICATE-----"
                 ></el-input>
                 <el-upload class="bottom-btn" ref="upload" action="" :auto-upload="false">
-                  <!-- <el-button slot="trigger" size="mini">
+                  <!-- <el-button slot="trigger" size="small">
                     {{ $t('Base.selectFile') }}
                   </el-button> -->
                 </el-upload>
@@ -40,7 +40,7 @@
                   placeholder="Begins with -----BEGIN RSA PRIVATE KEY-----"
                 ></el-input>
                 <el-upload class="bottom-btn" ref="upload" action="" :auto-upload="false">
-                  <!-- <el-button slot="trigger" size="mini">
+                  <!-- <el-button slot="trigger" size="small">
                     {{ $t('Base.selectFile') }}
                   </el-button> -->
                 </el-upload>
@@ -55,7 +55,7 @@
                   placeholder="Begins with -----BEGIN CERTIFICATE -----"
                 ></el-input>
                 <el-upload class="bottom-btn" ref="upload" action="" :auto-upload="false">
-                  <!-- <el-button slot="trigger" size="mini">
+                  <!-- <el-button slot="trigger" size="small">
                     {{ $t('Base.selectFile') }}
                   </el-button> -->
                 </el-upload>

@@ -5,7 +5,6 @@
         <el-col :span="6">
           <el-input
             v-model="fuzzyParams.like_clientid"
-            size="small"
             :placeholder="$t('Clients.clientId')"
             clearable
           ></el-input>
@@ -13,18 +12,12 @@
         <el-col :span="6">
           <el-input
             v-model="fuzzyParams.like_username"
-            size="small"
             :placeholder="$t('Clients.username')"
             clearable
           ></el-input>
         </el-col>
         <el-col :span="6">
-          <el-select
-            v-model="fuzzyParams.node"
-            :placeholder="$t('Clients.node')"
-            size="small"
-            clearable
-          >
+          <el-select v-model="fuzzyParams.node" :placeholder="$t('Clients.node')" clearable>
             <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
           </el-select>
         </el-col>
@@ -32,7 +25,6 @@
           <el-col :span="6">
             <el-input
               v-model="fuzzyParams.ip_address"
-              size="small"
               :placeholder="$t('Clients.ipAddress')"
               clearable
             ></el-input>
@@ -40,7 +32,6 @@
           <el-col :span="6">
             <el-select
               v-model="fuzzyParams.conn_state"
-              size="small"
               :placeholder="$t('Clients.connectedStatus')"
               clearable
             >
@@ -51,7 +42,7 @@
           <el-col :span="6">
             <el-row class="form-item-row">
               <el-col :span="8">
-                <el-select v-model="fuzzyParams.comparator" class="comparator" size="small">
+                <el-select v-model="fuzzyParams.comparator" class="comparator">
                   <el-option label=">=" value="gte"></el-option>
                   <el-option label="<=" value="lte"></el-option>
                 </el-select>
@@ -61,7 +52,6 @@
                   v-model="fuzzyParams.connected_at"
                   class="datatime"
                   type="datetime"
-                  size="small"
                   :placeholder="$t('Clients.connectedAt')"
                   clearable
                 />
@@ -71,7 +61,6 @@
           <el-col :span="6">
             <el-select
               v-model="fuzzyParams.proto_name"
-              size="small"
               :placeholder="$t('Clients.protocol')"
               clearable
             >
@@ -80,7 +69,7 @@
           </el-col>
         </template>
         <el-col :span="6" class="col-oper">
-          <el-button type="primary" :icon="Search" size="small" @click="handleSearch">
+          <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
           </el-button>
 
@@ -142,7 +131,7 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" type="danger" @click="handleDisconnect(row)">
+          <el-button size="small" type="danger" @click="handleDisconnect(row)">
             {{ row.connected ? $t('Clients.kickOut') : $t('Clients.cleanSession') }}
           </el-button>
         </template>

@@ -21,16 +21,22 @@
               </div>
             </span>
             <span class="output-op">
-              <el-button size="mini" @click="openOutputDialog(true, index)">
+              <el-button size="small" @click="openOutputDialog(true, index)">
                 {{ $t('Base.edit') }}
               </el-button>
-              <el-button size="mini" type="danger" @click="deleteOutput(index)">
+              <el-button size="small" type="danger" @click="deleteOutput(index)">
                 {{ $t('Base.delete') }}
               </el-button>
             </span>
           </div>
         </template>
-        <el-button class="btn-add" type="primary" @click="openOutputDialog(false)" plain>
+        <el-button
+          class="btn-add"
+          type="primary"
+          @click="openOutputDialog(false)"
+          plain
+          size="large"
+        >
           <el-icon><plus /></el-icon>
           <span>{{ tl('addOutput') }}</span>
         </el-button>
@@ -197,7 +203,6 @@ const getOutputImage = (item: string) => {
 }
 
 .btn-add {
-  height: 40px;
   margin-top: 12px;
   :deep(span) {
     display: flex;

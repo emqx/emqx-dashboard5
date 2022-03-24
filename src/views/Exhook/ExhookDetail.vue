@@ -6,18 +6,13 @@
         <ExhookItemStatus :exhook="exhookData" is-tag />
       </div>
       <div>
-        <el-button type="danger" size="small" @click="handleDelete">
+        <el-button type="danger" @click="handleDelete">
           {{ tl('delete', 'Base') }}
         </el-button>
-        <el-button
-          type="primary"
-          size="small"
-          @click="updateExhookStatus(false)"
-          v-if="exhookData.enable"
-        >
+        <el-button type="primary" @click="updateExhookStatus(false)" v-if="exhookData.enable">
           {{ tl('disable', 'Base') }}
         </el-button>
-        <el-button type="primary" size="small" @click="updateExhookStatus(true)" v-else>
+        <el-button type="primary" @click="updateExhookStatus(true)" v-else>
           {{ tl('enable', 'Base') }}
         </el-button>
       </div>
@@ -53,7 +48,7 @@
         </el-card>
         <el-card shadow="never" class="app-card">
           <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
-          <el-button size="small" type="primary" :loading="isSubmitting" @click="updateExhook">
+          <el-button type="primary" :loading="isSubmitting" @click="updateExhook">
             {{ $t('Base.update') }}
           </el-button>
         </el-card>

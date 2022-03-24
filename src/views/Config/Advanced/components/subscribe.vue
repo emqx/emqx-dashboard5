@@ -2,9 +2,7 @@
   <div class="no-tab-wrapper subscribe">
     <div class="section-header">
       <div>{{ tl('internalPatterns') }}</div>
-      <el-button size="small" type="primary" @click="openOpDialog()">{{
-        $t('Base.add')
-      }}</el-button>
+      <el-button type="primary" @click="openOpDialog()">{{ $t('Base.add') }}</el-button>
     </div>
 
     <el-table :data="subTbData" v-loading="tbLoading">
@@ -17,8 +15,8 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
-          <el-button size="mini" type="danger" @click="deleteSubs(row)">{{
+          <el-button size="small" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
+          <el-button size="small" type="danger" @click="deleteSubs(row)">{{
             $t('Base.delete')
           }}</el-button>
         </template>
@@ -70,14 +68,10 @@
         </el-row>
       </el-form>
       <template #footer>
-        <el-button
-          size="small"
-          type="primary"
-          @click="submitSubs(isEdit)"
-          :loading="submitLoading"
-          >{{ isEdit ? $t('Base.update') : $t('Base.add') }}</el-button
-        >
-        <el-button size="small" @click="closeDialog()">{{ $t('Base.cancel') }}</el-button>
+        <el-button type="primary" @click="submitSubs(isEdit)" :loading="submitLoading">{{
+          isEdit ? $t('Base.update') : $t('Base.add')
+        }}</el-button>
+        <el-button @click="closeDialog()">{{ $t('Base.cancel') }}</el-button>
       </template>
     </el-dialog>
   </div>

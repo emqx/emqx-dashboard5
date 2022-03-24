@@ -4,7 +4,7 @@
     @command="handleCommand(rowData, $event)"
     @visible-change="dropdownVisibleChanged"
   >
-    <el-button class="dropdown-btn" size="mini">
+    <el-button class="dropdown-btn" size="small">
       <span>
         {{ $t('Base.more') }}
       </span>

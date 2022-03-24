@@ -16,10 +16,10 @@
           <div class="sub-block-hd">
             <p class="hd-title">{{ tl('SQL') }}</p>
             <div>
-              <el-button type="text" size="mini" @click="testSQL(item.sql)">
+              <el-button type="text" size="small" @click="testSQL(item.sql)">
                 {{ tl('testsql') }}
               </el-button>
-              <el-button type="text" size="mini" @click="useSQL(item.sql)">
+              <el-button type="text" size="small" @click="useSQL(item.sql)">
                 {{ tl('useSQL') }}
               </el-button>
             </div>

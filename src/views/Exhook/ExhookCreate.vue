@@ -7,10 +7,10 @@
     <el-card shadow="never" class="app-card exhook-create-card">
       <ExhookForm ref="formCom" v-model="formData" />
       <div class="exhook-create-ft">
-        <el-button size="small" type="primary" :loading="isSubmitting" @click="submit">
+        <el-button type="primary" :loading="isSubmitting" @click="submit">
           {{ $t('Base.create') }}
         </el-button>
-        <el-button size="small" @click="cancel">
+        <el-button @click="cancel">
           {{ $t('Base.cancel') }}
         </el-button>
       </div>

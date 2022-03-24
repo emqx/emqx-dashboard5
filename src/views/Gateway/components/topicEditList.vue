@@ -5,25 +5,25 @@
         <el-table-column :label="'Topic ID'">
           <template #default="{ row, $index }">
             <el-form-item :prop="`[${$index}].id`">
-              <el-input v-model="row.id" size="small"></el-input>
+              <el-input v-model="row.id"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column :label="'Topic'">
           <template #default="{ row, $index }">
             <el-form-item :prop="`[${$index}].topic`">
-              <el-input v-model="row.topic" size="small"></el-input>
+              <el-input v-model="row.topic"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column width="80">
           <template #header="scope">
-            <el-button size="mini" @click="addTopic()" :disabled="disableAdd(scope)">
+            <el-button size="small" @click="addTopic()" :disabled="disableAdd(scope)">
               {{ $t('Base.add') }}
             </el-button>
           </template>
           <template #default="{ row }">
-            <el-button size="mini" @click="delTopic(row)">
+            <el-button size="small" @click="delTopic(row)">
               {{ $t('Base.delete') }}
             </el-button>
           </template>

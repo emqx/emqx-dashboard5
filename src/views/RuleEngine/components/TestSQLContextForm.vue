@@ -1,5 +1,5 @@
 <template>
-  <el-form size="small">
+  <el-form>
     <el-form-item
       v-for="key in Object.keys(record)"
       :key="key"

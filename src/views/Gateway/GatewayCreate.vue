@@ -45,7 +45,6 @@
     </el-row>
     <el-row class="config-op">
       <el-button
-        size="small"
         type="primary"
         v-if="stepActive === 2"
         :loading="submitLoading"
@@ -54,22 +53,15 @@
       >
       <el-button
         type="primary"
-        size="small"
         @click="handleNextStep"
         v-if="stepActive < 2"
         :disabled="submitLoading"
         >{{ $t('Base.nextStep') }}</el-button
       >
-      <el-button
-        size="small"
-        @click="--stepActive"
-        v-if="stepActive > 0"
-        :disabled="submitLoading"
-        >{{ $t('Base.backStep') }}</el-button
-      >
-      <el-button size="small" v-if="stepActive === 0" @click="gotoList">{{
-        $t('Base.cancel')
+      <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">{{
+        $t('Base.backStep')
       }}</el-button>
+      <el-button v-if="stepActive === 0" @click="gotoList">{{ $t('Base.cancel') }}</el-button>
     </el-row>
   </div>
 </template>

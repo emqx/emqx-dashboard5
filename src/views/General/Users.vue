@@ -2,7 +2,7 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" size="small" :icon="Plus" @click="showDialog()">
+      <el-button type="primary" :icon="Plus" @click="showDialog()">
         {{ $t('Base.create') }}
       </el-button>
     </div>
@@ -12,12 +12,14 @@
       <el-table-column sortable prop="description" :label="$t('General.remark')"></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="mini" @click="showDialog('edit', row)">{{ $t('Base.edit') }} </el-button>
-          <el-button size="mini" @click="showDialog('chPass', row)">{{
+          <el-button size="small" @click="showDialog('edit', row)"
+            >{{ $t('Base.edit') }}
+          </el-button>
+          <el-button size="small" @click="showDialog('chPass', row)">{{
             $t('General.changePassword')
           }}</el-button>
 
-          <el-button type="danger" size="mini" @click="deleteConfirm(row)"
+          <el-button type="danger" size="small" @click="deleteConfirm(row)"
             >{{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -36,7 +38,6 @@
     >
       <el-form
         ref="recordForm"
-        size="small"
         :model="record"
         :rules="rules"
         label-position="top"
@@ -70,9 +71,9 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="closeDialog">{{ $t('Base.cancel') }}</el-button>
+          <el-button @click="closeDialog">{{ $t('Base.cancel') }}</el-button>
 
-          <el-button type="primary" size="small" @click="save" :loading="submitLoading">{{
+          <el-button type="primary" @click="save" :loading="submitLoading">{{
             accessType == 'create' ? $t('Base.create') : $t('Base.confirm')
           }}</el-button>
         </div>

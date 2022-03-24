@@ -7,11 +7,11 @@
       <div class="page-header-title">{{ tl('createIoTRule') }}</div>
       <iotform ref="formCom" v-model="ruleValue" />
       <el-row class="config-btn">
-        <el-button size="small" type="primary" :loading="submitLoading" @click="submitCreateIoT">
+        <el-button type="primary" :loading="submitLoading" @click="submitCreateIoT">
           {{ $t('Base.create') }}
         </el-button>
 
-        <el-button size="small" @click="$router.push({ name: 'iot' })">
+        <el-button @click="$router.push({ name: 'iot' })">
           {{ $t('Base.cancel') }}
         </el-button>
       </el-row>

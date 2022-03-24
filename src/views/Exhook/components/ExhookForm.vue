@@ -5,7 +5,6 @@
     label-position="top"
     :model="formData"
     :rules="rules"
-    size="small"
   >
     <div class="form-sub-block">
       <p class="block-title form-sub-block-title">{{ tl('basicInfo') }}</p>

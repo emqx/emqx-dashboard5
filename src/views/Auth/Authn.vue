@@ -4,7 +4,6 @@
       <div></div>
       <el-button
         type="primary"
-        size="small"
         :icon="Plus"
         @click="$router.push({ name: 'authenticationCreate' })"
       >

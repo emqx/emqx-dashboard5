@@ -44,7 +44,6 @@
       </el-row>
       <el-row class="config-btn">
         <el-button
-          size="small"
           type="primary"
           v-if="stepActive === 1"
           :loading="submitLoading"
@@ -53,25 +52,17 @@
         >
         <el-button
           type="primary"
-          size="small"
           @click="++stepActive"
           v-if="stepActive < 1"
           :disabled="submitLoading"
           >{{ $t('Base.nextStep') }}</el-button
         >
-        <el-button
-          size="small"
-          @click="--stepActive"
-          v-if="stepActive > 0"
-          :disabled="submitLoading"
-          >{{ $t('Base.backStep') }}</el-button
-        >
-        <el-button
-          size="small"
-          v-if="stepActive === 0"
-          @click="$router.push({ name: 'bridge-connector' })"
-          >{{ $t('Base.cancel') }}</el-button
-        >
+        <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">{{
+          $t('Base.backStep')
+        }}</el-button>
+        <el-button v-if="stepActive === 0" @click="$router.push({ name: 'bridge-connector' })">{{
+          $t('Base.cancel')
+        }}</el-button>
       </el-row>
       <div></div>
     </div>

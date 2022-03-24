@@ -2,7 +2,7 @@
   <div class="slow-sub-data">
     <div class="slow-sub-data-bar">
       <div>
-        <el-button size="small" class="link-btn">
+        <el-button class="link-btn">
           <router-link :to="{ name: 'slow-sub-config' }">
             <el-icon><Tools class="el-icon-s-tools" /></el-icon>
             <span>
@@ -10,7 +10,7 @@
             </span>
           </router-link>
         </el-button>
-        <el-button type="danger" @click="clearData" size="small">
+        <el-button type="danger" @click="clearData">
           {{ tl('clearData') }}
         </el-button>
       </div>

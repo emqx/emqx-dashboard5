@@ -5,7 +5,6 @@
         <el-col :span="6">
           <el-input
             :placeholder="tl('clientid')"
-            size="small"
             v-model="searchParams.like_clientid"
             clearable
           ></el-input>
@@ -13,7 +12,6 @@
         <el-col :span="6" v-if="name === 'lwm2m'">
           <el-input
             :placeholder="tl('endpointName')"
-            size="small"
             v-model="searchParams.like_endpoint_name"
             clearable
           ></el-input>
@@ -21,27 +19,21 @@
         <el-col :span="6" v-else>
           <el-input
             :placeholder="tl('username')"
-            size="small"
             v-model="searchParams.like_username"
             clearable
           ></el-input>
         </el-col>
 
         <el-col :span="6">
-          <el-select
-            v-model="searchParams.node"
-            :placeholder="$t('Clients.node')"
-            size="small"
-            clearable
-          >
+          <el-select v-model="searchParams.node" :placeholder="$t('Clients.node')" clearable>
             <el-option v-for="item in nodes" :value="item.node" :key="item.node"></el-option>
           </el-select>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" :icon="Search" size="small" @click="searchGatewayList()">{{
+          <el-button type="primary" :icon="Search" @click="searchGatewayList()">{{
             $t('Base.search')
           }}</el-button>
-          <el-button size="small" @click="handleResetSearch">
+          <el-button @click="handleResetSearch">
             {{ $t('Base.reset') }}
           </el-button>
         </el-col>
@@ -89,8 +81,8 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button @click="openClientDetail(row)" size="mini">{{ $t('Base.view') }}</el-button>
-          <el-button type="danger" @click="disconnectClient(row)" size="mini">{{
+          <el-button @click="openClientDetail(row)" size="small">{{ $t('Base.view') }}</el-button>
+          <el-button type="danger" @click="disconnectClient(row)" size="small">{{
             $t('Clients.kickOut')
           }}</el-button>
         </template>

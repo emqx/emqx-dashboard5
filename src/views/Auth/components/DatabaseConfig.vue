@@ -123,7 +123,7 @@
 
     <div class="part-header">
       {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
-      <el-button class="help-btn" size="mini" @click="toggleNeedHelp">
+      <el-button class="help-btn" size="small" @click="toggleNeedHelp">
         {{ $t('Base.help') }}
       </el-button>
     </div>
@@ -134,7 +134,7 @@
           <el-col :span="24">
             <el-form-item label="SQL">
               <el-input v-model="databaseConfig.query" type="textarea" :rows="6"></el-input>
-              <el-button class="bottom-btn" size="mini" @click="setDefaultContent('query')">
+              <el-button class="bottom-btn" size="small" @click="setDefaultContent('query')">
                 {{ $t('Auth.setDefault') }}
               </el-button>
             </el-form-item>
@@ -145,7 +145,7 @@
           <el-col :span="24">
             <el-form-item :label="$t('Auth.selector')">
               <el-input v-model="databaseConfig.selector" type="textarea" :rows="6"></el-input>
-              <el-button class="bottom-btn" size="mini" @click="setDefaultContent('selector')">
+              <el-button class="bottom-btn" size="small" @click="setDefaultContent('selector')">
                 {{ $t('Auth.setDefault') }}
               </el-button>
             </el-form-item>
@@ -155,7 +155,7 @@
           <el-col :span="24">
             <el-form-item :label="$t('Auth.cmd')">
               <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6"></el-input>
-              <el-button class="bottom-btn" size="mini" @click="setDefaultContent('cmd')">
+              <el-button class="bottom-btn" size="small" @click="setDefaultContent('cmd')">
                 {{ $t('Auth.setDefault') }}
               </el-button>
             </el-form-item>
@@ -177,7 +177,7 @@
                 :lang="isMongoDB ? 'javascript' : isRedis ? 'bash' : 'sql'"
                 :code="helpContent"
               ></code-view>
-              <el-button size="small" @click="copyText(helpContent)">
+              <el-button @click="copyText(helpContent)">
                 {{ $t('Base.copy') }}
               </el-button>
             </div>

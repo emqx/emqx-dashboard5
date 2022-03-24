@@ -5,12 +5,7 @@
       <div class="app-wrapper data-bridge">
         <div class="section-header">
           <div></div>
-          <el-button
-            size="small"
-            type="primary"
-            :icon="Plus"
-            @click="$router.push({ name: 'bridge-create' })"
-          >
+          <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'bridge-create' })">
             {{ tl('create') }}
           </el-button>
         </div>
@@ -43,13 +38,13 @@
           </el-table-column>
           <el-table-column :label="$t('Base.operation')" min-width="120">
             <template #default="{ row }">
-              <el-button size="mini" @click="$router.push(getBridgeDetailPageRoute(row.id))">
+              <el-button size="small" @click="$router.push(getBridgeDetailPageRoute(row.id))">
                 {{ $t('Base.setting') }}
               </el-button>
-              <el-button size="mini" @click="enableOrDisableBridge(row)">
+              <el-button size="small" @click="enableOrDisableBridge(row)">
                 {{ row.enable ? $t('Base.disable') : $t('Base.enable') }}
               </el-button>
-              <el-button size="mini" type="danger" @click="submitDeleteBridge(row.id)">
+              <el-button size="small" type="danger" @click="submitDeleteBridge(row.id)">
                 {{ $t('Base.delete') }}
               </el-button>
             </template>

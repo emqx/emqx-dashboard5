@@ -7,7 +7,6 @@
     <el-form
       ref="configForm"
       hide-required-asterisk
-      size="small"
       label-position="top"
       :model="connection"
       :rules="connectionRules"
@@ -74,7 +73,6 @@
       <el-col :span="24" class="footer-area">
         <el-button
           type="primary"
-          size="small"
           @click="createConnection"
           :disabled="!compareConnStatus('MDISCONNECTED')"
         >
@@ -83,7 +81,6 @@
 
         <el-button
           type="danger"
-          size="small"
           @click="destroyConnection"
           :disabled="compareConnStatus('MDISCONNECTING') || compareConnStatus('MDISCONNECTED')"
         >
@@ -101,7 +98,6 @@
       hide-required-asterisk
       :model="subscriptionsRecord"
       :rules="subscriptionsRules"
-      size="small"
       @keyup.enter="subscribe"
       class="sub-area"
       :disabled="!compareConnStatus('MCONNECTED')"
@@ -120,7 +116,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="small" @click="subscribe">
+        <el-button type="primary" @click="subscribe">
           {{ $t('Tools.Subscribe') }}
         </el-button>
       </el-form-item>
@@ -133,7 +129,7 @@
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button
-            size="mini"
+            size="small"
             type="danger"
             @click="unSubscribe(row)"
             :disabled="!compareConnStatus('MCONNECTED')"
@@ -154,24 +150,23 @@
       label-position="top"
       :model="messageRecord"
       :rules="messageRecordRules"
-      size="small"
       @keyup.enter="publish"
       class="pub-area"
       :disabled="!compareConnStatus('MCONNECTED')"
     >
       <el-form-item prop="topic" label="Topic">
-        <el-input v-model="messageRecord.topic" size="small"></el-input>
+        <el-input v-model="messageRecord.topic"></el-input>
       </el-form-item>
 
       <el-form-item prop="payload" label="Payload">
-        <el-input v-model="messageRecord.payload" size="small"></el-input>
+        <el-input v-model="messageRecord.payload"></el-input>
       </el-form-item>
 
       <el-form-item prop="qos" label="QoS">
         <!-- <emq-select
           v-model.number="messageRecord.qos"
           :field="{ list: QoSOptions }"
-          size="small"
+         
         >
         </emq-select> -->
         <el-select v-model.number="messageRecord.qos">
@@ -181,7 +176,7 @@
 
       <el-form-item>
         <el-checkbox v-model="messageRecord.retain"> Retain </el-checkbox>
-        <el-button type="primary" size="small" @click="publish">
+        <el-button type="primary" @click="publish">
           {{ $t('Tools.publish') }}
         </el-button>
       </el-form-item>

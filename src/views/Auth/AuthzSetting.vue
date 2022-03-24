@@ -47,8 +47,8 @@
               </el-form-item>
             </template>
           </el-form>
-          <el-button type="primary" @click="save" size="small">{{ $t('Base.save') }}</el-button>
-          <el-button @click="$router.push('/authorization')" size="small">
+          <el-button type="primary" @click="save">{{ $t('Base.save') }}</el-button>
+          <el-button @click="$router.push('/authorization')">
             {{ $t('Base.cancel') }}
           </el-button>
         </el-col>

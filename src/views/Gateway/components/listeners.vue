@@ -2,7 +2,7 @@
   <div>
     <div class="section-header" v-if="!showIntegration">
       <div></div>
-      <el-button type="primary" size="small" :icon="Plus" @click="openDialog()">
+      <el-button type="primary" :icon="Plus" @click="openDialog()">
         {{ tl('addListener') }}
       </el-button>
     </div>
@@ -18,17 +18,17 @@
       <el-table-column :label="tl('lMaxConn')" sortable prop="max_connections"></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button size="mini" @click="openDialog(true, row, $index)">{{
+          <el-button size="small" @click="openDialog(true, row, $index)">{{
             $t('Base.edit')
           }}</el-button>
-          <el-button size="mini" type="danger" @click="delListener(row)">{{
+          <el-button size="small" type="danger" @click="delListener(row)">{{
             $t('Base.delete')
           }}</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="not-standalone-btn" v-if="showIntegration">
-      <el-button type="primary" size="small" :icon="Plus" @click="openDialog()">
+      <el-button type="primary" :icon="Plus" @click="openDialog()">
         {{ tl('addListener') }}
       </el-button>
     </div>
@@ -339,14 +339,10 @@
         </template>
       </el-form>
       <template #footer>
-        <el-button
-          type="primary"
-          size="small"
-          @click="submitListener(editListener)"
-          :loading="submitLoading"
-          >{{ editListener ? $t('Base.update') : $t('Base.add') }}</el-button
-        >
-        <el-button size="small" @click="opListener = false">{{ $t('Base.cancel') }}</el-button>
+        <el-button type="primary" @click="submitListener(editListener)" :loading="submitLoading">{{
+          editListener ? $t('Base.update') : $t('Base.add')
+        }}</el-button>
+        <el-button @click="opListener = false">{{ $t('Base.cancel') }}</el-button>
       </template>
     </el-dialog>
   </div>

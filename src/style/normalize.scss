@@ -124,33 +124,31 @@
 }
 
 .el-button {
-  &.el-button--default {
-    color: #1d1d1dff;
-    background-color: #ffffff;
-    border-color: #1d1d1d;
+  --el-button-text-color: #1d1d1dff;
+  --el-button-bg-color: #ffffff;
+  --el-button-border-color: #1d1d1d;
 
+  &:hover,
+  &:active {
+    color: #00b299ff;
+    border-color: #00b299ff;
+  }
+
+  &.is-disabled {
+
+    &,
     &:hover,
+    &:focus,
     &:active {
-      color: #00b299ff;
-      border-color: #00b299ff;
-    }
-
-    &.is-disabled {
-
-      &,
-      &:hover,
-      &:focus,
-      &:active {
-        border-color: #c8c8c8;
-        color: #c8c8c8;
-        background-color: #ffffff;
-      }
+      border-color: #c8c8c8;
+      color: #c8c8c8;
+      background-color: #ffffff;
     }
   }
 
   &--danger {
-    --el-button-font-color: #e34242ff;
-    --el-button-background-color: #ffffffff;
+    --el-button-text-color: #e34242ff;
+    --el-button-bg-color: #ffffffff;
     --el-button-border-color: #e34242ff;
 
     //   --el-button-hover-color:#f00000ff;
@@ -162,6 +160,7 @@
       border-color: #ff7c7cff;
       background-color: #ffffffff;
     }
+
     &:hover,
     &:active,
     &:focus {
@@ -212,7 +211,7 @@
     }
   }
 
-  &--mini {
+  &--small {
     min-height: 22px;
     padding: 4px 9px;
   }
@@ -362,15 +361,15 @@
   }
 }
 
-.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before,
-.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label-wrap > .el-form-item__label:before {
+.el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before,
+.el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label-wrap>.el-form-item__label:before {
   content: "";
   display: none;
   margin-right: 0;
 }
 
-.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:after,
-.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label-wrap > .el-form-item__label:after {
+.el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:after,
+.el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label-wrap>.el-form-item__label:after {
   content: "*";
   color: var(--el-color-danger);
   margin-left: 4px;

@@ -2,7 +2,7 @@
   <div class="topicMetrics app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button size="small" type="primary" :icon="Plus" @click="openAdd()">
+      <el-button type="primary" :icon="Plus" @click="openAdd()">
         {{ tl('addTopic') }}
       </el-button>
     </div>
@@ -19,7 +19,7 @@
           <div v-loading="row._loading" class="topic-detail">
             <el-row class="topic-detail-header">
               <div>{{ $t('Base.detail') }}</div>
-              <el-radio-group v-model="topicQos" size="mini">
+              <el-radio-group v-model="topicQos" size="small">
                 <el-radio-button label="all">{{ $t('Base.all') }}</el-radio-button>
                 <el-radio-button label="qos0">QoS 0</el-radio-button>
                 <el-radio-button label="qos1">QoS 1</el-radio-button>
@@ -119,11 +119,11 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button size="mini" @click="loadMetricsFromTopic(row, $index)">
+          <el-button size="small" @click="loadMetricsFromTopic(row, $index)">
             {{ $t('Base.view') }}
           </el-button>
-          <el-button size="mini" @click="resetTopic(row)">{{ $t('Base.reset') }}</el-button>
-          <el-button size="mini" type="danger" @click="deleteTopic(row)">
+          <el-button size="small" @click="resetTopic(row)">{{ $t('Base.reset') }}</el-button>
+          <el-button size="small" type="danger" @click="deleteTopic(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -134,7 +134,6 @@
       <el-form
         ref="record"
         :model="topicInput"
-        size="small"
         label-position="top"
         :rules="topicRules"
         @keyup.enter.stop="addTopic()"
@@ -145,8 +144,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="addVisible = false">{{ $t('Base.cancel') }}</el-button>
-          <el-button type="primary" size="small" @click="addTopic()" :loading="addLoading">
+          <el-button @click="addVisible = false">{{ $t('Base.cancel') }}</el-button>
+          <el-button type="primary" @click="addTopic()" :loading="addLoading">
             {{ $t('Base.add') }}
           </el-button>
         </div>

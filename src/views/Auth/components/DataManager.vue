@@ -4,13 +4,11 @@
       <div class="searchbar">
         <el-space wrap :size="20">
           <el-input
-            size="small"
             v-model="searchVal.user_id"
             clearable
             :placeholder="getFiledLabel(field)"
           ></el-input>
           <el-select
-            size="small"
             v-model="searchVal.is_superuser"
             clearable
             :placeholder="$t('Auth.isSuperuser')"
@@ -19,16 +17,16 @@
             <el-option :value="true" :label="$t('Base.yes')"></el-option>
             <el-option :value="false" :label="$t('Base.no')"></el-option>
           </el-select>
-          <el-button type="primary" size="small" :icon="Search" @click="handleSearch">
+          <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button size="small" @click="handleResetSearch">
+          <el-button @click="handleResetSearch">
             {{ $t('Base.reset') }}
           </el-button>
         </el-space>
       </div>
       <div>
-        <el-button type="primary" :icon="Plus" size="small" @click="addCommand">
+        <el-button type="primary" :icon="Plus" @click="addCommand">
           {{ $t('Base.add') }}
         </el-button>
       </div>
@@ -72,7 +70,6 @@
         <el-form-item>
           <div>
             <el-checkbox
-              size="small"
               v-model="record.is_superuser"
               :label="$t('Auth.isSuperuser')"
               border

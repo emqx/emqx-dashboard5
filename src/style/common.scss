@@ -353,7 +353,7 @@ code {
   }
 }
 
-.el-button--small.link-btn {
+.el-button--default.link-btn {
   padding: 0;
   a {
     display: flex;
@@ -444,6 +444,7 @@ code {
 .monaco-container {
   height: 300px;
   border: 1px solid #d9d9d9;
+  width: 100%;
   &.is-small {
     height: 200px;
   }

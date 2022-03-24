@@ -13,10 +13,10 @@
         </div>
       </div>
       <div>
-        <el-button type="danger" size="small" @click="handleDelete">
+        <el-button type="danger" @click="handleDelete">
           {{ $t('Base.delete') }}
         </el-button>
-        <el-button size="small" @click="handleUpdate(configData)">
+        <el-button @click="handleUpdate(configData)">
           {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
       </div>
@@ -39,13 +39,13 @@
             auth-type="authz"
             v-model="configData"
           ></http-config>
-          <el-button type="primary" @click="handleUpdate" size="small">
+          <el-button type="primary" @click="handleUpdate">
             {{ $t('Base.update') }}
           </el-button>
           <!-- <el-button @click="handleTest">
           {{ $t('Base.test') }}
         </el-button> -->
-          <el-button @click="$router.push('/authorization')" size="small">
+          <el-button @click="$router.push('/authorization')">
             {{ $t('Base.cancel') }}
           </el-button>
         </el-card>

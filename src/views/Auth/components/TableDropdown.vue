@@ -1,9 +1,9 @@
 <template>
   <div class="table-dropdown">
-    <el-button size="mini" @click="$emit('setting', rowData)">
+    <el-button size="small" @click="$emit('setting', rowData)">
       {{ $t('Base.setting') }}
     </el-button>
-    <el-button size="mini" @click="$emit('update', { ...rowData, enable: !rowData.enable })">
+    <el-button size="small" @click="$emit('update', { ...rowData, enable: !rowData.enable })">
       {{ rowData.enable ? $t('Base.disable') : $t('Base.enable') }}
     </el-button>
     <el-dropdown
@@ -11,7 +11,7 @@
       @command="handleCommand(rowData, $event)"
       @visible-change="dropdownVisibleChanged"
     >
-      <el-button class="dropdown-btn" size="mini">
+      <el-button class="dropdown-btn" size="small">
         <span>
           {{ $t('Base.more') }}
         </span>

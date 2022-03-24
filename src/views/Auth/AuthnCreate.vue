@@ -15,7 +15,7 @@
       <div class="create-form-title">
         {{ $t('Auth.selectMechanism') }}
       </div>
-      <el-radio-group v-model="mechanism">
+      <el-radio-group v-model="mechanism" size="large">
         <el-radio class="mechanism" label="password_based" border> Password-Based </el-radio>
         <el-badge :value="$t('Modules.added')" :hidden="!addedAuthn.includes('jwt')" class="item">
           <el-radio class="mechanism" label="jwt" border :disabled="addedAuthn.includes('jwt')">
@@ -36,10 +36,10 @@
         {{ $t('Auth.scramDesc') }}
       </p>
       <div class="step-btn">
-        <el-button type="primary" @click="handleNext" size="small">
+        <el-button type="primary" @click="handleNext">
           {{ $t('Base.nextStep') }}
         </el-button>
-        <el-button @click="cancelCreate()" size="small">
+        <el-button @click="cancelCreate()">
           {{ $t('Base.cancel') }}
         </el-button>
       </div>
@@ -56,7 +56,7 @@
         <div class="create-form-title">
           {{ $t('Auth.database') }}
         </div>
-        <el-radio-group v-model="backend" class="select-database">
+        <el-radio-group v-model="backend" class="select-database" size="large">
           <el-badge
             v-for="item in databases"
             :key="item.value"
@@ -79,7 +79,7 @@
           <div class="create-form-title">
             {{ $t('Base.other') }}
           </div>
-          <el-radio-group v-model="backend">
+          <el-radio-group v-model="backend" size="large">
             <el-badge
               v-for="item in others"
               :key="item.value"
@@ -105,10 +105,10 @@
         {{ $t('Auth.jwtDataSourceDesc') }}
       </p>
       <div class="step-btn">
-        <el-button type="primary" @click="handleNext" size="small">
+        <el-button type="primary" @click="handleNext">
           {{ $t('Base.nextStep') }}
         </el-button>
-        <el-button @click="handleBack" size="small">
+        <el-button @click="handleBack">
           {{ $t('Base.backStep') }}
         </el-button>
       </div>
@@ -141,13 +141,13 @@
         </div>
       </div>
       <div class="step-btn">
-        <el-button type="primary" :loading="saveLoading" @click="handleCreate" size="small">
+        <el-button type="primary" :loading="saveLoading" @click="handleCreate">
           {{ $t('Base.create') }}
         </el-button>
         <!-- <el-button @click="handleTest">
             {{ $t('Base.test') }}
           </el-button> -->
-        <el-button @click="handleBack" size="small">
+        <el-button @click="handleBack">
           {{ $t('Base.backStep') }}
         </el-button>
       </div>

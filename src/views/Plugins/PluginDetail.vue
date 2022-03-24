@@ -39,18 +39,17 @@
         </div>
         <div>
           <!-- TODO: -->
-          <el-button size="small" @click="goDoc">{{ tl('more') }}</el-button>
+          <el-button @click="goDoc">{{ tl('more') }}</el-button>
           <el-button
             v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
-            size="small"
             @click="handleDisable"
           >
             {{ tl('stop', 'Base') }}
           </el-button>
-          <el-button size="small" @click="handleEnable" v-else>
+          <el-button @click="handleEnable" v-else>
             {{ tl('start') }}
           </el-button>
-          <el-button size="small" type="danger" @click="handleUninstall">
+          <el-button type="danger" @click="handleUninstall">
             {{ tl('uninstall') }}
           </el-button>
         </div>

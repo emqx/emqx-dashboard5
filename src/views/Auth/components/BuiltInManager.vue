@@ -13,7 +13,7 @@
         </el-radio>
       </el-radio-group>
       <div>
-        <el-button type="primary" size="small" :icon="Plus" @click="handleAdd">
+        <el-button type="primary" :icon="Plus" @click="handleAdd">
           {{ $t('Base.add') }}
         </el-button>
       </div>
@@ -21,7 +21,6 @@
     <el-row v-if="type !== 'all'" class="section-searchbar" :gutter="20">
       <el-col :span="6">
         <el-input
-          size="small"
           v-model="searchVal"
           clearable
           :placeholder="getCurrSearchValTip(type)"
@@ -29,7 +28,7 @@
         ></el-input>
       </el-col>
       <el-col :span="6">
-        <el-button type="primary" size="small" :icon="Search" @click="handleSearch">
+        <el-button type="primary" :icon="Search" @click="handleSearch">
           {{ $t('Base.search') }}
         </el-button>
       </el-col>
@@ -41,10 +40,10 @@
       <el-table-column prop="topic" label="Topic"></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button size="mini" @click="handleEdit(row, $index)">
+          <el-button size="small" @click="handleEdit(row, $index)">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="mini" plain type="danger" @click="handleDelete(row, $index)">
+          <el-button size="small" plain type="danger" @click="handleDelete(row, $index)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -79,10 +78,10 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row, $index }">
-            <el-button size="mini" @click="handleEdit(row, $index)">
+            <el-button size="small" @click="handleEdit(row, $index)">
               {{ $t('Base.edit') }}
             </el-button>
-            <el-button size="mini" plain type="danger" @click="handleDelete(row, $index)">
+            <el-button size="small" plain type="danger" @click="handleDelete(row, $index)">
               {{ $t('Base.delete') }}
             </el-button>
           </template>
@@ -124,7 +123,7 @@
             <el-input v-model="record.username" :disabled="isEdit"></el-input>
           </el-form-item>
           <el-form-item label="Permissions">
-            <el-table class="form-table" :data="rulesData" size="mini">
+            <el-table class="form-table" :data="rulesData" size="small">
               <el-table-column prop="permission" label="Permission">
                 <template #default="{ row }">
                   <el-select v-model="row.permission">
@@ -171,10 +170,10 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="dialogVisible = false">
+          <el-button @click="dialogVisible = false">
             {{ $t('Base.cancel') }}
           </el-button>
-          <el-button type="primary" size="small" @click="handleSubmit">
+          <el-button type="primary" @click="handleSubmit">
             {{ isEdit ? $t('Base.update') : $t('Base.add') }}
           </el-button>
         </div>
