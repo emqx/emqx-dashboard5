@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column :label="`${tl('speed')}(${tl('second')})`">
         <template #default="{ row }">
-          {{ row.metrics?.rate / 1000 }}
+          {{ row.metrics?.rate }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('status')">

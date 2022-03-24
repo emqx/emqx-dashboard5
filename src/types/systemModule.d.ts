@@ -20,7 +20,7 @@ export interface APIKey extends APIKeyFormWhenCreating {
 export type APIKeyFormWhenEditing = Pick<APIKey, 'name' | 'expired_at' | 'desc' | 'enable'>
 
 export interface ExhookFormForCreate {
-  auto_reconnect: boolean
+  auto_reconnect: false | string
   enable: boolean
   failed_action: ExhookFailedAction
   name: string

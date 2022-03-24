@@ -32,13 +32,13 @@ const router = useRouter()
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
 
-const createRawExhookForm = () => ({
-  auto_reconnect: true,
+const createRawExhookForm = (): ExhookFormForCreate => ({
+  auto_reconnect: '60s',
   enable: false,
   failed_action: ExhookFailedAction.Deny,
   name: '',
   pool_size: 16,
-  request_timeout: '5000ms',
+  request_timeout: '5s',
   ssl: {
     cacertfile: '',
     certfile: '',
