@@ -34,10 +34,10 @@
       background-color: #00b29915;
       font-weight: 900;
     }
+  }
 
-    .menu-item-title.first-level{
-      display: none;
-    }
+  &.el-menu--collapse .menu-item-title.first-level {
+    display: none;
   }
 
   .el-sub-menu {
@@ -362,14 +362,14 @@
   }
 }
 
-.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before, 
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before,
 .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label-wrap > .el-form-item__label:before {
   content: "";
   display: none;
   margin-right: 0;
 }
 
-.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:after, 
+.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:after,
 .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label-wrap > .el-form-item__label:after {
   content: "*";
   color: var(--el-color-danger);
