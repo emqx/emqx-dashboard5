@@ -108,8 +108,12 @@
               <el-option value="all" label="All"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="topic" label="Topic">
-            <el-input v-model="record.topic"></el-input>
+          <el-form-item prop="topic">
+            <template #label>
+              Topic
+              <InfoTooltip :content="$t('Auth.topicTips', ['{username}', '{clientid}'])" />
+            </template>
+            <el-input v-model="record.topic" />
           </el-form-item>
         </template>
         <template v-else>
@@ -190,13 +194,14 @@ import {
 } from '@/api/auth'
 import _ from 'lodash'
 import commonPagination from '@/components/commonPagination.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Search } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule, BuiltInDBType } from '@/types/auth'
 
 export default defineComponent({
-  components: { commonPagination },
+  components: { commonPagination, InfoTooltip },
   name: 'BuiltInManager',
   setup() {
     const { t } = useI18n()

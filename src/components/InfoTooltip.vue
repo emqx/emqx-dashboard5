@@ -1,11 +1,5 @@
 <template>
-  <el-tooltip
-    effect="dark"
-    popper-class="info-tooltip"
-    placement="top-start"
-    :content="content"
-    :width="300"
-  >
+  <el-tooltip effect="dark" popper-class="info-tooltip" placement="top-start" :content="content">
     <template v-if="$slots.content" #content>
       <slot name="content"></slot>
     </template>
@@ -24,8 +18,11 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
-const props = defineProps({
-  content: String,
+defineProps({
+  content: {
+    type: String,
+    requried: true,
+  },
 })
 </script>
 

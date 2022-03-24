@@ -303,4 +303,8 @@ export default {
     zh: '写模式',
     en: 'Write Mode',
   },
+  topicTips: {
+    zh: '主题字符串，支持 ${0} 和 ${1} 占位符，在执行权限检查时会被替换为对应客户端的 Username 或 Client ID',
+    en: "Topic supports ${0} and ${1} placeholders, which will be replaced with the corresponding client's Username or Client ID when performing permission checks.",
+  },
 }
