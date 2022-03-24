@@ -150,10 +150,10 @@
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import moment from 'moment'
-import { FormRulesMap } from 'element-plus/es/components/form/src/form.type'
 import { ElMessage as M, ElMessageBox as MB, ElForm } from 'element-plus'
 import { TraceFormRecord, TraceRecord } from '@/types/diagnose'
 import { Plus } from '@element-plus/icons-vue'
+import { FormItemRule } from '@/types/common'
 
 import { getTraceList, addTrace, downloadTrace, stopTrace, deleteTrace } from '@/api/diagnose'
 
@@ -189,7 +189,7 @@ export default defineComponent({
     })
     const createDialog = ref(false)
 
-    const createRules: FormRulesMap = {
+    const createRules: Record<string, Array<FormItemRule>> = {
       name: [
         { required: true, message: t('General.pleaseEnter') },
         {
@@ -200,7 +200,7 @@ export default defineComponent({
               callback(new Error(t('General.validString')))
             }
           },
-          trigger: 'change',
+          trigger: ['change'],
         },
       ],
       topic: [{ required: true, message: t('General.pleaseEnter') }],
