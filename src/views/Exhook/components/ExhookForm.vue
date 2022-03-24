@@ -63,15 +63,27 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item required prop="auto_reconnect">
+          <el-form-item>
             <template #label>
               <label>{{ tl('autoReconnect') }}</label>
               <InfoTooltip :content="tl('autoReconnectDesc')" />
             </template>
-            <el-select v-model="formData.auto_reconnect">
+            <el-select v-model="autoReconnect">
               <el-option label="true" :value="true" />
               <el-option label="false" :value="false" />
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" v-if="autoReconnect">
+          <el-form-item required prop="auto_reconnect">
+            <template #label>
+              <label>{{ tl('autoReconnectInterval') }}</label>
+            </template>
+            <InputWithUnit
+              v-model="formData.auto_reconnect"
+              :units="timeoutUnits"
+              default-unit="s"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -128,6 +140,19 @@ const formData: WritableComputedRef<Exhook | ExhookFormForCreate> = computed({
   },
 })
 
+const autoReconnect = computed({
+  get() {
+    return !(formData.value.auto_reconnect === false)
+  },
+  set(val: boolean) {
+    if (!val) {
+      formData.value.auto_reconnect = val
+    } else {
+      formData.value.auto_reconnect = ''
+    }
+  },
+})
+
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
 const { createRequiredRule, createIntFieldRule, createStringWithUnitFieldRule } = useFormRules()
@@ -148,7 +173,7 @@ const rules = {
   pool_size: [...createRequiredRule('Pool size'), ...createIntFieldRule()],
   request_timeout: createStringWithUnitFieldRule(timeoutUnits.map(({ value }) => value)),
   failed_action: createRequiredRule(tl('failedAction'), 'select'),
-  auto_reconnect: createRequiredRule(tl('autoReconnect'), 'select'),
+  auto_reconnect: createRequiredRule(tl('autoReconnectInterval'), 'input'),
 }
 
 const validate = async () => formCom.value.validate()

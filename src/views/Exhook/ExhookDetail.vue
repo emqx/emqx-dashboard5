@@ -125,7 +125,14 @@ const getExhookDetail = async () => {
   try {
     isLoading.value = true
     const data = await queryExhookDetail(exhookName.value)
-    exhookData.value = { ...data, request_timeout: transMSNumToString(data.request_timeout) }
+    const { request_timeout, auto_reconnect } = data
+    exhookData.value = {
+      ...data,
+      request_timeout: transMSNumToString(request_timeout),
+      auto_reconnect: auto_reconnect
+        ? transMSNumToString(auto_reconnect)
+        : (auto_reconnect as false),
+    }
     isLoading.value = false
   } catch (error) {
     console.error(error)
