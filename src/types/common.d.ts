@@ -1,4 +1,5 @@
 import { NodeStatusClass } from './enum'
+import { RuleItem } from 'async-validator'
 
 export interface PageData {
   count: number
@@ -46,3 +47,7 @@ export type OptionList<T> = Array<{
   value: T
   label: string
 }>
+
+export interface FormItemRule extends RuleItem {
+  trigger?: Array<string>
+}
