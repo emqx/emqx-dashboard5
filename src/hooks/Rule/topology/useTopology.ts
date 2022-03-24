@@ -158,6 +158,9 @@ export default (): {
 
   const initialG6 = () => {
     const container = topologyDiagramCanvasEle.value
+    if (isNoData.value || !container) {
+      return
+    }
     const width = container.scrollWidth
     const height = 700
 
