@@ -19,14 +19,12 @@
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-input
-                    size="small"
                     placeholder="Push gateway Server"
                     v-model="integrationData.prometheus.push_gateway_server"
                   ></el-input>
                 </el-col>
                 <el-col :span="8">
                   <el-input
-                    size="small"
                     placeholder="Push Interval"
                     v-model="integrationData.prometheus.interval[0]"
                   >
@@ -38,13 +36,12 @@
                   </el-input>
                 </el-col>
                 <el-col :span="3">
-                  <el-checkbox border size="small" v-model="integrationData.prometheus.enable">
+                  <el-checkbox border v-model="integrationData.prometheus.enable">
                     {{ $t('General.enabled') }}
                   </el-checkbox>
                 </el-col>
                 <el-col :span="3">
                   <el-button
-                    size="small"
                     type="primary"
                     :loading="prometheusLoading"
                     @click="updatePrometheus()"
@@ -67,15 +64,10 @@
             <el-form :disabled="statsdLoading" @keyup.enter="updateStatsd()">
               <el-row :gutter="20">
                 <el-col :span="8">
-                  <el-input
-                    size="small"
-                    placeholder="server"
-                    v-model="integrationData.statsd.server"
-                  ></el-input>
+                  <el-input placeholder="server" v-model="integrationData.statsd.server"></el-input>
                 </el-col>
                 <el-col :span="8">
                   <el-input
-                    size="small"
                     placeholder="Flush Interval"
                     v-model="integrationData.statsd.flush_time_interval[0]"
                   >
@@ -87,18 +79,14 @@
                   </el-input>
                 </el-col>
                 <el-col :span="3">
-                  <el-checkbox border size="small" v-model="integrationData.statsd.enable">
+                  <el-checkbox border v-model="integrationData.statsd.enable">
                     {{ $t('General.enabled') }}
                   </el-checkbox>
                 </el-col>
                 <el-col :span="3">
-                  <el-button
-                    size="small"
-                    type="primary"
-                    :loading="statsdLoading"
-                    @click="updateStatsd()"
-                    >{{ $t('Base.update') }}</el-button
-                  >
+                  <el-button type="primary" :loading="statsdLoading" @click="updateStatsd()">{{
+                    $t('Base.update')
+                  }}</el-button>
                 </el-col>
               </el-row>
             </el-form>

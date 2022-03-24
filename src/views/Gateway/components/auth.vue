@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="auth-create" v-if="!hasAuth" v-loading="loadingAuth">
-      <el-button type="primary" size="small" :icon="Plus" @click="openAuthCreate()">
+      <el-button type="primary" :icon="Plus" @click="openAuthCreate()">
         {{ tl('addAuth') }}
       </el-button>
       <div class="tips">

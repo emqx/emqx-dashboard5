@@ -5,7 +5,7 @@
       <div class="app-wrapper data-bridge">
         <div class="section-header">
           <div></div>
-          <el-button size="small" type="primary" :icon="Plus" @click="openCreate">
+          <el-button type="primary" :icon="Plus" @click="openCreate">
             {{ tl('createConnector') }}
           </el-button>
         </div>
@@ -21,10 +21,10 @@
           <el-table-column :label="tl('bridgeNum')" sortable prop="num_of_bridges" />
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
-              <el-button size="mini" @click="openEdit(row)">
+              <el-button size="small" @click="openEdit(row)">
                 {{ $t('Base.setting') }}
               </el-button>
-              <el-button size="mini" type="danger" @click="deleteConnectorHandler(row)">
+              <el-button size="small" type="danger" @click="deleteConnectorHandler(row)">
                 {{ $t('Base.delete') }}
               </el-button>
             </template>

@@ -37,7 +37,7 @@
       <el-table-column :label="$t('Base.operation')">
         <template #default="scope">
           <el-button
-            size="mini"
+            size="small"
             :disabled="isUnload(scope.row.status)"
             @click="
               $router.push({
@@ -48,7 +48,7 @@
             >{{ tl('setting') }}</el-button
           >
           <el-button
-            size="mini"
+            size="small"
             :disabled="isUnload(scope.row.status)"
             @click="
               $router.push({
@@ -59,12 +59,11 @@
             >{{ tl('auth') }}</el-button
           >
           <el-dropdown
-            size="small"
             placement="bottom-start"
             @visible-change="dropdownVChange(scope.row)"
             @command="dropdownHandler"
           >
-            <el-button size="mini">
+            <el-button size="small">
               {{ tl('more') }}
               <el-icon>
                 <CaretBottom v-if="!scope.row[dropdownExclusiveKey]" />

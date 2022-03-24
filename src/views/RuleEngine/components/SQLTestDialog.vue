@@ -81,14 +81,14 @@
     </el-form>
     <template #footer>
       <div class="ft-flex">
-        <el-button type="primary" size="small" :loading="testLoading" @click="submitTest()">
+        <el-button type="primary" :loading="testLoading" @click="submitTest()">
           {{ $t('Base.test') }}
         </el-button>
         <div>
-          <el-button type="primary" size="small" @click="save" v-if="canSave">
+          <el-button type="primary" @click="save" v-if="canSave">
             {{ $t('Base.save') }}
           </el-button>
-          <el-button size="small" @click="cancel">
+          <el-button @click="cancel">
             {{ $t('Base.cancel') }}
           </el-button>
         </div>

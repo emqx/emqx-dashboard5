@@ -42,7 +42,7 @@
               {{ getLabelByStatusValue(row.status) }}
             </span>
             <el-button
-              size="mini"
+              size="small"
               type="primary"
               v-if="row.status === BridgeStatus.Disconnected"
               @click="reconnect(row)"

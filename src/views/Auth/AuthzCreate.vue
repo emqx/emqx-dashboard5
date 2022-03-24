@@ -15,7 +15,7 @@
         <div class="create-form-title">
           {{ $t('Auth.selectDataSource') }}
         </div>
-        <el-radio-group v-model="type" class="select-type">
+        <el-radio-group v-model="type" class="select-type" size="large">
           <el-badge
             v-for="item in typeList"
             :key="item.value"
@@ -36,10 +36,10 @@
           </el-badge>
         </el-radio-group>
         <div class="step-btn">
-          <el-button type="primary" @click="handleNext" size="small">
+          <el-button type="primary" @click="handleNext">
             {{ $t('Base.nextStep') }}
           </el-button>
-          <el-button @click="$router.push('/authorization')" size="small">
+          <el-button @click="$router.push('/authorization')">
             {{ $t('Base.cancel') }}
           </el-button>
         </div>
@@ -62,10 +62,10 @@
           auth-type="authz"
         ></database-config>
         <div class="step-btn">
-          <el-button type="primary" @click="handleCreate" :loading="saveLoading" size="small">
+          <el-button type="primary" @click="handleCreate" :loading="saveLoading">
             {{ $t('Base.create') }}
           </el-button>
-          <el-button @click="handleBack" size="small">
+          <el-button @click="handleBack">
             {{ $t('Base.backStep') }}
           </el-button>
         </div>

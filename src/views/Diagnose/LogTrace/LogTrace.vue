@@ -3,7 +3,7 @@
     <div class="section-header">
       <div></div>
       <div>
-        <el-button size="small" type="primary" :icon="Plus" @click="openCreateDialog">{{
+        <el-button type="primary" :icon="Plus" @click="openCreateDialog">{{
           $t('Base.create')
         }}</el-button>
       </div>
@@ -50,7 +50,7 @@
       <el-table-column min-width="140" :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button
-            size="mini"
+            size="small"
             @click="
               $router.push({
                 name: 'log-trace-detail',
@@ -60,14 +60,14 @@
           >
             {{ $t('LogTrace.view') }}
           </el-button>
-          <el-button size="mini" @click="download(row)">{{ $t('LogTrace.download') }}</el-button>
+          <el-button size="small" @click="download(row)">{{ $t('LogTrace.download') }}</el-button>
           <template v-if="row.status !== 'stopped'">
-            <el-button size="mini" type="danger" @click="stopTraceHandler(row)">
+            <el-button size="small" type="danger" @click="stopTraceHandler(row)">
               {{ $t('LogTrace.stop') }}
             </el-button>
           </template>
           <template v-else>
-            <el-button size="mini" type="danger" @click="deleteTraceHandler(row)">
+            <el-button size="small" type="danger" @click="deleteTraceHandler(row)">
               {{ $t('LogTrace.delete') }}
             </el-button>
           </template>
@@ -76,13 +76,7 @@
     </el-table>
 
     <el-dialog :title="$t('LogTrace.createLog')" v-model="createDialog">
-      <el-form
-        ref="createForm"
-        size="small"
-        label-position="top"
-        :model="record"
-        :rules="createRules"
-      >
+      <el-form ref="createForm" label-position="top" :model="record" :rules="createRules">
         <el-row :gutter="20">
           <el-col :span="18">
             <el-form-item :label="$t('LogTrace.name')" prop="name">
@@ -130,11 +124,10 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="cancelDialog()">{{ $t('Base.cancel') }}</el-button>
+          <el-button @click="cancelDialog()">{{ $t('Base.cancel') }}</el-button>
           <el-button
             class="dialog-primary-btn"
             type="primary"
-            size="small"
             @click="submitTrace()"
             :loading="createLoading"
           >

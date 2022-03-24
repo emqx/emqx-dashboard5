@@ -9,7 +9,6 @@
     <el-form
       ref="formCom"
       label-position="top"
-      size="small"
       :model="formData"
       :rules="rules"
       :class="{ 'is-view': operationType === 'view' }"
@@ -75,12 +74,11 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button size="small" @click="showDialog = false">{{
+        <el-button @click="showDialog = false">{{
           operationType === 'view' ? tl('close') : $t('Base.cancel')
         }}</el-button>
         <el-button
           type="primary"
-          size="small"
           @click="submit"
           :loading="isSubmitting"
           v-if="operationType !== 'view'"

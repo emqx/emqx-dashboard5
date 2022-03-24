@@ -53,23 +53,13 @@
         <p>{{ tl('tipForEditConnector') }}</p>
       </div>
       <template #footer>
-        <el-button
-          type="primary"
-          size="small"
-          :loading="isTesting"
-          @click="testTheConnection(edit)"
-        >
+        <el-button type="primary" :loading="isTesting" @click="testTheConnection(edit)">
           {{ tl('testTheConnection') }}
         </el-button>
-        <el-button
-          type="primary"
-          size="small"
-          :loading="submitLoading"
-          @click="submitConnector(edit)"
-        >
+        <el-button type="primary" :loading="submitLoading" @click="submitConnector(edit)">
           {{ edit ? $t('Base.update') : $t('Base.add') }}
         </el-button>
-        <el-button size="small" @click="closeDialog()">
+        <el-button @click="closeDialog()">
           {{ $t('Base.cancel') }}
         </el-button>
       </template>
@@ -284,6 +274,7 @@ watch(visible, async (val) => {
         top: 50%;
         left: 8px;
         transform: translateY(-50%);
+        z-index: 3;
         content: '';
         display: block;
         width: $icon-size;

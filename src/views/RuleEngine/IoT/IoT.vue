@@ -3,12 +3,7 @@
     <div class="section-header">
       <div></div>
       <div>
-        <el-button
-          type="primary"
-          :icon="Plus"
-          size="small"
-          @click="$router.push({ name: 'iot-create' })"
-        >
+        <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'iot-create' })">
           {{ tl('createIoTRule') }}
         </el-button>
       </div>
@@ -62,12 +57,12 @@
       <el-table-column :label="$t('Base.operation')" min-width="150">
         <template #default="{ row }">
           <el-button
-            size="mini"
+            size="small"
             @click="$router.push({ name: 'iot-detail', params: { id: row.id } })"
           >
             {{ $t('Base.setting') }}
           </el-button>
-          <el-button size="mini" @click="startOrStopRule(row)">
+          <el-button size="small" @click="startOrStopRule(row)">
             {{ row.enable ? $t('Base.disable') : $t('Base.enable') }}
           </el-button>
           <TableItemDropDown

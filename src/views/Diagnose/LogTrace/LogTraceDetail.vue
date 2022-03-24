@@ -8,7 +8,7 @@
     <div v-loading="viewNodeLoading" :element-loading-text="nextPageLoading">
       <el-row :gutter="30">
         <el-col :span="6">
-          <el-select v-model="node" size="small">
+          <el-select v-model="node">
             <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
           </el-select>
         </el-col>
@@ -16,7 +16,6 @@
           <el-button
             class="dialog-primary-btn"
             type="primary"
-            size="small"
             @click="download()"
             :disabled="viewNodeLoading"
           >

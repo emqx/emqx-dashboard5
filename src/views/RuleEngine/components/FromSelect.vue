@@ -249,6 +249,9 @@ setSelected()
 </script>
 
 <style lang="scss" scoped>
+.from-select {
+  width: 100%;
+}
 .option-content {
   display: flex;
   justify-content: space-between;

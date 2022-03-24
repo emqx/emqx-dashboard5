@@ -1,6 +1,6 @@
 <template>
   <el-dropdown class="table-dropdown" @command="handleCommand(rowData, $event)">
-    <el-button class="dropdown-btn" size="mini">
+    <el-button class="dropdown-btn" size="small">
       {{ $t('Base.more') }}
     </el-button>
     <template #dropdown>

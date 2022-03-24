@@ -16,17 +16,17 @@
             <div class="section-header__title">
               {{ titleMap[currBackend] }}
             </div>
-            <el-tag type="info" size="mini">
+            <el-tag type="info" size="small">
               {{ configData.mechanism }}
             </el-tag>
           </div>
         </template>
       </div>
       <div>
-        <el-button type="danger" size="small" @click="handleDelete">
+        <el-button type="danger" @click="handleDelete">
           {{ $t('Base.delete') }}
         </el-button>
-        <el-button size="small" @click="handleUpdate(configData)">
+        <el-button @click="handleUpdate(configData)">
           {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
       </div>
@@ -52,13 +52,13 @@
           ></built-in-config>
         </template>
         <jwt-config v-else v-model="configData"></jwt-config>
-        <el-button type="primary" @click="handleUpdate" size="small">
+        <el-button type="primary" @click="handleUpdate">
           {{ $t('Base.update') }}
         </el-button>
         <!-- <el-button @click="handleTest">
           {{ $t('Base.test') }}
         </el-button> -->
-        <el-button @click="$router.push('/authentication')" size="small">
+        <el-button @click="$router.push('/authentication')">
           {{ $t('Base.cancel') }}
         </el-button>
       </el-tab-pane>

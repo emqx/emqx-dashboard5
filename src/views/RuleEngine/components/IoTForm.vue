@@ -1,6 +1,6 @@
 <template>
   <div class="iot-form">
-    <el-form ref="formCom" :model="ruleValue" :rules="formRules" label-position="top" size="small">
+    <el-form ref="formCom" :model="ruleValue" :rules="formRules" label-position="top">
       <el-card shadow="never" class="app-card">
         <div class="part-header">{{ tl('baseInfo') }}</div>
         <el-row>
@@ -88,10 +88,10 @@
         </el-row>
         <el-row>
           <el-col class="sql-ft" :span="14">
-            <el-button type="primary" plain size="small" @click="openTestDialog()">
+            <el-button type="primary" plain @click="openTestDialog()" size="large">
               {{ tl('testsql') }}
             </el-button>
-            <!-- <el-button size="mini" plain type="info" @click="showTemplateDrawer">
+            <!-- <el-button size="small" plain type="info" @click="showTemplateDrawer">
               {{ tl('SQLTemplates') }}
             </el-button> -->
           </el-col>

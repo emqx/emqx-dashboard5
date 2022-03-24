@@ -24,10 +24,10 @@
       </el-upload>
       <p class="upload-tip">{{ tl('uploadTip') }}</p>
       <div class="btns">
-        <el-button size="small" type="primary" :loading="isUploading" @click="submit">
+        <el-button type="primary" :loading="isUploading" @click="submit">
           {{ tl('install') }}
         </el-button>
-        <el-button size="small" @click="cancel">
+        <el-button @click="cancel">
           {{ tl('cancel', 'Base') }}
         </el-button>
       </div>

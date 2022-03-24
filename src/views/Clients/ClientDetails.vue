@@ -4,7 +4,7 @@
       <div>
         <span>{{ clientId }}</span>
         <template v-if="doesTheClientExist">
-          <el-tag type="info" size="mini">
+          <el-tag type="info" size="small">
             <span v-if="record.connected == true">
               <el-icon color="#00b299ff">
                 <SuccessFilled class="icon-status" />
@@ -18,7 +18,7 @@
               {{ $t('Clients.disconnected') }}
             </span>
           </el-tag>
-          <el-tag type="info" size="mini" v-if="record.proto_name">
+          <el-tag type="info" size="small" v-if="record.proto_name">
             <span>{{ record.proto_name }}</span
             >&nbsp;
             <span v-if="record.proto_name === 'MQTT'">{{ mqttVersion[record.proto_ver] }}</span
@@ -27,10 +27,10 @@
         </template>
       </div>
       <div v-if="doesTheClientExist">
-        <el-button v-if="record.connected" type="danger" size="small" @click="handleDisconnect">
+        <el-button v-if="record.connected" type="danger" @click="handleDisconnect">
           {{ $t('Clients.kickOut') }}
         </el-button>
-        <el-button v-else type="danger" size="small" @click="handleDisconnect">
+        <el-button v-else type="danger" @click="handleDisconnect">
           {{ $t('Clients.cleanSession') }}
         </el-button>
       </div>
@@ -123,10 +123,10 @@
             {{ $t('Clients.currentSubscription') }}
           </div>
           <div>
-            <!-- <el-button  size="mini" icon="el-icon-refresh" @click="loadData">
+            <!-- <el-button  size="small" icon="el-icon-refresh" @click="loadData">
               {{ $t('Clients.refresh') }}
             </el-button> -->
-            <el-button size="small" type="primary" :icon="Plus" @click="handlePreAdd">
+            <el-button type="primary" :icon="Plus" @click="handlePreAdd">
               {{ $t('Clients.addASubscription') }}
             </el-button>
           </div>
@@ -141,7 +141,7 @@
           <el-table-column prop="qos" sortable min-width="110px" label="QoS"></el-table-column>
           <el-table-column prop="clientid" :label="$t('Base.operation')">
             <template #default="{ row }">
-              <el-button type="danger" size="mini" @click="handleUnSubscription(row)">
+              <el-button type="danger" size="small" @click="handleUnSubscription(row)">
                 {{ $t('Clients.unsubscribe') }}
               </el-button>
             </template>

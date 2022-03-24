@@ -2,21 +2,15 @@
   <div class="plugins app-wrapper">
     <div class="section-header">
       <div class="filters">
-        <el-input
-          size="small"
-          :placeholder="$t('Plugins.searchPlaceholder')"
-          v-model="keyForSearch"
-        />
-        <el-radio-group size="small" v-model="filterStatus">
+        <el-input :placeholder="$t('Plugins.searchPlaceholder')" v-model="keyForSearch" />
+        <el-radio-group v-model="filterStatus">
           <el-radio-button v-for="{ label, value } in statusOptions" :key="value" :label="value">
             {{ label }}
             ({{ statusCounter[value] }})
           </el-radio-button>
         </el-radio-group>
       </div>
-      <el-button type="primary" size="small" @click="goInstall">{{
-        tl('installPlugin')
-      }}</el-button>
+      <el-button type="primary" @click="goInstall">{{ tl('installPlugin') }}</el-button>
     </div>
     <el-table :data="pluginListToShow" v-loading="isTableLoading" ref="tableCom" row-key="name">
       <el-table-column :label="tl('name')">
@@ -62,14 +56,14 @@
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button
-            size="mini"
+            size="small"
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
             @click="handleDisable(row)"
           >
             {{ tl('stop') }}
           </el-button>
           <el-button
-            size="mini"
+            size="small"
             v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
             @click="handleEnable(row)"
           >

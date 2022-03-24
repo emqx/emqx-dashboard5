@@ -1,13 +1,9 @@
 <template>
   <div class="no-tab-wrapper zone">
     <div style="margin-bottom: 20px">
-      <el-button
-        class="new-zone-btn"
-        size="small"
-        type="primary"
-        @click="handleBeforeAddTab(currTab)"
-        >{{ tl('newZone') }}</el-button
-      >
+      <el-button class="new-zone-btn" type="primary" @click="handleBeforeAddTab(currTab)">{{
+        tl('newZone')
+      }}</el-button>
     </div>
     <el-tabs v-model="currTab" type="card" closable @tab-remove="removeTab">
       <el-tab-pane
@@ -46,10 +42,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button size="small" @click="addTabDialog = false">{{ $t('Base.cancel') }}</el-button>
-          <el-button type="primary" size="small" @click="addTab">{{
-            $t('Base.confirm')
-          }}</el-button>
+          <el-button @click="addTabDialog = false">{{ $t('Base.cancel') }}</el-button>
+          <el-button type="primary" @click="addTab">{{ $t('Base.confirm') }}</el-button>
         </div>
       </template>
     </el-dialog>

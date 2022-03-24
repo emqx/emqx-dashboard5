@@ -3,19 +3,13 @@
     <el-form @keyup.enter="handleSearch">
       <el-row class="search-wrapper" :gutter="20">
         <el-col :span="6">
-          <el-select
-            v-model="fuzzyParams.node"
-            :placeholder="$t('Clients.node')"
-            size="small"
-            clearable
-          >
+          <el-select v-model="fuzzyParams.node" :placeholder="$t('Clients.node')" clearable>
             <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
           </el-select>
         </el-col>
         <el-col :span="6">
           <el-input
             v-model="fuzzyParams.clientid"
-            size="small"
             :placeholder="$t('Clients.clientId')"
             clearable
           ></el-input>
@@ -23,20 +17,20 @@
         <el-col :span="6" class="form-item-col">
           <el-row class="form-item-row">
             <el-col :span="8">
-              <el-select v-model="fuzzyParams.match" class="match" size="small">
+              <el-select v-model="fuzzyParams.match" class="match">
                 <el-option label="filter" value="match_topic"></el-option>
                 <el-option label="topic" value="topic"></el-option>
               </el-select>
             </el-col>
             <el-col :span="16">
-              <el-input v-model="fuzzyParams.topic" type="text" size="small" clearable> </el-input>
+              <el-input v-model="fuzzyParams.topic" type="text" clearable> </el-input>
             </el-col>
           </el-row>
         </el-col>
 
         <template v-if="showMoreQuery">
           <el-col :span="6">
-            <el-select v-model="fuzzyParams.qos" clearable size="small" placeholder="QoS">
+            <el-select v-model="fuzzyParams.qos" clearable placeholder="QoS">
               <el-option :value="0"></el-option>
               <el-option :value="1"></el-option>
               <el-option :value="2"></el-option>
@@ -46,7 +40,6 @@
             <el-input
               v-model="fuzzyParams.share_group"
               type="text"
-              size="small"
               :placeholder="$t('Subs.share')"
               clearable
             >
@@ -54,7 +47,7 @@
           </el-col>
         </template>
         <el-col class="col-oper" :span="6">
-          <el-button type="primary" :icon="Search" size="small" @click="handleSearch">
+          <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
           </el-button>
 

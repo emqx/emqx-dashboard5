@@ -52,7 +52,7 @@
     <TLS-config v-model="httpConfig.ssl"></TLS-config>
     <div class="create-form-title">
       {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
-      <el-button class="help-btn" size="mini" @click="toggleNeedHelp">
+      <el-button class="help-btn" size="small" @click="toggleNeedHelp">
         {{ $t('Base.help') }}
       </el-button>
     </div>
@@ -68,7 +68,7 @@
             <div class="viewer-container" ref="monacoContainer">
               <monaco id="acl-file-editor" v-model="httpConfig.body" lang="json"></monaco>
             </div>
-            <el-button class="bottom-btn" size="mini" @click="setDefaultContent">
+            <el-button class="bottom-btn" size="small" @click="setDefaultContent">
               {{ $t('Auth.setDefault') }}
             </el-button>
           </el-form-item>
@@ -80,7 +80,7 @@
                 {{ $t('Auth.exampleDataCmd') }}
               </div>
               <code-view lang="javascript" :code="helpContent"></code-view>
-              <el-button size="small" @click="copyText(helpContent)">
+              <el-button @click="copyText(helpContent)">
                 {{ $t('Base.copy') }}
               </el-button>
             </div>

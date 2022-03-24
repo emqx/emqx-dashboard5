@@ -1,6 +1,6 @@
 <template>
   <div class="backup app-wrapper">
-    <el-button type="primary" size="small" :icon="Plus" @click="handleExport">
+    <el-button type="primary" :icon="Plus" @click="handleExport">
       {{ $t('Backup.createBackup') }}
     </el-button>
     <el-upload
@@ -15,7 +15,7 @@
       :on-error="handleError"
     >
       <template #trigger>
-        <el-button size="small" :icon="Upload">
+        <el-button :icon="Upload">
           {{ $t('Backup.uploadServer') }}
         </el-button>
       </template>
@@ -32,11 +32,13 @@
       <el-table-column prop="created_at" :label="$t('Backup.createAt')" sortable></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template v-slot="{ row }">
-          <el-button size="mini" @click="handleDownload(row)"
+          <el-button size="small" @click="handleDownload(row)"
             >{{ $t('Backup.download') }}
           </el-button>
-          <el-button size="mini" @click="handleRestore(row)">{{ $t('Backup.restore') }} </el-button>
-          <el-button type="danger" size="mini" @click="deleteConfirm(row)"
+          <el-button size="small" @click="handleRestore(row)"
+            >{{ $t('Backup.restore') }}
+          </el-button>
+          <el-button type="danger" size="small" @click="deleteConfirm(row)"
             >{{ $t('Base.delete') }}
           </el-button>
         </template>

@@ -30,7 +30,7 @@
           </el-row>
         </el-form>
         <el-row>
-          <el-button size="small" type="primary" @click="updateDelayedConfig()">
+          <el-button type="primary" @click="updateDelayedConfig()">
             {{ $t('Base.update') }}
           </el-button>
         </el-row>
@@ -49,7 +49,7 @@
           <el-table-column :label="'QoS'" prop="qos" sortable />
           <el-table-column :label="'Payload'">
             <template #default="{ row }">
-              <el-button size="mini" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
+              <el-button size="small" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
           <el-table-column label="From Client ID" prop="from_clientid" sortable />
@@ -63,7 +63,7 @@
 
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
-              <el-button size="mini" type="danger" @click="deleteDelayedInfo(row)">
+              <el-button size="small" type="danger" @click="deleteDelayedInfo(row)">
                 {{ $t('Base.delete') }}
               </el-button>
             </template>
@@ -87,7 +87,7 @@
       </el-row>
       <template #footer>
         <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
-          <el-select v-model="payloadShowBy" size="small">
+          <el-select v-model="payloadShowBy">
             <el-option
               v-for="item in payloadShowByOptions"
               :key="item"
@@ -98,7 +98,7 @@
           <div>
             <span v-if="isCopyShow" class="payload-copied">{{ $t('Base.copied') }}</span>
 
-            <el-button size="small" @click="copyText(payloadForShow)">
+            <el-button @click="copyText(payloadForShow)">
               {{ $t('Base.copy') }}
             </el-button>
           </div>
