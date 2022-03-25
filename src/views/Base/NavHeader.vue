@@ -59,7 +59,7 @@
         </template>
       </el-dropdown>
 
-      <el-button class="go-link" @click="gotoCloud" size="medium"> Try Cloud ➝ </el-button>
+      <el-button class="go-link" @click="gotoCloud"> Try Cloud ➝ </el-button>
     </div>
   </div>
 </template>
