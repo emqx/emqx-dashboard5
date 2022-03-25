@@ -83,6 +83,16 @@
     vertical-align: 1px;
     margin-right: 3px;
   }
+
+  .el-table__header {
+    .sortable-without-header-text {
+      .caret-wrapper {
+        position: relative;
+        left: -8px;
+      }
+    }
+  }
+
 }
 
 .el-progress-bar {
@@ -373,4 +383,8 @@
   content: "*";
   color: var(--el-color-danger);
   margin-left: 4px;
+}
+
+.el-form-item__content>.el-row {
+  width: 100%;
 }

@@ -119,8 +119,9 @@ code {
 }
 
 .emq-table-footer {
+  display: flex;
   margin-top: 30px;
-  text-align: right;
+  justify-content: flex-end;
 }
 
 .emq-title {
@@ -458,4 +459,9 @@ code {
   font-weight: 600;
   line-height: 22px;
   color: #1d1d1d;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
 }

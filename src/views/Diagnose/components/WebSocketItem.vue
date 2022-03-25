@@ -174,7 +174,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item class="with-btn">
         <el-checkbox v-model="messageRecord.retain"> Retain </el-checkbox>
         <el-button type="primary" @click="publish">
           {{ $t('Tools.publish') }}
@@ -666,8 +666,8 @@ export default {
   width: 24%;
   padding-right: 1%;
 
-  .el-button {
-    float: right;
+  &.with-btn :deep(.el-form-item__content) {
+    justify-content: space-between;
   }
 }
 

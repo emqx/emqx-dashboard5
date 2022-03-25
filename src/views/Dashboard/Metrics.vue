@@ -21,7 +21,7 @@
                   <el-input
                     placeholder="Push gateway Server"
                     v-model="integrationData.prometheus.push_gateway_server"
-                  ></el-input>
+                  />
                 </el-col>
                 <el-col :span="8">
                   <el-input
@@ -30,7 +30,7 @@
                   >
                     <template #append>
                       <el-select v-model="integrationData.prometheus.interval[1]">
-                        <el-option :label="translate('second')" value="s"></el-option>
+                        <el-option :label="translate('second')" value="s" />
                       </el-select>
                     </template>
                   </el-input>
@@ -64,7 +64,7 @@
             <el-form :disabled="statsdLoading" @keyup.enter="updateStatsd()">
               <el-row :gutter="20">
                 <el-col :span="8">
-                  <el-input placeholder="server" v-model="integrationData.statsd.server"></el-input>
+                  <el-input placeholder="server" v-model="integrationData.statsd.server" />
                 </el-col>
                 <el-col :span="8">
                   <el-input
@@ -73,7 +73,7 @@
                   >
                     <template #append>
                       <el-select v-model="integrationData.statsd.flush_time_interval[1]">
-                        <el-option :label="translate('second')" value="s"></el-option>
+                        <el-option :label="translate('second')" value="s" />
                       </el-select>
                     </template>
                   </el-input>
@@ -107,50 +107,50 @@
           :field="{ options: metrics }"
           :field-name="{ label: 'node', value: 'node' }"
           @change="changeNode"
-        ></emq-select>
+        />
       </div>
     </div>
     <el-row :gutter="20">
       <el-table :data="filterMetrics(metricsObj[currentNode], 'client')" v-loading.lock="lockTable">
-        <el-table-column prop="m" :label="translate('client')"></el-table-column>
-        <el-table-column prop="v" sortable></el-table-column>
+        <el-table-column prop="m" :label="translate('client')" />
+        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
       </el-table>
 
       <el-table
         :data="filterMetrics(metricsObj[currentNode], 'delivery')"
         v-loading.lock="lockTable"
       >
-        <el-table-column prop="m" label="Delivery"></el-table-column>
-        <el-table-column prop="v" sortable></el-table-column>
+        <el-table-column prop="m" label="Delivery" />
+        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
       </el-table>
 
       <el-table
         :data="filterMetrics(metricsObj[currentNode], 'session')"
         v-loading.lock="lockTable"
       >
-        <el-table-column prop="m" :label="translate('session')"></el-table-column>
-        <el-table-column prop="v" sortable></el-table-column>
+        <el-table-column prop="m" :label="translate('session')" />
+        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
       </el-table>
 
       <el-table
         :data="filterMetrics(metricsObj[currentNode], 'packets')"
         v-loading.lock="lockTable"
       >
-        <el-table-column prop="m" :label="translate('mqttPackages')"></el-table-column>
-        <el-table-column prop="v" sortable></el-table-column>
+        <el-table-column prop="m" :label="translate('mqttPackages')" />
+        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
       </el-table>
 
       <el-table
         :data="filterMetrics(metricsObj[currentNode], 'messages')"
         v-loading.lock="lockTable"
       >
-        <el-table-column prop="m" :label="translate('messageNumber')"></el-table-column>
-        <el-table-column prop="v" sortable></el-table-column>
+        <el-table-column prop="m" :label="translate('messageNumber')" />
+        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
       </el-table>
 
       <el-table :data="filterMetrics(metricsObj[currentNode], 'bytes')" v-loading.lock="lockTable">
-        <el-table-column prop="m" :label="translate('traffic')"></el-table-column>
-        <el-table-column prop="v" sortable></el-table-column>
+        <el-table-column prop="m" :label="translate('traffic')" />
+        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
       </el-table>
     </el-row>
   </div>

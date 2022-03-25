@@ -95,7 +95,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .dropdown-btn {
-  padding: 1px 6px;
+  padding: 1px 9px;
 }
 .el-dropdown-menu__item.danger {
   color: #e34242;

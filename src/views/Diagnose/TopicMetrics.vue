@@ -117,7 +117,7 @@
           {{ (row.reset_at && df(row.reset_at)) || (row.create_time && df(row.create_time)) }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
+      <el-table-column :label="$t('Base.operation')" :width="230">
         <template #default="{ row, $index }">
           <el-button size="small" @click="loadMetricsFromTopic(row, $index)">
             {{ $t('Base.view') }}
@@ -349,13 +349,10 @@ export default defineComponent({
 .topic-detail-header {
   padding-bottom: 20px;
   display: flex;
+  justify-content: space-between;
   & > :first-child {
     font-size: 16px;
     font-weight: 700;
-  }
-  & > :last-child {
-    flex-grow: 1;
-    text-align: right;
   }
 }
 
