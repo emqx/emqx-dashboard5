@@ -45,7 +45,7 @@
           <ExhookItemStatus :exhook="row" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
+      <el-table-column :label="$t('Base.operation')" :width="220">
         <template #default="{ row }">
           <el-button size="small" @click="goExhookDetail(row)">
             {{ tl('setting', 'Base') }}

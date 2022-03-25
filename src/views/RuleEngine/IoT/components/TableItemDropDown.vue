@@ -67,7 +67,7 @@ const handleCommand = function (row: PluginItem, command: 'resetStatistics' | 'c
 
 <style lang="scss" scoped>
 .dropdown-btn {
-  padding: 1px 6px;
+  padding: 1px 9px;
   & > :deep(span) {
     display: flex;
     align-items: center;

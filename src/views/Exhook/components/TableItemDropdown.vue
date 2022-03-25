@@ -59,7 +59,7 @@ const handleCommand = function (row: Exhook, command: string) {
 
 <style scoped>
 .dropdown-btn {
-  padding: 1px 6px;
+  padding: 1px 9px;
 }
 .el-dropdown-menu__item.danger {
   color: #e34242;
