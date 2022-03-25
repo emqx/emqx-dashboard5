@@ -17,7 +17,6 @@ import Retainer from './components/retainer.vue'
 import Rewrite from './components/rewrite.vue'
 import Subscribe from './components/subscribe.vue'
 import Postpone from './components/postpone.vue'
-import Message from './components/message.vue'
 import SubTabMenu from '@/components/SubTabMenu.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSubTabMenu from '@/hooks/useSubTabMenu'
@@ -29,11 +28,10 @@ export default defineComponent({
     Retainer,
     Subscribe,
     Postpone,
-    Message,
     SubTabMenu,
   },
   setup() {
-    const panes = ref(['retainer', 'rewrite', 'subscribe', 'postpone', 'message'])
+    const panes = ref(['retainer', 'rewrite', 'subscribe', 'postpone'])
     const { tl } = useI18nTl('Advanced')
     const { handleClickTab, setPaneRef } = useSubTabMenu(panes.value)
 
