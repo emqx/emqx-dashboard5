@@ -194,9 +194,9 @@ const SchemaForm = defineComponent({
         dropdown: () => (
           <el-dropdown-menu>
             <el-dropdown-item command="reset">{t('Base.reset')}</el-dropdown-item>
-            <el-dropdown-item v-show={props.canRemoveConfig} command="remove">
-              {t('Settings.remove')}
-            </el-dropdown-item>
+            {props.canRemoveConfig ? (
+              <el-dropdown-item command="remove">{t('Settings.remove')}</el-dropdown-item>
+            ) : null}
           </el-dropdown-menu>
         ),
       }
