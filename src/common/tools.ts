@@ -244,3 +244,11 @@ export const transMemorySizeStrToNum = (sizeStr: string): number | string => {
 }
 
 export const checkIsValidArr = (arr: Array<any>): boolean => arr.filter((item) => !!item).length > 0
+
+export const waitAMoment = (ms = 100): Promise<boolean> => {
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      resolve(true)
+    }, ms)
+  })
+}

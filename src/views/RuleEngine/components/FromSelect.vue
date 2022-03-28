@@ -4,8 +4,8 @@
     class="from-select"
     v-model="selected"
     filterable
-    @keyup.enter="handleTopicInput"
-    @blur="handleTopicInput"
+    @keyup.enter="handleTopicComplete"
+    @blur="handleTopicComplete"
     @change="handleSelectedChanged"
     :class="{ 'is-mini': forTest }"
     :popper-class="`from-select-popper ${isInputTopic ? 'is-hidden' : ''}`"
@@ -16,7 +16,7 @@
         :key="topicOptionValue"
         :label="topicOptionLabel"
         :value="topicOptionValue"
-        @click="inputTopic"
+        @click="clickOption(RuleInputType.Topic)"
       >
         {{ tl('customTopic') }}
       </el-option>
@@ -31,7 +31,7 @@
         :key="item.event"
         :value="item.event"
         :label="item.title[locale]"
-        @click="clickEvent"
+        @click="clickOption(RuleInputType.Event)"
       >
         <div class="option-content">
           <p>{{ item.title[locale] }}</p>
@@ -49,7 +49,7 @@
         :key="item.idForRuleFrom"
         :value="item.idForRuleFrom"
         :label="item.name"
-        @click="clickBridge"
+        @click="clickOption(RuleInputType.Bridge)"
       >
         <div class="option-content">
           <p>{{ item.name }}</p>
@@ -75,7 +75,7 @@ import { useI18n } from 'vue-i18n'
 import { BackendI18n } from '@/types/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType } from '@/types/enum'
-import { createRandomString } from '@/common/tools'
+import { createRandomString, waitAMoment } from '@/common/tools'
 
 const props = defineProps({
   modelValue: {
@@ -123,6 +123,7 @@ const selected = computed({
 })
 
 const filterStr = ref('')
+const isClickOption = ref(false)
 
 const bridgeEventReg = /^\$bridges\//
 const eventOptions = computed(() =>
@@ -144,19 +145,9 @@ const bridgeOptions = computed(() =>
 
 let selectedValueForProxyTopic = ref('')
 
-const topicOptionValue = computed(() => {
-  if (isTopic.value) {
-    return selected.value
-  }
-  return EMPTY_TOPIC_VALUE
-})
+const topicOptionValue = computed(() => (isTopic.value ? selected.value : EMPTY_TOPIC_VALUE))
 
-const topicOptionLabel = computed(() => {
-  if (isTopic.value) {
-    return selected.value
-  }
-  return tl('customTopic')
-})
+const topicOptionLabel = computed(() => (isTopic.value ? selected.value : tl('customTopic')))
 
 const isInputTopic = ref(false)
 const selectedInputType = ref(RuleInputType.Topic)
@@ -196,19 +187,52 @@ const inputTopic = async () => {
   selectCom.value.focus()
 }
 
-const handleTopicInput = async () => {
-  await nextTick()
-  if (selectedValueForProxyTopic.value === EMPTY_TOPIC_VALUE && isInputTopic.value) {
-    const { value } = selectCom.value.$el.querySelector('input')
-    selected.value = value
-    selectCom.value.blur()
-    isTopic.value = true
-    emit('change', { value, type: RuleInputType.Topic })
-    window.setTimeout(() => {
-      isInputTopic.value = false
-    }, 100)
-    filterStr.value = ''
+const findInputTypeNTargetByLabel = (
+  label: string,
+): { type: RuleInputType; target: RuleEvent | BridgeItem | string } => {
+  const { ingressBridgeList = [], eventList = [] } = props
+  const event = eventList.find(({ title }) => title[locale.value] === label)
+  if (event) {
+    return { type: RuleInputType.Event, target: event }
   }
+
+  const bridge = ingressBridgeList.find(({ name }) => name === label)
+  if (bridge) {
+    return { type: RuleInputType.Bridge, target: bridge }
+  }
+
+  return { type: RuleInputType.Topic, target: label }
+}
+
+const handleTopicComplete = async () => {
+  // first get the input value, take the input value to match the option
+  // if there is no matching option, select the custom theme
+  // for wait element plus..
+  await waitAMoment(200)
+  const isFromClickOption = isClickOption.value
+  if (isFromClickOption) {
+    await waitAMoment()
+  }
+  const { value } = selectCom.value.$el.querySelector('input')
+  const { type, target } = findInputTypeNTargetByLabel(value)
+  if (type === RuleInputType.Topic && isFromClickOption) {
+    return
+  }
+  if (type === RuleInputType.Topic) {
+    selected.value = value
+  } else {
+    isInputTopic.value = false
+    selected.value =
+      type === RuleInputType.Event
+        ? (target as RuleEvent).event
+        : (target as BridgeItem).idForRuleFrom
+  }
+  selectCom.value.blur()
+  emit('change', { value, type })
+  window.setTimeout(() => {
+    isInputTopic.value = false
+  }, 100)
+  filterStr.value = ''
 }
 
 const handleSelectedChanged = (val: string) => {
@@ -218,14 +242,15 @@ const handleSelectedChanged = (val: string) => {
   emit('change', { value: val, type: selectedInputType.value })
 }
 
-const clickEvent = () => {
-  isTopic.value = false
-  selectedInputType.value = RuleInputType.Event
-}
-
-const clickBridge = () => {
-  isTopic.value = false
-  selectedInputType.value = RuleInputType.Bridge
+const clickOption = async (type: RuleInputType) => {
+  isClickOption.value = true
+  isTopic.value = type === RuleInputType.Topic
+  if (isTopic.value) {
+    inputTopic()
+  }
+  selectedInputType.value = type
+  await waitAMoment(600)
+  isClickOption.value = false
 }
 
 const setSelected = () => {
