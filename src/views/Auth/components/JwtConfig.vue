@@ -24,6 +24,13 @@
           <template v-if="jwtConfig.algorithm === 'hmac-based'">
             <el-col :span="12">
               <el-form-item label="Secret">
+                <template #label>
+                  Secret
+                  <InfoTooltip
+                    v-if="jwtConfig.secret_base64_encoded"
+                    :content="$t('Auth.jwtBase64Tips')"
+                  />
+                </template>
                 <el-input v-model="jwtConfig.secret"></el-input>
               </el-form-item>
             </el-col>
@@ -70,14 +77,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, reactive, watch } from 'vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 export default defineComponent({
   name: 'JwtConfig',
   components: {
     KeyAndValueEditor,
+    InfoTooltip,
   },
   props: {
     modelValue: {
