@@ -307,4 +307,8 @@ export default {
     zh: '主题字符串，支持 ${0} 和 ${1} 占位符，在执行权限检查时会被替换为对应客户端的 Username 或 Client ID',
     en: "Topic supports ${0} and ${1} placeholders, which will be replaced with the corresponding client's Username or Client ID when performing permission checks.",
   },
+  jwtBase64Tips: {
+    zh: '接收一个 Base64 编码后的字符串',
+    en: 'Receive a Base64-encoded string',
+  },
 }
