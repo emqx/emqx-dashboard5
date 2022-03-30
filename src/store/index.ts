@@ -1,9 +1,17 @@
 import { createStore } from 'vuex'
 
+const getLang = () => {
+  const lang = localStorage.getItem('lang')
+  if (lang && ['zh', 'en'].includes(lang)) {
+    return lang
+  }
+  return 'en'
+}
+
 export default createStore({
   state: {
     user: JSON.parse(<string>localStorage.getItem('user')) || {},
-    lang: localStorage.getItem('language') || 'en',
+    lang: getLang(),
     leftBarCollapse: JSON.parse(<string>localStorage.getItem('leftBarCollapse')),
     alertCount: 0,
     selectedModule: JSON.parse(<string>localStorage.getItem('selectedModule')),
