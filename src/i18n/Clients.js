@@ -267,6 +267,10 @@ export default {
     zh: '发送的 MQTT 报文数量',
     en: 'Number of MQTT messages sent',
   },
+  sendLwPkt: {
+    zh: '发送的报文数量',
+    en: 'Number of messages sent',
+  },
   recvMsgQos0: {
     zh: 'QoS 0 消息流入',
     en: 'QoS 0 Messages Received',

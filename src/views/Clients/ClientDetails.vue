@@ -139,7 +139,7 @@
             sortable
           ></el-table-column>
           <el-table-column prop="qos" sortable min-width="110px" label="QoS"></el-table-column>
-          <el-table-column prop="clientid" :label="$t('Base.operation')">
+          <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
               <el-button type="danger" size="small" @click="handleUnSubscription(row)">
                 {{ $t('Clients.unsubscribe') }}
@@ -177,7 +177,7 @@
 
 <script>
 import { loadClientDetail, loadSubscriptions, unsubscribe, disconnectClient } from '@/api/clients'
-import CreateSubscribe from './components/CreateSubscribe'
+import CreateSubscribe from './components/CreateSubscribe.vue'
 import moment from 'moment'
 import {
   getGatewayClientDetail,
@@ -277,7 +277,7 @@ export default {
             'recv_cnt',
             'send_cnt',
             'recv_pkt',
-            'send_pkt',
+            'send_lw_pkt',
           ],
           session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
         },
@@ -442,6 +442,9 @@ export default {
         })
         .then(async () => {
           if (this.gateway) {
+            if (this.gateway === 'lwm2m' && !row.clientid) {
+              row.clientid = this.clientId
+            }
             return this.handleUnsubscriptionGateway(row)
           } else {
             const { clientid, topic } = row
@@ -455,7 +458,6 @@ export default {
     },
     async handleUnsubscriptionGateway(row) {
       const { clientid, topic } = row
-
       let res = await unsubscribeGatewayClientSub(this.gateway, clientid, topic).catch(() => {})
       if (res) {
         ElMessage({
