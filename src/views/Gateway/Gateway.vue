@@ -92,7 +92,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { getGatewayList, updateGateway } from '@/api/gateway'
 import { calcPercentage, caseInsensitiveCompare } from '@/common/utils'
@@ -107,7 +107,7 @@ export default defineComponent({
   components: { CaretBottom, CaretTop },
   setup() {
     const { t } = useI18n()
-    let tbData = ref([])
+    let tbData = ref<any[]>([])
     let tbLoading = ref(false)
     let dropdownExclusiveKey = '_drop'
     const enableStr = 'running'
@@ -117,15 +117,15 @@ export default defineComponent({
 
     const { transGatewayName } = useTransName()
 
-    const tl = function (key, collection = 'Gateway') {
+    const tl = function (key: string, collection = 'Gateway') {
       return t(collection + '.' + key)
     }
 
-    const isRunning = (status) => {
+    const isRunning = (status: string) => {
       return caseInsensitiveCompare(status, enableStr)
     }
 
-    const isUnload = (status) => {
+    const isUnload = (status: string) => {
       return caseInsensitiveCompare(status, unloadStr)
     }
 
@@ -133,7 +133,7 @@ export default defineComponent({
       tbLoading.value = true
       let res = await getGatewayList().catch(() => {})
       if (res) {
-        let pendingData = []
+        let pendingData: any[] = []
         Array.prototype.forEach.call(res, (v) => {
           pendingData.push({ ...v, ...{ [dropdownExclusiveKey]: false } })
         })
@@ -144,13 +144,13 @@ export default defineComponent({
       tbLoading.value = false
     }
 
-    const dropdownVChange = (row) => {
+    const dropdownVChange = (row: any) => {
       return Object.assign(row, {
         [dropdownExclusiveKey]: !row[dropdownExclusiveKey],
       })
     }
 
-    const dropdownHandler = function (command) {
+    const dropdownHandler = function (command: { name: string; data: any } | undefined) {
       if (!command) return
       if (typeof command == 'object') {
         if (command.name.match(/gateway-detail-.*/i)) {
@@ -166,7 +166,7 @@ export default defineComponent({
       }
     }
 
-    const gatewayStartStop = async function (instance) {
+    const gatewayStartStop = async function (instance: any) {
       const { name } = instance
       if (isUnload(instance.status)) {
         router.push({ name: 'gateway-create', params: { name: name } })

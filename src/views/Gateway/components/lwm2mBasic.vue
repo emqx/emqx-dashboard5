@@ -142,7 +142,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, reactive, watch } from 'vue'
 import _ from 'lodash'
 import {
@@ -205,7 +205,7 @@ export default defineComponent({
     })
 
     return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
+      tl: (key: string, collection = 'Gateway') => t(collection + '.' + key),
       lValueDefault,
       lValue,
     }
