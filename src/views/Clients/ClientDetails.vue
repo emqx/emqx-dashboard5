@@ -205,7 +205,6 @@ export default {
   },
   data() {
     return {
-      Plus,
       dialogVisible: false,
       activeName: 'detail',
       searchValue: '',
@@ -307,6 +306,11 @@ export default {
         5: 'v5.0',
       },
       subscriptions: [],
+    }
+  },
+  setup() {
+    return {
+      Plus,
     }
   },
 

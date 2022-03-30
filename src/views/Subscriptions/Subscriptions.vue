@@ -102,8 +102,6 @@ export default {
 
   data() {
     return {
-      Search,
-
       pageMeta: {},
       showMoreQuery: false,
       tableData: [],
@@ -119,6 +117,12 @@ export default {
         share_group: '',
         qos: '',
       },
+    }
+  },
+
+  setup() {
+    return {
+      Search,
     }
   },
 

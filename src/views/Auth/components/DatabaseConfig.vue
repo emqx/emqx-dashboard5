@@ -29,7 +29,7 @@
             (isMongoDB && databaseConfig.mongo_type !== 'single') ||
             (isRedis && databaseConfig.redis_type !== 'single')
           "
-          :span="24"
+          :span="12"
         >
           <el-form-item :label="$t('Auth.servers')">
             <el-input v-model="databaseConfig.servers" type="textarea" :rows="3"></el-input>

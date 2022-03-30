@@ -99,7 +99,6 @@ export default {
       }
     }
     return {
-      Plus,
       dialogVisible: false,
       tableData: [],
       lockTable: false,
@@ -142,6 +141,12 @@ export default {
           { validator: validatePass, trigger: ['blur', 'change'] },
         ],
       },
+    }
+  },
+
+  setup() {
+    return {
+      Plus,
     }
   },
 
