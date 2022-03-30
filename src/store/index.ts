@@ -11,6 +11,7 @@ const getLang = () => {
 export default createStore({
   state: {
     user: JSON.parse(<string>localStorage.getItem('user')) || {},
+    theme: 'light',
     lang: getLang(),
     leftBarCollapse: JSON.parse(<string>localStorage.getItem('leftBarCollapse')),
     alertCount: 0,

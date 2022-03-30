@@ -1,22 +1,21 @@
 @use "sass:math";
-@forward "element-plus/theme-chalk/src/common/var.scss"with ($menu:('text-color':var(--el-text-color-secondary),
-    'bg-color':#282e38ff,
-    'hover-bg-color':#00b29915,
-
-    // for element-plus 1.2.0 above
-    // 'bg-color':#282e38ff,
-    // 'hover-bg-color':#00b29915,
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $menu:(
+    'text-color': var(--el-text-color-secondary),
+    'bg-color': #282e38ff,
+    'hover-bg-color': #00b29915,
   ),
-  $card:('border-radius':2px,
+  $card:('border-radius': 8px),
+  $table:(
+    'header-font-color': var(--el-text-color-regular),
   ),
-  $table:('header-font-color':var(--el-text-color-regular)));
-@import "element-plus/theme-chalk/src/index";
+);
+@use "element-plus/theme-chalk/src/index";
 
 :root {
   --el-text-color-primary: #1d1d1dff;
-
-  --el-color-primary: #00b299ff;
-  --el-border-radius-base: 2px;
+  --el-color-primary: #00B173;
+  --el-border-radius-base: 8px;
   --el-text-color-secondary: #bbb;
 }
 
