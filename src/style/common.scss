@@ -1,4 +1,6 @@
-@import 'normalize.scss';
+@use "./themes/light.scss";
+@use "./themes/dark.scss";
+@use 'normalize.scss';
 
 @font-face {
   font-family: 'Roboto';
