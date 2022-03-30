@@ -8,7 +8,6 @@ import elementI18nZhCn from 'element-plus/es/locale/lang/zh-cn'
 import elementI18nEn from 'element-plus/es/locale/lang/en'
 
 import i18n from './i18n'
-// import "@/style/element-reset.scss";
 import EMQSelect from '@/components/EmqSelect.vue'
 
 function globalComponents(app: Application) {
