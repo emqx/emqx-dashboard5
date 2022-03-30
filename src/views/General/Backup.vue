@@ -77,10 +77,15 @@ export default {
   },
   data() {
     return {
-      Plus,
-      Upload,
       fileList: [],
       tableData: [],
+    }
+  },
+
+  setup() {
+    return {
+      Plus,
+      Upload,
     }
   },
 

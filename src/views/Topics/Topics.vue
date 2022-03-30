@@ -36,12 +36,16 @@ export default {
   },
   data() {
     return {
-      Search,
       tableData: [],
       searchValue: '',
       lockTable: true,
       params: {},
       pageMeta: {},
+    }
+  },
+  setup() {
+    return {
+      Search,
     }
   },
   mounted: function () {

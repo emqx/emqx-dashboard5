@@ -176,7 +176,6 @@ export default {
   },
   data() {
     return {
-      Search,
       showMoreQuery: false,
       tableData: [],
       lockTable: false,
@@ -227,6 +226,11 @@ export default {
       //   'username',
       //   'zone',
       // ],
+    }
+  },
+  setup() {
+    return {
+      Search,
     }
   },
 

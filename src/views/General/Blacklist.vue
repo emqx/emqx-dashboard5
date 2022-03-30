@@ -106,7 +106,6 @@ export default {
   components: { CommonPagination },
   data() {
     return {
-      Plus,
       dialogVisible: false,
       tableData: [],
       params: {},
@@ -135,6 +134,11 @@ export default {
       },
       tbLoading: false,
       pageMeta: {},
+    }
+  },
+  setup() {
+    return {
+      Plus,
     }
   },
   mounted() {
