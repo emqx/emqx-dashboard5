@@ -7,10 +7,15 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 const setTheme = () => {
-  let currentTheme = store.state.theme
+  const currentTheme = store.state.theme
   document.documentElement.setAttribute('data-theme', currentTheme)
 }
+const setLang = () => {
+  const lang = store.state.lang
+  document.documentElement.setAttribute('lang', lang)
+}
 setTheme()
+setLang()
 </script>
 
 <style lang="scss"></style>
