@@ -8,8 +8,8 @@ export default {
     en: 'Login',
   },
   dataManager: {
-    zh: '实时数据管理与监控',
-    en: 'Real-time Data Management and Monitoring',
+    zh: '实时数据监控与管理',
+    en: 'Real-time Data Monitoring and Management',
   },
   ruleEngine: {
     zh: '规则引擎数据处理',
