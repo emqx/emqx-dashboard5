@@ -8,11 +8,7 @@ import { useStore } from 'vuex'
 const store = useStore()
 const setTheme = () => {
   let currentTheme = store.state.theme
-  const bodyTag: HTMLBodyElement | null = document.querySelector('body')
-  if (!bodyTag) {
-    return
-  }
-  bodyTag.className = currentTheme
+  document.documentElement.setAttribute('data-theme', currentTheme)
 }
 setTheme()
 </script>
