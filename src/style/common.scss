@@ -65,6 +65,15 @@ code {
   font-family: $font;
 }
 
+img {
+  max-width: 100%;
+}
+
+h1 {
+  font-size: 22px;
+  color: var(--color-title-primary);
+}
+
 #app {
   min-width: 600px;
   margin: 0 auto;

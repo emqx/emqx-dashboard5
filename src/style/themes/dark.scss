@@ -1,6 +1,13 @@
-body.dark {
+[data-theme="dark"] {
   /* Background */
   --color-bg-primary: #1B2028;
+  --color-bg-split: #232933;
   /* Text */
   --color-text-primary: #fff;
+  --color-text-secondary: #808895;
+  --color-title-primary: #fff;
+  /* Border */
+  --color-border-input: #D0D4DC;
+  /* Colors */
+  --color-primary: #00B173; 
 }
