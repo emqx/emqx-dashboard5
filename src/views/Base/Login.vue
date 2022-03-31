@@ -67,7 +67,6 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { login as loginApi } from '@/api/common'
-import { setLanguage } from '@/common/utils'
 import { Check } from '@element-plus/icons-vue'
 import { toLogin } from '@/router'
 import { useI18n } from 'vue-i18n'
@@ -104,7 +103,7 @@ const formCom = ref()
 const login = async (auto = false) => {
   const { username, token, password } = (auto && store.state.user) || record
   if (auto && username && token) redirect()
-  else toLogin(), setLanguage()
+  else toLogin()
   if (!auto) {
     isLogining.value = true
     try {
@@ -141,8 +140,6 @@ const nativeLogin = async () => {
     /**/
   })) && login()
 }
-
-login(true)
 </script>
 
 <style lang="scss">
