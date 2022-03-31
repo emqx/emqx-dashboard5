@@ -252,3 +252,5 @@ export const waitAMoment = (ms = 100): Promise<boolean> => {
     }, ms)
   })
 }
+
+export const numToFixed = (number: number, digits = 3): number => parseFloat(number.toFixed(digits))
