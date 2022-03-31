@@ -189,6 +189,7 @@ const nativeLogin = async () => {
       align-items: center;
       .login-wrapper {
         width: 55%;
+        max-width: 500px;
         h1 {
           margin-bottom: 50px;
         }
