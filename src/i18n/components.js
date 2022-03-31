@@ -233,7 +233,7 @@ export default {
   },
   logOut: {
     zh: '退出登录',
-    en: 'Log out',
+    en: 'Logout',
   },
   notLoggedIn: {
     zh: '未登录',
