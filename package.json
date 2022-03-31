@@ -16,7 +16,6 @@
     "@types/lodash": "^4.14.177",
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
-    "d3": "^7.0.4",
     "echarts": "^5.2.1",
     "element-plus": "^2.1.0",
     "highlight.js": "10.7.3",
@@ -35,7 +34,6 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@types/d3": "^7.1.0",
     "@types/jest": "^24.0.19",
     "@types/marked": "^4.0.1",
     "@types/sortablejs": "^1.10.7",
