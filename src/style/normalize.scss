@@ -1,22 +1,27 @@
 @use "sass:math";
 @forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $menu:(
-    'text-color': var(--el-text-color-secondary),
-    'bg-color': #282e38ff,
-    'hover-bg-color': #00b29915,
+  $menu: (
+    // 'text-color': var(--el-text-color-secondary),
+    // 'bg-color': #282e38ff,
+    // 'hover-bg-color': #00b29915,
   ),
-  $card:('border-radius': 8px),
-  $table:(
-    'header-font-color': var(--el-text-color-regular),
+  $card: ('border-radius': 8px),
+  $table: (
+    // 'header-font-color': var(--el-text-color-regular),
   ),
+  $input: (
+    'border-color': var(--color-border-input),
+    'placeholder-color': var(--color-text-secondary),
+    'text-color': var(--color-text-primary),
+  )
 );
 @use "element-plus/theme-chalk/src/index";
 
 :root {
-  --el-text-color-primary: #1d1d1dff;
-  --el-color-primary: #00B173;
+  --el-color-primary: var(--color-primary);
   --el-border-radius-base: 8px;
-  --el-text-color-secondary: #bbb;
+  --el-text-color-primary: var(--color-text-primary);
+  --el-text-color-secondary: var(--color-text-secondary);
 }
 
 .el-menu {
@@ -118,7 +123,7 @@
       outline: none;
       border-left: none;
       border-bottom: 1px solid #f0f0f8;
-      border-top: 2px solid #ffffff;
+      border-top: 2px solid #fff;
       transition: border-top 0.3s, color 0.3s, padding 0.3s;
 
       &.is-active,
@@ -132,99 +137,44 @@
   }
 }
 
+/* Button */
 .el-button {
-  --el-button-text-color: #1d1d1dff;
-  --el-button-bg-color: #ffffff;
-  --el-button-border-color: #1d1d1d;
-
-  &:hover,
-  &:active {
-    color: #00b299ff;
-    border-color: #00b299ff;
-  }
-
-  &.is-disabled {
-
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-      border-color: #c8c8c8;
-      color: #c8c8c8;
-      background-color: #ffffff;
-    }
-  }
-
-  &--danger {
-    --el-button-text-color: #e34242ff;
-    --el-button-bg-color: #ffffffff;
-    --el-button-border-color: #e34242ff;
-
-    //   --el-button-hover-color:#f00000ff;
-    //   --el-button-active-font-color:#e34242ff;
-    //   --el-button-active-background-color:#ffffffff;
-    //   --el-button-active-border-color:#e34242ff;
-    &.is-plain {
-      color: #ff7c7cff;
-      border-color: #ff7c7cff;
-      background-color: #ffffffff;
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: #ff7c7cff;
-      border-color: #ff7c7cff;
-      background-color: #ffffffff;
-    }
-
-    &.is-disabled {
-
-      &,
-      &:hover,
-      &:focus,
-      &:active {
-        color: #f8b2b2ff;
-        border-color: #f8b2b2ff;
-        background-color: #ffffffff;
-      }
-    }
-  }
-
   &.el-button--primary {
-    background-color: #00b299ff;
-    border-color: #00b299ff;
-    color: #ffffffff;
-
+    transition: 1s;
+    background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
+    border: none;
+    color: #fff;
     &.is-plain {
       background-color: #fff;
-      color: #00b299ff;
+      color: var(--color-text-primary);
     }
-
     &:hover {
-      background-color: #25d0b8ff;
-      border-color: #25d0b8ff;
-      color: #ffffffff;
+      background: linear-gradient(135deg, #53DEB0 0%, #4EBFC0 100%);
+      color: #fff;
     }
-
     &.is-disabled {
-
       &,
       &:hover,
       &:focus,
       &:active {
-        background-color: #9edcd3ff;
-        border-color: #9edcd3ff;
-        color: #ffffffff;
+        background: linear-gradient(135deg, #CDF5E8 0%, #CCEDED 100%);
+        color: #86DBC1;
       }
     }
   }
-
   &--small {
     min-height: 22px;
     padding: 4px 9px;
   }
-
+  &.is-disabled {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      color: #86DBC1;
+      background: linear-gradient(135deg, #CDF5E8 0%, #CCEDED 100%);
+    }
+  }
   &+.el-dropdown {
     margin-left: 10px;
   }
@@ -292,7 +242,7 @@
     .is-success {
       .el-step__icon {
         background-color: #00b299ff;
-        color: #ffffff;
+        color: #fff;
         border: none;
       }
     }

@@ -1,6 +1,13 @@
-body.light {
+[data-theme="light"] {
   /* Background */
   --color-bg-primary: #fff;
+  --color-bg-split: #F7FAFE;
   /* Text */
   --color-text-primary: #4B4E5C;
+  --color-text-secondary: #808895;
+  --color-title-primary: #1d1d1d;
+  /* Border */
+  --color-border-input: #D0D4DC;
+  /* Colors */
+  --color-primary: #00B173;
 }

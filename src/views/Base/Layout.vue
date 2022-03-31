@@ -6,15 +6,9 @@
           <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
             <img
               class="logo-img"
-              src="@/assets/img/logo-broker@2x.png"
+              src="@/assets/img/emqx-logo.png"
               alt="broker"
               v-if="edition == 0b10"
-            />
-            <img
-              class="logo-img-ent"
-              src="@/assets/img/logo-ent@2x.png"
-              alt="enterprise"
-              v-if="edition == 0b01"
             />
           </div>
         </router-link>
