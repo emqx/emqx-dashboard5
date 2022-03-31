@@ -20,7 +20,6 @@ export type NodeStatisticalData = { node: string } & {
 }
 
 export interface NodeMsg {
-  config_path: string
   connections: number
   load1: string
   load15: string

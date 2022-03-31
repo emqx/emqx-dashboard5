@@ -64,12 +64,12 @@
         </el-col>
       </el-row>
 
-      <nodes-graph class="nodes-graph"></nodes-graph>
+      <NodesGraphCard class="nodes-graph" />
     </div>
     <polyline-cards></polyline-cards>
 
     <div v-if="false" class="license-card">
-      <div class="lisence-title">{{ $t('Dashboard.license') }}</div>
+      <div class="license-title">{{ $t('Dashboard.license') }}</div>
 
       <ul class="license-field">
         <li v-if="license.customer_type !== evaluation" class="item">
@@ -124,7 +124,7 @@ export default defineComponent({
 import { ref, reactive, computed, onUnmounted, Ref } from 'vue'
 import SimpleLine from './components/SimpleLine.vue'
 import PolylineCards from './components/PolylineCards.vue'
-import NodesGraph from './components/NodesGraph.vue'
+import NodesGraphCard from './components/NodesGraphCard.vue'
 import Moment from 'moment'
 import { loadCurrentMetrics } from '@/api/common'
 import { calcPercentage, getProgressColor } from '@/common/utils'
@@ -208,7 +208,7 @@ const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
 
 loadData()
 
-timerData = setInterval(() => {
+timerData = window.setInterval(() => {
   loadData()
 }, 2 * 1000)
 
