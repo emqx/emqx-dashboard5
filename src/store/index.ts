@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 
 const getLang = () => {
-  const lang = localStorage.getItem('lang')
+  const lang = localStorage.getItem('language')
   if (lang && ['zh', 'en'].includes(lang)) {
     return lang
   }
