@@ -5,10 +5,11 @@
         <router-link to="/">
           <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
             <img
-              class="logo-img"
-              src="@/assets/img/emqx-logo.png"
-              alt="broker"
               v-if="edition == 0b10"
+              src="@/assets/img/emqx-logo.png"
+              width="96"
+              height="33"
+              alt="emqx-logo"
             />
           </div>
         </router-link>
@@ -57,6 +58,7 @@
 </template>
 
 <script>
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import LeftBar from './LeftBar'
 import NavHeader from './NavHeader'
 import { routes } from '@/router'
@@ -120,18 +122,12 @@ export default {
 
 <style lang="scss" scoped>
 .el-aside {
-  background-color: #282e38ff;
   transition: all 0.3s;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
   overflow-x: hidden;
-
-  // scrollbar-width: none;
-  // &::-webkit-scrollbar {
-  //   width: 0;
-  // }
 }
 
 .el-main {
@@ -155,8 +151,6 @@ export default {
   transition: all 0.3s;
   display: flex;
   align-items: center;
-  // padding: 0 20px;
-  background: rgb(47, 53, 63);
 
   .logo-img {
     width: 156px;
