@@ -1,15 +1,23 @@
 export default {
-  loginUserAccount: {
-    zh: '使用 Dashboard 用户登录',
-    en: 'Login using Dashboard accounts',
-  },
   forgetPassword: {
     zh: '忘记密码?',
     en: 'Forget the password?',
   },
-  signIn: {
-    zh: '登录',
-    en: 'Sign in',
+  login: {
+    zh: '登 录',
+    en: 'Login',
+  },
+  dataManager: {
+    zh: '实时数据管理与监控',
+    en: 'Real-time Data Management and Monitoring',
+  },
+  ruleEngine: {
+    zh: '规则引擎数据处理',
+    en: 'Rule Engine Data Processing',
+  },
+  visualConfig: {
+    zh: '可视化配置管理',
+    en: 'Visual Configuration Management',
   },
   userName: {
     zh: '用户名',
@@ -185,11 +193,11 @@ export default {
   },
   unameRequired: {
     zh: '请填写用户名',
-    en: 'username is required',
+    en: 'Username is required',
   },
   passwordRequired: {
     zh: '请填写密码',
-    en: 'password is required',
+    en: 'Password is required',
   },
   operation: {
     zh: '操作',
