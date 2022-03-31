@@ -626,7 +626,6 @@ router.beforeEach((to, from, next) => {
 export function toLogin(path?: string): void {
   store.commit('UPDATE_USER_INFO', { logOut: true })
   store.commit('UPDATE_EDITION', null)
-  store.commit('SET_LANGUAGE', null)
   const currentPath = router.currentRoute.value.path
   currentPath !== '/login' &&
     router.push({
