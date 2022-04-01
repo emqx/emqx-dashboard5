@@ -51,3 +51,5 @@ export type OptionList<T> = Array<{
 export interface FormItemRule extends RuleItem {
   trigger?: Array<string>
 }
+
+export type FormRules = Record<string, Array<FormItemRule>>

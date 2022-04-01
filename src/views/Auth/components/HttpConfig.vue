@@ -1,24 +1,30 @@
 <template>
   <div class="http-config config">
     <div class="create-form-title">HTTP</div>
-    <el-form class="create-form" label-position="top">
+    <el-form
+      ref="formCom"
+      class="create-form"
+      label-position="top"
+      :model="httpConfig"
+      :rules="rules"
+    >
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="$t('Auth.method')">
             <el-select v-model="httpConfig.method">
-              <el-option value="get" label="GET"></el-option>
-              <el-option value="post" label="POST"></el-option>
+              <el-option value="get" label="GET" />
+              <el-option value="post" label="POST" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="URL">
-            <el-input v-model="httpConfig.url"></el-input>
+          <el-form-item label="URL" required prop="url">
+            <el-input v-model="httpConfig.url" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="Headers">
-            <key-and-value-editor v-model="httpConfig.headers"></key-and-value-editor>
+            <key-and-value-editor v-model="httpConfig.headers" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -30,7 +36,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="Pool size">
-            <el-input v-model.number="httpConfig.pool_size"></el-input>
+            <el-input v-model.number="httpConfig.pool_size" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -41,15 +47,15 @@
         <el-col :span="12">
           <el-form-item :label="$t('Auth.enablePipelining')">
             <el-select v-model="httpConfig.enable_pipelining">
-              <el-option :value="true" label="True"></el-option>
-              <el-option :value="false" label="False"></el-option>
+              <el-option :value="true" label="True" />
+              <el-option :value="false" label="False" />
             </el-select>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <!-- TLS -->
-    <TLS-config v-model="httpConfig.ssl"></TLS-config>
+    <TLS-config v-model="httpConfig.ssl" />
     <div class="create-form-title">
       {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
       <el-button class="help-btn" size="small" @click="toggleNeedHelp">
@@ -66,7 +72,7 @@
         <el-col :span="24">
           <el-form-item label="Body">
             <div class="viewer-container" ref="monacoContainer">
-              <monaco id="acl-file-editor" v-model="httpConfig.body" lang="json"></monaco>
+              <monaco id="acl-file-editor" v-model="httpConfig.body" lang="json" />
             </div>
             <el-button class="bottom-btn" size="small" @click="setDefaultContent">
               {{ $t('Auth.setDefault') }}
@@ -79,7 +85,7 @@
               <div class="create-form-title">
                 {{ $t('Auth.exampleDataCmd') }}
               </div>
-              <code-view lang="javascript" :code="helpContent"></code-view>
+              <code-view lang="javascript" :code="helpContent" />
               <el-button @click="copyText(helpContent)">
                 {{ $t('Base.copy') }}
               </el-button>
@@ -100,6 +106,7 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import useCopy from '@/hooks/useCopy'
 import Monaco from '@/components/Monaco.vue'
 import { useRoute } from 'vue-router'
+import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
 
 export default defineComponent({
   name: 'HttpConfig',
@@ -132,6 +139,7 @@ export default defineComponent({
       2,
     )
     const httpConfig = reactive(props.modelValue)
+    const { formCom, rules, validate } = useHTTPConfigForm()
     watch(httpConfig, (value) => {
       ctx.emit('update:modelValue', value)
     })
@@ -184,6 +192,9 @@ export default defineComponent({
       helpContent,
       httpConfig,
       needHelp,
+      formCom,
+      rules,
+      validate,
       toggleNeedHelp,
       copyText,
       copySuccess,
