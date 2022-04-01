@@ -70,7 +70,7 @@ import { toLogin } from '@/router'
 import { setLanguage } from '@/common/utils'
 import { mapState } from 'vuex'
 import { Fold, Expand } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
 
 export default {
   name: 'NavHeader',
@@ -133,7 +133,7 @@ export default {
           type: 'warning',
         })
         .then(() => {
-          ElMessage.success(this.$t('components.loggedOut'))
+          ElNotification.success(this.$t('components.loggedOut'))
           toLogin()
         })
         .catch((e) => {})
