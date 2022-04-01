@@ -63,9 +63,10 @@
         </el-col>
 
         <el-col :span="8" class="checkbox-area">
-          <el-checkbox v-model="connection.clean"> Clean Session </el-checkbox>
-
-          <el-checkbox v-model="connection.ssl" @change="protocolsChange"> TLS </el-checkbox>
+          <div class="checkbox-container">
+            <el-checkbox v-model="connection.clean"> Clean Session </el-checkbox>
+            <el-checkbox v-model="connection.ssl" @change="protocolsChange"> TLS </el-checkbox>
+          </div>
         </el-col>
       </el-row>
     </el-form>
@@ -675,8 +676,13 @@ export default {
   margin-top: 20px;
 }
 .checkbox-area {
-  line-height: 80px;
+  padding-top: 16px;
   padding-left: 30px;
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
 }
 
 .message-btn {

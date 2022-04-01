@@ -54,19 +54,21 @@
             <el-row>
               <el-col :span="10">{{ tl('erlangVMMemory') }}:</el-col>
               <el-col :span="14">
-                <el-tooltip
-                  class="box-item"
-                  effect="dark"
-                  :content="`${currentInfo?.node?.['memory_used']}\\${currentInfo?.node?.['memory_total']}`"
-                  placement="top-start"
-                >
-                  <el-progress
-                    :stroke-width="14"
-                    :format="() => {}"
-                    :percentage="calcMemoryPercentage"
-                    :color="getProgressColor(calcPercentage)"
-                  ></el-progress>
-                </el-tooltip>
+                <div class="progress-wrap">
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    :content="`${currentInfo?.node?.['memory_used']}\\${currentInfo?.node?.['memory_total']}`"
+                    placement="top-start"
+                  >
+                    <el-progress
+                      :stroke-width="14"
+                      :format="() => {}"
+                      :percentage="calcMemoryPercentage"
+                      :color="getProgressColor(calcPercentage)"
+                    ></el-progress>
+                  </el-tooltip>
+                </div>
               </el-col>
             </el-row>
           </div>
@@ -212,8 +214,14 @@ onMounted(async () => {
     }
   }
 
+  .progress-wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
   .el-progress {
     line-height: 1.8;
+    flex-grow: 1;
   }
 }
 </style>
