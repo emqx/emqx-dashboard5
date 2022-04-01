@@ -15,8 +15,7 @@ function globalComponents(app: Application) {
 }
 
 const elementLang = store.state.lang === 'en' ? elementI18nEn : elementI18nZhCn
-
-export default createApp(App)
+const app = createApp(App)
   .use(store)
   .use(router)
   .use(ElementPlus, {
@@ -25,3 +24,5 @@ export default createApp(App)
   .use(i18n)
   .use(globalComponents)
   .mount('#app')
+
+export default app
