@@ -119,21 +119,24 @@
         <database-config
           v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
           v-model="configData"
+          ref="formCom"
           :database="backend"
           auth-type="authn"
-        ></database-config>
+        />
         <built-in-config
           v-else-if="backend === 'built_in_database'"
           v-model="configData"
+          ref="formCom"
           :type="mechanism"
-        ></built-in-config>
+        />
         <http-config
           auth-type="authn"
           v-else-if="backend === 'http'"
           v-model="configData"
-        ></http-config>
+          ref="formCom"
+        />
       </template>
-      <jwt-config v-else v-model="configData"></jwt-config>
+      <jwt-config v-else v-model="configData" ref="formCom" />
       <!-- Result -->
       <div v-if="testRes" :class="['create-form', 'result-block', isWork ? 'success' : 'error']">
         <div class="result-title">
@@ -169,6 +172,8 @@ import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import { cloneDeep } from 'lodash'
+import { jumpToErrorFormItem } from '@/common/tools'
 
 export default defineComponent({
   name: 'AuthnCreate',
@@ -212,6 +217,7 @@ export default defineComponent({
     const testRes = ref(null)
     const configData = ref({})
     const { factory, create } = useAuthnCreate()
+    const formCom = ref()
     const supportBackendMap: any = {
       password_based: {
         built_in_database: 'Built-in Database',
@@ -265,9 +271,19 @@ export default defineComponent({
     const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(beforeNext)
 
     const handleCreate = async function () {
-      saveLoading.value = true
-      const data = create(configData.value, backend.value, mechanism.value)
+      let isVerified = (await formCom.value.validate().catch(() => {
+        jumpToErrorFormItem()
+      }))
+        ? true
+        : false
 
+      if (!isVerified) {
+        return
+      }
+
+      saveLoading.value = true
+      const formData = cloneDeep(configData.value)
+      const data = create(formData, backend.value, mechanism.value)
       if (props.gateway) {
         await props
           .createFunc({
@@ -309,6 +325,7 @@ export default defineComponent({
       testRes,
       configData,
       addedAuthn,
+      formCom,
       getGuideList,
       handleNext,
       handleBack,
