@@ -5,7 +5,7 @@
         class="func-item"
         @click="
           () => {
-            $store.dispatch('SET_LEFT_BAR_COLLAPSE', !this.leftBarCollapse)
+            store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
           }
         "
       >
@@ -18,7 +18,7 @@
     </div>
 
     <div class="pull-right">
-      <el-tooltip effect="dark" :content="alertText" placement="bottom" :visible-arrow="false">
+      <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
         <div class="alert-info func-item">
           <el-badge :is-dot="!!alertCount">
             <router-link to="/alarm" class="iconx icon-alarm"></router-link>
@@ -64,100 +64,122 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { loadAlarm } from '@/api/common'
 import { toLogin } from '@/router'
 import { setLanguage } from '@/common/utils'
-import { mapState } from 'vuex'
+import { useStore } from 'vuex'
 import { Fold, Expand } from '@element-plus/icons-vue'
-import { ElNotification } from 'element-plus'
+import { ElNotification, ElMessageBox } from 'element-plus'
+import { computed, defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 
-export default {
+export default defineComponent({
   name: 'NavHeader',
-  components: { Fold, Expand },
-  data() {
-    return {
-      firstPath: '',
-    }
+  components: {
+    Fold,
+    Expand,
   },
-  computed: {
-    ...mapState(['alertCount', 'leftBarCollapse', 'user', 'lang']),
-
-    alertText() {
-      return this.alertCount > 0
-        ? `${this.$t('components.theSystemHas')} ${this.alertCount} ${this.$t(
+  setup() {
+    const firstPath = ref('')
+    const store = useStore()
+    const { t } = useI18n()
+    const route = useRoute()
+    const router = useRouter()
+    const alertCount = computed(() => {
+      return store.state.alertCount
+    })
+    const leftBarCollapse = computed(() => {
+      return store.state.leftBarCollapse
+    })
+    const user = computed(() => {
+      return store.state.user
+    })
+    const lang = computed(() => {
+      return store.state.lang
+    })
+    const alertText = computed(() => {
+      return alertCount.value > 0
+        ? `${t('components.theSystemHas')} ${alertCount.value} ${t(
             'components.noteAlertClickView',
           )}`
-        : this.$t('components.noWarning')
-    },
-  },
-  watch: {
-    $route() {
-      this.setHeaderTitle()
-    },
-  },
-
-  created() {
-    this.loadData()
-    this.setHeaderTitle()
-    setLanguage(this.lang)
-  },
-
-  mounted() {
-    document.addEventListener('visibilitychange', this.visibilityChangeFunc)
-  },
-  beforeUnmount() {
-    document.removeEventListener('visibilitychange', this.visibilityChangeFunc)
-  },
-
-  methods: {
-    visibilityChangeFunc() {
-      return document.visibilityState === 'visible' && this.loadData()
-    },
-
-    handleLanguageDropdownCommand(command) {
-      if (this.language === command) {
+        : t('components.noWarning')
+    })
+    const visibilityChangeFunc = () => {
+      return document.visibilityState === 'visible' && loadData()
+    }
+    const handleLanguageDropdownCommand = (command: string) => {
+      if (lang.value === command) {
         return
       }
       setLanguage(command)
-    },
-    async loadData() {
-      const alert = await loadAlarm().catch(() => {})
-      this.$store.dispatch('SET_ALERT_COUNT', (alert || []).length)
-    },
-    logout() {
-      this.$msgbox
-        .confirm(this.$t('components.whetherToLogOutOrNot'), {
-          confirmButtonText: this.$t('components.signOut'),
-          cancelButtonText: this.$t('Base.cancel'),
-          type: 'warning',
-        })
+    }
+    const loadData = async () => {
+      const alert = (await loadAlarm().catch(() => {
+        // do noting
+      })) as unknown as string[]
+      store.dispatch('SET_ALERT_COUNT', (alert || []).length)
+    }
+    const logout = () => {
+      ElMessageBox.confirm(t('components.whetherToLogOutOrNot'), {
+        confirmButtonText: t('components.signOut'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      })
         .then(() => {
-          ElNotification.success(this.$t('components.loggedOut'))
+          ElNotification.success(t('components.loggedOut'))
           toLogin()
         })
-        .catch((e) => {})
-    },
-    handleDropdownCommand(command) {
+        .catch(() => {
+          // do nothing
+        })
+    }
+    const handleDropdownCommand = (command: string) => {
       if (!command) {
         return
       }
-      if (this[command]) {
-        return this[command].call(this)
+      if (command === 'logout') {
+        return logout()
       }
-
-      this.$router.currentRoute?.name !== command && this.$router.push({ name: command })
-    },
-    gotoCloud() {
+      router.currentRoute.value.name !== command && router.push({ name: command })
+    }
+    const gotoCloud = () => {
       window.open('https://www.emqx.com/cloud', '_blank')
-    },
-    setHeaderTitle() {
-      let { path } = this.$route || []
-      let firstPath = path.split('/')[1]
-      this.firstPath = firstPath
-    },
+    }
+    const setHeaderTitle = () => {
+      let { path } = route || []
+      let _firstPath = path.split('/')[1]
+      firstPath.value = _firstPath
+    }
+    watch(route, () => {
+      setHeaderTitle()
+    })
+    loadData()
+    setHeaderTitle()
+    setLanguage(lang.value)
+    onMounted(() => {
+      document.addEventListener('visibilitychange', visibilityChangeFunc)
+    })
+    onBeforeUnmount(() => {
+      document.removeEventListener('visibilitychange', visibilityChangeFunc)
+    })
+    return {
+      store,
+      firstPath,
+      leftBarCollapse,
+      alertCount,
+      alertText,
+      user,
+      lang,
+      gotoCloud,
+      handleDropdownCommand,
+      logout,
+      visibilityChangeFunc,
+      handleLanguageDropdownCommand,
+    }
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>
