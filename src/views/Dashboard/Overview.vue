@@ -210,7 +210,7 @@ loadData()
 
 timerData = window.setInterval(() => {
   loadData()
-}, 2000)
+}, 2 * 1000)
 
 onUnmounted(() => {
   clearInterval(timerData)
