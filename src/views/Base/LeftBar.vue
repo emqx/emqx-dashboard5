@@ -39,26 +39,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'LeftBar',
-  data() {
-    return {
-      menus: [],
-      // defaultOpenKeys: [],
-    }
-  },
-  computed: {
-    leftBarCollapse() {
-      return this.$store.state.leftBarCollapse
-    },
-    defaultSelectedKeys() {
-      const { path } = this.$route
+<script lang="ts">
+import { computed, defineComponent, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+
+interface Menu {
+  title: string
+  path?: string
+  icon?: string
+  c?: Menu[]
+}
+
+export default defineComponent({
+  name: 'Leftbar',
+  setup() {
+    const menus = ref<Menu[]>([])
+    const store = useStore()
+    const route = useRoute()
+    const leftBarCollapse = computed(() => {
+      return store.state.leftBarCollapse
+    })
+    const defaultSelectedKeys = computed(() => {
+      const { path } = route
       return `/${path.split('/')[1]}`
-    },
-  },
-  created() {
-    let dashboard = [
+    })
+    const dashboard = [
       {
         title: 'dashboard',
         path: '/dashboard',
@@ -69,7 +75,7 @@ export default {
       },
     ]
 
-    let management = [
+    const management = [
       {
         title: 'clients',
         path: '/clients',
@@ -84,7 +90,7 @@ export default {
       },
     ]
 
-    let authentication = [
+    const authentication = [
       {
         title: 'authentication',
         path: '/authentication',
@@ -95,13 +101,13 @@ export default {
       },
     ]
 
-    let ruleengine = [
+    const ruleengine = [
       { title: 'iot', path: '/iot' },
       { title: 'bridge', path: '/bridge' },
       { title: 'flow-chart', path: '/flow-chart' },
     ]
 
-    let system = [
+    const system = [
       { title: 'users', path: '/users' },
       {
         title: 'blacklist',
@@ -121,7 +127,7 @@ export default {
       },
     ]
 
-    let diagnose = [
+    const diagnose = [
       {
         title: 'websocket',
         path: '/websocket',
@@ -140,7 +146,7 @@ export default {
       },
     ]
 
-    let config = [
+    const config = [
       {
         title: 'basic-config',
         path: '/basic-config',
@@ -155,7 +161,7 @@ export default {
       },
     ]
 
-    this.menus = [
+    menus.value = [
       {
         title: 'monitoring',
         icon: 'icon-monitoring',
@@ -197,21 +203,36 @@ export default {
         c: system,
       },
     ]
+    return {
+      leftBarCollapse,
+      defaultSelectedKeys,
+      menus,
+    }
   },
-}
+})
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .left-bar {
-  margin-top: 60px;
   height: calc(100vh - 60px);
   transition: all 0.3s;
-
-  .el-menu--collapse {
+  .el-menu.el-menu--collapse {
     width: 80px;
-
+    .el-sub-menu__title,
+    .el-menu-item {
+      margin: 0px 6px;
+      padding: 0px 13px !important;
+    }
+    .menu-item-title {
+      padding-left: 26px;
+    }
+    .el-sub-menu {
+      .menu-item-title {
+        padding-left: 26px;
+      }
+    }
     & i {
-      margin-left: 10px;
+      margin-left: 6px;
     }
   }
 }
