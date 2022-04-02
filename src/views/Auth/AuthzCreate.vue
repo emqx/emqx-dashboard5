@@ -46,21 +46,23 @@
       </div>
       <!-- Config -->
       <div v-if="step === 1">
-        <file-config v-if="type === 'file'" v-model="configData"></file-config>
+        <file-config v-if="type === 'file'" ref="formCom" v-model="configData" />
         <http-config
           v-else-if="type === 'http'"
+          ref="formCom"
           auth-type="authz"
           v-model="configData"
-        ></http-config>
+        />
         <p v-else-if="type === 'built_in_database'" class="item-description">
           {{ $t('Auth.builtInDatabaseDesc') }}
         </p>
         <database-config
           v-else-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
+          ref="formCom"
           v-model="configData"
           :database="type"
           auth-type="authz"
-        ></database-config>
+        />
         <div class="step-btn">
           <el-button type="primary" @click="handleCreate" :loading="saveLoading">
             {{ $t('Base.create') }}
@@ -87,6 +89,7 @@ import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { jumpToErrorFormItem } from '@/common/tools'
 
 export default defineComponent({
   name: 'AuthzCreate',
@@ -107,7 +110,11 @@ export default defineComponent({
     const type = ref('file')
     const configData = ref({})
     const saveLoading = ref(false)
+
+    const formCom = ref()
+
     const { factory, create } = useAuthzCreate()
+
     const typeList = ref([
       { label: 'File', value: 'file', img: require('@/assets/img/file.png') },
       {
@@ -141,16 +148,29 @@ export default defineComponent({
         img: require('@/assets/img/redis.png'),
       },
     ])
+
     const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(() => {
       if (step.value === 0) {
         const data = factory(type.value)
         configData.value = data
       }
     })
+
     const addedAuthz = computed(() => {
       return JSON.parse(sessionStorage.getItem('addedAuthz')) || []
     })
+
     const handleCreate = async function () {
+      let isVerified = true
+      if (type.value !== 'built_in_database') {
+        await formCom.value.validate().catch(() => {
+          isVerified = false
+          jumpToErrorFormItem()
+        })
+      }
+      if (!isVerified) {
+        return
+      }
       saveLoading.value = true
       const data = create(configData.value, type.value)
       const res = await createAuthz(data).catch(() => {
@@ -169,6 +189,7 @@ export default defineComponent({
       typeList,
       activeGuidesIndex,
       addedAuthz,
+      formCom,
       handleNext,
       handleBack,
       handleCreate,

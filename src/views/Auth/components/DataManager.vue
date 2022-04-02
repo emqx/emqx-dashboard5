@@ -65,7 +65,11 @@
           <el-input v-model="record.user_id" :disabled="isEdit"></el-input>
         </el-form-item>
         <el-form-item prop="password" :label="$t('General.password')">
-          <el-input v-model="record.password" type="password"></el-input>
+          <el-input
+            v-model="record.password"
+            type="password"
+            autocomplete="new-password"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <div>
