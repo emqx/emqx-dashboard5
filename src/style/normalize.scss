@@ -1,8 +1,16 @@
 @use "sass:math";
 /* Components Reset Colors */
 @forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $menu: (
+    'border-color': var(--color-border-menu),
+    'bg-color': var(--color-bg-primary),
+    'hover-bg-color': var(--color-hover),
+  ),
+  $main: (
+    'padding': 0px,
+  ),
   $card: (
-    'border-radius': 8px
+    'border-radius': 8px,
   ),
   $input: (
     'border-color': var(--color-border-primary),
@@ -36,46 +44,65 @@
 
 /* Menu */
 .el-menu {
-  $menu-item-height: 50px;
-  border-right: none;
-  .iconx {
-    flex-shrink: 0;
-  }
-  .el-menu-item.is-active,
-  &.el-menu--collapse {
-    .el-sub-menu.is-active {
-      background-color: #00b29915;
-      font-weight: 900;
+  &:not(.el-menu--horizontal, .el-menu--popup) {
+    $menu-item-height: 50px;
+    border-right: none;
+    .iconx {
+      flex-shrink: 0;
     }
-  }
-  &.el-menu--collapse .menu-item-title.first-level {
-    display: none;
-  }
-  .el-sub-menu {
+    .menu-item-title {
+      $line-height: 20px;
+      padding-left: 10px;
+      margin-top: 0;
+      margin-bottom: 0;
+      white-space: normal;
+      line-height: $line-height;
+      padding-top: math.div($menu-item-height - $line-height, 2);
+      padding-bottom: math.div($menu-item-height - $line-height, 2);
+    }
+    .el-sub-menu__title {
+      padding: 0px 0px 0px 6px !important;
+      margin: 0px 12px;
+      border-radius: 0 8px 8px 0;
+      border-left: 4px solid transparent;
+      &:hover {
+        border-left: 4px solid #00b173d3;
+        color: var(--color-primary);
+      }
+    }
+    .el-sub-menu {
+      .el-menu-item {
+        padding: 0px 0px 0px 31px !important;
+      }
+    }
     .el-menu-item {
-      padding: 0 15px 0 45px;
-    }
-  }
-  .menu-item-title {
-    $line-height: 20px;
-    padding-left: 10px;
-    margin-top: 0;
-    margin-bottom: 0;
-    white-space: normal;
-    line-height: $line-height;
-    padding-top: math.div($menu-item-height - $line-height, 2);
-    padding-bottom: math.div($menu-item-height - $line-height, 2);
-  }
-  &.el-menu--horizontal {
-    background-color: var(--el-color-white);
-    >.el-menu-item {
-      height: 45px;
-      color: #8c8c8cff;
+      border-left: 4px solid transparent;
+      border-radius: 0 8px 8px 0;
+      margin: 0 12px;
+      padding: 0px 0px 0px 4px !important;
+      min-width: initial;
       &.is-active {
-        background-color: inherit;
+        background-color: var(--color-hover);
+        border-left: 4px solid #00b173d3;
+        border-radius: 0 8px 8px 0;
       }
       &:hover {
-        background-color: #00b2990b;
+        background-color: var(--color-hover);
+        border-left: 4px solid #00b173d3;
+        border-radius: 0 8px 8px 0;
+        color: var(--color-primary);
+      }
+    }
+  }
+  &.el-menu--popup {
+    min-width: initial;
+    .el-menu-item {
+      &.is-active {
+        background-color: var(--color-hover);
+      }
+      &:hover {
+        background-color: var(--color-hover);
+        color: var(--color-primary);
       }
     }
   }
@@ -300,7 +327,7 @@
 
 /* Card */
 .el-card {
-  --el-card-border-color: #ececefff;
+  border: none;
 }
 
 /* Loading */
