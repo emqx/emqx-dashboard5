@@ -4,7 +4,7 @@ import { computed, ref, ComputedRef, Ref } from 'vue'
 export default (): {
   formCom: Ref<any>
   rules: ComputedRef<FormRules>
-  validate: () => Promise<void>
+  validate: () => Promise<boolean>
 } => {
   const formCom = ref()
 
@@ -13,7 +13,7 @@ export default (): {
   })
 
   const validate = () => {
-    return Promise.resolve()
+    return Promise.resolve(true)
   }
 
   return {

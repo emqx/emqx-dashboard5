@@ -29,13 +29,15 @@
         <el-card shadow="never">
           <database-config
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
+            ref="formCom"
             :database="type"
             v-model="configData"
             auth-type="authz"
-          ></database-config>
-          <file-config v-else-if="type === 'file'" v-model="configData"></file-config>
+          />
+          <file-config v-else-if="type === 'file'" ref="formCom" v-model="configData"></file-config>
           <http-config
             v-else-if="type === 'http'"
+            ref="formCom"
             auth-type="authz"
             v-model="configData"
           ></http-config>
@@ -68,6 +70,7 @@ import HttpConfig from './components/HttpConfig.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import { jumpToErrorFormItem } from '@/common/tools'
 
 export default defineComponent({
   name: 'AuthzDetails',
@@ -79,14 +82,18 @@ export default defineComponent({
     HttpConfig,
   },
   setup() {
-    const authzDetailLock = ref(false)
     const { t } = useI18n()
     const route = useRoute()
     const router = useRouter()
+
+    const authzDetailLock = ref(false)
     const { titleMap } = useAuth()
     const configData = ref({
       ssl: { enable: false },
     })
+
+    const formCom = ref()
+
     const type = computed(function () {
       return route.params.type
     })
@@ -96,6 +103,7 @@ export default defineComponent({
       }
       return ''
     })
+
     const loadData = async function () {
       authzDetailLock.value = true
       const res = await loadAuthz(type.value).catch(() => {
@@ -106,7 +114,18 @@ export default defineComponent({
         configData.value = res
       }
     }
+
     const handleUpdate = async function ({ enable }) {
+      let isVerified = true
+      if (formCom.value) {
+        await formCom.value.validate().catch(() => {
+          isVerified = false
+          jumpToErrorFormItem()
+        })
+      }
+      if (!isVerified) {
+        return
+      }
       const { create } = useAuthzCreate()
       const data = create(configData.value, type.value)
       if (enable !== undefined) {
@@ -116,6 +135,7 @@ export default defineComponent({
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'authorization' })
     }
+
     const handleDelete = async function () {
       MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
@@ -129,6 +149,7 @@ export default defineComponent({
         })
         .catch(() => {})
     }
+
     loadData()
     return {
       type,
@@ -136,6 +157,7 @@ export default defineComponent({
       titleMap,
       authzDetailLock,
       configData,
+      formCom,
       handleDelete,
       handleUpdate,
     }

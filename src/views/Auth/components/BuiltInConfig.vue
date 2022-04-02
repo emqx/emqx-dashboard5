@@ -69,7 +69,7 @@ export default defineComponent({
     const formCom = ref()
     const rules = {}
 
-    const validate = () => Promise.resolve()
+    const validate = () => Promise.resolve(true)
 
     watch(builtConfig, (value) => {
       ctx.emit('update:modelValue', value)

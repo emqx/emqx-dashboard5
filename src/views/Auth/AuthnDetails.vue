@@ -36,6 +36,7 @@
         <template v-if="configData.mechanism !== 'jwt'">
           <database-config
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
+            ref="formCom"
             :database="currBackend"
             v-model="configData"
             auth-type="authn"
@@ -43,15 +44,17 @@
           <http-config
             auth-type="authn"
             v-else-if="currBackend === 'http'"
+            ref="formCom"
             v-model="configData"
           ></http-config>
           <built-in-config
             v-else-if="currBackend === 'built_in_database'"
+            ref="formCom"
             :type="configData.mechanism"
             v-model="configData"
           ></built-in-config>
         </template>
-        <jwt-config v-else v-model="configData"></jwt-config>
+        <jwt-config ref="formCom" v-else v-model="configData"></jwt-config>
         <el-button type="primary" @click="handleUpdate">
           {{ $t('Base.update') }}
         </el-button>
@@ -89,6 +92,7 @@ import useAuth from '@/hooks/Auth/useAuth'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
+import { jumpToErrorFormItem } from '@/common/tools'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -126,14 +130,21 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const { t } = useI18n()
+
     const authnDetailLock = ref(false)
+
     const id = computed(function () {
       return route.params.id
     })
+
     const configData = ref({
       ssl: { enable: false },
     })
+
     const currBackend = ref('')
+
+    const formCom = ref()
+
     const currImg = computed(() => {
       if (currBackend.value) {
         return require(`@/assets/img/${currBackend.value}.png`)
@@ -154,6 +165,16 @@ export default defineComponent({
     const { titleMap } = useAuth()
     loadData()
     const handleUpdate = async function ({ enable }) {
+      let isVerified = true
+      if (formCom.value) {
+        await formCom.value.validate().catch(() => {
+          isVerified = false
+          jumpToErrorFormItem()
+        })
+      }
+      if (!isVerified) {
+        return
+      }
       const { create } = useAuthnCreate()
       const { id } = configData.value
       const data = create(configData.value, configData.value.backend, configData.value.mechanism)
@@ -191,12 +212,14 @@ export default defineComponent({
         })
         .catch(() => {})
     }
+
     return {
       currBackend,
       currImg,
       titleMap,
       configData,
       authnDetailLock,
+      formCom,
       handleUpdate,
       handleDelete,
     }

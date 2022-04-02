@@ -58,14 +58,26 @@
           <el-input v-model="record.description"></el-input>
         </el-form-item>
         <el-form-item v-if="accessType !== 'edit'" prop="password" :label="$t('General.password')">
-          <el-input v-model="record.password" type="password"></el-input>
+          <el-input
+            v-model="record.password"
+            type="password"
+            autocomplete="new-password"
+          ></el-input>
         </el-form-item>
         <div v-if="accessType === 'chPass'">
           <el-form-item prop="newPassword" :label="$t('General.newPassword')">
-            <el-input v-model="record.newPassword" type="password"></el-input>
+            <el-input
+              v-model="record.newPassword"
+              type="password"
+              autocomplete="new-password"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="repeatPassword" :label="$t('General.confirmPassword')">
-            <el-input v-model="record.repeatPassword" type="password"></el-input>
+            <el-input
+              v-model="record.repeatPassword"
+              type="password"
+              autocomplete="new-password"
+            ></el-input>
           </el-form-item>
         </div>
       </el-form>
