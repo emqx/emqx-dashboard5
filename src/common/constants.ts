@@ -13,6 +13,8 @@ export const DEFAULT_SSL_VERIFY_VALUE = SSL_VERIFY_VALUE_MAP.get(false)
 export const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST = [
   PayloadShowByType.Plaintext,
   PayloadShowByType.Base64,
+  PayloadShowByType.JSON,
+  PayloadShowByType.Hex,
 ]
 
 export const RULE_INPUT_EVENT_PREFIX = '$events/'
