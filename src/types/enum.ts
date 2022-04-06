@@ -126,3 +126,8 @@ export enum RedisType {
   Sentinel = 'sentinel',
   Cluster = 'cluster',
 }
+
+export enum NodeStatus {
+  Running = 'Running',
+  Stopped = 'Stopped',
+}

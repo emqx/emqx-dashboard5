@@ -1,3 +1,5 @@
+import { NodeStatus } from './enum'
+
 export interface CounterItem {
   count: number
   timestamp: number
@@ -29,7 +31,7 @@ export interface NodeMsg {
   memory_total: string
   memory_used: string
   node: string
-  node_status: string
+  node_status: NodeStatus
   otp_release: string
   process_available: number
   process_used: number
