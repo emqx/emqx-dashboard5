@@ -79,6 +79,9 @@ export default defineComponent({
             } catch {
               item.img = ''
             }
+          } else {
+            item.img = require(`@/assets/img/jwt.png`)
+            item.backend = 'jwt'
           }
           return item
         })
