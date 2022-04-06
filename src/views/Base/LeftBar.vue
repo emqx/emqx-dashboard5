@@ -34,7 +34,9 @@
               <svg class="icon menu-icon" aria-hidden="true">
                 <use :xlink:href="`#${menu.icon}-${theme}`"></use>
               </svg>
-              <p class="menu-item-title first-level">{{ $t(`components.${menu.title}`) }}</p>
+              <p class="menu-item-title first-level">
+                {{ $t(`components.${menu.title}`) }}
+              </p>
             </el-menu-item>
           </template>
         </template>
@@ -235,6 +237,7 @@ export default defineComponent({
     }
     .menu-item-title {
       padding-left: 26px;
+      opacity: 0;
     }
     .el-sub-menu {
       .menu-item-title {
@@ -255,6 +258,7 @@ export default defineComponent({
   }
   .icon.menu-icon {
     font-size: 24px;
+    flex-shrink: 0;
   }
 }
 </style>
