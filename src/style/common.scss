@@ -188,64 +188,6 @@ h1 {
   }
 }
 
-.iconx {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  font-style: normal;
-  background-image: url('~@/assets/img/iconset@2x.png');
-  background-size: 153px 159px;
-  background-repeat: no-repeat;
-  vertical-align: middle;
-  //24*24 each
-  $icon-size: -24px;
-  @mixin use-icon($x, $y) {
-    background-position: $icon-size * $x $icon-size * $y;
-  }
-  &.icon-alarm {
-    @include use-icon(5, 1);
-  }
-  &.icon-globe {
-    @include use-icon(4, 1);
-  }
-  &.icon-monitor {
-    @include use-icon(1, 3);
-  }
-  &.icon-cards {
-    @include use-icon(5, 2);
-  }
-  &.icon-lists {
-    @include use-icon(0, 3);
-  }
-  &.icon-sweep {
-    @include use-icon(3, 2);
-  }
-  &.icon-monitoring {
-    @include use-icon(0, 0);
-  }
-  &.icon-management {
-    @include use-icon(1, 0);
-  }
-  &.icon-authentication {
-    @include use-icon(2, 0);
-  }
-  &.icon-configuration {
-    @include use-icon(0, 1);
-  }
-  &.icon-system {
-    @include use-icon(1, 1);
-  }
-  &.icon-ruleengine {
-    @include use-icon(3, 0);
-  }
-  &.icon-diagnose {
-    @include use-icon(2, 3);
-  }
-  &.icon-plugin {
-    @include use-icon(5, 0);
-  }
-}
-
 .g-coap::before {
   background-image: url('~@/assets/gateway/coap.png');
 }
@@ -436,6 +378,18 @@ h1 {
       word-break: break-all;
     }
   }
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+.iconfont {
+  font-size: 20px;
+  color: var(--color-title-primary);
 }
 
 /* El Select TODO:delete it after upgrade element-plus */

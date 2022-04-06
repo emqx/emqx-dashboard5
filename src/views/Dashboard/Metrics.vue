@@ -9,7 +9,7 @@
     <el-row v-loading="integrationLoading">
       <div class="int-item">
         <div>
-          <img srcset="@/assets/img/prom@2x.png 2x" />
+          <img srcset="@/assets/img/prom.png 2x" />
         </div>
         <div>
           <div class="part-header">Prometheus</div>
@@ -55,7 +55,7 @@
       </div>
       <div class="int-item">
         <div>
-          <img srcset="@/assets/img/statsd@2x.png 2x" />
+          <img srcset="@/assets/img/statsd.png 2x" />
         </div>
         <div>
           <div class="part-header">StatsD</div>

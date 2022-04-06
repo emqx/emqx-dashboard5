@@ -11,7 +11,9 @@
           <template v-if="menu.c">
             <el-sub-menu :index="'' + i" :key="i">
               <template #title>
-                <i :class="['iconx', menu.icon]"></i>
+                <svg class="icon menu-icon" aria-hidden="true">
+                  <use :xlink:href="`#${menu.icon}-${theme}`"></use>
+                </svg>
                 <p class="menu-item-title first-level">
                   {{ $t(`components.${menu.title}`) }}
                 </p>
@@ -29,7 +31,9 @@
           </template>
           <template v-else>
             <el-menu-item :key="menu.title" :index="menu.path">
-              <i :class="['iconx', menu.icon]"></i>
+              <svg class="icon menu-icon" aria-hidden="true">
+                <use :xlink:href="`#${menu.icon}-${theme}`"></use>
+              </svg>
               <p class="menu-item-title first-level">{{ $t(`components.${menu.title}`) }}</p>
             </el-menu-item>
           </template>
@@ -43,6 +47,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import '@/assets/fonts/iconfont'
 
 interface Menu {
   title: string
@@ -59,6 +64,9 @@ export default defineComponent({
     const route = useRoute()
     const leftBarCollapse = computed(() => {
       return store.state.leftBarCollapse
+    })
+    const theme = computed(() => {
+      return store.state.theme
     })
     const defaultSelectedKeys = computed(() => {
       const { path } = route
@@ -179,12 +187,12 @@ export default defineComponent({
       },
       {
         title: 'ruleengine',
-        icon: 'icon-ruleengine',
+        icon: 'icon-a-ruleengine',
         c: ruleengine,
       },
       {
         title: 'plugins',
-        icon: 'icon-plugin',
+        icon: 'icon-plugins',
         path: '/plugins',
       },
       {
@@ -194,7 +202,7 @@ export default defineComponent({
       },
       {
         title: 'diagnose',
-        icon: 'icon-diagnose',
+        icon: 'icon-diagnosis',
         c: diagnose,
       },
       {
@@ -205,6 +213,7 @@ export default defineComponent({
     ]
     return {
       store,
+      theme,
       leftBarCollapse,
       defaultSelectedKeys,
       menus,
@@ -243,6 +252,9 @@ export default defineComponent({
     .el-scrollbar__bar.is-horizontal {
       display: none;
     }
+  }
+  .icon.menu-icon {
+    font-size: 24px;
   }
 }
 </style>
