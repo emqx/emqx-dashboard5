@@ -8,15 +8,14 @@
         <left-bar></left-bar>
         <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
           <a
-            class="footer-menu-item"
+            :class="['footer-menu-item', leftBarCollapse ? 'rotate' : '']"
             @click="
               () => {
                 store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
               }
             "
           >
-            <el-icon :size="20" v-if="leftBarCollapse"><expand></expand></el-icon>
-            <el-icon :size="20" v-else><fold></fold></el-icon>
+            <i class="iconfont icon-fold"></i>
           </a>
         </div>
       </el-aside>
@@ -163,9 +162,13 @@ export default defineComponent({
     padding: 0 24px;
     z-index: 100;
     .footer-menu-item {
+      transition: all 0.3s;
       color: var(--color-text-primary);
       &:hover {
         color: var(--color-primary);
+      }
+      &.rotate {
+        transform: rotate(180deg);
       }
     }
   }
