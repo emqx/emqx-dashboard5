@@ -204,6 +204,7 @@ export default defineComponent({
       },
     ]
     return {
+      store,
       leftBarCollapse,
       defaultSelectedKeys,
       menus,

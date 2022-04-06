@@ -1,27 +1,19 @@
 <template>
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
-    <div>
-      <div
-        class="func-item"
-        @click="
-          () => {
-            store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
-          }
-        "
-      >
-        <el-icon :size="20" v-if="leftBarCollapse"><expand></expand></el-icon>
-        <el-icon :size="20" v-else><fold></fold></el-icon>
-      </div>
-    </div>
-    <div class="header-title">
+    <h1 class="header-title">
       {{ $t(`components.${firstPath}`) }}
-    </div>
-
+    </h1>
     <div class="pull-right">
+      <el-button class="go-link" @click="gotoCloud">
+        Try Cloud <el-icon><right /></el-icon>
+      </el-button>
+
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
         <div class="alert-info func-item">
           <el-badge :is-dot="!!alertCount">
-            <router-link to="/alarm" class="iconx icon-alarm"></router-link>
+            <router-link class="alarm-link" to="/alarm">
+              <el-icon class="bell"><bell /></el-icon>
+            </router-link>
           </el-badge>
         </div>
       </el-tooltip>
@@ -44,6 +36,7 @@
 
       <el-dropdown placement="bottom" @command="handleDropdownCommand">
         <div class="user-info func-item">
+          <span class="user-avatar">{{ user.username?.substr(0, 1).toUpperCase() }}</span>
           <span>{{ user.username }}</span>
         </div>
 
@@ -58,8 +51,6 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-
-      <el-button class="go-link" @click="gotoCloud"> Try Cloud ➝ </el-button>
     </div>
   </div>
 </template>
@@ -69,7 +60,7 @@ import { loadAlarm } from '@/api/common'
 import { toLogin } from '@/router'
 import { setLanguage } from '@/common/utils'
 import { useStore } from 'vuex'
-import { Fold, Expand } from '@element-plus/icons-vue'
+import { Right, Bell } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import { computed, defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -78,8 +69,8 @@ import { useRoute, useRouter } from 'vue-router'
 export default defineComponent({
   name: 'NavHeader',
   components: {
-    Fold,
-    Expand,
+    Right,
+    Bell,
   },
   setup() {
     const firstPath = ref('')
@@ -195,11 +186,21 @@ export default defineComponent({
   z-index: 100;
   transition: all 0.3s;
   border-bottom: 1px solid #eeeef7ff;
+  .user-avatar {
+    width: 21px;
+    height: 21px;
+    background: var(--color-stream);
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    line-height: 21px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: 4px;
+  }
 }
 
 .header-title {
-  font-size: 28px;
-  font-weight: 600;
   padding-left: 20px;
 }
 
@@ -225,15 +226,30 @@ export default defineComponent({
 }
 
 .el-button.go-link {
-  background-color: #282e38ff;
-  color: #fff;
-  border: 1px solid #282e38ff;
-  margin-left: 10px;
-
-  &:hover {
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #282e38ff;
+  background-color: #fff;
+  color: var(--color-title-primary);
+  border: 1px solid var(--color-title-primary);
+  margin-right: 12px;
+  .el-icon {
+    padding-left: 10px;
   }
+  &:hover {
+    background-color: var(--color-hover);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+  }
+}
+.alarm-link {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+}
+.el-icon.bell {
+  color: var(--color-title-primary);
+  font-size: 20px;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: 1px;
 }
 </style>
