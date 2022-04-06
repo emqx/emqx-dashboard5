@@ -20,7 +20,7 @@
 
       <el-dropdown placement="bottom" @command="handleLanguageDropdownCommand">
         <div class="user-info func-item">
-          <i class="iconx icon-globe"></i>
+          <i class="iconfont icon-language"></i>
         </div>
         <template #dropdown>
           <el-dropdown-menu>

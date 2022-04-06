@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3296526 */
+  src: url('iconfont.woff2?t=1649237736389') format('woff2'),
+       url('iconfont.woff?t=1649237736389') format('woff'),
+       url('iconfont.ttf?t=1649237736389') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fold:before {
+  content: "\e74f";
+}
+
+.icon-language:before {
+  content: "\e6c7";
+}
+
+.icon-authentication-light:before {
+  content: "\e747";
+}
+
+.icon-diagnosis-light:before {
+  content: "\e748";
+}
+
+.icon-configuration-light:before {
+  content: "\e749";
+}
+
+.icon-management-light:before {
+  content: "\e74a";
+}
+
+.icon-monitoring-light:before {
+  content: "\e74b";
+}
+
+.icon-plugins-light:before {
+  content: "\e74c";
+}
+
+.icon-a-ruleengine-light:before {
+  content: "\e74d";
+}
+
+.icon-system-light:before {
+  content: "\e74e";
+}
+
+.icon-authentication-dark:before {
+  content: "\e73f";
+}
+
+.icon-diagnosis-dark:before {
+  content: "\e740";
+}
+
+.icon-monitoring-dark:before {
+  content: "\e741";
+}
+
+.icon-system-dark:before {
+  content: "\e742";
+}
+
+.icon-a-ruleengine-dark:before {
+  content: "\e743";
+}
+
+.icon-plugins-dark:before {
+  content: "\e744";
+}
+
+.icon-management-dark:before {
+  content: "\e745";
+}
+
+.icon-configuration-dark:before {
+  content: "\e746";
+}
+
