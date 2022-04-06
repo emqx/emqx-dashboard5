@@ -258,7 +258,7 @@ export const numToFixed = (number: number, digits = 3): number => parseFloat(num
 export const jumpToErrorFormItem = (className = '.el-form-item.is-error'): void => {
   const el = document.querySelector(className)
   if (el) {
-    el.scrollIntoView()
+    el.scrollIntoView({ behavior: 'smooth' })
     window.scrollBy(0, -100)
   }
 }
