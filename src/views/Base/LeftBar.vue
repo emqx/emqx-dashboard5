@@ -215,8 +215,8 @@ export default defineComponent({
 
 <style lang="scss">
 .left-bar {
-  height: calc(100vh - 60px);
   transition: all 0.3s;
+  padding: 64px 0;
   .el-menu.el-menu--collapse {
     width: 80px;
     .el-sub-menu__title,
@@ -234,6 +234,14 @@ export default defineComponent({
     }
     & i {
       margin-left: 6px;
+    }
+  }
+  .el-scrollbar {
+    .el-scrollbar__wrap {
+      overflow-x: hidden;
+    }
+    .el-scrollbar__bar.is-horizontal {
+      display: none;
     }
   }
 }

@@ -2,11 +2,9 @@
   <div>
     <el-container>
       <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
-        <router-link to="/">
-          <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-            <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
-          </div>
-        </router-link>
+        <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
+          <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
+        </div>
         <left-bar></left-bar>
         <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
           <a
@@ -147,13 +145,14 @@ export default defineComponent({
   transition: all 0.3s;
   position: fixed;
   top: 0;
+  bottom: 0;
   left: 0;
   z-index: 100;
   overflow-x: hidden;
   border-right: 1px solid var(--color-border-menu);
   .footer-menu {
     transition: all 0.3s;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     height: 48px;
     border-top: 1px solid var(--color-border-menu);
@@ -182,7 +181,9 @@ export default defineComponent({
 }
 
 .logo {
-  width: 200px;
+  position: fixed;
+  width: 179px;
+  background-color: var(--color-bg-primary);
   height: 60px;
   line-height: 60px;
   overflow: hidden;
@@ -202,7 +203,7 @@ export default defineComponent({
 }
 
 .logo.logo-colap {
-  width: 80px;
+  width: 54px;
   padding-left: 25px;
   img {
     width: 200px;
