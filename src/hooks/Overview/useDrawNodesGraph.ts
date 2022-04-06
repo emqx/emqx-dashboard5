@@ -1,7 +1,8 @@
 import { onMounted, onUnmounted, ref, nextTick, Ref } from 'vue'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
-import G6, { Graph } from '@antv/g6'
+import G6, { Graph, IG6GraphEvent, IShape, IGroup } from '@antv/g6'
 import { createRandomString, numToFixed } from '@/common/tools'
+import { NodeStatus } from '@/types/enum'
 
 interface NodeDataItem {
   id: string
@@ -9,6 +10,7 @@ interface NodeDataItem {
   y: number
   type: string
   size?: Array<number>
+  status: NodeStatus
 }
 
 interface EdgeItem {
@@ -41,13 +43,61 @@ const getPath = (cfg: any) => {
   return path
 }
 
+const getFill = (status: NodeStatus, opacity = 1) => {
+  const opacityHEX = Number((255 * opacity).toFixed(0)).toString(16)
+  return status === NodeStatus.Running
+    ? `l(0) 0:#00B299${opacityHEX} 1:#45E3C9${opacityHEX}`
+    : `l(0) 0:#dcdcdc${opacityHEX} 1:#cdcdcd${opacityHEX}`
+}
+
+let outerDecor: undefined | IShape = undefined
+let innerDecor: undefined | IShape = undefined
+
+const addDecorToNode = (nodeCfg: any, group: IGroup, shape: IShape) => {
+  const outerSideLength = (shape.getBBox().height / 2) * 2
+  const innerSideLength = (shape.getBBox().height / 2) * 1.5
+
+  outerDecor = group.addShape('path', {
+    attrs: {
+      path: getPath({
+        size: [outerSideLength * SQUARE_ROOT_3, outerSideLength * 2],
+      }),
+      fill: getFill(nodeCfg?.status as NodeStatus, 0.3),
+    },
+    zIndex: -2,
+    draggable: false,
+    name: 'path-shape-outer',
+  })
+  innerDecor = group.addShape('path', {
+    attrs: {
+      path: getPath({
+        size: [innerSideLength * SQUARE_ROOT_3, innerSideLength * 2],
+      }),
+      fill: getFill(nodeCfg?.status as NodeStatus, 0.6),
+    },
+    zIndex: -1,
+    draggable: false,
+    name: 'path-shape-inner',
+  })
+  group.sort()
+}
+
+const removeNodeDecor = (group: IGroup) => {
+  if (outerDecor) {
+    group.removeChild(outerDecor)
+  }
+  if (innerDecor) {
+    group.removeChild(innerDecor)
+  }
+}
+
 const registerCustomNode = () => {
   G6.registerNode('customNode', {
     draw(cfg, group): any {
       const keyShape = group?.addShape('path', {
         attrs: {
           path: getPath(cfg),
-          fill: 'l(0) 0:#00B299 1:#45E3C9',
+          fill: getFill(cfg?.status as NodeStatus),
         },
         draggable: false,
         name: 'path-shape',
@@ -55,7 +105,20 @@ const registerCustomNode = () => {
       return keyShape
     },
     setState(name, value, node) {
-      console.log({ name, value, node })
+      const group = node?.getContainer()
+      if (!group || name !== 'selected') {
+        return
+      }
+
+      const cfg = node?.getModel()
+      const shape = group.get('children')[0] // 顺序根据 draw 时确定
+      if (value) {
+        if (cfg && shape) {
+          addDecorToNode(cfg, group, shape)
+        }
+      } else {
+        removeNodeDecor(group)
+      }
     },
   })
 }
@@ -110,6 +173,7 @@ export default (
       x,
       y,
       type: 'customNode',
+      status: node.node_status,
     }
     if (nodesNum < 4) {
       ret.size = [LARGER_SIDE_LENGTH * SQUARE_ROOT_3, LARGER_SIDE_LENGTH * 2]
@@ -122,6 +186,25 @@ export default (
   const destroyCanvas = () => {
     if (graph) {
       graph.destroy()
+    }
+  }
+
+  const setOtherNodesSelected = () => {
+    graph?.getNodes().forEach((node) => {
+      graph?.setItemState(node, 'selected', false)
+    })
+  }
+
+  const handleNodeMouseenter = (ev: IG6GraphEvent) => {
+    const node = ev.item
+    if (!node) {
+      return
+    }
+    setOtherNodesSelected()
+    graph?.setItemState(node, 'selected', true)
+    const id = node.getID()
+    if (id) {
+      emit('change', id)
     }
   }
 
@@ -139,11 +222,10 @@ export default (
     })
 
     graph.on('node:mouseenter', (ev) => {
-      const node = ev.item
-      const id = node?.getID()
-      if (id) {
-        emit('change', id)
+      if (!ev) {
+        return
       }
+      handleNodeMouseenter(ev)
     })
   }
 
@@ -165,7 +247,15 @@ export default (
     const nodes = lastRenderData?.nodes || []
 
     if (nodes.length === 1) {
-      graph?.zoomTo(2, { x: canvasWidth / 2, y: canvasHeight / 2 })
+      graph?.zoomTo(1.2, { x: canvasWidth / 2, y: canvasHeight / 2 })
+    }
+  }
+
+  const setSingleNodeActive = () => {
+    if (lastRenderData?.nodes.length === 1) {
+      graph?.getNodes().forEach((node) => {
+        graph?.setItemState(node, 'selected', true)
+      })
     }
   }
 
@@ -179,6 +269,7 @@ export default (
     }
     graph?.data(graphData)
     graph?.render()
+    setSingleNodeActive()
     await nextTick()
     setZoom()
   }
