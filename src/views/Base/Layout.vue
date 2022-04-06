@@ -4,10 +4,23 @@
       <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
         <router-link to="/">
           <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-            <img v-if="edition == 0b10" src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
+            <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
           </div>
         </router-link>
         <left-bar></left-bar>
+        <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
+          <a
+            class="footer-menu-item"
+            @click="
+              () => {
+                store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
+              }
+            "
+          >
+            <el-icon :size="20" v-if="leftBarCollapse"><expand></expand></el-icon>
+            <el-icon :size="20" v-else><fold></fold></el-icon>
+          </a>
+        </div>
       </el-aside>
       <el-container class="layout">
         <el-main :style="{ margin: 0, marginLeft: elMainStyle }">
@@ -51,65 +64,82 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import LeftBar from './LeftBar.vue'
 import NavHeader from './NavHeader.vue'
 import { routes } from '@/router'
-import { mapGetters } from 'vuex'
+import { useStore } from 'vuex'
+import { computed, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
+import { Expand, Fold } from '@element-plus/icons-vue'
 
-export default {
+export default defineComponent({
   name: 'Layout',
   components: {
     NavHeader,
     LeftBar,
+    Expand,
+    Fold,
   },
-
   props: {
     keepAlive: {
       type: Boolean,
       default: false,
     },
   },
-  methods: {
-    kebab2pascal(s) {
-      return String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
-    },
-  },
-  computed: {
-    ...mapGetters(['edition']),
-    leftBarCollapse() {
-      return this.$store.state.leftBarCollapse
-    },
-    elMainStyle() {
-      return !this.leftBarCollapse ? '200px' : '80px'
-    },
-    topLvRoute() {
-      const { path } = this.$route
+  setup() {
+    const kebab2pascal = (s: string) => String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
+    const store = useStore()
+    const route = useRoute()
+    const edition = computed(() => {
+      return store.state.edition
+    })
+    const leftBarCollapse = computed(() => {
+      return store.state.leftBarCollapse
+    })
+    const elMainStyle = computed(() => {
+      return !leftBarCollapse.value ? '200px' : '80px'
+    })
+    const topLvRoute: any = computed(() => {
+      const { path } = route
       const topLvRoute = routes.find((v) => {
         return v.path !== '/' && path.indexOf(v.path) >= 0
       })
       return topLvRoute || {}
-    },
-    defaultSubMenu() {
-      const { children, path: topPath } = this.topLvRoute
-      const { path } = this.$route
+    })
+    const defaultSubMenu = computed(() => {
+      const { children, path: topPath } = topLvRoute.value
+      const { path } = route
       const childRoute = Array.prototype.find.call(children, (v) => path.indexOf(v.path) >= 0) || {}
-      return `${topPath}/${childRoute && childRoute.path}` || null
-    },
-    hasSubMenu() {
-      const { meta } = this.topLvRoute
+      return `${topPath}/${childRoute && childRoute.path}` || undefined
+    })
+    const hasSubMenu = computed(() => {
+      const { meta } = topLvRoute.value
       return meta && meta.subMenu
-    },
-    showSubMenu() {
-      const { meta, children, path } = this.topLvRoute
+    })
+    const showSubMenu = computed(() => {
+      const { meta, children, path } = topLvRoute.value
       const showSubMenuInFirstLevel = meta.showSubMenuInFirstLevel || false
       if (showSubMenuInFirstLevel) {
-        return children.some(({ path: childPath }) => `${path}/${childPath}` === this.$route.path)
+        return children.some(
+          ({ path: childPath }: { path: any }) => `${path}/${childPath}` === route.path,
+        )
       }
       return true
-    },
+    })
+    return {
+      store,
+      edition,
+      elMainStyle,
+      topLvRoute,
+      defaultSubMenu,
+      hasSubMenu,
+      showSubMenu,
+      leftBarCollapse,
+      kebab2pascal,
+    }
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -121,6 +151,25 @@ export default {
   z-index: 100;
   overflow-x: hidden;
   border-right: 1px solid var(--color-border-menu);
+  .footer-menu {
+    transition: all 0.3s;
+    position: absolute;
+    bottom: 0;
+    height: 48px;
+    border-top: 1px solid var(--color-border-menu);
+    background-color: var(--color-bg-primary);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 24px;
+    z-index: 100;
+    .footer-menu-item {
+      color: var(--color-text-primary);
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
 }
 
 .el-main {
