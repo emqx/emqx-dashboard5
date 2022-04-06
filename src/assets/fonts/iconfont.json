@@ -1,0 +1,135 @@
+{
+  "id": "3296526",
+  "name": "emqx-dashbard-new",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "for emqx 5.0 dashboard",
+  "glyphs": [
+    {
+      "icon_id": "28773351",
+      "name": "fold",
+      "font_class": "fold",
+      "unicode": "e74f",
+      "unicode_decimal": 59215
+    },
+    {
+      "icon_id": "22406913",
+      "name": "language",
+      "font_class": "language",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
+      "icon_id": "28711832",
+      "name": "authentication-light",
+      "font_class": "authentication-light",
+      "unicode": "e747",
+      "unicode_decimal": 59207
+    },
+    {
+      "icon_id": "28711833",
+      "name": "diagnosis-light",
+      "font_class": "diagnosis-light",
+      "unicode": "e748",
+      "unicode_decimal": 59208
+    },
+    {
+      "icon_id": "28711834",
+      "name": "configuration-light",
+      "font_class": "configuration-light",
+      "unicode": "e749",
+      "unicode_decimal": 59209
+    },
+    {
+      "icon_id": "28711835",
+      "name": "management-light",
+      "font_class": "management-light",
+      "unicode": "e74a",
+      "unicode_decimal": 59210
+    },
+    {
+      "icon_id": "28711836",
+      "name": "monitoring-light",
+      "font_class": "monitoring-light",
+      "unicode": "e74b",
+      "unicode_decimal": 59211
+    },
+    {
+      "icon_id": "28711837",
+      "name": "plugins-light",
+      "font_class": "plugins-light",
+      "unicode": "e74c",
+      "unicode_decimal": 59212
+    },
+    {
+      "icon_id": "28711838",
+      "name": "rule engine-light",
+      "font_class": "a-ruleengine-light",
+      "unicode": "e74d",
+      "unicode_decimal": 59213
+    },
+    {
+      "icon_id": "28711839",
+      "name": "system-light",
+      "font_class": "system-light",
+      "unicode": "e74e",
+      "unicode_decimal": 59214
+    },
+    {
+      "icon_id": "28711800",
+      "name": "authentication-dark",
+      "font_class": "authentication-dark",
+      "unicode": "e73f",
+      "unicode_decimal": 59199
+    },
+    {
+      "icon_id": "28711814",
+      "name": "diagnosis-dark",
+      "font_class": "diagnosis-dark",
+      "unicode": "e740",
+      "unicode_decimal": 59200
+    },
+    {
+      "icon_id": "28711815",
+      "name": "monitoring-dark",
+      "font_class": "monitoring-dark",
+      "unicode": "e741",
+      "unicode_decimal": 59201
+    },
+    {
+      "icon_id": "28711816",
+      "name": "system-dark",
+      "font_class": "system-dark",
+      "unicode": "e742",
+      "unicode_decimal": 59202
+    },
+    {
+      "icon_id": "28711817",
+      "name": "rule engine-dark",
+      "font_class": "a-ruleengine-dark",
+      "unicode": "e743",
+      "unicode_decimal": 59203
+    },
+    {
+      "icon_id": "28711818",
+      "name": "plugins-dark",
+      "font_class": "plugins-dark",
+      "unicode": "e744",
+      "unicode_decimal": 59204
+    },
+    {
+      "icon_id": "28711819",
+      "name": "management-dark",
+      "font_class": "management-dark",
+      "unicode": "e745",
+      "unicode_decimal": 59205
+    },
+    {
+      "icon_id": "28711820",
+      "name": "configuration-dark",
+      "font_class": "configuration-dark",
+      "unicode": "e746",
+      "unicode_decimal": 59206
+    }
+  ]
+}

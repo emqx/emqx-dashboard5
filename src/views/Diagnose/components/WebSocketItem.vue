@@ -187,7 +187,8 @@
       <el-col :span="12">
         <div class="message-btn">
           {{ $t('Tools.received') }}
-          <i class="iconx icon-sweep" :title="$t('Tools.clear')" @click="messageIn = []"></i>
+          <!-- FIX ME -->
+          clear
         </div>
         <el-table :data="messageIn" max-height="400px">
           <el-table-column
@@ -224,7 +225,8 @@
       <el-col :span="12">
         <div class="message-btn">
           {{ $t('Tools.published') }}
-          <i class="iconx icon-sweep" :title="$t('Tools.clear')" @click="messageOut = []"></i>
+          <!-- FIX ME -->
+          clear
         </div>
         <el-table :data="messageOut" max-height="400px">
           <el-table-column
@@ -653,10 +655,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.iconx {
-  vertical-align: bottom;
-  cursor: pointer;
-}
 .sub-area .el-form-item {
   display: inline-block;
   width: 30%;
