@@ -104,6 +104,22 @@
       }
     }
   }
+  &.el-menu--horizontal {
+    .el-menu-item {
+      height: 36px;
+      margin: 12px 4px;
+      padding: 0 16px;
+      border-radius: 8px;
+      border-bottom: none;
+      &:hover {
+        color: var(--color-primary);
+      }
+      &.is-active {
+        background-color: var(--color-hover);
+        border-bottom: none;
+      }
+    }
+  }
 }
 
 /* Table */
