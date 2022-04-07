@@ -94,11 +94,13 @@
             </el-form-item>
           </el-col>
         </template>
+        <el-col :span="24">
+          <!-- TLS -->
+          <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" />
+        </el-col>
       </el-row>
     </el-form>
 
-    <!-- TLS -->
-    <TLS-config v-model="databaseConfig.ssl" />
     <div class="part-header">
       {{ $t('Auth.connectConfig') }}
     </div>
@@ -231,14 +233,19 @@ import { defineComponent, ref } from 'vue'
 import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
-import TLSConfig from './TLSConfig.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
 import useCopy from '@/hooks/useCopy'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
 
 export default defineComponent({
   name: 'DatabaseConfig',
-  components: { CodeView, TLSConfig, TimeInputWithUnitSelect, PasswordHashAlgorithmFormItems },
+  components: {
+    CodeView,
+    CommonTLSConfig,
+    TimeInputWithUnitSelect,
+    PasswordHashAlgorithmFormItems,
+  },
 
   props: {
     database: {

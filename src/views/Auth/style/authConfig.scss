@@ -32,6 +32,19 @@
     width: 120px;
     margin-bottom: 32px;
   }
+
+  .TLS-config {
+    .TLS-base-config {
+      .el-checkbox.is-bordered {
+        margin-bottom: 0;
+      }
+    }
+    .TLS-enable-config {
+      .TLS-input {
+        width: 100%;
+      }
+    }
+  }
   .viewer-container {
     border: 1px solid #ddd;
     margin-top: 30px;

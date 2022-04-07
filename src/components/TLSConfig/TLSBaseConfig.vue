@@ -1,6 +1,8 @@
 <template>
   <div class="TLS-base-config">
-    <div class="TLS-base-config-title">TLS</div>
+    <div class="TLS-base-config-title">
+      {{ $t('Base.tlsConfig') }}
+    </div>
     <div>
       <el-checkbox v-model="record.enable" :label="$t('Base.enableTLS')" border />
       <el-checkbox

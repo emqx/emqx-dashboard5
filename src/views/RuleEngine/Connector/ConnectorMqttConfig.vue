@@ -98,26 +98,23 @@
         </el-col> -->
       </el-row>
     </div>
-
-    <div class="part-header">{{ tl('tlsConfig') }}</div>
-    <TLS-config class="tls-config-form" v-model="tlsParams" />
+    <CommonTLSConfig class="tls-config-form" v-model="tlsParams" />
   </div>
 </template>
 
 <script lang="ts">
-import TLSConfig from '../components/TLSConfig.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import { useI18n } from 'vue-i18n'
 import { reactive, computed, defineComponent, watch, onMounted } from 'vue'
 import _ from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ConnectorItem } from '@/types/rule'
 
 type ConnectorForm = Partial<ConnectorItem>
 
 export default defineComponent({
-  components: { TLSConfig, InputWithUnit },
+  components: { InputWithUnit, CommonTLSConfig },
   props: {
     modelValue: {
       type: Object,
@@ -199,5 +196,15 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tls-config-form {
   margin-top: 20px;
+
+  :deep(.TLS-base-config) .TLS-base-config-title {
+    color: var(--el-text-color-regular);
+    font-size: 16px;
+  }
+  :deep(.TLS-enable-config) {
+    .TLS-input {
+      width: 100%;
+    }
+  }
 }
 </style>
