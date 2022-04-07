@@ -185,7 +185,7 @@ export default defineComponent({
   left: 201px;
   z-index: 100;
   transition: all 0.3s;
-  border-bottom: 1px solid #eeeef7ff;
+  border-bottom: 1px solid var(--color-border-menu);
   .user-avatar {
     width: 21px;
     height: 21px;
