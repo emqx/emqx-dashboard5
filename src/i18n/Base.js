@@ -287,6 +287,10 @@ export default {
     zh: '目录',
     en: 'Content',
   },
+  tlsConfig: {
+    zh: 'TLS 配置',
+    en: 'TLS Config',
+  },
   TLSCerts: {
     zh: 'TLS 证书信息',
     en: 'TLS Certification',

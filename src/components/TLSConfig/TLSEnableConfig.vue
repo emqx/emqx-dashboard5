@@ -1,8 +1,5 @@
 <template>
   <div class="TLS-enable-config">
-    <div class="TLS-enable-config-title">
-      {{ $t('Base.TLSCerts') }}
-    </div>
     <el-form-item label="TLS Cert">
       <el-input
         class="TLS-input"

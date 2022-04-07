@@ -52,10 +52,13 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="24">
+          <!-- TLS -->
+          <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" />
+        </el-col>
       </el-row>
     </el-form>
-    <!-- TLS -->
-    <TLS-config v-model="httpConfig.ssl" />
+
     <div class="create-form-title">
       {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
       <el-button class="help-btn" size="small" @click="toggleNeedHelp">
@@ -101,7 +104,7 @@
 import { computed, defineComponent, reactive, ref, watch } from 'vue'
 import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import TLSConfig from './TLSConfig.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import useCopy from '@/hooks/useCopy'
 import Monaco from '@/components/Monaco.vue'
@@ -113,7 +116,7 @@ export default defineComponent({
   components: {
     KeyAndValueEditor,
     CodeView,
-    TLSConfig,
+    CommonTLSConfig,
     TimeInputWithUnitSelect,
     Monaco,
   },

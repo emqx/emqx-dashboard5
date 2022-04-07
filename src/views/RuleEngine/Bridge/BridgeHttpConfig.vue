@@ -122,7 +122,7 @@
       </el-row>
       <div class="part-header">{{ tl('tlsConfig') }}</div>
 
-      <TLS-config class="tls-config-form" v-model="tlsParams" />
+      <CommonTLSConfig class="tls-config-form" v-model="tlsParams" />
     </el-form>
   </div>
 </template>
@@ -130,7 +130,7 @@
 <script lang="ts">
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import { computed, defineComponent, ref, watch, onMounted } from 'vue'
-import TLSConfig from '../components/TLSConfig.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import _ from 'lodash'
 import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { HTTPBridge } from '@/types/rule'
@@ -148,9 +148,9 @@ type HTTPFormData = Omit<HTTPBridge, 'connect_timeout' | 'request_timeout'> & {
 export default defineComponent({
   components: {
     KeyAndValueEditor,
-    TLSConfig,
     Monaco,
     InfoTooltip,
+    CommonTLSConfig,
   },
   name: '',
   props: {
@@ -270,6 +270,11 @@ export default defineComponent({
 @import '@/style/rule.scss';
 .tls-config-form {
   margin-top: 20px;
+  :deep(.TLS-enable-config) {
+    .TLS-input {
+      width: 100%;
+    }
+  }
 }
 .editor {
   border: var(--el-border-base);

@@ -1,8 +1,10 @@
 <template>
-  <TLSBaseConfig v-model="record" />
-  <el-collapse-transition>
-    <TLSEnableConfig v-model="record" v-if="record.enable" />
-  </el-collapse-transition>
+  <div>
+    <TLSBaseConfig v-model="record" />
+    <el-collapse-transition>
+      <TLSEnableConfig v-model="record" v-if="record.enable" />
+    </el-collapse-transition>
+  </div>
 </template>
 
 <script lang="ts">

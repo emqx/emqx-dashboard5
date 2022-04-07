@@ -19,11 +19,11 @@ export interface RuleInValidatorParam {
 }
 
 export interface SSL {
-  cacertfile: string
-  certfile: string
   enable: boolean
-  keyfile: string
   verify: string
+  certfile: string
+  keyfile: string
+  cacertfile: string
 }
 
 export interface BackendI18n {
