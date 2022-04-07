@@ -262,3 +262,9 @@ export const jumpToErrorFormItem = (className = '.el-form-item.is-error'): void 
     window.scrollBy(0, -100)
   }
 }
+
+export const findExtensionByName = (name: string): string => {
+  const reg = /.+\.(.+)/
+  const matchResult = name.match(reg)
+  return !matchResult ? '' : matchResult[1]
+}

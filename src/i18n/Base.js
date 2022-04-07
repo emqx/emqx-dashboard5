@@ -303,8 +303,24 @@ export default {
     zh: '启用 TLS',
     en: 'Enable TLS',
   },
+  tlsConfigItemDesc: {
+    zh: '请填写服务器中 {file} 的文件路径或直接填写 {file} 文件内的内容',
+    en: 'Please fill in the file path of {file} in the server or directly fill in the content of the {file} file',
+  },
+  confirmReplacement: {
+    zh: '是否确认替换当前内容？',
+    en: 'Are you sure you want to replace the current content?',
+  },
+  uploadFailed: {
+    zh: '上传失败',
+    en: 'Upload Failed',
+  },
   noData: {
     zh: '暂无数据',
     en: 'No data',
+  },
+  extensionErrorMsg: {
+    zh: '请上传拓展名为 {extensions} 的文件',
+    en: 'Please upload a file with extension {extensions}',
   },
 }

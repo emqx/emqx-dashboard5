@@ -120,8 +120,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl('tlsConfig') }}</div>
-
       <CommonTLSConfig class="tls-config-form" v-model="tlsParams" />
     </el-form>
   </div>
@@ -270,6 +268,11 @@ export default defineComponent({
 @import '@/style/rule.scss';
 .tls-config-form {
   margin-top: 20px;
+  :deep(.TLS-base-config) {
+    .TLS-base-config-title {
+      font-size: 16px;
+    }
+  }
   :deep(.TLS-enable-config) {
     .TLS-input {
       width: 100%;

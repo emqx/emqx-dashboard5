@@ -1,37 +1,42 @@
 <template>
   <div class="TLS-enable-config">
-    <el-form-item label="TLS Cert">
-      <el-input
+    <el-form-item>
+      <template #label>
+        <span>TLS Cert</span>
+        <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
+      </template>
+      <TextareaWithUploader
         class="TLS-input"
-        type="textarea"
-        :rows="4"
         v-model="record.certfile"
-        placeholder="Begins with -----BEGIN CERTIFICATE-----"
+        :allow-extensions="fileAllowExtensions"
       />
     </el-form-item>
-    <el-form-item label="TLS Key">
-      <el-input
+    <el-form-item>
+      <template #label>
+        <span>TLS Key</span>
+        <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
+      </template>
+      <TextareaWithUploader
         class="TLS-input"
-        type="textarea"
-        :rows="4"
         v-model="record.keyfile"
-        placeholder="Begins with -----BEGIN RSA PRIVATE KEY-----"
+        :allow-extensions="fileAllowExtensions"
       />
     </el-form-item>
-    <el-form-item label="CA Cert">
-      <el-input
+    <el-form-item>
+      <template #label>
+        <span>CA Cert</span>
+        <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
+      </template>
+      <TextareaWithUploader
         class="TLS-input"
-        type="textarea"
-        :rows="4"
         v-model="record.cacertfile"
-        placeholder="Begins with -----BEGIN CERTIFICATE -----"
+        :allow-extensions="fileAllowExtensions"
       />
     </el-form-item>
   </div>
 </template>
 
 <script lang="ts">
-import { SSL } from '@/types/common'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -41,6 +46,11 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from 'vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import TextareaWithUploader from '../TextareaWithUploader.vue'
+import { SSL } from '@/types/common'
+
+const fileAllowExtensions = ['crt', 'key', 'pem', 'jks', 'der', 'cer', 'pfx']
 
 const props = defineProps({
   modelValue: {
