@@ -1,7 +1,7 @@
 <template>
   <div class="iot-form">
     <el-form ref="formCom" :model="ruleValue" :rules="formRules" label-position="top">
-      <el-card shadow="never" class="app-card">
+      <el-card class="app-card">
         <div class="part-header">{{ tl('baseInfo') }}</div>
         <el-row>
           <el-col :span="8">
@@ -15,7 +15,7 @@
         </el-row>
       </el-card>
 
-      <el-card shadow="never" class="app-card">
+      <el-card class="app-card">
         <div class="part-header">{{ tl('filterData') }}</div>
         <div class="sub-block-desc">
           <span>{{ tl('ruleSQLDesc') }}</span>

@@ -189,7 +189,7 @@ export default defineComponent({
 
 .logo {
   position: fixed;
-  width: 179px;
+  width: 199px;
   background-color: var(--color-bg-primary);
   height: 60px;
   line-height: 60px;
@@ -200,7 +200,7 @@ export default defineComponent({
   transition: all 0.3s;
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  padding-left: 22px;
   img {
     max-width: initial;
     width: 96px;

@@ -54,7 +54,7 @@
           </el-button>
         </div>
       </div>
-      <el-card shadow="never" class="app-card">
+      <el-card class="app-card">
         <div class="plugin-info-bd">
           <MarkdownContent class="plugin-content" :content="pluginInfo.readme" />
           <PluginInfo :plugin-data="pluginInfo" />

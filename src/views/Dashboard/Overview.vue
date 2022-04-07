@@ -1,114 +1,72 @@
 <template>
   <div class="overview app-wrapper">
-    <div class="basic-info">
-      <el-row class="basic-graph">
-        <el-col :span="12">
-          <el-card shadow="never" class="app-card">
-            <div class="app-card-title">
-              {{ $t('Dashboard.connectionsTips') }}
-            </div>
-            <div class="content">
-              <span>{{ _formatNumber(currentMetrics.connections) }}</span>
-              <el-progress
-                class="status-progress"
-                :stroke-width="24"
-                :percentage="licensePercentage"
-                :format="() => ''"
-              ></el-progress>
-            </div>
-          </el-card>
-        </el-col>
-
-        <el-col :span="12">
-          <el-card shadow="never" class="app-card">
-            <div class="app-card-title">
-              {{ $t('Dashboard.subscriptionNumber') }}
-            </div>
-            <div class="content">
-              <span>{{ _formatNumber(currentMetrics.subscriptions) }}</span>
-              <div class="flux-wrapper">
-                <simple-line :value="currentMetricsLogs.subscriptions" color="#58afff" type="bar" />
+    <h2>{{ $t('Dashboard.basicInfo') }}</h2>
+    <el-row class="block" :gutter="26">
+      <el-col :span="15">
+        <el-card class="main-info-card top-primary">
+          <el-row :gutter="40">
+            <el-col :span="8" class="main-info-item">
+              <img src="@/assets/img/connections.png" width="40" height="40" alt="connections" />
+              <p>{{ $t('Dashboard.connectionNumber') }}</p>
+              <div class="num">{{ _formatNumber(currentMetrics.connections) }}</div>
+            </el-col>
+            <el-col :span="8" class="main-info-item">
+              <img src="@/assets/img/topics.png" width="40" height="40" alt="topics" />
+              <p>{{ $t('Dashboard.topics') }}</p>
+              <div class="num">{{ _formatNumber(currentMetrics.routes) }}</div>
+            </el-col>
+            <el-col :span="8" class="main-info-item">
+              <div>
+                <img src="@/assets/img/subs.png" width="40" height="40" alt="subs" />
+                <p>{{ $t('Dashboard.subscriptionNumber') }}</p>
+                <div class="num">{{ _formatNumber(currentMetrics.subscriptions) }}</div>
               </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+      <el-col :span="9">
+        <el-card class="rate-card">
+          <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
+            <el-radio-button label="byte" />
+            <el-radio-button label="msg" />
+          </el-radio-group>
+          <div class="rate-item">
+            <div>
+              <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
+              <span>{{ _formatNumber(currentMetrics.received_rate) }}</span>
+              <span class="unit"
+                >{{ rateType === 'byte' ? $t('Dashboard.byte') : $t('Dashboard.strip') }}/{{
+                  $t('Dashboard.second')
+                }}</span
+              >
             </div>
-          </el-card>
-        </el-col>
-
-        <el-col :span="12">
-          <el-card shadow="never" class="app-card">
-            <div class="app-card-title">
-              {{ $t('Dashboard.currentMessageInRate') }}
+            <div class="line-wrapper">
+              <simple-line :value="currentMetricsLogs.received_rate" type="bar" color="#3D7FF9" />
             </div>
-            <div class="content">
-              <span>{{ currentMetrics.received_rate }}</span>
-              <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
-              <div class="flux-wrapper">
-                <simple-line :value="currentMetricsLogs.received_rate" type="bar" />
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-
-        <el-col :span="12">
-          <el-card shadow="never" class="app-card">
-            <div class="app-card-title">
-              {{ $t('Dashboard.currentMessageOutRate') }}
-            </div>
-            <div class="content">
-              <span>{{ currentMetrics.sent_rate }}</span>
-              <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
-              <div class="flux-wrapper">
-                <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#34c388" />
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-
-      <NodesGraphCard class="nodes-graph" />
-    </div>
-    <polyline-cards></polyline-cards>
-
-    <div v-if="false" class="license-card">
-      <div class="license-title">{{ $t('Dashboard.license') }}</div>
-
-      <ul class="license-field">
-        <li v-if="license.customer_type !== evaluation" class="item">
-          <span class="key">{{ $t('Dashboard.customer') }}:</span>
-          <span class="value">{{ license.customer }}</span>
-        </li>
-
-        <li class="item">
-          <span class="key">
-            {{ $t('Dashboard.numberOfConnectionLines') }}:
-            {{ formatConnection }}
-          </span>
-          <div class="content">
-            <el-progress
-              :stroke-width="16"
-              :format="() => ''"
-              :percentage="licensePercentage"
-              :color="getProgressColor(licensePercentage, '#00A890FF')"
-            ></el-progress>
           </div>
-        </li>
-        <template v-if="license.customer_type !== evaluation">
-          <li class="item">
-            <span class="key">{{ $t('Dashboard.issuanceOfEmail') }}:</span>
-            <span class="value">{{ license.email }}</span>
-          </li>
-
-          <li class="item">
-            <span class="key">{{ $t('Dashboard.issuedAt') }}:</span>
-            <span class="value broker">{{ license.issued_at }}</span>
-          </li>
-
-          <li class="item">
-            <span class="key">{{ $t('Dashboard.expireAt') }}:</span>
-            <span class="value broker">{{ license.expiry_at }}</span>
-          </li>
-        </template>
-      </ul>
-    </div>
+          <div class="rate-item">
+            <div>
+              <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
+              <span>{{ _formatNumber(currentMetrics.sent_rate) }}</span>
+              <span class="unit"
+                >{{ rateType === 'byte' ? $t('Dashboard.byte') : $t('Dashboard.strip') }}/{{
+                  $t('Dashboard.second')
+                }}</span
+              >
+            </div>
+            <div class="line-wrapper">
+              <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#5D4EFF" />
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <h2>{{ $t('Dashboard.networkGraph') }}</h2>
+    <el-card class="cluster-card block">
+      <NodesGraphCard class="nodes-graph" />
+    </el-card>
+    <polyline-cards></polyline-cards>
   </div>
 </template>
 
@@ -121,22 +79,18 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onUnmounted, Ref } from 'vue'
+import { ref, reactive, onUnmounted, Ref } from 'vue'
 import SimpleLine from './components/SimpleLine.vue'
 import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
 import Moment from 'moment'
 import { loadCurrentMetrics } from '@/api/common'
-import { calcPercentage, getProgressColor } from '@/common/utils'
 
 interface MetricData {
   x: Array<string>
   y: Array<number>
 }
 
-const evaluation: Ref<number> = ref(10)
-
-let license: Record<string, number | boolean> = reactive({})
 const currentMetricsLogs: Record<string, MetricData> = reactive({
   received_rate: {
     x: Array(32).fill('N/A'),
@@ -146,39 +100,27 @@ const currentMetricsLogs: Record<string, MetricData> = reactive({
     x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
-  subscriptions: {
-    x: Array(32).fill('N/A'),
-    y: Array(32).fill(0),
-  },
 })
 const currentMetrics: Ref<Record<string, number>> = ref({
-  node: 0, // 节点数
-  received_rate: 0, // 消息 in 速率
-  sent_rate: 0, // 消息 out 速率
-  subscriptions: 0, // 订阅数
-  connections: 0, // 连接数
+  node: 0, // Nodes number
+  received_rate: 0, // Incomming Rate
+  sent_rate: 0, // Outgoing Rate
+  subscriptions: 0, // Subs number
+  connections: 0, // Connections number
+  routes: 0, // Topics
 })
 let timerData: undefined | number = undefined
 
-const licensePercentage = computed(() => {
-  const { connections } = currentMetrics.value
-  const { max_connections } = license
-  return calcPercentage(connections, max_connections)
-})
-
-const formatConnection = computed(() => {
-  const { connections } = currentMetrics.value
-  const { max_connections } = license
-  return `${_formatNumber(connections)} / ${_formatNumber(max_connections as number)}`
-})
+const rateType = ref<'msg' | 'byte'>('msg')
 
 const _formatNumber = (num: number) => {
+  if (num === undefined) return 0
   let number = String(parseInt(num.toString()))
   return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, '$1,')
 }
 
 const loadData = async () => {
-  const state = await loadCurrentMetrics().catch(() => {})
+  const state = await loadCurrentMetrics()
   if (!state) {
     return
   }
@@ -190,7 +132,7 @@ const getNow = () => {
   return Moment().format('HH:mm:ss')
 }
 const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
-  ;['received_rate', 'sent_rate', 'subscriptions'].forEach((key) => {
+  ;['received_rate', 'sent_rate'].forEach((key) => {
     currentMetricsLogs[key] = currentMetricsLogs[key] || {
       x: [],
       y: [],
@@ -217,58 +159,65 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-.basic-info {
-  display: flex;
-  .basic-graph,
-  .nodes-graph {
-    overflow: hidden;
-    width: 50%;
+<style lang="scss">
+.overview {
+  .block {
+    margin-bottom: 24px;
   }
-  .nodes-graph {
-    margin: 10px;
-    border: 1px solid #ececef;
+  h2 {
+    margin-bottom: 24px;
   }
-}
-.app-card {
-  margin: 10px;
-
-  .app-card-title {
-    font-size: 14px;
-    margin-bottom: 15px;
-    color: rgba(0, 0, 0, 0.4);
-  }
-
-  .content {
-    color: rgba(0, 0, 0, 0.85);
-    min-height: 90px;
-    font-size: 30px;
-    position: relative;
-
-    .unit {
-      font-size: 14px;
-      margin-left: 2px;
-    }
-
-    .flux-wrapper {
-      width: 100%;
-      box-sizing: border-box;
-
-      :deep(.simple-line) {
-        box-sizing: border-box;
-        height: 32px;
+  .main-info-card.el-card {
+    height: 195px;
+    .el-card__body {
+      padding: 36px;
+      .main-info-item {
+        p {
+          font-size: 16px;
+          color: var(--color-text-secondary);
+        }
+        .num {
+          color: var(--color-title-primary);
+          font-size: 24px;
+        }
       }
     }
-
-    .charts {
-      margin-top: 6px;
+  }
+  .rate-card {
+    height: 195px;
+    .el-card__body {
+      height: 100%;
+      .rate-item {
+        height: 50%;
+        margin-bottom: 8px;
+      }
+    }
+    .rate-label {
+      color: var(--color-text-secondary);
+      padding-right: 10px;
+    }
+    span {
+      color: var(--color-text-primary);
+    }
+    .line-wrapper {
+      width: 100%;
+      box-sizing: border-box;
+      margin: 16px 0;
+      .simple-line {
+        box-sizing: border-box;
+        height: 36px;
+      }
+    }
+    .rate-type-radio {
+      position: absolute;
+      right: 10px;
+      top: 16px;
     }
   }
-}
-.tip-checkbox {
-  margin-top: 20px;
-  .el-checkbox {
-    color: #aaa;
+  .cluster-card {
+    .el-card__body {
+      padding: 0px;
+    }
   }
 }
 </style>

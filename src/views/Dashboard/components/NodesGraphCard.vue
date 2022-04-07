@@ -1,16 +1,92 @@
 <template>
   <div class="graph-wrapper">
-    <div class="graph-title">{{ $t('Dashboard.networkGraph') }}</div>
     <div class="graph-entity" ref="graph" v-loading.lock="infoLoading">
       <div class="nodes-graph-container">
+        <span class="node-count">
+          <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
+          {{ $t('Dashboard.node', { n: nodes.length }) }}
+        </span>
         <NodesGraph :data="nodesGraphData" @change="selectNode" />
       </div>
-      <!-- <div id="graph-entity"></div> -->
       <div class="node-detail">
         <div class="node-info" v-if="currentInfo">
-          <div class="node-title">{{ currentInfo.node['node'] }}</div>
+          <!-- <div class="node-title">{{ currentInfo.node['node'] }}</div> -->
+          <div class="node-title">{{ tl('nodeData') }}</div>
           <div>
-            <el-row>
+            <el-row :gutter="24">
+              <el-col :span="12">
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('nodeName') }}: </label>
+                  <span class="node-item-content">{{ currentInfo.node['node'] }}</span>
+                </div>
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('uptime') }}: </label>
+                  <span class="node-item-content">{{ getDuration(currentInfo.node.uptime) }}</span>
+                </div>
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('topics') }}: </label>
+                  <span class="node-item-content">{{ currentInfo.stats['topics.count'] }}</span>
+                </div>
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('currentConnection') }}: </label>
+                  <span class="node-item-content">{{
+                    currentInfo.stats['connections.count']
+                  }}</span>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('Subscription') }}: </label>
+                  <span class="node-item-content">{{
+                    currentInfo.stats['subscriptions.count']
+                  }}</span>
+                </div>
+                <div class="node-item">
+                  <label class="node-item-label">Max Fds: </label>
+                  <span class="node-item-content">{{ currentInfo.node['max_fds'] }}</span>
+                </div>
+                <div class="node-item">
+                  <label class="node-item-label">CPU Load: </label>
+                  <span class="node-item-content">
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      content="load1/load5/load15"
+                      placement="right"
+                    >
+                      <span>
+                        {{
+                          currentInfo.node['load1'] +
+                          '/' +
+                          currentInfo.node['load5'] +
+                          '/' +
+                          currentInfo.node['load15']
+                        }}
+                      </span>
+                    </el-tooltip>
+                  </span>
+                </div>
+                <div class="node-item">
+                  <span class="node-item-label">{{ tl('erlangVMMemory') }}: </span>
+                  <span class="node-item-content">
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="`${currentInfo?.node?.['memory_used']}\\${currentInfo?.node?.['memory_total']}`"
+                      placement="right"
+                    >
+                      <el-progress
+                        :stroke-width="14"
+                        :format="() => ''"
+                        :percentage="calcMemoryPercentage"
+                        :color="getProgressColor(calcPercentage)"
+                      ></el-progress>
+                    </el-tooltip>
+                  </span>
+                </div>
+              </el-col>
+            </el-row>
+            <!-- <el-row>
               <el-col :span="10">{{ tl('uptime') }}:</el-col>
               <el-col :span="14">{{ getDuration(currentInfo.node.uptime) }}</el-col>
             </el-row>
@@ -63,14 +139,14 @@
                   >
                     <el-progress
                       :stroke-width="14"
-                      :format="() => {}"
+                      :format="() => ''"
                       :percentage="calcMemoryPercentage"
                       :color="getProgressColor(calcPercentage)"
                     ></el-progress>
                   </el-tooltip>
                 </div>
               </el-col>
-            </el-row>
+            </el-row> -->
           </div>
         </div>
       </div>
@@ -119,7 +195,7 @@ let getNodes = async () => {
 }
 
 let getStats = async () => {
-  let res = await loadStats().catch(() => {})
+  let res = await loadStats().catch(() => [])
   if (res) {
     stats.value = res
   } else {
@@ -179,49 +255,47 @@ onMounted(async () => {
 
 .nodes-graph-container {
   flex-grow: 1;
-  height: 268px;
-  padding: 20px 0 20px 20px;
+  height: 240px;
+  padding: 16px 0;
+  position: relative;
+  .node-count {
+    position: absolute;
+    top: 14px;
+    left: 12px;
+    border-radius: 8px;
+    padding: 6px 12px;
+    color: #646d7e;
+    background-color: #ebf8fe;
+    display: flex;
+    align-items: center;
+    img {
+      margin-right: 6px;
+    }
+  }
 }
 
 .node-detail {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  color: #1d1d1d;
-
+  width: 66.66%;
+  height: 240px;
+  background: var(--color-bg-split);
+  padding: 24px;
   .node-title {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 20px;
-    font-weight: 700;
-    margin-left: 10px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    color: var(--color-title-primary);
   }
-  .node-info {
-    margin: 20px;
-    flex-grow: 1;
-    padding: 10px;
-    background: linear-gradient(33deg, #f8fdfd 0%, #f8faff 46%, #fbfaff 100%);
-    overflow: hidden;
-  }
-  .el-row {
-    line-height: 1.8;
-    .el-col:first-child {
-      color: #8d96a2;
-      word-break: break-all;
-      padding-right: 5px;
-    }
-  }
-
-  .progress-wrap {
-    height: 100%;
+  .node-item {
+    margin: 16px 0;
     display: flex;
-    align-items: center;
-  }
-  .el-progress {
-    line-height: 1.8;
-    flex-grow: 1;
+    .node-item-label {
+      color: var(--color-text-secondary);
+      margin-right: 12px;
+    }
+    .progress-wrap {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
   }
 }
 </style>

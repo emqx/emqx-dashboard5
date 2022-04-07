@@ -232,6 +232,8 @@ export default defineComponent({
   margin-right: 12px;
   .el-icon {
     padding-left: 10px;
+    width: 24px;
+    height: 24px;
   }
   &:hover {
     background-color: var(--color-hover);

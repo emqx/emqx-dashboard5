@@ -1,17 +1,18 @@
-[data-theme="dark"] {
+[data-theme='dark'] {
   /* Background */
-  --color-bg-primary: #1B2028;
+  --color-bg-primary: #1b2028;
   --color-bg-split: #232933;
-  --color-bg-main: #F9FAFB;
+  --color-bg-main: #f9fafb;
+  --color-bg-popper: #fff;
   /* Text */
   --color-text-primary: #fff;
   --color-text-secondary: #808895;
   --color-title-primary: #fff;
   /* Border */
-  --color-border-primary: #D0D4DC;
-  --color-border-menu: #E7E6EF;
+  --color-border-primary: #d0d4dc;
+  --color-border-menu: #e7e6ef;
   /* Colors */
-  --color-primary: #00B173;
-  --color-hover: #E6FBF4;
-  --color-stream: #5D4EFF;
+  --color-primary: #00b173;
+  --color-hover: #e6fbf4;
+  --color-stream: #5d4eff;
 }

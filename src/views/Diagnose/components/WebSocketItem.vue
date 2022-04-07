@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="never">
+  <el-card>
     <div class="section-header">
       {{ $t('Tools.connectionConfiguration') }}
     </div>

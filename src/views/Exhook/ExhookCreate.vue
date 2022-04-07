@@ -4,7 +4,7 @@
       {{ tl('backList') }}
     </router-link>
     <div class="page-header-title">{{ tl('addExhook') }}</div>
-    <el-card shadow="never" class="app-card exhook-create-card">
+    <el-card class="app-card exhook-create-card">
       <ExhookForm ref="formCom" v-model="formData" />
       <div class="exhook-create-ft">
         <el-button type="primary" :loading="isSubmitting" @click="submit">
