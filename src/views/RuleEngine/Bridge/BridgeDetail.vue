@@ -35,7 +35,7 @@
             <BridgeItemOverview :bridge-msg="bridgeInfo" @reconnect="loadBridgeInfo" />
           </el-tab-pane>
           <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
-            <el-card shadow="never" class="app-card">
+            <el-card class="app-card">
               <div class="setting-area">
                 <bridge-http-config
                   v-if="bridgeInfo.type === 'http'"

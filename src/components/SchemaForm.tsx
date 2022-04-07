@@ -72,7 +72,7 @@ const SchemaForm = defineComponent({
     }
     const conditionCard = (properties: Properties) => {
       return (
-        <el-card shadow="never" class="app-card properties-card">
+        <el-card class="app-card properties-card">
           <el-row>{getComponents(properties, { col: 24 })}</el-row>
         </el-card>
       )

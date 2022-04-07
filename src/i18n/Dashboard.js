@@ -76,8 +76,8 @@ export default {
     en: 'Monitor',
   },
   nodeName: {
-    zh: '名称',
-    en: 'Name',
+    zh: '节点名称',
+    en: 'Node Name',
   },
   nodeData: {
     zh: '节点信息',
@@ -152,7 +152,7 @@ export default {
     en: 'Packages',
   },
   messageNumber: {
-    zh: '消息数',
+    zh: '消息数量',
     en: 'Messages',
   },
   traffic: {
@@ -175,6 +175,10 @@ export default {
     zh: '服务器状态',
     en: 'Broker status',
   },
+  node: {
+    zh: '{n} 节点',
+    en: '{n} Node | {n} Nodes',
+  },
   nodesNun: {
     zh: '节点数',
     en: 'Nodes',
@@ -184,8 +188,12 @@ export default {
     en: 'Nodes',
   },
   strip: {
-    zh: '条',
-    en: 'msg',
+    zh: ' 条',
+    en: ' msg',
+  },
+  byte: {
+    zh: ' 字节',
+    en: ' byte',
   },
   second: {
     zh: '秒',
@@ -196,16 +204,16 @@ export default {
     en: 'Outgoing Messages',
   },
   currentMessageOutRate: {
-    zh: '消息流出速率',
-    en: 'Outgoing Rate',
+    zh: '消息流出速率：',
+    en: 'Outgoing Rate:',
   },
   messageIn: {
     zh: '消息流入',
     en: 'Incoming Messages',
   },
   currentMessageInRate: {
-    zh: '消息流入速率',
-    en: 'Incoming Rate',
+    zh: '消息流入速率：',
+    en: 'Incoming Rate:',
   },
   subscriptionNumber: {
     zh: '订阅数',

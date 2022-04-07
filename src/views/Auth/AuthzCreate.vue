@@ -6,7 +6,7 @@
     <div class="page-header-title">
       {{ $t('Auth.createAuthz') }}
     </div>
-    <el-card shadow="never" class="app-card">
+    <el-card class="app-card">
       <guide-bar
         :guide-list="getGuideList()"
         :active-guide-index-list="activeGuidesIndex"

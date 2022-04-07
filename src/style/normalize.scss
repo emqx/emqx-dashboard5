@@ -26,6 +26,9 @@
     'hover-border-color': var(--color-primary),
     'border-color': var(--color-border-primary),
   ),
+  $radio: (
+    'input-border-color': var(--color-border-primary),
+  ),
 );
 
 @use "element-plus/theme-chalk/src/index";
@@ -33,6 +36,7 @@
 /* Root Colors */
 :root {
   --el-border-radius-base: 8px;
+  --el-border: var();
   --el-color-primary: var(--color-primary);
   --el-text-color-regular: var(--color-text-primary);
   --el-text-color-primary: var(--color-text-primary);
@@ -41,6 +45,7 @@
   --el-color-danger: #E44242;
   --el-color-warning: #FB9237;
   --el-color-info: #7A7B80;
+  --el-box-shadow-light: 0px 2px 4px 0px #686ba421;
 }
 
 /* Menu */
@@ -141,6 +146,9 @@
 }
 
 /* Progress */
+.el-progress {
+  display: inline-block;
+}
 .el-progress-bar {
   &__outer {
     border-radius: 1px;
@@ -294,6 +302,12 @@
     border: none
   }
 }
+.el-popper.is-dark {
+  background: var(--color-bg-popper);
+  .el-popper__arrow::before {
+    background: var(--color-bg-popper);
+  }
+}
 
 /* Popover */
 .el-popover {
@@ -342,6 +356,19 @@
 /* Card */
 .el-card {
   border: none;
+  position: relative;
+  &.top-primary {
+    &:before {
+      position: absolute;
+      content: "";
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 4px;
+      border-radius: 0px;
+      background: linear-gradient(317deg, #866DFF 0%, #75C7F5 32%, #1FCA6D 100%);
+    }
+  }
 }
 
 /* Loading */
@@ -377,4 +404,10 @@
 }
 .el-form-item__content>.el-row {
   width: 100%;
+}
+
+/* Radio */
+.el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background: var(--color-hover);
+  color: var(--color-primary);
 }

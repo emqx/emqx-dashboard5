@@ -1,20 +1,44 @@
 <template>
   <div class="polyline-cards">
-    <el-row>
-      <template v-for="item in dataTypeFilter" :key="item.value">
-        <el-col :span="8">
-          <el-card shadow="never" class="polyline-card">
-            <div class="card-title">{{ item.text }}</div>
-            <polyline-chart
-              :chart-id="`${item.value}-polyline`"
-              :y-title="[item.text]"
-              :chart-data="metricLog[item.value]"
-              :chartColors="chartColorList[item.value]"
-            ></polyline-chart>
-          </el-card>
-        </el-col>
-      </template>
-    </el-row>
+    <div class="block">
+      <h2>{{ $t('Dashboard.messageNumber') }}</h2>
+      <el-row :gutter="26">
+        <template v-for="item in messageDataTypeFilter" :key="item.value">
+          <el-col :span="8">
+            <el-card class="polyline-card">
+              <div class="card-title">{{ item.text }}</div>
+              <polyline-chart
+                :chart-id="`${item.value}-polyline`"
+                :y-title="[item.text]"
+                :chart-data="metricLog[item.value]"
+                :chartColors="chartColorList[item.value]"
+              ></polyline-chart>
+            </el-card>
+          </el-col>
+        </template>
+      </el-row>
+    </div>
+    <div class="block">
+      <h2>
+        {{ $t('Dashboard.connection') }} / {{ $t('Dashboard.topics') }} /
+        {{ $t('Dashboard.subscription') }}
+      </h2>
+      <el-row :gutter="26">
+        <template v-for="item in connectionDataTypeFilter" :key="item.value">
+          <el-col :span="8">
+            <el-card class="polyline-card">
+              <div class="card-title">{{ item.text }}</div>
+              <polyline-chart
+                :chart-id="`${item.value}-polyline`"
+                :y-title="[item.text]"
+                :chart-data="metricLog[item.value]"
+                :chartColors="chartColorList[item.value]"
+              ></polyline-chart>
+            </el-card>
+          </el-col>
+        </template>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -44,21 +68,23 @@ const chartDataFill = (length: number): ChartData => {
   return Array.from({ length }, () => ({ xData: [], yData: [] }))
 }
 
-const dataTypeMap = reactive({
-  [ChartType.Connections]: t('Dashboard.currentConnection'),
-  [ChartType.Routes]: t('Dashboard.topics'),
-  [ChartType.Subscriptions]: t('Dashboard.Subscription'),
+const messageDataTypeMap = reactive({
   [ChartType.Received]: t('Dashboard.messageIn'),
   [ChartType.Sent]: t('Dashboard.messageOut'),
   [ChartType.Dropped]: t('Dashboard.messageDrop'),
 })
-const metricLog: Record<ChartType, ChartData> = reactive({
+const connectionDataTypeMap = reactive({
+  [ChartType.Connections]: t('Dashboard.currentConnection'),
+  [ChartType.Routes]: t('Dashboard.topics'),
+  [ChartType.Subscriptions]: t('Dashboard.Subscription'),
+})
+const metricLog: Record<string, ChartData> = reactive({
   [ChartType.Connections]: chartDataFill(32),
   [ChartType.Routes]: chartDataFill(32),
   [ChartType.Subscriptions]: chartDataFill(32),
+  [ChartType.Received]: chartDataFill(32),
   [ChartType.Sent]: chartDataFill(32),
   [ChartType.Dropped]: chartDataFill(32),
-  [ChartType.Received]: chartDataFill(32),
   [ChartType.SentBytes]: chartDataFill(32),
   [ChartType.ReceivedBytes]: chartDataFill(32),
 })
@@ -72,27 +98,33 @@ const dataTypeList: Array<ChartType> = reactive([
 ])
 const timerMetrics: Ref<null | number> = ref(null)
 
-const dataTypeFilter = computed(() => {
-  return Object.entries(dataTypeMap).map(([value, text]) => ({
+const messageDataTypeFilter = computed(() => {
+  return Object.entries(messageDataTypeMap).map(([value, text]) => ({
     text,
     value,
   }))
 })
-const chartColorList = computed(() => {
+const connectionDataTypeFilter = computed(() => {
+  return Object.entries(connectionDataTypeMap).map(([value, text]) => ({
+    text,
+    value,
+  }))
+})
+const chartColorList = computed<Record<string, string[]>>(() => {
   const getLineColors = (index: number) => {
-    const totalColors = ['#22BB7A', '#4065E0', '#EEC90D', '#07E3E4', '#6ECAFA', '#AF79FF']
+    const totalColors = ['#3D7FF9', '#5D4EFF', '#757789', '#00A890', '#F49845', '#66CFDA']
     // Swap the first and index positions
     const changedColorArr = [...totalColors.splice(0, 1, totalColors[index])]
     totalColors.splice(index, 1, changedColorArr[0])
     return totalColors
   }
   return {
-    dropped: getLineColors(0),
-    connections: getLineColors(1),
-    routes: getLineColors(2),
-    subscriptions: getLineColors(3),
-    sent: getLineColors(4),
-    received: getLineColors(5),
+    received: getLineColors(0),
+    sent: getLineColors(1),
+    dropped: getLineColors(2),
+    connections: getLineColors(3),
+    routes: getLineColors(4),
+    subscriptions: getLineColors(5),
   }
 })
 
@@ -131,16 +163,12 @@ onUnmounted(clearTimer)
   .big-card,
   .polyline-card {
     position: relative;
-    margin: 10px;
-
     .card-title {
       font-size: 16px;
-      color: #333;
-      font-weight: bold;
+      color: var(--color-title-primary);
       margin: 2px 0 10px 6px;
     }
   }
-
   .polyline-card {
     height: 255px;
   }

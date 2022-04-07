@@ -10,7 +10,7 @@
       <div class="page-header-title">
         {{ tl('createBridge') }}
       </div>
-      <el-card shadow="never" class="app-card">
+      <el-card class="app-card">
         <el-row>
           <el-col :span="12">
             <el-steps :active="stepActive" finish-status="success">

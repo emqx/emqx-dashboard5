@@ -13,7 +13,7 @@
         :name="item.name"
       >
         <p class="zone-tip">{{ tl('zoneTip') }}</p>
-        <el-card shadow="never" class="app-card zone-card">
+        <el-card class="app-card zone-card">
           <schema-form
             path="/configs/zones"
             :form="configs[item.name]"

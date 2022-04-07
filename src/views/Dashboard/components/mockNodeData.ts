@@ -1,57 +1,56 @@
 import { NodeStatus } from '@/types/enum'
 
+const nodeItem = {
+  connections: 0,
+  load1: '6.42',
+  load15: '3.70',
+  load5: '3.91',
+  log_path: 'not found',
+  max_fds: 256,
+  memory_total: '124.81M',
+  memory_used: '83.57M',
+  node: 'emqx@127.0.0.1',
+  node_status: 'Running',
+  otp_release: '24.2.1-1/12.2.1',
+  process_available: 2097152,
+  process_used: 695,
+  role: 'core',
+  sys_path: '/Users/reedkinple/EMQX/backend/emqx/_build/emqx/rel/emqx',
+  uptime: 2732915,
+  version: '5.0.0-rc.1-9ed44e3b',
+}
+
 const statsItem = {
-  'channels.count': 2,
-  'channels.max': 2,
-  'connections.count': 2,
-  'connections.max': 2,
-  'delayed.count': 4,
-  'delayed.max': 4,
-  'live_connections.count': 1,
-  'live_connections.max': 2,
+  'channels.count': 0,
+  'channels.max': 0,
+  'connections.count': 0,
+  'connections.max': 0,
+  'delayed.count': 0,
+  'delayed.max': 0,
+  'live_connections.count': 0,
+  'live_connections.max': 0,
   node: 'emqx@127.0.0.1',
   'retained.count': 3,
   'retained.max': 3,
-  'routes.count': 1,
-  'routes.max': 3,
-  'sessions.count': 2,
-  'sessions.max': 2,
-  'suboptions.count': 1,
-  'suboptions.max': 3,
-  'subscribers.count': 1,
-  'subscribers.max': 3,
-  'subscriptions.count': 1,
-  'subscriptions.max': 3,
+  'routes.count': 0,
+  'routes.max': 0,
+  'sessions.count': 0,
+  'sessions.max': 0,
+  'suboptions.count': 0,
+  'suboptions.max': 0,
+  'subscribers.count': 0,
+  'subscribers.max': 0,
+  'subscriptions.count': 0,
+  'subscriptions.max': 0,
   'subscriptions.shared.count': 0,
   'subscriptions.shared.max': 0,
-  'topics.count': 1,
-  'topics.max': 3,
+  'topics.count': 0,
+  'topics.max': 0,
 }
-
-const nodeItem = {
-  connections: 2,
-  load1: '0.00',
-  load15: '0.00',
-  load5: '0.00',
-  log_path: 'not found',
-  max_fds: 1024,
-  memory_total: '330.37M',
-  memory_used: '253.98M',
-  node: 'emqx@127.0.0.1',
-  node_status: 'Running',
-  otp_release: '23.3.1/11.2',
-  process_available: 2097152,
-  process_used: 477,
-  role: 'core',
-  sys_path: '/home/ubuntu/DDDHuang/emqx/_build/emqx/rel/emqx',
-  uptime: 1028000536,
-  version: '5.0.0-beta.4-9a4a8ec0',
-}
-
-const length = 6
 
 const nodes = []
 const stats = []
+const length = 5
 for (let i = 0; i < length; i += 1) {
   const node = `emqx${i}${i}${i}@127.0.0.1`
   nodes.push({
