@@ -233,7 +233,7 @@ export default defineComponent({
     .el-sub-menu__title,
     .el-menu-item {
       margin: 0px 6px;
-      padding: 0px 13px !important;
+      padding: 0px 20px !important;
     }
     .menu-item-title {
       padding-left: 26px;

@@ -163,9 +163,13 @@ export default defineComponent({
     z-index: 100;
     .footer-menu-item {
       transition: all 0.3s;
-      color: var(--color-text-primary);
+      .iconfont {
+        color: var(--color-text-secondary);
+      }
       &:hover {
-        color: var(--color-primary);
+        .iconfont {
+          color: var(--color-primary);
+        }
       }
       &.rotate {
         transform: rotate(180deg);
@@ -224,6 +228,6 @@ export default defineComponent({
 
 .top-submenu {
   transition: none;
-  padding: 0 30px;
+  padding: 0 22px;
 }
 </style>
