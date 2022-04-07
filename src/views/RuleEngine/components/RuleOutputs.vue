@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="never" class="app-card">
+  <el-card class="app-card">
     <div class="part-header">{{ tl('output') }}</div>
     <div class="sub-block-desc">
       <span>{{ tl('outputDesc') }}</span>

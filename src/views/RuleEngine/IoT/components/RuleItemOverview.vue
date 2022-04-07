@@ -1,6 +1,6 @@
 <template>
   <div class="rule-item-overview">
-    <el-card shadow="never" class="app-card detail-sub-card">
+    <el-card class="app-card detail-sub-card">
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
         <!-- <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
@@ -61,7 +61,7 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-card shadow="never" class="app-card detail-sub-card">
+    <el-card class="app-card detail-sub-card">
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
       </div>

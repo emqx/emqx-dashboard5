@@ -37,7 +37,7 @@
     </div>
     <template v-if="!clientDetailLock">
       <template v-if="doesTheClientExist">
-        <el-card shadow="never" v-loading.lock="clientDetailLock">
+        <el-card v-loading.lock="clientDetailLock">
           <div class="part-header">
             {{ $t('Clients.connectionInfo') }}
           </div>

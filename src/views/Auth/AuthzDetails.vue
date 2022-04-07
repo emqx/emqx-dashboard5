@@ -26,7 +26,7 @@
         <built-in-manager></built-in-manager>
       </el-tab-pane>
       <el-tab-pane v-else :label="$t('Auth.config')" :lazy="true">
-        <el-card shadow="never">
+        <el-card>
           <database-config
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
             ref="formCom"

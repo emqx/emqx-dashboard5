@@ -6,7 +6,7 @@
     <div class="page-header-title">
       {{ $t('Auth.authzSetting') }}
     </div>
-    <el-card shadow="never" class="app-card">
+    <el-card class="app-card">
       <el-row>
         <el-col :span="12">
           <el-form :model="record" label-position="top">

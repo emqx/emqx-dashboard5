@@ -46,10 +46,10 @@ let chartInstance: ECharts | null = null
 const option: EChartsOption = reactive({
   color: [props.color],
   grid: {
-    left: 0, // 默认是80px
-    top: 0, // 默认是60px
-    right: 0, // 默认80px
-    bottom: 0, // 默认60px
+    left: 0, // default 80px
+    top: 0, // default 60px
+    right: 0, // default 80px
+    bottom: 0, // default 60px
   },
   tooltip: {
     trigger: 'axis',
@@ -59,7 +59,6 @@ const option: EChartsOption = reactive({
   },
   xAxis: {
     type: 'category',
-    // boundaryGap: false,
     data: props.value.x,
     triggerEvent: true,
     axisLine: {

@@ -19,7 +19,7 @@
     </div>
     <el-tabs v-model="activeName">
       <el-tab-pane :label="tl('overview')" name="overview">
-        <el-card shadow="never" class="app-card exhook-metrics-card">
+        <el-card class="app-card exhook-metrics-card">
           <h6 class="block-title metrics-title">{{ tl('metricsData') }}</h6>
           <div class="metrics-data-content">
             <el-row>
@@ -46,7 +46,7 @@
             </el-row>
           </div>
         </el-card>
-        <el-card shadow="never" class="app-card">
+        <el-card class="app-card">
           <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
           <el-button type="primary" :loading="isSubmitting" @click="updateExhook">
             {{ $t('Base.update') }}

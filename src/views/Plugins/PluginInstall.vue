@@ -4,7 +4,7 @@
       {{ tl('backList') }}
     </router-link>
     <div class="page-header-title">{{ tl('installPlugin') }}</div>
-    <el-card shadow="never" class="app-card plugin-install-card">
+    <el-card class="app-card plugin-install-card">
       <el-upload
         class="plugin-uploader"
         drag
