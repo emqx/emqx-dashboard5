@@ -16,7 +16,7 @@
           <div class="sub-block-hd">
             <p class="hd-title">{{ tl('SQL') }}</p>
             <div>
-              <el-button type="text" size="small" @click="testSQL(item.sql)">
+              <el-button type="text" size="small" @click="testSQL(item)">
                 {{ tl('testsql') }}
               </el-button>
               <el-button type="text" size="small" @click="useSQL(item.sql)">
@@ -76,25 +76,26 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, defineProps, computed, defineEmits, WritableComputedRef } from 'vue'
+import { ref, Ref, defineProps, computed, defineEmits, WritableComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { CopyDocument } from '@element-plus/icons-vue'
-import { copyToClipboard, createRandomString } from '@/common/tools'
+import { copyToClipboard, createRandomString, stringifyObjSafely } from '@/common/tools'
 import { ElMessage } from 'element-plus'
 import Monaco from '@/components/Monaco.vue'
+import SQLTemplates from '@/common/SQLTemplates'
 
-const { t } = useI18n()
+interface TemplateItem {
+  title: string
+  scene: string
+  sql: string
+  input: string
+  outputs: string
+}
+
+const { t, locale } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
-const templateList = ref([
-  {
-    title: 'Process messages reported by devices',
-    scene: 'scene scene scene scene',
-    sql: 'SELECT',
-    input: '{"msg":100}',
-    outputs: '{"msg":100}',
-  },
-])
+const templateList: Ref<Array<TemplateItem>> = ref([])
 
 const props = defineProps({
   modelValue: {
@@ -113,8 +114,22 @@ const showDrawer: WritableComputedRef<boolean> = computed({
   },
 })
 
-const testSQL = (SQLContent: string) => {
-  emit('test-sql', SQLContent)
+const initTemplateList = () => {
+  templateList.value = SQLTemplates.map((item) => {
+    const { title, scene, input, outputs, sql } = item
+    const lang = locale.value === 'zh' ? 'zh' : 'en'
+    return {
+      sql,
+      title: title[lang],
+      scene: scene[lang],
+      input: stringifyObjSafely(input, 2),
+      outputs: stringifyObjSafely(outputs, 2),
+    }
+  })
+}
+
+const testSQL = ({ sql, input }: TemplateItem) => {
+  emit('test-sql', { sql, input })
   showDrawer.value = false
 }
 
@@ -131,6 +146,8 @@ const copyText = async (text: string) => {
     ElMessage.error(t('Base.opErr'))
   }
 }
+
+initTemplateList()
 </script>
 
 <style lang="scss">

@@ -91,9 +91,15 @@
             <el-button type="primary" plain @click="openTestDialog()" size="large">
               {{ tl('testsql') }}
             </el-button>
-            <!-- <el-button size="small" plain type="info" @click="showTemplateDrawer">
+            <el-button
+              class="btn-sql-temp"
+              size="small"
+              type="info"
+              plain
+              @click="showTemplateDrawer"
+            >
               {{ tl('SQLTemplates') }}
-            </el-button> -->
+            </el-button>
           </el-col>
         </el-row>
       </el-card>
@@ -105,6 +111,7 @@
     :sql="testSQL"
     :ingress-bridge-list="ingressBridgeList"
     :event-list="ruleEventsList"
+    :customInput="inputForTest"
     @save="saveSQLFromTest"
   />
   <SQLTemplateDrawer
@@ -189,6 +196,7 @@ const fieldLabelMap = {
 }
 
 const testSQL = ref('')
+const inputForTest = ref('')
 
 const { createRequiredRule } = useFormRules()
 const formCom = ref()
@@ -286,6 +294,7 @@ const loadIngressBridgeList = async () => {
 
 const openTestDialog = () => {
   syncData()
+  inputForTest.value = ''
   testDialog.value = true
 }
 
@@ -294,17 +303,13 @@ const showTemplateDrawer = () => {
 }
 
 const useSQLTemplate = (SQLTemp: string) => {
-  const { fieldStr, fromStr, whereStr } = getKeywordsFromSQL(SQLTemp)
-  sqlPartValue.value = {
-    from: transFromStrToFromArr(fromStr),
-    select: fieldStr,
-    where: whereStr,
-  }
   ruleValue.value.sql = SQLTemp
+  syncSQLDataToForm()
 }
 
-const testSQLTemplate = (SQLTemp: string) => {
-  testSQL.value = SQLTemp
+const testSQLTemplate = ({ sql, input }: { sql: string; input: string }) => {
+  testSQL.value = sql
+  inputForTest.value = input
   testDialog.value = true
 }
 
@@ -405,6 +410,9 @@ defineExpose({ validate })
   margin-bottom: 20px;
 }
 
+.el-button--info.is-plain.btn-sql-temp {
+  background-color: inherit;
+}
 .sql-ft {
   display: flex;
   justify-content: space-between;
