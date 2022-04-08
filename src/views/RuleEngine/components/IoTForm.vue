@@ -19,7 +19,7 @@
         <div class="part-header">{{ tl('filterData') }}</div>
         <div class="sub-block-desc">
           <span>{{ tl('ruleSQLDesc') }}</span>
-          <a href="emqx.com">{{ tl('doc') }}</a>
+          <a href="https://www.emqx.io">{{ tl('doc') }}</a>
         </div>
         <el-row v-if="briefEditType">
           <el-col :span="14">
