@@ -31,34 +31,58 @@
             <el-radio-button label="byte" />
             <el-radio-button label="msg" />
           </el-radio-group>
-          <div class="rate-item">
-            <div>
-              <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
-              <span>{{ _formatNumber(currentMetrics.received_rate) }}</span>
-              <span class="unit"
-                >{{ rateType === 'byte' ? $t('Dashboard.byte') : $t('Dashboard.strip') }}/{{
-                  $t('Dashboard.second')
-                }}</span
-              >
+          <template v-if="rateType === 'msg'">
+            <div class="rate-item">
+              <div>
+                <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
+                <span>{{ _formatNumber(currentMetrics.received_rate) }}</span>
+                <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
+              </div>
+              <div class="line-wrapper">
+                <simple-line :value="currentMetricsLogs.received_rate" type="bar" color="#3D7FF9" />
+              </div>
             </div>
-            <div class="line-wrapper">
-              <simple-line :value="currentMetricsLogs.received_rate" type="bar" color="#3D7FF9" />
+            <div class="rate-item">
+              <div>
+                <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
+                <span>{{ _formatNumber(currentMetrics.sent_rate) }}</span>
+                <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
+              </div>
+              <div class="line-wrapper">
+                <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#5D4EFF" />
+              </div>
             </div>
-          </div>
-          <div class="rate-item">
-            <div>
-              <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
-              <span>{{ _formatNumber(currentMetrics.sent_rate) }}</span>
-              <span class="unit"
-                >{{ rateType === 'byte' ? $t('Dashboard.byte') : $t('Dashboard.strip') }}/{{
-                  $t('Dashboard.second')
-                }}</span
-              >
+          </template>
+          <template v-else>
+            <div class="rate-item">
+              <div>
+                <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
+                <span>{{ _formatNumber(currentMetrics.received_bytes_rate) }}</span>
+                <span class="unit">{{ $t('Dashboard.byte') }}/{{ $t('Dashboard.second') }}</span>
+              </div>
+              <div class="line-wrapper">
+                <simple-line
+                  :value="currentMetricsLogs.received_bytes_rate"
+                  type="bar"
+                  color="#3D7FF9"
+                />
+              </div>
             </div>
-            <div class="line-wrapper">
-              <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#5D4EFF" />
+            <div class="rate-item">
+              <div>
+                <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
+                <span>{{ _formatNumber(currentMetrics.sent_bytes_rate) }}</span>
+                <span class="unit">{{ $t('Dashboard.byte') }}/{{ $t('Dashboard.second') }}</span>
+              </div>
+              <div class="line-wrapper">
+                <simple-line
+                  :value="currentMetricsLogs.sent_bytes_rate"
+                  type="bar"
+                  color="#5D4EFF"
+                />
+              </div>
             </div>
-          </div>
+          </template>
         </el-card>
       </el-col>
     </el-row>
@@ -100,11 +124,21 @@ const currentMetricsLogs: Record<string, MetricData> = reactive({
     x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
+  received_bytes_rate: {
+    x: Array(32).fill('N/A'),
+    y: Array(32).fill(0),
+  },
+  sent_bytes_rate: {
+    x: Array(32).fill('N/A'),
+    y: Array(32).fill(0),
+  },
 })
 const currentMetrics: Ref<Record<string, number>> = ref({
   node: 0, // Nodes number
   received_rate: 0, // Incomming Rate
   sent_rate: 0, // Outgoing Rate
+  received_bytes_rate: 0, // Incomming Bytes Rate
+  sent_bytes_rate: 0, // Outgoing Bytes Rate
   subscriptions: 0, // Subs number
   connections: 0, // Connections number
   routes: 0, // Topics
@@ -132,7 +166,7 @@ const getNow = () => {
   return Moment().format('HH:mm:ss')
 }
 const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
-  ;['received_rate', 'sent_rate'].forEach((key) => {
+  ;['received_rate', 'sent_rate', 'received_bytes_rate', 'sent_bytes_rate'].forEach((key) => {
     currentMetricsLogs[key] = currentMetricsLogs[key] || {
       x: [],
       y: [],
