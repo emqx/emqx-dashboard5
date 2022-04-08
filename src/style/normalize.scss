@@ -33,7 +33,10 @@
     'border-color': var(--color-border-table),
     'border': 1px solid var(--color-border-table),
     'header-text-color': var(--color-title-primary),
-  )
+  ),
+  $dialog: (
+    'border-radius': 8px,
+  ),
 );
 
 @use "element-plus/theme-chalk/src/index";
