@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, shallowRef } from 'vue'
 
 export default defineComponent({
   name: 'PolylineChart',
@@ -17,7 +17,6 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
-import 'echarts/lib/component/legend'
 
 const props = defineProps({
   chartId: {
@@ -67,7 +66,7 @@ const props = defineProps({
 })
 
 const seriesConfig: Ref<Array<any>> = ref([])
-const chart: Ref<undefined | any> = ref(undefined)
+const chart: Ref<undefined | any> = shallowRef(undefined)
 
 watch(
   () => props.chartData,
@@ -115,28 +114,21 @@ const drawChart = () => {
   setSeriesConfig()
   let Dom = document.getElementById(props.chartId)
 
-  // echarts.dispose(Dom)
   if (!chart.value) {
     chart.value = echarts.init(Dom)
   }
   const option = {
-    legend: {
-      bottom: props.legendBottom,
-      data: props.yTitle,
-      icon: 'circle',
-      itemWidth: 6,
-    },
     color: props.chartColors,
-    tooltip: {
-      trigger: 'axis',
-      confine: true,
-    },
     grid: {
       left: props.gridLeft,
       right: props.gridRight,
-      top: '3%',
-      bottom: '12%',
+      top: '5%',
+      bottom: '3%',
       containLabel: true,
+    },
+    tooltip: {
+      trigger: 'axis',
+      confine: true,
     },
     xAxis: {
       type: 'category',
@@ -149,9 +141,7 @@ const drawChart = () => {
       },
       axisLabel: {
         showMinLabel: false,
-        // textStyle: {
         color: props.axisColor.colorAxisLabel,
-        // },
       },
     },
     yAxis: {
@@ -165,18 +155,12 @@ const drawChart = () => {
         show: false,
       },
       axisLabel: {
-        // textStyle: {
         color: props.axisColor.colorAxisLabel,
-        // },
       },
       minInterval: 1,
     },
     series: seriesConfig.value,
   }
   chart.value?.setOption(option)
-}
-const reDrawEchart = () => {
-  echarts.dispose(chart.value)
-  drawChart()
 }
 </script>
