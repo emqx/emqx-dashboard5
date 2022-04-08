@@ -1,4 +1,4 @@
-import { onMounted, ref, onUnmounted, Ref, computed, ComputedRef } from 'vue'
+import { onMounted, ref, onUnmounted, Ref, computed, ComputedRef, nextTick } from 'vue'
 import G6, { Graph, ModelConfig, IGroup } from '@antv/g6'
 import { NodeItem, EdgeItem } from './topologyType'
 import useTopologyNodeTooltipNEvent from './useTopologyNodeTooltipNEvent'
@@ -106,6 +106,7 @@ export default (): {
   const bridgePartEdgeData: Ref<Array<EdgeItem>> = ref([])
 
   const topologyDiagramCanvasEle = ref()
+  let canvasHeight = 580
   let graphInstance: undefined | Graph = undefined
   const { setRuleList, setBridgeList, createNodeTooltip, handleNodeClickEvent } =
     useTopologyNodeTooltipNEvent()
@@ -128,6 +129,10 @@ export default (): {
       )
     })
   })
+
+  const getCanvasHeight = () => {
+    canvasHeight = window.innerHeight - 150
+  }
 
   const bindClickNodeEvent = () => {
     graphInstance?.on('node:click', handleNodeClickEvent)
@@ -156,13 +161,21 @@ export default (): {
     }
   }
 
-  const initialG6 = () => {
+  const setZoom = async () => {
+    const zoom = graphInstance?.getZoom()
+
+    if (zoom && zoom > 1.2) {
+      graphInstance?.zoomTo(1.2)
+      graphInstance?.fitCenter()
+    }
+  }
+
+  const initialG6 = async () => {
     const container = topologyDiagramCanvasEle.value
     if (isNoData.value || !container) {
       return
     }
     const width = container.scrollWidth
-    const height = 700
 
     const data = {
       nodes: [
@@ -179,8 +192,9 @@ export default (): {
     graphInstance = new G6.Graph({
       container,
       width,
-      height,
+      height: canvasHeight,
       fitView: true,
+      fitCenter: true,
       fitViewPadding: [32, 24, 32, 24],
       layout: {
         type: 'dagre',
@@ -202,6 +216,10 @@ export default (): {
     bindClickNodeEvent()
     graphInstance.data({ id: RULE_TOPOLOGY_ID, ...data })
     graphInstance.render()
+
+    graphInstance.on('afterrender', () => {
+      setZoom()
+    })
   }
 
   onMounted(async () => {
@@ -213,6 +231,8 @@ export default (): {
   onUnmounted(() => {
     graphInstance?.destroy && graphInstance.destroy()
   })
+
+  getCanvasHeight()
 
   return { isDataLoading, isNoData, topologyDiagramCanvasEle }
 }
