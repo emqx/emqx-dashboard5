@@ -90,6 +90,7 @@ const initEditor = () => {
     scrollbar: {
       verticalScrollbarSize: 6,
       horizontalScrollbarSize: 6,
+      alwaysConsumeMouseWheel: false,
     },
     // hover: {
     //   delay: 500,

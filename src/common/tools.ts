@@ -49,9 +49,9 @@ export const parseJSONSafely = (str: string): Record<string, any> | void => {
   }
 }
 
-export const stringifyObjSafely = (obj: Record<string, any>): string => {
+export const stringifyObjSafely = (obj: Record<string, any>, tabSpaces?: number): string => {
   try {
-    return JSON.stringify(obj)
+    return JSON.stringify(obj, null, tabSpaces)
   } catch (error) {
     console.error(error)
     return 'stringify error'
@@ -167,24 +167,49 @@ export const copyToClipboard = (text: string) => {
   return navigator.clipboard.writeText(text)
 }
 
-export const getKeywordsFromSQL = (sqlStr: string) => {
-  const sql = sqlStr.replace(/\n/g, ' ').trim()
+interface SQLKeywords {
+  fieldStr: string
+  fromStr: string
+  whereStr: string
+}
+
+export const handleSQLFromPartStatement = (fromStr: string): string => {
+  return fromStr
+    .trim()
+    .split(',')
+    .map((item) => {
+      const ret = item.trim()
+      return ret.replace(/'|"/g, '')
+    })
+    .join(', ')
+}
+
+/**
+ * If there is FOREACH in the SQL statement
+ * put the FOREACH and the following statements into the SELECT
+ */
+export const getKeywordsFromSQL = (sqlStr: string): SQLKeywords => {
+  const sql = sqlStr.trim()
   let fieldStr = ''
   let fromStr = ''
   let whereStr = ''
+  let matchResult = null
 
-  const matchResult = sql.match(/SELECT(.+)FROM(.+)WHERE(.+)/i) ?? sql.match(/SELECT(.+)FROM(.+)/i)
-  if (matchResult && matchResult.length >= 3) {
-    const [totalSQL, fields, from, where] = matchResult
-    fieldStr = fields.trim()
-    fromStr = from
-      .trim()
-      .split(',')
-      .map((item) => {
-        const ret = item.trim()
-        return ret.replace(/'|"/g, '')
-      })
-      .join(', ')
+  const isForeachReg = /^FOREACH/i
+  if (isForeachReg.test(sql)) {
+    matchResult = sql.match(
+      /^(?<foreach>FOREACH((.|\n)+))FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))?/i,
+    )
+  } else {
+    matchResult = sql.match(
+      /^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))?/i,
+    )
+  }
+  if (matchResult) {
+    const { groups } = matchResult
+    const { foreach = '', select = '', from = '', where = '' } = groups || {}
+    fieldStr = foreach ? foreach : select.trim()
+    fromStr = handleSQLFromPartStatement(from)
     if (where) {
       whereStr = where.trim()
     }
@@ -194,6 +219,17 @@ export const getKeywordsFromSQL = (sqlStr: string) => {
     fromStr,
     whereStr,
   }
+}
+
+export const formatSELECTStatement = (str: string): string => {
+  const isForeach = /^FOREACH(.|\n)+/i.test(str)
+  if (isForeach) {
+    return str
+  }
+  return str
+    .split(',')
+    .map((item) => item.trim())
+    .join(',\n  ')
 }
 
 export const getBridgeKey = ({
@@ -210,7 +246,7 @@ const ONE_KB = 1024
 const ONE_MB = ONE_KB * 1024
 const ONE_GB = ONE_MB * 1024
 
-export const transMemorySizeNumToStr = (byte: number) => {
+export const transMemorySizeNumToStr = (byte: number): string => {
   if (byte < ONE_KB) {
     return byte + 'Byte'
   }

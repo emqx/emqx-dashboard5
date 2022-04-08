@@ -109,7 +109,7 @@ export default defineComponent({
 import { defineProps, computed, defineEmits, WritableComputedRef, ref, Ref, PropType } from 'vue'
 import { testsql } from '@/api/ruleengine'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
+import { createRandomString, getKeywordsFromSQL, parseJSONSafely } from '@/common/tools'
 import { QuestionFilled, Refresh, MagicStick, EditPen } from '@element-plus/icons-vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -152,6 +152,9 @@ const props = defineProps({
   canSave: {
     type: Boolean,
     default: true,
+  },
+  customInput: {
+    type: String,
   },
 })
 
@@ -197,11 +200,12 @@ const setContextObjStr = () => {
 }
 
 const setDataTypeNContext = () => {
-  const { sql, eventList, ingressBridgeList } = props
+  const { sql, eventList, ingressBridgeList, customInput: input } = props
   const { fromStr } = getKeywordsFromSQL(sql)
   const fromArr = transFromStrToFromArr(fromStr)
   const { type: inputType } = findInputTypeNTarget(fromArr[0], eventList, ingressBridgeList)
   const { context, descMap } = getTestColumns(inputType, fromArr[0], eventList)
+  const customInput = input ? parseJSONSafely(input) : undefined
 
   testColumnDescMap = descMap
   if (inputType === RuleInputType.Topic) {
@@ -211,7 +215,7 @@ const setDataTypeNContext = () => {
   }
   testParams.value = {
     sql,
-    context,
+    context: customInput ? customInput : context,
     output: '',
   }
 }
@@ -388,12 +392,15 @@ watch(showDialog, (val) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  margin-bottom: 12px;
 }
 .from-select-container {
   display: flex;
   align-items: center;
   label {
     flex-shrink: 0;
+    padding-right: 16px;
     color: var(--el-text-color-secondary);
   }
 }
