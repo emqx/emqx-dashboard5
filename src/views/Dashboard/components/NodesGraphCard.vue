@@ -10,11 +10,10 @@
       </div>
       <div class="node-detail">
         <div class="node-info" v-if="currentInfo">
-          <!-- <div class="node-title">{{ currentInfo.node['node'] }}</div> -->
           <div class="node-title">{{ tl('nodeData') }}</div>
           <div>
-            <el-row :gutter="24">
-              <el-col :span="12">
+            <el-row :gutter="26">
+              <el-col :span="14">
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('nodeName') }}: </label>
                   <span class="node-item-content">{{ currentInfo.node['node'] }}</span>
@@ -34,7 +33,7 @@
                   }}</span>
                 </div>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="10">
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('Subscription') }}: </label>
                   <span class="node-item-content">{{
@@ -86,67 +85,6 @@
                 </div>
               </el-col>
             </el-row>
-            <!-- <el-row>
-              <el-col :span="10">{{ tl('uptime') }}:</el-col>
-              <el-col :span="14">{{ getDuration(currentInfo.node.uptime) }}</el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">{{ tl('currentConnection') }}:</el-col>
-              <el-col :span="14">{{ currentInfo.stats['connections.count'] }}</el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">{{ tl('topics') }}:</el-col>
-              <el-col :span="14">{{ currentInfo.stats['topics.count'] }}</el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">{{ tl('Subscription') }}:</el-col>
-              <el-col :span="14">{{ currentInfo.stats['subscriptions.count'] }}</el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">Max Fds:</el-col>
-              <el-col :span="14">{{ currentInfo.node['max_fds'] }}</el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">CPU Load:</el-col>
-              <el-col :span="14">
-                <el-tooltip
-                  class="box-item"
-                  effect="dark"
-                  content="load1/load5/load15"
-                  placement="top-start"
-                >
-                  <span>
-                    {{
-                      currentInfo.node['load1'] +
-                      '/' +
-                      currentInfo.node['load5'] +
-                      '/' +
-                      currentInfo.node['load15']
-                    }}
-                  </span>
-                </el-tooltip>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="10">{{ tl('erlangVMMemory') }}:</el-col>
-              <el-col :span="14">
-                <div class="progress-wrap">
-                  <el-tooltip
-                    class="box-item"
-                    effect="dark"
-                    :content="`${currentInfo?.node?.['memory_used']}\\${currentInfo?.node?.['memory_total']}`"
-                    placement="top-start"
-                  >
-                    <el-progress
-                      :stroke-width="14"
-                      :format="() => ''"
-                      :percentage="calcMemoryPercentage"
-                      :color="getProgressColor(calcPercentage)"
-                    ></el-progress>
-                  </el-tooltip>
-                </div>
-              </el-col>
-            </el-row> -->
           </div>
         </div>
       </div>
