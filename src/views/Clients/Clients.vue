@@ -90,8 +90,7 @@
       ref="clientsTable"
       v-loading.lock="lockTable"
     >
-      <!-- <el-table-column type="selection"> </el-table-column> -->
-      <el-table-column prop="clientid" sortable :label="$t('Clients.clientId')">
+      <el-table-column prop="clientid" min-width="120" :label="$t('Clients.clientId')">
         <template #default="{ row }">
           <router-link
             :to="{
@@ -104,32 +103,40 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="username" sortable :label="$t('Clients.username')"></el-table-column>
-      <el-table-column prop="ip_address" sortable :label="$t('Clients.ipAddress')">
+      <el-table-column
+        prop="username"
+        min-width="120"
+        :label="$t('Clients.username')"
+      ></el-table-column>
+      <el-table-column min-width="130" prop="ip_address" :label="$t('Clients.ipAddress')">
         <template #default="{ row }">
           {{ row.ip_address + ':' + row.port }}
         </template>
       </el-table-column>
-      <el-table-column prop="keepalive" sortable :label="$t('Clients.keepalive')"></el-table-column>
-      <el-table-column prop="proto_name" sortable :label="$t('Clients.protocol')">
+      <el-table-column
+        prop="keepalive"
+        min-width="90"
+        :label="$t('Clients.keepalive')"
+      ></el-table-column>
+      <el-table-column min-width="90" prop="proto_name" :label="$t('Clients.protocol')">
         <template #default="{ row }">
           <span class="">
             {{ row.proto_name }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="connected" sortable :label="$t('Clients.connectedStatus')">
+      <el-table-column prop="connected" min-width="100" :label="$t('Clients.connectedStatus')">
         <template #default="{ row }">
           <el-badge is-dot :type="row.connected ? 'success' : 'danger'"> </el-badge>
           <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="connected_at" sortable :label="$t('Clients.connectedAt')">
+      <el-table-column prop="connected_at" min-width="120" :label="$t('Clients.connectedAt')">
         <template #default="{ row }">
           {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')">
+      <el-table-column prop="oper" min-width="120" :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" type="danger" @click="handleDisconnect(row)">
             {{ row.connected ? $t('Clients.kickOut') : $t('Clients.cleanSession') }}
