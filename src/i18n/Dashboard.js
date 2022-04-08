@@ -79,6 +79,10 @@ export default {
     zh: '节点名称',
     en: 'Node Name',
   },
+  nodeList: {
+    zh: '节点列表',
+    en: 'Nodes List',
+  },
   nodeData: {
     zh: '节点信息',
     en: 'Node Data',

@@ -40,23 +40,21 @@
       </el-row>
     </el-form>
     <el-table :data="gatewayTable" v-loading="tbLoading">
-      <el-table-column :label="'Client ID'" sortable prop="clientid"></el-table-column>
+      <el-table-column label="Client ID" prop="clientid"></el-table-column>
 
       <el-table-column
         :label="'Endpoint Name'"
-        sortable
         prop="endpoint_name"
         v-if="name === 'lwm2m'"
       ></el-table-column>
 
       <el-table-column
         :label="tl('username')"
-        sortable
         prop="username"
         v-if="name !== 'lwm2m'"
       ></el-table-column>
 
-      <el-table-column :label="tl('ipaddress')" sortable>
+      <el-table-column :label="tl('ipaddress')">
         <template #default="{ row }">
           <span>{{ row.ip_address }}:{{ row.port }}</span>
         </template>
@@ -64,17 +62,16 @@
 
       <el-table-column
         :label="tl('lifetime')"
-        sortable
         prop="lifetime"
         v-if="name === 'lwm2m'"
       ></el-table-column>
-      <el-table-column :label="tl('status')" sortable v-else>
+      <el-table-column :label="tl('status')" v-else>
         <template #default="{ row }">
           <el-badge is-dot :type="row.connected ? 'success' : 'danger'"> </el-badge>
           <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('connectedAt')" sortable>
+      <el-table-column :label="tl('connectedAt')">
         <template #default="{ row }">
           {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
