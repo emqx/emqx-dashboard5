@@ -1,13 +1,7 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
 import { ListDataWithPagination } from '@/types/common'
-import {
-  ChartDataItem,
-  CounterItem,
-  NodeMsg,
-  NodeStatisticalData,
-  Prometheus,
-  StatsD,
-} from '@/types/dashboard'
+import { ChartDataItem, NodeMsg, NodeStatisticalData, Prometheus, StatsD } from '@/types/dashboard'
 
 //account
 export function login(user: { password: string; username: string }): Promise<{
@@ -22,10 +16,6 @@ export function login(user: { password: string; username: string }): Promise<{
 
 export function logout(username: string) {
   return http.post('/logout', { username })
-}
-
-export function loadStats(): Promise<Array<NodeStatisticalData>> {
-  return http.get('/stats')
 }
 
 export function loadLicenseInfo() {
@@ -61,8 +51,21 @@ export function setPrometheus(body: Prometheus): Promise<Prometheus> {
   return http.put('/prometheus', body)
 }
 
+// Nodes
 export async function loadNodes(): Promise<Array<NodeMsg>> {
   return http.get('/nodes')
+}
+
+export async function loadNodeDetail(node: string): Promise<NodeMsg> {
+  return http.get(`/nodes/${encodeURIComponent(node)}`)
+}
+
+export function loadStats(): Promise<Array<NodeStatisticalData>> {
+  return http.get('/stats')
+}
+
+export function loadNodeStats(node: string): Promise<NodeStatisticalData> {
+  return http.get(`/nodes/${encodeURIComponent(node)}/stats`)
 }
 
 //Alarms
@@ -92,7 +95,7 @@ export const loadCluster = async () => {
   return res
 }
 
-// 邀请节点加入
+// invite node
 export const inviteNode = async (data: any) => {
   const body = {
     node: data.config.node,
@@ -100,7 +103,7 @@ export const inviteNode = async (data: any) => {
   return http.post('/cluster/invite_node', body).catch()
 }
 
-// 集群移除节点
+// remove cluster node
 export const forceLeaveNode = async (nodename: any) => {
   return http.delete(`/cluster/force_leave/${nodename}`).catch()
 }
@@ -111,7 +114,7 @@ export const listTopics = (params: any = {}) => {
   return http.get('/routes', { params })
 }
 
-// 获取订阅
+// get subs
 export function listSubscriptions(params = {}) {
   return http.get('/subscriptions', { params })
 }

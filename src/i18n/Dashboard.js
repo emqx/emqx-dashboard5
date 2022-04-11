@@ -81,7 +81,7 @@ export default {
   },
   nodeList: {
     zh: '节点列表',
-    en: 'Nodes List',
+    en: 'Nodes',
   },
   nodeData: {
     zh: '节点信息',
@@ -92,7 +92,7 @@ export default {
     en: 'Node Statistics',
   },
   currentNodeInfo: {
-    zh: '当前节点信息如下',
+    zh: '节点信息',
     en: 'Node info',
   },
   basicInfo: {
@@ -175,9 +175,9 @@ export default {
     zh: '节点主要配置',
     en: 'Main Configuration',
   },
-  brokerStatus: {
-    zh: '服务器状态',
-    en: 'Broker status',
+  status: {
+    zh: '状态',
+    en: 'Status',
   },
   node: {
     zh: '{n} 节点',
@@ -358,5 +358,17 @@ export default {
   statsdDesc: {
     zh: '使用 StatsD 采集指标数据',
     en: 'Integration with StatsD',
+  },
+  role: {
+    zh: '角色',
+    en: 'Role',
+  },
+  logPath: {
+    zh: '日志路径',
+    en: 'Log Path',
+  },
+  sysPath: {
+    zh: '系统路径',
+    en: 'System Path',
   },
 }

@@ -148,6 +148,7 @@
     padding: 14px 0;
     > .cell {
       padding: 0 16px;
+      word-break: break-word;
     }
   }
 }
@@ -160,14 +161,17 @@
 
 /* Progress */
 .el-progress {
-  display: inline-block;
-}
-.el-progress-bar {
-  &__outer {
-    border-radius: 1px;
+  display: block;
+  .el-progress-bar__inner {
+    background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
   }
-  &__inner {
-    border-radius: 1px;
+  .el-progress-bar {
+    &__outer {
+      border-radius: 2px;
+    }
+    &__inner {
+      border-radius: 2px;
+    }
   }
 }
 
@@ -338,15 +342,14 @@
 
 /* Tag */
 .el-tag {
-  border-radius: 0;
   font-weight: normal;
   &.el-tag--danger {
     background-color: #FCECEC;
-    border: 1px solid #EF173F;
+    border: 1px solid #E44242;
   }
   &.el-tag--info {
-    border: 1px solid #7A7B80;
-    background-color: #EFF2F5;
+    border: 1px solid var(--color-border-primary);
+    background-color: var(--color-bg-split);
   }
 }
 
@@ -377,6 +380,7 @@
 .el-card {
   border: none;
   position: relative;
+  &.top-border,
   &.top-primary {
     &:before {
       position: absolute;
@@ -430,4 +434,30 @@
 .el-radio-button__original-radio:checked + .el-radio-button__inner {
   background: var(--color-hover);
   color: var(--color-primary);
+}
+
+/* Descripton */
+.el-descriptions {
+  .el-descriptions__title {
+    color: var(--color-title-primary);
+  }
+  .el-descriptions__label {
+    color: var(--color-text-secondary);
+  }
+  .el-descriptions__label.el-descriptions__cell.is-bordered-label {
+    color: var(--color-title-primary);
+    background-color: var(--color-bg-split);
+  }
+  .el-descriptions__body .el-descriptions__table:not(.is-bordered) .el-descriptions__cell {
+    padding-bottom: 14px;
+  }
+  .el-descriptions__content.el-descriptions__cell.is-bordered-content {
+    word-break: break-all;
+  }
+  .el-descriptions__body .el-descriptions__table.is-bordered .el-descriptions__cell {
+    border: 1px solid var(--color-border-table);
+  }
+  .el-descriptions__label.el-descriptions__cell.is-bordered-label {
+    min-width: 135px;
+  }
 }

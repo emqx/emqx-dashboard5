@@ -41,7 +41,7 @@
                   }}</span>
                 </div>
                 <div class="node-item">
-                  <label class="node-item-label">Max Fds: </label>
+                  <label class="node-item-label">{{ tl('maxFds') }}: </label>
                   <span class="node-item-content">{{ currentInfo.node['max_fds'] }}</span>
                 </div>
                 <div class="node-item">
@@ -51,7 +51,7 @@
                       class="box-item"
                       effect="dark"
                       content="load1/load5/load15"
-                      placement="right"
+                      placement="top"
                     >
                       <span>
                         {{
@@ -72,7 +72,7 @@
                       class="box-item"
                       effect="dark"
                       :content="`${currentInfo?.node?.['memory_used']}\\${currentInfo?.node?.['memory_total']}`"
-                      placement="right"
+                      placement="top"
                     >
                       <el-progress
                         :stroke-width="14"
@@ -223,11 +223,18 @@ onMounted(async () => {
     color: var(--color-title-primary);
   }
   .node-item {
-    margin: 16px 0;
+    margin: 18px 0;
     display: flex;
     .node-item-label {
       color: var(--color-text-secondary);
       margin-right: 12px;
+    }
+    .node-item-content {
+      display: flex;
+      align-items: center;
+    }
+    .el-progress {
+      width: 90px;
     }
     .progress-wrap {
       height: 100%;
