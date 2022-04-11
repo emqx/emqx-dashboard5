@@ -198,9 +198,6 @@ onUnmounted(() => {
   .block {
     margin-bottom: 24px;
   }
-  h2 {
-    margin-bottom: 24px;
-  }
   .main-info-card.el-card {
     height: 195px;
     .el-card__body {

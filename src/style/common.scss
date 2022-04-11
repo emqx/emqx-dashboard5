@@ -80,6 +80,7 @@ h1 {
 h2 {
   font-size: 18px;
   color: var(--color-title-primary);
+  margin-bottom: 24px;
 }
 
 #app {
@@ -288,9 +289,6 @@ h2 {
   }
 }
 
-// .section-addition {
-// }
-
 .part-header {
   font-size: 16px;
   font-weight: 700;
@@ -363,7 +361,6 @@ h2 {
   color: var(--color-title-primary);
 }
 
-/* El Select TODO:delete it after upgrade element-plus */
 .el-select .el-input .el-input__suffix .el-input__validateIcon {
   display: none;
 }
@@ -400,4 +397,57 @@ h2 {
 .space-between {
   display: flex;
   justify-content: space-between;
+}
+
+@keyframes scaleAnimate {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.running-status,
+.stop-status {
+  position: relative;
+  padding: 0 6px;
+}
+.running-status::before,
+.running-status::after,
+.stop-status::before,
+.stop-status::after {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+}
+.running-status::before {
+  left: -17px;
+  top: 0px;
+  width: 18px;
+  height: 18px;
+  background-color: #00b17350;
+  animation: scaleAnimate 1.5s ease-out infinite;
+}
+.running-status::after {
+  width: 6px;
+  height: 6px;
+  background-color: #00b173;
+  top: 6px;
+  left: -11px;
+  z-index: 3;
+}
+
+.stop-status::after {
+  width: 6px;
+  height: 6px;
+  background-color: #E44242;
+  top: 6px;
+  left: -11px;
+  z-index: 3;
 }

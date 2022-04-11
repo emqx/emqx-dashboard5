@@ -5,6 +5,7 @@ import Layout from '@/views/Base/Layout.vue'
 import KeepAliveChildren from '@/views/Base/KeepAliveChildren.vue'
 import Overview from '@/views/Dashboard/Overview.vue'
 import Nodes from '@/views/Dashboard/Nodes.vue'
+import NodeDetail from '@/views/Dashboard/NodeDetail.vue'
 import Metrics from '@/views/Dashboard/Metrics.vue'
 import Alarm from '@/views/Alarm/Alarm.vue'
 import TopicMetrics from '@/views/Diagnose/TopicMetrics.vue'
@@ -76,16 +77,27 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'overview',
         name: 'overview',
         component: Overview,
+        meta: {},
       },
       {
         path: 'nodes',
         name: 'nodes',
         component: Nodes,
+        meta: {},
       },
       {
         path: 'metrics',
         name: 'metrics',
         component: Metrics,
+        meta: {},
+      },
+      {
+        path: 'nodes/:nodeName',
+        name: 'nodeDetail',
+        component: NodeDetail,
+        meta: {
+          hideInMenu: true,
+        },
       },
     ],
   },
