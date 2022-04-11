@@ -91,13 +91,7 @@
             <el-button type="primary" plain @click="openTestDialog()" size="large">
               {{ tl('testsql') }}
             </el-button>
-            <el-button
-              class="btn-sql-temp"
-              size="small"
-              type="info"
-              plain
-              @click="showTemplateDrawer"
-            >
+            <el-button class="btn-sql-temp" size="small" plain @click="showTemplateDrawer">
               {{ tl('SQLTemplates') }}
             </el-button>
           </el-col>

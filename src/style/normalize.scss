@@ -215,6 +215,21 @@
   }
 }
 
+@mixin border-gradient($from, $to, $weight: 0) {
+  $mix-main: mix($from, $to);
+  $mix-sub-from: mix($mix-main, $from);
+  $mix-sub-to: mix($mix-main, $to);
+  
+  box-shadow: 0 1px 0 $weight rgba($mix-sub-to, .25),
+              0 -1px 0 $weight rgba($mix-sub-from, .25),
+              1px 0 0 $weight rgba($mix-sub-to, .25),
+              -1px 0 0 $weight  rgba($mix-sub-from, .25),
+              1px -1px 0 $weight rgba($mix-main, .5),
+              -1px 1px 0 $weight rgba($mix-main, .5),
+              1px 1px 0 $weight rgba($to, .75),
+              -1px -1px 0 $weight rgba($from, .75);
+}
+
 /* Button */
 .el-button {
   &.el-button--primary {
@@ -222,8 +237,9 @@
     border: none;
     color: #fff;
     &.is-plain {
-      background-color: #fff;
-      color: var(--color-text-primary);
+      background: var(--color-bg-primary);
+      color: var(--color-primary);
+      @include border-gradient(#7ad8b3, #6dbebe);
     }
     &:hover {
       background: linear-gradient(135deg, #53DEB0 0%, #4EBFC0 100%);
@@ -242,15 +258,6 @@
   &--small {
     min-height: 22px;
     padding: 4px 9px;
-  }
-  &.is-disabled {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-      color: #86DBC1;
-      background: linear-gradient(135deg, #CDF5E8 0%, #CCEDED 100%);
-    }
   }
   &+.el-dropdown {
     margin-left: 10px;

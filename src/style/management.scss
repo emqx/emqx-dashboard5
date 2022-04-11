@@ -1,0 +1,15 @@
+.clients,
+.subscriptions {
+  .col-oper {
+    display: flex;
+    align-items: center;
+    .el-button {
+      margin-left: 0;
+    }
+  }
+
+  .show-more {
+    margin-left: 12px;
+    color: var(--color-primary);
+  }
+}

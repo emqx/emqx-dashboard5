@@ -68,17 +68,15 @@
             </el-select>
           </el-col>
         </template>
-        <el-col :span="6" class="col-oper">
+        <el-col :span="6" class="col-oper flex-vertical-center">
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
           </el-button>
 
-          <a href="javascript:;" class="show-more" @click="showMoreQuery = !showMoreQuery">
-            <el-icon>
-              <ArrowUp v-if="showMoreQuery" />
-              <ArrowDown v-else />
-            </el-icon>
-          </a>
+          <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
+            <ArrowUp v-if="showMoreQuery" />
+            <ArrowDown v-else />
+          </el-icon>
         </el-col>
       </el-row>
     </el-form>
@@ -379,8 +377,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.show-more {
-  margin-left: 12px;
-}
+<style lang="scss">
+@import '~@/style/management.scss';
 </style>
