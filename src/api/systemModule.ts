@@ -1,8 +1,20 @@
 import http from '@/common/http'
 import { APIKey, APIKeyFormWhenCreating, APIKeyFormWhenEditing } from '@/types/systemModule'
 
-export const loadAPIKeyList = (): Promise<Array<APIKey>> => {
-  return http.get('/api_key')
+export const loadAPIKeyList = async (): Promise<Array<APIKey>> => {
+  try {
+    const data: Array<APIKey> = await http.get('/api_key')
+    return Promise.resolve(
+      data.map(({ expired_at, ...otherMsg }) => {
+        return {
+          expired_at: expired_at === 'undefined' ? undefined : expired_at,
+          ...otherMsg,
+        }
+      }),
+    )
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export const queryAPIKeyDetail = (name: string): Promise<APIKey> => {
