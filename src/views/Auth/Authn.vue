@@ -31,7 +31,7 @@
       />
       <el-table-column prop="enable" :label="$t('Auth.status')">
         <template #default="{ row }">
-          <AuthItemStatus :enable="row.enable" :metrics="getAuthnItemMetrics(row.id)" />
+          <AuthItemStatus :enable="row.enable" :metrics="row.metrics" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
@@ -76,8 +76,7 @@ export default defineComponent({
     const router = useRouter()
     const { t } = useI18n()
     const { titleMap } = useAuth()
-    const { isListLoading, authnList, getAuthnList, getAuthnItemMetrics, updateAuthnItemMetrics } =
-      useAuthn()
+    const { isListLoading, authnList, getAuthnList, updateAuthnItemMetrics } = useAuthn()
 
     const handleUpdate = async (row: AuthnItem) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -145,7 +144,6 @@ export default defineComponent({
       handleSetting,
       handleMove,
       findIndex,
-      getAuthnItemMetrics,
     }
   },
 })

@@ -10,7 +10,6 @@ export default (): {
   isListLoading: Ref<boolean>
   authnList: Ref<AuthnItemInTable[]>
   getAuthnList: (isInit?: boolean) => Promise<void>
-  getAuthnItemMetrics: (id: string) => Metrics | undefined
   updateAuthnItemMetrics: (id: string) => Promise<void>
 } => {
   const isListLoading = ref(false)
@@ -66,7 +65,7 @@ export default (): {
     try {
       metricsMap.value = {}
       isListLoading.value = true
-      await getAuthnList()
+      await getAuthnList(true)
       await Promise.all(
         authnList.value.map(async (item) => {
           if (!hasMetrics(item)) {
@@ -84,12 +83,13 @@ export default (): {
     }
   }
 
-  const getAuthnItemMetrics = (id: string): Metrics | undefined => {
-    return id in metricsMap.value ? metricsMap.value[id] : undefined
-  }
-
   const updateAuthnItemMetrics = async (id: string) => {
-    metricsMap.value[id] = await queryAuthnItemMetrics(id)
+    const metrics = await queryAuthnItemMetrics(id)
+    metricsMap.value[id] = metrics
+    const target = authnList.value.find((item) => item.id === id)
+    if (target) {
+      target.metrics = metrics
+    }
   }
 
   initTableData()
@@ -98,7 +98,6 @@ export default (): {
     isListLoading,
     authnList,
     getAuthnList,
-    getAuthnItemMetrics,
     updateAuthnItemMetrics,
   }
 }
