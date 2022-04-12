@@ -1,5 +1,5 @@
 import { BackendI18n, SSL } from './common'
-import { BridgeStatus, BridgeType, ConnectorType, MQTTBridgeDirection, QoSLevel } from './enum'
+import { BridgeType, ConnectionStatus, ConnectorType, MQTTBridgeDirection, QoSLevel } from './enum'
 
 export type Metrics = Record<string, number>
 
@@ -72,9 +72,9 @@ export interface BridgeBaseData {
   node_metrics: Array<NodeMetrics>
   node_status: Array<{
     node: string
-    status: BridgeStatus
+    status: ConnectionStatus
   }>
-  status: BridgeStatus
+  status: ConnectionStatus
   type: BridgeType
   local_topic: string
   enable: boolean

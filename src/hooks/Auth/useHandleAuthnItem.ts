@@ -2,7 +2,12 @@ import { moveAuthn } from '@/api/auth'
 import { AuthnItem } from '@/types/auth'
 import { TargetPosition } from '@/types/enum'
 
-export default () => {
+export default (): {
+  moveAuthnBeforeAnotherAuthn: (authn: AuthnItem, anotherAuthn: AuthnItem) => any
+  moveAuthnAfterAnotherAuthn: (authn: AuthnItem, anotherAuthn: AuthnItem) => any
+  moveAuthnToTop: (authn: AuthnItem) => any
+  moveAuthnToBottom: (authn: AuthnItem) => any
+} => {
   const moveAuthnBeforeAnotherAuthn = (authn: AuthnItem, anotherAuthn: AuthnItem) => {
     return moveAuthn(authn.id, `${TargetPosition.Before}${anotherAuthn.id}`)
   }

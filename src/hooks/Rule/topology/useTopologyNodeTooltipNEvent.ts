@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router'
 import { OtherNodeType, NodeType } from './topologyType'
 import hljs from 'highlight.js/lib/core'
 import sql from 'highlight.js/lib/languages/sql'
-import useBridgeItemStatus from '../bridge/useBridgeItemStatus'
+import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
 
 hljs.registerLanguage('sql', sql)
@@ -121,7 +121,7 @@ export default (): {
     return container
   }
 
-  const { getStatusLabel, getStatusClass } = useBridgeItemStatus()
+  const { getStatusLabel, getStatusClass } = useCommonConnectionStatus()
   const { getTypeStr } = useBridgeTypeOptions()
 
   const createBridgeNodeTooltip = (bridgeID: string) => {
@@ -131,7 +131,7 @@ export default (): {
     }
 
     const container = createContainerEle()
-    const { type, name, metrics, status } = targetBridge
+    const { name, metrics, status } = targetBridge
     const statusStr = getStatusLabel(status)
     const statusClass = getStatusClass(status)
 

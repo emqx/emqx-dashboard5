@@ -94,3 +94,35 @@ const isTooltipDisabled = computed(() => {
   }
 }
 </style>
+
+<style lang="scss">
+.el-popper.is-dark {
+  background: #282e38;
+
+  &.tooltip-node-status-list {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .node-status-list {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+    padding-left: 0;
+    width: 200px;
+  }
+
+  .node-status-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+    .text-status {
+      flex-shrink: 0;
+      margin-right: 20px;
+    }
+    .node-name {
+      word-break: break-all;
+    }
+  }
+}
+</style>

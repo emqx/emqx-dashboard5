@@ -10,19 +10,28 @@
         {{ $t('Base.create') }}
       </el-button>
     </div>
-    <el-table class="auth-table" :data="authnList" v-loading.lock="lockTable">
+    <el-table class="auth-table" :data="authnList" v-loading.lock="isListLoading">
       <el-table-column prop="backend" :label="$t('Auth.dataSource')">
         <template #default="{ row }">
           <img :src="row.img" width="48" />
           <span>{{ titleMap[row.backend] }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')"></el-table-column>
+      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" />
+      <el-table-column
+        :label="$t('RuleEngine.SuccessNum')"
+        sortable
+        prop="metrics.metrics.success"
+      />
+      <el-table-column :label="$t('RuleEngine.ErrNum')" sortable prop="metrics.metrics.rate" />
+      <el-table-column
+        :label="`${$t('RuleEngine.speedNow')}(msg/s)`"
+        sortable
+        prop="metrics.metrics.failed"
+      />
       <el-table-column prop="enable" :label="$t('Auth.status')">
         <template #default="{ row }">
-          <span :class="['status', { disabled: !row.enable }]">
-            {{ row.enable ? 'Enable' : 'Disabled' }}
-          </span>
+          <AuthItemStatus :enable="row.enable" :metrics="getAuthnItemMetrics(row.id)" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
@@ -35,7 +44,7 @@
             @delete="handleDelete"
             @setting="handleSetting"
             @move="handleMove($event, $index)"
-          ></table-dropdown>
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -43,9 +52,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import TableDropdown from './components/TableDropdown.vue'
-import { listAuthn, updateAuthn, deleteAuthn } from '@/api/auth'
+import { updateAuthn, deleteAuthn } from '@/api/auth'
 import { useRouter } from 'vue-router'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -54,75 +63,55 @@ import { AuthnItem } from '@/types/auth'
 import useHandleAuthnItem from '@/hooks/Auth/useHandleAuthnItem'
 import useMove from '@/hooks/useMove'
 import useAuth from '@/hooks/Auth/useAuth'
+import useAuthn from '@/hooks/Auth/useAuthn'
+import AuthItemStatus from './components/AuthItemStatus.vue'
 
 export default defineComponent({
   name: 'Authn',
   components: {
     TableDropdown,
+    AuthItemStatus,
   },
   setup() {
     const router = useRouter()
     const { t } = useI18n()
-    const authnList = ref<AuthnItem[]>([])
-    const lockTable = ref(false)
     const { titleMap } = useAuth()
-    const loadData = async () => {
-      lockTable.value = true
-      const res: AuthnItem[] = await listAuthn().catch(() => {
-        lockTable.value = false
-      })
-      if (res) {
-        authnList.value = res.map((item) => {
-          if (item.mechanism !== 'jwt') {
-            try {
-              item.img = require(`@/assets/img/${item.backend}.png`)
-            } catch {
-              item.img = ''
-            }
-          } else {
-            item.img = require(`@/assets/img/jwt.png`)
-            item.backend = 'jwt'
-          }
-          return item
-        })
-        const addedAuthn = authnList.value.map((authn) => {
-          if (authn.backend === undefined) {
-            return `${authn.mechanism}`
-          }
-          return `${authn.mechanism}_${authn.backend}`
-        })
-        sessionStorage.setItem('addedAuthn', JSON.stringify(addedAuthn))
-      }
-      lockTable.value = false
-    }
-    loadData()
+    const { isListLoading, authnList, getAuthnList, getAuthnItemMetrics, updateAuthnItemMetrics } =
+      useAuthn()
+
     const handleUpdate = async (row: AuthnItem) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { img, ...data } = row
       await updateAuthn(row.id, data)
-      loadData()
+      await getAuthnList()
+      await updateAuthnItemMetrics(row.id)
     }
+
     const handleDelete = async function ({ id }: AuthnItem) {
-      MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      })
-        .then(async () => {
-          await deleteAuthn(id).catch(() => {})
-          loadData()
+      try {
+        await MB.confirm(t('Base.confirmDelete'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          type: 'warning',
         })
-        .catch(() => {})
+        await deleteAuthn(id)
+        getAuthnList()
+      } catch (error) {
+        //
+      }
     }
+
     const handleSetting = function ({ id }: AuthnItem) {
       router.push({ path: `/authentication/detail/${id}` })
     }
+
     const {
       moveAuthnBeforeAnotherAuthn,
       moveAuthnAfterAnotherAuthn,
       moveAuthnToTop,
       moveAuthnToBottom,
     } = useHandleAuthnItem()
+
     const { handleDragEvent } = useMove(
       {
         moveToBottom: moveAuthnToBottom,
@@ -131,21 +120,24 @@ export default defineComponent({
         moveAfterAnotherTarget: moveAuthnAfterAnotherAuthn,
       },
       undefined,
-      loadData,
+      getAuthnList,
     )
+
     const handleMove = async function (direction: string, oldIndex: number) {
       const newIndex = direction === 'up' ? oldIndex - 1 : oldIndex + 1
       handleDragEvent(newIndex, oldIndex, authnList.value)
     }
+
     const findIndex = (row: AuthnItem) => {
       return authnList.value.findIndex((item) => {
         const id = `${item.mechanism}_${item.backend}`
         return id === `${row.mechanism}_${row.backend}`
       })
     }
+
     return {
       Plus,
-      lockTable,
+      isListLoading,
       authnList,
       titleMap,
       handleUpdate,
@@ -153,6 +145,7 @@ export default defineComponent({
       handleSetting,
       handleMove,
       findIndex,
+      getAuthnItemMetrics,
     }
   },
 })
