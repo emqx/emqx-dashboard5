@@ -3,9 +3,9 @@
     <el-card class="app-card detail-sub-card">
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
-        <!-- <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
+        <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
           <el-icon @click="resetStatistics"><refresh-left /></el-icon>
-        </el-tooltip> -->
+        </el-tooltip>
       </div>
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic">
@@ -67,13 +67,14 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { RefreshLeft } from '@element-plus/icons-vue'
 import { BridgeStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
 import { formatNumber } from '@/common/tools'
 import useBridgeItemStatus from '@/hooks/Rule/bridge/useBridgeItemStatus'
-import { reconnectBridgeForNode } from '@/api/ruleengine'
+import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   bridgeMsg: {
@@ -113,7 +114,12 @@ const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
 const resetStatistics = async () => {
-  // TODO:
+  if (!props.bridgeMsg.id) {
+    return
+  }
+  await ElMessageBox.confirm(t('RuleEngine.resetMetricsConfirm', { target: tl('rule') }))
+  await resetBridgeMetrics(props.bridgeMsg.id)
+  ElMessage.success(tl('resetSuccessfully'))
   emit('reset')
 }
 

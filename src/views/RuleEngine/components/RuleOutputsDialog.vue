@@ -307,6 +307,7 @@ onActivated(async () => {
 <style lang="scss" scoped>
 .form-item-content {
   display: flex;
+  width: 100%;
   .handlers-container {
     display: flex;
     flex-shrink: 0;
@@ -317,11 +318,11 @@ onActivated(async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     margin: 0 8px;
-    border: 1px solid var(--el-border-color-base);
-    border-radius: 2px;
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--el-border-radius-base);
     cursor: pointer;
     &.is-disabled {
       opacity: 0.5;
@@ -333,6 +334,6 @@ onActivated(async () => {
 .output-content {
   margin-top: 16px;
   padding-top: 20px;
-  border-top: 1px solid var(--el-border-color-base);
+  border-top: 1px solid var(--color-border-primary);
 }
 </style>

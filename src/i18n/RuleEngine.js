@@ -247,6 +247,18 @@ export default {
     zh: '重置数据',
     en: 'Reset data',
   },
+  rule: {
+    zh: '规则',
+    en: 'rule',
+  },
+  resetMetricsConfirm: {
+    zh: '是否确认重置该{target}统计数据？',
+    en: 'Are you sure you want to reset this {target} statistic?',
+  },
+  resetSuccessfully: {
+    zh: '重置成功',
+    en: 'Reset successfully',
+  },
   formatJSON: {
     zh: 'JSON 格式化',
     en: 'Format JSON',

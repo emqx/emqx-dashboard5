@@ -165,12 +165,13 @@ const getOutputImage = (item: string) => {
 <style lang="scss" scoped>
 .outputs-item {
   height: 92px;
-  border: var(--el-border-base);
+  border: 1px solid var(--color-border-primary);
   margin-top: 10px;
   display: flex;
   align-items: center;
   padding: 10px;
   box-sizing: border-box;
+  border-radius: var(--el-border-radius-base);
 
   span:nth-child(2) {
     flex-grow: 1;
@@ -203,7 +204,7 @@ const getOutputImage = (item: string) => {
 }
 
 .btn-add {
-  margin-top: 12px;
+  margin-top: 24px;
   :deep(span) {
     display: flex;
     align-items: center;
@@ -217,10 +218,5 @@ const getOutputImage = (item: string) => {
   color: var(--el-color-primary);
   line-height: 50px;
   cursor: pointer;
-}
-
-.embedded-config {
-  border: var(--el-border-base);
-  padding: 30px;
 }
 </style>

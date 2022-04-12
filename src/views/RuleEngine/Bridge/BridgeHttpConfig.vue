@@ -279,12 +279,6 @@ export default defineComponent({
     }
   }
 }
-.editor {
-  border: var(--el-border-base);
-  flex-grow: 1;
-  height: 200px;
-  margin-top: 20px;
-}
 
 .payload-desc {
   margin-top: 0;

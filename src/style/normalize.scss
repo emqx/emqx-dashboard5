@@ -140,6 +140,9 @@
   border-bottom: none;
   border-radius: 8px;
   box-shadow: var(--el-box-shadow-light);
+  &.shadow-none {
+    box-shadow:none;
+  }
   .el-badge__content {
     vertical-align: 1px;
     margin-right: 3px;

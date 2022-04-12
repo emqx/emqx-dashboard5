@@ -61,8 +61,12 @@ export function deleteBridge(id: string): Promise<any> {
   return http.delete('/bridges/' + encodeURIComponent(id))
 }
 
-export function reconnectBridgeForNode(node: string, bridgeID: string) {
+export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<number> {
   return http.post(`/nodes/${node}/bridges/${bridgeID}/operation/restart`)
+}
+
+export async function resetBridgeMetrics(bridgeId: string): Promise<string> {
+  return http.put(`/bridges/${bridgeId}/reset_metrics`)
 }
 
 //Connectors
@@ -140,4 +144,8 @@ export function deleteRules(id: string): Promise<any> {
 
 export function testsql(body: Record<string, unknown>): Promise<any> {
   return http.post('/rule_test', body)
+}
+
+export function resetRuleMetrics(ruleId: string): Promise<string> {
+  return http.put(`/rules/${ruleId}/reset_metrics`)
 }
