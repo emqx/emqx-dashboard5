@@ -1,158 +1,84 @@
 <template>
   <div class="metrics app-wrapper">
-    <div class="section-header">
-      <div>
-        <span>{{ translate('integration') }}</span>
-        <div class="section-desc">{{ translate('integrationDesc') }}</div>
+    <div class="header-block">
+      <div class="header-item">
+        <h2>{{ tl('dataList') }}</h2>
+        <p class="tip">{{ tl('packetStatisticsOfNodes') }}</p>
       </div>
-    </div>
-    <el-row v-loading="integrationLoading">
-      <div class="int-item">
-        <div>
-          <img srcset="@/assets/img/prom.png 2x" />
-        </div>
-        <div>
-          <div class="part-header">Prometheus</div>
-          <div class="part-desc">{{ translate('promDesc') }}</div>
-          <div>
-            <el-form :disabled="prometheusLoading" @keyup.enter="updatePrometheus()">
-              <el-row :gutter="20">
-                <el-col :span="8">
-                  <el-input
-                    placeholder="Push gateway Server"
-                    v-model="integrationData.prometheus.push_gateway_server"
-                  />
-                </el-col>
-                <el-col :span="8">
-                  <el-input
-                    placeholder="Push Interval"
-                    v-model="integrationData.prometheus.interval[0]"
-                  >
-                    <template #append>
-                      <el-select v-model="integrationData.prometheus.interval[1]">
-                        <el-option :label="translate('second')" value="s" />
-                      </el-select>
-                    </template>
-                  </el-input>
-                </el-col>
-                <el-col :span="3">
-                  <el-checkbox border v-model="integrationData.prometheus.enable">
-                    {{ $t('General.enabled') }}
-                  </el-checkbox>
-                </el-col>
-                <el-col :span="3">
-                  <el-button
-                    type="primary"
-                    :loading="prometheusLoading"
-                    @click="updatePrometheus()"
-                    >{{ $t('Base.update') }}</el-button
-                  >
-                </el-col>
-              </el-row>
-            </el-form>
-          </div>
-        </div>
-      </div>
-      <div class="int-item">
-        <div>
-          <img srcset="@/assets/img/statsd.png 2x" />
-        </div>
-        <div>
-          <div class="part-header">StatsD</div>
-          <div class="part-desc">{{ translate('statsdDesc') }}</div>
-          <div>
-            <el-form :disabled="statsdLoading" @keyup.enter="updateStatsd()">
-              <el-row :gutter="20">
-                <el-col :span="8">
-                  <el-input placeholder="server" v-model="integrationData.statsd.server" />
-                </el-col>
-                <el-col :span="8">
-                  <el-input
-                    placeholder="Flush Interval"
-                    v-model="integrationData.statsd.flush_time_interval[0]"
-                  >
-                    <template #append>
-                      <el-select v-model="integrationData.statsd.flush_time_interval[1]">
-                        <el-option :label="translate('second')" value="s" />
-                      </el-select>
-                    </template>
-                  </el-input>
-                </el-col>
-                <el-col :span="3">
-                  <el-checkbox border v-model="integrationData.statsd.enable">
-                    {{ $t('General.enabled') }}
-                  </el-checkbox>
-                </el-col>
-                <el-col :span="3">
-                  <el-button type="primary" :loading="statsdLoading" @click="updateStatsd()">{{
-                    $t('Base.update')
-                  }}</el-button>
-                </el-col>
-              </el-row>
-            </el-form>
-          </div>
-        </div>
-      </div>
-    </el-row>
-    <div class="section-header">
-      <div>
-        <span>{{ translate('dataList') }}</span>
-        <div class="section-desc">
-          {{ translate('packetStatisticsOfNodes') }}
-        </div>
-      </div>
-      <div class="section-addition">
+      <div class="header-item">
         <emq-select
+          class="node-select"
           v-model:value="currentNode"
           :field="{ options: metrics }"
           :field-name="{ label: 'node', value: 'node' }"
           @change="changeNode"
         />
+        <integration-metrics></integration-metrics>
       </div>
     </div>
-    <el-row :gutter="20">
-      <el-table :data="filterMetrics(metricsObj[currentNode], 'client')" v-loading.lock="lockTable">
-        <el-table-column prop="m" :label="translate('client')" />
-        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-      </el-table>
-
-      <el-table
-        :data="filterMetrics(metricsObj[currentNode], 'delivery')"
-        v-loading.lock="lockTable"
-      >
-        <el-table-column prop="m" label="Delivery" />
-        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-      </el-table>
-
-      <el-table
-        :data="filterMetrics(metricsObj[currentNode], 'session')"
-        v-loading.lock="lockTable"
-      >
-        <el-table-column prop="m" :label="translate('session')" />
-        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-      </el-table>
-
-      <el-table
-        :data="filterMetrics(metricsObj[currentNode], 'packets')"
-        v-loading.lock="lockTable"
-      >
-        <el-table-column prop="m" :label="translate('mqttPackages')" />
-        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-      </el-table>
-
-      <el-table
-        :data="filterMetrics(metricsObj[currentNode], 'messages')"
-        v-loading.lock="lockTable"
-      >
-        <el-table-column prop="m" :label="translate('messageNumber')" />
-        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-      </el-table>
-
-      <el-table :data="filterMetrics(metricsObj[currentNode], 'bytes')" v-loading.lock="lockTable">
-        <el-table-column prop="m" :label="translate('traffic')" />
-        <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-      </el-table>
+    <el-row class="content-block" :gutter="26">
+      <el-col :span="8">
+        <el-card class="top-border client">
+          <el-table
+            :data="filterMetrics(metricsObj[currentNode], 'client')"
+            v-loading.lock="lockTable"
+          >
+            <el-table-column prop="m" :label="tl('client')" />
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
+        <el-card class="top-border packets">
+          <el-table
+            :data="filterMetrics(metricsObj[currentNode], 'packets')"
+            v-loading.lock="lockTable"
+          >
+            <el-table-column prop="m" :label="tl('mqttPackets')" />
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card class="top-border delivery">
+          <el-table
+            :data="filterMetrics(metricsObj[currentNode], 'delivery')"
+            v-loading.lock="lockTable"
+          >
+            <el-table-column prop="m" label="Delivery" />
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
+        <el-card class="top-border messages">
+          <el-table
+            :data="filterMetrics(metricsObj[currentNode], 'messages')"
+            v-loading.lock="lockTable"
+          >
+            <el-table-column prop="m" :label="tl('messageNumber')" />
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card class="top-border session">
+          <el-table
+            :data="filterMetrics(metricsObj[currentNode], 'session')"
+            v-loading.lock="lockTable"
+          >
+            <el-table-column prop="m" :label="tl('session')" />
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
+        <el-card class="top-border bytes">
+          <el-table
+            :data="filterMetrics(metricsObj[currentNode], 'bytes')"
+            v-loading.lock="lockTable"
+          >
+            <el-table-column prop="m" min-width="120" :label="tl('traffic')" />
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
+      </el-col>
     </el-row>
+
   </div>
 </template>
 <script lang="ts">
@@ -165,43 +91,21 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref } from 'vue'
-import { loadMetrics, getStatsd, getPrometheus, setStatsd, setPrometheus } from '@/api/common'
-import { useI18n } from 'vue-i18n'
-import { ElMessage } from 'element-plus'
-import { Prometheus, StatsD } from '@/types/dashboard'
+import { loadMetrics } from '@/api/common'
+import useI18nTl from '@/hooks/useI18nTl'
+import IntegrationMetrics from './components/IntegrationMetrics.vue'
 
 interface MetricItem {
   [propName: string]: string | number
 }
 
-const { t } = useI18n()
-
 let metrics: Array<MetricItem> = reactive([])
 let metricsObj: Record<string, MetricItem> = reactive({})
 let currentNode: Ref<string> = ref('')
 let lockTable: Ref<boolean> = ref(true)
-let integrationLoading: Ref<boolean> = ref(false)
-let prometheusLoading: Ref<boolean> = ref(false)
-let statsdLoading: Ref<boolean> = ref(false)
-let integrationData: { statsd: StatsD; prometheus: Prometheus } = reactive({
-  statsd: {
-    enable: false,
-    flush_time_interval: '10s',
-    sample_time_interval: '10s',
-    server: '127.0.0.1:8125',
-  },
-  prometheus: {
-    enable: false,
-    interval: '15s',
-    push_gateway_server: 'http://127.0.0.1:9091',
-  },
-})
+const { tl } = useI18nTl('Dashboard')
 
-const translate = function (key: string, collection = 'Dashboard') {
-  return t(collection + '.' + key)
-}
-
-const metricsData = async () => {
+const loadMetricsData = async () => {
   let metricsArr: Array<MetricItem> = await loadMetrics().catch(() => [])
   lockTable.value = false
   metricsArr?.forEach((v) => {
@@ -213,96 +117,6 @@ const metricsData = async () => {
     metrics.forEach((v) => {
       metricsObj[v.node] = v
     })
-  }
-}
-
-const loadIntegration = async function () {
-  integrationLoading.value = true
-  let [statsRes, prometheusRes] = (await Promise.allSettled([getStatsd(), getPrometheus()]).catch(
-    () => {},
-  )) as Array<{ status: string; value: StatsD | Prometheus }>
-  if (statsRes?.status == 'fulfilled') {
-    integrationData.statsd = transformIntegrationData(statsRes.value)
-    prometheusLoading.value = false
-  } else {
-    //nothint
-  }
-
-  if (prometheusRes?.status == 'fulfilled') {
-    integrationData.prometheus = transformIntegrationData(prometheusRes.value)
-    statsdLoading.value = false
-  } else {
-    //nothing
-  }
-
-  integrationLoading.value = false
-}
-
-const transformIntegrationData = (data: any) => {
-  Object.keys(data).forEach((prop) => {
-    let matching: any
-    switch (prop) {
-      case 'flush_time_interval':
-      case 'interval':
-        matching =
-          (typeof data[prop] === 'string' && (data[prop] as string).match(/(\d+)(\w)/)) ||
-          (data[prop] instanceof Array &&
-            (data[prop] as Array<string>).unshift((data[prop] as Array<string>).join('')) &&
-            data[prop])
-        data[prop] = [matching[1], matching[2]]
-        break
-      default:
-    }
-  })
-  return data
-}
-
-const updatePrometheus = async function () {
-  prometheusLoading.value = true
-  let pendingData: Prometheus = Object.assign({}, integrationData.prometheus)
-  Object.keys(pendingData).forEach((v) => {
-    if (v === 'interval' && pendingData[v] instanceof Array) {
-      pendingData[v] = (pendingData[v] as Array<string>).join('')
-    }
-  })
-  let res = await setPrometheus(pendingData as Prometheus).catch(() => {})
-  if (res) {
-    prometheusLoading.value = false
-    ElMessage({
-      type: 'success',
-      message: t('Base.updateSuccess'),
-    })
-  } else {
-    ElMessage({
-      type: 'error',
-      message: t('Base.opErr'),
-    })
-    loadIntegration()
-  }
-}
-
-const updateStatsd = async function () {
-  statsdLoading.value = true
-  let pendingData: StatsD = Object.assign({}, integrationData.statsd)
-
-  Object.keys(pendingData).forEach((v) => {
-    if (v === 'flush_time_interval' && pendingData[v] instanceof Array) {
-      pendingData[v] = (pendingData[v] as [string, string]).join('')
-    }
-  })
-  let res = await setStatsd(pendingData as StatsD).catch(() => {})
-  if (res) {
-    statsdLoading.value = false
-    ElMessage({
-      type: 'success',
-      message: t('Base.updateSuccess'),
-    })
-  } else {
-    ElMessage({
-      type: 'error',
-      message: t('Base.opErr'),
-    })
-    loadIntegration()
   }
 }
 
@@ -321,42 +135,74 @@ const changeNode = (n: string) => {
 }
 
 onMounted(() => {
-  metricsData()
-  loadIntegration()
+  loadMetricsData()
 })
 </script>
-<style lang="scss" scoped>
-.el-row {
-  margin: 40px 0;
-}
 
-.el-col {
-  overflow: hidden;
-}
-
-.el-table:not(:first-child) {
-  margin-top: 40px;
-}
-
-.int-item {
-  display: flex;
-  flex-grow: 1;
-
-  & > :first-child {
-    padding: 10px;
+<style lang="scss">
+.metrics {
+  .header-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    h2 {
+      margin-bottom: 16px;
+    }
+    .node-select.el-select {
+      width: 320px;
+    }
   }
-
-  & > :last-child {
-    flex-grow: 1;
-    padding: 10px;
+  .content-block {
+    .el-card {
+      margin-bottom: 26px;
+      .el-table {
+        border-radius: 0px;
+        .el-table__cell {
+          padding: 8px 11px;
+        }
+        th.el-table__cell > .cell {
+          font-size: 16px;
+        }
+        th.el-table__cell.is-sortable {
+          padding: 8px 5px !important;
+        }
+      }
+      .el-card__body {
+        padding: 0px;
+        padding-top: 4px;
+      }
+      &.top-border.client {
+        &:before {
+          background: #00b299;
+        }
+      }
+      &.top-border.delivery {
+        &:before {
+          background: #66cfda;
+        }
+      }
+      &.top-border.session {
+        &:before {
+          background: #5d4eff;
+        }
+      }
+      &.top-border.packets {
+        &:before {
+          background: #3d7ff9;
+        }
+      }
+      &.top-border.messages {
+        &:before {
+          background: #bf73ff;
+        }
+      }
+      &.top-border.bytes {
+        &:before {
+          background: #f49845;
+        }
+      }
+    }
   }
-
-  & .part-desc {
-    padding: 5px 0;
-  }
-}
-
-.el-input-group--append :deep(.el-input-group__append) {
-  width: 90px;
 }
 </style>

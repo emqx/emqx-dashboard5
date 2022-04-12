@@ -83,6 +83,10 @@ h2 {
   margin-top: 14px;
   margin-bottom: 24px;
 }
+p.tip {
+  margin: 0px;
+  color: var(--color-text-secondary);
+}
 
 #app {
   min-width: 600px;

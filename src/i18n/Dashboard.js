@@ -151,9 +151,9 @@ export default {
     zh: '节点的报文信息, 消息统计与流量收发统计',
     en: 'Packet statistics of nodes, Message I/O Statistics',
   },
-  mqttPackages: {
+  mqttPackets: {
     zh: '报文',
-    en: 'Packages',
+    en: 'Packets',
   },
   messageNumber: {
     zh: '消息数量',
@@ -370,5 +370,9 @@ export default {
   sysPath: {
     zh: '系统路径',
     en: 'System Path',
+  },
+  explore: {
+    zh: '导出数据',
+    en: 'Explore Data',
   },
 }
