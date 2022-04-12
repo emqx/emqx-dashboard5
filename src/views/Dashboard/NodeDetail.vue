@@ -1,6 +1,11 @@
 <template>
   <div class="node-detail app-wrapper">
-    <h2>{{ tl('node') }} {{ nodeName }}</h2>
+    <breadcrumb
+      :items="[
+        { name: tl('nodeList'), path: '/dashboard/nodes' },
+        { name: `${tl('node')} ${nodeName}` },
+      ]"
+    />
     <el-row :gutter="26">
       <el-col :span="12">
         <el-card class="node-info top-border">
@@ -110,6 +115,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
 import { getDuration, calcPercentage } from '@/common/utils'
+import Breadcrumb from '@/components/Breadcrumb.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
