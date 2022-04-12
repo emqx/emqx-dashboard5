@@ -36,14 +36,14 @@
                   <div class="icon-connector-handler-container" v-if="!disabled">
                     <el-icon
                       :class="['icon-connector-handler', btnEditConnectorClass]"
-                      :size="20"
+                      :size="16"
                       @click="openConnectorDialog(true)"
                     >
                       <edit />
                     </el-icon>
                     <el-icon
                       class="icon-connector-handler"
-                      :size="20"
+                      :size="16"
                       @click="openConnectorDialog(false)"
                     >
                       <plus />
@@ -159,14 +159,14 @@
                   <div class="icon-connector-handler-container" v-if="!disabled">
                     <el-icon
                       :class="['icon-connector-handler', btnEditConnectorClass]"
-                      :size="20"
+                      :size="16"
                       @click="openConnectorDialog(true)"
                     >
                       <edit />
                     </el-icon>
                     <el-icon
                       class="icon-connector-handler"
-                      :size="20"
+                      :size="16"
                       @click="openConnectorDialog(false)"
                     >
                       <plus />
@@ -474,6 +474,7 @@ defineExpose({ validate, clearValidate })
 .connector-select-container {
   display: flex;
   align-items: flex-start;
+  width: 100%;
   .icon-connector-handler-container {
     margin-left: 16px;
     flex-shrink: 0;
@@ -481,10 +482,10 @@ defineExpose({ validate, clearValidate })
 }
 .icon-connector-handler {
   box-sizing: border-box;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  border: var(--el-border-base);
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border: 1px solid var(--color-border-primary);
   border-radius: var(--el-border-radius-base);
 
   &:not(:last-child) {

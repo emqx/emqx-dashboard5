@@ -22,7 +22,7 @@
     </div>
     <el-tabs v-model="activeTab">
       <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
-        <RuleItemOverview :rule-msg="ruleInfo" />
+        <RuleItemOverview :rule-msg="ruleInfo" @reset="loadRuleDetail" />
       </el-tab-pane>
       <el-tab-pane :label="tl('settings')" :name="Tab.Setting" lazy>
         <div v-loading="infoLoading">

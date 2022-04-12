@@ -32,7 +32,11 @@
         </div>
         <el-tabs v-model="activeTab">
           <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
-            <BridgeItemOverview :bridge-msg="bridgeInfo" @reconnect="loadBridgeInfo" />
+            <BridgeItemOverview
+              :bridge-msg="bridgeInfo"
+              @reconnect="loadBridgeInfo"
+              @reset="loadBridgeInfo"
+            />
           </el-tab-pane>
           <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
             <el-card class="app-card">
@@ -83,7 +87,7 @@ import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import useBridgeTypeValue, { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 
@@ -102,7 +106,6 @@ const activeTab = ref(Tab.Overview)
 
 const formCom = ref()
 
-const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 const { getTypeStr } = useBridgeTypeOptions()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)

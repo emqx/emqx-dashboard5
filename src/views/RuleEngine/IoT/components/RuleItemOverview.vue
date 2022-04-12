@@ -3,9 +3,9 @@
     <el-card class="app-card detail-sub-card">
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
-        <!-- <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
+        <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
           <el-icon @click="resetStatistics"><refresh-left /></el-icon>
-        </el-tooltip> -->
+        </el-tooltip>
       </div>
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic">
@@ -148,6 +148,8 @@ import { RefreshLeft } from '@element-plus/icons-vue'
 import { RuleItem, NodeMetrics, NodeStatus, Metrics } from '@/types/rule'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { formatNumber } from '@/common/tools'
+import { resetRuleMetrics } from '@/api/ruleengine'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const props = defineProps({
   ruleMsg: {
@@ -189,7 +191,12 @@ const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
 const resetStatistics = async () => {
-  // TODO:
+  if (!props.ruleMsg.id) {
+    return
+  }
+  await ElMessageBox.confirm(t('RuleEngine.resetMetricsConfirm', { target: tl('rule') }))
+  await resetRuleMetrics(props.ruleMsg.id)
+  ElMessage.success(tl('resetSuccessfully'))
   emit('reset')
 }
 </script>

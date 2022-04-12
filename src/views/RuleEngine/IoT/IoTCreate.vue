@@ -92,58 +92,7 @@ checkRuleClipStatus()
 </script>
 
 <style lang="scss" scoped>
-.outputs-item {
-  height: 92px;
-  border: var(--el-border-base);
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-
-  span:nth-child(2) {
-    flex-grow: 1;
-
-    div {
-      line-height: 200%;
-    }
-
-    .output-desc {
-      color: #5b5b5b;
-    }
-  }
-
-  .output-op {
-    padding: 0 10px;
-    visibility: hidden;
-  }
-
-  &.add {
-    justify-content: center;
-    // align-items: center;
-  }
-  &:first-of-type {
-    margin-top: 20px;
-  }
-  &:hover {
-    border-color: var(--el-color-primary);
-    cursor: pointer;
-    span {
-      color: var(--el-color-primary);
-      visibility: visible;
-    }
-  }
-}
-
-.edit-output {
-  color: var(--el-color-primary);
-  line-height: 50px;
-  cursor: pointer;
-}
 .config-btn {
   margin-top: 50px;
-}
-
-.embedded-config {
-  border: var(--el-border-base);
-  padding: 30px;
 }
 </style>

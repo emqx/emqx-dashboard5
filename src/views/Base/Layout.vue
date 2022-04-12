@@ -36,7 +36,7 @@
                 :key="topLvRoute.path + '/' + route.path"
               >
                 <el-menu-item
-                  v-if="!route.meta.hideInMenu"
+                  v-if="!route.meta?.hideInMenu"
                   :index="topLvRoute.path + '/' + route.path"
                 >
                   {{ $t(`components.${kebab2pascal(route.path)}`) }}

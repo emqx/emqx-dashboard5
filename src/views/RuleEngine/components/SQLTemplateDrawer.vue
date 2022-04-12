@@ -155,12 +155,12 @@ initTemplateList()
   .el-drawer__header {
     padding: 16px 20px;
     margin-bottom: 0;
-    border-bottom: 1px solid var(--el-border-color-base);
+    border-bottom: 1px solid var(--color-border-primary);
   }
   .el-drawer__body {
     overflow: auto;
   }
-  $collapse-border: 1px solid var(--el-border-color-base);
+  $collapse-border: 1px solid var(--color-border-primary);
   .el-collapse {
     border-top: $collapse-border;
   }

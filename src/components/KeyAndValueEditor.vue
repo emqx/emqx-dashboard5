@@ -1,5 +1,5 @@
 <template>
-  <el-table class="key-and-value-editor" :data="tableData" size="small">
+  <el-table class="key-and-value-editor shadow-none" :data="tableData" size="small">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
         <el-input v-model="row.key" class="key-input" @input="atInputChange"></el-input>
