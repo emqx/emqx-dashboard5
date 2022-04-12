@@ -431,6 +431,10 @@ export default {
     zh: '运行统计',
     en: 'Execution Statistics',
   },
+  nodeStatus: {
+    zh: '节点状态',
+    en: 'Node Status',
+  },
   resetStatistics: {
     zh: '重置统计数据',
     en: 'Reset statistics',

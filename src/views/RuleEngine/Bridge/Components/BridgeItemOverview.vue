@@ -28,7 +28,7 @@
     </el-card>
     <el-card class="app-card detail-sub-card">
       <div class="card-hd">
-        <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
+        <h6 class="block-title">{{ tl('nodeStatus') }}</h6>
       </div>
       <p class="card-sub-desc">{{ tl('nodeStatusDesc') }}</p>
       <el-table :data="nodeStatusTableData">
