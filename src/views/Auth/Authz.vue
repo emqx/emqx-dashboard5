@@ -9,18 +9,27 @@
         {{ $t('Base.create') }}
       </el-button>
     </div>
-    <el-table class="auth-table" :data="authzList" v-loading.lock="lockTable">
+    <el-table class="auth-table" :data="authzList" v-loading.lock="isDataLoading">
       <el-table-column prop="type" :label="$t('Auth.dataSource')">
         <template #default="{ row }">
           <img :src="row.img" width="48" />
           <span>{{ titleMap[row.type] }}</span>
         </template>
       </el-table-column>
+      <el-table-column
+        :label="$t('RuleEngine.SuccessNum')"
+        sortable
+        prop="metrics.metrics.success"
+      />
+      <el-table-column :label="$t('RuleEngine.ErrNum')" sortable prop="metrics.metrics.rate" />
+      <el-table-column
+        :label="`${$t('RuleEngine.speedNow')}(msg/s)`"
+        sortable
+        prop="metrics.metrics.failed"
+      />
       <el-table-column prop="enable" :label="$t('Auth.status')">
         <template #default="{ row }">
-          <span :class="['status', { disabled: !row.enable }]">
-            {{ row.enable ? 'Enable' : 'Disabled' }}
-          </span>
+          <AuthItemStatus :enable="row.enable" :metrics="row.metrics" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
@@ -41,72 +50,47 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import TableDropdown from './components/TableDropdown.vue'
-import { listAuthz, updateAuthz, deleteAuthz } from '@/api/auth'
+import { updateAuthz, deleteAuthz } from '@/api/auth'
 import router from '@/router'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Setting } from '@element-plus/icons-vue'
 import { AuthzSourceItem } from '@/types/auth'
 import useHandleAuthzItem from '@/hooks/Auth/useHandleAuthzItem'
+import useAuthz from '@/hooks/Auth/useAuthz'
 import useMove from '@/hooks/useMove'
 import useAuth from '@/hooks/Auth/useAuth'
+import AuthItemStatus from './components/AuthItemStatus.vue'
 
 export default defineComponent({
   name: 'Authz',
   components: {
     TableDropdown,
+    AuthItemStatus,
   },
   setup() {
     const { t } = useI18n()
 
-    const authzList = ref<AuthzSourceItem[]>([])
-    const lockTable = ref(false)
     const { titleMap } = useAuth()
-    const loadData = async () => {
-      lockTable.value = true
-      const res: { sources: AuthzSourceItem[] } = await listAuthz().catch(() => {
-        lockTable.value = false
-      })
-      if (res) {
-        authzList.value = res.sources.map((item) => {
-          let img = ''
-          try {
-            img = require(`@/assets/img/${item.type}.png`)
-          } catch (error) {
-            console.error(error)
-          }
-          return {
-            ...item,
-            img,
-          }
-        })
-        const addedAuthz = authzList.value.map((authz) => authz.type)
-        sessionStorage.setItem('addedAuthz', JSON.stringify(addedAuthz))
-      }
-      lockTable.value = false
-    }
-
-    loadData()
+    const { isDataLoading, authzList, getAuthzList, updateAuthnItemMetrics } = useAuthz()
 
     const handleUpdate = async (row: AuthzSourceItem) => {
       const { img, ...data } = row
       await updateAuthz(row.type, data)
-      loadData()
+      await getAuthzList()
+      await updateAuthnItemMetrics(row.type)
     }
 
     const handleDelete = async function ({ type }: AuthzSourceItem) {
-      MB.confirm(t('Base.confirmDelete'), {
+      await MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
       })
-        .then(async () => {
-          await deleteAuthz(type)
-          loadData()
-        })
-        .catch(() => {})
+      await deleteAuthz(type)
+      getAuthzList()
     }
 
     const {
@@ -124,7 +108,7 @@ export default defineComponent({
         moveAfterAnotherTarget: moveAuthzAfterAnotherAuthz,
       },
       undefined,
-      loadData,
+      getAuthzList,
     )
 
     const handleMove = async function (direction: string, oldIndex: number) {
@@ -143,7 +127,7 @@ export default defineComponent({
     return {
       Plus,
       Setting,
-      lockTable,
+      isDataLoading,
       authzList,
       titleMap,
       handleUpdate,

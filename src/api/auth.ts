@@ -15,6 +15,10 @@ export function listAuthz(params = {}) {
   return http.get('/authorization/sources', { params })
 }
 
+export function queryAuthzItemMetrics(type: string): Promise<Metrics> {
+  return http.get(`/authorization/sources/${type}/status`)
+}
+
 export function listAuthzSetting(params = {}) {
   return http.get('/authorization/settings', { params })
 }
