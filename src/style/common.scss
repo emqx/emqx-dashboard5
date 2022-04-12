@@ -80,6 +80,7 @@ h1 {
 h2 {
   font-size: 18px;
   color: var(--color-title-primary);
+  margin-top: 14px;
   margin-bottom: 24px;
 }
 
@@ -427,7 +428,7 @@ h2 {
   border-radius: 50%;
 }
 .running-status::before {
-  left: -17px;
+  left: -14px;
   top: 0px;
   width: 18px;
   height: 18px;
@@ -439,7 +440,7 @@ h2 {
   height: 6px;
   background-color: #00b173;
   top: 6px;
-  left: -11px;
+  left: -8px;
   z-index: 3;
 }
 
