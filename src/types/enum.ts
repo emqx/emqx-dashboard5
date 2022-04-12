@@ -40,12 +40,6 @@ export enum ConnectionStatus {
   Connecting = 'connecting',
 }
 
-export enum BridgeStatus {
-  Connected = 'connected',
-  Disconnected = 'disconnected',
-  Connecting = 'connecting',
-}
-
 // [ top, bottom, before, after ]
 export enum TargetPosition {
   Top = 'front',

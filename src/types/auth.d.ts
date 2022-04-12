@@ -1,3 +1,5 @@
+import { ConnectionStatus } from "./enum"
+
 export interface AuthzSetting {
   cache: {
     ttl: string
@@ -60,4 +62,17 @@ export interface DataManagerItem {
   user_id: string
   password: string
   is_superuser: boolean
+}
+
+export interface Metrics {
+  metrics: Record<string, number>
+  node_metrics: Array<{
+    metrics: Metrics
+    node: string
+  }>
+  node_status: Array<{
+    node: string
+    status: string
+  }>
+  status: ConnectionStatus
 }

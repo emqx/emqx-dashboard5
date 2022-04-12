@@ -44,7 +44,7 @@
             <el-button
               size="small"
               type="primary"
-              v-if="row.status === BridgeStatus.Disconnected"
+              v-if="row.status === ConnectionStatus.Disconnected"
               @click="reconnect(row)"
               :loading="nodeConnectingStatusMap[row.node]"
             >
@@ -68,10 +68,10 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
 import { RefreshLeft } from '@element-plus/icons-vue'
-import { BridgeStatus } from '@/types/enum'
+import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
 import { formatNumber } from '@/common/tools'
-import useBridgeItemStatus from '@/hooks/Rule/bridge/useBridgeItemStatus'
+import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -84,7 +84,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['reset', 'reconnect'])
-const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useBridgeItemStatus()
+const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
 
@@ -101,7 +101,7 @@ const nodeMetrics: ComputedRef<Array<NodeMetrics>> = computed(() => {
 const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = computed(() => {
   return nodeMetrics.value.map(({ node, metrics }) => {
     const status =
-      nodeStatus.value.find((item) => item.node === node)?.status || BridgeStatus.Disconnected
+      nodeStatus.value.find((item) => item.node === node)?.status || ConnectionStatus.Disconnected
     return {
       node,
       metrics,

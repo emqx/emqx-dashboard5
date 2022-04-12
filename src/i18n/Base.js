@@ -331,4 +331,16 @@ export default {
     zh: '请上传拓展名为 {extensions} 的文件',
     en: 'Please upload a file with extension {extensions}',
   },
+  connected: {
+    zh: '已连接',
+    en: 'Connected',
+  },
+  disconnected: {
+    zh: '已断开',
+    en: 'Disconnected',
+  },
+  connecting: {
+    zh: '连接中',
+    en: 'Connecting',
+  },
 }
