@@ -1,5 +1,16 @@
 <template>
   <div class="polyline-cards">
+    <div class="chart-option">
+      <el-select class="interval-select" v-model="timeRange">
+        <el-option
+          v-for="time in timeRangeOptions"
+          :key="time.label"
+          :label="time.label"
+          :value="time.value"
+        ></el-option>
+      </el-select>
+      <integration-metrics></integration-metrics>
+    </div>
     <div class="block">
       <h2>{{ $t('Dashboard.messageNumber') }}</h2>
       <el-row :gutter="26">
@@ -43,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, watch } from 'vue'
 export default defineComponent({
   name: 'PolylineCards',
 })
@@ -56,6 +67,8 @@ import { loadChartData } from '@/api/common'
 import { ref, reactive, computed, onUnmounted, onMounted, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
+import IntegrationMetrics from './IntegrationMetrics.vue'
+import useI18nTl from '@/hooks/useI18nTl'
 
 type ChartData = Array<{
   xData: Array<string>
@@ -63,6 +76,22 @@ type ChartData = Array<{
 }>
 
 const { t } = useI18n()
+const { tl } = useI18nTl('Dashboard')
+
+const timeRange = ref(3600)
+
+const timeRangeOptions = [
+  { label: tl('lastHour'), value: 3600 },
+  { label: tl('last6Hours'), value: 21600 },
+  { label: tl('last12Hours'), value: 43200 },
+  { label: tl('lastDay'), value: 86400 },
+  { label: tl('last3Days'), value: 259200 },
+  { label: tl('last7Days'), value: 604800 },
+]
+
+watch(timeRange, () => {
+  loadChartMetrics()
+})
 
 const chartDataFill = (length: number): ChartData => {
   return Array.from({ length }, () => ({ xData: [], yData: [] }))
@@ -132,8 +161,8 @@ const _formatTime = (time: number) => {
   return Moment(time).format('HH:mm')
 }
 
-const loadMetricsLogData = async () => {
-  const data = await loadChartData()
+const loadChartMetrics = async () => {
+  const data = await loadChartData(timeRange.value)
   dataTypeList.forEach((typeName) => {
     metricLog[typeName] = chartDataFill(1)
   })
@@ -151,8 +180,8 @@ const clearTimer = () => {
 }
 
 onMounted(() => {
-  loadMetricsLogData()
-  timerMetrics.value = window.setInterval(loadMetricsLogData, 60000)
+  loadChartMetrics()
+  timerMetrics.value = window.setInterval(loadChartMetrics, 60000)
 })
 
 onUnmounted(clearTimer)
@@ -160,6 +189,16 @@ onUnmounted(clearTimer)
 
 <style lang="scss">
 .polyline-cards {
+  .chart-option {
+    margin-top: 36px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .interval-select {
+      width: 260px;
+    }
+  }
   .big-card,
   .polyline-card {
     position: relative;

@@ -30,8 +30,8 @@ export function loadCurrentMetrics(): Promise<Record<string, number>> {
   return http.get('/monitor_current')
 }
 
-export function loadChartData(): Promise<Array<ChartDataItem>> {
-  return http.get('/monitor')
+export function loadChartData(time: number): Promise<Array<ChartDataItem>> {
+  return http.get('/monitor', { params: { latest: time } })
 }
 
 //metrics integration

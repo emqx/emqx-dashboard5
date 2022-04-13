@@ -90,17 +90,6 @@
     <el-card class="cluster-card block">
       <NodesGraphCard class="nodes-graph" />
     </el-card>
-    <div class="chart-option">
-      <el-select class="interval-select" v-model="timeRange">
-        <el-option
-          v-for="(timeKey, timeVlaue) in timeRangeOptions"
-          :key="timeVlaue"
-          :label="timeVlaue"
-          :value="timeKey"
-        ></el-option>
-      </el-select>
-      <integration-metrics></integration-metrics>
-    </div>
     <polyline-cards></polyline-cards>
   </div>
 </template>
@@ -118,7 +107,6 @@ import { ref, reactive, onUnmounted, Ref } from 'vue'
 import SimpleLine from './components/SimpleLine.vue'
 import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
-import IntegrationMetrics from './components/IntegrationMetrics.vue'
 import Moment from 'moment'
 import { loadCurrentMetrics } from '@/api/common'
 
@@ -128,15 +116,6 @@ interface MetricData {
 }
 
 const interval = ref(2000)
-const timeRange = ref(3600)
-const timeRangeOptions = {
-  'Last hour': 3600,
-  'Last 6 hours': 21600,
-  'Last 12 hours': 43200,
-  'Last day': 86400,
-  'Last 3 days': 259200,
-  'Last 7 days': 604800,
-}
 
 const currentMetricsLogs: Record<string, MetricData> = reactive({
   received_rate: {
@@ -276,16 +255,6 @@ onUnmounted(() => {
   .cluster-card {
     .el-card__body {
       padding: 0px;
-    }
-  }
-  .chart-option {
-    margin-top: 36px;
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .interval-select {
-      width: 260px;
     }
   }
 }
