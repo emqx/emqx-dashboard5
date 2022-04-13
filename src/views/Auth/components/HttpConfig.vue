@@ -67,11 +67,6 @@
     </div>
     <el-form class="create-form" label-position="top">
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="$t('Auth.requestTimeout')">
-            <time-input-with-unit-select v-model="httpConfig.request_timeout" />
-          </el-form-item>
-        </el-col>
         <el-col :span="24">
           <el-form-item label="Body">
             <div class="viewer-container" ref="monacoContainer">
@@ -80,6 +75,11 @@
             <el-button class="bottom-btn" size="small" @click="setDefaultContent">
               {{ $t('Auth.setDefault') }}
             </el-button>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('Auth.requestTimeout')">
+            <time-input-with-unit-select v-model="httpConfig.request_timeout" />
           </el-form-item>
         </el-col>
         <el-collapse-transition>
@@ -101,14 +101,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, watch } from 'vue'
+import { defineComponent, reactive, ref, watch } from 'vue'
 import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import useCopy from '@/hooks/useCopy'
 import Monaco from '@/components/Monaco.vue'
-import { useRoute } from 'vue-router'
 import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
 
 export default defineComponent({
@@ -132,7 +131,6 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const route = useRoute()
     const defaultContent = JSON.stringify(
       {
         username: '${username}',
@@ -174,13 +172,15 @@ export default defineComponent({
         res.json(data)
       })
     `
-    const id = computed(function () {
-      const { id, type } = route.params
-      return id || type
-    })
-    if (id.value) {
-      const { body } = httpConfig
-      httpConfig.body = JSON.stringify(body, null, 2)
+
+    const stringifyBody = () => {
+      const { body } = httpConfig || {}
+      if (!body) {
+        return
+      }
+      if (typeof body === 'object') {
+        httpConfig.body = JSON.stringify(body, null, 2)
+      }
     }
     const { copySuccess, copyText } = useCopy(() => {
       needHelp.value = false
@@ -191,6 +191,9 @@ export default defineComponent({
     const setDefaultContent = () => {
       httpConfig.body = defaultContent
     }
+
+    stringifyBody()
+
     return {
       helpContent,
       httpConfig,

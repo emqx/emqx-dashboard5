@@ -315,4 +315,8 @@ export default {
     zh: '每个节点上{target}状态和执行情况',
     en: '{target} status and execution on each node',
   },
+  noDatabasePlaceholder: {
+    zh: '无可用的数据库供此类型网关选择',
+    en: 'There are no databases available for this type of gateway to choose from',
+  },
 }

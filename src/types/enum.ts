@@ -125,3 +125,26 @@ export enum NodeStatus {
   Running = 'Running',
   Stopped = 'Stopped',
 }
+
+export enum AuthnMechanismType {
+  PasswordBased = 'password_based',
+  JWT = 'jwt',
+  Scram = 'scram',
+}
+
+export enum DatabasesType {
+  BuiltInDatabase = 'built_in_database',
+  MySQL = 'mysql',
+  MongoDB = 'mongodb',
+  PostgreSQL = 'postgresql',
+  HTTPServer = 'http',
+  Redis = 'redis',
+}
+
+export enum GatewayName {
+  CoAP = 'coap',
+  ExProto = 'exproto',
+  LwM2M = 'lwm2m',
+  MQTT_SN = 'mqttsn',
+  STOMP = 'stomp',
+}

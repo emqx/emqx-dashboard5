@@ -304,3 +304,10 @@ export const findExtensionByName = (name: string): string => {
   const matchResult = name.match(reg)
   return !matchResult ? '' : matchResult[1]
 }
+
+export const sortStringArr = (strArr: Array<string>, isAsc = true): Array<string> => {
+  return strArr.sort((a, b) => {
+    const ret = a.localeCompare(b)
+    return isAsc ? ret : -ret
+  })
+}

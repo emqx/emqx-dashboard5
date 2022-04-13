@@ -67,7 +67,7 @@
         <!-- <el-button @click="handleTest">
           {{ $t('Base.test') }}
         </el-button> -->
-        <el-button @click="$router.push('/authentication')">
+        <el-button @click="$router.push('/authentication')" v-if="!gateway">
           {{ $t('Base.cancel') }}
         </el-button>
       </el-tab-pane>
