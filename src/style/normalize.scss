@@ -464,3 +464,18 @@
     min-width: 135px;
   }
 }
+
+/* Page Header */
+.el-page-header__content {
+  color: var(--color-title-primary);
+  font-weight: 600;
+  font-size: 18px;
+}
+.el-page-header__icon {
+  font-size: 14px;
+}
+.el-page-header__left {
+  &:hover {
+    color: var(--color-primary);
+  }
+}
