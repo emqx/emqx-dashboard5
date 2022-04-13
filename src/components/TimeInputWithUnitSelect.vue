@@ -17,7 +17,7 @@
   </el-input>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -37,7 +37,7 @@ export default defineComponent({
       get() {
         return this.modelValue
       },
-      set(val) {
+      set(val: string) {
         this.$emit('update:modelValue', val)
       },
     },
@@ -45,7 +45,7 @@ export default defineComponent({
       get() {
         return this.inputValue.replace(this.unit, '')
       },
-      set(val) {
+      set(val: string) {
         this.inputValue = val + this.unit
       },
     },
@@ -53,7 +53,7 @@ export default defineComponent({
       get() {
         return this.inputValue.replace(/[0-9]+/g, '')
       },
-      set(val) {
+      set(val: string) {
         this.inputValue = this.timeValue + val
       },
     },

@@ -344,16 +344,16 @@ export default {
     en: 'Dropped',
   },
   integration: {
-    zh: 'Metrics Integration',
+    zh: '数据指标集成',
     en: 'Metrics Integration',
   },
   integrationDesc: {
-    zh: '集成外部指标监控与告警管理',
+    zh: '集成指标数据外部的监控与告警管理',
     en: 'Integrated monitoring and alerting toolkit',
   },
   promDesc: {
-    zh: '集成外部指标监控与告警管理',
-    en: 'Integrated monitoring and alerting toolkit',
+    zh: '使用 Prometheus 采集指标数据',
+    en: 'Integrated with Prometheus',
   },
   statsdDesc: {
     zh: '使用 StatsD 采集指标数据',
@@ -372,7 +372,31 @@ export default {
     en: 'System Path',
   },
   explore: {
-    zh: '导出数据',
+    zh: '探索数据',
     en: 'Explore Data',
+  },
+  lastHour: {
+    zh: '过去 1 小时',
+    en: 'Last hour',
+  },
+  last6Hours: {
+    zh: '过去 6 小时',
+    en: 'Last 6 hours',
+  },
+  last12Hours: {
+    zh: '过去 12 时',
+    en: 'Last 12 hours',
+  },
+  lastDay: {
+    zh: '过去 1 天',
+    en: 'Last day',
+  },
+  last3Days: {
+    zh: '过去 3 天',
+    en: 'Last 3 days',
+  },
+  last7Days: {
+    zh: '过去 7 天',
+    en: 'Last 7 days',
   },
 }

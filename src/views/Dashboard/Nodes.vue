@@ -29,7 +29,7 @@
           <el-tooltip
             placement="top"
             effect="dark"
-            :content="`${row.process_used}/${row.process_available}`"
+            :content="`${row.memory_used}/${row.memory_total}`"
           >
             <el-progress
               :text-inside="true"

@@ -42,13 +42,13 @@ export interface NodeMsg {
 
 export interface Prometheus {
   enable: boolean
-  interval: string | [string, string]
+  interval: string
   push_gateway_server: string
 }
 
 export interface StatsD {
   enable: boolean
-  flush_time_interval: string | [string, string]
+  flush_time_interval: string
   sample_time_interval: string
   server: string
 }
