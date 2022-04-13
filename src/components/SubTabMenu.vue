@@ -50,8 +50,9 @@ export default defineComponent({
 $mid-menu-width: 160px;
 
 .sec-header-title {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-title-primary);
   padding: 20px 15px;
 }
 :deep(.el-tabs--left) {
@@ -71,22 +72,13 @@ $mid-menu-width: 160px;
   &.no-tab-wrapper {
     margin: 20px;
   }
-
   .el-tabs__content {
     margin-left: 0;
   }
-
-  .section-header {
-    > :first-child {
-      font-size: 18px;
-    }
-  }
-
   .part-header {
     font-size: 16px;
     margin-bottom: 10px;
   }
-
   .el-tab-pane {
     margin: 20px;
   }

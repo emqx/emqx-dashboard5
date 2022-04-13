@@ -60,9 +60,9 @@
     </el-form>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="clientid" sortable :label="$t('Clients.clientId')"></el-table-column>
-      <el-table-column prop="topic" :label="$t('Subs.topic')" sortable></el-table-column>
-      <el-table-column prop="qos" label="QoS" sortable></el-table-column>
+      <el-table-column prop="clientid" :label="$t('Clients.clientId')"></el-table-column>
+      <el-table-column prop="topic" :label="$t('Subs.topic')"></el-table-column>
+      <el-table-column prop="qos" label="QoS"></el-table-column>
     </el-table>
 
     <div class="emq-table-footer">

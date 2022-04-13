@@ -164,12 +164,6 @@
       </el-form-item>
 
       <el-form-item prop="qos" label="QoS">
-        <!-- <emq-select
-          v-model.number="messageRecord.qos"
-          :field="{ list: QoSOptions }"
-         
-        >
-        </emq-select> -->
         <el-select v-model.number="messageRecord.qos">
           <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
         </el-select>
@@ -187,8 +181,7 @@
       <el-col :span="12">
         <div class="message-btn">
           {{ $t('Tools.received') }}
-          <!-- FIX ME -->
-          clear
+          <el-icon><delete /></el-icon>
         </div>
         <el-table :data="messageIn" max-height="400px">
           <el-table-column
@@ -225,8 +218,7 @@
       <el-col :span="12">
         <div class="message-btn">
           {{ $t('Tools.published') }}
-          <!-- FIX ME -->
-          clear
+          <el-icon><delete /></el-icon>
         </div>
         <el-table :data="messageOut" max-height="400px">
           <el-table-column
@@ -266,12 +258,15 @@
 <script>
 import mqtt from 'mqtt'
 import moment from 'moment'
-import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import { QoSOptions } from '@/common/constants'
+import { Delete } from '@element-plus/icons-vue'
 
 export default {
   name: 'WebSocketItem',
+  components: {
+    Delete,
+  },
   props: {
     messageCount: {
       type: Number,

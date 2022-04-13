@@ -8,8 +8,8 @@
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column sortable prop="username" :label="$t('General.userName')"></el-table-column>
-      <el-table-column sortable prop="description" :label="$t('General.remark')"></el-table-column>
+      <el-table-column prop="username" :label="$t('General.userName')"></el-table-column>
+      <el-table-column prop="description" :label="$t('General.remark')"></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="showDialog('edit', row)"

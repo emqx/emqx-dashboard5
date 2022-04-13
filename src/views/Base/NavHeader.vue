@@ -179,7 +179,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   height: 60px;
-  padding: 0 20px 0 8px;
+  padding: 0 24px;
   background-color: #fff;
 
   left: 201px;
@@ -198,10 +198,6 @@ export default defineComponent({
     margin-right: 10px;
     margin-left: 4px;
   }
-}
-
-.header-title {
-  padding-left: 20px;
 }
 
 .pull-right {

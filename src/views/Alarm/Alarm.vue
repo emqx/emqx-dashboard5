@@ -5,8 +5,8 @@
     </div>
 
     <el-table :data="currentAlarmData" v-loading.lock="currentLockTable">
-      <el-table-column prop="name" :label="$t('Alarm.alarmName')" sortable></el-table-column>
-      <el-table-column prop="message" :label="$t('Alarm.alarmMsg')" sortable>
+      <el-table-column prop="name" :label="$t('Alarm.alarmName')"></el-table-column>
+      <el-table-column prop="message" :label="$t('Alarm.alarmMsg')">
         <template #default="{ row }">
           <el-popover placement="top" trigger="hover" width="160">
             <div v-for="(value, label) in row.details" :key="label">{{ label }}: {{ value }}</div>
@@ -19,16 +19,16 @@
           <span>{{ row.message }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="node" :label="$t('Alarm.triggerNode')" sortable></el-table-column>
+      <el-table-column prop="node" :label="$t('Alarm.triggerNode')"></el-table-column>
       <el-table-column :label="$t('Alarm.alarmLevel')">
         <span> {{ $t('Alarm.system') }}</span>
       </el-table-column>
-      <el-table-column prop="activate_at" :label="$t('Alarm.activateAt')" sortable>
+      <el-table-column prop="activate_at" :label="$t('Alarm.activateAt')">
         <template #default="{ row }">
           {{ (row.activate_at && dateFormat(row.activate_at)) || '' }}
         </template>
       </el-table-column>
-      <el-table-column sortable>
+      <el-table-column>
         <template #header>
           <span>
             {{ $t('Alarm.duration') }}
@@ -45,7 +45,7 @@
 
     <div class="section-header">
       <div>
-        <span> {{ tl('historyAlarm') }} </span>
+        <span>{{ tl('historyAlarm') }}</span>
       </div>
       <div>
         <el-button type="danger" @click="clearHistoryAlarm" :disabled="!historyAlarmData.length">
@@ -55,8 +55,8 @@
     </div>
 
     <el-table :data="historyAlarmData" v-loading.lock="historyLockTable">
-      <el-table-column prop="name" :label="$t('Alarm.alarmName')" sortable></el-table-column>
-      <el-table-column :label="$t('Alarm.alarmMsg')" sortable>
+      <el-table-column prop="name" :label="$t('Alarm.alarmName')"></el-table-column>
+      <el-table-column :label="$t('Alarm.alarmMsg')">
         <template #default="{ row }">
           <el-popover
             placement="top"
@@ -74,17 +74,17 @@
           <span>{{ row.message }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="node" :label="$t('Alarm.triggerNode')" sortable></el-table-column>
+      <el-table-column prop="node" :label="$t('Alarm.triggerNode')"></el-table-column>
       <el-table-column :label="$t('Alarm.alarmLevel')">
         <span>{{ $t('Alarm.system') }}</span>
       </el-table-column>
-      <el-table-column prop="activate_at" :label="$t('Alarm.activateTime')" sortable>
+      <el-table-column prop="activate_at" :label="$t('Alarm.activateTime')">
         <template #default="{ row }">
           {{ row.activate_at && dateFormat(row.activate_at) }}<br />
           {{ row.deactivate_at && dateFormat(row.deactivate_at) }}
         </template>
       </el-table-column>
-      <el-table-column prop="deactivate_at" :label="$t('Alarm.duration')" sortable>
+      <el-table-column prop="deactivate_at" :label="$t('Alarm.duration')">
         <template #default="{ row }">
           {{ getDuration(row.duration) }}
         </template>
