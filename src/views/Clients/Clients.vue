@@ -136,7 +136,7 @@
       </el-table-column>
       <el-table-column prop="oper" min-width="120" :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="small" type="danger" @click="handleDisconnect(row)">
+          <el-button size="small" type="danger" plain @click="handleDisconnect(row)">
             {{ row.connected ? $t('Clients.kickOut') : $t('Clients.cleanSession') }}
           </el-button>
         </template>
@@ -148,20 +148,11 @@
         v-model:metaData="pageMeta"
         @loadPage="loadNodeClients"
       ></common-pagination>
-      <!-- <custom-pagination
-        v-if="count === -1 && tableData.length"
-        :hasnext="hasnext"
-        :page="params.page"
-        @prevClick="handlePrevClick"
-        @nextClick="handleNextClick"
-      >
-      </custom-pagination> -->
     </div>
   </div>
 </template>
 
 <script>
-// import CustomPagination from '@/components/CustomPagination.vue'
 import { disconnectClient, listClients } from '@/api/clients'
 import { loadNodes } from '@/api/common'
 import moment from 'moment'
@@ -174,7 +165,6 @@ export default {
   name: 'Clients',
 
   components: {
-    // CustomPagination,
     CommonPagination,
     ArrowUp,
     ArrowDown,
@@ -184,14 +174,12 @@ export default {
       showMoreQuery: false,
       tableData: [],
       lockTable: false,
-      // hasnext: false,
       params: {},
       currentNodes: [],
       fuzzyParams: {
         comparator: 'gte',
       },
       pageMeta: {},
-      // selectedClients: [],
       protoNames: ['MQTT', 'MQTT-SN', 'CoAP', 'LwM2M'],
     }
   },
@@ -203,15 +191,12 @@ export default {
 
   mounted() {
     this.loadData()
-    // this.$refs.p.$emit("loadPage");
     this.loadNodeClients()
   },
 
   methods: {
     moment: moment,
     handleRowClick(row, column, event) {
-      // console.log(row, event)
-      //shiftkey+mouse select all rows before the selected one
       if (event.shiftKey) {
         let rowIndex = this.tableData.findIndex((e) => e == row)
         for (let x = rowIndex, y = 0; x > y; x--) {
@@ -220,21 +205,7 @@ export default {
           this.tableData[x].selection = true
         }
       }
-      // else {
-      //   this.$refs.clientsTable.toggleRowSelection(row, !row.selection)
-      //   row.selection = !row.selection
-      // }
     },
-    // clientSelectAll(sel) {
-    //   this.selectedClients = sel
-    //   sel.length
-    //     ? sel.forEach((row) => (row.selection = true))
-    //     : this.tableData.forEach((row) => (row.selection = false))
-    // },
-    // clientSelect(selection, row) {
-    //   row.selection = selection.includes(row)
-    //   this.selectedClients = selection
-    // },
     getRowClass({ row, rowIndex }) {
       if (row.selection == true) {
         return 'row_selected'
@@ -257,14 +228,12 @@ export default {
           await disconnectClient(row.clientid)
           this.loadNodeClients()
           ElMessage.success(successMsg)
-          // this.$refs.p.$emit("loadPage");
         })
         .catch(() => {})
     },
 
     async handleSearch() {
       this.params = this.genQueryParams(this.fuzzyParams)
-      // this.$refs.p.$emit("loadPage", 1);
       this.loadNodeClients({ page: 1 })
     },
     genQueryParams(params) {
@@ -292,22 +261,6 @@ export default {
       }
       return newParams
     },
-    // handlePrevClick() {
-    //   if (this.params.page === 1) {
-    //     return
-    //   }
-    //   this.params.page -= 1
-    //   const params = this.genQueryParams(this.fuzzyParams)
-    //   this.loadNodeClients(false, params)
-    // },
-    // handleNextClick() {
-    //   if (!this.hasnext) {
-    //     return
-    //   }
-    //   this.params.page += 1
-    //   const params = this.genQueryParams(this.fuzzyParams)
-    //   this.loadNodeClients(false, params)
-    // },
     async loadData() {
       const data = await loadNodes().catch(() => {})
       if (data) this.currentNodes = data
