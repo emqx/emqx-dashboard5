@@ -165,8 +165,8 @@ p.tip {
 }
 
 .page-header-title {
-  font-size: 24px;
-  color: #1d1d1d;
+  font-size: 18px;
+  color: var(--color-title-primary);
   font-weight: 600;
   margin-bottom: 24px;
 }
@@ -222,9 +222,11 @@ p.tip {
 }
 
 .section-header {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 20px;
+  font-size: 18px;
+  color: var(--color-title-primary);
+  font-weight: 600;
+  margin-top: 14px;
+  margin-bottom: 24px;
   width: 100%;
   overflow: hidden;
   display: flex;

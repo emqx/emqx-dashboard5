@@ -14,8 +14,8 @@
     </el-form>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="topic" :label="$t('Topics.topic')" sortable></el-table-column>
-      <el-table-column prop="node" :label="$t('Clients.node')" sortable></el-table-column>
+      <el-table-column prop="topic" :label="$t('Topics.topic')"></el-table-column>
+      <el-table-column prop="node" :label="$t('Clients.node')"></el-table-column>
     </el-table>
 
     <div class="emq-table-footer">

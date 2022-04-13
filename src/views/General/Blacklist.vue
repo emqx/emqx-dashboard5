@@ -7,16 +7,11 @@
       </el-button>
     </div>
     <el-table :data="tableData" v-loading="tbLoading">
-      <el-table-column prop="who" :label="$t('General.who')" sortable> </el-table-column>
-      <el-table-column prop="as" :label="$t('General.as')" sortable> </el-table-column>
-      <el-table-column prop="reason" min-width="120px" :label="$t('General.reason')" sortable>
+      <el-table-column prop="who" :label="$t('General.who')"> </el-table-column>
+      <el-table-column prop="as" :label="$t('General.as')"> </el-table-column>
+      <el-table-column prop="reason" min-width="120px" :label="$t('General.reason')">
       </el-table-column>
-      <el-table-column
-        prop="until"
-        :formatter="formatterUntil"
-        :label="$t('General.until')"
-        sortable
-      >
+      <el-table-column prop="until" :formatter="formatterUntil" :label="$t('General.until')">
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
