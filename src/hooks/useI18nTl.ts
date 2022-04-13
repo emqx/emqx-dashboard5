@@ -1,6 +1,7 @@
-import { useI18n } from 'vue-i18n'
+import { useI18n, ComposerTranslation } from 'vue-i18n'
 
 export default function useI18nTl(collection: string): {
+  t: ComposerTranslation
   tl: (
     key: string,
     meta?: {
@@ -16,6 +17,7 @@ export default function useI18nTl(collection: string): {
     return t(`${collection}.${key}`)
   }
   return {
+    t,
     tl,
   }
 }

@@ -16,9 +16,12 @@
             <div class="section-header__title">
               {{ titleMap[currBackend] }}
             </div>
-            <el-tag type="info" size="small">
-              {{ configData.mechanism }}
-            </el-tag>
+            <div class="info-tags">
+              <AuthItemStatus is-tag :metrics="authMetrics" :enable="configData.enable" />
+              <el-tag type="info" size="small" class="section-status">
+                {{ configData.mechanism }}
+              </el-tag>
+            </div>
           </div>
         </template>
       </div>
@@ -32,7 +35,10 @@
       </div>
     </div>
     <el-tabs v-if="!authnDetailLock">
-      <el-tab-pane :label="$t('Auth.config')" :lazy="true">
+      <el-tab-pane v-if="hasMetrics(configData)" :label="$t('Base.overview')" :lazy="true">
+        <AuthItemOverview :metrics="authMetrics" />
+      </el-tab-pane>
+      <el-tab-pane :label="$t('Base.setting')" :lazy="true">
         <template v-if="configData.mechanism !== 'jwt'">
           <database-config
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
@@ -93,6 +99,10 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { jumpToErrorFormItem } from '@/common/tools'
+import AuthItemOverview from './components/AuthItemOverview.vue'
+import { queryAuthnItemMetrics } from '@/api/auth'
+import { hasMetrics } from '@/hooks/Auth/useAuthn'
+import AuthItemStatus from './components/AuthItemStatus.vue'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -103,6 +113,8 @@ export default defineComponent({
     BuiltInConfig,
     DataManager,
     JwtConfig,
+    AuthItemOverview,
+    AuthItemStatus,
   },
   props: {
     gatewayInfo: {
@@ -140,6 +152,7 @@ export default defineComponent({
     const configData = ref({
       ssl: { enable: false },
     })
+    const authMetrics = ref(undefined)
 
     const currBackend = ref('')
 
@@ -162,8 +175,15 @@ export default defineComponent({
         configData.value = res
       }
     }
+    const getAuthnMetrics = async () => {
+      try {
+        const data = await queryAuthnItemMetrics(id.value)
+        authMetrics.value = data
+      } catch (error) {
+        //
+      }
+    }
     const { titleMap } = useAuth()
-    loadData()
     const handleUpdate = async function ({ enable }) {
       let isVerified = true
       if (formCom.value) {
@@ -213,13 +233,24 @@ export default defineComponent({
         .catch(() => {})
     }
 
+    const initData = async () => {
+      await loadData()
+      if (hasMetrics(configData.value)) {
+        getAuthnMetrics()
+      }
+    }
+
+    initData()
+
     return {
       currBackend,
       currImg,
       titleMap,
       configData,
+      authMetrics,
       authnDetailLock,
       formCom,
+      hasMetrics,
       handleUpdate,
       handleDelete,
     }

@@ -8,8 +8,13 @@
         <div>
           <img :src="currImg" width="90" />
         </div>
-        <div class="section-header__title">
-          {{ titleMap[type] }}
+        <div>
+          <div class="section-header__title">
+            {{ titleMap[type] }}
+          </div>
+          <div class="info-tags">
+            <AuthItemStatus is-tag :metrics="authMetrics" :enable="configData.enable" />
+          </div>
         </div>
       </div>
       <div>
@@ -22,10 +27,13 @@
       </div>
     </div>
     <el-tabs v-if="!authzDetailLock">
+      <el-tab-pane v-if="hasMetrics(configData)" :label="$t('Base.overview')" :lazy="true">
+        <AuthItemOverview :metrics="authMetrics" type="authz" />
+      </el-tab-pane>
       <el-tab-pane v-if="type === 'built_in_database'" :label="$t('Auth.userConfig')" :lazy="true">
         <built-in-manager></built-in-manager>
       </el-tab-pane>
-      <el-tab-pane v-else :label="$t('Auth.config')" :lazy="true">
+      <el-tab-pane v-else :label="$t('Base.setting')" :lazy="true">
         <el-card>
           <database-config
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
@@ -71,6 +79,10 @@ import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { jumpToErrorFormItem } from '@/common/tools'
+import AuthItemOverview from './components/AuthItemOverview.vue'
+import { queryAuthzItemMetrics } from '@/api/auth'
+import { hasMetrics } from '@/hooks/Auth/useAuthz'
+import AuthItemStatus from './components/AuthItemStatus.vue'
 
 export default defineComponent({
   name: 'AuthzDetails',
@@ -80,6 +92,8 @@ export default defineComponent({
     DatabaseConfig,
     BuiltInManager,
     HttpConfig,
+    AuthItemOverview,
+    AuthItemStatus,
   },
   setup() {
     const { t } = useI18n()
@@ -91,6 +105,7 @@ export default defineComponent({
     const configData = ref({
       ssl: { enable: false },
     })
+    const authMetrics = ref(undefined)
 
     const formCom = ref()
 
@@ -112,6 +127,15 @@ export default defineComponent({
       authzDetailLock.value = false
       if (res) {
         configData.value = res
+      }
+    }
+
+    const getAuthzMetrics = async () => {
+      try {
+        const data = await queryAuthzItemMetrics(type.value)
+        authMetrics.value = data
+      } catch (error) {
+        //
       }
     }
 
@@ -150,14 +174,24 @@ export default defineComponent({
         .catch(() => {})
     }
 
-    loadData()
+    const initData = async () => {
+      await loadData()
+      if (hasMetrics(configData.value)) {
+        getAuthzMetrics()
+      }
+    }
+
+    initData()
+
     return {
       type,
       currImg,
       titleMap,
       authzDetailLock,
       configData,
+      authMetrics,
       formCom,
+      hasMetrics,
       handleDelete,
       handleUpdate,
     }

@@ -7,54 +7,6 @@
   }
 }
 
-.rule-item-overview {
-  p {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  .el-card {
-    margin-bottom: 24px;
-  }
-  .card-hd {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 16px;
-    .el-icon {
-      cursor: pointer;
-      font-size: 18px;
-      padding-top: 2px;
-    }
-  }
-  .card-sub-desc {
-    margin-bottom: 16px;
-    font-size: 14px;
-    color: var(--el-text-color-secondary);
-    line-height: 20px;
-  }
-  .rule-statistic {
-    padding: 8px 0 0;
-    .el-col {
-      padding-bottom: 20px;
-    }
-  }
-  .statistic-label {
-    margin-bottom: 20px;
-  }
-  .statistic-num {
-    line-height: 25px;
-    font-size: 24px;
-    font-weight: 600;
-    .unit {
-      font-size: 16px;
-      margin-left: 4px;
-      font-weight: normal;
-    }
-  }
-  .text-status {
-    margin-right: 8px;
-  }
-}
-
 .iot-form {
   .part-header {
     margin-bottom: 12px;

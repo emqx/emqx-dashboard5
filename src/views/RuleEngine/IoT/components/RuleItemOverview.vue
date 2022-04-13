@@ -1,5 +1,5 @@
 <template>
-  <div class="rule-item-overview">
+  <div class="resource-item-overview">
     <el-card class="app-card detail-sub-card">
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
@@ -200,7 +200,3 @@ const resetStatistics = async () => {
   emit('reset')
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~@/style/rule.scss';
-</style>
