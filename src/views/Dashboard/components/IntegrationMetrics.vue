@@ -26,34 +26,35 @@
           </div>
           <div class="item-form">
             <el-form :disabled="prometheusLoading" @keyup.enter="updatePrometheus()">
-              <el-row :gutter="20">
-                <el-col :span="2">
+              <div class="item-form-content">
+                <div class="col">
                   <el-checkbox border v-model="integrationData.prometheus.enable">
                     {{ $t('General.enabled') }}
                   </el-checkbox>
-                </el-col>
-                <el-col :span="8">
+                </div>
+                <div class="col">
                   <el-input
+                    class="server-input"
                     placeholder="Push gateway Server"
                     v-model="integrationData.prometheus.push_gateway_server"
                   />
-                </el-col>
-                <el-col :span="8">
+                </div>
+                <div class="col">
                   <time-input-with-unit-select
                     placeholder="Push Interval"
                     v-model="integrationData.prometheus.interval"
                   >
                   </time-input-with-unit-select>
-                </el-col>
-                <el-col :span="4">
+                </div>
+                <div class="col">
                   <el-button
                     type="primary"
                     :loading="prometheusLoading"
                     @click="updatePrometheus()"
                     >{{ $t('Base.update') }}</el-button
                   >
-                </el-col>
-              </el-row>
+                </div>
+              </div>
             </el-form>
           </div>
         </div>
@@ -67,28 +68,32 @@
           </div>
           <div class="item-form">
             <el-form :disabled="statsdLoading" @keyup.enter="updateStatsd()">
-              <el-row :gutter="20">
-                <el-col :span="2">
+              <div class="item-form-content">
+                <div class="col">
                   <el-checkbox border v-model="integrationData.statsd.enable">
                     {{ $t('General.enabled') }}
                   </el-checkbox>
-                </el-col>
-                <el-col :span="8">
-                  <el-input placeholder="server" v-model="integrationData.statsd.server" />
-                </el-col>
-                <el-col :span="8">
+                </div>
+                <div class="col">
+                  <el-input
+                    class="server-input"
+                    placeholder="server"
+                    v-model="integrationData.statsd.server"
+                  />
+                </div>
+                <div class="col">
                   <time-input-with-unit-select
                     placeholder="Flush Interval"
                     v-model="integrationData.statsd.flush_time_interval"
                   >
                   </time-input-with-unit-select>
-                </el-col>
-                <el-col :span="4">
+                </div>
+                <div class="col">
                   <el-button type="primary" :loading="statsdLoading" @click="updateStatsd()">{{
                     $t('Base.update')
                   }}</el-button>
-                </el-col>
-              </el-row>
+                </div>
+              </div>
             </el-form>
           </div>
         </div>
@@ -150,7 +155,9 @@ const loadIntegration = async function () {
 const updatePrometheus = async function () {
   prometheusLoading.value = true
   let pendingData: Prometheus = Object.assign({}, integrationData.prometheus)
-  let res = await setPrometheus(pendingData as Prometheus)
+  let res = await setPrometheus(pendingData as Prometheus).catch(() => {
+    prometheusLoading.value = false
+  })
   if (res) {
     prometheusLoading.value = false
     ElMessage({
@@ -169,7 +176,9 @@ const updatePrometheus = async function () {
 const updateStatsd = async function () {
   statsdLoading.value = true
   let pendingData: StatsD = Object.assign({}, integrationData.statsd)
-  let res = await setStatsd(pendingData as StatsD)
+  let res = await setStatsd(pendingData as StatsD).catch(() => {
+    statsdLoading.value = false
+  })
   if (res) {
     statsdLoading.value = false
     ElMessage({
@@ -205,10 +214,17 @@ onMounted(() => {
     }
     .item-form {
       margin-top: 24px;
+      .item-form-content {
+        display: flex;
+      }
+      .col {
+        margin-right: 24px;
+        .server-input,
+        .time-input-with-unit-select {
+          width: 285px;
+        }
+      }
     }
-  }
-  .el-input-group--append :deep(.el-input-group__append) {
-    width: 90px;
   }
 }
 </style>
