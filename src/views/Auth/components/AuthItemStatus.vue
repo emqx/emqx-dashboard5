@@ -35,11 +35,19 @@ const { tl } = useI18nTl('Base')
 const { getStatusClass: getConnectionStatusClass, getStatusLabel: getConnectionLabel } =
   useCommonConnectionStatus()
 
-const getStatusClass = (enable: boolean, status: ConnectionStatus) =>
-  enable ? getConnectionStatusClass(status) : NodeStatusClass.Danger
+const getStatusClass = (enable: boolean, status: ConnectionStatus) => {
+  if (status === ConnectionStatus.Connecting) {
+    return getConnectionStatusClass(status)
+  }
+  return enable ? NodeStatusClass.Success : NodeStatusClass.Danger
+}
 
-const getStatusText = (enable: boolean, status: ConnectionStatus) =>
-  enable ? getConnectionLabel(status) : tl('disable')
+const getStatusText = (enable: boolean, status: ConnectionStatus) => {
+  if (status === ConnectionStatus.Connecting) {
+    return getConnectionLabel(status)
+  }
+  return enable ? tl('enable') : tl('disable')
+}
 
 const statusData = computed(() => {
   const { enable, metrics } = props
