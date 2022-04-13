@@ -71,7 +71,7 @@
                     <el-tooltip
                       class="box-item"
                       effect="dark"
-                      :content="`${currentInfo?.node?.['memory_used']}\\${currentInfo?.node?.['memory_total']}`"
+                      :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
                       placement="top"
                     >
                       <el-progress

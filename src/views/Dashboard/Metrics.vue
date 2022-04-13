@@ -13,7 +13,6 @@
           :field-name="{ label: 'node', value: 'node' }"
           @change="changeNode"
         />
-        <integration-metrics></integration-metrics>
       </div>
     </div>
     <el-row class="content-block" :gutter="26">
@@ -78,7 +77,6 @@
         </el-card>
       </el-col>
     </el-row>
-
   </div>
 </template>
 <script lang="ts">
@@ -93,7 +91,6 @@ export default defineComponent({
 import { onMounted, reactive, ref, Ref } from 'vue'
 import { loadMetrics } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
-import IntegrationMetrics from './components/IntegrationMetrics.vue'
 
 interface MetricItem {
   [propName: string]: string | number
