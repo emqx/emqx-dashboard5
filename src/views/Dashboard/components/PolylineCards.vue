@@ -104,12 +104,12 @@ const messageDataTypeMap = reactive({
 })
 const connectionDataTypeMap = reactive({
   [ChartType.Connections]: t('Dashboard.currentConnection'),
-  [ChartType.Routes]: t('Dashboard.topics'),
+  [ChartType.Topics]: t('Dashboard.topics'),
   [ChartType.Subscriptions]: t('Dashboard.Subscription'),
 })
 const metricLog: Record<string, ChartData> = reactive({
   [ChartType.Connections]: chartDataFill(32),
-  [ChartType.Routes]: chartDataFill(32),
+  [ChartType.Topics]: chartDataFill(32),
   [ChartType.Subscriptions]: chartDataFill(32),
   [ChartType.Received]: chartDataFill(32),
   [ChartType.Sent]: chartDataFill(32),
@@ -120,7 +120,7 @@ const metricLog: Record<string, ChartData> = reactive({
 const dataTypeList: Array<ChartType> = reactive([
   ChartType.Dropped,
   ChartType.Connections,
-  ChartType.Routes,
+  ChartType.Topics,
   ChartType.Subscriptions,
   ChartType.Sent,
   ChartType.Received,
@@ -152,7 +152,7 @@ const chartColorList = computed<Record<string, string[]>>(() => {
     sent: getLineColors(1),
     dropped: getLineColors(2),
     connections: getLineColors(3),
-    routes: getLineColors(4),
+    topics: getLineColors(4),
     subscriptions: getLineColors(5),
   }
 })

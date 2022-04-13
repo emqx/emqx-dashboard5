@@ -13,7 +13,7 @@
             <el-col :span="8" class="main-info-item">
               <img src="@/assets/img/topics.png" width="40" height="40" alt="topics" />
               <p>{{ $t('Dashboard.topics') }}</p>
-              <div class="num">{{ _formatNumber(currentMetrics.routes) }}</div>
+              <div class="num">{{ _formatNumber(currentMetrics.topics) }}</div>
             </el-col>
             <el-col :span="8" class="main-info-item">
               <div>
@@ -143,7 +143,7 @@ const currentMetrics: Ref<Record<string, number>> = ref({
   sent_bytes_rate: 0, // Outgoing Bytes Rate
   subscriptions: 0, // Subs number
   connections: 0, // Connections number
-  routes: 0, // Topics
+  topics: 0, // Topics
 })
 let timerData: undefined | number = undefined
 
