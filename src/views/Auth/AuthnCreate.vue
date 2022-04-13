@@ -6,35 +6,33 @@
     <div class="page-header-title">
       {{ $t('Auth.createAuth') }}
     </div>
-    <guide-bar
-      :guide-list="getGuideList()"
-      :active-guide-index-list="activeGuidesIndex"
-    ></guide-bar>
+    <guide-bar :guide-list="getGuideList()" :active-guide-index-list="activeGuidesIndex" />
     <!-- Mechanism -->
     <div v-if="step === 0" class="create-form">
       <div class="create-form-title">
         {{ $t('Auth.selectMechanism') }}
       </div>
       <el-radio-group v-model="mechanism" size="large">
-        <el-radio class="mechanism" label="password_based" border> Password-Based </el-radio>
-        <el-badge :value="$t('Modules.added')" :hidden="!addedAuthn.includes('jwt')" class="item">
-          <el-radio class="mechanism" label="jwt" border :disabled="addedAuthn.includes('jwt')">
-            JWT
-          </el-radio>
-        </el-badge>
-        <el-radio class="mechanism" label="scram" border>
+        <el-radio
+          class="mechanism"
+          label="password_based"
+          v-if="!isDisabledMechanism('password_based')"
+          border
+        >
+          Password-Based
+        </el-radio>
+        <template v-if="!isDisabledMechanism('jwt')">
+          <el-badge :value="$t('Modules.added')" :hidden="!addedAuthn.includes('jwt')" class="item">
+            <el-radio class="mechanism" label="jwt" border :disabled="addedAuthn.includes('jwt')">
+              JWT
+            </el-radio>
+          </el-badge>
+        </template>
+        <el-radio class="mechanism" label="scram" v-if="!isDisabledMechanism('scram')" border>
           {{ $t('Auth.scram') }}
         </el-radio>
       </el-radio-group>
-      <p v-if="mechanism === 'password_based'" class="item-description">
-        {{ $t('Auth.passwordBasedDesc') }}
-      </p>
-      <p v-else-if="mechanism === 'jwt'" class="item-description">
-        {{ $t('Auth.jwtDesc') }}
-      </p>
-      <p v-else-if="mechanism === 'scram'" class="item-description">
-        {{ $t('Auth.scramDesc') }}
-      </p>
+      <p class="item-description">{{ mechanismDesc }}</p>
       <div class="step-btn">
         <el-button type="primary" @click="handleNext">
           {{ $t('Base.nextStep') }}
@@ -56,25 +54,34 @@
         <div class="create-form-title">
           {{ $t('Auth.database') }}
         </div>
-        <el-radio-group v-model="backend" class="select-database" size="large">
-          <el-badge
-            v-for="item in databases"
-            :key="item.value"
-            :value="$t('Modules.added')"
-            class="item"
-            :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
-          >
-            <el-radio
-              :label="item.value"
-              class="backend"
-              border
-              :disabled="addedAuthn.includes(`${mechanism}_${item.value}`) && !gateway"
+        <el-radio-group
+          v-if="hasDatabaseToChoose"
+          v-model="backend"
+          class="select-database"
+          size="large"
+        >
+          <template v-for="item in databases" :key="item.value">
+            <el-badge
+              v-if="!isDisabledDatabase(item.value)"
+              :value="$t('Modules.added')"
+              class="item"
+              :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
             >
-              <img height="32" width="32" :src="item.img" :alt="item.key" />
-              <span>{{ item.label }}</span>
-            </el-radio>
-          </el-badge>
+              <el-radio
+                :label="item.value"
+                class="backend"
+                border
+                :disabled="addedAuthn.includes(`${mechanism}_${item.value}`) && !gateway"
+              >
+                <img height="32" width="32" :src="item.img" :alt="item.key" />
+                <span>{{ item.label }}</span>
+              </el-radio>
+            </el-badge>
+          </template>
         </el-radio-group>
+        <p class="no-database-placeholder" v-else>
+          {{ tl('noDatabasePlaceholder') }}
+        </p>
         <template v-if="others.length !== 0">
           <div class="create-form-title">
             {{ $t('Base.other') }}
@@ -159,7 +166,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+export default {
+  name: 'AuthnCreate',
+}
+</script>
+
+<script lang="ts" setup>
+import { computed, ref, defineProps, PropType } from 'vue'
 import BackButton from './components/BackButton.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
@@ -171,171 +184,172 @@ import { createAuthn } from '@/api/auth'
 import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
-import { jumpToErrorFormItem } from '@/common/tools'
+import { jumpToErrorFormItem, sortStringArr } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
 
-export default defineComponent({
-  name: 'AuthnCreate',
-  components: {
-    BackButton,
-    GuideBar,
-    DatabaseConfig,
-    BuiltInConfig,
-    HttpConfig,
-    JwtConfig,
+const props = defineProps({
+  gateway: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
-  props: {
-    gateway: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    cancelFunc: {
-      type: Function,
-      required: false,
-      default: () => {
-        return true
-      },
-    },
-    createFunc: {
-      type: Function,
-      required: false,
-      default: () => {
-        return true
-      },
+  cancelFunc: {
+    type: Function,
+    required: false,
+    default: () => {
+      return true
     },
   },
-  setup(props) {
-    const { t } = useI18n()
-    const router = useRouter()
-    const mechanism = ref('password_based')
-    const backend = ref('')
-    const databases = ref<Record<string, any>[]>([])
-    const others = ref<Record<string, any>[]>([])
-    const isWork = ref(false)
-    const testRes = ref(null)
-    const configData = ref({})
-    const { factory, create } = useAuthnCreate()
-    const formCom = ref()
-    const supportBackendMap: any = {
-      password_based: {
-        built_in_database: 'Built-in Database',
-        mysql: 'MySQL',
-        mongodb: 'MongoDB',
-        postgresql: 'PostgreSQL',
-        http: 'HTTP Server',
-        redis: 'Redis',
-      },
-      jwt: {},
-      scram: {
-        built_in_database: 'Built-in Database',
-      },
-    }
-    const saveLoading = ref(false)
-    const addedAuthn = computed(() => {
-      return JSON.parse(sessionStorage.getItem('addedAuthn') as string) || []
-    })
-    const getGuideList = function () {
-      return [t('Auth.mechanism'), t('Auth.dataSource'), t('Auth.config')]
-    }
-    const getSupportBackend = function () {
-      const supportData = supportBackendMap[mechanism.value]
-      Object.keys(supportData).forEach((key) => {
-        const res = {
-          label: supportData[key],
-          value: key,
-          img: require(`@/assets/img/${key}.png`),
-        }
-        const otherKeys = ['http']
-        if (otherKeys.includes(key)) {
-          others.value.push(res)
-        } else {
-          databases.value.push(res)
-        }
-      })
-      if (databases.value.length !== 0) {
-        backend.value = databases.value[0].value
-      }
-    }
-    const beforeNext = function () {
-      if (step.value === 0) {
-        databases.value = []
-        others.value = []
-        getSupportBackend()
-      } else if (step.value === 1) {
-        const data = factory(mechanism.value, backend.value)
-        configData.value = data
-      }
-    }
-    const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(beforeNext)
-
-    const handleCreate = async function () {
-      let isVerified = (await formCom.value.validate().catch(() => {
-        jumpToErrorFormItem()
-      }))
-        ? true
-        : false
-
-      if (!isVerified) {
-        return
-      }
-
-      saveLoading.value = true
-      const formData = cloneDeep(configData.value)
-      const data = create(formData, backend.value, mechanism.value)
-      if (props.gateway) {
-        await props
-          .createFunc({
-            config: configData.value,
-            backend: backend.value,
-            mechanism: mechanism.value,
-            data,
-          })
-          .catch(() => {
-            saveLoading.value = true
-          })
-      } else {
-        let res = await createAuthn(data).catch(() => {
-          saveLoading.value = false
-        })
-        if (res) {
-          M.success(t('Base.createSuccess'))
-          router.push({ name: 'authentication' })
-        }
-      }
-    }
-
-    const cancelCreate = async function () {
-      if (props.gateway) {
-        props.cancelFunc()
-      } else {
-        router.push('/authentication')
-      }
-    }
-    return {
-      saveLoading,
-      activeGuidesIndex,
-      mechanism,
-      step,
-      backend,
-      databases,
-      others,
-      isWork,
-      testRes,
-      configData,
-      addedAuthn,
-      formCom,
-      getGuideList,
-      handleNext,
-      handleBack,
-      handleCreate,
-      cancelCreate,
-    }
+  createFunc: {
+    type: Function,
+    required: false,
+    default: () => {
+      return true
+    },
+  },
+  disabledMechanisms: {
+    type: Array as PropType<Array<string>>,
+  },
+  disabledDatabases: {
+    type: Array as PropType<Array<string>>,
   },
 })
+const { tl, t } = useI18nTl('Auth')
+const router = useRouter()
+const mechanism = ref('password_based')
+const backend = ref('')
+const databases = ref<Record<string, any>[]>([])
+const others = ref<Record<string, any>[]>([])
+const isWork = ref(false)
+const testRes = ref(null)
+const configData = ref({})
+const { factory, create } = useAuthnCreate()
+const formCom = ref()
+const supportBackendMap: any = {
+  password_based: {
+    built_in_database: 'Built-in Database',
+    mysql: 'MySQL',
+    mongodb: 'MongoDB',
+    postgresql: 'PostgreSQL',
+    http: 'HTTP Server',
+    redis: 'Redis',
+  },
+  jwt: {},
+  scram: {
+    built_in_database: 'Built-in Database',
+  },
+}
+const saveLoading = ref(false)
+const addedAuthn = computed(() => {
+  return JSON.parse(sessionStorage.getItem('addedAuthn') as string) || []
+})
+const mechanismDesc = computed(
+  () =>
+    ({
+      password_based: tl('passwordBasedDesc'),
+      jwt: tl('jwtDesc'),
+      scram: tl('scramDesc'),
+    }[mechanism.value] || ''),
+)
+const hasDatabaseToChoose = computed(() => {
+  const { disabledDatabases } = props
+  if (!disabledDatabases || disabledDatabases.length === 0) {
+    return true
+  }
+  return !(
+    sortStringArr(databases.value.map(({ value }) => value)).join(',') ===
+    sortStringArr(disabledDatabases).join(',')
+  )
+})
+
+const getGuideList = function () {
+  return [t('Auth.mechanism'), t('Auth.dataSource'), t('Auth.config')]
+}
+const getSupportBackend = function () {
+  const supportData = supportBackendMap[mechanism.value]
+  Object.keys(supportData).forEach((key) => {
+    const res = {
+      label: supportData[key],
+      value: key,
+      img: require(`@/assets/img/${key}.png`),
+    }
+    const otherKeys = ['http']
+    if (otherKeys.includes(key)) {
+      others.value.push(res)
+    } else {
+      databases.value.push(res)
+    }
+  })
+  if (databases.value.length !== 0) {
+    backend.value = databases.value[0].value
+  }
+}
+
+const isDisabledMechanism = (mechanism: string) =>
+  props.disabledMechanisms && props.disabledMechanisms.includes(mechanism)
+
+const isDisabledDatabase = (database: string) =>
+  props.disabledDatabases && props.disabledDatabases.includes(database)
+
+const beforeNext = function () {
+  if (step.value === 0) {
+    databases.value = []
+    others.value = []
+    getSupportBackend()
+  } else if (step.value === 1) {
+    const data = factory(mechanism.value, backend.value)
+    configData.value = data
+  }
+}
+const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(beforeNext)
+
+const handleCreate = async function () {
+  let isVerified = (await formCom.value.validate().catch(() => {
+    jumpToErrorFormItem()
+  }))
+    ? true
+    : false
+
+  if (!isVerified) {
+    return
+  }
+
+  saveLoading.value = true
+  const formData = cloneDeep(configData.value)
+  const data = create(formData, backend.value, mechanism.value)
+  try {
+    if (props.gateway) {
+      await props.createFunc({
+        config: configData.value,
+        backend: backend.value,
+        mechanism: mechanism.value,
+        data,
+      })
+    } else {
+      await createAuthn(data)
+      M.success(t('Base.createSuccess'))
+      router.push({ name: 'authentication' })
+    }
+  } catch (error) {
+    //
+  } finally {
+    saveLoading.value = false
+  }
+}
+
+const cancelCreate = async function () {
+  if (props.gateway) {
+    props.cancelFunc()
+  } else {
+    router.push('/authentication')
+  }
+}
 </script>
 
 <style lang="scss">
 @import './style/auth.scss';
+.no-database-placeholder {
+  color: var(--el-text-color-secondary);
+}
 </style>

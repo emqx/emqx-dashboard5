@@ -1,4 +1,10 @@
-import { PayloadShowByType, QoSLevel } from '@/types/enum'
+import {
+  AuthnMechanismType,
+  DatabasesType,
+  GatewayName,
+  PayloadShowByType,
+  QoSLevel,
+} from '@/types/enum'
 
 export const QoS_LIST = [0, 1, 2]
 
@@ -36,4 +42,32 @@ export const RULE_INPUT_BRIDGE_TYPE_PREFIX = '$bridges/'
 
 export const LOCAL_STORAGE_KEY_MAP = {
   RULE_FOR_COPY: 'rule_for_copy',
+}
+
+export const GATEWAY_DISABLED_MECHANISM_MAP = {
+  [GatewayName.STOMP]: [AuthnMechanismType.Scram],
+  [GatewayName.CoAP]: [AuthnMechanismType.Scram],
+  [GatewayName.ExProto]: [AuthnMechanismType.Scram],
+  [GatewayName.MQTT_SN]: [AuthnMechanismType.Scram, AuthnMechanismType.JWT],
+  [GatewayName.LwM2M]: [AuthnMechanismType.Scram, AuthnMechanismType.JWT],
+}
+
+export const GATEWAY_DISABLED_DATABASES_MAP = {
+  [GatewayName.STOMP]: [],
+  [GatewayName.CoAP]: [],
+  [GatewayName.ExProto]: [],
+  [GatewayName.MQTT_SN]: [
+    DatabasesType.BuiltInDatabase,
+    DatabasesType.MySQL,
+    DatabasesType.MongoDB,
+    DatabasesType.PostgreSQL,
+    DatabasesType.Redis,
+  ],
+  [GatewayName.LwM2M]: [
+    DatabasesType.BuiltInDatabase,
+    DatabasesType.MySQL,
+    DatabasesType.MongoDB,
+    DatabasesType.PostgreSQL,
+    DatabasesType.Redis,
+  ],
 }

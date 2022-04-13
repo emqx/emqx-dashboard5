@@ -6,18 +6,18 @@
         <span class="title-n-status">
           <span class="section-title">{{ gname }}</span>
           <el-tag type="info" class="section-status">
-            <span
-              ><i :class="['status', gInfo.status !== 'running' && 'stopped']"></i
-              ><span>{{ gInfo.status }}</span></span
-            >
+            <span>
+              <i :class="['status', gInfo.status !== 'running' && 'stopped']" />
+              <span>{{ gInfo.status }}</span>
+            </span>
           </el-tag>
         </span>
       </div>
       <div>
         <!-- <el-button type="danger" >{{ $t('Base.delete') }}</el-button> -->
         <el-button type="danger" :disabled="gInfo.status !== 'running'" @click="gatewayStop()">
-          {{ $t('Base.stop') }}</el-button
-        >
+          {{ $t('Base.stop') }}
+        </el-button>
       </div>
     </div>
     <el-menu router :default-active="matchedUrl" mode="horizontal">
