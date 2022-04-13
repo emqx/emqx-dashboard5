@@ -6,12 +6,18 @@ type AuthzItemInTable = AuthzSourceItem & {
   metrics: Metrics
 }
 
-export default () => {
+export const hasMetrics = ({ type }: AuthzItemInTable): boolean =>
+  type !== 'built_in_database' && type !== 'file'
+
+export default (): {
+  isDataLoading: Ref<boolean>
+  authzList: Ref<Array<AuthzItemInTable>>
+  getAuthzList: (isInit?: boolean) => void
+  updateAuthnItemMetrics: (type: string) => void
+} => {
   const isDataLoading = ref(false)
   const authzList = ref<AuthzItemInTable[]>([])
   const metricsMap: Ref<Record<string, Metrics>> = ref({})
-
-  const hasMetrics = ({ type }: AuthzItemInTable) => type !== 'built_in_database' && type !== 'file'
 
   /**
    * for disable added type

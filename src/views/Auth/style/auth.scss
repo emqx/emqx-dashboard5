@@ -77,17 +77,14 @@
       }
     }
   }
-  .el-badge {
-    display: inline-flex;
-    vertical-align: initial;
+  .info-tags {
+    :not(:last-child) {
+      margin-right: 12px;
+    }
   }
   .el-badge__content.is-fixed {
     top: 15px;
     right: 52px;
-  }
-  .el-badge__content {
-    background-color: #c7c7c7;
-    color: #fff;
   }
 
   .el-radio.is-bordered {

@@ -6,6 +6,9 @@ type AuthnItemInTable = AuthnItem & {
   metrics?: Metrics
 }
 
+export const hasMetrics = ({ backend }: AuthnItem): boolean =>
+  !!backend && backend !== 'jwt' && backend !== 'built_in_database'
+
 export default (): {
   isListLoading: Ref<boolean>
   authnList: Ref<AuthnItemInTable[]>
@@ -15,9 +18,6 @@ export default (): {
   const isListLoading = ref(false)
   const authnList: Ref<Array<AuthnItemInTable>> = ref([])
   const metricsMap: Ref<Record<string, Metrics>> = ref({})
-
-  const hasMetrics = ({ backend }: AuthnItem) =>
-    backend !== 'jwt' && backend !== 'built_in_database'
 
   /**
    * for disable added type

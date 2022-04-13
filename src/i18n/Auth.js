@@ -311,4 +311,8 @@ export default {
     zh: '接收一个 Base64 编码后的字符串',
     en: 'Receive a Base64-encoded string',
   },
+  nodeStatusDesc: {
+    zh: '每个节点上{target}状态和执行情况',
+    en: '{target} status and execution on each node',
+  },
 }

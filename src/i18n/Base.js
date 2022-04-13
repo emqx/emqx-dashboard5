@@ -343,4 +343,8 @@ export default {
     zh: '连接中',
     en: 'Connecting',
   },
+  overview: {
+    zh: '概览',
+    en: 'Overview',
+  },
 }
