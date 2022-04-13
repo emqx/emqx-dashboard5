@@ -56,6 +56,9 @@
     }
   }
   &.auth-details {
+    .section-header {
+      margin-top: 0;
+    }
     .section-header__block {
       display: flex;
       align-items: center;

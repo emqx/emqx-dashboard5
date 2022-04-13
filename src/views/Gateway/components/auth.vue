@@ -14,7 +14,7 @@
           :gateway-info="hasAuth"
           :update-func="authUpdate"
           :delete-func="authDelete"
-          :gateway="name"
+          :gateway="gname"
         />
       </el-card>
     </div>
@@ -25,6 +25,7 @@
         :create-func="authCreate"
         :disabled-databases="disabledDatabases"
         :disabled-mechanisms="disabledMechanism"
+        :preset-authn-data="presetAuthnData"
       />
     </el-dialog>
   </div>
@@ -47,6 +48,24 @@ import { Plus } from '@element-plus/icons-vue'
 import { cloneDeep, omit } from 'lodash'
 import { GATEWAY_DISABLED_DATABASES_MAP, GATEWAY_DISABLED_MECHANISM_MAP } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
+import { GatewayName, AuthnMechanismType } from '@/types/enum.ts'
+
+const presetAuthnDataMap = {
+  [GatewayName.MQTT_SN]: [
+    {
+      mechanism: AuthnMechanismType.PasswordBased,
+      subtype: 'http',
+      data: { body: { clientid: '${clientid}' } },
+    },
+  ],
+  [GatewayName.LwM2M]: [
+    {
+      mechanism: AuthnMechanismType.PasswordBased,
+      subtype: 'http',
+      data: { body: { endpoint_name: '${endpoint_name}' } },
+    },
+  ],
+}
 
 let createDialog = ref(false)
 let hasAuth = ref(false)
@@ -57,6 +76,10 @@ const gname = String(route.params.name).toLowerCase()
 
 const disabledMechanism = computed(() => GATEWAY_DISABLED_MECHANISM_MAP[gname])
 const disabledDatabases = computed(() => GATEWAY_DISABLED_DATABASES_MAP[gname])
+
+const presetAuthnData = computed(() => {
+  return presetAuthnDataMap[gname] || undefined
+})
 
 const openAuthCreate = async function () {
   createDialog.value = true

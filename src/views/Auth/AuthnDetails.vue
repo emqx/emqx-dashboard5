@@ -35,7 +35,11 @@
       </div>
     </div>
     <el-tabs v-if="!authnDetailLock">
-      <el-tab-pane v-if="hasMetrics(configData)" :label="$t('Base.overview')" :lazy="true">
+      <el-tab-pane
+        v-if="hasMetrics(configData) && !gateway"
+        :label="$t('Base.overview')"
+        :lazy="true"
+      >
         <AuthItemOverview :metrics="authMetrics" />
       </el-tab-pane>
       <el-tab-pane :label="$t('Base.setting')" :lazy="true">
