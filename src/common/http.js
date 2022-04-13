@@ -30,25 +30,31 @@ axios.interceptors.request.use(
 )
 
 axios.interceptors.request.use(async (config) => {
-  if (store.state.request_queue) {
-    //nothing
-  } else {
-    NProgress.start()
+  if (!config.doNotEffectProgress) {
+    if (store.state.request_queue) {
+      //nothing
+    } else {
+      NProgress.start()
+    }
+    await store.dispatch('SET_REQ_CHANGE', true)
   }
-  await store.dispatch('SET_REQ_CHANGE', true)
   return config
 })
 
 axios.interceptors.response.use(
   (response) => {
-    setProgressBarDone()
+    if (!response.config.doNotEffectProgress) {
+      setProgressBarDone()
+    }
     if (/\/trace\/.+\/download/.test(response.config.url)) {
       return response
     }
     return response.data || response.status
   },
   (error) => {
-    setProgressBarDone()
+    if (!error.config.doNotEffectProgress) {
+      setProgressBarDone()
+    }
 
     //throttle concurrent responses with unique status code
     if (error.response) {
