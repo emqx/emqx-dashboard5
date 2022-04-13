@@ -111,7 +111,7 @@ export const forceLeaveNode = async (nodename: any) => {
 //topics
 export const listTopics = (params: any = {}) => {
   params.topic = params.topic || undefined
-  return http.get('/routes', { params })
+  return http.get('/topics', { params })
 }
 
 // get subs

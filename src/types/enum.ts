@@ -103,7 +103,7 @@ export enum ChartType {
   Dropped = 'dropped',
   Received = 'received',
   ReceivedBytes = 'received_bytes',
-  Routes = 'routes',
+  Topics = 'topics',
   Sent = 'sent',
   SentBytes = 'sent_bytes',
   Subscriptions = 'subscriptions',

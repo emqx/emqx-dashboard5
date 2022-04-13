@@ -10,7 +10,7 @@ export interface ChartDataItem {
   dropped: number
   received: number
   received_bytes: number
-  routes: number
+  topics: number
   sent: number
   sent_bytes: number
   subscriptions: number
