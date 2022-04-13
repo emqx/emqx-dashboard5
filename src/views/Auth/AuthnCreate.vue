@@ -187,6 +187,13 @@ import { ElMessage as M } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import { jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import { AuthnMechanismType } from '@/types/enum'
+
+interface PresetData {
+  mechanism: AuthnMechanismType
+  subtype: string
+  data: Record<string, any>
+}
 
 const props = defineProps({
   gateway: {
@@ -213,6 +220,9 @@ const props = defineProps({
   },
   disabledDatabases: {
     type: Array as PropType<Array<string>>,
+  },
+  presetAuthnData: {
+    type: Object as PropType<Array<PresetData>>,
   },
 })
 const { tl, t } = useI18nTl('Auth')
@@ -292,6 +302,20 @@ const isDisabledMechanism = (mechanism: string) =>
 const isDisabledDatabase = (database: string) =>
   props.disabledDatabases && props.disabledDatabases.includes(database)
 
+const checkPresetDataAndSet = (authData: Record<string, any>) => {
+  const { presetAuthnData } = props
+  if (!presetAuthnData || presetAuthnData.length === 0) {
+    return authData
+  }
+  const target = presetAuthnData.find((item) => {
+    return item.mechanism === mechanism.value && item.subtype === backend.value
+  })
+  return {
+    ...authData,
+    ...cloneDeep(target?.data || {}),
+  }
+}
+
 const beforeNext = function () {
   if (step.value === 0) {
     databases.value = []
@@ -299,7 +323,7 @@ const beforeNext = function () {
     getSupportBackend()
   } else if (step.value === 1) {
     const data = factory(mechanism.value, backend.value)
-    configData.value = data
+    configData.value = checkPresetDataAndSet(data)
   }
 }
 const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(beforeNext)
