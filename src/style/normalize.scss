@@ -479,3 +479,20 @@
     color: var(--color-primary);
   }
 }
+
+/* Pagination */
+.el-pagination.is-background .btn-prev:disabled, .el-pagination.is-background .btn-next:disabled {
+  color: #D0D4DC;
+  background-color: var(--color-bg-primary);
+}
+.el-pagination.is-background .btn-prev, .el-pagination.is-background .btn-next, .el-pagination.is-background .el-pager li {
+  border-radius: 8px;
+  border: 1px solid var(--color-border-primary);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+.el-pagination.is-background .el-pager li:not(.is-disabled).is-active {
+  background-color: var(--color-bg-primary);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
