@@ -162,6 +162,10 @@ export default defineComponent({
         path: '/basic-config',
       },
       {
+        title: 'listener',
+        path: '/listener',
+      },
+      {
         title: 'advanced',
         path: '/advanced',
       },

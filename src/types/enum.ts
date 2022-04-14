@@ -148,3 +148,21 @@ export enum GatewayName {
   MQTT_SN = 'mqttsn',
   STOMP = 'stomp',
 }
+
+/**
+ * For Listener
+ */
+export enum ListenerType {
+  QUIC = 'quic',
+  WSS = 'wss',
+  WS = 'ws',
+  SSL = 'ssl',
+  TCP = 'tcp',
+}
+
+export enum ListenerTypeForGateway {
+  TCP = 'tcp',
+  UDP = 'udp',
+  SSL = 'ssl',
+  DTLS = 'dtls',
+}
