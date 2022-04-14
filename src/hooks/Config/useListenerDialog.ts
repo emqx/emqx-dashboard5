@@ -37,21 +37,6 @@ interface UseListenerDialogReturns {
 }
 
 export default (props: Props, emit: Emit): UseListenerDialogReturns => {
-  const completeGatewayListenerTypeList = [
-    ListenerTypeForGateway.TCP,
-    ListenerTypeForGateway.SSL,
-    ListenerTypeForGateway.UDP,
-    ListenerTypeForGateway.DTLS,
-  ]
-
-  const listenerTypeList = [
-    ListenerType.QUIC,
-    ListenerType.TCP,
-    ListenerType.SSL,
-    ListenerType.WS,
-    ListenerType.WSS,
-  ]
-
   const showDialog = computed({
     get: () => props.modelValue,
     set: (val: boolean) => {
@@ -64,7 +49,13 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const listenerRecord: Ref<Listener> = ref({} as Listener)
 
   const { t } = useI18nTl('Gateway')
-  const { ID_SEPARATOR, createRawListener, normalizeStructure } = useListenerUtils()
+  const {
+    completeGatewayListenerTypeList,
+    listenerTypeList,
+    ID_SEPARATOR,
+    createRawListener,
+    normalizeStructure,
+  } = useListenerUtils()
 
   const listenerTypeOptList = computed(() => {
     if (props.gatewayName) {
@@ -81,6 +72,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const isSubmitting = ref(false)
   const submit = async () => {
+    // FIXME: id error
     listenerRecord.value.id = [
       props.gatewayName,
       listenerRecord.value.type,

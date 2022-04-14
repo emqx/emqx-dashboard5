@@ -4,12 +4,30 @@ import { cloneDeep } from 'lodash'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
 
 export default (): {
+  completeGatewayListenerTypeList: ListenerTypeForGateway[]
+  listenerTypeList: ListenerType[]
   ID_SEPARATOR: string
   createRawListener: () => Listener
+  getListenerNameById: (id: string) => string
   normalizeStructure: (record: Listener) => any
   deNormalizeStructure: (record: Listener, gatewayName: string) => Listener
 } => {
   const ID_SEPARATOR = ':'
+
+  const completeGatewayListenerTypeList = [
+    ListenerTypeForGateway.TCP,
+    ListenerTypeForGateway.SSL,
+    ListenerTypeForGateway.UDP,
+    ListenerTypeForGateway.DTLS,
+  ]
+
+  const listenerTypeList = [
+    ListenerType.QUIC,
+    ListenerType.TCP,
+    ListenerType.SSL,
+    ListenerType.WS,
+    ListenerType.WSS,
+  ]
 
   const createRawListener = (): Listener => ({
     type: ListenerType.TCP,
@@ -59,7 +77,14 @@ export default (): {
       keyfile: 'Begins with ----BEGIN PRIVATE KEY----',
     },
   })
-  function normalizeStructure(record: Listener) {
+
+  const listenerIdReg = new RegExp(`^(${listenerTypeList.join('|')}):(?<name>.+)`)
+  const getListenerNameById = (id: string): string => {
+    const matchResult = id.match(listenerIdReg)
+    return matchResult ? matchResult.groups?.name || '' : ''
+  }
+
+  const normalizeStructure = (record: Listener) => {
     const { type = ListenerType.TCP } = record
     const result: Listener = {}
 
@@ -98,7 +123,7 @@ export default (): {
     return transformUnitArrayToStr(result)
   }
 
-  function deNormalizeStructure(record: Listener, gatewayName: string) {
+  const deNormalizeStructure = (record: Listener, gatewayName: string) => {
     const { type = ListenerType.TCP } = record
 
     const expandKey = [
@@ -135,8 +160,11 @@ export default (): {
   }
 
   return {
+    completeGatewayListenerTypeList,
+    listenerTypeList,
     ID_SEPARATOR,
     createRawListener,
+    getListenerNameById,
     normalizeStructure,
     deNormalizeStructure,
   }

@@ -347,4 +347,12 @@ export default {
     zh: '概览',
     en: 'Overview',
   },
+  name: {
+    zh: '名称',
+    en: 'Name',
+  },
+  status: {
+    zh: '状态',
+    en: 'Status',
+  },
 }
