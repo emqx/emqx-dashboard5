@@ -123,9 +123,6 @@
             {{ $t('Clients.currentSubscription') }}
           </div>
           <div>
-            <!-- <el-button  size="small" icon="el-icon-refresh" @click="loadData">
-              {{ $t('Clients.refresh') }}
-            </el-button> -->
             <el-button type="primary" :icon="Plus" @click="handlePreAdd">
               {{ $t('Clients.addASubscription') }}
             </el-button>
@@ -147,7 +144,6 @@
             </template>
           </el-table-column>
         </el-table>
-
         <create-subscribe
           v-model:visible="dialogVisible"
           :client-id="record.clientid"
@@ -155,17 +151,6 @@
           @create:subs="loadSubs"
         >
         </create-subscribe>
-
-        <!-- <el-dialog
-          :visible.sync="errDialog"
-          :before-close="
-            () => {
-              this.$router.push({ path: '/clients' })
-            }
-          "
-        >
-          <span>{{ $t('Clients.clientDetailErr') }}</span>
-        </el-dialog> -->
       </template>
       <div class="client-does-not-exist" v-else>
         <el-icon><Warning /></el-icon>
@@ -367,10 +352,8 @@ export default {
           }
         })
         .then(() => {
-          // this.$set(this.record, 'connected', false)
           this.record.connected = false
           ElMessage.success(successMsg)
-          // this.$router.push({ path: '/clients' })
         })
         .catch(() => {})
     },

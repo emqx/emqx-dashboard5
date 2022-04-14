@@ -14,15 +14,9 @@
             alt="emqx-dashboard"
           />
           <div class="description">
-            <p>
-              <el-icon class="el-icon-check"><check /></el-icon>{{ $t('Base.dataManager') }}
-            </p>
-            <p>
-              <el-icon class="el-icon-check"><check /></el-icon>{{ $t('Base.ruleEngine') }}
-            </p>
-            <p>
-              <el-icon class="el-icon-check"><check /></el-icon>{{ $t('Base.visualConfig') }}
-            </p>
+            <p><CheckIcon />{{ $t('Base.dataManager') }}</p>
+            <p><CheckIcon />{{ $t('Base.ruleEngine') }}</p>
+            <p><CheckIcon />{{ $t('Base.visualConfig') }}</p>
           </div>
         </div>
       </el-col>
@@ -67,7 +61,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { login as loginApi } from '@/api/common'
-import { Check } from '@element-plus/icons-vue'
+import CheckIcon from '@/components/CheckIcon.vue'
 import { toLogin } from '@/router'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
@@ -172,12 +166,6 @@ const nativeLogin = async () => {
             padding: 0px 10px;
             align-items: center;
             margin: 8px 0;
-          }
-          .el-icon.el-icon-check {
-            background: var(--color-primary);
-            border-radius: 50%;
-            color: #fff;
-            margin-right: 8px;
           }
         }
       }
