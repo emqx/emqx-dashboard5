@@ -2,6 +2,7 @@ import {
   AuthnMechanismType,
   DatabasesType,
   GatewayName,
+  ListenerTypeForGateway,
   PayloadShowByType,
   QoSLevel,
 } from '@/types/enum'
@@ -70,4 +71,10 @@ export const GATEWAY_DISABLED_DATABASES_MAP = {
     DatabasesType.PostgreSQL,
     DatabasesType.Redis,
   ],
+}
+
+// coap: ['udp', 'dtls'],
+// others: ['tcp', 'ssl', 'udp', 'dtls'],
+export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTypeForGateway>> = {
+  [GatewayName.CoAP]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
 }
