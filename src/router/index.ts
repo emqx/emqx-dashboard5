@@ -46,6 +46,7 @@ import ConfigDocs from '@/views/Config/ConfigDocs.vue'
 import Exhook from '@/views/Exhook/Exhook.vue'
 import ExhookCreate from '@/views/Exhook/ExhookCreate.vue'
 import ExhookDetail from '@/views/Exhook/ExhookDetail.vue'
+import Listener from '@/views/Listener/Listener.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -117,7 +118,7 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
-  // 连接
+  // Connections
   {
     path: '/clients',
     component: Layout,
@@ -139,7 +140,7 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
-  // 主题
+  // Topics
   {
     path: '/topics',
     component: Layout,
@@ -155,7 +156,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // 订阅
+  // Subscription
   {
     path: '/subscriptions',
     component: Layout,
@@ -172,7 +173,7 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
-  // 用户
+  // Users
   {
     path: '/users',
     component: Layout,
@@ -189,7 +190,7 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
-  // 黑名单
+  // Black list
   {
     path: '/blacklist',
     meta: {
@@ -377,7 +378,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  //iot
+  // IoT
   {
     path: '/iot',
     component: Layout,
@@ -437,7 +438,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  //bridge
+  // Bridge
   {
     path: '/bridge',
     component: Layout,
@@ -480,6 +481,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Basic config
   {
     path: '/basic-config',
     component: Layout,
@@ -496,6 +498,22 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: '/listener',
+    component: Layout,
+    meta: {
+      hideKey: 'listener',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'listener',
+        component: Listener,
+      },
+    ],
+  },
+  // Advanced
+  {
     path: '/advanced',
     component: Layout,
     meta: {
@@ -510,6 +528,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Config docs
   {
     path: '/config-docs',
     component: Layout,
@@ -525,6 +544,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Flow chart for IoT rule
   {
     path: '/flow-chart',
     component: Layout,

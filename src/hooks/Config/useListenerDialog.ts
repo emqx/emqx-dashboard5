@@ -1,8 +1,8 @@
 import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
-import { computed, ref, ComputedRef, Ref, WritableComputedRef } from 'vue'
-import { cloneDeep } from 'lodash'
+import { computed, ref, ComputedRef, Ref, WritableComputedRef, watch } from 'vue'
+import { cloneDeep, merge } from 'lodash'
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { ElMessage } from 'element-plus'
 import useI18nTl from '../useI18nTl'
@@ -70,9 +70,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     if (props.gatewayName) {
       if (props.gatewayName in GATEWAY_DISABLED_LISTENER_TYPE_MAP) {
         const disabledList = GATEWAY_DISABLED_LISTENER_TYPE_MAP[props.gatewayName]
-        return completeGatewayListenerTypeList.filter((type) => {
-          !disabledList.includes(type)
-        })
+        return completeGatewayListenerTypeList.filter((type) => !disabledList.includes(type))
       }
       return completeGatewayListenerTypeList
     }
@@ -132,6 +130,29 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       return Promise.reject()
     }
   }
+
+  const getDefaultListenerTypeByGateway = () => {
+    const { gatewayName } = props
+    if (!gatewayName || !(gatewayName in GATEWAY_DISABLED_LISTENER_TYPE_MAP)) {
+      return completeGatewayListenerTypeList[0]
+    }
+    const disabledList = GATEWAY_DISABLED_LISTENER_TYPE_MAP[gatewayName]
+    return completeGatewayListenerTypeList.filter((item) => !disabledList.includes(item))[0]
+  }
+
+  watch(showDialog, (val) => {
+    if (val) {
+      if (props.listener) {
+        listenerRecord.value = merge(createRawListener(), cloneDeep(props.listener))
+      } else {
+        const formData: { type?: ListenerTypeForGateway } = {}
+        if (props.gatewayName) {
+          formData.type = getDefaultListenerTypeByGateway()
+        }
+        listenerRecord.value = { ...createRawListener(), ...formData }
+      }
+    }
+  })
 
   return {
     showDialog,

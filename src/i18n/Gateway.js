@@ -55,6 +55,10 @@ export default {
     zh: '添加监听器',
     en: 'Add Listeners',
   },
+  editListener: {
+    zh: '编辑监听器',
+    en: 'Edit Listener',
+  },
   addAuth: {
     en: 'Create Auth',
     zh: '添加认证',

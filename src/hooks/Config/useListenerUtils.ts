@@ -12,8 +12,7 @@ export default (): {
   const ID_SEPARATOR = ':'
 
   const createRawListener = (): Listener => ({
-    // TODO:
-    type: '',
+    type: ListenerType.TCP,
     id: '',
     name: '',
     bind: '',
