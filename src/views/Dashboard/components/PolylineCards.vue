@@ -166,7 +166,7 @@ const loadChartMetrics = async () => {
   dataTypeList.forEach((typeName) => {
     metricLog[typeName] = chartDataFill(1)
   })
-  data.forEach((data) => {
+  data.forEach((data: Record<string, any>) => {
     dataTypeList.forEach((typeName) => {
       const currentData = metricLog[typeName][0]
       currentData.xData.push(_formatTime(data.time_stamp))
