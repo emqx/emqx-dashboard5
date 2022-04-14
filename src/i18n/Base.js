@@ -201,7 +201,7 @@ export default {
   },
   operation: {
     zh: '操作',
-    en: 'Operations',
+    en: 'Actions',
   },
   logining: {
     zh: '登录中,请稍候...',

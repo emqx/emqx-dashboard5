@@ -152,6 +152,7 @@
     > .cell {
       padding: 0 16px;
       word-break: break-word;
+      text-overflow: clip;
     }
   }
 }

@@ -72,7 +72,6 @@
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
           </el-button>
-
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
             <ArrowUp v-if="showMoreQuery" />
             <ArrowDown v-else />
@@ -81,14 +80,8 @@
       </el-row>
     </el-form>
 
-    <el-table
-      :data="tableData"
-      :row-class-name="getRowClass"
-      @row-click="handleRowClick"
-      ref="clientsTable"
-      v-loading.lock="lockTable"
-    >
-      <el-table-column prop="clientid" min-width="120" :label="$t('Clients.clientId')">
+    <el-table :data="tableData" ref="clientsTable" v-loading.lock="lockTable">
+      <el-table-column prop="clientid" min-width="140" :label="$t('Clients.clientId')">
         <template #default="{ row }">
           <router-link
             :to="{
@@ -106,14 +99,24 @@
         min-width="120"
         :label="$t('Clients.username')"
       ></el-table-column>
-      <el-table-column min-width="130" prop="ip_address" :label="$t('Clients.ipAddress')">
+      <el-table-column
+        prop="connected"
+        :min-width="store.state.lang === 'en' ? 140 : 90"
+        :label="$t('Clients.connectedStatus')"
+      >
+        <template #default="{ row }">
+          <CheckIcon :status="row.connected ? 'check' : 'close'" size="small" :top="1" />
+          <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column min-width="150" prop="ip_address" :label="$t('Clients.ipAddress')">
         <template #default="{ row }">
           {{ row.ip_address + ':' + row.port }}
         </template>
       </el-table-column>
       <el-table-column
         prop="keepalive"
-        min-width="90"
+        min-width="100"
         :label="$t('Clients.keepalive')"
       ></el-table-column>
       <el-table-column min-width="90" prop="proto_name" :label="$t('Clients.protocol')">
@@ -123,13 +126,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="connected" min-width="100" :label="$t('Clients.connectedStatus')">
-        <template #default="{ row }">
-          <el-badge is-dot :type="row.connected ? 'success' : 'danger'"> </el-badge>
-          <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="connected_at" min-width="120" :label="$t('Clients.connectedAt')">
+      <el-table-column prop="connected_at" min-width="140" :label="$t('Clients.connectedAt')">
         <template #default="{ row }">
           {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
@@ -152,144 +149,125 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
+  name: 'Clients',
+})
+</script>
+
+<script lang="ts" setup>
 import { disconnectClient, listClients } from '@/api/clients'
 import { loadNodes } from '@/api/common'
 import moment from 'moment'
 import CommonPagination from '@/components/commonPagination.vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import CheckIcon from '@/components/CheckIcon.vue'
+import { Client } from '@/types/client'
+import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import { NodeMsg } from '@/types/dashboard'
 
-export default {
-  name: 'Clients',
+const showMoreQuery = ref(false)
+const tableData = ref([])
+const currentNodes = ref<NodeMsg[]>([])
+const lockTable = ref(false)
+const params = ref({})
+const fuzzyParams = ref<Record<string, any>>({
+  comparator: 'gte',
+})
+const pageMeta = ref({})
+const protoNames = ref(['MQTT', 'MQTT-SN', 'CoAP', 'LwM2M'])
+const store = useStore()
+const { t } = useI18n()
 
-  components: {
-    CommonPagination,
-    ArrowUp,
-    ArrowDown,
-  },
-  data() {
-    return {
-      showMoreQuery: false,
-      tableData: [],
-      lockTable: false,
-      params: {},
-      currentNodes: [],
-      fuzzyParams: {
-        comparator: 'gte',
-      },
-      pageMeta: {},
-      protoNames: ['MQTT', 'MQTT-SN', 'CoAP', 'LwM2M'],
-    }
-  },
-  setup() {
-    return {
-      Search,
-    }
-  },
-
-  mounted() {
-    this.loadData()
-    this.loadNodeClients()
-  },
-
-  methods: {
-    moment: moment,
-    handleRowClick(row, column, event) {
-      if (event.shiftKey) {
-        let rowIndex = this.tableData.findIndex((e) => e == row)
-        for (let x = rowIndex, y = 0; x > y; x--) {
-          if (this.tableData[x].selection) break
-          this.$refs.clientsTable.toggleRowSelection(this.tableData[x], true)
-          this.tableData[x].selection = true
-        }
-      }
-    },
-    getRowClass({ row, rowIndex }) {
-      if (row.selection == true) {
-        return 'row_selected'
-      }
-    },
-    async handleDisconnect(row) {
-      let warningMsg = this.$t('Clients.willDisconnectTheConnection')
-      let successMsg = this.$t('Clients.successfulDisconnection')
-      if (!row.connected) {
-        warningMsg = this.$t('Clients.willCleanSession')
-        successMsg = this.$t('Clients.successfulCleanSession')
-      }
-      this.$msgbox
-        .confirm(warningMsg, {
-          confirmButtonText: this.$t('Base.confirm'),
-          cancelButtonText: this.$t('Base.cancel'),
-          type: 'warning',
-        })
-        .then(async () => {
-          await disconnectClient(row.clientid)
-          this.loadNodeClients()
-          ElMessage.success(successMsg)
-        })
-        .catch(() => {})
-    },
-
-    async handleSearch() {
-      this.params = this.genQueryParams(this.fuzzyParams)
-      this.loadNodeClients({ page: 1 })
-    },
-    genQueryParams(params) {
-      let newParams = {}
-      const {
-        like_clientid,
-        like_username,
-        ip_address,
-        conn_state,
-        proto_name,
-        comparator,
-        connected_at,
-        node,
-      } = params
-      newParams = {
-        like_clientid: like_clientid || undefined,
-        like_username: like_username || undefined,
-        ip_address: ip_address || undefined,
-        conn_state: conn_state || undefined,
-        proto_name: proto_name || undefined,
-        node: node || undefined,
-      }
-      if (connected_at) {
-        newParams[`${comparator}_connected_at`] = new Date(connected_at).toISOString()
-      }
-      return newParams
-    },
-    async loadData() {
-      const data = await loadNodes().catch(() => {})
-      if (data) this.currentNodes = data
-    },
-    async loadNodeClients(params = {}) {
-      this.lockTable = true
-
-      const sendParams = {
-        ...this.params,
-        ...this.pageMeta,
-        ...params,
-      }
-      Reflect.deleteProperty(sendParams, 'count')
-
-      const res = await listClients(sendParams).catch(() => {})
-      if (res) {
-        const { data = [], meta = {} } = res
-        this.tableData = data
-        this.lockTable = false
-        this.pageMeta = meta
-        // this.hasnext = meta.hasnext || this.hasnext
-      } else {
-        this.tableData = []
-        this.lockTable = false
-        this.pageMeta = {}
-      }
-    },
-  },
+const handleDisconnect = async (row: Client) => {
+  let warningMsg = t('Clients.willDisconnectTheConnection')
+  let successMsg = t('Clients.successfulDisconnection')
+  if (!row.connected) {
+    warningMsg = t('Clients.willCleanSession')
+    successMsg = t('Clients.successfulCleanSession')
+  }
+  ElMessageBox.confirm(warningMsg, {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+  })
+    .then(async () => {
+      await disconnectClient(row.clientid)
+      loadNodeClients()
+      ElMessage.success(successMsg)
+    })
+    .catch(() => {
+      // ignore
+    })
 }
+
+const handleSearch = async () => {
+  params.value = genQueryParams(fuzzyParams.value)
+  loadNodeClients({ page: 1 })
+}
+
+const genQueryParams = (params: Record<string, any>) => {
+  let newParams: Record<string, any> = {}
+  const {
+    like_clientid,
+    like_username,
+    ip_address,
+    conn_state,
+    proto_name,
+    comparator,
+    connected_at,
+    node,
+  } = params
+  newParams = {
+    like_clientid: like_clientid || undefined,
+    like_username: like_username || undefined,
+    ip_address: ip_address || undefined,
+    conn_state: conn_state || undefined,
+    proto_name: proto_name || undefined,
+    node: node || undefined,
+  }
+  if (connected_at) {
+    newParams[`${comparator}_connected_at`] = new Date(connected_at).toISOString()
+  }
+  return newParams
+}
+
+const loadData = async () => {
+  const data = await loadNodes()
+  if (data) currentNodes.value = data
+}
+const loadNodeClients = async (_params = {}) => {
+  lockTable.value = true
+
+  const sendParams = {
+    ...params.value,
+    ...pageMeta.value,
+    ..._params,
+  }
+  Reflect.deleteProperty(sendParams, 'count')
+
+  const res = await listClients(sendParams).catch(() => {
+    lockTable.value = false
+  })
+  if (res) {
+    const { data = [], meta = {} } = res
+    tableData.value = data
+    lockTable.value = false
+    pageMeta.value = meta
+  } else {
+    tableData.value = []
+    lockTable.value = false
+    pageMeta.value = {}
+  }
+}
+
+loadData()
+loadNodeClients()
 </script>
 
 <style lang="scss">
