@@ -179,6 +179,10 @@ export default {
     zh: '基础配置',
     en: 'Basic Config',
   },
+  listener: {
+    zh: '监听器',
+    en: 'Listener',
+  },
   advanced: {
     zh: 'MQTT 高级特性',
     en: 'MQTT Advanced Features',

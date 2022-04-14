@@ -1,6 +1,5 @@
 <template>
-  <!-- FIXME:title -->
-  <el-dialog :title="tl('addListener')" v-model="showDialog">
+  <el-dialog :title="tl(isEdit ? 'editListener' : 'addListener')" v-model="showDialog">
     <div class="part-header">{{ tl('basic') }}</div>
     <el-form label-position="top">
       <el-row :gutter="20">
