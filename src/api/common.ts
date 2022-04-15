@@ -27,7 +27,7 @@ export function loadMetrics(): Promise<Array<NodeStatisticalData>> {
 }
 
 export function loadCurrentMetrics(): Promise<Record<string, number>> {
-  return http.get('/monitor_current', { doNotEffectProgress: true })
+  return http.get('/monitor_current', { doNotTriggerProgress: true })
 }
 
 export function loadChartData(time: number): Promise<Array<ChartDataItem>> {

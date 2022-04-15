@@ -30,10 +30,8 @@ axios.interceptors.request.use(
 )
 
 axios.interceptors.request.use(async (config) => {
-  if (!config.doNotEffectProgress) {
-    if (store.state.request_queue) {
-      //nothing
-    } else {
+  if (!config.doNotTriggerProgress) {
+    if (!store.state.request_queue) {
       NProgress.start()
     }
     await store.dispatch('SET_REQ_CHANGE', true)
@@ -43,7 +41,7 @@ axios.interceptors.request.use(async (config) => {
 
 axios.interceptors.response.use(
   (response) => {
-    if (!response.config.doNotEffectProgress) {
+    if (!response.config.doNotTriggerProgress) {
       setProgressBarDone()
     }
     if (/\/trace\/.+\/download/.test(response.config.url)) {
@@ -52,7 +50,7 @@ axios.interceptors.response.use(
     return response.data || response.status
   },
   (error) => {
-    if (!error.config.doNotEffectProgress) {
+    if (!error.config.doNotTriggerProgress) {
       setProgressBarDone()
     }
 
