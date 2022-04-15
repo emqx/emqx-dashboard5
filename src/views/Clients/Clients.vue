@@ -41,13 +41,13 @@
           </el-col>
           <el-col :span="6">
             <el-row class="form-item-row">
-              <el-col :span="8">
+              <el-col :span="10">
                 <el-select v-model="fuzzyParams.comparator" class="comparator">
-                  <el-option label=">=" value="gte"></el-option>
-                  <el-option label="<=" value="lte"></el-option>
+                  <el-option :label="$t('Clients.gte')" value="gte"></el-option>
+                  <el-option :label="$t('Clients.lte')" value="lte"></el-option>
                 </el-select>
               </el-col>
-              <el-col :span="16">
+              <el-col :span="14">
                 <el-date-picker
                   v-model="fuzzyParams.connected_at"
                   class="datatime"

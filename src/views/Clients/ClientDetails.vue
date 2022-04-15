@@ -160,7 +160,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { computed, defineComponent, defineProps, ref, defineEmits } from 'vue'
+
+export default defineComponent({
+  name: 'ClientDetails',
+})
+</script>
+
+<script lang="ts" setup>
 import { loadClientDetail, loadSubscriptions, unsubscribe, disconnectClient } from '@/api/clients'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import moment from 'moment'
@@ -170,294 +178,302 @@ import {
   disconnGatewayClient,
   unsubscribeGatewayClientSub,
 } from '@/api/gateway'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { SuccessFilled, Failed, Plus, Warning } from '@element-plus/icons-vue'
+import { Client } from '@/types/client'
+import { Subscription } from '@/types/subscription'
+import { useRoute } from 'vue-router'
+import useI18nTl from '@/hooks/useI18nTl'
+import { useI18n } from 'vue-i18n'
 
-export default {
-  name: 'ClientDetails',
-  components: { CreateSubscribe, SuccessFilled, Failed, Warning },
-  props: {
-    gateway: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    clientid: {
-      type: String,
-      required: false,
-      default: '',
-    },
+const props = defineProps({
+  gateway: {
+    type: String,
+    required: false,
+    default: '',
   },
-  data() {
-    return {
-      dialogVisible: false,
-      activeName: 'detail',
-      searchValue: '',
-      clientDetailLock: true,
-      subsLockTable: true,
-      errDialog: false,
-      doesTheClientExist: true,
-      record: {},
-      clientsOrganizied: {
-        MQTT: {
-          connection: [
-            'node',
-            'clientid',
-            'username',
-            'proto_type',
-            'ip_address',
-            'keepalive',
-            'is_bridge',
-            'connected_at',
-            'disconnected_at',
-            'zone',
-            'recv_cnt',
-            'recv_msg',
-            'recv_oct',
-            'recv_pkt',
-          ],
-          session: [
-            'clean_start',
-            'expiry_interval',
-            'created_at',
-            'subscriptions',
-            'mqueue',
-            'inflight',
-            'heap_size',
-            'reductions',
-            'awaiting_rel_cnt',
-            'awaiting_rel_max',
-            'send_cnt',
-            'send_msg',
-            'send_oct',
-            'send_pkt',
-            'recv_msg.qos0',
-            'recv_msg.qos1',
-            'recv_msg.qos2',
-            'recv_msg.dropped',
-            'recv_msg.dropped.await_pubrel_timeout',
-            'send_msg.qos0',
-            'send_msg.qos1',
-            'send_msg.qos2',
-            'send_msg.dropped',
-            'send_msg.dropped.expired',
-            'send_msg.dropped.queue_full',
-            'send_msg.dropped.too_large',
-          ],
-        },
-        LWM2M: {
-          connection: [
-            'node',
-            'endpoint_name',
-            'lifetime',
-            'clientid',
-            'username',
-            'proto_type',
-            'ip_address',
-            'connected_at',
-            'disconnected_at',
-            'recv_oct',
-            'send_oct',
-            'recv_cnt',
-            'send_cnt',
-            'recv_pkt',
-            'send_lw_pkt',
-          ],
-          session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
-        },
-        others: {
-          connection: [
-            'node',
-            'clientid',
-            'username',
-            'proto_type',
-            'ip_address',
-            'keepalive',
-            'connected_at',
-            'disconnected_at',
-            'recv_oct',
-            'send_oct',
-            'recv_cnt',
-            'send_cnt',
-            'recv_pkt',
-            'send_pkt',
-          ],
-          session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
-        },
-      },
-      mqttVersion: {
-        3: 'v3.1',
-        4: 'v3.1.1',
-        5: 'v5.0',
-      },
-      subscriptions: [],
-    }
+  clientid: {
+    type: String,
+    required: false,
+    default: '',
   },
-  setup() {
-    return {
-      Plus,
-    }
-  },
+})
 
-  computed: {
-    clientId() {
-      return this.$route.params.clientId || this.clientid
-    },
-    clientType() {
-      return String(this.record.proto_name).toUpperCase()
-    },
-    clientDetailParts() {
-      let allParts = Object.keys(this.clientsOrganizied)
-      if (Array.prototype.includes.call(allParts, this.clientType))
-        return this.clientsOrganizied[this.clientType]
+const emit = defineEmits(['refreshGateway'])
 
-      return this.clientsOrganizied.others
-    },
+const dialogVisible = ref(false)
+const clientDetailLock = ref(true)
+const subsLockTable = ref(true)
+const doesTheClientExist = ref(true)
+const record = ref<Partial<Client>>({})
+const clientsOrganizied = {
+  MQTT: {
+    connection: [
+      'node',
+      'clientid',
+      'username',
+      'proto_type',
+      'ip_address',
+      'keepalive',
+      'is_bridge',
+      'connected_at',
+      'disconnected_at',
+      'zone',
+      'recv_cnt',
+      'recv_msg',
+      'recv_oct',
+      'recv_pkt',
+    ],
+    session: [
+      'clean_start',
+      'expiry_interval',
+      'created_at',
+      'subscriptions',
+      'mqueue',
+      'inflight',
+      'heap_size',
+      'reductions',
+      'awaiting_rel_cnt',
+      'awaiting_rel_max',
+      'send_cnt',
+      'send_msg',
+      'send_oct',
+      'send_pkt',
+      'recv_msg.qos0',
+      'recv_msg.qos1',
+      'recv_msg.qos2',
+      'recv_msg.dropped',
+      'recv_msg.dropped.await_pubrel_timeout',
+      'send_msg.qos0',
+      'send_msg.qos1',
+      'send_msg.qos2',
+      'send_msg.dropped',
+      'send_msg.dropped.expired',
+      'send_msg.dropped.queue_full',
+      'send_msg.dropped.too_large',
+    ],
   },
-
-  created() {
-    this.loadData()
-    this.loadSubs()
+  LWM2M: {
+    connection: [
+      'node',
+      'endpoint_name',
+      'lifetime',
+      'clientid',
+      'username',
+      'proto_type',
+      'ip_address',
+      'connected_at',
+      'disconnected_at',
+      'recv_oct',
+      'send_oct',
+      'recv_cnt',
+      'send_cnt',
+      'recv_pkt',
+      'send_lw_pkt',
+    ],
+    session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
   },
-
-  methods: {
-    moment: moment,
-    /**
-     * snake and point to camel, demo: send_msg -> sendMsg; send_msg.qos1 -> sendMsgQos1
-     */
-    snake2pascal(s) {
-      return String(s).replace(/((_|\.)[a-z])/g, (m) => m.substring(1).toUpperCase())
-    },
-    tl(key, collection = 'Clients') {
-      return this.$t(collection + '.' + key)
-    },
-    async handleDisconnect() {
-      let warningMsg = this.$t('Clients.willDisconnectTheConnection')
-      let successMsg = this.$t('Clients.successfulDisconnection')
-      if (!this.record.connected) {
-        warningMsg = this.$t('Clients.willCleanSession')
-        successMsg = this.$t('Clients.successfulCleanSession')
-      }
-      this.$msgbox
-        .confirm(warningMsg, {
-          confirmButtonText: this.$t('Base.confirm'),
-          cancelButtonText: this.$t('Base.cancel'),
-          type: 'warning',
-        })
-        .then(() => {
-          if (this.gateway) {
-            return this.handleDisconnectGateway()
-          } else {
-            return disconnectClient(this.record.clientid)
-          }
-        })
-        .then(() => {
-          this.record.connected = false
-          ElMessage.success(successMsg)
-        })
-        .catch(() => {})
-    },
-    async handleDisconnectGateway() {
-      let res = await disconnGatewayClient(this.gateway, this.record.clientid).catch(() => {})
-      if (res) {
-        this.$emit('refreshGateway')
-        return Promise.resolve()
-      } else {
-        return Promise.reject()
-      }
-    },
-    handlePreAdd() {
-      this.dialogVisible = true
-    },
-    async loadData() {
-      if (this.gateway) {
-        return this.loadGatewayData()
-      }
-      this.clientDetailLock = true
-      let res = await loadClientDetail(this.clientId).catch((error) => {
-        if (error.response.status === 404) {
-          this.doesTheClientExist = false
-        }
-      })
-      if (res) {
-        this.record = res
-      } else {
-        this.record = {}
-      }
-      this.clientDetailLock = false
-    },
-    async loadGatewayData() {
-      this.clientDetailLock = true
-      let res = await getGatewayClientDetail(this.gateway, this.clientId).catch(() => {})
-      if (res) {
-        this.record = res
-      } else {
-        this.record = {}
-      }
-      this.clientDetailLock = false
-    },
-    async loadSubs() {
-      if (this.gateway) {
-        return this.loadGatewaySubs()
-      }
-      this.subsLockTable = true
-      let res = await loadSubscriptions(this.clientId).catch(() => {})
-      if (res) {
-        this.subscriptions = res
-      } else {
-        this.subscriptions = []
-      }
-      this.subsLockTable = false
-    },
-    async loadGatewaySubs() {
-      this.subsLockTable = true
-      let res = await getGatewayClientSubs(this.gateway, this.clientId).catch(() => {})
-      if (res) {
-        this.subscriptions = res
-      } else {
-        this.subscriptions = []
-      }
-      this.subsLockTable = false
-    },
-    handleUnSubscription(row) {
-      const title = this.$t('Clients.unsubscribeTitle')
-      this.$msgbox
-        .confirm(title, {
-          confirmButtonText: this.$t('Base.confirm'),
-          cancelButtonText: this.$t('Base.cancel'),
-          type: 'warning',
-        })
-        .then(async () => {
-          if (this.gateway) {
-            if (this.gateway === 'lwm2m' && !row.clientid) {
-              row.clientid = this.clientId
-            }
-            return this.handleUnsubscriptionGateway(row)
-          } else {
-            const { clientid, topic } = row
-            return unsubscribe(clientid, topic)
-          }
-        })
-        .then(() => {
-          this.loadSubs()
-        })
-        .catch(() => {})
-    },
-    async handleUnsubscriptionGateway(row) {
-      const { clientid, topic } = row
-      let res = await unsubscribeGatewayClientSub(this.gateway, clientid, topic).catch(() => {})
-      if (res) {
-        ElMessage({
-          type: 'success',
-          message: this.$t('Base.createSuccess'),
-        })
-        return Promise.resolve()
-      } else {
-        return Promise.reject()
-      }
-    },
+  others: {
+    connection: [
+      'node',
+      'clientid',
+      'username',
+      'proto_type',
+      'ip_address',
+      'keepalive',
+      'connected_at',
+      'disconnected_at',
+      'recv_oct',
+      'send_oct',
+      'recv_cnt',
+      'send_cnt',
+      'recv_pkt',
+      'send_pkt',
+    ],
+    session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
   },
 }
+const mqttVersion = {
+  3: 'v3.1',
+  4: 'v3.1.1',
+  5: 'v5.0',
+}
+const subscriptions = ref<Subscription[]>([])
+const route = useRoute()
+const { tl } = useI18nTl('Clients')
+const { t } = useI18n()
+
+const clientId = computed<string>((): string => {
+  return (route.params.clientId as string) || (props.clientid as string)
+})
+const clientType = computed<'MQTT' | 'LWM2M' | 'others'>((): 'MQTT' | 'LWM2M' | 'others' => {
+  const proto_name = String(record.value.proto_name)
+  return proto_name.toUpperCase() as 'MQTT' | 'LWM2M' | 'others'
+})
+const clientDetailParts = computed(() => {
+  let allParts = Object.keys(clientsOrganizied)
+  if (Array.prototype.includes.call(allParts, clientType.value)) {
+    return clientsOrganizied[clientType.value]
+  }
+  return clientsOrganizied.others
+})
+
+/**
+ * snake and point to camel, demo: send_msg -> sendMsg; send_msg.qos1 -> sendMsgQos1
+ */
+const snake2pascal = (s: string) => {
+  return String(s).replace(/((_|\.)[a-z])/g, (m) => m.substring(1).toUpperCase())
+}
+const handleDisconnect = async () => {
+  if (record.value === null) return
+  let warningMsg = tl('willDisconnectTheConnection')
+  let successMsg = tl('successfulDisconnection')
+  if (!record.value.connected) {
+    warningMsg = tl('willCleanSession')
+    successMsg = tl('successfulCleanSession')
+  }
+  ElMessageBox.confirm(warningMsg, {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+  })
+    .then(() => {
+      if (props.gateway) {
+        return handleDisconnectGateway()
+      } else {
+        if (record.value === null) return
+        return disconnectClient(record.value.clientid as string)
+      }
+    })
+    .then(() => {
+      if (record.value === null) return
+      record.value.connected = false
+      ElMessage.success(successMsg)
+    })
+    .catch(() => {
+      // ignore
+    })
+}
+
+const handleDisconnectGateway = async () => {
+  if (record.value === null) return
+  let res = await disconnGatewayClient(props.gateway, record.value.clientid as string).catch(() => {
+    // ignore
+  })
+  if (res) {
+    emit('refreshGateway')
+    return Promise.resolve()
+  } else {
+    return Promise.reject()
+  }
+}
+
+const loadData = async () => {
+  if (props.gateway) {
+    return loadGatewayData()
+  }
+  clientDetailLock.value = true
+  let res = await loadClientDetail(clientId.value).catch((error) => {
+    if (error.response.status === 404) {
+      doesTheClientExist.value = false
+    }
+  })
+  if (res) {
+    record.value = res
+  } else {
+    record.value = {}
+  }
+  clientDetailLock.value = false
+}
+
+const loadGatewayData = async () => {
+  clientDetailLock.value = true
+  let res = await getGatewayClientDetail(props.gateway, clientId.value).catch(() => {
+    clientDetailLock.value = false
+  })
+  if (res) {
+    record.value = res
+  } else {
+    record.value = {}
+  }
+  clientDetailLock.value = false
+}
+
+const handlePreAdd = () => {
+  dialogVisible.value = true
+}
+
+const loadSubs = async () => {
+  if (props.gateway) {
+    return loadGatewaySubs()
+  }
+  subsLockTable.value = true
+  let res = await loadSubscriptions(clientId.value).catch(() => {
+    subsLockTable.value = false
+  })
+  if (res) {
+    subscriptions.value = res
+  } else {
+    subscriptions.value = []
+  }
+  subsLockTable.value = false
+}
+
+const loadGatewaySubs = async () => {
+  subsLockTable.value = true
+  let res = await getGatewayClientSubs(props.gateway, clientId.value).catch(() => {
+    subsLockTable.value = false
+  })
+  if (res) {
+    subscriptions.value = res
+  } else {
+    subscriptions.value = []
+  }
+  subsLockTable.value = false
+}
+
+const handleUnSubscription = (row: Subscription) => {
+  const title = tl('unsubscribeTitle')
+  ElMessageBox.confirm(title, {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+  })
+    .then(async () => {
+      if (props.gateway) {
+        if (props.gateway === 'lwm2m' && !row.clientid) {
+          row.clientid = clientId.value
+        }
+        return handleUnsubscriptionGateway(row)
+      } else {
+        const { clientid, topic } = row
+        return unsubscribe(clientid, topic)
+      }
+    })
+    .then(() => {
+      loadSubs()
+    })
+    .catch(() => {
+      // ignore
+    })
+}
+
+const handleUnsubscriptionGateway = async (row: Subscription) => {
+  const { clientid, topic } = row
+  let res = await unsubscribeGatewayClientSub(props.gateway, clientid, topic)
+  if (res) {
+    ElMessage({
+      type: 'success',
+      message: t('Base.createSuccess'),
+    })
+    return Promise.resolve()
+  } else {
+    return Promise.reject()
+  }
+}
+
+loadData()
+loadSubs()
 </script>
 
 <style lang="scss" scoped>
