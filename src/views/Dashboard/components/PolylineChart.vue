@@ -171,7 +171,7 @@ const drawChart = () => {
         }
         const { axisValue, color, seriesName, value } = params[0]
         let valueShowInTooltip = value
-        if (noYAxisDataMap[seriesName].includes(axisValue)) {
+        if (noYAxisDataMap[seriesName]?.includes(axisValue)) {
           valueShowInTooltip = 'NaN'
         }
         return createTooltip(axisValue, seriesName, valueShowInTooltip, color)
