@@ -367,4 +367,12 @@ export default {
     zh: '该客户端不存在',
     en: 'The client does not exist',
   },
+  gte: {
+    zh: '在此之后',
+    en: 'After this',
+  },
+  lte: {
+    zh: '在此之前',
+    en: 'Before this',
+  },
 }
