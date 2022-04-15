@@ -24,7 +24,7 @@ const props = defineProps({
     required: true,
   },
   yTitle: {
-    type: Array,
+    type: Array as PropType<Array<string>>,
     default: () => [''],
   },
   chartColors: {
@@ -79,16 +79,35 @@ onMounted(() => {
   drawChart()
 })
 
+const NO_DATA_VALUE = -1
+let noYAxisDataMap: Record<string, Array<string>> = {}
+
+const storeNoDataXAxis = (yData: Array<number>, xData: Array<string>, title: string) => {
+  yData.forEach((item, index) => {
+    if (item === NO_DATA_VALUE) {
+      if (!noYAxisDataMap[title]) {
+        noYAxisDataMap[title] = []
+      }
+      noYAxisDataMap[title].push(xData[index])
+    }
+  })
+}
+
+const handleYAxisData = (arr: Array<number>) =>
+  arr.map((item) => (item === NO_DATA_VALUE ? 0 : item))
+
 const setSeriesConfig = () => {
   seriesConfig.value = []
+  noYAxisDataMap = {}
   for (let i = 0; i < props.yTitle.length; i += 1) {
+    storeNoDataXAxis(props.chartData[i].yData, props.chartData[i].xData, props.yTitle[i])
     seriesConfig.value.push({
       name: props.yTitle[i],
       type: 'line',
       smooth: true,
       symbolSize: 5,
       showSymbol: false,
-      data: props.chartData[i].yData,
+      data: handleYAxisData(props.chartData[i].yData),
       step: false,
       lineStyle: {
         width: 2,
@@ -110,6 +129,23 @@ const setSeriesConfig = () => {
   }
 }
 
+const createTooltip = (xAxis: string, title: string, val: number, color: string) => {
+  const container = document.createElement('div')
+  container.innerHTML = `
+  <div class="polyline-chart-tooltip">
+    <p class="x-value">${xAxis}</p>
+    <div class="tooltip-body">
+      <div>
+        <i class="badge" style="background-color:${color}"></i>
+        <span>${title}</span>
+      </div>
+      <p class="num">${val}</p>
+    </div>
+  </div>
+  `
+  return container
+}
+
 const drawChart = () => {
   setSeriesConfig()
   let Dom = document.getElementById(props.chartId)
@@ -129,6 +165,17 @@ const drawChart = () => {
     tooltip: {
       trigger: 'axis',
       confine: true,
+      formatter: (params: Array<any>) => {
+        if (!params[0]) {
+          return ''
+        }
+        const { axisValue, color, seriesName, value } = params[0]
+        let valueShowInTooltip = value
+        if (noYAxisDataMap[seriesName].includes(axisValue)) {
+          valueShowInTooltip = 'NaN'
+        }
+        return createTooltip(axisValue, seriesName, valueShowInTooltip, color)
+      },
     },
     xAxis: {
       type: 'category',
@@ -164,3 +211,30 @@ const drawChart = () => {
   chart.value?.setOption(option)
 }
 </script>
+
+<style lang="scss">
+.polyline-chart-tooltip {
+  min-width: 120px;
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .x-value {
+    margin-bottom: 4px;
+  }
+  .tooltip-body {
+    display: flex;
+    justify-content: space-between;
+    .badge {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      background-color: #bbb;
+    }
+    .num {
+      font-weight: 500;
+    }
+  }
+}
+</style>
