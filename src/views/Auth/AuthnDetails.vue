@@ -66,15 +66,15 @@
             ></built-in-config>
           </template>
           <jwt-config ref="formCom" v-else v-model="configData"></jwt-config>
+          <el-button @click="$router.push('/authentication')" v-if="!gateway">
+            {{ $t('Base.cancel') }}
+          </el-button>
           <el-button type="primary" @click="handleUpdate">
             {{ $t('Base.update') }}
           </el-button>
           <!-- <el-button @click="handleTest">
-          {{ $t('Base.test') }}
-        </el-button> -->
-          <el-button @click="$router.push('/authentication')" v-if="!gateway">
-            {{ $t('Base.cancel') }}
-          </el-button>
+            {{ $t('Base.test') }}
+          </el-button> -->
         </el-card>
       </el-tab-pane>
       <el-tab-pane

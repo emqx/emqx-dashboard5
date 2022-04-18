@@ -68,10 +68,10 @@
         </el-row>
       </el-form>
       <template #footer>
-        <el-button type="primary" @click="submitSubs(isEdit)" :loading="submitLoading">{{
-          isEdit ? $t('Base.update') : $t('Base.add')
-        }}</el-button>
         <el-button @click="closeDialog()">{{ $t('Base.cancel') }}</el-button>
+        <el-button type="primary" @click="submitSubs(isEdit)" :loading="submitLoading">
+          {{ isEdit ? $t('Base.update') : $t('Base.add') }}
+        </el-button>
       </template>
     </el-dialog>
   </div>

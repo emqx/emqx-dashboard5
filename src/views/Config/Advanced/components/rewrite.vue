@@ -52,10 +52,10 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button type="primary" @click="submitRewrite(isEdit)" :loading="submitLoading">{{
-          isEdit ? $t('Base.update') : $t('Base.add')
-        }}</el-button>
         <el-button @click="opRewrite = false">{{ $t('Base.cancel') }}</el-button>
+        <el-button type="primary" @click="submitRewrite(isEdit)" :loading="submitLoading">
+          {{ isEdit ? $t('Base.update') : $t('Base.add') }}
+        </el-button>
       </template>
     </el-dialog>
   </div>

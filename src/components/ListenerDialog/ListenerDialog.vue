@@ -292,11 +292,11 @@
       </template>
     </el-form>
     <template #footer>
-      <el-button type="primary" @click="submit" :loading="isSubmitting">
-        {{ isEdit ? $t('Base.update') : $t('Base.add') }}
-      </el-button>
       <el-button @click="showDialog = false">
         {{ $t('Base.cancel') }}
+      </el-button>
+      <el-button type="primary" @click="submit" :loading="isSubmitting">
+        {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>
   </el-dialog>

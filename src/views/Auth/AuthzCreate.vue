@@ -36,11 +36,11 @@
           </el-badge>
         </el-radio-group>
         <div class="step-btn">
-          <el-button type="primary" @click="handleNext">
-            {{ $t('Base.nextStep') }}
-          </el-button>
           <el-button @click="$router.push('/authorization')">
             {{ $t('Base.cancel') }}
+          </el-button>
+          <el-button type="primary" @click="handleNext">
+            {{ $t('Base.nextStep') }}
           </el-button>
         </div>
       </div>
