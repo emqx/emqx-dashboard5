@@ -1,6 +1,10 @@
-import { ref, Ref } from 'vue'
+import { nextTick, ref, Ref, Component } from 'vue'
 import { listAuthz, queryAuthzItemMetrics } from '@/api/auth'
 import { AuthzSourceItem, Metrics } from '@/types/auth'
+import useHandleAuthzItem from '@/hooks/Auth/useHandleAuthzItem'
+import useMove from '@/hooks/useMove'
+import useSortableTable from '@/hooks/useSortableTable'
+import { SortableEvent } from 'sortablejs'
 
 type AuthzItemInTable = AuthzSourceItem & {
   metrics: Metrics
@@ -12,8 +16,11 @@ export const hasMetrics = ({ type }: AuthzItemInTable): boolean =>
 export default (): {
   isDataLoading: Ref<boolean>
   authzList: Ref<Array<AuthzItemInTable>>
+  tableCom: Ref<Component>
   getAuthzList: (isInit?: boolean) => void
   updateAuthnItemMetrics: (type: string) => void
+  moveAuthzToTop: (row: AuthzItemInTable) => Promise<void>
+  moveAuthzToBottom: (row: AuthzItemInTable) => Promise<void>
 } => {
   const isDataLoading = ref(false)
   const authzList = ref<AuthzItemInTable[]>([])
@@ -44,6 +51,8 @@ export default (): {
           metrics: metricsMap.value[item.type],
         }
       })
+      await nextTick()
+      initSortable()
       setAddedAuthz()
     } catch (error) {
       console.error(error)
@@ -82,12 +91,60 @@ export default (): {
     }
   }
 
+  const {
+    moveAuthzBeforeAnotherAuthz,
+    moveAuthzAfterAnotherAuthz,
+    moveAuthzToTop: requestMoveAuthzToTop,
+    moveAuthzToBottom: requestMoveAuthzToBottom,
+  } = useHandleAuthzItem()
+  const moveAuthzToTop = async (row: AuthzItemInTable) => {
+    try {
+      await requestMoveAuthzToTop(row)
+    } catch (error) {
+      authzList.value = []
+    } finally {
+      getAuthzList()
+    }
+  }
+  const moveAuthzToBottom = async (row: AuthzItemInTable) => {
+    try {
+      await requestMoveAuthzToBottom(row)
+    } catch (error) {
+      authzList.value = []
+    } finally {
+      getAuthzList()
+    }
+  }
+
+  const { handleDragEvent } = useMove(
+    {
+      moveToBottom: moveAuthzToBottom,
+      moveToTop: moveAuthzToTop,
+      moveBeforeAnotherTarget: moveAuthzBeforeAnotherAuthz,
+      moveAfterAnotherTarget: moveAuthzAfterAnotherAuthz,
+    },
+    undefined,
+    getAuthzList,
+  )
+  const handleOrderChanged = async (evt: SortableEvent) => {
+    const { newIndex, oldIndex } = evt
+    if (newIndex === undefined || oldIndex === undefined) {
+      return
+    }
+    handleDragEvent(newIndex, oldIndex, authzList.value)
+  }
+
+  const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
+
   initTableData()
 
   return {
     isDataLoading,
     authzList,
+    tableCom,
     getAuthzList,
     updateAuthnItemMetrics,
+    moveAuthzToTop,
+    moveAuthzToBottom,
   }
 }

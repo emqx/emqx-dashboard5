@@ -12,7 +12,13 @@
       </div>
       <el-button type="primary" @click="goInstall">{{ tl('installPlugin') }}</el-button>
     </div>
-    <el-table :data="pluginListToShow" v-loading="isTableLoading" ref="tableCom" row-key="name">
+    <el-table
+      :data="pluginListToShow"
+      v-loading="isTableLoading"
+      ref="tableCom"
+      row-key="name"
+      class="table-with-draggable"
+    >
       <el-table-column :label="tl('name')">
         <template #default="{ row }">
           <i class="icon icon-plugin"></i>
@@ -316,9 +322,6 @@ queryListData()
       line-height: 16px;
       color: rgba(0, 0, 0, 0.5);
     }
-  }
-  .el-table tr {
-    cursor: move;
   }
 }
 </style>
