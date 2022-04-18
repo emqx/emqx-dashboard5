@@ -1,5 +1,5 @@
 import http from '@/common/http'
-import { SlowSubConfig, SlowSubStatistic } from '@/types/diagnose'
+import { SlowSubConfig, SlowSubStatistic, TopicMetricItem } from '@/types/diagnose'
 import { downloadBlobData } from '@/common/tools'
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
@@ -55,4 +55,26 @@ export function stopTrace(name: string) {
 
 export function deleteTrace(name: string) {
   return http.delete(`/trace/${encodeURIComponent(name)}`)
+}
+
+export function getTopicMetrics(topic: null | string = null): Promise<Array<TopicMetricItem>> {
+  if (null === topic) {
+    return http.get('/mqtt/topic_metrics')
+  }
+  return http.get('/mqtt/topic_metrics/' + encodeURIComponent(topic))
+}
+
+export function addTopicMetrics(topic: string): Promise<TopicMetricItem> {
+  const data = { topic: topic }
+  return http.post('/mqtt/topic_metrics', data)
+}
+
+export function deleteTopicMetrics(topic: string): Promise<any> | undefined {
+  if (topic == null) return
+  return http.delete('/mqtt/topic_metrics/' + encodeURIComponent(topic))
+}
+
+export function resetTopicMetrics(topic: any): any {
+  if (topic == null) return
+  return http.put(`/mqtt/topic_metrics`, { action: 'reset', topic })
 }

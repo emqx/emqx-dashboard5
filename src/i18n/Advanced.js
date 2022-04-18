@@ -3,6 +3,14 @@ export default {
     zh: '保留消息',
     en: 'Retainer',
   },
+  sysTopics: {
+    zh: '系统主题',
+    en: 'System Topics',
+  },
+  sysTopicsDesc: {
+    zh: '周期性将运行状态，使用统计和即时客户端事件发布到 $SYS/ 开头的系统主题。',
+    en: 'Periodically publish running status, usage statistics and instant client events to system topics starting with $SYS/.',
+  },
   rewrite: {
     zh: '主题重写',
     en: 'Topic Rewrite',
@@ -186,5 +194,37 @@ export default {
   needNumber: {
     en: 'It needs to be a number',
     zh: '请填写数字',
+  },
+  basicConfig: {
+    zh: '基础配置',
+    en: 'Basic Config',
+  },
+  messagePublishInterval: {
+    zh: '消息发布周期',
+    en: 'Messages publish interval',
+  },
+  heartbeatInterval: {
+    zh: '心跳周期',
+    en: 'Heartbeat interval',
+  },
+  clientEvent: {
+    zh: '客户端事件',
+    en: 'Client event',
+  },
+  clientConnected: {
+    zh: '客户端已连接',
+    en: 'Client connected',
+  },
+  clientDisconnected: {
+    zh: '客户端断开连接',
+    en: 'Client disconnected',
+  },
+  clientSubscribed: {
+    zh: '客户端订阅',
+    en: 'Client subscribed',
+  },
+  clientUnsubscribed: {
+    zh: '客户端取消订阅',
+    en: 'Client unsubscribed',
   },
 }

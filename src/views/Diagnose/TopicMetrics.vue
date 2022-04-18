@@ -161,7 +161,7 @@ import {
   addTopicMetrics,
   deleteTopicMetrics,
   resetTopicMetrics,
-} from '@/api/advanced'
+} from '@/api/diagnose'
 import { dateFormat } from '@/common/utils'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
