@@ -51,51 +51,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl('tlsConfig') }}</div>
-      <el-row :gutter="30">
-        <el-col :span="12">
-          <el-checkbox
-            border
-            :label="tl('enableTls')"
-            v-model="eValue.server.ssl.enable"
-            class="sole-chkbox"
-          >
-          </el-checkbox>
-        </el-col>
-
-        <template v-if="eValue.server.ssl.enable">
-          <el-col :span="18">
-            <el-form-item :label="'Cert'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="enableTLS.certfile"
-                v-model="eValue.server.ssl.certfile"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="18">
-            <el-form-item :label="'CA Cert'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="enableTLS.cacertfile"
-                v-model="eValue.server.ssl.cacertfile"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="18">
-            <el-form-item :label="'Key'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="enableTLS.keyfile"
-                v-model="eValue.server.ssl.keyfile"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-        </template>
-      </el-row>
+      <CommonTLSConfig class="tls-config-form" v-model="eValue.server.ssl" />
       <div class="part-header">{{ tl('grpcConnection') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
@@ -107,51 +63,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl('tlsConfig') }}</div>
-      <el-row :gutter="30">
-        <el-col :span="12">
-          <el-checkbox
-            border
-            :label="tl('enableTls')"
-            v-model="eValue.handler.ssl.enable"
-            class="sole-chkbox"
-          >
-          </el-checkbox>
-        </el-col>
-
-        <template v-if="eValue.handler.ssl.enable">
-          <el-col :span="18">
-            <el-form-item :label="'Cert'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="enableTLS.certfile"
-                v-model="eValue.handler.ssl.certfile"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="18">
-            <el-form-item :label="'CA Cert'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="enableTLS.cacertfile"
-                v-model="eValue.handler.ssl.cacertfile"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="18">
-            <el-form-item :label="'Key'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="enableTLS.keyfile"
-                v-model="eValue.handler.ssl.keyfile"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-        </template>
-      </el-row>
+      <CommonTLSConfig class="tls-config-form" v-model="eValue.handler.ssl" />
     </el-form>
   </div>
 </template>
@@ -165,9 +77,13 @@ import {
   getValueIntersectionWithTemplate,
 } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 
 export default defineComponent({
   name: 'ExprotoBasic',
+  components: {
+    CommonTLSConfig,
+  },
   props: {
     value: {
       type: Object,
@@ -233,9 +149,23 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .sole-chkbox {
   margin-bottom: 20px;
   margin-top: 20px;
+}
+
+.tls-config-form {
+  margin-top: 20px;
+
+  :deep(.TLS-base-config) .TLS-base-config-title {
+    color: var(--el-text-color-regular);
+    font-size: 16px;
+  }
+  :deep(.TLS-enable-config) {
+    .TLS-input {
+      width: 75%;
+    }
+  }
 }
 </style>
