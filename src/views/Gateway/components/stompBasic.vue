@@ -69,11 +69,7 @@
 <script>
 import { defineComponent, onMounted, reactive, watch } from 'vue'
 import _ from 'lodash'
-import {
-  transformUnitArrayToStr,
-  transformStrToUnitArray,
-  getValueIntersectionWithTemplate,
-} from '@/common/utils'
+import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
@@ -101,10 +97,7 @@ export default defineComponent({
     const { t } = useI18n()
 
     const sValue = reactive(
-      getValueIntersectionWithTemplate(
-        sValueDefault,
-        transformStrToUnitArray(props.value, ['idle_timeout']),
-      ),
+      _.merge(sValueDefault, transformStrToUnitArray(props.value, ['idle_timeout'])),
     )
 
     watch(

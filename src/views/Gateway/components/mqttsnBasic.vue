@@ -76,11 +76,7 @@
 import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import topicEditList from './topicEditList.vue'
 import _ from 'lodash'
-import {
-  transformUnitArrayToStr,
-  transformStrToUnitArray,
-  getValueIntersectionWithTemplate,
-} from '@/common/utils'
+import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
@@ -107,10 +103,7 @@ export default defineComponent({
     const { t } = useI18n()
 
     const mValue = reactive(
-      getValueIntersectionWithTemplate(
-        mValueDefault,
-        transformStrToUnitArray(props.value, ['idle_timeout']),
-      ),
+      _.merge(mValueDefault, transformStrToUnitArray(props.value, ['idle_timeout'])),
     )
 
     const formPassed = ref(false)

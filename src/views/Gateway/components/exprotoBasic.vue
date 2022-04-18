@@ -71,11 +71,7 @@
 <script>
 import { defineComponent, reactive, watch, onMounted } from 'vue'
 import _ from 'lodash'
-import {
-  transformUnitArrayToStr,
-  transformStrToUnitArray,
-  getValueIntersectionWithTemplate,
-} from '@/common/utils'
+import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 
@@ -118,16 +114,8 @@ export default defineComponent({
     const { t } = useI18n()
 
     let eValue = reactive(
-      getValueIntersectionWithTemplate(
-        eValueDefault,
-        transformStrToUnitArray(props.value, ['idle_timeout']),
-      ),
+      _.merge(eValueDefault, transformStrToUnitArray(props.value, ['idle_timeout'])),
     )
-    let enableTLS = reactive({
-      cacertfile: 'Begins with ----BEGIN CERTIFICATE----',
-      certfile: 'Begins with ----BEGIN CERTIFICATE----',
-      keyfile: 'Begins with ----BEGIN PRIVATE KEY----',
-    })
 
     watch(
       () => _.cloneDeep(eValue),
@@ -143,7 +131,6 @@ export default defineComponent({
       tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       eValueDefault,
       eValue,
-      enableTLS,
     }
   },
 })
