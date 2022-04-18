@@ -119,4 +119,8 @@ export default {
     zh: '发生错误',
     en: 'Error',
   },
+  disabled: {
+    zh: '禁用',
+    en: 'Disabled',
+  },
 }

@@ -7,9 +7,16 @@ export default (tl: (key: string, moduleName?: string) => string) => {
     if (!node_status || node_status.length === 0) {
       return ExhookStatus.Error
     }
-    let ret = ExhookStatus.Running
+    let ret = ExhookStatus.Connected
     // The order cannot be changed
-    const badStatusArr = [ExhookStatus.Error, ExhookStatus.Stopped, ExhookStatus.Waiting]
+
+    const badStatusArr = [
+      ExhookStatus.Connected,
+      ExhookStatus.Connecting,
+      ExhookStatus.Unconnected,
+      ExhookStatus.Disable,
+      ExhookStatus.Error,
+    ]
     for (const currentBadStatus of badStatusArr) {
       if (node_status.some(({ status }) => status === currentBadStatus)) {
         ret = currentBadStatus
@@ -21,17 +28,19 @@ export default (tl: (key: string, moduleName?: string) => string) => {
 
   const dotClass = (status: ExhookStatus): NodeStatusClass =>
     ({
-      [ExhookStatus.Running]: NodeStatusClass.Success,
-      [ExhookStatus.Waiting]: NodeStatusClass.Warning,
-      [ExhookStatus.Stopped]: NodeStatusClass.Danger,
+      [ExhookStatus.Connected]: NodeStatusClass.Success,
+      [ExhookStatus.Connecting]: NodeStatusClass.Warning,
+      [ExhookStatus.Unconnected]: NodeStatusClass.Danger,
+      [ExhookStatus.Disable]: NodeStatusClass.Danger,
       [ExhookStatus.Error]: NodeStatusClass.Danger,
     }[status] || NodeStatusClass.Danger)
 
   const statusText = (status: ExhookStatus) =>
     ({
-      [ExhookStatus.Running]: tl('connected'),
-      [ExhookStatus.Waiting]: tl('connecting'),
-      [ExhookStatus.Stopped]: tl('stopped'),
+      [ExhookStatus.Connected]: tl('connected', 'RuleEngine'),
+      [ExhookStatus.Connecting]: tl('connecting', 'RuleEngine'),
+      [ExhookStatus.Unconnected]: tl('disconnected', 'RuleEngine'),
+      [ExhookStatus.Disable]: tl('disabled'),
       [ExhookStatus.Error]: tl('error'),
     }[status] || 'unknown')
 

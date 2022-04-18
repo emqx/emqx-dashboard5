@@ -49,9 +49,10 @@ export enum TargetPosition {
 }
 
 export enum ExhookStatus {
-  Running = 'running',
-  Waiting = 'waiting',
-  Stopped = 'stopped',
+  Connected = 'connected',
+  Connecting = 'connecting',
+  Unconnected = 'unconnected',
+  Disable = 'disable',
   Error = 'error',
 }
 
