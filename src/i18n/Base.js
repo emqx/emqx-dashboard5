@@ -363,4 +363,16 @@ export default {
     zh: '移到底部',
     en: 'Move to bottom',
   },
+  refresh: {
+    zh: '刷新',
+    en: 'Refresh',
+  },
+  current: {
+    zh: '当前',
+    en: 'Current',
+  },
+  max: {
+    zh: '最大',
+    en: 'Maximum',
+  },
 }

@@ -17,7 +17,7 @@
     </div>
     <el-row class="content-block" :gutter="26">
       <el-col :span="8">
-        <el-card class="top-border client">
+        <el-card class="top-border table-card client">
           <el-table
             :data="filterMetrics(metricsObj[currentNode], 'client')"
             v-loading.lock="lockTable"
@@ -26,7 +26,7 @@
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
-        <el-card class="top-border packets">
+        <el-card class="top-border table-card packets">
           <el-table
             :data="filterMetrics(metricsObj[currentNode], 'packets')"
             v-loading.lock="lockTable"
@@ -37,7 +37,7 @@
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card class="top-border delivery">
+        <el-card class="top-border table-card delivery">
           <el-table
             :data="filterMetrics(metricsObj[currentNode], 'delivery')"
             v-loading.lock="lockTable"
@@ -46,7 +46,7 @@
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
-        <el-card class="top-border messages">
+        <el-card class="top-border table-card messages">
           <el-table
             :data="filterMetrics(metricsObj[currentNode], 'messages')"
             v-loading.lock="lockTable"
@@ -57,7 +57,7 @@
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card class="top-border session">
+        <el-card class="top-border table-card session">
           <el-table
             :data="filterMetrics(metricsObj[currentNode], 'session')"
             v-loading.lock="lockTable"
@@ -66,7 +66,7 @@
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
-        <el-card class="top-border bytes">
+        <el-card class="top-border table-card bytes">
           <el-table
             :data="filterMetrics(metricsObj[currentNode], 'bytes')"
             v-loading.lock="lockTable"
@@ -152,23 +152,6 @@ onMounted(() => {
   }
   .content-block {
     .el-card {
-      margin-bottom: 26px;
-      .el-table {
-        border-radius: 0px;
-        .el-table__cell {
-          padding: 8px 11px;
-        }
-        th.el-table__cell > .cell {
-          font-size: 16px;
-        }
-        th.el-table__cell.is-sortable {
-          padding: 8px 5px !important;
-        }
-      }
-      .el-card__body {
-        padding: 0px;
-        padding-top: 4px;
-      }
       &.top-border.client {
         &:before {
           background: #00b299;

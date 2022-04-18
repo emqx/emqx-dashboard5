@@ -156,6 +156,10 @@ export default {
     en: 'Basic Info',
   },
   subscriptions: {
+    zh: '订阅数',
+    en: 'Subscriptions',
+  },
+  subscriptionList: {
     zh: '订阅列表',
     en: 'Subscriptions',
   },
@@ -184,16 +188,16 @@ export default {
     en: 'Zone',
   },
   subscription: {
-    zh: '当前 / 最大订阅数量',
-    en: 'Current / Max Subscriptions',
+    zh: '订阅数量',
+    en: 'Subscriptions',
   },
   inflight: {
-    zh: '当前 / 最大飞行窗口',
-    en: 'Current / Max Inflight',
+    zh: '飞行窗口',
+    en: 'Inflight',
   },
   mqueue: {
-    zh: '当前 / 最大消息队列',
-    en: 'Current / Max Message Queue',
+    zh: '消息队列大小',
+    en: 'Message Queue Size',
   },
   heapSize: {
     zh: '进程堆栈大小',
@@ -217,7 +221,7 @@ export default {
   },
   unsubscribe: {
     zh: '取消订阅',
-    en: 'unsubscribe',
+    en: 'Unsubscribe',
   },
   onLine: {
     zh: '在线',
@@ -227,49 +231,41 @@ export default {
     zh: '此操作将取消订阅该主题',
     en: 'This action will cancel subscription to the topic',
   },
-  awaiting_rel_desc: {
-    zh: '正在等待 PUBREL 的 QoS2 消息数量',
-    en: 'The number of QoS2 messages waiting for PUBREL',
-  },
-  max_awaiting_rel_desc: {
-    zh: '允许同时等待 PUBREL 的 QoS2 消息的最大数量',
-    en: 'Maximum number of QoS2 messages allowed to wait for PUBREL at the same time',
-  },
   recvCnt: {
     zh: '接收的 TCP 报文数量',
-    en: 'Number of received Socket packets',
+    en: 'TCP Packets Received',
   },
   recvMsg: {
-    zh: '接收的 PUBLISH 报文数量',
-    en: 'Number of received PUBLISH messages',
+    zh: '接收的 PUBLISH 消息数量',
+    en: 'Received PUBLISH Messages',
   },
   recvOct: {
     zh: '接收字节数',
-    en: 'Number of bytes received',
+    en: 'Bytes Received',
   },
   recvPkt: {
     zh: '接收的 MQTT 报文数量',
-    en: 'Number of received messages',
+    en: 'MQTT Packets Received',
   },
   sendCnt: {
     zh: '发送的 TCP 报文数量',
-    en: 'Number of Socket packets sent',
+    en: 'TCP Packets Sent',
   },
   sendMsg: {
-    zh: '发送的 PUBLISH 报文数量',
-    en: 'Number of PUBLISH messages sent',
+    zh: '发送的 PUBLISH 消息数量',
+    en: 'PUBLISH Messages Sent',
   },
   sendOct: {
     zh: '发送字节数',
-    en: 'Number of bytes sent',
+    en: 'Bytes Sent',
   },
   sendPkt: {
     zh: '发送的 MQTT 报文数量',
-    en: 'Number of MQTT messages sent',
+    en: 'MQTT Packets Sent',
   },
   sendLwPkt: {
     zh: '发送的报文数量',
-    en: 'Number of messages sent',
+    en: 'Messages Sent',
   },
   recvMsgQos0: {
     zh: 'QoS 0 消息流入',
@@ -285,11 +281,11 @@ export default {
   },
   recvMsgDropped: {
     zh: '消息流入丢弃数',
-    en: 'Dropped Messages In',
+    en: 'Dropped Incomming Messages',
   },
   recvMsgDroppedAwaitPubrelTimeout: {
     zh: '消息流入丢弃数（过期）',
-    en: 'Dropped Messages In(Expired)',
+    en: 'Dropped Incomming Messages (Expired)',
   },
   sendMsgQos0: {
     zh: 'QoS 0 消息流出',
@@ -305,31 +301,27 @@ export default {
   },
   sendMsgDropped: {
     zh: '消息流出丢弃数',
-    en: 'Dropped Messages Out',
+    en: 'Dropped Outgoing Messages',
   },
   sendMsgDroppedExpired: {
     zh: '消息流出丢弃数（过期）',
-    en: 'Dropped Messages Out(Expired)',
+    en: 'Dropped Outgoing Messages (Expired)',
   },
   sendMsgDroppedQueueFull: {
     zh: '消息流出丢弃数（队列已满）',
-    en: 'Dropped Messages Out(Queue Full)',
+    en: 'Dropped Outgoing Messages (Queue Full)',
   },
   sendMsgDroppedTooLarge: {
     zh: '消息流出丢弃数（消息过大）',
-    en: 'Dropped Messages Out(Message Oversize)',
+    en: 'Dropped Outgoing Messages (Oversize)',
   },
   kickOut: {
     zh: '踢除',
     en: 'Kick Out',
   },
-  awaitingRelCnt: {
+  awaitingRel: {
     zh: '未确认的 PUBREC 数据包计数',
-    en: 'Unconfirmed PUBREC Packets Count',
-  },
-  awaitingRelMax: {
-    zh: '最大未确认的 PUBREC 数据包计数',
-    en: 'Maximum Unconfirmed PUBREC Packets Count',
+    en: 'Unconfirmed PUBREC Packets',
   },
   collapse: {
     zh: '折叠',
@@ -374,5 +366,17 @@ export default {
   lte: {
     zh: '在此之前',
     en: 'Before this',
+  },
+  bytes: {
+    zh: '流量收发（字节）',
+    en: 'Bytes',
+  },
+  packets: {
+    zh: '报文',
+    en: 'Packets',
+  },
+  messages: {
+    zh: '消息数量',
+    en: 'Messages',
   },
 }

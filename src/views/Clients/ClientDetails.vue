@@ -1,162 +1,165 @@
 <template>
   <div class="client-details app-wrapper">
-    <div class="section-header" v-loading.lock="clientDetailLock">
-      <div>
-        <span>{{ clientId }}</span>
-        <template v-if="doesTheClientExist">
-          <el-tag type="info" size="small">
-            <span v-if="record.connected == true">
-              <el-icon color="#00b299ff">
-                <SuccessFilled class="icon-status" />
-              </el-icon>
-              {{ $t('Clients.connected') }}
-            </span>
-            <span v-else>
-              <el-icon color="#e34242ff">
-                <Failed class="icon-status fail" />
-              </el-icon>
-              {{ $t('Clients.disconnected') }}
-            </span>
-          </el-tag>
-          <el-tag type="info" size="small" v-if="record.proto_name">
-            <span>{{ record.proto_name }}</span
-            >&nbsp;
-            <span v-if="record.proto_name === 'MQTT'">{{ mqttVersion[record.proto_ver] }}</span
-            ><span v-else>{{ record.proto_ver }}</span>
-          </el-tag>
-        </template>
-      </div>
-      <div v-if="doesTheClientExist">
-        <el-button v-if="record.connected" type="danger" @click="handleDisconnect">
-          {{ $t('Clients.kickOut') }}
+    <div class="block-header">
+      <detail-header :item="{ name: clientId, path: '/clients' }" />
+      <div class="actions">
+        <el-button type="primary" :icon="Refresh" @click="loadData">
+          {{ tl('refresh') }}
         </el-button>
-        <el-button v-else type="danger" @click="handleDisconnect">
-          {{ $t('Clients.cleanSession') }}
+        <el-button
+          v-if="doesTheClientExist"
+          type="danger"
+          :icon="SwitchButton"
+          plain
+          @click="handleDisconnect"
+        >
+          {{ record.connected ? tl('kickOut') : tl('cleanSession') }}
         </el-button>
       </div>
     </div>
-    <template v-if="!clientDetailLock">
-      <template v-if="doesTheClientExist">
-        <el-card v-loading.lock="clientDetailLock">
-          <div class="part-header">
-            {{ $t('Clients.connectionInfo') }}
-          </div>
-          <el-row>
-            <el-col v-for="item in clientDetailParts.connection" :key="item" :span="8">
-              <div v-if="item == 'proto_type'" class="detail-item">
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span
-                  v-if="record.proto_name === 'MQTT'"
-                  :title="record.proto_name + '&nbsp;' + mqttVersion[record.proto_ver]"
-                  >{{ record.proto_name }} {{ mqttVersion[record.proto_ver] }}</span
-                >
-                <span v-else :title="record.proto_name + '&nbsp;' + record.proto_ver"
-                  >{{ record.proto_name }} {{ record.proto_ver }}</span
-                >
-              </div>
-              <div
-                v-else-if="item == 'connected_at' || item == 'disconnected_at'"
-                class="detail-item"
+    <template v-if="doesTheClientExist">
+      <el-row :gutter="26" class="client-row block">
+        <el-col :span="12">
+          <el-card class="top-border client-info" v-loading="clientDetailLock">
+            <el-descriptions :title="tl('connectionInfo')" border :column="1" size="large">
+              <el-descriptions-item label="Status"
+                ><el-tag type="info">
+                  <CheckIcon :status="record.connected ? 'check' : 'close'" size="small" />
+                  {{ record.connected ? tl('connected') : tl('disconnected') }}
+                </el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item
+                v-for="item in clientDetailParts.connection"
+                :key="item"
+                :label="getLabel(item)"
               >
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span :title="record[item] && moment(record[item]).format('YYYY-MM-DD HH:mm:ss')">
-                  {{ record[item] && moment(record[item]).format('YYYY-MM-DD HH:mm:ss') }}
+                <span v-if="item == 'proto_type'">
+                  <el-tag type="info">
+                    <span>{{ record.proto_name }}</span
+                    >&nbsp;
+                    <span v-if="record.proto_name === 'MQTT'">{{
+                      mqttVersion[record.proto_ver]
+                    }}</span
+                    ><span v-else>{{ record.proto_ver }}</span>
+                  </el-tag>
                 </span>
-              </div>
-              <div v-else-if="item == 'ip_address'" class="detail-item">
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span :title="record.ip_address + ':' + record.port">{{
-                  record.ip_address + ':' + record.port
-                }}</span>
-              </div>
-              <div v-else class="detail-item">
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span :title="record[item]">{{ record[item] }}</span>
-              </div>
-            </el-col>
-          </el-row>
-
-          <div class="part-header">
-            {{ $t('Clients.sessionInfo') }}
-          </div>
-          <el-row>
-            <el-col v-for="item in clientDetailParts.session" :key="item" :span="8">
-              <div v-if="item == 'subscriptions'" class="detail-item">
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span :title="record.subscriptions_cnt + '/' + record.subscriptions_max">
-                  {{ record.subscriptions_cnt + '/' + record.subscriptions_max }}
+                <span v-else-if="item == 'connected_at' || item == 'disconnected_at'">
+                  <span>
+                    {{ record[item] && moment(record[item]).format('YYYY-MM-DD HH:mm:ss') }}
+                  </span>
                 </span>
-              </div>
-              <div v-else-if="item == 'clean_start'" class="detail-item">
-                <span :title="record.proto_ver === 5 ? 'Clean Start' : 'Clean Session'"
-                  >{{ record.proto_ver === 5 ? 'Clean Start' : 'Clean Session' }}:</span
-                >
-                <span :title="record[item]">{{ record[item] }}</span>
-              </div>
-              <div v-else-if="item == 'mqueue'" class="detail-item">
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span :title="record.mqueue_len + '/' + record.mqueue_max">{{
-                  record.mqueue_len + '/' + record.mqueue_max
-                }}</span>
-              </div>
-              <div v-else-if="item == 'inflight'" class="detail-item">
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span :title="record.inflight_cnt + '/' + record.inflight_max">
-                  {{ record.inflight_cnt + '/' + record.inflight_max }}
+                <span v-else-if="item == 'ip_address'">
+                  <span>{{ record.ip_address + ':' + record.port }}</span>
                 </span>
-              </div>
-              <div v-else-if="item == 'created_at'" class="detail-item">
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span :title="moment(record[item]).format('YYYY-MM-DD HH:mm:ss')">
-                  {{ moment(record[item]).format('YYYY-MM-DD HH:mm:ss') }}
+                <span v-else>
+                  <span>{{ record[item] }}</span>
                 </span>
-              </div>
-              <div v-else class="detail-item">
-                <span :title="tl(snake2pascal(item))">{{ tl(snake2pascal(item)) }}:</span>
-                <span :title="record[item]">{{ record[item] }}</span>
-              </div>
-            </el-col>
-          </el-row>
-        </el-card>
-        <div class="section-header">
-          <div>
-            {{ $t('Clients.currentSubscription') }}
-          </div>
-          <div>
-            <el-button type="primary" :icon="Plus" @click="handlePreAdd">
-              {{ $t('Clients.addASubscription') }}
-            </el-button>
-          </div>
-        </div>
-        <el-table :data="subscriptions" v-loading.lock="subsLockTable">
-          <el-table-column
-            prop="topic"
-            show-overflow-tooltip
-            label="Topic"
-            sortable
-          ></el-table-column>
-          <el-table-column prop="qos" sortable min-width="110px" label="QoS"></el-table-column>
-          <el-table-column :label="$t('Base.operation')">
-            <template #default="{ row }">
-              <el-button type="danger" size="small" @click="handleUnSubscription(row)">
-                {{ $t('Clients.unsubscribe') }}
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <create-subscribe
-          v-model:visible="dialogVisible"
-          :client-id="record.clientid"
-          :gateway="gateway"
-          @create:subs="loadSubs"
-        >
-        </create-subscribe>
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card class="top-border client-session" v-loading="clientDetailLock">
+            <span class="stats-tip">{{ `(${$t('Base.current')}/${$t('Base.max')})` }}</span>
+            <el-descriptions :title="tl('sessionInfo')" border :column="1" size="large">
+              <el-descriptions-item
+                v-for="item in clientDetailParts.session"
+                :key="item"
+                :label="getLabel(item)"
+              >
+                <span v-if="item === 'subscriptions'">
+                  <span>
+                    {{ record.subscriptions_cnt + '/' + record.subscriptions_max }}
+                  </span>
+                </span>
+                <div v-else-if="item === 'mqueue'">
+                  <span>{{ record.mqueue_len + '/' + record.mqueue_max }}</span>
+                </div>
+                <div v-else-if="item === 'inflight'">
+                  <span>
+                    {{ record.inflight_cnt + '/' + record.inflight_max }}
+                  </span>
+                </div>
+                <span v-if="item === 'awaiting_rel'">
+                  <span>
+                    {{ record.awaiting_rel_cnt + '/' + record.awaiting_rel_max }}
+                  </span>
+                </span>
+                <div v-else-if="item === 'created_at'">
+                  <span>
+                    {{ moment(record[item]).format('YYYY-MM-DD HH:mm:ss') }}
+                  </span>
+                </div>
+                <div v-else>
+                  <span>{{ record[item] }}</span>
+                </div>
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-card>
+        </el-col>
+      </el-row>
+      <template v-if="!gateway">
+        <h2>
+          {{ $t('components.metrics') }}
+        </h2>
+        <el-row class="block client-metrics" :gutter="26">
+          <el-col :span="12">
+            <el-card class="top-border table-card bytes" v-loading="clientDetailLock">
+              <el-table :data="filterMetrics(clientDetailParts.bytes)">
+                <el-table-column prop="label" :label="tl('bytes')" />
+                <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
+              </el-table>
+            </el-card>
+            <el-card class="top-border table-card packets" v-loading="clientDetailLock">
+              <el-table :data="filterMetrics(clientDetailParts.packets)">
+                <el-table-column prop="label" :label="tl('packets')" />
+                <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
+              </el-table>
+            </el-card>
+          </el-col>
+          <el-col :span="12">
+            <el-card class="top-border table-card client messages" v-loading="clientDetailLock">
+              <el-table :data="filterMetrics(clientDetailParts.messages)">
+                <el-table-column prop="label" :label="tl('messages')" />
+                <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
+              </el-table>
+            </el-card>
+          </el-col>
+        </el-row>
       </template>
-      <div class="client-does-not-exist" v-else>
-        <el-icon><Warning /></el-icon>
-        <span>{{ tl('clientDoesNotExist') }}</span>
+      <div class="section-header">
+        <div>
+          {{ tl('currentSubscription') }}
+        </div>
+        <div>
+          <el-button type="primary" :icon="Plus" @click="handlePreAdd">
+            {{ tl('addASubscription') }}
+          </el-button>
+        </div>
       </div>
+      <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable">
+        <el-table-column prop="topic" show-overflow-tooltip label="Topic"></el-table-column>
+        <el-table-column prop="qos" min-width="110px" label="QoS"></el-table-column>
+        <el-table-column :label="$t('Base.operation')">
+          <template #default="{ row }">
+            <el-button type="danger" plain size="small" @click="handleUnSubscription(row)">
+              {{ $t('Clients.unsubscribe') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <create-subscribe
+        v-model:visible="dialogVisible"
+        :client-id="record.clientid"
+        :gateway="gateway"
+        @create:subs="loadSubs"
+      >
+      </create-subscribe>
     </template>
+    <div class="client-does-not-exist" v-else>
+      <el-icon><Warning /></el-icon>
+      <span>{{ tl('clientDoesNotExist') }}</span>
+    </div>
   </div>
 </template>
 
@@ -170,6 +173,8 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { loadClientDetail, loadSubscriptions, unsubscribe, disconnectClient } from '@/api/clients'
+import DetailHeader from '@/components/DetailHeader.vue'
+import CheckIcon from '@/components/CheckIcon.vue'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import moment from 'moment'
 import {
@@ -179,7 +184,7 @@ import {
   unsubscribeGatewayClientSub,
 } from '@/api/gateway'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { SuccessFilled, Failed, Plus, Warning } from '@element-plus/icons-vue'
+import { Plus, Warning, Refresh, SwitchButton } from '@element-plus/icons-vue'
 import { Client } from '@/types/client'
 import { Subscription } from '@/types/subscription'
 import { useRoute } from 'vue-router'
@@ -215,35 +220,31 @@ const clientsOrganizied = {
       'proto_type',
       'ip_address',
       'keepalive',
+      'clean_start',
       'is_bridge',
       'connected_at',
       'disconnected_at',
       'zone',
-      'recv_cnt',
-      'recv_msg',
-      'recv_oct',
-      'recv_pkt',
     ],
     session: [
-      'clean_start',
       'expiry_interval',
       'created_at',
+      'heap_size',
       'subscriptions',
       'mqueue',
       'inflight',
-      'heap_size',
-      'reductions',
-      'awaiting_rel_cnt',
-      'awaiting_rel_max',
-      'send_cnt',
-      'send_msg',
-      'send_oct',
-      'send_pkt',
+      'awaiting_rel',
+    ],
+    bytes: ['recv_oct', 'send_oct'],
+    packets: ['recv_cnt', 'send_cnt', 'recv_pkt', 'send_pkt'],
+    messages: [
+      'recv_msg',
       'recv_msg.qos0',
       'recv_msg.qos1',
       'recv_msg.qos2',
       'recv_msg.dropped',
       'recv_msg.dropped.await_pubrel_timeout',
+      'send_msg',
       'send_msg.qos0',
       'send_msg.qos1',
       'send_msg.qos2',
@@ -272,6 +273,9 @@ const clientsOrganizied = {
       'send_lw_pkt',
     ],
     session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
+    bytes: [],
+    packets: [],
+    messages: [],
   },
   others: {
     connection: [
@@ -291,6 +295,9 @@ const clientsOrganizied = {
       'send_pkt',
     ],
     session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
+    bytes: [],
+    packets: [],
+    messages: [],
   },
 }
 const mqttVersion = {
@@ -357,9 +364,7 @@ const handleDisconnect = async () => {
 
 const handleDisconnectGateway = async () => {
   if (record.value === null) return
-  let res = await disconnGatewayClient(props.gateway, record.value.clientid as string).catch(() => {
-    // ignore
-  })
+  let res = await disconnGatewayClient(props.gateway, record.value.clientid as string)
   if (res) {
     emit('refreshGateway')
     return Promise.resolve()
@@ -379,6 +384,7 @@ const loadData = async () => {
     }
   })
   if (res) {
+    doesTheClientExist.value = true
     record.value = res
   } else {
     record.value = {}
@@ -432,6 +438,24 @@ const loadGatewaySubs = async () => {
   subsLockTable.value = false
 }
 
+const getLabel = (label: string) => {
+  if (label === 'clean_start') {
+    return record.value.proto_ver === 5 ? 'Clean Start' : 'Clean Session'
+  }
+  return tl(snake2pascal(label))
+}
+
+const filterMetrics = (metrics: Array<keyof Client>) => {
+  return metrics.map((metric) => {
+    const label = getLabel(metric)
+    const value = record.value[metric]
+    return {
+      label,
+      value,
+    }
+  })
+}
+
 const handleUnSubscription = (row: Subscription) => {
   const title = tl('unsubscribeTitle')
   ElMessageBox.confirm(title, {
@@ -476,48 +500,68 @@ loadData()
 loadSubs()
 </script>
 
-<style lang="scss" scoped>
-.el-tag {
-  margin-left: 10px;
-
-  & i {
-    margin-right: 3px;
+<style lang="scss">
+.client-details {
+  .el-card {
+    &.client-info {
+      &.top-border {
+        &:before {
+          background: linear-gradient(135deg, #00b173 0%, #009580 100%);
+        }
+      }
+    }
+    &.client-session {
+      &.top-border {
+        &:before {
+          background: linear-gradient(33deg, #9a66ff 0%, #3651ec 100%);
+        }
+      }
+    }
   }
-}
-
-.detail-item {
-  margin-top: 10px;
-  color: #1d1d1dff;
-
-  & span:first-child {
-    color: #8d96a2ff;
-    display: inline-block;
-    width: 40%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
+  .client-metrics {
+    .el-card {
+      &.top-border.packets {
+        &:before {
+          background: #3d7ff9;
+        }
+      }
+      &.top-border.messages {
+        &:before {
+          background: #bf73ff;
+        }
+      }
+      &.top-border.bytes {
+        &:before {
+          background: #f49845;
+        }
+      }
+    }
   }
-  & span:last-child {
-    display: inline-block;
-    vertical-align: middle;
-    width: 55%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .el-tag {
+    margin-right: 12px;
+    & i {
+      margin-right: 6px;
+    }
   }
-}
-
-.section-header :deep(.el-loading-mask) {
-  margin-left: 0px;
-}
-
-.client-does-not-exist {
-  padding-top: 180px;
-  text-align: center;
-  color: #0000007f;
-  i {
-    margin-right: 8px;
+  .section-header:not(:first-of-type) {
+    margin-top: 0px;
+  }
+  .client-does-not-exist {
+    padding-top: 180px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    i {
+      margin-right: 8px;
+    }
+  }
+  .subs.el-table {
+    margin-bottom: 48px;
+  }
+  .stats-tip {
+    position: absolute;
+    right: 25px;
   }
 }
 </style>

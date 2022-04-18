@@ -129,6 +129,7 @@ p.tip {
 }
 
 .search-wrapper {
+  margin-top: 14px;
   .el-button {
     margin-left: 12px;
   }
@@ -276,24 +277,6 @@ p.tip {
     height: 18px;
     border-radius: 8px;
   }
-
-  .el-tag.el-tag--info {
-    line-height: 18px;
-    height: 20px;
-
-    .status {
-      width: 10px;
-      height: 10px;
-      display: inline-block;
-      background-color: #00b173;
-      border-radius: 5px;
-      margin-right: 4px;
-
-      &.stopped {
-        background-color: var(--el-color-danger);
-      }
-    }
-  }
 }
 
 .part-header {
@@ -391,6 +374,33 @@ p.tip {
   }
 }
 
+.block {
+  margin-bottom: 24px;
+}
+.block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.el-card.table-card {
+  margin-bottom: 26px;
+  .el-table {
+    border-radius: 0px;
+    .el-table__cell {
+      padding: 8px 12px;
+    }
+    th.el-table__cell > .cell {
+      font-size: 16px;
+    }
+    th.el-table__cell.is-sortable {
+      padding: 8px 5px !important;
+    }
+  }
+  .el-card__body {
+    padding: 0px;
+    padding-top: 4px;
+  }
+}
 .block-title {
   margin-top: 0;
   margin-bottom: 0;

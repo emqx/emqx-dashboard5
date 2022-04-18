@@ -15,10 +15,6 @@
         <el-input v-model="record.topic" placeholder="Topic"></el-input>
       </el-form-item>
       <el-form-item prop="qos" label="QoS">
-        <!-- <emq-select
-          v-model="record.qos"
-          :field="{ list: QoSOptions }"
-        ></emq-select> -->
         <el-select v-model.number="record.qos">
           <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
         </el-select>

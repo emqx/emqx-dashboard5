@@ -160,8 +160,8 @@ export default {
     en: 'Messages',
   },
   traffic: {
-    zh: '流量收发(字节)',
-    en: 'Byte',
+    zh: '流量收发（字节）',
+    en: 'Bytes',
   },
   client: {
     zh: '客户端',

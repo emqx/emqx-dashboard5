@@ -48,7 +48,12 @@
         <span>{{ tl('historyAlarm') }}</span>
       </div>
       <div>
-        <el-button type="danger" @click="clearHistoryAlarm" :disabled="!historyAlarmData.length">
+        <el-button
+          type="danger"
+          plain
+          @click="clearHistoryAlarm"
+          :disabled="!historyAlarmData.length"
+        >
           {{ $t('Alarm.clearHistory') }}
         </el-button>
       </div>
