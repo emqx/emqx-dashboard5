@@ -311,3 +311,12 @@ export const sortStringArr = (strArr: Array<string>, isAsc = true): Array<string
     return isAsc ? ret : -ret
   })
 }
+
+/**
+ * the title -> The Title
+ */
+export const titleCase = (str: string): string => {
+  return str.replace(/(^[a-z])|(\s[a-z])/g, (a: string) => {
+    return a.toUpperCase()
+  })
+}
