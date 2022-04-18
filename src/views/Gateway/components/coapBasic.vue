@@ -82,11 +82,7 @@
 <script>
 import { defineComponent, onMounted, reactive, watch } from 'vue'
 import _ from 'lodash'
-import {
-  transformUnitArrayToStr,
-  transformStrToUnitArray,
-  getValueIntersectionWithTemplate,
-} from '@/common/utils'
+import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
@@ -113,10 +109,7 @@ export default defineComponent({
     const { t } = useI18n()
 
     const cValue = reactive(
-      getValueIntersectionWithTemplate(
-        cValueDefault,
-        transformStrToUnitArray(props.value, ['heartbeat']),
-      ),
+      _.merge(cValueDefault, transformStrToUnitArray(props.value, ['heartbeat'])),
     )
 
     const checkHeartBeat = (source) => {

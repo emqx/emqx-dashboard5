@@ -4,18 +4,6 @@ import store from '@/store'
 import { useI18n } from 'vue-i18n'
 import moment from 'moment'
 
-export function getValueIntersectionWithTemplate(template, value) {
-  const dest = {}
-  for (let key in template) {
-    if (typeof template[key] === 'object' && !(template[key] instanceof Array) && key in value) {
-      dest[key] = getValueIntersectionWithTemplate(template[key], value[key])
-    } else {
-      dest[key] = key in value ? value[key] : template[key]
-    }
-  }
-  return dest
-}
-
 export function randomStr(len = 6) {
   let str = ''
   do {
@@ -42,7 +30,6 @@ export function transformStrToUnitArray(obj, template = [], prefix = '') {
       dest[k] = obj[k]
     }
   })
-
   return dest
 }
 
