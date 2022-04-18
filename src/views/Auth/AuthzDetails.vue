@@ -49,15 +49,15 @@
             auth-type="authz"
             v-model="configData"
           ></http-config>
+          <el-button @click="$router.push('/authorization')">
+            {{ $t('Base.cancel') }}
+          </el-button>
           <el-button type="primary" @click="handleUpdate">
             {{ $t('Base.update') }}
           </el-button>
           <!-- <el-button @click="handleTest">
-          {{ $t('Base.test') }}
-        </el-button> -->
-          <el-button @click="$router.push('/authorization')">
-            {{ $t('Base.cancel') }}
-          </el-button>
+            {{ $t('Base.test') }}
+          </el-button> -->
         </el-card>
       </el-tab-pane>
       <el-tab-pane class="empty-tab"></el-tab-pane>

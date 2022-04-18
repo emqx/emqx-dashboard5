@@ -23,9 +23,9 @@
     <template #footer>
       <div class="dialog-align-footer">
         <el-button @click="close">{{ $t('Base.cancel') }}</el-button>
-        <el-button type="primary" @click="handleAdd" :loading="submitLoading">{{
-          $t('Base.add')
-        }}</el-button>
+        <el-button type="primary" @click="handleAdd" :loading="submitLoading">
+          {{ $t('Base.add') }}
+        </el-button>
       </div>
     </template>
   </el-dialog>

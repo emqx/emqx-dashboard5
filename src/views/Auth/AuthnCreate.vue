@@ -34,11 +34,11 @@
       </el-radio-group>
       <p class="item-description">{{ mechanismDesc }}</p>
       <div class="step-btn">
-        <el-button type="primary" @click="handleNext">
-          {{ $t('Base.nextStep') }}
-        </el-button>
         <el-button @click="cancelCreate()">
           {{ $t('Base.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="handleNext">
+          {{ $t('Base.nextStep') }}
         </el-button>
       </div>
     </div>

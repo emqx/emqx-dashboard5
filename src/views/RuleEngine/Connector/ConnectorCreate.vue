@@ -43,6 +43,9 @@
         </template>
       </el-row>
       <el-row class="config-btn">
+        <el-button v-if="stepActive === 0" @click="$router.push({ name: 'bridge-connector' })">{{
+          $t('Base.cancel')
+        }}</el-button>
         <el-button
           type="primary"
           v-if="stepActive === 1"
@@ -59,9 +62,6 @@
         >
         <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">{{
           $t('Base.backStep')
-        }}</el-button>
-        <el-button v-if="stepActive === 0" @click="$router.push({ name: 'bridge-connector' })">{{
-          $t('Base.cancel')
         }}</el-button>
       </el-row>
       <div></div>

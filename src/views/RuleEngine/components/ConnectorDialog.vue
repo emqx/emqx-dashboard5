@@ -53,14 +53,14 @@
         <p>{{ tl('tipForEditConnector') }}</p>
       </div>
       <template #footer>
+        <el-button @click="closeDialog()">
+          {{ $t('Base.cancel') }}
+        </el-button>
         <el-button type="primary" :loading="isTesting" @click="testTheConnection(edit)">
           {{ tl('testTheConnection') }}
         </el-button>
         <el-button type="primary" :loading="submitLoading" @click="submitConnector(edit)">
           {{ edit ? $t('Base.update') : $t('Base.add') }}
-        </el-button>
-        <el-button @click="closeDialog()">
-          {{ $t('Base.cancel') }}
         </el-button>
       </template>
     </el-dialog>

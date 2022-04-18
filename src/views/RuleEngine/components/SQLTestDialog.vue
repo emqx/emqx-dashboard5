@@ -85,11 +85,11 @@
           {{ $t('Base.test') }}
         </el-button>
         <div>
-          <el-button type="primary" @click="save" v-if="canSave">
-            {{ $t('Base.save') }}
-          </el-button>
           <el-button @click="cancel">
             {{ $t('Base.cancel') }}
+          </el-button>
+          <el-button type="primary" @click="save" v-if="canSave">
+            {{ $t('Base.save') }}
           </el-button>
         </div>
       </div>

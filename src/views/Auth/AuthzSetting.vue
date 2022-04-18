@@ -51,10 +51,10 @@
               </template>
             </section>
           </el-form>
-          <el-button type="primary" @click="save">{{ $t('Base.save') }}</el-button>
           <el-button @click="$router.push('/authorization')">
             {{ $t('Base.cancel') }}
           </el-button>
+          <el-button type="primary" @click="save">{{ $t('Base.save') }}</el-button>
         </el-col>
       </el-row>
       <section class="block-clear-cache">
