@@ -24,24 +24,6 @@
         </template>
       </el-table-column>
       <el-table-column width="120" prop="version" :label="tl('version')"> </el-table-column>
-      <el-table-column :label="tl('memory')">
-        <template #default="{ row }">
-          <el-tooltip
-            placement="top"
-            effect="dark"
-            :content="`${row.memory_used}/${row.memory_total}`"
-          >
-            <el-progress
-              :text-inside="true"
-              :stroke-width="24"
-              :percentage="calcPercentage(row.memory_used, row.memory_total)"
-              :format="() => ''"
-            >
-              <span>{{ row.memory_used }}</span>
-            </el-progress>
-          </el-tooltip>
-        </template>
-      </el-table-column>
       <el-table-column :label="`Erlang ${tl('process')}`">
         <template #default="{ row }">
           <el-tooltip
@@ -56,6 +38,24 @@
               :format="() => ''"
             >
               <span>{{ row.process_used }}</span>
+            </el-progress>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('memory')">
+        <template #default="{ row }">
+          <el-tooltip
+            placement="top"
+            effect="dark"
+            :content="`${row.memory_used}/${row.memory_total}`"
+          >
+            <el-progress
+              :text-inside="true"
+              :stroke-width="24"
+              :percentage="calcPercentage(row.memory_used, row.memory_total)"
+              :format="() => ''"
+            >
+              <span>{{ row.memory_used }}</span>
             </el-progress>
           </el-tooltip>
         </template>

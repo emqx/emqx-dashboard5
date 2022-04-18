@@ -1,9 +1,16 @@
 <template>
   <div class="node-detail app-wrapper">
-    <detail-header :item="{ name: `${tl('node')} ${nodeName}`, path: '/dashboard/nodes' }" />
+    <div class="block-header">
+      <detail-header :item="{ name: `${tl('node')} ${nodeName}`, path: '/dashboard/nodes' }" />
+      <div class="actions">
+        <el-button type="primary" :icon="Refresh" @click="loadData">
+          {{ $t('Base.refresh') }}
+        </el-button>
+      </div>
+    </div>
     <el-row :gutter="26">
       <el-col :span="12">
-        <el-card class="node-info top-border">
+        <el-card class="node-info top-border" v-loading="nodeLoading">
           <el-descriptions :title="tl('currentNodeInfo')" border :column="1" size="large">
             <el-descriptions-item :label="tl('nodeName')">{{ node.node }}</el-descriptions-item>
             <el-descriptions-item :label="tl('status')">
@@ -71,8 +78,8 @@
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card class="node-stats top-border">
-          <span class="stats-tip">(min/max)</span>
+        <el-card class="node-stats top-border" v-loading="statsLoading">
+          <span class="stats-tip">{{ `(${$t('Base.current')}/${$t('Base.max')})` }}</span>
           <el-descriptions :title="tl('nodeStatis')" border :column="1" size="large">
             <el-descriptions-item :label="tl('currentConnection')">
               {{ stats['connections.count'] }}/{{ stats['connections.max'] }}
@@ -111,9 +118,13 @@ export default defineComponent({
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
 import { getDuration, calcPercentage } from '@/common/utils'
 import DetailHeader from '@/components/DetailHeader.vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
+import { Refresh } from '@element-plus/icons-vue'
+
+const nodeLoading = ref(true)
+const statsLoading = ref(true)
 
 const node = ref<Record<string, any>>({})
 const stats = ref<Record<string, any>>({})
@@ -127,19 +138,35 @@ const nodeName = computed(() => {
 const { tl } = useI18nTl('Dashboard')
 
 const loadNode = async () => {
-  const res = (await loadNodeDetail(nodeName.value)) ?? {}
-  node.value = res
+  nodeLoading.value = true
+  try {
+    const res = (await loadNodeDetail(nodeName.value)) ?? {}
+    node.value = res
+  } catch (error) {
+    // do nothing
+  } finally {
+    nodeLoading.value = false
+  }
 }
 
 const loadStats = async () => {
-  const res = (await loadNodeStats(nodeName.value)) ?? {}
-  stats.value = res
+  statsLoading.value = true
+  try {
+    const res = (await loadNodeStats(nodeName.value)) ?? {}
+    stats.value = res
+  } catch (error) {
+    // do nothing
+  } finally {
+    statsLoading.value = false
+  }
 }
 
-onMounted(() => {
+const loadData = () => {
   loadNode()
   loadStats()
-})
+}
+
+loadData()
 </script>
 
 <style lang="scss">
