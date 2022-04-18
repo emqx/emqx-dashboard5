@@ -127,6 +127,22 @@ export default {
     zh: '启用缓存',
     en: 'Enable Cache',
   },
+  clearCache: {
+    zh: '清除缓存',
+    en: 'Clear cache',
+  },
+  clearCacheDesc: {
+    zh: '清除当前所有授权结果缓存。',
+    en: 'Clears all current authorization result caches.',
+  },
+  clearCacheConfirm: {
+    zh: '是否确认清除缓存',
+    en: 'Confirm clear cache?',
+  },
+  clearedSuccessfully: {
+    zh: '清除成功',
+    en: 'Cleared successfully',
+  },
   maxSize: {
     zh: '单客户端缓存条数',
     en: 'Max number of cache per client',

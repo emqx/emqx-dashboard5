@@ -43,37 +43,39 @@
         <AuthItemOverview :metrics="authMetrics" />
       </el-tab-pane>
       <el-tab-pane :label="$t('Base.setting')" :lazy="true">
-        <template v-if="configData.mechanism !== 'jwt'">
-          <database-config
-            v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
-            ref="formCom"
-            :database="currBackend"
-            v-model="configData"
-            auth-type="authn"
-          ></database-config>
-          <http-config
-            auth-type="authn"
-            v-else-if="currBackend === 'http'"
-            ref="formCom"
-            v-model="configData"
-          ></http-config>
-          <built-in-config
-            v-else-if="currBackend === 'built_in_database'"
-            ref="formCom"
-            :type="configData.mechanism"
-            v-model="configData"
-          ></built-in-config>
-        </template>
-        <jwt-config ref="formCom" v-else v-model="configData"></jwt-config>
-        <el-button type="primary" @click="handleUpdate">
-          {{ $t('Base.update') }}
-        </el-button>
-        <!-- <el-button @click="handleTest">
+        <el-card class="app-card">
+          <template v-if="configData.mechanism !== 'jwt'">
+            <database-config
+              v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
+              ref="formCom"
+              :database="currBackend"
+              v-model="configData"
+              auth-type="authn"
+            ></database-config>
+            <http-config
+              auth-type="authn"
+              v-else-if="currBackend === 'http'"
+              ref="formCom"
+              v-model="configData"
+            ></http-config>
+            <built-in-config
+              v-else-if="currBackend === 'built_in_database'"
+              ref="formCom"
+              :type="configData.mechanism"
+              v-model="configData"
+            ></built-in-config>
+          </template>
+          <jwt-config ref="formCom" v-else v-model="configData"></jwt-config>
+          <el-button type="primary" @click="handleUpdate">
+            {{ $t('Base.update') }}
+          </el-button>
+          <!-- <el-button @click="handleTest">
           {{ $t('Base.test') }}
         </el-button> -->
-        <el-button @click="$router.push('/authentication')" v-if="!gateway">
-          {{ $t('Base.cancel') }}
-        </el-button>
+          <el-button @click="$router.push('/authentication')" v-if="!gateway">
+            {{ $t('Base.cancel') }}
+          </el-button>
+        </el-card>
       </el-tab-pane>
       <el-tab-pane
         v-if="currBackend === 'built_in_database'"

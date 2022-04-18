@@ -23,6 +23,10 @@ export function listAuthzSetting(params = {}) {
   return http.get('/authorization/settings', { params })
 }
 
+export function clearCache() {
+  return http.put('TODO:')
+}
+
 export function updateAuthzSetting(body: AuthzSetting) {
   const {
     cache: { ttl, unit },
