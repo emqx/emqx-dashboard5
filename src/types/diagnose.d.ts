@@ -28,3 +28,10 @@ export type TraceFormRecord = {
   ip_address: string
   startTime: [string, string] | [Date, Date]
 }
+
+export interface TopicMetricItem {
+  topic: string
+  create_time: string
+  reset_time: string
+  metrics: Record<string, number>
+}
