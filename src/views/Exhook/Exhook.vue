@@ -8,7 +8,7 @@
     </div>
     <el-table
       ref="tableCom"
-      class="exhook-table"
+      class="exhook-table table-with-draggable"
       :data="exhooks"
       v-loading.lock="isTableLoading"
       row-key="name"

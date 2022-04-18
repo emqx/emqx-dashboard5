@@ -22,13 +22,13 @@
       <template #dropdown>
         <el-dropdown-menu>
           <template v-if="tableDataLen !== 1">
-            <el-dropdown-item command="moveUp" :disabled="position === 0">
+            <el-dropdown-item command="moveToTop" :disabled="position === 0">
               <el-icon><Top /></el-icon>
-              {{ $t('Auth.moveUp') }}
+              {{ $t('Base.moveToTop') }}
             </el-dropdown-item>
-            <el-dropdown-item command="moveDown" :disabled="position === tableDataLen - 1">
+            <el-dropdown-item command="moveToBottom" :disabled="position === tableDataLen - 1">
               <el-icon><Bottom /></el-icon>
-              {{ $t('Auth.moveDown') }}
+              {{ $t('Base.moveToBottom') }}
             </el-dropdown-item>
           </template>
           <el-dropdown-item class="danger" command="delete">
@@ -63,22 +63,25 @@ export default defineComponent({
       type: Number,
     },
   },
-  emits: ['setting', 'delete', 'move', 'update'],
+  emits: ['setting', 'delete', 'move-to-top', 'move-to-bottom', 'update'],
   setup(props, ctx) {
     const dropdownVisible = ref<boolean>(false)
     const dropdownVisibleChanged = (value: boolean) => {
       dropdownVisible.value = value
     }
-    const handleCommand = function (row: AuthnItem, command: 'delete' | 'moveUp' | 'moveDown') {
+    const handleCommand = function (
+      row: AuthnItem,
+      command: 'delete' | 'moveToTop' | 'moveToBottom',
+    ) {
       switch (command) {
         case 'delete':
           ctx.emit('delete', row)
           break
-        case 'moveUp':
-          ctx.emit('move', 'up')
+        case 'moveToTop':
+          ctx.emit('move-to-top')
           break
-        case 'moveDown':
-          ctx.emit('move', 'down')
+        case 'moveToBottom':
+          ctx.emit('move-to-bottom')
           break
         default:
           break

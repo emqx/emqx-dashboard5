@@ -430,7 +430,7 @@ p.tip {
 .stop-status::before,
 .stop-status::after {
   position: absolute;
-  content: "";
+  content: '';
   border-radius: 50%;
 }
 .running-status::before {
@@ -453,7 +453,7 @@ p.tip {
 .stop-status::after {
   width: 6px;
   height: 6px;
-  background-color: #E44242;
+  background-color: #e44242;
   top: 6px;
   left: -11px;
   z-index: 3;
@@ -504,5 +504,13 @@ p.tip {
   }
   .text-status {
     margin-right: 8px;
+  }
+}
+
+.table-with-draggable {
+  tbody {
+    tr {
+      cursor: move;
+    }
   }
 }

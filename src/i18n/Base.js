@@ -355,4 +355,12 @@ export default {
     zh: '状态',
     en: 'Status',
   },
+  moveToTop: {
+    zh: '移到顶部',
+    en: 'Move to top',
+  },
+  moveToBottom: {
+    zh: '移到底部',
+    en: 'Move to bottom',
+  },
 }
