@@ -1,5 +1,8 @@
 <template>
   <div class="TLS-enable-config">
+    <el-form-item label="SNI">
+      <el-input v-model="record.server_name_indication" />
+    </el-form-item>
     <el-form-item>
       <template #label>
         <span>TLS Cert</span>

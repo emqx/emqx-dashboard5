@@ -31,7 +31,7 @@
           <el-table-column :label="tl('SuccessNum')" sortable prop="metrics.success" />
           <el-table-column :label="tl('ErrNum')" sortable prop="metrics.failed" />
           <el-table-column :label="`${tl('speedNow')}(msg/s)`" sortable prop="metrics.rate" />
-          <el-table-column :label="tl('status')" sortable>
+          <el-table-column :label="tl('status')" sortable :width="120">
             <template #default="{ row }">
               <BridgeItemStatus :bridge="row" />
             </template>
