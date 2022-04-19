@@ -244,6 +244,8 @@ p.tip {
   }
 
   & > :first-child {
+    display: flex;
+    align-items: center;
     flex-grow: 1;
     overflow: hidden;
   }
@@ -262,10 +264,7 @@ p.tip {
   }
 
   .title-n-status {
-    display: inline-flex;
-    flex-direction: column;
     margin-left: 10px;
-    height: 45px;
   }
 
   .section-title {
@@ -307,16 +306,6 @@ p.tip {
     padding: 9px 15px;
     color: inherit;
   }
-}
-
-.back-button {
-  color: #96999c;
-  &::before {
-    content: '<';
-    margin-right: 8px;
-  }
-  display: inline-block;
-  margin-bottom: 20px;
 }
 
 .el-date-editor {

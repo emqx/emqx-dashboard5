@@ -1,9 +1,6 @@
 <template>
   <div class="plugin-install app-wrapper">
-    <router-link class="back-button" :to="{ name: 'plugins' }">
-      {{ tl('backList') }}
-    </router-link>
-    <div class="page-header-title">{{ tl('installPlugin') }}</div>
+    <detail-header :item="{ name: tl('installPlugin'), path: '/plugins' }" />
     <el-card class="app-card plugin-install-card">
       <el-upload
         class="plugin-uploader"
@@ -42,6 +39,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
+import DetailHeader from '@/components/DetailHeader.vue'
 
 const router = useRouter()
 const { t } = useI18n()

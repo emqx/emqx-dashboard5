@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent, defineProps, PropType } from 'vue'
 import { useRouter } from 'vue-router'
-defineComponent({
+export default defineComponent({
   name: 'DetailHeader',
 })
 </script>
@@ -16,6 +16,7 @@ import { ArrowLeft } from '@element-plus/icons-vue'
 interface item {
   name: string
   path?: string
+  routeName?: string
   backFunc?: () => void
 }
 
@@ -29,7 +30,16 @@ const props = defineProps({
 })
 
 const goBack = () => {
-  props.item.path ? router.push({ path: props.item.path }) : router.back()
+  const {
+    item: { routeName, path, backFunc },
+  } = props
+  if (path) {
+    router.push({ path })
+  } else if (routeName) {
+    router.push({ name: routeName })
+  } else if (backFunc) {
+    backFunc()
+  }
 }
 </script>
 

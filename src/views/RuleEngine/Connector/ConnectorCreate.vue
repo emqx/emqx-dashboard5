@@ -134,7 +134,6 @@ export default defineComponent({
 }
 
 .el-radio.is-bordered {
-  border-radius: 0px;
   padding: 0px 10px;
   min-width: 40%;
   border: 2px solid #e4e4e4;

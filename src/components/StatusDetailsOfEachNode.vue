@@ -72,7 +72,7 @@ const isTooltipDisabled = computed(() => {
   &.tag {
     display: inline-flex;
     align-items: center;
-    height: 20px;
+    height: 24px;
     padding-left: 16px;
     padding-right: 16px;
     font-size: 12px;

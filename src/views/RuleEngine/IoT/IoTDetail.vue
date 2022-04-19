@@ -1,10 +1,9 @@
 <template>
   <div class="iot-detail app-wrapper">
-    <router-link class="back-button" :to="{ name: 'iot' }">{{ tl('backToIoTList') }}</router-link>
+    <detail-header :item="{ name: id, path: '/iot' }" />
     <div class="section-header">
       <div>
         <span class="title-n-status">
-          <span class="section-title">{{ id }}</span>
           <RuleItemStatus :rule="ruleInfo" is-tag />
         </span>
       </div>
@@ -64,6 +63,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import SQLTestDialog from '../components/SQLTestDialog.vue'
 import { MQTTBridgeDirection } from '@/types/enum'
 import RuleItemStatus from './components/RuleItemStatus.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 
 enum Tab {
   Overview = '0',

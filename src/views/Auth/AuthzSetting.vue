@@ -1,11 +1,6 @@
 <template>
   <div class="authz-setting app-wrapper">
-    <back-button back-url="/authorization">
-      {{ $t('Auth.backAuthzList') }}
-    </back-button>
-    <div class="page-header-title">
-      {{ $t('Auth.authzSetting') }}
-    </div>
+    <detail-header :item="{ name: $t('Auth.authzSetting'), path: '/authorization' }" />
     <el-card class="app-card">
       <el-row>
         <el-col :span="12">
@@ -74,7 +69,7 @@ export default {
 
 <script setup>
 import { ref } from 'vue'
-import BackButton from './components/BackButton.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 import { listAuthzSetting, updateAuthzSetting, clearCache as requestClearCache } from '@/api/auth'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
