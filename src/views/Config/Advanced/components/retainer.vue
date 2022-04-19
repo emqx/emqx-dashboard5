@@ -134,17 +134,17 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="30">
+          <!-- <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item label="Limiter" prop="flow_control.limiter_bucket_name">
-                <el-input v-model="retainerConfig.flow_control.limiter_bucket_name" />
+              <el-form-item label="Limiter" prop="flow_control.batch_deliver_limiter">
+                <el-input v-model="retainerConfig.flow_control.batch_deliver_limiter" />
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
           <el-row>
-            <el-button type="primary" @click="updateConfigData()">{{
-              $t('Base.update')
-            }}</el-button>
+            <el-button type="primary" @click="updateConfigData()">
+              {{ $t('Base.update') }}
+            </el-button>
           </el-row>
         </el-form>
         <div class="part-header">{{ tl('enable') }}</div>
@@ -251,7 +251,7 @@ export default defineComponent({
       flow_control: {
         batch_read_number: 0,
         batch_deliver_number: 0,
-        limiter_bucket_name: 'retainer',
+        batch_deliver_limiter: 'retainer',
       },
       enable: false,
     })
