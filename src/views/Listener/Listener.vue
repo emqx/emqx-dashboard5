@@ -48,7 +48,7 @@
           <el-button size="small" @click="toggleListenerStatus(row)">
             {{ $t(`Base.${row.enabled ? 'disable' : 'enable'}`) }}
           </el-button>
-          <el-button size="small" type="danger" @click="deleteListener(row)">
+          <el-button size="small" type="danger" plain @click="deleteListener(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>

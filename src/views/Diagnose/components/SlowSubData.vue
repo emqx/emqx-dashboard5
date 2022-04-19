@@ -10,7 +10,7 @@
             </span>
           </router-link>
         </el-button>
-        <el-button type="danger" @click="clearData">
+        <el-button type="danger" plain @click="clearData">
           {{ tl('clearData') }}
         </el-button>
       </div>

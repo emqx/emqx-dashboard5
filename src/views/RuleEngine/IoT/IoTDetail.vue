@@ -15,7 +15,7 @@
         <el-button @click="enableOrDisableRule()">
           {{ ruleInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
-        <el-button type="danger" @click="deleteRule">
+        <el-button type="danger" plain @click="deleteRule">
           {{ $t('Base.delete') }}
         </el-button>
       </div>

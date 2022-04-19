@@ -44,7 +44,7 @@
               <el-button size="small" @click="enableOrDisableBridge(row)">
                 {{ row.enable ? $t('Base.disable') : $t('Base.enable') }}
               </el-button>
-              <el-button size="small" type="danger" @click="submitDeleteBridge(row.id)">
+              <el-button size="small" type="danger" plain @click="submitDeleteBridge(row.id)">
                 {{ $t('Base.delete') }}
               </el-button>
             </template>

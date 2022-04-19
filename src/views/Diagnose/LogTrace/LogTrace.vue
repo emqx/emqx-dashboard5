@@ -62,12 +62,12 @@
           </el-button>
           <el-button size="small" @click="download(row)">{{ $t('LogTrace.download') }}</el-button>
           <template v-if="row.status !== 'stopped'">
-            <el-button size="small" type="danger" @click="stopTraceHandler(row)">
+            <el-button size="small" type="danger" plain @click="stopTraceHandler(row)">
               {{ $t('LogTrace.stop') }}
             </el-button>
           </template>
           <template v-else>
-            <el-button size="small" type="danger" @click="deleteTraceHandler(row)">
+            <el-button size="small" type="danger" plain @click="deleteTraceHandler(row)">
               {{ $t('LogTrace.delete') }}
             </el-button>
           </template>

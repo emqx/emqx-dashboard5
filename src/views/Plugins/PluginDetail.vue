@@ -49,7 +49,7 @@
           <el-button @click="handleEnable" v-else>
             {{ tl('start') }}
           </el-button>
-          <el-button type="danger" @click="handleUninstall">
+          <el-button type="danger" plain @click="handleUninstall">
             {{ tl('uninstall') }}
           </el-button>
         </div>

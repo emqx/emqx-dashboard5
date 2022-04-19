@@ -24,7 +24,7 @@
               <el-button size="small" @click="openEdit(row)">
                 {{ $t('Base.setting') }}
               </el-button>
-              <el-button size="small" type="danger" @click="deleteConnectorHandler(row)">
+              <el-button size="small" type="danger" plain @click="deleteConnectorHandler(row)">
                 {{ $t('Base.delete') }}
               </el-button>
             </template>
