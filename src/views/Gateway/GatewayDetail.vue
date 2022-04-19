@@ -24,11 +24,13 @@
         </el-button>
       </div>
     </div>
-    <el-menu router :default-active="matchedUrl" mode="horizontal">
-      <template v-for="item in types" :key="item">
-        <el-menu-item :index="`${item}`">{{ tl(item) }}</el-menu-item>
-      </template>
-    </el-menu>
+    <el-card class="menu-card">
+      <el-menu router :default-active="matchedUrl" mode="horizontal">
+        <template v-for="item in types" :key="item">
+          <el-menu-item :index="`${item}`">{{ tl(item) }}</el-menu-item>
+        </template>
+      </el-menu>
+    </el-card>
     <router-view></router-view>
   </div>
 </template>
@@ -93,16 +95,23 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-.g-icon::before {
-  width: 60px;
-  height: 60px;
-  content: '';
-  display: inline-block;
-  background-size: contain;
-}
-
-.el-menu.el-menu--horizontal {
-  margin-bottom: 40px;
+<style lang="scss">
+.gateway-detail {
+  .g-icon::before {
+    width: 60px;
+    height: 60px;
+    content: '';
+    display: inline-block;
+    background-size: contain;
+  }
+  .el-menu--horizontal {
+    border-bottom: 0px;
+  }
+  .el-card.menu-card {
+    margin-bottom: 40px;
+    .el-card__body {
+      padding: 0px;
+    }
+  }
 }
 </style>

@@ -68,9 +68,12 @@
             </el-select>
           </el-col>
         </template>
-        <el-col :span="6" class="col-oper flex-vertical-center">
+        <el-col :span="6" class="col-oper">
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
+          </el-button>
+          <el-button type="primary" plain :icon="Refresh" @click="handleSearch">
+            {{ $t('Clients.refresh') }}
           </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
             <ArrowUp v-if="showMoreQuery" />
@@ -164,7 +167,7 @@ import moment from 'moment'
 import CommonPagination from '@/components/commonPagination.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
-import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { ArrowUp, ArrowDown, Refresh } from '@element-plus/icons-vue'
 import CheckIcon from '@/components/CheckIcon.vue'
 import { Client } from '@/types/client'
 import { useStore } from 'vuex'

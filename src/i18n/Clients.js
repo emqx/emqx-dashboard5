@@ -244,8 +244,8 @@ export default {
     en: 'Bytes Received',
   },
   recvPkt: {
-    zh: '接收的 MQTT 报文数量',
-    en: 'MQTT Packets Received',
+    zh: '接收的{proto}报文数量',
+    en: '{proto}Packets Received',
   },
   sendCnt: {
     zh: '发送的 TCP 报文数量',
@@ -260,8 +260,8 @@ export default {
     en: 'Bytes Sent',
   },
   sendPkt: {
-    zh: '发送的 MQTT 报文数量',
-    en: 'MQTT Packets Sent',
+    zh: '发送的{proto}报文数量',
+    en: '{proto}Packets Sent',
   },
   sendLwPkt: {
     zh: '发送的报文数量',

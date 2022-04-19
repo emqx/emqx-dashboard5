@@ -14,8 +14,9 @@ defineComponent({
 import { ArrowLeft } from '@element-plus/icons-vue'
 
 interface item {
-  path?: string
   name: string
+  path?: string
+  backFunc?: () => void
 }
 
 const router = useRouter()
@@ -28,7 +29,11 @@ const props = defineProps({
 })
 
 const goBack = () => {
-  router.push({ path: props.item.path || '/' })
+  if (props.item.backFunc) {
+    props.item.backFunc()
+  } else {
+    router.push({ path: props.item.path || '/' })
+  }
 }
 </script>
 
