@@ -9,6 +9,9 @@
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
           </el-button>
+          <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSearch">
+            {{ $t('Clients.reset') }}
+          </el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -24,59 +27,55 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
+  name: 'Topics',
+})
+</script>
+
+<script lang="ts" setup>
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
-import { Search } from '@element-plus/icons-vue'
+import { Search, RefreshRight } from '@element-plus/icons-vue'
 
-export default {
-  name: 'Topics',
-  components: {
-    CommonPagination,
-  },
-  data() {
-    return {
-      tableData: [],
-      searchValue: '',
-      lockTable: true,
-      params: {},
-      pageMeta: {},
-    }
-  },
-  setup() {
-    return {
-      Search,
-    }
-  },
-  mounted: function () {
-    // this.$refs.p.$emit("loadPage");
-    this.loadTopics()
-  },
-  methods: {
-    async handleSearch() {
-      const topic = this.searchValue.trim()
-      this.params.topic = topic
-      this.loadTopics({ page: 1 })
-      // this.$refs.p.$emit("loadPage", 1);
-    },
+const tableData = ref([])
+const searchValue = ref('')
+const lockTable = ref(true)
+const params = ref<Record<string, any>>({})
+const pageMeta = ref({})
 
-    async loadTopics(params = {}) {
-      this.lockTable = true
-      const sendParams = { ...this.params, ...this.pageMeta, ...params }
-      Reflect.deleteProperty(sendParams, 'count')
-      const res = await listTopics(sendParams).catch(() => {})
-      if (res) {
-        const { data = [], meta = {} } = res
-        this.tableData = data
-        this.lockTable = false
-
-        this.pageMeta = meta
-      } else {
-        this.tableData = []
-        this.lockTable = false
-        this.pageMeta = {}
-      }
-    },
-  },
+const handleResetSearch = () => {
+  searchValue.value = ''
+  params.value = {}
+  loadTopics({ page: 1 })
 }
+
+const handleSearch = async () => {
+  const topic = searchValue.value.trim()
+  params.value.topic = topic
+  loadTopics({ page: 1 })
+}
+
+const loadTopics = async (_params = {}) => {
+  lockTable.value = true
+  const sendParams = { ...params.value, ...pageMeta.value, ..._params }
+  Reflect.deleteProperty(sendParams, 'count')
+  const res = await listTopics(sendParams).catch(() => {
+    lockTable.value = false
+  })
+  if (res) {
+    const { data = [], meta = {} } = res
+    tableData.value = data
+    lockTable.value = false
+
+    pageMeta.value = meta
+  } else {
+    tableData.value = []
+    lockTable.value = false
+    pageMeta.value = {}
+  }
+}
+loadTopics()
 </script>

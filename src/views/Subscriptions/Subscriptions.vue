@@ -50,7 +50,9 @@
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
           </el-button>
-
+          <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSerach">
+            {{ $t('Clients.reset') }}
+          </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
             <ArrowUp v-if="showMoreQuery" />
             <ArrowDown v-else />
@@ -66,14 +68,6 @@
     </el-table>
 
     <div class="emq-table-footer">
-      <!-- <custom-pagination
-        v-if="count === -1 && tableData.length"
-        :hasnext="hasnext"
-        :page="params.page"
-        @prevClick="handlePrevClick"
-        @nextClick="handleNextClick"
-      >
-      </custom-pagination> -->
       <common-pagination
         v-model:metaData="pageMeta"
         @loadPage="loadNodeSubscriptions"
@@ -82,119 +76,93 @@
   </div>
 </template>
 
-<script>
-// import CustomPagination from '@/components/CustomPagination.vue'
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
+  name: 'Subscriptions',
+})
+</script>
+
+<script lang="ts" setup>
 import { listSubscriptions, loadNodes } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
-import { Search, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import { Search, ArrowDown, ArrowUp, RefreshRight } from '@element-plus/icons-vue'
+import { NodeMsg } from '@/types/dashboard'
 
-export default {
-  name: 'Subscriptions',
-
-  components: {
-    CommonPagination,
-    ArrowDown,
-    ArrowUp,
-    // CustomPagination,
-  },
-
-  data() {
-    return {
-      pageMeta: {},
-      showMoreQuery: false,
-      tableData: [],
-      // hasnext: false,
-      params: {},
-      lockTable: true,
-      currentNodes: [],
-      fuzzyParams: {
-        match: 'match_topic',
-        node: '',
-        topic: '',
-        clientid: '',
-        share_group: '',
-        qos: '',
-      },
-    }
-  },
-
-  setup() {
-    return {
-      Search,
-    }
-  },
-
-  mounted() {
-    this.loadData()
-    this.loadNodeSubscriptions()
-    // this.$refs.p.$emit("loadPage");
-  },
-
-  methods: {
-    async handleSearch() {
-      this.params = this.genQueryParams(this.fuzzyParams)
-      this.loadNodeSubscriptions({ page: 1 })
-      // this.$refs.p.$emit("loadPage", 1);
-    },
-    genQueryParams(params) {
-      const { clientid, qos, share_group, node, topic, match } = params
-      let newParams = {
-        clientid: clientid === '' ? undefined : clientid ?? undefined,
-        qos: qos === '' ? undefined : qos,
-        share_group: share_group || undefined,
-        node: node || undefined,
-      }
-      if (topic) {
-        newParams[match] = topic
-      }
-
-      return newParams
-    },
-
-    // handlePrevClick() {
-    //   if (this.params.page === 1) {
-    //     return
-    //   }
-    //   this.params.page -= 1
-    //   const params = this.genQueryParams(this.fuzzyParams)
-    //   this.loadNodeSubscriptions(false, params)
-    // },
-    // handleNextClick() {
-    //   if (!this.hasnext) {
-    //     return
-    //   }
-    //   this.params.page += 1
-    //   const params = this.genQueryParams(this.fuzzyParams)
-    //   this.loadNodeSubscriptions(false, params)
-    // },
-    async loadData() {
-      const res = await loadNodes().catch(() => {})
-      if (res) this.currentNodes = res
-    },
-    async loadNodeSubscriptions(params = {}) {
-      this.lockTable = true
-      const sendParams = {
-        ...this.params,
-        ...this.pageMeta,
-        ...params,
-      }
-      Reflect.deleteProperty(sendParams, 'count')
-      const res = await listSubscriptions(sendParams).catch(() => {})
-
-      if (res) {
-        const { data = [], meta = {} } = res
-        this.tableData = data
-        this.lockTable = false
-        this.pageMeta = meta
-        // this.hasnext = meta.hasnext || this.hasnext
-      } else {
-        this.tableData = []
-        this.lockTable = false
-        this.pageMeta = {}
-      }
-    },
-  },
+const pageMeta = ref({})
+const showMoreQuery = ref(false)
+const tableData = ref([])
+const params = ref({})
+const lockTable = ref(true)
+const currentNodes = ref<NodeMsg[]>([])
+const fuzzyParams = ref({
+  match: 'match_topic',
+  node: '',
+  topic: '',
+  clientid: '',
+  share_group: '',
+  qos: '',
+})
+const handleSearch = async () => {
+  params.value = genQueryParams(fuzzyParams.value)
+  loadNodeSubscriptions({ page: 1 })
 }
+const handleResetSerach = async () => {
+  fuzzyParams.value = {
+    match: 'match_topic',
+    node: '',
+    topic: '',
+    clientid: '',
+    share_group: '',
+    qos: '',
+  }
+  params.value = genQueryParams(fuzzyParams.value)
+  loadNodeSubscriptions({ page: 1 })
+}
+
+const genQueryParams = (params: Record<string, any>) => {
+  const { clientid, qos, share_group, node, topic, match } = params
+  let newParams: Record<string, any> = {
+    clientid: clientid === '' ? undefined : clientid ?? undefined,
+    qos: qos === '' ? undefined : qos,
+    share_group: share_group || undefined,
+    node: node || undefined,
+  }
+  if (topic) {
+    newParams[match] = topic
+  }
+
+  return newParams
+}
+const loadData = async () => {
+  const res = await loadNodes()
+  if (res) currentNodes.value = res
+}
+const loadNodeSubscriptions = async (_params = {}) => {
+  lockTable.value = true
+  const sendParams = {
+    ..._params,
+    ...pageMeta,
+    ...params.value,
+  }
+  Reflect.deleteProperty(sendParams, 'count')
+  const res = await listSubscriptions(sendParams).catch(() => {
+    lockTable.value = false
+  })
+  if (res) {
+    const { data = [], meta = {} } = res
+    tableData.value = data
+    lockTable.value = false
+    pageMeta.value = meta
+  } else {
+    tableData.value = []
+    lockTable.value = false
+    pageMeta.value = {}
+  }
+}
+loadData()
+loadNodeSubscriptions()
 </script>
 
 <style lang="scss">
