@@ -108,6 +108,7 @@ export const createRawSSLParams = (): SSL => ({
   certfile: '',
   keyfile: '',
   cacertfile: '',
+  server_name_indication: '',
 })
 
 export const commonTimeUnits = ['ms', 's', 'm', 'h', 'd']
