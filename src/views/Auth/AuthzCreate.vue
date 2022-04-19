@@ -64,11 +64,11 @@
           auth-type="authz"
         />
         <div class="step-btn">
-          <el-button type="primary" @click="handleCreate" :loading="saveLoading">
-            {{ $t('Base.create') }}
-          </el-button>
           <el-button @click="handleBack">
             {{ $t('Base.backStep') }}
+          </el-button>
+          <el-button type="primary" @click="handleCreate" :loading="saveLoading">
+            {{ $t('Base.create') }}
           </el-button>
         </div>
       </div>

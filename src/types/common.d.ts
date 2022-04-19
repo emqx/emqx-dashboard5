@@ -21,6 +21,7 @@ export interface RuleInValidatorParam {
 export interface SSL {
   enable: boolean
   verify: string
+  server_name_indication: string
   certfile: string
   keyfile: string
   cacertfile: string

@@ -9,15 +9,14 @@
       </div>
     </div>
     <el-table :data="ruleTable" v-loading="iotLoading">
-      <el-table-column :label="tl('name')" sortable>
+      <el-table-column :label="tl('name')">
         <template #default="{ row }">
           <router-link :to="{ name: 'iot-detail', params: { id: row.id } }">
             {{ row.name }}
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('source')" sortable>
-        <!-- TODO: highlight -->
+      <el-table-column :label="tl('source')">
         <template #default="{ row }">
           <el-tooltip effect="dark" placement="top-start" popper-class="code-popper">
             <template #content>
@@ -54,7 +53,7 @@
           {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" min-width="150">
+      <el-table-column :label="$t('Base.operation')" min-width="160">
         <template #default="{ row }">
           <el-button
             size="small"
