@@ -38,7 +38,7 @@
           <el-button size="small" @click="handleRestore(row)"
             >{{ $t('Backup.restore') }}
           </el-button>
-          <el-button type="danger" size="small" @click="deleteConfirm(row)"
+          <el-button type="danger" plain size="small" @click="deleteConfirm(row)"
             >{{ $t('Base.delete') }}
           </el-button>
         </template>

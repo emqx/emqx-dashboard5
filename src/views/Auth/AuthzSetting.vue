@@ -60,7 +60,7 @@
       <section class="block-clear-cache">
         <div class="part-header">{{ titleCase($t('Auth.clearCache')) }}</div>
         <p class="block-desc">{{ $t('Auth.clearCacheDesc') }}</p>
-        <el-button type="danger" @click="clearCache">{{ $t('Auth.clearCache') }}</el-button>
+        <el-button type="danger" plain @click="clearCache">{{ $t('Auth.clearCache') }}</el-button>
       </section>
     </el-card>
   </div>

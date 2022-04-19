@@ -9,7 +9,7 @@
           :event-list="eventList"
           @change="handleInputItemChanged"
         />
-        <el-button class="btn-delete" type="danger" @click="deleteInputItem($index)">
+        <el-button class="btn-delete" type="danger" plain @click="deleteInputItem($index)">
           {{ $t('Base.delete') }}
         </el-button>
       </li>

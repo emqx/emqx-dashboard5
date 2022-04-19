@@ -79,7 +79,7 @@
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button @click="openClientDetail(row)" size="small">{{ $t('Base.view') }}</el-button>
-          <el-button type="danger" @click="disconnectClient(row)" size="small">{{
+          <el-button type="danger" plain @click="disconnectClient(row)" size="small">{{
             $t('Clients.kickOut')
           }}</el-button>
         </template>

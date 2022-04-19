@@ -21,7 +21,7 @@
           <el-button size="small" @click="editListener(row, $index)">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="small" type="danger" @click="delListener(row)">
+          <el-button size="small" type="danger" plain @click="delListener(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>

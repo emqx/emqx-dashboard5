@@ -172,7 +172,7 @@
           </el-table-column>
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
-              <el-button size="small" type="danger" @click="deleteRetainerTopic(row)">{{
+              <el-button size="small" type="danger" plain @click="deleteRetainerTopic(row)">{{
                 $t('Base.delete')
               }}</el-button>
             </template>

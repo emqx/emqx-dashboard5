@@ -123,7 +123,7 @@
             {{ $t('Base.view') }}
           </el-button>
           <el-button size="small" @click="resetTopic(row)">{{ $t('Base.reset') }}</el-button>
-          <el-button size="small" type="danger" @click="deleteTopic(row)">
+          <el-button size="small" type="danger" plain @click="deleteTopic(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>

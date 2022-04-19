@@ -6,7 +6,7 @@
         <ExhookItemStatus :exhook="exhookData" is-tag />
       </div>
       <div>
-        <el-button type="danger" @click="handleDelete">
+        <el-button type="danger" plain @click="handleDelete">
           {{ tl('delete', 'Base') }}
         </el-button>
         <el-button type="primary" @click="updateExhookStatus(false)" v-if="exhookData.enable">

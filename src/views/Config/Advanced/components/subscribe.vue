@@ -16,7 +16,7 @@
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
-          <el-button size="small" type="danger" @click="deleteSubs(row)">{{
+          <el-button size="small" type="danger" plain @click="deleteSubs(row)">{{
             $t('Base.delete')
           }}</el-button>
         </template>

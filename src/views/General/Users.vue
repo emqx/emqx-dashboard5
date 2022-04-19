@@ -19,7 +19,7 @@
             $t('General.changePassword')
           }}</el-button>
 
-          <el-button type="danger" size="small" @click="deleteConfirm(row)"
+          <el-button type="danger" plain size="small" @click="deleteConfirm(row)"
             >{{ $t('Base.delete') }}
           </el-button>
         </template>

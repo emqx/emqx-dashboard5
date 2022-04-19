@@ -24,7 +24,7 @@
               <el-button size="small" @click="openOutputDialog(true, index)">
                 {{ $t('Base.edit') }}
               </el-button>
-              <el-button size="small" type="danger" @click="deleteOutput(index)">
+              <el-button size="small" type="danger" plain @click="deleteOutput(index)">
                 {{ $t('Base.delete') }}
               </el-button>
             </span>

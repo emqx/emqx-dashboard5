@@ -82,6 +82,7 @@
 
         <el-button
           type="danger"
+          plain
           @click="destroyConnection"
           :disabled="compareConnStatus('MDISCONNECTING') || compareConnStatus('MDISCONNECTED')"
         >
@@ -132,6 +133,7 @@
           <el-button
             size="small"
             type="danger"
+            plain
             @click="unSubscribe(row)"
             :disabled="!compareConnStatus('MCONNECTED')"
           >

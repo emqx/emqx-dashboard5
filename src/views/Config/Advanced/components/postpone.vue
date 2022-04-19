@@ -63,7 +63,7 @@
 
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
-              <el-button size="small" type="danger" @click="deleteDelayedInfo(row)">
+              <el-button size="small" type="danger" plain @click="deleteDelayedInfo(row)">
                 {{ $t('Base.delete') }}
               </el-button>
             </template>

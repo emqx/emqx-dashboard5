@@ -15,7 +15,7 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button type="danger" size="small" @click="deleteConfirm(row)"
+          <el-button type="danger" plain size="small" @click="deleteConfirm(row)"
             >{{ $t('Base.delete') }}
           </el-button>
         </template>
