@@ -1,8 +1,8 @@
 import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
-import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
+import { GatewayName, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { computed, ref, ComputedRef, Ref, WritableComputedRef, watch } from 'vue'
-import { cloneDeep, merge } from 'lodash'
+import { cloneDeep, merge, omit } from 'lodash'
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { ElMessage } from 'element-plus'
 import useI18nTl from '../useI18nTl'
@@ -52,7 +52,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const {
     completeGatewayListenerTypeList,
     listenerTypeList,
-    ID_SEPARATOR,
+    createListenerId,
     createRawListener,
     normalizeStructure,
   } = useListenerUtils()
@@ -71,13 +71,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const defaultListener = ref(createRawListener())
 
   const isSubmitting = ref(false)
+
   const submit = async () => {
-    // FIXME: id error
-    listenerRecord.value.id = [
-      props.gatewayName,
-      listenerRecord.value.type,
-      listenerRecord.value.name,
-    ].join(ID_SEPARATOR)
+    listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
     const input = cloneDeep(listenerRecord.value)
     if (listenerRecord.value.type === ListenerTypeForGateway.UDP) {
       input.acceptors = ''
@@ -90,13 +86,12 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     try {
       isSubmitting.value = true
       const data = normalizeStructure(input)
-      props.gatewayName ? await submitGatewayListenerInfo(data) : submitListener(data)
+      props.gatewayName ? await submitGatewayListenerInfo(data) : await submitListener(data)
       ElMessage.success(t(`Base.${isEdit.value ? 'editSuccess' : 'createSuccess'}`))
       showDialog.value = false
       emit('submitted')
       isSubmitting.value = false
     } catch (error) {
-      //
       console.error(error)
       isSubmitting.value = false
     }
@@ -116,7 +111,10 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const submitListener = async (data: Listener) => {
     try {
-      isEdit.value ? await addListener(data, data.id) : await updateListener(data, data.id)
+      const listener = omit(cloneDeep(data), ['name', 'id'])
+      // FIXME:
+      listener.zone = 'default'
+      isEdit.value ? await addListener(listener, data.id) : await updateListener(listener, data.id)
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()

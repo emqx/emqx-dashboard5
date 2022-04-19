@@ -22,11 +22,11 @@ const props = defineProps({
   },
   trueLabel: {
     type: String,
-    default: 'True',
+    default: 'true',
   },
   falseLabel: {
     type: String,
-    default: 'False',
+    default: 'false',
   },
 })
 

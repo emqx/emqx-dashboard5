@@ -20,11 +20,13 @@
           <el-tooltip
             placement="top"
             effect="dark"
-            :content="`${row.current_connections || 0}/${row.max_connections || 0}`"
+            :content="`${row.status?.current_connections || 0}/${row.status?.max_connections || 0}`"
           >
             <el-progress
               :stroke-width="16"
-              :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
+              :percentage="
+                calcPercentage(row.status?.current_connections, row.status?.max_connections, false)
+              "
               :show-text="false"
             />
           </el-tooltip>
@@ -46,7 +48,7 @@
             {{ $t('Base.edit') }}
           </el-button>
           <el-button size="small" @click="toggleListenerStatus(row)">
-            {{ $t(`Base.${row.enabled ? 'disable' : 'enable'}`) }}
+            {{ $t(`Base.${row.enable ? 'disable' : 'enable'}`) }}
           </el-button>
           <el-button size="small" type="danger" plain @click="deleteListener(row)">
             {{ $t('Base.delete') }}
@@ -64,41 +66,34 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Plus } from '@element-plus/icons-vue'
 import {
   queryListener,
-  updateListener,
   deleteListener as requestDeleteListener,
+  handleListener,
 } from '@/api/listener'
 import useListenerUtils from '@/hooks/Config/useListenerUtils'
-import { Listener } from '@/types/listener'
+import { Listener, ListenerSimpleInfo } from '@/types/listener'
 import { calcPercentage } from '@/common/utils'
-import { NodeStatusClass } from '@/types/enum'
+import { NodeStatusClass, ListenerAction } from '@/types/enum'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { omit } from 'lodash'
 import ListenerDialog from '@/components/ListenerDialog/ListenerDialog.vue'
 
 const { t, tl } = useI18nTl('Gateway')
 
 const isTableLoading = ref(false)
-const listenerTable: Ref<Array<Listener>> = ref([])
+const listenerTable: Ref<Array<ListenerSimpleInfo>> = ref([])
 
 const showDialog = ref(false)
 const currentListener: Ref<undefined | Listener> = ref(undefined)
 
-const { getListenerNameById } = useListenerUtils()
+const { getListenerNameNTypeById } = useListenerUtils()
 
 const getListenerData = async () => {
   try {
     isTableLoading.value = true
     const data = await queryListener()
-    listenerTable.value = data.reduce(
-      (arr: Array<Listener>, item) =>
-        arr.concat(
-          item.listeners.map((item: Listener) => ({
-            ...item,
-            name: getListenerNameById(item.id),
-          })),
-        ),
-      [],
-    )
+    listenerTable.value = data.map((item) => {
+      const { name, type } = getListenerNameNTypeById(item.id)
+      return { ...item, name, type }
+    })
   } catch (error) {
     //
   } finally {
@@ -106,10 +101,10 @@ const getListenerData = async () => {
   }
 }
 
-const getListenerStatusClass = ({ enabled }: Listener) =>
-  enabled ? NodeStatusClass.Success : NodeStatusClass.Danger
+const getListenerStatusClass = ({ enable }: Listener) =>
+  enable ? NodeStatusClass.Success : NodeStatusClass.Danger
 
-const getStatusLabel = ({ enabled }: Listener) => t(`Base.${enabled ? 'enable' : 'disable'}`)
+const getStatusLabel = ({ enable }: Listener) => t(`Base.${enable ? 'enable' : 'disable'}`)
 
 const addListener = () => {
   currentListener.value = undefined
@@ -121,9 +116,10 @@ const editListener = (listener: Listener, index: number) => {
   showDialog.value = true
 }
 
-const toggleListenerStatus = async (listener: Listener) => {
-  await updateListener({ ...omit(listener, 'name'), enabled: !listener.enabled }, listener.id)
-  ElMessage.success(t(`Base.${listener.enabled ? 'disabledSuccess' : 'enableSuccess'}`))
+const toggleListenerStatus = async ({ id, enable }: Listener) => {
+  const action = enable ? ListenerAction.Stop : ListenerAction.Start
+  await handleListener(id, action)
+  ElMessage.success(t(`Base.${enable ? 'disabledSuccess' : 'enableSuccess'}`))
   getListenerData()
 }
 

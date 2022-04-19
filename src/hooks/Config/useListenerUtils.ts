@@ -8,7 +8,11 @@ export default (): {
   listenerTypeList: ListenerType[]
   ID_SEPARATOR: string
   createRawListener: () => Listener
-  getListenerNameById: (id: string) => string
+  getListenerNameNTypeById: (id: string) => {
+    type: string
+    name: string
+  }
+  createListenerId: (listener: Listener, gatewayName?: string | undefined) => string
   normalizeStructure: (record: Listener) => any
   deNormalizeStructure: (record: Listener, gatewayName: string) => Listener
 } => {
@@ -78,10 +82,17 @@ export default (): {
     },
   })
 
-  const listenerIdReg = new RegExp(`^(${listenerTypeList.join('|')}):(?<name>.+)`)
-  const getListenerNameById = (id: string): string => {
+  const listenerIdReg = new RegExp(`^(?<type>${listenerTypeList.join('|')}):(?<name>.+)`)
+  const getListenerNameNTypeById = (id: string): { type: string; name: string } => {
     const matchResult = id.match(listenerIdReg)
-    return matchResult ? matchResult.groups?.name || '' : ''
+    if (!matchResult) {
+      return {
+        type: '' as ListenerType,
+        name: '',
+      }
+    }
+    const { name, type } = matchResult.groups || {}
+    return { name, type }
   }
 
   const normalizeStructure = (record: Listener) => {
@@ -121,6 +132,11 @@ export default (): {
     }
 
     return transformUnitArrayToStr(result)
+  }
+
+  const createListenerId = (listener: Listener, gatewayName?: string): string => {
+    const { type, name } = listener
+    return `${gatewayName ? gatewayName + ID_SEPARATOR : ''}${type}${ID_SEPARATOR}${name}`
   }
 
   const deNormalizeStructure = (record: Listener, gatewayName: string) => {
@@ -164,7 +180,8 @@ export default (): {
     listenerTypeList,
     ID_SEPARATOR,
     createRawListener,
-    getListenerNameById,
+    getListenerNameNTypeById,
+    createListenerId,
     normalizeStructure,
     deNormalizeStructure,
   }

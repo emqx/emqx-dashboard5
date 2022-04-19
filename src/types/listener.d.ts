@@ -3,6 +3,27 @@ import { ListenerType, ListenerTypeForGateway } from './enum'
 
 type Infinity = 'infinity'
 
+export interface ListenerStatus {
+  max_connections: number
+  current_connections: number
+}
+
+export interface ListenerNodeStatus {
+  node: string
+  max_connections: number
+  current_connections: number
+}
+
+export interface ListenerSimpleInfo {
+  id: string
+  name: string
+  type: string
+  enable: boolean
+  number: number
+  status: ListenerStatus
+  node_status: Array<ListenerNodeStatus>
+}
+
 export interface ListenerBase {
   /**
    * id = {type}:{name}

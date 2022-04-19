@@ -167,3 +167,9 @@ export enum ListenerTypeForGateway {
   SSL = 'ssl',
   DTLS = 'dtls',
 }
+
+export enum ListenerAction {
+  Start = 'start',
+  Stop = 'stop',
+  Restart = 'restart',
+}
