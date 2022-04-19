@@ -46,8 +46,6 @@
       margin-left: 0px;
     }
     &.is-bordered {
-      border-radius: 0px;
-
       text-align: center;
       line-height: 40px;
       padding: 0 30px;
@@ -91,7 +89,6 @@
   }
 
   .el-radio.is-bordered {
-    border-radius: 0px;
     padding: 0px;
     border: 2px solid #e4e4e4;
     margin-top: 16px;

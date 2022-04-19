@@ -1,10 +1,7 @@
 <template>
   <div class="app-wrapper">
-    <router-link class="back-button" :to="{ name: 'iot' }">
-      {{ $t('RuleEngine.backToIoTList') }}
-    </router-link>
+    <detail-header :item="{ name: $t('RuleEngine.createIoTRule'), path: '/iot' }" />
     <div class="iot-create">
-      <div class="page-header-title">{{ tl('createIoTRule') }}</div>
       <iotform ref="formCom" v-model="ruleValue" />
       <el-row class="config-btn">
         <el-button @click="$router.push({ name: 'iot' })">
@@ -30,6 +27,7 @@ export default defineComponent({
 import { ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import iotform from '../components/IoTForm.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 import { RuleItem } from '@/types/ruleengine'
 import { createRules } from '@/api/ruleengine'
 import { useRoute, useRouter } from 'vue-router'
@@ -40,7 +38,6 @@ import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { LOCAL_STORAGE_KEY_MAP } from '@/common/constants'
 
 const { t } = useI18n()
-const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const { transSQLFormDataToSQL } = useRuleUtils()
 
 const route = useRoute()

@@ -1,11 +1,6 @@
 <template>
   <div class="auth authz-create app-wrapper">
-    <back-button back-url="/authorization">
-      {{ $t('Auth.backAuthzList') }}
-    </back-button>
-    <div class="page-header-title">
-      {{ $t('Auth.createAuthz') }}
-    </div>
+    <detail-header :item="{ name: $t('Auth.createAuthz'), path: '/authorization' }" />
     <el-card class="app-card">
       <guide-bar
         :guide-list="getGuideList()"
@@ -81,7 +76,7 @@ import { computed, defineComponent, ref } from 'vue'
 import FileConfig from './components/FileConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
-import BackButton from './components/BackButton.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
 import { createAuthz } from '@/api/auth'
@@ -94,7 +89,7 @@ import { jumpToErrorFormItem } from '@/common/tools'
 export default defineComponent({
   name: 'AuthzCreate',
   components: {
-    BackButton,
+    DetailHeader,
     GuideBar,
     FileConfig,
     DatabaseConfig,

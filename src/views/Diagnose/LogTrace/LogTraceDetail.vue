@@ -1,10 +1,6 @@
 <template>
   <div class="log-trace-detail app-wrapper">
-    <router-link class="back-button" :to="{ name: 'log-trace' }">{{
-      tl('backToList')
-    }}</router-link>
-    <div class="page-header-title">{{ viewLogName }}</div>
-
+    <detail-header :item="{ name: viewLogName, path: '/log-trace' }" />
     <div v-loading="viewNodeLoading" :element-loading-text="nextPageLoading">
       <el-row :gutter="30">
         <el-col :span="6">
@@ -48,9 +44,8 @@
 import { defineComponent, onMounted, ref, Ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Monaco from '@/components/Monaco.vue'
-import { IEvent, IScrollEvent } from 'monaco-editor'
-import { TraceFormRecord, TraceRecord } from '@/types/diagnose'
-
+import DetailHeader from '@/components/DetailHeader.vue'
+import { IScrollEvent } from 'monaco-editor'
 import { useRoute } from 'vue-router'
 import { getTraceLog, downloadTrace } from '@/api/diagnose'
 import { ElMessage as M } from 'element-plus'
@@ -65,6 +60,7 @@ const BYTEPERPAGE = 50 * 1024
 export default defineComponent({
   components: {
     Monaco,
+    DetailHeader,
   },
   setup() {
     const { t } = useI18n()

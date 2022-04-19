@@ -67,7 +67,16 @@ export default {
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      background: #00b299;
+      background: #00b173;
+      &::before {
+        position: absolute;
+        content: '';
+        border-radius: 50%;
+        left: -4px;
+        width: 28px;
+        height: 28px;
+        background-color: #00b17333;
+      }
     }
     .icon-number {
       background: #c7c7c7;

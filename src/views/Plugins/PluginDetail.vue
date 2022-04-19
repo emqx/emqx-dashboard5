@@ -1,12 +1,11 @@
 <template>
   <div class="plugin-detail app-wrapper">
-    <router-link class="back-button" :to="{ name: 'plugins' }">{{ tl('backList') }}</router-link>
+    <detail-header :item="{ name: pluginInfo.name, path: '/plugins' }" />
     <div v-loading.lock="isDetailLoading">
       <div class="plugin-detail-hd">
         <div class="plugin-base-info">
           <i class="icon icon-plugin"></i>
           <div>
-            <p class="plugin-name">{{ pluginInfo.name }}</p>
             <div>
               <el-tooltip placement="right" popper-class="tooltip-node-status-list">
                 <span class="tag" :class="dotClass(getTheWorstStatus(pluginInfo))">
@@ -74,6 +73,7 @@ import usePluginStatus from '@/hooks/Plugins/usePluginStatus'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import { queryPluginDetail } from '@/api/plugins'
 import MarkdownContent from '@/components/MarkdownContent.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 import { PluginStatus } from '@/types/enum'
 import router from '@/router'
 
@@ -132,9 +132,6 @@ getPluginDetail()
 
 <style lang="scss" scoped>
 @import './style/pluginInfo.scss';
-.back-button {
-  margin-bottom: 32px;
-}
 .plugin-detail-hd {
   display: flex;
   justify-content: space-between;

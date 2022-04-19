@@ -1,9 +1,6 @@
 <template>
   <div class="exhook-create app-wrapper">
-    <router-link class="back-button" :to="{ name: 'exhook' }">
-      {{ tl('backList') }}
-    </router-link>
-    <div class="page-header-title">{{ tl('addExhook') }}</div>
+    <detail-header :item="{ name: tl('addExhook'), path: '/exhook' }" />
     <el-card class="app-card exhook-create-card">
       <ExhookForm ref="formCom" v-model="formData" />
       <div class="exhook-create-ft">
@@ -24,6 +21,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import ExhookForm from './components/ExhookForm.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 import { ExhookFormForCreate } from '@/types/systemModule'
 import { createExhook } from '@/api/exhook'
 import { ExhookFailedAction } from '@/types/enum'

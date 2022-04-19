@@ -1,167 +1,168 @@
 <template>
   <div class="auth authn-create app-wrapper">
-    <back-button back-url="/authentication" v-if="!gateway">
-      {{ $t('Auth.backAuthnList') }}
-    </back-button>
-    <div class="page-header-title">
-      {{ $t('Auth.createAuth') }}
-    </div>
-    <guide-bar :guide-list="getGuideList()" :active-guide-index-list="activeGuidesIndex" />
-    <!-- Mechanism -->
-    <div v-if="step === 0" class="create-form">
-      <div class="create-form-title">
-        {{ $t('Auth.selectMechanism') }}
-      </div>
-      <el-radio-group v-model="mechanism" size="large">
-        <el-radio
-          class="mechanism"
-          label="password_based"
-          v-if="!isDisabledMechanism('password_based')"
-          border
-        >
-          Password-Based
-        </el-radio>
-        <template v-if="!isDisabledMechanism('jwt')">
-          <el-badge :value="$t('Modules.added')" :hidden="!addedAuthn.includes('jwt')" class="item">
-            <el-radio class="mechanism" label="jwt" border :disabled="addedAuthn.includes('jwt')">
-              JWT
-            </el-radio>
-          </el-badge>
-        </template>
-        <el-radio class="mechanism" label="scram" v-if="!isDisabledMechanism('scram')" border>
-          {{ $t('Auth.scram') }}
-        </el-radio>
-      </el-radio-group>
-      <p class="item-description">{{ mechanismDesc }}</p>
-      <div class="step-btn">
-        <el-button @click="cancelCreate()">
-          {{ $t('Base.cancel') }}
-        </el-button>
-        <el-button type="primary" @click="handleNext">
-          {{ $t('Base.nextStep') }}
-        </el-button>
-      </div>
-    </div>
-    <!-- Backend -->
-    <div v-if="step === 1" class="create-form">
-      <div class="create-form-title">
-        {{ $t('Auth.selectDataSource') }}
-      </div>
-      <template v-if="mechanism !== 'jwt'">
-        <p class="item-description">
-          {{ $t('Auth.dataSourceDesc') }}
-        </p>
+    <detail-header :item="{ name: $t('Auth.createAuth'), path: '/authentication' }" />
+    <el-card>
+      <guide-bar :guide-list="getGuideList()" :active-guide-index-list="activeGuidesIndex" />
+      <!-- Mechanism -->
+      <div v-if="step === 0" class="create-form">
         <div class="create-form-title">
-          {{ $t('Auth.database') }}
+          {{ $t('Auth.selectMechanism') }}
         </div>
-        <el-radio-group
-          v-if="hasDatabaseToChoose"
-          v-model="backend"
-          class="select-database"
-          size="large"
-        >
-          <template v-for="item in databases" :key="item.value">
+        <el-radio-group v-model="mechanism" size="large">
+          <el-radio
+            class="mechanism"
+            label="password_based"
+            v-if="!isDisabledMechanism('password_based')"
+            border
+          >
+            Password-Based
+          </el-radio>
+          <template v-if="!isDisabledMechanism('jwt')">
             <el-badge
-              v-if="!isDisabledDatabase(item.value)"
               :value="$t('Modules.added')"
+              :hidden="!addedAuthn.includes('jwt')"
               class="item"
-              :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
             >
-              <el-radio
-                :label="item.value"
-                class="backend"
-                border
-                :disabled="addedAuthn.includes(`${mechanism}_${item.value}`) && !gateway"
-              >
-                <img height="32" width="32" :src="item.img" :alt="item.key" />
-                <span>{{ item.label }}</span>
+              <el-radio class="mechanism" label="jwt" border :disabled="addedAuthn.includes('jwt')">
+                JWT
               </el-radio>
             </el-badge>
           </template>
+          <el-radio class="mechanism" label="scram" v-if="!isDisabledMechanism('scram')" border>
+            {{ $t('Auth.scram') }}
+          </el-radio>
         </el-radio-group>
-        <p class="no-database-placeholder" v-else>
-          {{ tl('noDatabasePlaceholder') }}
-        </p>
-        <template v-if="others.length !== 0">
-          <div class="create-form-title">
-            {{ $t('Base.other') }}
-          </div>
-          <el-radio-group v-model="backend" size="large">
-            <el-badge
-              v-for="item in others"
-              :key="item.value"
-              :value="$t('Modules.added')"
-              :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
-              class="item"
-            >
-              <el-radio
-                :key="item.value"
-                :label="item.value"
-                class="backend"
-                border
-                :disabled="addedAuthn.includes(`${mechanism}_${item.value}`) && !gateway"
-              >
-                <img height="32" width="32" :src="item.img" :alt="item.key" />
-                <span>{{ item.label }}</span>
-              </el-radio>
-            </el-badge>
-          </el-radio-group>
-        </template>
-      </template>
-      <p v-else class="item-description">
-        {{ $t('Auth.jwtDataSourceDesc') }}
-      </p>
-      <div class="step-btn">
-        <el-button @click="handleBack">
-          {{ $t('Base.backStep') }}
-        </el-button>
-        <el-button type="primary" @click="handleNext">
-          {{ $t('Base.nextStep') }}
-        </el-button>
-      </div>
-    </div>
-    <!-- Config -->
-    <div v-else-if="step === 2">
-      <template v-if="mechanism !== 'jwt'">
-        <database-config
-          v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
-          v-model="configData"
-          ref="formCom"
-          :database="backend"
-          auth-type="authn"
-        />
-        <built-in-config
-          v-else-if="backend === 'built_in_database'"
-          v-model="configData"
-          ref="formCom"
-          :type="mechanism"
-        />
-        <http-config
-          auth-type="authn"
-          v-else-if="backend === 'http'"
-          v-model="configData"
-          ref="formCom"
-        />
-      </template>
-      <jwt-config v-else v-model="configData" ref="formCom" />
-      <!-- Result -->
-      <div v-if="testRes" :class="['create-form', 'result-block', isWork ? 'success' : 'error']">
-        <div class="result-title">
-          {{ isWork ? $t('Auth.testSuccess') : $t('Auth.testFaild') }}
+        <p class="item-description">{{ mechanismDesc }}</p>
+        <div class="step-btn">
+          <el-button type="primary" @click="handleNext">
+            {{ $t('Base.nextStep') }}
+          </el-button>
+          <el-button @click="cancelCreate()">
+            {{ $t('Base.cancel') }}
+          </el-button>
         </div>
       </div>
-      <div class="step-btn">
-        <!-- <el-button @click="handleTest">
-          {{ $t('Base.test') }}
-        </el-button> -->
-        <el-button @click="handleBack">
-          {{ $t('Base.backStep') }}
-        </el-button>
-        <el-button type="primary" :loading="saveLoading" @click="handleCreate">
-          {{ $t('Base.create') }}
-        </el-button>
+      <!-- Backend -->
+      <div v-if="step === 1" class="create-form">
+        <div class="create-form-title">
+          {{ $t('Auth.selectDataSource') }}
+        </div>
+        <template v-if="mechanism !== 'jwt'">
+          <p class="item-description">
+            {{ $t('Auth.dataSourceDesc') }}
+          </p>
+          <div class="create-form-title">
+            {{ $t('Auth.database') }}
+          </div>
+          <el-radio-group
+            v-if="hasDatabaseToChoose"
+            v-model="backend"
+            class="select-database"
+            size="large"
+          >
+            <template v-for="item in databases" :key="item.value">
+              <el-badge
+                v-if="!isDisabledDatabase(item.value)"
+                :value="$t('Modules.added')"
+                class="item"
+                :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
+              >
+                <el-radio
+                  :label="item.value"
+                  class="backend"
+                  border
+                  :disabled="addedAuthn.includes(`${mechanism}_${item.value}`) && !gateway"
+                >
+                  <img height="32" width="32" :src="item.img" :alt="item.key" />
+                  <span>{{ item.label }}</span>
+                </el-radio>
+              </el-badge>
+            </template>
+          </el-radio-group>
+          <p class="no-database-placeholder" v-else>
+            {{ tl('noDatabasePlaceholder') }}
+          </p>
+          <template v-if="others.length !== 0">
+            <div class="create-form-title">
+              {{ $t('Base.other') }}
+            </div>
+            <el-radio-group v-model="backend" size="large">
+              <el-badge
+                v-for="item in others"
+                :key="item.value"
+                :value="$t('Modules.added')"
+                :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
+                class="item"
+              >
+                <el-radio
+                  :key="item.value"
+                  :label="item.value"
+                  class="backend"
+                  border
+                  :disabled="addedAuthn.includes(`${mechanism}_${item.value}`) && !gateway"
+                >
+                  <img height="32" width="32" :src="item.img" :alt="item.key" />
+                  <span>{{ item.label }}</span>
+                </el-radio>
+              </el-badge>
+            </el-radio-group>
+          </template>
+        </template>
+        <p v-else class="item-description">
+          {{ $t('Auth.jwtDataSourceDesc') }}
+        </p>
+        <div class="step-btn">
+          <el-button type="primary" @click="handleNext">
+            {{ $t('Base.nextStep') }}
+          </el-button>
+          <el-button @click="handleBack">
+            {{ $t('Base.backStep') }}
+          </el-button>
+        </div>
       </div>
-    </div>
+      <!-- Config -->
+      <div v-else-if="step === 2">
+        <template v-if="mechanism !== 'jwt'">
+          <database-config
+            v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
+            v-model="configData"
+            ref="formCom"
+            :database="backend"
+            auth-type="authn"
+          />
+          <built-in-config
+            v-else-if="backend === 'built_in_database'"
+            v-model="configData"
+            ref="formCom"
+            :type="mechanism"
+          />
+          <http-config
+            auth-type="authn"
+            v-else-if="backend === 'http'"
+            v-model="configData"
+            ref="formCom"
+          />
+        </template>
+        <jwt-config v-else v-model="configData" ref="formCom" />
+        <!-- Result -->
+        <div v-if="testRes" :class="['create-form', 'result-block', isWork ? 'success' : 'error']">
+          <div class="result-title">
+            {{ isWork ? $t('Auth.testSuccess') : $t('Auth.testFaild') }}
+          </div>
+        </div>
+        <div class="step-btn">
+          <el-button type="primary" :loading="saveLoading" @click="handleCreate">
+            {{ $t('Base.create') }}
+          </el-button>
+          <!-- <el-button @click="handleTest">
+              {{ $t('Base.test') }}
+            </el-button> -->
+          <el-button @click="handleBack">
+            {{ $t('Base.backStep') }}
+          </el-button>
+        </div>
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -173,8 +174,8 @@ export default {
 
 <script lang="ts" setup>
 import { computed, ref, defineProps, PropType } from 'vue'
-import BackButton from './components/BackButton.vue'
 import GuideBar from '@/components/GuideBar.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'

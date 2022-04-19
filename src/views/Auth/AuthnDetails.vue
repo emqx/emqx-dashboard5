@@ -1,8 +1,9 @@
 <template>
   <div :class="['auth', 'auth-details', !gateway && 'app-wrapper']">
-    <back-button back-url="/authentication" v-if="!gateway">
-      {{ $t('Auth.backAuthnList') }}
-    </back-button>
+    <detail-header
+      v-if="!gateway"
+      :item="{ name: titleMap[currBackend], path: '/authentication' }"
+    />
     <div
       :class="{ 'section-header': true, 'embed-gateway': !!gateway }"
       v-loading.lock="authnDetailLock"
@@ -10,15 +11,12 @@
       <div class="section-header__block">
         <template v-if="!gateway">
           <div>
-            <img v-if="configData.mechanism !== 'jwt'" :src="currImg" width="90" />
+            <img v-if="configData.mechanism !== 'jwt'" :src="currImg" width="64" />
           </div>
           <div>
-            <div class="section-header__title">
-              {{ titleMap[currBackend] }}
-            </div>
             <div class="info-tags">
               <AuthItemStatus is-tag :metrics="authMetrics" :enable="configData.enable" />
-              <el-tag type="info" size="small" class="section-status">
+              <el-tag type="info" class="section-status">
                 {{ configData.mechanism }}
               </el-tag>
             </div>
@@ -92,7 +90,6 @@
 <script>
 import { computed, defineComponent, ref } from 'vue'
 import { loadAuthn } from '@/api/auth'
-import BackButton from './components/BackButton.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
@@ -109,18 +106,19 @@ import AuthItemOverview from './components/AuthItemOverview.vue'
 import { queryAuthnItemMetrics } from '@/api/auth'
 import { hasMetrics } from '@/hooks/Auth/useAuthn'
 import AuthItemStatus from './components/AuthItemStatus.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 
 export default defineComponent({
   name: 'AuthnDetails',
   components: {
     DatabaseConfig,
-    BackButton,
     HttpConfig,
     BuiltInConfig,
     DataManager,
     JwtConfig,
     AuthItemOverview,
     AuthItemStatus,
+    DetailHeader,
   },
   props: {
     gatewayInfo: {

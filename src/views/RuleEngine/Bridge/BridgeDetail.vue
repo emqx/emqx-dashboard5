@@ -1,15 +1,12 @@
 <template>
   <div class="app-wrapper">
     <div class="bridge-detail">
-      <router-link class="back-button" :to="backRoute">
-        {{ backBtnText }}
-      </router-link>
+      <detail-header :item="{ name: bridgeInfo.name, routeName: backRoute.name }" />
       <div class="detail-main" v-loading="infoLoading">
         <div class="section-header">
           <div>
             <img :src="bridgeInfo.type && require(`@/assets/img/${bridgeInfo.type}.png`)" />
             <div class="title-n-status">
-              <p class="section-title">{{ bridgeInfo.name }}</p>
               <div class="info-tags">
                 <BridgeItemStatus :bridge="bridgeInfo" is-tag />
                 <el-tag type="info" class="section-status">
@@ -90,6 +87,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 
 enum Tab {
   Overview = '0',
@@ -113,14 +111,6 @@ const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const isFromRule = computed(() =>
   ['edit-bridge-for-create-iot', 'edit-bridge-for-edit-iot'].includes(route.name as string),
 )
-
-const backBtnText = computed(() => {
-  let key = 'backBridgeList'
-  if (isFromRule.value) {
-    key = route.params.from.indexOf('detail') > -1 ? 'backRuleEdit' : 'backToRuleCreation'
-  }
-  return tl(key)
-})
 
 const backRoute = computed(() => {
   let name = 'data-bridge'
@@ -212,7 +202,7 @@ onActivated(() => {
 
 <style lang="scss" scoped>
 .section-header img {
-  width: 50px;
+  width: 64px;
   vertical-align: top;
 }
 .title-n-status {

@@ -1,17 +1,12 @@
 <template>
   <div class="auth auth-details app-wrapper">
-    <back-button back-url="/authorization">
-      {{ $t('Auth.backAuthzList') }}
-    </back-button>
+    <detail-header :item="{ name: titleMap[type], path: '/authorization' }" />
     <div class="section-header" v-loading.lock="authzDetailLock">
       <div class="section-header__block">
         <div>
-          <img :src="currImg" width="90" />
+          <img :src="currImg" width="64" />
         </div>
         <div>
-          <div class="section-header__title">
-            {{ titleMap[type] }}
-          </div>
           <div class="info-tags">
             <AuthItemStatus is-tag :metrics="authMetrics" :enable="configData.enable" />
           </div>
@@ -67,7 +62,7 @@
 
 <script>
 import { computed, defineComponent, ref } from 'vue'
-import BackButton from './components/BackButton.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
 import { loadAuthz, deleteAuthz, updateAuthz } from '@/api/auth'
 import FileConfig from './components/FileConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
@@ -87,7 +82,7 @@ import AuthItemStatus from './components/AuthItemStatus.vue'
 export default defineComponent({
   name: 'AuthzDetails',
   components: {
-    BackButton,
+    DetailHeader,
     FileConfig,
     DatabaseConfig,
     BuiltInManager,

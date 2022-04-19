@@ -1,15 +1,7 @@
 <template>
   <div class="app-wrapper">
-    <router-link class="back-button" :to="backRoute">
-      {{ backBtnText }}
-    </router-link>
+    <detail-header :item="{ name: tl('createBridge'), routeName: backRoute.name }" />
     <div class="data-bridge-create">
-      <!-- <back-button back-url="/bridge">
-        {{ tl('backDataBridge') }}
-      </back-button> -->
-      <div class="page-header-title">
-        {{ tl('createBridge') }}
-      </div>
       <el-card class="app-card">
         <el-row>
           <el-col :span="12">
@@ -102,9 +94,10 @@ import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import DetailHeader from '@/components/DetailHeader.vue'
 
 export default defineComponent({
-  components: { BridgeHttpConfig, BridgeMqttConfig },
+  components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
 
@@ -135,14 +128,6 @@ export default defineComponent({
     const isFromRule = computed(() =>
       ['create-bridge-for-create-iot', 'create-bridge-for-edit-iot'].includes(route.name as string),
     )
-
-    const backBtnText = computed(() => {
-      let key = 'backBridgeList'
-      if (isFromRule.value) {
-        key = route.params.from.indexOf('detail') > -1 ? 'backRuleEdit' : 'backToRuleCreation'
-      }
-      return tl(key)
-    })
 
     const backRoute = computed(() => {
       let name = 'data-bridge'
@@ -224,7 +209,6 @@ export default defineComponent({
 
     return {
       tl,
-      backBtnText,
       backRoute,
       stepActive,
       goPreStep,
@@ -249,7 +233,6 @@ export default defineComponent({
 }
 
 .el-radio.is-bordered {
-  border-radius: 0px;
   padding: 0px 10px 0 8px;
   min-width: 40%;
   border: 2px solid #e4e4e4;
