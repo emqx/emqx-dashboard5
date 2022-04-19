@@ -64,14 +64,6 @@
           </el-button>
           <el-button
             type="primary"
-            v-if="stepActive === 1"
-            :loading="submitLoading"
-            @click="submitCreateBridge"
-          >
-            {{ $t('Base.create') }}
-          </el-button>
-          <el-button
-            type="primary"
             @click="goNextStep"
             v-if="stepActive < 1"
             :disabled="submitLoading"
@@ -80,6 +72,14 @@
           </el-button>
           <el-button @click="goPreStep" v-if="stepActive > 0" :disabled="submitLoading">
             {{ $t('Base.backStep') }}
+          </el-button>
+          <el-button
+            type="primary"
+            v-if="stepActive === 1"
+            :loading="submitLoading"
+            @click="submitCreateBridge"
+          >
+            {{ $t('Base.create') }}
           </el-button>
         </el-row>
         <div></div>
