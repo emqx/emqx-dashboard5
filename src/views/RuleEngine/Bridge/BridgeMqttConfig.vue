@@ -19,6 +19,7 @@
       </section>
       <section>
         <div class="part-header">{{ tl('mappingInfo') }}</div>
+        <!-- Source -->
         <template v-if="mqttBridgeVal.direction === MQTTBridgeDirection.In">
           <p class="block-primary-desc">{{ tl('mqttSourceMappingDesc') }}</p>
           <el-row v-loading="connectorLoading" :gutter="30">
@@ -113,12 +114,13 @@
             </el-col>
           </el-row>
         </template>
+        <!-- Sink -->
         <template v-else>
-          <p class="block-primary-desc">{{ tl('mqttSourceTransDesc') }}</p>
-          <p class="block-desc">{{ tl('mqttSourceTransDescDetail') }}</p>
+          <p class="block-primary-desc">{{ tl('mqttSinkMappingDesc') }}</p>
+          <p class="block-desc">{{ tl('mqttSinkMappingDescDetail') }}</p>
           <el-row :gutter="30">
             <el-col :span="10">
-              <el-form-item :label="tl('forwardToLocalTopic')">
+              <el-form-item :label="tl('forwardFromLocalTopic')">
                 <el-select
                   v-model="isForwardToLocalTopic"
                   @change="handleIsForwardToLocalTopicChanged"
@@ -131,10 +133,9 @@
           </el-row>
 
           <template v-if="isForwardToLocalTopic">
-            <p class="block-primary-desc">{{ tl('bridgeDataInDesc') }}</p>
             <el-row :gutter="30">
               <el-col :span="10">
-                <el-form-item :label="tl('localTopic')">
+                <el-form-item :label="tl('mqttOutLocalTopicPlaceholder')">
                   <el-input
                     v-model="mqttBridgeVal.local_topic"
                     :placeholder="tl('outBridgeLocalTopicPlaceholder')"
