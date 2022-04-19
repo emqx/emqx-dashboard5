@@ -29,11 +29,7 @@ const props = defineProps({
 })
 
 const goBack = () => {
-  if (props.item.backFunc) {
-    props.item.backFunc()
-  } else {
-    router.push({ path: props.item.path || '/' })
-  }
+  props.item.path ? router.push({ path: props.item.path }) : router.back()
 }
 </script>
 

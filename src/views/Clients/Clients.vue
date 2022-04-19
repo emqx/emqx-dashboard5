@@ -72,8 +72,8 @@
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Clients.search') }}
           </el-button>
-          <el-button type="primary" plain :icon="Refresh" @click="handleSearch">
-            {{ $t('Clients.refresh') }}
+          <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSerach">
+            {{ $t('Clients.reset') }}
           </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
             <ArrowUp v-if="showMoreQuery" />
@@ -167,7 +167,7 @@ import moment from 'moment'
 import CommonPagination from '@/components/commonPagination.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
-import { ArrowUp, ArrowDown, Refresh } from '@element-plus/icons-vue'
+import { ArrowUp, ArrowDown, RefreshRight } from '@element-plus/icons-vue'
 import CheckIcon from '@/components/CheckIcon.vue'
 import { Client } from '@/types/client'
 import { useStore } from 'vuex'
@@ -240,20 +240,27 @@ const genQueryParams = (params: Record<string, any>) => {
   return newParams
 }
 
-const loadData = async () => {
+const loadNodeData = async () => {
   const data = await loadNodes()
   if (data) currentNodes.value = data
 }
+
+const handleResetSerach = async () => {
+  fuzzyParams.value = {
+    comparator: 'gte',
+  }
+  params.value = genQueryParams(fuzzyParams.value)
+  loadNodeClients({ page: 1 })
+}
+
 const loadNodeClients = async (_params = {}) => {
   lockTable.value = true
-
   const sendParams = {
     ...params.value,
     ...pageMeta.value,
     ..._params,
   }
   Reflect.deleteProperty(sendParams, 'count')
-
   const res = await listClients(sendParams).catch(() => {
     lockTable.value = false
   })
@@ -269,7 +276,7 @@ const loadNodeClients = async (_params = {}) => {
   }
 }
 
-loadData()
+loadNodeData()
 loadNodeClients()
 </script>
 

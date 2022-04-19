@@ -371,6 +371,9 @@
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 4px 12px #00000026;
+  .el-icon {
+    font-size: 18px;
+  }
   &--success {
     border: 1px solid #00B173;
     background-color: #E5F7F1;
