@@ -33,14 +33,18 @@
           <el-button type="primary" :icon="Search" @click="searchGatewayList()">{{
             $t('Base.search')
           }}</el-button>
-          <el-button @click="handleResetSearch">
+          <el-button type="primary" plain @click="handleResetSearch">
             {{ $t('Base.reset') }}
           </el-button>
         </el-col>
       </el-row>
     </el-form>
     <el-table :data="gatewayTable" v-loading="tbLoading">
-      <el-table-column label="Client ID" prop="clientid"></el-table-column>
+      <el-table-column label="Client ID" prop="clientid">
+        <template #default="{ row }">
+          <a href="javascript:;" @click="openClientDetail(row)">{{ row.clientid }}</a>
+        </template>
+      </el-table-column>
 
       <el-table-column
         :label="'Endpoint Name'"
@@ -67,7 +71,7 @@
       ></el-table-column>
       <el-table-column :label="tl('status')" v-else>
         <template #default="{ row }">
-          <el-badge is-dot :type="row.connected ? 'success' : 'danger'"> </el-badge>
+          <CheckIcon :status="row.connected ? 'check' : 'close'" size="small" :top="1" />
           <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
         </template>
       </el-table-column>
@@ -78,7 +82,6 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button @click="openClientDetail(row)" size="small">{{ $t('Base.view') }}</el-button>
           <el-button type="danger" plain @click="disconnectClient(row)" size="small">{{
             $t('Clients.kickOut')
           }}</el-button>
@@ -103,7 +106,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import commonPagination from '@/components/commonPagination.vue'
 import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
@@ -113,21 +116,24 @@ import ClientDetails from '../../Clients/ClientDetails.vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { Search } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import CheckIcon from '@/components/CheckIcon.vue'
+import { NodeMsg } from '@/types/dashboard'
 
 export default defineComponent({
-  components: { commonPagination, ClientDetails },
+  components: { commonPagination, ClientDetails, CheckIcon },
 
   setup() {
     let pCommon = ref(null)
     let gatewayTable = ref([])
     let tbLoading = ref(false)
-    let searchParams = reactive({
+    let searchParams = reactive<Record<string, any>>({
       like_clientid: '',
       like_username: '',
       node: '',
       like_endpoint_name: '',
     })
-    let nodes = ref([])
+    let nodes = ref<NodeMsg[]>([])
     let clientsDetailVisible = ref(false)
     let currentClientId = ref('')
 
@@ -160,13 +166,13 @@ export default defineComponent({
     }
 
     const loadAllNodes = async function () {
-      const data = await loadNodes().catch(() => {})
+      const data = await loadNodes()
       if (data) nodes.value = data
       else nodes.value = []
     }
 
     const searchGatewayList = async function () {
-      let params = {}
+      let params: Record<string, any> = {}
       Object.keys(searchParams).forEach((k) => {
         params[k] = searchParams[k] === '' ? undefined : searchParams[k]
       })
@@ -183,7 +189,7 @@ export default defineComponent({
       loadGatewayClients({ page: 1 })
     }
 
-    const openClientDetail = async function (row) {
+    const openClientDetail = async function (row: any) {
       clientsDetailVisible.value = true
       currentClientId.value = row.clientid
     }
@@ -194,18 +200,17 @@ export default defineComponent({
       loadGatewayClients()
     }
 
-    const disconnectClient = async function (row) {
-      this.$msgbox
-        .confirm(t('Clients.willDisconnectTheConnection'), {
-          confirmButtonText: t('Base.confirm'),
-          cancelButtonText: t('Base.cancel'),
-          type: 'warning',
-        })
+    const disconnectClient = async function (row: any) {
+      ElMessageBox.confirm(t('Clients.willDisconnectTheConnection'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      })
         .then(async () => {
           let id = row.clientid
           let res = await disconnGatewayClient(gname, id).catch(() => {})
           if (res) {
-            this.$message.success(t('Clients.successfulDisconnection'))
+            ElMessage.success(t('Clients.successfulDisconnection'))
             loadGatewayClients()
           }
         })
@@ -220,7 +225,7 @@ export default defineComponent({
     return {
       Search,
       moment: moment,
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
+      tl: (key: string, collection = 'Gateway') => t(collection + '.' + key),
       loadGatewayClients,
       pCommon,
       gatewayTable,

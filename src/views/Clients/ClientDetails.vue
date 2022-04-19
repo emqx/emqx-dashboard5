@@ -1,7 +1,17 @@
 <template>
   <div class="client-details app-wrapper">
     <div class="block-header">
-      <detail-header :item="{ name: clientId, path: '/clients' }" />
+      <detail-header
+        :item="{
+          name: clientId,
+          path: '/clients',
+          backFunc: gateway
+            ? () => {
+                emit('refreshGateway')
+              }
+            : undefined,
+        }"
+      />
       <div class="actions">
         <el-button type="primary" :icon="Refresh" @click="loadData">
           {{ tl('refresh') }}
@@ -98,35 +108,33 @@
           </el-card>
         </el-col>
       </el-row>
-      <template v-if="!gateway">
-        <h2>
-          {{ $t('components.metrics') }}
-        </h2>
-        <el-row class="block client-metrics" :gutter="26">
-          <el-col :span="12">
-            <el-card class="top-border table-card bytes" v-loading="clientDetailLock">
-              <el-table :data="filterMetrics(clientDetailParts.bytes)">
-                <el-table-column prop="label" :label="tl('bytes')" />
-                <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
-              </el-table>
-            </el-card>
-            <el-card class="top-border table-card packets" v-loading="clientDetailLock">
-              <el-table :data="filterMetrics(clientDetailParts.packets)">
-                <el-table-column prop="label" :label="tl('packets')" />
-                <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
-              </el-table>
-            </el-card>
-          </el-col>
-          <el-col :span="12">
-            <el-card class="top-border table-card client messages" v-loading="clientDetailLock">
-              <el-table :data="filterMetrics(clientDetailParts.messages)">
-                <el-table-column prop="label" :label="tl('messages')" />
-                <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
-              </el-table>
-            </el-card>
-          </el-col>
-        </el-row>
-      </template>
+      <h2>
+        {{ $t('components.metrics') }}
+      </h2>
+      <el-row class="block client-metrics" :gutter="26">
+        <el-col :span="12">
+          <el-card class="top-border table-card bytes" v-loading="clientDetailLock">
+            <el-table :data="filterMetrics(clientDetailParts.bytes)">
+              <el-table-column prop="label" :label="tl('bytes')" />
+              <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
+            </el-table>
+          </el-card>
+          <el-card class="top-border table-card packets" v-loading="clientDetailLock">
+            <el-table :data="filterMetrics(clientDetailParts.packets)">
+              <el-table-column prop="label" :label="tl('packets')" />
+              <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
+            </el-table>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card class="top-border table-card client messages" v-loading="clientDetailLock">
+            <el-table :data="filterMetrics(clientDetailParts.messages)">
+              <el-table-column prop="label" :label="tl('messages')" />
+              <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
+            </el-table>
+          </el-card>
+        </el-col>
+      </el-row>
       <div class="section-header">
         <div>
           {{ tl('currentSubscription') }}
@@ -265,17 +273,11 @@ const clientsOrganizied = {
       'ip_address',
       'connected_at',
       'disconnected_at',
-      'recv_oct',
-      'send_oct',
-      'recv_cnt',
-      'send_cnt',
-      'recv_pkt',
-      'send_lw_pkt',
     ],
     session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
-    bytes: [],
-    packets: [],
-    messages: [],
+    bytes: ['recv_oct', 'send_oct'],
+    packets: ['recv_cnt', 'send_cnt', 'recv_pkt'],
+    messages: ['send_lw_pkt'],
   },
   others: {
     connection: [
@@ -287,16 +289,10 @@ const clientsOrganizied = {
       'keepalive',
       'connected_at',
       'disconnected_at',
-      'recv_oct',
-      'send_oct',
-      'recv_cnt',
-      'send_cnt',
-      'recv_pkt',
-      'send_pkt',
     ],
     session: ['subscriptions', 'mqueue', 'inflight', 'heap_size', 'reductions'],
-    bytes: [],
-    packets: [],
+    bytes: ['recv_oct', 'send_oct'],
+    packets: ['recv_cnt', 'send_cnt', 'recv_pkt', 'send_pkt'],
     messages: [],
   },
 }
@@ -441,6 +437,14 @@ const loadGatewaySubs = async () => {
 const getLabel = (label: string) => {
   if (label === 'clean_start') {
     return record.value.proto_ver === 5 ? 'Clean Start' : 'Clean Session'
+  }
+  if (!props.gateway) {
+    if (label === 'recv_pkt') {
+      return tl(snake2pascal(label), { proto: ' MQTT ' })
+    }
+    if (label === 'send_pkt') {
+      return tl(snake2pascal(label), { proto: ' MQTT ' })
+    }
   }
   return tl(snake2pascal(label))
 }

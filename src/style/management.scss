@@ -1,13 +1,10 @@
 .clients,
-.subscriptions {
+.subscriptions,
+.topics {
   .col-oper {
-    display: flex;
+    display: flex !important;
     align-items: center;
-    .el-button {
-      margin-left: 0;
-    }
   }
-
   .show-more {
     font-size: 18px;
     cursor: pointer;
