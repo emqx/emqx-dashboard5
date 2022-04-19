@@ -23,10 +23,11 @@
             <section>
               <div class="part-header">{{ $t('Auth.authzCache') }}</div>
               <el-form-item :label="$t('Auth.enableCache')">
-                <el-select v-model="record.cache.enable">
-                  <el-option :value="true" :label="$t('Base.yes')"></el-option>
-                  <el-option :value="false" :label="$t('Base.no')"></el-option>
-                </el-select>
+                <BooleanSelect
+                  v-model="record.cache.enable"
+                  :true-label="$t('Base.yes')"
+                  :false-label="$t('Base.no')"
+                />
               </el-form-item>
               <template v-if="record.cache.enable">
                 <el-form-item :label="$t('Auth.maxSize')">
@@ -75,6 +76,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { titleCase } from '@/common/tools'
+import BooleanSelect from '@/components/BooleanSelect.vue'
 
 const { t } = useI18n()
 const router = useRouter()

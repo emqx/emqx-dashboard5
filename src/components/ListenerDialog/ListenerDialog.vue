@@ -28,7 +28,7 @@
       </el-row>
       <div class="part-header">{{ tl('listenerSetting') }}</div>
       <el-row :gutter="20">
-        <el-col :span="12" v-if="listenerRecord.type !== 'udp'">
+        <el-col :span="12" v-if="!isUDP">
           <el-form-item :label="'Acceptors'">
             <el-input v-model="listenerRecord.acceptors" />
           </el-form-item>
@@ -46,10 +46,7 @@
         <template v-if="listenerRecord.type === 'tcp' || listenerRecord.type === 'ssl'">
           <el-col :span="12">
             <el-form-item :label="'Proxy Protocol'">
-              <el-select v-model="listenerRecord.proxy_protocol">
-                <el-option :value="true" />
-                <el-option :value="false" />
-              </el-select>
+              <BooleanSelect v-model="listenerRecord.proxy_protocol" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -69,7 +66,9 @@
         </template>
       </el-row>
 
-      <template v-if="listenerRecord.type === 'tcp' || listenerRecord.type === 'ssl'">
+      <template
+        v-if="listenerRecord.type === ListenerType.TCP || listenerRecord.type === ListenerType.SSL"
+      >
         <div class="part-header">
           {{ 'TCP ' + tl('configSetting') }}
         </div>
@@ -98,18 +97,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'TCP_NODELAY'">
-              <el-select v-model="listenerRecord.tcp.nodelay">
-                <el-option :value="true" />
-                <el-option :value="false" />
-              </el-select>
+              <BooleanSelect v-model="listenerRecord.tcp.nodelay" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'SO_REUSEADDR'">
-              <el-select v-model="listenerRecord.tcp.reuseaddr">
-                <el-option :value="true" />
-                <el-option :value="false" />
-              </el-select>
+              <BooleanSelect v-model="listenerRecord.tcp.reuseaddr" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -128,16 +121,13 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('sendTimeoutClose')">
-              <el-select v-model="listenerRecord.tcp.send_timeout_close">
-                <el-option :value="true" />
-                <el-option :value="false" />
-              </el-select>
+              <BooleanSelect v-model="listenerRecord.tcp.send_timeout_close" />
             </el-form-item>
           </el-col>
         </el-row>
       </template>
 
-      <template v-else-if="listenerRecord.type === 'udp' || listenerRecord.type === 'dtls'">
+      <template v-else-if="isUDP || listenerRecord.type === ListenerTypeForGateway.DTLS">
         <div class="part-header">
           {{ 'UDP ' + tl('configSetting') }}
         </div>
@@ -194,16 +184,18 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'SO_REUSEADDR'">
-              <el-select v-model="listenerRecord.udp.reuseaddr">
-                <el-option :value="true" />
-                <el-option :value="false" />
-              </el-select>
+              <BooleanSelect v-model="listenerRecord.udp.reuseaddr" />
             </el-form-item>
           </el-col>
         </el-row>
       </template>
 
-      <template v-if="listenerRecord.type === 'ssl' || listenerRecord.type === 'dtls'">
+      <template
+        v-if="
+          listenerRecord.type === ListenerType.SSL ||
+          listenerRecord.type === ListenerTypeForGateway.DTLS
+        "
+      >
         <div class="part-header">
           {{ listenerRecord.type.toUpperCase() + ' ' + tl('configSetting') }}
         </div>
@@ -267,10 +259,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Fail If No Peer Cert'">
-              <el-select v-model="listenerRecord.xtls.fail_if_no_peer_cert">
-                <el-option :value="true" />
-                <el-option :value="false" />
-              </el-select>
+              <BooleanSelect v-model="listenerRecord.xtls.fail_if_no_peer_cert" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -303,12 +292,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, PropType } from 'vue'
+import { defineProps, defineEmits, PropType, computed } from 'vue'
 import { ElDialog } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Listener } from '@/types/listener'
-import { GatewayName } from '@/types/enum'
+import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import useListenerDialog from '@/hooks/Config/useListenerDialog'
+import BooleanSelect from '@/components/BooleanSelect.vue'
 
 const props = defineProps({
   modelValue: {
@@ -342,4 +332,10 @@ const {
   isSubmitting,
   submit,
 } = useListenerDialog(props, emit)
+
+const isUDP = computed(
+  () =>
+    listenerRecord.value.type === ListenerType.QUIC ||
+    listenerRecord.value.type === ListenerTypeForGateway.UDP,
+)
 </script>

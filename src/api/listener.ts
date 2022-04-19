@@ -1,7 +1,8 @@
 import http from '@/common/http'
-import { Listener } from '@/types/listener'
+import { ListenerAction } from '@/types/enum'
+import { Listener, ListenerSimpleInfo } from '@/types/listener'
 
-export const queryListener = (): Promise<Array<{ node: string; listeners: Array<Listener> }>> => {
+export const queryListener = (): Promise<Array<ListenerSimpleInfo>> => {
   return http.get('/listeners')
 }
 
@@ -15,4 +16,8 @@ export const updateListener = (data: Listener, id: string): Promise<Listener> =>
 
 export const deleteListener = (id: string): Promise<any> => {
   return http.delete(`/listeners/${id}`)
+}
+
+export const handleListener = (id: string, action: ListenerAction): Promise<void> => {
+  return http.post(`/listeners/${id}/${action}`)
 }

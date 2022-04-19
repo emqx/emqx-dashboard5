@@ -113,10 +113,11 @@
         </el-col>
         <el-col v-if="!isMongoDB" :span="12">
           <el-form-item :label="$t('Auth.reconnect')">
-            <el-select v-model="databaseConfig.auto_reconnect">
-              <el-option :value="true" label="True" />
-              <el-option :value="false" label="False" />
-            </el-select>
+            <BooleanSelect
+              v-model="databaseConfig.auto_reconnect"
+              true-label="True"
+              false-label="False"
+            />
           </el-form-item>
         </el-col>
         <el-col v-if="isMongoDB" :span="12">
@@ -237,6 +238,7 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
 import useCopy from '@/hooks/useCopy'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
+import BooleanSelect from '@/components/BooleanSelect.vue'
 
 export default defineComponent({
   name: 'DatabaseConfig',
@@ -245,6 +247,7 @@ export default defineComponent({
     CommonTLSConfig,
     TimeInputWithUnitSelect,
     PasswordHashAlgorithmFormItems,
+    BooleanSelect,
   },
 
   props: {
