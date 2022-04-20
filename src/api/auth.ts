@@ -24,7 +24,7 @@ export function listAuthzSetting(params = {}) {
 }
 
 export function clearCache() {
-  return http.put('TODO:')
+  return http.delete('/authorization/cache')
 }
 
 export function updateAuthzSetting(body: AuthzSetting) {
