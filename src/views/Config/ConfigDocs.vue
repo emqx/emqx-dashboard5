@@ -16,13 +16,16 @@ export default defineComponent({
 import { ref } from 'vue'
 import axios from 'axios'
 import MarkdownContent from '@/components/MarkdownContent.vue'
+import { useStore } from 'vuex'
 
 const mdFile = ref('')
+const store = useStore()
 const loadConfigContent = async () => {
   const fileRequest = axios.create({
     baseURL: '',
   })
-  const res = await fileRequest.get<string>('static/config.md')
+  const filePath = `static/config-${store.state.lang}.md`
+  const res = await fileRequest.get<string>(filePath)
   if (res && res.data !== '') {
     mdFile.value = res.data
   }
