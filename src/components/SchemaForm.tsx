@@ -250,7 +250,7 @@ const SchemaForm = defineComponent({
 
     const renderLayout = (contents: JSX.Element[]) => {
       const btnStyles = {
-        left: store.state.leftBarCollapse ? '104px' : '224px', 
+        left: store.state.leftBarCollapse ? '104px' : '224px',
       }
       return (
         <el-form label-position="top">

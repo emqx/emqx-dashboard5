@@ -37,7 +37,7 @@ export default function useSchemaForm(path: string): {
       const { properties, type } = component
       if (type === 'object' && properties) {
         Object.keys(properties).forEach((key) => {
-          const property: Properties[string] = properties[key]
+          const property: Properties[string] = _.cloneDeep(properties[key])
           property.path = path ? `${path}.${key}` : key
           const { $ref, label } = property
           if ($ref) {

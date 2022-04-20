@@ -278,3 +278,62 @@ export interface DelayedItem {
 export interface TeleStatus {
   enable: boolean
 }
+
+export interface Rate {
+  bytes_in: BytesIn
+  message_in: MessageIn
+  connection: Connection
+  message_routing: MessageRouting
+  batch: Batch
+}
+
+export interface BytesIn {
+  rate: string
+  burst: string
+  bucket: Bucket
+}
+
+export interface MessageIn {
+  rate: string
+  burst: string
+  bucket: Bucket
+}
+
+export interface Connection {
+  rate: string
+  burst: string
+  bucket: Bucket
+}
+
+export interface MessageRouting {
+  rate: string
+  burst: string
+  bucket: Bucket
+}
+
+export interface Batch {
+  rate: string
+  burst: string
+  bucket: Bucket
+}
+
+export interface Bucket {
+  $bucket_name: BucketName
+}
+
+export interface BucketName {
+  rate: string
+  capacity: string
+  initial: string
+  per_client: PerClient
+}
+
+export interface PerClient {
+  rate: string
+  initial: string
+  low_water_mark: string
+  capacity: string
+  divisible: boolean
+  max_retry_time: string
+  failure_strategy: string
+}
