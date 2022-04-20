@@ -51,16 +51,11 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Proxy Protocol Timeout'">
-              <el-input
-                v-model.number="listenerRecord.proxy_protocol_timeout[0]"
-                :placeholder="String(defaultListener.proxy_protocol_timeout[0])"
-              >
-                <template #append>
-                  <el-select v-model="listenerRecord.proxy_protocol_timeout[1]">
-                    <el-option value="s" />
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit
+                v-model="listenerRecord.proxy_protocol_timeout"
+                number-placeholder="15"
+                :units="['s']"
+              />
             </el-form-item>
           </el-col>
         </template>
@@ -81,16 +76,11 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Buffer'">
-              <el-input
-                v-model.number="listenerRecord.tcp.buffer[0]"
-                :placeholder="String(defaultListener.tcp.buffer[0])"
-              >
-                <template #append>
-                  <el-select v-model="listenerRecord.tcp.buffer[1]">
-                    <el-option value="KB" />
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit
+                v-model="listenerRecord.tcp.buffer"
+                number-placeholder="4"
+                :units="['KB']"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -105,16 +95,11 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('sendTimeout')">
-              <el-input
-                v-model.number="listenerRecord.tcp.send_timeout[0]"
-                :placeholder="String(defaultListener.tcp.send_timeout[0])"
-              >
-                <template #append>
-                  <el-select v-model="listenerRecord.tcp.send_timeout[1]">
-                    <el-option value="s" />
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit
+                v-model="listenerRecord.tcp.send_timeout"
+                number-placeholder="15"
+                :units="['s']"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -140,44 +125,29 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Buffer'">
-              <el-input
-                v-model.number="listenerRecord.udp.buffer[0]"
-                :placeholder="String(defaultListener.udp.buffer[0])"
-              >
-                <template #append>
-                  <el-select v-model="listenerRecord.udp.buffer[1]">
-                    <el-option value="KB" />
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit
+                v-model="listenerRecord.udp.buffer"
+                number-placeholder="4"
+                :units="['KB']"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('recBuf')">
-              <el-input
-                v-model.number="listenerRecord.udp.recbuf[0]"
-                :placeholder="String(defaultListener.udp.recbuf[0])"
-              >
-                <template #append>
-                  <el-select v-model="listenerRecord.udp.recbuf[1]">
-                    <el-option value="KB" />
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit
+                v-model="listenerRecord.udp.recbuf"
+                number-placeholder="2"
+                :units="['KB']"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('sendBuf')">
-              <el-input
-                v-model.number="listenerRecord.udp.sndbuf[0]"
-                :placeholder="String(defaultListener.udp.sndbuf[0])"
-              >
-                <template #append>
-                  <el-select v-model="listenerRecord.udp.sndbuf[1]">
-                    <el-option value="KB" />
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit
+                v-model="listenerRecord.udp.sndbuf"
+                number-placeholder="2"
+                :units="['KB']"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -196,7 +166,7 @@
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="defaultListener.certSpecial.certfile"
+                :placeholder="certPlaceholder.certfile"
                 v-model="listenerRecord[SSLConfigKey].certfile"
               />
             </el-form-item>
@@ -206,7 +176,7 @@
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="defaultListener.certSpecial.cacertfile"
+                :placeholder="certPlaceholder.cacertfile"
                 v-model="listenerRecord[SSLConfigKey].cacertfile"
               />
             </el-form-item>
@@ -216,7 +186,7 @@
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="defaultListener.certSpecial.keyfile"
+                :placeholder="certPlaceholder.keyfile"
                 v-model="listenerRecord[SSLConfigKey].keyfile"
               />
             </el-form-item>
@@ -235,7 +205,7 @@
 
           <el-col :span="12">
             <el-form-item :label="'Verify'">
-              <el-select v-model="listenerRecord.xtls.verify">
+              <el-select v-model="listenerRecord[SSLConfigKey].verify">
                 <el-option value="verify_none" />
                 <el-option value="verify_peer" />
               </el-select>
@@ -243,17 +213,17 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Fail If No Peer Cert'">
-              <BooleanSelect v-model="listenerRecord.xtls.fail_if_no_peer_cert" />
+              <BooleanSelect v-model="listenerRecord[SSLConfigKey].fail_if_no_peer_cert" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Intermediate Certificate Depth'">
-              <el-input v-model="listenerRecord.xtls.depth" />
+              <el-input v-model="listenerRecord[SSLConfigKey].depth" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Key Password'">
-              <el-input v-model="listenerRecord.xtls.password" />
+              <el-input v-model="listenerRecord[SSLConfigKey].password" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -293,6 +263,7 @@ import useListenerDialog from '@/hooks/Config/useListenerDialog'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
 
 const props = defineProps({
   modelValue: {
@@ -316,6 +287,12 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'submit', 'submitted'])
 
 const { tl } = useI18nTl('Gateway')
+
+const certPlaceholder = {
+  cacertfile: 'Begins with ----BEGIN CERTIFICATE----',
+  certfile: 'Begins with ----BEGIN CERTIFICATE----',
+  keyfile: 'Begins with ----BEGIN PRIVATE KEY----',
+}
 
 const {
   showDialog,
