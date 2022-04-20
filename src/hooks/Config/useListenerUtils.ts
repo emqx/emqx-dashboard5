@@ -1,20 +1,32 @@
 import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { Listener } from '@/types/listener'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, omit } from 'lodash'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
 
 export default (): {
   completeGatewayListenerTypeList: ListenerTypeForGateway[]
   listenerTypeList: ListenerType[]
   ID_SEPARATOR: string
+  gatewayTypesWhichCanEnableProxyProtocol: Array<ListenerTypeForGateway | ListenerType>
+  gatewayTypesWhichHasTCPConfig: Array<ListenerTypeForGateway | ListenerType>
+  gatewayTypesWhichHasUDPConfig: Array<ListenerTypeForGateway | ListenerType>
+  gatewayTypesWhichHasSSLConfig: Array<ListenerTypeForGateway | ListenerType>
   createRawListener: () => Listener
   getListenerNameNTypeById: (id: string) => {
     type: string
     name: string
   }
   createListenerId: (listener: Listener, gatewayName?: string | undefined) => string
+  hasTCPConfig: (type: ListenerType | ListenerTypeForGateway) => boolean
+  hasUDPConfig: (type: ListenerType | ListenerTypeForGateway) => boolean
+  hasSSLConfig: (type: ListenerType | ListenerTypeForGateway) => boolean
+  hasWSConfig: (type: ListenerType) => boolean
   normalizeStructure: (record: Listener) => any
   deNormalizeStructure: (record: Listener, gatewayName: string) => Listener
+  /**
+   * independent is diff from below gateway
+   */
+  handleListenerDataWhenItIsIndependent: (listener: Listener) => Listener
 } => {
   const ID_SEPARATOR = ':'
 
@@ -32,6 +44,55 @@ export default (): {
     ListenerType.WS,
     ListenerType.WSS,
   ]
+
+  /* 
+    |                | SSL  | DTLS | UDP  | TCP  |
+    | -------------- | ---- | ---- | ---- | ---- |
+    | SSL            | ✓    |      |      |      |
+    | TCP            | ✓    |      |      | ✓    |
+    | UDP            |      | ✓    | ✓    |      |
+    | DTLS(like SSL) |      | ✓    |      |      |
+    | Proxy Protocol | ✓    |      |      | ✓    |
+
+    |                | QUIC | TCP  | SSL  | WS   | WSS  |
+    | -------------- | ---- | ---- | ---- | ---- | ---- |
+    | TCP            |      | ✓    | ✓    | ✓    | ✓    |
+    | SSL            |      |      | ✓    |      | ✓    |
+    | UDP            | ✓    |      |      |      |      |
+    | WS             |      |      |      | ✓    | ✓    |
+    | Proxy Protocol |      | ✓    | ✓    | ✓    | ✓    |
+  */
+  const gatewayTypesWhichCanEnableProxyProtocol = [
+    ListenerTypeForGateway.SSL,
+    ListenerTypeForGateway.TCP,
+    ListenerType.TCP,
+    ListenerType.SSL,
+    ListenerType.WS,
+    ListenerType.WSS,
+  ]
+
+  const gatewayTypesWhichHasTCPConfig = [
+    ListenerTypeForGateway.SSL,
+    ListenerTypeForGateway.TCP,
+    ListenerType.TCP,
+    ListenerType.SSL,
+    ListenerType.WS,
+    ListenerType.WSS,
+  ]
+
+  const gatewayTypesWhichHasUDPConfig = [
+    ListenerTypeForGateway.DTLS,
+    ListenerTypeForGateway.UDP,
+    ListenerType.QUIC,
+  ]
+
+  const gatewayTypesWhichHasSSLConfig = [
+    ListenerTypeForGateway.SSL,
+    ListenerType.SSL,
+    ListenerType.WSS,
+  ]
+
+  const gatewayTypesWhichHasWSConfig = [ListenerType.WS, ListenerType.WSS]
 
   const createRawListener = (): Listener => ({
     type: ListenerType.TCP,
@@ -88,6 +149,9 @@ export default (): {
       certfile: 'Begins with ----BEGIN CERTIFICATE----',
       keyfile: 'Begins with ----BEGIN PRIVATE KEY----',
     },
+    websocket: {
+      mqtt_path: '',
+    },
   })
 
   const listenerIdReg = new RegExp(`^(?<type>${listenerTypeList.join('|')}):(?<name>.+)`)
@@ -102,6 +166,28 @@ export default (): {
     const { name, type } = matchResult.groups || {}
     return { name, type }
   }
+
+  /**
+   * independent is diff from below gateway
+   */
+  const handleListenerDataWhenItIsIndependent = (listener: Listener): Listener => {
+    let ret = listener
+    if ('max_conn_rate' in ret) {
+      ret = omit(ret, 'max_conn_rate')
+    }
+    if (/^\d+$/.test(ret.bind)) {
+      ret.bind = parseInt(ret.bind)
+    }
+    return ret
+  }
+
+  const hasTCPConfig = (type: ListenerType | ListenerTypeForGateway) =>
+    gatewayTypesWhichHasTCPConfig.includes(type)
+  const hasUDPConfig = (type: ListenerType | ListenerTypeForGateway) =>
+    gatewayTypesWhichHasUDPConfig.includes(type)
+  const hasSSLConfig = (type: ListenerType | ListenerTypeForGateway) =>
+    gatewayTypesWhichHasSSLConfig.includes(type)
+  const hasWSConfig = (type: ListenerType) => gatewayTypesWhichHasWSConfig.includes(type)
 
   const normalizeStructure = (record: Listener) => {
     const { type = ListenerType.TCP } = record
@@ -131,14 +217,23 @@ export default (): {
     if (record[type]) {
       result[type] = { ...record[type] }
     }
-    if (type === ListenerType.SSL && record.tcp) {
+    if (hasTCPConfig(type) && record.tcp) {
       result.tcp = { ...record.tcp }
-      Object.assign(result[type], record.xtls)
-    } else if (type === ListenerTypeForGateway.DTLS && record.udp) {
-      result.udp = { ...record.udp }
-      Object.assign(result[type], record.xtls)
     }
-
+    if (hasUDPConfig(type) && record.udp) {
+      result.udp = { ...record.udp }
+    }
+    if (hasSSLConfig(type)) {
+      if (type === ListenerTypeForGateway.DTLS) {
+        Object.assign(result[ListenerTypeForGateway.DTLS], record.xtls)
+      } else {
+        !result[ListenerTypeForGateway.SSL] ? (result[ListenerTypeForGateway.SSL] = {}) : void 0
+        Object.assign(result[ListenerTypeForGateway.SSL], record.xtls)
+      }
+    }
+    if (hasWSConfig(type)) {
+      result.websocket = { ...record.websocket }
+    }
     return transformUnitArrayToStr(result)
   }
 
@@ -187,10 +282,19 @@ export default (): {
     completeGatewayListenerTypeList,
     listenerTypeList,
     ID_SEPARATOR,
+    gatewayTypesWhichCanEnableProxyProtocol,
+    gatewayTypesWhichHasTCPConfig,
+    gatewayTypesWhichHasUDPConfig,
+    gatewayTypesWhichHasSSLConfig,
     createRawListener,
     getListenerNameNTypeById,
     createListenerId,
+    hasTCPConfig,
+    hasUDPConfig,
+    hasSSLConfig,
+    hasWSConfig,
     normalizeStructure,
     deNormalizeStructure,
+    handleListenerDataWhenItIsIndependent,
   }
 }

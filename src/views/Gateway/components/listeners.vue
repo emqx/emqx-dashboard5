@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch, defineProps, defineEmits } from 'vue'
+import { onMounted, ref, watch, defineProps, defineEmits, computed } from 'vue'
 import { getGatewayListeners, deleteGatewayListener } from '@/api/gateway'
 import _ from 'lodash'
 import { useRoute } from 'vue-router'
@@ -72,6 +72,8 @@ const props = defineProps({
     default: () => [],
   },
 })
+
+const showIntegration = computed(() => props.integration)
 
 const emit = defineEmits(['list'])
 
