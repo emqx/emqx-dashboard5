@@ -68,12 +68,12 @@ export default {
 import TableDropdown from './components/TableDropdown.vue'
 import { updateAuthn, deleteAuthn } from '@/api/auth'
 import { useRouter } from 'vue-router'
-import { ElMessageBox as MB } from 'element-plus'
+import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
 import useAuth from '@/hooks/Auth/useAuth'
-import useAuthn from '@/hooks/Auth/useAuthn'
+import useAuthn, { AuthnItemInTable } from '@/hooks/Auth/useAuthn'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 
 const router = useRouter()
@@ -89,12 +89,13 @@ const {
   moveAuthnToBottom,
 } = useAuthn()
 
-const handleUpdate = async (row: AuthnItem) => {
+const handleUpdate = async (row: AuthnItemInTable) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { img, ...data } = row
+  const { img, metrics, ...data } = row
   await updateAuthn(row.id, data)
+  ElMessage.success(t('Base.updateSuccess'))
   await getAuthnList()
-  await updateAuthnItemMetrics(row.id)
+  await updateAuthnItemMetrics(row)
 }
 
 const handleDelete = async function ({ id }: AuthnItem) {
