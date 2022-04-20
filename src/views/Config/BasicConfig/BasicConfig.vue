@@ -20,6 +20,7 @@ import Cluster from './components/Cluster.vue'
 import Log from './components/Log.vue'
 import Dashboard from './components/Dashboard.vue'
 import Zone from './components/Zone.vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'BasicConfig',
@@ -36,11 +37,13 @@ export default defineComponent({
     const schemaRequest = axios.create({
       baseURL: '',
     })
+    const store = useStore()
     const schema = ref({})
     provide('schema', schema)
     const loadSchemaConfig = async () => {
       try {
-        const res = await schemaRequest.get('static/hot-config-schema.json')
+        const configPath = `static/hot-config-schema-${store.state.lang}.json`
+        const res = await schemaRequest.get(configPath)
         if (res.data) {
           schema.value = res.data
         }
