@@ -66,11 +66,11 @@ export default {
 import TableDropdown from './components/TableDropdown.vue'
 import { updateAuthz, deleteAuthz } from '@/api/auth'
 import router from '@/router'
-import { ElMessageBox as MB } from 'element-plus'
+import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Setting } from '@element-plus/icons-vue'
 import { AuthzSourceItem } from '@/types/auth'
-import useAuthz from '@/hooks/Auth/useAuthz'
+import useAuthz, { AuthzItemInTable } from '@/hooks/Auth/useAuthz'
 import useAuth from '@/hooks/Auth/useAuth'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 
@@ -88,11 +88,12 @@ const {
   moveAuthzToBottom,
 } = useAuthz()
 
-const handleUpdate = async (row: AuthzSourceItem) => {
-  const { img, ...data } = row
+const handleUpdate = async (row: AuthzItemInTable) => {
+  const { img, metrics, ...data } = row
   await updateAuthz(row.type, data)
+  ElMessage.success(t('Base.updateSuccess'))
   await getAuthzList()
-  await updateAuthnItemMetrics(row.type)
+  await updateAuthnItemMetrics(row)
 }
 
 const handleDelete = async function ({ type }: AuthzSourceItem) {

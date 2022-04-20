@@ -6,7 +6,7 @@ import useMove from '@/hooks/useMove'
 import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 
-type AuthzItemInTable = AuthzSourceItem & {
+export type AuthzItemInTable = AuthzSourceItem & {
   metrics: Metrics
 }
 
@@ -18,7 +18,7 @@ export default (): {
   authzList: Ref<Array<AuthzItemInTable>>
   tableCom: Ref<Component>
   getAuthzList: (isInit?: boolean) => void
-  updateAuthnItemMetrics: (type: string) => void
+  updateAuthnItemMetrics: (authz: AuthzItemInTable) => void
   moveAuthzToTop: (row: AuthzItemInTable) => Promise<void>
   moveAuthzToBottom: (row: AuthzItemInTable) => Promise<void>
 } => {
@@ -82,10 +82,13 @@ export default (): {
     }
   }
 
-  const updateAuthnItemMetrics = async (type: string) => {
-    const metrics = await queryAuthzItemMetrics(type)
-    metricsMap.value[type] = metrics
-    const target = authzList.value.find((item) => item.type === type)
+  const updateAuthnItemMetrics = async (authz: AuthzItemInTable) => {
+    if (!hasMetrics(authz)) {
+      return
+    }
+    const metrics = await queryAuthzItemMetrics(authz.type)
+    metricsMap.value[authz.type] = metrics
+    const target = authzList.value.find((item) => item.type === authz.type)
     if (target) {
       target.metrics = metrics
     }

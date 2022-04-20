@@ -6,7 +6,7 @@ import { SortableEvent } from 'sortablejs'
 import useHandleAuthnItem from '@/hooks/Auth/useHandleAuthnItem'
 import useMove from '@/hooks/useMove'
 
-type AuthnItemInTable = AuthnItem & {
+export type AuthnItemInTable = AuthnItem & {
   metrics?: Metrics
 }
 
@@ -18,7 +18,7 @@ export default (): {
   authnList: Ref<AuthnItemInTable[]>
   tableCom: Ref<Component>
   getAuthnList: (isInit?: boolean) => Promise<void>
-  updateAuthnItemMetrics: (id: string) => Promise<void>
+  updateAuthnItemMetrics: (authn: AuthnItem) => Promise<void>
   moveAuthnToTop: (authn: AuthnItem) => any
   moveAuthnToBottom: (authn: AuthnItem) => any
 } => {
@@ -92,10 +92,13 @@ export default (): {
     }
   }
 
-  const updateAuthnItemMetrics = async (id: string) => {
-    const metrics = await queryAuthnItemMetrics(id)
-    metricsMap.value[id] = metrics
-    const target = authnList.value.find((item) => item.id === id)
+  const updateAuthnItemMetrics = async (authn: AuthnItem) => {
+    if (!hasMetrics(authn)) {
+      return
+    }
+    const metrics = await queryAuthnItemMetrics(authn.id)
+    metricsMap.value[authn.id] = metrics
+    const target = authnList.value.find((item) => item.id === authn.id)
     if (target) {
       target.metrics = metrics
     }
