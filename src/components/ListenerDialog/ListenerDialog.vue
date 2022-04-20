@@ -38,12 +38,12 @@
             <el-input v-model="listenerRecord.max_connections" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="gatewayName">
           <el-form-item :label="tl('maxConnRate')">
             <el-input v-model="listenerRecord.max_conn_rate" />
           </el-form-item>
         </el-col>
-        <template v-if="listenerRecord.type === 'tcp' || listenerRecord.type === 'ssl'">
+        <template v-if="showProxyProtocolConfig">
           <el-col :span="12">
             <el-form-item :label="'Proxy Protocol'">
               <BooleanSelect v-model="listenerRecord.proxy_protocol" />
@@ -65,10 +65,8 @@
           </el-col>
         </template>
       </el-row>
-
-      <template
-        v-if="listenerRecord.type === ListenerType.TCP || listenerRecord.type === ListenerType.SSL"
-      >
+      <!-- TCP Config -->
+      <div v-if="showTCPConfig">
         <div class="part-header">
           {{ 'TCP ' + tl('configSetting') }}
         </div>
@@ -125,9 +123,9 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </template>
-
-      <template v-else-if="isUDP || listenerRecord.type === ListenerTypeForGateway.DTLS">
+      </div>
+      <!-- UDP -->
+      <div v-else-if="showUDPConfig">
         <div class="part-header">
           {{ 'UDP ' + tl('configSetting') }}
         </div>
@@ -188,17 +186,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </template>
-
-      <template
-        v-if="
-          listenerRecord.type === ListenerType.SSL ||
-          listenerRecord.type === ListenerTypeForGateway.DTLS
-        "
-      >
-        <div class="part-header">
-          {{ listenerRecord.type.toUpperCase() + ' ' + tl('configSetting') }}
-        </div>
+      </div>
+      <!-- (like)SSL Config -->
+      <div v-if="showSSLConfig">
+        <div class="part-header">{{ `${isDTLS ? 'DTLS' : 'SSL'} ${tl('configSetting')}` }}</div>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item :label="'Cert'">
@@ -206,7 +197,7 @@
                 type="textarea"
                 rows="3"
                 :placeholder="defaultListener.certSpecial.certfile"
-                v-model="listenerRecord[listenerRecord.type].certfile"
+                v-model="listenerRecord[SSLConfigKey].certfile"
               />
             </el-form-item>
           </el-col>
@@ -216,7 +207,7 @@
                 type="textarea"
                 rows="3"
                 :placeholder="defaultListener.certSpecial.cacertfile"
-                v-model="listenerRecord[listenerRecord.type].cacertfile"
+                v-model="listenerRecord[SSLConfigKey].cacertfile"
               />
             </el-form-item>
           </el-col>
@@ -226,24 +217,22 @@
                 type="textarea"
                 rows="3"
                 :placeholder="defaultListener.certSpecial.keyfile"
-                v-model="listenerRecord[listenerRecord.type].keyfile"
+                v-model="listenerRecord[SSLConfigKey].keyfile"
               />
             </el-form-item>
           </el-col>
-          <template v-if="listenerRecord.type === 'ssl'">
-            <el-col :span="12">
-              <el-form-item :label="tl('sslversion')">
-                <SSLVersionSelect v-model="listenerRecord.ssl.versions" />
-              </el-form-item>
-            </el-col>
-          </template>
-          <template v-else-if="listenerRecord.type === 'dtls'">
-            <el-col :span="12">
-              <el-form-item :label="tl('dtlsversion')">
-                <DTLSVersionSelect v-model="listenerRecord.dtls.versions" />
-              </el-form-item>
-            </el-col>
-          </template>
+          <!-- Version of SSL/DTLS -->
+          <el-col :span="12" v-if="isDTLS">
+            <el-form-item :label="tl('dtlsversion')">
+              <DTLSVersionSelect v-model="listenerRecord.dtls.versions" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" v-else>
+            <el-form-item :label="tl('sslversion')">
+              <SSLVersionSelect v-model="listenerRecord.ssl.versions" />
+            </el-form-item>
+          </el-col>
+
           <el-col :span="12">
             <el-form-item :label="'Verify'">
               <el-select v-model="listenerRecord.xtls.verify">
@@ -268,7 +257,20 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </template>
+      </div>
+      <div v-if="showWSConfig">
+        <div class="part-header">{{ `WebSocket ${tl('configSetting')}` }}</div>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="MQTT path">
+              <el-input
+                v-model="listenerRecord.websocket.mqtt_path"
+                placeholder="ws://{ip}:{port}/mqtt"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
     </el-form>
     <template #footer>
       <el-button @click="showDialog = false">
@@ -322,6 +324,13 @@ const {
   listenerTypeOptList,
   defaultListener,
   isSubmitting,
+  showProxyProtocolConfig,
+  showTCPConfig,
+  showUDPConfig,
+  showSSLConfig,
+  isDTLS,
+  SSLConfigKey,
+  showWSConfig,
   submit,
 } = useListenerDialog(props, emit)
 

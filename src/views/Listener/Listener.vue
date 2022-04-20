@@ -43,8 +43,8 @@
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="136">
-        <template #default="{ row, $index }">
-          <el-button size="small" @click="editListener(row, $index)">
+        <template #default="{ row }">
+          <el-button size="small" @click="editListener(row)">
             {{ $t('Base.edit') }}
           </el-button>
           <el-button size="small" @click="toggleListenerStatus(row)">
@@ -56,7 +56,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <ListenerDialog v-model="showDialog" :listener="currentListener" />
+    <ListenerDialog v-model="showDialog" :listener="currentListener" @submitted="getListenerData" />
   </div>
 </template>
 
@@ -111,7 +111,7 @@ const addListener = () => {
   showDialog.value = true
 }
 
-const editListener = (listener: Listener, index: number) => {
+const editListener = (listener: Listener) => {
   currentListener.value = listener
   showDialog.value = true
 }

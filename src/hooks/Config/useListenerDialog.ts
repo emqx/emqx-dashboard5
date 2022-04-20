@@ -33,6 +33,13 @@ interface UseListenerDialogReturns {
   listenerTypeOptList: ComputedRef<Array<string>>
   defaultListener: Ref<Listener>
   isSubmitting: Ref<boolean>
+  showProxyProtocolConfig: ComputedRef<boolean>
+  showTCPConfig: ComputedRef<boolean>
+  showUDPConfig: ComputedRef<boolean>
+  showSSLConfig: ComputedRef<boolean>
+  isDTLS: ComputedRef<boolean>
+  SSLConfigKey: ComputedRef<string>
+  showWSConfig: ComputedRef<boolean>
   submit: () => Promise<void>
 }
 
@@ -52,9 +59,15 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const {
     completeGatewayListenerTypeList,
     listenerTypeList,
+    gatewayTypesWhichCanEnableProxyProtocol,
     createListenerId,
     createRawListener,
+    hasTCPConfig,
+    hasUDPConfig,
+    hasSSLConfig,
+    hasWSConfig,
     normalizeStructure,
+    handleListenerDataWhenItIsIndependent,
   } = useListenerUtils()
 
   const listenerTypeOptList = computed(() => {
@@ -71,6 +84,20 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const defaultListener = ref(createRawListener())
 
   const isSubmitting = ref(false)
+
+  const showProxyProtocolConfig = computed(() =>
+    gatewayTypesWhichCanEnableProxyProtocol.includes(listenerRecord.value.type),
+  )
+  const showTCPConfig = computed(() => hasTCPConfig(listenerRecord.value.type))
+  const showUDPConfig = computed(() => hasUDPConfig(listenerRecord.value.type))
+  const isDTLS = computed(() => listenerRecord.value.type === ListenerTypeForGateway.DTLS)
+  const showSSLConfig = computed(() => hasSSLConfig(listenerRecord.value.type) || isDTLS.value)
+  /**
+   * the config data put in `dtls` field then type is DTLS
+   * put in `ssl` when type is not DTLS
+   */
+  const SSLConfigKey: ComputedRef<string> = computed(() => (isDTLS.value ? 'dtls' : 'ssl'))
+  const showWSConfig = computed(() => hasWSConfig(listenerRecord.value.type))
 
   const submit = async () => {
     listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
@@ -111,10 +138,11 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const submitListener = async (data: Listener) => {
     try {
-      const listener = omit(cloneDeep(data), ['name', 'id'])
+      let listener = omit(cloneDeep(data), ['name'])
+      listener = handleListenerDataWhenItIsIndependent(listener)
       // FIXME:
       listener.zone = 'default'
-      isEdit.value ? await addListener(listener, data.id) : await updateListener(listener, data.id)
+      isEdit.value ? await updateListener(listener, data.id) : await addListener(listener, data.id)
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
@@ -151,6 +179,13 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     listenerTypeOptList,
     defaultListener,
     isSubmitting,
+    showProxyProtocolConfig,
+    showTCPConfig,
+    showUDPConfig,
+    showSSLConfig,
+    showWSConfig,
+    isDTLS,
+    SSLConfigKey,
     submit,
   }
 }
