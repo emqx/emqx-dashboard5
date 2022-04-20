@@ -1,13 +1,19 @@
 <template>
-  <div class="basic-config">
-    <SubTabMenu
-      v-slot="{ pane }"
-      :panes="panes"
-      i18nKeyword="BasicConfig"
-      @tab-click="handleClickTab"
-    >
-      <component :is="pane" class="item-page" :ref="(el) => setPaneRef(el, pane)"></component>
-    </SubTabMenu>
+  <div class="basic-config app-wrapper">
+    <el-card class="config-card">
+      <SubTabMenu
+        v-slot="{ pane }"
+        :panes="panes"
+        i18nKeyword="BasicConfig"
+        @tab-click="handleClickTab"
+      >
+        <component
+          :is="pane"
+          class="item-page"
+          :ref="(el: Element) => setPaneRef(el, pane)"
+        ></component>
+      </SubTabMenu>
+    </el-card>
   </div>
 </template>
 
@@ -64,8 +70,17 @@ export default defineComponent({
 
 <style lang="scss">
 .basic-config {
+  margin-bottom: 36px;
   .sec-header-title {
-    padding-left: 43px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-title-primary);
+    margin-left: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border-table);
+  }
+  .config-card {
+    min-height: 240px;
   }
 }
 </style>

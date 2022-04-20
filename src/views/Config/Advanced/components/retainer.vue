@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs>
+    <el-tabs type="card">
       <el-tab-pane :label="tl('setting')" v-loading="configLoading">
         <div class="part-header">{{ tl('storage') }}</div>
         <el-form
@@ -134,13 +134,6 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <!-- <el-row :gutter="30">
-            <el-col :span="8">
-              <el-form-item label="Limiter" prop="flow_control.batch_deliver_limiter">
-                <el-input v-model="retainerConfig.flow_control.batch_deliver_limiter" />
-              </el-form-item>
-            </el-col>
-          </el-row> -->
           <el-row>
             <el-button type="primary" @click="updateConfigData()">
               {{ $t('Base.update') }}
@@ -156,7 +149,7 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')">
-        <el-table :data="tbData" v-loading="tbLoading">
+        <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
           <el-table-column :label="'Topic'" prop="topic" sortable />
           <el-table-column :label="'QoS'" prop="qos" sortable />
           <el-table-column :label="'Payload'">
@@ -556,6 +549,7 @@ export default defineComponent({
   },
 })
 </script>
+
 <style lang="scss" scoped>
 .payload-copied {
   padding-right: 10px;

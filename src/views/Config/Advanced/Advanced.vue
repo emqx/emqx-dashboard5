@@ -1,13 +1,20 @@
 <template>
-  <div class="advanced">
-    <SubTabMenu v-slot="{ pane }" :panes="panes" i18nKeyword="Advanced" @tab-click="handleClickTab">
-      <component
-        :is="pane"
-        class="item-page"
-        :translate="tl"
-        :ref="(el) => setPaneRef(el, pane)"
-      ></component>
-    </SubTabMenu>
+  <div class="advanced app-wrapper">
+    <el-card>
+      <SubTabMenu
+        v-slot="{ pane }"
+        :panes="panes"
+        i18nKeyword="Advanced"
+        @tab-click="handleClickTab"
+      >
+        <component
+          :is="pane"
+          class="item-page"
+          :translate="tl"
+          :ref="(el: Element) => setPaneRef(el, pane)"
+        ></component>
+      </SubTabMenu>
+    </el-card>
   </div>
 </template>
 
@@ -47,4 +54,28 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.advanced {
+  .sec-header-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-title-primary);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border-table);
+    margin-bottom: 24px;
+  }
+  .el-tabs.el-tabs--left {
+    .el-tabs__content {
+      padding-left: 180px;
+    }
+  }
+  .el-tabs.el-tabs--card.el-tabs--top {
+    .el-tabs__content {
+      padding-left: 0px;
+      .el-tab-pane {
+        margin: 24px 0;
+      }
+    }
+  }
+}
+</style>

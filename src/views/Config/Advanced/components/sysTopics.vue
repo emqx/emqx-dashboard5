@@ -1,6 +1,6 @@
 <template>
   <div class="sys-topics">
-    <div>{{ tl('sysTopicsDesc') }}</div>
+    <div class="sys-tip">{{ tl('sysTopicsDesc') }}</div>
     <div class="no-tab-wrapper">
       <el-form ref="retainerForm" :rules="rules" :model="sysTopics" label-position="top">
         <section>
@@ -126,10 +126,8 @@ getConfig()
 
 <style lang="scss">
 .sys-topics {
-  margin-left: 15px;
-  margin-right: 15px;
-  .no-tab-wrapper {
-    margin: 20px;
+  .sys-tip {
+    margin-bottom: 24px;
   }
 }
 </style>

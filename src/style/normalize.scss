@@ -48,6 +48,7 @@
   --el-text-color-regular: var(--color-text-primary);
   --el-text-color-primary: var(--color-text-primary);
   --el-text-color-secondary: var(--color-text-secondary);
+  --el-border-color-light: var(--color-border-table);
   --el-color-success: #00B173;
   --el-color-danger: #E44242;
   --el-color-warning: #FB9237;
@@ -137,7 +138,6 @@
 /* Table */
 .el-table {
   border: 1px solid var(--color-border-table);
-  border-bottom: none;
   border-radius: 8px;
   box-shadow: var(--el-box-shadow-light);
   &.shadow-none {
@@ -155,12 +155,14 @@
       text-overflow: clip;
     }
   }
+  .el-table__row:last-child {
+    th.el-table__cell.is-leaf, td.el-table__cell {
+      border-bottom: none;
+    }
+  }
 }
-.el-table--border::after,
-.el-table--border::before,
-.el-table--border .el-table__inner-wrapper::after,
 .el-table__inner-wrapper::before {
-  background-color: var(--el-table-border);
+  height: 0px;
 }
 
 /* Progress */
@@ -199,7 +201,7 @@
 /* Tabs Card */
 .el-tabs--card {
   &>.el-tabs__header {
-    border-bottom: 0px;
+    border-bottom: 1px solid var(--color-border-table);
     margin-bottom: 0px;
     .el-tabs__nav {
       border: none;

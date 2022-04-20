@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
 import { Setting } from '@element-plus/icons-vue'
 import '@/style/schemaForm.scss'
+import { useStore } from 'vuex'
 
 interface FormItemMeta {
   col: number
@@ -51,6 +52,7 @@ const SchemaForm = defineComponent({
       },
     )
     const { t } = useI18n()
+    const store = useStore()
     const replaceVarPath = (path: string) => {
       let _path = path
       if (/\$\w+/g.test(_path)) {
@@ -246,18 +248,23 @@ const SchemaForm = defineComponent({
       ctx.emit('save', value)
     }
 
-    const renderLayout = (contents: JSX.Element[]) => (
-      <el-form label-position="top">
-        <el-row>
-          {contents}
-          <el-col span={24} class="btn-col">
-            <el-button type="primary" loading={props.btnLoading} onClick={save}>
-              {t('Base.save')}
-            </el-button>
-          </el-col>
-        </el-row>
-      </el-form>
-    )
+    const renderLayout = (contents: JSX.Element[]) => {
+      const btnStyles = {
+        left: store.state.leftBarCollapse ? '104px' : '224px', 
+      }
+      return (
+        <el-form label-position="top">
+          <el-row>
+            {contents}
+            <el-col span={24} class="btn-col" style={btnStyles}>
+              <el-button type="primary" loading={props.btnLoading} onClick={save}>
+                {t('Base.save')}
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-form>
+      )
+    }
 
     const getComponents = (properties: Properties, meta: FormItemMeta) => {
       let [groupName, oldGroupName] = [meta.groupName || '', '']

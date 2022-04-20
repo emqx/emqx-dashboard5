@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs>
+    <el-tabs type="card">
       <el-tab-pane :label="tl('setting')" v-loading="configPending">
         <el-form
           ref="delayedForm"
@@ -44,7 +44,7 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')" v-loading="tbLoading">
-        <el-table :data="delayedTbData">
+        <el-table :data="delayedTbData" class="shadow-none">
           <el-table-column :label="'Topic'" prop="topic" sortable />
           <el-table-column :label="'QoS'" prop="qos" sortable />
           <el-table-column :label="'Payload'">
