@@ -63,4 +63,8 @@ export default {
     zh: '启动遥测',
     en: 'Enable telemetry',
   },
+  rate: {
+    zh: '速率限制',
+    en: 'Rate Limit',
+  },
 }

@@ -4430,7 +4430,7 @@
                         "description": "Buckets config",
                         "label": "bucket",
                         "properties": {
-                            "$bucket name": {
+                            "$bucket_name": {
                                 "$ref": "#/components/schemas/limiter.bucket_opts"
                             }
                         },
