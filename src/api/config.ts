@@ -1,5 +1,5 @@
 import http from '@/common/http'
-import { Cluster, Log, Dashboard, Zones, Zone } from '@/types/config'
+import { Cluster, Log, Dashboard, Zones, Zone, TeleStatus } from '@/types/config'
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
 
@@ -23,3 +23,8 @@ export const updateGlobalZoneConfigs = (data: Zone): Promise<Zone> =>
 export const getZoneConfigs = (): Promise<Zones> => http.get('/configs/zones')
 
 export const updateZoneConfigs = (data: Zones): Promise<Zones> => http.put('/configs/zones', data)
+
+export const getTeleStatus = (): Promise<TeleStatus> => http.get('telemetry/status')
+
+export const updateTeleStatus = (data: TeleStatus): Promise<TeleStatus> =>
+  http.put('telemetry/status', data)

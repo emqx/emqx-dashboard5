@@ -51,4 +51,16 @@ export default {
     zh: '此配置项不支持热配置，请到配置文件内修改并重启服务',
     en: 'This configuration item does not support hot configuration, please go to the configuration file to modify and restart the service',
   },
+  telemetry: {
+    zh: '遥测数据',
+    en: 'Telemetry',
+  },
+  telemetryTip: {
+    zh: '遥测收集有关 EMQX 使用情况的信息，与我们共享这些指标可以帮助我们更好地了解您如何使用我们的产品，并可以持续地帮助我们改进产品',
+    en: 'Telemetry collects information about EMQX usage. Sharing these metrics with us can help us better understand how you use our products and can continuously help us improve our products.',
+  },
+  enableTelemetry: {
+    zh: '启动遥测',
+    en: 'Enable telemetry',
+  },
 }
