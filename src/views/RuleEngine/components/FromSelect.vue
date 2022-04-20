@@ -213,7 +213,7 @@ const handleTopicComplete = async () => {
   if (isFromClickOption) {
     await waitAMoment()
   }
-  const { value } = selectCom.value.$el.querySelector('input')
+  let { value } = selectCom.value.$el.querySelector('input')
   const { type, target } = findInputTypeNTargetByLabel(value)
   if (type === RuleInputType.Topic && isFromClickOption) {
     return
@@ -226,6 +226,7 @@ const handleTopicComplete = async () => {
       type === RuleInputType.Event
         ? (target as RuleEvent).event
         : (target as BridgeItem).idForRuleFrom
+    value = selected.value
   }
   selectCom.value.blur()
   emit('change', { value, type })
