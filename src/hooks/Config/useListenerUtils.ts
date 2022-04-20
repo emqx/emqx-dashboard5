@@ -1,4 +1,3 @@
-import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { Listener } from '@/types/listener'
 import { cloneDeep, omit } from 'lodash'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
@@ -21,6 +20,7 @@ export default (): {
   hasUDPConfig: (type: ListenerType | ListenerTypeForGateway) => boolean
   hasSSLConfig: (type: ListenerType | ListenerTypeForGateway) => boolean
   hasWSConfig: (type: ListenerType) => boolean
+  canConfigProxyProtocol: (type: ListenerType | ListenerTypeForGateway) => boolean
   normalizeStructure: (record: Listener) => any
   deNormalizeStructure: (record: Listener, gatewayName: string) => Listener
   /**
@@ -94,6 +94,33 @@ export default (): {
 
   const gatewayTypesWhichHasWSConfig = [ListenerType.WS, ListenerType.WSS]
 
+  const createRawSSLParams = () => ({
+    certfile: '',
+    cacertfile: '',
+    keyfile: '',
+    verify: 'verify_none',
+    fail_if_no_peer_cert: false,
+    depth: 10,
+    password: '',
+  })
+
+  const createRawTCPParams = () => ({
+    nodelay: false,
+    reuseaddr: true,
+    send_timeout_close: true,
+    active_n: 100,
+    buffer: '4KB',
+    send_timeout: '15s',
+  })
+
+  const createRawUDPParams = () => ({
+    active_n: 100,
+    buffer: '4KB',
+    recbuf: '2KB',
+    sndbuf: '2KB',
+    reuseaddr: true,
+  })
+
   const createRawListener = (): Listener => ({
     type: ListenerType.TCP,
     id: '',
@@ -104,50 +131,16 @@ export default (): {
     max_conn_rate: 1000,
     mountpoint: '',
     proxy_protocol: false,
-    proxy_protocol_timeout: [15, 's'],
-    tcp: {
-      nodelay: false,
-      reuseaddr: true,
-      send_timeout_close: true,
-      active_n: 100,
-      buffer: [4, 'KB'],
-      send_timeout: [15, 's'],
-    },
-    udp: {
-      active_n: 100,
-      buffer: [4, 'KB'],
-      recbuf: [2, 'KB'],
-      sndbuf: [2, 'KB'],
-      reuseaddr: true,
-    },
-    /**
-     * DTLS version information of the listener whose type is DTLS
-     */
+    proxy_protocol_timeout: '15s',
+    tcp: createRawTCPParams(),
+    udp: createRawUDPParams(),
     dtls: {
       versions: ['dtls1.2', 'dtlsv1'],
+      ...createRawSSLParams(),
     },
-    /**
-     * SSL version information
-     */
     ssl: {
       versions: ['tlsv1.3', 'tlsv1.2', 'tlsv1.1', 'tlsv1'],
-    },
-    /**
-     * the type is DTLS & SSL don't know any information other than the certificate
-     */
-    xtls: {
-      verify: 'verify_none',
-      fail_if_no_peer_cert: false,
-      depth: 10,
-      password: '',
-    },
-    /**
-     * certificate placeholder (seems useless,TODO: delete it)
-     */
-    certSpecial: {
-      cacertfile: 'Begins with ----BEGIN CERTIFICATE----',
-      certfile: 'Begins with ----BEGIN CERTIFICATE----',
-      keyfile: 'Begins with ----BEGIN PRIVATE KEY----',
+      ...createRawSSLParams(),
     },
     websocket: {
       mqtt_path: '',
@@ -181,6 +174,8 @@ export default (): {
     return ret
   }
 
+  const canConfigProxyProtocol = (type: ListenerType | ListenerTypeForGateway) =>
+    gatewayTypesWhichCanEnableProxyProtocol.includes(type)
   const hasTCPConfig = (type: ListenerType | ListenerTypeForGateway) =>
     gatewayTypesWhichHasTCPConfig.includes(type)
   const hasUDPConfig = (type: ListenerType | ListenerTypeForGateway) =>
@@ -192,12 +187,11 @@ export default (): {
   const normalizeStructure = (record: Listener) => {
     const { type = ListenerType.TCP } = record
     const result: Listener = {}
-
     Object.keys(record).forEach((v) => {
       switch (v) {
         case 'proxy_protocol_timeout':
         case 'proxy_protocol':
-          if (type === ListenerType.TCP || type === ListenerType.SSL) {
+          if (canConfigProxyProtocol(type)) {
             result[v] = record[v]
           }
           break
@@ -224,17 +218,14 @@ export default (): {
       result.udp = { ...record.udp }
     }
     if (hasSSLConfig(type)) {
-      if (type === ListenerTypeForGateway.DTLS) {
-        Object.assign(result[ListenerTypeForGateway.DTLS], record.xtls)
-      } else {
-        !result[ListenerTypeForGateway.SSL] ? (result[ListenerTypeForGateway.SSL] = {}) : void 0
-        Object.assign(result[ListenerTypeForGateway.SSL], record.xtls)
+      if (type !== ListenerTypeForGateway.DTLS) {
+        result.ssl = { ...record.ssl }
       }
     }
     if (hasWSConfig(type)) {
       result.websocket = { ...record.websocket }
     }
-    return transformUnitArrayToStr(result)
+    return result
   }
 
   const createListenerId = (listener: Listener, gatewayName?: string): string => {
@@ -243,30 +234,7 @@ export default (): {
   }
 
   const deNormalizeStructure = (record: Listener, gatewayName: string) => {
-    const { type = ListenerType.TCP } = record
-
-    const expandKey = [
-      'tcp.buffer',
-      'tcp.send_timeout',
-      'proxy_protocol_timeout',
-      'udp.buffer',
-      'udp.recbuf',
-      'udp.sndbuf',
-    ]
-
-    const result: Listener = transformStrToUnitArray(cloneDeep(record), expandKey)
-    const defaultListener = createRawListener()
-    if (type === ListenerType.SSL || type === ListenerTypeForGateway.DTLS) {
-      result.xtls = { ...record[type] }
-      result.certSpecial = { ...defaultListener.certSpecial }
-      Object.keys(result.xtls).forEach((v) => {
-        if (v in defaultListener.xtls) {
-          delete result[type][v]
-        } else {
-          delete result.xtls[v]
-        }
-      })
-    }
+    const result: Listener = cloneDeep(record)
 
     if (!record.name) {
       result.name = record?.id?.split(ID_SEPARATOR)[2] || ''
@@ -293,6 +261,7 @@ export default (): {
     hasUDPConfig,
     hasSSLConfig,
     hasWSConfig,
+    canConfigProxyProtocol,
     normalizeStructure,
     deNormalizeStructure,
     handleListenerDataWhenItIsIndependent,

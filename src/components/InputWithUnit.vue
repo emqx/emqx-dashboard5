@@ -4,6 +4,7 @@
     v-model.number.trim="numPart"
     :disabled="disabled"
     @change="$emit('change')"
+    :placeholder="numberPlaceholder"
   >
     <template #append>
       <el-select v-model="unit" :disabled="disabled" @change="$emit('change')">
@@ -38,9 +39,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  numberPlaceholder: {
+    type: String,
+    default: '',
+  },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'change'])
 
 const units = props.units?.map((unit) => {
   if (typeof unit === 'string') {
@@ -53,7 +58,12 @@ const units = props.units?.map((unit) => {
 })
 
 const strRegExp = computed(() => {
-  return new RegExp(`^(\\d+(\\.\\d*)?)?(${units?.map(({ value }) => value).join('|')})$`)
+  return new RegExp(
+    `^(?<numberPart>\\d+(\\.\\d*)?)?(?<unit>${units?.map(({ value }) => value).join('|')})$`,
+  )
+})
+const backupRegExp = computed(() => {
+  return new RegExp(`^(?<numberPart>.*)(?<unit>${units?.map(({ value }) => value).join('|')})$`)
 })
 
 const modelValueMatchReg = computed(() => {
@@ -63,7 +73,7 @@ const modelValueMatchReg = computed(() => {
 const numPart: WritableComputedRef<string> = computed({
   get() {
     if (modelValueMatchReg.value) {
-      const [totalStr, numberPart] = modelValueMatchReg.value
+      const { numberPart = '' } = modelValueMatchReg.value.groups || {}
       return numberPart
     }
     return ''
@@ -76,7 +86,12 @@ const numPart: WritableComputedRef<string> = computed({
 const unit: WritableComputedRef<string> = computed({
   get() {
     if (modelValueMatchReg.value) {
-      const [totalStr, numberPart, decimalPart, unit] = modelValueMatchReg.value
+      const { unit = '' } = modelValueMatchReg.value.groups || {}
+      return unit
+    }
+    // handle chaos input
+    const { unit } = props.modelValue?.match(backupRegExp.value)?.groups || {}
+    if (unit) {
       return unit
     }
     if (!props.modelValue) {

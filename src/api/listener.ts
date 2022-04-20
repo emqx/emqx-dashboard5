@@ -21,3 +21,7 @@ export const deleteListener = (id: string): Promise<any> => {
 export const handleListener = (id: string, action: ListenerAction): Promise<void> => {
   return http.post(`/listeners/${id}/${action}`)
 }
+
+export const queryListenerDetail = (id: string): Promise<Listener> => {
+  return http.get(`/listeners/${id}`)
+}

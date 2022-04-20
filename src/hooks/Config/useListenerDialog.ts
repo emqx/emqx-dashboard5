@@ -7,7 +7,7 @@ import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { ElMessage } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import useListenerUtils from './useListenerUtils'
-import { addListener, updateListener } from '@/api/listener'
+import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
 
 type Props = Readonly<
   {
@@ -59,15 +59,16 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const {
     completeGatewayListenerTypeList,
     listenerTypeList,
-    gatewayTypesWhichCanEnableProxyProtocol,
     createListenerId,
     createRawListener,
     hasTCPConfig,
     hasUDPConfig,
     hasSSLConfig,
     hasWSConfig,
+    canConfigProxyProtocol,
     normalizeStructure,
     handleListenerDataWhenItIsIndependent,
+    getListenerNameNTypeById,
   } = useListenerUtils()
 
   const listenerTypeOptList = computed(() => {
@@ -85,9 +86,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const isSubmitting = ref(false)
 
-  const showProxyProtocolConfig = computed(() =>
-    gatewayTypesWhichCanEnableProxyProtocol.includes(listenerRecord.value.type),
-  )
+  const showProxyProtocolConfig = computed(() => canConfigProxyProtocol(listenerRecord.value.type))
   const showTCPConfig = computed(() => hasTCPConfig(listenerRecord.value.type))
   const showUDPConfig = computed(() => hasUDPConfig(listenerRecord.value.type))
   const isDTLS = computed(() => listenerRecord.value.type === ListenerTypeForGateway.DTLS)
@@ -98,6 +97,23 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
    */
   const SSLConfigKey: ComputedRef<string> = computed(() => (isDTLS.value ? 'dtls' : 'ssl'))
   const showWSConfig = computed(() => hasWSConfig(listenerRecord.value.type))
+
+  const isLoading = ref(false)
+  const loadListenerData = async () => {
+    if (!props.listener) {
+      return
+    }
+    try {
+      isLoading.value = true
+      const data = await queryListenerDetail(props.listener.id)
+      const { name, type } = getListenerNameNTypeById(data.id)
+      listenerRecord.value = { ...data, name, type }
+    } catch (error) {
+      //
+    } finally {
+      isLoading.value = false
+    }
+  }
 
   const submit = async () => {
     listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
@@ -162,6 +178,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     if (val) {
       if (props.listener) {
         listenerRecord.value = merge(createRawListener(), cloneDeep(props.listener))
+        if (!props.gatewayName) {
+          loadListenerData()
+        }
       } else {
         const formData: { type?: ListenerTypeForGateway } = {}
         if (props.gatewayName) {
