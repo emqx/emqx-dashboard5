@@ -274,3 +274,7 @@ export interface DelayedItem {
   qos: number
   topic: string
 }
+
+export interface TeleStatus {
+  enable: boolean
+}
