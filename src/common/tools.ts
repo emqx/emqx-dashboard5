@@ -202,9 +202,9 @@ export const getKeywordsFromSQL = (sqlStr: string): SQLKeywords => {
       /^(?<foreach>FOREACH((.|\n)+))FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))?/i,
     )
   } else {
-    matchResult = sql.match(
-      /^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))?/i,
-    )
+    matchResult =
+      sql.match(/^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))/i) ||
+      sql.match(/^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)/i)
   }
   if (matchResult) {
     const { groups } = matchResult
