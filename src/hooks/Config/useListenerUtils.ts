@@ -59,22 +59,30 @@ export default (): {
       sndbuf: [2, 'KB'],
       reuseaddr: true,
     },
+    /**
+     * DTLS version information of the listener whose type is DTLS
+     */
     dtls: {
-      versions: 'dtls1.2,dtlsv1',
+      versions: ['dtls1.2', 'dtlsv1'],
     },
+    /**
+     * SSL version information
+     */
     ssl: {
-      versions: 'tlsv1.3,tlsv1.2,tlsv1.1,tlsv1',
+      versions: ['tlsv1.3', 'tlsv1.2', 'tlsv1.1', 'tlsv1'],
     },
+    /**
+     * the type is DTLS & SSL don't know any information other than the certificate
+     */
     xtls: {
-      cacertfile: '',
-      certfile: '',
-      keyfile: '',
       verify: 'verify_none',
       fail_if_no_peer_cert: false,
-      server_name_indication: 'disable',
       depth: 10,
       password: '',
     },
+    /**
+     * certificate placeholder (seems useless,TODO: delete it)
+     */
     certSpecial: {
       cacertfile: 'Begins with ----BEGIN CERTIFICATE----',
       certfile: 'Begins with ----BEGIN CERTIFICATE----',

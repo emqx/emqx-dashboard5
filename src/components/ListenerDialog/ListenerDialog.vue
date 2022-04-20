@@ -233,19 +233,14 @@
           <template v-if="listenerRecord.type === 'ssl'">
             <el-col :span="12">
               <el-form-item :label="tl('sslversion')">
-                <el-select v-model="listenerRecord.ssl.versions">
-                  <el-option value="tlsv1.3,tlsv1.2,tlsv1.1,tlsv1" />
-                  <el-option value="tlsv1.2,tlsv1.1,tlsv1" />
-                </el-select>
+                <SSLVersionSelect v-model="listenerRecord.ssl.versions" />
               </el-form-item>
             </el-col>
           </template>
           <template v-else-if="listenerRecord.type === 'dtls'">
             <el-col :span="12">
               <el-form-item :label="tl('dtlsversion')">
-                <el-select v-model="listenerRecord.dtls.versions">
-                  <el-option value="dtlsv1.2,dtlsv1" />
-                </el-select>
+                <DTLSVersionSelect v-model="listenerRecord.dtls.versions" />
               </el-form-item>
             </el-col>
           </template>
@@ -260,11 +255,6 @@
           <el-col :span="12">
             <el-form-item :label="'Fail If No Peer Cert'">
               <BooleanSelect v-model="listenerRecord.xtls.fail_if_no_peer_cert" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Server Name Indacation'">
-              <el-input v-model="listenerRecord.xtls.server_name_indication" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -299,6 +289,8 @@ import { Listener } from '@/types/listener'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import useListenerDialog from '@/hooks/Config/useListenerDialog'
 import BooleanSelect from '@/components/BooleanSelect.vue'
+import SSLVersionSelect from './SSLVersionSelect.vue'
+import DTLSVersionSelect from './DTLSVersionSelect.vue'
 
 const props = defineProps({
   modelValue: {
