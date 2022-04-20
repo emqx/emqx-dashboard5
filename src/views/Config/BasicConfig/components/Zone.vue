@@ -1,5 +1,5 @@
 <template>
-  <div class="no-tab-wrapper zone">
+  <div class="zone">
     <div style="margin-bottom: 20px">
       <el-button class="new-zone-btn" type="primary" @click="handleBeforeAddTab(currTab)">{{
         tl('newZone')
@@ -13,15 +13,13 @@
         :name="item.name"
       >
         <p class="zone-tip">{{ tl('zoneTip') }}</p>
-        <el-card class="app-card zone-card">
-          <schema-form
-            path="/configs/zones"
-            :form="configs[item.name]"
-            :btn-loading="saveLoading"
-            :can-remove-config="item.name !== 'global'"
-            @save="handleSave"
-          ></schema-form>
-        </el-card>
+        <schema-form
+          path="/configs/zones"
+          :form="configs[item.name]"
+          :btn-loading="saveLoading"
+          :can-remove-config="item.name !== 'global'"
+          @save="handleSave"
+        ></schema-form>
       </el-tab-pane>
     </el-tabs>
     <el-dialog :title="tl('newZone')" width="420px" v-model="addTabDialog">
@@ -241,25 +239,29 @@ export default defineComponent({
 .zone {
   .new-zone-btn {
     position: absolute;
-    right: 24px;
+    right: 0px;
     z-index: 1;
   }
   &.item-page .el-tab-pane {
-    margin: 20px 0;
+    margin: 24px 0;
   }
   .el-tabs--card > .el-tabs__header {
-    border-bottom: 1px solid var(--el-border-color-light);
     .el-tabs__item {
       border-bottom: 1px solid transparent;
     }
   }
   .zone-tip {
-    line-height: 40px;
+    margin-left: 32px;
+    margin-bottom: 0px;
     color: var(--el-text-color-regular);
   }
-  .zone-card .el-card__body {
-    padding-left: 0px;
-    padding-right: 0px;
+  .el-tabs.el-tabs--card.el-tabs--top {
+    .el-tabs__header.is-top {
+      margin-left: 32px;
+    }
+    .el-tabs__content {
+      padding-left: 0px;
+    }
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-table class="array-editor" :data="tableData" size="small">
+  <el-table class="array-editor shadow-none" :data="tableData" size="small">
     <el-table-column :label="$t('components.value')">
       <template #default="{ row }">
         <el-input

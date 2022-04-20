@@ -5,7 +5,7 @@
       <el-button type="primary" @click="openOpDialog()">{{ $t('Base.add') }}</el-button>
     </div>
 
-    <el-table :data="rewriteTbData" v-loading="tbDataLoading">
+    <el-table :data="rewriteTbData" class="shadow-none" v-loading="tbDataLoading">
       <el-table-column :label="'Action'" prop="action" sortable></el-table-column>
       <el-table-column :label="tl('sTopic')" prop="source_topic" sortable></el-table-column>
       <el-table-column :label="'Re'" prop="re" sortable></el-table-column>

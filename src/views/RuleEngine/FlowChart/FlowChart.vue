@@ -21,8 +21,8 @@ const { t } = useI18n()
   margin-bottom: 30px;
 }
 .topology-wrap {
-  border: 1px solid #ededed;
-  background-color: #fafafa;
+  border: 1px solid var(--color-border-table);
+  background-color: var(--color-bg-split);
 }
 
 :deep(.topology-node-tooltip) {
