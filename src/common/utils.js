@@ -468,31 +468,3 @@ export function getDuration(duration) {
     })
     .join(t('General.timePartSep'))
 }
-
-// export const verifyID = (rule, value, callback) => {
-//   const reg = /^[0-9a-zA-Z_:]{1,64}$/;
-//   if (!value) {
-//     callback(new Error(VueI18n.RuleEngine.pleaseEnter));
-//   } else if (value.length > 64) {
-//     callback(new Error(VueI18n.RuleEngine.id_len_tip));
-//   } else if (!reg.test(value)) {
-//     callback(new Error(VueI18n.RuleEngine.id_char_tip));
-//   } else {
-//     callback();
-//   }
-// };
-
-// export const verifyListener = (rule, value, callback) => {
-//   if (!value) {
-//     callback(new Error(VueI18n.RuleEngine.pleaseEnter));
-//   } else {
-//     const port = value.includes(":") ? value.split(":")[1] : value;
-//     const portIntVal = parseInt(port, 10);
-//     if (portIntVal > 65535 || portIntVal <= 0) {
-//       callback(new Error(VueI18n.Settings.portRangeTip));
-//     } else {
-//       callback();
-//     }
-//   }
-// };
-// export default {};

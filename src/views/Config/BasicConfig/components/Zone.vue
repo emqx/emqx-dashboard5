@@ -167,7 +167,7 @@ export default defineComponent({
     const addTab = async () => {
       const { name } = addTabConfig
       if (!name) {
-        ElMessage.error(tl('zoneNameRequired'))
+        ElMessage.warning(tl('zoneNameRequired'))
         return
       }
       const findName = editableTabs.value.find((tab) => tab.name === name)

@@ -1,4 +1,4 @@
-import { ConnectionStatus } from "./enum"
+import { ConnectionStatus } from './enum'
 
 export interface AuthzSetting {
   cache: {

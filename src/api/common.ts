@@ -96,16 +96,17 @@ export const loadCluster = async () => {
 }
 
 // invite node
-export const inviteNode = async (data: any) => {
-  const body = {
-    node: data.config.node,
-  }
-  return http.post('/cluster/invite_node', body).catch()
+export const getClusterNodes = () => {
+  return http.get('/cluster')
+}
+
+export const inviteNode = (nodeName: string) => {
+  return http.put(`/cluster/${encodeURIComponent(nodeName)}/invite`).catch()
 }
 
 // remove cluster node
-export const forceLeaveNode = async (nodename: any) => {
-  return http.delete(`/cluster/force_leave/${nodename}`).catch()
+export const forceLeaveNode = (nodeName: string) => {
+  return http.delete(`/cluster/${encodeURIComponent(nodeName)}/force_leave`).catch()
 }
 
 //topics

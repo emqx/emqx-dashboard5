@@ -41,6 +41,11 @@ const SchemaForm = defineComponent({
       type: Boolean,
       default: false,
     },
+    type: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   setup(props, ctx) {
     const configForm = ref<{ [key: string]: any }>({})
@@ -197,7 +202,7 @@ const SchemaForm = defineComponent({
           <el-dropdown-menu>
             <el-dropdown-item command="reset">{t('Base.reset')}</el-dropdown-item>
             {props.canRemoveConfig ? (
-              <el-dropdown-item command="remove">{t('Settings.remove')}</el-dropdown-item>
+              <el-dropdown-item command="remove">{t('Base.remove')}</el-dropdown-item>
             ) : null}
           </el-dropdown-menu>
         ),
@@ -230,6 +235,18 @@ const SchemaForm = defineComponent({
           </el-tooltip>
         </el-col>
       )
+      // Cluster form add Invite Node component
+      if (props.type === 'cluster' && property.label === 'discovery_strategy' && property.path) {
+        const isManualCluster = configForm.value[property.path] === 'manual'
+        if (isManualCluster) {
+          return (
+            <>
+              {colItem}
+              <el-col span={col}>{ctx.slots['invite-node']?.()}</el-col>
+            </>
+          )
+        }
+      }
       if (groupName) {
         return (
           <>

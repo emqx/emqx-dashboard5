@@ -1,5 +1,5 @@
 <template>
-  <el-table class="array-editor shadow-none" :data="tableData" size="small">
+  <el-table class="array-editor shadow-none" :data="tableData">
     <el-table-column :label="$t('components.value')">
       <template #default="{ row }">
         <el-input
@@ -19,16 +19,16 @@
         ></el-input>
       </template>
     </el-table-column>
-    <el-table-column v-if="!disabled" width="70">
+    <el-table-column v-if="!disabled" width="120">
       <template #header>
-        <a href="javascript:;" class="btn" @click="addColumn">
+        <el-button size="small" type="primary" plain @click="addColumn">
           {{ $t('Base.add') }}
-        </a>
+        </el-button>
       </template>
       <template #default="{ row }">
-        <a href="javascript:;" class="btn" @click="deleteItem(row)">
+        <el-button size="small" type="danger" plain @click="deleteItem(row)">
           {{ $t('Base.delete') }}
-        </a>
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -90,8 +90,12 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .array-editor {
   min-width: 200px;
+  &.el-table th.el-table__cell > .cell {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
 }
 </style>
