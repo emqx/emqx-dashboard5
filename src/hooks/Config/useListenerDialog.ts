@@ -142,10 +142,11 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const submitGatewayListenerInfo = async function (data: Listener) {
     const gatewayName: string = props.gatewayName as string
+    const listener = omit(cloneDeep(data), ['zone'])
     try {
       isEdit.value
-        ? await updateGatewayListener(gatewayName, data.id, data)
-        : await addGatewayListener(gatewayName, data)
+        ? await updateGatewayListener(gatewayName, data.id, listener)
+        : await addGatewayListener(gatewayName, listener)
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
@@ -156,8 +157,6 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     try {
       let listener = omit(cloneDeep(data), ['name'])
       listener = handleListenerDataWhenItIsIndependent(listener)
-      // FIXME:
-      listener.zone = 'default'
       isEdit.value ? await updateListener(listener, data.id) : await addListener(listener, data.id)
       return Promise.resolve()
     } catch (error) {

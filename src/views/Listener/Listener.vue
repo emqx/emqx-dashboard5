@@ -6,7 +6,7 @@
         {{ tl('addListener') }}
       </el-button>
     </div>
-    <el-table :data="listenerTable" v-loading="isTableLoading">
+    <el-table :data="listenerTable" v-loading="isTableLoading" row-key="id">
       <el-table-column :label="$t('Base.name')" prop="name" />
       <el-table-column :label="tl('lType')" prop="type" :min-width="90" />
       <el-table-column :label="tl('lAddress')" prop="bind" />
