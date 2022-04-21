@@ -25,6 +25,11 @@
             <el-input v-model="listenerRecord.mountpoint" />
           </el-form-item>
         </el-col>
+        <el-col :span="12" v-if="!gatewayName">
+          <el-form-item label="Zone">
+            <ZoneSelect v-model="listenerRecord.zone" />
+          </el-form-item>
+        </el-col>
       </el-row>
       <div class="part-header">{{ tl('listenerSetting') }}</div>
       <el-row :gutter="20">
@@ -264,6 +269,7 @@ import BooleanSelect from '@/components/BooleanSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import ZoneSelect from '../ZoneSelect.vue'
 
 const props = defineProps({
   modelValue: {

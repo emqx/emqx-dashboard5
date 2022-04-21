@@ -78,3 +78,5 @@ export const GATEWAY_DISABLED_DATABASES_MAP = {
 export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTypeForGateway>> = {
   [GatewayName.CoAP]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
 }
+
+export const DEFAULT_ZONE = 'default'

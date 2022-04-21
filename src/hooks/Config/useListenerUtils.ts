@@ -1,6 +1,7 @@
 import { Listener } from '@/types/listener'
 import { cloneDeep, omit } from 'lodash'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
+import { DEFAULT_ZONE } from '@/common/constants'
 
 export default (): {
   completeGatewayListenerTypeList: ListenerTypeForGateway[]
@@ -129,6 +130,7 @@ export default (): {
     acceptors: 16,
     max_connections: 102400,
     max_conn_rate: 1000,
+    zone: DEFAULT_ZONE,
     mountpoint: '',
     proxy_protocol: false,
     proxy_protocol_timeout: '15s',
