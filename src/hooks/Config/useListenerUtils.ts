@@ -137,7 +137,7 @@ export default (): {
     tcp: createRawTCPParams(),
     udp: createRawUDPParams(),
     dtls: {
-      versions: ['dtls1.2', 'dtlsv1'],
+      versions: ['dtlsv1.2', 'dtlsv1'],
       ...createRawSSLParams(),
     },
     ssl: {
