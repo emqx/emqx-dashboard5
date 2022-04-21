@@ -5,6 +5,7 @@ import {
   ListenerTypeForGateway,
   PayloadShowByType,
   QoSLevel,
+  SaltPosition,
 } from '@/types/enum'
 
 export const QoS_LIST = [0, 1, 2]
@@ -80,3 +81,5 @@ export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTy
 }
 
 export const DEFAULT_ZONE = 'default'
+
+export const DEFAULT_SALT_POSITION: SaltPosition = SaltPosition.Suffix

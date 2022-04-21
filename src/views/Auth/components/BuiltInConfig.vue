@@ -19,14 +19,6 @@
             </el-form-item>
           </el-col>
           <password-hash-algorithm-form-items v-model="builtConfig" />
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.saltPosition')">
-              <el-select v-model="builtConfig.password_hash_algorithm.salt_position">
-                <el-option value="prefix" />
-                <el-option value="suffix" />
-              </el-select>
-            </el-form-item>
-          </el-col>
         </template>
         <el-col v-else :span="12">
           <el-form-item :label="$t('Auth.passwordHash')">

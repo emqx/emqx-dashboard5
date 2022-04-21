@@ -1,231 +1,246 @@
 <template>
   <div class="database-config config">
     <!-- Connect -->
-    <div class="part-header">
-      {{ $t('Auth.connect') }}
-    </div>
-    <el-form
-      ref="formCom"
-      class="create-form"
-      label-position="top"
-      :model="databaseConfig"
-      :rules="rules"
-    >
-      <el-row :gutter="20">
-        <el-col v-if="isRedis" :span="12">
-          <el-form-item :label="$t('Auth.redisType')">
-            <el-select v-model="databaseConfig.redis_type">
-              <el-option value="single" :label="$t('Auth.single')" />
-              <el-option value="sentinel" label="Sentinel" />
-              <el-option value="cluster" label="Cluster" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col v-if="isMongoDB" :span="12">
-          <el-form-item :label="$t('Auth.mongoType')">
-            <el-select v-model="databaseConfig.mongo_type">
-              <el-option value="single" :label="$t('Auth.single')" />
-              <el-option value="rs" label="Replica Set" />
-              <el-option value="sharded" label="Sharding" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col v-if="isServers" :span="12">
-          <el-form-item :label="$t('Auth.servers')" required prop="servers">
-            <el-input v-model="databaseConfig.servers" type="textarea" :rows="3" />
-          </el-form-item>
-        </el-col>
-        <el-col v-else :span="12">
-          <el-form-item :label="$t('Auth.server')" required prop="server">
-            <el-input v-model="databaseConfig.server" />
-          </el-form-item>
-        </el-col>
-        <el-col v-if="isMongoDB && databaseConfig.mongo_type !== 'single'" :span="12">
-          <el-form-item label="Replica Set Name">
-            <el-input v-model="databaseConfig.replica_set_name" />
-          </el-form-item>
-        </el-col>
-        <!-- Redis -->
-        <el-col v-if="isRedis && databaseConfig.redis_type === 'sentinel'" :span="12">
-          <el-form-item :label="$t('Auth.sentinel')">
-            <el-input v-model="databaseConfig.sentinel" />
-          </el-form-item>
-        </el-col>
-        <!-- Basic -->
-        <el-col :span="12">
-          <el-form-item :label="$t('Auth.database')" :required="isDatabaseRequired" prop="database">
-            <el-input v-model="databaseConfig.database" />
-          </el-form-item>
-        </el-col>
-        <el-col v-if="isMongoDB" :span="12">
-          <el-form-item label="Collection">
-            <el-input v-model="databaseConfig.collection" />
-          </el-form-item>
-        </el-col>
-        <el-col v-if="!isRedis" :span="12">
-          <el-form-item :label="$t('Base.userName')">
-            <el-input v-model="databaseConfig.username" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="$t('Base.password')">
-            <el-input
-              v-model="databaseConfig.password"
-              type="password"
-              autocomplete="new-password"
-            />
-          </el-form-item>
-        </el-col>
-        <template v-if="isMongoDB && databaseConfig.mongo_type === 'rs'">
+    <div>
+      <div class="part-header">{{ $t('Auth.connect') }}</div>
+      <el-form
+        ref="formCom"
+        class="create-form"
+        label-position="top"
+        :model="databaseConfig"
+        :rules="rules"
+      >
+        <el-row :gutter="20">
+          <el-col v-if="isRedis" :span="12">
+            <el-form-item :label="$t('Auth.redisType')">
+              <el-select v-model="databaseConfig.redis_type">
+                <el-option value="single" :label="$t('Auth.single')" />
+                <el-option value="sentinel" label="Sentinel" />
+                <el-option value="cluster" label="Cluster" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="isMongoDB" :span="12">
+            <el-form-item :label="$t('Auth.mongoType')">
+              <el-select v-model="databaseConfig.mongo_type">
+                <el-option value="single" :label="$t('Auth.single')" />
+                <el-option value="rs" label="Replica Set" />
+                <el-option value="sharded" label="Sharding" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="isServers" :span="12">
+            <el-form-item :label="$t('Auth.servers')" required prop="servers">
+              <el-input v-model="databaseConfig.servers" type="textarea" :rows="3" />
+            </el-form-item>
+          </el-col>
+          <el-col v-else :span="12">
+            <el-form-item :label="$t('Auth.server')" required prop="server">
+              <el-input v-model="databaseConfig.server" />
+            </el-form-item>
+          </el-col>
+          <el-col v-if="isMongoDB && databaseConfig.mongo_type !== 'single'" :span="12">
+            <el-form-item label="Replica Set Name">
+              <el-input v-model="databaseConfig.replica_set_name" />
+            </el-form-item>
+          </el-col>
+          <!-- Redis -->
+          <el-col v-if="isRedis && databaseConfig.redis_type === 'sentinel'" :span="12">
+            <el-form-item :label="$t('Auth.sentinel')">
+              <el-input v-model="databaseConfig.sentinel" />
+            </el-form-item>
+          </el-col>
+          <!-- Basic -->
           <el-col :span="12">
-            <el-form-item :label="$t('Auth.readMode')">
-              <el-select v-model="databaseConfig.r_mode">
-                <el-option value="master" label="master" />
-                <el-option value="slave_ok" label="slave_ok" />
-              </el-select>
+            <el-form-item
+              :label="$t('Auth.database')"
+              :required="isDatabaseRequired"
+              prop="database"
+            >
+              <el-input v-model="databaseConfig.database" />
             </el-form-item>
           </el-col>
-          <el-col v-if="databaseConfig.mongo_type === 'rs'" :span="12">
-            <el-form-item :label="$t('Auth.writeMode')">
-              <el-select v-model="databaseConfig.w_mode">
-                <el-option value="safe" label="safe" />
-                <el-option value="unsafe" label="unsafe" />
-              </el-select>
+          <el-col v-if="isMongoDB" :span="12">
+            <el-form-item label="Collection">
+              <el-input v-model="databaseConfig.collection" />
             </el-form-item>
           </el-col>
-        </template>
-        <el-col :span="24">
-          <!-- TLS -->
-          <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" />
-        </el-col>
-      </el-row>
-    </el-form>
-
-    <div class="part-header">
-      {{ $t('Auth.connectConfig') }}
-    </div>
-    <el-form class="create-form" label-position="top">
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item label="Pool size">
-            <el-input v-model.number="databaseConfig.pool_size" />
-          </el-form-item>
-        </el-col>
-        <el-col v-if="!isMongoDB" :span="12">
-          <el-form-item :label="$t('Auth.reconnect')">
-            <BooleanSelect
-              v-model="databaseConfig.auto_reconnect"
-              true-label="True"
-              false-label="False"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col v-if="isMongoDB" :span="12">
-          <el-form-item :label="$t('Auth.connectTimeout')">
-            <time-input-with-unit-select v-model="databaseConfig.topology.connect_timeout_ms" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-
-    <div class="part-header">
-      {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
-      <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-        {{ $t('Base.help') }}
-      </el-button>
-    </div>
-    <el-form class="create-form" label-position="top">
-      <el-row :gutter="20">
-        <!-- MySQL & PgSQL -->
-        <template v-if="isMySQL || isPgSQL">
-          <el-col :span="24">
-            <el-form-item label="SQL">
-              <el-input v-model="databaseConfig.query" type="textarea" :rows="6" />
-              <el-button class="bottom-btn" size="small" @click="setDefaultContent('query')">
-                {{ $t('Auth.setDefault') }}
-              </el-button>
+          <el-col v-if="!isRedis" :span="12">
+            <el-form-item :label="$t('Base.userName')">
+              <el-input v-model="databaseConfig.username" />
             </el-form-item>
           </el-col>
-        </template>
-        <!-- Mongodb -->
-        <template v-else-if="isMongoDB">
-          <el-col :span="24">
-            <el-form-item :label="$t('Auth.selector')">
-              <el-input v-model="databaseConfig.selector" type="textarea" :rows="6" />
-              <el-button class="bottom-btn" size="small" @click="setDefaultContent('selector')">
-                {{ $t('Auth.setDefault') }}
-              </el-button>
-            </el-form-item>
-          </el-col>
-        </template>
-        <template v-else-if="isRedis">
-          <el-col :span="24">
-            <el-form-item :label="$t('Auth.cmd')">
-              <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6" />
-              <el-button class="bottom-btn" size="small" @click="setDefaultContent('cmd')">
-                {{ $t('Auth.setDefault') }}
-              </el-button>
-            </el-form-item>
-          </el-col>
-        </template>
-        <el-collapse-transition>
-          <el-col v-if="needHelp" :span="24">
-            <div class="help-block">
-              <div class="part-header">
-                {{
-                  isMongoDB
-                    ? $t('Auth.exampleDataStructures')
-                    : isRedis
-                    ? $t('Auth.exampleDataCmd')
-                    : $t('Auth.sqlHelpContent')
-                }}
-              </div>
-              <code-view
-                :lang="isMongoDB ? 'javascript' : isRedis ? 'bash' : 'sql'"
-                :code="helpContent"
+          <el-col :span="12">
+            <el-form-item :label="$t('Base.password')">
+              <el-input
+                v-model="databaseConfig.password"
+                type="password"
+                autocomplete="new-password"
               />
-              <el-button @click="copyText(helpContent)">
-                {{ $t('Base.copy') }}
-              </el-button>
-            </div>
+            </el-form-item>
           </el-col>
-        </el-collapse-transition>
-        <template v-if="authType === 'authn'">
-          <el-col v-if="isMySQL" :span="12">
+          <template v-if="isMongoDB && databaseConfig.mongo_type === 'rs'">
+            <el-col :span="12">
+              <el-form-item :label="$t('Auth.readMode')">
+                <el-select v-model="databaseConfig.r_mode">
+                  <el-option value="master" label="master" />
+                  <el-option value="slave_ok" label="slave_ok" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col v-if="databaseConfig.mongo_type === 'rs'" :span="12">
+              <el-form-item :label="$t('Auth.writeMode')">
+                <el-select v-model="databaseConfig.w_mode">
+                  <el-option value="safe" label="safe" />
+                  <el-option value="unsafe" label="unsafe" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </template>
+          <el-col :span="24">
+            <!-- TLS -->
+            <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" />
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
+
+    <!-- Connect Config -->
+    <div>
+      <div class="part-header">{{ $t('Auth.connectConfig') }}</div>
+      <el-form class="create-form" label-position="top">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="Pool size">
+              <el-input v-model.number="databaseConfig.pool_size" />
+            </el-form-item>
+          </el-col>
+          <el-col v-if="!isMongoDB" :span="12">
+            <el-form-item :label="$t('Auth.reconnect')">
+              <BooleanSelect
+                v-model="databaseConfig.auto_reconnect"
+                true-label="True"
+                false-label="False"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col v-if="isMongoDB" :span="12">
+            <el-form-item :label="$t('Auth.connectTimeout')">
+              <time-input-with-unit-select v-model="databaseConfig.topology.connect_timeout_ms" />
+            </el-form-item>
+          </el-col>
+          <el-col v-if="authType === 'authn' && isMySQL" :span="12">
             <el-form-item :label="$t('Auth.queryTimeout')">
               <time-input-with-unit-select v-model="databaseConfig.query_timeout" />
             </el-form-item>
           </el-col>
-          <el-col v-if="isMongoDB" :span="12">
-            <el-form-item :label="$t('Auth.passwordHashField')">
-              <el-input v-model="databaseConfig.password_hash_field" placeholder="password_hash" />
-            </el-form-item>
-          </el-col>
-          <password-hash-algorithm-form-items v-model="databaseConfig" />
-          <el-col v-if="isMongoDB" :span="12">
-            <el-form-item :label="$t('Auth.saltField')">
-              <el-input v-model="databaseConfig.salt_field" placeholder="salt" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.saltPosition')">
-              <el-select v-model="databaseConfig.password_hash_algorithm.salt_position">
-                <el-option value="prefix" />
-                <el-option value="suffix" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col v-if="isMongoDB" :span="12">
-            <el-form-item :label="$t('Auth.superuserField')">
-              <el-input
-                v-model="databaseConfig.is_superuser_field"
-                :placeholder="$t('Auth.isSuperuser')"
-              />
-            </el-form-item>
-          </el-col>
-        </template>
-      </el-row>
-    </el-form>
+        </el-row>
+      </el-form>
+    </div>
+
+    <!-- Auth Config -->
+    <div>
+      <div class="part-header">
+        <span> {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }} </span>
+        <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+          {{ $t('Base.help') }}
+        </el-button>
+      </div>
+      <el-form class="create-form" label-position="top">
+        <el-row :gutter="20">
+          <!-- MySQL & PgSQL -->
+          <template v-if="isMySQL || isPgSQL">
+            <PasswordHashAlgorithmFormItems
+              v-model="databaseConfig"
+              @salt-position-changed="handleSaltPositionChanged"
+            >
+              <el-col v-if="isMongoDB" :span="12">
+                <el-form-item :label="$t('Auth.saltField')">
+                  <el-input v-model="databaseConfig.salt_field" placeholder="salt" />
+                </el-form-item>
+              </el-col>
+            </PasswordHashAlgorithmFormItems>
+            <el-col :span="24">
+              <el-form-item label="SQL">
+                <el-input v-model="databaseConfig.query" type="textarea" :rows="6" />
+                <el-button class="bottom-btn" size="small" @click="setDefaultContent('query')">
+                  {{ $t('Auth.setDefault') }}
+                </el-button>
+              </el-form-item>
+            </el-col>
+          </template>
+          <!-- Mongodb -->
+          <template v-else-if="isMongoDB">
+            <el-col :span="24">
+              <el-form-item :label="$t('Auth.selector')">
+                <el-input v-model="databaseConfig.selector" type="textarea" :rows="6" />
+                <el-button class="bottom-btn" size="small" @click="setDefaultContent('selector')">
+                  {{ $t('Auth.setDefault') }}
+                </el-button>
+              </el-form-item>
+            </el-col>
+          </template>
+          <template v-else-if="isRedis">
+            <el-col :span="24">
+              <el-form-item :label="$t('Auth.cmd')">
+                <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6" />
+                <el-button class="bottom-btn" size="small" @click="setDefaultContent('cmd')">
+                  {{ $t('Auth.setDefault') }}
+                </el-button>
+              </el-form-item>
+            </el-col>
+          </template>
+          <el-collapse-transition>
+            <el-col v-if="needHelp" :span="24">
+              <div class="help-block">
+                <div class="part-header">
+                  {{
+                    isMongoDB
+                      ? $t('Auth.exampleDataStructures')
+                      : isRedis
+                      ? $t('Auth.exampleDataCmd')
+                      : $t('Auth.sqlHelpContent')
+                  }}
+                </div>
+                <code-view
+                  :lang="isMongoDB ? 'javascript' : isRedis ? 'bash' : 'sql'"
+                  :code="helpContent"
+                />
+                <el-button @click="copyText(helpContent)">
+                  {{ $t('Base.copy') }}
+                </el-button>
+              </div>
+            </el-col>
+          </el-collapse-transition>
+          <template v-if="authType === 'authn'">
+            <el-col v-if="isMongoDB" :span="12">
+              <el-form-item :label="$t('Auth.passwordHashField')">
+                <el-input
+                  v-model="databaseConfig.password_hash_field"
+                  placeholder="password_hash"
+                />
+              </el-form-item>
+            </el-col>
+            <PasswordHashAlgorithmFormItems v-model="databaseConfig" v-if="!(isMySQL || isPgSQL)">
+              <el-col v-if="isMongoDB" :span="12">
+                <el-form-item :label="$t('Auth.saltField')">
+                  <el-input v-model="databaseConfig.salt_field" placeholder="salt" />
+                </el-form-item>
+              </el-col>
+            </PasswordHashAlgorithmFormItems>
+
+            <el-col v-if="isMongoDB" :span="12">
+              <el-form-item :label="$t('Auth.superuserField')">
+                <el-input
+                  v-model="databaseConfig.is_superuser_field"
+                  :placeholder="$t('Auth.isSuperuser')"
+                />
+              </el-form-item>
+            </el-col>
+          </template>
+        </el-row>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -239,6 +254,7 @@ import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
 import useCopy from '@/hooks/useCopy'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
 import BooleanSelect from '@/components/BooleanSelect.vue'
+import { SaltPosition } from '@/types/enum'
 
 export default defineComponent({
   name: 'DatabaseConfig',
@@ -266,7 +282,8 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
-    const { databaseConfig, defaultContent, helpContent } = useDatabaseConfig(props, ctx)
+    const { defaultSQL, withSaltDefaultSQL, databaseConfig, defaultContent, helpContent } =
+      useDatabaseConfig(props, ctx)
     const {
       formCom,
       rules,
@@ -280,7 +297,14 @@ export default defineComponent({
     } = useDatabaseConfigForm(props, databaseConfig)
     const needHelp = ref(false)
     const setDefaultContent = (dataKey: string) => {
-      databaseConfig[dataKey] = defaultContent.value
+      if (isMySQL.value || isPgSQL.value) {
+        databaseConfig[dataKey] =
+          databaseConfig.password_hash_algorithm.salt_position !== SaltPosition.Disable
+            ? withSaltDefaultSQL
+            : defaultSQL
+      } else {
+        databaseConfig[dataKey] = defaultContent.value
+      }
     }
 
     const { copySuccess, copyText } = useCopy(() => {
@@ -288,6 +312,20 @@ export default defineComponent({
     })
     const toggleNeedHelp = async () => {
       needHelp.value = !needHelp.value
+    }
+
+    const handleSaltPositionChanged = () => {
+      if (
+        databaseConfig.password_hash_algorithm.salt_position === SaltPosition.Disable &&
+        databaseConfig.query === withSaltDefaultSQL
+      ) {
+        databaseConfig.query = defaultSQL
+      } else if (
+        databaseConfig.password_hash_algorithm.salt_position !== SaltPosition.Disable &&
+        databaseConfig.query === defaultSQL
+      ) {
+        databaseConfig.query = withSaltDefaultSQL
+      }
     }
 
     return {
@@ -307,6 +345,7 @@ export default defineComponent({
       copySuccess,
       copyText,
       toggleNeedHelp,
+      handleSaltPositionChanged,
     }
   },
 })

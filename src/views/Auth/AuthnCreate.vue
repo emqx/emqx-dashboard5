@@ -34,11 +34,11 @@
         </el-radio-group>
         <p class="item-description">{{ mechanismDesc }}</p>
         <div class="step-btn">
-          <el-button type="primary" @click="handleNext">
-            {{ $t('Base.nextStep') }}
-          </el-button>
           <el-button @click="cancelCreate()">
             {{ $t('Base.cancel') }}
+          </el-button>
+          <el-button type="primary" @click="handleNext">
+            {{ $t('Base.nextStep') }}
           </el-button>
         </div>
       </div>
@@ -112,11 +112,11 @@
           {{ $t('Auth.jwtDataSourceDesc') }}
         </p>
         <div class="step-btn">
-          <el-button type="primary" @click="handleNext">
-            {{ $t('Base.nextStep') }}
-          </el-button>
           <el-button @click="handleBack">
             {{ $t('Base.backStep') }}
+          </el-button>
+          <el-button type="primary" @click="handleNext">
+            {{ $t('Base.nextStep') }}
           </el-button>
         </div>
       </div>
@@ -151,14 +151,14 @@
           </div>
         </div>
         <div class="step-btn">
-          <el-button type="primary" :loading="saveLoading" @click="handleCreate">
-            {{ $t('Base.create') }}
-          </el-button>
           <!-- <el-button @click="handleTest">
-              {{ $t('Base.test') }}
-            </el-button> -->
+            {{ $t('Base.test') }}
+          </el-button> -->
           <el-button @click="handleBack">
             {{ $t('Base.backStep') }}
+          </el-button>
+          <el-button type="primary" :loading="saveLoading" @click="handleCreate">
+            {{ $t('Base.create') }}
           </el-button>
         </div>
       </div>

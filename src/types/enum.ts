@@ -173,3 +173,9 @@ export enum ListenerAction {
   Stop = 'stop',
   Restart = 'restart',
 }
+
+export enum SaltPosition {
+  Disable = 'disable',
+  Prefix = 'prefix',
+  Suffix = 'suffix',
+}

@@ -1,3 +1,4 @@
+import { DEFAULT_SALT_POSITION } from '@/common/constants'
 import { HashType } from '@/types/enum'
 
 interface PasswordHashAlgorithm {
@@ -14,12 +15,12 @@ export const getPasswordHashAlgorithmObj = (): {
 } => ({
   password_hash_algorithm: {
     name: HashType.SHA256,
-    salt_position: 'suffix',
+    salt_position: DEFAULT_SALT_POSITION,
     // when name is bcrypt
-    salt_rounds: '',
+    salt_rounds: '10',
     // when name is pbkdf2
     mac_fun: '',
-    iterations: '',
+    iterations: 4096,
     dk_length: '',
   },
 })
@@ -27,10 +28,10 @@ export const getPasswordHashAlgorithmObj = (): {
 export const getUsefulPasswordHashAlgorithmData = (data: PasswordHashAlgorithm) => {
   const { name, salt_position, salt_rounds, mac_fun, iterations, dk_length } = data
   if (name === HashType.Bcrypt) {
-    return { name, salt_position, salt_rounds }
+    return { name, salt_rounds }
   }
   if (name === HashType.Pbkdf2) {
-    return { name, salt_position, mac_fun, iterations, dk_length }
+    return { name, mac_fun, iterations, dk_length }
   }
   return { name, salt_position }
 }
