@@ -2,16 +2,25 @@
   <div class="cluster">
     <schema-form
       path="/configs/cluster"
+      type="cluster"
       :form="configs"
       :btn-loading="saveLoading"
       @save="handleSave"
-    ></schema-form>
+    >
+      <template #invite-node>
+        <el-form-item :label="$t('BasicConfig.invaiteNode')">
+          <p class="item-desc">{{ $t('BasicConfig.inviteNodeDesc') }}</p>
+          <invite-node></invite-node>
+        </el-form-item>
+      </template>
+    </schema-form>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import SchemaForm from '@/components/SchemaForm'
+import InviteNode from './InviteNode.vue'
 import { getClusterConfigs, updateClusterConfigs } from '@/api/config'
 import { Cluster } from '@/types/config'
 import { ElMessage } from 'element-plus'
@@ -21,6 +30,7 @@ export default defineComponent({
   name: 'Cluster',
   components: {
     SchemaForm,
+    InviteNode,
   },
   setup() {
     const configs = ref({})

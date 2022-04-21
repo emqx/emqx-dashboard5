@@ -67,4 +67,36 @@ export default {
     zh: '速率限制',
     en: 'Rate Limit',
   },
+  invaiteNode: {
+    zh: '邀请节点',
+    en: 'Invite nodes',
+  },
+  inviteNodeDesc: {
+    zh: '当集群节点的服务发现方法是 Manual 的时候，可手动邀请节点加入集群',
+    en: 'If the service discovery method of the cluster nodes is Manual, you can manually invite the nodes to join the cluster.',
+  },
+  removeNodeConfirm: {
+    zh: '是否移除该节点？',
+    en: 'This will remove the current node Continue?',
+  },
+  invite: {
+    zh: '邀请',
+    en: 'Invite',
+  },
+  inviteSuccess: {
+    zh: '邀请成功',
+    en: 'Invite Successfully',
+  },
+  clusterType: {
+    zh: '集群方式',
+    en: 'Cluster Type',
+  },
+  currentNode: {
+    zh: '当前节点',
+    en: 'Current Node',
+  },
+  nodeRequired: {
+    zh: '请输入节点名称',
+    en: 'Node name is required',
+  },
 }

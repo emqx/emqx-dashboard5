@@ -375,4 +375,12 @@ export default {
     zh: '最大',
     en: 'Maximum',
   },
+  removeSuccess: {
+    zh: '移除成功',
+    en: 'Remove Successfully',
+  },
+  remove: {
+    zh: '移除',
+    en: 'Remove',
+  },
 }
