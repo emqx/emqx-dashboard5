@@ -13,7 +13,7 @@
 import { defineComponent, ref } from 'vue'
 import SchemaForm from '@/components/SchemaForm'
 import { getDashboardConfigs, updateDashboardConfigs } from '@/api/config'
-import { Dashboard, Listener } from '@/types/config'
+import { Dashboard } from '@/types/config'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
@@ -29,8 +29,6 @@ export default defineComponent({
     const loadData = async () => {
       const res = await getDashboardConfigs()
       if (res) {
-        const listeners: Listener[] = res.listeners as Listener[]
-        res.listeners = listeners[0]
         configs.value = res
       }
     }
@@ -42,7 +40,6 @@ export default defineComponent({
       const data = {
         ...val,
       }
-      data.listeners = [val.listeners] as Listener[]
       try {
         await updateDashboardConfigs(data)
         ElMessage.success(t('Base.updateSuccess'))
