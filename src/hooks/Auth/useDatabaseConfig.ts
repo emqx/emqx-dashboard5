@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { DEFAULT_SALT_POSITION } from '@/common/constants'
+import { SaltPosition } from '@/types/enum'
 import { watch, reactive, ref, computed, SetupContext } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -15,6 +17,12 @@ export default function useDatabaseConfig(
   { emit }: SetupContext<'update:modelValue'[]>,
 ) {
   const route = useRoute()
+  const defaultSQL = 'SELECT password_hash FROM mqtt_user where username = ${username} LIMIT 1'
+  /**
+   * when hash type is not bcrypt or pbkdf2 and salt is not disable, use this to the default SQL
+   */
+  const withSaltDefaultSQL =
+    'SELECT password_hash, salt FROM mqtt_user where username = ${username} LIMIT 1'
   const defaultContent = ref('')
   const databaseConfig = reactive(modelValue)
   watch(databaseConfig, (value) => {
@@ -29,7 +37,7 @@ export default function useDatabaseConfig(
     let defaultDatabase = ''
     if (authType === 'authn') {
       defaultContent.value =
-        'SELECT password_hash FROM mqtt_user where username = ${username} LIMIT 1'
+        DEFAULT_SALT_POSITION === SaltPosition.Disable ? defaultSQL : withSaltDefaultSQL
       helpContent.value = `
         CREATE TABLE IF NOT EXISTS \`mqtt_user\` (
           \`id\` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -70,7 +78,7 @@ export default function useDatabaseConfig(
     let defaultDatabase = ''
     if (authType === 'authn') {
       defaultContent.value =
-        'SELECT password_hash FROM mqtt_user where username = ${username} LIMIT 1'
+        DEFAULT_SALT_POSITION === SaltPosition.Disable ? defaultSQL : withSaltDefaultSQL
       helpContent.value = `
         CREATE TABLE mqtt_user (
           id SERIAL primary key,
@@ -199,6 +207,8 @@ export default function useDatabaseConfig(
       break
   }
   return {
+    defaultSQL,
+    withSaltDefaultSQL,
     defaultContent,
     helpContent,
     databaseConfig,
