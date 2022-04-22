@@ -8,8 +8,8 @@
                 "properties": {
                     "bind": {
                         "default": 18083,
-                        "description": "Port without IP(18083) or port with specified IP(127.0.0.1:18083).",
-                        "label": "bind",
+                        "description": "监听的地址与端口",
+                        "label": "绑定端口",
                         "oneOf": [
                             {
                                 "type": "ip_port"
@@ -22,38 +22,38 @@
                     },
                     "num_acceptors": {
                         "default": 4,
-                        "description": "Socket acceptor pool size for TCP protocols.",
-                        "label": "num_acceptors",
+                        "description": "TCP协议的Socket acceptor池大小",
+                        "label": "Acceptor 数量",
                         "type": "number"
                     },
                     "max_connections": {
                         "default": 512,
-                        "description": "Maximum number of simultaneous connections.",
-                        "label": "max_connections",
+                        "description": "同时处理的最大连接数",
+                        "label": "最大连接数",
                         "type": "number"
                     },
                     "backlog": {
                         "default": 1024,
-                        "description": "Defines the maximum length that the queue of pending connections can grow to.",
-                        "label": "backlog",
+                        "description": "排队等待连接的队列的最大长度",
+                        "label": "排队长度",
                         "type": "number"
                     },
                     "send_timeout": {
                         "default": "5s",
-                        "description": "Send timeout for the socket.",
-                        "label": "send_timeout",
+                        "description": "Socket发送超时时间",
+                        "label": "发送超时时间",
                         "type": "duration"
                     },
                     "inet6": {
                         "default": false,
-                        "description": "Sets up the listener for IPv6.",
-                        "label": "inet6",
+                        "description": "启用IPv6",
+                        "label": "IPv6",
                         "type": "boolean"
                     },
                     "ipv6_v6only": {
                         "default": false,
-                        "description": "Disable IPv4-to-IPv6 mapping for the listener.",
-                        "label": "ipv6_v6only",
+                        "description": "禁用IPv4-to-IPv6映射",
+                        "label": "IPv6 only",
                         "type": "boolean"
                     }
                 },
@@ -63,6 +63,7 @@
                 "required": [
                     "database",
                     "server",
+                    "query",
                     "backend",
                     "mechanism"
                 ],
@@ -155,7 +156,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -317,28 +318,28 @@
             "emqx_conf_schema.cluster_etcd": {
                 "properties": {
                     "server": {
-                        "description": "List of endpoint URLs of the etcd cluster",
-                        "label": "server",
+                        "description": "指定 etcd 服务的地址。如有多个服务使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。\n          ",
+                        "label": "Etcd 服务器地址",
                         "readOnly": true,
                         "type": "comma_separated_string"
                     },
                     "prefix": {
                         "default": "emqxcl",
-                        "description": "Key prefix used for EMQX service discovery.",
-                        "label": "prefix",
+                        "description": "指定 etcd 路径的前缀。每个节点在 etcd 中都会创建一个路径:\nv2/keys/<prefix>/<cluster.name>/<node.name> <\\br>\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。\n      ",
+                        "label": "Etcd 路径前缀",
                         "readOnly": true,
                         "type": "string"
                     },
                     "node_ttl": {
                         "default": "1m",
-                        "description": "Expiration time of the etcd key associated with the node.\nIt is refreshed automatically, as long as the node is alive.",
-                        "label": "node_ttl",
+                        "description": "指定 etcd 中节点信息的过期时间。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。\n          ",
+                        "label": "Etcd 节点过期时间",
                         "readOnly": true,
                         "type": "duration"
                     },
                     "ssl": {
-                        "description": "Options for the TLS connection to the etcd cluster.",
-                        "label": "ssl",
+                        "description": "当使用 TLS 连接 etcd 时的配置选项。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。\n          ",
+                        "label": "Etcd SSL 选项",
                         "readOnly": true,
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -485,6 +486,9 @@
                         "type": "object"
                     },
                     "access_rules": {
+                        "default": [
+                            "allow all"
+                        ],
                         "description": "The access control rules for this listener.<br/>See: https://github.com/emqtt/esockd#allowdeny",
                         "items": {
                             "type": "string"
@@ -499,6 +503,7 @@
                         "type": "boolean"
                     },
                     "proxy_protocol_timeout": {
+                        "default": "3s",
                         "description": "Timeout for proxy protocol. EMQX will close the TCP connection if proxy protocol packet is not received within the timeout.",
                         "label": "proxy_protocol_timeout",
                         "type": "duration"
@@ -564,14 +569,14 @@
                 "properties": {
                     "enabled": {
                         "default": false,
-                        "description": "Use the database to store information about persistent sessions.\nThis makes it possible to migrate a client connection to another\ncluster node if a node is stopped.\n",
-                        "label": "enabled",
+                        "description": "使用数据库存储有关持久会话的信息。\\n这使得在节点停止时，可以将客户端连接迁移到另一个群集节点。",
+                        "label": "启用持久会话保存",
                         "type": "boolean"
                     },
                     "storage_type": {
                         "default": "disc",
-                        "description": "Store information about persistent sessions on disc or in ram.\nIf ram is chosen, all information about persistent sessions remains\nas long as at least one node in a cluster is alive to keep the information.\nIf disc is chosen, the information is persisted on disc and will survive\ncluster restart, at the price of more disc usage and less throughput.\n",
-                        "label": "storage_type",
+                        "description": "将有关持久会话的信息存储在磁盘或内存中。\\n如果选择了ram，有关持久会话的所有信息将保留\\n只要群集中至少有一个节点处于活动状态，就可以保留信息。\\n如果选择了光盘，则信息将保留在光盘上，并且将继续存在\\n群集重新启动，代价是磁盘使用量增加，吞吐量降低。\\n",
+                        "label": "存储类型",
                         "oneOf": [
                             {
                                 "symbols": [
@@ -589,20 +594,20 @@
                     },
                     "max_retain_undelivered": {
                         "default": "1h",
-                        "description": "The time messages that was not delivered to a persistent session\nis stored before being garbage collected if the node the previous\nsession was handled on restarts of is stopped.\n",
-                        "label": "max_retain_undelivered",
+                        "description": "如果重新启动时处理上一个会话的节点已停止，则未传递到持久会话的消息在垃圾收集之前会被存储。",
+                        "label": "未投递的消息保留条数",
                         "type": "duration"
                     },
                     "message_gc_interval": {
                         "default": "1h",
-                        "description": "The starting interval for garbage collection of undelivered messages to\na persistent session. This affects how often the \"max_retain_undelivered\"\nis checked for removal.\n",
-                        "label": "message_gc_interval",
+                        "description": "将未送达的消息垃圾收集到持久会话的开始间隔。\\n这会影响检查 \"max_retain_undelivered\"（最大保留未送达）的删除频率。",
+                        "label": "消息清理间隔",
                         "type": "duration"
                     },
                     "session_message_gc_interval": {
                         "default": "1m",
-                        "description": "The starting interval for garbage collection of transient data for\npersistent session messages. This does not affect the lifetime length\nof persistent session messages.\n",
-                        "label": "session_message_gc_interval",
+                        "description": "持久会话消息的临时数据垃圾收集的开始间隔。\\n这不会影响持久会话消息的生命周期长度。\\n",
+                        "label": "会话消息清理间隔",
                         "type": "duration"
                     }
                 },
@@ -933,20 +938,20 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable log burst control feature.",
-                        "label": "enable",
+                        "description": "启用日志突发控制功能。",
+                        "label": "启用日志突发控制",
                         "type": "boolean"
                     },
                     "max_count": {
                         "default": 10000,
-                        "description": "Maximum number of log events to handle within a `window_time` interval. After the limit is reached, successive events are dropped until the end of the `window_time`.",
-                        "label": "max_count",
+                        "description": "在 `window_time` 间隔内处理的最大日志事件数。 达到限制后，将丢弃连续事件，直到 `window_time` 结束。",
+                        "label": "日志事件数",
                         "type": "number"
                     },
                     "window_time": {
                         "default": "1s",
-                        "description": "See `max_count`.",
-                        "label": "window_time",
+                        "description": "参考 `max_count`。",
+                        "label": "Window Time",
                         "type": "duration"
                     }
                 },
@@ -956,15 +961,15 @@
                 "properties": {
                     "name": {
                         "default": "emqxcl",
-                        "description": "Human-friendly name of the EMQX cluster.",
-                        "label": "name",
+                        "description": "EMQX集群名称。每个集群都有一个唯一的名称。服务发现时会用于做路径的一部分。",
+                        "label": "集群名称",
                         "readOnly": true,
                         "type": "string"
                     },
                     "discovery_strategy": {
                         "default": "manual",
-                        "description": "Service discovery method for the cluster nodes.",
-                        "label": "discovery_strategy",
+                        "description": "集群节点发现方式。可选值为:\n- manual: 手动加入集群<\\br>\n- static: 配置静态节点。配置几个固定的节点，新节点通过连接固定节点中的某一个来加入集群。<\\br>\n- mcast: 使用 UDP 多播的方式发现节点。<\\br>\n- dns: 使用 DNS A 记录的方式发现节点。<\\br>\n- etcd: 使用 etcd 发现节点。<\\br>\n- k8s: 使用 Kubernetes 发现节点。<\\br>\n           ",
+                        "label": "集群服务发现策略",
                         "readOnly": true,
                         "symbols": [
                             "manual",
@@ -978,22 +983,22 @@
                     },
                     "autoclean": {
                         "default": "5m",
-                        "description": "Remove disconnected nodes from the cluster after this interval.",
-                        "label": "autoclean",
+                        "description": "指定多久之后从集群中删除离线节点。",
+                        "label": "自动删除离线节点时间",
                         "readOnly": true,
                         "type": "duration"
                     },
                     "autoheal": {
                         "default": true,
-                        "description": "If <code>true</code>, the node will try to heal network partitions\n automatically.",
-                        "label": "autoheal",
+                        "description": "集群脑裂自动恢复机制开关。",
+                        "label": "节点脑裂自动修复机制",
                         "readOnly": true,
                         "type": "boolean"
                     },
                     "proto_dist": {
                         "default": "inet_tcp",
-                        "description": "The Erlang distribution protocol for the cluster.",
-                        "label": "proto_dist",
+                        "description": "分布式 Erlang 集群协议类型。可选值为:\n- inet_tcp: 使用 IPv4 <\\br>\n- inet6_tcp 使用 IPv6 <\\br>\n- inet_tls: 使用 TLS，需要与 node.ssl_dist_optfile 配置一起使用。<\\br>\n         ",
+                        "label": "集群内部通信协议",
                         "readOnly": true,
                         "symbols": [
                             "inet_tcp",
@@ -1034,26 +1039,26 @@
                 "properties": {
                     "cpu_check_interval": {
                         "default": "60s",
-                        "description": "The time interval for the periodic CPU check.",
-                        "label": "cpu_check_interval",
+                        "description": "定期 CPU 检查的时间间隔。",
+                        "label": "定期 CPU 检查的时间间隔",
                         "type": "duration"
                     },
                     "cpu_high_watermark": {
                         "default": "80%",
-                        "description": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is raised.",
-                        "label": "cpu_high_watermark",
+                        "description": "在发出相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
+                        "label": "CPU 高水位线",
                         "type": "percent"
                     },
                     "cpu_low_watermark": {
                         "default": "60%",
-                        "description": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is cleared.",
-                        "label": "cpu_low_watermark",
+                        "description": "在解除相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
+                        "label": "CPU 低水位线",
                         "type": "percent"
                     },
                     "mem_check_interval": {
                         "default": "60s",
-                        "description": "The time interval for the periodic memory check.",
-                        "label": "mem_check_interval",
+                        "description": "定期内存检查的时间间隔。",
+                        "label": "内存检查间隔",
                         "oneOf": [
                             {
                                 "type": "duration"
@@ -1068,14 +1073,14 @@
                     },
                     "sysmem_high_watermark": {
                         "default": "70%",
-                        "description": "The threshold, as percentage of system memory,\n for how much system memory can be allocated before the corresponding alarm is raised.",
-                        "label": "sysmem_high_watermark",
+                        "description": "在发出相应报警之前可以分配多少系统内存的阈值，以系统内存的百分比表示。",
+                        "label": "系统内存高水位线",
                         "type": "percent"
                     },
                     "procmem_high_watermark": {
                         "default": "5%",
-                        "description": "The threshold, as percentage of system memory,\n for how much system memory can be allocated by one Erlang process before\n the corresponding alarm is raised.",
-                        "label": "procmem_high_watermark",
+                        "description": "在发出相应警报之前，一个Erlang进程可以分配多少系统内存的阈值，以系统内存的百分比表示。",
+                        "label": "进程内存高水位线",
                         "type": "percent"
                     }
                 },
@@ -1089,8 +1094,8 @@
                         "$ref": "#/components/schemas/emqx_conf_schema.console_handler"
                     },
                     "file_handlers": {
-                        "description": "Key-value list of file-based log handlers.",
-                        "label": "file_handlers",
+                        "description": "基于文件的日志处理进程的键值列表。",
+                        "label": "日志处理进程键值列表",
                         "properties": {
                             "$name": {
                                 "$ref": "#/components/schemas/emqx_conf_schema.log_file_handler"
@@ -1100,8 +1105,8 @@
                     },
                     "error_logger": {
                         "default": "silent",
-                        "description": "Deprecated.",
-                        "label": "error_logger",
+                        "description": "该配置已弃用。",
+                        "label": "配置已弃用",
                         "type": "string"
                     }
                 },
@@ -1110,21 +1115,21 @@
             "emqx_conf_schema.cluster_k8s": {
                 "properties": {
                     "apiserver": {
-                        "description": "Kubernetes API endpoint URL.",
-                        "label": "apiserver",
+                        "description": "指定 Kubernetes API Server。如有多个 Server 使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。\n          ",
+                        "label": "K8s 服务地址",
                         "readOnly": true,
                         "type": "string"
                     },
                     "service_name": {
                         "default": "emqx",
-                        "description": "EMQX broker service name.",
-                        "label": "service_name",
+                        "description": "指定 Kubernetes 中 EMQX 的服务名。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。\n          ",
+                        "label": "K8s 服务别名",
                         "readOnly": true,
                         "type": "string"
                     },
                     "address_type": {
-                        "description": "Address type used for connecting to the discovered nodes.",
-                        "label": "address_type",
+                        "description": "当使用 k8s 方式集群时，address_type 用来从 Kubernetes 接口的应答里获取什么形式的 Host 列表。\n指定 cluster.k8s.address_type 为 ip，则将从 Kubernetes 接口中获取 emqx 服务的 IP 地址列表:\n- 172.16.122.31 <\\br>\n- 172.16.122.32 <\\br>\n- 172.16.122.33 <\\br>\n然后与 cluster.k8s.app_name 配置指定的 app name 拼接，得到 emqx 节点列表: <\\br>\n- emqx@172.16.122.31\n- emqx@172.16.122.32\n- emqx@172.16.122.33\n          ",
+                        "label": "K8s 地址类型",
                         "readOnly": true,
                         "symbols": [
                             "ip",
@@ -1135,22 +1140,22 @@
                     },
                     "app_name": {
                         "default": "emqx",
-                        "description": "This parameter should be set to the part of the <code>node.name</code>\nbefore the '@'.<br/>\nFor example, if the <code>node.name</code> is <code>emqx@127.0.0.1</code>, then this parameter\nshould be set to <code>emqx</code>.",
-                        "label": "app_name",
+                        "description": "app_name 用来跟获取的 Host 列表拼接，得到节点列表。<\\br>\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。\n          ",
+                        "label": "K8s 节点名前缀",
                         "readOnly": true,
                         "type": "string"
                     },
                     "namespace": {
                         "default": "default",
-                        "description": "Kubernetes namespace.",
-                        "label": "namespace",
+                        "description": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，\n可设置 emqx 节点名的命名空间。与 cluster.k8s.suffix 一起使用用以拼接得到节点名列表。\n      ",
+                        "label": "K8s 命名空间",
                         "readOnly": true,
                         "type": "string"
                     },
                     "suffix": {
                         "default": "pod.local",
-                        "description": "Node name suffix.<br/>\nNote: this parameter is only relevant when <code>address_type</code> is <code>dns</code>\nor <code>hostname</code>.",
-                        "label": "suffix",
+                        "description": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，可设置 emqx 节点名的后缀。\n与 cluster.k8s.namespace 一起使用用以拼接得到节点名列表。\n          ",
+                        "label": "K8s 前缀",
                         "readOnly": true,
                         "type": "string"
                     }
@@ -1230,6 +1235,9 @@
                         "type": "object"
                     },
                     "access_rules": {
+                        "default": [
+                            "allow all"
+                        ],
                         "description": "The access control rules for this listener.<br/>See: https://github.com/emqtt/esockd#allowdeny",
                         "items": {
                             "type": "string"
@@ -1244,6 +1252,7 @@
                         "type": "boolean"
                     },
                     "proxy_protocol_timeout": {
+                        "default": "3s",
                         "description": "Timeout for proxy protocol. EMQX will close the TCP connection if proxy protocol packet is not received within the timeout.",
                         "label": "proxy_protocol_timeout",
                         "type": "duration"
@@ -1309,14 +1318,14 @@
                 "properties": {
                     "enable": {
                         "default": false,
-                        "description": "Enable this log handler.",
-                        "label": "enable",
+                        "description": "启用此日志处理进程。",
+                        "label": "启用此日志处理进程",
                         "type": "boolean"
                     },
                     "level": {
                         "default": "warning",
-                        "description": "Global log level. This includes the primary log level and all log handlers.",
-                        "label": "level",
+                        "description": "全局日志级别。 这包括主日志级别和所有日志处理进程。",
+                        "label": "全局日志级别",
                         "symbols": [
                             "debug",
                             "info",
@@ -1332,14 +1341,14 @@
                     },
                     "time_offset": {
                         "default": "system",
-                        "description": "The time offset to be used when formatting the timestamp.",
-                        "label": "time_offset",
+                        "description": "格式化时间戳时要使用的时间偏移量。",
+                        "label": "时间偏移",
                         "type": "string"
                     },
                     "chars_limit": {
                         "default": "unlimited",
-                        "description": "Set the maximum length of a single log message. If this length is exceeded, the log message will be truncated.",
-                        "label": "chars_limit",
+                        "description": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。",
+                        "label": "单个日志消息最大长度",
                         "oneOf": [
                             {
                                 "minimum": 1,
@@ -1355,8 +1364,8 @@
                     },
                     "formatter": {
                         "default": "text",
-                        "description": "Choose log format. <code>text</code> for free text, and <code>json</code> for structured logging.",
-                        "label": "formatter",
+                        "description": "选择日志格式。 <code>text</code> 用于自由文本，<code>json</code> 用于结构化日志记录。",
+                        "label": "日志格式",
                         "symbols": [
                             "text",
                             "json"
@@ -1365,26 +1374,26 @@
                     },
                     "single_line": {
                         "default": true,
-                        "description": "Print logs in a single line if set to true. Otherwise, log messages may span multiple lines.",
-                        "label": "single_line",
+                        "description": "如果设置为 true，则在一行中打印日志。 否则，日志消息可能跨越多行。",
+                        "label": "单行模式",
                         "type": "boolean"
                     },
                     "sync_mode_qlen": {
                         "default": 100,
-                        "description": "As long as the number of buffered log events is lower than this value, all log events are handled asynchronously.",
-                        "label": "sync_mode_qlen",
+                        "description": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。",
+                        "label": "异步模式最大事件数",
                         "type": "number"
                     },
                     "drop_mode_qlen": {
                         "default": 3000,
-                        "description": "When the number of buffered log events is larger than this value, the new log events are dropped.<br/>When drop mode is activated or deactivated, a message is printed in the logs.",
-                        "label": "drop_mode_qlen",
+                        "description": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。<br/>启用或停用丢弃模式时，会在日志中打印一条消息。",
+                        "label": "缓存最大日志事件数",
                         "type": "number"
                     },
                     "flush_qlen": {
                         "default": 8000,
-                        "description": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place. To flush events, the handler discards the buffered log messages without logging.",
-                        "label": "flush_qlen",
+                        "description": "如果缓冲日志事件的数量增长大于此阈值，则会发生刷新（删除）操作。 为了完成刷新事件，处理进程丢弃缓冲的日志消息。",
+                        "label": "刷新阈值",
                         "type": "number"
                     },
                     "overload_kill": {
@@ -1399,8 +1408,8 @@
                     },
                     "supervisor_reports": {
                         "default": "error",
-                        "description": "Type of supervisor reports that are logged.\n - `error`: only log errors in the Erlang processes.\n - `progress`: log process startup.",
-                        "label": "supervisor_reports",
+                        "description": " supervisor 报告的类型。\n  - `error`：仅记录 Erlang 进程中的错误。\n  - `progress`：记录进程启动。",
+                        "label": "报告类型",
                         "symbols": [
                             "error",
                             "progress"
@@ -1409,8 +1418,8 @@
                     },
                     "max_depth": {
                         "default": 100,
-                        "description": "Maximum depth for Erlang term log formatting and Erlang process message queue inspection.",
-                        "label": "max_depth",
+                        "description": "Erlang 内部格式日志格式化和 Erlang 进程消息队列检查的最大深度。",
+                        "label": "最大深度",
                         "oneOf": [
                             {
                                 "minimum": 1,
@@ -1428,6 +1437,9 @@
                 "type": "object"
             },
             "authn-hash.bcrypt_rw": {
+                "required": [
+                    "name"
+                ],
                 "properties": {
                     "name": {
                         "description": "BCRYPT password hashing.",
@@ -1440,6 +1452,7 @@
                     "salt_rounds": {
                         "default": 10,
                         "description": "Salt rounds for BCRYPT password generation.",
+                        "example": 10,
                         "label": "salt_rounds",
                         "type": "number"
                     }
@@ -1450,7 +1463,8 @@
                 "required": [
                     "url",
                     "backend",
-                    "mechanism"
+                    "mechanism",
+                    "method"
                 ],
                 "properties": {
                     "method": {
@@ -1552,7 +1566,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -1563,25 +1577,25 @@
                 "properties": {
                     "process_check_interval": {
                         "default": "30s",
-                        "description": "The time interval for the periodic process limit check.",
-                        "label": "process_check_interval",
+                        "description": "定期进程限制检查的时间间隔。",
+                        "label": "进程限制检查时间",
                         "type": "duration"
                     },
                     "process_high_watermark": {
                         "default": "80%",
-                        "description": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is raised.",
-                        "label": "process_high_watermark",
+                        "description": "在发出相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
+                        "label": "进程数高水位线",
                         "type": "percent"
                     },
                     "process_low_watermark": {
                         "default": "60%",
-                        "description": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is cleared.",
-                        "label": "process_low_watermark",
+                        "description": "在清除相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
+                        "label": "进程数低水位线",
                         "type": "percent"
                     },
                     "long_gc": {
-                        "description": "Enable Long GC monitoring.<br/>\nNotice: don't enable the monitor in production, because it adds overhead to\n garbage collection.",
-                        "label": "long_gc",
+                        "description": "启用长垃圾回收监控",
+                        "label": "启用长垃圾回收监控",
                         "oneOf": [
                             {
                                 "type": "duration"
@@ -1596,8 +1610,8 @@
                     },
                     "long_schedule": {
                         "default": "240ms",
-                        "description": "Enable Long Schedule monitoring.",
-                        "label": "long_schedule",
+                        "description": "启用长调度监控",
+                        "label": "启用长调度监控",
                         "oneOf": [
                             {
                                 "type": "duration"
@@ -1612,8 +1626,8 @@
                     },
                     "large_heap": {
                         "default": "32MB",
-                        "description": "Enable Large Heap monitoring.",
-                        "label": "large_heap",
+                        "description": "启用大 heap 监控",
+                        "label": "启用大 heap 监控",
                         "oneOf": [
                             {
                                 "type": "byteSize"
@@ -1628,14 +1642,14 @@
                     },
                     "busy_dist_port": {
                         "default": true,
-                        "description": "Enable Busy Distribution Port monitoring.",
-                        "label": "busy_dist_port",
+                        "description": "启用分布式端口过忙监控",
+                        "label": "启用分布式端口过忙监控",
                         "type": "boolean"
                     },
                     "busy_port": {
                         "default": true,
-                        "description": "Enable Busy Port monitoring.",
-                        "label": "busy_port",
+                        "description": "启用端口过忙监控",
+                        "label": "启用端口过忙监控",
                         "type": "boolean"
                     }
                 },
@@ -1644,19 +1658,19 @@
             "zone.force_gc": {
                 "properties": {
                     "enable": {
-                        "description": "Enable forced garbage collection.",
-                        "label": "enable",
+                        "description": "启用强制垃圾回收",
+                        "label": "启用强制垃圾回收",
                         "type": "boolean"
                     },
                     "count": {
-                        "description": "GC the process after this many received messages.",
-                        "label": "count",
+                        "description": "在进程收到多少消息之后，对此进程执行垃圾回收",
+                        "label": "垃圾回收消息数",
                         "minimum": 0,
                         "type": "number"
                     },
                     "bytes": {
-                        "description": "GC the process after specified number of bytes have passed through.",
-                        "label": "bytes",
+                        "description": "在进程处理过多少个字节之后，对此进程执行垃圾回收",
+                        "label": "垃圾回收字节数",
                         "type": "byteSize"
                     }
                 },
@@ -1666,15 +1680,15 @@
                 "properties": {
                     "name": {
                         "default": "localhost",
-                        "description": "The domain name of the EMQX cluster.",
-                        "label": "name",
+                        "description": "指定 DNS A 记录的名字。emqx 会通过访问这个 DNS A 记录来获取 IP 地址列表，\n然后拼接 cluster.dns.app 里指定的 APP 名得到集群中所有节点的列表。\n当 cluster.discovery_strategy 为 dns 时，此配置项才有效。\n          ",
+                        "label": "DNS名称",
                         "readOnly": true,
                         "type": "string"
                     },
                     "app": {
                         "default": "emqx",
-                        "description": "The symbolic name of the EMQX service.",
-                        "label": "app",
+                        "description": "用来与从 cluster.dns.name 获取的 IP 列表拼接得到节点名列表。\n当 cluster.discovery_strategy 为 dns 时，此配置项才有效。\n         ",
+                        "label": "DNS前缀标识",
                         "readOnly": true,
                         "type": "string"
                     }
@@ -1746,7 +1760,10 @@
             },
             "authn-redis.cluster": {
                 "required": [
+                    "database",
+                    "redis_type",
                     "servers",
+                    "cmd",
                     "backend",
                     "mechanism"
                 ],
@@ -1798,7 +1815,7 @@
                         "type": "boolean"
                     },
                     "servers": {
-                        "description": "\n集群要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].<br/>`\n对于每个节点，应为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>\n主机条目具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。\n",
+                        "description": "\n\n集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].<br/>`\n每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。\n",
                         "items": {
                             "type": "string"
                         },
@@ -1841,7 +1858,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -1950,8 +1967,8 @@
             "emqx_conf_schema.log_file_handler": {
                 "properties": {
                     "file": {
-                        "description": "Name the log file.",
-                        "label": "file",
+                        "description": "日志文件名字。",
+                        "label": "日志文件名字",
                         "type": "string"
                     },
                     "rotation": {
@@ -1961,8 +1978,8 @@
                     },
                     "max_size": {
                         "default": "10MB",
-                        "description": "This parameter controls log file rotation. The value `infinity` means the log file will grow indefinitely, otherwise the log file will be rotated once it reaches `max_size` in bytes.",
-                        "label": "max_size",
+                        "description": "此参数控制日志文件轮换。 `infinity` 意味着日志文件将无限增长，否则日志文件将在达到 `max_size`（以字节为单位）时进行轮换。",
+                        "label": "日志文件轮换大小",
                         "oneOf": [
                             {
                                 "type": "byteSize"
@@ -1977,14 +1994,14 @@
                     },
                     "enable": {
                         "default": false,
-                        "description": "Enable this log handler.",
-                        "label": "enable",
+                        "description": "启用此日志处理进程。",
+                        "label": "启用此日志处理进程",
                         "type": "boolean"
                     },
                     "level": {
                         "default": "warning",
-                        "description": "Global log level. This includes the primary log level and all log handlers.",
-                        "label": "level",
+                        "description": "全局日志级别。 这包括主日志级别和所有日志处理进程。",
+                        "label": "全局日志级别",
                         "symbols": [
                             "debug",
                             "info",
@@ -2000,14 +2017,14 @@
                     },
                     "time_offset": {
                         "default": "system",
-                        "description": "The time offset to be used when formatting the timestamp.",
-                        "label": "time_offset",
+                        "description": "格式化时间戳时要使用的时间偏移量。",
+                        "label": "时间偏移",
                         "type": "string"
                     },
                     "chars_limit": {
                         "default": "unlimited",
-                        "description": "Set the maximum length of a single log message. If this length is exceeded, the log message will be truncated.",
-                        "label": "chars_limit",
+                        "description": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。",
+                        "label": "单个日志消息最大长度",
                         "oneOf": [
                             {
                                 "minimum": 1,
@@ -2023,8 +2040,8 @@
                     },
                     "formatter": {
                         "default": "text",
-                        "description": "Choose log format. <code>text</code> for free text, and <code>json</code> for structured logging.",
-                        "label": "formatter",
+                        "description": "选择日志格式。 <code>text</code> 用于自由文本，<code>json</code> 用于结构化日志记录。",
+                        "label": "日志格式",
                         "symbols": [
                             "text",
                             "json"
@@ -2033,26 +2050,26 @@
                     },
                     "single_line": {
                         "default": true,
-                        "description": "Print logs in a single line if set to true. Otherwise, log messages may span multiple lines.",
-                        "label": "single_line",
+                        "description": "如果设置为 true，则在一行中打印日志。 否则，日志消息可能跨越多行。",
+                        "label": "单行模式",
                         "type": "boolean"
                     },
                     "sync_mode_qlen": {
                         "default": 100,
-                        "description": "As long as the number of buffered log events is lower than this value, all log events are handled asynchronously.",
-                        "label": "sync_mode_qlen",
+                        "description": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。",
+                        "label": "异步模式最大事件数",
                         "type": "number"
                     },
                     "drop_mode_qlen": {
                         "default": 3000,
-                        "description": "When the number of buffered log events is larger than this value, the new log events are dropped.<br/>When drop mode is activated or deactivated, a message is printed in the logs.",
-                        "label": "drop_mode_qlen",
+                        "description": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。<br/>启用或停用丢弃模式时，会在日志中打印一条消息。",
+                        "label": "缓存最大日志事件数",
                         "type": "number"
                     },
                     "flush_qlen": {
                         "default": 8000,
-                        "description": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place. To flush events, the handler discards the buffered log messages without logging.",
-                        "label": "flush_qlen",
+                        "description": "如果缓冲日志事件的数量增长大于此阈值，则会发生刷新（删除）操作。 为了完成刷新事件，处理进程丢弃缓冲的日志消息。",
+                        "label": "刷新阈值",
                         "type": "number"
                     },
                     "overload_kill": {
@@ -2067,8 +2084,8 @@
                     },
                     "supervisor_reports": {
                         "default": "error",
-                        "description": "Type of supervisor reports that are logged.\n - `error`: only log errors in the Erlang processes.\n - `progress`: log process startup.",
-                        "label": "supervisor_reports",
+                        "description": " supervisor 报告的类型。\n  - `error`：仅记录 Erlang 进程中的错误。\n  - `progress`：记录进程启动。",
+                        "label": "报告类型",
                         "symbols": [
                             "error",
                             "progress"
@@ -2077,8 +2094,8 @@
                     },
                     "max_depth": {
                         "default": 100,
-                        "description": "Maximum depth for Erlang term log formatting and Erlang process message queue inspection.",
-                        "label": "max_depth",
+                        "description": "Erlang 内部格式日志格式化和 Erlang 进程消息队列检查的最大深度。",
+                        "label": "最大深度",
                         "oneOf": [
                             {
                                 "minimum": 1,
@@ -2097,7 +2114,10 @@
             },
             "authn-jwt.hmac-based": {
                 "required": [
-                    "mechanism"
+                    "mechanism",
+                    "secret",
+                    "algorithm",
+                    "use_jwks"
                 ],
                 "properties": {
                     "use_jwks": {
@@ -2156,23 +2176,23 @@
             "zone.flapping_detect": {
                 "properties": {
                     "enable": {
-                        "description": "Enable flapping connection detection feature.",
-                        "label": "enable",
+                        "description": "启用抖动检测功能",
+                        "label": "启用抖动检测",
                         "type": "boolean"
                     },
                     "max_count": {
-                        "description": "The maximum number of disconnects allowed for a MQTT Client in `window_time`",
-                        "label": "max_count",
+                        "description": "MQTT 客户端在\"窗口\"时间内允许的最大断开次数",
+                        "label": "最大断开次数",
                         "type": "number"
                     },
                     "window_time": {
-                        "description": "The time window for flapping detection.",
-                        "label": "window_time",
+                        "description": "抖动检测的时间窗口。",
+                        "label": "时间窗口",
                         "type": "duration"
                     },
                     "ban_time": {
-                        "description": "How long the flapping clientid will be banned.",
-                        "label": "ban_time",
+                        "description": "抖动的客户端将会被禁止登陆多长时间",
+                        "label": "禁止登陆时长",
                         "type": "duration"
                     }
                 },
@@ -2181,8 +2201,8 @@
             "zone.stats": {
                 "properties": {
                     "enable": {
-                        "description": "Enable/disable statistic data collection.",
-                        "label": "enable",
+                        "description": "启用/禁用统计数据收集功能",
+                        "label": "启用/禁用统计数据收集功能",
                         "type": "boolean"
                     }
                 },
@@ -2191,7 +2211,10 @@
             "authn-mongodb.replica-set": {
                 "required": [
                     "database",
+                    "replica_set_name",
                     "servers",
+                    "mongo_type",
+                    "collection",
                     "backend",
                     "mechanism"
                 ],
@@ -2272,7 +2295,7 @@
                         "type": "enum"
                     },
                     "servers": {
-                        "description": "\n集群要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].<br/>`\n对于每个节点，应为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>\n主机条目具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。\n",
+                        "description": "\n集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].<br/>`\n每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。\n",
                         "items": {
                             "type": "string"
                         },
@@ -2345,7 +2368,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -2356,26 +2379,26 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable log handler overload kill feature.",
-                        "label": "enable",
+                        "description": "启用日志处理进程过载终止功能。",
+                        "label": "日志处理进程过载终止",
                         "type": "boolean"
                     },
                     "mem_size": {
                         "default": "30MB",
-                        "description": "Maximum memory size that the handler process is allowed to use.",
-                        "label": "mem_size",
+                        "description": "处理进程进程允许使用的最大内存。",
+                        "label": "理进程进程允许使用的最大内存",
                         "type": "byteSize"
                     },
                     "qlen": {
                         "default": 20000,
-                        "description": "Maximum allowed queue length.",
-                        "label": "qlen",
+                        "description": "允许的最大队列长度。",
+                        "label": "最大队列长度",
                         "type": "number"
                     },
                     "restart_after": {
                         "default": "5s",
-                        "description": "If the handler is terminated, it restarts automatically after a delay specified in milliseconds. The value `infinity` prevents restarts.",
-                        "label": "restart_after",
+                        "description": "如果处理进程终止，它会在以毫秒为单位指定的延迟后自动重新启动。 `infinity` 防止重新启动。",
+                        "label": "处理进程重启延迟",
                         "oneOf": [
                             {
                                 "symbols": [
@@ -2448,52 +2471,52 @@
                 "properties": {
                     "num_items": {
                         "default": 10,
-                        "description": "The number of top processes per monitoring group",
-                        "label": "num_items",
+                        "description": "每个监视组的顶级进程数",
+                        "label": "顶级进程数",
                         "minimum": 1,
                         "type": "number"
                     },
                     "sample_interval": {
                         "default": "2s",
-                        "description": "Specifies how often process top should be collected",
-                        "label": "sample_interval",
+                        "description": "指定应收集进程顶部的频率",
+                        "label": "取样时间",
                         "type": "duration"
                     },
                     "max_procs": {
                         "default": 1000000,
-                        "description": "Stop collecting data when the number of processes\nin the VM exceeds this value",
-                        "label": "max_procs",
+                        "description": "当VM中的进程数超过此值时，停止收集数据",
+                        "label": "最大进程数",
                         "minimum": 1,
                         "type": "number"
                     },
                     "db_hostname": {
                         "default": "",
-                        "description": "Hostname of the PostgreSQL database that collects the data points",
-                        "label": "db_hostname",
+                        "description": "收集数据点的 PostgreSQL 数据库的主机名",
+                        "label": "数据库主机名",
                         "type": "string"
                     },
                     "db_port": {
                         "default": 5432,
-                        "description": "Port of the PostgreSQL database that collects the data points",
-                        "label": "db_port",
+                        "description": "收集数据点的 PostgreSQL 数据库的端口",
+                        "label": "数据库端口",
                         "type": "number"
                     },
                     "db_username": {
                         "default": "system_monitor",
-                        "description": "EMQX username in the PostgreSQL database",
-                        "label": "db_username",
+                        "description": "PostgreSQL 数据库的用户名",
+                        "label": "数据库用户名",
                         "type": "string"
                     },
                     "db_password": {
                         "default": "system_monitor_password",
-                        "description": "EMQX user password in the PostgreSQL database",
-                        "label": "db_password",
+                        "description": "PostgreSQL 数据库的密码",
+                        "label": "数据库密码",
                         "type": "string"
                     },
                     "db_name": {
                         "default": "postgres",
-                        "description": "PostgreSQL database name",
-                        "label": "db_name",
+                        "description": "PostgreSQL 数据库的数据库名",
+                        "label": "数据库名",
                         "type": "string"
                     }
                 },
@@ -2501,7 +2524,10 @@
             },
             "authn-redis.standalone": {
                 "required": [
+                    "database",
+                    "redis_type",
                     "server",
+                    "cmd",
                     "backend",
                     "mechanism"
                 ],
@@ -2593,7 +2619,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -2602,7 +2628,9 @@
             },
             "authn-jwt.public-key": {
                 "required": [
-                    "mechanism"
+                    "mechanism",
+                    "algorithm",
+                    "use_jwks"
                 ],
                 "properties": {
                     "use_jwks": {
@@ -2656,11 +2684,11 @@
                 "properties": {
                     "seeds": {
                         "default": "",
-                        "description": "List EMQX node names in the static cluster. See <code>node.name</code>.",
+                        "description": "集群中的EMQX节点名称列表，\n指定固定的节点列表，多个节点间使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 static 时，此配置项才有效。\n适合于节点数量较少且固定的集群。\n          ",
                         "items": {
                             "type": "string"
                         },
-                        "label": "seeds",
+                        "label": "集群静态节点",
                         "readOnly": true,
                         "type": "array"
                     }
@@ -2669,7 +2697,10 @@
             },
             "authn-redis.sentinel": {
                 "required": [
+                    "database",
+                    "redis_type",
                     "servers",
+                    "cmd",
                     "backend",
                     "mechanism"
                 ],
@@ -2721,7 +2752,7 @@
                         "type": "boolean"
                     },
                     "servers": {
-                        "description": "\n集群要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].<br/>`\n对于每个节点，应为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>\n主机条目具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。\n",
+                        "description": "\n\n集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].<br/>`\n每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。\n",
                         "items": {
                             "type": "string"
                         },
@@ -2769,7 +2800,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -2780,22 +2811,22 @@
                 "properties": {
                     "retry_interval": {
                         "default": "1s",
-                        "description": "Time interval to retry after a failed call.",
-                        "label": "retry_interval",
+                        "description": "当集群间调用出错时，多长时间重试一次。",
+                        "label": "重试时间间隔",
                         "type": "duration"
                     },
                     "max_history": {
                         "default": 100,
-                        "description": "Retain the maximum number of completed transactions (for queries).",
-                        "label": "max_history",
+                        "description": "集群间调用最多保留的历史记录数。只用于排错时查看。",
+                        "label": "最大历史记录",
                         "maximum": 500,
                         "minimum": 1,
                         "type": "number"
                     },
                     "cleanup_interval": {
                         "default": "5m",
-                        "description": "Time interval to clear completed but stale transactions.\nEnsure that the number of completed transactions is less than the <code>max_history</code>.",
-                        "label": "cleanup_interval",
+                        "description": "清理过期事务的时间间隔",
+                        "label": "清理间隔",
                         "type": "duration"
                     }
                 },
@@ -2804,35 +2835,38 @@
             "zone.overload_protection": {
                 "properties": {
                     "enable": {
-                        "description": "React on system overload or not",
-                        "label": "enable",
+                        "description": "是否对系统过载做出反应",
+                        "label": "是否对系统过载做出反应",
                         "type": "boolean"
                     },
                     "backoff_delay": {
-                        "description": "Some unimportant tasks could be delayed for execution, here set the delays in ms",
-                        "label": "backoff_delay",
+                        "description": "一些不重要的任务可能会延迟执行，以毫秒为单位设置延迟",
+                        "label": "延迟时间",
                         "minimum": 0,
                         "type": "number"
                     },
                     "backoff_gc": {
-                        "description": "Skip forceful GC if necessary",
-                        "label": "backoff_gc",
+                        "description": "如有必要，跳过强制GC",
+                        "label": "跳过GC",
                         "type": "boolean"
                     },
                     "backoff_hibernation": {
-                        "description": "Skip process hibernation if necessary",
-                        "label": "backoff_hibernation",
+                        "description": "如有必要，跳过进程休眠",
+                        "label": "跳过休眠",
                         "type": "boolean"
                     },
                     "backoff_new_conn": {
-                        "description": "Close new incoming connections if necessary",
-                        "label": "backoff_new_conn",
+                        "description": "如有必要，关闭新进来的连接",
+                        "label": "关闭新连接",
                         "type": "boolean"
                     }
                 },
                 "type": "object"
             },
             "authn-hash.other_algorithms": {
+                "required": [
+                    "name"
+                ],
                 "properties": {
                     "name": {
                         "description": "Simple password hashing algorithm.",
@@ -2851,6 +2885,7 @@
                         "description": "Salt position for PLAIN, MD5, SHA, SHA256 and SHA512 algorithms.",
                         "label": "salt_position",
                         "symbols": [
+                            "disable",
                             "prefix",
                             "suffix"
                         ],
@@ -2878,7 +2913,8 @@
                 "required": [
                     "url",
                     "backend",
-                    "mechanism"
+                    "mechanism",
+                    "method"
                 ],
                 "properties": {
                     "method": {
@@ -2979,7 +3015,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -3042,6 +3078,7 @@
                 "required": [
                     "database",
                     "server",
+                    "query",
                     "backend",
                     "mechanism"
                 ],
@@ -3128,7 +3165,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -3142,7 +3179,7 @@
                             "log",
                             "publish"
                         ],
-                        "description": "The actions triggered when the alarm is activated.<br/>\nCurrently, the following actions are supported: <code>log</code> and <code>publish</code>.\n<code>log</code> is to write the alarm to log (console or file).\n<code>publish</code> is to publish the alarm as an MQTT message to the system topics:\n<code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/activate</code> and\n<code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/deactivate</code>",
+                        "description": "警报激活时触发的动作。<br/>\\n目前，支持以下操作：<code>log</code> 和 <code>publish</code>.\\n<code>log</code> 将告警写入日志 (控制台或者文件).\\n<code>publish</code> 将告警作为 MQTT 消息发布到系统主题:\\n<code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/activate</code> and\\n<code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/deactivate</code>",
                         "example": [
                             "log",
                             "publish"
@@ -3150,23 +3187,23 @@
                         "items": {
                             "type": "string"
                         },
-                        "label": "actions",
+                        "label": "告警动作",
                         "type": "array"
                     },
                     "size_limit": {
                         "default": 1000,
-                        "description": "The maximum total number of deactivated alarms to keep as history.<br>\nWhen this limit is exceeded, the oldest deactivated alarms are deleted to cap the total number.\n",
+                        "description": "要保留为历史记录的已停用报警的最大总数。当超过此限制时，将删除最旧的停用报警，以限制总数。",
                         "example": 1000,
-                        "label": "size_limit",
+                        "label": "告警总数限制",
                         "maximum": 3000,
                         "minimum": 1,
                         "type": "number"
                     },
                     "validity_period": {
                         "default": "24h",
-                        "description": "Retention time of deactivated alarms. Alarms are not deleted immediately\nwhen deactivated, but after the retention time.\n",
+                        "description": "停用报警的保留时间。报警在停用时不会立即删除，而是在保留时间之后删除。",
                         "example": "24h",
-                        "label": "validity_period",
+                        "label": "告警保留时间",
                         "type": "duration"
                     }
                 },
@@ -3174,7 +3211,9 @@
             },
             "authn-jwt.jwks": {
                 "required": [
-                    "mechanism"
+                    "mechanism",
+                    "endpoint",
+                    "use_jwks"
                 ],
                 "properties": {
                     "use_jwks": {
@@ -3267,6 +3306,8 @@
                 "required": [
                     "database",
                     "server",
+                    "mongo_type",
+                    "collection",
                     "backend",
                     "mechanism"
                 ],
@@ -3402,7 +3443,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -3410,6 +3451,9 @@
                 "type": "object"
             },
             "authn-hash.bcrypt": {
+                "required": [
+                    "name"
+                ],
                 "properties": {
                     "name": {
                         "description": "BCRYPT password hashing.",
@@ -3669,6 +3713,9 @@
                         "type": "object"
                     },
                     "access_rules": {
+                        "default": [
+                            "allow all"
+                        ],
                         "description": "The access control rules for this listener.<br/>See: https://github.com/emqtt/esockd#allowdeny",
                         "items": {
                             "type": "string"
@@ -3683,6 +3730,7 @@
                         "type": "boolean"
                     },
                     "proxy_protocol_timeout": {
+                        "default": "3s",
                         "description": "Timeout for proxy protocol. EMQX will close the TCP connection if proxy protocol packet is not received within the timeout.",
                         "label": "proxy_protocol_timeout",
                         "type": "duration"
@@ -3748,13 +3796,13 @@
                 "properties": {
                     "enable_session_registry": {
                         "default": true,
-                        "description": "Enable session registry",
+                        "description": "是否启用 Session Registry",
                         "label": "enable_session_registry",
                         "type": "boolean"
                     },
                     "session_locking_strategy": {
                         "default": "quorum",
-                        "description": "Session locking strategy in a cluster.<br/>\n - `local`: only lock the session on the current node\n - `one`: select only one remote node to lock the session\n - `quorum`: select some nodes to lock the session\n - `all`: lock the session on all the nodes in the cluster",
+                        "description": "Session 在集群中的锁策略。\n  - `loca`: 仅锁本节点的 Session\n  - `one`: 任选一个其它节点加锁\n  - `quorum`: 选择集群中半数以上的节点加锁\n  - `all`: 选择所有节点加锁\n",
                         "label": "session_locking_strategy",
                         "symbols": [
                             "local",
@@ -3766,7 +3814,7 @@
                     },
                     "shared_subscription_strategy": {
                         "default": "round_robin",
-                        "description": "Dispatch strategy for shared subscription.<br/>\n - `random`: dispatch the message to a random selected subscriber\n - `round_robin`: select the subscribers in a round-robin manner\n - `sticky`: always use the last selected subscriber to dispatch,\n   until the subscriber disconnects.\n - `hash`: select the subscribers by the hash of `clientIds`",
+                        "description": "共享订阅消息派发策略。\n  - `random`: 随机挑选一个共享订阅者派发\n  - `round_robin`: 使用 round-robin 策略派发\n  - `sticky`: 总是使用上次选中的订阅者派发，直到它断开连接\n  - `hash`: 使用发送者的 Client ID 进行 Hash 来选择订阅者\n",
                         "label": "shared_subscription_strategy",
                         "symbols": [
                             "random",
@@ -3779,13 +3827,13 @@
                     },
                     "shared_dispatch_ack_enabled": {
                         "default": false,
-                        "description": "Enable/disable shared dispatch acknowledgement for QoS1 and QoS2 messages.<br/>\n This should allow messages to be dispatched to a different subscriber in\n the group in case the picked (based on `shared_subscription_strategy`) subscriber\n is offline.",
+                        "description": "启用/禁用 QoS1 和 QoS2 消息的共享派发确认。\n开启后，允许将消息从未及时回复 ACK 的订阅者 （例如，客户端离线）重新派发给另外一个订阅者。\n",
                         "label": "shared_dispatch_ack_enabled",
                         "type": "boolean"
                     },
                     "route_batch_clean": {
                         "default": true,
-                        "description": "Enable batch clean for deleted routes.",
+                        "description": "是否开启批量清除路由。",
                         "label": "route_batch_clean",
                         "type": "boolean"
                     },
@@ -3801,8 +3849,8 @@
                 "properties": {
                     "addr": {
                         "default": "239.192.0.1",
-                        "description": "Multicast IPv4 address.",
-                        "label": "addr",
+                        "description": "指定多播 IPv4 地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。\n          ",
+                        "label": "多播地址",
                         "readOnly": true,
                         "type": "string"
                     },
@@ -3811,25 +3859,25 @@
                             4369,
                             4370
                         ],
-                        "description": "List of UDP ports used for service discovery.<br/>\nNote: probe messages are broadcast to all the specified ports.",
+                        "description": "指定多播端口。如有多个端口使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。\n          ",
                         "items": {
                             "type": "number"
                         },
-                        "label": "ports",
+                        "label": "多播端口",
                         "readOnly": true,
                         "type": "array"
                     },
                     "iface": {
                         "default": "0.0.0.0",
-                        "description": "Local IP address the node discovery service needs to bind to.",
-                        "label": "iface",
+                        "description": "指定节点发现服务需要绑定到本地 IP 地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。\n          ",
+                        "label": "多播绑定地址",
                         "readOnly": true,
                         "type": "string"
                     },
                     "ttl": {
                         "default": 255,
-                        "description": "Time-to-live (TTL) for the outgoing UDP datagrams.",
-                        "label": "ttl",
+                        "description": "指定多播的 Time-To-Live 值。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。\n          ",
+                        "label": "多播TTL",
                         "maximum": 255,
                         "minimum": 0,
                         "readOnly": true,
@@ -3837,29 +3885,29 @@
                     },
                     "loop": {
                         "default": true,
-                        "description": "If <code>true</code>, loop UDP datagrams back to the local socket.",
-                        "label": "loop",
+                        "description": "设置多播的报文是否投递到本地回环地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。\n          ",
+                        "label": "多播回环开关",
                         "readOnly": true,
                         "type": "boolean"
                     },
                     "sndbuf": {
                         "default": "16KB",
-                        "description": "Size of the kernel-level buffer for outgoing datagrams.",
-                        "label": "sndbuf",
+                        "description": "外发数据报的内核级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。\n          ",
+                        "label": "多播发送缓存区",
                         "readOnly": true,
                         "type": "byteSize"
                     },
                     "recbuf": {
                         "default": "16KB",
-                        "description": "Size of the kernel-level buffer for incoming datagrams.",
-                        "label": "recbuf",
+                        "description": "接收数据报的内核级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。\n          ",
+                        "label": "多播接收数据缓冲区",
                         "readOnly": true,
                         "type": "byteSize"
                     },
                     "buffer": {
                         "default": "32KB",
-                        "description": "Size of the user-level buffer.",
-                        "label": "buffer",
+                        "description": "用户级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。\n          ",
+                        "label": "多播用户级缓冲区",
                         "readOnly": true,
                         "type": "byteSize"
                     }
@@ -3869,7 +3917,7 @@
             "zone.mqtt": {
                 "properties": {
                     "idle_timeout": {
-                        "description": "Close TCP connections from the clients that have not sent MQTT CONNECT\nmessage within this interval.",
+                        "description": "关闭在此时间间隔内未发送 MQTT CONNECT 消息的客户端的 TCP 连接。",
                         "label": "idle_timeout",
                         "oneOf": [
                             {
@@ -3884,26 +3932,26 @@
                         ]
                     },
                     "max_packet_size": {
-                        "description": "Maximum MQTT packet size allowed.",
+                        "description": "允许的最大 MQTT 报文大小。",
                         "label": "max_packet_size",
                         "type": "byteSize"
                     },
                     "max_clientid_len": {
-                        "description": "Maximum allowed length of MQTT clientId.",
+                        "description": "允许的最大 MQTT Client ID 长度",
                         "label": "max_clientid_len",
                         "maximum": 65535,
                         "minimum": 23,
                         "type": "number"
                     },
                     "max_topic_levels": {
-                        "description": "Maximum topic levels allowed.",
+                        "description": "允许的 Topic 最大层级数",
                         "label": "max_topic_levels",
                         "maximum": 65535,
                         "minimum": 1,
                         "type": "number"
                     },
                     "max_qos_allowed": {
-                        "description": "Maximum QoS allowed.",
+                        "description": "允许的最大 QoS 等级。",
                         "label": "max_qos_allowed",
                         "symbols": [
                             0,
@@ -3913,44 +3961,44 @@
                         "type": "enum"
                     },
                     "max_topic_alias": {
-                        "description": "Maximum Topic Alias, 0 means no topic alias supported.",
+                        "description": "允许的最大主题别名数，0 表示不支持主题别名。",
                         "label": "max_topic_alias",
                         "maximum": 65535,
                         "minimum": 0,
                         "type": "number"
                     },
                     "retain_available": {
-                        "description": "Support MQTT retained messages.",
+                        "description": "是否支持 retained 消息。",
                         "label": "retain_available",
                         "type": "boolean"
                     },
                     "wildcard_subscription": {
-                        "description": "Support MQTT Wildcard Subscriptions.",
+                        "description": "是否支持主题的通配符订阅。",
                         "label": "wildcard_subscription",
                         "type": "boolean"
                     },
                     "shared_subscription": {
-                        "description": "Support MQTT Shared Subscriptions.",
+                        "description": "是否支持 MQTT 共享订阅",
                         "label": "shared_subscription",
                         "type": "boolean"
                     },
                     "ignore_loop_deliver": {
-                        "description": "Ignore loop delivery of messages for MQTT v3.1.1.",
+                        "description": "是否为 MQTT v3.1.1/v3.1.0 客户端忽略接收自己发布出消息",
                         "label": "ignore_loop_deliver",
                         "type": "boolean"
                     },
                     "strict_mode": {
-                        "description": "Parse MQTT messages in strict mode. When set to true, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected",
+                        "description": "是否以严格模式解析 MQTT 消息。\n当设置为 true 时，例如客户端 ID、主题名称等中的无效 utf8 字符串将导致客户端断开连接。",
                         "label": "strict_mode",
                         "type": "boolean"
                     },
                     "response_information": {
-                        "description": "Specify the response information returned to the client\nThis feature is disabled if is set to \"\".",
+                        "description": "指定返回给客户端的响应信息。如果设置为 \"\"，则禁用此功能。",
                         "label": "response_information",
                         "type": "string"
                     },
                     "server_keepalive": {
-                        "description": "'Server Keep Alive' of MQTT 5.0.\nIf the server returns a 'Server Keep Alive' in the CONNACK packet,\nthe client MUST use that value instead of the value it sent as the 'Keep Alive'.",
+                        "description": "MQTT 5.0 的 'Server Keep Alive' 属性。\n如果服务器在 CONNACK 数据包中返回'Server Keep Alive'，则客户端必须使用该值作为实际的 'Keep Alive' 值。",
                         "label": "server_keepalive",
                         "oneOf": [
                             {
@@ -3965,12 +4013,12 @@
                         ]
                     },
                     "keepalive_backoff": {
-                        "description": "The backoff for MQTT keepalive timeout. The broker will close the connection\nafter idling for 'Keepalive * backoff * 2'.",
+                        "description": "Broker 判定客户端 Keep Alive 超时的退避乘数。EMQX 将在'Keepalive * backoff * 2' 空闲后关闭连接。",
                         "label": "keepalive_backoff",
                         "type": "number"
                     },
                     "max_subscriptions": {
-                        "description": "Maximum number of subscriptions allowed.",
+                        "description": "允许的每个客户端最大订阅数",
                         "label": "max_subscriptions",
                         "oneOf": [
                             {
@@ -3986,24 +4034,24 @@
                         ]
                     },
                     "upgrade_qos": {
-                        "description": "Force upgrade of QoS level according to subscription.",
+                        "description": "投递消息时，是否根据订阅主题时的 QoS 等级来强制提升派发的消息的 QoS 等级。",
                         "label": "upgrade_qos",
                         "type": "boolean"
                     },
                     "max_inflight": {
-                        "description": "Maximum size of the Inflight Window storing QoS1/2 messages delivered but un-acked.",
+                        "description": "飞行窗口的最大值。",
                         "label": "max_inflight",
                         "maximum": 65535,
                         "minimum": 1,
                         "type": "number"
                     },
                     "retry_interval": {
-                        "description": "Retry interval for QoS1/2 message delivering.",
+                        "description": "QoS1/2 消息的重新投递间隔。",
                         "label": "retry_interval",
                         "type": "duration"
                     },
                     "max_awaiting_rel": {
-                        "description": "Maximum QoS2 packets (Client -> Broker) awaiting PUBREL.",
+                        "description": "PUBREL (Client -> Broker) 最大等待队列长度。",
                         "label": "max_awaiting_rel",
                         "oneOf": [
                             {
@@ -4018,17 +4066,17 @@
                         ]
                     },
                     "await_rel_timeout": {
-                        "description": "The QoS2 messages (Client -> Broker) will be dropped if awaiting PUBREL timeout.",
+                        "description": "PUBREL (Client -> Broker) 最大等待时间，超时则会被丢弃。",
                         "label": "await_rel_timeout",
                         "type": "duration"
                     },
                     "session_expiry_interval": {
-                        "description": "Default session expiry interval for MQTT V3.1.1 connections.",
+                        "description": "Session 默认超时时间。",
                         "label": "session_expiry_interval",
                         "type": "duration"
                     },
                     "max_mqueue_len": {
-                        "description": "Maximum queue length. Enqueued messages when persistent client disconnected,\nor inflight window is full.",
+                        "description": "消息队列最大长度。持久客户端断开连接或飞行窗口已满时排队的消息长度。",
                         "label": "max_mqueue_len",
                         "oneOf": [
                             {
@@ -4044,7 +4092,7 @@
                         ]
                     },
                     "mqueue_priorities": {
-                        "description": "Topic priorities.<br>\nThere's no priority table by default, hence all messages are treated equal.<br>\nPriority number [1-255]<br>\n\n**NOTE**: Comma and equal signs are not allowed for priority topic names.<br>\n**NOTE**: Messages for topics not in the priority table are treated as\neither highest or lowest priority depending on the configured value for\n<code>mqtt.mqueue_default_priority</code>.\n<br><br>\n**Examples**:\nTo configure <code>\"topic/1\" > \"topic/2\"</code>:<br/>\n<code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code>",
+                        "description": "主题优先级。取值范围 [1-255]\n默认优先级表为空，即所有的主题优先级相同。\n\n注：优先主题名称中不支持使用逗号和等号。\n注：不在此列表中的主题，被视为最高/最低优先级，这取决于<code>mqtt.mqueue_default_priority</code> 的配置\n\n示例：\n配置 <code>\"topic/1\" > \"topic/2\"</code>:\n<code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code>\n",
                         "label": "mqueue_priorities",
                         "oneOf": [
                             {
@@ -4059,7 +4107,7 @@
                         ]
                     },
                     "mqueue_default_priority": {
-                        "description": "Default to the highest priority for topics not matching priority table.",
+                        "description": "主题默认的优先级，不在 <code>mqtt.mqueue_priorities</code> 中的主题将会使用该优先级。",
                         "label": "mqueue_default_priority",
                         "symbols": [
                             "highest",
@@ -4068,17 +4116,17 @@
                         "type": "enum"
                     },
                     "mqueue_store_qos0": {
-                        "description": "Support enqueue QoS0 messages.",
+                        "description": "消息队列是否存储 QoS0 消息。",
                         "label": "mqueue_store_qos0",
                         "type": "boolean"
                     },
                     "use_username_as_clientid": {
-                        "description": "Replace client ID with the username.",
+                        "description": "是否使用 Client ID 替换 Username。",
                         "label": "use_username_as_clientid",
                         "type": "boolean"
                     },
                     "peer_cert_as_username": {
-                        "description": "Use the CN, DN or CRT field from the client certificate as a username.\nOnly works for the TLS connection.",
+                        "description": "使用客户端证书中的 CN, DN 字段或整个证书来作为客户端用户名。",
                         "label": "peer_cert_as_username",
                         "symbols": [
                             "disabled",
@@ -4091,7 +4139,7 @@
                         "type": "enum"
                     },
                     "peer_cert_as_clientid": {
-                        "description": "Use the CN, DN or CRT field from the client certificate as a clientid.\nOnly works for the TLS connection.",
+                        "description": "使用客户端证书中的 CN, DN 字段或整个证书来作为客户端 ID。",
                         "label": "peer_cert_as_clientid",
                         "symbols": [
                             "disabled",
@@ -4157,13 +4205,13 @@
             "zone.conn_congestion": {
                 "properties": {
                     "enable_alarm": {
-                        "description": "Enable or disable connection congestion alarm.",
-                        "label": "enable_alarm",
+                        "description": "启用或者禁用连接阻塞告警功能",
+                        "label": "启用/禁用阻塞告警",
                         "type": "boolean"
                     },
                     "min_alarm_sustain_duration": {
-                        "description": "Minimal time before clearing the alarm.\n\nThe alarm is cleared only when there's no pending data in\nthe queue, and at least `min_alarm_sustain_duration`\nmilliseconds passed since the last time we considered the connection \"congested\".\n\nThis is to avoid clearing and raising the alarm again too often.",
-                        "label": "min_alarm_sustain_duration",
+                        "description": "清除警报前的最短时间。\\n\\n只有当队列中没有挂起的数据，并且连接至少被堵塞了 \"min_alarm_sustain_duration\" 毫秒时，\\n报警才会被清除。这是为了避免太频繁地清除和再次发出警报.",
+                        "label": "告警维持时间",
                         "type": "duration"
                     }
                 },
@@ -4206,8 +4254,8 @@
                 "properties": {
                     "bind": {
                         "default": 18083,
-                        "description": "Port without IP(18083) or port with specified IP(127.0.0.1:18083).",
-                        "label": "bind",
+                        "description": "监听的地址与端口",
+                        "label": "绑定端口",
                         "oneOf": [
                             {
                                 "type": "ip_port"
@@ -4220,38 +4268,38 @@
                     },
                     "num_acceptors": {
                         "default": 4,
-                        "description": "Socket acceptor pool size for TCP protocols.",
-                        "label": "num_acceptors",
+                        "description": "TCP协议的Socket acceptor池大小",
+                        "label": "Acceptor 数量",
                         "type": "number"
                     },
                     "max_connections": {
                         "default": 512,
-                        "description": "Maximum number of simultaneous connections.",
-                        "label": "max_connections",
+                        "description": "同时处理的最大连接数",
+                        "label": "最大连接数",
                         "type": "number"
                     },
                     "backlog": {
                         "default": 1024,
-                        "description": "Defines the maximum length that the queue of pending connections can grow to.",
-                        "label": "backlog",
+                        "description": "排队等待连接的队列的最大长度",
+                        "label": "排队长度",
                         "type": "number"
                     },
                     "send_timeout": {
                         "default": "5s",
-                        "description": "Send timeout for the socket.",
-                        "label": "send_timeout",
+                        "description": "Socket发送超时时间",
+                        "label": "发送超时时间",
                         "type": "duration"
                     },
                     "inet6": {
                         "default": false,
-                        "description": "Sets up the listener for IPv6.",
-                        "label": "inet6",
+                        "description": "启用IPv6",
+                        "label": "IPv6",
                         "type": "boolean"
                     },
                     "ipv6_v6only": {
                         "default": false,
-                        "description": "Disable IPv4-to-IPv6 mapping for the listener.",
-                        "label": "ipv6_v6only",
+                        "description": "禁用IPv4-to-IPv6映射",
+                        "label": "IPv6 only",
                         "type": "boolean"
                     },
                     "enable": {
@@ -4443,14 +4491,14 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable log rotation feature.",
-                        "label": "enable",
+                        "description": "启用日志轮换功能。",
+                        "label": "日志轮换",
                         "type": "boolean"
                     },
                     "count": {
                         "default": 10,
-                        "description": "Maximum number of log files.",
-                        "label": "count",
+                        "description": "最大日志文件数。",
+                        "label": "最大日志文件数",
                         "maximum": 2048,
                         "minimum": 1,
                         "type": "number"
@@ -4460,6 +4508,7 @@
             },
             "authn-builtin_db.authentication": {
                 "required": [
+                    "user_id_type",
                     "backend",
                     "mechanism"
                 ],
@@ -4565,7 +4614,7 @@
                 "properties": {
                     "route_lock_type": {
                         "default": "key",
-                        "description": "Performance tuning for subscribing/unsubscribing a wildcard topic.<br/>\nChange this parameter only when there are many wildcard topics.<br/>\nNOTE: when changing from/to `global` lock, it requires all\nnodes in the cluster to be stopped before the change.\n\n - `key`: mnesia transactional updates with per-key locks. Recommended for a single-node setup.\n - `tab`: mnesia transactional updates with table lock. Recommended for a cluster setup.\n - `global`: updates are protected with a global lock. Recommended for large clusters.",
+                        "description": "通配主题订阅/取消订阅性能调优。\n建议仅当通配符主题较多时才更改此参数。\n\n注：当从/更改为 `global` 锁时，它要求集群中的所有节点在更改之前停止。\n  - `key`: 为 Mnesia 事务涉及到的每个 key 上锁，建议单节点时使用。\n  - `tab`: 为 Mnesia 事务涉及到的表上锁，建议在集群中使用。\n  - `global`: 所以更新操作都被全局的锁保护，仅建议在超大规模集群中使用。\n",
                         "label": "route_lock_type",
                         "symbols": [
                             "key",
@@ -4576,7 +4625,7 @@
                     },
                     "trie_compaction": {
                         "default": true,
-                        "description": "Enable trie path compaction.<br/>\nEnabling it significantly improves wildcard topic subscribe\nrate, if wildcard topics have unique prefixes like:\n'sensor/{{id}}/+/', where ID is unique per subscriber.<br/>\nTopic match performance (when publishing) may degrade if messages\nare mostly published to topics with large number of levels.<br/>\nNOTE: This is a cluster-wide configuration.\nIt requires all nodes to be stopped before changing it.",
+                        "description": "是否开启主题表压缩存储。\n启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{{id}}/+/'，其中每个订阅者的 ID 是唯一的。\n如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。\n\n注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。\n",
                         "label": "trie_compaction",
                         "type": "boolean"
                     }
@@ -4617,84 +4666,84 @@
                 "properties": {
                     "name": {
                         "default": "emqx@127.0.0.1",
-                        "description": "Unique name of the EMQX node. It must follow <code>%name%@FQDN</code> or\n <code>%name%@IPv4</code> format.",
-                        "label": "name",
+                        "description": "节点名。格式为 <name>@<host>。其中 <host> 可以是 IP 地址，也可以是 FQDN。\n详见 http://erlang.org/doc/reference_manual/distributed.html。\n          ",
+                        "label": "节点名",
                         "readOnly": true,
                         "type": "string"
                     },
                     "cookie": {
                         "default": "emqxsecretcookie",
-                        "description": "Secret cookie is a random string that should be the same on all nodes in\n the given EMQX cluster, but unique per EMQX cluster. It is used to prevent EMQX nodes that\n belong to different clusters from accidentally connecting to each other.",
-                        "label": "cookie",
+                        "description": "分布式 Erlang 集群使用的 cookie 值。集群间保持一致",
+                        "label": "节点 Cookie",
                         "readOnly": true,
                         "type": "string"
                     },
                     "data_dir": {
-                        "description": "\nPath to the persistent data directory.\nPossible auto-created subdirectories are:\n  - `mnesia/<node_name>`: EMQX's built-in database directory.\n    For example, `mnesia/emqx@127.0.0.1`.\n    There should be only one such subdirectory.\n    Meaning, in case the node is to be renamed (to e.g. `emqx@10.0.1.1`),\n    the old dir should be deleted first.\n  - `configs`: Generated configs at boot time, and cluster/local override configs.\n  - `patches`: Hot-patch beam files are to be placed here.\n  - `trace`: Trace log files.\n\n**NOTE**: One data dir cannot be shared by two or more EMQX nodes.\n",
-                        "label": "data_dir",
+                        "description": "\n节点数据存放目录，可能会自动创建的子目录如下：<\\br>\n- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx@127.0.0.1`。<\\br>\n如果节点要被重新命名（例如，`emqx@10.0.1.1`）。旧目录应该首先被删除。<\\br>\n- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。<\\br>\n- `patches`: 热补丁文件将被放在这里。<\\br>\n- `trace`: 日志跟踪文件。<\\br>\n\n**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。\n         ",
+                        "label": "节点数据目录",
                         "readOnly": true,
                         "type": "string"
                     },
                     "config_files": {
-                        "description": "List of configuration files that are read during startup. The order is\n significant: later configuration files override the previous ones.",
+                        "description": "启动时读取的配置文件列表。后面的配置文件项覆盖前面的文件。",
                         "items": {
                             "type": "string"
                         },
-                        "label": "config_files",
+                        "label": "配置文件",
                         "readOnly": true,
                         "type": "array"
                     },
                     "global_gc_interval": {
                         "default": "15m",
-                        "description": "Periodic garbage collection interval.",
-                        "label": "global_gc_interval",
+                        "description": "系统调优参数，设置节点运行多久强制进行一次全局垃圾回收。",
+                        "label": "全局垃圾回收",
                         "readOnly": true,
                         "type": "duration"
                     },
                     "crash_dump_file": {
-                        "description": "Location of the crash dump file",
-                        "label": "crash_dump_file",
+                        "description": "设置 Erlang crash_dump 文件的存储路径和文件名。",
+                        "label": "节点崩溃时的Dump文件",
                         "readOnly": true,
                         "type": "string"
                     },
                     "crash_dump_seconds": {
                         "default": "30s",
-                        "description": "The number of seconds that the broker is allowed to spend writing\na crash dump",
-                        "label": "crash_dump_seconds",
+                        "description": "保存崩溃文件最大允许时间，如果文件太大，在规则时间内没有保存完成，则会直接结束。",
+                        "label": "保存崩溃文件最长时间",
                         "readOnly": true,
                         "type": "duration"
                     },
                     "crash_dump_bytes": {
                         "default": "100MB",
-                        "description": "The maximum size of a crash dump file in bytes.",
-                        "label": "crash_dump_bytes",
+                        "description": "限制崩溃文件的大小，当崩溃时节点内存太大，\n如果为了保存现场，需要全部存到崩溃文件中，此处限制最多能保存多大的文件。\n          ",
+                        "label": "崩溃文件最大容量",
                         "readOnly": true,
                         "type": "byteSize"
                     },
                     "dist_net_ticktime": {
                         "default": "2m",
-                        "description": "This is the approximate time an EMQX node may be unresponsive until it is considered down and thereby disconnected.",
-                        "label": "dist_net_ticktime",
+                        "description": "系统调优参数，此配置将覆盖 vm.args 文件里的 -kernel net_ticktime 参数。当一个节点持续无响应多久之后，认为其已经宕机并断开连接。\n      ",
+                        "label": "节点间心跳间隔",
                         "readOnly": true,
                         "type": "duration"
                     },
                     "backtrace_depth": {
                         "default": 23,
-                        "description": "Maximum depth of the call stack printed in error messages and\n <code>process_info</code>.",
-                        "label": "backtrace_depth",
+                        "description": "错误信息中打印的最大堆栈层数",
+                        "label": "最大堆栈导数",
                         "readOnly": true,
                         "type": "number"
                     },
                     "applications": {
                         "default": "",
-                        "description": "List of Erlang applications that shall be rebooted when the EMQX broker joins\n the cluster.",
-                        "label": "applications",
+                        "description": "当新EMQX 加入集群时，应重启的Erlang应用程序的列表。",
+                        "label": "应用",
                         "readOnly": true,
                         "type": "comma_separated_string"
                     },
                     "etc_dir": {
-                        "description": "<code>etc</code> dir for the node",
-                        "label": "etc_dir",
+                        "description": "<code>etc</code> 存放目录",
+                        "label": "Etc 目录",
                         "readOnly": true,
                         "type": "string"
                     },
@@ -4863,6 +4912,11 @@
                 "type": "object"
             },
             "authn-hash.pbkdf2": {
+                "required": [
+                    "iterations",
+                    "mac_fun",
+                    "name"
+                ],
                 "properties": {
                     "name": {
                         "description": "PBKDF2 password hashing.",
@@ -4904,6 +4958,8 @@
                 "required": [
                     "database",
                     "servers",
+                    "mongo_type",
+                    "collection",
                     "backend",
                     "mechanism"
                 ],
@@ -4984,7 +5040,7 @@
                         "type": "enum"
                     },
                     "servers": {
-                        "description": "\n集群要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].<br/>`\n对于每个节点，应为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>\n主机条目具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。\n",
+                        "description": "\n集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].<br/>`\n每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。\n",
                         "items": {
                             "type": "string"
                         },
@@ -5042,7 +5098,7 @@
                         "default": {
                             "enable": false
                         },
-                        "description": "SSL 连接设置。",
+                        "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/emqx_schema.ssl_client_opts"
                     }
@@ -5056,46 +5112,46 @@
                 ],
                 "properties": {
                     "listeners": {
-                        "description": "HTTP(s) listeners are identified by their protocol type and are\nused to serve dashboard UI and restful HTTP API.<br>\nListeners must have a unique combination of port number and IP address.<br>\nFor example, an HTTP listener can listen on all configured IP addresses\non a given port for a machine by specifying the IP address 0.0.0.0.<br>\nAlternatively, the HTTP listener can specify a unique IP address for each listener,\nbut use the same port.",
-                        "label": "listeners",
+                        "description": "仪表盘监听器设置。",
+                        "label": "监听器",
                         "$ref": "#/components/schemas/dashboard.listeners"
                     },
                     "default_username": {
                         "default": "admin",
-                        "description": "The default username of the automatically created dashboard user.",
-                        "label": "default_username",
+                        "description": "默认的仪表板用户名",
+                        "label": "默认用户名",
                         "readOnly": true,
                         "type": "string"
                     },
                     "default_password": {
                         "default": "public",
-                        "description": "\nThe initial default password for dashboard 'admin' user.\nFor safety, it should be changed as soon as possible.",
-                        "label": "default_password",
+                        "description": "默认的仪表板用户密码<br>\n为了安全，应该尽快修改密码。",
+                        "label": "默认密码",
                         "readOnly": true,
                         "type": "string"
                     },
                     "sample_interval": {
                         "default": "10s",
-                        "description": "How often to update metrics displayed in the dashboard.<br/>Note: `sample_interval` should be a divisor of 60.",
+                        "description": "更新仪表板中显示的指标的时间间隔。",
                         "label": "sample_interval",
                         "type": "duration"
                     },
                     "token_expired_time": {
                         "default": "30m",
-                        "description": "JWT token expiration time.",
-                        "label": "token_expired_time",
+                        "description": "JWT token 过期时间",
+                        "label": "JWT 过期时间",
                         "type": "duration"
                     },
                     "cors": {
                         "default": false,
-                        "description": "Support Cross-Origin Resource Sharing (CORS).\nAllows a server to indicate any origins (domain, scheme, or port) other than\nits own from which a browser should permit loading resources.",
-                        "label": "cors",
+                        "description": "支持跨域资源共享(CORS)<br>\n允许服务器指示任何来源(域名、协议或端口)，除了本服务器之外的任何浏览器应允许加载资源。",
+                        "label": "跨域资源共享",
                         "type": "boolean"
                     },
                     "i18n_lang": {
                         "default": "en",
-                        "description": "Internationalization language support.",
-                        "label": "i18n_lang",
+                        "description": "多语言支持",
+                        "label": "多语言支持",
                         "readOnly": true,
                         "symbols": [
                             "en",
@@ -5179,6 +5235,9 @@
                         "type": "object"
                     },
                     "access_rules": {
+                        "default": [
+                            "allow all"
+                        ],
                         "description": "The access control rules for this listener.<br/>See: https://github.com/emqtt/esockd#allowdeny",
                         "items": {
                             "type": "string"
@@ -5193,6 +5252,7 @@
                         "type": "boolean"
                     },
                     "proxy_protocol_timeout": {
+                        "default": "3s",
                         "description": "Timeout for proxy protocol. EMQX will close the TCP connection if proxy protocol packet is not received within the timeout.",
                         "label": "proxy_protocol_timeout",
                         "type": "duration"
@@ -5257,19 +5317,19 @@
             "zone.force_shutdown": {
                 "properties": {
                     "enable": {
-                        "description": "Enable `force_shutdown` feature.",
-                        "label": "enable",
+                        "description": "启用 `force_shutdown` 功能",
+                        "label": "启用 `force_shutdown` 功能",
                         "type": "boolean"
                     },
                     "max_message_queue_len": {
-                        "description": "Maximum message queue length.",
-                        "label": "max_message_queue_len",
+                        "description": "消息队列的最大长度",
+                        "label": "消息队列的最大长度",
                         "minimum": 0,
                         "type": "number"
                     },
                     "max_heap_size": {
-                        "description": "Total heap size",
-                        "label": "max_heap_size",
+                        "description": "Heap 的总大小",
+                        "label": "Heap 的总大小",
                         "type": "byteSize"
                     }
                 },
@@ -5291,7 +5351,7 @@
                         "$ref": "#/components/schemas/emqx_schema.listeners"
                     },
                     "zones": {
-                        "description": "A zone is a set of configs grouped by the zone <code>name</code>.<br>\nFor flexible configuration mapping, the <code>name</code>\ncan be set to a listener's <code>zone</code> config.<br>\nNOTE: A built-in zone named <code>default</code> is auto created\nand can not be deleted.",
+                        "description": "<code>zone</code> 是按<code>name</code> 分组的一组配置。\n对于灵活的配置映射，可以将 <code>name</code> 设置为侦听器的 <code>zone</code> 配置。\n注：名为 <code>default</code> 的内置区域是自动创建的，无法删除。",
                         "label": "zones",
                         "properties": {
                             "$name": {
@@ -5316,7 +5376,7 @@
                         "$ref": "#/components/schemas/emqx_conf_schema.log"
                     },
                     "broker": {
-                        "description": "broker Description",
+                        "description": "Broker 相关配置项。",
                         "label": "broker",
                         "$ref": "#/components/schemas/emqx_schema.broker"
                     },
