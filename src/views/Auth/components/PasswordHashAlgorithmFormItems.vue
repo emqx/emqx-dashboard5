@@ -71,7 +71,17 @@ const emit = defineEmits(['update:modelValue', 'salt-position-changed'])
 
 const formData = computed<PasswordHashAlgorithmFormItems>({
   get() {
-    return props.modelValue
+    if (
+      'password_hash_algorithm' in props.modelValue &&
+      typeof props.modelValue.password_hash_algorithm === 'object'
+    ) {
+      return props.modelValue
+    }
+    return {
+      password_hash_algorithm: {
+        name: '',
+      },
+    }
   },
   set(val) {
     emit('update:modelValue', val)
