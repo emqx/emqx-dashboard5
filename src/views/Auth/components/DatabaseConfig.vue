@@ -151,15 +151,10 @@
           <!-- MySQL & PgSQL -->
           <template v-if="isMySQL || isPgSQL">
             <PasswordHashAlgorithmFormItems
+              v-if="authType === 'authn'"
               v-model="databaseConfig"
               @salt-position-changed="handleSaltPositionChanged"
-            >
-              <el-col v-if="isMongoDB" :span="12">
-                <el-form-item :label="$t('Auth.saltField')">
-                  <el-input v-model="databaseConfig.salt_field" placeholder="salt" />
-                </el-form-item>
-              </el-col>
-            </PasswordHashAlgorithmFormItems>
+            />
             <el-col :span="24">
               <el-form-item label="SQL">
                 <el-input v-model="databaseConfig.query" type="textarea" :rows="6" />
