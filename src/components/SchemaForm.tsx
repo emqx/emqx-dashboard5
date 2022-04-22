@@ -236,7 +236,7 @@ const SchemaForm = defineComponent({
         </el-col>
       )
       // Cluster form add Invite Node component
-      if (props.type === 'cluster' && property.label === 'discovery_strategy' && property.path) {
+      if (props.type === 'cluster' && property.path === 'discovery_strategy') {
         const isManualCluster = configForm.value[property.path] === 'manual'
         if (isManualCluster) {
           return (
