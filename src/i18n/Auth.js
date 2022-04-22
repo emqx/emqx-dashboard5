@@ -232,8 +232,8 @@ export default {
     en: 'CMD',
   },
   passwordHashField: {
-    zh: 'password_hash 字段名',
-    en: 'Password_hash Field',
+    zh: 'Password Hash 字段名',
+    en: 'Password Hash Field',
   },
   saltField: {
     zh: 'Salt 字段名',
@@ -305,7 +305,7 @@ export default {
   },
   dkLength: {
     zh: '密钥长度',
-    en: 'Key length',
+    en: 'Derived key length',
   },
   payloadTooLargeTip: {
     zh: 'payload 大小超过 1MB 内容无法查看',
@@ -334,5 +334,9 @@ export default {
   noDatabasePlaceholder: {
     zh: '无可用的数据库供此类型网关选择',
     en: 'There are no databases available for this type of gateway to choose from',
+  },
+  pseudorandomFunction: {
+    zh: '伪随机函数',
+    en: 'Pseudorandom function',
   },
 }

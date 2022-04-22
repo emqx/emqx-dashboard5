@@ -83,3 +83,11 @@ export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTy
 export const DEFAULT_ZONE = 'default'
 
 export const DEFAULT_SALT_POSITION: SaltPosition = SaltPosition.Suffix
+
+export const PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION = [
+  'plain',
+  'md5',
+  'sha',
+  'sha256',
+  'sha512',
+]
