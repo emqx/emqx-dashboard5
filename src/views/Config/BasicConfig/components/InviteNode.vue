@@ -92,6 +92,7 @@ export default defineComponent({
           nodeName: '',
         }
         inviteDialog.value = false
+        loadData()
       } catch (error) {
         // ignore error
       } finally {
