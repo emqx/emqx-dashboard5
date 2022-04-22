@@ -148,43 +148,58 @@
       </div>
       <el-form class="create-form" label-position="top">
         <el-row :gutter="20">
+          <template v-if="authType === 'authn'">
+            <el-col v-if="isMongoDB" :span="12">
+              <el-form-item :label="$t('Auth.passwordHashField')">
+                <el-input
+                  v-model="databaseConfig.password_hash_field"
+                  placeholder="password_hash"
+                />
+              </el-form-item>
+            </el-col>
+            <PasswordHashAlgorithmFormItems v-model="databaseConfig" @change="handleSaltChanged" />
+            <el-col v-if="isMongoDB && isEnableSalt" :span="12">
+              <el-form-item :label="$t('Auth.saltField')">
+                <el-input v-model="databaseConfig.salt_field" placeholder="salt" />
+              </el-form-item>
+            </el-col>
+
+            <el-col v-if="isMongoDB" :span="12">
+              <el-form-item :label="$t('Auth.superuserField')">
+                <el-input
+                  v-model="databaseConfig.is_superuser_field"
+                  :placeholder="$t('Auth.isSuperuser')"
+                />
+              </el-form-item>
+            </el-col>
+          </template>
           <!-- MySQL & PgSQL -->
-          <template v-if="isMySQL || isPgSQL">
-            <PasswordHashAlgorithmFormItems
-              v-if="authType === 'authn'"
-              v-model="databaseConfig"
-              @salt-position-changed="handleSaltPositionChanged"
-            />
-            <el-col :span="24">
-              <el-form-item label="SQL">
-                <el-input v-model="databaseConfig.query" type="textarea" :rows="6" />
-                <el-button class="bottom-btn" size="small" @click="setDefaultContent('query')">
-                  {{ $t('Auth.setDefault') }}
-                </el-button>
-              </el-form-item>
-            </el-col>
-          </template>
+          <el-col :span="24" v-if="isMySQL || isPgSQL">
+            <el-form-item label="SQL">
+              <el-input v-model="databaseConfig.query" type="textarea" :rows="6" />
+              <el-button class="bottom-btn" size="small" @click="setDefaultContent('query')">
+                {{ $t('Auth.setDefault') }}
+              </el-button>
+            </el-form-item>
+          </el-col>
           <!-- Mongodb -->
-          <template v-else-if="isMongoDB">
-            <el-col :span="24">
-              <el-form-item :label="$t('Auth.selector')">
-                <el-input v-model="databaseConfig.selector" type="textarea" :rows="6" />
-                <el-button class="bottom-btn" size="small" @click="setDefaultContent('selector')">
-                  {{ $t('Auth.setDefault') }}
-                </el-button>
-              </el-form-item>
-            </el-col>
-          </template>
-          <template v-else-if="isRedis">
-            <el-col :span="24">
-              <el-form-item :label="$t('Auth.cmd')">
-                <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6" />
-                <el-button class="bottom-btn" size="small" @click="setDefaultContent('cmd')">
-                  {{ $t('Auth.setDefault') }}
-                </el-button>
-              </el-form-item>
-            </el-col>
-          </template>
+          <el-col :span="24" v-else-if="isMongoDB">
+            <el-form-item :label="$t('Auth.selector')">
+              <el-input v-model="databaseConfig.selector" type="textarea" :rows="6" />
+              <el-button class="bottom-btn" size="small" @click="setDefaultContent('selector')">
+                {{ $t('Auth.setDefault') }}
+              </el-button>
+            </el-form-item>
+          </el-col>
+          <!-- Redis -->
+          <el-col :span="24" v-else-if="isRedis">
+            <el-form-item :label="$t('Auth.cmd')">
+              <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6" />
+              <el-button class="bottom-btn" size="small" @click="setDefaultContent('cmd')">
+                {{ $t('Auth.setDefault') }}
+              </el-button>
+            </el-form-item>
+          </el-col>
           <el-collapse-transition>
             <el-col v-if="needHelp" :span="24">
               <div class="help-block">
@@ -201,38 +216,12 @@
                   :lang="isMongoDB ? 'javascript' : isRedis ? 'bash' : 'sql'"
                   :code="helpContent"
                 />
-                <el-button @click="copyText(helpContent)">
+                <el-button ref="btnCopyHelp" @click="copyText(helpContent)">
                   {{ $t('Base.copy') }}
                 </el-button>
               </div>
             </el-col>
           </el-collapse-transition>
-          <template v-if="authType === 'authn'">
-            <el-col v-if="isMongoDB" :span="12">
-              <el-form-item :label="$t('Auth.passwordHashField')">
-                <el-input
-                  v-model="databaseConfig.password_hash_field"
-                  placeholder="password_hash"
-                />
-              </el-form-item>
-            </el-col>
-            <PasswordHashAlgorithmFormItems v-model="databaseConfig" v-if="!(isMySQL || isPgSQL)">
-              <el-col v-if="isMongoDB" :span="12">
-                <el-form-item :label="$t('Auth.saltField')">
-                  <el-input v-model="databaseConfig.salt_field" placeholder="salt" />
-                </el-form-item>
-              </el-col>
-            </PasswordHashAlgorithmFormItems>
-
-            <el-col v-if="isMongoDB" :span="12">
-              <el-form-item :label="$t('Auth.superuserField')">
-                <el-input
-                  v-model="databaseConfig.is_superuser_field"
-                  :placeholder="$t('Auth.isSuperuser')"
-                />
-              </el-form-item>
-            </el-col>
-          </template>
         </el-row>
       </el-form>
     </div>
@@ -240,7 +229,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
@@ -250,6 +239,8 @@ import useCopy from '@/hooks/useCopy'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import { SaltPosition } from '@/types/enum'
+import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
+import { waitAMoment } from '@/common/tools'
 
 export default defineComponent({
   name: 'DatabaseConfig',
@@ -305,20 +296,29 @@ export default defineComponent({
     const { copySuccess, copyText } = useCopy(() => {
       needHelp.value = false
     })
+
+    const btnCopyHelp = ref()
     const toggleNeedHelp = async () => {
       needHelp.value = !needHelp.value
+      if (needHelp.value) {
+        await waitAMoment(350)
+        btnCopyHelp.value?.$el?.scrollIntoView({ behavior: 'smooth' })
+      }
     }
 
-    const handleSaltPositionChanged = () => {
-      if (
-        databaseConfig.password_hash_algorithm.salt_position === SaltPosition.Disable &&
-        databaseConfig.query === withSaltDefaultSQL
-      ) {
+    const isEnableSalt = computed(() => {
+      const { name, salt_position } = databaseConfig.password_hash_algorithm
+      const needSelectSalt = name && PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION.includes(name)
+      return needSelectSalt && salt_position !== SaltPosition.Disable
+    })
+
+    const handleSaltChanged = () => {
+      if (!(isMySQL.value || isPgSQL.value)) {
+        return
+      }
+      if (!isEnableSalt.value && databaseConfig.query === withSaltDefaultSQL) {
         databaseConfig.query = defaultSQL
-      } else if (
-        databaseConfig.password_hash_algorithm.salt_position !== SaltPosition.Disable &&
-        databaseConfig.query === defaultSQL
-      ) {
+      } else if (isEnableSalt.value && databaseConfig.query === defaultSQL) {
         databaseConfig.query = withSaltDefaultSQL
       }
     }
@@ -335,12 +335,14 @@ export default defineComponent({
       helpContent,
       databaseConfig,
       isDatabaseRequired,
+      isEnableSalt,
+      btnCopyHelp,
       validate,
       setDefaultContent,
       copySuccess,
       copyText,
       toggleNeedHelp,
-      handleSaltPositionChanged,
+      handleSaltChanged,
     }
   },
 })

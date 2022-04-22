@@ -1,102 +1,110 @@
 <template>
   <div class="http-config config">
-    <div class="create-form-title">HTTP</div>
-    <el-form
-      ref="formCom"
-      class="create-form"
-      label-position="top"
-      :model="httpConfig"
-      :rules="rules"
-    >
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="$t('Auth.method')">
-            <el-select v-model="httpConfig.method">
-              <el-option value="get" label="GET" />
-              <el-option value="post" label="POST" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="URL" required prop="url">
-            <el-input v-model="httpConfig.url" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="Headers">
-            <key-and-value-editor v-model="httpConfig.headers" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <div class="create-form-title">
-      {{ $t('Auth.connectConfig') }}
-    </div>
-    <el-form class="create-form" label-position="top">
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item label="Pool size">
-            <el-input v-model.number="httpConfig.pool_size" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="$t('Auth.connectTimeout')">
-            <time-input-with-unit-select v-model="httpConfig.connect_timeout" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="$t('Auth.enablePipelining')">
-            <el-select v-model="httpConfig.enable_pipelining">
-              <el-option :value="true" label="True" />
-              <el-option :value="false" label="False" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <!-- TLS -->
-          <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" />
-        </el-col>
-      </el-row>
-    </el-form>
-
-    <div class="create-form-title">
-      {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
-      <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-        {{ $t('Base.help') }}
-      </el-button>
-    </div>
-    <el-form class="create-form" label-position="top">
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item label="Body">
-            <div class="viewer-container" ref="monacoContainer">
-              <monaco id="acl-file-editor" v-model="httpConfig.body" lang="json" />
-            </div>
-            <el-button class="bottom-btn" size="small" @click="setDefaultContent">
-              {{ $t('Auth.setDefault') }}
-            </el-button>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="$t('Auth.requestTimeout')">
-            <time-input-with-unit-select v-model="httpConfig.request_timeout" />
-          </el-form-item>
-        </el-col>
-        <el-collapse-transition>
-          <el-col v-if="needHelp" :span="24">
-            <div class="help-block">
-              <div class="create-form-title">
-                {{ $t('Auth.exampleDataCmd') }}
-              </div>
-              <code-view lang="javascript" :code="helpContent" />
-              <el-button @click="copyText(helpContent)">
-                {{ $t('Base.copy') }}
-              </el-button>
-            </div>
+    <!-- HTTP -->
+    <div>
+      <div class="create-form-title">HTTP</div>
+      <el-form
+        ref="formCom"
+        class="create-form"
+        label-position="top"
+        :model="httpConfig"
+        :rules="rules"
+      >
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="$t('Auth.method')">
+              <el-select v-model="httpConfig.method">
+                <el-option value="get" label="GET" />
+                <el-option value="post" label="POST" />
+              </el-select>
+            </el-form-item>
           </el-col>
-        </el-collapse-transition>
-      </el-row>
-    </el-form>
+          <el-col :span="12">
+            <el-form-item label="URL" required prop="url">
+              <el-input v-model="httpConfig.url" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Headers">
+              <key-and-value-editor v-model="httpConfig.headers" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
+
+    <!-- Connect Config -->
+    <div>
+      <div class="create-form-title">{{ $t('Auth.connectConfig') }}</div>
+      <el-form class="create-form" label-position="top">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="Pool size">
+              <el-input v-model.number="httpConfig.pool_size" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('Auth.connectTimeout')">
+              <time-input-with-unit-select v-model="httpConfig.connect_timeout" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('Auth.enablePipelining')">
+              <el-select v-model="httpConfig.enable_pipelining">
+                <el-option :value="true" label="True" />
+                <el-option :value="false" label="False" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('Auth.requestTimeout')">
+              <time-input-with-unit-select v-model="httpConfig.request_timeout" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <!-- TLS -->
+            <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" />
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
+
+    <!-- Auth Config -->
+    <div>
+      <div class="create-form-title">
+        {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
+        <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+          {{ $t('Base.help') }}
+        </el-button>
+      </div>
+      <el-form class="create-form" label-position="top">
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="Body">
+              <div class="viewer-container" ref="monacoContainer">
+                <monaco id="acl-file-editor" v-model="httpConfig.body" lang="json" />
+              </div>
+              <el-button class="bottom-btn" size="small" @click="setDefaultContent">
+                {{ $t('Auth.setDefault') }}
+              </el-button>
+            </el-form-item>
+          </el-col>
+          <el-collapse-transition>
+            <el-col v-if="needHelp" :span="24">
+              <div class="help-block">
+                <div class="create-form-title">
+                  {{ $t('Auth.exampleDataCmd') }}
+                </div>
+                <code-view lang="javascript" :code="helpContent" />
+                <el-button @click="copyText(helpContent)">
+                  {{ $t('Base.copy') }}
+                </el-button>
+              </div>
+            </el-col>
+          </el-collapse-transition>
+        </el-row>
+      </el-form>
+    </div>
   </div>
 </template>
 

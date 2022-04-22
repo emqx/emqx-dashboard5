@@ -1,7 +1,7 @@
 <template>
   <el-col :span="12">
     <el-form-item :label="$t('Auth.passwordHash')">
-      <el-select v-model="formData.password_hash_algorithm.name">
+      <el-select v-model="formData.password_hash_algorithm.name" @change="handleSaltChanged">
         <el-option v-for="item in HashOptions" :key="item" :value="item" />
       </el-select>
     </el-form-item>
@@ -13,7 +13,7 @@
   </el-col>
   <template v-if="formData.password_hash_algorithm.name === 'pbkdf2'">
     <el-col :span="12">
-      <el-form-item label="macfun">
+      <el-form-item :label="titleCase($t('Auth.pseudorandomFunction'))">
         <el-select v-model="formData.password_hash_algorithm.mac_fun">
           <el-option v-for="item in macFunOpt" :key="item" :value="item" :label="item" />
         </el-select>
@@ -25,18 +25,16 @@
       </el-form-item>
     </el-col>
     <el-col :span="12">
-      <el-form-item :label="$t('Auth.dkLength')">
+      <el-form-item :label="titleCase($t('Auth.dkLength'))">
         <el-input v-model.number="formData.password_hash_algorithm.dk_length" />
       </el-form-item>
     </el-col>
   </template>
-  <!-- For mango set salt field -->
-  <slot></slot>
   <el-col :span="12" v-if="needSelectSaltPosition">
     <el-form-item :label="$t('Auth.saltPosition')">
       <el-select
         v-model="formData.password_hash_algorithm.salt_position"
-        @change="handleSaltPositionChanged"
+        @change="handleSaltChanged"
       >
         <el-option v-for="item in saltPositionOpt" :key="item" :value="item" :label="item" />
       </el-select>
@@ -45,6 +43,8 @@
 </template>
 
 <script setup lang="ts">
+import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
+import { titleCase } from '@/common/tools'
 import usePassword from '@/hooks/usePassword'
 import { SaltPosition } from '@/types/enum'
 import { defineProps, computed, defineEmits, PropType } from 'vue'
@@ -67,7 +67,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'salt-position-changed'])
+const emit = defineEmits(['update:modelValue', 'change'])
 
 const formData = computed<PasswordHashAlgorithmFormItems>({
   get() {
@@ -92,13 +92,12 @@ const { HashOptions } = usePassword()
 const saltPositionOpt = [SaltPosition.Disable, SaltPosition.Prefix, SaltPosition.Suffix]
 const macFunOpt = ['md4', 'md5', 'ripemd160', 'sha', 'sha224', 'sha256', 'sha384', 'sha512']
 
-const needSelectSaltPosition = computed(
-  () =>
-    formData.value.password_hash_algorithm.name !== 'pbkdf2' &&
-    formData.value.password_hash_algorithm.name !== 'bcrypt',
-)
+const needSelectSaltPosition = computed(() => {
+  const { name } = formData.value.password_hash_algorithm
+  return name && PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION.includes(name)
+})
 
-const handleSaltPositionChanged = () => {
-  emit('salt-position-changed')
+const handleSaltChanged = () => {
+  emit('change')
 }
 </script>
