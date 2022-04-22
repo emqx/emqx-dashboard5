@@ -27,11 +27,11 @@
         sortable
         prop="metrics.metrics.success"
       />
-      <el-table-column :label="$t('RuleEngine.ErrNum')" sortable prop="metrics.metrics.rate" />
+      <el-table-column :label="$t('RuleEngine.ErrNum')" sortable prop="metrics.metrics.failed" />
       <el-table-column
         :label="`${$t('RuleEngine.speedNow')}(msg/s)`"
         sortable
-        prop="metrics.metrics.failed"
+        prop="metrics.metrics.rate"
       />
       <el-table-column prop="enable" :label="$t('Auth.status')">
         <template #default="{ row }">
