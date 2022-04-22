@@ -57,11 +57,11 @@ export function delRetainerTopic(topic: string): Promise<any> | undefined {
 
 /* System Topics */
 export function getSystemTopicsConfig(): Promise<SysTopics> {
-  return http.get('TODO:')
+  return http.get('/mqtt/sys_topics')
 }
 
 export function updateSystemTopicConfig(params: SysTopics): Promise<SysTopics> {
-  return http.push('TODO:', params)
+  return http.put('/mqtt/sys_topics', params)
 }
 
 /* Rewrite */
