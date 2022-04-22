@@ -38,13 +38,8 @@ export default (): {
     ListenerTypeForGateway.DTLS,
   ]
 
-  const listenerTypeList = [
-    ListenerType.QUIC,
-    ListenerType.TCP,
-    ListenerType.SSL,
-    ListenerType.WS,
-    ListenerType.WSS,
-  ]
+  // ListenerType.QUIC,
+  const listenerTypeList = [ListenerType.TCP, ListenerType.SSL, ListenerType.WS, ListenerType.WSS]
 
   /* 
     |                | SSL  | DTLS | UDP  | TCP  |
