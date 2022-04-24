@@ -211,11 +211,9 @@ const setFormDataWhenOpenDialog = async () => {
         outputForm.value.args = output.args
       }
     }
-  } else {
-    outputForm.value = createRawOutputForm()
-    await nextTick()
-    formCom.value.clearValidate()
   }
+  await nextTick()
+  formCom.value.clearValidate()
 }
 
 const loadEgressBridgeList = async () => {
@@ -291,6 +289,8 @@ watch(showDialog, (val) => {
   if (val) {
     loadEgressBridgeList()
     setFormDataWhenOpenDialog()
+  } else {
+    outputForm.value = createRawOutputForm()
   }
 })
 
