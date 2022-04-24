@@ -95,8 +95,13 @@ const tl = function (key: string, collection = 'Dashboard') {
   return t(collection + '.' + key)
 }
 const loadAllNodes = async () => {
-  nodes.value = (await loadNodes()) ?? []
-  nodesLockTable.value = false
+  try {
+    nodes.value = (await loadNodes()) ?? []
+  } catch (err) {
+    // ignore err
+  } finally {
+    nodesLockTable.value = false
+  }
 }
 const caseInsensitiveCompare = (w: undefined | string, k: string): boolean | void => {
   return !!String.prototype.match.call(w, new RegExp(k, 'i'))

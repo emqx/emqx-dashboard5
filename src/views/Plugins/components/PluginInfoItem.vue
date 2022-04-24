@@ -34,7 +34,7 @@ const props = defineProps({
     color: #8d96a2;
   }
   .content {
-    color: #1d1d1d;
+    color: var(--color-title-primary);
   }
 }
 </style>

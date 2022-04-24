@@ -181,7 +181,7 @@ const getOutputImage = (item: string) => {
     }
 
     .output-desc {
-      color: #5b5b5b;
+      color: var(--color-text-secondary);
     }
   }
 

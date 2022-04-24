@@ -70,17 +70,16 @@
   }
   .btn-col {
     position: fixed;
-    background: #fff;
+    background: var(--color-bg-primary);
     bottom: 0;
     right: 24px;
-    border-top: 1px solid var(--color-border-table);
+    border-top: 1px solid var(--color-border-normal);
     height: 64px;
     z-index: 2;
     box-shadow: var(--el-box-shadow-light);
     display: flex;
     align-items: center;
     padding-left: 185px;
-    transition: all 0.3;
   }
   .group-title {
     font-size: 16px;

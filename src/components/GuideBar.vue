@@ -67,7 +67,7 @@ export default {
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      background: #00b173;
+      background: var(--color-primary);
       &::before {
         position: absolute;
         content: '';
@@ -79,19 +79,19 @@ export default {
       }
     }
     .icon-number {
-      background: #c7c7c7;
+      background: var(--color-border-primary);
     }
 
     .guide-title {
       display: inline-block;
       margin-left: 8px;
-      color: #1d1d1d;
+      color: var(--color-title-primary);
     }
 
     &.active {
       font-weight: 600;
       .guide-title {
-        color: #1d1d1d;
+        color: var(--color-title-primary);
       }
     }
 

@@ -81,7 +81,7 @@ export default defineComponent({
     color: var(--color-title-primary);
     margin-left: 32px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--color-border-table);
+    border-bottom: 1px solid var(--color-border-normal);
   }
   .config-card {
     min-height: 300px;

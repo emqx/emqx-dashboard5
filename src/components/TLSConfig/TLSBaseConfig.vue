@@ -55,7 +55,7 @@ const record: WritableComputedRef<SSL> = computed({
   .TLS-base-config-title {
     margin-top: 0;
     margin-bottom: 8px;
-    color: #000000;
+    color: var(--color-title-primary);
     font-weight: bold;
     line-height: 20px;
   }

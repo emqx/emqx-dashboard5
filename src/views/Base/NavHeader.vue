@@ -180,7 +180,7 @@ export default defineComponent({
   align-items: center;
   height: 60px;
   padding: 0 24px;
-  background-color: #fff;
+  background-color: var(--color-bg-primary);
 
   left: 201px;
   z-index: 100;
@@ -222,7 +222,7 @@ export default defineComponent({
 }
 
 .el-button.go-link {
-  background-color: #fff;
+  background-color: var(--color-bg-primary);
   color: var(--color-title-primary);
   border: 1px solid var(--color-title-primary);
   margin-right: 12px;

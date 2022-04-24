@@ -172,14 +172,14 @@ getConfig()
 .link-back {
   display: inline-block;
   margin-bottom: 36px;
-  color: #5b5b5b;
+  color: var(--color-text-secondary);
 }
 .slow-sub-config-title {
   margin-top: 0;
   margin-bottom: 24px;
   font-size: 22px;
   font-weight: bold;
-  color: #000;
+  color: var(--color-title-primary);
   line-height: 30px;
 }
 .config-block {
@@ -189,7 +189,7 @@ getConfig()
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 18px;
-  color: #000;
+  color: var(--color-title-primary);
   line-height: 25px;
 }
 .type-desc {

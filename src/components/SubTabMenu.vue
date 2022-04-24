@@ -54,24 +54,24 @@ export default defineComponent({
       position: fixed;
       z-index: 1;
       .el-tabs__active-bar {
-        background-color: var(--color-border-table);
+        background-color: var(--color-border-normal);
       }
       .el-tabs__item {
-        border: 1px solid var(--color-border-table);
+        border: 1px solid var(--color-border-normal);
         background-color: var(--color-bg-primary);
-        border-left: 1px solid var(--color-border-table);
+        border-left: 1px solid var(--color-border-normal);
         border-top: none;
         &:first-child {
-          border-top: 1px solid var(--color-border-table) !important;
+          border-top: 1px solid var(--color-border-normal) !important;
           border-radius: 8px 8px 0 0;
         }
         &:last-child {
           border-radius: 0 0 8px 8px;
-          border-bottom: 1px solid var(--color-border-table) !important;
+          border-bottom: 1px solid var(--color-border-normal) !important;
         }
       }
       .el-tabs__item.is-left.is-active {
-        border-right: 1px solid var(--color-border-table) !important;
+        border-right: 1px solid var(--color-border-normal) !important;
       }
     }
     .el-tabs__content {
