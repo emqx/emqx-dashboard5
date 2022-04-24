@@ -192,8 +192,8 @@ export default {
     en: 'Nodes',
   },
   strip: {
-    zh: ' 条',
-    en: ' msg',
+    zh: '{n} 条',
+    en: '0 message | {n} message | {n} messages',
   },
   byte: {
     zh: ' 字节',

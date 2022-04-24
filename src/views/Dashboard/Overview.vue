@@ -1,6 +1,5 @@
 <template>
   <div class="overview app-wrapper">
-    <h2>{{ $t('Dashboard.basicInfo') }}</h2>
     <el-row class="block" :gutter="26">
       <el-col :span="15">
         <el-card class="main-info-card top-primary">
@@ -27,16 +26,19 @@
       </el-col>
       <el-col :span="9">
         <el-card class="rate-card">
-          <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
+          <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
             <el-radio-button label="byte" />
-            <el-radio-button label="msg" />
-          </el-radio-group>
+            <el-radio-button label="msg"> {{ $t('Dashboard.messageNumber') }} </el-radio-button>
+          </el-radio-group> -->
           <template v-if="rateType === 'msg'">
             <div class="rate-item">
               <div>
                 <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
-                <span>{{ _formatNumber(currentMetrics.received_rate) }}</span>
-                <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
+                <span class="unit"
+                  >{{ $t('Dashboard.strip', { n: currentMetrics.received_rate }) }}/{{
+                    $t('Dashboard.second')
+                  }}</span
+                >
               </div>
               <div class="line-wrapper">
                 <simple-line :value="currentMetricsLogs.received_rate" type="bar" color="#3D7FF9" />
@@ -45,8 +47,11 @@
             <div class="rate-item">
               <div>
                 <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
-                <span>{{ _formatNumber(currentMetrics.sent_rate) }}</span>
-                <span class="unit">{{ $t('Dashboard.strip') }}/{{ $t('Dashboard.second') }}</span>
+                <span class="unit"
+                  >{{ $t('Dashboard.strip', { n: currentMetrics.sent_rate }) }}/{{
+                    $t('Dashboard.second')
+                  }}</span
+                >
               </div>
               <div class="line-wrapper">
                 <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#5D4EFF" />
@@ -86,7 +91,6 @@
         </el-card>
       </el-col>
     </el-row>
-    <h2>{{ $t('Dashboard.networkGraph') }}</h2>
     <el-card class="cluster-card block">
       <NodesGraphCard class="nodes-graph" />
     </el-card>
@@ -202,6 +206,10 @@ onUnmounted(() => {
 
 <style lang="scss">
 .overview {
+  .block {
+    margin-top: 14px;
+    margin-bottom: 28px;
+  }
   .main-info-card.el-card {
     height: 195px;
     .el-card__body {

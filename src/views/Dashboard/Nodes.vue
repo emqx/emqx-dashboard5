@@ -42,7 +42,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('memory')">
+      <el-table-column :label="`VM ${tl('memory')}`">
         <template #default="{ row }">
           <el-tooltip
             placement="top"

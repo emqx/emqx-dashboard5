@@ -12,7 +12,6 @@
       <integration-metrics></integration-metrics>
     </div>
     <div class="block">
-      <h2>{{ $t('Dashboard.messageNumber') }}</h2>
       <el-row :gutter="26">
         <template v-for="item in messageDataTypeFilter" :key="item.value">
           <el-col :span="8">
@@ -30,10 +29,6 @@
       </el-row>
     </div>
     <div class="block">
-      <h2>
-        {{ $t('Dashboard.connection') }} / {{ $t('Dashboard.topics') }} /
-        {{ $t('Dashboard.subscription') }}
-      </h2>
       <el-row :gutter="26">
         <template v-for="item in connectionDataTypeFilter" :key="item.value">
           <el-col :span="8">
