@@ -47,6 +47,7 @@ import Exhook from '@/views/Exhook/Exhook.vue'
 import ExhookCreate from '@/views/Exhook/ExhookCreate.vue'
 import ExhookDetail from '@/views/Exhook/ExhookDetail.vue'
 import Listener from '@/views/Listener/Listener.vue'
+import Settings from '@/views/Settings/Settings.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -616,6 +617,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Log Trace
   {
     path: '/log-trace',
     component: Layout,
@@ -633,6 +635,22 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'detail/:id',
         name: 'log-trace-detail',
         component: LogTraceDetail,
+      },
+    ],
+  },
+  // Settings
+  {
+    path: '/settings',
+    component: Layout,
+    meta: {
+      hideKey: 'settings',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'settings',
+        component: Settings,
       },
     ],
   },
