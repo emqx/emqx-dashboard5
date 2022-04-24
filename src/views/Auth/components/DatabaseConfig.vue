@@ -1,18 +1,18 @@
 <template>
   <div class="database-config config">
     <!-- Connect -->
-    <div>
-      <div class="part-header">{{ $t('Auth.connect') }}</div>
-      <el-form
-        ref="formCom"
-        class="create-form"
-        label-position="top"
-        :model="databaseConfig"
-        :rules="rules"
-      >
+    <el-form
+      ref="formCom"
+      class="create-form"
+      label-position="top"
+      :model="databaseConfig"
+      :rules="rules"
+    >
+      <div class="config-sub-block">
+        <div class="part-header">{{ $t('Auth.connect') }}</div>
         <el-row :gutter="20">
           <el-col v-if="isRedis" :span="12">
-            <el-form-item :label="$t('Auth.redisType')">
+            <el-form-item :label="$t('Auth.redisType')" prop="redis_type" required>
               <el-select v-model="databaseConfig.redis_type">
                 <el-option value="single" :label="$t('Auth.single')" />
                 <el-option value="sentinel" label="Sentinel" />
@@ -21,8 +21,11 @@
             </el-form-item>
           </el-col>
           <el-col v-if="isMongoDB" :span="12">
-            <el-form-item :label="$t('Auth.mongoType')">
-              <el-select v-model="databaseConfig.mongo_type">
+            <el-form-item :label="$t('Auth.mongoType')" required prop="mongo_type">
+              <el-select
+                v-model="databaseConfig.mongo_type"
+                @change="clearValidateAfterSomeFieldChanged"
+              >
                 <el-option value="single" :label="$t('Auth.single')" />
                 <el-option value="rs" label="Replica Set" />
                 <el-option value="sharded" label="Sharding" />
@@ -39,8 +42,8 @@
               <el-input v-model="databaseConfig.server" />
             </el-form-item>
           </el-col>
-          <el-col v-if="isMongoDB && databaseConfig.mongo_type !== 'single'" :span="12">
-            <el-form-item label="Replica Set Name">
+          <el-col v-if="isMongoDB && databaseConfig.mongo_type === MongoType.Rs" :span="12">
+            <el-form-item label="Replica Set Name" required prop="replica_set_name">
               <el-input v-model="databaseConfig.replica_set_name" />
             </el-form-item>
           </el-col>
@@ -52,16 +55,12 @@
           </el-col>
           <!-- Basic -->
           <el-col :span="12">
-            <el-form-item
-              :label="$t('Auth.database')"
-              :required="isDatabaseRequired"
-              prop="database"
-            >
+            <el-form-item :label="$t('Auth.database')" required prop="database">
               <el-input v-model="databaseConfig.database" />
             </el-form-item>
           </el-col>
           <el-col v-if="isMongoDB" :span="12">
-            <el-form-item label="Collection">
+            <el-form-item label="Collection" required prop="collection">
               <el-input v-model="databaseConfig.collection" />
             </el-form-item>
           </el-col>
@@ -102,13 +101,11 @@
             <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" />
           </el-col>
         </el-row>
-      </el-form>
-    </div>
+      </div>
 
-    <!-- Connect Config -->
-    <div>
-      <div class="part-header">{{ $t('Auth.connectConfig') }}</div>
-      <el-form class="create-form" label-position="top">
+      <!-- Connect Config -->
+      <div class="config-sub-block">
+        <div class="part-header">{{ $t('Auth.connectConfig') }}</div>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="Pool size">
@@ -135,18 +132,18 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-form>
-    </div>
-
-    <!-- Auth Config -->
-    <div>
-      <div class="part-header">
-        <span> {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }} </span>
-        <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-          {{ $t('Base.help') }}
-        </el-button>
       </div>
-      <el-form class="create-form" label-position="top">
+
+      <!-- Auth Config -->
+      <div class="config-sub-block">
+        <div class="part-header">
+          <span>
+            {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
+          </span>
+          <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+            {{ $t('Base.help') }}
+          </el-button>
+        </div>
         <el-row :gutter="20">
           <template v-if="authType === 'authn'">
             <el-col v-if="isMongoDB" :span="12">
@@ -193,7 +190,7 @@
           </el-col>
           <!-- Redis -->
           <el-col :span="24" v-else-if="isRedis">
-            <el-form-item :label="$t('Auth.cmd')">
+            <el-form-item :label="$t('Auth.cmd')" required prop="cmd">
               <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6" />
               <el-button class="bottom-btn" size="small" @click="setDefaultContent('cmd')">
                 {{ $t('Auth.setDefault') }}
@@ -223,13 +220,13 @@
             </el-col>
           </el-collapse-transition>
         </el-row>
-      </el-form>
-    </div>
+      </div>
+    </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, nextTick } from 'vue'
 import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
@@ -238,7 +235,7 @@ import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
 import useCopy from '@/hooks/useCopy'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
 import BooleanSelect from '@/components/BooleanSelect.vue'
-import { SaltPosition } from '@/types/enum'
+import { MongoType, SaltPosition } from '@/types/enum'
 import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
 
@@ -278,8 +275,8 @@ export default defineComponent({
       isMySQL,
       isPgSQL,
       isServers,
-      isDatabaseRequired,
       validate,
+      clearValidate,
     } = useDatabaseConfigForm(props, databaseConfig)
     const needHelp = ref(false)
     const setDefaultContent = (dataKey: string) => {
@@ -323,6 +320,11 @@ export default defineComponent({
       }
     }
 
+    const clearValidateAfterSomeFieldChanged = async () => {
+      await waitAMoment(32)
+      clearValidate()
+    }
+
     return {
       formCom,
       rules,
@@ -334,9 +336,10 @@ export default defineComponent({
       needHelp,
       helpContent,
       databaseConfig,
-      isDatabaseRequired,
       isEnableSalt,
       btnCopyHelp,
+      MongoType,
+      clearValidateAfterSomeFieldChanged,
       validate,
       setDefaultContent,
       copySuccess,

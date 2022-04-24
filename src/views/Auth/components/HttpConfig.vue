@@ -12,7 +12,7 @@
       >
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item :label="$t('Auth.method')">
+            <el-form-item :label="$t('Auth.method')" required prop="method">
               <el-select v-model="httpConfig.method">
                 <el-option value="get" label="GET" />
                 <el-option value="post" label="POST" />
@@ -153,6 +153,7 @@ export default defineComponent({
       ctx.emit('update:modelValue', value)
     })
     const needHelp = ref(false)
+    // FIXME:
     const helpContent = `
       const express = require('express')
       const app = express()
