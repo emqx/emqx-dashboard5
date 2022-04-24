@@ -17,30 +17,37 @@
       v-loading.lock="isListLoading"
       row-key="id"
     >
-      <el-table-column prop="backend" :label="$t('Auth.dataSource')">
+      <el-table-column prop="backend" :label="$t('Auth.dataSource')" :min-width="140">
         <template #default="{ row }">
           <img class="auth-img" :src="row.img" width="48" />
           <span>{{ titleMap[row.backend] }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" />
+      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="108" />
       <el-table-column
         :label="$t('RuleEngine.SuccessNum')"
         sortable
         prop="metrics.metrics.success"
+        :min-width="112"
       />
-      <el-table-column :label="$t('RuleEngine.ErrNum')" sortable prop="metrics.metrics.failed" />
+      <el-table-column
+        :label="$t('RuleEngine.ErrNum')"
+        sortable
+        prop="metrics.metrics.failed"
+        :min-width="100"
+      />
       <el-table-column
         :label="`${$t('RuleEngine.speedNow')}(msg/s)`"
         sortable
         prop="metrics.metrics.rate"
+        :min-width="148"
       />
-      <el-table-column prop="enable" :label="$t('Auth.status')" :width="100">
+      <el-table-column prop="enable" :label="$t('Auth.status')" :min-width="90">
         <template #default="{ row }">
           <AuthItemStatus :enable="row.enable" :metrics="row.metrics" />
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="140">
+      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="232">
         <template #default="{ row }">
           <table-dropdown
             :row-data="row"

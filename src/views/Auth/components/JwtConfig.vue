@@ -18,9 +18,10 @@
       label-position="top"
     >
       <el-row :gutter="20">
+        <!-- JWT -->
         <template v-if="jwtConfig.use_jwks === false">
           <el-col :span="12">
-            <el-form-item :label="$t('Auth.algorithm')">
+            <el-form-item :label="$t('Auth.algorithm')" required prop="algorithm">
               <el-select v-model="jwtConfig.algorithm">
                 <el-option value="hmac-based" />
                 <el-option value="public-key" />
@@ -29,7 +30,7 @@
           </el-col>
           <template v-if="jwtConfig.algorithm === 'hmac-based'">
             <el-col :span="12">
-              <el-form-item label="Secret">
+              <el-form-item label="Secret" required prop="secret">
                 <template #label>
                   Secret
                   <InfoTooltip
@@ -55,9 +56,10 @@
             </el-form-item>
           </el-col>
         </template>
+        <!-- JWKS -->
         <template v-else>
           <el-col :span="12">
-            <el-form-item label="JWKS Server">
+            <el-form-item label="JWKS Server" required prop="endpoint">
               <el-input v-model="jwtConfig.endpoint" />
             </el-form-item>
           </el-col>
