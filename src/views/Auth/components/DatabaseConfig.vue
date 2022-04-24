@@ -173,7 +173,9 @@
           <!-- MySQL & PgSQL -->
           <el-col :span="24" v-if="isMySQL || isPgSQL">
             <el-form-item label="SQL">
-              <el-input v-model="databaseConfig.query" type="textarea" :rows="6" />
+              <div class="viewer-container" ref="monacoContainer">
+                <monaco id="adatabase-query" v-model="databaseConfig.query" lang="sql" />
+              </div>
               <el-button class="bottom-btn" size="small" @click="setDefaultContent('query')">
                 {{ $t('Auth.setDefault') }}
               </el-button>
@@ -182,7 +184,9 @@
           <!-- Mongodb -->
           <el-col :span="24" v-else-if="isMongoDB">
             <el-form-item :label="$t('Auth.selector')">
-              <el-input v-model="databaseConfig.selector" type="textarea" :rows="6" />
+              <div class="viewer-container" ref="monacoContainer">
+                <monaco id="adatabase-query" v-model="databaseConfig.selector" lang="json" />
+              </div>
               <el-button class="bottom-btn" size="small" @click="setDefaultContent('selector')">
                 {{ $t('Auth.setDefault') }}
               </el-button>
@@ -226,7 +230,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, nextTick } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
@@ -236,6 +240,7 @@ import useCopy from '@/hooks/useCopy'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import { MongoType, SaltPosition } from '@/types/enum'
+import Monaco from '@/components/Monaco.vue'
 import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
 
@@ -247,6 +252,7 @@ export default defineComponent({
     TimeInputWithUnitSelect,
     PasswordHashAlgorithmFormItems,
     BooleanSelect,
+    Monaco,
   },
 
   props: {

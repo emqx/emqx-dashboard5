@@ -172,7 +172,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .viewer-container {
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border-primary);
   margin-top: 30px;
   width: 100%;
   height: 100%;

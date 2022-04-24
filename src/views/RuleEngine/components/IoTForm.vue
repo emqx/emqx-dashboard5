@@ -381,8 +381,8 @@ defineExpose({ validate })
   justify-content: center;
   width: 24px;
   height: 24px;
-  border-radius: 2px;
-  background-color: #f2f2f2;
+  border-radius: 4px;
+  background-color: var(--color-bg-lighter);
   cursor: pointer;
 }
 .el-form-item.is-required.self-required:not(.is-no-asterisk) {

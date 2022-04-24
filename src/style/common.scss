@@ -352,7 +352,7 @@ p.tip {
 
 .monaco-container {
   height: 300px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid var(--color-border-primary);
   width: 100%;
   &.is-small {
     height: 200px;

@@ -12,12 +12,20 @@ export default defineComponent({
 
 <script setup>
 import * as monaco from 'monaco-editor'
-import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
+import { useStore } from 'vuex'
+import EditorDark from '@/assets/theme/editor-dark.json'
 
 /**
  * for placeholder to show full desc
  */
 const DESC_SUFFIX = '    '
+
+const store = useStore()
+
+const theme = computed(() => {
+  return store.state.theme
+})
 
 const prop = defineProps({
   id: {
@@ -74,6 +82,22 @@ const setJSONValidate = () => {
   }
 }
 
+const getTheme = () => {
+  switch (theme.value) {
+    case 'dark':
+      return 'editor-dark'
+    default:
+      return 'vs'
+  }
+}
+
+const defineTheme = () => {
+  const dark = EditorDark
+  monaco.editor.defineTheme('editor-dark', dark)
+}
+
+defineTheme()
+
 const initEditor = () => {
   const id = `monaco-${prop.id}`
   const defaultOptions = {
@@ -83,7 +107,7 @@ const initEditor = () => {
     // fontSize: 12,
     automaticLayout: true,
     scrollBeyondLastLine: false,
-    // theme: "vs",
+    theme: getTheme(),
     minimap: {
       enabled: false,
     },
