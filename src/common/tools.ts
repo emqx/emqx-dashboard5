@@ -292,11 +292,22 @@ export const waitAMoment = (ms = 100): Promise<boolean> => {
 
 export const numToFixed = (number: number, digits = 3): number => parseFloat(number.toFixed(digits))
 
-export const jumpToErrorFormItem = (className = '.el-form-item.is-error'): void => {
+/**
+ * @param scrollWindow set to false when the form is in dialog or form is in container which can scroll
+ */
+export const jumpToErrorFormItem = (
+  scrollWindow = true,
+  className = '.el-form-item.is-error',
+): void => {
   const el = document.querySelector(className)
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
-    window.scrollBy(0, -100)
+    if (scrollWindow) {
+      const top = el.getBoundingClientRect().top - 100
+      // can not use scrollIntoView directly, because el will be hidden by header
+      window.scrollTo({ top, behavior: 'smooth' })
+    } else {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 }
 

@@ -17,30 +17,48 @@ type ReturnData = {
   isServers: ComputedRef<boolean>
   formCom: Ref<any>
   rules: ComputedRef<FormRules>
-  isDatabaseRequired: ComputedRef<boolean>
   validate: () => Promise<any>
+  clearValidate: () => any
 }
 
 export default (props: PropsParams, databaseConfig: any): ReturnData => {
   const { createRequiredRule } = useFormRules()
-  const needDatabaseTypes = ['mongodb', 'mysql', 'postgresql']
 
   const { tl } = useI18nTl('Auth')
   const formCom = ref()
+
+  const createRedisCommonFormRules = () => ({
+    redis_type: createRequiredRule(tl('redisType'), 'select'),
+    cmd: createRequiredRule(tl('cmd')),
+  })
+
+  const createMongoCommonFormRules = () => ({
+    mongo_type: createRequiredRule(tl('mongoType'), 'select'),
+    collection: createRequiredRule('Collection'),
+  })
+
   const rules = computed(() => {
-    const ret: FormRules = {}
+    let ret: FormRules = {
+      database: createRequiredRule(tl('database')),
+    }
+
+    if (isRedis.value) {
+      ret = { ...ret, ...createRedisCommonFormRules() }
+    } else if (isMongoDB.value) {
+      ret = {
+        ...ret,
+        ...createMongoCommonFormRules(),
+        replica_set_name: createRequiredRule('Replica Set Name'),
+      }
+    }
+
     if (isServers.value) {
       ret.servers = createRequiredRule(tl('servers'))
     } else {
       ret.server = createRequiredRule(tl('server'))
     }
-    if (isDatabaseRequired.value) {
-      ret.database = createRequiredRule(tl('database'))
-    }
     return ret
   })
-
-  const isDatabaseRequired = computed(() => needDatabaseTypes.includes(props.database))
 
   const isMongoDB = computed(() => props.database === 'mongodb')
   const isRedis = computed(() => props.database === 'redis')
@@ -57,6 +75,10 @@ export default (props: PropsParams, databaseConfig: any): ReturnData => {
     return formCom.value.validate()
   }
 
+  const clearValidate = () => {
+    return formCom.value.clearValidate()
+  }
+
   return {
     isMongoDB,
     isRedis,
@@ -65,7 +87,7 @@ export default (props: PropsParams, databaseConfig: any): ReturnData => {
     isServers,
     formCom,
     rules,
-    isDatabaseRequired,
     validate,
+    clearValidate,
   }
 }
