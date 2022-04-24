@@ -1,11 +1,11 @@
 .auth {
   .create-form-title {
     font-size: 16px;
-    color: #1d1d1d;
+    color: var(--color-title-primary);
     font-weight: 600;
   }
   .item-description {
-    color: #5b5b5b;
+    color: var(--color-text-secondary);
     font-size: 12px;
     margin-top: 12px;
     margin-bottom: 32px;
@@ -90,7 +90,7 @@
 
   .el-radio.is-bordered {
     padding: 0px;
-    border: 2px solid #e4e4e4;
+    border: 2px solid var(--color-border-primary);
     margin-top: 16px;
     .el-radio__input {
       display: none;
@@ -104,7 +104,7 @@
       height: 100%;
     }
     &.is-checked {
-      border-color: #00b299ff;
+      border-color: var(--color-primary);
     }
   }
   // Gateway Authn page

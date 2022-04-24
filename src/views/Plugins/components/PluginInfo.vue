@@ -77,7 +77,7 @@ const { getPluginAuthorString } = usePluginItem()
   margin-bottom: 10px;
   font-size: 16px;
   font-weight: bold;
-  color: #1d1d1d;
+  color: var(--color-title-primary);
   line-height: 22px;
 }
 .link-repository {

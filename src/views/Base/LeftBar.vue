@@ -232,6 +232,7 @@ export default defineComponent({
 .left-bar {
   transition: all 0.3s;
   padding: 64px 0;
+  background-color: var(--color-bg-primary);
   .el-menu.el-menu--collapse {
     width: 80px;
     .el-sub-menu__title,

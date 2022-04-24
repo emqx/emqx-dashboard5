@@ -320,7 +320,7 @@ queryListData()
     span {
       font-size: 12px;
       line-height: 16px;
-      color: rgba(0, 0, 0, 0.5);
+      color: var(--color-text-secondary);
     }
   }
 }

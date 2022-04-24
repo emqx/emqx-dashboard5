@@ -162,7 +162,7 @@ export default defineComponent({
   }
   .bridge-type {
     font-size: 12px;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--color-text-secondary);
     line-height: 16px;
   }
 }

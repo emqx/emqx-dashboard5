@@ -21,7 +21,7 @@ const { t } = useI18n()
   margin-bottom: 30px;
 }
 .topology-wrap {
-  border: 1px solid var(--color-border-table);
+  border: 1px solid var(--color-border-normal);
   background-color: var(--color-bg-split);
 }
 
@@ -56,7 +56,7 @@ const { t } = useI18n()
   }
 
   .sql-container {
-    background-color: #000;
+    background-color: var(--color-title-primary);
     margin-top: 8px;
     padding: 4px;
     overflow-x: scroll;

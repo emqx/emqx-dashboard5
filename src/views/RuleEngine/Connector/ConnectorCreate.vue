@@ -136,7 +136,7 @@ export default defineComponent({
 .el-radio.is-bordered {
   padding: 0px 10px;
   min-width: 40%;
-  border: 2px solid #e4e4e4;
+  border: 2px solid var(--color-border-primary);
   margin-top: 16px;
   height: unset;
   :deep(.el-radio__input) {
@@ -149,11 +149,11 @@ export default defineComponent({
     width: 100%;
     padding: 0px;
     height: 100%;
-    color: #0000007f;
+    color: var(--color-title-primary);
     .title {
       font-weight: bold;
       font-size: 14px;
-      color: #000;
+      color: var(--color-title-primary);
     }
   }
 }

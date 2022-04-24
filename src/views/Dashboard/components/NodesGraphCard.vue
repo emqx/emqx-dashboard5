@@ -202,8 +202,8 @@ onMounted(async () => {
     left: 12px;
     border-radius: 8px;
     padding: 6px 12px;
-    color: #646d7e;
-    background-color: #ebf8fe;
+    color: var(--color-text-primary);
+    background-color: var(--color-hover);
     display: flex;
     align-items: center;
     img {

@@ -235,7 +235,7 @@ export default defineComponent({
 .el-radio.is-bordered {
   padding: 0px 10px 0 8px;
   min-width: 40%;
-  border: 2px solid #e4e4e4;
+  border: 2px solid var(--color-border-primary);
   margin-top: 16px;
   height: 100%;
   :deep(.el-radio__input) {
@@ -254,10 +254,10 @@ export default defineComponent({
       margin-bottom: 4px;
       font-weight: bold;
       font-size: 14px;
-      color: #000;
+      color: var(--color-title-primary);
     }
     .bridge-type-desc {
-      color: #0000007f;
+      color: var(--color-title-primary);
       font-size: 12px;
       word-break: break-all;
       white-space: normal;

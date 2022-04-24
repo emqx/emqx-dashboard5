@@ -61,7 +61,7 @@ export default defineComponent({
     font-weight: 600;
     color: var(--color-title-primary);
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--color-border-table);
+    border-bottom: 1px solid var(--color-border-normal);
     margin-bottom: 24px;
   }
   .el-tabs.el-tabs--left {
