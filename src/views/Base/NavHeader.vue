@@ -18,22 +18,6 @@
         </div>
       </el-tooltip>
 
-      <el-dropdown placement="bottom" @command="handleLanguageDropdownCommand">
-        <div class="user-info func-item">
-          <i class="iconfont icon-language"></i>
-        </div>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="en" :class="{ active: lang === 'en' }">
-              English
-            </el-dropdown-item>
-            <el-dropdown-item command="zh" :class="{ active: lang === 'zh' }">
-              中文
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-
       <el-dropdown placement="bottom" @command="handleDropdownCommand">
         <div class="user-info func-item">
           <span class="user-avatar">{{ user.username?.substr(0, 1).toUpperCase() }}</span>
@@ -58,7 +42,6 @@
 <script lang="ts">
 import { loadAlarm } from '@/api/common'
 import { toLogin } from '@/router'
-import { setLanguage } from '@/common/utils'
 import { useStore } from 'vuex'
 import { Right, Bell } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
@@ -87,9 +70,6 @@ export default defineComponent({
     const user = computed(() => {
       return store.state.user
     })
-    const lang = computed(() => {
-      return store.state.lang
-    })
     const alertText = computed(() => {
       return alertCount.value > 0
         ? `${t('components.theSystemHas')} ${alertCount.value} ${t(
@@ -99,12 +79,6 @@ export default defineComponent({
     })
     const visibilityChangeFunc = () => {
       return document.visibilityState === 'visible' && loadData()
-    }
-    const handleLanguageDropdownCommand = (command: string) => {
-      if (lang.value === command) {
-        return
-      }
-      setLanguage(command)
     }
     const loadData = async () => {
       const alert = (await loadAlarm().catch(() => {
@@ -148,7 +122,6 @@ export default defineComponent({
     })
     loadData()
     setHeaderTitle()
-    setLanguage(lang.value)
     onMounted(() => {
       document.addEventListener('visibilitychange', visibilityChangeFunc)
     })
@@ -162,12 +135,10 @@ export default defineComponent({
       alertCount,
       alertText,
       user,
-      lang,
       gotoCloud,
       handleDropdownCommand,
       logout,
       visibilityChangeFunc,
-      handleLanguageDropdownCommand,
     }
   },
 })

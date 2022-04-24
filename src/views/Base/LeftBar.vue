@@ -119,6 +119,7 @@ export default defineComponent({
 
     const system = [
       { title: 'users', path: '/users' },
+      { title: 'settings', path: '/settings' },
       {
         title: 'blacklist',
         path: '/blacklist',

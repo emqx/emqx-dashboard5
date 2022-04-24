@@ -8,10 +8,27 @@ const getLang = () => {
   return 'en'
 }
 
+const getTheme = () => {
+  const theme = localStorage.getItem('theme')
+  if (theme && ['light', 'dark'].includes(theme)) {
+    return theme
+  }
+  return 'light'
+}
+
+const getSyncOSTheme = () => {
+  const syncOsTheme = localStorage.getItem('syncOsTheme') || 'true'
+  if (syncOsTheme === 'undefined') {
+    return true
+  }
+  return JSON.parse(syncOsTheme)
+}
+
 export default createStore({
   state: {
     user: JSON.parse(<string>localStorage.getItem('user')) || {},
-    theme: 'light',
+    theme: getTheme(),
+    syncOsTheme: getSyncOSTheme(),
     lang: getLang(),
     leftBarCollapse: JSON.parse(<string>localStorage.getItem('leftBarCollapse')),
     alertCount: 0,
@@ -34,6 +51,9 @@ export default createStore({
     },
     SET_REQ_CHANGE({ commit }, addOrDone = true) {
       commit('SET_REQ_CHANGE', !!addOrDone)
+    },
+    UPDATE_SETTINGS({ commit }, settings = {}) {
+      commit('UPDATE_SETTINGS', settings)
     },
   },
   mutations: {
@@ -66,6 +86,21 @@ export default createStore({
     UPDATE_EDITION(state, edition) {
       edition ? localStorage.setItem('edition', edition) : localStorage.removeItem('edition')
       state.edition = edition
+    },
+    UPDATE_SETTINGS(state, { lang, theme, syncOsTheme }) {
+      localStorage.setItem('language', lang ?? state.lang)
+      localStorage.setItem('theme', theme ?? state.theme)
+      localStorage.setItem('syncOsTheme', JSON.stringify(syncOsTheme))
+      if (
+        (lang && state.lang !== lang) ||
+        (theme && state.theme !== theme) ||
+        state.syncOsTheme !== syncOsTheme
+      ) {
+        state.lang = lang ?? state.lang
+        state.theme = theme ?? state.theme
+        state.syncOsTheme = syncOsTheme
+        location.reload()
+      }
     },
   },
   getters: {
