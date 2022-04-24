@@ -1,13 +1,15 @@
 import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
 import { GatewayName, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
-import { computed, ref, ComputedRef, Ref, WritableComputedRef, watch } from 'vue'
+import { computed, ref, ComputedRef, Ref, WritableComputedRef, watch, nextTick } from 'vue'
 import { cloneDeep, merge, omit } from 'lodash'
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { ElMessage } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import useListenerUtils from './useListenerUtils'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
+import { FormRules } from '@/types/common'
+import { jumpToErrorFormItem } from '@/common/tools'
 
 type Props = Readonly<
   {
@@ -30,6 +32,7 @@ interface UseListenerDialogReturns {
   showDialog: WritableComputedRef<boolean>
   isEdit: ComputedRef<boolean>
   listenerRecord: Ref<Listener>
+  formCom: Ref<any>
   listenerTypeOptList: ComputedRef<Array<string>>
   defaultListener: Ref<Listener>
   isSubmitting: Ref<boolean>
@@ -40,6 +43,7 @@ interface UseListenerDialogReturns {
   isDTLS: ComputedRef<boolean>
   SSLConfigKey: ComputedRef<string>
   showWSConfig: ComputedRef<boolean>
+  listenerFormRules: FormRules
   submit: () => Promise<void>
 }
 
@@ -59,6 +63,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const {
     completeGatewayListenerTypeList,
     listenerTypeList,
+    listenerFormRules,
     createListenerId,
     createRawListener,
     hasTCPConfig,
@@ -83,6 +88,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   })
 
   const defaultListener = ref(createRawListener())
+  const formCom = ref()
 
   const isSubmitting = ref(false)
 
@@ -115,7 +121,18 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     }
   }
 
+  const validateForm = async () => {
+    try {
+      await formCom.value.validate()
+      return Promise.resolve()
+    } catch (error) {
+      jumpToErrorFormItem()
+      return Promise.reject()
+    }
+  }
+
   const submit = async () => {
+    await validateForm()
     listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
     const input = cloneDeep(listenerRecord.value)
     if (listenerRecord.value.type === ListenerTypeForGateway.UDP) {
@@ -173,7 +190,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     return completeGatewayListenerTypeList.filter((item) => !disabledList.includes(item))[0]
   }
 
-  watch(showDialog, (val) => {
+  watch(showDialog, async (val) => {
     if (val) {
       if (props.listener) {
         listenerRecord.value = merge(createRawListener(), cloneDeep(props.listener))
@@ -187,6 +204,11 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
         }
         listenerRecord.value = { ...createRawListener(), ...formData }
       }
+      await nextTick()
+      formCom.value.clearValidate()
+    } else {
+      // for prevent form throw error
+      listenerRecord.value = createRawListener()
     }
   })
 
@@ -194,6 +216,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     showDialog,
     isEdit,
     listenerRecord,
+    formCom,
     listenerTypeOptList,
     defaultListener,
     isSubmitting,
@@ -204,6 +227,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     showWSConfig,
     isDTLS,
     SSLConfigKey,
+    listenerFormRules,
     submit,
   }
 }

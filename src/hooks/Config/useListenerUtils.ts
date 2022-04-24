@@ -2,8 +2,11 @@ import { Listener } from '@/types/listener'
 import { cloneDeep, omit } from 'lodash'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { DEFAULT_ZONE } from '@/common/constants'
+import useFormRules from '../useFormRules'
+import useI18nTl from '../useI18nTl'
+import { FormRules } from '@/types/common'
 
-export default (): {
+export interface ListenerUtils {
   completeGatewayListenerTypeList: ListenerTypeForGateway[]
   listenerTypeList: ListenerType[]
   ID_SEPARATOR: string
@@ -11,6 +14,7 @@ export default (): {
   gatewayTypesWhichHasTCPConfig: Array<ListenerTypeForGateway | ListenerType>
   gatewayTypesWhichHasUDPConfig: Array<ListenerTypeForGateway | ListenerType>
   gatewayTypesWhichHasSSLConfig: Array<ListenerTypeForGateway | ListenerType>
+  listenerFormRules: FormRules
   createRawListener: () => Listener
   getListenerNameNTypeById: (id: string) => {
     type: string
@@ -28,7 +32,9 @@ export default (): {
    * independent is diff from below gateway
    */
   handleListenerDataWhenItIsIndependent: (listener: Listener) => Listener
-} => {
+}
+
+export default (): ListenerUtils => {
   const ID_SEPARATOR = ':'
 
   const completeGatewayListenerTypeList = [
@@ -89,6 +95,14 @@ export default (): {
   ]
 
   const gatewayTypesWhichHasWSConfig = [ListenerType.WS, ListenerType.WSS]
+
+  const { t, tl } = useI18nTl('Gateway')
+  const { createRequiredRule } = useFormRules()
+  const listenerFormRules: FormRules = {
+    name: createRequiredRule(t('Base.name')),
+    type: createRequiredRule(tl('lType'), 'select'),
+    bind: createRequiredRule(tl('lAddress')),
+  }
 
   const createRawSSLParams = () => ({
     certfile: '',
@@ -251,6 +265,7 @@ export default (): {
     gatewayTypesWhichHasTCPConfig,
     gatewayTypesWhichHasUDPConfig,
     gatewayTypesWhichHasSSLConfig,
+    listenerFormRules,
     createRawListener,
     getListenerNameNTypeById,
     createListenerId,

@@ -1,22 +1,22 @@
 <template>
   <el-dialog :title="tl(isEdit ? 'editListener' : 'addListener')" v-model="showDialog">
     <div class="part-header">{{ tl('basic') }}</div>
-    <el-form label-position="top">
+    <el-form label-position="top" :rules="listenerFormRules" :model="listenerRecord" ref="formCom">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="tl('name')">
+          <el-form-item :label="tl('name')" prop="name" required>
             <el-input v-model="listenerRecord.name" :disabled="isEdit" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('lType')">
+          <el-form-item :label="tl('lType')" prop="type" required>
             <el-select v-model="listenerRecord.type" :disabled="isEdit">
               <el-option v-for="item in listenerTypeOptList" :key="item" :value="item" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('lAddress')">
+          <el-form-item :label="tl('lAddress')" prop="bind" required>
             <el-input v-model="listenerRecord.bind" />
           </el-form-item>
         </el-col>
@@ -304,6 +304,7 @@ const {
   showDialog,
   isEdit,
   listenerRecord,
+  formCom,
   listenerTypeOptList,
   defaultListener,
   isSubmitting,
@@ -314,6 +315,7 @@ const {
   isDTLS,
   SSLConfigKey,
   showWSConfig,
+  listenerFormRules,
   submit,
 } = useListenerDialog(props, emit)
 
