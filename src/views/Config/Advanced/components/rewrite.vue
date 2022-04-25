@@ -6,16 +6,18 @@
     </div>
 
     <el-table :data="rewriteTbData" class="shadow-none" v-loading="tbDataLoading">
-      <el-table-column :label="'Action'" prop="action" sortable></el-table-column>
-      <el-table-column :label="tl('sTopic')" prop="source_topic" sortable></el-table-column>
-      <el-table-column :label="'Re'" prop="re" sortable></el-table-column>
-      <el-table-column :label="tl('dTopic')" prop="dest_topic" sortable></el-table-column>
+      <el-table-column :label="'Action'" prop="action" sortable />
+      <el-table-column :label="tl('sTopic')" prop="source_topic" sortable />
+      <el-table-column :label="'Re'" prop="re" sortable />
+      <el-table-column :label="tl('dTopic')" prop="dest_topic" sortable />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="small" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
-          <el-button size="small" type="danger" plain @click="deleteRewrite(row)">{{
-            $t('Base.delete')
-          }}</el-button>
+          <el-button size="small" @click="openOpDialog(true, row)">
+            {{ $t('Base.edit') }}
+          </el-button>
+          <el-button size="small" type="danger" plain @click="deleteRewrite(row)">
+            {{ $t('Base.delete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -23,6 +25,7 @@
     <el-dialog
       v-model="opRewrite"
       :title="(isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('rewrite')"
+      @close="initForm"
     >
       <el-form
         ref="rewriteForm"
@@ -33,22 +36,17 @@
       >
         <el-form-item :label="'Action'" prop="action">
           <el-select v-model="rewriteInput.action">
-            <el-option
-              v-for="item in actionOptions"
-              :key="item"
-              :value="item"
-              :label="item"
-            ></el-option>
+            <el-option v-for="item in actionOptions" :key="item" :value="item" :label="item" />
           </el-select>
         </el-form-item>
         <el-form-item :label="tl('sTopic')" prop="source_topic">
-          <el-input v-model="rewriteInput.source_topic"></el-input>
+          <el-input v-model="rewriteInput.source_topic" />
         </el-form-item>
         <el-form-item :label="'Re'" prop="re">
-          <el-input v-model="rewriteInput.re"></el-input>
+          <el-input v-model="rewriteInput.re" />
         </el-form-item>
         <el-form-item :label="tl('dTopic')" prop="dest_topic">
-          <el-input v-model="rewriteInput.dest_topic"></el-input>
+          <el-input v-model="rewriteInput.dest_topic" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -112,7 +110,13 @@ export default defineComponent({
         rewriteInput[k] = edit && originData[k] ? originData[k] : ''
       })
       edit && (editPos.value = rewriteTbData.value.findIndex((e) => e === originData))
-      nextTick(rewriteForm.value?.clearValidate)
+      await nextTick(rewriteForm.value?.clearValidate)
+    }
+
+    const initForm = () => {
+      Object.keys(rewriteInput).forEach((k) => {
+        rewriteInput[k] = ''
+      })
     }
 
     const submitRewrite = async function (edit = false) {
@@ -197,6 +201,7 @@ export default defineComponent({
       actionOptions,
       rewriteInput,
       openOpDialog,
+      initForm,
       submitRewrite,
       deleteRewrite,
       submitLoading,

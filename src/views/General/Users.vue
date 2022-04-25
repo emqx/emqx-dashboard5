@@ -35,6 +35,7 @@
           : $t('General.creatingUser')
       "
       v-model="dialogVisible"
+      destroy-on-close
     >
       <el-form
         ref="recordForm"
