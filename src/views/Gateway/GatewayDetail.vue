@@ -1,10 +1,10 @@
 <template>
   <div class="app-wrapper gateway-detail">
+    <detail-header :item="{ name: gname, path: '/gateway' }" />
     <div class="section-header">
       <div>
         <span :class="['g-icon', `g-${gname}`]"></span>
         <span class="title-n-status">
-          <span class="section-title">{{ gname }}</span>
           <el-tag type="info" class="section-status">
             <span>
               <i :class="['status', gInfo.status !== 'running' && 'stopped']" />
@@ -41,9 +41,13 @@ import { getGateway, updateGateway } from '@/api/gateway'
 import { ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import DetailHeader from '@/components/DetailHeader.vue'
 
 export default defineComponent({
   name: 'GatewayDetail',
+  components: {
+    DetailHeader,
+  },
   setup() {
     let gInfo = ref({})
     const { t } = useI18n()
@@ -97,6 +101,9 @@ export default defineComponent({
 
 <style lang="scss">
 .gateway-detail {
+  .section-header:not(:first-of-type) {
+    margin-top: 0px;
+  }
   .g-icon::before {
     width: 60px;
     height: 60px;
@@ -110,7 +117,7 @@ export default defineComponent({
   .el-card.menu-card {
     margin-bottom: 40px;
     .el-card__body {
-      padding: 0px;
+      padding: 0px 12px;
     }
   }
 }

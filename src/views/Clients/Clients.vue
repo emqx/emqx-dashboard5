@@ -113,13 +113,6 @@
         min-width="100"
         :label="$t('Clients.keepalive')"
       ></el-table-column>
-      <el-table-column min-width="90" prop="proto_name" :label="$t('Clients.protocol')">
-        <template #default="{ row }">
-          <span class="">
-            {{ row.proto_name }}
-          </span>
-        </template>
-      </el-table-column>
       <el-table-column prop="connected_at" min-width="140" :label="$t('Clients.connectedAt')">
         <template #default="{ row }">
           {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
