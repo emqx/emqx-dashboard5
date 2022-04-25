@@ -48,6 +48,7 @@ import { ElNotification, ElMessageBox } from 'element-plus'
 import { computed, defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
+import useDocLink from '@/hooks/useDocLink'
 
 export default defineComponent({
   name: 'NavHeader',
@@ -109,8 +110,9 @@ export default defineComponent({
       }
       router.currentRoute.value.name !== command && router.push({ name: command })
     }
+    const { docMap } = useDocLink()
     const gotoCloud = () => {
-      window.open('https://www.emqx.com/cloud', '_blank')
+      window.open(docMap.cloud, '_blank')
     }
     const setHeaderTitle = () => {
       let { path } = route || []

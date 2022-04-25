@@ -119,6 +119,7 @@ import { BridgeItem, RuleEvent } from '@/types/rule'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { RuleInputType } from '@/types/enum'
+import useDocLink from '@/hooks/useDocLink'
 
 interface TestParams {
   context: Record<string, string>
@@ -241,9 +242,10 @@ const createLineDecoration = (lineContent: string): string => {
   return ''
 }
 
+const { docMap } = useDocLink()
 const goDoc = () => {
   // TODO:
-  window.open('https://www.emqx.io', '_blank')
+  window.open(docMap.home, '_blank')
 }
 
 const resetContext = () => {

@@ -1,3 +1,8 @@
+import getDocLinks from '@/common/docLinks.ts'
+
+const enDocLinkMap = getDocLinks('en')
+const zhDocLinkMap = getDocLinks('zh')
+
 export default {
   networkGraph: {
     en: 'Cluster',
@@ -305,18 +310,18 @@ export default {
   },
   licenseExpiryTip: {
     zh: `
-    您的试用 License 已过期，请<a target="_blank"  href="https://www.emqx.com/zh/apply-licenses/emqx">更新 License</a>或联系销售人员更新 License。
+    您的试用 License 已过期，请<a target="_blank"  href="${zhDocLinkMap.applyLicense}">更新 License</a>或联系销售人员更新 License。
     `,
     en: `
-    Your license has expired. Please <a target="_blank"  href="https://www.emqx.com/en/apply-licenses/emqx">apply</a> for a new license or contact EMQ customer services.
+    Your license has expired. Please <a target="_blank"  href="${enDocLinkMap.applyLicense}">apply</a> for a new license or contact EMQ customer services.
     `,
   },
   licenseEvaluationTip: {
     zh: `
-    当前正在使用评估 License，限制为10个连接。请<a target="_blank"  href="https://www.emqx.com/zh/apply-licenses/emqx">升级 License</a> 。<br/>
+    当前正在使用评估 License，限制为10个连接。请<a target="_blank"  href="${zhDocLinkMap.applyLicense}">升级 License</a> 。<br/>
     如已购买 License，请使用 <code>emqx ctl license update</code> 命令进行升级`,
     en: `
-    You are using a 10-connection evaluation license. Please<a target="_blank"  href="https://www.emqx.com/en/apply-licenses/emqx"> upgrade license </a>.<br/>
+    You are using a 10-connection evaluation license. Please<a target="_blank"  href="${enDocLinkMap.applyLicense}"> upgrade license </a>.<br/>
     If you have already received a license, please update with command <code>emqx ctl license update</code>`,
   },
   konw: {

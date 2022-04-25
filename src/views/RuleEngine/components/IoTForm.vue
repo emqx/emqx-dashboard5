@@ -19,7 +19,7 @@
         <div class="part-header">{{ tl('filterData') }}</div>
         <div class="sub-block-desc">
           <span>{{ tl('ruleSQLDesc') }}</span>
-          <a href="https://www.emqx.io">{{ tl('doc') }}</a>
+          <a :href="docMap.home">{{ tl('doc') }}</a>
         </div>
         <el-row v-if="briefEditType">
           <el-col :span="14">
@@ -140,6 +140,7 @@ import FromSelectList from './FromSelectList.vue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import useFormRules from '@/hooks/useFormRules'
+import useDocLink from '@/hooks/useDocLink'
 
 const prop = defineProps({
   modelValue: {
@@ -198,6 +199,8 @@ const formRules = {
   name: createRequiredRule(tl('name')),
   sql: createRequiredRule(tl('SQL')),
 }
+
+const { docMap } = useDocLink()
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
