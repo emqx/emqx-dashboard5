@@ -313,10 +313,23 @@
 /* Input */
 .el-input,
 .el-textarea,
+.el-input-number,
 .el-select {
   transition: all 0.3s;
   width: 100%;
+}
 
+/* Input Number*/
+.el-input-number .el-input__inner {
+  text-align: left;
+}
+.el-input-number.is-disabled.is-controls-right {
+  .el-input-number__increase {
+    border-bottom: 1px solid var(--color-border-normal);
+  }
+  .el-input-number__decrease {
+    border-left: 1px solid var(--color-border-normal);
+  }
 }
 
 /* Select */
