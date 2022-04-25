@@ -80,7 +80,7 @@
       </el-col>
       <el-col :span="12">
         <el-card class="node-stats top-border" v-loading="statsLoading">
-          <span class="stats-tip">{{ `(${$t('Base.current')}/${$t('Base.max')})` }}</span>
+          <span class="stats-tip">({{ $t('Base.current') }} / {{ $t('Base.highWatermark') }})</span>
           <el-descriptions :title="tl('nodeStatis')" border :column="1" size="large">
             <el-descriptions-item :label="tl('currentConnection')">
               {{ stats['connections.count'] }}/{{ stats['connections.max'] }}
