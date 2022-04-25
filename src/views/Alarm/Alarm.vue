@@ -8,15 +8,16 @@
       <el-table-column prop="name" :label="$t('Alarm.alarmName')" />
       <el-table-column prop="message" :label="$t('Alarm.alarmMsg')">
         <template #default="{ row }">
-          <el-popover placement="top" trigger="hover" width="160">
-            <div v-for="(value, label) in row.details" :key="label">{{ label }}: {{ value }}</div>
-            <template #reference>
-              <span class="details">
-                <el-icon><QuestionFilled /></el-icon>
-              </span>
-            </template>
-          </el-popover>
-          <span>{{ row.message }}</span>
+          <div class="message-with-icon">
+            <InfoTooltip>
+              <template #content>
+                <div v-for="(value, label) in row.details" :key="label">
+                  {{ label }}: {{ value }}
+                </div>
+              </template>
+            </InfoTooltip>
+            <span>{{ row.message }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="node" :label="$t('Alarm.triggerNode')" />
@@ -63,20 +64,16 @@
       <el-table-column prop="name" :label="$t('Alarm.alarmName')" />
       <el-table-column :label="$t('Alarm.alarmMsg')">
         <template #default="{ row }">
-          <el-popover
-            placement="top"
-            trigger="hover"
-            width="160"
-            v-if="Object.keys(row.details).length"
-          >
-            <div v-for="(value, label) in row.details" :key="label">{{ label }}: {{ value }}</div>
-            <template #reference>
-              <span class="details">
-                <el-icon><QuestionFilled /></el-icon>
-              </span>
-            </template>
-          </el-popover>
-          <span>{{ row.message }}</span>
+          <div class="message-with-icon">
+            <InfoTooltip v-if="Object.keys(row.details).length">
+              <template #content>
+                <div v-for="(value, label) in row.details" :key="label">
+                  {{ label }}: {{ value }}
+                </div>
+              </template>
+            </InfoTooltip>
+            <span>{{ row.message }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="node" :label="$t('Alarm.triggerNode')" />
@@ -106,10 +103,10 @@ import { loadAlarm, clearHistoryAlarm } from '@/api/common'
 import { getDuration, dateFormat } from '@/common/utils'
 import commonPagination from '../../components/commonPagination.vue'
 import { ElMessage } from 'element-plus'
-import { QuestionFilled } from '@element-plus/icons-vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 export default {
-  components: { commonPagination, QuestionFilled },
+  components: { commonPagination, InfoTooltip },
   name: 'Alarm',
   data() {
     return {
@@ -197,5 +194,14 @@ export default {
   color: #a7a7a7;
   cursor: pointer;
   vertical-align: middle;
+}
+.message-with-icon {
+  position: relative;
+  :deep(.icon-question) {
+    left: -20px;
+    top: 5px;
+    transform: scale(0.9);
+    position: absolute;
+  }
 }
 </style>
