@@ -134,6 +134,9 @@ export default defineComponent({
       }
     }
 
+    /**
+     * @param authz has value when the action is update status
+     */
     const handleUpdate = async function ({ enable }) {
       let isVerified = true
       if (formCom.value) {
@@ -152,7 +155,7 @@ export default defineComponent({
       }
       await updateAuthz(type.value, data)
       ElMessage.success(t('Base.updateSuccess'))
-      router.push({ name: 'authorization' })
+      enable === undefined ? router.push({ name: 'authorization' }) : loadData()
     }
 
     const handleDelete = async function () {

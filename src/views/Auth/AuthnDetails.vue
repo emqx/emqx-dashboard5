@@ -188,6 +188,10 @@ export default defineComponent({
       }
     }
     const { titleMap } = useAuth()
+
+    /**
+     * @param authn has value when the action is update status
+     */
     const handleUpdate = async function ({ enable }) {
       let isVerified = true
       if (formCom.value) {
@@ -212,7 +216,7 @@ export default defineComponent({
         res = await updateAuthn(id, data).catch(() => {})
         if (res) {
           M.success(t('Base.updateSuccess'))
-          loadData()
+          enable === undefined ? router.push({ name: 'authentication' }) : loadData()
         }
       }
     }
