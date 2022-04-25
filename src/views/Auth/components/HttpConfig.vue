@@ -1,15 +1,15 @@
 <template>
   <div class="http-config config">
-    <!-- HTTP -->
-    <div>
-      <div class="create-form-title">HTTP</div>
-      <el-form
-        ref="formCom"
-        class="create-form"
-        label-position="top"
-        :model="httpConfig"
-        :rules="rules"
-      >
+    <el-form
+      ref="formCom"
+      class="create-form"
+      label-position="top"
+      :model="httpConfig"
+      :rules="rules"
+    >
+      <!-- HTTP -->
+      <div class="config-sub-block">
+        <div class="create-form-title">HTTP</div>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.method')" required prop="method">
@@ -30,13 +30,11 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-form>
-    </div>
+      </div>
 
-    <!-- Connect Config -->
-    <div>
-      <div class="create-form-title">{{ $t('Auth.connectConfig') }}</div>
-      <el-form class="create-form" label-position="top">
+      <!-- Connect Config -->
+      <div class="config-sub-block">
+        <div class="create-form-title">{{ $t('Auth.connectConfig') }}</div>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="Pool size">
@@ -66,18 +64,16 @@
             <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" />
           </el-col>
         </el-row>
-      </el-form>
-    </div>
-
-    <!-- Auth Config -->
-    <div>
-      <div class="create-form-title">
-        {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
-        <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-          {{ $t('Base.help') }}
-        </el-button>
       </div>
-      <el-form class="create-form" label-position="top">
+
+      <!-- Auth Config -->
+      <div class="config-sub-block">
+        <div class="create-form-title">
+          {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
+          <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+            {{ $t('Base.help') }}
+          </el-button>
+        </div>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="Body">
@@ -103,8 +99,8 @@
             </el-col>
           </el-collapse-transition>
         </el-row>
-      </el-form>
-    </div>
+      </div>
+    </el-form>
   </div>
 </template>
 
