@@ -101,13 +101,13 @@ const SchemaForm = defineComponent({
           return stringInput
         case 'number':
           return (
-            <el-input
-              type="number"
+            <el-input-number
+              controls-position="right"
               disabled={property.readOnly}
               v-model={configForm.value[path]}
               placeholder={property.default?.toString()}
               clearable
-            ></el-input>
+            ></el-input-number>
           )
         case 'enum':
           return (
