@@ -368,8 +368,12 @@ export default {
     en: 'Refresh',
   },
   current: {
-    zh: '当前',
+    zh: '当前值',
     en: 'Current',
+  },
+  highWatermark: {
+    zh: '高水位线',
+    en: 'High Watermark',
   },
   max: {
     zh: '最大',
