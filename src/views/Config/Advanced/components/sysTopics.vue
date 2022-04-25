@@ -51,7 +51,7 @@
                 prop="sys_event_messages.client_subscribed"
               >
                 <BooleanSelect
-                  v-model="sysTopics.sys_event_messages.client_unsubscribed"
+                  v-model="sysTopics.sys_event_messages.client_subscribed"
                   v-bind="booleanSelectProps"
                 />
               </el-form-item>
@@ -59,7 +59,7 @@
             <el-col :span="8">
               <el-form-item
                 :label="tl('clientUnsubscribed')"
-                prop="sys_event_messages.client_disconnected"
+                prop="sys_event_messages.client_unsubscribed"
               >
                 <BooleanSelect
                   v-model="sysTopics.sys_event_messages.client_unsubscribed"
