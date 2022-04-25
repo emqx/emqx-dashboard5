@@ -40,8 +40,9 @@
                 {{ node.load1 }}/{{ node.load5 }}/{{ node.load15 }}
               </el-tooltip>
             </el-descriptions-item>
-            <el-descriptions-item :label="tl('memory')">
-              <el-tooltip
+            <el-descriptions-item :label="`VM ${tl('memory')}`">
+              {{ node.memory_used }}
+              <!-- <el-tooltip
                 placement="top"
                 effect="dark"
                 :content="`${node.memory_used}/${node.memory_total}`"
@@ -54,7 +55,7 @@
                 >
                   <span>{{ node.memory_used }}</span>
                 </el-progress>
-              </el-tooltip>
+              </el-tooltip> -->
             </el-descriptions-item>
             <el-descriptions-item :label="`Erlang ${tl('process')}`">
               <el-tooltip

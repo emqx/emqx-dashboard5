@@ -42,9 +42,10 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="`VM ${tl('memory')}`">
+      <el-table-column :label="`VM ${tl('memory')}`" prop="memory_used">
         <template #default="{ row }">
-          <el-tooltip
+          {{ row.memory_used }}
+          <!-- <el-tooltip
             placement="top"
             effect="dark"
             :content="`${row.memory_used}/${row.memory_total}`"
@@ -57,7 +58,7 @@
             >
               <span>{{ row.memory_used }}</span>
             </el-progress>
-          </el-tooltip>
+          </el-tooltip> -->
         </template>
       </el-table-column>
       <el-table-column :label="`CPU ${tl('load')}`">
