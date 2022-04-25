@@ -119,8 +119,8 @@ const handleError = (error: any) => {
   .el-button {
     font-weight: normal;
     font-size: 14px;
-    background-color: #f7f7f7;
-    border-color: #f7f7f7;
+    background-color: --color-bg-primary;
+    border-color: --color-border-primary;
   }
 }
 </style>
