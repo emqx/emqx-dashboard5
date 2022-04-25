@@ -11,7 +11,7 @@
         </div>
 
         <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading">
-          <el-table-column :label="tl('name')">
+          <el-table-column :label="tl('name')" :min-width="120">
             <template #default="{ row }">
               <div class="bridge-column-first">
                 <img
@@ -28,15 +28,25 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column :label="tl('SuccessNum')" sortable prop="metrics.success" />
-          <el-table-column :label="tl('ErrNum')" sortable prop="metrics.failed" />
-          <el-table-column :label="`${tl('speedNow')}(msg/s)`" sortable prop="metrics.rate" />
-          <el-table-column :label="tl('status')" sortable :width="120">
+          <el-table-column
+            :label="tl('SuccessNum')"
+            sortable
+            prop="metrics.success"
+            :min-width="112"
+          />
+          <el-table-column :label="tl('ErrNum')" sortable prop="metrics.failed" :min-width="100" />
+          <el-table-column
+            :label="`${tl('speedNow')}(msg/s)`"
+            sortable
+            prop="metrics.rate"
+            :min-width="118"
+          />
+          <el-table-column :label="tl('status')" sortable :min-width="120">
             <template #default="{ row }">
               <BridgeItemStatus :bridge="row" />
             </template>
           </el-table-column>
-          <el-table-column :label="$t('Base.operation')" min-width="120">
+          <el-table-column :label="$t('Base.operation')" :min-width="232">
             <template #default="{ row }">
               <el-button size="small" @click="$router.push(getBridgeDetailPageRoute(row.id))">
                 {{ $t('Base.setting') }}

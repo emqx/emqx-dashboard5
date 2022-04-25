@@ -80,11 +80,12 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
+      <el-table-column :label="'Topic'" prop="topic" :min-width="120" />
       <el-table-column
         :label="tl('msgIn')"
         sortable
         :sort-by="({ metrics }) => metrics['messages.in.count']"
+        :min-width="136"
       >
         <template #default="{ row }">
           {{ row.metrics['messages.in.count'] }}
@@ -94,6 +95,7 @@
         :label="tl('msgOut')"
         sortable
         :sort-by="({ metrics }) => metrics['messages.out.count']"
+        :min-width="136"
       >
         <template #default="{ row }">
           {{ row.metrics['messages.out.count'] }}
@@ -103,6 +105,7 @@
         :label="tl('msgDrop')"
         sortable
         :sort-by="({ metrics }) => metrics['messages.dropped.count']"
+        :min-width="172"
       >
         <template #default="{ row }">
           {{ row.metrics['messages.dropped.count'] }}
@@ -112,12 +115,13 @@
         :label="tl('startTime')"
         sortable
         :sort-by="({ create_time }) => new Date(create_time).getTime()"
+        :min-width="164"
       >
         <template #default="{ row }">
           {{ (row.reset_at && df(row.reset_at)) || (row.create_time && df(row.create_time)) }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :width="230">
+      <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row, $index }">
           <el-button size="small" @click="loadMetricsFromTopic(row, $index)">
             {{ $t('Base.view') }}

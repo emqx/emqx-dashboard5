@@ -10,18 +10,18 @@
     </div>
 
     <el-table :data="traceTable" v-loading="traceTbLoading" class="data-table">
-      <el-table-column :label="$t('LogTrace.name')" prop="name" sortable></el-table-column>
-      <el-table-column :label="$t('LogTrace.type')" prop="type" sortable></el-table-column>
-      <el-table-column :label="$t('LogTrace.condition')">
+      <el-table-column :label="$t('LogTrace.name')" prop="name" :min-width="100" />
+      <el-table-column :label="$t('LogTrace.type')" prop="type" sortable :min-width="100" />
+      <el-table-column :label="$t('LogTrace.condition')" :min-width="100">
         <template #default="{ row }">
           {{ row[row.type] }}
         </template>
       </el-table-column>
       <el-table-column
         :label="$t('LogTrace.startEndTime')"
-        min-width="90"
         sortable
         :sort-by="({ start_at }) => new Date(start_at).getTime()"
+        :min-width="188"
       >
         <template #default="{ row }">
           {{ moment(row.start_at).format('YYYY-MM-DD HH:mm:ss') }}
@@ -29,7 +29,7 @@
           {{ moment(row.end_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('LogTrace.status')" prop="status" sortable>
+      <el-table-column :label="$t('LogTrace.status')" prop="status" sortable :min-width="120">
         <template #default="{ row }">
           <el-badge
             is-dot
@@ -40,14 +40,14 @@
           <span>{{ row.status && $t('LogTrace.s' + row.status) }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('LogTrace.logSize')" prop="log_size" sortable>
+      <el-table-column :label="$t('LogTrace.logSize')" prop="log_size" sortable :min-width="112">
         <template #default="{ row }">
           {{
             (Object.keys(row.log_size).reduce((c, v) => c + row.log_size[v], 0) / 1024).toFixed(2)
           }}KB
         </template>
       </el-table-column>
-      <el-table-column min-width="140" :label="$t('Base.operation')">
+      <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row }">
           <el-button
             size="small"

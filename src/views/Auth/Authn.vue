@@ -42,7 +42,7 @@
         prop="metrics.metrics.rate"
         :min-width="148"
       />
-      <el-table-column prop="enable" :label="$t('Auth.status')" :min-width="90">
+      <el-table-column prop="enable" :label="$t('Auth.status')" :min-width="116">
         <template #default="{ row }">
           <AuthItemStatus :enable="row.enable" :metrics="row.metrics" />
         </template>

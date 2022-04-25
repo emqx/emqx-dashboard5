@@ -5,7 +5,7 @@
     </div>
 
     <el-table :data="currentAlarmData" v-loading.lock="currentLockTable">
-      <el-table-column prop="name" :label="$t('Alarm.alarmName')"></el-table-column>
+      <el-table-column prop="name" :label="$t('Alarm.alarmName')" />
       <el-table-column prop="message" :label="$t('Alarm.alarmMsg')">
         <template #default="{ row }">
           <el-popover placement="top" trigger="hover" width="160">
@@ -19,7 +19,7 @@
           <span>{{ row.message }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="node" :label="$t('Alarm.triggerNode')"></el-table-column>
+      <el-table-column prop="node" :label="$t('Alarm.triggerNode')" />
       <el-table-column :label="$t('Alarm.alarmLevel')">
         <span> {{ $t('Alarm.system') }}</span>
       </el-table-column>
@@ -60,7 +60,7 @@
     </div>
 
     <el-table :data="historyAlarmData" v-loading.lock="historyLockTable">
-      <el-table-column prop="name" :label="$t('Alarm.alarmName')"></el-table-column>
+      <el-table-column prop="name" :label="$t('Alarm.alarmName')" />
       <el-table-column :label="$t('Alarm.alarmMsg')">
         <template #default="{ row }">
           <el-popover
@@ -79,7 +79,7 @@
           <span>{{ row.message }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="node" :label="$t('Alarm.triggerNode')"></el-table-column>
+      <el-table-column prop="node" :label="$t('Alarm.triggerNode')" />
       <el-table-column :label="$t('Alarm.alarmLevel')">
         <span>{{ $t('Alarm.system') }}</span>
       </el-table-column>

@@ -13,39 +13,39 @@
       v-loading.lock="isTableLoading"
       row-key="name"
     >
-      <el-table-column prop="name" :label="tl('name')">
+      <el-table-column prop="name" :label="tl('name')" :min-width="120">
         <template #default="{ row }">
           <router-link :to="exhookDetailRoute(row)">
             {{ row.name }}
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('numberOfHooks')">
+      <el-table-column :label="tl('numberOfHooks')" :min-width="160">
         <template #default="{ row }">
           {{ row.hooks.length }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('success')">
+      <el-table-column :label="tl('success')" :min-width="120">
         <template #default="{ row }">
           {{ row.metrics?.succeed }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('failure')">
+      <el-table-column :label="tl('failure')" :min-width="120">
         <template #default="{ row }">
           {{ row.metrics?.failed }}
         </template>
       </el-table-column>
-      <el-table-column :label="`${tl('speed')}(${tl('second')})`">
+      <el-table-column :label="`${tl('speed')}(${tl('second')})`" :min-width="136">
         <template #default="{ row }">
           {{ row.metrics?.rate }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')">
+      <el-table-column :label="tl('status')" :min-width="132">
         <template #default="{ row }">
           <ExhookItemStatus :exhook="row" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :width="220">
+      <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row }">
           <el-button size="small" @click="goExhookDetail(row)">
             {{ tl('setting', 'Base') }}
