@@ -1,7 +1,7 @@
 <template>
   <el-input
     class="time-input-with-unit-select"
-    v-model.number.trim="numPart"
+    v-model.number="numPart"
     :disabled="disabled"
     @change="$emit('change')"
     :placeholder="numberPlaceholder"
@@ -74,7 +74,12 @@ const numPart: WritableComputedRef<string> = computed({
   get() {
     if (modelValueMatchReg.value) {
       const { numberPart = '' } = modelValueMatchReg.value.groups || {}
-      return numberPart
+      return numberPart.trim()
+    }
+    // handle chaos input
+    const { numberPart } = props.modelValue?.match(backupRegExp.value)?.groups || {}
+    if (numberPart) {
+      return numberPart.trim()
     }
     return ''
   },
