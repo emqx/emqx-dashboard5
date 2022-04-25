@@ -246,17 +246,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import {
-  defineProps,
-  onMounted,
-  ref,
-  PropType,
-  watch,
-  defineEmits,
-  Ref,
-  defineExpose,
-  nextTick,
-} from 'vue'
+import { defineProps, onMounted, ref, PropType, watch, defineEmits, Ref, defineExpose } from 'vue'
 import { Edit, Plus } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { getConnectorList } from '@/api/ruleengine'
@@ -265,7 +255,7 @@ import { MQTTIn, MQTTOut, ConnectorItem } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString } from '@/common/tools'
+import { createRandomString, waitAMoment } from '@/common/tools'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MQTTBridgeDirection } from '@/types/enum'
@@ -431,7 +421,7 @@ const handleIsForwardToLocalTopicChanged = async () => {
   } else {
     handleIsForwardToLocalTopicChangedInSinkType()
   }
-  await nextTick()
+  await waitAMoment(4)
   clearValidate()
 }
 

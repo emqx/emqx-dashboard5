@@ -3,19 +3,15 @@
     <div class="section-header">
       <div class="searchbar">
         <el-space wrap :size="20">
-          <el-input
-            v-model="searchVal.user_id"
-            clearable
-            :placeholder="getFiledLabel(field)"
-          ></el-input>
+          <el-input v-model="searchVal.user_id" clearable :placeholder="getFiledLabel(field)" />
           <el-select
             v-model="searchVal.is_superuser"
             clearable
             :placeholder="$t('Auth.isSuperuser')"
             @clear="searchVal.is_superuser = null"
           >
-            <el-option :value="true" :label="$t('Base.yes')"></el-option>
-            <el-option :value="false" :label="$t('Base.no')"></el-option>
+            <el-option :value="true" :label="$t('Base.yes')" />
+            <el-option :value="false" :label="$t('Base.no')" />
           </el-select>
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
@@ -33,7 +29,7 @@
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="user_id" :label="getFiledLabel(field)"></el-table-column>
+      <el-table-column prop="user_id" :label="getFiledLabel(field)" />
       <el-table-column prop="is_superuser" :label="$t('Auth.isSuperuser')">
         <template #default="{ row }">
           {{ row.is_superuser ? $t('Base.yes') : $t('Base.no') }}
@@ -41,43 +37,35 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button @click="handleEdit(row)">
+          <el-button @click="handleEdit(row)" size="small">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button plain type="danger" @click="handleDelete(row)">
+          <el-button plain type="danger" @click="handleDelete(row)" size="small">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
+      <common-pagination v-model:metaData="pageMeta" @loadPage="loadData" />
     </div>
 
     <el-dialog
       :title="isEdit ? $t('Base.edit') : $t('Base.add')"
       width="480px"
       v-model="dialogVisible"
-      @open="handleDialogOpen"
+      destroy-on-close
     >
       <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
-          <el-input v-model="record.user_id" :disabled="isEdit"></el-input>
+          <el-input v-model="record.user_id" :disabled="isEdit" />
         </el-form-item>
         <el-form-item prop="password" :label="$t('General.password')">
-          <el-input
-            v-model="record.password"
-            type="password"
-            autocomplete="new-password"
-          ></el-input>
+          <el-input v-model="record.password" type="password" autocomplete="new-password" />
         </el-form-item>
         <el-form-item>
           <div>
-            <el-checkbox
-              v-model="record.is_superuser"
-              :label="$t('Auth.isSuperuser')"
-              border
-            ></el-checkbox>
+            <el-checkbox v-model="record.is_superuser" :label="$t('Auth.isSuperuser')" border />
           </div>
         </el-form-item>
       </el-form>
@@ -97,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, PropType, reactive } from 'vue'
+import { computed, defineComponent, onMounted, ref, PropType, reactive, nextTick } from 'vue'
 import { loadAuthnUsers, createAuthnUsers, deleteAuthnUser, updateAuthnUser } from '@/api/auth'
 import {
   getGatewayUserManagement,
@@ -111,6 +99,12 @@ import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Search } from '@element-plus/icons-vue'
 import { DataManagerItem } from '@/types/auth'
+
+const createRawUserForm = () => ({
+  user_id: '',
+  password: '',
+  is_superuser: false,
+})
 
 export default defineComponent({
   components: { commonPagination },
@@ -131,11 +125,7 @@ export default defineComponent({
   setup(prop) {
     const { t } = useI18n()
     const pageMeta = ref({})
-    let record = ref<DataManagerItem>({
-      user_id: '',
-      password: '',
-      is_superuser: false,
-    })
+    let record = ref<DataManagerItem>(createRawUserForm())
     const tableData = ref([])
     const lockTable = ref(false)
     const dialogVisible = ref(false)
@@ -191,6 +181,7 @@ export default defineComponent({
     }
     const addCommand = () => {
       isEdit.value = false
+      record.value = createRawUserForm()
       dialogVisible.value = true
     }
     const handleEdit = (row: DataManagerItem) => {
@@ -281,10 +272,7 @@ export default defineComponent({
       }
       return fieldMap[field]
     }
-    const handleDialogOpen = () => {
-      recordForm.value?.clearValidate()
-      recordForm.value?.resetFields()
-    }
+
     const handleSearch = () => {
       const page = 1
       const { user_id, is_superuser } = searchVal
@@ -299,11 +287,13 @@ export default defineComponent({
         loadData({ page })
       }
     }
+
     const handleResetSearch = () => {
       searchVal.user_id = ''
       searchVal.is_superuser = null
       loadData({ page: 1 })
     }
+
     return {
       Plus,
       Search,
@@ -319,7 +309,6 @@ export default defineComponent({
       searchVal,
       handleSearch,
       handleResetSearch,
-      handleDialogOpen,
       loadData,
       save,
       addCommand,

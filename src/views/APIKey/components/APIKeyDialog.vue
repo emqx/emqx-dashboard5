@@ -185,10 +185,11 @@ watch(showDialog, async (val) => {
         await nextTick()
       }
     } else {
-      formData.value = createRawFormData()
       await nextTick()
       formCom.value.clearValidate()
     }
+  } else {
+    formData.value = createRawFormData()
   }
 })
 

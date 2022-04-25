@@ -75,7 +75,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="$t('LogTrace.createLog')" v-model="createDialog">
+    <el-dialog :title="$t('LogTrace.createLog')" v-model="createDialog" @close="initForm">
       <el-form ref="createForm" label-position="top" :model="record" :rules="createRules">
         <el-row :gutter="20">
           <el-col :span="18">
@@ -140,7 +140,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { defineComponent, nextTick, onMounted, Ref, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import moment from 'moment'
 import { ElMessage as M, ElMessageBox as MB, ElForm } from 'element-plus'
@@ -151,6 +151,15 @@ import { FormItemRule } from '@/types/common'
 import { getTraceList, addTrace, downloadTrace, stopTrace, deleteTrace } from '@/api/diagnose'
 
 const DEFAULT_DURATION = 30 * 60 * 1000
+
+const createRawTraceForm = () => ({
+  name: '',
+  type: 'clientid' as const,
+  clientid: '',
+  ip_address: '',
+  topic: '',
+  startTime: ['', ''] as [string, string],
+})
 
 export default defineComponent({
   setup() {
@@ -172,14 +181,7 @@ export default defineComponent({
         label: 'IP Address',
       },
     ]
-    const record: Ref<TraceFormRecord> = ref({
-      name: '',
-      type: 'clientid' as const,
-      clientid: '',
-      ip_address: '',
-      topic: '',
-      startTime: ['', ''] as [string, string],
-    })
+    const record: Ref<TraceFormRecord> = ref(createRawTraceForm())
     const createDialog = ref(false)
 
     const createRules: Record<string, Array<FormItemRule>> = {
@@ -257,7 +259,10 @@ export default defineComponent({
 
     const cancelDialog = () => {
       createDialog.value = false
-      createForm.value?.resetFields()
+    }
+
+    const initForm = () => {
+      record.value = createRawTraceForm()
     }
 
     const stopTraceHandler = async (row: TraceRecord) => {
@@ -273,6 +278,8 @@ export default defineComponent({
       createDialog.value = true
       const timeNow = new Date()
       record.value.startTime = [timeNow, new Date(timeNow.getTime() + DEFAULT_DURATION)]
+      await nextTick()
+      createForm.value?.clearValidate()
     }
 
     const deleteTraceHandler = async (row: TraceRecord) => {
@@ -324,6 +331,7 @@ export default defineComponent({
       createDialog,
       createLoading,
       cancelDialog,
+      initForm,
     }
   },
 })
