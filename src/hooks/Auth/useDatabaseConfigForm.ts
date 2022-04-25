@@ -37,6 +37,13 @@ export default (props: PropsParams, databaseConfig: any): ReturnData => {
     collection: createRequiredRule('Collection'),
   })
 
+  /**
+   * Or PostgreSQL
+   */
+  const createMySQLFormRules = () => ({
+    query: createRequiredRule('SQL'),
+  })
+
   const rules = computed(() => {
     let ret: FormRules = {
       database: createRequiredRule(tl('database')),
@@ -48,8 +55,11 @@ export default (props: PropsParams, databaseConfig: any): ReturnData => {
       ret = {
         ...ret,
         ...createMongoCommonFormRules(),
+        /* For mongo type 'rs' */
         replica_set_name: createRequiredRule('Replica Set Name'),
       }
+    } else if (isMySQL.value || isPgSQL.value) {
+      ret = { ...ret, ...createMySQLFormRules() }
     }
 
     if (isServers.value) {
