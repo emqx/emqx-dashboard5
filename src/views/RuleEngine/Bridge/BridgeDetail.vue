@@ -88,6 +88,7 @@ import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
+import useDocLink from '@/hooks/useDocLink'
 
 enum Tab {
   Overview = '0',
@@ -131,9 +132,10 @@ const loadBridgeInfo = async () => {
   }
 }
 
+const { docMap } = useDocLink()
 const goDoc = () => {
   // TODO:
-  window.open('https://www.emqx.io/', '_blank')
+  window.open(docMap.home, '_blank')
 }
 
 const updateBridgeInfo = async () => {
