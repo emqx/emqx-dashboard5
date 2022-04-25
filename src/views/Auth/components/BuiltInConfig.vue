@@ -11,7 +11,7 @@
       <el-row :gutter="20">
         <template v-if="type !== 'scram'">
           <el-col :span="12">
-            <el-form-item :label="$t('Auth.userIdType')">
+            <el-form-item :label="$t('Auth.userIdType')" required prop="user_id_type">
               <el-select v-model="builtConfig.user_id_type">
                 <el-option value="username" />
                 <el-option value="clientid" />
@@ -34,6 +34,8 @@
 </template>
 
 <script lang="ts">
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
 import { defineComponent, reactive, watch, ref } from 'vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
@@ -56,12 +58,19 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
+    const { tl } = useI18nTl('Auth')
+
     const builtConfig = reactive(props.modelValue) as any
 
     const formCom = ref()
-    const rules = {}
+    const { createRequiredRule } = useFormRules()
+    const rules = {
+      user_id_type: createRequiredRule(tl('userIdType')),
+    }
 
-    const validate = () => Promise.resolve(true)
+    const validate = () => {
+      return formCom.value?.validate()
+    }
 
     watch(builtConfig, (value) => {
       ctx.emit('update:modelValue', value)

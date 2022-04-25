@@ -172,7 +172,7 @@
           </template>
           <!-- MySQL & PgSQL -->
           <el-col :span="24" v-if="isMySQL || isPgSQL">
-            <el-form-item label="SQL">
+            <el-form-item label="SQL" required prop="query">
               <div class="viewer-container" ref="monacoContainer">
                 <monaco id="adatabase-query" v-model="databaseConfig.query" lang="sql" />
               </div>
