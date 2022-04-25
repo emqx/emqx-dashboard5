@@ -106,7 +106,6 @@ const SchemaForm = defineComponent({
               disabled={property.readOnly}
               v-model={configForm.value[path]}
               placeholder={property.default?.toString()}
-              clearable
             ></el-input-number>
           )
         case 'enum':

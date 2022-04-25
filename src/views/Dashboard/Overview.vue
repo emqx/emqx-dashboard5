@@ -35,26 +35,30 @@
               <div>
                 <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
                 <span class="unit"
-                  >{{ $t('Dashboard.strip', { n: currentMetrics.received_rate }) }}/{{
+                  >{{ $t('Dashboard.strip', { n: currentMetrics.received_msg_rate }) }}/{{
                     $t('Dashboard.second')
                   }}</span
                 >
               </div>
               <div class="line-wrapper">
-                <simple-line :value="currentMetricsLogs.received_rate" type="bar" color="#3D7FF9" />
+                <simple-line
+                  :value="currentMetricsLogs.received_msg_rate"
+                  type="bar"
+                  color="#3D7FF9"
+                />
               </div>
             </div>
             <div class="rate-item">
               <div>
                 <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
                 <span class="unit"
-                  >{{ $t('Dashboard.strip', { n: currentMetrics.sent_rate }) }}/{{
+                  >{{ $t('Dashboard.strip', { n: currentMetrics.sent_msg_rate }) }}/{{
                     $t('Dashboard.second')
                   }}</span
                 >
               </div>
               <div class="line-wrapper">
-                <simple-line :value="currentMetricsLogs.sent_rate" type="bar" color="#5D4EFF" />
+                <simple-line :value="currentMetricsLogs.sent_msg_rate" type="bar" color="#5D4EFF" />
               </div>
             </div>
           </template>
@@ -122,11 +126,11 @@ interface MetricData {
 const interval = ref(2000)
 
 const currentMetricsLogs: Record<string, MetricData> = reactive({
-  received_rate: {
+  received_msg_rate: {
     x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
-  sent_rate: {
+  sent_msg_rate: {
     x: Array(32).fill('N/A'),
     y: Array(32).fill(0),
   },
@@ -141,8 +145,8 @@ const currentMetricsLogs: Record<string, MetricData> = reactive({
 })
 const currentMetrics: Ref<Record<string, number>> = ref({
   node: 0, // Nodes number
-  received_rate: 0, // Incomming Rate
-  sent_rate: 0, // Outgoing Rate
+  received_msg_rate: 0, // Incomming Rate
+  sent_msg_rate: 0, // Outgoing Rate
   received_bytes_rate: 0, // Incomming Bytes Rate
   sent_bytes_rate: 0, // Outgoing Bytes Rate
   subscriptions: 0, // Subs number
@@ -172,20 +176,22 @@ const getNow = () => {
   return Moment().format('HH:mm:ss')
 }
 const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
-  ;['received_rate', 'sent_rate', 'received_bytes_rate', 'sent_bytes_rate'].forEach((key) => {
-    currentMetricsLogs[key] = currentMetricsLogs[key] || {
-      x: [],
-      y: [],
-    }
-    const currentValue = state[key] || 0
-    currentMetricsLogs[key].x.push(getNow())
+  ;['received_msg_rate', 'sent_msg_rate', 'received_bytes_rate', 'sent_bytes_rate'].forEach(
+    (key) => {
+      currentMetricsLogs[key] = currentMetricsLogs[key] || {
+        x: [],
+        y: [],
+      }
+      const currentValue = state[key] || 0
+      currentMetricsLogs[key].x.push(getNow())
 
-    currentMetricsLogs[key].y.push(currentValue)
-    if (currentMetricsLogs[key].x.length >= 16) {
-      currentMetricsLogs[key].x.shift()
-      currentMetricsLogs[key].y.shift()
-    }
-  })
+      currentMetricsLogs[key].y.push(currentValue)
+      if (currentMetricsLogs[key].x.length >= 16) {
+        currentMetricsLogs[key].x.shift()
+        currentMetricsLogs[key].y.shift()
+      }
+    },
+  )
 }
 
 loadData()
