@@ -58,15 +58,6 @@
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="6">
-            <el-select
-              v-model="fuzzyParams.proto_name"
-              :placeholder="$t('Clients.protocol')"
-              clearable
-            >
-              <el-option v-for="name in protoNames" :key="name" :value="name"> </el-option>
-            </el-select>
-          </el-col>
         </template>
         <el-col :span="6" class="col-oper">
           <el-button type="primary" :icon="Search" @click="handleSearch">
@@ -216,22 +207,13 @@ const handleSearch = async () => {
 
 const genQueryParams = (params: Record<string, any>) => {
   let newParams: Record<string, any> = {}
-  const {
-    like_clientid,
-    like_username,
-    ip_address,
-    conn_state,
-    proto_name,
-    comparator,
-    connected_at,
-    node,
-  } = params
+  const { like_clientid, like_username, ip_address, conn_state, comparator, connected_at, node } =
+    params
   newParams = {
     like_clientid: like_clientid || undefined,
     like_username: like_username || undefined,
     ip_address: ip_address || undefined,
     conn_state: conn_state || undefined,
-    proto_name: proto_name || undefined,
     node: node || undefined,
   }
   if (connected_at) {
