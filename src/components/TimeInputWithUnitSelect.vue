@@ -1,27 +1,23 @@
 <template>
-  <el-input
+  <InputWithUnit
     class="time-input-with-unit-select"
-    type="number"
-    v-model.number.trim="timeValue"
+    v-model="inputValue"
+    :units="unitList"
     :disabled="disabled"
     @change="$emit('change')"
-  >
-    <template #append>
-      <el-select v-model="unit" :disabled="disabled" @change="$emit('change')">
-        <el-option value="h" :label="$t('Base.hour')" />
-        <el-option value="m" :label="$t('Base.minute')" />
-        <el-option value="s" :label="$t('Base.second')" />
-        <el-option value="ms" :label="$t('Base.milliseconds')" />
-      </el-select>
-    </template>
-  </el-input>
+  />
 </template>
 
 <script lang="ts">
+import useI18nTl from '@/hooks/useI18nTl'
 import { defineComponent } from 'vue'
+import InputWithUnit from './InputWithUnit.vue'
 
 export default defineComponent({
   name: 'TimeInputWithUnitSelect',
+  components: {
+    InputWithUnit,
+  },
   props: {
     modelValue: {
       type: String,
@@ -41,22 +37,17 @@ export default defineComponent({
         this.$emit('update:modelValue', val)
       },
     },
-    timeValue: {
-      get() {
-        return this.inputValue.replace(this.unit, '')
-      },
-      set(val: string) {
-        this.inputValue = val + this.unit
-      },
-    },
-    unit: {
-      get() {
-        return this.inputValue.replace(/[0-9]+/g, '')
-      },
-      set(val: string) {
-        this.inputValue = this.timeValue + val
-      },
-    },
+  },
+  setup() {
+    const { tl } = useI18nTl('Base')
+    const unitList = [
+      { value: 'h', label: tl('hour') },
+      { value: 'm', label: tl('minute') },
+      { value: 's', label: tl('second') },
+      { value: 'ms', label: tl('milliseconds') },
+    ]
+
+    return { unitList }
   },
 })
 </script>
