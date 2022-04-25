@@ -22,7 +22,7 @@
             :data="filterMetrics(metricsObj[currentNode], 'client')"
             v-loading.lock="lockTable"
           >
-            <el-table-column prop="m" :label="tl('client')" />
+            <el-table-column prop="m" min-width="160" :label="tl('client')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
@@ -31,7 +31,7 @@
             :data="filterMetrics(metricsObj[currentNode], 'packets')"
             v-loading.lock="lockTable"
           >
-            <el-table-column prop="m" :label="tl('mqttPackets')" />
+            <el-table-column prop="m" min-width="160" :label="tl('mqttPackets')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
@@ -42,7 +42,7 @@
             :data="filterMetrics(metricsObj[currentNode], 'delivery')"
             v-loading.lock="lockTable"
           >
-            <el-table-column prop="m" label="Delivery" />
+            <el-table-column prop="m" min-width="160" label="Delivery" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
@@ -51,7 +51,7 @@
             :data="filterMetrics(metricsObj[currentNode], 'messages')"
             v-loading.lock="lockTable"
           >
-            <el-table-column prop="m" :label="tl('messageNumber')" />
+            <el-table-column prop="m" min-width="160" :label="tl('messageNumber')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
@@ -62,7 +62,7 @@
             :data="filterMetrics(metricsObj[currentNode], 'session')"
             v-loading.lock="lockTable"
           >
-            <el-table-column prop="m" :label="tl('session')" />
+            <el-table-column prop="m" min-width="160" :label="tl('session')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
@@ -71,7 +71,7 @@
             :data="filterMetrics(metricsObj[currentNode], 'bytes')"
             v-loading.lock="lockTable"
           >
-            <el-table-column prop="m" min-width="120" :label="tl('traffic')" />
+            <el-table-column prop="m" min-width="160" :label="tl('traffic')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
