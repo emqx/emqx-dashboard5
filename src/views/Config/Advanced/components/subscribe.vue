@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref } from 'vue'
+import { defineComponent, onMounted, reactive, ref, nextTick } from 'vue'
 import { getSubscribe, editSubscribe } from '@/api/advanced'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -86,6 +86,14 @@ import _ from 'lodash'
 import { QoSLevel } from '@/types/enum.ts'
 import { QoSOptions } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
+
+const createRawSubForm = () => ({
+  topic: '',
+  qos: QoSLevel.QoS0,
+  nl: 0,
+  rap: 0,
+  rh: 0,
+})
 
 export default defineComponent({
   name: 'Subscribe',
@@ -102,13 +110,7 @@ export default defineComponent({
       rap: [0, 1],
       rh: [0, 1, 2],
     })
-    let subsInput = reactive({
-      topic: '',
-      qos: QoSLevel.QoS0,
-      nl: 0,
-      rap: 0,
-      rh: 0,
-    })
+    let subsInput = ref(createRawSubForm())
     let editPos = ref(undefined)
     let submitLoading = ref(false)
     let tbLoading = ref(false)
@@ -123,13 +125,16 @@ export default defineComponent({
       ],
     }
 
-    let openOpDialog = (edit = false, origin) => {
+    let openOpDialog = async (edit = false, origin) => {
       opSubs.value = true
       isEdit.value = !!edit
-
-      subsInput = (edit && _.merge(subsInput, origin)) || subsInput
+      if (edit) {
+        subsInput.value = _.merge(subsInput.value, origin)
+      }
 
       edit && (editPos.value = subTbData.value.findIndex((e) => e === origin))
+      await nextTick()
+      subsForm.value?.clearValidate()
     }
 
     const submitSubs = async function (edit = false) {
@@ -139,9 +144,10 @@ export default defineComponent({
       let pendingTbData = Object.assign([], subTbData.value)
 
       if (!edit) {
-        pendingTbData.push(subsInput)
+        pendingTbData.push(subsInput.value)
       } else {
-        editPos.value !== undefined && pendingTbData.splice(editPos.value, 1, { ...subsInput })
+        editPos.value !== undefined &&
+          pendingTbData.splice(editPos.value, 1, { ...subsInput.value })
       }
 
       let res = await editSubscribe(pendingTbData).catch(() => {})
@@ -181,7 +187,7 @@ export default defineComponent({
 
     const closeDialog = () => {
       opSubs.value = false
-      subsForm.value?.resetFields()
+      subsInput.value = createRawSubForm()
     }
 
     let loadData = async () => {
