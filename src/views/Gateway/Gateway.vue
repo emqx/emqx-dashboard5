@@ -1,25 +1,25 @@
 <template>
   <div class="app-wrapper gateway">
     <el-table :data="tbData" v-loading="tbLoading">
-      <el-table-column :label="tl('name')">
+      <el-table-column :label="tl('name')" :min-width="180">
         <template #default="{ row }">
           <span :class="`g-${row.name} g-icon`"></span>
           <span class="g-title">{{ transGatewayName(row.name) }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')" sortable width="120">
+      <el-table-column :label="tl('status')" sortable width="120" :min-width="128">
         <template #default="{ row }">
           <span :class="['status', { disabled: !isRunning(row.status) }]">{{
             isRunning(row.status) ? tl('running') : tl('stopped')
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('listeners')" width="120" sortable>
+      <el-table-column :label="tl('listeners')" sortable :min-width="132">
         <template #default="{ row }">
           {{ (row.listeners && row.listeners.length) || 0 }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('connection')">
+      <el-table-column :label="tl('connection')" :min-width="140">
         <template #default="{ row }">
           <el-tooltip
             placement="top"
@@ -34,7 +34,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
+      <el-table-column :label="$t('Base.operation')" :min-width="268">
         <template #default="scope">
           <el-button
             size="small"

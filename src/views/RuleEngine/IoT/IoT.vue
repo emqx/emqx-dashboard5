@@ -9,14 +9,14 @@
       </div>
     </div>
     <el-table :data="ruleTable" v-loading="iotLoading">
-      <el-table-column :label="tl('name')">
+      <el-table-column :label="tl('name')" :min-width="92">
         <template #default="{ row }">
           <router-link :to="{ name: 'iot-detail', params: { id: row.id } }">
             {{ row.name }}
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('source')">
+      <el-table-column :label="tl('source')" :min-width="92">
         <template #default="{ row }">
           <el-tooltip effect="dark" placement="top-start" popper-class="code-popper">
             <template #content>
@@ -28,32 +28,32 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('sqlMatched')">
+      <el-table-column :label="tl('sqlMatched')" :min-width="118">
         <template #default="{ row }">
           {{ row.metrics?.['sql.matched'] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('sqlFailed')">
+      <el-table-column :label="tl('sqlFailed')" :min-width="98">
         <template #default="{ row }">
           {{ row.metrics?.['sql.failed.exception'] }}
         </template>
       </el-table-column>
-      <el-table-column :label="`${tl('executionSpeed')}(msg/s)`">
+      <el-table-column :label="`${tl('executionSpeed')}(msg/s)`" :min-width="120">
         <template #default="{ row }">
           {{ row.metrics?.['sql.matched.rate'] }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')" sortable>
+      <el-table-column :label="tl('status')" sortable :min-width="100">
         <template #default="{ row }">
           <RuleItemStatus :rule="row" />
         </template>
       </el-table-column>
-      <el-table-column :label="tl('createdAt')" sortable>
+      <el-table-column :label="tl('createdAt')" sortable :min-width="124">
         <template #default="{ row }">
           {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" min-width="160">
+      <el-table-column :label="$t('Base.operation')" :min-width="232">
         <template #default="{ row }">
           <el-button
             size="small"

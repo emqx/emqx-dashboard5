@@ -7,15 +7,15 @@
       </el-button>
     </div>
     <el-table :data="listenerTable" v-loading="isTableLoading" row-key="id">
-      <el-table-column :label="$t('Base.name')" prop="name" />
+      <el-table-column :label="$t('Base.name')" prop="name" :min-width="100" />
       <el-table-column :label="tl('lType')" prop="type" :min-width="90" />
-      <el-table-column :label="tl('lAddress')" prop="bind" />
-      <el-table-column label="Acceptors" sortable prop="acceptors">
+      <el-table-column :label="tl('lAddress')" prop="bind" :min-width="132" />
+      <el-table-column label="Acceptors" sortable prop="acceptors" :min-width="128">
         <template #default="{ row }">
           <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('connection')">
+      <el-table-column :label="tl('connection')" :min-width="120">
         <template #default="{ row }">
           <el-tooltip
             placement="top"
@@ -42,7 +42,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="136">
+      <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row }">
           <el-button size="small" @click="editListener(row)">
             {{ $t('Base.edit') }}
