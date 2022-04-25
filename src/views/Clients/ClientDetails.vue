@@ -70,9 +70,7 @@
         </el-col>
         <el-col :span="12">
           <el-card class="top-border client-session" v-loading="clientDetailLock">
-            <span class="stats-tip"
-              >({{ $t('Base.current') }} / {{ $t('Base.highWatermark') }})</span
-            >
+            <span class="stats-tip">({{ $t('Base.current') }} / {{ $t('Base.max') }})</span>
             <el-descriptions :title="tl('sessionInfo')" border :column="1" size="large">
               <el-descriptions-item
                 v-for="item in clientDetailParts.session"

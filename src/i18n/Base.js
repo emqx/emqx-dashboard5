@@ -376,7 +376,7 @@ export default {
     en: 'High Watermark',
   },
   max: {
-    zh: '最大',
+    zh: '最大值',
     en: 'Maximum',
   },
   removeSuccess: {
