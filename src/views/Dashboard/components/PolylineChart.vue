@@ -17,6 +17,7 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
+import useEchartResize from '@/hooks/useEchartResize'
 
 const props = defineProps({
   chartId: {
@@ -67,6 +68,7 @@ const props = defineProps({
 
 const seriesConfig: Ref<Array<any>> = ref([])
 const chart: Ref<undefined | any> = shallowRef(undefined)
+const { addListener } = useEchartResize()
 
 watch(
   () => props.chartData,
@@ -152,6 +154,7 @@ const drawChart = () => {
 
   if (!chart.value) {
     chart.value = echarts.init(Dom)
+    addListener(chart.value)
   }
   const option = {
     color: props.chartColors,
