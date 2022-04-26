@@ -6,11 +6,11 @@
     </div>
 
     <el-table :data="rewriteTbData" class="shadow-none" v-loading="tbDataLoading">
-      <el-table-column :label="'Action'" prop="action" sortable />
-      <el-table-column :label="tl('sTopic')" prop="source_topic" sortable />
-      <el-table-column :label="'Re'" prop="re" sortable />
-      <el-table-column :label="tl('dTopic')" prop="dest_topic" sortable />
-      <el-table-column :label="$t('Base.operation')">
+      <el-table-column :label="'Action'" prop="action" :min-width="108" />
+      <el-table-column :label="tl('sTopic')" prop="source_topic" :min-width="146" />
+      <el-table-column :label="'Re'" prop="re" :min-width="120" />
+      <el-table-column :label="tl('dTopic')" prop="dest_topic" :min-width="128" />
+      <el-table-column :label="$t('Base.operation')" :min-width="146">
         <template #default="{ row }">
           <el-button size="small" @click="openOpDialog(true, row)">
             {{ $t('Base.edit') }}

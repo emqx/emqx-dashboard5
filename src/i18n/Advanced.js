@@ -39,13 +39,13 @@ export default {
     en: 'Flow Control',
     zh: '流控',
   },
-  readNumber: {
-    en: 'Max Read Number',
-    zh: '单次加载数量',
+  batchReadNumber: {
+    zh: '批量加载数量',
+    en: 'Batch Read Number',
   },
-  deliverQuota: {
-    en: 'Msg Deliver Quota',
-    zh: '单次发布数量',
+  batchDeliverNumber: {
+    zh: '批量发布数量',
+    en: 'Batch Deliver Number',
   },
   expire: {
     en: 'Expire',
