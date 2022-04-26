@@ -332,3 +332,10 @@ export const titleCase = (str: string): string => {
     return a.toUpperCase()
   })
 }
+
+export const tryToCompleteURL = (url: string): string => {
+  if (!/^(http)/.test(url)) {
+    return `http://${url}`
+  }
+  return url
+}

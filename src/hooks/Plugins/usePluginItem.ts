@@ -5,6 +5,7 @@ import { PluginItem } from '@/types/plugin'
 import { PluginStatus, StatusCommandSendToPlugin, TargetPosition } from '@/types/enum'
 import { updatePluginStatus } from '@/api/plugins'
 import { movePluginPosition } from '@/api/plugins'
+import { tryToCompleteURL } from '@/common/tools'
 
 export default () => {
   const { t } = useI18n()
@@ -58,8 +59,13 @@ export default () => {
     }
   }
 
-  const goDoc = (pluginType: string) => {
-    // TODO:
+  const goDoc = (pluginItem: PluginItem) => {
+    const url = pluginItem?.builder?.website
+    if (!url) {
+      return
+    }
+    let opener = window.open(tryToCompleteURL(url), '_blank')
+    opener = null
   }
 
   const getTheWorstStatus = (pluginItem: PluginItem) => {

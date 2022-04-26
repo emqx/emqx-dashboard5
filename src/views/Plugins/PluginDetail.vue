@@ -4,7 +4,7 @@
     <div v-loading.lock="isDetailLoading">
       <div class="plugin-detail-hd">
         <div class="plugin-base-info">
-          <i class="icon icon-plugin"></i>
+          <!-- <i class="icon icon-plugin"></i> -->
           <div>
             <div>
               <el-tooltip placement="right" popper-class="tooltip-node-status-list">
@@ -37,8 +37,9 @@
           </div>
         </div>
         <div>
-          <!-- TODO: -->
-          <el-button @click="goDoc">{{ tl('more') }}</el-button>
+          <el-button @click="goDoc(pluginInfo)" :disabled="!isReadMoreEnable">
+            {{ tl('more') }}
+          </el-button>
           <el-button
             v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
             @click="handleDisable"
@@ -89,15 +90,10 @@ const isDetailLoading = ref(false)
 const pluginName: ComputedRef<string> = computed(() => route.params.pluginName.toString())
 const pluginVersion: ComputedRef<string> = computed(() => route.params.pluginVersion.toString())
 
-const {
-  NAME_VERSION_JOINER,
-  concatNameWithVersion,
-  goDoc,
-  disablePlugin,
-  uninstall,
-  enablePlugin,
-  getTheWorstStatus,
-} = usePluginItem()
+const { NAME_VERSION_JOINER, goDoc, disablePlugin, uninstall, enablePlugin, getTheWorstStatus } =
+  usePluginItem()
+
+const isReadMoreEnable = computed(() => pluginInfo.value?.builder?.website)
 
 const getPluginDetail = async () => {
   try {
@@ -135,6 +131,7 @@ getPluginDetail()
 .plugin-detail-hd {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 24px;
 }
 .plugin-base-info {
