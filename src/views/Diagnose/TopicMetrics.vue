@@ -33,14 +33,14 @@
                     {{ tl('msgIn') }}
                     <span class="message-rate">
                       {{
-                        row._detail[`messages.${topicQos == 'all' ? '' : topicQos + '.'}in.rate`] +
+                        row.metrics[`messages.${topicQos == 'all' ? '' : topicQos + '.'}in.rate`] +
                         ' ' +
                         tl('rate')
                       }}
                     </span>
                   </div>
                   <div class="message-card--body">
-                    {{ row._detail[`messages.${topicQos == 'all' ? '' : topicQos + '.'}in.count`] }}
+                    {{ row.metrics[`messages.${topicQos == 'all' ? '' : topicQos + '.'}in.count`] }}
                   </div>
                 </div>
               </el-col>
@@ -50,7 +50,7 @@
                     {{ tl('msgOut') }}
                     <span class="message-rate">
                       {{
-                        row._detail[`messages.${topicQos == 'all' ? '' : topicQos + '.'}out.rate`] +
+                        row.metrics[`messages.${topicQos == 'all' ? '' : topicQos + '.'}out.rate`] +
                         ' ' +
                         tl('rate')
                       }}
@@ -58,7 +58,7 @@
                   </div>
                   <div class="message-card--body">
                     {{
-                      row._detail[`messages.${topicQos == 'all' ? '' : topicQos + '.'}out.count`]
+                      row.metrics[`messages.${topicQos == 'all' ? '' : topicQos + '.'}out.count`]
                     }}
                   </div>
                 </div>
@@ -68,11 +68,11 @@
                   <div>
                     {{ tl('msgDrop') }}
                     <span class="message-rate">
-                      {{ row._detail[`messages.dropped.rate`] + ' ' + tl('rate') }}
+                      {{ row.metrics[`messages.dropped.rate`] + ' ' + tl('rate') }}
                     </span>
                   </div>
                   <div class="message-card--body">
-                    {{ row._detail[`messages.dropped.count`] }}
+                    {{ row.metrics[`messages.dropped.count`] }}
                   </div>
                 </div>
               </el-col>
@@ -218,7 +218,7 @@ export default defineComponent({
       let res = await getTopicMetrics().catch(() => {})
       if (res) {
         const reconRes = Array.prototype.map.call(res, (v) => {
-          return Object.assign(v, { _detail: {}, _loading: false })
+          return Object.assign(v, { _loading: false })
         })
         topicMetricsTb.value = reconRes
       }
@@ -287,11 +287,14 @@ export default defineComponent({
       tbRef.value.toggleRowExpansion(row, row._expand)
 
       if (row._expand) {
-        let res = await getTopicMetrics(topic).catch(() => {})
-        if (res && row) {
-          row._detail = res.metrics
+        try {
+          let res = await getTopicMetrics(topic)
+          const targetIndex = topicMetricsTb.value.findIndex((item) => item.topic === topic)
+          topicMetricsTb.value.splice(targetIndex, 1, { ...res, _expand: true, _loading: false })
+        } catch (error) {
+          //
+          row._loading = false
         }
-        row._loading = false
       }
     }
 
