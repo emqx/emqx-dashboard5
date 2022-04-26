@@ -17,10 +17,8 @@ Object.assign(axios.defaults, {
 axios.interceptors.request.use(
   (config) => {
     const { user } = store.state
-    if (user.token) {
-      config.headers = {
-        Authorization: 'Bearer ' + user.token,
-      }
+    config.headers = {
+      Authorization: 'Bearer ' + user.token,
     }
     return config
   },
