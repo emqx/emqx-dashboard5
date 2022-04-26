@@ -336,8 +336,8 @@ export default {
     en: 'SQL Matched',
   },
   sqlMatchedDesc: {
-    zh: 'SQL 成功执行并输出结果',
-    en: 'SQL executes successfully and outputs the result',
+    zh: '规则启用后的执行次数',
+    en: 'The number of executions after the rule is enabled',
   },
   sqlFailed: {
     zh: 'SQL 失败',
