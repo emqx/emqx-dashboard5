@@ -21,7 +21,7 @@
     >
       <el-table-column :label="tl('name')">
         <template #default="{ row }">
-          <i class="icon icon-plugin"></i>
+          <!-- <i class="icon icon-plugin"></i> -->
           <div class="plugin-info-hd">
             <router-link :to="detailLink(row)">{{ row.name }}</router-link>
             <span>{{ row.rel_vsn }}</span>

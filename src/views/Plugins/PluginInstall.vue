@@ -21,11 +21,11 @@
       </el-upload>
       <p class="upload-tip">{{ tl('uploadTip') }}</p>
       <div class="btns">
-        <el-button type="primary" :loading="isUploading" @click="submit">
-          {{ tl('install') }}
-        </el-button>
         <el-button @click="cancel">
           {{ tl('cancel', 'Base') }}
+        </el-button>
+        <el-button type="primary" :loading="isUploading" @click="submit">
+          {{ tl('install') }}
         </el-button>
       </div>
     </el-card>
@@ -103,11 +103,11 @@ const submit = async () => {
     height: 24px;
     margin-right: auto;
     margin-left: auto;
-    color: #8d96a2;
+    color: var(--color-text-placeholder);
     margin-bottom: 12px;
   }
   .upload-placeholder {
-    color: #8d96a2;
+    color: var(--color-text-placeholder);
     font-size: 12px;
   }
   :deep(.el-upload) {
@@ -122,7 +122,7 @@ const submit = async () => {
 .file-name {
   padding: 0 28px;
   word-wrap: break-word;
-  color: #282e38;
+  color: var(--color-text-secondary);
 }
 .btns {
   & > :not(:last-child) {
