@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
 import { ListDataWithPagination } from '@/types/common'
-import { ChartDataItem, NodeMsg, NodeStatisticalData, Prometheus, StatsD } from '@/types/dashboard'
+import {
+  Alarm,
+  ChartDataItem,
+  NodeMsg,
+  NodeStatisticalData,
+  Prometheus,
+  StatsD,
+} from '@/types/dashboard'
 
 //account
 export function login(user: { password: string; username: string }): Promise<{
@@ -72,7 +79,7 @@ export function loadNodeStats(node: string): Promise<NodeStatisticalData> {
 export async function loadAlarm(
   history = false,
   params = {},
-): Promise<ListDataWithPagination<unknown>> {
+): Promise<ListDataWithPagination<Alarm>> {
   return http.get('/alarms', {
     params: { activated: String(!history), ...params },
   })

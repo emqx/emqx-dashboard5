@@ -53,4 +53,14 @@ export interface StatsD {
   server: string
 }
 
+export interface Alarm {
+  node: string
+  name: string
+  message: string
+  details: Record<string, any>
+  duration: number
+  activate_at: string
+  deactivate_at: string
+}
+
 export default {}

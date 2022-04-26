@@ -81,11 +81,14 @@ export default defineComponent({
     const visibilityChangeFunc = () => {
       return document.visibilityState === 'visible' && loadData()
     }
+
     const loadData = async () => {
-      const alert = (await loadAlarm().catch(() => {
-        // do noting
-      })) as unknown as string[]
-      store.dispatch('SET_ALERT_COUNT', (alert || []).length)
+      try {
+        const { data } = await loadAlarm()
+        store.dispatch('SET_ALERT_COUNT', (data || []).length)
+      } catch (error) {
+        //
+      }
     }
     const logout = () => {
       ElMessageBox.confirm(t('components.whetherToLogOutOrNot'), {
