@@ -102,7 +102,7 @@
           <div class="part-header">{{ tl('flowControl') }}</div>
           <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item :label="tl('readNumber')" prop="flow_control.batch_read_number">
+              <el-form-item :label="tl('batchReadNumber')" prop="flow_control.batch_read_number">
                 <el-input
                   v-model.number="retainerConfig.flow_control.batch_read_number"
                   :readonly="selOptions.read == 'unlimited'"
@@ -118,7 +118,10 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item :label="tl('deliverQuota')" prop="flow_control.batch_deliver_number">
+              <el-form-item
+                :label="tl('batchDeliverNumber')"
+                prop="flow_control.batch_deliver_number"
+              >
                 <el-input
                   v-model.number="retainerConfig.flow_control.batch_deliver_number"
                   :readonly="selOptions.deliver == 'unlimited'"
@@ -150,20 +153,20 @@
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')">
         <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
-          <el-table-column :label="'Topic'" prop="topic" sortable />
-          <el-table-column :label="'QoS'" prop="qos" sortable />
-          <el-table-column :label="'Payload'">
+          <el-table-column :label="'Topic'" prop="topic" :min-width="160" />
+          <el-table-column :label="'QoS'" prop="qos" sortable :min-width="92" />
+          <el-table-column :label="'Payload'" :min-width="92">
             <template #default="{ row }">
               <el-button size="small" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="From Client ID" prop="from_clientid" sortable />
-          <el-table-column :label="tl('createDate')" sortable>
+          <el-table-column label="From Client ID" prop="from_clientid" :min-width="148" />
+          <el-table-column :label="tl('createDate')" sortable :min-width="148">
             <template #default="{ row }">
               {{ row.publish_at && dateFormat(row.publish_at) }}
             </template>
           </el-table-column>
-          <el-table-column :label="$t('Base.operation')">
+          <el-table-column :label="$t('Base.operation')" :min-width="88">
             <template #default="{ row }">
               <el-button size="small" type="danger" plain @click="deleteRetainerTopic(row)">{{
                 $t('Base.delete')

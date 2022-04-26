@@ -44,24 +44,34 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')" v-loading="tbLoading">
-        <el-table :data="delayedTbData" class="shadow-none">
-          <el-table-column :label="'Topic'" prop="topic" sortable />
-          <el-table-column :label="'QoS'" prop="qos" sortable />
-          <el-table-column :label="'Payload'">
+        <el-table :data="delayedTbData" class="shadow-none postpone-table">
+          <el-table-column :label="'Topic'" prop="topic" sortable :min-width="92" />
+          <el-table-column :label="'QoS'" prop="qos" sortable :min-width="84" />
+          <el-table-column :label="'Payload'" :min-width="84">
             <template #default="{ row }">
               <el-button size="small" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="From Client ID" prop="from_clientid" sortable />
-          <el-table-column :label="tl('delayedTime')" prop="delayed_interval" sortable />
-          <el-table-column :label="tl('remainTime')" prop="delayed_remaining" sortable />
-          <el-table-column :label="tl('publishTime')" sortable>
+          <el-table-column label="From Client ID" prop="from_clientid" sortable :min-width="146" />
+          <el-table-column
+            :label="tl('delayedTime')"
+            prop="delayed_interval"
+            sortable
+            :min-width="92"
+          />
+          <el-table-column
+            :label="tl('remainTime')"
+            prop="delayed_remaining"
+            sortable
+            :min-width="124"
+          />
+          <el-table-column :label="tl('publishTime')" sortable :min-width="132">
             <template #default="{ row }">
               {{ row.publish_at && dateFormat(row.publish_at) }}
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('Base.operation')">
+          <el-table-column :label="$t('Base.operation')" :min-width="92">
             <template #default="{ row }">
               <el-button size="small" type="danger" plain @click="deleteDelayedInfo(row)">
                 {{ $t('Base.delete') }}
@@ -344,6 +354,11 @@ export default defineComponent({
     .el-select {
       width: 200px;
     }
+  }
+}
+.postpone-table {
+  :deep(.el-table__cell > .cell) {
+    padding: 0 12px;
   }
 }
 </style>
