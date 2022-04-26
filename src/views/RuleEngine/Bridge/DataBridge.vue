@@ -39,7 +39,7 @@
             :label="`${tl('speedNow')}(msg/s)`"
             sortable
             prop="metrics.rate"
-            :min-width="118"
+            :min-width="168"
           />
           <el-table-column :label="tl('status')" sortable :min-width="120">
             <template #default="{ row }">

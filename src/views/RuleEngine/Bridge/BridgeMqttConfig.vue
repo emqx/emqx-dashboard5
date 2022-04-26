@@ -210,8 +210,9 @@
             <el-form-item>
               <template #label>
                 <label>{{ tl('payload') }}</label>
+                <!-- TODO: -->
                 <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
-                  <a href="TODO:" target="_blank">{{ tl('payloadTempSyntax') }}</a>
+                  <a :href="docMap.home" target="_blank">{{ tl('payloadTempSyntax') }}</a>
                 </i18n-t>
               </template>
               <div class="monaco-container">
@@ -259,6 +260,7 @@ import { createRandomString, waitAMoment } from '@/common/tools'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MQTTBridgeDirection } from '@/types/enum'
+import useDocLink from '@/hooks/useDocLink'
 
 type MQTTBridge = MQTTIn | MQTTOut
 
@@ -301,6 +303,7 @@ const chosenConnectorData: Ref<ConnectorItem | Record<string, unknown>> = ref({}
 const isForwardToLocalTopic: Ref<boolean> = ref(true)
 
 const { tl } = useI18nTl('RuleEngine')
+const { docMap } = useDocLink()
 
 const { createRequiredRule } = useFormRules()
 const formCom = ref()

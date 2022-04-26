@@ -63,8 +63,9 @@
           <el-form-item>
             <template #label>
               <label>{{ tl('body') }}</label>
+              <!-- TODO: href -->
               <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
-                <a href="TODO:" target="_blank">{{ tl('payloadTempSyntax') }}</a>
+                <a :href="docMap.home" target="_blank">{{ tl('payloadTempSyntax') }}</a>
               </i18n-t>
             </template>
             <div class="monaco-container">
@@ -137,6 +138,7 @@ import { createRandomString } from '@/common/tools'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import useDocLink from '@/hooks/useDocLink'
 
 type HTTPFormData = Omit<HTTPBridge, 'connect_timeout' | 'request_timeout'> & {
   connect_timeout: [number, string]
@@ -174,6 +176,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const { tl } = useI18nTl('RuleEngine')
+    const { docMap } = useDocLink()
     const httpBridgeDefaultVal = {
       name: '',
       local_topic: '',
@@ -257,6 +260,7 @@ export default defineComponent({
       formRules,
       tlsParams,
       httpBridgeVal,
+      docMap,
       validate,
       clearValidate,
     }
