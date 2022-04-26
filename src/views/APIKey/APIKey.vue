@@ -21,19 +21,19 @@
       <el-table-column prop="enable" :label="tl('status')">
         <template #default="{ row }">
           <span :class="['status', { disabled: !row.enable }]">
-            {{ t(`APIKey.${row.enable ? 'enable' : 'disable'}`) }}
+            {{ getKeyStatus(row) }}
           </span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="100">
         <template #default="{ row }">
-          <el-button size="small" @click="operateKeyItem('view', row)">{{ tl('view') }}</el-button>
-          <el-button size="small" @click="operateKeyItem('edit', row)">{{
-            tl('edit', 'Base')
-          }}</el-button>
-          <el-button size="small" @click="toggleKeyItemEnable(row)">{{
-            tl(!row.enable ? 'enable' : 'disable')
-          }}</el-button>
+          <el-button size="small" @click="operateKeyItem('view', row)"> {{ tl('view') }}</el-button>
+          <el-button size="small" @click="operateKeyItem('edit', row)">
+            {{ tl('edit', 'Base') }}
+          </el-button>
+          <el-button size="small" @click="toggleKeyItemEnable(row)">
+            {{ tl(!row.enable ? 'enable' : 'disable') }}
+          </el-button>
           <el-button size="small" @click="deleteKey(row)">{{ tl('delete', 'Base') }}</el-button>
         </template>
       </el-table-column>
@@ -109,6 +109,13 @@ const getList = async () => {
   } catch (error) {
     //
   }
+}
+
+const getKeyStatus = ({ expired, enable }: APIKey) => {
+  if (expired) {
+    return tl('expired')
+  }
+  return tl(enable ? 'enable' : 'disable')
 }
 
 const deleteKey = async ({ name }: APIKey) => {

@@ -63,4 +63,8 @@ export default {
     zh: '永不过期',
     en: 'Never expire',
   },
+  expired: {
+    zh: '已过期',
+    en: 'Expired',
+  },
 }
