@@ -15,6 +15,7 @@ export interface APIKey extends APIKeyFormWhenCreating {
   api_key: string
   api_secret: string
   created_at: string
+  expired: boolean
 }
 
 export type APIKeyFormWhenEditing = Pick<APIKey, 'name' | 'expired_at' | 'desc' | 'enable'>
