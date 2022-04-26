@@ -40,6 +40,7 @@
     'header-bg-color': var(--color-bg-primary),
     'bg-color': var(--color-bg-primary),
     'tr-bg-color': var(--color-bg-primary),
+    'expanded-cell-bg-color': var(--color-bg-primary),
   ),
   $dialog: (
     'border-radius': 8px,
@@ -614,4 +615,11 @@
   background-color: var(--color-bg-primary);
   color: var(--color-primary);
   border: 1px solid var(--color-primary);
+}
+
+/* Uploader */
+.el-upload-dragger {
+  background-color: var(--color-bg-primary);
+  border-color: var(--color-border-primary);
+
 }
