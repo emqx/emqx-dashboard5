@@ -48,7 +48,7 @@
         <div class="part-header">{{ tl('paramSetting') }}</div>
         <el-row>
           <el-col :span="14">
-            <el-form-item label="Topic">
+            <el-form-item label="Topic" required prop="args.topic">
               <el-input v-model="outputForm.args.topic" />
             </el-form-item>
           </el-col>
@@ -65,7 +65,21 @@
         <el-row>
           <el-col :span="14">
             <el-form-item label="Payload">
-              <el-input type="textarea" v-model="outputForm.args.payload" />
+              <template #label>
+                <label>Payload</label>
+                <!-- TODO: -->
+                <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
+                  <a :href="docMap.home" target="_blank">{{ tl('payloadTempSyntax') }}</a>
+                </i18n-t>
+              </template>
+              <div class="monaco-container">
+                <Monaco
+                  :id="createRandomString()"
+                  v-model="outputForm.args.payload"
+                  lang="json"
+                  json-without-validate
+                />
+              </div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -117,6 +131,10 @@ import { QoSOptions } from '@/common/constants'
 import { useRoute, useRouter } from 'vue-router'
 import { Plus, Edit } from '@element-plus/icons-vue'
 import BridgePreview from './BridgePreview.vue'
+import useFormRules from '@/hooks/useFormRules'
+import useDocLink from '@/hooks/useDocLink'
+import { createRandomString } from '@/common/tools'
+import Monaco from '@/components/Monaco.vue'
 
 type OutputForm = {
   type: string
@@ -160,15 +178,14 @@ const egressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const outputForm = ref(createRawOutputForm())
 const isGoToBridge = ref(false)
 
+const { createRequiredRule } = useFormRules()
 const outputFormRules = {
-  type: [
-    {
-      required: true,
-      message: t('RuleEngine.outputTypeRequired'),
-      trigger: ['blur', 'change'],
-    },
-  ],
+  type: createRequiredRule(tl('output'), 'select'),
+  args: {
+    topic: createRequiredRule('Topic'),
+  },
 }
+const { docMap } = useDocLink()
 
 const showDialog: WritableComputedRef<boolean> = computed({
   get() {
@@ -335,5 +352,8 @@ onActivated(async () => {
   margin-top: 16px;
   padding-top: 20px;
   border-top: 1px solid var(--color-border-primary);
+}
+.payload-desc {
+  color: var(--color-text-secondary);
 }
 </style>
