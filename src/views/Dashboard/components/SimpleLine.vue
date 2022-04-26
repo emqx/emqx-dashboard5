@@ -22,6 +22,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/markLine'
 import 'echarts/lib/component/markPoint'
+import useEchartResize from '@/hooks/useEchartResize'
 
 const store = useStore()
 
@@ -104,6 +105,7 @@ watch(
   },
 )
 
+const { addListener, removeListener } = useEchartResize()
 const setSeriesConfig = async () => {
   const { color, type } = props
   option.series = [
@@ -129,11 +131,13 @@ const setSeriesConfig = async () => {
 
 const initChart = async () => {
   if (chartInstance) {
+    removeListener()
     chartInstance.dispose()
   }
   let Dom = chartEl.value
   if (!Dom) return
   chartInstance = echarts.init(Dom)
+  addListener(chartInstance as ECharts)
 }
 
 onMounted(() => {
