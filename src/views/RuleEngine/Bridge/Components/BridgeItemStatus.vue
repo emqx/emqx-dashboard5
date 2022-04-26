@@ -41,13 +41,8 @@ const statusData = computed(() => {
         }))
       : []
 
-  const statusLabel = !bridge?.enable
-    ? t('Base.disable')
-    : getStatusLabel(bridge?.status || ConnectionStatus.Disconnected)
-
-  const statusClass = !bridge?.enable
-    ? NodeStatusClass.Danger
-    : getStatusClass(bridge?.status || ConnectionStatus.Disconnected)
+  const statusLabel = t(`Base.${bridge?.enable ? 'enable' : 'disable'}`)
+  const statusClass = !bridge?.enable ? NodeStatusClass.Danger : NodeStatusClass.Success
   return { details, statusLabel, statusClass }
 })
 </script>
