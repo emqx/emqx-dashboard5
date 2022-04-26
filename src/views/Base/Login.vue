@@ -43,7 +43,7 @@
             </el-form-item>
             <el-form-item prop="password">
               <el-input
-                v-model.trim="record.password"
+                v-model="record.password"
                 type="password"
                 :placeholder="$t('Base.password')"
                 tabindex="2"
