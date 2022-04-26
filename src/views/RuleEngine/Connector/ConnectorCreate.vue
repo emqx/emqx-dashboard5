@@ -43,26 +43,28 @@
         </template>
       </el-row>
       <el-row class="config-btn">
-        <el-button v-if="stepActive === 0" @click="$router.push({ name: 'bridge-connector' })">{{
-          $t('Base.cancel')
-        }}</el-button>
-        <el-button
-          type="primary"
-          v-if="stepActive === 1"
-          :loading="submitLoading"
-          @click="submitCreateConnector"
-          >{{ $t('Base.create') }}</el-button
-        >
+        <el-button v-if="stepActive === 0" @click="$router.push({ name: 'bridge-connector' })">
+          {{ $t('Base.cancel') }}
+        </el-button>
+        <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
+          {{ $t('Base.backStep') }}
+        </el-button>
         <el-button
           type="primary"
           @click="++stepActive"
           v-if="stepActive < 1"
           :disabled="submitLoading"
-          >{{ $t('Base.nextStep') }}</el-button
         >
-        <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">{{
-          $t('Base.backStep')
-        }}</el-button>
+          {{ $t('Base.nextStep') }}
+        </el-button>
+        <el-button
+          type="primary"
+          v-if="stepActive === 1"
+          :loading="submitLoading"
+          @click="submitCreateConnector"
+        >
+          {{ $t('Base.create') }}
+        </el-button>
       </el-row>
       <div></div>
     </div>
