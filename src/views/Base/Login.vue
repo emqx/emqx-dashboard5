@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-row>
-      <el-col class="intro" :span="10">
+      <el-col class="intro" :span="8">
         <div class="logo">
           <img src="@/assets/img/emqx-logo.png" width="96" height="33" alt="emqx-logo" />
         </div>
@@ -9,18 +9,21 @@
           <img
             class="dashboard-img"
             src="@/assets/img/login-banner.png"
-            width="455"
-            height="352"
+            width="369"
             alt="emqx-dashboard"
           />
-          <div class="description">
-            <p><CheckIcon />{{ $t('Base.dataManager') }}</p>
-            <p><CheckIcon />{{ $t('Base.ruleEngine') }}</p>
-            <p><CheckIcon />{{ $t('Base.visualConfig') }}</p>
+          <div class="cloud-list">
+            <a :href="cloudLink" target="_blank" rel="noopener noreferrer">
+              <img src="@/assets/img/aws.png" width="32" height="32" alt="aws" />
+              <img src="@/assets/img/kubernetes.png" width="32" height="32" alt="kubernetes" />
+              <img src="@/assets/img/azure.png" width="32" height="32" alt="azure" />
+              <img src="@/assets/img/gcp.png" width="32" height="32" alt="gcp" />
+            </a>
           </div>
+          <h2>{{ $t('Base.emqxDesc') }}</h2>
         </div>
       </el-col>
-      <el-col class="form" :span="14">
+      <el-col class="form" :span="16">
         <div class="login-wrapper">
           <h1>{{ $t('Base.login') }}</h1>
           <el-form
@@ -59,18 +62,23 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { login as loginApi } from '@/api/common'
-import CheckIcon from '@/components/CheckIcon.vue'
 import { toLogin } from '@/router'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
+import docLinks from '@/common/docLinks'
 
 const { t } = useI18n()
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
+
+const cloudLink = computed(() => {
+  const doc = docLinks(store.state.lang)
+  return doc.cloud
+})
 
 const record = reactive({
   username: '',
@@ -144,7 +152,7 @@ const nativeLogin = async () => {
   .el-row {
     height: 100%;
     .el-col.intro {
-      background-color: var(--color-bg-split);
+      background-color: #1f252f;
       position: relative;
       .logo {
         padding: 32px;
@@ -158,15 +166,25 @@ const nativeLogin = async () => {
         top: 0;
         bottom: 60px;
         width: 100%;
-        .description {
+        .cloud-list {
           display: flex;
-          color: var(--color-text-secondary);
-          p {
-            display: flex;
-            padding: 0px 10px;
-            align-items: center;
-            margin: 8px 0;
+          justify-content: center;
+          align-items: center;
+          margin-top: 24px;
+          margin-bottom: 16px;
+          img {
+            margin: 0px 12px;
           }
+        }
+        h2 {
+          margin-top: 6px;
+          color: #fff;
+          padding: 0 48px;
+          line-height: 2;
+          text-align: center;
+        }
+        .el-button {
+          background-color: transparent;
         }
       }
     }
@@ -196,11 +214,5 @@ const nativeLogin = async () => {
       }
     }
   }
-}
-html:lang(en) .login .intro .description {
-  flex-direction: column;
-}
-html:lang(zh) .login .intro .description {
-  flex-direction: row;
 }
 </style>

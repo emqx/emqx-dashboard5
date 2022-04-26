@@ -7,17 +7,9 @@ export default {
     zh: '登 录',
     en: 'Login',
   },
-  dataManager: {
-    zh: '实时数据监控与管理',
-    en: 'Real-time Data Monitoring and Management',
-  },
-  ruleEngine: {
-    zh: '规则引擎数据处理',
-    en: 'Rule Engine Data Processing',
-  },
-  visualConfig: {
-    zh: '可视化配置管理',
-    en: 'Visual Configuration Management',
+  emqxDesc: {
+    zh: '开源云原生分布式物联网 MQTT 消息服务器',
+    en: 'An Open-Source, Cloud-Native, Distributed MQTT Broker for IoT',
   },
   userName: {
     zh: '用户名',
