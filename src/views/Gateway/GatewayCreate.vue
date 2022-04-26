@@ -6,9 +6,9 @@
     <el-row>
       <el-col :span="16">
         <el-steps :active="stepActive" finish-status="success">
-          <el-step :title="tl('basicConfig')"> </el-step>
-          <el-step :title="tl('listeners')"></el-step>
-          <el-step :title="tl('auth')"></el-step>
+          <el-step :title="tl('basicConfig')" />
+          <el-step :title="tl('listeners')" />
+          <el-step :title="tl('auth')" />
         </el-steps>
       </el-col>
     </el-row>
@@ -44,24 +44,28 @@
       </el-col>
     </el-row>
     <el-row class="config-op">
-      <el-button
-        type="primary"
-        v-if="stepActive === 2"
-        :loading="submitLoading"
-        @click="createGateway()"
-        >{{ $t('Base.enable') }}</el-button
-      >
+      <el-button v-if="stepActive === 0" @click="gotoList">
+        {{ $t('Base.cancel') }}
+      </el-button>
+      <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
+        {{ $t('Base.backStep') }}
+      </el-button>
       <el-button
         type="primary"
         @click="handleNextStep"
         v-if="stepActive < 2"
         :disabled="submitLoading"
-        >{{ $t('Base.nextStep') }}</el-button
       >
-      <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">{{
-        $t('Base.backStep')
-      }}</el-button>
-      <el-button v-if="stepActive === 0" @click="gotoList">{{ $t('Base.cancel') }}</el-button>
+        {{ $t('Base.nextStep') }}
+      </el-button>
+      <el-button
+        type="primary"
+        v-if="stepActive === 2"
+        :loading="submitLoading"
+        @click="createGateway()"
+      >
+        {{ $t('Base.enable') }}
+      </el-button>
     </el-row>
   </div>
 </template>

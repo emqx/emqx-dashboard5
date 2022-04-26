@@ -54,6 +54,9 @@
           <el-button v-if="stepActive === 0" @click="cancel">
             {{ $t('Base.cancel') }}
           </el-button>
+          <el-button @click="goPreStep" v-if="stepActive > 0" :disabled="submitLoading">
+            {{ $t('Base.backStep') }}
+          </el-button>
           <el-button
             type="primary"
             @click="goNextStep"
@@ -61,9 +64,6 @@
             :disabled="submitLoading"
           >
             {{ $t('Base.nextStep') }}
-          </el-button>
-          <el-button @click="goPreStep" v-if="stepActive > 0" :disabled="submitLoading">
-            {{ $t('Base.backStep') }}
           </el-button>
           <el-button
             type="primary"
