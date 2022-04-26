@@ -2,7 +2,6 @@ import { ref, Ref, watch } from 'vue'
 import { SHOW_PAYLOAD_BY_WHICH_OPTION_LIST } from '@/common/constants'
 import { encode, decode } from 'js-base64'
 import { PayloadShowByType } from '@/types/enum'
-import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 
 /**
@@ -71,10 +70,10 @@ const transPayload = async (content: string, from: PayloadShowByType, to: Payloa
       return encode(ret)
     }
     if (to === PayloadShowByType.JSON) {
-      return plainToJSONStr(ret)
+      ret = await plainToJSONStr(ret)
     }
     if (to === PayloadShowByType.Hex) {
-      return plainToHex(ret)
+      ret = await plainToHex(ret)
     }
     return ret
   } catch (error: any) {
