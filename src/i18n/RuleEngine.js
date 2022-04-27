@@ -469,11 +469,11 @@ export default {
   },
   reconnectInterval: {
     zh: '重连间隔',
-    en: 'Reconnect interval',
+    en: 'Reconnect Interval',
   },
   retryInterval: {
-    zh: '重试间隔',
-    en: 'Retry interval',
+    zh: '消息重发间隔',
+    en: 'Message Resend Interval',
   },
   descForCreateConnector: {
     zh: '连接配置可以在 Data Bridge 中复用',
