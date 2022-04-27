@@ -144,15 +144,15 @@ export default {
     en: 'Add Topic',
   },
   msgIn: {
-    en: 'Message In',
+    en: 'Incoming Messages',
     zh: '消息流入',
   },
   msgOut: {
-    en: 'Message Out',
+    en: 'Outgoing Messages',
     zh: '消息流出',
   },
   msgDrop: {
-    en: 'Message Dropped',
+    en: 'Dropped Messages',
     zh: '消息丢弃',
   },
   startTime: {
