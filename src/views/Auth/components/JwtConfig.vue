@@ -65,7 +65,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Auth.refreshInterval')">
-              <el-input v-model="jwtConfig.refresh_interval" />
+              <el-input
+                class="time-input-with-unit-select"
+                v-model.number="jwtConfig.refresh_interval"
+              >
+                <template #append><span class="unit-for-input">ms</span></template>
+              </el-input>
             </el-form-item>
           </el-col>
         </template>
