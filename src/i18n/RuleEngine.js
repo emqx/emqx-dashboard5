@@ -655,4 +655,8 @@ export default {
     zh: '要将消息发送到的本地主题',
     en: 'The local topic where you want to send messages to',
   },
+  useSQLInput: {
+    zh: '使用 SQL',
+    en: 'Use SQL',
+  },
 }
