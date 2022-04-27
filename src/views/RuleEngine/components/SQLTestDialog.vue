@@ -205,6 +205,14 @@ const setContextObjStr = () => {
   }
 }
 
+const setDataType = (type: RuleInputType, firstInput: string) => {
+  if (type === RuleInputType.Topic) {
+    dataType.value = TOPIC_EVENT
+  } else {
+    dataType.value = firstInput
+  }
+}
+
 /**
  * called when dialog opened
  */
@@ -218,12 +226,8 @@ const setDataTypeNContext = () => {
 
   preFrom = firstInput
   testColumnDescMap = descMap
+  setDataType(inputType, firstInput)
 
-  if (inputType === RuleInputType.Topic) {
-    dataType.value = TOPIC_EVENT
-  } else {
-    dataType.value = firstInput
-  }
   testParams.value = {
     sql,
     context: customInput ? customInput : context,
@@ -344,7 +348,7 @@ const handleSQLChanged = () => {
   preFrom = firstInput
 
   const { type: firstInputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
-  dataType.value = firstInput
+  setDataType(firstInputType, firstInput)
 
   const { context } = getTestColumns(firstInputType, firstInput, eventList)
   setContext(context)
