@@ -89,19 +89,6 @@ export async function clearHistoryAlarm() {
   return http.delete('/alarms')
 }
 
-//cluster
-export const loadCluster = async () => {
-  const res = await http.get('/cluster')
-  const { config } = res
-  if (res.type === 'mcast') {
-    res.config.ports = config.ports.join(',')
-    res.config.loop = JSON.stringify(config.loop)
-  } else if (res.type === 'etcd') {
-    res.config.node_ttl = config.node_ttl
-  }
-  return res
-}
-
 // invite node
 export const getClusterNodes = () => {
   return http.get('/cluster')
