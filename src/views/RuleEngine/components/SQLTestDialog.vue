@@ -428,6 +428,7 @@ watch(showDialog, (val) => {
 }
 .icon-warning {
   color: var(--el-color-warning);
+  margin-left: 12px;
 }
 .context-handlers {
   .el-icon {

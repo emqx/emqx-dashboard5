@@ -1,7 +1,10 @@
 <template>
   <div class="auth authn-create app-wrapper">
-    <detail-header :item="{ name: $t('Auth.createAuth'), path: '/authentication' }" />
-    <el-card>
+    <detail-header
+      :item="{ name: $t('Auth.createAuth'), path: '/authentication' }"
+      v-if="!gateway"
+    />
+    <el-card :shadow="!gateway ? 'always' : 'never'">
       <guide-bar :guide-list="getGuideList()" :active-guide-index-list="activeGuidesIndex" />
       <!-- Mechanism -->
       <div v-if="step === 0" class="create-form">
@@ -297,6 +300,15 @@ const getSupportBackend = function () {
   }
 }
 
+const setDefaultBackendForGateway = () => {
+  if (hasDatabaseToChoose.value) {
+    const defaultDatabase = databases.value.find((item) => !isDisabledDatabase(item.value))
+    defaultDatabase ? (backend.value = defaultDatabase.value) : void 0
+  } else if (others.value.length > 0) {
+    backend.value = others.value[0].value
+  }
+}
+
 const isDisabledMechanism = (mechanism: string) =>
   props.disabledMechanisms && props.disabledMechanisms.includes(mechanism)
 
@@ -322,6 +334,9 @@ const beforeNext = function () {
     databases.value = []
     others.value = []
     getSupportBackend()
+    if (props.gateway) {
+      setDefaultBackendForGateway()
+    }
   } else if (step.value === 1) {
     const data = factory(mechanism.value, backend.value)
     configData.value = checkPresetDataAndSet(data)
