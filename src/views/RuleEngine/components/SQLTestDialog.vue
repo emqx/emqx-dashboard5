@@ -190,6 +190,11 @@ const tooltipForToggleBtn = computed(() =>
 
 const { TOPIC_EVENT, findInputTypeNTarget, getTestColumns, transFromStrToFromArr } = useRuleUtils()
 
+/**
+ * for compare form, prevent change context after SQL was changed
+ */
+let preFrom = ''
+
 const setContextObjStr = () => {
   try {
     contextObjStr.value = JSON.stringify(testParams.value.context, null, 2)
@@ -200,19 +205,24 @@ const setContextObjStr = () => {
   }
 }
 
+/**
+ * called when dialog opened
+ */
 const setDataTypeNContext = () => {
   const { sql, eventList, ingressBridgeList, customInput: input } = props
   const { fromStr } = getKeywordsFromSQL(sql)
-  const fromArr = transFromStrToFromArr(fromStr)
-  const { type: inputType } = findInputTypeNTarget(fromArr[0], eventList, ingressBridgeList)
-  const { context, descMap } = getTestColumns(inputType, fromArr[0], eventList)
+  const [firstInput = ''] = transFromStrToFromArr(fromStr)
+  const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
+  const { context, descMap } = getTestColumns(inputType, firstInput, eventList)
   const customInput = input ? parseJSONSafely(input) : undefined
 
+  preFrom = firstInput
   testColumnDescMap = descMap
+
   if (inputType === RuleInputType.Topic) {
     dataType.value = TOPIC_EVENT
   } else {
-    dataType.value = fromArr[0]
+    dataType.value = firstInput
   }
   testParams.value = {
     sql,
@@ -327,11 +337,16 @@ const handleSQLChanged = () => {
   const { eventList = [], ingressBridgeList = [] } = props
 
   const { fromStr } = getKeywordsFromSQL(testParams.value.sql)
-  const inputs = transFromStrToFromArr(fromStr)
-  const { type: firstInputType } = findInputTypeNTarget(inputs[0], eventList, ingressBridgeList)
-  dataType.value = inputs[0]
+  const [firstInput = ''] = transFromStrToFromArr(fromStr)
+  if (preFrom === firstInput) {
+    return
+  }
+  preFrom = firstInput
 
-  const { context } = getTestColumns(firstInputType, inputs[0], eventList)
+  const { type: firstInputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
+  dataType.value = firstInput
+
+  const { context } = getTestColumns(firstInputType, firstInput, eventList)
   setContext(context)
 }
 
