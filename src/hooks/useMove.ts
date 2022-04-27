@@ -33,9 +33,13 @@ export default (eventMap: EventMap, errorHandlerFunc?: () => void, finallyAction
     } catch (error) {
       console.error(error)
       // empty the array first when an error occurs, otherwise the view will not be updated
-      errorHandlerFunc ? errorHandlerFunc() : void 0
+      if (errorHandlerFunc) {
+        errorHandlerFunc()
+      }
     } finally {
-      finallyAction ? finallyAction() : void 0
+      if (finallyAction) {
+        finallyAction()
+      }
     }
   }
   return {

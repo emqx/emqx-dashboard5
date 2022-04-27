@@ -40,7 +40,9 @@ export default (): {
   }
 
   const getAuthnList = async (isInit = false) => {
-    !isInit ? (isListLoading.value = true) : void 0
+    if (!isInit) {
+      isListLoading.value = true
+    }
     try {
       const res: AuthnItem[] = await listAuthn()
       authnList.value = res.map((item) => {

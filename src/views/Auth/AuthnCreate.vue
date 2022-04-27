@@ -303,7 +303,9 @@ const getSupportBackend = function () {
 const setDefaultBackendForGateway = () => {
   if (hasDatabaseToChoose.value) {
     const defaultDatabase = databases.value.find((item) => !isDisabledDatabase(item.value))
-    defaultDatabase ? (backend.value = defaultDatabase.value) : void 0
+    if (defaultDatabase) {
+      backend.value = defaultDatabase.value
+    }
   } else if (others.value.length > 0) {
     backend.value = others.value[0].value
   }
