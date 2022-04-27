@@ -12,8 +12,14 @@
             {{ $t('BasicConfig.invite') }}
           </el-button>
         </template>
-        <template #default="{ row, $index }">
-          <el-button v-if="$index !== 0" size="small" type="danger" plain @click="removeNode(row)">
+        <template #default="{ row }">
+          <el-button
+            v-if="row.nodeName !== selfNode"
+            size="small"
+            type="danger"
+            plain
+            @click="removeNode(row)"
+          >
             {{ $t('Base.remove') }}
           </el-button>
         </template>
@@ -43,6 +49,7 @@ import { useI18n } from 'vue-i18n'
 interface ClusterNode {
   name: string
   nodes: string[]
+  self: string
 }
 
 interface Node {
@@ -58,11 +65,13 @@ export default defineComponent({
     const nodeConfig = ref<Node>({
       nodeName: '',
     })
+    const selfNode = ref('')
     const { t } = useI18n()
     const loadData = async () => {
       const res: ClusterNode = await getClusterNodes()
       if (res) {
         nodes.value = res.nodes.map((node) => ({ nodeName: node }))
+        selfNode.value = res.self
       }
     }
     loadData()
@@ -101,6 +110,7 @@ export default defineComponent({
     }
     return {
       nodes,
+      selfNode,
       nodeConfig,
       inviteDialog,
       saveLoading,
