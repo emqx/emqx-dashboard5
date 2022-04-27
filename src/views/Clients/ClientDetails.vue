@@ -469,7 +469,7 @@ const handleUnSubscription = (row: Subscription) => {
   })
     .then(async () => {
       if (props.gateway) {
-        if (props.gateway === 'lwm2m' && !row.clientid) {
+        if (!row.clientid) {
           row.clientid = clientId.value
         }
         return handleUnsubscriptionGateway(row)
