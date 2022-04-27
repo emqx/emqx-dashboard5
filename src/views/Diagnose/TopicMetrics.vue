@@ -85,7 +85,7 @@
         :label="tl('msgIn')"
         sortable
         :sort-by="({ metrics }) => metrics['messages.in.count']"
-        :min-width="136"
+        :min-width="180"
       >
         <template #default="{ row }">
           {{ row.metrics['messages.in.count'] }}
@@ -95,7 +95,7 @@
         :label="tl('msgOut')"
         sortable
         :sort-by="({ metrics }) => metrics['messages.out.count']"
-        :min-width="136"
+        :min-width="180"
       >
         <template #default="{ row }">
           {{ row.metrics['messages.out.count'] }}
@@ -105,7 +105,7 @@
         :label="tl('msgDrop')"
         sortable
         :sort-by="({ metrics }) => metrics['messages.dropped.count']"
-        :min-width="172"
+        :min-width="180"
       >
         <template #default="{ row }">
           {{ row.metrics['messages.dropped.count'] }}
