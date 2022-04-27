@@ -1,197 +1,197 @@
 <template>
   <el-card>
-    <div class="section-header">
-      {{ $t('Tools.connectionConfiguration') }}
-    </div>
+    <!-- Config -->
+    <div>
+      <div class="section-header">{{ $t('Tools.connectionConfiguration') }}</div>
+      <el-form
+        ref="configForm"
+        hide-required-asterisk
+        label-position="top"
+        :model="connection"
+        :rules="connectionRules"
+        @keyup.enter="createConnection"
+        :disabled="compareConnStatus('MCONNECTED')"
+      >
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item prop="host" :label="$t('Tools.host')">
+              <el-input v-model="connection.host" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="port" :label="$t('Tools.port')">
+              <el-input v-model.number="connection.port" placeholder="8083/8084" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="endpoint" :label="$t('Tools.mountPoint')">
+              <el-input v-model="connection.endpoint" placeholder="/mqtt" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="clientId" label="Client ID">
+              <el-input v-model="connection.clientId" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="username" :label="$t('Tools.Username')">
+              <el-input v-model="connection.username" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="password" :label="$t('Tools.Password')">
+              <el-input v-model="connection.password" show-password />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="keepalive" label="Keepalive">
+              <el-input v-model.number="connection.keepalive" placeholder="60" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="protocolversion" :label="$t('Tools.ProtocolVersion')">
+              <el-select v-model="connection.protocolversion">
+                <el-option
+                  v-for="item in protocolVerList"
+                  :key="item.name"
+                  :label="`MQTT ${item.name}`"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
 
-    <el-form
-      ref="configForm"
-      hide-required-asterisk
-      label-position="top"
-      :model="connection"
-      :rules="connectionRules"
-      @keyup.enter="createConnection"
-      :disabled="compareConnStatus('MCONNECTED')"
-    >
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item prop="host" :label="$t('Tools.host')">
-            <el-input v-model="connection.host"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="port" :label="$t('Tools.port')">
-            <el-input v-model.number="connection.port" placeholder="8083/8084"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="endpoint" :label="$t('Tools.mountPoint')">
-            <el-input v-model="connection.endpoint" placeholder="/mqtt"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="clientId" label="Client ID">
-            <el-input v-model="connection.clientId"> </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="username" :label="$t('Tools.Username')">
-            <el-input v-model="connection.username"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="password" :label="$t('Tools.Password')">
-            <el-input v-model="connection.password" show-password></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="keepalive" label="Keepalive">
-            <el-input v-model.number="connection.keepalive" placeholder="60"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="protocolversion" :label="$t('Tools.ProtocolVersion')">
-            <el-select v-model="connection.protocolversion">
-              <el-option
-                v-for="item in protocolVerList"
-                :key="item.name"
-                :label="`MQTT ${item.name}`"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="8" class="checkbox-area">
-          <div class="checkbox-container">
-            <el-checkbox v-model="connection.clean"> Clean Session </el-checkbox>
-            <el-checkbox v-model="connection.ssl" @change="protocolsChange"> TLS </el-checkbox>
-          </div>
-        </el-col>
-      </el-row>
-    </el-form>
-    <el-row>
-      <el-col :span="24" class="footer-area">
-        <el-button
-          type="primary"
-          @click="createConnection"
-          :disabled="!compareConnStatus('MDISCONNECTED')"
-        >
-          {{ $t('Tools.connect') }}
-        </el-button>
-
-        <el-button
-          type="danger"
-          plain
-          @click="destroyConnection"
-          :disabled="compareConnStatus('MDISCONNECTING') || compareConnStatus('MDISCONNECTED')"
-        >
-          {{ $t('Tools.disconnect') }}
-        </el-button>
-      </el-col>
-    </el-row>
-
-    <div class="section-header">
-      {{ $t('Tools.Subscription') }}
-    </div>
-
-    <el-form
-      ref="subForm"
-      hide-required-asterisk
-      :model="subscriptionsRecord"
-      :rules="subscriptionsRules"
-      @keyup.enter="subscribe"
-      class="sub-area"
-      :disabled="!compareConnStatus('MCONNECTED')"
-    >
-      <el-form-item prop="topic" label="Topic">
-        <el-input v-model="subscriptionsRecord.topic"></el-input>
-      </el-form-item>
-
-      <el-form-item prop="qos" label="QoS">
-        <!-- <emq-select
-          v-model.number="subscriptionsRecord.qos"
-          :field="{ list: QoSOptions }"
-        ></emq-select> -->
-        <el-select v-model.number="subscriptionsRecord.qos">
-          <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="subscribe">
-          {{ $t('Tools.Subscribe') }}
-        </el-button>
-      </el-form-item>
-    </el-form>
-
-    <el-table :data="subscriptions" max-height="400px">
-      <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable></el-table-column>
-      <el-table-column prop="qos" label="QoS" sortable></el-table-column>
-      <el-table-column prop="createAt" :label="$t('Tools.time')" sortable></el-table-column>
-      <el-table-column :label="$t('Base.operation')">
-        <template #default="{ row }">
+          <el-col :span="8" class="checkbox-area">
+            <div class="checkbox-container">
+              <el-checkbox v-model="connection.clean"> Clean Session </el-checkbox>
+              <el-checkbox v-model="connection.ssl" @change="protocolsChange"> TLS </el-checkbox>
+            </div>
+          </el-col>
+        </el-row>
+      </el-form>
+      <el-row>
+        <el-col :span="24" class="footer-area">
           <el-button
-            size="small"
+            type="primary"
+            @click="createConnection"
+            :disabled="!compareConnStatus('MDISCONNECTED')"
+          >
+            {{ $t('Tools.connect') }}
+          </el-button>
+          <el-button
             type="danger"
             plain
-            @click="unSubscribe(row)"
-            :disabled="!compareConnStatus('MCONNECTED')"
+            @click="destroyConnection"
+            :disabled="compareConnStatus('MDISCONNECTING') || compareConnStatus('MDISCONNECTED')"
           >
-            {{ $t('Base.cancel') }}
+            {{ $t('Tools.disconnect') }}
           </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <div class="section-header">
-      {{ $t('Tools.publish') }}
+        </el-col>
+      </el-row>
     </div>
 
-    <el-form
-      ref="pubForm"
-      hide-required-asterisk
-      label-position="top"
-      :model="messageRecord"
-      :rules="messageRecordRules"
-      @keyup.enter="publish"
-      class="pub-area"
-      :disabled="!compareConnStatus('MCONNECTED')"
-    >
-      <el-form-item prop="topic" label="Topic">
-        <el-input v-model="messageRecord.topic"></el-input>
-      </el-form-item>
+    <!-- Sub -->
+    <div>
+      <div class="section-header">{{ $t('Tools.Subscription') }}</div>
+      <el-form
+        ref="subForm"
+        hide-required-asterisk
+        :model="subscriptionsRecord"
+        :rules="subscriptionsRules"
+        @keyup.enter="subscribe"
+        class="sub-area"
+        :disabled="!compareConnStatus('MCONNECTED')"
+      >
+        <el-form-item prop="topic" label="Topic">
+          <el-input v-model="subscriptionsRecord.topic" />
+        </el-form-item>
 
-      <el-form-item prop="payload" label="Payload">
-        <el-input v-model="messageRecord.payload"></el-input>
-      </el-form-item>
+        <el-form-item prop="qos" label="QoS">
+          <!-- <emq-select
+            v-model.number="subscriptionsRecord.qos"
+            :field="{ list: QoSOptions }"
+          /> -->
+          <el-select v-model.number="subscriptionsRecord.qos">
+            <el-option v-for="item in QoSOptions" :key="item" :value="item" />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="subscribe">
+            {{ $t('Tools.Subscribe') }}
+          </el-button>
+        </el-form-item>
+      </el-form>
+      <el-table :data="subscriptions" max-height="400px">
+        <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
+        <el-table-column prop="qos" label="QoS" sortable />
+        <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />
+        <el-table-column :label="$t('Base.operation')">
+          <template #default="{ row }">
+            <el-button
+              size="small"
+              type="danger"
+              plain
+              @click="unSubscribe(row)"
+              :disabled="!compareConnStatus('MCONNECTED')"
+            >
+              {{ $t('Base.cancel') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
 
-      <el-form-item prop="qos" label="QoS">
-        <el-select v-model.number="messageRecord.qos">
-          <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
-        </el-select>
-      </el-form-item>
+    <!-- Pub -->
+    <div>
+      <div class="section-header">{{ $t('Tools.publish') }}</div>
+      <el-form
+        ref="pubForm"
+        hide-required-asterisk
+        label-position="top"
+        :model="messageRecord"
+        :rules="messageRecordRules"
+        @keyup.enter="publish"
+        class="pub-area"
+        :disabled="!compareConnStatus('MCONNECTED')"
+      >
+        <el-form-item prop="topic" label="Topic">
+          <el-input v-model="messageRecord.topic" />
+        </el-form-item>
 
-      <el-form-item class="with-btn">
-        <el-checkbox v-model="messageRecord.retain"> Retain </el-checkbox>
-        <el-button type="primary" @click="publish">
-          {{ $t('Tools.publish') }}
-        </el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item prop="payload" label="Payload">
+          <el-input v-model="messageRecord.payload" />
+        </el-form-item>
 
+        <el-form-item prop="qos" label="QoS">
+          <el-select v-model.number="messageRecord.qos">
+            <el-option v-for="item in QoSOptions" :key="item" :value="item" />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item class="with-btn">
+          <el-checkbox v-model="messageRecord.retain"> Retain </el-checkbox>
+          <el-button type="primary" @click="publish">
+            {{ $t('Tools.publish') }}
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <!-- Data -->
     <el-row :gutter="20">
       <el-col :span="12">
         <div class="message-btn">
           {{ $t('Tools.received') }}
-          <el-icon><delete /></el-icon>
+          <el-tooltip
+            popper-class="info-tooltip"
+            placement="top-start"
+            :content="$t('Tools.clear')"
+          >
+            <el-icon class="pointer icon-delete" @click="messageIn = []"><delete /></el-icon>
+          </el-tooltip>
         </div>
         <el-table :data="messageIn" max-height="400px">
-          <el-table-column
-            show-overflow-tooltip
-            prop="topic"
-            label="Topic"
-            sortable
-          ></el-table-column>
+          <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
           <el-table-column prop="qos" label="QoS" sortable min-width="50">
             <template #default="{ row }">
               {{ row.qos }}
@@ -213,22 +213,25 @@
               <code>{{ row.payload }}</code>
             </template>
           </el-table-column>
-          <el-table-column prop="createAt" :label="$t('Tools.time')" sortable></el-table-column>
+          <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />
         </el-table>
       </el-col>
 
       <el-col :span="12">
         <div class="message-btn">
           {{ $t('Tools.published') }}
-          <el-icon><delete /></el-icon>
+          <el-tooltip
+            popper-class="info-tooltip"
+            placement="top-start"
+            :content="$t('Tools.clear')"
+          >
+            <el-icon class="pointer icon-delete" @click="messageOut = []">
+              <delete />
+            </el-icon>
+          </el-tooltip>
         </div>
         <el-table :data="messageOut" max-height="400px">
-          <el-table-column
-            show-overflow-tooltip
-            prop="topic"
-            label="Topic"
-            sortable
-          ></el-table-column>
+          <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
           <el-table-column prop="qos" label="QoS" sortable min-width="50">
             <template #default="{ row }">
               {{ row.qos }}
@@ -250,7 +253,7 @@
               <code>{{ row.payload }}</code>
             </template>
           </el-table-column>
-          <el-table-column prop="createAt" :label="$t('Tools.time')" sortable></el-table-column>
+          <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />
         </el-table>
       </el-col>
     </el-row>
@@ -681,8 +684,13 @@ export default {
 }
 
 .message-btn {
+  display: flex;
+  align-items: center;
   margin: 10px auto;
   font-size: 16px;
   font-weight: 700;
+  .icon-delete {
+    margin-left: 8px;
+  }
 }
 </style>
