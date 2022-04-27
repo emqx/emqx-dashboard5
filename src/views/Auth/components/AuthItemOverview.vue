@@ -4,7 +4,7 @@
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
         <!-- <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
-          <el-icon @click="resetStatistics"><refresh-left /></el-icon>
+          <el-icon @click="resetStatistics"><CircleClose /></el-icon>
         </el-tooltip> -->
       </div>
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
