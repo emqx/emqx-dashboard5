@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { loadAuthn } from '@/api/auth'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
@@ -243,10 +243,12 @@ export default defineComponent({
 
     const initData = async () => {
       await loadData()
-      if (hasMetrics(configData.value)) {
+      if (!props.gatewayInfo && hasMetrics(configData.value)) {
         getAuthnMetrics()
       }
     }
+
+    watch(() => props.gatewayInfo, initData)
 
     initData()
 

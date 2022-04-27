@@ -122,7 +122,7 @@ const authCreate = async function (data) {
 
 const authUpdate = async function (data) {
   try {
-    await updateGatewayAuth(gname, omit(cloneDeep(data), ['id', 'enable', 'chain_name']))
+    await updateGatewayAuth(gname, omit(cloneDeep(data), ['id', 'chain_name']))
     M.success(t('Base.updateSuccess'))
     getAuthInfo()
   } catch (error) {
