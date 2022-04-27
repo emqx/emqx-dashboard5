@@ -127,7 +127,7 @@ import {
   delDelayedInfo,
 } from '@/api/advanced'
 import CommonPagination from '@/components/commonPagination.vue'
-import useShowTextByDifferent from '@/hooks/Auth/useShowTextByDifferent'
+import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { dateFormat } from '@/common/utils'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
