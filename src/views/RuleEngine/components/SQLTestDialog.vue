@@ -348,6 +348,7 @@ const getEventTypeInContext = () => {
 }
 
 const submitTest = async () => {
+  await setObjByStr()
   testLoading.value = true
   const context = {
     ...testParams.value.context,
