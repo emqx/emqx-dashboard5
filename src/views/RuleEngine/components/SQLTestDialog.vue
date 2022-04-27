@@ -89,7 +89,7 @@
             {{ $t('Base.cancel') }}
           </el-button>
           <el-button type="primary" @click="save" v-if="canSave">
-            {{ $t('Base.save') }}
+            {{ tl('useSQLInput') }}
           </el-button>
         </div>
       </div>
@@ -438,7 +438,7 @@ watch(showDialog, (val) => {
     width: 20px;
     height: 20px;
     border-radius: 2px;
-    background-color: #f1f1f1;
+    background-color: var(--color-bg-split);
     cursor: pointer;
     &:not(:last-child) {
       margin-right: 4px;
