@@ -6,7 +6,7 @@ import useTopologyRuleData from './useTopologyRuleData'
 import useTopologyBridgeData from './useTopologyBridgeData'
 import { cloneDeep } from 'lodash'
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
-import useCSSVariables from '@/hooks/Auth/useCSSVariables'
+import useCSSVariables from '@/hooks/useCSSVariables'
 
 type DataList = Array<NodeItem> | Array<EdgeItem>
 const concatNCloneInObj = (obj: Record<string, DataList>): DataList => {

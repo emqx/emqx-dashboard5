@@ -219,7 +219,7 @@ import {
   delRetainerTopic,
 } from '@/api/advanced'
 import { dateFormat } from '@/common/utils'
-import useShowTextByDifferent from '@/hooks/Auth/useShowTextByDifferent'
+import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
