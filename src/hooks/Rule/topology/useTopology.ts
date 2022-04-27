@@ -6,6 +6,7 @@ import useTopologyRuleData from './useTopologyRuleData'
 import useTopologyBridgeData from './useTopologyBridgeData'
 import { cloneDeep } from 'lodash'
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
+import useCSSVariables from '@/hooks/Auth/useCSSVariables'
 
 type DataList = Array<NodeItem> | Array<EdgeItem>
 const concatNCloneInObj = (obj: Record<string, DataList>): DataList => {
@@ -49,11 +50,14 @@ const registerCustomNode = () => {
   )
 }
 
-const defaultNodeConfig = {
+const bgColorVariableKey = '--color-bg-primary'
+const textColorVariableKey = '--color-text-primary'
+
+const getDefaultNodeConfig = (bgColor: string, textColor: string) => ({
   size: [268, 50],
   type: 'custom-rect-with-icon',
   style: {
-    fill: '#FFFFFF',
+    fill: bgColor,
     stroke: '#e5e5e5',
     radius: 8,
   },
@@ -61,8 +65,8 @@ const defaultNodeConfig = {
     [0, 0.5],
     [1, 0.5],
   ],
-  labelCfg: { style: { fontSize: 14 } },
-}
+  labelCfg: { style: { fontSize: 14, fill: textColor } },
+})
 
 const defaultEdgeConfig = {
   type: 'cubic-horizontal',
@@ -77,6 +81,13 @@ export default (): {
   isNoData: ComputedRef<boolean>
   topologyDiagramCanvasEle: Ref<any>
 } => {
+  const { getCSSVariables } = useCSSVariables()
+  const colorMap = getCSSVariables([bgColorVariableKey, textColorVariableKey])
+  const defaultNodeConfig = getDefaultNodeConfig(
+    colorMap[bgColorVariableKey],
+    colorMap[textColorVariableKey],
+  )
+
   const isDataLoading = ref(false)
   /* 
     simple desc
