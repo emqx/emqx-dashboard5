@@ -17,7 +17,11 @@ export default () => {
     if (!ret.enable) {
       ret = omit(ret, checkFields)
     } else {
-      checkFields.forEach((key) => (!ret[key] ? (ret = omit(ret, key)) : void 0))
+      checkFields.forEach((key) => {
+        if (!ret[key]) {
+          ret = omit(ret, key)
+        }
+      })
     }
     return ret
   }
