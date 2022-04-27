@@ -4,7 +4,7 @@
       <div class="card-hd">
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
         <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
-          <el-icon @click="resetStatistics"><refresh-left /></el-icon>
+          <el-icon @click="resetStatistics"><CircleClose /></el-icon>
         </el-tooltip>
       </div>
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
@@ -144,7 +144,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { RefreshLeft } from '@element-plus/icons-vue'
+import { CircleClose } from '@element-plus/icons-vue'
 import { RuleItem, NodeMetrics, NodeStatus, Metrics } from '@/types/rule'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { formatNumber } from '@/common/tools'
