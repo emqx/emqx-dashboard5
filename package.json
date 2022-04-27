@@ -17,7 +17,7 @@
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "echarts": "^5.2.1",
-    "element-plus": "^2.1.0",
+    "element-plus": "^2.1.11",
     "highlight.js": "10.7.3",
     "js-base64": "^3.7.2",
     "js-sql-parser": "^1.4.1",
