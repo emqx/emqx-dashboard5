@@ -199,7 +199,9 @@ const SchemaForm = defineComponent({
       const slots = {
         dropdown: () => (
           <el-dropdown-menu>
-            <el-dropdown-item command="reset">{t('Base.reset')}</el-dropdown-item>
+            <el-dropdown-item command="reset" disabled={property.default === undefined}>
+              {t('Base.reset')}
+            </el-dropdown-item>
             {props.canRemoveConfig ? (
               <el-dropdown-item command="remove">{t('Base.remove')}</el-dropdown-item>
             ) : null}
