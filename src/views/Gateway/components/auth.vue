@@ -18,7 +18,12 @@
         />
       </el-card>
     </div>
-    <el-dialog v-model="createDialog" width="80%" destroy-on-close>
+    <el-dialog
+      custom-class="gateway-auth-dialog"
+      v-model="createDialog"
+      width="80%"
+      destroy-on-close
+    >
       <authn-create
         :gateway="true"
         :cancel-func="cancelCreate"
@@ -152,5 +157,17 @@ getAuthInfo()
 
 .el-dialog__wrapper :deep(.el-dialog) {
   width: 80%;
+}
+</style>
+
+<style lang="scss">
+.gateway-auth-dialog {
+  .el-dialog__body {
+    padding-top: 0;
+    padding-bottom: 0;
+    .authn-create {
+      padding-top: 8px;
+    }
+  }
 }
 </style>
