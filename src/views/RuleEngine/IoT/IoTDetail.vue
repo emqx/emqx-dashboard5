@@ -1,6 +1,6 @@
 <template>
   <div class="iot-detail app-wrapper">
-    <detail-header :item="{ name: id, path: '/iot' }" />
+    <detail-header :item="{ name: ruleInfo.name, path: '/iot' }" />
     <div class="section-header">
       <div>
         <span class="title-n-status">
