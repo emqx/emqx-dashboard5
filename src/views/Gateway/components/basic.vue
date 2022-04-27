@@ -68,6 +68,10 @@ export default defineComponent({
     const updateGatewayInfo = async function () {
       updateLoading.value = true
       infoLoading.value = true
+      const removedFields = ['listeners', 'created_at', 'started_at', 'status', 'name']
+      removedFields.forEach((field) => {
+        delete basicData.value[field]
+      })
       try {
         await updateGateway(name, basicData.value)
         this.$message({
