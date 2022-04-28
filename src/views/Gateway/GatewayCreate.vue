@@ -150,12 +150,12 @@ export default defineComponent({
 
     const createGateway = async () => {
       submitLoading.value = true
-
-      let res = await postGateway({
+      const data = {
         ...basicData.value,
         listeners: [...listenerList.value],
         name: gname,
-      }).catch(() => {})
+      }
+      const res = await postGateway(data).catch(() => {})
       if (res) {
         M({
           type: 'success',
