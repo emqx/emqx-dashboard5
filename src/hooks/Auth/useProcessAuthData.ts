@@ -62,7 +62,7 @@ export default function useProcessAuthData() {
       algorithm,
       secret,
       secret_base64_encoded,
-      certificate,
+      public_key,
       endpoint,
       refresh_interval,
       verify_claims,
@@ -80,7 +80,7 @@ export default function useProcessAuthData() {
         tempData.secret = secret
         tempData.secret_base64_encoded = secret_base64_encoded
       } else if (algorithm === 'public-key') {
-        tempData.certificate = certificate
+        tempData.public_key = public_key
       }
     }
     return tempData

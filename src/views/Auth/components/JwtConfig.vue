@@ -52,7 +52,7 @@
           </template>
           <el-col v-else-if="jwtConfig.algorithm === 'public-key'" :span="24">
             <el-form-item label="Public Key">
-              <el-input type="textarea" :rows="4" v-model="jwtConfig.certificate" />
+              <el-input type="textarea" :rows="4" v-model="jwtConfig.public_key" />
             </el-form-item>
           </el-col>
         </template>
