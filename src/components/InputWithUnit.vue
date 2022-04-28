@@ -23,8 +23,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, PropType, computed, WritableComputedRef } from 'vue'
-// TODO:handle user random input
+import { defineProps, defineEmits, PropType, computed, WritableComputedRef, ref } from 'vue'
+
 const props = defineProps({
   modelValue: {
     type: String,
@@ -66,6 +66,8 @@ const backupRegExp = computed(() => {
   return new RegExp(`^(?<numberPart>.*)(?<unit>${units?.map(({ value }) => value).join('|')})$`)
 })
 
+const numPartRegExp = /^-?\d*$/
+
 const modelValueMatchReg = computed(() => {
   return props.modelValue?.match(strRegExp.value)
 })
@@ -84,10 +86,22 @@ const numPart: WritableComputedRef<string> = computed({
     return ''
   },
   set(val) {
-    inputValue.value = val + unit.value
+    let value = val
+    if (!numPartRegExp.test(value)) {
+      const num = parseFloat(value)
+      value = Number.isNaN(num) ? '' : num.toString()
+    }
+    if (!value) {
+      selectedUnit.value = unit.value
+    }
+    inputValue.value = value ? value + unit.value : ''
   },
 })
 
+/**
+ * handle the situation that does not input num but selected unit
+ */
+let selectedUnit = ref('')
 const unit: WritableComputedRef<string> = computed({
   get() {
     if (modelValueMatchReg.value) {
@@ -99,19 +113,24 @@ const unit: WritableComputedRef<string> = computed({
     if (unit) {
       return unit
     }
-    if (!props.modelValue) {
-      if (units && units.length > 0) {
-        if (props.defaultUnit && units.some(({ value }) => value === props.defaultUnit)) {
-          return props.defaultUnit
-        }
-        return units[0].value
+    if (!props.modelValue && units && units.length > 0) {
+      if (selectedUnit.value) {
+        return selectedUnit.value
       }
-      return ''
+      if (props.defaultUnit && units.some(({ value }) => value === props.defaultUnit)) {
+        return props.defaultUnit
+      }
+      return units[0].value
     }
     return ''
   },
   set(val) {
-    inputValue.value = (numPart.value || '') + val
+    if (numPart.value) {
+      inputValue.value = (numPart.value || '') + val
+    } else {
+      selectedUnit.value = val
+      inputValue.value = ''
+    }
   },
 })
 
