@@ -612,20 +612,20 @@ export default {
     en: 'Where do you want to get the data from?',
   },
   mqttSourceTransDesc: {
-    zh: '是否同时将数据转发到 EMQX 指定主题中？',
-    en: 'Would you like to also send messages to a specific topic?',
+    zh: '是否将数据转发至本地主题？',
+    en: 'Would you like forward messages to a local topic?',
   },
   mqttSourceTransDescDetail: {
-    zh: '数据桥接可以作为 IoT 规则的数据源，可以配置数据桥接使其发送数据至本地主题。',
-    en: 'Data bridges can be used as the data source of the loT rules, you can configure the bridge to also send messages to a local topic.',
+    zh: '不经 IoT 规则处理直接将远程主题数据转发至本地主题中。',
+    en: 'Directly forward remote topic messages to local topic without IoT rule processing.',
   },
   mqttSinkMappingDesc: {
-    zh: '是否同时将数据转发远程 Broker 的指定主题中',
-    en: 'Would you like forward messages on a specific topic to the remote broker?',
+    zh: '是否从本地主题转发数据？',
+    en: 'Would you like forward messages from the local topic?',
   },
   mqttSinkMappingDescDetail: {
-    zh: '数据桥接可以将 IoT 规则的输出转发到远程数据系统中，或者您可以将桥配置为也转发来自本地主题的消息。',
-    en: 'Data bridges can forward the outputs of IoT rules to the remote data system, or you can configure the bridge to also forward messages from a local topic.',
+    zh: '不经 IoT 规则处理直接转发本地主题数据转发至远程主题中。',
+    en: 'Directly forward local topic messages to remote topic without IoT rule processing.',
   },
   headers: {
     zh: '请求头',
@@ -636,16 +636,12 @@ export default {
     en: 'Body',
   },
   forwardToLocalTopic: {
-    zh: '转发到本地主题',
+    zh: '转发至本地主题',
     en: 'Forward to local topic',
   },
   forwardFromLocalTopic: {
     zh: '从本地主题转发',
     en: 'Forward from local topic',
-  },
-  mqttOutLocalTopicPlaceholder: {
-    zh: '要从中转发消息的本地主题',
-    en: 'The local topic that you want to forward messages from',
   },
   httpBridgeURLFieldDesc: {
     zh: "支持使用 ${'{'}field{'}'} 语法提取数据拼接 URL",

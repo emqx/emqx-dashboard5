@@ -93,10 +93,7 @@
           <el-row :gutter="30" v-if="isForwardToLocalTopic">
             <el-col :span="10">
               <el-form-item :label="tl('localTopic')" required prop="local_topic">
-                <el-input
-                  v-model="mqttBridgeVal.local_topic"
-                  :placeholder="tl('inBridgeLocalTopicPlaceholder')"
-                />
+                <el-input v-model="mqttBridgeVal.local_topic" placeholder="${topic}" />
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -135,11 +132,8 @@
           <template v-if="isForwardToLocalTopic">
             <el-row :gutter="30">
               <el-col :span="10">
-                <el-form-item :label="tl('mqttOutLocalTopicPlaceholder')">
-                  <el-input
-                    v-model="mqttBridgeVal.local_topic"
-                    :placeholder="tl('outBridgeLocalTopicPlaceholder')"
-                  />
+                <el-form-item :label="tl('localTopic')" required prop="local_topic">
+                  <el-input v-model="mqttBridgeVal.local_topic" placeholder="t/#" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -311,10 +305,7 @@ const formRules = computed(() => ({
   name: createRequiredRule(tl('name')),
   connector: createRequiredRule(tl('mqttConn'), 'select'),
   remote_topic: createRequiredRule(tl('remoteTopic')),
-  local_topic:
-    mqttBridgeVal.value.direction === MQTTBridgeDirection.In
-      ? createRequiredRule(tl('localTopic'))
-      : [],
+  local_topic: createRequiredRule(tl('localTopic')),
 }))
 
 const btnEditConnectorClass = computed(() =>
@@ -500,7 +491,7 @@ defineExpose({ validate, clearValidate })
 }
 
 .payload-desc {
-  margin: 0 0 8px;
+  margin: 8px 0;
   color: var(--el-text-color-secondary);
 }
 </style>
