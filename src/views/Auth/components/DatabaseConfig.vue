@@ -183,11 +183,11 @@
           </el-col>
           <!-- Mongodb -->
           <el-col :span="24" v-else-if="isMongoDB">
-            <el-form-item :label="$t('Auth.selector')">
+            <el-form-item :label="$t('Auth.filter')">
               <div class="viewer-container" ref="monacoContainer">
-                <monaco id="adatabase-query" v-model="databaseConfig.selector" lang="json" />
+                <monaco id="adatabase-query" v-model="databaseConfig.filter" lang="json" />
               </div>
-              <el-button class="bottom-btn" size="small" @click="setDefaultContent('selector')">
+              <el-button class="bottom-btn" size="small" @click="setDefaultContent('filter')">
                 {{ $t('Auth.setDefault') }}
               </el-button>
             </el-form-item>

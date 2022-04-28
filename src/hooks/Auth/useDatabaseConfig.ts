@@ -149,11 +149,11 @@ export default function useDatabaseConfig(
       `
     }
     if (id.value) {
-      const { selector } = databaseConfig
-      databaseConfig.selector = JSON.stringify(selector)
+      const { filter } = databaseConfig
+      databaseConfig.filter = JSON.stringify(filter)
       return
     }
-    databaseConfig.selector = defaultContent.value
+    databaseConfig.filter = defaultContent.value
   }
   const setRedis = () => {
     if (authType === 'authn') {
