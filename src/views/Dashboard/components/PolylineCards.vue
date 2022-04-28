@@ -22,6 +22,7 @@
                 :y-title="[item.text]"
                 :chart-data="metricLog[item.value]"
                 :chartColors="chartColorList[item.value]"
+                :need-date-in-tooltip="timeRange >= A_DAY_MS"
               ></polyline-chart>
             </el-card>
           </el-col>
@@ -57,7 +58,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
-import Moment from 'moment'
 import { loadChartData } from '@/api/common'
 import { ref, reactive, computed, onUnmounted, onMounted, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -83,6 +83,7 @@ const timeRangeOptions = [
   { label: tl('last3Days'), value: 259200 },
   { label: tl('last7Days'), value: 604800 },
 ]
+const A_DAY_MS = 86400
 
 watch(timeRange, () => {
   loadChartMetrics()
@@ -152,10 +153,6 @@ const chartColorList = computed<Record<string, string[]>>(() => {
   }
 })
 
-const _formatTime = (time: number) => {
-  return Moment(time).format('HH:mm')
-}
-
 const loadChartMetrics = async () => {
   const data = await loadChartData(timeRange.value)
   dataTypeList.forEach((typeName) => {
@@ -164,7 +161,7 @@ const loadChartMetrics = async () => {
   data.forEach((data: Record<string, any>) => {
     dataTypeList.forEach((typeName) => {
       const currentData = metricLog[typeName][0]
-      currentData.xData.push(_formatTime(data.time_stamp))
+      currentData.xData.push(data.time_stamp)
       currentData.yData.push(data[typeName])
     })
   })
