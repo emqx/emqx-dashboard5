@@ -155,7 +155,7 @@ const SchemaForm = defineComponent({
             <input-with-unit
               disabled={property.readOnly}
               v-model={configForm.value[path]}
-              units={['MB', 'G', 'KB']}
+              units={['MB', 'GB', 'KB']}
             ></input-with-unit>
           )
         case 'percent':

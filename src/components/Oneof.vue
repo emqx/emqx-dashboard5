@@ -35,7 +35,7 @@
         v-else-if="item.type === 'byteSize'"
         v-model="bindForms[index].byteSize"
         :disabled="disabled"
-        :units="['MB', 'G', 'KB']"
+        :units="['MB', 'GB', 'KB']"
         @change="handleValChange(bindForms[index].byteSize, 'byteSize')"
       ></input-with-unit>
       <el-input
