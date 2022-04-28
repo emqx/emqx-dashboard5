@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, shallowRef } from 'vue'
+import { computed, defineComponent, shallowRef } from 'vue'
 
 export default defineComponent({
   name: 'PolylineChart',
@@ -18,6 +18,7 @@ import 'echarts/lib/component/grid'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import useEchartResize from '@/hooks/useEchartResize'
+import Moment from 'moment'
 
 const props = defineProps({
   chartId: {
@@ -63,6 +64,10 @@ const props = defineProps({
   legendBottom: {
     type: String,
     default: '0px',
+  },
+  needDateInTooltip: {
+    type: Boolean,
+    default: true,
   },
 })
 
@@ -131,11 +136,17 @@ const setSeriesConfig = () => {
   }
 }
 
+const dateFormatInTooltip = computed(() => (props.needDateInTooltip ? 'MM:DD HH:mm' : 'HH:mm'))
+
+const _formatTime = (time: string, format = 'HH:mm') => {
+  return Moment(parseInt(time)).format(format)
+}
+
 const createTooltip = (xAxis: string, title: string, val: number, color: string) => {
   const container = document.createElement('div')
   container.innerHTML = `
   <div class="polyline-chart-tooltip">
-    <p class="x-value">${xAxis}</p>
+    <p class="x-value">${_formatTime(xAxis, dateFormatInTooltip.value)}</p>
     <div class="tooltip-body">
       <div>
         <i class="badge" style="background-color:${color}"></i>
@@ -192,6 +203,9 @@ const drawChart = () => {
       axisLabel: {
         showMinLabel: false,
         color: props.axisColor.colorAxisLabel,
+        formatter(value: string) {
+          return _formatTime(value)
+        },
       },
     },
     yAxis: {
