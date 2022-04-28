@@ -10,7 +10,7 @@
     >
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item>
+          <el-form-item prop="rules" required>
             <div class="viewer-container" ref="monacoContainer">
               <monaco id="acl-file-editor" v-model="fileConfig.rules" lang="plaintext"></monaco>
             </div>
@@ -24,6 +24,7 @@
 <script lang="ts">
 import { defineComponent, reactive, watch, ref } from 'vue'
 import Monaco from '@/components/Monaco.vue'
+import useFormRules from '@/hooks/useFormRules'
 
 export default defineComponent({
   name: 'FileConfig',
@@ -38,10 +39,15 @@ export default defineComponent({
   },
   setup(props, ctx) {
     const fileConfig = reactive(props.modelValue)
+    const { createRequiredRule } = useFormRules()
 
-    const fromCom = ref()
-    const rules = {}
-    const validate = () => Promise.resolve(true)
+    const formCom = ref()
+    const rules = {
+      rules: createRequiredRule('ACL File'),
+    }
+    const validate = () => {
+      return formCom.value.validate()
+    }
 
     watch(fileConfig, (value) => {
       ctx.emit('update:modelValue', value)
@@ -49,7 +55,7 @@ export default defineComponent({
 
     return {
       fileConfig,
-      fromCom,
+      formCom,
       rules,
       validate,
     }
