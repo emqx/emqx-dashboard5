@@ -59,12 +59,9 @@
               <el-form-item required prop="remote_topic">
                 <template #label>
                   <label>{{ tl('remoteTopic') }}</label>
-                  <InfoTooltip :content="tl('remoteTopicDesc')" />
+                  <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
                 </template>
-                <el-input
-                  v-model="mqttBridgeVal.remote_topic"
-                  :placeholder="tl('remoteTopicPlaceholder')"
-                />
+                <el-input v-model="mqttBridgeVal.remote_topic" placeholder="t/#" />
               </el-form-item>
             </el-col>
             <el-col :span="4">
