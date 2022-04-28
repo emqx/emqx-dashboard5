@@ -215,13 +215,13 @@ export default {
     zh: '请求超时',
     en: 'Request Timeout',
   },
-  selector: {
-    zh: '查询 Selector',
-    en: 'Selector',
+  filter: {
+    zh: '查询 Filter',
+    en: 'Filter',
   },
   exampleDataStructures: {
     zh: '示例数据结构和查询',
-    en: 'Example data structures and selector',
+    en: 'Example data structures and filter',
   },
   exampleDataCmd: {
     zh: '示例数据结构和命令',

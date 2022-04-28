@@ -54,7 +54,7 @@ export default function useAuthzCreate() {
       servers: '127.0.0.1:27017,127.0.0.2:27017',
       database: 'mqtt',
       collection: 'users',
-      selector: '',
+      filter: '',
       r_mode: 'master',
       w_mode: 'safe',
       pool_size: 8,
