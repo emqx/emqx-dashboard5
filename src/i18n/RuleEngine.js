@@ -531,6 +531,10 @@ export default {
     zh: "桥接数据到远端 Broker 指定主题中，支持使用 ${'{'}field{'}'} 语法拼接动态主题",
     en: "Bridges data to a remote broker specified topic, and supports splicing dynamic topics using the ${'{'}field{'}'} syntax.",
   },
+  mqttSourceRemoteTopicDesc: {
+    zh: '从远程 Broker 指定主题中获取数据',
+    en: 'Get messages from the specific topic in remote broker',
+  },
   connectionClusterModeDesc: {
     zh: '集群共享：整个集群中建立一个 MQTT 连接',
     en: 'Cluster Shareload: Establish an MQTT connection across the cluster',
