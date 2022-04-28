@@ -29,7 +29,7 @@ const useBridgeTypeValue = (): {
 
 export default useBridgeTypeValue
 
-interface BridgeTypeOptions {
+export interface BridgeTypeOptions {
   value: BridgeType
   valueForRadio: string
   label: string

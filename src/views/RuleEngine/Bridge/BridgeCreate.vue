@@ -19,7 +19,12 @@
             <el-radio-group class="bridge-type-select" v-model="radioSelectedBridgeType">
               <el-row :gutter="28">
                 <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
-                  <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
+                  <el-radio
+                    class="bridge-type-item"
+                    :label="item.valueForRadio"
+                    border
+                    :disabled="isBridgeTypeDisabled(item)"
+                  >
                     <img
                       class="bridge-type-item-img"
                       height="52"
@@ -90,8 +95,8 @@ import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
-import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeType } from '@/types/enum'
+import { useBridgeTypeOptions, BridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
@@ -140,6 +145,17 @@ export default defineComponent({
     })
 
     const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+
+    const isBridgeTypeDisabled = (bridgeType: BridgeTypeOptions) => {
+      if (
+        isFromRule.value &&
+        bridgeType.externalConfig &&
+        'direction' in bridgeType.externalConfig
+      ) {
+        return bridgeType.externalConfig.direction === MQTTBridgeDirection.In
+      }
+      return false
+    }
 
     const handleTypeSelected = () => {
       const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
@@ -222,6 +238,7 @@ export default defineComponent({
       tlsParams,
       bridgeData,
       formCom,
+      isBridgeTypeDisabled,
       cancel,
       submitCreateBridge,
     }
