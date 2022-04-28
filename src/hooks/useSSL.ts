@@ -3,17 +3,23 @@ import { SSL } from '@/types/common'
 import { cloneDeep, omit } from 'lodash'
 
 export default () => {
-  const createSSLForm = () => ({
+  const createSSLForm = (): SSL => ({
     enable: false,
     verify: DEFAULT_SSL_VERIFY_VALUE,
     certfile: '',
     keyfile: '',
     cacertfile: '',
+    server_name_indication: '',
   })
 
-  const handleSSLDataBeforeSubmit = (data: Partial<SSL>): Partial<SSL> => {
-    let ret: Partial<SSL> = cloneDeep(data)
-    const checkFields: Array<keyof SSL> = ['certfile', 'keyfile', 'cacertfile']
+  const handleSSLDataBeforeSubmit = (data: SSL): SSL => {
+    let ret: SSL = cloneDeep(data)
+    const checkFields: Array<'certfile' | 'keyfile' | 'cacertfile' | 'server_name_indication'> = [
+      'certfile',
+      'keyfile',
+      'cacertfile',
+      'server_name_indication',
+    ]
     if (!ret.enable) {
       ret = omit(ret, checkFields)
     } else {

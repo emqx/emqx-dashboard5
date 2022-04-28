@@ -25,10 +25,14 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { ExhookFormForCreate } from '@/types/systemModule'
 import { createExhook } from '@/api/exhook'
 import { ExhookFailedAction } from '@/types/enum'
+import useSSL from '@/hooks/useSSL'
+import { cloneDeep } from 'lodash'
 
 const router = useRouter()
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
+
+const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
 
 const createRawExhookForm = (): ExhookFormForCreate => ({
   auto_reconnect: '60s',
@@ -37,12 +41,7 @@ const createRawExhookForm = (): ExhookFormForCreate => ({
   name: '',
   pool_size: 16,
   request_timeout: '5s',
-  ssl: {
-    cacertfile: '',
-    certfile: '',
-    enable: false,
-    keyfile: '',
-  },
+  ssl: createSSLForm(),
   url: '',
 })
 
@@ -56,7 +55,10 @@ const submit = async () => {
   try {
     isSubmitting.value = true
     await formCom.value.validate()
-    await createExhook(formData.value)
+    await createExhook({
+      ...cloneDeep(formData.value),
+      ssl: handleSSLDataBeforeSubmit(formData.value.ssl),
+    })
     ElMessage.success(tl('createSuccess', 'Base'))
     router.push({ name: 'exhook' })
   } catch (error) {

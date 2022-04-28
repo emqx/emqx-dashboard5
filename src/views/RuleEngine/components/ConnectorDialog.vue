@@ -83,11 +83,11 @@ import { createConnector, updateConnector, testConnector } from '@/api/ruleengin
 import { cloneDeep, omit } from 'lodash'
 import { ElMessage } from 'element-plus'
 import useConnectorTypeValue from '@/hooks/Rule/bridge/useConnectorTypeValue'
-import { createRawSSLParams } from '@/common/tools.ts'
 import { ConnectorType } from '@/types/enum'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { commonTimeUnits } from '@/common/tools'
+import useSSL from '@/hooks/useSSL'
 
 const props = defineProps({
   edit: {
@@ -116,8 +116,9 @@ const emit = defineEmits(['update:open', 'finish'])
 const { t } = useI18n()
 const { tl } = useI18nTl('RuleEngine')
 const { connectorTypeOptions } = useConnectorTypeValue()
+const { handleSSLDataBeforeSubmit, createSSLForm } = useSSL()
 const connectorData = ref({})
-const connectorTLS = ref(createRawSSLParams())
+const connectorTLS = ref(createSSLForm())
 const submitLoading = ref(false)
 const isTesting = ref(false)
 
@@ -154,7 +155,7 @@ const initConnectorAndSSLData = () => {
         type: ConnectorType.MQTT,
       }
   connectorTLS.value =
-    props.edit && props.modelValue.ssl ? cloneDeep(props.modelValue.ssl) : createRawSSLParams()
+    props.edit && props.modelValue.ssl ? cloneDeep(props.modelValue.ssl) : createSSLForm()
 }
 
 const updateConnectorData = (newConnectorData) => {
@@ -162,7 +163,11 @@ const updateConnectorData = (newConnectorData) => {
 }
 
 const getConnectorData = () => {
-  let ret = { ...connectorData.value, ssl: { ...connectorTLS.value }, type: props.connType }
+  let ret = {
+    ...connectorData.value,
+    ssl: handleSSLDataBeforeSubmit(connectorTLS.value),
+    type: props.connType,
+  }
 
   const fields = ['reconnect_interval', 'retry_interval']
   const reg = new RegExp(`^(${commonTimeUnits.join('|')})$`)

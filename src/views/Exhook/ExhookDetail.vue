@@ -97,6 +97,7 @@ import {
 } from '@/api/exhook'
 import { stringifyObjSafely, transMSNumToString } from '@/common/tools'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
+import useSSL from '@/hooks/useSSL'
 
 const router = useRouter()
 const route = useRoute()
@@ -115,6 +116,7 @@ const isSubmitting = ref(false)
 const registeredHooks: Ref<Array<RegisteredHook>> = ref([])
 
 const { deleteExhook, updateExhookEnable } = useHandleExhookItem()
+const { handleSSLDataBeforeSubmit } = useSSL()
 
 const getExhookDetail = async () => {
   try {
@@ -147,7 +149,7 @@ const updateExhook = async () => {
       name,
       pool_size,
       request_timeout,
-      ssl,
+      ssl: handleSSLDataBeforeSubmit(ssl),
       url,
     })
     ElMessage.success(tl('updateSuccess', 'Base'))

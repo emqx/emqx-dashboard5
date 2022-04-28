@@ -102,15 +102,6 @@ export const getLabelFromValueInOptionList = <T>(
   return target?.label || ''
 }
 
-export const createRawSSLParams = (): SSL => ({
-  enable: false,
-  verify: SSL_VERIFY_VALUE_MAP.get(false) as string,
-  certfile: '',
-  keyfile: '',
-  cacertfile: '',
-  server_name_indication: '',
-})
-
 export const commonTimeUnits = ['ms', 's', 'm', 'h', 'd']
 
 export const formatNumber = (num: number) => {
