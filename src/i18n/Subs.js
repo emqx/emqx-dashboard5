@@ -8,7 +8,7 @@ export default {
     en: 'Topic',
   },
   share: {
-    zh: '共享订阅',
-    en: 'Share',
+    zh: '共享名称',
+    en: 'Share Name',
   },
 }
