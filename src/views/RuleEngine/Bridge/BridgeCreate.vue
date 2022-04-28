@@ -95,6 +95,7 @@ import { BridgeType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
+import useSSL from '@/hooks/useSSL'
 
 export default defineComponent({
   components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader },
@@ -122,6 +123,7 @@ export default defineComponent({
     const submitLoading = ref(false)
     const bridgeData = ref(createBridgeData())
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
+    const { handleSSLDataBeforeSubmit } = useSSL()
 
     const formCom = ref()
 
@@ -180,7 +182,7 @@ export default defineComponent({
           case BridgeType.HTTP:
             res = await createBridge({
               ...bridgeData.value,
-              ssl: { ...tlsParams.value },
+              ssl: handleSSLDataBeforeSubmit(tlsParams.value),
               type: chosenBridgeType.value,
             })
             break

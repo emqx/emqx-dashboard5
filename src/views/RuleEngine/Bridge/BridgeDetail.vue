@@ -79,7 +79,7 @@ import {
   startStopBridge,
   deleteBridge as requestDeleteBridge,
 } from '@/api/ruleengine'
-import { BridgeItem } from '@/types/rule'
+import { BridgeItem, HTTPBridge } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
@@ -89,6 +89,7 @@ import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useDocLink from '@/hooks/useDocLink'
+import useSSL from '@/hooks/useSSL'
 
 enum Tab {
   Overview = '0',
@@ -106,6 +107,7 @@ const activeTab = ref(Tab.Overview)
 const formCom = ref()
 
 const { getTypeStr } = useBridgeTypeOptions()
+const { handleSSLDataBeforeSubmit } = useSSL()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -142,7 +144,11 @@ const updateBridgeInfo = async () => {
   await formCom.value.validate()
   infoLoading.value = true
   try {
-    const res = await updateBridge(bridgeInfo.value.id, bridgeInfo.value)
+    const data = { ...bridgeInfo.value }
+    if ('ssl' in data) {
+      data.ssl = handleSSLDataBeforeSubmit(data.ssl)
+    }
+    const res = await updateBridge(bridgeInfo.value.id, data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
     } else {

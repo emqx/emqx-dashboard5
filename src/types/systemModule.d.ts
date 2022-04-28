@@ -1,4 +1,5 @@
 import { ExhookFailedAction, ExhookStatus } from './enum'
+import { SSL } from './common'
 
 export interface APIKeyFormWhenCreating {
   name: string
@@ -29,13 +30,6 @@ export interface ExhookFormForCreate {
   request_timeout: string
   ssl: SSL
   url: string
-}
-
-export interface SSL {
-  cacertfile: string
-  certfile: string
-  enable: boolean
-  keyfile: string
 }
 
 export interface Exhook extends ExhookFormForCreate {
