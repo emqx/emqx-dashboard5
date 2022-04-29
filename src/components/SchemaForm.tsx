@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import { Properties } from '@/types/schemaForm'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
@@ -13,7 +13,7 @@ import { useStore } from 'vuex'
 
 interface FormItemMeta {
   col: number
-  groupName?: string
+  levelName?: string
 }
 
 const SchemaForm = defineComponent({
@@ -50,13 +50,31 @@ const SchemaForm = defineComponent({
   setup(props, ctx) {
     const configForm = ref<{ [key: string]: any }>({})
     const { components, flattenConfigs, unflattenConfigs } = useSchemaForm(props.path)
+    const { t } = useI18n()
+    const groups = computed(() => {
+      const properties = _.cloneDeep(components.value)
+      let _groups: string[] = []
+      let hasBasicInfo = false
+      Object.keys(properties).forEach((key) => {
+        const prop = properties[key]
+        if (prop.properties) {
+          _groups.push(prop.label)
+        } else {
+          hasBasicInfo = true
+        }
+      })
+      if (hasBasicInfo) {
+        _groups = [t('BasicConfig.basic'), ..._groups]
+      }
+      return _groups
+    })
+    const currentGroup = ref(groups.value[0] || t('BasicConfig.basic'))
     watch(
       () => props.form,
       (value) => {
         configForm.value = _.cloneDeep(flattenConfigs(value))
       },
     )
-    const { t } = useI18n()
     const store = useStore()
     const replaceVarPath = (path: string) => {
       let _path = path
@@ -133,17 +151,11 @@ const SchemaForm = defineComponent({
                 v-model={configForm.value[path]}
                 disabled={property.readOnly}
                 type={property.items.type}
+                default={property.default}
               ></array-editor>
             )
-          } else if (property.items.oneOf) {
-            const [first, second] = property.items.oneOf
-            Object.assign(first.properties, second.properties)
-            if (first.properties) {
-              const components = conditionCard(first.properties)
-              return <div>{components}</div>
-            }
           }
-          return
+          return <div></div>
         case 'duration':
           return (
             <time-input-with-unit-select
@@ -189,7 +201,7 @@ const SchemaForm = defineComponent({
       return switchComponent(property)
     }
 
-    const getColFormItem = (property: Properties[string], { col, groupName }: FormItemMeta) => {
+    const getColFormItem = (property: Properties[string], { col, levelName }: FormItemMeta) => {
       const handleCommand = (command: string) => {
         if (command === 'reset') {
           resetValue(property)
@@ -249,11 +261,11 @@ const SchemaForm = defineComponent({
           )
         }
       }
-      if (groupName) {
+      if (levelName) {
         return (
           <>
-            <el-col span={24}>
-              <div class="group-title">{groupName}</div>
+            <el-col span={16}>
+              <div class="group-title">{levelName}</div>
             </el-col>
             {colItem}
           </>
@@ -271,36 +283,51 @@ const SchemaForm = defineComponent({
       const btnStyles = {
         left: store.state.leftBarCollapse ? '104px' : '224px',
       }
+      const groupButtons = groups.value.map((group: string) => <el-radio-button label={group} />)
       return (
-        <el-form label-position="top">
-          <el-row>
-            {contents}
-            <el-col span={24} class="btn-col" style={btnStyles}>
-              <el-button type="primary" loading={props.btnLoading} onClick={save}>
-                {t('Base.save')}
-              </el-button>
-            </el-col>
-          </el-row>
-        </el-form>
+        <>
+          <el-radio-group class="groups-radio" v-model={currentGroup.value}>
+            {groupButtons}
+          </el-radio-group>
+          <el-form label-position="top">
+            <el-row>
+              {contents}
+              <el-col span={24} class="btn-col" style={btnStyles}>
+                <el-button type="primary" loading={props.btnLoading} onClick={save}>
+                  {t('Base.save')}
+                </el-button>
+              </el-col>
+            </el-row>
+          </el-form>
+        </>
       )
     }
 
     const getComponents = (properties: Properties, meta: FormItemMeta) => {
-      let [groupName, oldGroupName] = [meta.groupName || '', '']
+      let [levelName, oldLevelName] = [meta.levelName || '', '']
       const elements: JSX.Element[] = []
+      let _properties: Properties = {}
+      // Filter the current Group properties
+      Object.entries(properties).forEach(([key, value]) => {
+        if (!value.properties) {
+          _properties[key] = value
+        } else if (currentGroup.value === value.label) {
+          _properties = value?.properties
+        }
+      })
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {
           const property = properties[key]
           if (property.properties) {
             const { label, properties } = property
-            groupName = label
+            levelName = label
             setComponents(properties)
           } else {
             let elFormItem = <></>
-            if (groupName !== oldGroupName) {
-              oldGroupName = groupName
-              elFormItem = getColFormItem(property, { groupName, col: meta.col })
-            } else if (groupName === oldGroupName) {
+            if (levelName !== oldLevelName) {
+              oldLevelName = levelName
+              elFormItem = getColFormItem(property, { levelName, col: meta.col })
+            } else if (levelName === oldLevelName) {
               elFormItem = getColFormItem(property, { col: meta.col })
             }
             elements.push(elFormItem)
@@ -308,12 +335,11 @@ const SchemaForm = defineComponent({
         })
         return elements
       }
-      return setComponents(properties)
+      return setComponents(_properties)
     }
-
     const renderSchemaForm = (properties: Properties) => {
       const schemaForm = renderLayout(
-        getComponents(properties, { groupName: t('Clients.basicInfo'), col: 16 }),
+        getComponents(properties, { col: 16 }),
       )
       return schemaForm
     }

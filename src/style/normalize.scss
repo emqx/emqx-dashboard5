@@ -349,6 +349,9 @@
   background-color: var(--color-bg-split);
   color: var(--color-text-primary);
 }
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
+  background-color: var(--color-bg-primary);
+}
 
 /* Date Edtior */
 .el-date-editor {
