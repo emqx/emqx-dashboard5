@@ -33,11 +33,7 @@
       </div>
     </div>
     <el-tabs v-if="!authnDetailLock">
-      <el-tab-pane
-        v-if="hasMetrics(configData) && !gateway"
-        :label="$t('Base.overview')"
-        :lazy="true"
-      >
+      <el-tab-pane v-if="!gateway" :label="$t('Base.overview')" :lazy="true">
         <AuthItemOverview :metrics="authMetrics" />
       </el-tab-pane>
       <el-tab-pane :label="$t('Base.setting')" :lazy="true">
@@ -104,7 +100,6 @@ import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { jumpToErrorFormItem } from '@/common/tools'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import { queryAuthnItemMetrics } from '@/api/auth'
-import { hasMetrics } from '@/hooks/Auth/useAuthn'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 
@@ -243,7 +238,7 @@ export default defineComponent({
 
     const initData = async () => {
       await loadData()
-      if (!props.gatewayInfo && hasMetrics(configData.value)) {
+      if (!props.gatewayInfo) {
         getAuthnMetrics()
       }
     }
@@ -260,7 +255,6 @@ export default defineComponent({
       authMetrics,
       authnDetailLock,
       formCom,
-      hasMetrics,
       handleUpdate,
       handleDelete,
     }

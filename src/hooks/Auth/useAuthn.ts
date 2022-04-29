@@ -57,9 +57,7 @@ export default (): {
           ret.img = require(`@/assets/img/jwt.png`)
           ret.backend = 'jwt'
         }
-        if (hasMetrics(ret)) {
-          ret.metrics = metricsMap.value[ret.id]
-        }
+        ret.metrics = metricsMap.value[ret.id]
         return item
       })
       setAddedAuthn()
@@ -79,9 +77,6 @@ export default (): {
       await getAuthnList(true)
       await Promise.all(
         authnList.value.map(async (item) => {
-          if (!hasMetrics(item)) {
-            return Promise.resolve({ ...item })
-          }
           const metrics = await queryAuthnItemMetrics(item.id)
           metricsMap.value[item.id] = metrics
           item.metrics = metrics
@@ -95,9 +90,6 @@ export default (): {
   }
 
   const updateAuthnItemMetrics = async (authn: AuthnItem) => {
-    if (!hasMetrics(authn)) {
-      return
-    }
     const metrics = await queryAuthnItemMetrics(authn.id)
     metricsMap.value[authn.id] = metrics
     const target = authnList.value.find((item) => item.id === authn.id)
