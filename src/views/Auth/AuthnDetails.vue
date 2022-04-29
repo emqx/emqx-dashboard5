@@ -34,7 +34,7 @@
     </div>
     <el-tabs v-if="!authnDetailLock">
       <el-tab-pane v-if="!gateway" :label="$t('Base.overview')" :lazy="true">
-        <AuthItemOverview :metrics="authMetrics" />
+        <AuthItemOverview :metrics="authMetrics" type="authn" />
       </el-tab-pane>
       <el-tab-pane :label="$t('Base.setting')" :lazy="true">
         <el-card class="app-card">
