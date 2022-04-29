@@ -154,7 +154,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  customInput: {
+  customPayload: {
     type: String,
   },
 })
@@ -217,22 +217,20 @@ const setDataType = (type: RuleInputType, firstInput: string) => {
  * called when dialog opened
  */
 const setDataTypeNContext = () => {
-  const { sql, eventList, ingressBridgeList, customInput: input } = props
+  const { sql, eventList, ingressBridgeList, customPayload: payload } = props
   const { fromStr } = getKeywordsFromSQL(sql)
   const [firstInput = ''] = transFromStrToFromArr(fromStr)
   const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
   const { context, descMap } = getTestColumns(inputType, firstInput, eventList)
-  const customInput = input ? parseJSONSafely(input) : undefined
+  if ('payload' in context && payload) {
+    context.payload = payload
+  }
 
   preFrom = firstInput
   testColumnDescMap = descMap
   setDataType(inputType, firstInput)
 
-  testParams.value = {
-    sql,
-    context: customInput ? customInput : context,
-    output: '',
-  }
+  testParams.value = { sql, context, output: '' }
 }
 
 const setObjByStr = async () => {
