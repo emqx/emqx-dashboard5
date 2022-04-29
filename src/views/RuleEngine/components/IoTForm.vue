@@ -105,7 +105,7 @@
     :sql="testSQL"
     :ingress-bridge-list="ingressBridgeList"
     :event-list="ruleEventsList"
-    :customInput="inputForTest"
+    :custom-payload="payloadForTest"
     @save="saveSQLFromTest"
   />
   <SQLTemplateDrawer
@@ -191,7 +191,7 @@ const fieldLabelMap = {
 }
 
 const testSQL = ref('')
-const inputForTest = ref('')
+const payloadForTest = ref('')
 
 const { createRequiredRule } = useFormRules()
 const formCom = ref()
@@ -291,7 +291,7 @@ const loadIngressBridgeList = async () => {
 
 const openTestDialog = () => {
   syncData()
-  inputForTest.value = ''
+  payloadForTest.value = ''
   testDialog.value = true
 }
 
@@ -306,7 +306,7 @@ const useSQLTemplate = (SQLTemp: string) => {
 
 const testSQLTemplate = ({ sql, input }: { sql: string; input: string }) => {
   testSQL.value = sql
-  inputForTest.value = input
+  payloadForTest.value = input
   testDialog.value = true
 }
 
