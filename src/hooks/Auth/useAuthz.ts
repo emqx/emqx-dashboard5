@@ -35,7 +35,9 @@ export default (): {
   }
 
   const getAuthzList = async (isInit = false) => {
-    isDataLoading.value = !isInit && true
+    if (!isInit) {
+      isDataLoading.value = true
+    }
     try {
       const res: { sources: AuthzSourceItem[] } = await listAuthz()
       authzList.value = res.sources.map((item) => {
