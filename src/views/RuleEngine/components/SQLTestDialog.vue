@@ -20,14 +20,14 @@
                   @change="handleDataSourceChanged"
                   for-test
                 />
-                <el-tooltip
+                <!-- <el-tooltip
                   v-if="isDataTypeNoMatchSQL"
                   effect="dark"
                   :content="tl('dataTypeSQLNoMatch')"
                   placement="top-start"
                 >
                   <el-icon class="icon-warning"><WarningFilled /></el-icon>
-                </el-tooltip>
+                </el-tooltip> -->
               </div>
               <div class="context-handlers">
                 <el-tooltip effect="dark" :content="tl('doc')" placement="top-start">
