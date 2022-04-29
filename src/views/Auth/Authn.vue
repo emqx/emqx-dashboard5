@@ -20,7 +20,7 @@
       <el-table-column prop="backend" :label="$t('Auth.dataSource')" :min-width="140">
         <template #default="{ row }">
           <img class="auth-img" :src="row.img" width="48" />
-          <span>{{ titleMap[row.backend] }}</span>
+          <span>{{ getAuthnItemBackendForShow(row) }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="108" />
@@ -79,17 +79,16 @@ import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
-import useAuth from '@/hooks/Auth/useAuth'
 import useAuthn, { AuthnItemInTable } from '@/hooks/Auth/useAuthn'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 
 const router = useRouter()
 const { t } = useI18n()
-const { titleMap } = useAuth()
 const {
   isListLoading,
   authnList,
   tableCom,
+  getAuthnItemBackendForShow,
   getAuthnList,
   updateAuthnItemMetrics,
   moveAuthnToTop,

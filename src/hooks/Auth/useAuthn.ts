@@ -5,18 +5,17 @@ import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import useHandleAuthnItem from '@/hooks/Auth/useHandleAuthnItem'
 import useMove from '@/hooks/useMove'
+import useAuth from '@/hooks/Auth/useAuth'
 
 export type AuthnItemInTable = AuthnItem & {
   metrics?: Metrics
 }
 
-export const hasMetrics = ({ backend }: AuthnItem): boolean =>
-  !!backend && backend !== 'jwt' && backend !== 'built_in_database'
-
 export default (): {
   isListLoading: Ref<boolean>
   authnList: Ref<AuthnItemInTable[]>
   tableCom: Ref<Component>
+  getAuthnItemBackendForShow: (item: AuthnItemInTable) => string
   getAuthnList: (isInit?: boolean) => Promise<void>
   updateAuthnItemMetrics: (authn: AuthnItem) => Promise<void>
   moveAuthnToTop: (authn: AuthnItem) => any
@@ -25,6 +24,7 @@ export default (): {
   const isListLoading = ref(false)
   const authnList: Ref<Array<AuthnItemInTable>> = ref([])
   const metricsMap: Ref<Record<string, Metrics>> = ref({})
+  const { titleMap } = useAuth()
 
   /**
    * for disable added type
@@ -55,7 +55,6 @@ export default (): {
           }
         } else {
           ret.img = require(`@/assets/img/jwt.png`)
-          ret.backend = 'jwt'
         }
         ret.metrics = metricsMap.value[ret.id]
         return item
@@ -68,6 +67,14 @@ export default (): {
     } finally {
       isListLoading.value = false
     }
+  }
+
+  const getAuthnItemBackendForShow = (item: AuthnItemInTable): string => {
+    let backend = item.backend
+    if (item.mechanism === 'jwt') {
+      backend = 'jwt'
+    }
+    return titleMap[backend]
   }
 
   const initTableData = async () => {
@@ -151,6 +158,7 @@ export default (): {
     isListLoading,
     authnList,
     tableCom,
+    getAuthnItemBackendForShow,
     getAuthnList,
     updateAuthnItemMetrics,
     moveAuthnToTop,
