@@ -11,11 +11,11 @@
       <el-row class="rule-statistic">
         <el-col :span="6">
           <p class="statistic-label">{{ tl('success') }}</p>
-          <p class="statistic-num">{{ formatNumber(metrics?.metrics?.success) }}</p>
+          <p class="statistic-num">{{ formatNumber(metrics?.metrics?.allow) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('failure') }}</p>
-          <p class="statistic-num">{{ formatNumber(metrics?.metrics?.failed) }}</p>
+          <p class="statistic-num">{{ formatNumber(metrics?.metrics?.deny) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('speedNow') }}</p>
@@ -33,8 +33,8 @@
       <p class="card-sub-desc">{{ nodeStatusDesc }}</p>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column prop="metrics.success" :label="tl('success')" />
-        <el-table-column prop="metrics.failed" :label="tl('failure')" />
+        <el-table-column prop="metrics.allow" :label="tl('success')" />
+        <el-table-column prop="metrics.deny" :label="tl('failure')" />
         <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(msg/s)`" />
         <el-table-column :label="tl('status')">
           <template #default="{ row }">
