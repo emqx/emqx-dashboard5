@@ -628,7 +628,7 @@ export default {
     en: 'Would you like forward messages from the local topic?',
   },
   mqttSinkMappingDescDetail: {
-    zh: '不经 IoT 规则处理直接转发本地主题数据转发至远程主题中。',
+    zh: '不经 IoT 规则处理直接将本地主题数据转发至远程主题中。',
     en: 'Directly forward local topic messages to remote topic without IoT rule processing.',
   },
   headers: {
