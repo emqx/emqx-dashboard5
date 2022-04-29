@@ -11,11 +11,15 @@
       <el-row class="rule-statistic">
         <el-col :span="6">
           <p class="statistic-label">{{ tl('success') }}</p>
-          <p class="statistic-num">{{ formatNumber(metrics?.metrics?.allow) }}</p>
+          <p class="statistic-num">
+            {{ formatNumber(isAuthn ? metrics?.metrics?.success : metrics?.metrics?.allow) }}
+          </p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('failure') }}</p>
-          <p class="statistic-num">{{ formatNumber(metrics?.metrics?.deny) }}</p>
+          <p class="statistic-num">
+            {{ formatNumber(isAuthn ? metrics?.metrics?.failed : metrics?.metrics?.deny) }}
+          </p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('speedNow') }}</p>
@@ -33,8 +37,13 @@
       <p class="card-sub-desc">{{ nodeStatusDesc }}</p>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column prop="metrics.allow" :label="tl('success')" />
-        <el-table-column prop="metrics.deny" :label="tl('failure')" />
+
+        <el-table-column v-if="isAuthn" prop="metrics.success" :label="tl('success')" />
+        <el-table-column v-else prop="metrics.allow" :label="tl('success')" />
+
+        <el-table-column v-if="isAuthn" prop="metrics.failed" :label="tl('failure')" />
+        <el-table-column v-else prop="metrics.deny" :label="tl('failure')" />
+
         <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(msg/s)`" />
         <el-table-column :label="tl('status')">
           <template #default="{ row }">
@@ -74,6 +83,8 @@ const props = defineProps({
   },
 })
 
+const isAuthn = computed(() => props.type === 'authn')
+
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
@@ -105,7 +116,7 @@ const { t, tl } = useI18nTl('RuleEngine')
 const nodeStatusDesc = computed(() => {
   return t('Auth.nodeStatusDesc', {
     target: upperFirst(
-      props.type === 'authz' ? t('components.authorization') : t('components.authentication'),
+      isAuthn.value ? t('components.authentication') : t('components.authorization'),
     ),
   })
 })
