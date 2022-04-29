@@ -25,13 +25,13 @@
       <el-table-column
         :label="$t('RuleEngine.SuccessNum')"
         sortable
-        prop="metrics.metrics.success"
+        prop="metrics.metrics.allow"
         :min-width="110"
       />
       <el-table-column
         :label="$t('RuleEngine.ErrNum')"
         sortable
-        prop="metrics.metrics.failed"
+        prop="metrics.metrics.deny"
         :min-width="108"
       />
       <el-table-column
