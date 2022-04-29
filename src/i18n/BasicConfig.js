@@ -99,4 +99,8 @@ export default {
     zh: '请输入节点名称',
     en: 'Node name is required',
   },
+  basic: {
+    zh: '基础',
+    en: 'Basic',
+  },
 }
