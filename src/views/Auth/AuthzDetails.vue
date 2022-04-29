@@ -22,7 +22,7 @@
       </div>
     </div>
     <el-tabs v-if="!authzDetailLock">
-      <el-tab-pane v-if="hasMetrics(configData)" :label="$t('Base.overview')" :lazy="true">
+      <el-tab-pane :label="$t('Base.overview')" :lazy="true">
         <AuthItemOverview :metrics="authMetrics" type="authz" />
       </el-tab-pane>
       <el-tab-pane v-if="type === 'built_in_database'" :label="$t('Auth.userConfig')" :lazy="true">
@@ -76,7 +76,6 @@ import { useI18n } from 'vue-i18n'
 import { jumpToErrorFormItem } from '@/common/tools'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import { queryAuthzItemMetrics } from '@/api/auth'
-import { hasMetrics } from '@/hooks/Auth/useAuthz'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 
 export default defineComponent({
@@ -174,9 +173,7 @@ export default defineComponent({
 
     const initData = async () => {
       await loadData()
-      if (hasMetrics(configData.value)) {
-        getAuthzMetrics()
-      }
+      getAuthzMetrics()
     }
 
     initData()
@@ -189,7 +186,6 @@ export default defineComponent({
       configData,
       authMetrics,
       formCom,
-      hasMetrics,
       handleDelete,
       handleUpdate,
     }

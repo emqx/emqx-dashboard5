@@ -202,5 +202,8 @@ initTemplateList()
     right: 12px;
     cursor: pointer;
   }
+  .el-collapse-item__header {
+    line-height: 1.5;
+  }
 }
 </style>

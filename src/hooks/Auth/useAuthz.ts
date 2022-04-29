@@ -10,9 +10,6 @@ export type AuthzItemInTable = AuthzSourceItem & {
   metrics: Metrics
 }
 
-export const hasMetrics = ({ type }: AuthzItemInTable): boolean =>
-  type !== 'built_in_database' && type !== 'file'
-
 export default (): {
   isDataLoading: Ref<boolean>
   authzList: Ref<Array<AuthzItemInTable>>
@@ -70,11 +67,9 @@ export default (): {
       await getAuthzList()
       await Promise.all(
         authzList.value.map(async (item) => {
-          if (hasMetrics(item)) {
-            const metrics = await queryAuthzItemMetrics(item.type)
-            metricsMap.value[item.type] = metrics
-            item.metrics = metrics
-          }
+          const metrics = await queryAuthzItemMetrics(item.type)
+          metricsMap.value[item.type] = metrics
+          item.metrics = metrics
         }),
       )
     } catch (error) {
@@ -85,9 +80,6 @@ export default (): {
   }
 
   const updateAuthnItemMetrics = async (authz: AuthzItemInTable) => {
-    if (!hasMetrics(authz)) {
-      return
-    }
     const metrics = await queryAuthzItemMetrics(authz.type)
     metricsMap.value[authz.type] = metrics
     const target = authzList.value.find((item) => item.type === authz.type)
