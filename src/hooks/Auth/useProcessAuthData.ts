@@ -5,12 +5,15 @@ import { parseJSONSafely } from '@/common/tools'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useProcessAuthData() {
+  const parseJSONSelectively = (data: string | Record<string, any>) =>
+    typeof data === 'string' ? parseJSONSafely(data) : data
+
   const processHttpConfig = (data: any) => {
     try {
       const tempData = _.cloneDeep(data)
       const { body } = data
       if (body !== '' && body !== undefined) {
-        tempData.body = parseJSONSafely(body)
+        tempData.body = parseJSONSelectively(body)
       } else {
         tempData.body = undefined
       }
@@ -47,7 +50,7 @@ export default function useProcessAuthData() {
       }
       tempData = _.omit(tempData, needDeleteFields)
       if (filter !== '' && filter !== undefined) {
-        tempData.filter = parseJSONSafely(filter)
+        tempData.filter = parseJSONSelectively(filter)
       } else {
         tempData.filter = undefined
       }
