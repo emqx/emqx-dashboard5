@@ -115,13 +115,13 @@
         <el-col :span="12">
           <el-card class="top-border table-card bytes" v-loading="clientDetailLock">
             <el-table :data="filterMetrics(clientDetailParts.bytes)">
-              <el-table-column prop="label" :label="tl('bytes')" />
+              <el-table-column prop="label" min-width="140" :label="tl('bytes')" />
               <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
             </el-table>
           </el-card>
           <el-card class="top-border table-card packets" v-loading="clientDetailLock">
             <el-table :data="filterMetrics(clientDetailParts.packets)">
-              <el-table-column prop="label" :label="tl('packets')" />
+              <el-table-column prop="label" min-width="140" :label="tl('packets')" />
               <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
             </el-table>
           </el-card>
@@ -129,7 +129,7 @@
         <el-col :span="12">
           <el-card class="top-border table-card client messages" v-loading="clientDetailLock">
             <el-table :data="filterMetrics(clientDetailParts.messages)">
-              <el-table-column prop="label" :label="tl('messages')" />
+              <el-table-column prop="label" min-width="140" :label="tl('messages')" />
               <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
             </el-table>
           </el-card>
