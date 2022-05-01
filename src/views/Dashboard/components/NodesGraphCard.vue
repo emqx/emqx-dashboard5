@@ -68,7 +68,8 @@
                 <div class="node-item">
                   <span class="node-item-label">{{ tl('erlangVMMemory') }}: </span>
                   <span class="node-item-content">
-                    <el-tooltip
+                    {{ currentInfo?.node?.['memory_used'] }}
+                    <!-- <el-tooltip
                       class="box-item"
                       effect="dark"
                       :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
@@ -80,7 +81,7 @@
                         :percentage="calcMemoryPercentage"
                         :color="getProgressColor(calcPercentage)"
                       ></el-progress>
-                    </el-tooltip>
+                    </el-tooltip> -->
                   </span>
                 </div>
               </el-col>
