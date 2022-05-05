@@ -121,7 +121,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <CommonTLSConfig class="tls-config-form" v-model="tlsParams" />
+      <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
     </el-form>
   </div>
 </template>

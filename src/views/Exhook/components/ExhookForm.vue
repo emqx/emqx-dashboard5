@@ -87,7 +87,7 @@
         </el-col>
       </el-row>
     </div>
-    <CommonTLSConfig v-model="formData.ssl" />
+    <CommonTLSConfig v-model="formData.ssl" :is-edit="isEdit" />
   </el-form>
 </template>
 

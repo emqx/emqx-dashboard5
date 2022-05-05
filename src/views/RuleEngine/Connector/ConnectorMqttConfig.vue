@@ -98,7 +98,7 @@
         </el-col> -->
       </el-row>
     </div>
-    <CommonTLSConfig class="tls-config-form" v-model="tlsParams" />
+    <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
   </div>
 </template>
 
