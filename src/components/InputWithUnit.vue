@@ -1,13 +1,21 @@
 <template>
   <el-input
-    class="time-input-with-unit-select"
+    class="input-with-unit"
     v-model.number="numPart"
     :disabled="disabled"
     @change="$emit('change')"
     :placeholder="numberPlaceholder"
   >
     <template #append>
-      <el-select v-model="unit" :disabled="disabled" @change="$emit('change')">
+      <span class="single-unit" v-if="units && units.length === 1">
+        {{ units[0].label }}
+      </span>
+      <el-select
+        v-if="units && units.length > 1"
+        v-model="unit"
+        :disabled="disabled"
+        @change="$emit('change')"
+      >
         <el-option v-for="{ label, value } in units" :key="value" :value="value" :label="label" />
       </el-select>
     </template>
@@ -143,3 +151,15 @@ const inputValue: WritableComputedRef<string> = computed({
   },
 })
 </script>
+
+<style lang="scss">
+.input-with-unit {
+  .single-unit {
+    display: block;
+    width: 100%;
+    padding: 0 11px;
+    text-align: left;
+    color: var(--el-input-text-color, var(--color-text-primary));
+  }
+}
+</style>

@@ -4,7 +4,7 @@
       <div class="part-header">{{ tl('connParams') }}</div>
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="tl('brokerAddress')">
+          <el-form-item :label="tl('brokerAddress')" required prop="server">
             <el-input v-model="connectorVal.server" :placeholder="connectorDefaultVal.server" />
           </el-form-item>
         </el-col>
@@ -20,9 +20,10 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'Keep Alive'">
-            <el-input
+            <InputWithUnit
               v-model="connectorVal.keepalive"
-              :placeholder="String(connectorDefaultVal.keepalive)"
+              number-placeholder="60"
+              :units="['s']"
             />
           </el-form-item>
         </el-col>
@@ -142,25 +143,20 @@ export default defineComponent({
       clientid: '',
       username: '',
       password: '',
-      keepalive: 60,
+      keepalive: '60s',
       proto_ver: 'v4',
       clean_start: true,
       mode: modeOptions[0],
     }
-    const matchedKeepalive = String(prop.modelValue.keepalive).match(/([\d]+)/)
     const connectorVal: ConnectorForm = reactive({
       ..._.cloneDeep(connectorDefaultVal),
-      ..._.cloneDeep({
-        ...prop.modelValue,
-        keepalive:
-          (matchedKeepalive?.length && matchedKeepalive[1]) || connectorDefaultVal.keepalive,
-      }),
+      ..._.cloneDeep({ ...prop.modelValue }),
     }) as ConnectorForm
 
     watch(
       () => _.cloneDeep(connectorVal),
       (val) => {
-        context.emit('update:modelValue', transformValue(val))
+        context.emit('update:modelValue', _.cloneDeep(val))
       },
     )
 
@@ -172,14 +168,8 @@ export default defineComponent({
     // );
 
     onMounted(() => {
-      context.emit('update:modelValue', transformValue(connectorVal))
+      context.emit('update:modelValue', _.cloneDeep(connectorVal))
     })
-
-    const transformValue = (obj: Record<string, unknown>) => {
-      let ret = _.cloneDeep(obj)
-      ret.keepalive = ret.keepalive + 's'
-      return ret
-    }
 
     return {
       tl: (key: string) => t('RuleEngine.' + key),
