@@ -290,9 +290,11 @@ setSelected()
   color: var(--el-text-color-secondary);
 }
 .is-mini {
-  :deep(.el-input.is-focus .el-input__inner),
-  :deep(.el-input .el-input__inner) {
-    border-color: transparent;
+  &.el-select {
+    --color-border-primary: transparent;
+    --el-input-border-color: transparent;
+    --el-select-border-color-hover: transparent;
+    --el-select-input-focus-border-color: transparent;
   }
 }
 </style>

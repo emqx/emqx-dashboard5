@@ -247,11 +247,16 @@ const submit = async () => {
     }
   }
   .is-view {
-    .el-input.is-disabled .el-input__inner,
-    .el-textarea.is-disabled .el-textarea__inner {
+    .el-input.is-disabled,
+    .el-textarea.is-disabled {
       background-color: var(--color-bg-primary);
-      border-color: var(--color-border-primary);
-      color: var(--color-text-primary);
+      .el-input__inner,
+      .el-textarea__inner {
+        color: var(--color-text-primary);
+      }
+      .el-textarea__inner {
+        box-shadow: 0 0 0 1px var(--el-disabled-border-color) inset;
+      }
     }
   }
 }
