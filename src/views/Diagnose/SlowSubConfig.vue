@@ -92,7 +92,7 @@ import { ElMessage } from 'element-plus'
 import { querySlowSubConfig, updateSlowSubConfig } from '@/api/diagnose'
 import { SlowSubConfig } from '@/types/diagnose'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import useFormRules from '@/hooks/useFormRules'
 import { SlowSubType } from '@/types/enum'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -101,6 +101,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')
 const router = useRouter()
+const route = useRoute()
 
 const { createRequiredRule, createIntFieldRule, createStringWithUnitFieldRule } = useFormRules()
 
@@ -133,10 +134,17 @@ const slowTypeOpts = [
   { value: SlowSubType.Response, desc: tl('typeResponseDesc') },
 ]
 
+const setEnableFromQuery = () => {
+  if (!configForm.value.enable && route.query.enable) {
+    configForm.value.enable = !!route.query.enable
+  }
+}
+
 const getConfig = async () => {
   try {
     isLoading.value = true
     configForm.value = await querySlowSubConfig()
+    setEnableFromQuery()
     isLoading.value = false
   } catch (error) {
     console.error(error)

@@ -3,7 +3,7 @@
     <div class="placeholder" v-if="!isEnable">
       <el-empty :description="$t('SlowSub.slowSubPlaceholder')" />
       <el-button class="link-btn" type="primary">
-        <router-link :to="{ name: 'slow-sub-config' }">
+        <router-link :to="{ name: 'slow-sub-config', query: { enable: true } }">
           {{ $t('SlowSub.enable') }}
         </router-link>
       </el-button>
