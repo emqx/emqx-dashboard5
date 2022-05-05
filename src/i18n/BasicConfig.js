@@ -19,6 +19,10 @@ export default {
     zh: '全局',
     en: 'Global',
   },
+  default: {
+    zh: '默认',
+    en: 'Default',
+  },
   newZone: {
     zh: '新建 Zone',
     en: 'New Zone',
