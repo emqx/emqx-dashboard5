@@ -10,7 +10,7 @@
           </el-button>
         </div>
 
-        <el-table :data="connectorTb" v-loading="tbLoading">
+        <el-table :data="connectorTb" v-loading="tbLoading" row-key="name">
           <el-table-column :label="tl('name')" sortable prop="name" />
 
           <el-table-column :label="tl('connType')" sortable prop="type">

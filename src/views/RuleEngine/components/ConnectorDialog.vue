@@ -127,6 +127,7 @@ const formCom = ref()
 const formRules = {
   type: createRequiredRule(tl('type'), 'select'),
   name: createRequiredRule(tl('connName')),
+  server: createRequiredRule(tl('brokerAddress')),
 }
 
 const visible = computed({
@@ -177,6 +178,10 @@ const getConnectorData = () => {
     }
   })
 
+  if (!ret.keepalive) {
+    ret = omit(ret, 'keepalive')
+  }
+
   return ret
 }
 
@@ -197,15 +202,12 @@ const submitConnector = async (isEdit) => {
   let res
   submitLoading.value = true
   const data = getConnectorData()
-
   try {
     if (isEdit) {
       const { id } = connectorData.value
       // Reflect.deleteProperty(data, "name");
-      Reflect.deleteProperty(data, 'id')
-      Reflect.deleteProperty(data, 'type')
-      Reflect.deleteProperty(data, 'num_of_bridges')
-      res = await updateConnector(id, data)
+      const doNotNeedKeys = ['id', 'type', 'num_of_bridges']
+      res = await updateConnector(id, omit(data, doNotNeedKeys))
     } else {
       res = await createConnector(data)
     }
