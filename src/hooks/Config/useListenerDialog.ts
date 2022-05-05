@@ -31,6 +31,7 @@ type Emit = (event: 'update:modelValue' | 'submit' | 'submitted', ...args: any[]
 interface UseListenerDialogReturns {
   showDialog: WritableComputedRef<boolean>
   isEdit: ComputedRef<boolean>
+  isLoading: Ref<boolean>
   listenerRecord: Ref<Listener>
   formCom: Ref<any>
   listenerTypeOptList: ComputedRef<Array<string>>
@@ -212,11 +213,13 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     } else {
       // for prevent form throw error
       listenerRecord.value = createRawListener()
+      isLoading.value = false
     }
   })
 
   return {
     showDialog,
+    isLoading,
     isEdit,
     listenerRecord,
     formCom,

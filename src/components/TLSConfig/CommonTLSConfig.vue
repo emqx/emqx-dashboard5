@@ -3,8 +3,7 @@
     <TLSBaseConfig v-model="record" />
     <el-collapse-transition>
       <template v-if="record.enable">
-        <CreateTLSEnableConfig v-model="record" v-if="!isEdit" />
-        <EditTLSEnableConfig v-model="record" v-else />
+        <TLSEnableConfig v-model="record" :is-edit="isEdit" />
       </template>
     </el-collapse-transition>
   </div>
@@ -21,8 +20,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from 'vue'
 import TLSBaseConfig from './TLSBaseConfig.vue'
-import CreateTLSEnableConfig from './CreateTLSEnableConfig.vue'
-import EditTLSEnableConfig from './EditTLSEnableConfig.vue'
+import TLSEnableConfig from './TLSEnableConfig.vue'
 import { SSL } from '@/types/common'
 
 const props = defineProps({

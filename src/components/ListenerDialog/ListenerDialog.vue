@@ -1,5 +1,9 @@
 <template>
-  <el-dialog :title="tl(isEdit ? 'editListener' : 'addListener')" v-model="showDialog">
+  <el-dialog
+    :title="tl(isEdit ? 'editListener' : 'addListener')"
+    v-model="showDialog"
+    custom-class="listener-dialog"
+  >
     <div class="part-header">{{ tl('basic') }}</div>
     <el-form label-position="top" :rules="listenerFormRules" :model="listenerRecord" ref="formCom">
       <el-row :gutter="20">
@@ -167,34 +171,14 @@
         <div class="part-header">{{ `${isDTLS ? 'DTLS' : 'SSL'} ${tl('configSetting')}` }}</div>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item :label="'Cert'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="$t('Base.certPlaceholder')"
-                v-model="listenerRecord[SSLConfigKey].certfile"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item :label="'CA Cert'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="$t('Base.certPlaceholder')"
-                v-model="listenerRecord[SSLConfigKey].cacertfile"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item :label="'Key'">
-              <el-input
-                type="textarea"
-                rows="3"
-                :placeholder="$t('Base.keyFilePlaceholder')"
-                v-model="listenerRecord[SSLConfigKey].keyfile"
-              />
-            </el-form-item>
+            <!-- v-if is for refresh -->
+            <TLSEnableConfig
+              v-if="showDialog && !isLoading"
+              class="TLS-config"
+              v-model="listenerRecord[SSLConfigKey]"
+              :show-sni="false"
+              :is-edit="isEdit"
+            />
           </el-col>
           <!-- Version of SSL/DTLS -->
           <el-col :span="12" v-if="isDTLS">
@@ -270,6 +254,7 @@ import SSLVersionSelect from './SSLVersionSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import ZoneSelect from '../ZoneSelect.vue'
+import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 
 const props = defineProps({
   modelValue: {
@@ -297,6 +282,7 @@ const { tl } = useI18nTl('Gateway')
 const {
   showDialog,
   isEdit,
+  isLoading,
   listenerRecord,
   formCom,
   listenerTypeOptList,
@@ -319,3 +305,13 @@ const isUDP = computed(
     listenerRecord.value.type === ListenerTypeForGateway.UDP,
 )
 </script>
+
+<style lang="scss">
+.listener-dialog {
+  .TLS-config {
+    .TLS-input {
+      width: 100%;
+    }
+  }
+}
+</style>
