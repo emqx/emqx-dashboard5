@@ -121,16 +121,22 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (val: any, oldVal: any) => {
-        let type = catchValType(val)
-        if (val === undefined && oldVal) {
-          type = catchValType(oldVal)
-        } else if (val && oldVal && oldVal !== val) {
-          const oldType = catchValType(oldVal)
-          setFormValue('', oldType)
-        }
-        setFormValue(val, type)
+        handleWatchVal(val, oldVal)
       },
     )
+    const handleWatchVal = (val: any, oldVal: any) => {
+      let type = catchValType(val)
+      if (val === undefined && oldVal) {
+        type = catchValType(oldVal)
+      } else if (val && oldVal && oldVal !== val) {
+        const oldType = catchValType(oldVal)
+        setFormValue('', oldType)
+      }
+      setFormValue(val, type)
+    }
+    if (props.modelValue !== undefined) {
+      handleWatchVal(props.modelValue, props.modelValue)
+    }
     const handleValChange = (val: string | number, type: string) => {
       if (val) {
         resetOtherFormValue(type)
