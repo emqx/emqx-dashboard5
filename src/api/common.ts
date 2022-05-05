@@ -29,8 +29,10 @@ export function loadLicenseInfo() {
   return http.get('/license_info')
 }
 //metrics
-export function loadMetrics(): Promise<Array<NodeStatisticalData>> {
-  return http.get('/metrics')
+export function loadMetrics(
+  queryClusterData: boolean,
+): Promise<NodeStatisticalData | Array<NodeStatisticalData>> {
+  return http.get('/metrics', { params: { aggregate: queryClusterData } })
 }
 
 export function loadCurrentMetrics(): Promise<Record<string, number>> {

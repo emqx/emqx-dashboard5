@@ -6,31 +6,26 @@
         <p class="tip">{{ tl('packetStatisticsOfNodes') }}</p>
       </div>
       <div class="header-item">
-        <emq-select
+        <el-select
           class="node-select"
-          v-model:value="currentNode"
-          :field="{ options: metrics }"
-          :field-name="{ label: 'node', value: 'node' }"
-          @change="changeNode"
-        />
+          v-model="currentNode"
+          :placeholder="$t('Clients.node')"
+          clearable
+        >
+          <el-option v-for="node in nodeOpts" :key="node" :label="node" :value="node" />
+        </el-select>
       </div>
     </div>
     <el-row class="content-block" :gutter="26">
       <el-col :span="8">
         <el-card class="top-border table-card client">
-          <el-table
-            :data="filterMetrics(metricsObj[currentNode], 'client')"
-            v-loading.lock="lockTable"
-          >
+          <el-table :data="filterMetrics(currentMetrics, 'client')" v-loading.lock="isDataLoading">
             <el-table-column prop="m" min-width="160" :label="tl('client')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
         <el-card class="top-border table-card packets">
-          <el-table
-            :data="filterMetrics(metricsObj[currentNode], 'packets')"
-            v-loading.lock="lockTable"
-          >
+          <el-table :data="filterMetrics(currentMetrics, 'packets')" v-loading.lock="isDataLoading">
             <el-table-column prop="m" min-width="160" :label="tl('mqttPackets')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
@@ -39,8 +34,8 @@
       <el-col :span="8">
         <el-card class="top-border table-card delivery">
           <el-table
-            :data="filterMetrics(metricsObj[currentNode], 'delivery')"
-            v-loading.lock="lockTable"
+            :data="filterMetrics(currentMetrics, 'delivery')"
+            v-loading.lock="isDataLoading"
           >
             <el-table-column prop="m" min-width="160" label="Delivery" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -48,8 +43,8 @@
         </el-card>
         <el-card class="top-border table-card messages">
           <el-table
-            :data="filterMetrics(metricsObj[currentNode], 'messages')"
-            v-loading.lock="lockTable"
+            :data="filterMetrics(currentMetrics, 'messages')"
+            v-loading.lock="isDataLoading"
           >
             <el-table-column prop="m" min-width="160" :label="tl('messageNumber')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -58,19 +53,13 @@
       </el-col>
       <el-col :span="8">
         <el-card class="top-border table-card session">
-          <el-table
-            :data="filterMetrics(metricsObj[currentNode], 'session')"
-            v-loading.lock="lockTable"
-          >
+          <el-table :data="filterMetrics(currentMetrics, 'session')" v-loading.lock="isDataLoading">
             <el-table-column prop="m" min-width="160" :label="tl('session')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
         <el-card class="top-border table-card bytes">
-          <el-table
-            :data="filterMetrics(metricsObj[currentNode], 'bytes')"
-            v-loading.lock="lockTable"
-          >
+          <el-table :data="filterMetrics(currentMetrics, 'bytes')" v-loading.lock="isDataLoading">
             <el-table-column prop="m" min-width="160" :label="tl('traffic')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
@@ -80,7 +69,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { ComputedRef, defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'Metrics',
@@ -88,32 +77,58 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, Ref } from 'vue'
+import { onMounted, ref, Ref, computed } from 'vue'
 import { loadMetrics } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
+import { NodeStatisticalData } from '@/types/dashboard'
 
 interface MetricItem {
   [propName: string]: string | number
 }
 
-let metrics: Array<MetricItem> = reactive([])
-let metricsObj: Record<string, MetricItem> = reactive({})
+const nodeOpts: Ref<Array<string>> = ref([])
 let currentNode: Ref<string> = ref('')
-let lockTable: Ref<boolean> = ref(true)
+
+let isDataLoading: Ref<boolean> = ref(true)
+
+const clusterMetrics: Ref<NodeStatisticalData> = ref({} as NodeStatisticalData)
+const nodeMetricsData: Ref<Array<NodeStatisticalData>> = ref([])
+
+const currentMetrics: ComputedRef<NodeStatisticalData> = computed(() => {
+  if (currentNode.value) {
+    const nodeData = nodeMetricsData.value.find((item) => item.node === currentNode.value)
+    return nodeData ? nodeData : ({} as NodeStatisticalData)
+  } else {
+    return clusterMetrics.value
+  }
+})
+
 const { tl } = useI18nTl('Dashboard')
 
-const loadMetricsData = async () => {
-  let metricsArr: Array<MetricItem> = await loadMetrics().catch(() => [])
-  lockTable.value = false
-  metricsArr?.forEach((v) => {
-    metrics.push(v)
-  })
+const loadClusterMetricsData = async () => {
+  try {
+    clusterMetrics.value = (await loadMetrics(true)) as NodeStatisticalData
+  } catch (error) {
+    //
+  }
+}
 
-  if (metrics.length) {
-    currentNode.value = metrics[0].node as string
-    metrics.forEach((v) => {
-      metricsObj[v.node] = v
-    })
+const loadNodeMetricsData = async () => {
+  try {
+    nodeMetricsData.value = (await loadMetrics(false)) as Array<NodeStatisticalData>
+    nodeOpts.value = nodeMetricsData.value.map(({ node }) => node)
+  } catch (error) {
+    //
+  }
+}
+
+const loadMetricsData = async () => {
+  try {
+    await Promise.all([loadClusterMetricsData(), loadNodeMetricsData()])
+  } catch (error) {
+    //
+  } finally {
+    isDataLoading.value = false
   }
 }
 
@@ -125,10 +140,6 @@ function filterMetrics(data: MetricItem, key: string) {
     }
   })
   return keys
-}
-
-const changeNode = (n: string) => {
-  currentNode.value = n
 }
 
 onMounted(() => {
