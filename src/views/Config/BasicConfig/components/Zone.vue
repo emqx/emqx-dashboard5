@@ -17,7 +17,7 @@
           path="/configs/zones"
           :form="configs[item.name]"
           :btn-loading="saveLoading"
-          :can-remove-config="item.name !== 'global'"
+          :can-remove-config="item.name !== 'default'"
           @save="handleSave"
         ></schema-form>
       </el-tab-pane>
@@ -54,7 +54,7 @@ import SchemaForm from '@/components/SchemaForm'
 import {
   getZoneConfigs,
   updateZoneConfigs,
-  getGlobalZoneConfigs,
+  getDefaultZoneConfigs,
   updateGlobalZoneConfigs,
 } from '@/api/config'
 import { Zones, Zone } from '@/types/config'
@@ -75,33 +75,33 @@ export default defineComponent({
   },
   setup() {
     const configs = reactive<Record<string, any>>({
-      global: {},
+      default: {},
     })
     const addTabDialog = ref(false)
     const { tl } = useI18nTl('BasicConfig')
     const addTabConfig = reactive({
       name: '',
-      copyFrom: 'global',
+      copyFrom: 'default',
     })
-    const currTab = ref('global')
+    const currTab = ref('default')
     const editableTabs = ref<EditTableTabs[]>([
       {
-        name: 'global',
-        title: tl('global'),
+        name: 'default',
+        title: tl('default'),
         config: {},
       },
     ])
     const handleBeforeAddTab = () => {
       addTabDialog.value = true
       addTabConfig.name = ''
-      addTabConfig.copyFrom = 'global'
+      addTabConfig.copyFrom = 'default'
     }
     const saveLoading = ref(false)
     const { t } = useI18n()
     const loadData = async (resetTab?: boolean) => {
-      const globalZone = await getGlobalZoneConfigs()
-      configs.global = globalZone
-      editableTabs.value[0].config = globalZone
+      const defaultZone = await getDefaultZoneConfigs()
+      configs.default = defaultZone
+      editableTabs.value[0].config = defaultZone
       const zones = await getZoneConfigs()
       if (zones) {
         const _zones: { [key: string]: any } = {}
@@ -141,7 +141,7 @@ export default defineComponent({
     const updateZone = async (val: Zone | null, name?: string) => {
       const key = name || currTab.value
       configs[key] = val
-      delete configs.global
+      delete configs.default
       const data: Zones = {
         ...configs,
       }
@@ -157,7 +157,7 @@ export default defineComponent({
     }
     const handleSave = async (val: Zone) => {
       saveLoading.value = true
-      if (currTab.value === 'global') {
+      if (currTab.value === 'default') {
         updateGlobalZone(val)
       } else {
         updateZone(val)
@@ -193,7 +193,7 @@ export default defineComponent({
     const removeTab = async (targetName: string) => {
       const tabs = editableTabs.value
       let activeName = currTab.value
-      if (tabs.length === 1 || targetName === 'global') {
+      if (tabs.length === 1 || targetName === 'default') {
         return
       }
       await ElMessageBox.confirm(tl('confirmRemove', { name: targetName }), {
