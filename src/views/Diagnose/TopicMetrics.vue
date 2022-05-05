@@ -19,8 +19,8 @@
           <div v-loading="row._loading" class="topic-detail">
             <el-row class="topic-detail-header">
               <div>{{ $t('Base.detail') }}</div>
-              <el-radio-group v-model="topicQos" size="small">
-                <el-radio-button label="all">{{ $t('Base.all') }}</el-radio-button>
+              <el-radio-group v-model="row.topicQoS" size="small">
+                <el-radio-button :label="DEFAULT_QOS">{{ $t('Base.all') }}</el-radio-button>
                 <el-radio-button label="qos0">QoS 0</el-radio-button>
                 <el-radio-button label="qos1">QoS 1</el-radio-button>
                 <el-radio-button label="qos2">QoS 2</el-radio-button>
@@ -32,15 +32,11 @@
                   <div>
                     {{ tl('msgIn') }}
                     <span class="message-rate">
-                      {{
-                        row.metrics[`messages.${topicQos == 'all' ? '' : topicQos + '.'}in.rate`] +
-                        ' ' +
-                        tl('rate')
-                      }}
+                      {{ `${row.metrics[getKey(row.topicQoS, 'in.rate')]} ${tl('rate')}` }}
                     </span>
                   </div>
                   <div class="message-card--body">
-                    {{ row.metrics[`messages.${topicQos == 'all' ? '' : topicQos + '.'}in.count`] }}
+                    {{ row.metrics[getKey(row.topicQoS, 'in.count')] }}
                   </div>
                 </div>
               </el-col>
@@ -49,17 +45,11 @@
                   <div>
                     {{ tl('msgOut') }}
                     <span class="message-rate">
-                      {{
-                        row.metrics[`messages.${topicQos == 'all' ? '' : topicQos + '.'}out.rate`] +
-                        ' ' +
-                        tl('rate')
-                      }}
+                      {{ `${row.metrics[getKey(row.topicQoS, 'out.rate')]} ${tl('rate')}` }}
                     </span>
                   </div>
                   <div class="message-card--body">
-                    {{
-                      row.metrics[`messages.${topicQos == 'all' ? '' : topicQos + '.'}out.count`]
-                    }}
+                    {{ row.metrics[getKey(row.topicQoS, 'out.count')] }}
                   </div>
                 </div>
               </el-col>
@@ -68,7 +58,7 @@
                   <div>
                     {{ tl('msgDrop') }}
                     <span class="message-rate">
-                      {{ row.metrics[`messages.dropped.rate`] + ' ' + tl('rate') }}
+                      {{ `${row.metrics[`messages.dropped.rate`]} ${tl('rate')}` }}
                     </span>
                   </div>
                   <div class="message-card--body">
@@ -171,6 +161,8 @@ import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 
+const DEFAULT_QOS = 'all'
+
 export default defineComponent({
   name: 'TopicMetrics',
   data: function () {
@@ -197,7 +189,6 @@ export default defineComponent({
     let topicMetricsTb = ref([])
     let tbLoading = ref(false)
     let tbRef = ref(null)
-    let topicQos = ref('all')
     let addLoading = ref(false)
 
     const tableExpandRowKeys = computed(() => {
@@ -218,7 +209,7 @@ export default defineComponent({
       let res = await getTopicMetrics().catch(() => {})
       if (res) {
         const reconRes = Array.prototype.map.call(res, (v) => {
-          return Object.assign(v, { _loading: false })
+          return Object.assign(v, { _loading: false, topicQoS: DEFAULT_QOS })
         })
         topicMetricsTb.value = reconRes
       }
@@ -290,7 +281,12 @@ export default defineComponent({
         try {
           let res = await getTopicMetrics(topic)
           const targetIndex = topicMetricsTb.value.findIndex((item) => item.topic === topic)
-          topicMetricsTb.value.splice(targetIndex, 1, { ...res, _expand: true, _loading: false })
+          topicMetricsTb.value.splice(targetIndex, 1, {
+            ...res,
+            _expand: true,
+            _loading: false,
+            topicQoS: DEFAULT_QOS,
+          })
         } catch (error) {
           //
           row._loading = false
@@ -298,12 +294,17 @@ export default defineComponent({
       }
     }
 
+    const getStrForConcat = (qos) => (qos === DEFAULT_QOS ? '' : `${qos}.`)
+
+    const getKey = (qos, subPath) => `messages.${getStrForConcat(qos)}${subPath}`
+
     onMounted(loadTopicMetrics)
 
     return {
       Plus,
       df: dateFormat,
       tl: translate,
+      DEFAULT_QOS,
       addVisible,
       openAdd,
       record,
@@ -314,10 +315,11 @@ export default defineComponent({
       deleteTopic,
       resetTopic,
       tbRef,
-      topicQos,
       tableExpandRowKeys,
       loadMetricsFromTopic,
       addLoading,
+      getStrForConcat,
+      getKey,
     }
   },
 })
