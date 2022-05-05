@@ -8,14 +8,15 @@
         @change="handleValChange(bindForms[index].string, 'string')"
         clearable
       ></el-input>
-      <el-input
-        v-model.number="bindForms[index].number"
+      <el-input-number
         v-else-if="item.type === 'number'"
+        v-model="bindForms[index].number"
+        controls-position="right"
+        :min="0"
         :disabled="disabled"
-        type="number"
         @change="handleValChange(bindForms[index].number, 'number')"
         clearable
-      ></el-input>
+      ></el-input-number>
       <el-select
         v-model="bindForms[index].enum"
         v-else-if="item.type === 'enum'"
@@ -57,6 +58,17 @@ import InputWithUnit from './InputWithUnit.vue'
 import { IP_REG } from '@/common/constants'
 import { Properties } from '@/types/schemaForm'
 
+interface BindForm {
+  enum?: string
+  string?: string
+  number?: number
+  duration?: string
+  byteSize?: string
+  ip_port?: string
+}
+
+type Type = 'enum' | 'string' | 'number' | 'duration' | 'byteSize' | 'ip_port'
+
 export default defineComponent({
   name: 'Oneof',
   components: {
@@ -78,25 +90,26 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const bindForms = ref<{ [key: string]: '' }[]>([])
+    const bindForms = ref<BindForm[]>([])
     props.items.forEach((item) => {
-      bindForms.value.push({ [item.type]: '' })
+      bindForms.value.push({ [item.type]: undefined })
     })
-    const setFormValue = (val: any, type: string) => {
+    const setFormValue = (val: any, type: Type) => {
       bindForms.value.forEach((form) => {
         if (Object.keys(form)[0] === type) {
           form[type] = val
         }
       })
     }
-    const resetOtherFormValue = (type: string) => {
+    const resetOtherFormValue = (type: Type) => {
       bindForms.value.forEach((form) => {
         if (Object.keys(form)[0] !== type) {
-          form[Object.keys(form)[0]] = ''
+          const key = Object.keys(form)[0] as Type
+          form[key] = undefined
         }
       })
     }
-    const catchValType = (val: any) => {
+    const catchValType = (val: any): Type => {
       if (['disable', 'infinity', 'unlimited', 'disabled'].includes(val)) {
         return 'enum'
       }
@@ -137,7 +150,7 @@ export default defineComponent({
     if (props.modelValue !== undefined) {
       handleWatchVal(props.modelValue, props.modelValue)
     }
-    const handleValChange = (val: string | number, type: string) => {
+    const handleValChange = (val: string | number, type: Type) => {
       if (val) {
         resetOtherFormValue(type)
       }
