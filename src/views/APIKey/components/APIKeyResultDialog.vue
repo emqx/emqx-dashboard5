@@ -90,11 +90,13 @@ watch(showDialog, async (val) => {
       width: 100%;
     }
   }
-  .el-input.is-disabled .el-input__inner,
-  .el-textarea.is-disabled .el-textarea__inner {
-    background-color: var(--color-bg-primary);
-    border-color: var(--color-border-primary);
-    color: var(--color-text-primary);
+  .el-input.is-disabled {
+    .el-input__wrapper {
+      background-color: var(--color-bg-primary);
+    }
+    .el-input__inner {
+      color: var(--color-text-primary);
+    }
   }
 }
 </style>
