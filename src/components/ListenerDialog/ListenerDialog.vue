@@ -171,7 +171,7 @@
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="certPlaceholder.certfile"
+                :placeholder="$t('Base.certPlaceholder')"
                 v-model="listenerRecord[SSLConfigKey].certfile"
               />
             </el-form-item>
@@ -181,7 +181,7 @@
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="certPlaceholder.cacertfile"
+                :placeholder="$t('Base.certPlaceholder')"
                 v-model="listenerRecord[SSLConfigKey].cacertfile"
               />
             </el-form-item>
@@ -191,7 +191,7 @@
               <el-input
                 type="textarea"
                 rows="3"
-                :placeholder="certPlaceholder.keyfile"
+                :placeholder="$t('Base.keyFilePlaceholder')"
                 v-model="listenerRecord[SSLConfigKey].keyfile"
               />
             </el-form-item>
@@ -293,12 +293,6 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'submit', 'submitted'])
 
 const { tl } = useI18nTl('Gateway')
-
-const certPlaceholder = {
-  cacertfile: 'Begins with ----BEGIN CERTIFICATE----',
-  certfile: 'Begins with ----BEGIN CERTIFICATE----',
-  keyfile: 'Begins with ----BEGIN PRIVATE KEY----',
-}
 
 const {
   showDialog,

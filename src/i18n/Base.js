@@ -391,4 +391,12 @@ export default {
     zh: '复制文件路径',
     en: 'Copy file path',
   },
+  certPlaceholder: {
+    zh: '以 -----BEGIN CERTIFICATE----- 开头',
+    en: 'Begins with -----BEGIN CERTIFICATE-----',
+  },
+  keyFilePlaceholder: {
+    zh: '以  -----BEGIN RSA PRIVATE KEY----- 开头',
+    en: 'Begins with -----BEGIN RSA PRIVATE KEY-----',
+  },
 }

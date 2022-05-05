@@ -13,6 +13,7 @@
         class="TLS-input"
         v-model="record.certfile"
         :allow-extensions="fileAllowExtensions"
+        :placeholder="$t('Base.certPlaceholder')"
       />
       <ConfigItemDataLook v-else :value="record.certfile" @reset="editConfigItem('certfile')" />
     </el-form-item>
@@ -26,6 +27,7 @@
         class="TLS-input"
         v-model="record.keyfile"
         :allow-extensions="fileAllowExtensions"
+        :placeholder="$t('Base.keyFilePlaceholder')"
       />
       <ConfigItemDataLook v-else :value="record.keyfile" @reset="editConfigItem('keyfile')" />
     </el-form-item>
@@ -39,6 +41,7 @@
         class="TLS-input"
         v-model="record.cacertfile"
         :allow-extensions="fileAllowExtensions"
+        :placeholder="$t('Base.certPlaceholder')"
       />
       <ConfigItemDataLook v-else :value="record.cacertfile" @reset="editConfigItem('cacertfile')" />
     </el-form-item>

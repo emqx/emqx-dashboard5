@@ -45,12 +45,14 @@
               :database="currBackend"
               v-model="configData"
               auth-type="authn"
+              is-edit
             ></database-config>
             <http-config
               auth-type="authn"
               v-else-if="currBackend === 'http'"
               ref="formCom"
               v-model="configData"
+              is-edit
             ></http-config>
             <built-in-config
               v-else-if="currBackend === 'built_in_database'"

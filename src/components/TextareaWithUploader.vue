@@ -1,6 +1,6 @@
 <template>
   <div class="textarea-with-uploader">
-    <el-input type="textarea" :rows="rows" v-model="inputValue" />
+    <el-input type="textarea" :rows="rows" v-model="inputValue" :placeholder="placeholder" />
     <el-upload
       ref="upload"
       class="file-upload"
@@ -44,6 +44,9 @@ const props = defineProps({
   },
   allowExtensions: {
     type: Array as PropType<Array<string>>,
+  },
+  placeholder: {
+    type: String,
   },
 })
 
