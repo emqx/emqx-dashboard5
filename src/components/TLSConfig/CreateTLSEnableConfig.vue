@@ -43,7 +43,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'TLSEnableConfig',
+  name: 'CreateTLSEnableConfig',
 })
 </script>
 
@@ -73,19 +73,3 @@ const record: WritableComputedRef<SSL> = computed({
   },
 })
 </script>
-
-<style lang="scss">
-.TLS-enable-config {
-  margin-bottom: 12px;
-  .TLS-enable-config-title {
-    margin-top: 0;
-    margin-bottom: 8px;
-    color: var(--color-title-primary);
-    font-weight: bold;
-    line-height: 20px;
-  }
-  .TLS-input {
-    width: 60%;
-  }
-}
-</style>

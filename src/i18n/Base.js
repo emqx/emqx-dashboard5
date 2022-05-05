@@ -379,4 +379,16 @@ export default {
     zh: '移除',
     en: 'Remove',
   },
+  filePath: {
+    zh: '文件路径',
+    en: 'File path',
+  },
+  resetConfig: {
+    zh: '重新设置',
+    en: 'Reset',
+  },
+  copyFilePath: {
+    zh: '复制文件路径',
+    en: 'Copy file path',
+  },
 }

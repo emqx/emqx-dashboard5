@@ -2,7 +2,10 @@
   <div>
     <TLSBaseConfig v-model="record" />
     <el-collapse-transition>
-      <TLSEnableConfig v-model="record" v-if="record.enable" />
+      <template v-if="record.enable">
+        <CreateTLSEnableConfig v-model="record" v-if="!isEdit" />
+        <EditTLSEnableConfig v-model="record" v-else />
+      </template>
     </el-collapse-transition>
   </div>
 </template>
@@ -18,13 +21,21 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from 'vue'
 import TLSBaseConfig from './TLSBaseConfig.vue'
-import TLSEnableConfig from './TLSEnableConfig.vue'
+import CreateTLSEnableConfig from './CreateTLSEnableConfig.vue'
+import EditTLSEnableConfig from './EditTLSEnableConfig.vue'
 import { SSL } from '@/types/common'
 
 const props = defineProps({
   modelValue: {
     type: Object as PropType<SSL>,
     default: () => ({}),
+  },
+  /**
+   * influence the interaction of TLSEnableConfig
+   */
+  isEdit: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -39,3 +50,19 @@ const record: WritableComputedRef<SSL> = computed({
   },
 })
 </script>
+
+<style lang="scss">
+.TLS-enable-config {
+  margin-bottom: 12px;
+  .TLS-enable-config-title {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: var(--color-title-primary);
+    font-weight: bold;
+    line-height: 20px;
+  }
+  .TLS-input {
+    width: 60%;
+  }
+}
+</style>
