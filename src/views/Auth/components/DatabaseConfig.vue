@@ -98,7 +98,7 @@
           </template>
           <el-col :span="24">
             <!-- TLS -->
-            <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" />
+            <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" :is-edit="isEdit" />
           </el-col>
         </el-row>
       </div>
@@ -267,6 +267,10 @@ export default defineComponent({
     authType: {
       required: true,
       type: String,
+    },
+    isEdit: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:modelValue'],

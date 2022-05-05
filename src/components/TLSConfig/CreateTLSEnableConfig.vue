@@ -12,6 +12,7 @@
         class="TLS-input"
         v-model="record.certfile"
         :allow-extensions="fileAllowExtensions"
+        :placeholder="$t('Base.certPlaceholder')"
       />
     </el-form-item>
     <el-form-item>
@@ -23,6 +24,7 @@
         class="TLS-input"
         v-model="record.keyfile"
         :allow-extensions="fileAllowExtensions"
+        :placeholder="$t('Base.keyFilePlaceholder')"
       />
     </el-form-item>
     <el-form-item>
@@ -34,6 +36,7 @@
         class="TLS-input"
         v-model="record.cacertfile"
         :allow-extensions="fileAllowExtensions"
+        :placeholder="$t('Base.certPlaceholder')"
       />
     </el-form-item>
   </div>

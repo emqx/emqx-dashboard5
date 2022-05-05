@@ -36,6 +36,7 @@
             :database="type"
             v-model="configData"
             auth-type="authz"
+            is-edit
           />
           <file-config v-else-if="type === 'file'" ref="formCom" v-model="configData"></file-config>
           <http-config
@@ -43,6 +44,7 @@
             ref="formCom"
             auth-type="authz"
             v-model="configData"
+            is-edit
           ></http-config>
           <el-button @click="$router.push('/authorization')">
             {{ $t('Base.cancel') }}

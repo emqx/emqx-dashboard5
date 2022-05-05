@@ -14,7 +14,7 @@
         <lwm2m-basic v-model:value="basicData" :key="iKey" />
       </template>
       <template v-else-if="name === 'exproto'">
-        <exproto-basic v-model:value="basicData" :key="iKey" />
+        <exproto-basic v-model:value="basicData" :key="iKey" is-edit />
       </template>
       <el-button
         type="primary"

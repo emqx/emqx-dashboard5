@@ -63,7 +63,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <CommonTLSConfig class="tls-config-form" v-model="eValue.handler.ssl" />
+      <CommonTLSConfig class="tls-config-form" v-model="eValue.handler.ssl" :is-edit="isEdit" />
     </el-form>
   </div>
 </template>
@@ -85,6 +85,10 @@ export default defineComponent({
       type: Object,
       required: false,
       default: () => ({}),
+    },
+    isEdit: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, context) {
