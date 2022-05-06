@@ -102,6 +102,10 @@ export default (): ListenerUtils => {
     name: createRequiredRule(t('Base.name')),
     type: createRequiredRule(tl('lType'), 'select'),
     bind: createRequiredRule(tl('lAddress')),
+    'dtls.certfile': createRequiredRule('TLS Cert'),
+    'dtls.keyfile': createRequiredRule('TLS Key'),
+    'ssl.certfile': createRequiredRule('TLS Cert'),
+    'ssl.keyfile': createRequiredRule('TLS Key'),
   }
 
   const createRawSSLParams = () => ({
