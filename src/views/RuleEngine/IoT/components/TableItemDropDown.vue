@@ -1,10 +1,10 @@
 <template>
   <el-dropdown
-    class="table-dropdown"
     @command="handleCommand(rowData, $event)"
     @visible-change="dropdownVisibleChanged"
+    popper-class="table-dropdown-popper"
   >
-    <el-button class="dropdown-btn" size="small">
+    <el-button class="table-dropdown-btn" size="small">
       <span>
         {{ $t('Base.more') }}
       </span>
@@ -14,14 +14,17 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <!-- <el-dropdown-item command="resetStatistics">
-          {{ tl('resetStatistics') }}
-        </el-dropdown-item> -->
+        <el-dropdown-item command="resetStatistics">
+          <el-icon><CircleClose /></el-icon>
+          <span>{{ tl('resetStatistics') }}</span>
+        </el-dropdown-item>
         <el-dropdown-item command="copy">
-          {{ tl('copy') }}
+          <el-icon><CopyDocument /></el-icon>
+          <span>{{ tl('copy') }}</span>
         </el-dropdown-item>
         <el-dropdown-item command="delete" class="danger">
-          {{ tl('delete', 'Base') }}
+          <el-icon><Delete /></el-icon>
+          <span>{{ tl('delete', 'Base') }}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -39,7 +42,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
 import { defineProps, defineEmits, PropType, ref, Ref } from 'vue'
-import { CaretBottom } from '@element-plus/icons-vue'
+import { CaretBottom, Delete, CopyDocument, CircleClose } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -60,31 +63,7 @@ const dropdownVisibleChanged = (value: boolean) => {
   dropdownVisible.value = value
 }
 
-const handleCommand = function (row: PluginItem, command: 'resetStatistics' | 'copy' | 'delete') {
+const handleCommand = (row: PluginItem, command: 'resetStatistics' | 'copy' | 'delete') => {
   emit(command, row)
 }
 </script>
-
-<style lang="scss" scoped>
-.dropdown-btn {
-  padding: 1px 9px;
-  & > :deep(span) {
-    display: flex;
-    align-items: center;
-  }
-}
-.icon-arrow {
-  vertical-align: top;
-  margin-left: 4px;
-  &.rotate {
-    transform: rotate(180deg);
-  }
-}
-.el-dropdown-menu__item.danger {
-  color: #e34242;
-}
-.el-dropdown-menu__item.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-</style>

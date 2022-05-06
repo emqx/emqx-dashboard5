@@ -16,6 +16,8 @@ export default (): {
   tableCom: Ref<Component>
   getAuthzList: (isInit?: boolean) => void
   updateAuthnItemMetrics: (authz: AuthzItemInTable) => void
+  moveAuthzUp: (index: number) => Promise<undefined>
+  moveAuthzDown: (index: number) => Promise<undefined>
   moveAuthzToTop: (row: AuthzItemInTable) => Promise<void>
   moveAuthzToBottom: (row: AuthzItemInTable) => Promise<void>
 } => {
@@ -94,6 +96,8 @@ export default (): {
     moveAuthzToTop: requestMoveAuthzToTop,
     moveAuthzToBottom: requestMoveAuthzToBottom,
   } = useHandleAuthzItem()
+  const moveAuthzUp = (index: number) => handleDragEvent(index - 1, index, authzList.value)
+  const moveAuthzDown = (index: number) => handleDragEvent(index + 1, index, authzList.value)
   const moveAuthzToTop = async (row: AuthzItemInTable) => {
     try {
       await requestMoveAuthzToTop(row)
@@ -141,6 +145,8 @@ export default (): {
     tableCom,
     getAuthzList,
     updateAuthnItemMetrics,
+    moveAuthzUp,
+    moveAuthzDown,
     moveAuthzToTop,
     moveAuthzToBottom,
   }

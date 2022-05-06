@@ -60,7 +60,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
-        <template #default="{ row }">
+        <template #default="{ row, $index }">
           <el-button
             size="small"
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
@@ -78,6 +78,10 @@
           <TableItemDropdown
             :row-data="row"
             :filtered="isTableFiltered"
+            :table-len="pluginListToShow.length"
+            :row-index="$index"
+            @move-up="moveUp($index)"
+            @move-down="moveDown($index)"
             @move-to-top="moveToTop"
             @move-to-bottom="moveToBottom"
             @uninstall="handleUninstall"
@@ -201,6 +205,9 @@ const queryListData = async () => {
     isTableLoading.value = false
   }
 }
+
+const moveUp = (index: number) => handleDragEvent(index - 1, index, pluginListToShow.value)
+const moveDown = (index: number) => handleDragEvent(index + 1, index, pluginListToShow.value)
 
 const moveToTop = async (plugin: PluginItem) => {
   try {

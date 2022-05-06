@@ -66,7 +66,7 @@
           </el-button>
           <TableItemDropDown
             :row-data="row"
-            @resetStatistics="resetRuleItemStatistics"
+            @resetStatistics="resetRuleItemStatistics(row)"
             @copy="copyRuleItem(row)"
             @delete="submitDeleteRules"
           />
@@ -79,7 +79,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { getRules, updateRules, deleteRules } from '@/api/ruleengine'
+import { getRules, updateRules, deleteRules, resetRuleMetrics } from '@/api/ruleengine'
 import moment from 'moment'
 import { RuleItem } from '@/types/rule'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
@@ -120,8 +120,11 @@ const startOrStopRule = async (row: RuleItem) => {
   }
 }
 
-const resetRuleItemStatistics = () => {
-  // TODO:
+const resetRuleItemStatistics = async ({ id }: RuleItem) => {
+  await MB.confirm(t('RuleEngine.resetMetricsConfirm', { target: tl('rule') }))
+  await resetRuleMetrics(id)
+  M.success(tl('resetSuccessfully'))
+  getRulesList()
 }
 
 const copyRuleItem = (rule: RuleItem) => {

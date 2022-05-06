@@ -33,7 +33,7 @@
         :min-width="108"
       />
       <el-table-column
-        :label="`${$t('RuleEngine.speedNow')}(msg/s)`"
+        :label="`${$t('RuleEngine.speedNow')}`"
         prop="metrics.metrics.rate"
         :min-width="148"
       />
@@ -43,14 +43,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="232">
-        <template #default="{ row }">
+        <template #default="{ row, $index }">
           <table-dropdown
             :row-data="row"
             :table-data-len="authzList.length"
-            :position="findIndex(row)"
+            :position="$index"
             @update="handleUpdate"
             @delete="handleDelete"
             @setting="handleSetting"
+            @move-up="moveAuthzUp($index)"
+            @move-down="moveAuthzDown($index)"
             @move-to-top="moveAuthzToTop(row)"
             @move-to-bottom="moveAuthzToBottom(row)"
           ></table-dropdown>
@@ -88,6 +90,8 @@ const {
   tableCom,
   getAuthzList,
   updateAuthnItemMetrics,
+  moveAuthzUp,
+  moveAuthzDown,
   moveAuthzToTop,
   moveAuthzToBottom,
 } = useAuthz()
@@ -112,10 +116,6 @@ const handleDelete = async function ({ type }: AuthzSourceItem) {
 
 const handleSetting = function ({ type }: AuthzSourceItem) {
   router.push({ path: `/authorization/detail/${type}` })
-}
-
-const findIndex = (row: AuthzSourceItem) => {
-  return authzList.value.findIndex((item) => item.type === row.type)
 }
 </script>
 

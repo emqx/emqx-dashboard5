@@ -35,7 +35,7 @@
         :min-width="100"
       />
       <el-table-column
-        :label="`${$t('RuleEngine.speedNow')}(msg/s)`"
+        :label="$t('RuleEngine.speedNow')"
         prop="metrics.metrics.rate"
         :min-width="148"
       />
@@ -45,7 +45,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="232">
-        <template #default="{ row }">
+        <template #default="{ row, $index }">
           <table-dropdown
             :row-data="row"
             :table-data-len="authnList.length"
@@ -53,6 +53,8 @@
             @update="handleUpdate"
             @delete="handleDelete"
             @setting="handleSetting"
+            @move-up="moveAuthnUp($index)"
+            @move-down="moveAuthnDown($index)"
             @move-to-top="moveAuthnToTop(row)"
             @move-to-bottom="moveAuthnToBottom(row)"
           />
@@ -88,6 +90,8 @@ const {
   getAuthnItemBackendForShow,
   getAuthnList,
   updateAuthnItemMetrics,
+  moveAuthnUp,
+  moveAuthnDown,
   moveAuthnToTop,
   moveAuthnToBottom,
 } = useAuthn()

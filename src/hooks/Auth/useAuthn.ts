@@ -18,6 +18,8 @@ export default (): {
   getAuthnItemBackendForShow: (item: AuthnItemInTable) => string
   getAuthnList: (isInit?: boolean) => Promise<void>
   updateAuthnItemMetrics: (authn: AuthnItem) => Promise<void>
+  moveAuthnUp: (index: number) => Promise<void>
+  moveAuthnDown: (index: number) => Promise<void>
   moveAuthnToTop: (authn: AuthnItem) => any
   moveAuthnToBottom: (authn: AuthnItem) => any
 } => {
@@ -111,6 +113,8 @@ export default (): {
     moveAuthnToTop: requestMoveAuthnToTop,
     moveAuthnToBottom: requestMoveAuthnToBottom,
   } = useHandleAuthnItem()
+  const moveAuthnUp = async (index: number) => handleDragEvent(index - 1, index, authnList.value)
+  const moveAuthnDown = async (index: number) => handleDragEvent(index + 1, index, authnList.value)
   const moveAuthnToTop = async (row: AuthnItem) => {
     try {
       await requestMoveAuthnToTop(row)
@@ -161,6 +165,8 @@ export default (): {
     getAuthnItemBackendForShow,
     getAuthnList,
     updateAuthnItemMetrics,
+    moveAuthnUp,
+    moveAuthnDown,
     moveAuthnToTop,
     moveAuthnToBottom,
   }
