@@ -109,7 +109,7 @@ export default {
   },
   setting: {
     zh: '设置',
-    en: 'Setting',
+    en: 'Settings',
   },
   moveUp: {
     zh: '上移',
@@ -121,7 +121,7 @@ export default {
   },
   authzSetting: {
     zh: '权限控制设置',
-    en: 'Authorization Setting',
+    en: 'Authorization Settings',
   },
   enableCache: {
     zh: '启用缓存',

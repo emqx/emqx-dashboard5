@@ -205,7 +205,7 @@ export default {
   },
   setting: {
     zh: '设置',
-    en: 'Setting',
+    en: 'Settings',
   },
   nodes: {
     zh: '节点',

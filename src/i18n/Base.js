@@ -269,7 +269,7 @@ export default {
   },
   setting: {
     zh: '设置',
-    en: 'Setting',
+    en: 'Settings',
   },
   download: {
     zh: '下载',
