@@ -178,6 +178,7 @@
               v-model="listenerRecord[SSLConfigKey]"
               :show-sni="false"
               :is-edit="isEdit"
+              :base-path="SSLConfigKey"
             />
           </el-col>
           <!-- Version of SSL/DTLS -->

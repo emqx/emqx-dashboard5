@@ -1,6 +1,5 @@
-import { SSL } from '@/types/common'
 import { BridgeItem, ConnectorItem } from '@/types/rule'
-import { SSL_VERIFY_VALUE_MAP } from './constants'
+import { omit, isObject } from 'lodash'
 
 export const checkStringWithUnit = (str: string, units: Array<string>): boolean => {
   const reg = new RegExp(`^\\d+(.\\d+)?(${units.join('|')})$`)
@@ -329,4 +328,17 @@ export const tryToCompleteURL = (url: string): string => {
     return `http://${url}`
   }
   return url
+}
+
+/**
+ * is obj[key] is string and is empty, delete it
+ */
+export const checkNOmitFromObj = (obj: Record<string, any>): Record<string, any> => {
+  const emptyValueKeyArr = Object.keys(obj).filter((key) => {
+    if (isObject(obj[key]) && !Array.isArray(obj[key])) {
+      obj[key] = checkNOmitFromObj(obj[key])
+    }
+    return typeof obj[key] === 'string' ? !obj[key] : false
+  })
+  return omit(obj, emptyValueKeyArr)
 }

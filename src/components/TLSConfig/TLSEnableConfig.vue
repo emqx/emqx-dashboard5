@@ -1,9 +1,9 @@
 <template>
   <div class="TLS-enable-config">
-    <el-form-item label="SNI" v-if="showSni">
+    <el-form-item label="SNI" v-if="showSni" :prop="getFormItemProp(`server_name_indication`)">
       <el-input class="TLS-input" v-model="record.server_name_indication" />
     </el-form-item>
-    <el-form-item>
+    <el-form-item :prop="getFormItemProp(`certfile`)">
       <template #label>
         <span>TLS Cert</span>
         <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
@@ -18,7 +18,7 @@
       />
       <ConfigItemDataLook v-else :value="record.certfile" @reset="editConfigItem('certfile')" />
     </el-form-item>
-    <el-form-item>
+    <el-form-item :prop="getFormItemProp(`keyfile`)">
       <template #label>
         <span>TLS Key</span>
         <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
@@ -33,7 +33,7 @@
       />
       <ConfigItemDataLook v-else :value="record.keyfile" @reset="editConfigItem('keyfile')" />
     </el-form-item>
-    <el-form-item>
+    <el-form-item :prop="getFormItemProp(`cacertfile`)">
       <template #label>
         <span>CA Cert</span>
         <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
@@ -91,6 +91,12 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * for prop in form item when need validate form
+   */
+  basePath: {
+    type: String,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -113,5 +119,12 @@ const openResetMap: Ref<Record<ConfigItemKey, boolean>> = ref({
 const editConfigItem = (key: ConfigItemKey) => {
   record.value[key] = ''
   openResetMap.value[key] = true
+}
+
+const getFormItemProp = (key: string) => {
+  if (props.basePath) {
+    return `${props.basePath}.${key}`
+  }
+  return undefined
 }
 </script>

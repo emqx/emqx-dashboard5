@@ -2,14 +2,14 @@ import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
 import { GatewayName, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { computed, ref, ComputedRef, Ref, WritableComputedRef, watch, nextTick } from 'vue'
-import { cloneDeep, merge, omit } from 'lodash'
+import { cloneDeep, assign, omit } from 'lodash'
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { ElMessage } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import useListenerUtils from './useListenerUtils'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
 import { FormRules } from '@/types/common'
-import { jumpToErrorFormItem } from '@/common/tools'
+import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 
 type Props = Readonly<
   {
@@ -149,7 +149,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     }
     try {
       isSubmitting.value = true
-      const data = normalizeStructure(input)
+      const data = checkNOmitFromObj(normalizeStructure(input))
       props.gatewayName ? await submitGatewayListenerInfo(data) : await submitListener(data)
       ElMessage.success(t(`Base.${isEdit.value ? 'editSuccess' : 'createSuccess'}`))
       showDialog.value = false
@@ -197,7 +197,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   watch(showDialog, async (val) => {
     if (val) {
       if (props.listener) {
-        listenerRecord.value = merge(createRawListener(), cloneDeep(props.listener))
+        listenerRecord.value = assign(createRawListener(), cloneDeep(props.listener))
         if (!props.gatewayName) {
           loadListenerData()
         }
