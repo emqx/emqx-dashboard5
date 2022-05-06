@@ -74,10 +74,20 @@ export const GATEWAY_DISABLED_DATABASES_MAP = {
   ],
 }
 
-// coap: ['udp', 'dtls'],
-// others: ['tcp', 'ssl', 'udp', 'dtls'],
+/* 
+  |         | TCP  | UDP  | SSL  | DTLS |
+  | ------- | ---- | ---- | ---- | ---- |
+  | CoAP    |      | ✔︎    |      | ✔︎    |
+  | ExProto | ✔︎    | ✔︎    | ✔︎    | ✔︎    |
+  | LwM2M   |      | ✔︎    |      | ✔︎    |
+  | MQTT-SN |      | ✔︎    |      | ✔︎    |
+  | STOMP   | ✔︎    |      | ✔︎    |      |
+*/
 export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTypeForGateway>> = {
   [GatewayName.CoAP]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
+  [GatewayName.LwM2M]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
+  [GatewayName.MQTT_SN]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
+  [GatewayName.STOMP]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
 }
 
 export const DEFAULT_ZONE = 'default'
