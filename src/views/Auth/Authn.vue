@@ -26,19 +26,16 @@
       <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="108" />
       <el-table-column
         :label="$t('RuleEngine.SuccessNum')"
-        sortable
         prop="metrics.metrics.success"
         :min-width="112"
       />
       <el-table-column
         :label="$t('RuleEngine.ErrNum')"
-        sortable
         prop="metrics.metrics.failed"
         :min-width="100"
       />
       <el-table-column
         :label="`${$t('RuleEngine.speedNow')}(msg/s)`"
-        sortable
         prop="metrics.metrics.rate"
         :min-width="148"
       />

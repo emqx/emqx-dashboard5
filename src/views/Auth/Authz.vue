@@ -24,19 +24,16 @@
       </el-table-column>
       <el-table-column
         :label="$t('RuleEngine.SuccessNum')"
-        sortable
         prop="metrics.metrics.allow"
         :min-width="110"
       />
       <el-table-column
         :label="$t('RuleEngine.ErrNum')"
-        sortable
         prop="metrics.metrics.deny"
         :min-width="108"
       />
       <el-table-column
         :label="`${$t('RuleEngine.speedNow')}(msg/s)`"
-        sortable
         prop="metrics.metrics.rate"
         :min-width="148"
       />
