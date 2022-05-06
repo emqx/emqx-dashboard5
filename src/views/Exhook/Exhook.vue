@@ -46,7 +46,7 @@
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
-        <template #default="{ row }">
+        <template #default="{ row, $index }">
           <el-button size="small" @click="goExhookDetail(row)">
             {{ tl('setting', 'Base') }}
           </el-button>
@@ -58,6 +58,10 @@
           </el-button>
           <TableItemDropdown
             :row-data="row"
+            :table-len="exhooks.length"
+            :row-index="$index"
+            @move-up="moveExhookUp($index)"
+            @move-down="moveExhookDown($index)"
             @move-to-top="moveExhookItemToTop"
             @move-to-bottom="moveExhookItemToBottom"
             @delete="handleDeleteExhook(row)"
@@ -113,6 +117,9 @@ const {
   moveExhookBeforeAnotherExhook,
   moveExhookAfterAnotherExhook,
 } = useHandleExhookItem()
+
+const moveExhookUp = (index: number) => handleDragEvent(index - 1, index, exhooks.value)
+const moveExhookDown = (index: number) => handleDragEvent(index + 1, index, exhooks.value)
 
 const moveExhookItemToTop = async (row: Exhook) => {
   try {

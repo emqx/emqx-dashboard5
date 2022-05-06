@@ -7,16 +7,21 @@
           <span class="g-title">{{ transGatewayName(row.name) }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')" sortable width="120" :min-width="128">
+      <el-table-column :label="tl('status')" width="120" :min-width="128">
         <template #default="{ row }">
           <span :class="['status', { disabled: !isRunning(row.status) }]">{{
             isRunning(row.status) ? tl('running') : tl('stopped')
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('listeners')" sortable :min-width="132">
+      <el-table-column
+        :label="tl('listeners')"
+        sortable
+        :min-width="132"
+        :sort-by="(row) => row.listeners?.length || 0"
+      >
         <template #default="{ row }">
-          {{ (row.listeners && row.listeners.length) || 0 }}
+          {{ row.listeners?.length || 0 }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('connection')" :min-width="140">
@@ -34,58 +39,20 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="268">
-        <template #default="scope">
-          <el-button
-            size="small"
-            :disabled="isUnload(scope.row.status)"
-            @click="
-              $router.push({
-                name: 'gateway-detail-basic',
-                params: { name: scope.row.name },
-              })
-            "
-            >{{ tl('setting') }}</el-button
-          >
-          <el-button
-            size="small"
-            :disabled="isUnload(scope.row.status)"
-            @click="
-              $router.push({
-                name: 'gateway-detail-auth',
-                params: { name: scope.row.name },
-              })
-            "
-            >{{ tl('auth') }}</el-button
-          >
-          <el-dropdown
-            placement="bottom-start"
-            @visible-change="dropdownVChange(scope.row)"
-            @command="dropdownHandler"
-          >
-            <el-button size="small">
-              {{ tl('more') }}
-              <el-icon>
-                <CaretBottom v-if="!scope.row[dropdownExclusiveKey]" />
-                <CaretTop v-else />
-              </el-icon>
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-menu class="no-dropdown-arrow">
-                <el-dropdown-item
-                  :disabled="!isRunning(scope.row.status)"
-                  :command="{
-                    name: 'gateway-detail-clients',
-                    params: { name: scope.row.name },
-                  }"
-                  >{{ tl('clients') }}</el-dropdown-item
-                >
-                <el-dropdown-item :command="{ name: 'gateway-enable', data: scope.row }">{{
-                  isRunning(scope.row.status) ? tl('disable') : tl('enable')
-                }}</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+      <el-table-column :label="$t('Base.operation')" :min-width="336">
+        <template #default="{ row }">
+          <el-button size="small" :disabled="isUnload(row.status)" @click="goSettingPage(row)">
+            {{ tl('setting') }}
+          </el-button>
+          <el-button size="small" :disabled="isUnload(row.status)" @click="goGatewayAuthPage(row)">
+            {{ tl('auth') }}
+          </el-button>
+          <el-button size="small" :disabled="!isRunning(row.status)" @click="goClientPage(row)">
+            {{ tl('clients') }}
+          </el-button>
+          <el-button size="small" @click="gatewayStartStop(row)">
+            {{ isRunning(row.status) ? tl('disable') : tl('enable') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -99,12 +66,10 @@ import { calcPercentage, caseInsensitiveCompare } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
-import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
 import useTransName from '@/hooks/useTransName'
 
 export default defineComponent({
   name: 'Gateway',
-  components: { CaretBottom, CaretTop },
   setup() {
     const { t } = useI18n()
     let tbData = ref<any[]>([])
@@ -150,22 +115,6 @@ export default defineComponent({
       })
     }
 
-    const dropdownHandler = function (command: { name: string; data: any } | undefined) {
-      if (!command) return
-      if (typeof command == 'object') {
-        if (command.name.match(/gateway-detail-.*/i)) {
-          router.push(command)
-          return
-        } else {
-          switch (command.name) {
-            case 'gateway-enable':
-              gatewayStartStop(command.data)
-              break
-          }
-        }
-      }
-    }
-
     const gatewayStartStop = async function (instance: any) {
       const { name } = instance
       if (isUnload(instance.status)) {
@@ -187,6 +136,18 @@ export default defineComponent({
       }
     }
 
+    const goSettingPage = ({ name }: { name: string }) => {
+      router.push({ name: 'gateway-detail-basic', params: { name } })
+    }
+
+    const goGatewayAuthPage = ({ name }: { name: string }) => {
+      router.push({ name: 'gateway-detail-auth', params: { name } })
+    }
+
+    const goClientPage = ({ name }: { name: string }) => {
+      router.push({ name: 'gateway-detail-clients', params: { name } })
+    }
+
     onMounted(loadGateway)
 
     return {
@@ -198,8 +159,11 @@ export default defineComponent({
       isUnload,
       dropdownVChange,
       dropdownExclusiveKey,
-      dropdownHandler,
       transGatewayName,
+      goSettingPage,
+      goGatewayAuthPage,
+      goClientPage,
+      gatewayStartStop,
     }
   },
 })

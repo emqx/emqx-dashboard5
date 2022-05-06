@@ -1,18 +1,39 @@
 <template>
-  <el-dropdown class="table-dropdown" @command="handleCommand(rowData, $event)">
-    <el-button class="dropdown-btn" size="small">
-      {{ $t('Base.more') }}
+  <el-dropdown
+    class="table-dropdown"
+    @command="handleCommand(rowData, $event)"
+    @visible-change="dropdownVisibleChanged"
+    popper-class="table-dropdown-popper"
+  >
+    <el-button class="table-dropdown-btn" size="small">
+      <span>{{ $t('Base.more') }}</span>
+      <el-icon :size="8" class="icon-arrow" :class="{ rotate: dropdownVisible }">
+        <CaretBottom />
+      </el-icon>
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="top">
-          {{ $t('Plugins.moveToTop') }}
-        </el-dropdown-item>
-        <el-dropdown-item command="bottom">
-          {{ $t('Plugins.moveToBottom') }}
-        </el-dropdown-item>
-        <el-dropdown-item command="delete">
-          {{ $t('Base.delete') }}
+        <template v-if="tableLen > 1">
+          <el-dropdown-item command="up" :disabled="rowIndex === 0">
+            <el-icon><ArrowUp /></el-icon>
+            {{ $t('Base.up') }}
+          </el-dropdown-item>
+          <el-dropdown-item command="down" :disabled="rowIndex === tableLen - 1">
+            <el-icon><ArrowDown /></el-icon>
+            <span>{{ $t('Base.down') }}</span>
+          </el-dropdown-item>
+          <el-dropdown-item command="top" :disabled="rowIndex === 0">
+            <el-icon><Top /></el-icon>
+            <span>{{ $t('Plugins.moveToTop') }}</span>
+          </el-dropdown-item>
+          <el-dropdown-item command="bottom" :disabled="rowIndex === tableLen - 1">
+            <el-icon><Bottom /></el-icon>
+            <span>{{ $t('Plugins.moveToBottom') }}</span>
+          </el-dropdown-item>
+        </template>
+        <el-dropdown-item command="delete" class="danger">
+          <el-icon><Delete /></el-icon>
+          <span>{{ $t('Base.delete') }}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -29,19 +50,39 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { Exhook } from '@/types/systemModule'
-import { defineProps, defineEmits, PropType } from 'vue'
+import { defineProps, defineEmits, PropType, Ref, ref } from 'vue'
+import { CaretBottom, ArrowUp, ArrowDown, Top, Bottom, Delete } from '@element-plus/icons-vue'
 
-const props = defineProps({
+defineProps({
   rowData: {
     required: true,
     type: Object as PropType<Exhook>,
   },
+  tableLen: {
+    type: Number,
+    required: true,
+  },
+  rowIndex: {
+    type: Number,
+    required: true,
+  },
 })
 
-const emit = defineEmits(['moveToTop', 'moveToBottom', 'delete'])
+const emit = defineEmits(['moveUp', 'moveDown', 'moveToTop', 'moveToBottom', 'delete'])
+
+const dropdownVisible: Ref<boolean> = ref(false)
+const dropdownVisibleChanged = (value: boolean) => {
+  dropdownVisible.value = value
+}
 
 const handleCommand = function (row: Exhook, command: string) {
   switch (command) {
+    case 'up':
+      emit('moveUp', row)
+      break
+    case 'down':
+      emit('moveDown', row)
+      break
     case 'top':
       emit('moveToTop', row)
       break
@@ -56,12 +97,3 @@ const handleCommand = function (row: Exhook, command: string) {
   }
 }
 </script>
-
-<style scoped>
-.dropdown-btn {
-  padding: 1px 9px;
-}
-.el-dropdown-menu__item.danger {
-  color: #e34242;
-}
-</style>

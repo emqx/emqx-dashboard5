@@ -7,11 +7,11 @@
       {{ rowData.enable ? $t('Base.disable') : $t('Base.enable') }}
     </el-button>
     <el-dropdown
-      class="table-dropdown-more"
       @command="handleCommand(rowData, $event)"
       @visible-change="dropdownVisibleChanged"
+      popper-class="table-dropdown-popper"
     >
-      <el-button class="dropdown-btn" size="small">
+      <el-button class="table-dropdown-btn" size="small">
         <span>
           {{ $t('Base.more') }}
         </span>
@@ -22,6 +22,14 @@
       <template #dropdown>
         <el-dropdown-menu>
           <template v-if="tableDataLen !== 1">
+            <el-dropdown-item command="moveUp" :disabled="position === 0">
+              <el-icon><ArrowUp /></el-icon>
+              {{ $t('Base.up') }}
+            </el-dropdown-item>
+            <el-dropdown-item command="moveDown" :disabled="position === tableDataLen - 1">
+              <el-icon><ArrowDown /></el-icon>
+              {{ $t('Base.down') }}
+            </el-dropdown-item>
             <el-dropdown-item command="moveToTop" :disabled="position === 0">
               <el-icon><Top /></el-icon>
               {{ $t('Base.moveToTop') }}
@@ -42,13 +50,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
-import { Top, Bottom, Delete, CaretBottom } from '@element-plus/icons-vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
+import { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
 
 export default defineComponent({
   name: 'TableDropdown',
-  components: { Top, Bottom, Delete, CaretBottom },
+  components: { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown },
   props: {
     tableDataLen: {
       required: true,
@@ -63,7 +71,7 @@ export default defineComponent({
       type: Number,
     },
   },
-  emits: ['setting', 'delete', 'move-to-top', 'move-to-bottom', 'update'],
+  emits: ['setting', 'delete', 'move-up', 'move-down', 'move-to-top', 'move-to-bottom', 'update'],
   setup(props, ctx) {
     const dropdownVisible = ref<boolean>(false)
     const dropdownVisibleChanged = (value: boolean) => {
@@ -71,11 +79,17 @@ export default defineComponent({
     }
     const handleCommand = function (
       row: AuthnItem,
-      command: 'delete' | 'moveToTop' | 'moveToBottom',
+      command: 'delete' | 'moveToTop' | 'moveToBottom' | 'moveUp' | 'moveDown',
     ) {
       switch (command) {
         case 'delete':
           ctx.emit('delete', row)
+          break
+        case 'moveUp':
+          ctx.emit('move-up')
+          break
+        case 'moveDown':
+          ctx.emit('move-down')
           break
         case 'moveToTop':
           ctx.emit('move-to-top')
@@ -95,21 +109,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="scss" scoped>
-.dropdown-btn {
-  padding: 1px 9px;
-}
-.el-dropdown-menu__item.danger {
-  color: #e34242;
-}
-.table-dropdown-more {
-  .icon-arrow {
-    vertical-align: top;
-    margin-left: 4px;
-    &.rotate {
-      transform: rotate(180deg);
-    }
-  }
-}
-</style>
