@@ -104,6 +104,7 @@ export default defineComponent({
       try {
         await startStopBridge(row.id, statusToSend)
         M.success(t(sucMessage))
+        listBridge()
       } catch (error) {
         console.error(error)
         row.enable = !row.enable

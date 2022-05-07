@@ -45,7 +45,7 @@
       <!-- FIXME: -->
       <el-table-column prop="enable" :label="$t('Auth.status')" :min-width="116">
         <template #default="{ row }">
-          <AuthItemStatus :enable="row.enable" :metrics="row.metrics" />
+          <AuthItemStatus :metrics="row.metrics" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="168">

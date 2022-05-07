@@ -41,7 +41,7 @@ export type StatusDetailOfEachNode = Array<{
 export interface TargetStatusWithDetail {
   statusClass: NodeStatusClass
   statusLabel: string
-  details: StatusDetailOfEachNode
+  details?: StatusDetailOfEachNode
 }
 
 export type OptionList<T> = Array<{

@@ -48,12 +48,6 @@
           <el-switch v-model="row.enable" @change="startOrStopRule(row)" />
         </template>
       </el-table-column>
-      <!-- FIXME: -->
-      <el-table-column :label="tl('status')" sortable :min-width="100">
-        <template #default="{ row }">
-          <RuleItemStatus :rule="row" />
-        </template>
-      </el-table-column>
       <el-table-column :label="tl('createdAt')" sortable :min-width="124">
         <template #default="{ row }">
           {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
@@ -88,7 +82,6 @@ import { RuleItem } from '@/types/rule'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import TableItemDropDown from './components/TableItemDropDown.vue'
-import RuleItemStatus from './components/RuleItemStatus.vue'
 import CodeView from '@/components/CodeView.vue'
 import useCopyRule from '@/hooks/Rule/rule/useCopyRule'
 

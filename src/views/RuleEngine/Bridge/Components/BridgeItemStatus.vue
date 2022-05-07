@@ -15,8 +15,6 @@ import { computed, defineProps, PropType } from 'vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import { BridgeItem } from '@/types/rule'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import { ConnectionStatus, NodeStatusClass } from '@/types/enum'
-import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   bridge: {
@@ -29,7 +27,6 @@ const props = defineProps({
 })
 
 const { getStatusLabel, getStatusClass } = useCommonConnectionStatus()
-const { t } = useI18n()
 const statusData = computed(() => {
   const { bridge } = props
   const details =
@@ -41,8 +38,8 @@ const statusData = computed(() => {
         }))
       : []
 
-  const statusLabel = t(`Base.${bridge?.enable ? 'enable' : 'disable'}`)
-  const statusClass = !bridge?.enable ? NodeStatusClass.Danger : NodeStatusClass.Success
+  const statusLabel = getStatusLabel(bridge?.status)
+  const statusClass = getStatusClass(bridge?.status)
   return { details, statusLabel, statusClass }
 })
 </script>
