@@ -7,10 +7,6 @@ export default {
     zh: '登 录',
     en: 'Login',
   },
-  emqxDesc: {
-    zh: '开源云原生分布式物联网 MQTT 消息服务器',
-    en: 'An Open-Source, Cloud-Native, Distributed MQTT Broker for IoT',
-  },
   userName: {
     zh: '用户名',
     en: 'Username',
