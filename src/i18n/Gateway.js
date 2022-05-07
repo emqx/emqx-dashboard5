@@ -300,4 +300,8 @@ export default {
     zh: '缺少 gRPC 监听的 Cert 或 Key 内容',
     en: 'Missing Cert or Key content for gRPC ConnectionAdapter',
   },
+  setup: {
+    zh: '配置',
+    en: 'Setup',
+  },
 }

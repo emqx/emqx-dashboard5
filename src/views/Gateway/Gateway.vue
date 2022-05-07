@@ -1,32 +1,16 @@
 <template>
   <div class="app-wrapper gateway">
-    <el-table :data="tbData" v-loading="tbLoading">
+    <el-table :data="tbData" v-loading="tbLoading" :row-class-name="getRowClassName">
       <el-table-column :label="tl('name')" :min-width="180">
         <template #default="{ row }">
           <span :class="`g-${row.name} g-icon`"></span>
           <span class="g-title">{{ transGatewayName(row.name) }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')" width="120" :min-width="128">
-        <template #default="{ row }">
-          <span :class="['status', { disabled: !isRunning(row.status) }]">{{
-            isRunning(row.status) ? tl('running') : tl('stopped')
-          }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="tl('listeners')"
-        sortable
-        :min-width="132"
-        :sort-by="(row) => row.listeners?.length || 0"
-      >
-        <template #default="{ row }">
-          {{ row.listeners?.length || 0 }}
-        </template>
-      </el-table-column>
-      <el-table-column :label="tl('connection')" :min-width="140">
+      <el-table-column :label="tl('connection')" :min-width="160">
         <template #default="{ row }">
           <el-tooltip
+            v-if="hasBeenInitialized(row)"
             placement="top"
             effect="dark"
             :content="`${row.current_connections || 0}/${row.max_connections || 0}`"
@@ -35,23 +19,51 @@
               :stroke-width="16"
               :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
               :format="() => {}"
-            ></el-progress>
+            />
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="336">
+      <el-table-column
+        :label="tl('listeners')"
+        :min-width="132"
+        :sort-by="(row) => row.listeners?.length || 0"
+      >
         <template #default="{ row }">
-          <el-button size="small" :disabled="isUnload(row.status)" @click="goSettingPage(row)">
-            {{ tl('setting') }}
-          </el-button>
-          <el-button size="small" :disabled="isUnload(row.status)" @click="goGatewayAuthPage(row)">
-            {{ tl('auth') }}
-          </el-button>
-          <el-button size="small" :disabled="!isRunning(row.status)" @click="goClientPage(row)">
-            {{ tl('clients') }}
-          </el-button>
-          <el-button size="small" @click="gatewayStartStop(row)">
-            {{ isRunning(row.status) ? tl('disable') : tl('enable') }}
+          <span v-if="hasBeenInitialized(row)">
+            {{ row.listeners?.length || 0 }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="100">
+        <template #default="{ row }">
+          <el-switch
+            v-if="hasBeenInitialized(row)"
+            v-model="row.status"
+            :active-value="GatewayStatus.Running"
+            :inactive-value="GatewayStatus.Stopped"
+            @change="gatewayStartStop(row)"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('Base.operation')" :min-width="276">
+        <template #default="{ row }">
+          <template v-if="hasBeenInitialized(row)">
+            <el-button size="small" :disabled="isUnload(row.status)" @click="goSettingPage(row)">
+              {{ tl('setting') }}
+            </el-button>
+            <el-button
+              size="small"
+              :disabled="isUnload(row.status)"
+              @click="goGatewayAuthPage(row)"
+            >
+              {{ tl('auth') }}
+            </el-button>
+            <el-button size="small" :disabled="!isRunning(row.status)" @click="goClientPage(row)">
+              {{ tl('clients') }}
+            </el-button>
+          </template>
+          <el-button v-else type="primary" size="small" @click="setupGateway(row)">
+            {{ tl('setup') }}
           </el-button>
         </template>
       </el-table-column>
@@ -67,6 +79,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
 import useTransName from '@/hooks/useTransName'
+import { GatewayStatus } from '@/types/enum'
 
 export default defineComponent({
   name: 'Gateway',
@@ -75,9 +88,9 @@ export default defineComponent({
     let tbData = ref<any[]>([])
     let tbLoading = ref(false)
     let dropdownExclusiveKey = '_drop'
-    const enableStr = 'running'
-    const disableStr = 'stopped'
-    const unloadStr = 'unload'
+    const enableStr = GatewayStatus.Running
+    const disableStr = GatewayStatus.Stopped
+    const unloadStr = GatewayStatus.Unloaded
     const router = useRouter()
 
     const { transGatewayName } = useTransName()
@@ -86,13 +99,8 @@ export default defineComponent({
       return t(collection + '.' + key)
     }
 
-    const isRunning = (status: string) => {
-      return caseInsensitiveCompare(status, enableStr)
-    }
-
-    const isUnload = (status: string) => {
-      return caseInsensitiveCompare(status, unloadStr)
-    }
+    const isRunning = (status: string) => caseInsensitiveCompare(status, enableStr)
+    const isUnload = (status: string) => caseInsensitiveCompare(status, unloadStr)
 
     const loadGateway = async () => {
       tbLoading.value = true
@@ -109,29 +117,24 @@ export default defineComponent({
       tbLoading.value = false
     }
 
-    const dropdownVChange = (row: any) => {
-      return Object.assign(row, {
-        [dropdownExclusiveKey]: !row[dropdownExclusiveKey],
-      })
+    const hasBeenInitialized = (item: any) => !isUnload(item.status)
+
+    const getRowClassName = ({ row }: any) => (!hasBeenInitialized(row) ? 'is-disabled' : '')
+
+    const setupGateway = (listener: any) => {
+      router.push({ name: 'gateway-create', params: { name: listener.name } })
     }
 
     const gatewayStartStop = async function (instance: any) {
       const { name } = instance
-      if (isUnload(instance.status)) {
-        router.push({ name: 'gateway-create', params: { name: name } })
-      } else {
-        tbLoading.value = true
-        let body = { enable: !isRunning(instance.status) }
-        let res = await updateGateway(name, body).catch(() => {})
-        if (res) {
-          M({
-            type: 'success',
-            message: isRunning(instance.status)
-              ? t('Base.disabledSuccess')
-              : t('Base.enableSuccess'),
-          })
-          instance.status = isRunning(instance.status) ? disableStr : enableStr
-        }
+      tbLoading.value = true
+      let body = { enable: isRunning(instance.status) }
+      try {
+        await updateGateway(name, body)
+        M.success(isRunning(instance.status) ? t('Base.enableSuccess') : t('Base.disabledSuccess'))
+      } catch (error) {
+        instance.status = isRunning(instance.status) ? disableStr : enableStr
+      } finally {
         tbLoading.value = false
       }
     }
@@ -155,14 +158,16 @@ export default defineComponent({
       tbLoading,
       tbData,
       calcPercentage,
+      GatewayStatus,
       isRunning,
       isUnload,
-      dropdownVChange,
-      dropdownExclusiveKey,
+      hasBeenInitialized,
+      getRowClassName,
       transGatewayName,
       goSettingPage,
       goGatewayAuthPage,
       goClientPage,
+      setupGateway,
       gatewayStartStop,
     }
   },
@@ -189,6 +194,9 @@ export default defineComponent({
   .g-title {
     vertical-align: 23px;
     padding: 0 5px;
+  }
+  .el-table__row.is-disabled {
+    background-color: var(--el-disabled-bg-color);
   }
 }
 </style>

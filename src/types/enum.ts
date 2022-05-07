@@ -179,3 +179,9 @@ export enum SaltPosition {
   Prefix = 'prefix',
   Suffix = 'suffix',
 }
+
+export enum GatewayStatus {
+  Running = 'running',
+  Stopped = 'stopped',
+  Unloaded = 'unloaded',
+}
