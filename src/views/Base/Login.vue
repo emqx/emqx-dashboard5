@@ -20,7 +20,6 @@
               <img src="@/assets/img/gcp.png" width="32" height="32" alt="gcp" />
             </a>
           </div>
-          <h2>{{ $t('Base.emqxDesc') }}</h2>
         </div>
       </el-col>
       <el-col class="form" :span="16">
