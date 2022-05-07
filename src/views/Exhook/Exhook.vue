@@ -84,7 +84,6 @@ import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import useMove from '@/hooks/useMove'
-import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const { t } = useI18n()

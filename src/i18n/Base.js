@@ -399,4 +399,8 @@ export default {
     zh: '是否启用',
     en: 'Enable',
   },
+  rate: {
+    zh: '速率',
+    en: 'Rate',
+  },
 }

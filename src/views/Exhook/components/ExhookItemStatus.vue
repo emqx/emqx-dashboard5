@@ -13,10 +13,7 @@ export default defineComponent({
 import { PropType, defineProps } from 'vue'
 import { Exhook } from '@/types/systemModule'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { ExhookStatus, NodeStatusClass } from '@/types/enum'
-
-const { t, tl } = useI18nTl('Exhook')
+import useExhookItemStatus from '@/hooks/Exhook/useExhookItemStatus'
 
 const props = defineProps({
   exhook: {
@@ -29,23 +26,7 @@ const props = defineProps({
   },
 })
 
-const statusText = (status: ExhookStatus) =>
-  ({
-    [ExhookStatus.Connected]: t('RuleEngine.connected'),
-    [ExhookStatus.Connecting]: t('RuleEngine.connecting'),
-    [ExhookStatus.Unconnected]: t('RuleEngine.disconnected'),
-    [ExhookStatus.Disable]: tl('disabled'),
-    [ExhookStatus.Error]: tl('error'),
-  }[status] || 'unknown')
-
-const statusTextClass = (status: ExhookStatus): NodeStatusClass =>
-  ({
-    [ExhookStatus.Connected]: NodeStatusClass.Success,
-    [ExhookStatus.Connecting]: NodeStatusClass.Warning,
-    [ExhookStatus.Unconnected]: NodeStatusClass.Danger,
-    [ExhookStatus.Disable]: NodeStatusClass.Danger,
-    [ExhookStatus.Error]: NodeStatusClass.Danger,
-  }[status] || NodeStatusClass.Danger)
+const { statusText, statusTextClass, getTheWorstStatus } = useExhookItemStatus()
 
 const statusData = computed(() => {
   const { exhook } = props
@@ -59,10 +40,11 @@ const statusData = computed(() => {
           }
         })
       : []
+  const worstStatus = getTheWorstStatus(exhook)
   return {
     details,
-    statusClass: exhook.enable ? NodeStatusClass.Success : NodeStatusClass.Danger,
-    statusLabel: t(`Base.${exhook.enable ? 'enable' : 'disable'}`),
+    statusClass: statusTextClass(worstStatus),
+    statusLabel: statusText(worstStatus),
   }
 })
 </script>

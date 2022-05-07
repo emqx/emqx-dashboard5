@@ -123,4 +123,8 @@ export default {
     zh: '禁用',
     en: 'Disabled',
   },
+  rateUnit: {
+    zh: '次/秒',
+    en: 'time/s',
+  },
 }
