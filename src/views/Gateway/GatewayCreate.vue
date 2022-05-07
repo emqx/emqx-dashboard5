@@ -1,72 +1,78 @@
 <template>
   <div class="app-wrapper gateway-create">
-    <div class="section-header">
-      {{ tl('initial') + name }}
-    </div>
-    <el-row>
-      <el-col :span="16">
-        <el-steps :active="stepActive" finish-status="success">
-          <el-step :title="tl('basicConfig')" />
-          <el-step :title="tl('listeners')" />
-          <el-step :title="tl('auth')" />
-        </el-steps>
-      </el-col>
-    </el-row>
-    <el-row class="config-main">
-      <el-col :span="18" v-if="stepActive === 0" class="config-basic">
-        <template v-if="name === 'stomp'">
-          <stomp-basic v-model:value="basicData" />
-        </template>
-        <template v-else-if="name === 'mqttsn'">
-          <mqttsn-basic v-model:value="basicData"></mqttsn-basic>
-        </template>
-        <template v-else-if="name === 'coap'">
-          <coap-basic v-model:value="basicData"></coap-basic>
-        </template>
-        <template v-else-if="name === 'lwm2m'">
-          <lw-basic v-model:value="basicData"></lw-basic>
-        </template>
-        <template v-else-if="name === 'exproto'">
-          <exproto-basic v-model:value="basicData"></exproto-basic>
-        </template>
-      </el-col>
+    <el-card>
+      <div class="section-header">
+        {{ tl('initial') + name }}
+      </div>
+      <el-row>
+        <el-col :span="16">
+          <el-steps :active="stepActive" finish-status="success">
+            <el-step :title="tl('basicConfig')" />
+            <el-step :title="tl('listeners')" />
+            <el-step :title="tl('auth')" />
+          </el-steps>
+        </el-col>
+      </el-row>
+      <el-row class="config-main">
+        <el-col :span="18" v-if="stepActive === 0" class="config-basic">
+          <template v-if="name === 'stomp'">
+            <stomp-basic v-model:value="basicData" />
+          </template>
+          <template v-else-if="name === 'mqttsn'">
+            <mqttsn-basic v-model:value="basicData"></mqttsn-basic>
+          </template>
+          <template v-else-if="name === 'coap'">
+            <coap-basic v-model:value="basicData"></coap-basic>
+          </template>
+          <template v-else-if="name === 'lwm2m'">
+            <lw-basic v-model:value="basicData"></lw-basic>
+          </template>
+          <template v-else-if="name === 'exproto'">
+            <exproto-basic v-model:value="basicData"></exproto-basic>
+          </template>
+        </el-col>
 
-      <el-col :span="24" v-else-if="stepActive === 1">
-        <listeners :integration="true" :gateway-name="name" v-model:list="listenerList"></listeners>
-      </el-col>
-      <el-col :span="24" v-else-if="stepActive === 2">
-        <div class="part-header">
-          {{ tl('clientAuth') }}
-        </div>
-        <div class="config-auth">
-          {{ tl('clientAuthDesc') }}
-        </div>
-      </el-col>
-    </el-row>
-    <el-row class="config-op">
-      <el-button v-if="stepActive === 0" @click="gotoList">
-        {{ $t('Base.cancel') }}
-      </el-button>
-      <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
-        {{ $t('Base.backStep') }}
-      </el-button>
-      <el-button
-        type="primary"
-        @click="handleNextStep"
-        v-if="stepActive < 2"
-        :disabled="submitLoading"
-      >
-        {{ $t('Base.nextStep') }}
-      </el-button>
-      <el-button
-        type="primary"
-        v-if="stepActive === 2"
-        :loading="submitLoading"
-        @click="createGateway()"
-      >
-        {{ $t('Base.enable') }}
-      </el-button>
-    </el-row>
+        <el-col :span="24" v-else-if="stepActive === 1">
+          <listeners
+            :integration="true"
+            :gateway-name="name"
+            v-model:list="listenerList"
+          ></listeners>
+        </el-col>
+        <el-col :span="24" v-else-if="stepActive === 2">
+          <div class="part-header">
+            {{ tl('clientAuth') }}
+          </div>
+          <div class="config-auth">
+            {{ tl('clientAuthDesc') }}
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="config-op">
+        <el-button v-if="stepActive === 0" @click="gotoList">
+          {{ $t('Base.cancel') }}
+        </el-button>
+        <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
+          {{ $t('Base.backStep') }}
+        </el-button>
+        <el-button
+          type="primary"
+          @click="handleNextStep"
+          v-if="stepActive < 2"
+          :disabled="submitLoading"
+        >
+          {{ $t('Base.nextStep') }}
+        </el-button>
+        <el-button
+          type="primary"
+          v-if="stepActive === 2"
+          :loading="submitLoading"
+          @click="createGateway()"
+        >
+          {{ $t('Base.enable') }}
+        </el-button>
+      </el-row>
+    </el-card>
   </div>
 </template>
 
