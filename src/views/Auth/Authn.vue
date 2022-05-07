@@ -17,13 +17,13 @@
       v-loading.lock="isListLoading"
       row-key="id"
     >
+      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="108" />
       <el-table-column prop="backend" :label="$t('Auth.dataSource')" :min-width="140">
         <template #default="{ row }">
           <img class="auth-img" :src="row.img" width="48" />
           <span>{{ getAuthnItemBackendForShow(row) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="108" />
       <el-table-column
         :label="$t('RuleEngine.SuccessNum')"
         prop="metrics.metrics.success"

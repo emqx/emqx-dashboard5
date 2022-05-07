@@ -101,11 +101,11 @@ export default {
   },
   alarm: {
     zh: '告警',
-    en: 'Alarm',
+    en: 'Alarms',
   },
   plugins: {
     zh: '插件',
-    en: 'Plugin',
+    en: 'Plugins',
   },
   modules: {
     zh: '模块',
@@ -144,8 +144,8 @@ export default {
     en: 'Application',
   },
   gateway: {
-    zh: 'Gateway',
-    en: 'Gateway',
+    zh: '网关',
+    en: 'Gateways',
   },
   exhook: {
     zh: 'ExHook',
