@@ -1,7 +1,77 @@
 <template>
   <div class="overview app-wrapper">
     <el-row class="block" :gutter="26">
-      <el-col :span="15">
+      <el-col :span="12">
+        <el-card class="rate-card top-primary">
+          <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
+            <el-radio-button label="byte" />
+            <el-radio-button label="msg"> {{ $t('Dashboard.messageNumber') }} </el-radio-button>
+          </el-radio-group> -->
+          <template v-if="rateType === 'msg'">
+            <div class="rate-item">
+              <div>
+                <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
+                <span class="unit"
+                  >{{ $t('Dashboard.strip', { n: currentMetrics.received_msg_rate }) }}/{{
+                    $t('Dashboard.second')
+                  }}</span
+                >
+              </div>
+              <div class="line-wrapper">
+                <rate-chart
+                  :value="currentMetricsLogs.received_msg_rate"
+                  type="bar"
+                  color="#3D7FF9"
+                />
+              </div>
+            </div>
+            <div class="rate-item">
+              <div>
+                <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
+                <span class="unit"
+                  >{{ $t('Dashboard.strip', { n: currentMetrics.sent_msg_rate }) }}/{{
+                    $t('Dashboard.second')
+                  }}</span
+                >
+              </div>
+              <div class="line-wrapper">
+                <rate-chart :value="currentMetricsLogs.sent_msg_rate" type="bar" color="#5D4EFF" />
+              </div>
+            </div>
+          </template>
+          <template v-else>
+            <div class="rate-item">
+              <div>
+                <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
+                <span>{{ _formatNumber(currentMetrics.received_bytes_rate) }}</span>
+                <span class="unit">{{ $t('Dashboard.byte') }}/{{ $t('Dashboard.second') }}</span>
+              </div>
+              <div class="line-wrapper">
+                <rate-chart
+                  :value="currentMetricsLogs.received_bytes_rate"
+                  type="bar"
+                  color="#3D7FF9"
+                />
+              </div>
+            </div>
+            <div class="rate-item">
+              <div>
+                <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
+                <span>{{ _formatNumber(currentMetrics.sent_bytes_rate) }}</span>
+                <span class="unit">{{ $t('Dashboard.byte') }}/{{ $t('Dashboard.second') }}</span>
+              </div>
+              <div class="line-wrapper">
+                <rate-chart
+                  :value="currentMetricsLogs.sent_bytes_rate"
+                  type="bar"
+                  color="#5D4EFF"
+                />
+              </div>
+            </div>
+          </template>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
         <el-card class="main-info-card top-primary">
           <el-row :gutter="40">
             <el-col :span="8" class="main-info-item">
@@ -24,76 +94,6 @@
           </el-row>
         </el-card>
       </el-col>
-      <el-col :span="9">
-        <el-card class="rate-card">
-          <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
-            <el-radio-button label="byte" />
-            <el-radio-button label="msg"> {{ $t('Dashboard.messageNumber') }} </el-radio-button>
-          </el-radio-group> -->
-          <template v-if="rateType === 'msg'">
-            <div class="rate-item">
-              <div>
-                <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
-                <span class="unit"
-                  >{{ $t('Dashboard.strip', { n: currentMetrics.received_msg_rate }) }}/{{
-                    $t('Dashboard.second')
-                  }}</span
-                >
-              </div>
-              <div class="line-wrapper">
-                <simple-line
-                  :value="currentMetricsLogs.received_msg_rate"
-                  type="bar"
-                  color="#3D7FF9"
-                />
-              </div>
-            </div>
-            <div class="rate-item">
-              <div>
-                <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
-                <span class="unit"
-                  >{{ $t('Dashboard.strip', { n: currentMetrics.sent_msg_rate }) }}/{{
-                    $t('Dashboard.second')
-                  }}</span
-                >
-              </div>
-              <div class="line-wrapper">
-                <simple-line :value="currentMetricsLogs.sent_msg_rate" type="bar" color="#5D4EFF" />
-              </div>
-            </div>
-          </template>
-          <template v-else>
-            <div class="rate-item">
-              <div>
-                <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
-                <span>{{ _formatNumber(currentMetrics.received_bytes_rate) }}</span>
-                <span class="unit">{{ $t('Dashboard.byte') }}/{{ $t('Dashboard.second') }}</span>
-              </div>
-              <div class="line-wrapper">
-                <simple-line
-                  :value="currentMetricsLogs.received_bytes_rate"
-                  type="bar"
-                  color="#3D7FF9"
-                />
-              </div>
-            </div>
-            <div class="rate-item">
-              <div>
-                <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
-                <span>{{ _formatNumber(currentMetrics.sent_bytes_rate) }}</span>
-                <span class="unit">{{ $t('Dashboard.byte') }}/{{ $t('Dashboard.second') }}</span>
-              </div>
-              <div class="line-wrapper">
-                <simple-line
-                  :value="currentMetricsLogs.sent_bytes_rate"
-                  type="bar"
-                  color="#5D4EFF"
-                />
-              </div>
-            </div>
-          </template>
-        </el-card>
-      </el-col>
     </el-row>
     <el-card class="cluster-card block">
       <NodesGraphCard class="nodes-graph" />
@@ -112,7 +112,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, Ref } from 'vue'
-import SimpleLine from './components/SimpleLine.vue'
+import RateChart from './components/RateChart.vue'
 import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
 import Moment from 'moment'
@@ -252,7 +252,7 @@ onUnmounted(() => {
       width: 100%;
       box-sizing: border-box;
       margin: 16px 0;
-      .simple-line {
+      .rate-chart {
         box-sizing: border-box;
         height: 36px;
       }

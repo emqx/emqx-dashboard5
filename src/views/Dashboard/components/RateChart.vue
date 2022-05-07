@@ -1,12 +1,12 @@
 <template>
-  <div ref="chartEl" class="simple-line"></div>
+  <div ref="chartEl" class="rate-chart"></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'SimpleLine',
+  name: 'RateChart',
 })
 </script>
 
@@ -119,10 +119,6 @@ const setSeriesConfig = async () => {
       },
       label: {
         show: false,
-      },
-      areaStyle: {
-        color,
-        opacity: 1,
       },
     },
   ] as Array<LineSeriesOption>
