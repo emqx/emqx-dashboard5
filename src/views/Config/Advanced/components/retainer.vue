@@ -137,6 +137,13 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row :gutter="30">
+            <el-col :span="8">
+              <el-form-item label="Limiter" prop="flow_control.batch_deliver_limiter">
+                <el-input v-model="retainerConfig.flow_control.batch_deliver_limiter" />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row>
             <el-button type="primary" @click="updateConfigData()">
               {{ $t('Base.update') }}
