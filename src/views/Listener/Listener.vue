@@ -32,23 +32,15 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="t('Base.status')" :min-width="90">
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
         <template #default="{ row }">
-          <span class="node-status">
-            <el-badge is-dot :type="getListenerStatusClass(row)" />
-            <span class="text-status" :class="getListenerStatusClass(row)">
-              {{ getStatusLabel(row) }}
-            </span>
-          </span>
+          <el-switch v-model="row.enable" @change="toggleListenerStatus(row)" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="220">
+      <el-table-column :label="$t('Base.operation')" :min-width="152">
         <template #default="{ row }">
           <el-button size="small" @click="editListener(row)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button size="small" @click="toggleListenerStatus(row)">
-            {{ $t(`Base.${row.enable ? 'disable' : 'enable'}`) }}
           </el-button>
           <el-button size="small" type="danger" plain @click="deleteListener(row)">
             {{ $t('Base.delete') }}
@@ -72,7 +64,7 @@ import {
 import useListenerUtils from '@/hooks/Config/useListenerUtils'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
 import { calcPercentage } from '@/common/utils'
-import { NodeStatusClass, ListenerAction } from '@/types/enum'
+import { ListenerAction } from '@/types/enum'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ListenerDialog from '@/components/ListenerDialog/ListenerDialog.vue'
 
@@ -101,11 +93,6 @@ const getListenerData = async () => {
   }
 }
 
-const getListenerStatusClass = ({ enable }: Listener) =>
-  enable ? NodeStatusClass.Success : NodeStatusClass.Danger
-
-const getStatusLabel = ({ enable }: Listener) => t(`Base.${enable ? 'enable' : 'disable'}`)
-
 const addListener = () => {
   currentListener.value = undefined
   showDialog.value = true
@@ -116,11 +103,15 @@ const editListener = (listener: Listener) => {
   showDialog.value = true
 }
 
-const toggleListenerStatus = async ({ id, enable }: Listener) => {
-  const action = enable ? ListenerAction.Stop : ListenerAction.Start
-  await handleListener(id, action)
-  ElMessage.success(t(`Base.${enable ? 'disabledSuccess' : 'enableSuccess'}`))
-  getListenerData()
+const toggleListenerStatus = async (listener: Listener) => {
+  try {
+    const { enable, id } = listener
+    const action = enable ? ListenerAction.Start : ListenerAction.Stop
+    await handleListener(id, action)
+    ElMessage.success(t(`Base.${enable ? 'enableSuccess' : 'disabledSuccess'}`))
+  } catch (error) {
+    listener.enable = !listener.enable
+  }
 }
 
 const deleteListener = async ({ id }: Listener) => {

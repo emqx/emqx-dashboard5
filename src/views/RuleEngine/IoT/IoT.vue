@@ -43,6 +43,12 @@
           {{ row.metrics?.['sql.matched.rate'] }}
         </template>
       </el-table-column>
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+        <template #default="{ row }">
+          <el-switch v-model="row.enable" @change="startOrStopRule(row)" />
+        </template>
+      </el-table-column>
+      <!-- FIXME: -->
       <el-table-column :label="tl('status')" sortable :min-width="100">
         <template #default="{ row }">
           <RuleItemStatus :rule="row" />
@@ -53,16 +59,13 @@
           {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="232">
+      <el-table-column :label="$t('Base.operation')" :min-width="172">
         <template #default="{ row }">
           <el-button
             size="small"
             @click="$router.push({ name: 'iot-detail', params: { id: row.id } })"
           >
             {{ $t('Base.setting') }}
-          </el-button>
-          <el-button size="small" @click="startOrStopRule(row)">
-            {{ row.enable ? $t('Base.disable') : $t('Base.enable') }}
           </el-button>
           <TableItemDropDown
             :row-data="row"
@@ -108,15 +111,12 @@ const getRulesList = async () => {
 }
 
 const startOrStopRule = async (row: RuleItem) => {
-  iotLoading.value = true
   try {
-    await updateRules(row.id, { enable: !row.enable })
-    M.success(t(row.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'))
-    getRulesList()
+    await updateRules(row.id, { enable: row.enable })
+    M.success(t(row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
   } catch (error) {
     console.error(error)
-  } finally {
-    iotLoading.value = false
+    row.enable = !row.enable
   }
 }
 

@@ -40,21 +40,21 @@
           {{ row.metrics?.rate }}
         </template>
       </el-table-column>
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+        <template #default="{ row }">
+          <el-switch v-model="row.enable" @change="changeExhookStatus(row)" />
+        </template>
+      </el-table-column>
+      <!-- FIXME: -->
       <el-table-column :label="tl('status')" :min-width="132">
         <template #default="{ row }">
           <ExhookItemStatus :exhook="row" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="220">
+      <el-table-column :label="$t('Base.operation')" :min-width="168">
         <template #default="{ row, $index }">
           <el-button size="small" @click="goExhookDetail(row)">
             {{ tl('setting', 'Base') }}
-          </el-button>
-          <el-button size="small" v-if="!row.enable" @click="changeExhookStatus(row, true)">
-            {{ tl('enable', 'Base') }}
-          </el-button>
-          <el-button size="small" v-else @click="changeExhookStatus(row, false)">
-            {{ tl('disable', 'Base') }}
           </el-button>
           <TableItemDropdown
             :row-data="row"
@@ -84,6 +84,7 @@ import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import useMove from '@/hooks/useMove'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -152,9 +153,12 @@ const goExhookDetail = (exhook: Exhook) => {
   router.push(exhookDetailRoute(exhook))
 }
 
-const changeExhookStatus = async (exhook: Exhook, enable: boolean) => {
-  await updateExhookEnable(exhook, enable)
-  getExhooks()
+const changeExhookStatus = async (exhook: Exhook) => {
+  try {
+    await updateExhookEnable(exhook, exhook.enable)
+  } catch (error) {
+    exhook.enable = !exhook.enable
+  }
 }
 
 const handleDeleteExhook = async (exhook: Exhook) => {

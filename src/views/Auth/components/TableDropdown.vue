@@ -3,9 +3,6 @@
     <el-button size="small" @click="$emit('setting', rowData)">
       {{ $t('Base.setting') }}
     </el-button>
-    <el-button size="small" @click="$emit('update', { ...rowData, enable: !rowData.enable })">
-      {{ rowData.enable ? $t('Base.disable') : $t('Base.enable') }}
-    </el-button>
     <el-dropdown
       @command="handleCommand(rowData, $event)"
       @visible-change="dropdownVisibleChanged"
@@ -50,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
 
@@ -71,12 +68,13 @@ export default defineComponent({
       type: Number,
     },
   },
-  emits: ['setting', 'delete', 'move-up', 'move-down', 'move-to-top', 'move-to-bottom', 'update'],
+  emits: ['setting', 'delete', 'move-up', 'move-down', 'move-to-top', 'move-to-bottom'],
   setup(props, ctx) {
     const dropdownVisible = ref<boolean>(false)
     const dropdownVisibleChanged = (value: boolean) => {
       dropdownVisible.value = value
     }
+
     const handleCommand = function (
       row: AuthnItem,
       command: 'delete' | 'moveToTop' | 'moveToBottom' | 'moveUp' | 'moveDown',

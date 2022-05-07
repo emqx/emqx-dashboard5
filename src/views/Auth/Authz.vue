@@ -37,25 +37,30 @@
         prop="metrics.metrics.rate"
         :min-width="148"
       />
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+        <template #default="{ row }">
+          <el-switch v-model="row.enable" @change="toggleEnable(row)" />
+        </template>
+      </el-table-column>
+      <!-- FIXME: -->
       <el-table-column prop="enable" :label="$t('Auth.status')" :min-width="116">
         <template #default="{ row }">
           <AuthItemStatus :enable="row.enable" :metrics="row.metrics" />
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="232">
+      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="168">
         <template #default="{ row, $index }">
           <table-dropdown
             :row-data="row"
             :table-data-len="authzList.length"
             :position="$index"
-            @update="handleUpdate"
             @delete="handleDelete"
             @setting="handleSetting"
             @move-up="moveAuthzUp($index)"
             @move-down="moveAuthzDown($index)"
             @move-to-top="moveAuthzToTop(row)"
             @move-to-bottom="moveAuthzToBottom(row)"
-          ></table-dropdown>
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -96,12 +101,15 @@ const {
   moveAuthzToBottom,
 } = useAuthz()
 
-const handleUpdate = async (row: AuthzItemInTable) => {
-  const { img, metrics, ...data } = row
-  await updateAuthz(row.type, data)
-  ElMessage.success(t('Base.updateSuccess'))
-  await getAuthzList()
-  await updateAuthnItemMetrics(row)
+const toggleEnable = async (row: AuthzItemInTable) => {
+  try {
+    const { img, metrics, ...data } = row
+    await updateAuthz('row.type', data)
+    ElMessage.success(t(row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
+    await updateAuthnItemMetrics(row)
+  } catch (error) {
+    row.enable = !row.enable
+  }
 }
 
 const handleDelete = async function ({ type }: AuthzSourceItem) {

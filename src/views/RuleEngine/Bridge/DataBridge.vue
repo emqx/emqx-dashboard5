@@ -41,18 +41,21 @@
             prop="metrics.rate"
             :min-width="168"
           />
+          <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+            <template #default="{ row }">
+              <el-switch v-model="row.enable" @change="enableOrDisableBridge(row)" />
+            </template>
+          </el-table-column>
+          <!-- FIXME: -->
           <el-table-column :label="tl('status')" sortable :min-width="120">
             <template #default="{ row }">
               <BridgeItemStatus :bridge="row" />
             </template>
           </el-table-column>
-          <el-table-column :label="$t('Base.operation')" :min-width="232">
+          <el-table-column :label="$t('Base.operation')" :min-width="168">
             <template #default="{ row }">
               <el-button size="small" @click="$router.push(getBridgeDetailPageRoute(row.id))">
                 {{ $t('Base.setting') }}
-              </el-button>
-              <el-button size="small" @click="enableOrDisableBridge(row)">
-                {{ row.enable ? $t('Base.disable') : $t('Base.enable') }}
               </el-button>
               <el-button size="small" type="danger" plain @click="submitDeleteBridge(row.id)">
                 {{ $t('Base.delete') }}
@@ -96,17 +99,14 @@ export default defineComponent({
     }
 
     const enableOrDisableBridge = async (row: BridgeItem) => {
-      tbLoading.value = true
-      const statusToSend = row.enable ? 'disable' : 'enable'
-      const sucMessage = row.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'
+      const statusToSend = row.enable ? 'enable' : 'disable'
+      const sucMessage = row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
       try {
         await startStopBridge(row.id, statusToSend)
         M.success(t(sucMessage))
-        listBridge()
       } catch (error) {
         console.error(error)
-      } finally {
-        tbLoading.value = false
+        row.enable = !row.enable
       }
     }
 
