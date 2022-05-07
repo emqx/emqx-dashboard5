@@ -18,13 +18,6 @@
         </template>
       </el-table-column>
       <el-table-column prop="desc" :label="tl('desc')" />
-      <el-table-column prop="enable" :label="tl('status')">
-        <template #default="{ row }">
-          <span :class="['status', { disabled: !row.enable }]">
-            {{ getKeyStatus(row) }}
-          </span>
-        </template>
-      </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
           <el-switch v-model="row.enable" @change="toggleKeyItemEnable(row)" />

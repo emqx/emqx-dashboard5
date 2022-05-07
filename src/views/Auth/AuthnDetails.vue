@@ -15,7 +15,7 @@
           </div>
           <div>
             <div class="info-tags">
-              <AuthItemStatus is-tag :metrics="authMetrics" :enable="configData.enable" />
+              <AuthItemStatus is-tag :metrics="authMetrics" />
               <el-tag type="info" class="section-status">
                 {{ configData.mechanism }}
               </el-tag>
