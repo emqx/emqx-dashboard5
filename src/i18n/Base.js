@@ -395,4 +395,8 @@ export default {
     zh: '以  -----BEGIN RSA PRIVATE KEY----- 开头',
     en: 'Begins with -----BEGIN RSA PRIVATE KEY-----',
   },
+  isEnabled: {
+    zh: '是否启用',
+    en: 'Enable',
+  },
 }

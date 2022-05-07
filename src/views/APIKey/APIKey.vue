@@ -25,14 +25,16 @@
           </span>
         </template>
       </el-table-column>
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')">
+        <template #default="{ row }">
+          <el-switch v-model="row.enable" @change="toggleKeyItemEnable(row)" />
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="100">
         <template #default="{ row }">
           <el-button size="small" @click="operateKeyItem('view', row)"> {{ tl('view') }}</el-button>
           <el-button size="small" @click="operateKeyItem('edit', row)">
             {{ tl('edit', 'Base') }}
-          </el-button>
-          <el-button size="small" @click="toggleKeyItemEnable(row)">
-            {{ tl(!row.enable ? 'enable' : 'disable') }}
           </el-button>
           <el-button size="small" @click="deleteKey(row)">{{ tl('delete', 'Base') }}</el-button>
         </template>
@@ -84,17 +86,17 @@ const toggleKeyItemEnable = async (itemData: APIKey) => {
   try {
     const { name, enable, expired_at, desc } = itemData
     const body: { enable: boolean; desc: string; expired_at?: string } = {
-      enable: !enable,
+      enable,
       desc,
     }
     if (expired_at) {
       body.expired_at = expired_at
     }
     await updateAPIKey(name, body)
-    ElMessage.success(t(`Base.${!enable ? 'enableSuccess' : 'disabledSuccess'}`))
-    getList()
+    ElMessage.success(t(`Base.${enable ? 'enableSuccess' : 'disabledSuccess'}`))
   } catch (error) {
     console.error(error)
+    itemData.enable = !itemData.enable
   }
 }
 

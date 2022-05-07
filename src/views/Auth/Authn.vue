@@ -39,18 +39,22 @@
         prop="metrics.metrics.rate"
         :min-width="148"
       />
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+        <template #default="{ row }">
+          <el-switch v-model="row.enable" @change="toggleEnable(row)" />
+        </template>
+      </el-table-column>
       <el-table-column prop="enable" :label="$t('Auth.status')" :min-width="116">
         <template #default="{ row }">
           <AuthItemStatus :enable="row.enable" :metrics="row.metrics" />
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="232">
+      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="168">
         <template #default="{ row, $index }">
           <table-dropdown
             :row-data="row"
             :table-data-len="authnList.length"
             :position="findIndex(row)"
-            @update="handleUpdate"
             @delete="handleDelete"
             @setting="handleSetting"
             @move-up="moveAuthnUp($index)"
@@ -96,13 +100,15 @@ const {
   moveAuthnToBottom,
 } = useAuthn()
 
-const handleUpdate = async (row: AuthnItemInTable) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { img, metrics, ...data } = row
-  await updateAuthn(row.id, data)
-  ElMessage.success(t('Base.updateSuccess'))
-  await getAuthnList()
-  await updateAuthnItemMetrics(row)
+const toggleEnable = async (row: AuthnItemInTable) => {
+  try {
+    const { img, metrics, ...data } = row
+    await updateAuthn(row.id, data)
+    ElMessage.success(t(row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
+    await updateAuthnItemMetrics(row)
+  } catch (error) {
+    row.enable = !row.enable
+  }
 }
 
 const handleDelete = async function ({ id }: AuthnItem) {
