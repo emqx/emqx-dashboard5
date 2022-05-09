@@ -36,7 +36,7 @@
         </el-row>
         <div class="part-header">{{ tl('enable') }}</div>
 
-        <el-row>
+        <el-row align="middle">
           <el-col :span="13">{{ tl('enableDescDelay') }}</el-col>
           <el-col :span="6">
             <el-switch v-model="delayedConfig.enable" @change="toggleStatus()" />

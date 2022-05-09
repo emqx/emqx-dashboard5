@@ -15,12 +15,11 @@
       </div>
       <div>
         <el-button
-          type="danger"
           plain
-          :disabled="gInfo.status !== 'running'"
-          @click="gatewayStop()"
+          :disabled="gInfo.status === GatewayStatus.Unloaded"
+          @click="toggleGatewayStatus()"
         >
-          {{ $t('Base.stop') }}
+          {{ $t(`Base.${gInfo.status === GatewayStatus.Running ? 'stop' : 'enable'}`) }}
         </el-button>
       </div>
     </div>
@@ -42,6 +41,7 @@ import { ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import DetailHeader from '@/components/DetailHeader.vue'
+import { GatewayStatus } from '@/types/enum.ts'
 
 export default defineComponent({
   name: 'GatewayDetail',
@@ -73,15 +73,15 @@ export default defineComponent({
       }
     }
 
-    const gatewayStop = async () => {
-      let body = { enable: false }
-      let res = await updateGateway(gname, body).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: t('Base.disabledSuccess'),
-        })
-        gInfo.value.status = 'stopped'
+    const toggleGatewayStatus = async () => {
+      const enable = !(gInfo.value.status === GatewayStatus.Running)
+      let body = { enable }
+      try {
+        await updateGateway(gname, body)
+        M.success(t(`Base.${enable ? 'enableSuccess' : 'disabledSuccess'}`))
+        gInfo.value.status = enable ? GatewayStatus.Running : GatewayStatus.Stopped
+      } catch (error) {
+        //
       }
     }
 
@@ -90,10 +90,11 @@ export default defineComponent({
     return {
       tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       gInfo,
-      gatewayStop,
+      toggleGatewayStatus,
       gname,
       types,
       matchedUrl,
+      GatewayStatus,
     }
   },
 })
@@ -102,6 +103,7 @@ export default defineComponent({
 <style lang="scss">
 .gateway-detail {
   .section-header:not(:first-of-type) {
+    padding-right: 1px;
     margin-top: 0px;
   }
   .g-icon::before {
