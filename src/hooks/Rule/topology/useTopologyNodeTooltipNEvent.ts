@@ -138,8 +138,8 @@ export default (): {
     const msgArr = [
       { label: tl('type'), value: getTypeStr(targetBridge) },
       { label: tl('name'), value: name },
-      { label: tl('success'), value: metrics.success },
-      { label: tl('failure'), value: metrics.failed },
+      { label: tl('SuccessNum'), value: metrics.success },
+      { label: tl('ErrNum'), value: metrics.failed },
       { label: tl('currentSpeed'), value: metrics.rate + ' Msg/s' },
       { label: tl('status'), value: statusStr, valueClass: statusClass },
     ]

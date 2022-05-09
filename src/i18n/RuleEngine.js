@@ -43,9 +43,13 @@ export default {
     zh: '失败数',
     en: 'Failed',
   },
+  noMatch: {
+    zh: '不匹配',
+    en: 'No match',
+  },
   speedNow: {
     zh: '当前速度',
-    en: 'Speed',
+    en: 'Rate',
   },
   status: {
     zh: '状态',
@@ -390,10 +394,6 @@ export default {
   success: {
     zh: '成功',
     en: 'Success',
-  },
-  failure: {
-    zh: '失败',
-    en: 'Failure',
   },
   connected: {
     zh: '已连接',

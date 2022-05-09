@@ -10,22 +10,28 @@
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic">
         <el-col :span="6">
-          <p class="statistic-label">{{ tl('success') }}</p>
+          <p class="statistic-label">{{ tl('SuccessNum') }}</p>
           <p class="statistic-num">
             {{ formatNumber(isAuthn ? metrics?.metrics?.success : metrics?.metrics?.allow) }}
           </p>
         </el-col>
         <el-col :span="6">
-          <p class="statistic-label">{{ tl('failure') }}</p>
+          <p class="statistic-label">{{ tl('ErrNum') }}</p>
           <p class="statistic-num">
             {{ formatNumber(isAuthn ? metrics?.metrics?.failed : metrics?.metrics?.deny) }}
+          </p>
+        </el-col>
+        <el-col :span="6">
+          <p class="statistic-label">{{ tl('noMatch') }}</p>
+          <p class="statistic-num">
+            {{ formatNumber(metrics?.metrics?.nomatch) }}
           </p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('speedNow') }}</p>
           <p class="statistic-num">
             <span>{{ formatNumber(metrics?.metrics?.rate) }}</span>
-            <span class="unit">msg/s</span>
+            <span class="unit">tps</span>
           </p>
         </el-col>
       </el-row>
@@ -37,14 +43,15 @@
       <p class="card-sub-desc">{{ nodeStatusDesc }}</p>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
-
-        <el-table-column v-if="isAuthn" prop="metrics.success" :label="tl('success')" />
-        <el-table-column v-else prop="metrics.allow" :label="tl('success')" />
-
-        <el-table-column v-if="isAuthn" prop="metrics.failed" :label="tl('failure')" />
-        <el-table-column v-else prop="metrics.deny" :label="tl('failure')" />
-
-        <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(msg/s)`" />
+        <el-table-column
+          :prop="isAuthn ? 'metrics.success' : 'metrics.allow'"
+          :label="tl('success')"
+        />
+        <el-table-column
+          :prop="isAuthn ? 'metrics.failed' : 'metrics.deny'"
+          :label="tl('ErrNum')"
+        />
+        <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(tps)`" />
         <el-table-column :label="tl('status')">
           <template #default="{ row }">
             <span class="text-status" :class="getStatusClass(row.status)">
