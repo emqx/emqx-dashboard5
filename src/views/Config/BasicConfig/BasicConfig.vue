@@ -86,5 +86,10 @@ export default defineComponent({
   .config-card {
     min-height: 300px;
   }
+  .config-tip {
+    margin-left: 32px;
+    margin-bottom: 0px;
+    color: var(--el-text-color-regular);
+  }
 }
 </style>
