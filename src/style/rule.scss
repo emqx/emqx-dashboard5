@@ -5,6 +5,15 @@
     color: var(--el-text-color-secondary);
     line-height: 20px;
   }
+  .part-sub-title {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .radio-forward {
+    :deep(.el-radio__input) {
+      display: none;
+    }
+  }
 }
 
 .iot-form {

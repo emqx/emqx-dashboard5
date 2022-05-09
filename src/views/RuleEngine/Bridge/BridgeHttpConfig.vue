@@ -7,128 +7,152 @@
       :rules="formRules"
       :model="httpBridgeVal"
     >
-      <div class="part-header">{{ tl('baseInfo') }}</div>
-      <el-row :gutter="30">
-        <el-col :span="12">
-          <el-form-item :label="tl('name')" required prop="name">
-            <el-input v-model="httpBridgeVal.name" :disabled="edit" />
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <div>
+        <div class="part-header">{{ tl('baseInfo') }}</div>
+        <el-row :gutter="30">
+          <el-col :span="12">
+            <el-form-item :label="tl('name')" required prop="name">
+              <el-input v-model="httpBridgeVal.name" :disabled="edit" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
       <div class="part-header">{{ tl('mappingInfo') }}</div>
-      <p class="block-primary-desc">{{ tl('bridgeDataInDesc') }}</p>
-      <el-row :gutter="30">
-        <el-col :span="12">
-          <el-form-item :label="tl('localTopic')">
-            <el-input
-              v-model="httpBridgeVal.local_topic"
-              :placeholder="tl('outBridgeLocalTopicPlaceholder')"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <p class="block-primary-desc">{{ tl('bridgeDataOutDesc') }}</p>
-      <el-row :gutter="30">
-        <el-col :span="12">
-          <el-form-item :label="tl('method')" required prop="method">
-            <el-select v-model="httpBridgeVal.method">
-              <el-option
-                v-for="item in ['post', 'get', 'put', 'delete']"
-                :value="item"
-                :label="String(item).toUpperCase()"
-                :key="item"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'URL'" required prop="url">
-            <template #label>
-              <label>URL</label>
-              <InfoTooltip :content="tl('httpBridgeURLFieldDesc')" />
-            </template>
-            <el-input v-model="httpBridgeVal.url" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col>
-          <el-form-item :label="tl('headers')">
-            <key-and-value-editor v-model="httpBridgeVal.headers" class="kv-editor" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="30">
-        <el-col :span="24">
-          <el-form-item>
-            <template #label>
-              <label>{{ tl('body') }}</label>
-              <!-- TODO: href -->
-              <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
-                <a :href="docMap.home" target="_blank">{{ tl('payloadTempSyntax') }}</a>
-              </i18n-t>
-            </template>
-            <div class="monaco-container">
-              <Monaco
-                :id="createRandomString()"
-                v-model="httpBridgeVal.body"
-                lang="json"
-                json-without-validate
-              />
-            </div>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <div class="part-header">{{ tl('connSetting') }}</div>
-      <el-row :gutter="30">
-        <el-col :span="12">
-          <el-form-item :label="'Pool size'" required prop="pool_size">
-            <el-input v-model.number="httpBridgeVal.pool_size" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('enablePipeline')">
-            <el-select v-model="httpBridgeVal.enable_pipelining">
-              <el-option v-for="ep in [true, false]" :key="ep" :value="ep" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('connTimeout')">
-            <el-input v-model.number="httpBridgeVal.connect_timeout[0]">
-              <template #append>
-                <el-select v-model="httpBridgeVal.connect_timeout[1]">
-                  <el-option value="s" />
-                </el-select>
+      <div>
+        <p class="part-sub-title">{{ tl('bridgeSinkFromLabel') }}</p>
+        <el-row :gutter="30">
+          <el-col :span="10">
+            <el-radio-group
+              v-model="isForwardFromLocalTopic"
+              size="large"
+              class="radio-forward"
+              @change="handleIsForwardToLocalTopicChangedInSinkType"
+            >
+              <el-radio :label="true" border>{{ tl('iotAndLocalTopic') }} </el-radio>
+              <el-radio :label="false" border>{{ tl('justIot') }} </el-radio>
+            </el-radio-group>
+          </el-col>
+          <el-col :span="20">
+            <p class="block-desc" v-if="isForwardFromLocalTopic">
+              {{ tl('bridgeSinkForwardFromLocalTopicDesc') }}
+            </p>
+            <p class="block-desc" v-else>
+              {{ tl('bridgeSinkNotForwardFromLocalTopicDesc') }}
+            </p>
+          </el-col>
+        </el-row>
+        <el-row :gutter="30" v-if="isForwardFromLocalTopic">
+          <el-col :span="12">
+            <el-form-item :label="tl('localTopic')" prop="local_topic">
+              <el-input v-model="httpBridgeVal.local_topic" placeholder="t/#" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
+      <div>
+        <p class="part-sub-title">{{ tl('bridgeDataOutDesc') }}</p>
+        <el-row :gutter="30">
+          <el-col :span="12">
+            <el-form-item :label="tl('method')" required prop="method">
+              <el-select v-model="httpBridgeVal.method">
+                <el-option
+                  v-for="item in ['post', 'get', 'put', 'delete']"
+                  :value="item"
+                  :label="String(item).toUpperCase()"
+                  :key="item"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="'URL'" required prop="url">
+              <template #label>
+                <label>URL</label>
+                <InfoTooltip :content="tl('httpBridgeURLFieldDesc')" />
               </template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('reqTimeout')">
-            <el-input v-model.number="httpBridgeVal.request_timeout[0]">
-              <template #append>
-                <el-select v-model="httpBridgeVal.request_timeout[1]">
-                  <el-option value="s" />
-                </el-select>
+              <el-input v-model="httpBridgeVal.url" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item :label="tl('headers')">
+              <key-and-value-editor v-model="httpBridgeVal.headers" class="kv-editor" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="30">
+          <el-col :span="24">
+            <el-form-item>
+              <template #label>
+                <label>{{ tl('body') }}</label>
+                <!-- TODO: href -->
+                <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
+                  <a :href="docMap.home" target="_blank">{{ tl('payloadTempSyntax') }}</a>
+                </i18n-t>
               </template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('errRetry')" required prop="max_retries">
-            <el-input v-model.number="httpBridgeVal.max_retries" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
+              <div class="monaco-container">
+                <Monaco
+                  :id="createRandomString()"
+                  v-model="httpBridgeVal.body"
+                  lang="json"
+                  json-without-validate
+                />
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div class="part-header">{{ tl('connSetting') }}</div>
+        <el-row :gutter="30">
+          <el-col :span="12">
+            <el-form-item :label="'Pool size'" required prop="pool_size">
+              <el-input v-model.number="httpBridgeVal.pool_size" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('enablePipeline')">
+              <el-select v-model="httpBridgeVal.enable_pipelining">
+                <el-option v-for="ep in [true, false]" :key="ep" :value="ep" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('connTimeout')">
+              <el-input v-model.number="httpBridgeVal.connect_timeout[0]">
+                <template #append>
+                  <el-select v-model="httpBridgeVal.connect_timeout[1]">
+                    <el-option value="s" />
+                  </el-select>
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('reqTimeout')">
+              <el-input v-model.number="httpBridgeVal.request_timeout[0]">
+                <template #append>
+                  <el-select v-model="httpBridgeVal.request_timeout[1]">
+                    <el-option value="s" />
+                  </el-select>
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('errRetry')" required prop="max_retries">
+              <el-input v-model.number="httpBridgeVal.max_retries" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
+      </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import { computed, defineComponent, ref, watch, onMounted } from 'vue'
+import { computed, defineComponent, ref, watch, onMounted, Ref } from 'vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import _ from 'lodash'
 import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
@@ -192,6 +216,7 @@ export default defineComponent({
       request_timeout: [5, 's'],
       max_retries: 3,
     }
+    const isForwardFromLocalTopic: Ref<boolean> = ref(true)
 
     let modelValueCache = ''
     const httpBridgeVal = ref({
@@ -206,6 +231,7 @@ export default defineComponent({
     const formCom = ref()
     const formRules = ref({
       name: createRequiredRule(tl('name')),
+      local_topic: createRequiredRule(tl('localTopic')),
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
       pool_size: [...createRequiredRule('Pool size'), ...createIntFieldRule(1)],
@@ -213,9 +239,26 @@ export default defineComponent({
     })
 
     const initHttpBridgeVal = () => {
+      if (props.modelValue.local_topic === undefined) {
+        isForwardFromLocalTopic.value = false
+      }
       httpBridgeVal.value = {
         ..._.cloneDeep(httpBridgeDefaultVal),
         ...transformStrToUnitArray(props.modelValue, ['connect_timeout', 'request_timeout']),
+      }
+      if (!isForwardFromLocalTopic.value) {
+        handleIsForwardToLocalTopicChangedInSinkType()
+      }
+    }
+
+    const handleIsForwardToLocalTopicChangedInSinkType = () => {
+      if (!isForwardFromLocalTopic.value) {
+        httpBridgeVal.value = _.omit(httpBridgeVal.value, 'local_topic') as any
+      } else {
+        httpBridgeVal.value = {
+          ...httpBridgeVal.value,
+          local_topic: httpBridgeDefaultVal.local_topic,
+        }
       }
     }
 
@@ -253,6 +296,8 @@ export default defineComponent({
       updateModelValue(httpBridgeVal.value)
     })
 
+    initHttpBridgeVal()
+
     return {
       tl,
       createRandomString,
@@ -261,6 +306,8 @@ export default defineComponent({
       tlsParams,
       httpBridgeVal,
       docMap,
+      isForwardFromLocalTopic,
+      handleIsForwardToLocalTopicChangedInSinkType,
       validate,
       clearValidate,
     }
