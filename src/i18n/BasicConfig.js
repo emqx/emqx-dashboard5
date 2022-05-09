@@ -53,7 +53,7 @@ export default {
   },
   readOnlyTip: {
     zh: '此配置项不支持热配置，请到配置文件内修改并重启服务',
-    en: 'This configuration item does not support hot configuration, please go to the configuration file to modify and restart the service',
+    en: 'This configuration does not support online-reload. Please update the config file and restart EMQX.',
   },
   telemetry: {
     zh: '遥测数据',
@@ -61,7 +61,7 @@ export default {
   },
   telemetryTip: {
     zh: '遥测收集有关 EMQX 使用情况的信息，与我们共享这些指标可以帮助我们更好地了解您如何使用我们的产品，并可以持续地帮助我们改进产品',
-    en: 'Telemetry collects information about EMQX usage. Sharing these metrics with us can help us better understand how you use our products and can continuously help us improve our products.',
+    en: 'Telemetry collects information about EMQX usage. Sharing these metrics helps us to better understand how EMQX is used, so we can continuously improve it.',
   },
   enableTelemetry: {
     zh: '启动遥测',
@@ -76,8 +76,8 @@ export default {
     en: 'Invite nodes',
   },
   inviteNodeDesc: {
-    zh: '当集群节点的服务发现方法是 Manual 的时候，可手动邀请节点加入集群',
-    en: 'If the service discovery method of the cluster nodes is Manual, you can manually invite the nodes to join the cluster.',
+    zh: '当集群节点的服务发现方法 (\'cluster.discovery_strategy\') 是 \'manual\' 的时候，可手动邀请节点加入集群',
+    en: 'When \'cluster.service_discovery\' is configured with \'manual\', you may invite another node to join the cluster.',
   },
   removeNodeConfirm: {
     zh: '是否移除该节点？',
