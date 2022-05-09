@@ -1,7 +1,7 @@
 <template>
   <div class="zone">
     <div style="margin-bottom: 20px">
-      <el-button class="new-zone-btn" type="primary" @click="handleBeforeAddTab(currTab)">{{
+      <el-button class="new-zone-btn" type="primary" @click="handleBeforeAddTab">{{
         tl('newZone')
       }}</el-button>
     </div>
@@ -12,7 +12,7 @@
         :label="item.title"
         :name="item.name"
       >
-        <p class="zone-tip">{{ tl('zoneTip') }}</p>
+        <p class="config-tip">{{ tl('zoneTip') }}</p>
         <schema-form
           path="/configs/zones"
           :form="configs[item.name]"
@@ -249,11 +249,6 @@ export default defineComponent({
     .el-tabs__item {
       border-bottom: 1px solid transparent;
     }
-  }
-  .zone-tip {
-    margin-left: 32px;
-    margin-bottom: 0px;
-    color: var(--el-text-color-regular);
   }
   .el-tabs.el-tabs--card.el-tabs--top {
     .el-tabs__header.is-top {
