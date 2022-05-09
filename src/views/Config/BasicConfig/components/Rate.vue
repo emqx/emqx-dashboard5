@@ -22,7 +22,7 @@
                 </template>
               </el-form-item>
             </el-col>
-            <el-col v-else-if="rateProp.type === 'object'" :span="16">
+            <el-col class="custom-col" v-else-if="rateProp.type === 'object'" :span="16">
               <div class="group-title">{{ rateProp.label }}</div>
               <div class="bucket-configs">
                 <p class="item-desc">{{ rateProp.description }}</p>

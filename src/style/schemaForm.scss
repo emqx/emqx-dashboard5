@@ -37,6 +37,14 @@
       border-left: 4px solid transparent;
       padding: 8px 12px 12px;
     }
+  }
+  .custom-col {
+    .el-form-item:hover {
+      background: var(--color-bg-split);
+      border-left: 4px solid var(--el-color-primary);
+    }
+  }
+  .el-col-16:not(.custom-col) {
     &:hover {
       .schema-col-setting {
         .setting-btn {
