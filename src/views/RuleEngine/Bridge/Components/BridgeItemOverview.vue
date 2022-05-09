@@ -10,11 +10,11 @@
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic">
         <el-col :span="6">
-          <p class="statistic-label">{{ tl('success') }}</p>
+          <p class="statistic-label">{{ tl('SuccessNum') }}</p>
           <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.success) }}</p>
         </el-col>
         <el-col :span="6">
-          <p class="statistic-label">{{ tl('failure') }}</p>
+          <p class="statistic-label">{{ tl('ErrNum') }}</p>
           <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.failed) }}</p>
         </el-col>
         <el-col :span="6">
@@ -33,8 +33,8 @@
       <p class="card-sub-desc">{{ tl('nodeStatusDesc') }}</p>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column prop="metrics.success" :label="tl('success')" />
-        <el-table-column prop="metrics.failed" :label="tl('failure')" />
+        <el-table-column prop="metrics.success" :label="tl('SuccessNum')" />
+        <el-table-column prop="metrics.failed" :label="tl('ErrNum')" />
         <el-table-column prop="metrics.rate" :label="tl('speedNow')" />
         <el-table-column :label="tl('status')">
           <template #default="{ row }">

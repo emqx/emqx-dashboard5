@@ -8,10 +8,10 @@
               <el-descriptions-item :label="tl('status')">
                 {{ statusText(status) }}
               </el-descriptions-item>
-              <el-descriptions-item :label="t('RuleEngine.success')">
+              <el-descriptions-item :label="t('RuleEngine.SuccessNum')">
                 {{ getNodeMetrics(row.node).succeed }}
               </el-descriptions-item>
-              <el-descriptions-item :label="t('RuleEngine.failure')">
+              <el-descriptions-item :label="t('RuleEngine.ErrNum')">
                 {{ getNodeMetrics(row.node).failed }}
               </el-descriptions-item>
               <el-descriptions-item :label="t('Base.rate')">

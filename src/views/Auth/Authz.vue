@@ -33,7 +33,7 @@
         :min-width="108"
       />
       <el-table-column
-        :label="`${$t('RuleEngine.speedNow')}`"
+        :label="`${$t('RuleEngine.speedNow')}(tps)`"
         prop="metrics.metrics.rate"
         :min-width="148"
       />
