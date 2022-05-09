@@ -10,7 +10,7 @@
           </el-button>
         </div>
 
-        <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading">
+        <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
           <el-table-column :label="tl('name')" :min-width="120">
             <template #default="{ row }">
               <div class="bridge-column-first">

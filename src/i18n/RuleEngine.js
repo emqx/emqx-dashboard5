@@ -623,13 +623,37 @@ export default {
     zh: '不经 IoT 规则处理直接将远程主题数据转发至本地主题中。',
     en: 'Directly forward remote topic messages to local topic without IoT rule processing.',
   },
-  mqttSinkMappingDesc: {
-    zh: '是否从本地主题转发数据？',
-    en: 'Would you like forward messages from the local topic?',
+  mqttSourceForwardLabel: {
+    zh: '你想将数据转发至何处？',
+    en: 'Where do you want to forward messages to?',
   },
-  mqttSinkMappingDescDetail: {
-    zh: '不经 IoT 规则处理直接将本地主题数据转发至远程主题中。',
-    en: 'Directly forward local topic messages to remote topic without IoT rule processing.',
+  iotAndLocalTopic: {
+    zh: '本地主题 + IoT 规则',
+    en: 'Local Topic + IoT Rules',
+  },
+  justIot: {
+    zh: '仅 IoT 规则',
+    en: 'Just IoT Rules',
+  },
+  mqttSourceForwardLocalTopicDesc: {
+    zh: '使用 IoT 规则处理数据，同时将数据转发至本地主题中',
+    en: 'Process messages using IoT rules and forwarding messages to the local topic',
+  },
+  mqttSourceNotForwardLocalTopicDesc: {
+    zh: '仅使用 IoT 规则处理数据',
+    en: 'Just use IoT rules to process data',
+  },
+  bridgeSinkFromLabel: {
+    zh: '你想从什么地方转发数据？',
+    en: 'Where do you want to forward messages from?',
+  },
+  bridgeSinkForwardFromLocalTopicDesc: {
+    zh: '从本地主题和 IoT 规则中转发数据',
+    en: 'Forward messages from the local topic and IoT rules',
+  },
+  bridgeSinkNotForwardFromLocalTopicDesc: {
+    zh: '仅从 IoT 规则转发数据',
+    en: 'Just forward messages from IoT rules',
   },
   headers: {
     zh: '请求头',
@@ -638,10 +662,6 @@ export default {
   body: {
     zh: '请求体',
     en: 'Body',
-  },
-  forwardToLocalTopic: {
-    zh: '转发至本地主题',
-    en: 'Forward to local topic',
   },
   forwardFromLocalTopic: {
     zh: '从本地主题转发',
