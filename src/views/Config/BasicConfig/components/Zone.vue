@@ -58,7 +58,7 @@ import {
   updateGlobalZoneConfigs,
 } from '@/api/config'
 import { Zones, Zone } from '@/types/config'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, TabPanelName } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import useI18nTl from '@/hooks/useI18nTl'
 
@@ -172,7 +172,7 @@ export default defineComponent({
       }
       const findName = editableTabs.value.find((tab) => tab.name === name)
       if (findName) {
-        ElMessage.error(tl('zoneNameExist'))
+        ElMessage.warning(tl('zoneNameExist'))
         return
       }
       const findTab: EditTableTabs = editableTabs.value.find(
@@ -190,13 +190,13 @@ export default defineComponent({
       configs[newTabName] = findTab.config
       updateZone(findTab.config as Zone, newTabName)
     }
-    const removeTab = async (targetName: string) => {
+    const removeTab = async (targetName: TabPanelName) => {
       const tabs = editableTabs.value
       let activeName = currTab.value
       if (tabs.length === 1 || targetName === 'default') {
         return
       }
-      await ElMessageBox.confirm(tl('confirmRemove', { name: targetName }), {
+      await ElMessageBox.confirm(tl('confirmRemove', { name: targetName as string }), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
@@ -215,7 +215,7 @@ export default defineComponent({
       editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
       await nextTick()
       configs[targetName] = {}
-      updateZone(null, targetName)
+      updateZone(null, targetName as string)
     }
     return {
       tl,

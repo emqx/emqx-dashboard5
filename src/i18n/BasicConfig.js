@@ -107,4 +107,24 @@ export default {
     zh: '基础',
     en: 'Basic',
   },
+  newBucket: {
+    zh: '新建桶',
+    en: 'New Bucket',
+  },
+  bucketName: {
+    zh: '桶名称',
+    en: 'Bucket Name',
+  },
+  duplicateBucket: {
+    zh: '复制桶',
+    en: 'Duplicate Bucket',
+  },
+  bucketNameRequired: {
+    zh: '请输入桶名称',
+    en: 'Bucket name is required',
+  },
+  bucketNameExist: {
+    zh: '桶已存在',
+    en: 'Bucket already exists',
+  },
 }
