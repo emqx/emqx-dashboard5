@@ -130,7 +130,7 @@
         :model="topicInput"
         label-position="top"
         :rules="topicRules"
-        @keyup.enter.stop="addTopic()"
+        @submit.prevent="addTopic()"
       >
         <el-form-item prop="topic" :label="'topic'">
           <el-input v-model="topicInput.topic"></el-input>
@@ -202,6 +202,7 @@ export default defineComponent({
     const openAdd = () => {
       addVisible.value = true
       record.value?.resetFields()
+      addLoading.value = false
     }
 
     const loadTopicMetrics = async function () {
@@ -217,57 +218,48 @@ export default defineComponent({
     }
 
     const addTopic = async function () {
-      addLoading.value = true
-      let validate = await record.value?.validate().catch(() => {})
-      if (!validate) return
-      let { topic } = topicInput
-      let res = await addTopicMetrics(topic).catch(() => {})
-      if (res) {
-        ElMessage({
-          type: 'success',
-          message: t('Base.createSuccess'),
-        })
+      try {
+        await record.value?.validate()
+        addLoading.value = true
+        let { topic } = topicInput
+        await addTopicMetrics(topic)
+        ElMessage.success(t('Base.createSuccess'))
+        addVisible.value = false
         loadTopicMetrics()
-      }
-      addVisible.value = false
-      addLoading.value = false
-    }
-
-    const deleteTopic = async function (row) {
-      let confirm = await MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      }).catch((e) => e)
-
-      if (confirm !== 'confirm') return
-      let { topic } = row
-      let res = await deleteTopicMetrics(topic).catch(() => {})
-      if (res) {
-        ElMessage({
-          type: 'success',
-          message: t('Base.deleteSuccess'),
-        })
-        loadTopicMetrics()
+      } catch (error) {
+        //
+      } finally {
+        addLoading.value = false
       }
     }
 
-    const resetTopic = async function (row) {
-      let confirm = await MB.confirm(t('General.confirmReset'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      }).catch((e) => e)
-
-      if (confirm !== 'confirm') return
-      let { topic } = row
-      let res = await resetTopicMetrics(topic).catch(() => {})
-      if (res) {
-        ElMessage({
-          type: 'success',
-          message: t('Base.resetSuccess'),
+    const deleteTopic = async function ({ topic }) {
+      try {
+        await MB.confirm(t('Base.confirmDelete'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          type: 'warning',
         })
+        await deleteTopicMetrics(topic)
+        ElMessage.success(t('Base.deleteSuccess'))
         loadTopicMetrics()
+      } catch (error) {
+        //
+      }
+    }
+
+    const resetTopic = async function ({ topic }) {
+      try {
+        await MB.confirm(t('General.confirmReset'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          type: 'warning',
+        })
+        await resetTopicMetrics(topic)
+        ElMessage.success(t('Base.resetSuccess'))
+        loadTopicMetrics()
+      } catch (error) {
+        //
       }
     }
 
