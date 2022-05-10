@@ -14,11 +14,6 @@
       </el-table-column>
       <el-table-column :label="tl('lType')" prop="type" :min-width="90" />
       <el-table-column :label="tl('lAddress')" prop="bind" :min-width="132" />
-      <el-table-column label="Acceptors" sortable prop="acceptors" :min-width="128">
-        <template #default="{ row }">
-          <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="tl('connection')" :min-width="120">
         <template #default="{ row }">
           <el-tooltip
@@ -34,6 +29,11 @@
               :show-text="false"
             />
           </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column label="Acceptors" prop="acceptors" :min-width="128">
+        <template #default="{ row }">
+          <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
@@ -98,8 +98,8 @@ const getListenerData = async () => {
 }
 
 const addListener = () => {
-  currentListener.value = undefined
   showDialog.value = true
+  currentListener.value = undefined
 }
 
 const editListener = (listener: Listener) => {

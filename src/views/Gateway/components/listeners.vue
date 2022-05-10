@@ -7,15 +7,15 @@
       </el-button>
     </div>
     <el-table :data="listenerTable" v-loading="listenerLoading">
-      <el-table-column :label="'ID'" sortable prop="id" />
-      <el-table-column :label="tl('lType')" sortable prop="type" />
-      <el-table-column :label="tl('lAddress')" sortable prop="bind" />
-      <el-table-column label="Acceptors" sortable prop="acceptors">
+      <el-table-column :label="'ID'" prop="id" />
+      <el-table-column :label="tl('lType')" prop="type" />
+      <el-table-column :label="tl('lAddress')" prop="bind" />
+      <el-table-column :label="tl('lMaxConn')" prop="max_connections" />
+      <el-table-column label="Acceptors" prop="acceptors">
         <template #default="{ row }">
           <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('lMaxConn')" sortable prop="max_connections" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
           <el-button size="small" @click="editListener(row, $index)">
