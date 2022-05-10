@@ -544,6 +544,7 @@ p.tip {
 .table-data-without-break {
   display: block;
   overflow: hidden;
+  margin: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

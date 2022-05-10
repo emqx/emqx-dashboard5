@@ -16,19 +16,24 @@
       </div>
     </div>
     <el-table :data="statistics" @sort-change="sortTable">
-      <el-table-column prop="clientid" label="Client ID">
+      <el-table-column prop="clientid" label="Client ID" show-overflow-tooltip>
         <template #default="{ row }">
           <router-link
             :to="{
               name: 'clients-detail',
               params: { clientId: row.clientid },
             }"
+            class="table-data-without-break"
           >
             {{ row.clientid }}
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="topic" :label="tl('topic')" />
+      <el-table-column prop="topic" :label="tl('topic')" show-overflow-tooltip>
+        <template #default="{ row }">
+          <p class="table-data-without-break">{{ row.topic }}</p>
+        </template>
+      </el-table-column>
       <el-table-column prop="timespan" :label="tl('duration')" sortable="custom">
         <template #default="{ row }">
           {{ formatTime(row.timespan) }}
