@@ -11,7 +11,13 @@
               }
             : undefined,
         }"
-      />
+      >
+        <template #content>
+          <el-tooltip :content="clientId">
+            <p class="header-content">{{ clientId }}</p>
+          </el-tooltip>
+        </template>
+      </detail-header>
       <div class="actions">
         <el-button type="primary" :icon="Refresh" @click="loadData">
           {{ tl('refresh') }}
@@ -506,6 +512,13 @@ loadSubs()
 
 <style lang="scss">
 .client-details {
+  .header-content {
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: nowrap;
+    margin: 0;
+  }
   .el-card {
     &.client-info {
       &.top-border {
