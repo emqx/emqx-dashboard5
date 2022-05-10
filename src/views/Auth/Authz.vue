@@ -104,7 +104,7 @@ const {
 const toggleEnable = async (row: AuthzItemInTable) => {
   try {
     const { img, metrics, ...data } = row
-    await updateAuthz('row.type', data)
+    await updateAuthz(row.type, data)
     ElMessage.success(t(row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
     await updateAuthnItemMetrics(row)
   } catch (error) {
