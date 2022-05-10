@@ -75,13 +75,19 @@
     </el-form>
 
     <el-table :data="tableData" ref="clientsTable" v-loading.lock="lockTable">
-      <el-table-column prop="clientid" min-width="140" :label="$t('Clients.clientId')">
+      <el-table-column
+        prop="clientid"
+        min-width="140"
+        :label="$t('Clients.clientId')"
+        show-overflow-tooltip
+      >
         <template #default="{ row }">
           <router-link
             :to="{
               name: 'clients-detail',
               params: { clientId: row.clientid },
             }"
+            class="table-data-without-break"
           >
             {{ row.clientid }}
           </router-link>
@@ -167,7 +173,6 @@ const fuzzyParams = ref<Record<string, any>>({
   comparator: 'gte',
 })
 const pageMeta = ref({})
-const protoNames = ref(['MQTT', 'MQTT-SN', 'CoAP', 'LwM2M'])
 const store = useStore()
 const { t } = useI18n()
 

@@ -45,9 +45,3 @@ defineProps({
   opacity: 0.8;
 }
 </style>
-
-<style lang="scss">
-.info-tooltip {
-  max-width: 360px;
-}
-</style>

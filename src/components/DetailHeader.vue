@@ -1,5 +1,9 @@
 <template>
-  <el-page-header class="detail-header" :icon="ArrowLeft" :content="item.name" @back="goBack" />
+  <el-page-header class="detail-header" :icon="ArrowLeft" :content="item.name" @back="goBack">
+    <template #content v-if="$slots.content">
+      <slot name="content" />
+    </template>
+  </el-page-header>
 </template>
 
 <script lang="ts">
@@ -14,7 +18,7 @@ export default defineComponent({
 import { ArrowLeft } from '@element-plus/icons-vue'
 
 interface item {
-  name: string
+  name?: string
   path?: string
   routeName?: string
   backFunc?: () => void
@@ -47,5 +51,11 @@ const goBack = () => {
 .detail-header {
   margin-top: 18px;
   margin-bottom: 24px;
+  max-width: 90%;
+  .el-page-header__content {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 </style>
