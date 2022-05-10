@@ -71,13 +71,17 @@ export default {
     zh: '速率限制',
     en: 'Rate Limit',
   },
+  limiter: {
+    zh: '速率限制器',
+    en: 'Limiter',
+  },
   invaiteNode: {
     zh: '邀请节点',
     en: 'Invite nodes',
   },
   inviteNodeDesc: {
-    zh: '当集群节点的服务发现方法 (\'cluster.discovery_strategy\') 是 \'manual\' 的时候，可手动邀请节点加入集群',
-    en: 'When \'cluster.service_discovery\' is configured with \'manual\', you may invite another node to join the cluster.',
+    zh: "当集群节点的服务发现方法 ('cluster.discovery_strategy') 是 'manual' 的时候，可手动邀请节点加入集群",
+    en: "When 'cluster.service_discovery' is configured with 'manual', you may invite another node to join the cluster.",
   },
   removeNodeConfirm: {
     zh: '是否移除该节点？',

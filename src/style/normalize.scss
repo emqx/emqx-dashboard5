@@ -338,7 +338,7 @@
 
 /* Select */
 .el-select__popper.el-popper[role=tooltip] .el-popper__arrow::before {
-  border: 1px solid var(--color-bg-primary);
+  border: 1px solid var(--color-border-normal);
   background: var(--color-bg-primary);
 }
 .el-select__popper.el-popper[role=tooltip] {
@@ -413,6 +413,7 @@
 
 /* Popper */
 .el-popper {
+  max-width: 360px;
   --el-popper-border-radius: 8px;
   &.is-light {
     border: none
@@ -629,7 +630,7 @@
   border-color: var(--color-border-primary);
 }
 
-/* Popper */
-.el-popper {
-  max-width: 360px;
+/* Tree */
+.el-tree {
+  background: var(--color-bg-primary);
 }

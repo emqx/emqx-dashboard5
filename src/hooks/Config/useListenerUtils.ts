@@ -144,6 +144,7 @@ export default (): ListenerUtils => {
     max_connections: 102400,
     max_conn_rate: 1000,
     zone: DEFAULT_ZONE,
+    limiter: {},
     mountpoint: '',
     proxy_protocol: false,
     proxy_protocol_timeout: '15s',
@@ -215,7 +216,9 @@ export default (): ListenerUtils => {
             result[v] = record[v]
           }
           break
-
+        case 'limiter':
+          result[v] = record[v]
+          break
         default:
           if (typeof record[v] !== 'object' || record[v] === null) {
             result[v] = record[v]
