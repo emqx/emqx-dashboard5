@@ -13,9 +13,9 @@
       v-loading.lock="isTableLoading"
       row-key="name"
     >
-      <el-table-column prop="name" :label="tl('name')" :min-width="120">
+      <el-table-column prop="name" :label="tl('name')" :min-width="120" show-overflow-tooltip>
         <template #default="{ row }">
-          <router-link :to="exhookDetailRoute(row)">
+          <router-link :to="exhookDetailRoute(row)" class="table-data-without-break">
             {{ row.name }}
           </router-link>
         </template>

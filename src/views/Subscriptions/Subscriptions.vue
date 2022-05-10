@@ -62,8 +62,16 @@
     </el-form>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="clientid" :label="$t('Clients.clientId')"></el-table-column>
-      <el-table-column prop="topic" :label="$t('Subs.topic')"></el-table-column>
+      <el-table-column prop="clientid" :label="$t('Clients.clientId')" show-overflow-tooltip>
+        <template #default="{ row }">
+          <p class="table-data-without-break">{{ row.clientid }}</p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="topic" :label="$t('Subs.topic')" show-overflow-tooltip>
+        <template #default="{ row }">
+          <p class="table-data-without-break">{{ row.topic }}</p>
+        </template>
+      </el-table-column>
       <el-table-column prop="qos" label="QoS"></el-table-column>
     </el-table>
 

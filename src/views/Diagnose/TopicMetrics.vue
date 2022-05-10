@@ -70,7 +70,11 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="'Topic'" prop="topic" :min-width="120" />
+      <el-table-column :label="'Topic'" prop="topic" :min-width="120" show-overflow-tooltip>
+        <template #default="{ row }">
+          <p class="table-data-without-break">{{ row.topic }}</p>
+        </template>
+      </el-table-column>
       <el-table-column
         :label="tl('msgIn')"
         sortable

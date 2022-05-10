@@ -9,9 +9,12 @@
       </div>
     </div>
     <el-table :data="ruleTable" v-loading="iotLoading">
-      <el-table-column :label="tl('name')" :min-width="92">
+      <el-table-column :label="tl('name')" :min-width="92" show-overflow-tooltip>
         <template #default="{ row }">
-          <router-link :to="{ name: 'iot-detail', params: { id: row.id } }">
+          <router-link
+            :to="{ name: 'iot-detail', params: { id: row.id } }"
+            class="table-data-without-break"
+          >
             {{ row.name }}
           </router-link>
         </template>
