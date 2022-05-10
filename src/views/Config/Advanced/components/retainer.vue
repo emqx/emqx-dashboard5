@@ -159,28 +159,45 @@
         </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')">
-        <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
-          <el-table-column :label="'Topic'" prop="topic" :min-width="160" />
-          <el-table-column :label="'QoS'" prop="qos" sortable :min-width="92" />
-          <el-table-column :label="'Payload'" :min-width="92">
-            <template #default="{ row }">
-              <el-button size="small" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column label="From Client ID" prop="from_clientid" :min-width="148" />
-          <el-table-column :label="tl('createDate')" sortable :min-width="148">
-            <template #default="{ row }">
-              {{ row.publish_at && dateFormat(row.publish_at) }}
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('Base.operation')" :min-width="88">
-            <template #default="{ row }">
-              <el-button size="small" type="danger" plain @click="deleteRetainerTopic(row)">{{
-                $t('Base.delete')
-              }}</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+        <div>
+          <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
+            <el-table-column :label="'Topic'" prop="topic" :min-width="160" />
+            <el-table-column :label="'QoS'" prop="qos" sortable :min-width="92" />
+            <el-table-column :label="'Payload'" :min-width="92">
+              <template #default="{ row }">
+                <el-button size="small" @click="checkPayload(row)">{{
+                  tl('openPayload')
+                }}</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column label="From Client ID" prop="from_clientid" :min-width="148" />
+            <el-table-column :label="tl('createDate')" sortable :min-width="148">
+              <template #default="{ row }">
+                {{ row.publish_at && dateFormat(row.publish_at) }}
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('Base.operation')" :min-width="88">
+              <template #default="{ row }">
+                <el-button size="small" type="danger" plain @click="deleteRetainerTopic(row)">
+                  {{ $t('Base.delete') }}
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <div class="emq-table-footer">
+            <el-pagination
+              v-if="count > 0"
+              background
+              layout="total, sizes, prev, pager, next"
+              :page-sizes="[20, 50, 100, 500]"
+              v-model:page-size="limit"
+              v-model:current-page="page"
+              :total="count"
+              @size-change="initPageNo(), loadTbData()"
+              @current-change="loadTbData"
+            />
+          </div>
+        </div>
       </el-tab-pane>
     </el-tabs>
     <el-dialog v-model="payloadDialog" custom-class="payload-dialog" :title="'Payload'">
@@ -216,8 +233,8 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+<script setup>
+import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import {
   getRetainer,
   getRetainerList,
@@ -233,330 +250,306 @@ import _ from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
 import useCopy from '@/hooks/useCopy'
 import useFormRules from '@/hooks/useFormRules'
+import usePagination from '@/hooks/usePagination'
 
-export default defineComponent({
-  name: 'Retainer',
-  setup() {
-    const { t } = useI18n()
-    const { tl } = useI18nTl('Advanced')
-    const { copyText } = useCopy(copySuccess)
-    const { createRequiredRule } = useFormRules()
+const { t } = useI18n()
+const { tl } = useI18nTl('Advanced')
+const { copyText } = useCopy(copySuccess)
+const { createRequiredRule } = useFormRules()
 
-    let retainerConfig = reactive({
-      max_payload_size: [1, 'MB'],
-      msg_clear_interval: [0, 's'],
-      msg_expiry_interval: [0, 's'],
-      backend: {
-        storage_type: 'ram',
-        type: 'built_in_database',
-        max_retained_messages: 0,
-      },
-      flow_control: {
-        batch_read_number: 0,
-        batch_deliver_number: 0,
-        batch_deliver_limiter: 'retainer',
-      },
-      enable: false,
-    })
+let retainerConfig = reactive({
+  max_payload_size: [1, 'MB'],
+  msg_clear_interval: [0, 's'],
+  msg_expiry_interval: [0, 's'],
+  backend: {
+    storage_type: 'ram',
+    type: 'built_in_database',
+    max_retained_messages: 0,
+  },
+  flow_control: {
+    batch_read_number: 0,
+    batch_deliver_number: 0,
+    batch_deliver_limiter: 'retainer',
+  },
+  enable: false,
+})
 
-    let selOptions = reactive({
-      retained: 'custom',
-      payload: 'KB',
-      expiry: 's',
-      clean: 's',
-      read: 'custom',
-      deliver: 'custom',
-      release: 's',
-    })
+let selOptions = reactive({
+  retained: 'custom',
+  payload: 'KB',
+  expiry: 's',
+  clean: 's',
+  read: 'custom',
+  deliver: 'custom',
+  release: 's',
+})
 
-    let configLoading = ref(true)
-    let configEnable = ref(false)
-    let tbLoading = ref(true)
-    let tbData = ref([])
-    let payloadDialog = ref(false)
-    let payloadDetail = ref('')
-    let payloadLoading = ref(false)
-    let retainerForm = ref(null)
-    let isCopyShow = ref(false)
-    const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
-      useShowTextByDifferent()
+const { page, limit, count, resetPageNum } = usePagination()
+let configLoading = ref(true)
+let configEnable = ref(false)
+let tbLoading = ref(true)
+let tbData = ref([])
+let payloadDialog = ref(false)
+let payloadDetail = ref('')
+let payloadLoading = ref(false)
+let retainerForm = ref(null)
+let isCopyShow = ref(false)
+const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent()
 
-    let validatorRules = [
-      { required: true, message: tl('required'), trigger: 'blur' },
-      {
-        type: 'number',
-        message: tl('needNumber'),
-        trigger: 'blur',
-      },
-      {
-        type: 'number',
-        min: 0,
-        message: t('Rule.minimumError', { min: 0 }),
-      },
-    ]
+let validatorRules = [
+  { required: true, message: tl('required'), trigger: 'blur' },
+  {
+    type: 'number',
+    message: tl('needNumber'),
+    trigger: 'blur',
+  },
+  {
+    type: 'number',
+    min: 0,
+    message: t('Rule.minimumError', { min: 0 }),
+  },
+]
 
-    const retainerRules = ref({
-      backend: {
-        max_retained_messages: validatorRules,
-        storage_type: createRequiredRule('Storage', 'select'),
-      },
-      max_payload_size: {
-        0: validatorRules,
-      },
-      msg_expiry_interval: {
-        0: validatorRules,
-      },
-      msg_clear_interval: {
-        0: validatorRules,
-      },
-      flow_control: {
-        batch_read_number: validatorRules,
-        batch_deliver_number: validatorRules,
-      },
-    })
+const retainerRules = ref({
+  backend: {
+    max_retained_messages: validatorRules,
+    storage_type: createRequiredRule('Storage', 'select'),
+  },
+  max_payload_size: {
+    0: validatorRules,
+  },
+  msg_expiry_interval: {
+    0: validatorRules,
+  },
+  msg_clear_interval: {
+    0: validatorRules,
+  },
+  flow_control: {
+    batch_read_number: validatorRules,
+    batch_deliver_number: validatorRules,
+  },
+})
 
-    watch(
-      () => ({ ...selOptions }),
-      async (newV, oldV) => {
-        // wait derivedOptionsFromConfig finished
-        await nextTick()
-        if (newV.retained == 'unlimited') {
-          retainerConfig.backend.max_retained_messages = 0
-        }
-        if (newV.read == 'unlimited') {
-          retainerConfig.flow_control.batch_read_number = 0
-        }
-        if (newV.deliver == 'unlimited') {
-          retainerConfig.flow_control.batch_deliver_number = 0
-        }
-
-        if (newV.expiry == '0s') {
-          retainerConfig.msg_expiry_interval = [0, 's']
-        } else {
-          retainerConfig.msg_expiry_interval[1] = newV.expiry
-        }
-        if (newV.clean == '0s') {
-          retainerConfig.msg_clear_interval = [0, 's']
-        } else {
-          retainerConfig.msg_clear_interval[1] = newV.clean
-        }
-
-        if (newV.payload != oldV.payload) {
-          retainerConfig.max_payload_size[1] = newV.payload
-        }
-      },
-    )
-
-    const loadConfigData = async () => {
-      configLoading.value = true
-      configEnable.value = true
-      retainerForm.value?.resetFields()
-      try {
-        let res = await getRetainer()
-        if (res) {
-          Object.assign(retainerConfig, res)
-          getConfigFormEnable()
-          derivedOptionsFromConfig()
-        }
-      } catch (error) {
-        console.error(error)
-      } finally {
-        configLoading.value = false
-      }
+watch(
+  () => ({ ...selOptions }),
+  async (newV, oldV) => {
+    // wait derivedOptionsFromConfig finished
+    await nextTick()
+    if (newV.retained == 'unlimited') {
+      retainerConfig.backend.max_retained_messages = 0
+    }
+    if (newV.read == 'unlimited') {
+      retainerConfig.flow_control.batch_read_number = 0
+    }
+    if (newV.deliver == 'unlimited') {
+      retainerConfig.flow_control.batch_deliver_number = 0
     }
 
-    const getConfigFormEnable = () => {
-      if (retainerConfig?.enable === true) {
-        configEnable.value = true
-      } else {
-        configEnable.value = false
-      }
+    if (newV.expiry == '0s') {
+      retainerConfig.msg_expiry_interval = [0, 's']
+    } else {
+      retainerConfig.msg_expiry_interval[1] = newV.expiry
+    }
+    if (newV.clean == '0s') {
+      retainerConfig.msg_clear_interval = [0, 's']
+    } else {
+      retainerConfig.msg_clear_interval[1] = newV.clean
     }
 
-    const derivedOptionsFromConfig = () => {
-      let config = retainerConfig
-      if (config?.backend?.max_retained_messages === 0) {
-        selOptions.retained = 'unlimited'
-      } else {
-        selOptions.retained = 'custom'
-      }
-      // trans some values from string to array
-      if (config?.max_payload_size) {
-        let matching = config.max_payload_size.match(/(\d+)(\w{2,})/)
-        selOptions.payload = matching[2]
-        config.max_payload_size = [+matching[1], matching[2]]
-      }
-      if (config?.msg_expiry_interval) {
-        let matching = config.msg_expiry_interval.match(/(\d+)(\w)/)
-        selOptions.expiry = matching[1] === '0' ? config.msg_expiry_interval : matching[2]
-        config.msg_expiry_interval = [+matching[1], matching[2]]
-      }
-      if (config?.msg_clear_interval) {
-        let matching = config.msg_clear_interval.match(/(\d+)(\w)/)
-        selOptions.clean = matching[1] === '0' ? config.msg_clear_interval : matching[2]
-        config.msg_clear_interval = [+matching[1], matching[2]]
-      }
-      if (config?.flow_control?.batch_read_number === 0) {
-        selOptions.read = 'unlimited'
-      } else {
-        selOptions.read = 'custom'
-      }
-      if (config?.flow_control?.batch_deliver_number === 0) {
-        selOptions.deliver = 'unlimited'
-      } else {
-        selOptions.deliver = 'custom'
-      }
-    }
-
-    // const changeSelType1 = async (event, e) => {
-    //   console.log(event)
-    // }
-
-    // const dateFormat = (date) => {
-    //   return moment(date).format('YYYY-MM-DD HH:mm:ss')
-    // }
-
-    const composeConfigFromForm = (config) => {
-      const ret = _.cloneDeep(config)
-      combineData(ret)
-      function combineData(data) {
-        if (typeof data == 'object' && data !== null) {
-          Object.keys(data).forEach((k) => {
-            if (data[k] instanceof Array) {
-              // trans some values from array to string
-              data[k] = data[k].join('')
-            } else if (typeof data[k] == 'object' && data[k] !== null) {
-              combineData(data[k])
-              return
-            }
-          })
-        }
-      }
-      return ret
-    }
-
-    const toggleStatus = async () => {
-      let valid = await retainerForm.value.validate().catch(() => {})
-      if (!valid) {
-        retainerConfig.enable = !retainerConfig.enable
-        return
-      }
-      updateConfigData()
-    }
-
-    const updateConfigData = async function () {
-      let valid = await retainerForm.value.validate().catch(() => {})
-      if (!valid) return
-
-      configLoading.value = true
-      const formData = composeConfigFromForm(retainerConfig)
-
-      let res = await updateRetainer(formData).catch(() => {})
-      if (res) {
-        getConfigFormEnable()
-        ElMessage({
-          type: 'success',
-          message: t('Base.updateSuccess'),
-        })
-      } else {
-        loadConfigData()
-      }
-      configLoading.value = false
-    }
-
-    const deleteRetainerTopic = async function (row) {
-      MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      })
-        .then(async () => {
-          const { topic } = row
-          if (!topic) return
-          let res = await delRetainerTopic(topic).catch(() => {})
-          if (res) {
-            loadTbData()
-          } else {
-            //todo
-          }
-        })
-        .catch(() => {})
-    }
-
-    const loadTbData = async () => {
-      tbLoading.value = true
-      let res = await getRetainerList().catch(() => {})
-      if (res) {
-        tbData.value = res
-      }
-      tbLoading.value = false
-    }
-
-    const checkPayload = async (row) => {
-      payloadDialog.value = true
-      payloadDetail.value = ''
-      payloadLoading.value = true
-      const { topic } = row
-      if (!topic) return
-      let res = await getRetainerTopic(topic).catch(() => {})
-      if (res) {
-        payloadDetail.value = res.payload
-        setRawText(payloadDetail.value)
-      }
-      payloadLoading.value = false
-      await nextTick()
-    }
-
-    onMounted(() => {
-      loadConfigData()
-      loadTbData()
-    })
-
-    const reloading = () => {
-      loadConfigData()
-      loadTbData()
-    }
-
-    let copyShowTimeout = ref(null)
-    const copySuccess = () => {
-      isCopyShow.value = true
-      clearTimeout(copyShowTimeout.value)
-      copyShowTimeout.value = setTimeout(() => {
-        isCopyShow.value = false
-      }, 2000)
-    }
-
-    onUnmounted(() => {
-      copyShowTimeout.value && clearTimeout(copyShowTimeout.value)
-    })
-
-    return {
-      tl,
-      retainerConfig,
-      configLoading,
-      tbLoading,
-      tbData,
-      toggleStatus,
-      updateConfigData,
-      selOptions,
-      configEnable,
-      deleteRetainerTopic,
-      reloading,
-      payloadDialog,
-      checkPayload,
-      payloadDetail,
-      payloadLoading,
-      payloadForShow,
-      payloadShowBy,
-      payloadShowByOptions,
-      retainerRules,
-      retainerForm,
-      dateFormat,
-      copySuccess,
-      isCopyShow,
-      copyText,
+    if (newV.payload != oldV.payload) {
+      retainerConfig.max_payload_size[1] = newV.payload
     }
   },
+)
+
+const loadConfigData = async () => {
+  configLoading.value = true
+  configEnable.value = true
+  retainerForm.value?.resetFields()
+  try {
+    let res = await getRetainer()
+    if (res) {
+      Object.assign(retainerConfig, res)
+      getConfigFormEnable()
+      derivedOptionsFromConfig()
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    configLoading.value = false
+  }
+}
+
+const getConfigFormEnable = () => {
+  if (retainerConfig?.enable === true) {
+    configEnable.value = true
+  } else {
+    configEnable.value = false
+  }
+}
+
+const derivedOptionsFromConfig = () => {
+  let config = retainerConfig
+  if (config?.backend?.max_retained_messages === 0) {
+    selOptions.retained = 'unlimited'
+  } else {
+    selOptions.retained = 'custom'
+  }
+  // trans some values from string to array
+  if (config?.max_payload_size) {
+    let matching = config.max_payload_size.match(/(\d+)(\w{2,})/)
+    selOptions.payload = matching[2]
+    config.max_payload_size = [+matching[1], matching[2]]
+  }
+  if (config?.msg_expiry_interval) {
+    let matching = config.msg_expiry_interval.match(/(\d+)(\w)/)
+    selOptions.expiry = matching[1] === '0' ? config.msg_expiry_interval : matching[2]
+    config.msg_expiry_interval = [+matching[1], matching[2]]
+  }
+  if (config?.msg_clear_interval) {
+    let matching = config.msg_clear_interval.match(/(\d+)(\w)/)
+    selOptions.clean = matching[1] === '0' ? config.msg_clear_interval : matching[2]
+    config.msg_clear_interval = [+matching[1], matching[2]]
+  }
+  if (config?.flow_control?.batch_read_number === 0) {
+    selOptions.read = 'unlimited'
+  } else {
+    selOptions.read = 'custom'
+  }
+  if (config?.flow_control?.batch_deliver_number === 0) {
+    selOptions.deliver = 'unlimited'
+  } else {
+    selOptions.deliver = 'custom'
+  }
+}
+
+// const changeSelType1 = async (event, e) => {
+//   console.log(event)
+// }
+
+// const dateFormat = (date) => {
+//   return moment(date).format('YYYY-MM-DD HH:mm:ss')
+// }
+
+const composeConfigFromForm = (config) => {
+  const ret = _.cloneDeep(config)
+  combineData(ret)
+  function combineData(data) {
+    if (typeof data == 'object' && data !== null) {
+      Object.keys(data).forEach((k) => {
+        if (data[k] instanceof Array) {
+          // trans some values from array to string
+          data[k] = data[k].join('')
+        } else if (typeof data[k] == 'object' && data[k] !== null) {
+          combineData(data[k])
+          return
+        }
+      })
+    }
+  }
+  return ret
+}
+
+const toggleStatus = async () => {
+  let valid = await retainerForm.value.validate().catch(() => {})
+  if (!valid) {
+    retainerConfig.enable = !retainerConfig.enable
+    return
+  }
+  updateConfigData()
+}
+
+const updateConfigData = async function () {
+  let valid = await retainerForm.value.validate().catch(() => {})
+  if (!valid) return
+
+  configLoading.value = true
+  const formData = composeConfigFromForm(retainerConfig)
+
+  let res = await updateRetainer(formData).catch(() => {})
+  if (res) {
+    getConfigFormEnable()
+    ElMessage({
+      type: 'success',
+      message: t('Base.updateSuccess'),
+    })
+  } else {
+    loadConfigData()
+  }
+  configLoading.value = false
+}
+
+const deleteRetainerTopic = async function (row) {
+  MB.confirm(t('Base.confirmDelete'), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+  })
+    .then(async () => {
+      const { topic } = row
+      if (!topic) return
+      let res = await delRetainerTopic(topic).catch(() => {})
+      if (res) {
+        page.value = resetPageNum(tbData.value, page.value)
+        loadTbData()
+      } else {
+        //todo
+      }
+    })
+    .catch(() => {})
+}
+
+const initPageNo = () => {
+  page.value = 1
+}
+
+const loadTbData = async () => {
+  tbLoading.value = true
+  const params = { page: page.value, limit: limit.value }
+  tbData.value = []
+  count.value = 0
+  try {
+    const { data, meta } = await getRetainerList(params)
+    tbData.value = data
+    count.value = meta.count
+  } catch (error) {
+    //
+  } finally {
+    tbLoading.value = false
+  }
+}
+
+const checkPayload = async (row) => {
+  payloadDialog.value = true
+  payloadDetail.value = ''
+  payloadLoading.value = true
+  const { topic } = row
+  if (!topic) return
+  let res = await getRetainerTopic(topic).catch(() => {})
+  if (res) {
+    payloadDetail.value = res.payload
+    setRawText(payloadDetail.value)
+  }
+  payloadLoading.value = false
+  await nextTick()
+}
+
+onMounted(() => {
+  loadConfigData()
+  loadTbData()
+})
+
+let copyShowTimeout = ref(null)
+const copySuccess = () => {
+  isCopyShow.value = true
+  clearTimeout(copyShowTimeout.value)
+  copyShowTimeout.value = setTimeout(() => {
+    isCopyShow.value = false
+  }, 2000)
+}
+
+onUnmounted(() => {
+  copyShowTimeout.value && clearTimeout(copyShowTimeout.value)
 })
 </script>
 

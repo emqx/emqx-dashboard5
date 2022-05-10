@@ -12,6 +12,11 @@ export type ListDataWithPagination<T> = {
   meta: PageData
 }
 
+export interface PageParams {
+  limit: number
+  page: number
+}
+
 export interface RuleInValidatorParam {
   field: string
   fullField: string
