@@ -1,11 +1,8 @@
 <template>
   <div class="app-wrapper">
-    <router-link class="link-back" :to="{ name: 'slow-sub' }">
-      &lt; {{ $t('SlowSub.backToStatisticsList') }}
-    </router-link>
-    <h5 class="slow-sub-config-title">
-      {{ $t('SlowSub.slowSubscriptionSettings') }}
-    </h5>
+    <detail-header
+      :item="{ name: $t('SlowSub.slowSubscriptionSettings'), routeName: 'slow-sub' }"
+    />
     <el-card class="app-card slow-sub-config" v-loading="isLoading">
       <div class="config-block">
         <h6 class="config-block-title">{{ $t('SlowSub.basicSettings') }}</h6>
@@ -97,6 +94,7 @@ import useFormRules from '@/hooks/useFormRules'
 import { SlowSubType } from '@/types/enum'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
+import DetailHeader from '@/components/DetailHeader.vue'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')
