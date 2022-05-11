@@ -5,7 +5,7 @@
     :disabled="isTooltipDisabled"
   >
     <span class="node-status" :class="{ tag: isTag }">
-      <el-badge is-dot :type="statusData.statusClass" />
+      <CheckIcon :status="statusForIcon" />
       <span class="text-status" :class="statusData.statusClass">
         {{ statusData.statusLabel }}
       </span>
@@ -40,6 +40,8 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, PropType, computed } from 'vue'
 import { TargetStatusWithDetail } from '@/types/common'
+import { NodeStatusClass, CheckStatus } from '@/types/enum'
+import CheckIcon from '@/components/CheckIcon.vue'
 
 const props = defineProps({
   statusData: {
@@ -61,6 +63,15 @@ const isTooltipDisabled = computed(() => {
   const { statusData } = props
   return !(statusData.details && Array.isArray(statusData.details) && statusData.details.length > 0)
 })
+
+const statusForIcon = computed(() => {
+  const map: Record<NodeStatusClass, CheckStatus> = {
+    [NodeStatusClass.Success]: CheckStatus.Check,
+    [NodeStatusClass.Warning]: CheckStatus.Warning,
+    [NodeStatusClass.Danger]: CheckStatus.Close,
+  }
+  return map[props.statusData.statusClass || NodeStatusClass.Danger]
+})
 </script>
 
 <style lang="scss" scoped>
@@ -69,6 +80,8 @@ const isTooltipDisabled = computed(() => {
 }
 .node-status {
   cursor: default;
+  display: flex;
+  align-items: center;
   &.tag {
     display: inline-flex;
     align-items: center;
@@ -81,12 +94,6 @@ const isTooltipDisabled = computed(() => {
     border-radius: 8px;
     .text-status {
       font-weight: normal;
-    }
-
-    .el-badge {
-      padding-top: 5px;
-      margin-right: 4px;
-      line-height: 1;
     }
     :deep(.el-badge__content) {
       border: none;

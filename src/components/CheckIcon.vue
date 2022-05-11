@@ -1,21 +1,15 @@
 <template>
-  <el-icon
-    v-if="status === 'check'"
-    class="check-icon check"
-    :style="{ 'font-size': fontSize, top: `${top}px` }"
-    ><Check
-  /></el-icon>
-  <el-icon
-    v-else-if="status === 'close'"
-    class="check-icon close"
-    :style="{ 'font-size': fontSize, top: `${top}px` }"
-    ><Close
-  /></el-icon>
+  <el-icon class="check-icon" :class="status" :style="{ 'font-size': fontSize, top: `${top}px` }">
+    <Check v-if="status === CheckStatus.Check" />
+    <Close v-else-if="status === CheckStatus.Close || status === CheckStatus.Disable" />
+    <Warning v-else-if="status === CheckStatus.Warning" />
+  </el-icon>
 </template>
 
 <script lang="ts" setup>
 import { defineProps, PropType, computed } from 'vue'
-import { Check, Close } from '@element-plus/icons-vue'
+import { Check, Close, Warning } from '@element-plus/icons-vue'
+import { CheckStatus } from '@/types/enum'
 
 const props = defineProps({
   size: {
@@ -27,7 +21,7 @@ const props = defineProps({
     default: 0,
   },
   status: {
-    type: String as PropType<'check' | 'close'>,
+    type: String as PropType<CheckStatus>,
     default: 'check',
   },
 })
@@ -53,6 +47,12 @@ const fontSize = computed(() => {
   }
   &.close {
     background: #e44242;
+  }
+  &.warning {
+    background-color: var(--el-color-warning);
+  }
+  &.disable {
+    background-color: var(--el-disabled-bg-color);
   }
 }
 </style>

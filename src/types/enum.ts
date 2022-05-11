@@ -185,3 +185,13 @@ export enum GatewayStatus {
   Stopped = 'stopped',
   Unloaded = 'unloaded',
 }
+
+/**
+ * For src/components/CheckIcon.vue
+ */
+export enum CheckStatus {
+  Check = 'check',
+  Close = 'close',
+  Warning = 'warning',
+  Disable = 'disable',
+}
