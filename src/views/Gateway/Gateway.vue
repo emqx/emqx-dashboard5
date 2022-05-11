@@ -18,7 +18,7 @@
             <el-progress
               :stroke-width="16"
               :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
-              :format="() => {}"
+              :format="() => ''"
             />
           </el-tooltip>
         </template>
@@ -50,13 +50,6 @@
           <template v-if="hasBeenInitialized(row)">
             <el-button size="small" :disabled="isUnload(row.status)" @click="goSettingPage(row)">
               {{ tl('setting') }}
-            </el-button>
-            <el-button
-              size="small"
-              :disabled="isUnload(row.status)"
-              @click="goGatewayAuthPage(row)"
-            >
-              {{ tl('auth') }}
             </el-button>
             <el-button size="small" :disabled="!isRunning(row.status)" @click="goClientPage(row)">
               {{ tl('clients') }}
@@ -143,10 +136,6 @@ export default defineComponent({
       router.push({ name: 'gateway-detail-basic', params: { name } })
     }
 
-    const goGatewayAuthPage = ({ name }: { name: string }) => {
-      router.push({ name: 'gateway-detail-auth', params: { name } })
-    }
-
     const goClientPage = ({ name }: { name: string }) => {
       router.push({ name: 'gateway-detail-clients', params: { name } })
     }
@@ -165,7 +154,6 @@ export default defineComponent({
       getRowClassName,
       transGatewayName,
       goSettingPage,
-      goGatewayAuthPage,
       goClientPage,
       setupGateway,
       gatewayStartStop,
