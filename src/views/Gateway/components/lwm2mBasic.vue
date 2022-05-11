@@ -59,8 +59,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('aObserve')">
             <el-select v-model="lValue.auto_observe">
-              <el-option :value="true"></el-option>
-              <el-option :value="false"></el-option> </el-select
+              <el-option :value="true" label="true"></el-option>
+              <el-option :value="false" label="false"></el-option> </el-select
           ></el-form-item> </el-col
         ><el-col :span="12">
           <el-form-item :label="tl('updateStrategy')">
@@ -73,8 +73,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="lValue.enable_stats">
-              <el-option :value="true"></el-option>
-              <el-option :value="false"></el-option>
+              <el-option :value="true" label="true"></el-option>
+              <el-option :value="false" label="false"></el-option>
             </el-select> </el-form-item></el-col
         ><el-col :span="12">
           <el-form-item :label="tl('idleTime')">

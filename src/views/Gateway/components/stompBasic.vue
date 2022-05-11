@@ -46,8 +46,8 @@
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="sValue.enable_stats">
-              <el-option :value="true"></el-option>
-              <el-option :value="false"></el-option>
+              <el-option :value="true" label="true"></el-option>
+              <el-option :value="false" label="false"></el-option>
             </el-select> </el-form-item
         ></el-col>
       </el-row>
