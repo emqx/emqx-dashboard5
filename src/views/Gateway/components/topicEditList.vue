@@ -2,14 +2,14 @@
   <div>
     <el-form :model="topicModel" ref="topicForm" :rules="topicRules">
       <el-table :data="topicList">
-        <el-table-column :label="'Topic ID'">
+        <el-table-column label="Topic ID">
           <template #default="{ row, $index }">
             <el-form-item :prop="`[${$index}].id`">
               <el-input v-model="row.id"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column :label="'Topic'">
+        <el-table-column label="Topic">
           <template #default="{ row, $index }">
             <el-form-item :prop="`[${$index}].topic`">
               <el-input v-model="row.topic"></el-input>
