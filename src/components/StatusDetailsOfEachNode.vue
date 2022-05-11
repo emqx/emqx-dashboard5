@@ -80,7 +80,7 @@ const statusForIcon = computed(() => {
 }
 .node-status {
   cursor: default;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   &.tag {
     display: inline-flex;
@@ -90,7 +90,8 @@ const statusForIcon = computed(() => {
     padding-right: 16px;
     font-size: 12px;
     color: #8d96a2;
-    background: #eff3fe;
+    background: var(--color-bg-split);
+    border: 1px solid var(--color-border-primary);
     border-radius: 8px;
     .text-status {
       font-weight: normal;
