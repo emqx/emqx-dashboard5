@@ -329,7 +329,7 @@ export default {
   },
   sqlPassed: {
     zh: 'SQL 通过',
-    en: 'SQL passed',
+    en: 'SQL Passed',
   },
   sqlPassedDesc: {
     zh: 'SQL 成功执行并输出结果',
@@ -345,7 +345,7 @@ export default {
   },
   sqlFailed: {
     zh: 'SQL 失败',
-    en: 'SQL failed',
+    en: 'SQL Failed',
   },
   sqlFailedDesc: {
     zh: 'SQL 因语法或函数调用失败导致执行失败',
@@ -353,7 +353,7 @@ export default {
   },
   sqlNoResult: {
     zh: 'SQL 无结果',
-    en: 'SQL no result',
+    en: 'SQL No Result',
   },
   sqlNoResultDesc: {
     zh: 'SQL 成功执行但没有输出结果',
@@ -365,7 +365,7 @@ export default {
   },
   executionSpeed: {
     zh: '执行速度',
-    en: 'Execution speed',
+    en: 'Execution Speed',
   },
   rateLast5M: {
     zh: '最近 5 分钟执行速度',
@@ -373,7 +373,7 @@ export default {
   },
   rateMax: {
     zh: '最大执行速度',
-    en: 'maximum execution speed',
+    en: 'Maximum Execution Speed',
   },
   activated: {
     zh: '已启用',
