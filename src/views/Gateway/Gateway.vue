@@ -110,7 +110,7 @@ export default defineComponent({
         Array.prototype.forEach.call(res, (v) => {
           pendingData.push({ ...v, ...{ [dropdownExclusiveKey]: false } })
         })
-        tbData.value = pendingData
+        tbData.value = pendingData.sort((a, b) => a.status.localeCompare(b.status))
       } else {
         tbData.value = []
       }
@@ -195,8 +195,19 @@ export default defineComponent({
     vertical-align: 23px;
     padding: 0 5px;
   }
-  .el-table__row.is-disabled {
-    background-color: var(--el-disabled-bg-color);
+}
+[data-theme='light'] {
+  .gateway {
+    .el-table__row.is-disabled {
+      background-color: #fafdff;
+    }
+  }
+}
+[data-theme='dark'] {
+  .gateway {
+    .el-table__row.is-disabled {
+      background-color: #191b24;
+    }
   }
 }
 </style>
