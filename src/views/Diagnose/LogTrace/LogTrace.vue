@@ -31,10 +31,13 @@
       </el-table-column>
       <el-table-column :label="$t('LogTrace.status')" prop="status" sortable :min-width="120">
         <template #default="{ row }">
-          <el-badge
-            is-dot
-            :type="
-              row.status === 'running' ? 'primary' : row.status === 'stopped' ? 'danger' : 'info'
+          <CheckIcon
+            :status="
+              row.status === 'running'
+                ? CheckStatus.Check
+                : row.status === 'stopped'
+                ? CheckStatus.Close
+                : CheckStatus.Disable
             "
           />
           <span>{{ row.status && $t('LogTrace.s' + row.status) }}</span>
@@ -147,8 +150,10 @@ import { ElMessage as M, ElMessageBox as MB, ElForm } from 'element-plus'
 import { TraceFormRecord, TraceRecord } from '@/types/diagnose'
 import { Plus } from '@element-plus/icons-vue'
 import { FormItemRule } from '@/types/common'
+import CheckIcon from '@/components/CheckIcon.vue'
 
 import { getTraceList, addTrace, downloadTrace, stopTrace, deleteTrace } from '@/api/diagnose'
+import { CheckStatus } from '@/types/enum'
 
 const DEFAULT_DURATION = 30 * 60 * 1000
 
@@ -162,6 +167,9 @@ const createRawTraceForm = () => ({
 })
 
 export default defineComponent({
+  components: {
+    CheckIcon,
+  },
   setup() {
     const { t } = useI18n()
     const traceTbLoading = ref(false)
@@ -318,6 +326,7 @@ export default defineComponent({
       tl: (key: string) => t('LogTrace.' + key),
       traceTbLoading,
       traceTable,
+      CheckStatus,
       createForm,
       typeOptions,
       record,
