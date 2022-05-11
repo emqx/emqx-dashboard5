@@ -120,7 +120,9 @@
           <el-button size="small" @click="loadMetricsFromTopic(row, $index)">
             {{ $t('Base.view') }}
           </el-button>
-          <el-button size="small" @click="resetTopic(row)">{{ $t('Base.reset') }}</el-button>
+          <el-button size="small" @click="resetTopic(row, $index)">
+            {{ $t('Base.reset') }}
+          </el-button>
           <el-button size="small" type="danger" plain @click="deleteTopic(row)">
             {{ $t('Base.delete') }}
           </el-button>
@@ -252,41 +254,42 @@ export default defineComponent({
       }
     }
 
-    const resetTopic = async function ({ topic }) {
+    const resetTopic = async function (row, index) {
       try {
         await MB.confirm(t('General.confirmReset'), {
           confirmButtonText: t('Base.confirm'),
           cancelButtonText: t('Base.cancel'),
           type: 'warning',
         })
-        await resetTopicMetrics(topic)
+        await resetTopicMetrics(row.topic)
         ElMessage.success(t('Base.resetSuccess'))
-        loadTopicMetrics()
+        loadMetricsFromTopic(row, index, false)
       } catch (error) {
         //
       }
     }
 
-    const loadMetricsFromTopic = async function (row, index) {
+    const loadMetricsFromTopic = async function (row, index, toggleExpand = true) {
       const { topic } = row
-      row._loading = true
-      row._expand = !(row._expand ?? false)
+      row._expand = toggleExpand ? !(row._expand ?? false) : row._expand
       tbRef.value.toggleRowExpansion(row, row._expand)
 
-      if (row._expand) {
-        try {
-          let res = await getTopicMetrics(topic)
-          const targetIndex = topicMetricsTb.value.findIndex((item) => item.topic === topic)
-          topicMetricsTb.value.splice(targetIndex, 1, {
-            ...res,
-            _expand: true,
-            _loading: false,
-            topicQoS: DEFAULT_QOS,
-          })
-        } catch (error) {
-          //
-          row._loading = false
-        }
+      if (!row._expand) {
+        return
+      }
+
+      try {
+        row._loading = true
+        let res = await getTopicMetrics(topic)
+        topicMetricsTb.value.splice(index, 1, {
+          ...res,
+          _expand: true,
+          _loading: false,
+          topicQoS: DEFAULT_QOS,
+        })
+      } catch (error) {
+        //
+        row._loading = false
       }
     }
 
