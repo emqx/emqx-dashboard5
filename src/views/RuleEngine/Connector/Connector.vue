@@ -112,5 +112,3 @@ const finishConnectorDialog = async (success: boolean) => {
 
 onMounted(listConnector)
 </script>
-
-<style lang="scss"></style>

@@ -5,7 +5,7 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('brokerAddress')" required prop="server">
-            <el-input v-model="connectorVal.server" :placeholder="connectorDefaultVal.server" />
+            <el-input v-model="connectorVal.server" placeholder="broker.emqx.io:1883" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -139,7 +139,7 @@ export default defineComponent({
     const modeOptions = ['cluster_shareload', 'cluster_singleton']
 
     const connectorDefaultVal = {
-      server: 'public-mqtt-broker.emqx.com:1883',
+      server: '',
       clientid: '',
       username: '',
       password: '',
