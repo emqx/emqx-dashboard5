@@ -19,7 +19,7 @@
           :disabled="gInfo.status === GatewayStatus.Unloaded"
           @click="toggleGatewayStatus()"
         >
-          {{ $t(`Base.${gInfo.status === GatewayStatus.Running ? 'stop' : 'enable'}`) }}
+          {{ $t(`Base.${gInfo.status === GatewayStatus.Running ? 'disable' : 'enable'}`) }}
         </el-button>
       </div>
     </div>
