@@ -18,6 +18,7 @@ export interface Client {
   mqueue_dropped: number
   mqueue_len: number
   mqueue_max: number
+  mountpoint: string
   node: string
   port: number
   proto_name: string

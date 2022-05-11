@@ -468,6 +468,10 @@ const filterMetrics = (metrics: Array<keyof Client>) => {
 
 const handleUnSubscription = (row: Subscription) => {
   const title = tl('unsubscribeTitle')
+  let topic = row.topic
+  if (record.value.mountpoint) {
+    topic = topic.replace(record.value.mountpoint, '')
+  }
   ElMessageBox.confirm(title, {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
@@ -478,10 +482,9 @@ const handleUnSubscription = (row: Subscription) => {
         if (!row.clientid) {
           row.clientid = clientId.value
         }
-        return handleUnsubscriptionGateway(row)
+        return handleUnsubscriptionGateway(row.clientid, topic)
       } else {
-        const { clientid, topic } = row
-        return unsubscribe(clientid, topic)
+        return unsubscribe(row.clientid, topic)
       }
     })
     .then(() => {
@@ -492,9 +495,8 @@ const handleUnSubscription = (row: Subscription) => {
     })
 }
 
-const handleUnsubscriptionGateway = async (row: Subscription) => {
-  const { clientid, topic } = row
-  let res = await unsubscribeGatewayClientSub(props.gateway, clientid, topic)
+const handleUnsubscriptionGateway = async (clientid: Subscription['clientid'], topic: string) => {
+  const res = await unsubscribeGatewayClientSub(props.gateway, clientid, topic)
   if (res) {
     ElMessage({
       type: 'success',
