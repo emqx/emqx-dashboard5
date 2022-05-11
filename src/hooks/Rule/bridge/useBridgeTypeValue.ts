@@ -48,7 +48,7 @@ export const useBridgeTypeOptions = (): {
     {
       value: BridgeType.HTTP,
       valueForRadio: BridgeType.HTTP,
-      label: 'HTTP Sink',
+      label: 'Webhook',
       desc: t('RuleEngine.bridgeDescHTTP'),
     },
     {
@@ -75,6 +75,9 @@ export const useBridgeTypeOptions = (): {
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   const getTypeStr = (bridge: BridgeItem): string => {
+    if (bridge.type === BridgeType.HTTP) {
+      return getLabelFromValueInOptionList(bridge.type, bridgeTypeOptions)
+    }
     const directionStr =
       'direction' in bridge && bridge.direction === MQTTBridgeDirection.In ? 'Source' : 'Sink'
     return `${getBridgeLabelByTypeValue(bridge.type)} ${directionStr}`
