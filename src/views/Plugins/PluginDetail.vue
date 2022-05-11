@@ -7,32 +7,10 @@
           <!-- <i class="icon icon-plugin"></i> -->
           <div>
             <div>
-              <el-tooltip placement="right" popper-class="tooltip-node-status-list">
-                <span class="tag" :class="dotClass(getTheWorstStatus(pluginInfo))">
-                  <el-badge is-dot :type="dotClass(getTheWorstStatus(pluginInfo))" />
-                  <span class="text-status" :class="statusTextClass(getTheWorstStatus(pluginInfo))">
-                    {{ statusText(getTheWorstStatus(pluginInfo)) }}
-                  </span>
-                </span>
-                <template #content>
-                  <!-- TODO:use StatusDetailsOfEachNode -->
-                  <div class="status-detail">
-                    <ul class="node-status-list">
-                      <li
-                        class="node-status-item"
-                        v-for="{ node, status } in pluginInfo.running_status"
-                        :key="node"
-                      >
-                        <span class="text-status" :class="statusTextClass(status)">
-                          {{ statusText(status) }}
-                        </span>
-                        <span class="node-name">{{ node }}</span>
-                      </li>
-                    </ul>
-                  </div>
-                </template>
-              </el-tooltip>
-              <span class="tag">{{ pluginInfo.rel_vsn }}</span>
+              <PluginItemStatus is-tag :plugin-data="pluginInfo" />
+              <el-tag type="info" class="section-status">
+                {{ pluginInfo.rel_vsn }}
+              </el-tag>
             </div>
           </div>
         </div>
@@ -77,6 +55,7 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { PluginStatus } from '@/types/enum'
 import router from '@/router'
+import PluginItemStatus from './components/PluginItemStatus.vue'
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Plugins') => t(`${moduleName}.${key}`)
@@ -137,25 +116,11 @@ getPluginDetail()
 .plugin-base-info {
   display: flex;
   line-height: 1;
-  .tag {
-    display: inline-flex;
+  :deep(.node-status) {
+    margin-right: 8px;
+  }
+  .el-tag {
     vertical-align: top;
-    align-items: center;
-    height: 20px;
-    padding-left: 16px;
-    padding-right: 16px;
-    font-size: 12px;
-    color: #8d96a2;
-    background: #e7edf8;
-    border-radius: 12px;
-    .el-badge {
-      padding-top: 5px;
-      margin-right: 4px;
-    }
-
-    &:not(:last-child) {
-      margin-right: 12px;
-    }
   }
 }
 .icon-plugin {

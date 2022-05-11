@@ -33,30 +33,7 @@
       </el-table-column>
       <el-table-column :label="tl('status')">
         <template #default="{ row }">
-          <el-tooltip placement="left" popper-class="tooltip-node-status-list">
-            <span>
-              <el-badge is-dot :type="dotClass(getTheWorstStatus(row))" />
-              <span class="text-status" :class="statusTextClass(getTheWorstStatus(row))">
-                {{ statusText(getTheWorstStatus(row)) }}
-              </span>
-            </span>
-            <template #content>
-              <div class="status-detail">
-                <ul class="node-status-list">
-                  <li
-                    class="node-status-item"
-                    v-for="{ node, status } in row.running_status"
-                    :key="node"
-                  >
-                    <span class="text-status" :class="statusTextClass(status)">
-                      {{ statusText(status) }}
-                    </span>
-                    <span class="node-name">{{ node }}</span>
-                  </li>
-                </ul>
-              </div>
-            </template>
-          </el-tooltip>
+          <PluginItemStatus :plugin-data="row" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
@@ -97,7 +74,6 @@ import { PluginStatus } from '@/types/enum'
 import { useI18n } from 'vue-i18n'
 import { computed, ComputedRef, nextTick, ref } from 'vue'
 import { PluginItem } from '@/types/plugin'
-import usePluginStatus from '@/hooks/Plugins/usePluginStatus'
 import { useRouter } from 'vue-router'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import TableItemDropdown from './components/TableItemDropdown.vue'
@@ -106,13 +82,13 @@ import { queryPlugins } from '@/api/plugins'
 import { SortableEvent } from 'sortablejs'
 import useSortableTable from '@/hooks/useSortableTable'
 import useMove from '@/hooks/useMove'
+import PluginItemStatus from './components/PluginItemStatus.vue'
 
 const router = useRouter()
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Plugins') => {
   return t(`${moduleName}.${key}`)
 }
-const { dotClass, statusText, statusTextClass } = usePluginStatus(tl)
 const VALUE_FOR_NOT_FILTER = 'all'
 const statusOptions = [
   {
@@ -301,10 +277,6 @@ queryListData()
     .el-radio-group {
       display: inline-block;
     }
-  }
-  .node-status-item {
-    display: flex;
-    justify-content: space-between;
   }
   .icon-plugin {
     display: inline-block;
