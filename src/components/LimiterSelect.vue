@@ -93,6 +93,8 @@ const factoryData = (data: Record<string, any>, parentKey?: string): DataItem[] 
 
 const getOpts = async () => {
   const res = await getLimiters()
+  // Batch used in Retainer only
+  delete res.batch
   data.value = factoryData(res)
 }
 getOpts()

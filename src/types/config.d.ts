@@ -284,7 +284,7 @@ export interface Rate {
   message_in: RateItem
   connection: RateItem
   message_routing: RateItem
-  batch: RateItem
+  batch?: RateItem
 }
 
 export type LimiterType = 'bytes_in' | 'message_in' | 'connection' | 'message_routing' | 'batch'
