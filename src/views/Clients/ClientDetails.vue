@@ -498,10 +498,6 @@ const handleUnSubscription = (row: Subscription) => {
 const handleUnsubscriptionGateway = async (clientid: Subscription['clientid'], topic: string) => {
   const res = await unsubscribeGatewayClientSub(props.gateway, clientid, topic)
   if (res) {
-    ElMessage({
-      type: 'success',
-      message: t('Base.createSuccess'),
-    })
     return Promise.resolve()
   } else {
     return Promise.reject()

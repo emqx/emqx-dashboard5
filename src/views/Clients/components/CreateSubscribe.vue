@@ -14,6 +14,14 @@
       <el-form-item prop="topic" label="Topic">
         <el-input v-model="record.topic" placeholder="Topic"></el-input>
       </el-form-item>
+      <!-- For stomp gateway -->
+      <el-form-item
+        v-if="gateway && gateway === 'stomp'"
+        prop="subid"
+        :label="`${$t('Tools.Subscription')} ID`"
+      >
+        <el-input v-model="record.subid"></el-input>
+      </el-form-item>
       <el-form-item prop="qos" label="QoS">
         <el-select v-model.number="record.qos">
           <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
@@ -74,6 +82,10 @@ export default {
           required: true,
           message: this.$t('Clients.pleaseEnter'),
         },
+        subid: {
+          required: true,
+          message: this.$t('Clients.pleaseEnter'),
+        },
       },
       submitLoading: false,
     }
@@ -111,10 +123,16 @@ export default {
     async addGatewaySubs() {
       this.submitLoading = true
       let clientId = this.clientId || this.record.clientid
-      let res = await addGatewayClientSubs(this.gateway, clientId, {
+      const data = {
         topic: this.record.topic,
         qos: this.record.qos,
-      }).catch(() => {})
+      }
+      if (this.record.subid && this.gateway && this.gateway === 'stomp') {
+        data.sub_props = {
+          subid: this.record.subid,
+        }
+      }
+      const res = await addGatewayClientSubs(this.gateway, clientId, data).catch(() => {})
       this.submitLoading = false
       if (res) {
         this.$emit('create:subs')
