@@ -404,6 +404,11 @@ p.tip {
   justify-content: space-between;
 }
 
+.vertical-align-center {
+  display: flex;
+  align-items: center;
+}
+
 @keyframes scaleAnimate {
   0% {
     transform: scale(0);

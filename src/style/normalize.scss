@@ -371,6 +371,10 @@
   background-color: var(--color-bg-split); 
 }
 
+.el-picker-panel .el-time-panel {
+  background-color: var(--color-bg-primary);
+}
+
 /* Steps */
 .el-steps {
   .el-step__head.is-process {

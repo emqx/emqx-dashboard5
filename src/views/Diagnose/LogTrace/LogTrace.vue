@@ -31,16 +31,18 @@
       </el-table-column>
       <el-table-column :label="$t('LogTrace.status')" prop="status" sortable :min-width="120">
         <template #default="{ row }">
-          <CheckIcon
-            :status="
-              row.status === 'running'
-                ? CheckStatus.Check
-                : row.status === 'stopped'
-                ? CheckStatus.Close
-                : CheckStatus.Disable
-            "
-          />
-          <span>{{ row.status && $t('LogTrace.s' + row.status) }}</span>
+          <div class="vertical-align-center">
+            <CheckIcon
+              :status="
+                row.status === 'running'
+                  ? CheckStatus.Check
+                  : row.status === 'stopped'
+                  ? CheckStatus.Close
+                  : CheckStatus.Disable
+              "
+            />
+            <span>{{ row.status && $t('LogTrace.s' + row.status) }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column :label="$t('LogTrace.logSize')" prop="log_size" sortable :min-width="112">
