@@ -69,7 +69,7 @@
                 class="time-input-with-unit-select"
                 v-model.number="jwtConfig.refresh_interval"
               >
-                <template #append><span class="unit-for-input">ms</span></template>
+                <template #append><span class="unit-for-input">s</span></template>
               </el-input>
             </el-form-item>
           </el-col>
