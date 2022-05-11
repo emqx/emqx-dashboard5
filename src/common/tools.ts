@@ -188,9 +188,7 @@ export const getKeywordsFromSQL = (sqlStr: string): SQLKeywords => {
 
   const isForeachReg = /^FOREACH/i
   if (isForeachReg.test(sql)) {
-    matchResult = sql.match(
-      /^(?<foreach>FOREACH((.|\n)+))FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))?/i,
-    )
+    matchResult = sql.match(/(.|\n)+WHERE(?<where>(.|\n)+)/)
   } else {
     matchResult =
       sql.match(/^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))/i) ||
