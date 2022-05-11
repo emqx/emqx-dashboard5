@@ -7,7 +7,7 @@ export const loadAPIKeyList = async (): Promise<Array<APIKey>> => {
     return Promise.resolve(
       data.map(({ expired_at, ...otherMsg }) => {
         return {
-          expired_at: expired_at === 'undefined' ? undefined : expired_at,
+          expired_at: expired_at === 'infinity' ? undefined : expired_at,
           ...otherMsg,
         }
       }),
