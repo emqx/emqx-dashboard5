@@ -1,3 +1,4 @@
+<!-- Just for authn -->
 <template>
   <div class="built-in-config config">
     <div class="create-form-title">Built-in Database</div>
@@ -18,7 +19,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <password-hash-algorithm-form-items v-model="builtConfig" />
+          <password-hash-algorithm-form-items v-model="builtConfig" is-built-in-database />
         </template>
         <el-col v-else :span="12">
           <el-form-item :label="$t('Auth.passwordHash')">

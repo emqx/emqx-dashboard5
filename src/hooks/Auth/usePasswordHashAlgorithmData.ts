@@ -28,10 +28,16 @@ export const getPasswordHashAlgorithmObj = (): {
   },
 })
 
-export const getUsefulPasswordHashAlgorithmData = (data: PasswordHashAlgorithm) => {
+export const getUsefulPasswordHashAlgorithmData = (
+  data: PasswordHashAlgorithm,
+  isBuiltInDatabase = false,
+) => {
   const { name, salt_position, salt_rounds, mac_fun, iterations, dk_length } = data
   if (name === HashType.Bcrypt) {
-    return { name, salt_rounds }
+    if (isBuiltInDatabase) {
+      return { name, salt_rounds }
+    }
+    return { name }
   }
   if (name === HashType.Pbkdf2) {
     return { name, mac_fun, iterations, dk_length }

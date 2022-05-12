@@ -6,9 +6,9 @@
       </el-select>
     </el-form-item>
   </el-col>
-  <el-col v-if="formData.password_hash_algorithm.name === 'bcrypt'" :span="12">
+  <el-col v-if="isBuiltInDatabase && formData.password_hash_algorithm.name === 'bcrypt'" :span="12">
     <el-form-item label="Salt Rounds" required prop="password_hash_algorithm.salt_rounds">
-      <el-input v-model="formData.password_hash_algorithm.salt_rounds" />
+      <el-input v-model.number="formData.password_hash_algorithm.salt_rounds" />
     </el-form-item>
   </el-col>
   <template v-if="formData.password_hash_algorithm.name === 'pbkdf2'">
@@ -72,6 +72,10 @@ const props = defineProps({
   modelValue: {
     type: Object as PropType<PasswordHashAlgorithmFormItems>,
     required: true,
+  },
+  isBuiltInDatabase: {
+    type: Boolean,
+    default: false,
   },
 })
 
