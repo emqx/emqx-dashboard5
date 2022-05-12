@@ -95,13 +95,6 @@ const SchemaForm = defineComponent({
       if (!property.path) return
       Reflect.deleteProperty(configForm.value, property.path)
     }
-    const conditionCard = (properties: Properties) => {
-      return (
-        <el-card class="app-card properties-card">
-          <el-row>{getComponents(properties, { col: 24 })}</el-row>
-        </el-card>
-      )
-    }
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
       property.path = replaceVarPath(property.path)
@@ -109,7 +102,7 @@ const SchemaForm = defineComponent({
       const stringInput = (
         <el-input
           disabled={property.readOnly}
-          placeholder={property.default}
+          placeholder={property.default?.toString()}
           v-model={configForm.value[path]}
           clearable
         ></el-input>
@@ -131,7 +124,7 @@ const SchemaForm = defineComponent({
           return (
             <el-select
               disabled={property.readOnly}
-              placeholder={property.default}
+              placeholder={property.default?.toString()}
               v-model={configForm.value[path]}
               clearable
             >
@@ -303,18 +296,22 @@ const SchemaForm = defineComponent({
       )
     }
 
+    // Get the components to render form by Propoerties
     const getComponents = (properties: Properties, meta: FormItemMeta) => {
       let [levelName, oldLevelName] = [meta.levelName || '', '']
       const elements: JSX.Element[] = []
       let _properties: Properties = {}
       // Filter the current Group properties
-      Object.entries(properties).forEach(([key, value]) => {
-        if (!value.properties) {
-          _properties[key] = value
-        } else if (currentGroup.value === value.label) {
-          _properties = value?.properties
+      for (const key in properties) {
+        const propItem = properties[key]
+        if (currentGroup.value === propItem.label && propItem.properties) {
+          _properties = propItem?.properties
+          break
         }
-      })
+        if (!propItem.properties) {
+          _properties[key] = propItem
+        }
+      }
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {
           const property = properties[key]
