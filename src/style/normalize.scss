@@ -416,8 +416,11 @@
 }
 
 /* Popper */
-.el-popper {
+.el-popper:not(.el-select__popper):not(.el-picker__popper) {
   max-width: 360px;
+}
+
+.el-popper {
   --el-popper-border-radius: 8px;
   &.is-light {
     border: none
