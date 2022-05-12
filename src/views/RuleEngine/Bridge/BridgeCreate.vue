@@ -101,6 +101,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useSSL from '@/hooks/useSSL'
+import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 
 export default defineComponent({
   components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader },
@@ -189,18 +190,25 @@ export default defineComponent({
     }
 
     const submitCreateBridge = async () => {
-      let res = undefined
-      await formCom.value.validate()
+      try {
+        await formCom.value.validate()
+      } catch (error) {
+        jumpToErrorFormItem()
+        return
+      }
       submitLoading.value = true
+      let res = undefined
 
       try {
         switch (chosenBridgeType.value) {
           case BridgeType.HTTP:
-            res = await createBridge({
-              ...bridgeData.value,
-              ssl: handleSSLDataBeforeSubmit(tlsParams.value),
-              type: chosenBridgeType.value,
-            })
+            res = await createBridge(
+              checkNOmitFromObj({
+                ...bridgeData.value,
+                ssl: handleSSLDataBeforeSubmit(tlsParams.value),
+                type: chosenBridgeType.value,
+              }),
+            )
             break
           case BridgeType.MQTT:
             res = await createBridge(
