@@ -38,6 +38,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { defineComponent, reactive, watch, ref } from 'vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
+import { usePasswordHashRules } from '@/hooks/Auth/usePasswordHashAlgorithmData'
 
 export default defineComponent({
   name: 'BuiltInConfig',
@@ -64,8 +65,10 @@ export default defineComponent({
 
     const formCom = ref()
     const { createRequiredRule } = useFormRules()
+    const { passwordHashRules } = usePasswordHashRules()
     const rules = {
       user_id_type: createRequiredRule(tl('userIdType')),
+      ...passwordHashRules,
     }
 
     const validate = () => {

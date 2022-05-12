@@ -2,6 +2,7 @@ import { computed, ref, ComputedRef, Ref } from 'vue'
 import useFormRules from '@/hooks/useFormRules'
 import { FormRules } from 'element-plus'
 import useI18nTl from '../useI18nTl'
+import { usePasswordHashRules } from './usePasswordHashAlgorithmData'
 
 type PropsParams = {
   database: string
@@ -26,10 +27,12 @@ export default (props: PropsParams, databaseConfig: any): ReturnData => {
 
   const { tl } = useI18nTl('Auth')
   const formCom = ref()
+  const { passwordHashRules } = usePasswordHashRules()
 
   const createRedisCommonFormRules = () => ({
     redis_type: createRequiredRule(tl('redisType'), 'select'),
     cmd: createRequiredRule(tl('cmd')),
+    ...passwordHashRules,
   })
 
   const createMongoCommonFormRules = () => ({

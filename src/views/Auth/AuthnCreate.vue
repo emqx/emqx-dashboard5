@@ -189,7 +189,7 @@ import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
 import { cloneDeep } from 'lodash'
-import { jumpToErrorFormItem, sortStringArr } from '@/common/tools'
+import { checkNOmitFromObj, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { AuthnMechanismType } from '@/types/enum'
 
@@ -369,7 +369,7 @@ const handleCreate = async function () {
         data,
       })
     } else {
-      await createAuthn(data)
+      await createAuthn(checkNOmitFromObj(data))
       M.success(t('Base.createSuccess'))
       router.push({ name: 'authentication' })
     }

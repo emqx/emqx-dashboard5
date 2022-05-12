@@ -104,6 +104,7 @@ import AuthItemOverview from './components/AuthItemOverview.vue'
 import { queryAuthnItemMetrics } from '@/api/auth'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
+import { checkNOmitFromObj } from '@/common/tools.ts'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -210,7 +211,7 @@ export default defineComponent({
       if (props.gateway) {
         res = await props.updateFunc(data).catch(() => {})
       } else {
-        res = await updateAuthn(id, data).catch(() => {})
+        res = await updateAuthn(id, checkNOmitFromObj(data)).catch(() => {})
         if (res) {
           M.success(t('Base.updateSuccess'))
           enable === undefined ? router.push({ name: 'authentication' }) : loadData()

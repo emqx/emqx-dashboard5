@@ -79,6 +79,7 @@ import { jumpToErrorFormItem } from '@/common/tools'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import { queryAuthzItemMetrics } from '@/api/auth'
 import AuthItemStatus from './components/AuthItemStatus.vue'
+import { checkNOmitFromObj } from '@/common/tools.ts'
 
 export default defineComponent({
   name: 'AuthzDetails',
@@ -150,7 +151,7 @@ export default defineComponent({
         return
       }
       const { create } = useAuthzCreate()
-      const data = create(configData.value, type.value)
+      const data = checkNOmitFromObj(create(configData.value, type.value))
       if (enable !== undefined) {
         data.enable = !enable
       }
