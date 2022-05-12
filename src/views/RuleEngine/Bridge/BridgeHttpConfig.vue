@@ -118,24 +118,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('connTimeout')">
-              <el-input v-model.number="httpBridgeVal.connect_timeout[0]">
-                <template #append>
-                  <el-select v-model="httpBridgeVal.connect_timeout[1]">
-                    <el-option value="s" />
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit v-model="httpBridgeVal.connect_timeout" :units="['s']" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('reqTimeout')">
-              <el-input v-model.number="httpBridgeVal.request_timeout[0]">
-                <template #append>
-                  <el-select v-model="httpBridgeVal.request_timeout[1]">
-                    <el-option value="s" />
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit v-model="httpBridgeVal.request_timeout" :units="['s']" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -155,7 +143,7 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import { computed, defineComponent, ref, watch, onMounted, Ref } from 'vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import _ from 'lodash'
-import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
+import { transformUnitArrayToStr } from '@/common/utils'
 import { HTTPBridge } from '@/types/rule'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString } from '@/common/tools'
@@ -163,11 +151,8 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useDocLink from '@/hooks/useDocLink'
-
-type HTTPFormData = Omit<HTTPBridge, 'connect_timeout' | 'request_timeout'> & {
-  connect_timeout: [number, string]
-  request_timeout: [number, string]
-}
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
 
 export default defineComponent({
   components: {
@@ -175,6 +160,7 @@ export default defineComponent({
     Monaco,
     InfoTooltip,
     CommonTLSConfig,
+    InputWithUnit,
   },
   name: '',
   props: {
@@ -201,7 +187,7 @@ export default defineComponent({
   setup(props, context) {
     const { tl } = useI18nTl('RuleEngine')
     const { docMap } = useDocLink()
-    const httpBridgeDefaultVal = {
+    const httpBridgeDefaultVal: HTTPBridge = {
       name: '',
       local_topic: '',
       method: 'post',
@@ -212,18 +198,14 @@ export default defineComponent({
       body: '${payload}',
       pool_size: 4,
       enable_pipelining: true,
-      connect_timeout: [5, 's'],
-      request_timeout: [5, 's'],
+      connect_timeout: '5s',
+      request_timeout: '5s',
       max_retries: 3,
-    }
+    } as HTTPBridge
     const isForwardFromLocalTopic: Ref<boolean> = ref(true)
 
     let modelValueCache = ''
-    const httpBridgeVal = ref({
-      ..._.cloneDeep(httpBridgeDefaultVal),
-      // FIXME: Use an existing component
-      ...transformStrToUnitArray(props.modelValue, ['connect_timeout', 'request_timeout']),
-    })
+    const httpBridgeVal: Ref<HTTPBridge> = ref(_.cloneDeep(httpBridgeDefaultVal))
 
     const tlsParams = computed(() => props.tls)
 
@@ -242,10 +224,7 @@ export default defineComponent({
       if (props.modelValue.local_topic === undefined) {
         isForwardFromLocalTopic.value = false
       }
-      httpBridgeVal.value = {
-        ..._.cloneDeep(httpBridgeDefaultVal),
-        ...transformStrToUnitArray(props.modelValue, ['connect_timeout', 'request_timeout']),
-      }
+      httpBridgeVal.value = _.cloneDeep(httpBridgeDefaultVal)
       if (!isForwardFromLocalTopic.value) {
         handleIsForwardToLocalTopicChangedInSinkType()
       }
@@ -262,7 +241,7 @@ export default defineComponent({
       }
     }
 
-    const updateModelValue = (val: HTTPFormData) => {
+    const updateModelValue = (val: HTTPBridge) => {
       const value = transformUnitArrayToStr(val)
       modelValueCache = JSON.stringify(value)
       context.emit('update:modelValue', value)
