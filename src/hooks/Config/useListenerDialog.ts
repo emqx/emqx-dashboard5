@@ -137,8 +137,10 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
     const input = cloneDeep(listenerRecord.value)
     if (props.gatewayName) {
-      delete input.zone
-      delete input.limiter
+      const needDeletedKeys = ['zone', 'limiter', 'current_connections']
+      needDeletedKeys.forEach((key) => {
+        delete input[key]
+      })
     }
     if (listenerRecord.value.type === ListenerTypeForGateway.UDP) {
       input.acceptors = ''

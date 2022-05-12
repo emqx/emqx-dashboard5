@@ -160,7 +160,6 @@ export default defineComponent({
         reloading()
       } catch (error) {
         // ignore error
-        console.log(error)
       } finally {
         saveLoading.value = false
       }
