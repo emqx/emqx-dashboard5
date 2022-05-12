@@ -85,6 +85,7 @@ import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { jumpToErrorFormItem } from '@/common/tools'
+import { checkNOmitFromObj } from '@/common/tools.ts'
 
 export default defineComponent({
   name: 'AuthzCreate',
@@ -167,7 +168,7 @@ export default defineComponent({
         return
       }
       saveLoading.value = true
-      const data = create(configData.value, type.value)
+      const data = checkNOmitFromObj(create(configData.value, type.value))
       const res = await createAuthz(data).catch(() => {
         saveLoading.value = false
       })

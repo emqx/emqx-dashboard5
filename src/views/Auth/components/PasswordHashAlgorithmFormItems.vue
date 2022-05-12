@@ -7,20 +7,28 @@
     </el-form-item>
   </el-col>
   <el-col v-if="formData.password_hash_algorithm.name === 'bcrypt'" :span="12">
-    <el-form-item label="Salt Rounds">
+    <el-form-item label="Salt Rounds" required prop="password_hash_algorithm.salt_rounds">
       <el-input v-model="formData.password_hash_algorithm.salt_rounds" />
     </el-form-item>
   </el-col>
   <template v-if="formData.password_hash_algorithm.name === 'pbkdf2'">
     <el-col :span="12">
-      <el-form-item :label="titleCase($t('Auth.pseudorandomFunction'))">
+      <el-form-item
+        :label="titleCase($t('Auth.pseudorandomFunction'))"
+        prop="password_hash_algorithm.mac_fun"
+        required
+      >
         <el-select v-model="formData.password_hash_algorithm.mac_fun">
           <el-option v-for="item in macFunOpt" :key="item" :value="item" :label="item" />
         </el-select>
       </el-form-item>
     </el-col>
     <el-col :span="12">
-      <el-form-item :label="$t('Auth.iterationCount')">
+      <el-form-item
+        :label="$t('Auth.iterationCount')"
+        required
+        prop="password_hash_algorithm.iterations"
+      >
         <el-input v-model.number="formData.password_hash_algorithm.iterations" />
       </el-form-item>
     </el-col>

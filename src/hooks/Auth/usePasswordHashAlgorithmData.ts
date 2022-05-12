@@ -1,5 +1,8 @@
 import { DEFAULT_SALT_POSITION } from '@/common/constants'
 import { HashType } from '@/types/enum'
+import useFormRules from '../useFormRules'
+import useI18nTl from '../useI18nTl'
+import { FormRules } from '@/types/common'
 
 interface PasswordHashAlgorithm {
   name: string
@@ -19,7 +22,7 @@ export const getPasswordHashAlgorithmObj = (): {
     // when name is bcrypt
     salt_rounds: '10',
     // when name is pbkdf2
-    mac_fun: '',
+    mac_fun: 'sha256',
     iterations: 4096,
     dk_length: '',
   },
@@ -34,4 +37,20 @@ export const getUsefulPasswordHashAlgorithmData = (data: PasswordHashAlgorithm) 
     return { name, mac_fun, iterations, dk_length }
   }
   return { name, salt_position }
+}
+
+export const usePasswordHashRules = (): {
+  passwordHashRules: FormRules
+} => {
+  const { tl } = useI18nTl('Auth')
+  const { createRequiredRule } = useFormRules()
+  const passwordHashRules: FormRules = {
+    'password_hash_algorithm.salt_rounds': createRequiredRule('Salt Rounds'),
+    'password_hash_algorithm.iterations': createRequiredRule(tl('iterationCount')),
+    'password_hash_algorithm.mac_fun': createRequiredRule(tl('pseudorandomFunction')),
+  }
+
+  return {
+    passwordHashRules,
+  }
 }
