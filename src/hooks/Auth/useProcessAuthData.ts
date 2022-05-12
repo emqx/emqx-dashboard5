@@ -43,10 +43,10 @@ export default function useProcessAuthData() {
       if (mongo_type !== 'single') {
         needDeleteFields.push('server')
       } else {
-        needDeleteFields.push('servers', 'replica_set_name')
+        needDeleteFields.push('servers')
       }
       if (mongo_type !== 'rs') {
-        needDeleteFields.push('w_mode', 'r_mode')
+        needDeleteFields.push('w_mode', 'r_mode', 'replica_set_name')
       }
       tempData = _.omit(tempData, needDeleteFields)
       if (filter !== '' && filter !== undefined) {
