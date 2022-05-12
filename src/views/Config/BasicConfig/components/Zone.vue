@@ -160,6 +160,7 @@ export default defineComponent({
         reloading()
       } catch (error) {
         // ignore error
+        console.log(error)
       } finally {
         saveLoading.value = false
       }
@@ -177,6 +178,10 @@ export default defineComponent({
       const { name } = addTabConfig
       if (!name) {
         ElMessage.warning(tl('zoneNameRequired'))
+        return
+      }
+      if (name.match(/[\u4e00-\u9fa5]+/g)) {
+        ElMessage.warning(tl('invalidZoneName'))
         return
       }
       const findName = editableTabs.value.find((tab) => tab.name === name)
