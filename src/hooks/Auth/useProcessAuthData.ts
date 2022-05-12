@@ -90,8 +90,12 @@ export default function useProcessAuthData() {
   }
   const processPasswordHashAlgorithmData = (data: any) => {
     const ret = _.cloneDeep(data)
+    const isBuiltInDatabase = data.backend === 'built_in_database'
     if ('password_hash_algorithm' in ret) {
-      ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(ret.password_hash_algorithm)
+      ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(
+        ret.password_hash_algorithm,
+        isBuiltInDatabase,
+      )
     }
     return ret
   }
