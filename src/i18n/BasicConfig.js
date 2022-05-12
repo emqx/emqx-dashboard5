@@ -43,6 +43,10 @@ export default {
     zh: '请输入 Zone 名称',
     en: 'Zone name is required',
   },
+  invalidZoneName: {
+    zh: '不合法的 Zone 名称',
+    en: 'Invalid Zone name',
+  },
   zoneTip: {
     zh: '以下配置可在 Zone 内重写和继承使用',
     en: 'The following configuration can be overridden and extended for use within the Zone',
