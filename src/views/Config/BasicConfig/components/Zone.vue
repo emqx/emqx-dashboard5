@@ -179,7 +179,7 @@ export default defineComponent({
         ElMessage.warning(tl('zoneNameRequired'))
         return
       }
-      if (name.match(/[\u4e00-\u9fa5]+/g)) {
+      if (!name.match(/^[A-Za-z0-9]+[A-Za-z0-9-_]*$/)) {
         ElMessage.warning(tl('invalidZoneName'))
         return
       }
