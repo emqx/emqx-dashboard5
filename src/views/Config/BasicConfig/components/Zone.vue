@@ -61,6 +61,7 @@ import { Zones, Zone } from '@/types/config'
 import { ElMessage, ElMessageBox, TabPanelName } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import useI18nTl from '@/hooks/useI18nTl'
+import { omit } from 'lodash'
 
 interface EditTableTabs {
   name: string
@@ -84,13 +85,14 @@ export default defineComponent({
       copyFrom: 'default',
     })
     const currTab = ref('default')
-    const editableTabs = ref<EditTableTabs[]>([
+    const createDefaultEditableTabsData = () => [
       {
         name: 'default',
         title: tl('default'),
         config: {},
       },
-    ])
+    ]
+    const editableTabs = ref<EditTableTabs[]>(createDefaultEditableTabsData())
     const handleBeforeAddTab = () => {
       addTabDialog.value = true
       addTabConfig.name = ''
@@ -98,6 +100,10 @@ export default defineComponent({
     }
     const saveLoading = ref(false)
     const { t } = useI18n()
+
+    const initEditableTabs = () => {
+      editableTabs.value = createDefaultEditableTabsData()
+    }
     const loadData = async (resetTab?: boolean) => {
       const defaultZone = await getDefaultZoneConfigs()
       configs.default = defaultZone
@@ -105,6 +111,9 @@ export default defineComponent({
       const zones = await getZoneConfigs()
       if (zones) {
         const _zones: { [key: string]: any } = {}
+        if (resetTab) {
+          initEditableTabs()
+        }
         Object.keys(zones).forEach((key) => {
           if (resetTab) {
             editableTabs.value.push({
@@ -179,16 +188,16 @@ export default defineComponent({
         (tab) => tab.name === addTabConfig.copyFrom,
       ) as EditTableTabs
       const newTabName = name.trim()
-      editableTabs.value.push({
-        name: newTabName,
-        title: newTabName,
-        config: findTab.config,
-      })
-      currTab.value = newTabName
-      addTabDialog.value = false
-      await nextTick()
-      configs[newTabName] = findTab.config
-      updateZone(findTab.config as Zone, newTabName)
+      const dataToSubmit = { ...omit(configs, 'default'), [newTabName]: findTab.config }
+      try {
+        await updateZoneConfigs(dataToSubmit)
+        addTabDialog.value = false
+        ElMessage.success(t('Base.updateSuccess'))
+        await loadData(true)
+        currTab.value = newTabName
+      } catch (error) {
+        //
+      }
     }
     const removeTab = async (targetName: TabPanelName) => {
       const tabs = editableTabs.value
