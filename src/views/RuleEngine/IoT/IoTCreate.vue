@@ -44,7 +44,7 @@ const route = useRoute()
 const router = useRouter()
 const submitLoading = ref(false)
 
-const createRuleName = () => `rule:${createRandomString(4)}`
+const createRuleName = () => `rule_${createRandomString(4)}`
 
 const ruleValue: Ref<RuleItem> = ref({
   name: createRuleName(),
