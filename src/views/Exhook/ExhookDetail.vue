@@ -95,7 +95,7 @@ import {
   queryExhookRegisteredHooks,
   updateExhook as requestUpdateExhook,
 } from '@/api/exhook'
-import { stringifyObjSafely, transMSNumToString } from '@/common/tools'
+import { stringifyObjSafely } from '@/common/tools'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import useSSL from '@/hooks/useSSL'
 
@@ -122,14 +122,7 @@ const getExhookDetail = async () => {
   try {
     isLoading.value = true
     const data = await queryExhookDetail(exhookName.value)
-    const { request_timeout, auto_reconnect } = data
-    exhookData.value = {
-      ...data,
-      request_timeout: transMSNumToString(request_timeout),
-      auto_reconnect: auto_reconnect
-        ? transMSNumToString(auto_reconnect)
-        : (auto_reconnect as false),
-    }
+    exhookData.value = data
     isLoading.value = false
   } catch (error) {
     console.error(error)
