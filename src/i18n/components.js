@@ -181,7 +181,7 @@ export default {
   },
   listener: {
     zh: '监听器',
-    en: 'Listener',
+    en: 'Listeners',
   },
   advanced: {
     zh: 'MQTT 高级特性',

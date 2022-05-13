@@ -81,7 +81,7 @@ export default {
   },
   clearHistory: {
     zh: '清除历史告警',
-    en: 'Clear History Alarm',
+    en: 'Clear History Alarms',
   },
   endingTime: {
     zh: '结束时间',
