@@ -17,7 +17,11 @@
       v-loading.lock="isListLoading"
       row-key="id"
     >
-      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="108" />
+      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="108">
+        <template #default="{ row }">
+          {{ getLabelByValue(row.mechanism) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="backend" :label="$t('Auth.dataSource')" :min-width="140">
         <template #default="{ row }">
           <img class="auth-img" :src="row.img" width="48" />
@@ -84,6 +88,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
 import useAuthn, { AuthnItemInTable } from '@/hooks/Auth/useAuthn'
 import AuthItemStatus from './components/AuthItemStatus.vue'
+import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -99,6 +104,7 @@ const {
   moveAuthnToTop,
   moveAuthnToBottom,
 } = useAuthn()
+const { getLabelByValue } = useAuthnMechanismType()
 
 const toggleEnable = async (row: AuthnItemInTable) => {
   try {

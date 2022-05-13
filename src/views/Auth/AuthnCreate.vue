@@ -12,28 +12,25 @@
           {{ $t('Auth.selectMechanism') }}
         </div>
         <el-radio-group v-model="mechanism" size="large">
-          <el-radio
-            class="mechanism"
-            label="password_based"
-            v-if="!isDisabledMechanism('password_based')"
-            border
-          >
-            Password-Based
-          </el-radio>
-          <template v-if="!isDisabledMechanism('jwt')">
+          <template v-for="{ value, label } in authnMechanismTypeList" :key="value">
             <el-badge
+              v-if="!isDisabledMechanism(value)"
               :value="$t('Modules.added')"
-              :hidden="!addedAuthn.includes('jwt')"
+              :hidden="
+                value !== AuthnMechanismType.JWT || !addedAuthn.includes(AuthnMechanismType.JWT)
+              "
               class="item"
             >
-              <el-radio class="mechanism" label="jwt" border :disabled="addedAuthn.includes('jwt')">
-                JWT
+              <el-radio
+                class="mechanism"
+                :label="value"
+                :disabled="addedAuthn.includes(value)"
+                border
+              >
+                {{ label }}
               </el-radio>
             </el-badge>
           </template>
-          <el-radio class="mechanism" label="scram" v-if="!isDisabledMechanism('scram')" border>
-            {{ $t('Auth.scram') }}
-          </el-radio>
         </el-radio-group>
         <p class="item-description">{{ mechanismDesc }}</p>
         <div class="step-btn">
@@ -192,6 +189,7 @@ import { cloneDeep } from 'lodash'
 import { checkNOmitFromObj, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { AuthnMechanismType } from '@/types/enum'
+import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 
 interface PresetData {
   mechanism: AuthnMechanismType
@@ -240,6 +238,7 @@ const testRes = ref(null)
 const configData = ref({})
 const { factory, create } = useAuthnCreate()
 const formCom = ref()
+const { authnMechanismTypeList } = useAuthnMechanismType()
 const supportBackendMap: any = {
   password_based: {
     built_in_database: 'Built-in Database',

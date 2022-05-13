@@ -37,7 +37,7 @@ export default {
   },
   scram: {
     zh: '增强认证',
-    en: 'Scram',
+    en: 'SCRAM',
   },
   passwordBasedDesc: {
     zh: '使用客户端用户名、Client ID 与密码进行认证',
