@@ -11,7 +11,11 @@
 
     <el-table :data="traceTable" v-loading="traceTbLoading" class="data-table">
       <el-table-column :label="$t('LogTrace.name')" prop="name" :min-width="100" />
-      <el-table-column :label="$t('LogTrace.type')" prop="type" sortable :min-width="100" />
+      <el-table-column :label="$t('LogTrace.type')" prop="type" sortable :min-width="100">
+        <template #default="{ row }">
+          {{ getTypeLabelByValue(row.type) }}
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('LogTrace.condition')" :min-width="100">
         <template #default="{ row }">
           {{ row[row.type] }}
@@ -156,6 +160,7 @@ import CheckIcon from '@/components/CheckIcon.vue'
 
 import { getTraceList, addTrace, downloadTrace, stopTrace, deleteTrace } from '@/api/diagnose'
 import { CheckStatus } from '@/types/enum'
+import { getLabelFromValueInOptionList } from '@/common/tools'
 
 const DEFAULT_DURATION = 30 * 60 * 1000
 
@@ -228,6 +233,8 @@ export default defineComponent({
       traceTable.value = traceList
       traceTbLoading.value = false
     }
+
+    const getTypeLabelByValue = (value: string) => getLabelFromValueInOptionList(value, typeOptions)
 
     const submitTrace = async () => {
       createForm.value?.validate(async (valid: boolean) => {
@@ -332,6 +339,7 @@ export default defineComponent({
       createForm,
       typeOptions,
       record,
+      getTypeLabelByValue,
       submitTrace,
       stopTraceHandler,
       openCreateDialog,
