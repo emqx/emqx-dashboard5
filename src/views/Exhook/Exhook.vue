@@ -2,7 +2,7 @@
   <div class="exhook app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" @click="addExhook">
+      <el-button type="primary" @click="addExhook" :icon="Plus">
         {{ $t('Base.add') }}
       </el-button>
     </div>
@@ -84,6 +84,7 @@ import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import useMove from '@/hooks/useMove'
+import { Plus } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()
