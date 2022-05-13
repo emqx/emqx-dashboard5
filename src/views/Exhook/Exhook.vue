@@ -156,8 +156,9 @@ const goExhookDetail = (exhook: Exhook) => {
 const changeExhookStatus = async (exhook: Exhook) => {
   try {
     await updateExhookEnable(exhook, exhook.enable)
+    getExhooks()
   } catch (error) {
-    exhook.enable = !exhook.enable
+    //
   }
 }
 
