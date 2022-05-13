@@ -101,25 +101,33 @@
         @keyup.enter="subscribe"
         class="sub-area"
         :disabled="!compareConnStatus('MCONNECTED')"
+        label-position="top"
       >
-        <el-form-item prop="topic" label="Topic">
-          <el-input v-model="subscriptionsRecord.topic" />
-        </el-form-item>
-
-        <el-form-item prop="qos" label="QoS">
-          <!-- <emq-select
-            v-model.number="subscriptionsRecord.qos"
-            :field="{ list: QoSOptions }"
-          /> -->
-          <el-select v-model.number="subscriptionsRecord.qos">
-            <el-option v-for="item in QoSOptions" :key="item" :value="item" />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="subscribe">
-            {{ $t('Tools.Subscribe') }}
-          </el-button>
-        </el-form-item>
+        <el-row :gutter="26" align="bottom">
+          <el-col :span="6">
+            <el-form-item prop="topic" label="Topic">
+              <el-input v-model="subscriptionsRecord.topic" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item prop="qos" label="QoS">
+              <!-- <emq-select
+                v-model.number="subscriptionsRecord.qos"
+                :field="{ list: QoSOptions }"
+              /> -->
+              <el-select v-model.number="subscriptionsRecord.qos">
+                <el-option v-for="item in QoSOptions" :key="item" :value="item" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item>
+              <el-button type="primary" @click="subscribe">
+                {{ $t('Tools.Subscribe') }}
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <el-table :data="subscriptions" max-height="400px">
         <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
@@ -154,31 +162,38 @@
         class="pub-area"
         :disabled="!compareConnStatus('MCONNECTED')"
       >
-        <el-form-item prop="topic" label="Topic">
-          <el-input v-model="messageRecord.topic" />
-        </el-form-item>
-
-        <el-form-item prop="payload" label="Payload">
-          <el-input v-model="messageRecord.payload" />
-        </el-form-item>
-
-        <el-form-item prop="qos" label="QoS">
-          <el-select v-model.number="messageRecord.qos">
-            <el-option v-for="item in QoSOptions" :key="item" :value="item" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item class="with-btn">
-          <el-checkbox v-model="messageRecord.retain"> Retain </el-checkbox>
-          <el-button type="primary" @click="publish">
-            {{ $t('Tools.publish') }}
-          </el-button>
-        </el-form-item>
+        <el-row :gutter="26" align="bottom">
+          <el-col :span="6">
+            <el-form-item prop="topic" label="Topic">
+              <el-input v-model="messageRecord.topic" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item prop="payload" label="Payload">
+              <el-input v-model="messageRecord.payload" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item prop="qos" label="QoS">
+              <el-select v-model.number="messageRecord.qos">
+                <el-option v-for="item in QoSOptions" :key="item" :value="item" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item class="with-btn">
+              <el-checkbox v-model="messageRecord.retain"> Retain </el-checkbox>
+              <el-button type="primary" @click="publish">
+                {{ $t('Tools.publish') }}
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
     </div>
 
     <!-- Data -->
-    <el-row :gutter="20">
+    <el-row :gutter="26">
       <el-col :span="12">
         <div class="message-btn">
           {{ $t('Tools.received') }}
@@ -190,7 +205,7 @@
             <el-icon class="pointer icon-delete" @click="messageIn = []"><delete /></el-icon>
           </el-tooltip>
         </div>
-        <el-table :data="messageIn" max-height="400px">
+        <el-table :data="messageIn" max-height="400px" class="shadow-none">
           <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
           <el-table-column prop="qos" label="QoS" sortable min-width="50">
             <template #default="{ row }">
@@ -230,7 +245,7 @@
             </el-icon>
           </el-tooltip>
         </div>
-        <el-table :data="messageOut" max-height="400px">
+        <el-table :data="messageOut" max-height="400px" class="shadow-none">
           <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
           <el-table-column prop="qos" label="QoS" sortable min-width="50">
             <template #default="{ row }">
@@ -655,18 +670,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sub-area .el-form-item {
-  display: inline-block;
-  width: 30%;
-  padding-right: 3%;
-}
 .pub-area .el-form-item {
-  display: inline-block;
-  width: 24%;
-  padding-right: 1%;
-
-  &.with-btn :deep(.el-form-item__content) {
-    justify-content: space-between;
+  .el-checkbox {
+    margin-right: 24px;
   }
 }
 
