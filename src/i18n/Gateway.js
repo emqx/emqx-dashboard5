@@ -53,7 +53,7 @@ export default {
   },
   addListener: {
     zh: '添加监听器',
-    en: 'Add Listeners',
+    en: 'Add Listener',
   },
   editListener: {
     zh: '编辑监听器',

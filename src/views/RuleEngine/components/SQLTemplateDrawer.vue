@@ -165,7 +165,9 @@ initTemplateList()
     border-top: $collapse-border;
   }
   .el-collapse-item__header {
-    padding-left: 16px;
+    min-height: var(--el-collapse-header-height);
+    height: auto;
+    padding: 4px 0 4px 16px;
     border-bottom: $collapse-border;
     &.is-active {
       border-bottom: $collapse-border;

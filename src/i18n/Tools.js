@@ -161,6 +161,6 @@ export default {
   },
   rate: {
     zh: '条/秒',
-    en: 'massage(s)/s',
+    en: 'message(s)/s',
   },
 }

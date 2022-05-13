@@ -157,7 +157,7 @@ export default {
   },
   builtInDatabase: {
     zh: '内置数据库',
-    en: 'Built In Databse',
+    en: 'Built-in Database',
   },
   noExp: {
     en: 'Never Expire',
