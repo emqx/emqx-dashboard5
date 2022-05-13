@@ -163,9 +163,8 @@ const updateBridgeInfo = async () => {
 
 const enableOrDisableBridge = async () => {
   infoLoading.value = true
-  const statusToSend = bridgeInfo.value.status === 'connected' ? 'disable' : 'enable'
-  const sucMessage =
-    bridgeInfo.value.status === 'connected' ? 'Base.disabledSuccess' : 'Base.enableSuccess'
+  const statusToSend = bridgeInfo.value.enable ? 'disable' : 'enable'
+  const sucMessage = bridgeInfo.value.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'
   try {
     await startStopBridge(bridgeInfo.value.id, statusToSend)
     ElMessage.success(t(sucMessage))
