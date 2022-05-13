@@ -47,11 +47,11 @@ export const LOCAL_STORAGE_KEY_MAP = {
 }
 
 export const GATEWAY_DISABLED_MECHANISM_MAP = {
-  [GatewayName.STOMP]: [AuthnMechanismType.Scram],
-  [GatewayName.CoAP]: [AuthnMechanismType.Scram],
-  [GatewayName.ExProto]: [AuthnMechanismType.Scram],
-  [GatewayName.MQTT_SN]: [AuthnMechanismType.Scram, AuthnMechanismType.JWT],
-  [GatewayName.LwM2M]: [AuthnMechanismType.Scram, AuthnMechanismType.JWT],
+  [GatewayName.STOMP]: [AuthnMechanismType.SCRAM],
+  [GatewayName.CoAP]: [AuthnMechanismType.SCRAM],
+  [GatewayName.ExProto]: [AuthnMechanismType.SCRAM],
+  [GatewayName.MQTT_SN]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
+  [GatewayName.LwM2M]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
 }
 
 export const GATEWAY_DISABLED_DATABASES_MAP = {

@@ -130,7 +130,7 @@ export enum NodeStatus {
 export enum AuthnMechanismType {
   PasswordBased = 'password_based',
   JWT = 'jwt',
-  Scram = 'scram',
+  SCRAM = 'scram',
 }
 
 export enum DatabasesType {
