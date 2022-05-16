@@ -16,7 +16,12 @@
         :placeholder="$t('Base.certPlaceholder')"
         @vnode-mounted="editConfigItem('certfile')"
       />
-      <ConfigItemDataLook v-else :value="record.certfile" @reset="editConfigItem('certfile')" />
+      <ConfigItemDataLook
+        v-else
+        class="TLS-input"
+        :value="record.certfile"
+        @reset="editConfigItem('certfile')"
+      />
     </el-form-item>
     <el-form-item :prop="getFormItemProp(`keyfile`)">
       <template #label>
@@ -31,7 +36,12 @@
         :placeholder="$t('Base.keyFilePlaceholder')"
         @vnode-mounted="editConfigItem('keyfile')"
       />
-      <ConfigItemDataLook v-else :value="record.keyfile" @reset="editConfigItem('keyfile')" />
+      <ConfigItemDataLook
+        v-else
+        class="TLS-input"
+        :value="record.keyfile"
+        @reset="editConfigItem('keyfile')"
+      />
     </el-form-item>
     <el-form-item :prop="getFormItemProp(`cacertfile`)">
       <template #label>
@@ -46,7 +56,12 @@
         :placeholder="$t('Base.certPlaceholder')"
         @vnode-mounted="editConfigItem('cacertfile')"
       />
-      <ConfigItemDataLook v-else :value="record.cacertfile" @reset="editConfigItem('cacertfile')" />
+      <ConfigItemDataLook
+        v-else
+        class="TLS-input"
+        :value="record.cacertfile"
+        @reset="editConfigItem('cacertfile')"
+      />
     </el-form-item>
   </div>
 </template>
