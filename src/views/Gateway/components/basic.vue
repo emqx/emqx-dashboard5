@@ -38,6 +38,8 @@ import ExprotoBasic from './exprotoBasic.vue'
 import { updateGateway, getGateway } from '@/api/gateway'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData.ts'
+import { GatewayName } from '@/types/enum'
 
 export default defineComponent({
   components: { stompBasic, MqttsnBasic, Lwm2mBasic, CoapBasic, ExprotoBasic },
@@ -65,6 +67,7 @@ export default defineComponent({
       }
     }
 
+    const { handleExprotoData } = useHandleExprotoData()
     const updateGatewayInfo = async function () {
       updateLoading.value = true
       infoLoading.value = true
@@ -80,7 +83,11 @@ export default defineComponent({
         delete basicData.value[field]
       })
       try {
-        await updateGateway(name, basicData.value)
+        let dataToSubmit = basicData.value
+        if (name === GatewayName.ExProto) {
+          dataToSubmit = handleExprotoData(dataToSubmit)
+        }
+        await updateGateway(name, dataToSubmit)
         this.$message({
           type: 'success',
           message: t('Base.updateSuccess'),
