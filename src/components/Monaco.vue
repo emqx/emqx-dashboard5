@@ -100,6 +100,10 @@ defineTheme()
 
 const initEditor = () => {
   const id = `monaco-${prop.id}`
+  const ele = document.getElementById(id)
+  if (!ele) {
+    return
+  }
   const defaultOptions = {
     value: prop.modelValue,
     language: prop.lang,
@@ -122,7 +126,7 @@ const initEditor = () => {
     // },
   }
   setJSONValidate()
-  editor = monaco.editor.create(document.getElementById(id), defaultOptions)
+  editor = monaco.editor.create(ele, defaultOptions)
   editor.onDidChangeModelContent(async (event) => {
     const value = editor.getValue()
     if (value !== editor.modelValue) {
