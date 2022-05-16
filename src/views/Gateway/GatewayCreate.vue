@@ -89,6 +89,8 @@ import router from '@/router'
 import { ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData.ts'
+import { GatewayName } from '@/types/enum'
 
 const STATIC_LISTENER = {
   exproto: {
@@ -154,12 +156,16 @@ export default defineComponent({
       router.push({ name: 'gateway' })
     }
 
+    const { handleExprotoData } = useHandleExprotoData()
     const createGateway = async () => {
       submitLoading.value = true
-      const data = {
+      let data = {
         ...basicData.value,
         listeners: [...listenerList.value],
         name: gname,
+      }
+      if (gname === GatewayName.ExProto) {
+        data = handleExprotoData(data)
       }
       const res = await postGateway(data).catch(() => {})
       if (res) {
