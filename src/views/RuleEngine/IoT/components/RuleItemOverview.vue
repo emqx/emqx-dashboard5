@@ -66,7 +66,7 @@
         <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
       </div>
       <p class="card-sub-desc">{{ tl('nodeStatusDesc') }}</p>
-      <el-table :data="nodeStatusTableData">
+      <el-table :data="nodeStatusTableData" class="shadow-none">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column>
           <template #header>
