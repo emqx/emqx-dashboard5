@@ -295,6 +295,10 @@ export default {
     zh: '验证服务器证书',
     en: 'TLS Verify',
   },
+  tlsVerifyClient: {
+    zh: '验证客户端证书',
+    en: 'TLS Verify',
+  },
   enableTLS: {
     zh: '启用 TLS',
     en: 'Enable TLS',
