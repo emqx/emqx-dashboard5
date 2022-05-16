@@ -333,7 +333,7 @@ export default {
   },
   sqlPassedDesc: {
     zh: '成功执行并输出结果',
-    en: 'executes successfully and outputs the result',
+    en: 'Executes successfully and outputs the result',
   },
   sqlMatched: {
     zh: '命中',
@@ -349,7 +349,7 @@ export default {
   },
   sqlFailedDesc: {
     zh: '因语法或函数调用失败导致执行失败',
-    en: 'execution failed due to syntax or function call failure',
+    en: 'Execution failed due to syntax or function call failure',
   },
   sqlNoResult: {
     zh: '无结果',
@@ -357,7 +357,7 @@ export default {
   },
   sqlNoResultDesc: {
     zh: '成功执行但没有输出结果',
-    en: 'executes successfully but no output results',
+    en: 'Executes successfully but no output results',
   },
   currentSpeed: {
     zh: '当前速度',
