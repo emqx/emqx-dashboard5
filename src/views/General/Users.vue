@@ -232,7 +232,9 @@ export default {
           new_pwd: this.record.newPassword,
           old_pwd: this.record.password,
         }
-        let res = await changePassword(username, pass).catch(() => {})
+        let res = await changePassword(username, pass).catch(() => {
+          this.submitLoading = false
+        })
         if (res) {
           ElMessage.success(this.$t('General.changePassSuccess'))
           this.dialogVisible = false
