@@ -328,36 +328,36 @@ export default {
     en: 'Type',
   },
   sqlPassed: {
-    zh: 'SQL 通过',
-    en: 'SQL Passed',
+    zh: '通过',
+    en: 'Passed',
   },
   sqlPassedDesc: {
-    zh: 'SQL 成功执行并输出结果',
-    en: 'SQL executes successfully and outputs the result',
+    zh: '成功执行并输出结果',
+    en: 'executes successfully and outputs the result',
   },
   sqlMatched: {
-    zh: 'SQL 命中',
-    en: 'SQL Matched',
+    zh: '命中',
+    en: 'Matched',
   },
   sqlMatchedDesc: {
     zh: '规则启用后的执行次数',
     en: 'The number of executions after the rule is enabled',
   },
   sqlFailed: {
-    zh: 'SQL 失败',
-    en: 'SQL Failed',
+    zh: '失败',
+    en: 'Failed',
   },
   sqlFailedDesc: {
-    zh: 'SQL 因语法或函数调用失败导致执行失败',
-    en: 'SQL execution failed due to syntax or function call failure',
+    zh: '因语法或函数调用失败导致执行失败',
+    en: 'execution failed due to syntax or function call failure',
   },
   sqlNoResult: {
-    zh: 'SQL 无结果',
-    en: 'SQL No Result',
+    zh: '无结果',
+    en: 'No Result',
   },
   sqlNoResultDesc: {
-    zh: 'SQL 成功执行但没有输出结果',
-    en: 'SQL executes successfully but no output results',
+    zh: '成功执行但没有输出结果',
+    en: 'executes successfully but no output results',
   },
   currentSpeed: {
     zh: '当前速度',

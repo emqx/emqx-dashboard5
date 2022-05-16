@@ -31,7 +31,7 @@
         <h6 class="block-title">{{ tl('nodeStatus') }}</h6>
       </div>
       <p class="card-sub-desc">{{ tl('nodeStatusDesc') }}</p>
-      <el-table :data="nodeStatusTableData">
+      <el-table :data="nodeStatusTableData" class="shadow-none">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column prop="metrics.success" :label="tl('SuccessNum')" />
         <el-table-column prop="metrics.failed" :label="tl('ErrNum')" />
