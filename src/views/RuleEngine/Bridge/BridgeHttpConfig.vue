@@ -151,7 +151,6 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useDocLink from '@/hooks/useDocLink'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 
 export default defineComponent({
@@ -224,7 +223,7 @@ export default defineComponent({
       if (props.modelValue.local_topic === undefined) {
         isForwardFromLocalTopic.value = false
       }
-      httpBridgeVal.value = _.cloneDeep(httpBridgeDefaultVal)
+      httpBridgeVal.value = { ..._.cloneDeep(httpBridgeDefaultVal), ...props.modelValue }
       if (!isForwardFromLocalTopic.value) {
         handleIsForwardToLocalTopicChangedInSinkType()
       }

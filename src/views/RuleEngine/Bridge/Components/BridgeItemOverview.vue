@@ -124,7 +124,7 @@ const resetStatistics = async () => {
 }
 
 const setNodeConnectingStatusMap = () => {
-  nodeConnectingStatusMap.value = props.bridgeMsg.node_status.reduce((obj, nodeStatusItem) => {
+  nodeConnectingStatusMap.value = props.bridgeMsg.node_status?.reduce((obj, nodeStatusItem) => {
     return {
       ...obj,
       [nodeStatusItem.node]: false,
