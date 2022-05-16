@@ -84,7 +84,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, Ref } from 'vue'
+import { ref, Ref, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import { querySlowSubConfig, updateSlowSubConfig } from '@/api/diagnose'
 import { SlowSubConfig } from '@/types/diagnose'
@@ -132,9 +132,12 @@ const slowTypeOpts = [
   { value: SlowSubType.Response, desc: tl('typeResponseDesc') },
 ]
 
-const setEnableFromQuery = () => {
+const enableAutomatically = async () => {
   if (!configForm.value.enable && route.query.enable) {
     configForm.value.enable = !!route.query.enable
+    // for prevent form throw error
+    await nextTick()
+    update(false)
   }
 }
 
@@ -142,7 +145,7 @@ const getConfig = async () => {
   try {
     isLoading.value = true
     configForm.value = await querySlowSubConfig()
-    setEnableFromQuery()
+    enableAutomatically()
     isLoading.value = false
   } catch (error) {
     console.error(error)
