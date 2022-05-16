@@ -1,84 +1,84 @@
 <template>
   <div class="exhook-detail app-wrapper" v-loading.lock="isLoading">
-    <div class="exhook-detail-hd">
-      <div>
-        <h6 class="exhook-detail-title">{{ exhookName }}</h6>
+    <detail-header :item="{ name: exhookName, path: '/exhook' }" />
+    <div>
+      <div class="exhook-detail-hd">
         <ExhookItemStatus :exhook="exhookData" is-tag />
-      </div>
-      <div>
-        <el-button type="danger" plain @click="handleDelete">
-          {{ tl('delete', 'Base') }}
-        </el-button>
-        <el-button type="primary" @click="updateExhookStatus(false)" v-if="exhookData.enable">
-          {{ tl('disable', 'Base') }}
-        </el-button>
-        <el-button type="primary" @click="updateExhookStatus(true)" v-else>
-          {{ tl('enable', 'Base') }}
-        </el-button>
-      </div>
-    </div>
-    <el-tabs v-model="activeName">
-      <el-tab-pane :label="tl('overview')" name="overview">
-        <el-card class="app-card exhook-metrics-card">
-          <h6 class="block-title metrics-title">{{ tl('metricsData') }}</h6>
-          <div class="metrics-data-content">
-            <el-row>
-              <el-col :span="4">
-                <span class="metric-num">
-                  {{ exhookData?.hooks?.length }}
-                </span>
-                <p class="metric-type">{{ tl('registeredHooks') }}</p>
-              </el-col>
-              <el-col :span="4">
-                <span class="metric-num">
-                  {{ exhookData?.metrics?.succeed }}
-                </span>
-                <p class="metric-type">{{ tl('success') }}</p>
-              </el-col>
-              <el-col :span="4">
-                <span class="metric-num">{{ exhookData?.metrics?.failed }}</span>
-                <p class="metric-type">{{ tl('failure') }}</p>
-              </el-col>
-              <el-col :span="4">
-                <span class="metric-num">{{ exhookData?.metrics?.rate }}</span>
-                <p class="metric-type">{{ tl('currentSpeed') }}</p>
-              </el-col>
-            </el-row>
-          </div>
-        </el-card>
-        <el-card class="app-card">
-          <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
-          <el-button type="primary" :loading="isSubmitting" @click="updateExhook">
-            {{ $t('Base.update') }}
+        <div>
+          <el-button type="danger" plain @click="handleDelete">
+            {{ tl('delete', 'Base') }}
           </el-button>
-        </el-card>
-      </el-tab-pane>
-      <el-tab-pane :label="tl('registeredHooks')" name="hooks">
-        <el-table :data="registeredHooks">
-          <el-table-column prop="name" :label="tl('name')"></el-table-column>
-          <el-table-column prop="params" :label="tl('params')">
-            <template #default="{ row }">
-              {{ stringifyObjSafely(row.params) }}
-            </template>
-          </el-table-column>
-          <el-table-column :label="tl('success')">
-            <template #default="{ row }">
-              {{ row.metrics?.succeed }}
-            </template>
-          </el-table-column>
-          <el-table-column :label="tl('failure')">
-            <template #default="{ row }">
-              {{ row.metrics?.failed }}
-            </template>
-          </el-table-column>
-          <el-table-column :label="`${tl('speed')}(${tl('second')})`">
-            <template #default="{ row }">
-              {{ row.metrics?.rate / 1000 }}
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
-    </el-tabs>
+          <el-button type="primary" @click="updateExhookStatus(false)" v-if="exhookData.enable">
+            {{ tl('disable', 'Base') }}
+          </el-button>
+          <el-button type="primary" @click="updateExhookStatus(true)" v-else>
+            {{ tl('enable', 'Base') }}
+          </el-button>
+        </div>
+      </div>
+      <el-tabs v-model="activeName">
+        <el-tab-pane :label="tl('overview')" name="overview">
+          <el-card class="app-card exhook-metrics-card">
+            <h6 class="block-title metrics-title">{{ tl('metricsData') }}</h6>
+            <div class="metrics-data-content">
+              <el-row>
+                <el-col :span="4">
+                  <span class="metric-num">
+                    {{ exhookData?.hooks?.length }}
+                  </span>
+                  <p class="metric-type">{{ tl('registeredHooks') }}</p>
+                </el-col>
+                <el-col :span="4">
+                  <span class="metric-num">
+                    {{ exhookData?.metrics?.succeed }}
+                  </span>
+                  <p class="metric-type">{{ tl('success') }}</p>
+                </el-col>
+                <el-col :span="4">
+                  <span class="metric-num">{{ exhookData?.metrics?.failed }}</span>
+                  <p class="metric-type">{{ tl('failure') }}</p>
+                </el-col>
+                <el-col :span="4">
+                  <span class="metric-num">{{ exhookData?.metrics?.rate }}</span>
+                  <p class="metric-type">{{ tl('currentSpeed') }}</p>
+                </el-col>
+              </el-row>
+            </div>
+          </el-card>
+          <el-card class="app-card">
+            <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
+            <el-button type="primary" :loading="isSubmitting" @click="updateExhook">
+              {{ $t('Base.update') }}
+            </el-button>
+          </el-card>
+        </el-tab-pane>
+        <el-tab-pane :label="tl('registeredHooks')" name="hooks">
+          <el-table :data="registeredHooks">
+            <el-table-column prop="name" :label="tl('name')"></el-table-column>
+            <el-table-column prop="params" :label="tl('params')">
+              <template #default="{ row }">
+                {{ stringifyObjSafely(row.params) }}
+              </template>
+            </el-table-column>
+            <el-table-column :label="tl('success')">
+              <template #default="{ row }">
+                {{ row.metrics?.succeed }}
+              </template>
+            </el-table-column>
+            <el-table-column :label="tl('failure')">
+              <template #default="{ row }">
+                {{ row.metrics?.failed }}
+              </template>
+            </el-table-column>
+            <el-table-column :label="`${tl('speed')}(${tl('second')})`">
+              <template #default="{ row }">
+                {{ row.metrics?.rate / 1000 }}
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -98,6 +98,7 @@ import {
 import { stringifyObjSafely } from '@/common/tools'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import useSSL from '@/hooks/useSSL'
+import DetailHeader from '@/components/DetailHeader.vue'
 
 const router = useRouter()
 const route = useRoute()
