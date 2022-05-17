@@ -2,9 +2,6 @@
   <div class="login">
     <el-row>
       <el-col class="intro" :span="8">
-        <div class="logo">
-          <img src="@/assets/img/emqx-logo.png" width="96" height="33" alt="emqx-logo" />
-        </div>
         <div class="content">
           <img
             class="dashboard-img"
