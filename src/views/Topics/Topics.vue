@@ -10,7 +10,7 @@
             {{ $t('Clients.search') }}
           </el-button>
           <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSearch">
-            {{ $t('Clients.reset') }}
+            {{ $t('Clients.refresh') }}
           </el-button>
         </el-col>
       </el-row>
