@@ -51,7 +51,7 @@
             {{ $t('Clients.search') }}
           </el-button>
           <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSerach">
-            {{ $t('Clients.reset') }}
+            {{ $t('Clients.refresh') }}
           </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
             <ArrowUp v-if="showMoreQuery" />
