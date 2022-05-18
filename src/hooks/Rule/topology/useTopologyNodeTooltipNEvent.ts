@@ -98,9 +98,9 @@ export default (): {
     const msgArr = [
       { label: tl('name'), value: name },
       { label: tl('input'), value: fromDataToShow },
-      { label: tl('sqlPassed'), value: metrics['sql.passed'] },
-      { label: tl('sqlFailed'), value: metrics['sql.failed.exception'] },
-      { label: tl('currentSpeed'), value: metrics['sql.matched.rate'] },
+      { label: tl('sqlPassed'), value: metrics['passed'] },
+      { label: tl('sqlFailed'), value: metrics['failed.exception'] },
+      { label: tl('currentSpeed'), value: metrics['matched.rate'] },
       {
         label: tl('status'),
         value: tl(enable ? 'activated' : 'deactivated'),
