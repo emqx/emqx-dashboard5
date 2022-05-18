@@ -17,7 +17,7 @@
       v-loading.lock="isListLoading"
       row-key="id"
     >
-      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="108">
+      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="120">
         <template #default="{ row }">
           {{ getLabelByValue(row.mechanism) }}
         </template>

@@ -2,7 +2,7 @@
 /* Components Reset Colors */
 @forward "element-plus/theme-chalk/src/common/var.scss" with (
   $menu: (
-    'text-color': var(--color-text-secondary),
+    'text-color': var(--color-text-primary),
     'border-color': var(--color-border-menu),
     'bg-color': var(--color-bg-primary),
     'hover-bg-color': var(--color-hover),
@@ -96,6 +96,11 @@
       }
     }
     .el-sub-menu {
+      &.is-active.is-opened {
+        .el-sub-menu__title {
+          color: var(--color-title-primary);
+        }
+      }
       .el-menu-item {
         padding: 0px 0px 0px 31px !important;
       }

@@ -204,11 +204,11 @@ export default defineComponent({
   transition: all 0.3s;
   display: flex;
   align-items: center;
-  padding-left: 22px;
+  padding-left: 24px;
   img {
     max-width: initial;
-    width: 96px;
-    height: 33px;
+    width: 86px;
+    height: 30px;
     transition: all 0.3s;
   }
 }
