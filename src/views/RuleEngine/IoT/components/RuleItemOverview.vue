@@ -14,48 +14,48 @@
             <span>{{ tl('sqlMatched') }}</span>
             <InfoTooltip :content="tl('sqlMatchedDesc')" />
           </p>
-          <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.matched']) }}</p>
+          <p class="statistic-num">{{ formatNumber(ruleMetrics['matched']) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">
             <span>{{ tl('sqlPassed') }}</span>
             <InfoTooltip :content="tl('sqlPassedDesc')" />
           </p>
-          <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.passed']) }}</p>
+          <p class="statistic-num">{{ formatNumber(ruleMetrics['passed']) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">
             <span>{{ tl('sqlFailed') }}</span>
             <InfoTooltip :content="tl('sqlFailedDesc')" />
           </p>
-          <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.failed.exception']) }}</p>
+          <p class="statistic-num">{{ formatNumber(ruleMetrics['failed.exception']) }}</p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">
             <span>{{ tl('sqlNoResult') }}</span>
             <InfoTooltip :content="tl('sqlNoResultDesc')" />
           </p>
-          <p class="statistic-num">{{ formatNumber(ruleMetrics['sql.failed.no_result']) }}</p>
+          <p class="statistic-num">{{ formatNumber(ruleMetrics['failed.no_result']) }}</p>
         </el-col>
 
         <el-col :span="6">
           <p class="statistic-label">{{ tl('executionSpeed') }}</p>
           <p class="statistic-num">
-            {{ formatNumber(ruleMetrics['sql.matched.rate']) }}
+            {{ formatNumber(ruleMetrics['matched.rate']) }}
             <span class="unit">msg/s</span>
           </p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('rateLast5M') }}</p>
           <p class="statistic-num">
-            {{ formatNumber(ruleMetrics['sql.matched.rate.last5m']) }}
+            {{ formatNumber(ruleMetrics['matched.rate.last5m']) }}
             <span class="unit">msg/s</span>
           </p>
         </el-col>
         <el-col :span="6">
           <p class="statistic-label">{{ tl('rateMax') }}</p>
           <p class="statistic-num">
-            {{ formatNumber(ruleMetrics['sql.matched.rate.max']) }}
+            {{ formatNumber(ruleMetrics['matched.rate.max']) }}
             <span class="unit">msg/s</span>
           </p>
         </el-col>
@@ -74,7 +74,7 @@
             <InfoTooltip :content="tl('sqlMatchedDesc')" />
           </template>
           <template #default="{ row }">
-            {{ row.metrics['sql.matched'] }}
+            {{ row.metrics['matched'] }}
           </template>
         </el-table-column>
         <el-table-column>
@@ -83,7 +83,7 @@
             <InfoTooltip :content="tl('sqlPassedDesc')" />
           </template>
           <template #default="{ row }">
-            {{ row.metrics['sql.passed'] }}
+            {{ row.metrics['passed'] }}
           </template>
         </el-table-column>
 
@@ -93,7 +93,7 @@
             <InfoTooltip :content="tl('sqlFailedDesc')" />
           </template>
           <template #default="{ row }">
-            {{ row.metrics['sql.failed.exception'] }}
+            {{ row.metrics['failed.exception'] }}
           </template>
         </el-table-column>
         <el-table-column>
@@ -102,23 +102,23 @@
             <InfoTooltip :content="tl('sqlNoResultDesc')" />
           </template>
           <template #default="{ row }">
-            {{ row.metrics['sql.failed.no_result'] }}
+            {{ row.metrics['failed.no_result'] }}
           </template>
         </el-table-column>
         <el-table-column :label="`${tl('executionSpeed')}(mgs/s)`">
           <template #default="{ row }">
-            {{ row.metrics['sql.matched.rate'] }}
+            {{ row.metrics['matched.rate'] }}
           </template>
         </el-table-column>
 
         <el-table-column :label="`${tl('rateLast5M')}(mgs/s)`">
           <template #default="{ row }">
-            {{ row.metrics['sql.matched.rate.last5m'] }}
+            {{ row.metrics['matched.rate.last5m'] }}
           </template>
         </el-table-column>
         <el-table-column :label="`${tl('rateMax')}(mgs/s)`">
           <template #default="{ row }">
-            {{ row.metrics['sql.matched.rate.max'] }}
+            {{ row.metrics['matched.rate.max'] }}
           </template>
         </el-table-column>
         <!-- <el-table-column :label="tl('status')">

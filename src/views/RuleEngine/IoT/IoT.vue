@@ -33,17 +33,17 @@
       </el-table-column>
       <el-table-column :label="tl('sqlMatched')" :min-width="118">
         <template #default="{ row }">
-          {{ row.metrics?.['sql.matched'] }}
+          {{ row.metrics?.['matched'] }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('sqlFailed')" :min-width="98">
         <template #default="{ row }">
-          {{ row.metrics?.['sql.failed.exception'] }}
+          {{ row.metrics?.['failed.exception'] }}
         </template>
       </el-table-column>
       <el-table-column :label="`${tl('executionSpeed')}(msg/s)`" :min-width="120">
         <template #default="{ row }">
-          {{ row.metrics?.['sql.matched.rate'] }}
+          {{ row.metrics?.['matched.rate'] }}
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
