@@ -12,7 +12,7 @@
             <el-sub-menu :index="'' + i" :key="i">
               <template #title>
                 <svg class="icon menu-icon" aria-hidden="true">
-                  <use :xlink:href="`#${menu.icon}-${theme}`"></use>
+                  <use :xlink:href="setIcon(menu)"></use>
                 </svg>
                 <p class="menu-item-title first-level">
                   {{ $t(`components.${menu.title}`) }}
@@ -32,7 +32,7 @@
           <template v-else>
             <el-menu-item :key="menu.title" :index="menu.path">
               <svg class="icon menu-icon" aria-hidden="true">
-                <use :xlink:href="`#${menu.icon}-${theme}`"></use>
+                <use :xlink:href="setIcon(menu)"></use>
               </svg>
               <p class="menu-item-title first-level">
                 {{ $t(`components.${menu.title}`) }}
@@ -218,12 +218,30 @@ export default defineComponent({
         c: system,
       },
     ]
+    const setIcon = (menu: Record<string, any>) => {
+      let iconPath = `#${menu.icon}-${theme.value}`
+      const setSelectedIcon = (path: string, title: string) => {
+        if (path === title) {
+          iconPath = `#${menu.icon}-${theme.value}-selected`
+        }
+      }
+      const currRoute = route.path.split('/')[1]
+      if (menu.c) {
+        menu.c.forEach((child: Record<string, any>) => {
+          setSelectedIcon(currRoute, child.title)
+        })
+      } else {
+        setSelectedIcon(currRoute, menu.title)
+      }
+      return iconPath
+    }
     return {
       store,
       theme,
       leftBarCollapse,
       defaultSelectedKeys,
       menus,
+      setIcon,
     }
   },
 })
