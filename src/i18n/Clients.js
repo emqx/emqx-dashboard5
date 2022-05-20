@@ -11,13 +11,13 @@ export default {
     zh: '连接',
     en: 'Connections',
   },
-  clients: {
-    zh: '客户端',
-    en: 'Clients',
+  connections: {
+    zh: '连接管理',
+    en: 'Connections',
   },
   currentConnection: {
     zh: '当前在线连接客户端',
-    en: 'Current Clients',
+    en: 'Current Connections',
   },
   input: {
     zh: '输入',
@@ -361,11 +361,11 @@ export default {
   },
   gte: {
     zh: '在此之后',
-    en: 'After this',
+    en: 'After',
   },
   lte: {
     zh: '在此之前',
-    en: 'Before this',
+    en: 'Before',
   },
   bytes: {
     zh: '流量收发（字节）',

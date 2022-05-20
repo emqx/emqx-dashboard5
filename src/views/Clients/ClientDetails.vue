@@ -4,7 +4,7 @@
       <detail-header
         :item="{
           name: clientId,
-          path: '/clients',
+          path: '/connections',
           backFunc: gateway
             ? () => {
                 emit('refreshGateway')

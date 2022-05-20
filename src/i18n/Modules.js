@@ -202,8 +202,8 @@ export default {
     en: 'Authentication Info',
   },
   tabLwm2m: {
-    zh: '客户端列表',
-    en: 'Clients List',
+    zh: '连接列表',
+    en: 'Connections',
   },
   tabTopic: {
     zh: '指标数据',

@@ -84,7 +84,7 @@
         <template #default="{ row }">
           <router-link
             :to="{
-              name: 'clients-detail',
+              name: 'connection-detail',
               params: { clientId: row.clientid },
             }"
             class="table-data-without-break"

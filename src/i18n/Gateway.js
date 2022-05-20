@@ -32,8 +32,8 @@ export default {
     zh: '接入认证',
   },
   clients: {
-    zh: '客户端',
-    en: 'Clients',
+    zh: '连接管理',
+    en: 'Connections',
   },
   setting: {
     zh: '设置',

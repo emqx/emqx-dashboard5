@@ -87,8 +87,8 @@ export default defineComponent({
 
     const management = [
       {
-        title: 'clients',
-        path: '/clients',
+        title: 'connections',
+        path: '/connections',
       },
       {
         title: 'topics',
