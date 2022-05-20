@@ -121,21 +121,21 @@ export const routes: Array<RouteRecordRaw> = [
 
   // Connections
   {
-    path: '/clients',
+    path: '/connections',
     component: Layout,
     meta: {
-      hideKey: 'clients',
+      hideKey: 'connections',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'clients',
+        name: 'connections',
         component: Clients,
       },
       {
         path: 'detail/:clientId',
-        name: 'clients-detail',
+        name: 'connection-detail',
         component: ClientDetails,
       },
     ],
@@ -303,8 +303,8 @@ export const routes: Array<RouteRecordRaw> = [
             component: GatewayDetailAuth,
           },
           {
-            path: 'clients',
-            name: 'gateway-detail-clients',
+            path: 'connections',
+            name: 'gateway-detail-connections',
             component: GatewayDetailClients,
           },
         ],
