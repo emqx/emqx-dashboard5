@@ -170,10 +170,6 @@ export default defineComponent({
         title: 'advanced',
         path: '/advanced',
       },
-      {
-        title: 'config-docs',
-        path: '/config-docs',
-      },
     ]
 
     menus.value = [

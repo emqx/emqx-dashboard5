@@ -529,22 +529,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Config docs
-  {
-    path: '/config-docs',
-    component: Layout,
-    meta: {
-      hideKey: 'config-docs',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'config-docs',
-        component: ConfigDocs,
-      },
-    ],
-  },
   // Flow chart for IoT rule
   {
     path: '/flow-chart',
