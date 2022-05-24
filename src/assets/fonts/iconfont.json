@@ -6,6 +6,118 @@
   "description": "for emqx 5.0 dashboard",
   "glyphs": [
     {
+      "icon_id": "29936426",
+      "name": "connections-dark",
+      "font_class": "connections-dark",
+      "unicode": "e773",
+      "unicode_decimal": 59251
+    },
+    {
+      "icon_id": "29936427",
+      "name": "connections-dark-selected",
+      "font_class": "connections-dark-selected",
+      "unicode": "e776",
+      "unicode_decimal": 59254
+    },
+    {
+      "icon_id": "29936428",
+      "name": "extensions-dark-selected",
+      "font_class": "extensions-dark-selected",
+      "unicode": "e77f",
+      "unicode_decimal": 59263
+    },
+    {
+      "icon_id": "29936429",
+      "name": "subscriptions-dark-selected",
+      "font_class": "subscriptions-dark-selected",
+      "unicode": "e781",
+      "unicode_decimal": 59265
+    },
+    {
+      "icon_id": "29936430",
+      "name": "extensions--dark",
+      "font_class": "extensions-dark",
+      "unicode": "e787",
+      "unicode_decimal": 59271
+    },
+    {
+      "icon_id": "29936431",
+      "name": "subscriptions-dark",
+      "font_class": "subscriptions-dark",
+      "unicode": "e788",
+      "unicode_decimal": 59272
+    },
+    {
+      "icon_id": "29935988",
+      "name": "integration-dark",
+      "font_class": "integration-dark",
+      "unicode": "e77b",
+      "unicode_decimal": 59259
+    },
+    {
+      "icon_id": "29935989",
+      "name": "integration-light",
+      "font_class": "integration-light",
+      "unicode": "e780",
+      "unicode_decimal": 59264
+    },
+    {
+      "icon_id": "29935990",
+      "name": "integration-dark-selected",
+      "font_class": "integration-dark-selected",
+      "unicode": "e783",
+      "unicode_decimal": 59267
+    },
+    {
+      "icon_id": "29935991",
+      "name": "integration-light-selected",
+      "font_class": "integration-light-selected",
+      "unicode": "e784",
+      "unicode_decimal": 59268
+    },
+    {
+      "icon_id": "29932273",
+      "name": "connections-light-selected",
+      "font_class": "connections-light-selected",
+      "unicode": "e77a",
+      "unicode_decimal": 59258
+    },
+    {
+      "icon_id": "29932276",
+      "name": "subscriptions-light-selected",
+      "font_class": "subscriptions-light-selected",
+      "unicode": "e782",
+      "unicode_decimal": 59266
+    },
+    {
+      "icon_id": "29932277",
+      "name": "connections-light",
+      "font_class": "connections-light",
+      "unicode": "e785",
+      "unicode_decimal": 59269
+    },
+    {
+      "icon_id": "29932278",
+      "name": "subscriptions-light",
+      "font_class": "subscriptions-light",
+      "unicode": "e786",
+      "unicode_decimal": 59270
+    },
+    {
+      "icon_id": "29929417",
+      "name": "extensions-light-selected备份",
+      "font_class": "extensions-light-selected",
+      "unicode": "e774",
+      "unicode_decimal": 59252
+    },
+    {
+      "icon_id": "29929419",
+      "name": "extensions-light",
+      "font_class": "extensions-light",
+      "unicode": "e779",
+      "unicode_decimal": 59257
+    },
+    {
       "icon_id": "29789344",
       "name": "authentication-light",
       "font_class": "authentication-light",
@@ -55,13 +167,6 @@
       "unicode_decimal": 59237
     },
     {
-      "icon_id": "29789351",
-      "name": "management-light-selected",
-      "font_class": "management-light-selected",
-      "unicode": "e766",
-      "unicode_decimal": 59238
-    },
-    {
       "icon_id": "29789352",
       "name": "diagnosis-dark",
       "font_class": "diagnosis-dark",
@@ -69,32 +174,11 @@
       "unicode_decimal": 59239
     },
     {
-      "icon_id": "29789353",
-      "name": "management-light",
-      "font_class": "management-light",
-      "unicode": "e768",
-      "unicode_decimal": 59240
-    },
-    {
-      "icon_id": "29789354",
-      "name": "plugins-dark-selected",
-      "font_class": "plugins-dark-selected",
-      "unicode": "e769",
-      "unicode_decimal": 59241
-    },
-    {
       "icon_id": "29789355",
       "name": "diagnosis-dark-selected",
       "font_class": "diagnosis-dark-selected",
       "unicode": "e76a",
       "unicode_decimal": 59242
-    },
-    {
-      "icon_id": "29789356",
-      "name": "managementdark",
-      "font_class": "management-dark",
-      "unicode": "e76b",
-      "unicode_decimal": 59243
     },
     {
       "icon_id": "29789357",
@@ -125,13 +209,6 @@
       "unicode_decimal": 59247
     },
     {
-      "icon_id": "29789361",
-      "name": "plugins-light",
-      "font_class": "plugins-light",
-      "unicode": "e770",
-      "unicode_decimal": 59248
-    },
-    {
       "icon_id": "29789362",
       "name": "monitoring-light-selected",
       "font_class": "monitoring-light-selected",
@@ -139,39 +216,11 @@
       "unicode_decimal": 59249
     },
     {
-      "icon_id": "29789363",
-      "name": "managementdark-selected",
-      "font_class": "managementdark-selected",
-      "unicode": "e772",
-      "unicode_decimal": 59250
-    },
-    {
-      "icon_id": "29789364",
-      "name": "plugins-dark",
-      "font_class": "plugins-dark",
-      "unicode": "e773",
-      "unicode_decimal": 59251
-    },
-    {
-      "icon_id": "29789365",
-      "name": "plugins-light 2",
-      "font_class": "plugins-light-selected",
-      "unicode": "e774",
-      "unicode_decimal": 59252
-    },
-    {
       "icon_id": "29789366",
       "name": "system-light",
       "font_class": "system-light",
       "unicode": "e775",
       "unicode_decimal": 59253
-    },
-    {
-      "icon_id": "29789367",
-      "name": "rule engine-light-selected",
-      "font_class": "a-ruleengine-light-selected",
-      "unicode": "e776",
-      "unicode_decimal": 59254
     },
     {
       "icon_id": "29789368",
@@ -186,27 +235,6 @@
       "font_class": "system-dark",
       "unicode": "e778",
       "unicode_decimal": 59256
-    },
-    {
-      "icon_id": "29789370",
-      "name": "rule engine-light",
-      "font_class": "a-ruleengine-light",
-      "unicode": "e779",
-      "unicode_decimal": 59257
-    },
-    {
-      "icon_id": "29789371",
-      "name": "rule engine-dark-selected",
-      "font_class": "a-ruleengine-dark-selected",
-      "unicode": "e77a",
-      "unicode_decimal": 59258
-    },
-    {
-      "icon_id": "29789372",
-      "name": "rule engine-dark",
-      "font_class": "a-ruleengine-dark",
-      "unicode": "e77b",
-      "unicode_decimal": 59259
     },
     {
       "icon_id": "29789373",

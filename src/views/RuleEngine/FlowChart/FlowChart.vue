@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper flow-chart" v-loading="isDataLoading">
+  <div class="app-wrapper flow" v-loading="isDataLoading">
     <div class="topology-wrap">
       <div id="rule-topology" ref="topologyDiagramCanvasEle" v-if="!isNoData"></div>
       <p class="topology-placeholder" v-else>{{ t('Base.noData') }}</p>
@@ -17,7 +17,7 @@ const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped>
-.flow-chart {
+.flow {
   margin-bottom: 30px;
 }
 .topology-wrap {

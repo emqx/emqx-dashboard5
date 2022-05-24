@@ -52,7 +52,7 @@
               {{ tl('setting') }}
             </el-button>
             <el-button size="small" :disabled="!isRunning(row.status)" @click="goClientPage(row)">
-              {{ tl('clients') }}
+              {{ tl('connections') }}
             </el-button>
           </template>
           <el-button v-else type="primary" size="small" @click="setupGateway(row)">
@@ -137,7 +137,7 @@ export default defineComponent({
     }
 
     const goClientPage = ({ name }: { name: string }) => {
-      router.push({ name: 'gateway-detail-clients', params: { name } })
+      router.push({ name: 'gateway-detail-connections', params: { name } })
     }
 
     onMounted(loadGateway)
