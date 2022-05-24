@@ -8,7 +8,7 @@
     direction="rtl"
     size="80%"
   >
-    <template #title>
+    <template #header>
       <div>
         <h2>{{ tl('integration') }}</h2>
         <p class="tip">{{ tl('integrationDesc') }}</p>
