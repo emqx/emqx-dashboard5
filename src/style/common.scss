@@ -295,10 +295,15 @@ p.tip {
 .el-input-group--append .el-input-group__append {
   width: 120px;
   padding: 0;
-
   .el-select {
     margin: -10px 0;
   }
+}
+input:disabled {
+  -webkit-text-fill-color: var(--el-disabled-text-color);
+  -webkit-opacity: 1;
+  opacity: 1;
+  color: var(--el-disabled-text-color);
 }
 
 .el-button.link-btn {
