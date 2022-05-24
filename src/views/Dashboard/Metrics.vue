@@ -6,12 +6,8 @@
         <p class="tip">{{ tl('packetStatisticsOfNodes') }}</p>
       </div>
       <div class="header-item">
-        <el-select
-          class="node-select"
-          v-model="currentNode"
-          :placeholder="$t('Clients.node')"
-          clearable
-        >
+        <el-select class="node-select" v-model="currentNode" :placeholder="$t('Clients.node')">
+          <el-option :label="$t('BasicConfig.cluster')" :value="CLUSTER_VALUE" />
           <el-option v-for="node in nodeOpts" :key="node" :label="node" :value="node" />
         </el-select>
       </div>
@@ -87,7 +83,8 @@ interface MetricItem {
 }
 
 const nodeOpts: Ref<Array<string>> = ref([])
-let currentNode: Ref<string> = ref('')
+const CLUSTER_VALUE = 'cluster'
+let currentNode: Ref<string> = ref(CLUSTER_VALUE)
 
 let isDataLoading: Ref<boolean> = ref(true)
 
@@ -95,7 +92,7 @@ const clusterMetrics: Ref<NodeStatisticalData> = ref({} as NodeStatisticalData)
 const nodeMetricsData: Ref<Array<NodeStatisticalData>> = ref([])
 
 const currentMetrics: ComputedRef<NodeStatisticalData> = computed(() => {
-  if (currentNode.value) {
+  if (currentNode.value !== CLUSTER_VALUE) {
     const nodeData = nodeMetricsData.value.find((item) => item.node === currentNode.value)
     return nodeData ? nodeData : ({} as NodeStatisticalData)
   } else {
