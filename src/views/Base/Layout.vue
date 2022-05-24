@@ -215,7 +215,7 @@ export default defineComponent({
 
 .logo.logo-colap {
   width: 79px;
-  padding-left: 25px;
+  padding-left: 26px;
   img {
     width: 200px;
     height: 43px;

@@ -9,7 +9,7 @@
     <el-table :data="listenerTable" v-loading="isTableLoading" row-key="id">
       <el-table-column :label="$t('Base.name')" prop="name" :min-width="100" show-overflow-tooltip>
         <template #default="{ row }">
-          <p class="table-data-without-break">{{ row.name }}</p>
+          <p class="table-data-without-break">{{ row.name }}_{{ row.type }}</p>
         </template>
       </el-table-column>
       <el-table-column :label="tl('lType')" prop="type" :min-width="90" />
@@ -23,11 +23,14 @@
           >
             <el-progress
               :stroke-width="16"
+              :text-inside="true"
               :percentage="
                 calcPercentage(row.status?.current_connections, row.status?.max_connections, false)
               "
               :show-text="false"
-            />
+            >
+              <span>{{ row.status?.current_connections }}</span>
+            </el-progress>
           </el-tooltip>
         </template>
       </el-table-column>
