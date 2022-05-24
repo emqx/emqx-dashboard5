@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3296526 */
-  src: url('iconfont.woff2?t=1652854165319') format('woff2'),
-       url('iconfont.woff?t=1652854165319') format('woff'),
-       url('iconfont.ttf?t=1652854165319') format('truetype');
+  src: url('iconfont.woff2?t=1653373183567') format('woff2'),
+       url('iconfont.woff?t=1653373183567') format('woff'),
+       url('iconfont.ttf?t=1653373183567') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,70 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-connections-dark:before {
+  content: "\e773";
+}
+
+.icon-connections-dark-selected:before {
+  content: "\e776";
+}
+
+.icon-extensions-dark-selected:before {
+  content: "\e77f";
+}
+
+.icon-subscriptions-dark-selected:before {
+  content: "\e781";
+}
+
+.icon-extensions-dark:before {
+  content: "\e787";
+}
+
+.icon-subscriptions-dark:before {
+  content: "\e788";
+}
+
+.icon-integration-dark:before {
+  content: "\e77b";
+}
+
+.icon-integration-light:before {
+  content: "\e780";
+}
+
+.icon-integration-dark-selected:before {
+  content: "\e783";
+}
+
+.icon-integration-light-selected:before {
+  content: "\e784";
+}
+
+.icon-connections-light-selected:before {
+  content: "\e77a";
+}
+
+.icon-subscriptions-light-selected:before {
+  content: "\e782";
+}
+
+.icon-connections-light:before {
+  content: "\e785";
+}
+
+.icon-subscriptions-light:before {
+  content: "\e786";
+}
+
+.icon-extensions-light-selected:before {
+  content: "\e774";
+}
+
+.icon-extensions-light:before {
+  content: "\e779";
 }
 
 .icon-authentication-light:before {
@@ -41,28 +105,12 @@
   content: "\e765";
 }
 
-.icon-management-light-selected:before {
-  content: "\e766";
-}
-
 .icon-diagnosis-dark:before {
   content: "\e767";
 }
 
-.icon-management-light:before {
-  content: "\e768";
-}
-
-.icon-plugins-dark-selected:before {
-  content: "\e769";
-}
-
 .icon-diagnosis-dark-selected:before {
   content: "\e76a";
-}
-
-.icon-management-dark:before {
-  content: "\e76b";
 }
 
 .icon-diagnosis-light:before {
@@ -81,32 +129,12 @@
   content: "\e76f";
 }
 
-.icon-plugins-light:before {
-  content: "\e770";
-}
-
 .icon-monitoring-light-selected:before {
   content: "\e771";
 }
 
-.icon-managementdark-selected:before {
-  content: "\e772";
-}
-
-.icon-plugins-dark:before {
-  content: "\e773";
-}
-
-.icon-plugins-light-selected:before {
-  content: "\e774";
-}
-
 .icon-system-light:before {
   content: "\e775";
-}
-
-.icon-a-ruleengine-light-selected:before {
-  content: "\e776";
 }
 
 .icon-system-light-selected:before {
@@ -115,18 +143,6 @@
 
 .icon-system-dark:before {
   content: "\e778";
-}
-
-.icon-a-ruleengine-light:before {
-  content: "\e779";
-}
-
-.icon-a-ruleengine-dark-selected:before {
-  content: "\e77a";
-}
-
-.icon-a-ruleengine-dark:before {
-  content: "\e77b";
 }
 
 .icon-monitoring-light:before {

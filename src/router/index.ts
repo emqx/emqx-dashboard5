@@ -141,35 +141,26 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
-  // Topics
-  {
-    path: '/topics',
-    component: Layout,
-    meta: {
-      hideKey: 'topics',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'topics',
-        component: Topics,
-      },
-    ],
-  },
   // Subscription
   {
     path: '/subscriptions',
+    redirect: '/subscriptions/subscription',
     component: Layout,
     meta: {
       hideKey: 'subscriptions',
       authRequired: true,
+      subMenu: true,
     },
     children: [
       {
-        path: '',
-        name: 'subscriptions',
+        path: 'subscription',
+        name: 'subscription',
         component: Subscriptions,
+      },
+      {
+        path: 'topics',
+        name: 'topics',
+        component: Topics,
       },
     ],
   },
@@ -531,16 +522,16 @@ export const routes: Array<RouteRecordRaw> = [
   },
   // Flow chart for IoT rule
   {
-    path: '/flow-chart',
+    path: '/flow',
     component: Layout,
     meta: {
-      hideKey: 'flow-chart',
+      hideKey: 'flow',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'flow-chart',
+        name: 'flow',
         component: FlowChart,
       },
     ],

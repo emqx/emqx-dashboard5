@@ -74,31 +74,6 @@ export default defineComponent({
       const { path } = route
       return `/${path.split('/')[1]}`
     })
-    const dashboard = [
-      {
-        title: 'dashboard',
-        path: '/dashboard',
-      },
-      {
-        title: 'alarm',
-        path: '/alarm',
-      },
-    ]
-
-    const management = [
-      {
-        title: 'connections',
-        path: '/connections',
-      },
-      {
-        title: 'topics',
-        path: '/topics',
-      },
-      {
-        title: 'subscriptions',
-        path: '/subscriptions',
-      },
-    ]
 
     const authentication = [
       {
@@ -109,21 +84,19 @@ export default defineComponent({
         title: 'authorization',
         path: '/authorization',
       },
+      {
+        title: 'blacklist',
+        path: '/blacklist',
+      },
     ]
 
     const ruleengine = [
       { title: 'iot', path: '/iot' },
       { title: 'bridge', path: '/bridge' },
-      { title: 'flow-chart', path: '/flow-chart' },
+      { title: 'flow', path: '/flow' },
     ]
 
-    const system = [
-      { title: 'users', path: '/users' },
-      { title: 'settings', path: '/settings' },
-      {
-        title: 'blacklist',
-        path: '/blacklist',
-      },
+    const extensions = [
       {
         title: 'gateway',
         path: '/gateway',
@@ -133,12 +106,25 @@ export default defineComponent({
         path: '/exhook',
       },
       {
-        title: 'APIKey',
-        path: '/APIKey',
+        title: 'plugins',
+        path: '/plugins',
       },
     ]
 
+    const system = [
+      { title: 'users', path: '/users' },
+      {
+        title: 'APIKey',
+        path: '/APIKey',
+      },
+      { title: 'settings', path: '/settings' },
+    ]
+
     const diagnose = [
+      {
+        title: 'alarm',
+        path: '/alarm',
+      },
       {
         title: 'websocket',
         path: '/websocket',
@@ -174,14 +160,19 @@ export default defineComponent({
 
     menus.value = [
       {
-        title: 'monitoring',
+        title: 'dashboard',
         icon: 'icon-monitoring',
-        c: dashboard,
+        path: '/dashboard',
       },
       {
-        title: 'management',
-        icon: 'icon-management',
-        c: management,
+        title: 'connections',
+        icon: 'icon-connections',
+        path: '/connections',
+      },
+      {
+        title: 'subscriptions',
+        icon: 'icon-subscriptions',
+        path: '/subscriptions',
       },
       {
         title: 'auth',
@@ -190,18 +181,18 @@ export default defineComponent({
       },
       {
         title: 'ruleengine',
-        icon: 'icon-a-ruleengine',
+        icon: 'icon-integration',
         c: ruleengine,
-      },
-      {
-        title: 'plugins',
-        icon: 'icon-plugins',
-        path: '/plugins',
       },
       {
         title: 'configuration',
         icon: 'icon-configuration',
         c: config,
+      },
+      {
+        title: 'extensions',
+        icon: 'icon-extensions',
+        c: extensions,
       },
       {
         title: 'diagnose',

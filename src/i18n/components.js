@@ -20,7 +20,7 @@ export default {
     en: 'Management',
   },
   diagnose: {
-    zh: '诊断',
+    zh: '问题分析',
     en: 'Diagnose',
   },
   acl: {
@@ -28,7 +28,7 @@ export default {
     en: 'ACL',
   },
   auth: {
-    zh: '认证授权',
+    zh: '访问控制',
     en: 'Access Control',
   },
   authentication: {
@@ -36,7 +36,7 @@ export default {
     en: 'Authentication',
   },
   authorization: {
-    zh: '权限控制',
+    zh: '授权',
     en: 'Authorization',
   },
   dashboard: {
@@ -63,8 +63,12 @@ export default {
     zh: '主题',
     en: 'Topics',
   },
-  subscriptions: {
+  subscription: {
     zh: '订阅',
+    en: 'Subscriptions',
+  },
+  subscriptions: {
+    zh: '主题订阅',
     en: 'Subscriptions',
   },
   schemas: {
@@ -80,12 +84,12 @@ export default {
     en: 'Rules',
   },
   ruleengine: {
-    zh: '规则引擎',
-    en: 'Rule Engine',
+    zh: '数据集成',
+    en: 'Data Integration',
   },
-  'flow-chart': {
-    zh: 'Flow Chart',
-    en: 'Flow Chart',
+  flow: {
+    zh: 'Flows',
+    en: 'Flows',
   },
   resources: {
     zh: '资源',
@@ -168,11 +172,11 @@ export default {
     en: 'Users',
   },
   system: {
-    zh: '系统',
+    zh: '系统设置',
     en: 'System',
   },
   configuration: {
-    zh: '配置',
+    zh: '功能配置',
     en: 'Configuration',
   },
   'basic-config': {
@@ -187,20 +191,16 @@ export default {
     zh: 'MQTT 高级特性',
     en: 'MQTT Advanced Features',
   },
-  'config-docs': {
-    zh: '配置文档',
-    en: 'Config Document',
-  },
   topicMetrics: {
     zh: 'Topic Metrics',
     en: 'Topic Metrics',
   },
   iot: {
-    zh: 'IoT 规则',
-    en: 'IoT Rule',
+    zh: '规则',
+    en: 'Rules',
   },
   bridge: {
-    zh: 'Data Bridge',
+    zh: '数据桥接',
     en: 'Data Bridge',
   },
   setting: {
@@ -296,11 +296,15 @@ export default {
     en: 'zone',
   },
   dataBridge: {
-    zh: 'Data Bridge',
+    zh: '数据桥接',
     en: 'Data Bridge',
   },
   connector: {
     zh: '连接配置',
     en: 'Connector',
+  },
+  extensions: {
+    zh: '插件扩展',
+    en: 'Extensions',
   },
 }
