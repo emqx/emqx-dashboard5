@@ -64,14 +64,9 @@ export default defineComponent({
     border-bottom: 1px solid var(--color-border-normal);
     margin-bottom: 24px;
   }
-  .el-tabs.el-tabs--left {
-    .el-tabs__content {
-      padding-left: 180px;
-    }
-  }
   .el-tabs.el-tabs--card.el-tabs--top {
     .el-tabs__content {
-      padding-left: 0px;
+      padding: 0 8px;
       .el-tab-pane {
         margin: 24px 0;
       }

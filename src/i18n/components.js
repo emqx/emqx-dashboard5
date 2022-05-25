@@ -143,6 +143,10 @@ export default {
     zh: '通用',
     en: 'General',
   },
+  advanced: {
+    zh: '高级',
+    en: 'Advanced',
+  },
   application: {
     zh: '应用',
     en: 'Application',

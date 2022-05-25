@@ -198,22 +198,6 @@ queryRegisteredHooks()
     font-weight: 600;
   }
 }
-:deep(.el-tabs.el-tabs--top:not(.el-tabs--card) .el-tabs__item.is-top) {
-  padding-left: 0;
-  padding-right: 0;
-  &::before,
-  &::after {
-    content: '';
-    display: inline-block;
-    visibility: hidden;
-  }
-  &::before {
-    width: 12px;
-  }
-  &::after {
-    width: 32px;
-  }
-}
 .exhook-metrics-card {
   margin-bottom: 28px;
 }

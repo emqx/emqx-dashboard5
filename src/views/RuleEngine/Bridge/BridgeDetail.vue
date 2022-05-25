@@ -228,23 +228,6 @@ onActivated(() => {
     margin-right: 8px;
   }
 }
-
-:deep(.el-tabs.el-tabs--top:not(.el-tabs--card) .el-tabs__item.is-top) {
-  padding-left: 0;
-  padding-right: 0;
-  &::before,
-  &::after {
-    content: '';
-    display: inline-block;
-    visibility: hidden;
-  }
-  &::before {
-    width: 20px;
-  }
-  &::after {
-    width: 20px;
-  }
-}
 .setting-area {
   width: 75%;
 }

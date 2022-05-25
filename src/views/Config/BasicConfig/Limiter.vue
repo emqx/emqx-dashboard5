@@ -307,9 +307,6 @@ export default defineComponent({
         border-right-color: var(--color-border-primary);
         border-left-color: var(--color-border-primary);
       }
-      &.el-tabs.el-tabs--top:not(.el-tabs--card) .el-tabs__item.is-top {
-        padding: 0px 20px;
-      }
       .el-tabs__item .is-icon-close {
         top: 3px;
         right: 2px;

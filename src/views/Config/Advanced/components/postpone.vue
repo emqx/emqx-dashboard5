@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs type="card">
+    <el-tabs>
       <el-tab-pane :label="tl('setting')" v-loading="configPending">
         <el-form
           ref="delayedForm"
