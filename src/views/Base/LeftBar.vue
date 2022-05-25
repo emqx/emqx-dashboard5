@@ -144,17 +144,29 @@ export default defineComponent({
     ]
 
     const config = [
+      // {
+      //   title: 'basic-config',
+      //   path: '/basic-config',
+      // },
       {
-        title: 'basic-config',
-        path: '/basic-config',
+        title: 'cluster',
+        path: '/cluster',
       },
       {
         title: 'listener',
         path: '/listener',
       },
       {
-        title: 'advanced',
-        path: '/advanced',
+        title: 'mqtt',
+        path: '/mqtt',
+      },
+      {
+        title: 'limiter',
+        path: '/limiter',
+      },
+      {
+        title: 'log',
+        path: '/log',
       },
     ]
 

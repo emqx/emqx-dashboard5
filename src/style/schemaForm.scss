@@ -1,6 +1,7 @@
 .schema-form {
+  padding-bottom: 48px;
   .groups-radio {
-    margin: 24px 32px 16px;
+    margin: 12px 28px 16px;
   }
   .el-form-item__label {
     color: var(--el-text-color-primary);
@@ -90,7 +91,7 @@
     box-shadow: var(--el-box-shadow-light);
     display: flex;
     align-items: center;
-    padding-left: 185px;
+    padding-left: 48px;
   }
   .group-title {
     font-size: 18px;

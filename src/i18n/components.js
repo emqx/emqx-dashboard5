@@ -183,13 +183,25 @@ export default {
     zh: '基础配置',
     en: 'Basic Config',
   },
+  cluster: {
+    zh: '集群',
+    en: 'Cluster',
+  },
+  log: {
+    zh: '日志',
+    en: 'Log',
+  },
+  limiter: {
+    zh: '速率限制',
+    en: 'Limiter',
+  },
   listener: {
     zh: '监听器',
     en: 'Listeners',
   },
-  advanced: {
-    zh: 'MQTT 高级特性',
-    en: 'MQTT Advanced Features',
+  mqtt: {
+    zh: 'MQTT',
+    en: 'MQTT',
   },
   topicMetrics: {
     zh: 'Topic Metrics',
@@ -266,10 +278,6 @@ export default {
   signOut: {
     zh: '退出',
     en: 'Logout',
-  },
-  selectModules: {
-    zh: '选择模块',
-    en: 'Modules Select',
   },
   'log-trace': {
     zh: '日志追踪',

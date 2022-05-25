@@ -18,8 +18,11 @@
             <el-progress
               :stroke-width="16"
               :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
+              :text-inside="true"
               :format="() => ''"
-            />
+            >
+              <span>{{ row.current_connections || 0 }}</span>
+            </el-progress>
           </el-tooltip>
         </template>
       </el-table-column>

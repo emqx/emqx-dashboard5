@@ -35,8 +35,14 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="16">
+            <el-form-item :label="$t('BasicConfig.enableTelemetry')">
+              <p class="item-desc">{{ $t('BasicConfig.telemetryTip') }}</p>
+              <el-switch v-model="record.enable"></el-switch>
+            </el-form-item>
+          </el-col>
           <el-col :span="24">
-            <el-button type="primary" @click="handleSave">
+            <el-button type="primary" :loading="saveLoading" @click="handleSave">
               {{ $t('Base.apply') }}
             </el-button>
           </el-col>
@@ -47,9 +53,7 @@
 </template>
 
 <script lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
-import { defineComponent, reactive } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent, reactive, ref } from 'vue'
 
 export default defineComponent({
   name: 'Settings',
@@ -57,10 +61,21 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
+import { useStore } from 'vuex'
+import useI18nTl from '@/hooks/useI18nTl'
+import { getTeleStatus, updateTeleStatus } from '@/api/config'
+import { useI18n } from 'vue-i18n'
+import { TeleStatus } from '@/types/config'
+
 const record = reactive({
   lang: 'en',
   theme: 'light',
   syncOsTheme: false,
+  enable: true,
+})
+const teleConfigs = ref<TeleStatus>({
+  enable: true,
 })
 const store = useStore()
 record.lang = store.state.lang
@@ -88,8 +103,38 @@ const themeOption = [
     label: tl('dark'),
   },
 ]
-const handleSave = () => {
-  store.dispatch('UPDATE_SETTINGS', record)
+const saveLoading = ref(false)
+const { t } = useI18n()
+const loadData = async () => {
+  const res = await getTeleStatus()
+  if (res) {
+    record.enable = res.enable
+    teleConfigs.value = res
+  }
+}
+const reloading = () => {
+  loadData()
+}
+loadData()
+const handleSave = async () => {
+  saveLoading.value = true
+  const data = {
+    enable: record.enable,
+  }
+  try {
+    if (teleConfigs.value.enable === record.enable) {
+      saveLoading.value = false
+      return
+    }
+    await updateTeleStatus(data)
+    ElMessage.success(t('Base.updateSuccess'))
+    reloading()
+  } catch (error) {
+    // ignore error
+  } finally {
+    store.dispatch('UPDATE_SETTINGS', record)
+    saveLoading.value = false
+  }
 }
 </script>
 

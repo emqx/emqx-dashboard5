@@ -16,8 +16,8 @@
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button @click="handleResetSearch">
-            {{ $t('Base.reset') }}
+          <el-button :icon="RefreshRight" @click="handleResetSearch">
+            {{ $t('Base.refresh') }}
           </el-button>
         </el-space>
       </div>
@@ -85,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, PropType, reactive, nextTick } from 'vue'
+import { computed, defineComponent, onMounted, ref, PropType, reactive } from 'vue'
 import { loadAuthnUsers, createAuthnUsers, deleteAuthnUser, updateAuthnUser } from '@/api/auth'
 import {
   getGatewayUserManagement,
@@ -97,7 +97,7 @@ import { useRoute } from 'vue-router'
 import commonPagination from '@/components/commonPagination.vue'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus, Search } from '@element-plus/icons-vue'
+import { Plus, Search, RefreshRight } from '@element-plus/icons-vue'
 import { DataManagerItem } from '@/types/auth'
 
 const createRawUserForm = () => ({
@@ -297,6 +297,7 @@ export default defineComponent({
     return {
       Plus,
       Search,
+      RefreshRight,
       id,
       dialogVisible,
       tableData,

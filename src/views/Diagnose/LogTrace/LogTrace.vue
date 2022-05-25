@@ -10,8 +10,21 @@
     </div>
 
     <el-table :data="traceTable" v-loading="traceTbLoading" class="data-table">
-      <el-table-column :label="$t('LogTrace.name')" prop="name" :min-width="100" />
-      <el-table-column :label="$t('LogTrace.type')" prop="type" sortable :min-width="100">
+      <el-table-column :label="$t('LogTrace.name')" prop="name" :min-width="100">
+        <template #default="{ row }">
+          <a
+            href="javascript:;"
+            @click="
+              $router.push({
+                name: 'log-trace-detail',
+                params: { id: row.name },
+              })
+            "
+            >{{ row.name }}</a
+          >
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('LogTrace.type')" prop="type" :min-width="100">
         <template #default="{ row }">
           {{ getTypeLabelByValue(row.type) }}
         </template>
@@ -33,7 +46,7 @@
           {{ moment(row.end_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('LogTrace.status')" prop="status" sortable :min-width="120">
+      <el-table-column :label="$t('LogTrace.status')" prop="status" :min-width="120">
         <template #default="{ row }">
           <div class="vertical-align-center">
             <CheckIcon
@@ -58,17 +71,6 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            @click="
-              $router.push({
-                name: 'log-trace-detail',
-                params: { id: row.name },
-              })
-            "
-          >
-            {{ $t('LogTrace.view') }}
-          </el-button>
           <el-button size="small" @click="download(row)">{{ $t('LogTrace.download') }}</el-button>
           <template v-if="row.status !== 'stopped'">
             <el-button size="small" type="danger" plain @click="stopTraceHandler(row)">
