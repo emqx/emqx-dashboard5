@@ -23,7 +23,6 @@ import axios from 'axios'
 import SubTabMenu from '@/components/SubTabMenu.vue'
 import useSubTabMenu from '@/hooks/useSubTabMenu'
 import Dashboard from './components/Dashboard.vue'
-import Zone from './components/Zone.vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -31,10 +30,9 @@ export default defineComponent({
   components: {
     SubTabMenu,
     Dashboard,
-    Zone,
   },
   setup() {
-    const panes = ref(['zone', 'dashboard'])
+    const panes = ref(['dashboard'])
     const { handleClickTab, setPaneRef } = useSubTabMenu(panes.value)
     const schemaRequest = axios.create({
       baseURL: '',

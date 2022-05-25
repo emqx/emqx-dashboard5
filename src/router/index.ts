@@ -19,7 +19,7 @@ import ClientDetails from '@/views/Clients/ClientDetails.vue'
 import Topics from '@/views/Topics/Topics.vue'
 import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
 import Advanced from '@/views/Config/Advanced/Advanced.vue'
-import BasicConfig from '@/views/Config/BasicConfig/BasicConfig.vue'
+import Mqtt from '@/views/Config/BasicConfig/Mqtt.vue'
 import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
 import Log from '@/views/Config/BasicConfig/Log.vue'
 import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
@@ -492,21 +492,6 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/basic-config',
-    component: Layout,
-    meta: {
-      hideKey: 'basic-config',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'basic-config',
-        component: BasicConfig,
-      },
-    ],
-  },
-  {
     path: '/listener',
     component: Layout,
     meta: {
@@ -525,14 +510,21 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/mqtt',
     component: Layout,
+    redirect: '/mqtt/general',
     meta: {
       hideKey: 'mqtt',
       authRequired: true,
+      subMenu: true,
     },
     children: [
       {
-        path: '',
-        name: 'mqtt',
+        path: 'general',
+        name: 'mqtt-general',
+        component: Mqtt,
+      },
+      {
+        path: 'advanced',
+        name: 'mqtt-advanced',
         component: Advanced,
       },
     ],

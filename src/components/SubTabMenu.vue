@@ -1,11 +1,8 @@
 <template>
   <div class="sub-tab-menu">
-    <el-tabs tab-position="left" type="card" @tab-click="clickTab">
+    <el-tabs type="card" @tab-click="clickTab">
       <template v-for="pane in panes" :key="pane">
         <el-tab-pane :label="tl(pane)" :lazy="true">
-          <div class="sec-header-title">
-            {{ tl(pane) }}
-          </div>
           <slot :pane="pane"></slot>
         </el-tab-pane>
       </template>
