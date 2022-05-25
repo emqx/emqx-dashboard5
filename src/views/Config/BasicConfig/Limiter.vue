@@ -2,14 +2,10 @@
   <div class="limiter app-wrapper">
     <el-card>
       <el-form class="schema-form" label-position="top">
-        <el-radio-group
-          class="groups-radio"
-          v-model="currentLimiterType"
-          @change="handleTypeChange"
-        >
-          <el-radio-button v-for="group in LimiterTypes" :key="group" :label="group">
-          </el-radio-button>
-        </el-radio-group>
+        <el-tabs class="group-tabs" type="card" v-model="currentLimiterType">
+          <el-tab-pane v-for="group in LimiterTypes" :key="group" :label="group" :name="group">
+          </el-tab-pane>
+        </el-tabs>
         <el-row v-if="rateProperties">
           <!-- Map rate -->
           <template v-for="(rateProp, key) in rateProperties" :key="rateProp">
@@ -155,7 +151,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, reactive } from 'vue'
+import { defineComponent, ref, computed, reactive, watch } from 'vue'
 import { getRateConfigsByType, updateRateConfigsByType } from '@/api/config'
 import { LimiterType, RateItem } from '@/types/config'
 import { ElMessage, TabPanelName, ElMessageBox } from 'element-plus'
@@ -190,6 +186,9 @@ export default defineComponent({
     const rateProperties = computed(() => {
       const currComponent = components.value[currentLimiterType.value]
       return currComponent?.properties
+    })
+    watch(currentLimiterType, () => {
+      handleTypeChange()
     })
     const loadData = async () => {
       const res = await getRateConfigsByType(currentLimiterType.value)
