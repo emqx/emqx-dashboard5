@@ -209,11 +209,6 @@
 
 /* Tabs */
 .el-tabs.el-tabs--top:not(.el-tabs--card) {
-  .el-tabs__item {
-    &.is-top {
-      padding: 0 0 0 20px;
-    }
-  }
   & .is-top .el-tabs__nav-wrap::after {
     height: 1px;
   }

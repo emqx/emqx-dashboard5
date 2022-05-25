@@ -1,11 +1,13 @@
 <template>
-  <div class="log">
-    <schema-form
-      path="/configs/log"
-      :form="configs"
-      :btn-loading="saveLoading"
-      @save="handleSave"
-    ></schema-form>
+  <div class="log app-wrapper">
+    <el-card class="config-card">
+      <schema-form
+        path="/configs/log"
+        :form="configs"
+        :btn-loading="saveLoading"
+        @save="handleSave"
+      ></schema-form>
+    </el-card>
   </div>
 </template>
 

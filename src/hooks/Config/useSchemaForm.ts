@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { inject, ref, Ref, watch } from 'vue'
+import { ref, Ref, watch } from 'vue'
 import _ from 'lodash'
 import { InjectSchema, Properties, Component, Schema } from '@/types/schemaForm'
+import { useStore } from 'vuex'
+import axios from 'axios'
 
 export default function useSchemaForm(path: string): {
   schema: InjectSchema
@@ -19,7 +21,23 @@ export default function useSchemaForm(path: string): {
     [key: string]: any
   }
 } {
-  const schema: InjectSchema = inject('schema')
+  const schemaRequest = axios.create({
+    baseURL: '',
+  })
+  const store = useStore()
+  const schema: InjectSchema = ref({})
+  const loadSchemaConfig = async () => {
+    try {
+      const configPath = `static/hot-config-schema-${store.state.lang}.json`
+      const res = await schemaRequest.get(configPath)
+      if (res.data) {
+        schema.value = res.data
+      }
+    } catch (error) {
+      // ignore error
+    }
+  }
+  loadSchemaConfig()
   const components = ref<Properties>({})
   watch(
     () => schema?.value,

@@ -22,27 +22,19 @@ import { defineComponent, provide, ref } from 'vue'
 import axios from 'axios'
 import SubTabMenu from '@/components/SubTabMenu.vue'
 import useSubTabMenu from '@/hooks/useSubTabMenu'
-import Cluster from './components/Cluster.vue'
-import Log from './components/Log.vue'
 import Dashboard from './components/Dashboard.vue'
 import Zone from './components/Zone.vue'
-import Telemetry from './components/Telemetry.vue'
-import Rate from './components/Rate.vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'BasicConfig',
   components: {
     SubTabMenu,
-    Cluster,
-    Log,
     Dashboard,
     Zone,
-    Telemetry,
-    Rate,
   },
   setup() {
-    const panes = ref(['cluster', 'zone', 'log', 'dashboard', 'telemetry', 'rate'])
+    const panes = ref(['zone', 'dashboard'])
     const { handleClickTab, setPaneRef } = useSubTabMenu(panes.value)
     const schemaRequest = axios.create({
       baseURL: '',

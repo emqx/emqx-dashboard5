@@ -20,6 +20,9 @@ import Topics from '@/views/Topics/Topics.vue'
 import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
 import Advanced from '@/views/Config/Advanced/Advanced.vue'
 import BasicConfig from '@/views/Config/BasicConfig/BasicConfig.vue'
+import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
+import Log from '@/views/Config/BasicConfig/Log.vue'
+import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
 import Users from '@/views/General/Users.vue'
 import Blacklist from '@/views/General/Blacklist.vue'
 import Gateway from '@/views/Gateway/Gateway.vue'
@@ -42,7 +45,6 @@ import APIKey from '@/views/APIKey/APIKey.vue'
 import Plugins from '@/views/Plugins/Plugins.vue'
 import PluginInstall from '@/views/Plugins/PluginInstall.vue'
 import PluginDetail from '@/views/Plugins/PluginDetail.vue'
-import ConfigDocs from '@/views/Config/ConfigDocs.vue'
 import Exhook from '@/views/Exhook/Exhook.vue'
 import ExhookCreate from '@/views/Exhook/ExhookCreate.vue'
 import ExhookDetail from '@/views/Exhook/ExhookDetail.vue'
@@ -473,7 +475,22 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Basic config
+  // configs
+  {
+    path: '/cluster',
+    component: Layout,
+    meta: {
+      hideKey: 'cluster',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'cluster',
+        component: Cluster,
+      },
+    ],
+  },
   {
     path: '/basic-config',
     component: Layout,
@@ -504,19 +521,51 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Advanced
+  // mqtt config
   {
-    path: '/advanced',
+    path: '/mqtt',
     component: Layout,
     meta: {
-      hideKey: 'advanced',
+      hideKey: 'mqtt',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'advanced',
+        name: 'mqtt',
         component: Advanced,
+      },
+    ],
+  },
+  // log config
+  {
+    path: '/log',
+    component: Layout,
+    meta: {
+      hideKey: 'log',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'log',
+        component: Log,
+      },
+    ],
+  },
+  // limiter config
+  {
+    path: '/limiter',
+    component: Layout,
+    meta: {
+      hideKey: 'limiter',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'limiter',
+        component: Limiter,
       },
     ],
   },
