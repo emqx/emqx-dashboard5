@@ -16,39 +16,24 @@
       v-loading.lock="isDataLoading"
       row-key="type"
     >
-      <el-table-column prop="type" :label="$t('Auth.dataSource')" :min-width="148">
+      <el-table-column prop="type" :label="$t('Auth.dataSource')">
         <template #default="{ row }">
           <img class="auth-img" :src="row.img" width="48" />
           <span>{{ titleMap[row.type] }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t('RuleEngine.SuccessNum')"
-        prop="metrics.metrics.allow"
-        :min-width="110"
-      />
-      <el-table-column
-        :label="$t('RuleEngine.ErrNum')"
-        prop="metrics.metrics.deny"
-        :min-width="108"
-      />
-      <el-table-column
-        :label="`${$t('RuleEngine.speedNow')}(tps)`"
-        prop="metrics.metrics.rate"
-        :min-width="148"
-      />
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
           <el-switch v-model="row.enable" @change="toggleEnable(row)" />
         </template>
       </el-table-column>
       <!-- FIXME: -->
-      <el-table-column prop="enable" :label="$t('Auth.status')" :min-width="116">
+      <el-table-column prop="enable" :label="$t('Auth.status')">
         <template #default="{ row }">
           <AuthItemStatus :metrics="row.metrics" />
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="168">
+      <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
           <table-dropdown
             :row-data="row"

@@ -28,19 +28,6 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            :label="tl('SuccessNum')"
-            sortable
-            prop="metrics.success"
-            :min-width="112"
-          />
-          <el-table-column :label="tl('ErrNum')" sortable prop="metrics.failed" :min-width="100" />
-          <el-table-column
-            :label="`${tl('speedNow')}(msg/s)`"
-            sortable
-            prop="metrics.rate"
-            :min-width="168"
-          />
           <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
             <template #default="{ row }">
               <el-switch v-model="row.enable" @change="enableOrDisableBridge(row)" />

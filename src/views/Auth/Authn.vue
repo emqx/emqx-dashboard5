@@ -28,21 +28,6 @@
           <span>{{ getAuthnItemBackendForShow(row) }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t('RuleEngine.SuccessNum')"
-        prop="metrics.metrics.success"
-        :min-width="112"
-      />
-      <el-table-column
-        :label="$t('RuleEngine.ErrNum')"
-        prop="metrics.metrics.failed"
-        :min-width="100"
-      />
-      <el-table-column
-        :label="`${$t('RuleEngine.speedNow')}(tps)`"
-        prop="metrics.metrics.rate"
-        :min-width="148"
-      />
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
         <template #default="{ row }">
           <el-switch v-model="row.enable" @change="toggleEnable(row)" />
@@ -53,7 +38,7 @@
           <AuthItemStatus :metrics="row.metrics" />
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="168">
+      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="100">
         <template #default="{ row, $index }">
           <table-dropdown
             :row-data="row"

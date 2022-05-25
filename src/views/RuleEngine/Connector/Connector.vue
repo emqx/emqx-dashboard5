@@ -11,14 +11,14 @@
         </div>
 
         <el-table :data="connectorTb" v-loading="tbLoading" row-key="name">
-          <el-table-column :label="tl('name')" sortable prop="name" />
+          <el-table-column :label="tl('name')" prop="name" />
 
-          <el-table-column :label="tl('connType')" sortable prop="type">
+          <el-table-column :label="tl('connType')" prop="type">
             <template #default="{ row }">
               {{ getConnectorLabelByValue(row.type) }}
             </template>
           </el-table-column>
-          <el-table-column :label="tl('bridgeNum')" sortable prop="num_of_bridges" />
+          <el-table-column :label="tl('bridgeNum')" prop="num_of_bridges" />
           <el-table-column :label="$t('Base.operation')">
             <template #default="{ row }">
               <el-button size="small" @click="openEdit(row)">
