@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <detail-header :item="{ name: $t('RuleEngine.createIoTRule'), path: '/iot' }" />
+    <detail-header :item="{ name: $t('RuleEngine.createRule'), path: '/iot' }" />
     <div class="iot-create">
       <iotform ref="formCom" v-model="ruleValue" />
       <el-row class="config-btn">

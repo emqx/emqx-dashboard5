@@ -179,9 +179,9 @@ export default {
     zh: '名称',
     en: 'Name',
   },
-  createIoTRule: {
-    zh: '创建 IoT 规则',
-    en: 'Create IoT Rule',
+  createRule: {
+    zh: '创建规则',
+    en: 'Create Rule',
   },
   mode_cluster_shareload: {
     zh: '节点独立连接',

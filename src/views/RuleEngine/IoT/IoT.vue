@@ -4,7 +4,7 @@
       <div></div>
       <div>
         <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'iot-create' })">
-          {{ tl('createIoTRule') }}
+          {{ tl('create', 'Base') }}
         </el-button>
       </div>
     </div>
