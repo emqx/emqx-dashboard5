@@ -47,7 +47,7 @@
       <el-table-column :label="$t('Base.operation')" :min-width="152">
         <template #default="{ row }">
           <el-button size="small" @click="editListener(row)">
-            {{ $t('Base.edit') }}
+            {{ $t('Base.setting') }}
           </el-button>
           <el-button size="small" type="danger" plain @click="deleteListener(row)">
             {{ $t('Base.delete') }}
