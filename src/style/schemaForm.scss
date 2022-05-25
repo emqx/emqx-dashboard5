@@ -1,7 +1,7 @@
 .schema-form {
   padding-bottom: 48px;
-  .groups-radio {
-    margin: 12px 28px 16px;
+  .el-tabs.group-tabs {
+    margin: 6px 20px;
   }
   .el-form-item__label {
     color: var(--el-text-color-primary);
@@ -20,7 +20,7 @@
     margin-bottom: 6px;
   }
   [class*='el-col-'] {
-    padding: 0px 24px;
+    padding: 0px 12px;
     position: relative;
   }
   .app-card.properties-card {
@@ -102,7 +102,7 @@
   }
   .schema-col-setting {
     position: absolute;
-    left: 4px;
+    left: -6px;
     top: 12px;
     .setting-btn {
       visibility: hidden;

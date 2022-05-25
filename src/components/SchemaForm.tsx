@@ -276,12 +276,12 @@ const SchemaForm = defineComponent({
       const btnStyles = {
         left: store.state.leftBarCollapse ? '104px' : '224px',
       }
-      const groupButtons = groups.value.map((group: string) => <el-radio-button label={group} />)
+      const groupTabs = groups.value.map((group: string) => <el-tab-pane label={group} name={group} />)
       return (
         <>
-          <el-radio-group class="groups-radio" v-model={currentGroup.value}>
-            {groupButtons}
-          </el-radio-group>
+          <el-tabs type="card" v-model={currentGroup.value} class="group-tabs" >
+            {groupTabs}
+          </el-tabs>
           <el-form label-position="top">
             <el-row>
               {contents}
