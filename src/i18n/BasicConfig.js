@@ -135,4 +135,8 @@ export default {
     zh: '桶已存在',
     en: 'Bucket already exists',
   },
+  dashboardHttpTip: {
+    zh: '部分参数修改后，可能需要重新启动 EMQX Dashboard ！',
+    en: 'Some parameters need to be restarted EMQX Dashboard to take effect!',
+  },
 }
