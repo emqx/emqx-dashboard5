@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :title="!isEdit ? tl('addOutput') : tl('editOutput')"
+    :title="!isEdit ? tl('addAction') : tl('editAction')"
     v-model="showDialog"
     :lock-scroll="false"
   >
@@ -8,7 +8,7 @@
     <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
       <el-row>
         <el-col :span="14" v-loading="isLoading">
-          <el-form-item :label="tl('output')" prop="type">
+          <el-form-item :label="$tc('RuleEngine.action', 1)" prop="type">
             <div class="form-item-content">
               <el-select v-model="outputForm.type">
                 <el-option
@@ -180,7 +180,7 @@ const isGoToBridge = ref(false)
 
 const { createRequiredRule } = useFormRules()
 const outputFormRules = {
-  type: createRequiredRule(tl('output'), 'select'),
+  type: createRequiredRule(t('RuleEngine.action', 1).toLowerCase(), 'select'),
   args: {
     topic: createRequiredRule('Topic'),
   },

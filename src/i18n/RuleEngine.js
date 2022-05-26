@@ -215,17 +215,17 @@ export default {
     zh: '筛选数据',
     en: 'Filter Data',
   },
-  output: {
-    zh: '输出',
-    en: 'Outputs',
+  action: {
+    zh: '动作 | 动作',
+    en: 'Action | Actions',
   },
-  outputDesc: {
+  actionDesc: {
     zh: '将处理结果输出到数据桥接或内置函数中。',
     en: 'Output the processing result to a data bridge or built-in function.',
   },
-  addOutput: {
-    zh: '添加输出',
-    en: 'Add Output',
+  addAction: {
+    zh: '添加动作',
+    en: 'Add Action',
   },
   consoleOutput: {
     zh: 'Console 输出',
@@ -275,9 +275,9 @@ export default {
     zh: '参数设置',
     en: 'Parameter',
   },
-  editOutput: {
-    zh: '编辑输出',
-    en: 'Edit The Output',
+  editAction: {
+    zh: '编辑动作',
+    en: 'Edit The Action',
   },
   testsql: {
     zh: '测试 SQL',
@@ -318,10 +318,6 @@ export default {
   where: {
     zh: '条件',
     en: 'Where',
-  },
-  outputTypeRequired: {
-    zh: '请填写输出类型',
-    en: 'Type of Output is required',
   },
   type: {
     zh: '类型',
