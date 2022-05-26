@@ -62,7 +62,7 @@ export enum RuleOutput {
 }
 
 export enum BridgeType {
-  HTTP = 'http',
+  Webhook = 'webhook',
   MQTT = 'mqtt',
 }
 

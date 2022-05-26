@@ -2,7 +2,7 @@
   <div>
     <p class="preview-title">{{ tl('parametersPreview') }} - {{ bridgeId }}</p>
     <BridgeHttpConfig
-      v-if="bridgeData?.type === BridgeType.HTTP"
+      v-if="bridgeData?.type === BridgeType.Webhook"
       v-model="bridgeData"
       :disabled="true"
     />

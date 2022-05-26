@@ -39,14 +39,14 @@
             <el-card class="app-card">
               <div class="setting-area">
                 <bridge-http-config
-                  v-if="bridgeInfo.type === 'http'"
+                  v-if="bridgeInfo.type === BridgeType.Webhook"
                   v-model:tls="bridgeInfo.ssl"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
                 />
                 <bridge-mqtt-config
-                  v-if="bridgeInfo.type === 'mqtt'"
+                  v-if="bridgeInfo.type === BridgeType.MQTT"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
@@ -79,7 +79,7 @@ import {
   startStopBridge,
   deleteBridge as requestDeleteBridge,
 } from '@/api/ruleengine'
-import { BridgeItem, HTTPBridge } from '@/types/rule'
+import { BridgeItem } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
@@ -90,6 +90,7 @@ import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useDocLink from '@/hooks/useDocLink'
 import useSSL from '@/hooks/useSSL'
+import { BridgeType } from '@/types/enum'
 
 enum Tab {
   Overview = '0',

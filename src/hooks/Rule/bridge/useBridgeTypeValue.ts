@@ -1,5 +1,4 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
-import { OptionList } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -13,7 +12,7 @@ const useBridgeTypeValue = (): {
   getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
 } => {
   const bridgeTypeList = [
-    { value: BridgeType.HTTP, label: 'HTTP' },
+    { value: BridgeType.Webhook, label: 'Webhook' },
     { value: BridgeType.MQTT, label: 'MQTT' },
   ]
 
@@ -46,8 +45,8 @@ export const useBridgeTypeOptions = (): {
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = [
     {
-      value: BridgeType.HTTP,
-      valueForRadio: BridgeType.HTTP,
+      value: BridgeType.Webhook,
+      valueForRadio: BridgeType.Webhook,
       label: 'Webhook',
       desc: t('RuleEngine.bridgeDescHTTP'),
     },
@@ -75,7 +74,7 @@ export const useBridgeTypeOptions = (): {
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   const getTypeStr = (bridge: BridgeItem): string => {
-    if (bridge.type === BridgeType.HTTP) {
+    if (bridge.type === BridgeType.Webhook) {
       return getLabelFromValueInOptionList(bridge.type, bridgeTypeOptions)
     }
     const directionStr =

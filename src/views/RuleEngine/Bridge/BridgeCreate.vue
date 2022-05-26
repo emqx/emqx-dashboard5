@@ -43,13 +43,13 @@
           </template>
           <template v-if="stepActive === 1">
             <bridge-http-config
-              v-if="chosenBridgeType === 'http'"
+              v-if="chosenBridgeType === BridgeType.Webhook"
               v-model:tls="tlsParams"
               v-model="bridgeData"
               ref="formCom"
             />
             <bridge-mqtt-config
-              v-if="chosenBridgeType === 'mqtt'"
+              v-if="chosenBridgeType === BridgeType.MQTT"
               v-model="bridgeData"
               ref="formCom"
             />
@@ -201,7 +201,7 @@ export default defineComponent({
 
       try {
         switch (chosenBridgeType.value) {
-          case BridgeType.HTTP:
+          case BridgeType.Webhook:
             res = await createBridge(
               checkNOmitFromObj({
                 ...bridgeData.value,
@@ -246,6 +246,7 @@ export default defineComponent({
       tlsParams,
       bridgeData,
       formCom,
+      BridgeType,
       isBridgeTypeDisabled,
       cancel,
       submitCreateBridge,
