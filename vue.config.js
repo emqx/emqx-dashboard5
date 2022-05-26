@@ -6,7 +6,7 @@ module.exports = {
     port: 7000,
     proxy: {
       '/api/v5': {
-        target: process.env.HOST_URL || 'http://localhost:18083/',
+        target: process.env.HOST_URL || 'http://192.168.31.139:18083/',
         changeOrigin: true,
       },
     },
