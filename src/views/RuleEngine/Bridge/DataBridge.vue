@@ -13,19 +13,19 @@
         <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
           <el-table-column :label="tl('name')" :min-width="120">
             <template #default="{ row }">
-              <div class="bridge-column-first">
+              <router-link :to="getBridgeDetailPageRoute(row.id)" class="bridge-column-first">
                 <img
                   v-if="row.type"
                   class="icon-bridge-type"
                   :src="require(`@/assets/img/${row.type}.png`)"
                 />
                 <div>
-                  <router-link :to="getBridgeDetailPageRoute(row.id)" class="bridge-name">
+                  <span :to="getBridgeDetailPageRoute(row.id)" class="bridge-name">
                     {{ row.name }}
-                  </router-link>
+                  </span>
                   <span class="bridge-type">{{ getTypeStr(row) }}</span>
                 </div>
-              </div>
+              </router-link>
             </template>
           </el-table-column>
           <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
