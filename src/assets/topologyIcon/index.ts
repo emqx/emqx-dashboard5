@@ -1,4 +1,4 @@
-import bridgeHTTP from './bridge-http.png'
+import bridgeWebhook from './bridge-webhook.png'
 import bridgeMQTT from './bridge-mqtt.png'
 import console from './console.png'
 import event from './event.png'
@@ -7,8 +7,7 @@ import rule from './rule.png'
 import topic from './topic.png'
 
 const iconMap: Record<string, SVGAElement> = {
-  // FIXME:
-  'bridge-webhook': bridgeHTTP,
+  'bridge-webhook': bridgeWebhook,
   'bridge-mqtt': bridgeMQTT,
   console,
   event,
