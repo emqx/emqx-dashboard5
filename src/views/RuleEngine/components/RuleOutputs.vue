@@ -1,8 +1,8 @@
 <template>
   <el-card class="app-card">
-    <div class="part-header">{{ tl('output') }}</div>
+    <div class="part-header">{{ $tc('RuleEngine.action', 2) }}</div>
     <div class="sub-block-desc">
-      <span>{{ tl('outputDesc') }}</span>
+      <span>{{ tl('actionDesc') }}</span>
     </div>
     <el-row>
       <el-col :span="14">
@@ -38,7 +38,7 @@
           size="large"
         >
           <el-icon><plus /></el-icon>
-          <span>{{ tl('addOutput') }}</span>
+          <span>{{ tl('addAction') }}</span>
         </el-button>
       </el-col>
     </el-row>
