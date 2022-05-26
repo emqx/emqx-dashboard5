@@ -7,7 +7,8 @@ import rule from './rule.png'
 import topic from './topic.png'
 
 const iconMap: Record<string, SVGAElement> = {
-  'bridge-http': bridgeHTTP,
+  // FIXME:
+  'bridge-webhook': bridgeHTTP,
   'bridge-mqtt': bridgeMQTT,
   console,
   event,
