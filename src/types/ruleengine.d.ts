@@ -23,7 +23,7 @@ export type BridgeItem = {
 }
 
 export type RuleItem = {
-  outputs?: Array<Record<string, unknown> | string>
+  actions?: Array<Record<string, unknown> | string>
   name?: string
   enable?: boolean
   sql?: string

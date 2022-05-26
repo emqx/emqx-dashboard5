@@ -6,7 +6,7 @@
     </div>
     <el-row>
       <el-col :span="14">
-        <template v-for="(item, index) in ruleValue.outputs" :key="item">
+        <template v-for="(item, index) in ruleValue.actions" :key="item">
           <div class="outputs-item">
             <span>
               <img
@@ -96,10 +96,10 @@ const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
 
 const calcDisableList = () => {
   outputDisableList.value = []
-  if (!Array.isArray(ruleValue.value.outputs)) {
+  if (!Array.isArray(ruleValue.value.actions)) {
     return
   }
-  ruleValue.value.outputs?.forEach((v: OutputItem) => {
+  ruleValue.value.actions?.forEach((v: OutputItem) => {
     if (typeof v === 'string') {
       outputDisableList.value.push(v)
     } else if (typeof v === 'object') {
@@ -117,8 +117,8 @@ const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void 
   showOutputDialog.value = true
   let item: OutputItem | undefined
   editIndex.value = itemIndex
-  if (itemIndex !== undefined && Array.isArray(ruleValue.value.outputs)) {
-    item = ruleValue.value.outputs?.[itemIndex]
+  if (itemIndex !== undefined && Array.isArray(ruleValue.value.actions)) {
+    item = ruleValue.value.actions?.[itemIndex]
   }
   if (edit) {
     currentOutputItem.value = item
@@ -134,14 +134,14 @@ const deleteOutput = async (itemIndex: number | undefined) => {
     cancelButtonText: t('Base.cancel'),
     type: 'warning',
   })
-  if (itemIndex !== undefined && Array.isArray(ruleValue.value.outputs)) {
-    ruleValue.value.outputs?.splice(itemIndex, 1)
+  if (itemIndex !== undefined && Array.isArray(ruleValue.value.actions)) {
+    ruleValue.value.actions?.splice(itemIndex, 1)
     calcDisableList()
   }
 }
 
 const submitOutput = (opObj: OutputItem) => {
-  const output = ruleValue.value.outputs || []
+  const output = ruleValue.value.actions || []
   if (Array.isArray(output)) {
     if (!currentOutputItem.value) {
       output.push(opObj)

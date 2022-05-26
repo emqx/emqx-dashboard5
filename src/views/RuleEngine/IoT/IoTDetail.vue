@@ -158,8 +158,8 @@ const deleteRule = async () => {
 const submitUpdateRules = async () => {
   await formCom.value.validate()
   infoLoading.value = true
-  const { name, sql, enable, description, outputs } = ruleInfo.value
-  const updateData: Partial<RuleItem> = { name, sql, enable, description, outputs }
+  const { name, sql, enable, description, actions } = ruleInfo.value
+  const updateData: Partial<RuleItem> = { name, sql, enable, description, actions }
   try {
     await updateRules(id, updateData)
     ElMessage({
