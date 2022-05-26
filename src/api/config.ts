@@ -27,7 +27,7 @@ export const updateDashboardConfigs = (data: Dashboard): Promise<Dashboard> =>
 
 export const getDefaultZoneConfigs = (): Promise<Zone> => http.get('/configs/global_zone')
 
-export const updateGlobalZoneConfigs = (data: Zone): Promise<Zone> =>
+export const updateDefaultZoneConfigs = (data: Zone): Promise<Zone> =>
   http.put('/configs/global_zone', data)
 
 export const getZoneConfigs = (): Promise<Zones> => http.get('/configs/zones')
