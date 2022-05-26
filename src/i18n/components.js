@@ -139,6 +139,10 @@ export default {
     zh: 'HTTP API',
     en: 'HTTP API',
   },
+  'dashboard-http': {
+    zh: '仪表盘',
+    en: 'Dashboard',
+  },
   general: {
     zh: '通用',
     en: 'General',

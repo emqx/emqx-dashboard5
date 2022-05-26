@@ -103,7 +103,8 @@ export default defineComponent({
     const topLvRoute: any = computed(() => {
       const { path } = route
       const topLvRoute = routes.find((v) => {
-        return v.path !== '/' && path.indexOf(v.path) >= 0
+        const rootPath = `/${path.split('/')[1]}`
+        return v.path !== '/' && rootPath === v.path
       })
       return topLvRoute || {}
     })

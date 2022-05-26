@@ -1,11 +1,13 @@
 <template>
-  <div class="dashboard">
-    <schema-form
-      path="/configs/dashboard"
-      :form="configs"
-      :btn-loading="saveLoading"
-      @save="handleSave"
-    ></schema-form>
+  <div class="dashboard app-wrapper">
+    <el-card>
+      <schema-form
+        path="/configs/dashboard"
+        :form="configs"
+        :btn-loading="saveLoading"
+        @save="handleSave"
+      ></schema-form>
+    </el-card>
   </div>
 </template>
 
@@ -14,7 +16,7 @@ import { defineComponent, ref } from 'vue'
 import SchemaForm from '@/components/SchemaForm'
 import { getDashboardConfigs, updateDashboardConfigs } from '@/api/config'
 import { Dashboard } from '@/types/config'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
@@ -41,6 +43,7 @@ export default defineComponent({
         ...val,
       }
       try {
+        await ElMessageBox.confirm(t('BasicConfig.dashboardHttpTip'))
         await updateDashboardConfigs(data)
         ElMessage.success(t('Base.updateSuccess'))
         reloading()
