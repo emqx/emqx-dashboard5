@@ -28,7 +28,7 @@ export default function useSchemaForm(path: string): {
   const schema: InjectSchema = ref({})
   const loadSchemaConfig = async () => {
     try {
-      const configPath = `static/hot-config-schema-${store.state.lang}.json`
+      const configPath = `/static/hot-config-schema-${store.state.lang}.json`
       const res = await schemaRequest.get(configPath)
       if (res.data) {
         schema.value = res.data
@@ -42,7 +42,7 @@ export default function useSchemaForm(path: string): {
   watch(
     () => schema?.value,
     (val) => {
-      handleInjectChanged(val)
+      handleSchemaChanged(val)
     },
   )
   const filter = (ref: string) => ref.replace('#/', '').split('/')
@@ -96,11 +96,11 @@ export default function useSchemaForm(path: string): {
     const components = transComponents(component)
     return components
   }
-  const handleInjectChanged = (data: Schema) => {
+  const handleSchemaChanged = (data: Schema) => {
     components.value = getComponents(data)
   }
   if (schema.value.paths) {
-    handleInjectChanged(schema.value)
+    handleSchemaChanged(schema.value)
   }
   // { a: { b: c: 1 } } => { 'a.b.c': 1 }
   const flattenConfigs = (

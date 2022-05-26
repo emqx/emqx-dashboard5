@@ -205,7 +205,10 @@ const SchemaForm = defineComponent({
       const slots = {
         dropdown: () => (
           <el-dropdown-menu>
-            <el-dropdown-item command="reset" disabled={property.default === undefined || property.readOnly}>
+            <el-dropdown-item
+              command="reset"
+              disabled={property.default === undefined || property.readOnly}
+            >
               {t('Base.reset')}
             </el-dropdown-item>
             {props.canRemoveConfig ? (
@@ -276,12 +279,22 @@ const SchemaForm = defineComponent({
       const btnStyles = {
         left: store.state.leftBarCollapse ? '104px' : '224px',
       }
-      const groupTabs = groups.value.map((group: string) => <el-tab-pane label={group} name={group} />)
+      const groupTabs = groups.value.map((group: string) => (
+        <el-tab-pane label={group} name={group} />
+      ))
+      let tabs: JSX.Element | null = (
+        <el-tabs type="card" v-model={currentGroup.value} class="group-tabs">
+          {groupTabs}
+        </el-tabs>
+      )
+      // FIXME: for MQTT page
+      if (props.type === 'mqtt') {
+        tabs = null
+        currentGroup.value = props.type
+      }
       return (
         <>
-          <el-tabs type="card" v-model={currentGroup.value} class="group-tabs" >
-            {groupTabs}
-          </el-tabs>
+          {tabs}
           <el-form label-position="top">
             <el-row>
               {contents}
@@ -335,9 +348,7 @@ const SchemaForm = defineComponent({
       return setComponents(_properties)
     }
     const renderSchemaForm = (properties: Properties) => {
-      const schemaForm = renderLayout(
-        getComponents(properties, { col: 16 }),
-      )
+      const schemaForm = renderLayout(getComponents(properties, { col: 16 }))
       return schemaForm
     }
     return () => <div class="schema-form">{renderSchemaForm(components.value)}</div>
