@@ -49,7 +49,7 @@ const createRuleName = () => `rule_${createRandomString(4)}`
 const ruleValue: Ref<RuleItem> = ref({
   name: createRuleName(),
   sql: transSQLFormDataToSQL(DEFAULT_SELECT, [DEFAULT_FROM]),
-  outputs: [],
+  actions: [],
   description: '',
 })
 

@@ -166,7 +166,7 @@ const isShowTemplateDrawer = ref(false)
 const ruleValueDefault = {
   name: '',
   sql: transSQLFormDataToSQL(DEFAULT_SELECT, [DEFAULT_FROM]),
-  outputs: [],
+  actions: [],
   description: '',
 }
 

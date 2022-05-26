@@ -125,14 +125,14 @@ export default (): {
 
       /* outputNodeList & rule2OutputEdgeList */
       // When the outputs of multiple rules point to same bridge, they all point to the same bridge node.
-      if (v.outputs instanceof Array) {
-        v.outputs.forEach((output) => {
+      if (v.actions instanceof Array) {
+        v.actions.forEach((output) => {
           const { node, edge } = createOutputNodeNRule2OutputEdge(output, v.id)
           rule2OutputEdgeList.push(edge)
           outputNodeList.push(node)
         })
       } else {
-        const { node, edge } = createOutputNodeNRule2OutputEdge(v.outputs, v.id)
+        const { node, edge } = createOutputNodeNRule2OutputEdge(v.actions, v.id)
         rule2OutputEdgeList.push(edge)
         outputNodeList.push(node)
       }
