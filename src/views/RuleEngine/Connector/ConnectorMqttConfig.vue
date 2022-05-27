@@ -41,6 +41,11 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('bridgeMode')">
+            <BooleanSelect v-model="connectorVal.bridge_mode" />
+          </el-form-item>
+        </el-col>
       </el-row>
     </div>
     <div class="form-sub-block">
@@ -86,17 +91,6 @@
             />
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="12">
-          <el-form-item :label="tl('bridgeMode')">
-            <el-select v-model="connectorVal.bridge_mode">
-              <el-option
-                v-for="bm in [true, false]"
-                :key="bm"
-                :value="bm"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
       </el-row>
     </div>
     <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
@@ -111,11 +105,12 @@ import _ from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
 import { ConnectorItem } from '@/types/rule'
+import BooleanSelect from '@/components/BooleanSelect.vue'
 
 type ConnectorForm = Partial<ConnectorItem>
 
 export default defineComponent({
-  components: { InputWithUnit, CommonTLSConfig },
+  components: { InputWithUnit, CommonTLSConfig, BooleanSelect },
   props: {
     modelValue: {
       type: Object,
@@ -146,6 +141,7 @@ export default defineComponent({
       keepalive: '60s',
       proto_ver: 'v4',
       clean_start: true,
+      bridge_mode: false,
       mode: modeOptions[0],
     }
     const connectorVal: ConnectorForm = reactive({
