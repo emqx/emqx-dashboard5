@@ -277,9 +277,8 @@ export default defineComponent({
       const page = 1
       const { user_id, is_superuser } = searchVal
       if (user_id !== '' || is_superuser !== null) {
-        const searchKey = `like_${prop.field}`
         loadData({
-          [searchKey]: searchVal.user_id === '' ? null : user_id,
+          like_user_id: searchVal.user_id === '' ? null : user_id,
           is_superuser: is_superuser,
           page,
         })
