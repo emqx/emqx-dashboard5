@@ -32,7 +32,7 @@
         </el-button>
       </div>
     </div>
-    <el-tabs v-if="!authnDetailLock" v-model="currTab">
+    <el-tabs type="card" class="detail-tabs" v-if="!authnDetailLock" v-model="currTab">
       <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
         <AuthItemOverview :metrics="authMetrics" type="authn" />
       </el-tab-pane>

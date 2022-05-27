@@ -47,8 +47,8 @@
             :style="{ marginRight: '10px' }"
             v-if="row.type === 'built_in_database'"
             size="small"
-            @click="routeToDetail(row, 'data')"
-            >{{ $t('Auth.dataConfig') }}</el-button
+            @click="routeToDetail(row, 'users')"
+            >{{ $t('Auth.users') }}</el-button
           >
           <table-dropdown
             :row-data="row"

@@ -3,6 +3,7 @@
     <el-tabs
       v-model="activeTab"
       type="card"
+      class="detail-tabs"
       :before-leave="handleBeforeLeave"
       @tab-remove="handleTabEdit"
     >

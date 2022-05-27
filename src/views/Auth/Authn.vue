@@ -17,13 +17,13 @@
       v-loading.lock="isListLoading"
       row-key="id"
     >
-      <el-table-column prop="backend" :label="$t('Auth.mechanismAndBackend')" :min-width="120">
+      <el-table-column prop="backend" :label="$t('Auth.mechanismAndBackend')">
         <template #default="{ row }">
           <router-link
             :to="{ name: 'authenticationDetail', params: { id: row.id } }"
             class="first-column-with-icon-type"
           >
-            <img class="icon-type" :src="row.img" width="48" />
+            <img :src="row.img" width="48" />
             <div>
               <span class="name-data">{{ getAuthnItemBackendForShow(row) }}</span>
               <span class="type-data">{{ getLabelByValue(row.mechanism) }}</span>
@@ -31,17 +31,17 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="70">
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
           <el-switch v-model="row.enable" @change="toggleEnable(row)" />
         </template>
       </el-table-column>
-      <el-table-column prop="metrics" :label="$t('Auth.status')" :min-width="90">
+      <el-table-column prop="metrics" :label="$t('Auth.status')">
         <template #default="{ row }">
           <AuthItemStatus :metrics="row.metrics" />
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="160">
+      <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
           <el-button
             :style="{ marginRight: '10px' }"

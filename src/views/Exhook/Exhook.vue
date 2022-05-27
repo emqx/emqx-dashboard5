@@ -53,7 +53,7 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="168">
         <template #default="{ row, $index }">
-          <el-button size="small" @click="goExhookDetail(row)">
+          <el-button size="small" @click="goExhookDetail(row, 'hooks')">
             {{ tl('setting', 'Base') }}
           </el-button>
           <TableItemDropdown
@@ -144,13 +144,14 @@ const moveExhookItemToBottom = async (row: Exhook) => {
   }
 }
 
-const exhookDetailRoute = ({ name }: Exhook) => ({
+const exhookDetailRoute = ({ name }: Exhook, tab?: string) => ({
   name: 'exhook-detail',
   params: { exhookName: name },
+  query: { tab },
 })
 
-const goExhookDetail = (exhook: Exhook) => {
-  router.push(exhookDetailRoute(exhook))
+const goExhookDetail = (exhook: Exhook, tab?: string) => {
+  router.push(exhookDetailRoute(exhook, tab))
 }
 
 const changeExhookStatus = async (exhook: Exhook) => {

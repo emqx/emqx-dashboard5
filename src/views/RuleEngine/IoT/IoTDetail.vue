@@ -19,7 +19,7 @@
         </el-button>
       </div>
     </div>
-    <el-tabs v-model="activeTab">
+    <el-tabs type="card" class="detail-tabs" v-model="activeTab">
       <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
         <RuleItemOverview :rule-msg="ruleInfo" @reset="loadRuleDetail" />
       </el-tab-pane>
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, Ref } from 'vue'
+import { onMounted, ref, Ref, computed } from 'vue'
 import iotform from '../components/IoTForm.vue'
 import {
   deleteRules,
@@ -66,8 +66,8 @@ import RuleItemStatus from './components/RuleItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 
 enum Tab {
-  Overview = '0',
-  Setting = '1',
+  Overview = 'overview',
+  Setting = 'settings',
 }
 
 const ruleInfo: Ref<RuleItem> = ref({} as RuleItem)
@@ -85,14 +85,14 @@ const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 
 const formCom = ref()
 
-const { tl } = useI18nTl('RuleEngine')
+const queryTab = computed(() => {
+  return route.query.tab as Tab
+})
+if (queryTab.value) {
+  activeTab.value = queryTab.value
+}
 
-// watch(
-//   () => rInfo.value,
-//   (val) => {
-//     console.log(val);
-//   }
-// );
+const { tl } = useI18nTl('RuleEngine')
 
 const loadRuleDetail = async () => {
   infoLoading.value = true
