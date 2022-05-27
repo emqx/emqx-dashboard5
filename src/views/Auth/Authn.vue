@@ -17,35 +17,55 @@
       v-loading.lock="isListLoading"
       row-key="id"
     >
-      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="120">
+      <el-table-column prop="id" label="ID" :min-width="110" show-overflow-tooltip>
+        <template #default="{ row }">
+          <router-link
+            :to="{
+              name: 'authenticationDetail',
+              params: { id: row.id },
+            }"
+            class="table-data-without-break"
+          >
+            {{ row.id }}
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="90">
         <template #default="{ row }">
           {{ getLabelByValue(row.mechanism) }}
         </template>
       </el-table-column>
-      <el-table-column prop="backend" :label="$t('Auth.dataSource')" :min-width="140">
+      <el-table-column prop="backend" :label="$t('Auth.dataSource')" :min-width="120">
         <template #default="{ row }">
           <img class="auth-img" :src="row.img" width="48" />
           <span>{{ getAuthnItemBackendForShow(row) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="70">
         <template #default="{ row }">
           <el-switch v-model="row.enable" @change="toggleEnable(row)" />
         </template>
       </el-table-column>
-      <el-table-column prop="enable" :label="$t('Auth.status')" :min-width="116">
+      <el-table-column prop="metrics" :label="$t('Auth.status')" :min-width="90">
         <template #default="{ row }">
           <AuthItemStatus :metrics="row.metrics" />
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="100">
+      <el-table-column prop="oper" :label="$t('Base.operation')" :min-width="160">
         <template #default="{ row, $index }">
+          <el-button
+            :style="{ marginRight: '10px' }"
+            v-if="row.backend === 'built_in_database'"
+            size="small"
+            @click="routeToDeatil(row, 'users')"
+            >{{ $t('Auth.users') }}</el-button
+          >
           <table-dropdown
             :row-data="row"
             :table-data-len="authnList.length"
             :position="findIndex(row)"
             @delete="handleDelete"
-            @setting="handleSetting"
+            @setting="routeToDeatil"
             @move-up="moveAuthnUp($index)"
             @move-down="moveAuthnDown($index)"
             @move-to-top="moveAuthnToTop(row)"
@@ -116,8 +136,8 @@ const handleDelete = async function ({ id }: AuthnItem) {
   }
 }
 
-const handleSetting = function ({ id }: AuthnItem) {
-  router.push({ path: `/authentication/detail/${id}` })
+const routeToDeatil = function ({ id }: AuthnItem, tab: string) {
+  router.push({ path: `/authentication/detail/${id}`, query: { tab } })
 }
 
 const findIndex = (row: AuthnItem) => {

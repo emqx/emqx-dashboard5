@@ -123,7 +123,7 @@
             <el-input v-model="record.username" :disabled="isEdit"></el-input>
           </el-form-item>
           <el-form-item label="Permissions">
-            <el-table class="form-table shadow-none" :data="rulesData" size="small">
+            <el-table class="form-table shadow-none" :data="rulesData">
               <el-table-column prop="permission" label="Permission">
                 <template #default="{ row }">
                   <el-select v-model="row.permission">

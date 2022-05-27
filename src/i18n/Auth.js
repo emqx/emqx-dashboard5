@@ -95,6 +95,18 @@ export default {
     zh: '用户管理',
     en: 'User Management',
   },
+  users: {
+    zh: '用户管理',
+    en: 'Users',
+  },
+  dataConfig: {
+    zh: '数据管理',
+    en: 'Data Management',
+  },
+  data: {
+    zh: '数据管理',
+    en: 'Data',
+  },
   testSuccess: {
     zh: '测试通过，您的配置可以正常使用',
     en: 'Test success, your configuration works fine',

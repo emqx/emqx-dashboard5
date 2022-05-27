@@ -21,14 +21,19 @@
         </el-button>
       </div>
     </div>
-    <el-tabs v-if="!authzDetailLock">
-      <el-tab-pane :label="$t('Base.overview')" :lazy="true">
+    <el-tabs v-if="!authzDetailLock" v-model="currTab">
+      <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
         <AuthItemOverview :metrics="authMetrics" type="authz" />
       </el-tab-pane>
-      <el-tab-pane v-if="type === 'built_in_database'" :label="$t('Auth.userConfig')" :lazy="true">
+      <el-tab-pane
+        v-if="type === 'built_in_database'"
+        :label="$t('Auth.dataConfig')"
+        name="data"
+        :lazy="true"
+      >
         <built-in-manager></built-in-manager>
       </el-tab-pane>
-      <el-tab-pane v-else :label="$t('Base.setting')" :lazy="true">
+      <el-tab-pane v-else :label="$t('Base.setting')" name="settings" :lazy="true">
         <el-card>
           <database-config
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
@@ -103,8 +108,14 @@ export default defineComponent({
       ssl: { enable: false },
     })
     const authMetrics = ref(undefined)
-
     const formCom = ref()
+    const currTab = ref('overview')
+    const queryTab = computed(() => {
+      return route.query.tab
+    })
+    if (queryTab.value) {
+      currTab.value = queryTab.value
+    }
 
     const type = computed(function () {
       return route.params.type
@@ -184,6 +195,7 @@ export default defineComponent({
     return {
       type,
       currImg,
+      currTab,
       titleMap,
       authzDetailLock,
       configData,

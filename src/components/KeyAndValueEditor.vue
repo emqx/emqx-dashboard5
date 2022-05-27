@@ -1,5 +1,5 @@
 <template>
-  <el-table class="key-and-value-editor shadow-none" :data="tableData" size="small">
+  <el-table class="key-and-value-editor shadow-none" :data="tableData">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
         <el-input v-model="row.key" class="key-input" @input="atInputChange"></el-input>
@@ -10,7 +10,7 @@
         <el-input v-model="row.value" @input="atInputChange"></el-input>
       </template>
     </el-table-column>
-    <el-table-column width="70">
+    <el-table-column width="100">
       <template #header>
         <a href="javascript:;" class="btn" @click="addColumn">
           {{ $t('Base.add') }}
