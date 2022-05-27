@@ -7,6 +7,10 @@ export default {
     zh: '数据源',
     en: 'Backend',
   },
+  mechanismAndBackend: {
+    zh: '数据源及认证方式',
+    en: 'Mechanism and Backend',
+  },
   status: {
     zh: '状态',
     en: 'Status',
