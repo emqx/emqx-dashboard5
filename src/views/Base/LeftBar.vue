@@ -249,6 +249,7 @@ export default defineComponent({
 <style lang="scss">
 .left-bar {
   transition: all 0.3s;
+  height: 100%;
   padding: 64px 0;
   background-color: var(--color-bg-primary);
   .el-menu.el-menu--collapse {
