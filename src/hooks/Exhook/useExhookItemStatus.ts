@@ -20,8 +20,8 @@ export default (): {
     const badStatusArr = [
       ExhookStatus.Connected,
       ExhookStatus.Connecting,
-      ExhookStatus.Unconnected,
-      ExhookStatus.Disable,
+      ExhookStatus.Disconnected,
+      ExhookStatus.Disabled,
       ExhookStatus.Error,
     ]
     for (const currentBadStatus of badStatusArr) {
@@ -37,8 +37,8 @@ export default (): {
     ({
       [ExhookStatus.Connected]: t('RuleEngine.connected'),
       [ExhookStatus.Connecting]: t('RuleEngine.connecting'),
-      [ExhookStatus.Unconnected]: t('RuleEngine.disconnected'),
-      [ExhookStatus.Disable]: tl('disabled'),
+      [ExhookStatus.Disconnected]: t('RuleEngine.disconnected'),
+      [ExhookStatus.Disabled]: tl('disabled'),
       [ExhookStatus.Error]: tl('error'),
     }[status] || 'unknown')
 
@@ -46,8 +46,8 @@ export default (): {
     ({
       [ExhookStatus.Connected]: NodeStatusClass.Success,
       [ExhookStatus.Connecting]: NodeStatusClass.Warning,
-      [ExhookStatus.Unconnected]: NodeStatusClass.Danger,
-      [ExhookStatus.Disable]: NodeStatusClass.Danger,
+      [ExhookStatus.Disconnected]: NodeStatusClass.Danger,
+      [ExhookStatus.Disabled]: NodeStatusClass.Danger,
       [ExhookStatus.Error]: NodeStatusClass.Danger,
     }[status] || NodeStatusClass.Danger)
 
