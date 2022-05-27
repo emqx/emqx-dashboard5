@@ -558,3 +558,24 @@ input:disabled {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.first-column-with-icon-type {
+  display: flex;
+  align-items: center;
+
+  .icon-type {
+    width: 32px;
+    height: 32px;
+    margin-right: 4px;
+  }
+  .name-data {
+    display: block;
+    line-height: 16px;
+    color: var(--el-color-primary);
+  }
+  .type-data {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 16px;
+  }
+}

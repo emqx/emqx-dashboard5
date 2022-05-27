@@ -17,28 +17,18 @@
       v-loading.lock="isListLoading"
       row-key="id"
     >
-      <el-table-column prop="id" label="ID" :min-width="110" show-overflow-tooltip>
+      <el-table-column prop="backend" :label="$t('Auth.mechanismAndBackend')" :min-width="120">
         <template #default="{ row }">
           <router-link
-            :to="{
-              name: 'authenticationDetail',
-              params: { id: row.id },
-            }"
-            class="table-data-without-break"
+            :to="{ name: 'authenticationDetail', params: { id: row.id } }"
+            class="first-column-with-icon-type"
           >
-            {{ row.id }}
+            <img class="icon-type" :src="row.img" width="48" />
+            <div>
+              <span class="name-data">{{ getAuthnItemBackendForShow(row) }}</span>
+              <span class="type-data">{{ getLabelByValue(row.mechanism) }}</span>
+            </div>
           </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column prop="mechanism" :label="$t('Auth.mechanism')" :min-width="90">
-        <template #default="{ row }">
-          {{ getLabelByValue(row.mechanism) }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="backend" :label="$t('Auth.dataSource')" :min-width="120">
-        <template #default="{ row }">
-          <img class="auth-img" :src="row.img" width="48" />
-          <span>{{ getAuthnItemBackendForShow(row) }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="70">

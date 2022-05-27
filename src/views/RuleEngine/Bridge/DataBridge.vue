@@ -13,17 +13,20 @@
         <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
           <el-table-column :label="tl('name')" :min-width="120">
             <template #default="{ row }">
-              <router-link :to="getBridgeDetailPageRoute(row.id)" class="bridge-column-first">
+              <router-link
+                :to="getBridgeDetailPageRoute(row.id)"
+                class="first-column-with-icon-type"
+              >
                 <img
                   v-if="row.type"
-                  class="icon-bridge-type"
+                  class="icon-type"
                   :src="require(`@/assets/img/${row.type}.png`)"
                 />
                 <div>
-                  <span :to="getBridgeDetailPageRoute(row.id)" class="bridge-name">
+                  <span :to="getBridgeDetailPageRoute(row.id)" class="name-data">
                     {{ row.name }}
                   </span>
-                  <span class="bridge-type">{{ getTypeStr(row) }}</span>
+                  <span class="type-data">{{ getTypeStr(row) }}</span>
                 </div>
               </router-link>
             </template>
@@ -141,27 +144,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="scss" scoped>
-.bridge-table {
-  .bridge-column-first {
-    display: flex;
-    align-items: center;
-  }
-  .icon-bridge-type {
-    width: 32px;
-    height: 32px;
-    margin-right: 4px;
-  }
-  .bridge-name {
-    display: block;
-    line-height: 16px;
-    color: var(--el-color-primary);
-  }
-  .bridge-type {
-    font-size: 12px;
-    color: var(--color-text-secondary);
-    line-height: 16px;
-  }
-}
-</style>
