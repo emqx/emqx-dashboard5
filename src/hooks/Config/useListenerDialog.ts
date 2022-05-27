@@ -4,7 +4,7 @@ import { Listener } from '@/types/listener'
 import { computed, ref, ComputedRef, Ref, WritableComputedRef, watch, nextTick } from 'vue'
 import { cloneDeep, assign, omit } from 'lodash'
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import useListenerUtils from './useListenerUtils'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
@@ -151,6 +151,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       return
     }
     try {
+      if (props.gatewayName) {
+        await ElMessageBox.confirm(t('Gateway.updateListenerTip'))
+      }
       isSubmitting.value = true
       const data = checkNOmitFromObj(normalizeStructure(input))
       props.gatewayName ? await submitGatewayListenerInfo(data) : await submitListener(data)

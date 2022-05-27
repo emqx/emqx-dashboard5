@@ -304,4 +304,8 @@ export default {
     zh: '配置',
     en: 'Setup',
   },
+  updateListenerTip: {
+    zh: '更新监听器会导致已有连接断开，继续？',
+    en: 'Updating the listener will cause existing connections to be disconnected. Continue?',
+  },
 }
