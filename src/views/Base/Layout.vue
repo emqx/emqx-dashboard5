@@ -154,6 +154,7 @@ export default defineComponent({
   overflow-x: hidden;
   border-right: 1px solid var(--color-border-menu);
   background-color: var(--color-bg-primary);
+  height: 100vh;
   .footer-menu {
     transition: all 0.3s;
     position: fixed;
