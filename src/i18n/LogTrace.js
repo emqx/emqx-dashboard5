@@ -119,4 +119,8 @@ export default {
     zh: '返回日志追踪列表',
     en: 'Back to Log Trace List',
   },
+  allNodes: {
+    zh: '所有节点',
+    en: 'All nodes',
+  },
 }

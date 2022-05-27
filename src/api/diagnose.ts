@@ -38,9 +38,10 @@ export function getTraceLog(name: string, params: Record<string, unknown>) {
   return http.get(`/trace/${encodeURIComponent(name)}/log`, { params })
 }
 
-export async function downloadTrace(name: string) {
+export async function downloadTrace(name: string, node?: string) {
   try {
     const res = await http.get(`/trace/${encodeURIComponent(name)}/download`, {
+      params: { node },
       responseType: 'blob',
     })
     downloadBlobData(res)
