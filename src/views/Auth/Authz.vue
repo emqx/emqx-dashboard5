@@ -18,8 +18,16 @@
     >
       <el-table-column prop="type" :label="$t('Auth.dataSource')">
         <template #default="{ row }">
-          <img class="auth-img" :src="row.img" width="48" />
-          <span>{{ titleMap[row.type] }}</span>
+          <router-link
+            :to="{
+              name: 'authorizationDetail',
+              params: { type: row.type },
+            }"
+            class="link"
+          >
+            <img class="auth-img" :src="row.img" width="48" />
+            <span>{{ titleMap[row.type] }}</span>
+          </router-link>
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
@@ -35,12 +43,20 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
+          <el-button
+            :style="{ marginRight: '10px' }"
+            v-if="row.type === 'built_in_database'"
+            size="small"
+            @click="routeToDetail(row, 'data')"
+            >{{ $t('Auth.dataConfig') }}</el-button
+          >
           <table-dropdown
             :row-data="row"
             :table-data-len="authzList.length"
             :position="$index"
+            :type="row.type"
             @delete="handleDelete"
-            @setting="handleSetting"
+            @setting="routeToDetail"
             @move-up="moveAuthzUp($index)"
             @move-down="moveAuthzDown($index)"
             @move-to-top="moveAuthzToTop(row)"
@@ -107,8 +123,8 @@ const handleDelete = async function ({ type }: AuthzSourceItem) {
   getAuthzList()
 }
 
-const handleSetting = function ({ type }: AuthzSourceItem) {
-  router.push({ path: `/authorization/detail/${type}` })
+const routeToDetail = function ({ type }: AuthzSourceItem, tab: string) {
+  router.push({ path: `/authorization/detail/${type}`, query: { tab } })
 }
 </script>
 

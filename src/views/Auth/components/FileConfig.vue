@@ -65,4 +65,9 @@ export default defineComponent({
 
 <style lang="scss">
 @import '../style/authConfig.scss';
+.file-config {
+  .viewer-container {
+    height: 480px;
+  }
+}
 </style>

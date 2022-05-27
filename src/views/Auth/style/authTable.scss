@@ -1,11 +1,6 @@
 .auth-table {
-  .status {
-    color: #00b299;
-    &.disabled {
-      color: #e34242;
-    }
-  }
-  &.el-table .cell {
+  &.el-table .cell,
+  .link {
     display: flex;
     align-items: center;
   }

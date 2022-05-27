@@ -9,7 +9,7 @@
     <el-table :data="listenerTable" v-loading="isTableLoading" row-key="id">
       <el-table-column :label="$t('Base.name')" prop="name" :min-width="100" show-overflow-tooltip>
         <template #default="{ row }">
-          <p class="table-data-without-break">{{ row.name }}_{{ row.type }}</p>
+          <p class="table-data-without-break">{{ row.name }}</p>
         </template>
       </el-table-column>
       <el-table-column :label="tl('lType')" prop="type" :min-width="90" />

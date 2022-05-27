@@ -32,11 +32,11 @@
         </el-button>
       </div>
     </div>
-    <el-tabs v-if="!authnDetailLock">
-      <el-tab-pane v-if="!gateway" :label="$t('Base.overview')" :lazy="true">
+    <el-tabs v-if="!authnDetailLock" v-model="currTab">
+      <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
         <AuthItemOverview :metrics="authMetrics" type="authn" />
       </el-tab-pane>
-      <el-tab-pane :label="$t('Base.setting')" :lazy="true">
+      <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
         <el-card class="app-card">
           <template v-if="configData.mechanism !== 'jwt'">
             <database-config
@@ -77,6 +77,7 @@
         v-if="currBackend === 'built_in_database'"
         :label="$t('Auth.userConfig')"
         :lazy="true"
+        name="users"
       >
         <data-manager :field="configData.user_id_type" :gateway="gateway"></data-manager>
       </el-tab-pane>
@@ -144,13 +145,17 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const { t } = useI18n()
-
     const authnDetailLock = ref(false)
-
+    const currTab = ref(props.gateway ? 'settings' : 'overview')
     const id = computed(function () {
       return route.params.id
     })
-
+    const queryTab = computed(() => {
+      return route.query.tab
+    })
+    if (queryTab.value) {
+      currTab.value = queryTab.value
+    }
     const configData = ref({
       ssl: { enable: false },
     })
@@ -252,6 +257,7 @@ export default defineComponent({
 
     return {
       currBackend,
+      currTab,
       currImg,
       titleMap,
       configData,
