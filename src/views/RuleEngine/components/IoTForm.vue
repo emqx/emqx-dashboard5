@@ -312,9 +312,11 @@ const testSQLTemplate = ({ sql, input }: { sql: string; input: string }) => {
 
 const saveSQLFromTest = useSQLTemplate
 
+const eventDoNotNeedInIoTForm = '$events/message_publish'
 const loadRuleEvents = async () => {
   try {
-    ruleEventsList.value = await getRuleEvents()
+    const ruleList: Array<RuleEvent> = await getRuleEvents()
+    ruleEventsList.value = ruleList.filter(({ event }) => event !== eventDoNotNeedInIoTForm)
   } catch (error) {
     console.error(error)
   }
