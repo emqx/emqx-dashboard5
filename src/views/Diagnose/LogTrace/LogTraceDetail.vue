@@ -33,7 +33,6 @@
             :scroll-func="scrollLoadFunc"
             lang="powershell"
             :disabled="true"
-            :key="logContent"
           ></monaco>
         </div>
       </el-row>
