@@ -394,6 +394,14 @@ input:disabled {
     padding-top: 4px;
   }
 }
+.el-tabs.detail-tabs {
+  .el-tabs__header {
+    margin-bottom: 24px;
+    .el-tabs__item.is-active {
+      border-bottom: 1px solid var(--color-bg-main);
+    }
+  }
+}
 .block-title {
   margin-top: 0;
   margin-bottom: 0;

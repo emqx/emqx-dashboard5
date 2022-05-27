@@ -16,7 +16,7 @@
           </el-button>
         </div>
       </div>
-      <el-tabs v-model="activeName">
+      <el-tabs type="card" class="detail-tabs" v-model="activeTab">
         <el-tab-pane :label="tl('overview')" name="overview">
           <el-card class="app-card exhook-metrics-card">
             <h6 class="block-title metrics-title">{{ tl('metricsData') }}</h6>
@@ -106,13 +106,20 @@ const { t } = useI18n()
 
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
 
-const activeName = ref('overview')
+const activeTab = ref('overview')
 const isLoading = ref(false)
 const exhookData: Ref<Exhook> = ref({} as Exhook)
 
 const formCom = ref()
 const exhookName = computed(() => route.params.exhookName.toString())
 const isSubmitting = ref(false)
+
+const queryTab = computed(() => {
+  return route.query.tab as string
+})
+if (queryTab.value) {
+  activeTab.value = queryTab.value
+}
 
 const registeredHooks: Ref<Array<RegisteredHook>> = ref([])
 

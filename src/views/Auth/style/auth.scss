@@ -68,16 +68,6 @@
     .section-header__title {
       margin-bottom: 8px;
     }
-    .el-tabs {
-      .el-tabs__header {
-        margin-bottom: 24px;
-      }
-      // Temporary fix for a style issue when there is only one tab
-      .el-tabs__item:last-child {
-        width: 0px;
-        height: 0px;
-      }
-    }
   }
   .info-tags {
     :not(:last-child) {

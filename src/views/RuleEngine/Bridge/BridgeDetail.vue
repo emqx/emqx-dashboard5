@@ -27,7 +27,7 @@
             </el-button>
           </div>
         </div>
-        <el-tabs v-model="activeTab">
+        <el-tabs type="card" class="detail-tabs" v-model="activeTab">
           <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
             <BridgeItemOverview
               :bridge-msg="bridgeInfo"
@@ -93,8 +93,8 @@ import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 
 enum Tab {
-  Overview = '0',
-  Setting = '1',
+  Overview = 'overview',
+  Setting = 'settings',
 }
 
 const route = useRoute()
@@ -106,6 +106,13 @@ const infoLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 
 const formCom = ref()
+
+const queryTab = computed(() => {
+  return route.query.tab as Tab
+})
+if (queryTab.value) {
+  activeTab.value = queryTab.value
+}
 
 const { getTypeStr } = useBridgeTypeOptions()
 const { handleSSLDataBeforeSubmit } = useSSL()

@@ -23,7 +23,7 @@
                   :src="require(`@/assets/img/${row.type}.png`)"
                 />
                 <div>
-                  <span :to="getBridgeDetailPageRoute(row.id)" class="name-data">
+                  <span class="name-data">
                     {{ row.name }}
                   </span>
                   <span class="type-data">{{ getTypeStr(row) }}</span>
@@ -44,7 +44,10 @@
           </el-table-column>
           <el-table-column :label="$t('Base.operation')" :min-width="168">
             <template #default="{ row }">
-              <el-button size="small" @click="$router.push(getBridgeDetailPageRoute(row.id))">
+              <el-button
+                size="small"
+                @click="$router.push(getBridgeDetailPageRoute(row.id, 'settings'))"
+              >
                 {{ $t('Base.setting') }}
               </el-button>
               <el-button size="small" type="danger" plain @click="submitDeleteBridge(row.id)">
@@ -118,9 +121,10 @@ export default defineComponent({
       }
     }
 
-    const getBridgeDetailPageRoute = (id: string) => ({
+    const getBridgeDetailPageRoute = (id: string, tab?: string) => ({
       name: 'bridge-detail',
       params: { id },
+      query: { tab },
     })
 
     onMounted(listBridge)

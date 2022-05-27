@@ -21,14 +21,14 @@
         </el-button>
       </div>
     </div>
-    <el-tabs v-if="!authzDetailLock" v-model="currTab">
+    <el-tabs type="card" class="detail-tabs" v-if="!authzDetailLock" v-model="currTab">
       <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
         <AuthItemOverview :metrics="authMetrics" type="authz" />
       </el-tab-pane>
       <el-tab-pane
         v-if="type === 'built_in_database'"
-        :label="$t('Auth.dataConfig')"
-        name="data"
+        :label="$t('Auth.userConfig')"
+        name="users"
         :lazy="true"
       >
         <built-in-manager></built-in-manager>

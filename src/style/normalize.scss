@@ -261,6 +261,9 @@
       }
     }
   }
+  .el-tabs__content {
+    overflow: visible;
+  }
 }
 
 @mixin border-gradient($from, $to, $weight: 0) {

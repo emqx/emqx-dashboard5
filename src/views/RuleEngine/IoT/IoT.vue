@@ -45,7 +45,13 @@
         <template #default="{ row }">
           <el-button
             size="small"
-            @click="$router.push({ name: 'iot-detail', params: { id: row.id } })"
+            @click="
+              $router.push({
+                name: 'iot-detail',
+                params: { id: row.id },
+                query: { tab: 'settings' },
+              })
+            "
           >
             {{ $t('Base.setting') }}
           </el-button>
