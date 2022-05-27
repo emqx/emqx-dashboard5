@@ -4,8 +4,9 @@
     <div v-loading="viewNodeLoading" :element-loading-text="nextPageLoading">
       <el-row :gutter="30">
         <el-col :span="6">
-          <el-select v-model="node">
-            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
+          <el-select v-model="selectedNode">
+            <el-option :key="ALL_NODES_VALUE" :label="tl('allNodes')" :value="ALL_NODES_VALUE" />
+            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
         <el-col :span="4">
@@ -41,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Monaco from '@/components/Monaco.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
@@ -57,6 +58,8 @@ let LAST_ACTIVED_SCROLLTOP = 0
 const MAX_LOG_SIZE = 5 * 1024 * 1024
 const BYTEPERPAGE = 50 * 1024
 
+const ALL_NODES_VALUE = 'allNodes'
+
 export default defineComponent({
   components: {
     Monaco,
@@ -70,9 +73,13 @@ export default defineComponent({
     const logContent = ref('')
     const viewNodeLoading = ref(false)
     const currentNodes: Ref<Array<NodeMsg>> = ref([])
-    const node = ref('')
+    const selectedNode = ref(ALL_NODES_VALUE)
     const viewLogName: string = route.params.id as string
     const nextPageLoading = ref('')
+
+    const node = computed(() => {
+      return selectedNode.value === ALL_NODES_VALUE ? undefined : selectedNode.value
+    })
 
     const countInitialHeight = () => {
       const offsetTop = (monacoContainer.value?.getBoundingClientRect()?.top || 250) + 30
@@ -84,7 +91,6 @@ export default defineComponent({
       try {
         const data = await loadNodes()
         currentNodes.value = data
-        node.value = currentNodes.value[0]?.node || ''
       } catch (error) {
         console.error(error)
       }
@@ -136,7 +142,7 @@ export default defineComponent({
       }
     }
     const download = async () => {
-      await downloadTrace(viewLogName)
+      await downloadTrace(viewLogName, node.value)
       // download link, no more action needed
     }
 
@@ -149,7 +155,9 @@ export default defineComponent({
     watch(
       () => node.value,
       (v, oldV) => {
-        if (v && oldV && v !== oldV) viewDetail(true)
+        if (v !== oldV) {
+          viewDetail(true)
+        }
       },
     )
 
@@ -161,7 +169,9 @@ export default defineComponent({
       logContent,
       scrollLoadFunc,
       currentNodes,
-      node,
+      ALL_NODES_VALUE,
+      selectedNode,
+      viewDetail,
       viewNodeLoading,
       nextPageLoading,
       viewLogName,
