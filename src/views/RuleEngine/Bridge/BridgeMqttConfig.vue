@@ -124,7 +124,7 @@
           <div>
             <p class="part-sub-title">{{ tl('bridgeSinkFromLabel') }}</p>
             <el-row :gutter="30">
-              <el-col :span="10">
+              <el-col :span="24">
                 <el-radio-group
                   v-model="isForwardFromLocalTopic"
                   size="large"
