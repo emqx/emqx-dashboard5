@@ -162,11 +162,8 @@ const submitUpdateRules = async () => {
   const updateData: Partial<RuleItem> = { name, sql, enable, description, actions }
   try {
     await updateRules(id, updateData)
-    ElMessage({
-      type: 'success',
-      message: t('Base.updateSuccess'),
-    })
-    loadRuleDetail()
+    ElMessage.success(t('Base.updateSuccess'))
+    router.push({ name: 'iot' })
   } catch (error) {
     console.error(error)
   } finally {

@@ -159,6 +159,7 @@ const updateBridgeInfo = async () => {
     const res = await updateBridge(bridgeInfo.value.id, data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
+      router.push({ name: 'data-bridge' })
     } else {
       router.push({ name: route.params.from as string, params: { bridgeId: res.id } })
     }

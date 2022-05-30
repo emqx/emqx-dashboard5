@@ -154,6 +154,7 @@ const updateExhook = async () => {
       url,
     })
     ElMessage.success(tl('updateSuccess', 'Base'))
+    router.push({ name: 'exhook' })
   } catch (error) {
     console.error(error)
   } finally {
