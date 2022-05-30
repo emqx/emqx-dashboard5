@@ -136,7 +136,7 @@ export default defineComponent({
     }
 
     const goSettingPage = ({ name }: { name: string }) => {
-      router.push({ name: 'gateway-detail-basic', params: { name } })
+      router.push({ name: 'gateway-detail-settings', params: { name } })
     }
 
     const goClientPage = ({ name }: { name: string }) => {

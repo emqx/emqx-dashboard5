@@ -1,5 +1,5 @@
 <template>
-  <div class="data-manager">
+  <div class="authn-manager">
     <div class="section-header">
       <div class="searchbar">
         <el-space wrap :size="20">
@@ -16,7 +16,7 @@
           <el-button type="primary" :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button :icon="RefreshRight" @click="handleResetSearch">
+          <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSearch">
             {{ $t('Base.refresh') }}
           </el-button>
         </el-space>
@@ -109,7 +109,7 @@ const createRawUserForm = () => ({
 export default defineComponent({
   components: { commonPagination },
 
-  name: 'DataManager',
+  name: 'AuthnManager',
   props: {
     field: {
       type: String as PropType<'username' | 'clientid'>,
@@ -322,8 +322,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.data-manager {
+.authn-manager {
   .searchbar {
+    height: 36px;
     .el-input {
       width: 260px;
     }

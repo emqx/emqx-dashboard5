@@ -79,7 +79,7 @@
         :lazy="true"
         name="users"
       >
-        <data-manager :field="configData.user_id_type" :gateway="gateway"></data-manager>
+        <authn-manager :field="configData.user_id_type" :gateway="gateway"></authn-manager>
       </el-tab-pane>
       <el-tab-pane></el-tab-pane>
     </el-tabs>
@@ -93,7 +93,7 @@ import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
-import DataManager from './components/DataManager.vue'
+import AuthnManager from './components/AuthnManager.vue'
 import { updateAuthn, deleteAuthn } from '@/api/auth'
 import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import useAuth from '@/hooks/Auth/useAuth'
@@ -113,7 +113,7 @@ export default defineComponent({
     DatabaseConfig,
     HttpConfig,
     BuiltInConfig,
-    DataManager,
+    AuthnManager,
     JwtConfig,
     AuthItemOverview,
     AuthItemStatus,

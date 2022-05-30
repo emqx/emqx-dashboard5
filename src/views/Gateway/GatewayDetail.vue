@@ -52,7 +52,7 @@ export default defineComponent({
     let gInfo = ref({})
     const { t } = useI18n()
     const route = useRoute()
-    const types = ['basic', 'listeners', 'auth', 'connections']
+    const types = ['settings', 'connections', 'auth', 'listeners']
     const gname = String(route.params.name).toLowerCase()
 
     const matchedUrl = computed(function () {

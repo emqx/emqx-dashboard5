@@ -282,8 +282,8 @@ export const routes: Array<RouteRecordRaw> = [
         component: GatewayDetail,
         children: [
           {
-            path: 'basic',
-            name: 'gateway-detail-basic',
+            path: 'settings',
+            name: 'gateway-detail-settings',
             component: GatewayDetailBasic,
           },
           {
