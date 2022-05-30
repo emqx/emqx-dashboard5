@@ -41,10 +41,9 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="`VM ${tl('memory')}`" prop="memory_used">
+      <el-table-column v-if="hasMemory" :label="`VM ${tl('memory')}`" prop="memory_used">
         <template #default="{ row }">
-          {{ row.memory_used }}
-          <!-- <el-tooltip
+          <el-tooltip
             placement="top"
             effect="dark"
             :content="`${row.memory_used}/${row.memory_total}`"
@@ -57,7 +56,7 @@
             >
               <span>{{ row.memory_used }}</span>
             </el-progress>
-          </el-tooltip> -->
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column :label="`CPU ${tl('load')}`">
@@ -88,8 +87,9 @@ import { NodeMsg } from '@/types/dashboard'
 
 const { t } = useI18n()
 
-let nodes: Ref<Array<NodeMsg>> = ref([])
-let nodesLockTable: Ref<boolean> = ref(true)
+const nodes: Ref<Array<NodeMsg>> = ref([])
+const nodesLockTable: Ref<boolean> = ref(true)
+const hasMemory: Ref<boolean> = ref(true)
 
 const tl = function (key: string, collection = 'Dashboard') {
   return t(collection + '.' + key)
@@ -97,6 +97,7 @@ const tl = function (key: string, collection = 'Dashboard') {
 const loadAllNodes = async () => {
   try {
     nodes.value = (await loadNodes()) ?? []
+    hasMemory.value = nodes.value.some((node) => node.memory_total !== 0)
   } catch (err) {
     // ignore err
   } finally {
