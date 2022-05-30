@@ -8,7 +8,7 @@
     <el-table :data="subTbData" class="shadow-none" v-loading="tbLoading">
       <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
       <el-table-column :label="'QoS'" prop="qos" sortable></el-table-column>
-      <el-table-column :label="'nl/rap/rh'" sortable>
+      <el-table-column :label="'nl/rap/rh'">
         <template #default="{ row }">
           {{ `${row.nl}/${row.rap}/${row.rh}` }}
         </template>

@@ -45,7 +45,7 @@
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')" v-loading="tbLoading">
         <el-table :data="delayedTbData" class="shadow-none postpone-table">
-          <el-table-column :label="'Topic'" prop="topic" sortable :min-width="92" />
+          <el-table-column :label="'Topic'" prop="topic" :min-width="92" />
           <el-table-column :label="'QoS'" prop="qos" sortable :min-width="84" />
           <el-table-column :label="'Payload'" :min-width="84">
             <template #default="{ row }">

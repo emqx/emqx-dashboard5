@@ -130,7 +130,7 @@
         </el-row>
       </el-form>
       <el-table :data="subscriptions" max-height="400px">
-        <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
+        <el-table-column show-overflow-tooltip prop="topic" label="Topic" />
         <el-table-column prop="qos" label="QoS" sortable />
         <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />
         <el-table-column :label="$t('Base.operation')">
@@ -206,7 +206,7 @@
           </el-tooltip>
         </div>
         <el-table :data="messageIn" max-height="400px" class="shadow-none">
-          <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
+          <el-table-column show-overflow-tooltip prop="topic" label="Topic" />
           <el-table-column prop="qos" label="QoS" sortable min-width="50">
             <template #default="{ row }">
               {{ row.qos }}
@@ -217,13 +217,7 @@
               {{ row.retain ? ' Retain' : '' }}
             </template>
           </el-table-column>
-          <el-table-column
-            show-overflow-tooltip
-            prop="payload"
-            label="Payload"
-            sortable
-            min-width="120"
-          >
+          <el-table-column show-overflow-tooltip prop="payload" label="Payload" min-width="120">
             <template #default="{ row }">
               <code>{{ row.payload }}</code>
             </template>
@@ -246,7 +240,7 @@
           </el-tooltip>
         </div>
         <el-table :data="messageOut" max-height="400px" class="shadow-none">
-          <el-table-column show-overflow-tooltip prop="topic" label="Topic" sortable />
+          <el-table-column show-overflow-tooltip prop="topic" label="Topic" />
           <el-table-column prop="qos" label="QoS" sortable min-width="50">
             <template #default="{ row }">
               {{ row.qos }}
@@ -257,13 +251,7 @@
               {{ row.retain ? ' Retain' : '' }}
             </template>
           </el-table-column>
-          <el-table-column
-            show-overflow-tooltip
-            prop="payload"
-            label="Payload"
-            sortable
-            min-width="120"
-          >
+          <el-table-column show-overflow-tooltip prop="payload" label="Payload" min-width="120">
             <template #default="{ row }">
               <code>{{ row.payload }}</code>
             </template>
