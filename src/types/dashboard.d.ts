@@ -28,8 +28,8 @@ export interface NodeMsg {
   load5: string
   log_path: string
   max_fds: number
-  memory_total: string
-  memory_used: string
+  memory_total: string | number
+  memory_used: string | number
   node: string
   node_status: NodeStatus
   otp_release: string
