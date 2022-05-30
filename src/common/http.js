@@ -10,7 +10,7 @@ NProgress.configure({ showSpinner: false, trickleSpeed: 200 })
 let respSet = new Set()
 
 Object.assign(axios.defaults, {
-  baseURL: '/api/v5',
+  baseURL: 'api/v5',
   timeout: 20000,
 })
 

@@ -15,7 +15,7 @@ module.exports = {
     requireModuleExtension: true,
   },
   assetsDir: 'static',
-  publicPath: '/',
+  publicPath: './',
   productionSourceMap: false,
   configureWebpack: {
     plugins: [
