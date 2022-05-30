@@ -288,6 +288,10 @@ export default {
     zh: '消息丢弃',
     en: 'Dropped Messages',
   },
+  dropped: {
+    zh: '消息丢弃',
+    en: 'Dropped',
+  },
   topics: {
     zh: '主题数',
     en: 'Topics',

@@ -1,38 +1,35 @@
 <template>
-  <div class="built-in-manager">
-    <div class="section-header">
-      <el-radio-group v-model="type" class="select-type">
-        <el-radio
-          v-for="item in typeList"
-          :key="item.value"
-          :label="item.value"
-          class="permission-type"
-          border
-        >
-          <span>{{ item.label }}</span>
-        </el-radio>
-      </el-radio-group>
-      <div>
-        <el-button type="primary" :icon="Plus" @click="handleAdd">
-          {{ $t('Base.add') }}
-        </el-button>
-      </div>
-    </div>
-    <el-row v-if="type !== 'all'" class="section-searchbar" :gutter="20">
-      <el-col :span="6">
+  <div class="authz-manager">
+    <el-tabs v-model="type">
+      <el-tab-pane
+        v-for="item in typeList"
+        :key="item.value"
+        :label="item.label"
+        :name="item.value"
+        class="permission-type"
+        border
+      >
+      </el-tab-pane>
+    </el-tabs>
+    <div v-if="type !== 'all'" class="section-searchbar" :gutter="20">
+      <div class="searchbar-content">
         <el-input
           v-model="searchVal"
           clearable
           :placeholder="getCurrSearchValTip(type)"
           @clear="handleSearch"
         ></el-input>
-      </el-col>
-      <el-col :span="6">
         <el-button type="primary" :icon="Search" @click="handleSearch">
           {{ $t('Base.search') }}
         </el-button>
-      </el-col>
-    </el-row>
+        <el-button type="primary" plain :icon="RefreshRight" @click="loadData">
+          {{ $t('Base.refresh') }}
+        </el-button>
+      </div>
+      <el-button type="primary" :icon="Plus" @click="handleAdd">
+        {{ $t('Base.add') }}
+      </el-button>
+    </div>
     <el-table v-show="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
       <el-table-column v-if="false" type="expand"></el-table-column>
       <el-table-column prop="permission" label="Permission"></el-table-column>
@@ -196,12 +193,12 @@ import commonPagination from '@/components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus, Search } from '@element-plus/icons-vue'
+import { Plus, Search, RefreshRight } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule, BuiltInDBType } from '@/types/auth'
 
 export default defineComponent({
   components: { commonPagination, InfoTooltip },
-  name: 'BuiltInManager',
+  name: 'AuthzManager',
   setup() {
     const { t } = useI18n()
 
@@ -217,7 +214,7 @@ export default defineComponent({
         value: 'username',
       },
       {
-        label: 'All',
+        label: 'All Users',
         value: 'all',
       },
     ]
@@ -446,6 +443,7 @@ export default defineComponent({
     return {
       Plus,
       Search,
+      RefreshRight,
       recordForm,
       type,
       typeList,
@@ -476,11 +474,20 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.built-in-manager {
+.authz-manager {
   .section-searchbar {
+    display: flex;
     margin-bottom: 20px;
     margin-top: 32px;
     width: 100%;
+    justify-content: space-between;
+    .searchbar-content {
+      display: flex;
+      width: 460px;
+      .el-input {
+        margin-right: 12px;
+      }
+    }
   }
   .el-radio.is-bordered {
     margin-top: 0px;

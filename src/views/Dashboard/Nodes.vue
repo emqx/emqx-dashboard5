@@ -1,7 +1,6 @@
 <template>
   <div class="nodes app-wrapper">
-    <h2>{{ tl('nodeList') }}</h2>
-    <el-table :data="nodes" v-loading.lock="nodesLockTable">
+    <el-table :data="nodes" v-loading.lock="nodesLockTable" class="nodes-table">
       <el-table-column prop="node" :label="tl('nodeName')">
         <template #default="{ row }">
           <router-link class="node-name" :to="`nodes/${row.node}`">{{ row.node }}</router-link>
@@ -115,6 +114,9 @@ onMounted(() => {
 
 <style lang="scss">
 .nodes {
+  .nodes-table {
+    margin-top: 14px;
+  }
   .el-progress {
     width: 100%;
   }

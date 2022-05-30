@@ -10,7 +10,7 @@
         <div class="create-form-title">
           {{ $t('Auth.selectDataSource') }}
         </div>
-        <el-radio-group v-model="type" class="select-type" size="large">
+        <el-radio-group v-model="type" size="large">
           <el-badge
             v-for="item in typeList"
             :key="item.value"

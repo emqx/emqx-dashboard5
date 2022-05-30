@@ -31,7 +31,7 @@
         name="users"
         :lazy="true"
       >
-        <built-in-manager></built-in-manager>
+        <authz-manager></authz-manager>
       </el-tab-pane>
       <el-tab-pane v-else :label="$t('Base.setting')" name="settings" :lazy="true">
         <el-card>
@@ -75,7 +75,7 @@ import FileConfig from './components/FileConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
 import useAuth from '@/hooks/Auth/useAuth'
-import BuiltInManager from './components/BuiltInManager.vue'
+import AuthzManager from './components/AuthzManager.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
@@ -92,7 +92,7 @@ export default defineComponent({
     DetailHeader,
     FileConfig,
     DatabaseConfig,
-    BuiltInManager,
+    AuthzManager,
     HttpConfig,
     AuthItemOverview,
     AuthItemStatus,

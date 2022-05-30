@@ -2,7 +2,6 @@
   <div class="metrics app-wrapper">
     <div class="header-block">
       <div class="header-item">
-        <h2>{{ tl('dataList') }}</h2>
         <p class="tip">{{ tl('packetStatisticsOfNodes') }}</p>
       </div>
       <div class="header-item">
@@ -16,7 +15,7 @@
       <el-col :span="8">
         <el-card class="top-border table-card client">
           <el-table :data="filterMetrics(currentMetrics, 'client')" v-loading.lock="isDataLoading">
-            <el-table-column prop="m" min-width="160" :label="tl('client')" />
+            <el-table-column prop="m" min-width="160" :label="tl('connection')" />
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
