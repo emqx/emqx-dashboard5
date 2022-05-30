@@ -171,7 +171,13 @@
               </template>
             </el-table-column>
             <el-table-column label="From Client ID" prop="from_clientid" :min-width="148" />
-            <el-table-column :label="tl('createDate')" sortable :min-width="148">
+            <el-table-column
+              :label="tl('createDate')"
+              prop="publish_at"
+              sortable
+              :sort-by="(row) => new Date(row.publish_at).getTime()"
+              :min-width="148"
+            >
               <template #default="{ row }">
                 {{ row.publish_at && dateFormat(row.publish_at) }}
               </template>

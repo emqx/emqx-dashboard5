@@ -22,8 +22,8 @@
     </el-upload>
 
     <el-table :data="tableData">
-      <el-table-column prop="node" :label="$t('RuleEngine.node')" sortable></el-table-column>
-      <el-table-column prop="filename" :label="$t('Backup.filename')" sortable></el-table-column>
+      <el-table-column prop="node" :label="$t('RuleEngine.node')"></el-table-column>
+      <el-table-column prop="filename" :label="$t('Backup.filename')"></el-table-column>
       <el-table-column prop="size" :label="$t('Backup.size')" sortable>
         <template v-slot="{ row }">
           {{ row.size | renderSize }}
