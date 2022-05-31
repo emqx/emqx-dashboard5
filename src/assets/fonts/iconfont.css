@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3296526 */
-  src: url('iconfont.woff2?t=1653373183567') format('woff2'),
-       url('iconfont.woff?t=1653373183567') format('woff'),
-       url('iconfont.ttf?t=1653373183567') format('truetype');
+  src: url('iconfont.woff2?t=1653983037690') format('woff2'),
+       url('iconfont.woff?t=1653983037690') format('woff'),
+       url('iconfont.ttf?t=1653983037690') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-integration-dark-selected:before {
+  content: "\e77b";
+}
+
+.icon-integration-light-selected:before {
+  content: "\e780";
+}
+
+.icon-integration-dark:before {
+  content: "\e783";
+}
+
+.icon-integration-light:before {
+  content: "\e784";
 }
 
 .icon-connections-dark:before {
@@ -35,22 +51,6 @@
 
 .icon-subscriptions-dark:before {
   content: "\e788";
-}
-
-.icon-integration-dark:before {
-  content: "\e77b";
-}
-
-.icon-integration-light:before {
-  content: "\e780";
-}
-
-.icon-integration-dark-selected:before {
-  content: "\e783";
-}
-
-.icon-integration-light-selected:before {
-  content: "\e784";
 }
 
 .icon-connections-light-selected:before {
