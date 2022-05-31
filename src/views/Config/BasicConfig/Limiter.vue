@@ -13,14 +13,18 @@
               <el-col v-if="rateProp.type !== 'object'" :span="16">
                 <el-form-item :label="rateProp.label">
                   <p class="item-desc" v-html="rateProp.description"></p>
-                  <template v-if="rateProp.type === 'string'">
-                    <el-input
-                      :disabled="rateProp.readOnly"
-                      :placeholder="rateProp.default"
-                      v-model="configs[key]"
-                      clearable
-                    ></el-input>
-                  </template>
+                  <el-input
+                    v-if="rateProp.type === 'string'"
+                    :disabled="rateProp.readOnly"
+                    :placeholder="rateProp.default"
+                    v-model="configs[key]"
+                    clearable
+                  ></el-input>
+                  <el-switch
+                    v-if="rateProp.type === 'boolean'"
+                    :disabled="rateProp.readOnly"
+                    v-model="configs[key]"
+                  ></el-switch>
                 </el-form-item>
               </el-col>
               <el-col class="custom-col" v-else-if="rateProp.type === 'object'" :span="16">

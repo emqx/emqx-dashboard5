@@ -4,13 +4,13 @@
             "cluster.log": {
                 "properties": {
                     "console_handler": {
-                        "description": "console_handler Description",
-                        "label": "console_handler",
+                        "description": "日志处理进程将日志事件打印到 EMQX 控制台。",
+                        "label": "Console Handler",
                         "$ref": "#/components/schemas/cluster.console_handler"
                     },
                     "file_handlers": {
                         "description": "需要持久化到文件的日志处理进程列表。默认只有 default 一个处理进程。",
-                        "label": "日志 Handler 列表",
+                        "label": "File Handler",
                         "properties": {
                             "$name": {
                                 "$ref": "#/components/schemas/cluster.log_file_handler"
@@ -30,12 +30,6 @@
             },
             "broker.listener_wss_opts": {
                 "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "启用 TLS",
-                        "label": "启用 TLS",
-                        "type": "boolean"
-                    },
                     "cacertfile": {
                         "description": "</br>受信任的PEM格式CA证书捆绑文件</br>此文件中的证书用于验证TLS对等方的证书。</br>如果要信任新CA，请将新证书附加到文件中。</br>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）</br>注意：从文件中失效（删除）证书不会影响已建立的连接。</br>",
                         "label": "CA 证书文件",
@@ -446,6 +440,24 @@
                 },
                 "type": "object"
             },
+            "broker.shared_subscription_group": {
+                "properties": {
+                    "strategy": {
+                        "description": "strategy Description",
+                        "label": "strategy",
+                        "symbols": [
+                            "random",
+                            "round_robin",
+                            "sticky",
+                            "local",
+                            "hash_topic",
+                            "hash_clientid"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "cluster.console_handler": {
                 "properties": {
                     "enable": {
@@ -671,7 +683,7 @@
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -1036,7 +1048,7 @@
                         ]
                     },
                     "enable": {
-                        "default": false,
+                        "default": true,
                         "description": "启用此日志处理进程。",
                         "label": "启用日志处理进程",
                         "type": "boolean"
@@ -1217,7 +1229,7 @@
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -1387,7 +1399,7 @@
                         "description": "TCP 监听器",
                         "label": "TCP 监听器",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_tcp_listener"
                             }
                         },
@@ -1397,7 +1409,7 @@
                         "description": "SSL 监听器",
                         "label": "SSL 监听器",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_ssl_listener"
                             }
                         },
@@ -1407,7 +1419,7 @@
                         "description": "HTTP websocket 监听器",
                         "label": "HTTP websocket 监听器",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_ws_listener"
                             }
                         },
@@ -1417,7 +1429,7 @@
                         "description": "HTTPS websocket 监听器",
                         "label": "HTTPS websocket 监听器",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_wss_listener"
                             }
                         },
@@ -1427,7 +1439,7 @@
                         "description": "QUIC 监听器",
                         "label": "QUIC 监听器",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_quic_listener"
                             }
                         },
@@ -1688,6 +1700,75 @@
                         "label": "cluster_call",
                         "readOnly": true,
                         "$ref": "#/components/schemas/cluster.cluster_call"
+                    },
+                    "db_backend": {
+                        "default": "rlog",
+                        "description": " rlog是默认的数据库，他适用于大规模的集群。</br>mnesia是备选数据库，在小集群中提供了很好的性能。</br>      ",
+                        "label": "内置数据库",
+                        "readOnly": true,
+                        "symbols": [
+                            "mnesia",
+                            "rlog"
+                        ],
+                        "type": "enum"
+                    },
+                    "db_role": {
+                        "default": "core",
+                        "description": "</br>选择节点的角色。</br><code>core</code> 节点提供数据的持久性，并负责写入。建议将核心节点放置在不同的机架或不同的可用区。</br><code>repliant</code> 节点是临时工作节点。 从集群中删除它们，不影响数据库冗余</br>建议复制节点多于核心节点。</br>注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>。</br>          ",
+                        "label": "数据库角色",
+                        "readOnly": true,
+                        "symbols": [
+                            "core",
+                            "replicant"
+                        ],
+                        "type": "enum"
+                    },
+                    "rpc_module": {
+                        "default": "gen_rpc",
+                        "description": "集群间推送事务日志到复制节点使用的协议。",
+                        "label": "RPC协议",
+                        "readOnly": true,
+                        "symbols": [
+                            "gen_rpc",
+                            "rpc"
+                        ],
+                        "type": "enum"
+                    },
+                    "tlog_push_mode": {
+                        "default": "async",
+                        "description": "同步模式下，核心节点等待复制节点的确认信息，然后再发送下一条事务日志。",
+                        "label": "Tlog推送模式",
+                        "readOnly": true,
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "default_shard_transport": {
+                        "default": "gen_rpc",
+                        "description": "</br>定义用于推送事务日志的默认传输。</br>这可以在 <code>db.shard_transports</code> 中基于每个分片被覆盖。</br><code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，</br><code>distr</code> 使用 Erlang 发行版。</br>      ",
+                        "label": "日志传输默认协议",
+                        "symbols": [
+                            "gen_rpc",
+                            "distr"
+                        ],
+                        "type": "enum"
+                    },
+                    "shard_transports": {
+                        "default": {},
+                        "description": "</br>把事务日志复制到每个分片时的传输方法。</br><code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，</br><code>distr</code> 使用 Erlang 发行版。</br>如果未指定，</br>默认是使用 <code>db.default_shard_transport</code> 中设置的值。</br>      ",
+                        "label": "事务日志复制模式",
+                        "properties": {
+                            "$shard": {
+                                "symbols": [
+                                    "gen_rpc",
+                                    "distr"
+                                ],
+                                "type": "enum"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -1923,6 +2004,12 @@
                         ],
                         "type": "enum"
                     },
+                    "acl_claim_name": {
+                        "default": "acl",
+                        "description": "JWT claim name to use for getting ACL rules.",
+                        "label": "acl_claim_name",
+                        "type": "string"
+                    },
                     "verify_claims": {
                         "default": {},
                         "description": "</br>需要验证的自定义声明列表，它是一个名称/值对列表。</br>值可以使用以下占位符：</br>- <code>${username}</code>: 将在运行时被替换为客户端连接时使用的用户名</br>- <code>${clientid}</code>: 将在运行时被替换为客户端连接时使用的客户端标识符</br>认证时将验证 JWT（取自 Password 字段）中 claims 的值是否与 <code>verify_claims</code> 中要求的相匹配。</br>",
@@ -2147,39 +2234,68 @@
             "broker.zone": {
                 "properties": {
                     "mqtt": {
-                        "description": "mqtt Description",
+                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "stats Description",
+                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "flapping_detect Description",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "force_shutdown Description",
+                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "conn_congestion Description",
+                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "force_gc Description",
+                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "overload_protection Description",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
+                    }
+                },
+                "type": "object"
+            },
+            "broker.persistent_session_builtin": {
+                "properties": {
+                    "type": {
+                        "default": "builtin",
+                        "description": "",
+                        "label": "type",
+                        "symbols": [
+                            "builtin"
+                        ],
+                        "type": "enum"
+                    },
+                    "session": {
+                        "description": "用于内建会话表的性能调优参数",
+                        "label": "持久会话",
+                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
+                    },
+                    "session_messages": {
+                        "description": "优化内置的会话消息表的配置。",
+                        "label": "用于内建会话管理表的性能调优参数",
+                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
+                    },
+                    "messages": {
+                        "description": "用于内建消息表的性能调优参数",
+                        "label": "持久化消息",
+                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
                     }
                 },
                 "type": "object"
@@ -2323,6 +2439,12 @@
                         ],
                         "type": "enum"
                     },
+                    "acl_claim_name": {
+                        "default": "acl",
+                        "description": "JWT claim name to use for getting ACL rules.",
+                        "label": "acl_claim_name",
+                        "type": "string"
+                    },
                     "verify_claims": {
                         "default": {},
                         "description": "</br>需要验证的自定义声明列表，它是一个名称/值对列表。</br>值可以使用以下占位符：</br>- <code>${username}</code>: 将在运行时被替换为客户端连接时使用的用户名</br>- <code>${clientid}</code>: 将在运行时被替换为客户端连接时使用的客户端标识符</br>认证时将验证 JWT（取自 Password 字段）中 claims 的值是否与 <code>verify_claims</code> 中要求的相匹配。</br>",
@@ -2454,12 +2576,6 @@
             },
             "broker.ssl_client_opts": {
                 "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "启用 TLS",
-                        "label": "启用 TLS",
-                        "type": "boolean"
-                    },
                     "cacertfile": {
                         "description": "</br>受信任的PEM格式CA证书捆绑文件</br>此文件中的证书用于验证TLS对等方的证书。</br>如果要信任新CA，请将新证书附加到文件中。</br>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）</br>注意：从文件中失效（删除）证书不会影响已建立的连接。</br>",
                         "label": "CA 证书文件",
@@ -2581,6 +2697,12 @@
                         "default": true,
                         "description": "</br>SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。</br>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。</br>",
                         "label": "SSL 重新协商",
+                        "type": "boolean"
+                    },
+                    "enable": {
+                        "default": false,
+                        "description": "启用 TLS",
+                        "label": "启用 TLS",
                         "type": "boolean"
                     },
                     "server_name_indication": {
@@ -2708,13 +2830,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用日志轮换功能。",
+                        "description": "启用日志轮换功能。启动后生成日志文件后缀会加上对应的索引数字，比如：log/emqx.log.1。</br>系统会默认生成<code>*.siz/*.idx<code>用于记录日志位置，请不要手动修改这两个文件。</br>",
                         "label": "日志轮换",
                         "type": "boolean"
                     },
                     "count": {
                         "default": 10,
-                        "description": "最大日志文件数。",
+                        "description": "轮换的最大日志文件数。",
                         "label": "最大日志文件数",
                         "maximum": 2048,
                         "minimum": 1,
@@ -2865,22 +2987,36 @@
                         "label": "启用持久会话保存",
                         "type": "boolean"
                     },
-                    "storage_type": {
-                        "default": "disc",
-                        "description": "将有关持久会话的信息存储在磁盘或内存中。</br>如果选择了ram，有关持久会话的所有信息将保留</br>只要群集中至少有一个节点处于活动状态，就可以保留信息。</br>如果选择了光盘，则信息将保留在光盘上，并且将继续存在</br>群集重新启动，代价是磁盘使用量增加，吞吐量降低。</br>",
-                        "label": "存储类型",
+                    "on_disc": {
+                        "default": true,
+                        "description": "将持久会话数据保存在磁盘上。如果为 false 则存储在内存中。</br>如开启， 持久会话数据可在集群重启后恢复。</br>如关闭， 数据仅存储在内存中， 则在整个集群停止后丢失。",
+                        "label": "持久化在磁盘上",
+                        "type": "boolean"
+                    },
+                    "ram_cache": {
+                        "default": false,
+                        "description": "在内存中保持一份数据的副本，以便更快地访问。",
+                        "label": "内存缓存",
+                        "type": "boolean"
+                    },
+                    "backend": {
+                        "default": {
+                            "messages": {
+                                "ram_cache": "false"
+                            },
+                            "session": {
+                                "ram_cache": "true"
+                            },
+                            "session_messages": {
+                                "ram_cache": "true"
+                            },
+                            "type": "builtin"
+                        },
+                        "description": "用于存储持久性会话和信息的数据库管理后端</br>- `builtin`: 使用内置的数据库（mria）",
+                        "label": "后端类型",
                         "oneOf": [
                             {
-                                "symbols": [
-                                    "disc"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "symbols": [
-                                    "ram"
-                                ],
-                                "type": "enum"
+                                "$ref": "#/components/schemas/broker.persistent_session_builtin"
                             }
                         ]
                     },
@@ -3046,6 +3182,7 @@
                             "random",
                             "round_robin",
                             "sticky",
+                            "local",
                             "hash_topic",
                             "hash_clientid"
                         ],
@@ -3067,6 +3204,16 @@
                         "description": "perf Description",
                         "label": "perf",
                         "$ref": "#/components/schemas/broker.broker_perf"
+                    },
+                    "shared_subscription_group": {
+                        "description": "shared_subscription_group Description",
+                        "label": "shared_subscription_group",
+                        "properties": {
+                            "$name": {
+                                "$ref": "#/components/schemas/broker.shared_subscription_group"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -3085,7 +3232,7 @@
                         "label": "初始令牌数",
                         "type": "string"
                     },
-                    "low_water_mark": {
+                    "low_watermark": {
                         "default": "0",
                         "description": "当桶中剩余的令牌数低于这个值，即使令牌申请成功了，也会被强制暂停一会儿",
                         "label": "低水位线",
@@ -3269,6 +3416,12 @@
                             "jwt"
                         ],
                         "type": "enum"
+                    },
+                    "acl_claim_name": {
+                        "default": "acl",
+                        "description": "JWT claim name to use for getting ACL rules.",
+                        "label": "acl_claim_name",
+                        "type": "string"
                     },
                     "verify_claims": {
                         "default": {},
@@ -3554,7 +3707,7 @@
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -3663,6 +3816,13 @@
                             "k8s"
                         ],
                         "type": "enum"
+                    },
+                    "core_nodes": {
+                        "default": "",
+                        "description": "当前节点连接的核心节点列表。</br>注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code></br>并且设置<code>role</code>为<code>replicant</code>时生效。</br>该值需要在手动或静态集群发现机制下设置。</br>如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。</br>          ",
+                        "label": "数据库核心节点",
+                        "readOnly": true,
+                        "type": "comma_separated_string"
                     },
                     "autoclean": {
                         "default": "5m",
@@ -4151,7 +4311,7 @@
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -4163,26 +4323,41 @@
             "limiter.limiter": {
                 "properties": {
                     "bytes_in": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "流入字节率控制器.</br>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
                         "label": "流入字节率",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "message_in": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "流入速率控制器。</br>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
                         "label": "消息流入速率",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "connection": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "连接速率控制器。</br>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
                         "label": "连接速率",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "message_routing": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "消息派发速率控制器。</br>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
                         "label": "消息派发",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "batch": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "批量操作速率控制器。</br>这是给 EMQX 内部的批量操作使用的，比如用来控制保留消息的派发速率",
                         "label": "批量操作",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
@@ -4502,6 +4677,12 @@
             },
             "limiter.limiter_opts": {
                 "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "是否开启",
+                        "label": "是否开启",
+                        "type": "boolean"
+                    },
                     "rate": {
                         "default": "infinity",
                         "description": "桶的令牌生成速率",
@@ -4509,12 +4690,15 @@
                         "type": "string"
                     },
                     "burst": {
-                        "default": "0/0s",
+                        "default": 0,
                         "description": "突发速率。</br>突发速率允许短时间内速率超过设置的速率值，突发速率 + 速率 = 当前桶能达到的最大速率值",
                         "label": "突发速率",
                         "type": "string"
                     },
                     "bucket": {
+                        "default": {
+                            "default": {}
+                        },
                         "description": "桶的配置",
                         "label": "桶的配置",
                         "properties": {
@@ -4598,7 +4782,7 @@
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -4709,8 +4893,8 @@
                     },
                     "user_id_type": {
                         "default": "username",
-                        "description": "指定使用 ClientID 还是 Username 作为 User ID 进行认证。",
-                        "label": "用户 ID 类型",
+                        "description": "指定使用客户端ID `clientid` 还是用户名 `username` 进行认证。",
+                        "label": "认证 ID 类型",
                         "symbols": [
                             "clientid",
                             "username"
@@ -4791,11 +4975,13 @@
             "limiter.bucket_opts": {
                 "properties": {
                     "rate": {
+                        "default": "infinity",
                         "description": "桶的令牌生成速率",
                         "label": "速率",
                         "type": "string"
                     },
                     "capacity": {
+                        "default": "infinity",
                         "description": "该令牌桶的容量",
                         "label": "容量",
                         "type": "string"
@@ -4848,12 +5034,6 @@
             },
             "broker.listener_ssl_opts": {
                 "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "启用 TLS",
-                        "label": "启用 TLS",
-                        "type": "boolean"
-                    },
                     "cacertfile": {
                         "description": "</br>受信任的PEM格式CA证书捆绑文件</br>此文件中的证书用于验证TLS对等方的证书。</br>如果要信任新CA，请将新证书附加到文件中。</br>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）</br>注意：从文件中失效（删除）证书不会影响已建立的连接。</br>",
                         "label": "CA 证书文件",
@@ -4998,6 +5178,17 @@
                         "default": true,
                         "description": "</br>在支持客户机发起的重新协商的协议中，这种操作的资源成本对于服务器来说高于客户机。</br>这可能会成为拒绝服务攻击的载体。</br>SSL 应用程序已经采取措施来反击此类尝试，但通过将此选项设置为 false，可以严格禁用客户端发起的重新协商。</br>默认值为 true。请注意，由于基础密码套件可以加密的消息数量有限，禁用重新协商可能会导致长期连接变得不可用。</br>",
                         "label": "SSL 客户端冲协商",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "broker.persistent_table_mria_opts": {
+                "properties": {
+                    "ram_cache": {
+                        "default": true,
+                        "description": "在内存中保持一份数据的副本，以便更快地访问。",
+                        "label": "内存缓存",
                         "type": "boolean"
                     }
                 },
@@ -5230,7 +5421,7 @@
                         "type": "duration"
                     },
                     "token_expired_time": {
-                        "default": "30m",
+                        "default": "60m",
                         "description": "JWT token 过期时间",
                         "label": "JWT 过期时间",
                         "type": "duration"
@@ -5295,7 +5486,7 @@
                         "description": "<code>zone</code> 是按<code>name</code> 分组的一组配置。</br>对于灵活的配置映射，可以将 <code>name</code> 设置为侦听器的 <code>zone</code> 配置。</br>注：名为 <code>default</code> 的内置区域是自动创建的，无法删除。",
                         "label": "zones",
                         "properties": {
-                            "$name": {
+                            "$my_zone_name": {
                                 "$ref": "#/components/schemas/broker.zone"
                             }
                         },
@@ -5342,12 +5533,12 @@
                         "$ref": "#/components/schemas/broker.trace"
                     },
                     "dashboard": {
-                        "description": "dashboard Description",
-                        "label": "dashboard",
+                        "description": "EMQX仪表板配置",
+                        "label": "仪表板",
                         "$ref": "#/components/schemas/dashboard.dashboard"
                     },
                     "limiter": {
-                        "description": "limiter Description",
+                        "description": "Settings for the rate limiter.",
                         "label": "limiter",
                         "$ref": "#/components/schemas/limiter.limiter"
                     }
@@ -5391,37 +5582,37 @@
             "get": {
                 "properties": {
                     "mqtt": {
-                        "description": "mqtt Description",
+                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "stats Description",
+                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "flapping_detect Description",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "force_shutdown Description",
+                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "conn_congestion Description",
+                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "force_gc Description",
+                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "overload_protection Description",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
                     }
@@ -5431,37 +5622,37 @@
             "put": {
                 "properties": {
                     "mqtt": {
-                        "description": "mqtt Description",
+                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "stats Description",
+                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "flapping_detect Description",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "force_shutdown Description",
+                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "conn_congestion Description",
+                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "force_gc Description",
+                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "overload_protection Description",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
                     }
@@ -5536,7 +5727,7 @@
         "/configs/zones": {
             "get": {
                 "properties": {
-                    "$name": {
+                    "$my_zone_name": {
                         "$ref": "#/components/schemas/broker.zone"
                     }
                 },
@@ -5544,7 +5735,7 @@
             },
             "put": {
                 "properties": {
-                    "$name": {
+                    "$my_zone_name": {
                         "$ref": "#/components/schemas/broker.zone"
                     }
                 },
