@@ -83,7 +83,7 @@ export interface BridgeBaseData {
 export interface HTTPBridge extends BridgeBaseData {
   body: string
   connect_timeout: string
-  enable_pipelining: boolean
+  enable_pipelining: number
   headers: Headers
   max_retries: number
   method: string
