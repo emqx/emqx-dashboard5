@@ -6,6 +6,34 @@
   "description": "for emqx 5.0 dashboard",
   "glyphs": [
     {
+      "icon_id": "30099152",
+      "name": "integration-dark-selected",
+      "font_class": "integration-dark-selected",
+      "unicode": "e77b",
+      "unicode_decimal": 59259
+    },
+    {
+      "icon_id": "30099153",
+      "name": "integration-light-selected",
+      "font_class": "integration-light-selected",
+      "unicode": "e780",
+      "unicode_decimal": 59264
+    },
+    {
+      "icon_id": "30099154",
+      "name": "integration-dark",
+      "font_class": "integration-dark",
+      "unicode": "e783",
+      "unicode_decimal": 59267
+    },
+    {
+      "icon_id": "30099155",
+      "name": "integration-light",
+      "font_class": "integration-light",
+      "unicode": "e784",
+      "unicode_decimal": 59268
+    },
+    {
       "icon_id": "29936426",
       "name": "connections-dark",
       "font_class": "connections-dark",
@@ -46,34 +74,6 @@
       "font_class": "subscriptions-dark",
       "unicode": "e788",
       "unicode_decimal": 59272
-    },
-    {
-      "icon_id": "29935988",
-      "name": "integration-dark",
-      "font_class": "integration-dark",
-      "unicode": "e77b",
-      "unicode_decimal": 59259
-    },
-    {
-      "icon_id": "29935989",
-      "name": "integration-light",
-      "font_class": "integration-light",
-      "unicode": "e780",
-      "unicode_decimal": 59264
-    },
-    {
-      "icon_id": "29935990",
-      "name": "integration-dark-selected",
-      "font_class": "integration-dark-selected",
-      "unicode": "e783",
-      "unicode_decimal": 59267
-    },
-    {
-      "icon_id": "29935991",
-      "name": "integration-light-selected",
-      "font_class": "integration-light-selected",
-      "unicode": "e784",
-      "unicode_decimal": 59268
     },
     {
       "icon_id": "29932273",
