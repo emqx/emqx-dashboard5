@@ -4,13 +4,13 @@
             "cluster.log": {
                 "properties": {
                     "console_handler": {
-                        "description": "console_handler Description",
-                        "label": "console_handler",
+                        "description": "Log handler that prints log events to the EMQX console.",
+                        "label": "Console Handler",
                         "$ref": "#/components/schemas/cluster.console_handler"
                     },
                     "file_handlers": {
                         "description": "Key-value list of file-based log handlers.",
-                        "label": "Log Handlers List",
+                        "label": "File Handler",
                         "properties": {
                             "$name": {
                                 "$ref": "#/components/schemas/cluster.log_file_handler"
@@ -30,12 +30,6 @@
             },
             "broker.listener_wss_opts": {
                 "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "</br>Enable TLS.</br>",
-                        "label": "Enable TLS.",
-                        "type": "boolean"
-                    },
                     "cacertfile": {
                         "description": "</br>Trusted PEM format CA certificates bundle file.</br>The certificates in this file are used to verify the TLS peer's certificates.</br>Append new certificates to the file if new CAs are to be trusted.</br>There is no need to restart EMQX to have the updated file loaded, because</br>the system regularly checks if file has been updated (and reload).</br>NOTE: invalidating (deleting) a certificate from the file will not affect</br>already established connections.</br>",
                         "label": "CACertfile",
@@ -446,6 +440,24 @@
                 },
                 "type": "object"
             },
+            "broker.shared_subscription_group": {
+                "properties": {
+                    "strategy": {
+                        "description": "Dispatch strategy for shared subscription.</br>- `random`: dispatch the message to a random selected subscriber</br>- `round_robin`: select the subscribers in a round-robin manner</br>- `sticky`: always use the last selected subscriber to dispatch,</br>until the subscriber disconnects.</br>- `hash`: select the subscribers by the hash of `clientIds`</br>- `local`: send to a random local subscriber. If local</br>subscriber was not found, send to a random subscriber cluster-wide</br>",
+                        "label": "strategy",
+                        "symbols": [
+                            "random",
+                            "round_robin",
+                            "sticky",
+                            "local",
+                            "hash_topic",
+                            "hash_clientid"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "cluster.console_handler": {
                 "properties": {
                     "enable": {
@@ -671,7 +683,7 @@
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -1036,7 +1048,7 @@
                         ]
                     },
                     "enable": {
-                        "default": false,
+                        "default": true,
                         "description": "Enable this log handler.",
                         "label": "Enable Log Handler",
                         "type": "boolean"
@@ -1217,7 +1229,7 @@
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -1387,7 +1399,7 @@
                         "description": "</br>TCP listeners</br>",
                         "label": "TCP listeners",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_tcp_listener"
                             }
                         },
@@ -1397,7 +1409,7 @@
                         "description": "</br>SSL listeners</br>",
                         "label": "SSL listeners",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_ssl_listener"
                             }
                         },
@@ -1407,7 +1419,7 @@
                         "description": "</br>HTTP websocket listeners</br>",
                         "label": "HTTP websocket listeners",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_ws_listener"
                             }
                         },
@@ -1417,7 +1429,7 @@
                         "description": "</br>HTTPS websocket listeners</br>",
                         "label": "HTTPS websocket listeners",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_wss_listener"
                             }
                         },
@@ -1427,7 +1439,7 @@
                         "description": "</br>QUIC listeners</br>",
                         "label": "QUIC listeners",
                         "properties": {
-                            "$name": {
+                            "$default": {
                                 "$ref": "#/components/schemas/broker.mqtt_quic_listener"
                             }
                         },
@@ -1688,6 +1700,75 @@
                         "label": "cluster_call",
                         "readOnly": true,
                         "$ref": "#/components/schemas/cluster.cluster_call"
+                    },
+                    "db_backend": {
+                        "default": "rlog",
+                        "description": "</br>Select the backend for the embedded database.</br><code>rlog</code> is the default backend,</br>that is suitable for very large clusters.</br><code>mnesia</code> is a backend that offers decent performance in small clusters.</br>",
+                        "label": "DB Backend",
+                        "readOnly": true,
+                        "symbols": [
+                            "mnesia",
+                            "rlog"
+                        ],
+                        "type": "enum"
+                    },
+                    "db_role": {
+                        "default": "core",
+                        "description": "</br>Select a node role.</br><code>core</code> nodes provide durability of the data, and take care of writes.</br>It is recommended to place core nodes in different racks or different availability zones.</br><code>replicant</code> nodes are ephemeral worker nodes. Removing them from the cluster</br>doesn't affect database redundancy</br>It is recommended to have more replicant nodes than core nodes.</br>Note: this parameter only takes effect when the <code>backend</code> is set</br>to <code>rlog</code>.</br>",
+                        "label": "DB Role",
+                        "readOnly": true,
+                        "symbols": [
+                            "core",
+                            "replicant"
+                        ],
+                        "type": "enum"
+                    },
+                    "rpc_module": {
+                        "default": "gen_rpc",
+                        "description": "Protocol used for pushing transaction logs to the replicant nodes.",
+                        "label": "RPC Module",
+                        "readOnly": true,
+                        "symbols": [
+                            "gen_rpc",
+                            "rpc"
+                        ],
+                        "type": "enum"
+                    },
+                    "tlog_push_mode": {
+                        "default": "async",
+                        "description": "</br>In sync mode the core node waits for an ack from the replicant nodes before sending the next</br>transaction log entry.</br>",
+                        "label": "Tlog Push Mode",
+                        "readOnly": true,
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "default_shard_transport": {
+                        "default": "gen_rpc",
+                        "description": "Defines the default transport for pushing transaction logs.</br>This may be overridden on a per-shard basis in <code>db.shard_transports</code>.</br><code>gen_rpc</code> uses the <code>gen_rpc</code> library,</br><code>distr</code> uses the Erlang distribution.</br>",
+                        "label": "Default Shard Transport",
+                        "symbols": [
+                            "gen_rpc",
+                            "distr"
+                        ],
+                        "type": "enum"
+                    },
+                    "shard_transports": {
+                        "default": {},
+                        "description": "Allows to tune the transport method used for transaction log replication, on a per-shard basis.</br><code>gen_rpc</code> uses the <code>gen_rpc</code> library,</br><code>distr</code> uses the Erlang distribution.</br>If not specified,</br>the default is to use the value set in <code>db.default_shard_transport</code>.",
+                        "label": "Shard Transports",
+                        "properties": {
+                            "$shard": {
+                                "symbols": [
+                                    "gen_rpc",
+                                    "distr"
+                                ],
+                                "type": "enum"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -1923,6 +2004,12 @@
                         ],
                         "type": "enum"
                     },
+                    "acl_claim_name": {
+                        "default": "acl",
+                        "description": "JWT claim name to use for getting ACL rules.",
+                        "label": "acl_claim_name",
+                        "type": "string"
+                    },
                     "verify_claims": {
                         "default": {},
                         "description": "</br>A list of custom claims to validate, which is a list of name/value pairs.</br>Values can use the following placeholders:</br>- <code>${username}</code>: Will be replaced at runtime with <code>Username</code> used by the client when connecting</br>- <code>${clientid}</code>: Will be replaced at runtime with <code>Client ID</code> used by the client when connecting</br>Authentication will verify that the value of claims in the JWT (taken from the Password field) matches what is required in <code>verify_claims</code>.</br>",
@@ -2147,39 +2234,68 @@
             "broker.zone": {
                 "properties": {
                     "mqtt": {
-                        "description": "mqtt Description",
+                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "stats Description",
+                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "flapping_detect Description",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "force_shutdown Description",
+                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "conn_congestion Description",
+                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "force_gc Description",
+                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "overload_protection Description",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
+                    }
+                },
+                "type": "object"
+            },
+            "broker.persistent_session_builtin": {
+                "properties": {
+                    "type": {
+                        "default": "builtin",
+                        "description": "",
+                        "label": "type",
+                        "symbols": [
+                            "builtin"
+                        ],
+                        "type": "enum"
+                    },
+                    "session": {
+                        "description": "Performance tuning options for built-in session table.",
+                        "label": "Persistent session",
+                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
+                    },
+                    "session_messages": {
+                        "description": "Performance tuning options for built-in session messages table.",
+                        "label": "Persistent session messages",
+                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
+                    },
+                    "messages": {
+                        "description": "Performance tuning options for built-in messages table.",
+                        "label": "Persistent messages",
+                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
                     }
                 },
                 "type": "object"
@@ -2323,6 +2439,12 @@
                         ],
                         "type": "enum"
                     },
+                    "acl_claim_name": {
+                        "default": "acl",
+                        "description": "JWT claim name to use for getting ACL rules.",
+                        "label": "acl_claim_name",
+                        "type": "string"
+                    },
                     "verify_claims": {
                         "default": {},
                         "description": "</br>A list of custom claims to validate, which is a list of name/value pairs.</br>Values can use the following placeholders:</br>- <code>${username}</code>: Will be replaced at runtime with <code>Username</code> used by the client when connecting</br>- <code>${clientid}</code>: Will be replaced at runtime with <code>Client ID</code> used by the client when connecting</br>Authentication will verify that the value of claims in the JWT (taken from the Password field) matches what is required in <code>verify_claims</code>.</br>",
@@ -2454,12 +2576,6 @@
             },
             "broker.ssl_client_opts": {
                 "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "</br>Enable TLS.</br>",
-                        "label": "Enable TLS.",
-                        "type": "boolean"
-                    },
                     "cacertfile": {
                         "description": "</br>Trusted PEM format CA certificates bundle file.</br>The certificates in this file are used to verify the TLS peer's certificates.</br>Append new certificates to the file if new CAs are to be trusted.</br>There is no need to restart EMQX to have the updated file loaded, because</br>the system regularly checks if file has been updated (and reload).</br>NOTE: invalidating (deleting) a certificate from the file will not affect</br>already established connections.</br>",
                         "label": "CACertfile",
@@ -2581,6 +2697,12 @@
                         "default": true,
                         "description": "</br>SSL parameter renegotiation is a feature that allows a client and a server</br>to renegotiate the parameters of the SSL connection on the fly.</br>RFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,</br>you drop support for the insecure renegotiation, prone to MitM attacks.</br>",
                         "label": "SSL renegotiate",
+                        "type": "boolean"
+                    },
+                    "enable": {
+                        "default": false,
+                        "description": "</br>Enable TLS.</br>",
+                        "label": "Enable TLS.",
                         "type": "boolean"
                     },
                     "server_name_indication": {
@@ -2865,22 +2987,36 @@
                         "label": "Enable persistent session store",
                         "type": "boolean"
                     },
-                    "storage_type": {
-                        "default": "disc",
-                        "description": "Store information about persistent sessions on disc or in ram.</br>If ram is chosen, all information about persistent sessions remains</br>as long as at least one node in a cluster is alive to keep the information.</br>If disc is chosen, the information is persisted on disc and will survive</br>cluster restart, at the price of more disc usage and less throughput.</br>",
-                        "label": "Storage type",
+                    "on_disc": {
+                        "default": true,
+                        "description": "Save information about the persistent sessions on disc.</br>If this option is enabled, persistent sessions will survive full restart of the cluster.</br>Otherwise, all the data will be stored in RAM, and it will be lost when all the nodes in the cluster are stopped.",
+                        "label": "Persist on disc",
+                        "type": "boolean"
+                    },
+                    "ram_cache": {
+                        "default": false,
+                        "description": "Maintain a copy of the data in RAM for faster access.",
+                        "label": "RAM cache",
+                        "type": "boolean"
+                    },
+                    "backend": {
+                        "default": {
+                            "messages": {
+                                "ram_cache": "false"
+                            },
+                            "session": {
+                                "ram_cache": "true"
+                            },
+                            "session_messages": {
+                                "ram_cache": "true"
+                            },
+                            "type": "builtin"
+                        },
+                        "description": "Database management system used to store information about persistent sessions and messages.</br>- `builtin`: Use the embedded database (mria)",
+                        "label": "Backend",
                         "oneOf": [
                             {
-                                "symbols": [
-                                    "disc"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "symbols": [
-                                    "ram"
-                                ],
-                                "type": "enum"
+                                "$ref": "#/components/schemas/broker.persistent_session_builtin"
                             }
                         ]
                     },
@@ -3046,6 +3182,7 @@
                             "random",
                             "round_robin",
                             "sticky",
+                            "local",
                             "hash_topic",
                             "hash_clientid"
                         ],
@@ -3067,6 +3204,16 @@
                         "description": "perf Description",
                         "label": "perf",
                         "$ref": "#/components/schemas/broker.broker_perf"
+                    },
+                    "shared_subscription_group": {
+                        "description": "Per group dispatch strategy for shared subscription.</br>This config is a map from shared subscription group name to the strategy</br>name. The group name should be of format `[A-Za-z0-9]`. i.e. no</br>special characters are allowed.</br>",
+                        "label": "shared_subscription_group",
+                        "properties": {
+                            "$name": {
+                                "$ref": "#/components/schemas/broker.shared_subscription_group"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -3085,10 +3232,10 @@
                         "label": "Initial",
                         "type": "string"
                     },
-                    "low_water_mark": {
+                    "low_watermark": {
                         "default": "0",
                         "description": "If the remaining tokens are lower than this value,</br>the check/consume will succeed, but it will be forced to wait for a short period of time.",
-                        "label": "Low Water Mark",
+                        "label": "Low Watermark",
                         "type": "string"
                     },
                     "capacity": {
@@ -3269,6 +3416,12 @@
                             "jwt"
                         ],
                         "type": "enum"
+                    },
+                    "acl_claim_name": {
+                        "default": "acl",
+                        "description": "JWT claim name to use for getting ACL rules.",
+                        "label": "acl_claim_name",
+                        "type": "string"
                     },
                     "verify_claims": {
                         "default": {},
@@ -3554,7 +3707,7 @@
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -3663,6 +3816,13 @@
                             "k8s"
                         ],
                         "type": "enum"
+                    },
+                    "core_nodes": {
+                        "default": "",
+                        "description": "</br>List of core nodes that the replicant will connect to.</br>Note: this parameter only takes effect when the <code>backend</code> is set</br>to <code>rlog</code> and the <code>role</code> is set to <code>replicant</code>.</br>This value needs to be defined for manual or static cluster discovery mechanisms.</br>If an automatic cluster discovery mechanism is being used (such as <code>etcd</code>),</br>there is no need to set this value.</br>",
+                        "label": "Db Core Node",
+                        "readOnly": true,
+                        "type": "comma_separated_string"
                     },
                     "autoclean": {
                         "default": "5m",
@@ -4151,7 +4311,7 @@
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -4163,26 +4323,41 @@
             "limiter.limiter": {
                 "properties": {
                     "bytes_in": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "The bytes_in limiter.</br>This is used to limit the inbound bytes rate for this EMQX node.</br>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
                         "label": "Bytes In",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "message_in": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "The message in limiter.</br>This is used to limit the inbound message numbers for this EMQX node</br>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
                         "label": "Message In",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "connection": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "The connection limiter.</br>This is used to limit the connection rate for this EMQX node.</br>Once the limit is reached, new connections will be refused",
                         "label": "Connection",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "message_routing": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "The message routing limiter.</br>This is used to limit the forwarding rate for this EMQX node.</br>Once the limit is reached, new publish will be refused",
                         "label": "Message Routing",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "batch": {
+                        "default": {
+                            "enable": false
+                        },
                         "description": "The batch limiter.</br>This is used for EMQX internal batch operation</br>e.g. limit the retainer's deliver rate",
                         "label": "Batch",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
@@ -4502,6 +4677,12 @@
             },
             "limiter.limiter_opts": {
                 "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable",
+                        "label": "Enable",
+                        "type": "boolean"
+                    },
                     "rate": {
                         "default": "infinity",
                         "description": "Rate for this bucket.",
@@ -4509,12 +4690,15 @@
                         "type": "string"
                     },
                     "burst": {
-                        "default": "0/0s",
+                        "default": 0,
                         "description": "The burst, This value is based on rate.</br> This value + rate = the maximum limit that can be achieved when limiter burst.",
                         "label": "Burst",
                         "type": "string"
                     },
                     "bucket": {
+                        "default": {
+                            "default": {}
+                        },
                         "description": "Bucket Configs",
                         "label": "Buckets",
                         "properties": {
@@ -4598,7 +4782,7 @@
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
-                            "$ratelimit's type": {
+                            "$ratelimit_name": {
                                 "type": "string"
                             }
                         },
@@ -4709,8 +4893,8 @@
                     },
                     "user_id_type": {
                         "default": "username",
-                        "description": "Specify whether to use ClientID or Username as User ID for authentication.",
-                        "label": "User ID Type",
+                        "description": "Specify whether to use `clientid` or `username` for authentication.",
+                        "label": "Authentication ID Type",
                         "symbols": [
                             "clientid",
                             "username"
@@ -4791,11 +4975,13 @@
             "limiter.bucket_opts": {
                 "properties": {
                     "rate": {
+                        "default": "infinity",
                         "description": "Rate for this bucket.",
                         "label": "Rate",
                         "type": "string"
                     },
                     "capacity": {
+                        "default": "infinity",
                         "description": "The capacity of this token bucket.",
                         "label": "Capacity",
                         "type": "string"
@@ -4848,12 +5034,6 @@
             },
             "broker.listener_ssl_opts": {
                 "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "</br>Enable TLS.</br>",
-                        "label": "Enable TLS.",
-                        "type": "boolean"
-                    },
                     "cacertfile": {
                         "description": "</br>Trusted PEM format CA certificates bundle file.</br>The certificates in this file are used to verify the TLS peer's certificates.</br>Append new certificates to the file if new CAs are to be trusted.</br>There is no need to restart EMQX to have the updated file loaded, because</br>the system regularly checks if file has been updated (and reload).</br>NOTE: invalidating (deleting) a certificate from the file will not affect</br>already established connections.</br>",
                         "label": "CACertfile",
@@ -4998,6 +5178,17 @@
                         "default": true,
                         "description": "</br>In protocols that support client-initiated renegotiation,</br>the cost of resources of such an operation is higher for the server than the client.</br>This can act as a vector for denial of service attacks.</br>The SSL application already takes measures to counter-act such attempts,</br>but client-initiated renegotiation can be strictly disabled by setting this option to false.</br>The default value is true. Note that disabling renegotiation can result in</br>long-lived connections becoming unusable due to limits on</br>the number of messages the underlying cipher suite can encipher.</br>",
                         "label": "SSL client renegotiation",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "broker.persistent_table_mria_opts": {
+                "properties": {
+                    "ram_cache": {
+                        "default": true,
+                        "description": "Maintain a copy of the data in RAM for faster access.",
+                        "label": "RAM cache",
                         "type": "boolean"
                     }
                 },
@@ -5230,7 +5421,7 @@
                         "type": "duration"
                     },
                     "token_expired_time": {
-                        "default": "30m",
+                        "default": "60m",
                         "description": "JWT token expiration time.",
                         "label": "Token expired time",
                         "type": "duration"
@@ -5295,7 +5486,7 @@
                         "description": "A zone is a set of configs grouped by the zone <code>name</code>.</br>For flexible configuration mapping, the <code>name</code> can be set to a listener's <code>zone</code> config.</br>NOTE: A built-in zone named <code>default</code> is auto created and can not be deleted.</br>",
                         "label": "zones",
                         "properties": {
-                            "$name": {
+                            "$my_zone_name": {
                                 "$ref": "#/components/schemas/broker.zone"
                             }
                         },
@@ -5342,12 +5533,12 @@
                         "$ref": "#/components/schemas/broker.trace"
                     },
                     "dashboard": {
-                        "description": "dashboard Description",
-                        "label": "dashboard",
+                        "description": "Configuration for EMQX dashboard.",
+                        "label": "Dashboard",
                         "$ref": "#/components/schemas/dashboard.dashboard"
                     },
                     "limiter": {
-                        "description": "limiter Description",
+                        "description": "Settings for the rate limiter.",
                         "label": "limiter",
                         "$ref": "#/components/schemas/limiter.limiter"
                     }
@@ -5391,37 +5582,37 @@
             "get": {
                 "properties": {
                     "mqtt": {
-                        "description": "mqtt Description",
+                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "stats Description",
+                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "flapping_detect Description",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "force_shutdown Description",
+                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "conn_congestion Description",
+                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "force_gc Description",
+                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "overload_protection Description",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
                     }
@@ -5431,37 +5622,37 @@
             "put": {
                 "properties": {
                     "mqtt": {
-                        "description": "mqtt Description",
+                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "stats Description",
+                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "flapping_detect Description",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "force_shutdown Description",
+                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "conn_congestion Description",
+                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "force_gc Description",
+                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "overload_protection Description",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
                     }
@@ -5536,7 +5727,7 @@
         "/configs/zones": {
             "get": {
                 "properties": {
-                    "$name": {
+                    "$my_zone_name": {
                         "$ref": "#/components/schemas/broker.zone"
                     }
                 },
@@ -5544,7 +5735,7 @@
             },
             "put": {
                 "properties": {
-                    "$name": {
+                    "$my_zone_name": {
                         "$ref": "#/components/schemas/broker.zone"
                     }
                 },
