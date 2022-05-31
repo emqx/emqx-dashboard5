@@ -40,7 +40,10 @@
                 {{ node.load1 }}/{{ node.load5 }}/{{ node.load15 }}
               </el-tooltip>
             </el-descriptions-item>
-            <el-descriptions-item v-if="node.memory_total !== 0" :label="`VM ${tl('memory')}`">
+            <el-descriptions-item
+              v-if="![0, '0'].includes(node.memory_total)"
+              :label="`VM ${tl('memory')}`"
+            >
               <el-tooltip
                 placement="top"
                 effect="dark"
