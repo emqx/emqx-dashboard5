@@ -139,9 +139,9 @@ export default {
     zh: '连接配置',
     en: 'Connection Settings',
   },
-  enablePipeline: {
-    zh: '启用 Pipeline',
-    en: 'Enable Pipeline',
+  httpPipeline: {
+    zh: 'HTTP 管道',
+    en: 'HTTP Pipelining',
   },
   connTimeout: {
     zh: '连接超时',

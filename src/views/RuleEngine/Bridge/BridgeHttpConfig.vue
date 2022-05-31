@@ -125,8 +125,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="tl('enablePipeline')">
-              <el-switch v-model="httpBridgeVal.enable_pipelining"></el-switch>
+            <el-form-item :label="tl('httpPipeline')">
+              <el-input-number
+                v-model="httpBridgeVal.enable_pipelining"
+                controls-position="right"
+              ></el-input-number>
             </el-form-item>
           </el-col>
         </el-row>
@@ -194,7 +197,7 @@ export default defineComponent({
       },
       body: '${payload}',
       pool_size: 4,
-      enable_pipelining: true,
+      enable_pipelining: 100,
       connect_timeout: '5s',
       request_timeout: '5s',
       max_retries: 3,

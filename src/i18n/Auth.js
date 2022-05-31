@@ -267,9 +267,9 @@ export default {
     zh: '请求方式',
     en: 'Method',
   },
-  enablePipelining: {
-    zh: '启用 Pipelining',
-    en: 'Enable Pipelining',
+  httpPipelining: {
+    zh: 'HTTP 管道',
+    en: 'HTTP Pipelining',
   },
   isSuperuser: {
     zh: '是否为超级用户',

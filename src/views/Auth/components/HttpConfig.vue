@@ -47,11 +47,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="$t('Auth.enablePipelining')">
-              <el-select v-model="httpConfig.enable_pipelining">
-                <el-option :value="true" label="True" />
-                <el-option :value="false" label="False" />
-              </el-select>
+            <el-form-item :label="$t('Auth.httpPipelining')">
+              <el-input-number
+                v-model="httpConfig.enable_pipelining"
+                controls-position="right"
+              ></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="12">

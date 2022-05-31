@@ -26,7 +26,7 @@ export interface AuthnItem {
   user_id_type?: string
   body?: Body
   connect_timeout?: string
-  enable_pipelining?: boolean
+  enable_pipelining?: number
   headers?: Headers
   max_retries?: number
   method?: string
