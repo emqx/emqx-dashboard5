@@ -378,7 +378,16 @@ input:disabled {
 .el-card.table-card {
   margin-bottom: 26px;
   .el-table {
-    border-radius: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    .el-table__inner-wrapper:after {
+      content: none;
+    }
+    &:after,
+    &:before {
+      top: 0;
+      height: 100%;
+    }
     .el-table__cell {
       padding: 8px 12px;
     }
