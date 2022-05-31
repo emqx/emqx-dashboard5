@@ -110,13 +110,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="tl('enablePipeline')">
-              <el-select v-model="httpBridgeVal.enable_pipelining">
-                <el-option v-for="ep in [true, false]" :key="ep" :value="ep" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item :label="tl('connTimeout')">
               <InputWithUnit v-model="httpBridgeVal.connect_timeout" :units="['s']" />
             </el-form-item>
@@ -129,6 +122,11 @@
           <el-col :span="12">
             <el-form-item :label="tl('errRetry')" required prop="max_retries">
               <el-input v-model.number="httpBridgeVal.max_retries" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('enablePipeline')">
+              <el-switch v-model="httpBridgeVal.enable_pipelining"></el-switch>
             </el-form-item>
           </el-col>
         </el-row>
