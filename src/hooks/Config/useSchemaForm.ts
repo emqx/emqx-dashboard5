@@ -89,8 +89,11 @@ export default function useSchemaForm(path: string): {
     let ref = ''
     if ($ref) {
       ref = $ref
-    } else if (type === 'object' && properties.$name && properties.$name.$ref) {
-      ref = properties.$name.$ref
+    } else if (type === 'object') {
+      const varName = Object.keys(properties).find((key) => /\$\w+/g.test(key))
+      if (varName && properties[varName] && properties[varName].$ref) {
+        ref = properties[varName].$ref as string
+      }
     }
     const component = getComponentByRef(data, ref)
     const components = transComponents(component)
