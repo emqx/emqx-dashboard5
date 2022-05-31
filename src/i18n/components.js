@@ -124,8 +124,8 @@ export default {
     en: 'Tools',
   },
   websocket: {
-    zh: 'Websocket 客户端',
-    en: 'Websocket Client',
+    zh: 'WebSocket 客户端',
+    en: 'WebSocket Client',
   },
   'topic-metrics': {
     zh: '主题监控',
