@@ -20,7 +20,7 @@ import Topics from '@/views/Topics/Topics.vue'
 import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
 import Advanced from '@/views/Config/Advanced/Advanced.vue'
 import Mqtt from '@/views/Config/BasicConfig/Mqtt.vue'
-import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
+// import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
 import Log from '@/views/Config/BasicConfig/Log.vue'
 import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
 import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
@@ -477,21 +477,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // configs
-  {
-    path: '/cluster',
-    component: Layout,
-    meta: {
-      hideKey: 'cluster',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'cluster',
-        component: Cluster,
-      },
-    ],
-  },
+  // {
+  //   path: '/cluster',
+  //   component: Layout,
+  //   meta: {
+  //     hideKey: 'cluster',
+  //     authRequired: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'cluster',
+  //       component: Cluster,
+  //     },
+  //   ],
+  // },
   {
     path: '/listener',
     component: Layout,

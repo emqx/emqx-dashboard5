@@ -148,10 +148,10 @@ export default defineComponent({
     ]
 
     const config = [
-      {
-        title: 'cluster',
-        path: '/cluster',
-      },
+      // {
+      //   title: 'cluster',
+      //   path: '/cluster',
+      // },
       {
         title: 'listener',
         path: '/listener',
