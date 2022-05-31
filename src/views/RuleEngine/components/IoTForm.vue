@@ -37,7 +37,7 @@
               <FromSelectList
                 v-model="sqlPartValue.from"
                 :ingress-bridge-list="ingressBridgeList"
-                :event-list="ruleEventsList"
+                :event-list="eventListForFromSelect"
                 @change="checkSQLPartValue('from')"
               />
             </el-form-item>
@@ -124,7 +124,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose } from 'vue'
+import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose, computed } from 'vue'
 import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
@@ -313,10 +313,12 @@ const testSQLTemplate = ({ sql, input }: { sql: string; input: string }) => {
 const saveSQLFromTest = useSQLTemplate
 
 const eventDoNotNeedInIoTForm = '$events/message_publish'
+const eventListForFromSelect = computed(() => {
+  return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInIoTForm)
+})
 const loadRuleEvents = async () => {
   try {
-    const ruleList: Array<RuleEvent> = await getRuleEvents()
-    ruleEventsList.value = ruleList.filter(({ event }) => event !== eventDoNotNeedInIoTForm)
+    ruleEventsList.value = await getRuleEvents()
   } catch (error) {
     console.error(error)
   }
