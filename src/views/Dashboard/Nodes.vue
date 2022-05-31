@@ -41,7 +41,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column v-if="hasMemory" :label="`VM ${tl('memory')}`" prop="memory_used">
+      <el-table-column v-if="hasMemory" :label="tl('memory')" prop="memory_used">
         <template #default="{ row }">
           <el-tooltip
             placement="top"

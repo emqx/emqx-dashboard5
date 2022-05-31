@@ -42,7 +42,7 @@
             </el-descriptions-item>
             <el-descriptions-item
               v-if="![0, '0'].includes(node.memory_total)"
-              :label="`VM ${tl('memory')}`"
+              :label="tl('memory')"
             >
               <el-tooltip
                 placement="top"
