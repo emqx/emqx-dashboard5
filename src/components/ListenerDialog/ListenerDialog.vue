@@ -21,7 +21,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('lAddress')" prop="bind" required>
-            <el-input v-model="listenerRecord.bind" />
+            <el-input v-model="listenerRecord.bind" :disabled="isEdit" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
