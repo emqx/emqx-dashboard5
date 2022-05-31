@@ -11,20 +11,22 @@
       >
       </el-tab-pane>
     </el-tabs>
-    <div v-if="type !== 'all'" class="section-searchbar" :gutter="20">
+    <div class="section-searchbar" :gutter="20">
       <div class="searchbar-content">
-        <el-input
-          v-model="searchVal"
-          clearable
-          :placeholder="getCurrSearchValTip(type)"
-          @clear="handleSearch"
-        ></el-input>
-        <el-button type="primary" :icon="Search" @click="handleSearch">
-          {{ $t('Base.search') }}
-        </el-button>
-        <el-button type="primary" plain :icon="RefreshRight" @click="loadData">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <template v-if="type !== 'all'">
+          <el-input
+            v-model="searchVal"
+            clearable
+            :placeholder="getCurrSearchValTip(type)"
+            @clear="handleSearch"
+          ></el-input>
+          <el-button type="primary" :icon="Search" @click="handleSearch">
+            {{ $t('Base.search') }}
+          </el-button>
+          <el-button type="primary" plain :icon="RefreshRight" @click="loadData">
+            {{ $t('Base.refresh') }}
+          </el-button>
+        </template>
       </div>
       <el-button type="primary" :icon="Plus" @click="handleAdd">
         {{ $t('Base.add') }}
