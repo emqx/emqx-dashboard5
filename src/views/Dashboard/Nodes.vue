@@ -97,7 +97,7 @@ const tl = function (key: string, collection = 'Dashboard') {
 const loadAllNodes = async () => {
   try {
     nodes.value = (await loadNodes()) ?? []
-    hasMemory.value = nodes.value.some((node) => node.memory_total !== 0)
+    hasMemory.value = nodes.value.some((node) => ![0, '0'].includes(node.memory_total))
   } catch (err) {
     // ignore err
   } finally {

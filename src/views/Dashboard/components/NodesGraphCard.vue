@@ -65,7 +65,10 @@
                     </el-tooltip>
                   </span>
                 </div>
-                <div v-if="currentInfo?.node?.['memory_total'] !== 0" class="node-item">
+                <div
+                  v-if="![0, '0'].includes(currentInfo?.node?.['memory_total'])"
+                  class="node-item"
+                >
                   <span class="node-item-label">{{ tl('erlangVMMemory') }}: </span>
                   <span class="node-item-content">
                     <el-tooltip
