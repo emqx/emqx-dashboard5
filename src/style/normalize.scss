@@ -53,6 +53,18 @@
 
 @use "element-plus/theme-chalk/src/index";
 
+@mixin menu-left-border {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -4px;
+  width: 4px;
+  height: 100%;
+  z-index: 2;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
+}
+
 /* Root Colors */
 :root {
   --el-border-radius-base: 8px;
@@ -87,12 +99,14 @@
       padding-bottom: math.div($menu-item-height - $line-height, 2);
     }
     .el-sub-menu__title {
-      padding: 0px 0px 0px 6px !important;
+      padding: 0px 0px 0px 8px !important;
       margin: 0px 12px;
       border-radius: 0 8px 8px 0;
       border-left: 4px solid transparent;
       &:hover {
-        border-left: 4px solid #00b173d3;
+        &:before {
+          @include menu-left-border;
+        }
         color: var(--color-primary);
       }
     }
@@ -105,23 +119,31 @@
       .el-menu-item {
         padding: 0px 0px 0px 31px !important;
       }
+      .el-sub-menu__icon-arrow {
+        top: 52%;
+        right: 8px;
+      }
     }
     .el-menu-item {
       border-left: 4px solid transparent;
       border-radius: 0 8px 8px 0;
       margin: 0 12px;
-      padding: 0px 0px 0px 4px !important;
+      padding: 0px 0px 0px 8px !important;
       min-width: initial;
       &.is-active {
         background-color: var(--color-hover);
-        border-left: 4px solid #00b173d3;
         border-radius: 0 8px 8px 0;
+        &:before {
+          @include menu-left-border;
+        }
       }
       &:hover {
         background-color: var(--color-hover);
-        border-left: 4px solid #00b173d3;
         border-radius: 0 8px 8px 0;
         color: var(--color-primary);
+        &:before {
+          @include menu-left-border;
+        }
       }
     }
   }
