@@ -127,8 +127,8 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-dialog :title="tl('newBucket')" width="420px" v-model="addTabDialog">
-        <el-form ref="recordForm" :model="addTabConfig" label-position="top">
+      <el-dialog :title="tl('newBucket')" width="420px" v-model="addTabDialog" destroy-on-close>
+        <el-form ref="recordForm" :model="addTabConfig" label-position="top" :rules="rules">
           <el-form-item prop="name" :label="tl('bucketName')">
             <el-input v-model="addTabConfig.name"></el-input>
           </el-form-item>
@@ -165,6 +165,7 @@ import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import { useStore } from 'vuex'
 import _ from 'lodash'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useFormRules from '@/hooks/useFormRules'
 
 export default defineComponent({
   name: 'Limiter',
@@ -178,8 +179,8 @@ export default defineComponent({
       name: '',
       copyFrom: 'default',
     })
+
     const currTab = ref('default')
-    const tabs = ref<string[]>([])
     const { t } = useI18n()
     const { tl } = useI18nTl('BasicConfig')
     const addTabDialog = ref(false)
@@ -187,9 +188,34 @@ export default defineComponent({
     const { components } = useSchemaForm('/configs/limiter')
     const currentLimiterType = ref<LimiterType>('bytes_in')
     const LimiterTypes = ['bytes_in', 'message_in', 'connection', 'message_routing', 'batch']
+
+    const recordForm = ref()
+    const { createRequiredRule } = useFormRules()
+    const rules = {
+      name: [
+        ...createRequiredRule(tl('bucketName')),
+        {
+          validator(rule: any, value: string) {
+            if (configs.value.bucket[value] !== undefined) {
+              return new Error(tl('bucketNameExist'))
+            }
+            return []
+          },
+          trigger: 'blur',
+        },
+        {
+          pattern: /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/,
+          message: tl('limierNameRegError'),
+        },
+      ],
+    }
+
     const rateProperties = computed(() => {
       const currComponent = components.value[currentLimiterType.value]
       return currComponent?.properties
+    })
+    const tabs = computed(() => {
+      return Object.keys(configs.value.bucket)
     })
     watch(currentLimiterType, () => {
       handleTypeChange()
@@ -199,7 +225,6 @@ export default defineComponent({
       if (res) {
         configs.value = res
       }
-      tabs.value = Object.keys(configs.value.bucket)
       currTab.value = tabs.value[0]
     }
     const reloading = () => {
@@ -227,16 +252,10 @@ export default defineComponent({
       addTabConfig.name = ''
       addTabConfig.copyFrom = tabs.value[0]
     }
+
     const addTab = async () => {
       const { name } = addTabConfig
-      if (!name) {
-        ElMessage.warning(tl('bucketNameRequired'))
-        return
-      }
-      if (configs.value.bucket[name] !== undefined) {
-        ElMessage.warning(tl('bucketNameExist'))
-        return
-      }
+      await recordForm.value.validate()
       configs.value.bucket[name] = _.cloneDeep(configs.value.bucket[addTabConfig.copyFrom])
       addTabDialog.value = false
     }
@@ -265,6 +284,8 @@ export default defineComponent({
       reloading,
       addTabDialog,
       addTabConfig,
+      recordForm,
+      rules,
       handleTypeChange,
       saveLoading,
       handleBeforeAddBucket,

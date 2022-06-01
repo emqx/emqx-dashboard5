@@ -139,4 +139,8 @@ export default {
     zh: '部分参数修改后，可能需要重新启动 EMQX Dashboard ！',
     en: 'Some parameters need to be restarted EMQX Dashboard to take effect!',
   },
+  limierNameRegError: {
+    zh: '请输入由字母和数字组成的名称',
+    en: 'Please enter a name composed of letters and numbers',
+  },
 }
