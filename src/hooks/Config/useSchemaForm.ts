@@ -4,6 +4,7 @@ import _ from 'lodash'
 import { InjectSchema, Properties, Component, Schema } from '@/types/schemaForm'
 import { useStore } from 'vuex'
 import axios from 'axios'
+import { flattenObject, unflattenObject } from '@/common/tools'
 
 export default function useSchemaForm(path: string): {
   schema: InjectSchema
@@ -105,41 +106,9 @@ export default function useSchemaForm(path: string): {
   if (schema.value.paths) {
     handleSchemaChanged(schema.value)
   }
-  // { a: { b: c: 1 } } => { 'a.b.c': 1 }
-  const flattenConfigs = (
-    obj: { [key: string]: any },
-    prefix: any[] = [],
-    current: { [key: string]: any } = {},
-  ) => {
-    if (typeof obj === 'object' && !Array.isArray(obj) && obj !== null) {
-      for (const key of Object.keys(obj)) {
-        flattenConfigs(obj[key], prefix.concat(key), current)
-      }
-    } else {
-      current[prefix.join('.')] = obj
-    }
-    return current
-  }
-  // { 'a.b.c': 1 } => { a: { b: { c: 1 } } }
-  const unflattenConfigs = (obj: { [key: string]: any }) => {
-    if (Object(obj) !== obj && !Array.isArray(obj)) return obj
-    const regex = /\.?([^.[\]]+)|\[(\d+)\]/g
-    const resultholder: { [key: string]: any } = {}
-    for (const p in obj) {
-      let current = resultholder
-      let prop = ''
-      let m: any
-      while ((m = regex.exec(p))) {
-        current = current[prop] || (current[prop] = m[2] ? [] : {})
-        prop = m[2] || m[1]
-      }
-      current[prop] = obj[p]
-    }
-    return resultholder[''] || resultholder
-  }
   return {
-    flattenConfigs,
-    unflattenConfigs,
+    flattenConfigs: flattenObject,
+    unflattenConfigs: unflattenObject,
     schema,
     components,
   }

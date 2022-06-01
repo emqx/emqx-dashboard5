@@ -60,11 +60,11 @@
           </el-col>
         </template>
         <el-col :span="6" class="col-oper">
-          <el-button type="primary" :icon="Search" @click="handleSearch">
-            {{ $t('Clients.search') }}
+          <el-button type="primary" plain :icon="Search" @click="handleSearch">
+            {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSerach">
-            {{ $t('Clients.refresh') }}
+          <el-button type="primary" :icon="RefreshRight" @click="handleResetSerach">
+            {{ $t('Base.refresh') }}
           </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
             <ArrowUp v-if="showMoreQuery" />

@@ -10,7 +10,9 @@
           </el-radio-button>
         </el-radio-group>
       </div>
-      <el-button type="primary" @click="goInstall">{{ tl('installPlugin') }}</el-button>
+      <el-button type="primary" :icon="Plus" @click="goInstall">{{
+        tl('installPlugin')
+      }}</el-button>
     </div>
     <el-table
       :data="pluginListToShow"
@@ -83,6 +85,7 @@ import { SortableEvent } from 'sortablejs'
 import useSortableTable from '@/hooks/useSortableTable'
 import useMove from '@/hooks/useMove'
 import PluginItemStatus from './components/PluginItemStatus.vue'
+import { Plus } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()

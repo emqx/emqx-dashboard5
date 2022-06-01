@@ -6,11 +6,11 @@
           <el-input v-model="searchValue" :placeholder="$t('Topics.topic')"></el-input>
         </el-col>
         <el-col :span="8">
-          <el-button type="primary" :icon="Search" @click="handleSearch">
-            {{ $t('Clients.search') }}
+          <el-button type="primary" plain :icon="Search" @click="handleSearch">
+            {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSearch">
-            {{ $t('Clients.refresh') }}
+          <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
+            {{ $t('Base.refresh') }}
           </el-button>
         </el-col>
       </el-row>

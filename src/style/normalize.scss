@@ -203,7 +203,6 @@
     left: 0;
   }
 }
-
 .el-table {
   border-radius: 8px;
   box-shadow: var(--el-box-shadow-light);
@@ -233,6 +232,9 @@
 }
 .el-table__inner-wrapper::before {
   height: 0px;
+}
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+  background: var(--color-bg-split);
 }
 
 /* Progress */

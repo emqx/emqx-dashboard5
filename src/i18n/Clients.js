@@ -19,25 +19,9 @@ export default {
     zh: '当前在线连接客户端',
     en: 'Current Connections',
   },
-  input: {
-    zh: '输入',
-    en: 'Input',
-  },
-  search: {
-    zh: '搜索',
-    en: 'Search',
-  },
   reset: {
     zh: '重置',
     en: 'Reset',
-  },
-  refresh: {
-    zh: '刷新',
-    en: 'Refresh',
-  },
-  overview: {
-    zh: '概览',
-    en: 'Overview',
   },
   detailed: {
     zh: '详细',
