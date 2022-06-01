@@ -105,7 +105,7 @@ export default {
     en: 'Basic Info',
   },
   metric: {
-    zh: '度量指标',
+    zh: '指标',
     en: 'Metric',
   },
   configuration: {
@@ -153,7 +153,7 @@ export default {
     en: 'Data List',
   },
   packetStatisticsOfNodes: {
-    zh: '集群或单个节点的报文信息, 消息统计与流量收发统计',
+    zh: '集群或单个节点的报文信息，消息统计与流量收发统计',
     en: 'Packet statistics of cluster or node, Message I/O Statistics',
   },
   mqttPackets: {
@@ -288,9 +288,13 @@ export default {
     zh: '消息丢弃',
     en: 'Dropped Messages',
   },
-  dropped: {
-    zh: '消息丢弃',
-    en: 'Dropped',
+  delivery: {
+    zh: '消息分发',
+    en: 'Delivery',
+  },
+  auth: {
+    zh: '认证与权限',
+    en: 'Access',
   },
   topics: {
     zh: '主题数',
@@ -303,6 +307,10 @@ export default {
   message: {
     zh: '消息',
     en: 'Messages',
+  },
+  messaging: {
+    zh: '消息传输',
+    en: 'Messaging',
   },
   rate: {
     zh: '速率',
@@ -407,5 +415,321 @@ export default {
   last7Days: {
     zh: '过去 7 天',
     en: 'Last 7 days',
+  },
+  connack: {
+    zh: '确认连接请求',
+    en: 'Connack',
+  },
+  connected: {
+    zh: '已连接数',
+    en: 'Connected',
+  },
+  connect: {
+    zh: '连接数',
+    en: 'Connect',
+  },
+  unsubscribe: {
+    zh: '取消订阅数',
+    en: 'Unsubscribe',
+  },
+  disconnected: {
+    zh: '断开连接数',
+    en: 'Disconnected',
+  },
+  subscribe: {
+    zh: '订阅数',
+    en: 'Subscribe',
+  },
+  created: {
+    zh: '已创建',
+    en: 'Created',
+  },
+  discarded: {
+    zh: '已丢弃',
+    en: 'Discarded',
+  },
+  resumed: {
+    zh: '已恢复',
+    en: 'Resumed',
+  },
+  takenover: {
+    zh: '已接管',
+    en: 'Takenover',
+  },
+  terminated: {
+    zh: '已终止',
+    en: 'Terminated',
+  },
+  auth_anonymous: {
+    zh: '匿名访问数',
+    en: 'Anonymous',
+  },
+  authenticate: {
+    zh: '认证数',
+    en: 'Authenticate',
+  },
+  authorization_allow: {
+    zh: '授权允许数',
+    en: 'Authorization Allow',
+  },
+  authorization_cache_hit: {
+    zh: '授权缓存命中数',
+    en: 'Authorization Cache Hit',
+  },
+  authorization_deny: {
+    zh: '授权拒绝数',
+    en: 'Authorization Deny',
+  },
+  authorization_matched_allow: {
+    zh: '授权匹配允许数',
+    en: 'Authorization Matched Allow',
+  },
+  authorization_matched_deny: {
+    zh: '授权匹配拒绝数',
+    en: 'Authorization Matched Deny',
+  },
+  authorization_nomatch: {
+    zh: '授权匹配未命中数',
+    en: 'Authorization No Match',
+  },
+  authorize: {
+    zh: '授权数',
+    en: 'Authorize',
+  },
+  received: {
+    zh: '已接收',
+    en: 'Received',
+  },
+  sent: {
+    zh: '已发送',
+    en: 'Sent',
+  },
+  acked: {
+    zh: '已应答',
+    en: 'Acked',
+  },
+  delayed: {
+    zh: '已延迟',
+    en: 'Delayed',
+  },
+  delivered: {
+    zh: '已分发',
+    en: 'Delivered',
+  },
+  dropped: {
+    zh: '已丢弃',
+    en: 'Dropped',
+  },
+  dropped_await_pubrel_timeout: {
+    zh: '已丢弃等待 pubrel 超时',
+    en: 'Dropped Await Pubrel Timeout',
+  },
+  dropped_no_subscribers: {
+    zh: '已丢弃无订阅者',
+    en: 'Dropped No Subscribers',
+  },
+  forward: {
+    zh: '已转发',
+    en: 'Forward',
+  },
+  publish: {
+    zh: '发布',
+    en: 'Publish',
+  },
+  qos0_received: {
+    zh: 'QoS 0 已接收',
+    en: 'QoS 0 Received',
+  },
+  qos1_received: {
+    zh: 'QoS 1 已接收',
+    en: 'QoS 1 Received',
+  },
+  qos2_received: {
+    zh: 'QoS 2 已接收',
+    en: 'QoS 2 Received',
+  },
+  qos0_sent: {
+    zh: 'QoS 0 已发送',
+    en: 'QoS 0 Sent',
+  },
+  qos1_sent: {
+    zh: 'QoS 1 已发送',
+    en: 'QoS 1 Sent',
+  },
+  qos2_sent: {
+    zh: 'QoS 2 已发送',
+    en: 'QoS 2 Sent',
+  },
+  dropped_expired: {
+    zh: '已丢弃过期消息数',
+    en: 'Dropped Expired Messages',
+  },
+  dropped_no_local: {
+    zh: '已丢弃非本地消息数',
+    en: 'Dropped No Local Messages',
+  },
+  dropped_qos0_msg: {
+    zh: '已丢弃 QoS 0 消息',
+    en: 'Dropped QoS 0 Messages',
+  },
+  dropped_queue_full: {
+    zh: '已丢弃（队列已满）',
+    en: 'Dropped Messages (Queue Full)',
+  },
+  dropped_too_large: {
+    zh: '已丢弃过大消息数',
+    en: 'Dropped Too Large Messages',
+  },
+  auth_received: {
+    zh: '接收的认证报文',
+    en: 'Auth Received',
+  },
+  auth_sent: {
+    zh: '发送的认证报文',
+    en: 'Auth Sent',
+  },
+  connack_auth_error: {
+    zh: '应答认证错误报文',
+    en: 'Connack Auth Error',
+  },
+  connack_error: {
+    zh: '应答错误报文',
+    en: 'Connack Error',
+  },
+  connack_sent: {
+    zh: '发送应答报文',
+    en: 'Connack Sent',
+  },
+  connect_received: {
+    zh: '接收已连接报文',
+    en: 'Connect Received',
+  },
+  disconnect_received: {
+    zh: '接收已断开报文',
+    en: 'Disconnect Received',
+  },
+  disconnect_sent: {
+    zh: '发送已断开报文',
+    en: 'Disconnect Sent',
+  },
+  pingreq_received: {
+    zh: '接收已请求心跳报文',
+    en: 'Ping Request Received',
+  },
+  pingresp_sent: {
+    zh: '发送已回复心跳报文',
+    en: 'Ping Response Sent',
+  },
+  puback_inuse: {
+    zh: '已使用的 Puback',
+    en: 'Puback Inuse',
+  },
+  puback_missed: {
+    zh: '未使用的 Puback',
+    en: 'Puback Missed',
+  },
+  puback_received: {
+    zh: '接收的 Puback',
+    en: 'Puback Received',
+  },
+  puback_sent: {
+    zh: '发送的 Puback',
+    en: 'Puback Sent',
+  },
+  pubcomp_inuse: {
+    zh: '已使用的 Pubcomp',
+    en: 'Pubcomp Inuse',
+  },
+  pubcomp_missed: {
+    zh: '未使用的 Pubcomp',
+    en: 'Pubcomp Missed',
+  },
+  pubcomp_received: {
+    zh: '接收的 Pubcomp',
+    en: 'Pubcomp Received',
+  },
+  pubcomp_sent: {
+    zh: '发送的 Pubcomp',
+    en: 'Pubcomp Sent',
+  },
+  publish_auth_error: {
+    zh: '发布权限错误报文',
+    en: 'Publish Auth Error',
+  },
+  publish_dropped: {
+    zh: '发布已丢弃报文',
+    en: 'Publish Dropped',
+  },
+  publish_error: {
+    zh: '发布错误报文',
+    en: 'Publish Error',
+  },
+  publish_inuse: {
+    zh: '已使用的发布报文',
+    en: 'Publish Inuse',
+  },
+  publish_received: {
+    zh: '接收的发布报文',
+    en: 'Publish Received',
+  },
+  publish_sent: {
+    zh: '发送的发布报文',
+    en: 'Publish Sent',
+  },
+  pubrec_inuse: {
+    zh: '已使用的 Pubrec 报文',
+    en: 'Pubrec Inuse',
+  },
+  pubrec_missed: {
+    zh: '未使用的 Pubrec 报文',
+    en: 'Pubrec Missed',
+  },
+  pubrec_received: {
+    zh: '接收的 Pubrec 报文',
+    en: 'Pubrec Received',
+  },
+  pubrec_sent: {
+    zh: '发送的 Pubrec 报文',
+    en: 'Pubrec Sent',
+  },
+  pubrel_missed: {
+    zh: '未使用的 Pubrel 报文',
+    en: 'Pubrel Missed',
+  },
+  pubrel_received: {
+    zh: '接收的 Pubrel 报文',
+    en: 'Pubrel Received',
+  },
+  pubrel_sent: {
+    zh: '发送的 Pubrel 报文',
+    en: 'Pubrel Sent',
+  },
+  suback_sent: {
+    zh: '发送的 Suback 报文',
+    en: 'Suback Sent',
+  },
+  subscribe_auth_error: {
+    zh: '订阅权限错误报文',
+    en: 'Subscribe Auth Error',
+  },
+  subscribe_error: {
+    zh: '订阅错误报文',
+    en: 'Subscribe Error',
+  },
+  subscribe_received: {
+    zh: '接收的订阅报文',
+    en: 'Subscribe Received',
+  },
+  unsuback_sent: {
+    zh: '发送的 Unsuback 报文',
+    en: 'Unsuback Sent',
+  },
+  unsubscribe_error: {
+    zh: '取消订阅错误报文',
+    en: 'Unsubscribe Error',
+  },
+  unsubscribe_received: {
+    zh: '接收的取消订阅报文',
+    en: 'Unsubscribe Received',
   },
 }

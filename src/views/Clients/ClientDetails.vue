@@ -20,7 +20,7 @@
       </detail-header>
       <div class="actions">
         <el-button type="primary" :icon="Refresh" @click="loadData">
-          {{ tl('refresh') }}
+          {{ $t('Base.refresh') }}
         </el-button>
         <el-button
           v-if="doesTheClientExist"

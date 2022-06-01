@@ -48,7 +48,7 @@ export default {
     en: 'Overview',
   },
   metrics: {
-    zh: '度量指标',
+    zh: '指标',
     en: 'Metrics',
   },
   connect: {
