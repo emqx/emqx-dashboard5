@@ -3,6 +3,7 @@
     class="input-with-unit"
     v-model.number="numPart"
     :disabled="disabled"
+    :readonly="disabledOpt && unit === disabledOpt.value"
     @change="$emit('change')"
     :placeholder="numberPlaceholder"
   >
@@ -16,6 +17,11 @@
         :disabled="disabled"
         @change="$emit('change')"
       >
+        <el-option
+          v-if="disabledOpt"
+          :value="disabledOpt.value"
+          :label="disabledOpt.label.toString()"
+        />
         <el-option v-for="{ label, value } in units" :key="value" :value="value" :label="label" />
       </el-select>
     </template>
@@ -51,6 +57,15 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  /**
+   * When this option is selected, the input box will be disabled
+   */
+  disabledOpt: {
+    type: Object as PropType<{
+      value: string | number | boolean
+      label: number | string
+    }>,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
@@ -82,6 +97,11 @@ const modelValueMatchReg = computed(() => {
 
 const numPart: WritableComputedRef<string> = computed({
   get() {
+    const { disabledOpt } = props
+    if (disabledOpt && props.modelValue === disabledOpt.value) {
+      return '0'
+    }
+
     if (modelValueMatchReg.value) {
       const { numberPart = '' } = modelValueMatchReg.value.groups || {}
       return numberPart.trim()
@@ -112,6 +132,11 @@ const numPart: WritableComputedRef<string> = computed({
 let selectedUnit = ref('')
 const unit: WritableComputedRef<string> = computed({
   get() {
+    const { disabledOpt } = props
+    if (disabledOpt && props.modelValue === disabledOpt.value) {
+      return disabledOpt.value
+    }
+
     if (modelValueMatchReg.value) {
       const { unit = '' } = modelValueMatchReg.value.groups || {}
       return unit
@@ -133,6 +158,18 @@ const unit: WritableComputedRef<string> = computed({
     return ''
   },
   set(val) {
+    const { disabledOpt } = props
+    if (disabledOpt) {
+      // old value is disabledOpt.value
+      if (props.modelValue === disabledOpt.value) {
+        inputValue.value = `0${val}`
+      } else {
+        // new value is disabledOpt.value
+        inputValue.value = val
+      }
+      return
+    }
+
     if (numPart.value) {
       inputValue.value = (numPart.value || '') + val
     } else {
