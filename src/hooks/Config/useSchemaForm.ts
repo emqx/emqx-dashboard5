@@ -28,7 +28,7 @@ export default function useSchemaForm(path: string): {
   const schema: InjectSchema = ref({})
   const loadSchemaConfig = async () => {
     try {
-      const configPath = `/static/hot-config-schema-${store.state.lang}.json`
+      const configPath = `static/hot-config-schema-${store.state.lang}.json`
       const res = await schemaRequest.get(configPath)
       if (res.data) {
         schema.value = res.data
