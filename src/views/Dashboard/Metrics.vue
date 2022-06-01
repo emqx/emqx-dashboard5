@@ -37,6 +37,7 @@
             stripe
             :data="filterMetrics(currentMetrics, 'session')"
             v-loading.lock="isDataLoading"
+            class="stripe-reverse"
           >
             <el-table-column prop="m" min-width="160" :label="tl('session')">
               <template #default="{ row }">
@@ -273,10 +274,19 @@ onMounted(() => {
         }
       }
       &.top-border.bytes {
+        margin-bottom: 37px;
         &:before {
           background: #f49845;
         }
       }
+    }
+  }
+  .stripe-reverse {
+    &.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+      background-color: inherit;
+    }
+    &.el-table--striped .el-table__body tr:not(.el-table__row--striped) td.el-table__cell {
+      background: var(--color-bg-split);
     }
   }
 }

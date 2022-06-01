@@ -628,6 +628,9 @@
 .el-form-item__content>.el-row {
   width: 100%;
 }
+.el-form-item__label {
+  height: auto;
+}
 
 /* Radio */
 .el-radio-button__inner {
