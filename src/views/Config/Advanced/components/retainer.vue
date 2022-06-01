@@ -49,53 +49,28 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="Max Payload Size" prop="max_payload_size[0]">
-                <el-input v-model.number="retainerConfig.max_payload_size[0]" maxlength="6">
-                  <template #append>
-                    <el-select v-model="selOptions.payload">
-                      <el-option value="KB" label="KB" />
-                      <el-option value="MB" label="MB" />
-                    </el-select>
-                  </template>
-                </el-input>
+              <el-form-item label="Max Payload Size" prop="max_payload_size">
+                <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="30">
             <el-col :span="8">
-              <el-form-item :label="tl('expire')" prop="msg_expiry_interval[0]">
-                <el-input
-                  v-model.number="retainerConfig.msg_expiry_interval[0]"
-                  :readonly="selOptions.expiry == '0s'"
-                  maxlength="6"
-                >
-                  <template #append>
-                    <el-select v-model="selOptions.expiry">
-                      <el-option value="0s" :label="tl('noExp')" />
-                      <el-option value="s" :label="tl('sec')" />
-                      <el-option value="m" :label="tl('min')" />
-                      <el-option value="h" :label="tl('hour')" />
-                    </el-select>
-                  </template>
-                </el-input>
+              <el-form-item :label="tl('expire')" prop="msg_expiry_interval">
+                <InputWithUnit
+                  v-model="retainerConfig.msg_expiry_interval"
+                  :units="expiryTimeUnits"
+                  :disabled-opt="{ value: DISABLED_VALUE, label: tl('noExp') }"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item :label="tl('intervalClean')" prop="msg_clear_interval[0]">
-                <el-input
-                  v-model.number="retainerConfig.msg_clear_interval[0]"
-                  :readonly="selOptions.clean == '0s'"
-                  maxlength="6"
-                >
-                  <template #append>
-                    <el-select v-model="selOptions.clean">
-                      <el-option value="0s" :label="tl('disable')" />
-                      <el-option value="s" :label="tl('sec')" />
-                      <el-option value="m" :label="tl('min')" />
-                      <el-option value="h" :label="tl('hour')" />
-                    </el-select>
-                  </template>
-                </el-input>
+              <el-form-item :label="tl('intervalClean')" prop="msg_clear_interval">
+                <InputWithUnit
+                  v-model="retainerConfig.msg_clear_interval"
+                  :units="expiryTimeUnits"
+                  :disabled-opt="{ value: DISABLED_VALUE, label: tl('disable') }"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -257,16 +232,26 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useCopy from '@/hooks/useCopy'
 import useFormRules from '@/hooks/useFormRules'
 import usePagination from '@/hooks/usePagination'
+import InputWithUnit from '@/components/InputWithUnit.vue'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('Advanced')
 const { copyText } = useCopy(copySuccess)
 const { createRequiredRule } = useFormRules()
 
+const DISABLED_VALUE = 'disabled'
+const VALUE_FOR_NO_VALUE = '0s'
+const expiryTimeUnits = [
+  { value: 's', label: tl('sec') },
+  { value: 'm', label: tl('min') },
+  { value: 'h', label: tl('hour') },
+]
+const keysNeedTrans = ['msg_expiry_interval', 'msg_clear_interval']
+
 let retainerConfig = reactive({
-  max_payload_size: [1, 'MB'],
-  msg_clear_interval: [0, 's'],
-  msg_expiry_interval: [0, 's'],
+  max_payload_size: '1MB',
+  msg_clear_interval: DISABLED_VALUE,
+  msg_expiry_interval: DISABLED_VALUE,
   backend: {
     storage_type: 'ram',
     type: 'built_in_database',
@@ -282,12 +267,8 @@ let retainerConfig = reactive({
 
 let selOptions = reactive({
   retained: 'custom',
-  payload: 'KB',
-  expiry: 's',
-  clean: 's',
   read: 'custom',
   deliver: 'custom',
-  release: 's',
 })
 
 const { page, limit, count, resetPageNum } = usePagination()
@@ -316,20 +297,24 @@ let validatorRules = [
   },
 ]
 
+const numberRule = {
+  validator: (rule, value) => {
+    const num = parseFloat(value)
+    if (num < 0) {
+      return new Error(t('Rule.minimumError', { min: 0 }))
+    }
+    return []
+  },
+}
+
 const retainerRules = ref({
   backend: {
     max_retained_messages: validatorRules,
     storage_type: createRequiredRule('Storage', 'select'),
   },
-  max_payload_size: {
-    0: validatorRules,
-  },
-  msg_expiry_interval: {
-    0: validatorRules,
-  },
-  msg_clear_interval: {
-    0: validatorRules,
-  },
+  max_payload_size: [...createRequiredRule('Max Payload Size'), numberRule],
+  msg_expiry_interval: [...createRequiredRule(tl('expire')), numberRule],
+  msg_clear_interval: [...createRequiredRule(tl('intervalClean')), numberRule],
   flow_control: {
     batch_read_number: validatorRules,
     batch_deliver_number: validatorRules,
@@ -349,21 +334,6 @@ watch(
     }
     if (newV.deliver == 'unlimited') {
       retainerConfig.flow_control.batch_deliver_number = 0
-    }
-
-    if (newV.expiry == '0s') {
-      retainerConfig.msg_expiry_interval = [0, 's']
-    } else {
-      retainerConfig.msg_expiry_interval[1] = newV.expiry
-    }
-    if (newV.clean == '0s') {
-      retainerConfig.msg_clear_interval = [0, 's']
-    } else {
-      retainerConfig.msg_clear_interval[1] = newV.clean
-    }
-
-    if (newV.payload != oldV.payload) {
-      retainerConfig.max_payload_size[1] = newV.payload
     }
   },
 )
@@ -394,65 +364,32 @@ const getConfigFormEnable = () => {
   }
 }
 
-const derivedOptionsFromConfig = () => {
-  let config = retainerConfig
-  if (config?.backend?.max_retained_messages === 0) {
-    selOptions.retained = 'unlimited'
-  } else {
-    selOptions.retained = 'custom'
-  }
-  // trans some values from string to array
-  if (config?.max_payload_size) {
-    let matching = config.max_payload_size.match(/(\d+)(\w{2,})/)
-    selOptions.payload = matching[2]
-    config.max_payload_size = [+matching[1], matching[2]]
-  }
-  if (config?.msg_expiry_interval) {
-    let matching = config.msg_expiry_interval.match(/(\d+)(\w)/)
-    selOptions.expiry = matching[1] === '0' ? config.msg_expiry_interval : matching[2]
-    config.msg_expiry_interval = [+matching[1], matching[2]]
-  }
-  if (config?.msg_clear_interval) {
-    let matching = config.msg_clear_interval.match(/(\d+)(\w)/)
-    selOptions.clean = matching[1] === '0' ? config.msg_clear_interval : matching[2]
-    config.msg_clear_interval = [+matching[1], matching[2]]
-  }
-  if (config?.flow_control?.batch_read_number === 0) {
-    selOptions.read = 'unlimited'
-  } else {
-    selOptions.read = 'custom'
-  }
-  if (config?.flow_control?.batch_deliver_number === 0) {
-    selOptions.deliver = 'unlimited'
-  } else {
-    selOptions.deliver = 'custom'
-  }
+const transDataFromDataRequested = (config) => {
+  keysNeedTrans.forEach((key) => {
+    if (config[key] === VALUE_FOR_NO_VALUE) {
+      config[key] = DISABLED_VALUE
+    }
+  })
+  return config
 }
 
-// const changeSelType1 = async (event, e) => {
-//   console.log(event)
-// }
+const getSelectedOptions = (value) => (value === 0 ? 'unlimited' : 'custom')
 
-// const dateFormat = (date) => {
-//   return moment(date).format('YYYY-MM-DD HH:mm:ss')
-// }
+const derivedOptionsFromConfig = () => {
+  let config = transDataFromDataRequested(retainerConfig)
+  // trans some values from string to array
+  selOptions.retained = getSelectedOptions(config?.backend?.max_retained_messages)
+  selOptions.read = getSelectedOptions(config?.flow_control?.batch_read_number)
+  selOptions.deliver = getSelectedOptions(config?.flow_control?.batch_deliver_number)
+}
 
-const composeConfigFromForm = (config) => {
+const transDataToSubmit = (config) => {
   const ret = _.cloneDeep(config)
-  combineData(ret)
-  function combineData(data) {
-    if (typeof data == 'object' && data !== null) {
-      Object.keys(data).forEach((k) => {
-        if (data[k] instanceof Array) {
-          // trans some values from array to string
-          data[k] = data[k].join('')
-        } else if (typeof data[k] == 'object' && data[k] !== null) {
-          combineData(data[k])
-          return
-        }
-      })
+  keysNeedTrans.forEach((key) => {
+    if (ret[key] === DISABLED_VALUE) {
+      ret[key] = VALUE_FOR_NO_VALUE
     }
-  }
+  })
   return ret
 }
 
@@ -470,15 +407,12 @@ const updateConfigData = async function () {
   if (!valid) return
 
   configLoading.value = true
-  const formData = composeConfigFromForm(retainerConfig)
+  const formData = transDataToSubmit(retainerConfig)
 
   let res = await updateRetainer(formData).catch(() => {})
   if (res) {
     getConfigFormEnable()
-    ElMessage({
-      type: 'success',
-      message: t('Base.updateSuccess'),
-    })
+    ElMessage.success(t('Base.updateSuccess'))
   } else {
     loadConfigData()
   }
