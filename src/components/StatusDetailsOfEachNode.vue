@@ -5,7 +5,7 @@
     :disabled="isTooltipDisabled"
   >
     <span class="node-status" :class="{ tag: isTag }">
-      <CheckIcon :status="statusForIcon" />
+      <CheckIcon v-show="statusData.statusLabel" :status="statusForIcon" />
       <span class="text-status" :class="statusData.statusClass">
         {{ statusData.statusLabel }}
       </span>

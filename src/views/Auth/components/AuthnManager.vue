@@ -13,10 +13,10 @@
             <el-option :value="true" :label="$t('Base.yes')" />
             <el-option :value="false" :label="$t('Base.no')" />
           </el-select>
-          <el-button type="primary" :icon="Search" @click="handleSearch">
+          <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" plain :icon="RefreshRight" @click="handleResetSearch">
+          <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
             {{ $t('Base.refresh') }}
           </el-button>
         </el-space>

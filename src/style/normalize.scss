@@ -87,7 +87,6 @@
 .el-menu {
   &:not(.el-menu--horizontal, .el-menu--popup) {
     $menu-item-height: 50px;
-    border-right: none;
     .menu-item-title {
       $line-height: 20px;
       padding-left: 10px;
@@ -423,6 +422,8 @@
     border-bottom: 1px solid var(--color-border-normal);
   }
   .el-input-number__decrease {
+    // Fix for Safari
+    top: 16px !important;
     border-left: 1px solid var(--color-border-normal);
   }
 }

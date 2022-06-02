@@ -166,6 +166,7 @@ export default defineComponent({
 
 <style lang="scss">
 .oneof {
+  width: 100%;
   display: flex;
   .oneof-item {
     display: flex;

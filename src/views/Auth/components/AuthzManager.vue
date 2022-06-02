@@ -20,10 +20,10 @@
             :placeholder="getCurrSearchValTip(type)"
             @clear="handleSearch"
           ></el-input>
-          <el-button type="primary" :icon="Search" @click="handleSearch">
+          <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" plain :icon="RefreshRight" @click="loadData">
+          <el-button type="primary" :icon="RefreshRight" @click="loadData">
             {{ $t('Base.refresh') }}
           </el-button>
         </template>

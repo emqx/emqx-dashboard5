@@ -12,8 +12,8 @@ export default {
     en: 'Mechanism and Backend',
   },
   status: {
-    zh: '状态',
-    en: 'Status',
+    zh: '数据源状态',
+    en: 'Backend Status',
   },
   backAuthnList: {
     zh: '返回认证列表',
