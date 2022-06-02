@@ -118,10 +118,10 @@ export default defineComponent({
         path: '/APIKey',
       },
       { title: 'settings', path: '/settings' },
-      {
-        title: 'dashboard-http',
-        path: '/dashboard-http',
-      },
+      // {
+      //   title: 'dashboard-http',
+      //   path: '/dashboard-http',
+      // },
     ]
 
     const diagnose = [
