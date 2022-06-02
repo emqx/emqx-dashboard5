@@ -23,7 +23,7 @@ import Mqtt from '@/views/Config/BasicConfig/Mqtt.vue'
 // import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
 import Log from '@/views/Config/BasicConfig/Log.vue'
 import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
-import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
+// import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
 import Users from '@/views/General/Users.vue'
 import Blacklist from '@/views/General/Blacklist.vue'
 import Gateway from '@/views/Gateway/Gateway.vue'
@@ -672,21 +672,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // http
-  {
-    path: '/dashboard-http',
-    component: Layout,
-    meta: {
-      hideKey: 'dashboard-http',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'dashboard-http',
-        component: Dashboard,
-      },
-    ],
-  },
+  // {
+  //   path: '/dashboard-http',
+  //   component: Layout,
+  //   meta: {
+  //     hideKey: 'dashboard-http',
+  //     authRequired: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'dashboard-http',
+  //       component: Dashboard,
+  //     },
+  //   ],
+  // },
 ]
 
 const router = createRouter({
