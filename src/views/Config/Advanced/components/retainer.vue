@@ -2,6 +2,13 @@
   <div>
     <el-tabs>
       <el-tab-pane :label="tl('setting')" v-loading="configLoading">
+        <div class="part-header">{{ tl('enable') }}</div>
+        <el-row align="middle">
+          <el-col :span="16" :style="{ marginBottom: '14px' }">{{ tl('enableDesc') }}</el-col>
+          <el-col :span="16">
+            <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
+          </el-col>
+        </el-row>
         <div class="part-header">{{ tl('storage') }}</div>
         <el-form
           :disabled="!configEnable"
@@ -125,13 +132,6 @@
             </el-button>
           </el-row>
         </el-form>
-        <div class="part-header">{{ tl('enable') }}</div>
-        <el-row align="middle">
-          <el-col :span="13">{{ tl('enableDesc') }}</el-col>
-          <el-col :span="6">
-            <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
-          </el-col>
-        </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')">
         <div>

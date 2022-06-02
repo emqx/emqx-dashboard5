@@ -95,25 +95,33 @@ export default {
     zh: '确认删除？',
     en: 'Confirm Delete?',
   },
-  applySuccess: {
-    zh: '应用成功',
-    en: 'Apply Successfully',
-  },
   createSuccess: {
     zh: '创建成功',
-    en: 'Create Successfully',
+    en: 'Created Successfully',
   },
   deleteSuccess: {
     zh: '删除成功',
-    en: 'Delete Successfully',
+    en: 'Deleted Successfully',
   },
   updateSuccess: {
     zh: '更新成功',
-    en: 'Update Successfully',
+    en: 'Updated Successfully',
   },
   resetSuccess: {
-    zh: '更新成功',
-    en: 'Reset Successfully',
+    zh: '重置成功',
+    en: 'Reseted Successfully',
+  },
+  editSuccess: {
+    zh: '编辑成功',
+    en: 'Edited Successfully',
+  },
+  enableSuccess: {
+    zh: '启用成功',
+    en: 'Enabled Successfully',
+  },
+  disabledSuccess: {
+    zh: '停用成功',
+    en: 'Disabled Successfully',
   },
   viewMore: {
     zh: '查看更多',
@@ -131,10 +139,6 @@ export default {
     zh: '上一页',
     en: 'Previous',
   },
-  editSuccess: {
-    zh: '编辑成功',
-    en: 'Edit Successfully',
-  },
   day: {
     zh: '天',
     en: 'day | days',
@@ -142,14 +146,6 @@ export default {
   year: {
     zh: '年',
     en: 'year | years',
-  },
-  enableSuccess: {
-    zh: '启用成功',
-    en: 'Enable Successfully',
-  },
-  disabledSuccess: {
-    zh: '停用成功',
-    en: 'Disable Successfully',
   },
   select: {
     zh: '选择',
@@ -373,7 +369,7 @@ export default {
   },
   removeSuccess: {
     zh: '移除成功',
-    en: 'Remove Successfully',
+    en: 'Removed Successfully',
   },
   remove: {
     zh: '移除',

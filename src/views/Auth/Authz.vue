@@ -35,7 +35,6 @@
           <el-switch v-model="row.enable" @change="toggleEnable(row)" />
         </template>
       </el-table-column>
-      <!-- FIXME: -->
       <el-table-column prop="enable" :label="$t('Auth.status')">
         <template #default="{ row }">
           <AuthItemStatus :metrics="row.metrics" />

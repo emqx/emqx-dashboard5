@@ -22,7 +22,7 @@ export default (): {
       [ConnectionStatus.Disconnected]: tl('disconnected'),
       [ConnectionStatus.Connecting]: tl('connecting'),
     }
-    return status ? statusLabelMap[status] || tl('disconnected') : tl('disconnected')
+    return status ? statusLabelMap[status] || tl('disconnected') : ''
   }
   return {
     getStatusClass,
