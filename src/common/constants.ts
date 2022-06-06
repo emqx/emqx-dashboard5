@@ -101,3 +101,17 @@ export const PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION = [
   'sha256',
   'sha512',
 ]
+
+export const SESSION_FIELDS = [
+  'max_subscriptions',
+  'upgrade_qos',
+  'max_inflight',
+  'retry_interval',
+  'max_awaiting_rel',
+  'await_rel_timeout',
+  'session_expiry_interval',
+  'max_mqueue_len',
+  'mqueue_priorities',
+  'mqueue_default_priority',
+  'mqueue_store_qos0',
+]
