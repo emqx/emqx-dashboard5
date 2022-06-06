@@ -10,6 +10,7 @@ import _ from 'lodash'
 import { Setting } from '@element-plus/icons-vue'
 import '@/style/schemaForm.scss'
 import { useStore } from 'vuex'
+import { SESSION_FIELDS } from '@/common/constants'
 
 interface FormItemMeta {
   col: number
@@ -288,9 +289,9 @@ const SchemaForm = defineComponent({
         </el-tabs>
       )
       // FIXME: for MQTT page
-      if (props.type === 'mqtt') {
+      if (['mqtt', 'session'].includes(props.type)) {
         tabs = null
-        currentGroup.value = props.type
+        currentGroup.value = 'mqtt'
       }
       return (
         <>
@@ -327,6 +328,16 @@ const SchemaForm = defineComponent({
       }
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {
+          if (props.type === 'mqtt') {
+            if (SESSION_FIELDS.includes(key)) {
+              return
+            }
+          }
+          if (props.type === 'session') {
+            if (!SESSION_FIELDS.includes(key)) {
+              return
+            }
+          }
           const property = properties[key]
           if (property.properties) {
             const { label, properties } = property

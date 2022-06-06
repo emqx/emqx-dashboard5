@@ -20,6 +20,7 @@ import Topics from '@/views/Topics/Topics.vue'
 import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
 import Advanced from '@/views/Config/Advanced/Advanced.vue'
 import Mqtt from '@/views/Config/BasicConfig/Mqtt.vue'
+import Session from '@/views/Config/BasicConfig/Session.vue'
 // import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
 import Log from '@/views/Config/BasicConfig/Log.vue'
 import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
@@ -522,6 +523,11 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'general',
         name: 'mqtt-general',
         component: Mqtt,
+      },
+      {
+        path: 'session',
+        name: 'mqtt-session',
+        component: Session,
       },
       {
         path: 'advanced',

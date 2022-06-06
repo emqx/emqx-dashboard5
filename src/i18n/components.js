@@ -323,4 +323,8 @@ export default {
     zh: '插件扩展',
     en: 'Extensions',
   },
+  session: {
+    zh: '会话',
+    en: 'Session',
+  },
 }
