@@ -514,9 +514,6 @@
 
 .el-popper {
   --el-popper-border-radius: 8px;
-  &.is-light {
-    border: none
-  }
 }
 .el-popper.is-dark {
   background: var(--color-bg-popper);
