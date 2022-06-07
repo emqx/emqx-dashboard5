@@ -327,4 +327,8 @@ export default {
     zh: '会话',
     en: 'Session',
   },
+  retainer: {
+    zh: '保留消息',
+    en: 'Retainer',
+  },
 }

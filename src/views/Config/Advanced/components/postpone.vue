@@ -1,7 +1,14 @@
 <template>
-  <div>
+  <div class="postpone">
     <el-tabs>
       <el-tab-pane :label="tl('setting')" v-loading="configPending">
+        <div class="part-header">{{ tl('enable') }}</div>
+        <el-row class="enable-row" align="middle">
+          <el-col :span="16">{{ tl('enableDescDelay') }}</el-col>
+          <el-col :span="16">
+            <el-switch v-model="delayedConfig.enable" @change="toggleStatus()" />
+          </el-col>
+        </el-row>
         <el-form
           ref="delayedForm"
           :rules="delayedRules"
@@ -30,42 +37,28 @@
           </el-row>
         </el-form>
         <el-row>
-          <el-button type="primary" @click="updateDelayedConfig()">
-            {{ $t('Base.update') }}
+          <el-button
+            type="primary"
+            :disabled="!delayedConfig.enable"
+            @click="updateDelayedConfig()"
+          >
+            {{ $t('Base.save') }}
           </el-button>
-        </el-row>
-        <div class="part-header">{{ tl('enable') }}</div>
-
-        <el-row align="middle">
-          <el-col :span="13">{{ tl('enableDescDelay') }}</el-col>
-          <el-col :span="6">
-            <el-switch v-model="delayedConfig.enable" @change="toggleStatus()" />
-          </el-col>
         </el-row>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')" v-loading="tbLoading">
         <el-table :data="delayedTbData" class="shadow-none postpone-table">
           <el-table-column :label="'Topic'" prop="topic" :min-width="92" />
-          <el-table-column :label="'QoS'" prop="qos" sortable :min-width="84" />
+          <el-table-column :label="'QoS'" prop="qos" :min-width="84" />
           <el-table-column :label="'Payload'" :min-width="84">
             <template #default="{ row }">
               <el-button size="small" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="From Client ID" prop="from_clientid" sortable :min-width="146" />
-          <el-table-column
-            :label="tl('delayedTime')"
-            prop="delayed_interval"
-            sortable
-            :min-width="92"
-          />
-          <el-table-column
-            :label="tl('remainTime')"
-            prop="delayed_remaining"
-            sortable
-            :min-width="124"
-          />
-          <el-table-column :label="tl('publishTime')" sortable :min-width="132">
+          <el-table-column label="From Client ID" prop="from_clientid" :min-width="146" />
+          <el-table-column :label="tl('delayedTime')" prop="delayed_interval" :min-width="92" />
+          <el-table-column :label="tl('remainTime')" prop="delayed_remaining" :min-width="124" />
+          <el-table-column :label="tl('publishTime')" :min-width="132">
             <template #default="{ row }">
               {{ row.publish_at && dateFormat(row.publish_at) }}
             </template>
@@ -343,7 +336,13 @@ export default defineComponent({
   },
 })
 </script>
+
 <style lang="scss" scoped>
+.postpone {
+  :deep(.el-row) {
+    margin-bottom: 24px;
+  }
+}
 .payload-copied {
   padding-right: 10px;
 }

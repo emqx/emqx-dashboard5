@@ -73,7 +73,7 @@ export default {
   },
   createDate: {
     zh: '发布时间',
-    en: 'Created Date',
+    en: 'Created At',
   },
   unlimited: {
     zh: '不限',
@@ -184,8 +184,8 @@ export default {
     zh: '单次发布周期',
   },
   openPayload: {
-    en: 'details',
-    zh: '查看',
+    en: 'Show Payload',
+    zh: '查看 Payload',
   },
   required: {
     en: 'It is required',
@@ -226,5 +226,9 @@ export default {
   clientUnsubscribed: {
     zh: '客户端取消订阅',
     en: 'Client unsubscribed',
+  },
+  messages: {
+    zh: '已保留消息',
+    en: 'Retained Messages',
   },
 }
