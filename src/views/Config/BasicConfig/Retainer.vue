@@ -1,186 +1,184 @@
 <template>
-  <div>
-    <el-tabs>
-      <el-tab-pane :label="tl('setting')" v-loading="configLoading">
-        <div class="part-header">{{ tl('enable') }}</div>
-        <el-row align="middle">
-          <el-col :span="16" :style="{ marginBottom: '14px' }">{{ tl('enableDesc') }}</el-col>
-          <el-col :span="16">
-            <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
-          </el-col>
-        </el-row>
-        <div class="part-header">{{ tl('storage') }}</div>
-        <el-form
-          :disabled="!configEnable"
-          ref="retainerForm"
-          :rules="retainerRules"
-          :model="retainerConfig"
-          label-position="top"
-          @keyup.enter="updateConfigData()"
-        >
-          <el-row :gutter="30">
-            <el-col :span="16">
-              <el-form-item :label="tl('storageType')">
-                <el-select v-model="retainerConfig.backend.type">
-                  <el-option value="built_in_database" :label="tl('builtInDatabase')" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="30">
-            <el-col :span="16">
-              <el-form-item :label="tl('storage')" required prop="backend.storage_type">
-                <el-select v-model="retainerConfig.backend.storage_type">
-                  <el-option value="ram" />
-                  <el-option value="disc" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <div class="part-header">{{ tl('policy') }}</div>
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <el-form-item label="Max Retained Messages" prop="backend.max_retained_messages">
-                <el-input
-                  v-model.number="retainerConfig.backend.max_retained_messages"
-                  :readonly="selOptions.retained == 'unlimited'"
-                  maxlength="6"
-                >
-                  <template #append>
-                    <el-select v-model="selOptions.retained">
-                      <el-option value="unlimited" :label="tl('unlimited')" />
-                      <el-option value="custom" :label="tl('custom')" />
-                    </el-select>
-                  </template>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="Max Payload Size" prop="max_payload_size">
-                <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <el-form-item :label="tl('expire')" prop="msg_expiry_interval">
-                <InputWithUnit
-                  v-model="retainerConfig.msg_expiry_interval"
-                  :units="expiryTimeUnits"
-                  :disabled-opt="{ value: DISABLED_VALUE, label: tl('noExp') }"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item :label="tl('intervalClean')" prop="msg_clear_interval">
-                <InputWithUnit
-                  v-model="retainerConfig.msg_clear_interval"
-                  :units="expiryTimeUnits"
-                  :disabled-opt="{ value: DISABLED_VALUE, label: tl('disable') }"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <div class="part-header">{{ tl('flowControl') }}</div>
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <el-form-item :label="tl('batchReadNumber')" prop="flow_control.batch_read_number">
-                <el-input
-                  v-model.number="retainerConfig.flow_control.batch_read_number"
-                  :readonly="selOptions.read == 'unlimited'"
-                  maxlength="6"
-                >
-                  <template #append>
-                    <el-select v-model="selOptions.read">
-                      <el-option value="unlimited" :label="tl('unlimited')" />
-                      <el-option value="custom" :label="tl('custom')" />
-                    </el-select>
-                  </template>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item
-                :label="tl('batchDeliverNumber')"
-                prop="flow_control.batch_deliver_number"
+  <div class="retainer app-wrapper">
+    <el-card>
+      <el-tabs type="card">
+        <el-tab-pane :label="tl('messages')">
+          <div>
+            <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
+              <el-table-column :label="'Topic'" prop="topic" />
+              <el-table-column :label="'QoS'" prop="qos" min-width="40" />
+              <el-table-column label="From Client ID" prop="from_clientid" />
+              <el-table-column
+                :label="tl('createDate')"
+                prop="publish_at"
+                :sort-by="(row) => new Date(row.publish_at).getTime()"
               >
-                <el-input
-                  v-model.number="retainerConfig.flow_control.batch_deliver_number"
-                  :readonly="selOptions.deliver == 'unlimited'"
-                  maxlength="6"
-                >
-                  <template #append>
-                    <el-select v-model="selOptions.deliver">
-                      <el-option value="unlimited" :label="tl('unlimited')" />
-                      <el-option value="custom" :label="tl('custom')" />
-                    </el-select>
-                  </template>
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <el-form-item label="Limiter" prop="flow_control.batch_deliver_limiter">
-                <el-input v-model="retainerConfig.flow_control.batch_deliver_limiter" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-button type="primary" @click="updateConfigData()">
-              {{ $t('Base.update') }}
-            </el-button>
-          </el-row>
-        </el-form>
-      </el-tab-pane>
-      <el-tab-pane :label="tl('dataManage')">
-        <div>
-          <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
-            <el-table-column :label="'Topic'" prop="topic" :min-width="160" />
-            <el-table-column :label="'QoS'" prop="qos" sortable :min-width="92" />
-            <el-table-column :label="'Payload'" :min-width="92">
-              <template #default="{ row }">
-                <el-button size="small" @click="checkPayload(row)">{{
-                  tl('openPayload')
-                }}</el-button>
-              </template>
-            </el-table-column>
-            <el-table-column label="From Client ID" prop="from_clientid" :min-width="148" />
-            <el-table-column
-              :label="tl('createDate')"
-              prop="publish_at"
-              sortable
-              :sort-by="(row) => new Date(row.publish_at).getTime()"
-              :min-width="148"
-            >
-              <template #default="{ row }">
-                {{ row.publish_at && dateFormat(row.publish_at) }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('Base.operation')" :min-width="88">
-              <template #default="{ row }">
-                <el-button size="small" type="danger" plain @click="deleteRetainerTopic(row)">
-                  {{ $t('Base.delete') }}
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div class="emq-table-footer">
-            <el-pagination
-              v-if="count > 0"
-              background
-              layout="total, sizes, prev, pager, next"
-              :page-sizes="[20, 50, 100, 500]"
-              v-model:page-size="limit"
-              v-model:current-page="page"
-              :total="count"
-              @size-change="initPageNo(), loadTbData()"
-              @current-change="loadTbData"
-            />
+                <template #default="{ row }">
+                  {{ row.publish_at && dateFormat(row.publish_at) }}
+                </template>
+              </el-table-column>
+              <el-table-column :label="$t('Base.operation')">
+                <template #default="{ row }">
+                  <el-button size="small" @click="checkPayload(row)">{{
+                    tl('openPayload')
+                  }}</el-button>
+                  <el-button size="small" type="danger" plain @click="deleteRetainerTopic(row)">
+                    {{ $t('Base.delete') }}
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="emq-table-footer">
+              <el-pagination
+                v-if="count > 0"
+                background
+                layout="total, sizes, prev, pager, next"
+                :page-sizes="[20, 50, 100, 500]"
+                v-model:page-size="limit"
+                v-model:current-page="page"
+                :total="count"
+                @size-change="initPageNo(), loadTbData()"
+                @current-change="loadTbData"
+              />
+            </div>
           </div>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+        </el-tab-pane>
+        <el-tab-pane :label="tl('setting')" v-loading="configLoading">
+          <div class="part-header">{{ tl('enable') }}</div>
+          <el-row align="middle">
+            <el-col :span="16" :style="{ marginBottom: '14px' }">{{ tl('enableDesc') }}</el-col>
+            <el-col :span="16">
+              <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
+            </el-col>
+          </el-row>
+          <div class="part-header">{{ tl('storage') }}</div>
+          <el-form
+            :disabled="!configEnable"
+            ref="retainerForm"
+            :rules="retainerRules"
+            :model="retainerConfig"
+            label-position="top"
+            @keyup.enter="updateConfigData()"
+          >
+            <el-row :gutter="30">
+              <el-col :span="16">
+                <el-form-item :label="tl('storageType')">
+                  <el-select v-model="retainerConfig.backend.type">
+                    <el-option value="built_in_database" :label="tl('builtInDatabase')" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="16">
+                <el-form-item :label="tl('storage')" required prop="backend.storage_type">
+                  <el-select v-model="retainerConfig.backend.storage_type">
+                    <el-option value="ram" />
+                    <el-option value="disc" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <div class="part-header">{{ tl('policy') }}</div>
+            <el-row :gutter="30">
+              <el-col :span="8">
+                <el-form-item label="Max Retained Messages" prop="backend.max_retained_messages">
+                  <el-input
+                    v-model.number="retainerConfig.backend.max_retained_messages"
+                    :readonly="selOptions.retained == 'unlimited'"
+                    maxlength="6"
+                  >
+                    <template #append>
+                      <el-select v-model="selOptions.retained">
+                        <el-option value="unlimited" :label="tl('unlimited')" />
+                        <el-option value="custom" :label="tl('custom')" />
+                      </el-select>
+                    </template>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="Max Payload Size" prop="max_payload_size">
+                  <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="8">
+                <el-form-item :label="tl('expire')" prop="msg_expiry_interval">
+                  <InputWithUnit
+                    v-model="retainerConfig.msg_expiry_interval"
+                    :units="expiryTimeUnits"
+                    :disabled-opt="{ value: DISABLED_VALUE, label: tl('noExp') }"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item :label="tl('intervalClean')" prop="msg_clear_interval">
+                  <InputWithUnit
+                    v-model="retainerConfig.msg_clear_interval"
+                    :units="expiryTimeUnits"
+                    :disabled-opt="{ value: DISABLED_VALUE, label: tl('disable') }"
+                  />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <div class="part-header">{{ tl('flowControl') }}</div>
+            <el-row :gutter="30">
+              <el-col :span="8">
+                <el-form-item :label="tl('batchReadNumber')" prop="flow_control.batch_read_number">
+                  <el-input
+                    v-model.number="retainerConfig.flow_control.batch_read_number"
+                    :readonly="selOptions.read == 'unlimited'"
+                    maxlength="6"
+                  >
+                    <template #append>
+                      <el-select v-model="selOptions.read">
+                        <el-option value="unlimited" :label="tl('unlimited')" />
+                        <el-option value="custom" :label="tl('custom')" />
+                      </el-select>
+                    </template>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item
+                  :label="tl('batchDeliverNumber')"
+                  prop="flow_control.batch_deliver_number"
+                >
+                  <el-input
+                    v-model.number="retainerConfig.flow_control.batch_deliver_number"
+                    :readonly="selOptions.deliver == 'unlimited'"
+                    maxlength="6"
+                  >
+                    <template #append>
+                      <el-select v-model="selOptions.deliver">
+                        <el-option value="unlimited" :label="tl('unlimited')" />
+                        <el-option value="custom" :label="tl('custom')" />
+                      </el-select>
+                    </template>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="8">
+                <el-form-item label="Limiter" prop="flow_control.batch_deliver_limiter">
+                  <el-input v-model="retainerConfig.flow_control.batch_deliver_limiter" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row class="btn-col">
+              <el-col :span="24">
+                <el-button type="primary" @click="updateConfigData()">
+                  {{ $t('Base.save') }}
+                </el-button>
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
     <el-dialog v-model="payloadDialog" custom-class="payload-dialog" :title="'Payload'">
       <el-row v-loading="payloadLoading">
         <el-input
@@ -493,16 +491,26 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-.payload-copied {
-  padding-right: 10px;
-}
-.payload-dialog {
-  .payload-dialog-ft {
-    display: flex;
-    justify-content: space-between;
-    .el-select {
-      width: 200px;
+<style lang="scss">
+.retainer {
+  .el-tabs.el-tabs--card.el-tabs--top {
+    .el-tabs__content {
+      padding: 0 8px;
+      .el-tab-pane {
+        margin: 24px 0;
+      }
+    }
+  }
+  .payload-copied {
+    padding-right: 10px;
+  }
+  .payload-dialog {
+    .payload-dialog-ft {
+      display: flex;
+      justify-content: space-between;
+      .el-select {
+        width: 200px;
+      }
     }
   }
 }

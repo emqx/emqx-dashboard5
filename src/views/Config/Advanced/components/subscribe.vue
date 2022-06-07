@@ -2,7 +2,9 @@
   <div class="no-tab-wrapper subscribe">
     <div class="section-header">
       <div>{{ tl('internalPatterns') }}</div>
-      <el-button type="primary" @click="openOpDialog()">{{ $t('Base.add') }}</el-button>
+      <el-button type="primary" @click="openOpDialog()" :icon="Plus">{{
+        $t('Base.add')
+      }}</el-button>
     </div>
 
     <el-table :data="subTbData" class="shadow-none" v-loading="tbLoading">
@@ -86,6 +88,7 @@ import _ from 'lodash'
 import { QoSLevel } from '@/types/enum.ts'
 import { QoSOptions } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
+import { Plus } from '@element-plus/icons-vue'
 
 const createRawSubForm = () => ({
   topic: '',
@@ -208,6 +211,7 @@ export default defineComponent({
     return {
       tl,
       isEdit,
+      Plus,
       opSubs,
       openOpDialog,
       subsOptions,

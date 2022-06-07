@@ -2,7 +2,9 @@
   <div class="no-tab-wrapper rewrite">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" @click="openOpDialog()">{{ $t('Base.add') }}</el-button>
+      <el-button type="primary" @click="openOpDialog()" :icon="Plus">{{
+        $t('Base.add')
+      }}</el-button>
     </div>
 
     <el-table :data="rewriteTbData" class="shadow-none" v-loading="tbDataLoading">
@@ -62,11 +64,11 @@
 <script>
 import { defineComponent, nextTick, onMounted, reactive, ref } from 'vue'
 import { getTopicRewrite, editTopicRewrite } from '@/api/advanced'
-// import i18n from '@/i18n'
 import { ElMessageBox as MB } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import useI18nTl from '@/hooks/useI18nTl'
+import { Plus } from '@element-plus/icons-vue'
 
 export default defineComponent({
   name: 'Rewrite',
@@ -195,6 +197,7 @@ export default defineComponent({
     }
     return {
       tl,
+      Plus,
       isEdit,
       opRewrite,
       rewriteTbData,

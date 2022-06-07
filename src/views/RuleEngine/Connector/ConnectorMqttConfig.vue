@@ -36,9 +36,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('cleanStart')">
-            <el-select v-model="connectorVal.clean_start">
-              <el-option v-for="cs in [true, false]" :key="cs" :value="cs" />
-            </el-select>
+            <BooleanSelect v-model="connectorVal.clean_start" />
           </el-form-item>
         </el-col>
         <el-col :span="12">

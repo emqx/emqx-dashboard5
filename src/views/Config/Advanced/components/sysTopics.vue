@@ -71,7 +71,7 @@
         </section>
         <el-row>
           <el-button type="primary" @click="updateConfigData()">
-            {{ $t('Base.update') }}
+            {{ $t('Base.save') }}
           </el-button>
         </el-row>
       </el-form>
