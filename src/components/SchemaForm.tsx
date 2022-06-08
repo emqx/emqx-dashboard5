@@ -88,7 +88,7 @@ const SchemaForm = defineComponent({
     }
     const resetValue = (property: Properties[string]) => {
       if (!property.path) return
-      if (property.default) {
+      if (property.default !== undefined && property.default !== null) {
         configForm.value[property.path] = property.default
       }
     }
