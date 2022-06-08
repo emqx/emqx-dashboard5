@@ -36,7 +36,7 @@
       </el-col>
     </el-row>
   </div>
-  <RuleOutputsDialog
+  <RuleOutputsDrawer
     v-model="showOutputDialog"
     :output="currentOutputItem"
     :output-disable-list="outputDisableList"
@@ -56,7 +56,7 @@ export default defineComponent({
 import { defineProps, PropType, computed, defineEmits, ref, Ref, WritableComputedRef } from 'vue'
 import { BasicRule, OutputItem, RuleItem } from '@/types/rule'
 import useI18nTl from '@/hooks/useI18nTl'
-import RuleOutputsDialog from './RuleOutputsDialog.vue'
+import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
 import { RuleOutput } from '@/types/enum'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox as MB } from 'element-plus'

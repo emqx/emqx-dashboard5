@@ -3,7 +3,7 @@
     :title="!isEdit ? tl('addAction') : tl('editAction')"
     v-model="showDialog"
     :lock-scroll="false"
-    :size="500"
+    :size="520"
   >
     <!-- FIXME: scroll bug-->
     <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
