@@ -8,9 +8,6 @@
         </span>
       </div>
       <div>
-        <el-button @click="testSQL" v-if="activeTab !== Tab.Setting">
-          {{ tl('testsql') }}
-        </el-button>
         <el-button @click="enableOrDisableRule()">
           {{ ruleInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
@@ -41,20 +38,13 @@
 <script lang="ts" setup>
 import { onMounted, ref, Ref, computed } from 'vue'
 import iotform from '../components/IoTForm.vue'
-import {
-  deleteRules,
-  getBridgeList,
-  getRuleEvents,
-  getRuleInfo,
-  updateRules,
-} from '@/api/ruleengine'
+import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { MQTTBridgeDirection } from '@/types/enum'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 
@@ -72,10 +62,6 @@ const iKey = ref(0)
 const infoLoading = ref(false)
 const submitLoading = ref(false)
 const activeTab = ref(Tab.Overview)
-const isSQLTestDialogShow = ref(false)
-const SQLForTest = ref('')
-const eventList: Ref<Array<RuleEvent>> = ref([])
-const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 
 const formCom = ref()
 
@@ -100,25 +86,6 @@ const loadRuleDetail = async () => {
   }
 }
 
-const loadRuleEvents = async () => {
-  try {
-    eventList.value = await getRuleEvents()
-  } catch (error) {
-    //
-  }
-}
-
-const getIngressBridgeList = async () => {
-  try {
-    const data = await getBridgeList()
-    ingressBridgeList.value = data.filter(
-      (v: BridgeItem) => 'direction' in v && v.direction === MQTTBridgeDirection.In,
-    )
-  } catch (error) {
-    //
-  }
-}
-
 const enableOrDisableRule = async () => {
   infoLoading.value = true
   try {
@@ -130,12 +97,6 @@ const enableOrDisableRule = async () => {
   } finally {
     infoLoading.value = false
   }
-}
-
-const testSQL = async () => {
-  await Promise.all([loadRuleEvents(), getIngressBridgeList()])
-  SQLForTest.value = ruleInfo.value.sql
-  isSQLTestDialogShow.value = true
 }
 
 const deleteRule = async () => {

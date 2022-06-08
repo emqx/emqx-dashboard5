@@ -125,6 +125,7 @@
         :custom-payload="payloadForTest"
         @change-loading="handleTestLoadng"
         @save="saveSQLFromTest"
+        @use-sql="useSQLTemplate"
       />
     </el-row>
     <el-row class="oper-row">

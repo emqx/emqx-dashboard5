@@ -23,6 +23,9 @@
               </el-tooltip>
             </div>
             <div class="context-handlers">
+              <el-tooltip effect="dark" :content="tl('viewSQL')" placement="top-start">
+                <el-icon @click="viewSQLExample"><View /></el-icon>
+              </el-tooltip>
               <el-tooltip effect="dark" :content="tl('doc')" placement="top-start">
                 <el-icon @click="goDoc"><QuestionFilled /></el-icon>
               </el-tooltip>
@@ -84,11 +87,25 @@
         </div>
       </div>
     </template> -->
+    <el-dialog v-model="sqlDialog" custom-class="sql-dialog" :title="tl('sqlExample')">
+      <p>{{ eventDesc }}</p>
+      <code-view v-if="sqlDialog" lang="sql" :code="sqlExample" />
+      <template #footer>
+        <el-button @click="useSQL(sqlExample)">
+          {{ tl('useSQL') }}
+        </el-button>
+        <el-button @click="copyText(sqlExample)">
+          {{ $t('Base.copy') }}
+        </el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useStore } from 'vuex'
+import useCopy from '@/hooks/useCopy'
 
 export default defineComponent({
   name: 'SQLTest',
@@ -100,16 +117,23 @@ import { defineProps, computed, defineEmits, ref, Ref, PropType, watch, defineEx
 import { testsql } from '@/api/ruleengine'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
-import { QuestionFilled, Refresh, MagicStick, EditPen } from '@element-plus/icons-vue'
+import {
+  QuestionFilled,
+  Refresh,
+  MagicStick,
+  EditPen,
+  WarningFilled,
+  View,
+} from '@element-plus/icons-vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
 import FromSelect from '../components/FromSelect.vue'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
-import { WarningFilled } from '@element-plus/icons-vue'
 import { RuleInputType } from '@/types/enum'
 import useDocLink from '@/hooks/useDocLink'
+import CodeView from '@/components/CodeView.vue'
 
 interface TestParams {
   context: Record<string, string>
@@ -149,7 +173,7 @@ const props = defineProps({
   },
 })
 
-const emits = defineEmits(['changeLoading'])
+const emits = defineEmits(['changeLoading', 'use-sql'])
 
 const testParams: Ref<TestParams> = ref({
   context: {},
@@ -160,6 +184,9 @@ const inputContextBy = ref(InputContextType.JSON)
 const dataType: Ref<string> = ref('')
 const isDataTypeNoMatchSQL = ref(false)
 let testColumnDescMap: Record<string, string> = {}
+const sqlDialog = ref(false)
+const sqlExample = ref('')
+const eventDesc = ref('')
 const tooltipForToggleBtn = computed(() =>
   tl(
     inputContextBy.value === InputContextType.JSON ? 'switchToFormEditing' : 'switchToJSONEditing',
@@ -208,6 +235,26 @@ const goDoc = () => {
   // TODO:
   window.open(docMap.home, '_blank')
 }
+
+const store = useStore()
+
+const viewSQLExample = () => {
+  sqlDialog.value = true
+  props.eventList.forEach((e) => {
+    if (e.event === dataType.value) {
+      sqlExample.value = e.sql_example
+      const lang = store.state.lang as 'zh' | 'en'
+      eventDesc.value = e.description[lang]
+    }
+  })
+}
+
+const useSQL = (SQLContent: string) => {
+  emits('use-sql', SQLContent)
+  sqlDialog.value = false
+}
+
+const { copyText } = useCopy()
 
 const resetContext = () => {
   handleDataSourceChanged({ value: dataType.value })
@@ -392,11 +439,14 @@ setDataTypeNContext()
     position: absolute;
     align-items: center;
     top: -34px;
-    left: 90px;
+    left: 85px;
+  }
+  .sql-example-btn {
+    margin-left: 6px;
   }
   .icon-warning {
     color: var(--el-color-warning);
-    margin-left: 12px;
+    margin-left: 6px;
   }
   .context-handlers {
     position: absolute;

@@ -427,6 +427,14 @@ export default {
     zh: '概览',
     en: 'Overview',
   },
+  viewSQL: {
+    zh: '查看当前数据源下的 SQL 例子',
+    en: 'View SQL example under the current data source',
+  },
+  sqlExample: {
+    zh: 'SQL 例子',
+    en: 'SQL Example',
+  },
   settings: {
     zh: '设置',
     en: 'Settings',
