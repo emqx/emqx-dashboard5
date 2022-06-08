@@ -48,7 +48,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
-const props = defineProps({
+defineProps({
   rowData: {
     required: true,
     type: Object as PropType<PluginItem>,
