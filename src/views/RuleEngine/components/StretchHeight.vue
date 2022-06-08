@@ -49,7 +49,7 @@ onMounted(() => {
   justify-content: center;
   width: 100%;
   height: 10px;
-  background: #e6e6e6;
+  background: var(--color-border-primary);
   cursor: row-resize;
 }
 </style>
