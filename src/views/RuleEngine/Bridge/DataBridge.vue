@@ -37,7 +37,7 @@
             </template>
           </el-table-column>
           <!-- FIXME: -->
-          <el-table-column :label="tl('status')" sortable :min-width="120">
+          <el-table-column :label="tl('status')" :min-width="120">
             <template #default="{ row }">
               <BridgeItemStatus :bridge="row" />
             </template>

@@ -7,7 +7,6 @@
     @keyup.enter="handleTopicComplete"
     @blur="handleTopicComplete"
     @change="handleSelectedChanged"
-    :class="{ 'is-mini': forTest }"
     :popper-class="`from-select-popper ${isInputTopic ? 'is-hidden' : ''}`"
     :filter-method="filterMethod"
   >
@@ -288,14 +287,6 @@ setSelected()
 }
 .item-id {
   color: var(--el-text-color-secondary);
-}
-.is-mini {
-  &.el-select {
-    --color-border-primary: transparent;
-    --el-input-border-color: transparent;
-    --el-select-border-color-hover: transparent;
-    --el-select-input-focus-border-color: transparent;
-  }
 }
 </style>
 

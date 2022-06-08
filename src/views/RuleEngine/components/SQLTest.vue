@@ -1,48 +1,40 @@
 <template>
-  <el-dialog
-    :title="tl('testsql')"
-    v-model="showDialog"
-    top="60px"
-    :width="1000"
-    custom-class="SQL-test-dialog"
-  >
+  <div class="sql-test">
+    <div class="part-header">{{ tl('test') }}</div>
     <el-form label-position="top">
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="tl('testData')">
-            <div class="label-container">
-              <div class="from-select-container">
-                <label>{{ tl('dataSource') }}</label>
-                <FromSelect
-                  v-model="dataType"
-                  :ingress-bridge-list="ingressBridgeList"
-                  :event-list="eventList"
-                  @change="handleDataSourceChanged"
-                  for-test
-                />
-                <!-- <el-tooltip
-                  v-if="isDataTypeNoMatchSQL"
-                  effect="dark"
-                  :content="tl('dataTypeSQLNoMatch')"
-                  placement="top-start"
-                >
-                  <el-icon class="icon-warning"><WarningFilled /></el-icon>
-                </el-tooltip> -->
-              </div>
-              <div class="context-handlers">
-                <el-tooltip effect="dark" :content="tl('doc')" placement="top-start">
-                  <el-icon @click="goDoc"><QuestionFilled /></el-icon>
-                </el-tooltip>
-                <el-tooltip effect="dark" :content="tl('resetData')" placement="top-start">
-                  <el-icon @click="resetContext"><Refresh /></el-icon>
-                </el-tooltip>
-                <el-tooltip effect="dark" :content="tl('formatJSON')" placement="top-start">
-                  <el-icon @click="formatJSON"><MagicStick /></el-icon>
-                </el-tooltip>
-                <el-tooltip effect="dark" :content="tooltipForToggleBtn" placement="top-start">
-                  <el-icon @click="toggleInputContextType"><EditPen /></el-icon>
-                </el-tooltip>
-              </div>
+          <el-form-item :label="tl('dataSource')">
+            <div class="from-select-container">
+              <FromSelect
+                v-model="dataType"
+                :ingress-bridge-list="ingressBridgeList"
+                :event-list="eventList"
+                @change="handleDataSourceChanged"
+                for-test
+              />
+              <el-tooltip
+                v-if="isDataTypeNoMatchSQL"
+                effect="dark"
+                :content="tl('dataTypeSQLNoMatch')"
+                placement="top-start"
+              >
+                <el-icon class="icon-warning"><WarningFilled /></el-icon>
+              </el-tooltip>
+            </div>
+            <div class="context-handlers">
+              <el-tooltip effect="dark" :content="tl('doc')" placement="top-start">
+                <el-icon @click="goDoc"><QuestionFilled /></el-icon>
+              </el-tooltip>
+              <el-tooltip effect="dark" :content="tl('resetData')" placement="top-start">
+                <el-icon @click="resetContext"><Refresh /></el-icon>
+              </el-tooltip>
+              <el-tooltip effect="dark" :content="tl('formatJSON')" placement="top-start">
+                <el-icon @click="formatJSON"><MagicStick /></el-icon>
+              </el-tooltip>
+              <el-tooltip effect="dark" :content="tooltipForToggleBtn" placement="top-start">
+                <el-icon @click="toggleInputContextType"><EditPen /></el-icon>
+              </el-tooltip>
             </div>
             <div v-if="inputContextBy === InputContextType.JSON" class="monaco-container">
               <!-- <el-input type="textarea" rows="5" v-model="testParams.context" /> -->
@@ -56,9 +48,16 @@
             <TestSQLContextForm v-else v-model="testParams.context" />
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="30">
         <el-col :span="12">
+          <el-form-item :label="tl('outputResult')">
+            <div class="monaco-container">
+              <Monaco :id="createRandomString()" v-model="testParams.output" lang="json" />
+            </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <!-- <el-col :span="12">
           <el-form-item :label="tl('testsql')">
             <div class="monaco-container">
               <Monaco
@@ -69,19 +68,10 @@
               />
             </div>
           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('outputResult')">
-            <div class="monaco-container">
-              <Monaco :id="createRandomString()" v-model="testParams.output" lang="json" />
-            </div>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <template #footer>
+        </el-col> -->
+    <!-- <template #footer>
       <div class="ft-flex">
-        <el-button type="primary" :loading="testLoading" @click="submitTest()">
+        <el-button type="primary" :lochangeLoading" @click="submitTest()">
           {{ $t('Base.test') }}
         </el-button>
         <div>
@@ -93,23 +83,23 @@
           </el-button>
         </div>
       </div>
-    </template>
-  </el-dialog>
+    </template> -->
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'SQLTestDialog',
+  name: 'SQLTest',
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps, computed, defineEmits, WritableComputedRef, ref, Ref, PropType } from 'vue'
+import { defineProps, computed, defineEmits, ref, Ref, PropType, watch, defineExpose } from 'vue'
 import { testsql } from '@/api/ruleengine'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString, getKeywordsFromSQL, parseJSONSafely } from '@/common/tools'
+import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import { QuestionFilled, Refresh, MagicStick, EditPen } from '@element-plus/icons-vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -123,7 +113,6 @@ import useDocLink from '@/hooks/useDocLink'
 
 interface TestParams {
   context: Record<string, string>
-  sql: string
   output: string
 }
 
@@ -135,9 +124,6 @@ enum InputContextType {
 const { tl } = useI18nTl('RuleEngine')
 
 const props = defineProps({
-  modelValue: {
-    type: Boolean,
-  },
   sql: {
     type: String,
     default: '',
@@ -157,37 +143,28 @@ const props = defineProps({
   customPayload: {
     type: String,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 })
 
-const emit = defineEmits(['update:modelValue', 'save'])
+const emits = defineEmits(['changeLoading'])
 
 const testParams: Ref<TestParams> = ref({
   context: {},
-  sql: '',
   output: '',
 })
 const contextObjStr: Ref<string> = ref('')
-const testLoading = ref(false)
 const inputContextBy = ref(InputContextType.JSON)
 const dataType: Ref<string> = ref('')
 const isDataTypeNoMatchSQL = ref(false)
 let testColumnDescMap: Record<string, string> = {}
-
-const showDialog: WritableComputedRef<boolean> = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emit('update:modelValue', val)
-  },
-})
-
 const tooltipForToggleBtn = computed(() =>
   tl(
     inputContextBy.value === InputContextType.JSON ? 'switchToFormEditing' : 'switchToJSONEditing',
   ),
 )
-
 const { TOPIC_EVENT, findInputTypeNTarget, getTestColumns, transFromStrToFromArr } = useRuleUtils()
 
 /**
@@ -203,34 +180,6 @@ const setContextObjStr = () => {
     ElMessage.error(error?.toString())
     return Promise.reject()
   }
-}
-
-const setDataType = (type: RuleInputType, firstInput: string) => {
-  if (type === RuleInputType.Topic) {
-    dataType.value = TOPIC_EVENT
-  } else {
-    dataType.value = firstInput
-  }
-}
-
-/**
- * called when dialog opened
- */
-const setDataTypeNContext = () => {
-  const { sql, eventList, ingressBridgeList, customPayload: payload } = props
-  const { fromStr } = getKeywordsFromSQL(sql)
-  const [firstInput = ''] = transFromStrToFromArr(fromStr)
-  const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
-  const { context, descMap } = getTestColumns(inputType, firstInput, eventList)
-  if ('payload' in context && payload) {
-    context.payload = payload
-  }
-
-  preFrom = firstInput
-  testColumnDescMap = descMap
-  setDataType(inputType, firstInput)
-
-  testParams.value = { sql, context, output: '' }
 }
 
 const setObjByStr = async () => {
@@ -326,31 +275,40 @@ const handleDataSourceChanged = ({ value }: { value: string }) => {
   // The data type switch will not change the SQL, but if the data type does not match the SQL,
   // a warning will be issued indicating that the data type does not match the SQL
   const { eventList = [], ingressBridgeList = [] } = props
-
   const { type, target } = findInputTypeNTarget(value, eventList, ingressBridgeList)
-  const { fromStr } = getKeywordsFromSQL(testParams.value.sql)
+  const { fromStr } = getKeywordsFromSQL(props.sql)
   isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
-
   const { context } = getTestColumns(type, value, props.eventList || [])
   setContext(context)
 }
 
+watch(
+  () => props.eventList,
+  (value) => {
+    handleDataSourceChanged({ value: dataType.value })
+  },
+)
+
 const handleSQLChanged = () => {
   const { eventList = [], ingressBridgeList = [] } = props
-
-  const { fromStr } = getKeywordsFromSQL(testParams.value.sql)
+  const { fromStr } = getKeywordsFromSQL(props.sql)
   const [firstInput = ''] = transFromStrToFromArr(fromStr)
   if (preFrom === firstInput) {
     return
   }
   preFrom = firstInput
-
   const { type: firstInputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
   setDataType(firstInputType, firstInput)
-
   const { context } = getTestColumns(firstInputType, firstInput, eventList)
   setContext(context)
 }
+
+watch(
+  () => props.sql,
+  (value) => {
+    handleSQLChanged()
+  },
+)
 
 const getEventTypeInContext = () => {
   const { eventList = [], ingressBridgeList = [] } = props
@@ -366,89 +324,104 @@ const getEventTypeInContext = () => {
 
 const submitTest = async () => {
   await setObjByStr()
-  testLoading.value = true
+  emits('changeLoading', true)
   const context = {
     ...testParams.value.context,
     event_type: getEventTypeInContext(),
   }
-  const res = await testsql({
-    context,
-    sql: testParams.value.sql,
-  }).catch((e) => {
-    testParams.value.output = e
-  })
-
-  if (res) {
-    try {
-      const text = JSON.stringify(res, null, 2)
-      testParams.value.output = text
-    } catch (e) {
-      console.log(e)
-      testParams.value.output = res
+  try {
+    const res = await testsql({
+      context,
+      sql: props.sql,
+    }).catch((e) => {
+      testParams.value.output = e
+    })
+    if (res) {
+      try {
+        const text = JSON.stringify(res, null, 2)
+        testParams.value.output = text
+      } catch (e) {
+        console.log(e)
+        testParams.value.output = res
+      }
     }
+  } catch (e) {
+    // ignore error
+  } finally {
+    emits('changeLoading', false)
   }
-  testLoading.value = false
 }
 
-const save = () => {
-  emit('save', testParams.value.sql)
-  cancel()
-}
-
-const cancel = () => {
-  showDialog.value = false
-}
-
-watch(showDialog, (val) => {
-  if (val) {
-    setDataTypeNContext()
-    setContextObjStr()
-  }
+defineExpose({
+  submitTest,
 })
+
+const setDataType = (type: RuleInputType, firstInput: string) => {
+  if (type === RuleInputType.Topic) {
+    dataType.value = TOPIC_EVENT
+  } else {
+    dataType.value = firstInput
+  }
+  handleDataSourceChanged({ value: dataType.value })
+}
+
+const setDataTypeNContext = () => {
+  const { sql, eventList, ingressBridgeList, customPayload: payload } = props
+  const { fromStr } = getKeywordsFromSQL(sql)
+  const [firstInput = ''] = transFromStrToFromArr(fromStr)
+  const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
+  const { context, descMap } = getTestColumns(inputType, firstInput, eventList)
+  if ('payload' in context && payload) {
+    context.payload = payload
+  }
+
+  preFrom = firstInput
+  testColumnDescMap = descMap
+  setDataType(inputType, firstInput)
+  testParams.value = { context, output: '' }
+}
+
+setDataTypeNContext()
 </script>
 
-<style lang="scss" scoped>
-.label-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+<style lang="scss">
+.sql-test {
   width: 100%;
-  margin-bottom: 12px;
-}
-.from-select-container {
-  display: flex;
-  align-items: center;
-  label {
-    flex-shrink: 0;
-    padding-right: 16px;
-    color: var(--el-text-color-secondary);
-  }
-}
-.icon-warning {
-  color: var(--el-color-warning);
-  margin-left: 12px;
-}
-.context-handlers {
-  .el-icon {
-    display: inline-flex;
+  .from-select-container {
+    display: flex;
+    position: absolute;
     align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
-    background-color: var(--color-bg-split);
-    cursor: pointer;
-    &:not(:last-child) {
-      margin-right: 4px;
+    top: -34px;
+    left: 90px;
+  }
+  .icon-warning {
+    color: var(--el-color-warning);
+    margin-left: 12px;
+  }
+  .context-handlers {
+    position: absolute;
+    float: left;
+    top: -34px;
+    right: 0;
+    font-size: 16px;
+    .el-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 2px;
+      background-color: var(--color-bg-split);
+      cursor: pointer;
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
     }
   }
-}
-.monaco-container {
-  height: 180px;
-}
-.ft-flex {
-  display: flex;
-  justify-content: space-between;
+  .monaco-container {
+    height: 200px;
+    margin-top: 12px;
+  }
 }
 </style>
 

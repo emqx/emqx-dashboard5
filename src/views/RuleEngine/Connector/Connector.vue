@@ -6,7 +6,7 @@
         <div class="section-header">
           <div></div>
           <el-button type="primary" :icon="Plus" @click="openCreate">
-            {{ tl('createConnector') }}
+            {{ tl('create') }}
           </el-button>
         </div>
 
