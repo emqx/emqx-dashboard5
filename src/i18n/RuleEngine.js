@@ -64,12 +64,12 @@ export default {
     en: 'Send data to Webhook | HTTP service',
   },
   bridgeDescMQTTIn: {
-    zh: '连接 MQTT Broker 或 IoT 平台并订阅指定主题的消息',
-    en: 'Connect to MQTT Broker or IoT platform and subscribe to messages on the specified topic',
+    zh: '连接 MQTT Broker 或平台并订阅指定主题的消息',
+    en: 'Connect to MQTT Broker or platform and subscribe to messages on the specified topic',
   },
   bridgeDescMQTTOut: {
-    zh: '连接 MQTT Broker 或 IoT 平台并将数据发送到指定主题',
-    en: 'Connect to MQTT Broker or IoT platform and send messages to the specified topic',
+    zh: '连接 MQTT Broker 或平台并将数据发送到指定主题',
+    en: 'Connect to MQTT Broker or platform and send messages to the specified topic',
   },
   baseInfo: {
     zh: '基本信息',
@@ -291,10 +291,6 @@ export default {
     zh: 'SQL 编辑器',
     en: 'SQL Editor',
   },
-  backToIoTList: {
-    zh: '返回 IoT 规则列表',
-    en: 'Back To IoT Rules List',
-  },
   backToBridggeList: {
     zh: '返回 Bridge 列表',
     en: 'Back To Bridge List',
@@ -416,8 +412,8 @@ export default {
     en: 'SQL',
   },
   ruleSQLDesc: {
-    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的 IoT 数据。',
-    en: 'Extract, filter, enrich, and transform IoT data between devices and business systems in real-time using SQL statements.',
+    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的 MQTT 数据。',
+    en: 'Extract, filter, enrich, and transform MQTT data between devices and business systems in real-time using SQL statements.',
   },
   doc: {
     zh: '参考文档',
@@ -520,12 +516,12 @@ export default {
     en: 'Connection is successful',
   },
   outBridgeLocalTopicPlaceholder: {
-    zh: '需要转发的主题，不填则由 IoT Rule 指定',
-    en: 'The topic that needs to be forwarded, will be specified by IoT rule if empty',
+    zh: '需要转发的主题，不填则由 Rule 指定',
+    en: 'The topic that needs to be forwarded, will be specified by Rule if empty',
   },
   inBridgeLocalTopicPlaceholder: {
-    zh: '默认由 IoT Rule 处理',
-    en: 'It is handled by IoT Rule by default',
+    zh: '默认由 Rule 处理',
+    en: 'It is handled by Rule by default',
   },
   remoteTopicPlaceholder: {
     zh: '桥接数据到远程 Broker 中',
@@ -636,40 +632,40 @@ export default {
     en: 'Would you like forward messages to a local topic?',
   },
   mqttSourceTransDescDetail: {
-    zh: '不经 IoT 规则处理直接将远程主题数据转发至本地主题中。',
-    en: 'Directly forward remote topic messages to local topic without IoT rule processing.',
+    zh: '不经规则处理直接将远程主题数据转发至本地主题中。',
+    en: 'Directly forward remote topic messages to local topic without Rule processing.',
   },
   mqttSourceForwardLabel: {
     zh: '你想将数据转发至何处？',
     en: 'Where do you want to forward messages to?',
   },
   iotAndLocalTopic: {
-    zh: '本地主题 + IoT 规则',
-    en: 'Local Topic + IoT Rules',
+    zh: '本地主题 + 规则',
+    en: 'Local Topic + Rules',
   },
   justIot: {
-    zh: '仅 IoT 规则',
-    en: 'Just IoT Rules',
+    zh: '仅规则',
+    en: 'Just Rules',
   },
   mqttSourceForwardLocalTopicDesc: {
-    zh: '使用 IoT 规则处理数据，同时将数据转发至本地主题中',
-    en: 'Process messages using IoT rules and forwarding messages to the local topic',
+    zh: '使用规则处理数据，同时将数据转发至本地主题中',
+    en: 'Process messages using rules and forwarding messages to the local topic',
   },
   mqttSourceNotForwardLocalTopicDesc: {
-    zh: '仅使用 IoT 规则处理数据',
-    en: 'Just use IoT rules to process data',
+    zh: '仅使用规则处理数据',
+    en: 'Just use rules to process data',
   },
   bridgeSinkFromLabel: {
     zh: '你想从什么地方转发数据？',
     en: 'Where do you want to forward messages from?',
   },
   bridgeSinkForwardFromLocalTopicDesc: {
-    zh: '从本地主题和 IoT 规则中转发数据',
-    en: 'Forward messages from the local topic and IoT rules',
+    zh: '从本地主题和规则中转发数据',
+    en: 'Forward messages from the local topic and Rules',
   },
   bridgeSinkNotForwardFromLocalTopicDesc: {
-    zh: '仅从 IoT 规则转发数据',
-    en: 'Just forward messages from IoT rules',
+    zh: '仅从规则转发数据',
+    en: 'Just forward messages from Rules',
   },
   headers: {
     zh: '请求头',
