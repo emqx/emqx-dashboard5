@@ -28,13 +28,13 @@
   </el-form>
 </template>
 
-<!-- <script lang="ts">
+<script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'TestSQLContextForm',
 })
-</script> -->
+</script>
 
 <script setup lang="ts">
 import { ref, computed, defineProps, defineEmits, PropType, WritableComputedRef } from 'vue'
@@ -75,12 +75,15 @@ const record: WritableComputedRef<Record<string, string>> = computed({
 </script>
 
 <style lang="scss" scoped>
+.el-form-item {
+  margin-top: 12px;
+}
 .payload-type {
   box-sizing: border-box;
   width: 100%;
   padding: 2px 12px;
-  background: #f6f7fb;
-  border: 1px solid #d9d9d9;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
   border-top: none;
   text-align: right;
   line-height: 1;
