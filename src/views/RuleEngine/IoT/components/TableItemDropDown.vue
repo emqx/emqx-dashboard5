@@ -20,7 +20,7 @@
         </el-dropdown-item>
         <el-dropdown-item command="copy">
           <el-icon><CopyDocument /></el-icon>
-          <span>{{ tl('copy') }}</span>
+          <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
         <el-dropdown-item command="delete" class="danger">
           <el-icon><Delete /></el-icon>

@@ -1,17 +1,14 @@
 <template>
-  <div class="app-wrapper">
+  <div class="iot-create app-wrapper">
     <detail-header :item="{ name: $t('RuleEngine.createRule'), path: '/iot' }" />
-    <div class="iot-create">
-      <iotform ref="formCom" v-model="ruleValue" />
-      <el-row class="config-btn">
-        <el-button @click="$router.push({ name: 'iot' })">
-          {{ $t('Base.cancel') }}
-        </el-button>
-        <el-button type="primary" :loading="submitLoading" @click="submitCreateIoT">
-          {{ $t('Base.create') }}
-        </el-button>
-      </el-row>
-    </div>
+    <el-card>
+      <iotform
+        ref="formCom"
+        v-model="ruleValue"
+        :submit-loading="submitLoading"
+        @save="submitCreateIoT"
+      />
+    </el-card>
   </div>
 </template>
 
@@ -43,6 +40,8 @@ const { transSQLFormDataToSQL } = useRuleUtils()
 const route = useRoute()
 const router = useRouter()
 const submitLoading = ref(false)
+
+// const mode = 'sql'
 
 const createRuleName = () => `rule_${createRandomString(4)}`
 
@@ -87,8 +86,15 @@ const submitCreateIoT = async () => {
 checkRuleClipStatus()
 </script>
 
-<style lang="scss" scoped>
-.config-btn {
-  margin-top: 50px;
+<style lang="scss">
+.iot-create {
+  .el-card {
+    .el-card__body {
+      padding: 0px;
+    }
+  }
+  .config-btn {
+    margin-top: 50px;
+  }
 }
 </style>

@@ -24,24 +24,18 @@
         <RuleItemOverview :rule-msg="ruleInfo" @reset="loadRuleDetail" />
       </el-tab-pane>
       <el-tab-pane :label="tl('settings')" :name="Tab.Setting" lazy>
-        <div v-loading="infoLoading">
-          <iotform ref="formCom" v-model="ruleInfo" :key="iKey" />
-          <el-row class="config-btn">
-            <el-button type="primary" :loading="infoLoading" @click="submitUpdateRules()">
-              {{ $t('Base.update') }}
-            </el-button>
-          </el-row>
-        </div>
+        <el-card class="detail-card" v-loading="infoLoading">
+          <iotform
+            ref="formCom"
+            v-model="ruleInfo"
+            is-edit
+            :submit-loading="submitLoading"
+            @save="submitUpdateRules"
+          />
+        </el-card>
       </el-tab-pane>
     </el-tabs>
   </div>
-  <SQLTestDialog
-    v-model="isSQLTestDialogShow"
-    :sql="SQLForTest"
-    :ingress-bridge-list="ingressBridgeList"
-    :event-list="eventList"
-    :can-save="false"
-  />
 </template>
 
 <script lang="ts" setup>
@@ -60,7 +54,6 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import SQLTestDialog from '../components/SQLTestDialog.vue'
 import { MQTTBridgeDirection } from '@/types/enum'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
@@ -77,6 +70,7 @@ const { t } = useI18n()
 const id = route.params.id as string
 const iKey = ref(0)
 const infoLoading = ref(false)
+const submitLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 const isSQLTestDialogShow = ref(false)
 const SQLForTest = ref('')
@@ -157,7 +151,7 @@ const deleteRule = async () => {
 
 const submitUpdateRules = async () => {
   await formCom.value.validate()
-  infoLoading.value = true
+  submitLoading.value = true
   const { name, sql, enable, description, actions } = ruleInfo.value
   const updateData: Partial<RuleItem> = { name, sql, enable, description, actions }
   try {
@@ -167,7 +161,7 @@ const submitUpdateRules = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    infoLoading.value = false
+    submitLoading.value = false
   }
 }
 
@@ -176,8 +170,15 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-.config-btn {
-  margin-top: 50px;
+<style lang="scss">
+.iot-detail {
+  .el-card.detail-card {
+    .el-card__body {
+      padding: 0px;
+    }
+  }
+  .config-btn {
+    margin-top: 50px;
+  }
 }
 </style>

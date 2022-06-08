@@ -1,27 +1,58 @@
 <template>
   <div class="iot-form">
-    <el-form ref="formCom" :model="ruleValue" :rules="formRules" label-position="top">
-      <el-card class="app-card">
-        <div class="part-header">{{ tl('baseInfo') }}</div>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item :label="tl('name')" required prop="name">
-              <el-input v-model="ruleValue.name" />
-            </el-form-item>
-            <el-form-item :label="tl('note')">
-              <el-input type="textarea" v-model="ruleValue.description" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-card>
+    <el-row class="editor-row">
+      <el-col :span="14" class="sql-col">
+        <el-form ref="formCom" :model="ruleValue" :rules="formRules" label-position="top">
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item required prop="name">
+                <el-input v-model="ruleValue.name" :placeholder="tl('name')" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="description">
+                <el-input v-model="ruleValue.description" :placeholder="tl('note')" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <div class="part-header">{{ tl('sqlEditor') }}</div>
+              <p class="sub-block-desc">
+                <span>{{ tl('ruleSQLDesc') }}</span>
+                <a :href="docMap.home">{{ tl('doc') }}</a>
+              </p>
+              <el-form-item required prop="sql" class="self-required">
+                <!-- <template #label>
+                  <div class="label-container">
+                    <label>SQL</label>
+                    <el-tooltip
+                      effect="dark"
+                      :content="tl('changeFormMethod')"
+                      placement="top-start"
+                    >
+                      <el-icon class="icon-edit" @click="toggleTypeForEditSQL">
+                        <edit-pen />
+                      </el-icon>
+                    </el-tooltip>
+                  </div>
+                </template> -->
+                <div class="monaco-container sql">
+                  <Monaco
+                    :id="createRandomString()"
+                    v-model="ruleValue.sql"
+                    lang="sql"
+                    @change="validate"
+                  />
+                </div>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-button type="primary" :loading="testLoading" @click="handleTestSQL()">
+                {{ tl('testsql') }}
+              </el-button>
+            </el-col>
+          </el-row>
 
-      <el-card class="app-card">
-        <div class="part-header">{{ tl('filterData') }}</div>
-        <div class="sub-block-desc">
-          <span>{{ tl('ruleSQLDesc') }}</span>
-          <a :href="docMap.home">{{ tl('doc') }}</a>
-        </div>
-        <el-row v-if="briefEditType">
+          <!-- <el-row v-if="briefEditType">
           <el-col :span="14">
             <el-form-item class="self-required" :error="sqlPartValueFormError.from">
               <template #label>
@@ -61,58 +92,52 @@
               </div>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row v-else>
-          <el-col :span="14">
-            <el-form-item required prop="sql" class="self-required">
-              <template #label>
-                <div class="label-container">
-                  <label>SQL</label>
-                  <el-tooltip effect="dark" :content="tl('changeFormMethod')" placement="top-start">
-                    <el-icon class="icon-edit" @click="toggleTypeForEditSQL">
-                      <edit-pen />
-                    </el-icon>
-                  </el-tooltip>
-                </div>
-              </template>
-              <div class="monaco-container">
-                <Monaco
-                  :id="createRandomString()"
-                  v-model="ruleValue.sql"
-                  lang="sql"
-                  @change="validate"
-                />
-              </div>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col class="sql-ft" :span="14">
-            <el-button type="primary" plain @click="openTestDialog()" size="large">
-              {{ tl('testsql') }}
-            </el-button>
-            <el-button class="btn-sql-temp" size="small" plain @click="showTemplateDrawer">
-              {{ tl('SQLTemplates') }}
-            </el-button>
-          </el-col>
-        </el-row>
-      </el-card>
-      <RuleOutputs v-model="ruleValue" />
-    </el-form>
+        </el-row> -->
+          <!-- <el-row>
+            <el-col class="sql-ft" :span="14">
+              <el-button type="primary" plain @click="handleTestSQL()" size="large">
+                {{ tl('testsql') }}
+              </el-button>
+              <el-button class="btn-sql-temp" size="small" plain @click="showTemplateDrawer">
+                {{ tl('SQLTemplates') }}
+              </el-button>
+            </el-col>
+          </el-row> -->
+        </el-form>
+      </el-col>
+      <el-col :span="10" class="action-col">
+        <el-tabs>
+          <el-tab-pane :label="tl('action')">
+            <RuleOutputs v-model="ruleValue" />
+          </el-tab-pane>
+          <el-tab-pane :label="tl('SQLTemplates')">
+            <SQLTemplate @use-sql="useSQLTemplate" @test-sql="testSQLTemplate" />
+          </el-tab-pane>
+        </el-tabs>
+      </el-col>
+    </el-row>
+    <el-row class="test-row">
+      <SQLTest
+        ref="testSQLRef"
+        :sql="ruleValue.sql"
+        :ingress-bridge-list="ingressBridgeList"
+        :event-list="ruleEventsList"
+        :custom-payload="payloadForTest"
+        @change-loading="handleTestLoadng"
+        @save="saveSQLFromTest"
+      />
+    </el-row>
+    <el-row class="oper-row">
+      <el-col :span="24">
+        <el-button @click="$router.push({ name: 'iot' })">
+          {{ $t('Base.cancel') }}
+        </el-button>
+        <el-button type="primary" :loading="submitLoading" @click="$emit('save')">
+          {{ isEdit ? $t('Base.update') : $t('Base.create') }}
+        </el-button>
+      </el-col>
+    </el-row>
   </div>
-  <SQLTestDialog
-    v-model="testDialog"
-    :sql="testSQL"
-    :ingress-bridge-list="ingressBridgeList"
-    :event-list="ruleEventsList"
-    :custom-payload="payloadForTest"
-    @save="saveSQLFromTest"
-  />
-  <SQLTemplateDrawer
-    v-model="isShowTemplateDrawer"
-    @use-sql="useSQLTemplate"
-    @test-sql="testSQLTemplate"
-  />
 </template>
 
 <script lang="ts">
@@ -124,19 +149,17 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose, computed } from 'vue'
+import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose } from 'vue'
 import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
 import { MQTTBridgeDirection } from '@/types/enum'
-import SQLTestDialog from './SQLTestDialog.vue'
-import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
-import { EditPen } from '@element-plus/icons-vue'
+import SQLTest from './SQLTest.vue'
+import SQLTemplate from './SQLTemplate.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, getKeywordsFromSQL, checkIsValidArr } from '@/common/tools'
-import FromSelectList from './FromSelectList.vue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import useFormRules from '@/hooks/useFormRules'
@@ -148,20 +171,27 @@ const prop = defineProps({
     required: false,
     default: () => ({}),
   },
+  submitLoading: {
+    type: Boolean,
+    default: false,
+  },
+  isEdit: {
+    type: Boolean,
+    default: false,
+  },
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'save'])
 
 const { t } = useI18n()
 const { transFromStrToFromArr, transSQLFormDataToSQL } = useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
-const testDialog = ref(false)
 const bridgeList = ref([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const outputLoading = ref(false)
 const briefEditType = ref(false)
-
-const isShowTemplateDrawer = ref(false)
+const testSQLRef = ref()
+const testLoading = ref(false)
 
 const ruleValueDefault = {
   name: '',
@@ -228,12 +258,6 @@ const setRuleValue = () => {
   }
 }
 
-/**
- * sync data
- * Timing of function calls: 1. open test dialog; 2. form value changed; 3. component mounted
- * - When using form editing, sync data from form to sql
- * - when editing with sql, sync data from sql to form
- */
 const syncFormDataToSQL = () => {
   const sql = transformSQL()
   testSQL.value = sql
@@ -289,14 +313,10 @@ const loadIngressBridgeList = async () => {
   )
 }
 
-const openTestDialog = () => {
+const handleTestSQL = () => {
   syncData()
   payloadForTest.value = ''
-  testDialog.value = true
-}
-
-const showTemplateDrawer = () => {
-  isShowTemplateDrawer.value = true
+  testSQLRef.value.submitTest()
 }
 
 const useSQLTemplate = (SQLTemp: string) => {
@@ -307,15 +327,18 @@ const useSQLTemplate = (SQLTemp: string) => {
 const testSQLTemplate = ({ sql, input }: { sql: string; input: string }) => {
   testSQL.value = sql
   payloadForTest.value = input
-  testDialog.value = true
 }
 
 const saveSQLFromTest = useSQLTemplate
 
-const eventDoNotNeedInIoTForm = '$events/message_publish'
-const eventListForFromSelect = computed(() => {
-  return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInIoTForm)
-})
+const handleTestLoadng = (val: boolean) => {
+  testLoading.value = val
+}
+
+// const eventDoNotNeedInIoTForm = '$events/message_publish'
+// const eventListForFromSelect = computed(() => {
+//   return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInIoTForm)
+// })
 const loadRuleEvents = async () => {
   try {
     ruleEventsList.value = await getRuleEvents()
@@ -324,14 +347,14 @@ const loadRuleEvents = async () => {
   }
 }
 
-const toggleTypeForEditSQL = () => {
-  if (briefEditType.value) {
-    syncFormDataToSQL()
-  } else {
-    syncSQLDataToForm()
-  }
-  briefEditType.value = !briefEditType.value
-}
+// const toggleTypeForEditSQL = () => {
+//   if (briefEditType.value) {
+//     syncFormDataToSQL()
+//   } else {
+//     syncSQLDataToForm()
+//   }
+//   briefEditType.value = !briefEditType.value
+// }
 
 const selfValidate = () => {
   if (!briefEditType.value) {
@@ -374,48 +397,44 @@ defineExpose({ validate })
 @import '~@/style/rule.scss';
 </style>
 
-<style lang="scss" scoped>
-.el-card {
-  margin-bottom: 20px;
-  .el-form-item {
-    margin-bottom: 12px;
+<style lang="scss">
+.iot-form {
+  .sql-col {
+    padding: 24px;
+    border-right: 1px solid var(--color-border-normal);
   }
-}
-
-.icon-edit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-  background-color: var(--color-bg-lighter);
-  cursor: pointer;
-}
-.el-form-item.is-required.self-required:not(.is-no-asterisk) {
-  :deep(.el-form-item__label:after) {
-    content: '';
-    display: none;
+  .action-col {
+    padding: 12px 24px;
+    .el-tabs__content {
+      padding: 4px;
+    }
+    .el-tabs__nav {
+      width: 100%;
+    }
+    .el-tabs__item {
+      text-align: center;
+      width: 50%;
+    }
   }
-  .label-container > label::after {
-    content: '*';
-    color: var(--el-color-danger);
-    margin-left: 4px;
+  .part-header {
+    margin-top: 12px;
   }
-}
-.el-form-item.is-error .monaco-container {
-  border-color: var(--el-color-danger);
-}
-
-.monaco-container {
-  margin-bottom: 20px;
-}
-
-.el-button--info.is-plain.btn-sql-temp {
-  background-color: inherit;
-}
-.sql-ft {
-  display: flex;
-  justify-content: space-between;
+  .sub-block-desc {
+    margin: 12px 0 16px 0;
+    line-height: 1.6;
+  }
+  .monaco-container.sql {
+    height: 400px;
+  }
+  .editor-row {
+    border-bottom: 1px solid var(--color-border-normal);
+  }
+  .oper-row {
+    padding: 24px;
+    border-top: 1px solid var(--color-border-normal);
+  }
+  .test-row {
+    padding: 24px;
+  }
 }
 </style>

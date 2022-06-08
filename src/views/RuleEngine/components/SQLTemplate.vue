@@ -1,10 +1,5 @@
 <template>
-  <el-drawer
-    v-model="showDrawer"
-    :title="tl('commonSQLTemplates')"
-    custom-class="SQL-template-drawer"
-    :size="500"
-  >
+  <div class="sql-template">
     <el-collapse>
       <el-collapse-item
         v-for="item in templateList"
@@ -16,10 +11,10 @@
           <div class="sub-block-hd">
             <p class="hd-title">{{ tl('SQL') }}</p>
             <div>
-              <el-button type="text" size="small" @click="testSQL(item)">
+              <!-- <el-button size="small" @click="testSQL(item)">
                 {{ tl('testsql') }}
-              </el-button>
-              <el-button type="text" size="small" @click="useSQL(item.sql)">
+              </el-button> -->
+              <el-button size="small" @click="useSQL(item.sql)">
                 {{ tl('useSQL') }}
               </el-button>
             </div>
@@ -64,19 +59,19 @@
         </section>
       </el-collapse-item>
     </el-collapse>
-  </el-drawer>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'SQLTemplateDrawer',
+  name: 'SQLTemplate',
 })
 </script>
 
 <script setup lang="ts">
-import { ref, Ref, defineProps, computed, defineEmits, WritableComputedRef } from 'vue'
+import { ref, Ref, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { copyToClipboard, createRandomString, stringifyObjSafely } from '@/common/tools'
@@ -97,22 +92,7 @@ const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
 const templateList: Ref<Array<TemplateItem>> = ref([])
 
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-  },
-})
-
 const emit = defineEmits(['update:modelValue', 'use-sql', 'test-sql'])
-
-const showDrawer: WritableComputedRef<boolean> = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emit('update:modelValue', val)
-  },
-})
 
 const initTemplateList = () => {
   templateList.value = SQLTemplates.map((item) => {
@@ -128,14 +108,12 @@ const initTemplateList = () => {
   })
 }
 
-const testSQL = ({ sql, input }: TemplateItem) => {
-  emit('test-sql', { sql, input })
-  showDrawer.value = false
-}
+// const testSQL = ({ sql, input }: TemplateItem) => {
+//   emit('test-sql', { sql, input })
+// }
 
 const useSQL = (SQLContent: string) => {
   emit('use-sql', SQLContent)
-  showDrawer.value = false
 }
 
 const copyText = async (text: string) => {
@@ -151,15 +129,9 @@ initTemplateList()
 </script>
 
 <style lang="scss">
-.SQL-template-drawer {
-  .el-drawer__header {
-    padding: 16px 20px;
-    margin-bottom: 0;
-    border-bottom: 1px solid var(--color-border-primary);
-  }
-  .el-drawer__body {
-    overflow: auto;
-  }
+.sql-template {
+  height: 500px;
+  overflow-y: scroll;
   $collapse-border: 1px solid var(--color-border-primary);
   .el-collapse {
     border-top: $collapse-border;
@@ -205,7 +177,7 @@ initTemplateList()
     cursor: pointer;
   }
   .el-collapse-item__header {
-    line-height: 1.5;
+    line-height: 1.6;
   }
 }
 </style>

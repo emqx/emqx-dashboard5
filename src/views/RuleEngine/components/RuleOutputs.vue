@@ -1,17 +1,16 @@
 <template>
-  <el-card class="app-card">
-    <div class="part-header">{{ $tc('RuleEngine.action', 2) }}</div>
+  <div class="rule-outputs">
     <div class="sub-block-desc">
       <span>{{ tl('actionDesc') }}</span>
     </div>
     <el-row>
-      <el-col :span="14">
+      <el-col :span="24">
         <template v-for="(item, index) in ruleValue.actions" :key="item">
           <div class="outputs-item">
             <span>
               <img
                 :src="getOutputImage(item.function ? item.function : item.split(':')[0])"
-                width="80"
+                width="48"
               />
             </span>
             <span>
@@ -30,19 +29,13 @@
             </span>
           </div>
         </template>
-        <el-button
-          class="btn-add"
-          type="primary"
-          @click="openOutputDialog(false)"
-          plain
-          size="large"
-        >
+        <el-button class="btn-add" type="primary" @click="openOutputDialog(false)">
           <el-icon><plus /></el-icon>
           <span>{{ tl('addAction') }}</span>
         </el-button>
       </el-col>
     </el-row>
-  </el-card>
+  </div>
   <RuleOutputsDialog
     v-model="showOutputDialog"
     :output="currentOutputItem"
@@ -164,22 +157,22 @@ const getOutputImage = (item: string) => {
 
 <style lang="scss" scoped>
 .outputs-item {
-  height: 92px;
+  height: 64px;
   border: 1px solid var(--color-border-primary);
-  margin-top: 10px;
   display: flex;
   align-items: center;
-  padding: 10px;
   box-sizing: border-box;
   border-radius: var(--el-border-radius-base);
-
+  padding: 0 6px;
+  margin-bottom: 12px;
+  img {
+    margin-right: 12px;
+  }
   span:nth-child(2) {
     flex-grow: 1;
-
     div {
-      line-height: 200%;
+      line-height: 1.6;
     }
-
     .output-desc {
       color: var(--color-text-secondary);
     }
@@ -188,10 +181,6 @@ const getOutputImage = (item: string) => {
   .output-op {
     padding: 0 10px;
     visibility: hidden;
-  }
-
-  &:first-of-type {
-    margin-top: 20px;
   }
   &:hover {
     border-color: var(--el-color-primary);

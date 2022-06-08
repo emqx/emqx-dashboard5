@@ -1,13 +1,14 @@
 <template>
-  <el-dialog
+  <el-drawer
     :title="!isEdit ? tl('addAction') : tl('editAction')"
     v-model="showDialog"
     :lock-scroll="false"
+    :size="500"
   >
     <!-- FIXME: scroll bug-->
     <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
       <el-row>
-        <el-col :span="14" v-loading="isLoading">
+        <el-col :span="24" v-loading="isLoading">
           <el-form-item :label="$tc('RuleEngine.action', 1)" prop="type">
             <div class="form-item-content">
               <el-select v-model="outputForm.type">
@@ -47,14 +48,14 @@
       <div class="output-content" v-if="outputForm.type === RuleOutput.Republish">
         <div class="part-header">{{ tl('paramSetting') }}</div>
         <el-row>
-          <el-col :span="14">
+          <el-col :span="24">
             <el-form-item label="Topic" required prop="args.topic">
               <el-input v-model="outputForm.args.topic" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="14">
+          <el-col :span="24">
             <el-form-item label="QoS">
               <el-select v-model="outputForm.args.qos">
                 <el-option v-for="item in QoSOptions" :value="item" :key="item" />
@@ -63,7 +64,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="14">
+          <el-col :span="24">
             <el-form-item label="Payload">
               <template #label>
                 <label>Payload</label>
@@ -99,7 +100,7 @@
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>
-  </el-dialog>
+  </el-drawer>
 </template>
 
 <script lang="ts">

@@ -16,7 +16,7 @@
                   <el-input
                     v-if="rateProp.type === 'string'"
                     :disabled="rateProp.readOnly"
-                    :placeholder="rateProp.default"
+                    :placeholder="rateProp.default.toString()"
                     v-model="configs[key]"
                     clearable
                   ></el-input>
@@ -58,7 +58,7 @@
                             <template v-if="bucket.type === 'string'">
                               <el-input
                                 :disabled="bucket.readOnly"
-                                :placeholder="bucket.default"
+                                :placeholder="bucket.default.toString()"
                                 v-model="configs.bucket[configKey][bucketKey]"
                                 clearable
                               ></el-input>
@@ -77,7 +77,7 @@
                               <el-input
                                 v-if="perClient.type === 'string'"
                                 :disabled="perClient.readOnly"
-                                :placeholder="perClient.default"
+                                :placeholder="perClient.default.toString()"
                                 v-model="configs.bucket[configKey][bucketKey][perClientKey]"
                                 clearable
                               ></el-input>

@@ -216,8 +216,8 @@ export default {
     en: 'Filter Data',
   },
   action: {
-    zh: '动作 | 动作',
-    en: 'Action | Actions',
+    zh: '动作',
+    en: 'Actions',
   },
   actionDesc: {
     zh: '将处理结果输出到数据桥接或内置函数中。',
@@ -233,7 +233,7 @@ export default {
   },
   outputResult: {
     zh: '输出结果',
-    en: 'Output result',
+    en: 'Result',
   },
   testData: {
     zh: '测试数据',
@@ -280,8 +280,16 @@ export default {
     en: 'Edit The Action',
   },
   testsql: {
-    zh: '测试 SQL',
-    en: 'Test SQL',
+    zh: '执行 SQL',
+    en: 'Execute SQL',
+  },
+  sqlMode: {
+    zh: 'SQL 模式',
+    en: 'SQL Mode',
+  },
+  sqlEditor: {
+    zh: 'SQL 编辑器',
+    en: 'SQL Editor',
   },
   backToIoTList: {
     zh: '返回 IoT 规则列表',
@@ -495,6 +503,10 @@ export default {
     zh: '测试连接',
     en: 'Test the connection',
   },
+  test: {
+    zh: '调试',
+    en: 'Test',
+  },
   connectionSuccessful: {
     zh: '连接成功',
     en: 'Connection is successful',
@@ -539,9 +551,9 @@ export default {
     zh: '节点独享：每个节点上建立一个 MQTT 连接，会在客户端 ID 后附加随机字符串',
     en: 'Cluster Singleton: An MQTT connection is established on each node, with a random string appended to the client ID',
   },
-  copy: {
-    zh: '复制',
-    en: 'Copy',
+  duplicate: {
+    zh: '复制规则',
+    en: 'Duplicate',
   },
   SQLTemplates: {
     zh: 'SQL 模版',
