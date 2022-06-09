@@ -52,8 +52,8 @@ export default {
     en: 'Rate',
   },
   status: {
-    zh: '状态',
-    en: 'Status',
+    zh: '资源状态',
+    en: 'Resource Status',
   },
   configuration: {
     zh: '配置信息',

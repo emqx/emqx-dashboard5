@@ -198,8 +198,12 @@ export default defineComponent({
 
     const validNext = () => {
       //  Check SSL Cert & Key for ExProto
-      if (gname === 'exproto' && stepActive.value === 0 && basicData.value.server.ssl.enable) {
-        const { certfile, keyfile } = basicData.value.server.ssl
+      if (
+        gname === 'exproto' &&
+        stepActive.value === 0 &&
+        basicData.value.server.ssl_options.enable
+      ) {
+        const { certfile, keyfile } = basicData.value.server.ssl_options
         if (!certfile || !keyfile) {
           M({
             type: 'warning',

@@ -1,5 +1,4 @@
 import { checkNOmitFromObj } from '@/common/tools'
-import { GatewayName } from '@/types/enum'
 import { cloneDeep, omit } from 'lodash'
 
 export default (): {
@@ -7,16 +6,20 @@ export default (): {
 } => {
   const handleExprotoData = (gatewayData: Record<string, any>) => {
     const ret = cloneDeep(gatewayData)
-    if (ret.handler.ssl) {
-      if (!ret.handler.ssl.enable) {
-        ret.handler.ssl = omit(ret.handler.ssl, ['certfile', 'keyfile', 'cacertfile'])
+    if (ret.handler.ssl_options) {
+      if (!ret.handler.ssl_options.enable) {
+        ret.handler.ssl_options = omit(ret.handler.ssl_options, [
+          'certfile',
+          'keyfile',
+          'cacertfile',
+        ])
       } else {
-        ret.handler.ssl = checkNOmitFromObj(ret.handler.ssl)
+        ret.handler.ssl_options = checkNOmitFromObj(ret.handler.ssl_options)
       }
     }
 
-    if (ret.server.ssl) {
-      ret.server.ssl = checkNOmitFromObj(ret.server.ssl)
+    if (ret.server.ssl_options) {
+      ret.server.ssl_options = checkNOmitFromObj(ret.server.ssl_options)
     }
     return ret
   }
