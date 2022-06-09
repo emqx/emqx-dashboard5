@@ -40,7 +40,6 @@
               </el-tooltip>
             </div>
             <div v-if="inputContextBy === InputContextType.JSON" class="monaco-container">
-              <!-- <el-input type="textarea" rows="5" v-model="testParams.context" /> -->
               <Monaco
                 :id="createRandomString()"
                 v-model="contextObjStr"
@@ -211,7 +210,9 @@ const setContextObjStr = () => {
 
 const setObjByStr = async () => {
   try {
-    testParams.value.context = JSON.parse(contextObjStr.value)
+    if (inputContextBy.value === InputContextType.JSON) {
+      testParams.value.context = JSON.parse(contextObjStr.value)
+    }
     return Promise.resolve()
   } catch (error: any) {
     ElMessage.error(error?.toString())
@@ -371,6 +372,7 @@ const getEventTypeInContext = () => {
 
 const submitTest = async () => {
   await setObjByStr()
+  console.log(testParams.value.context)
   emits('changeLoading', true)
   const context = {
     ...testParams.value.context,
