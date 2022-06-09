@@ -89,6 +89,7 @@ export default (): ListenerUtils => {
   ]
 
   const gatewayTypesWhichHasSSLConfig = [
+    ListenerTypeForGateway.DTLS,
     ListenerTypeForGateway.SSL,
     ListenerType.SSL,
     ListenerType.WSS,
@@ -102,10 +103,10 @@ export default (): ListenerUtils => {
     name: createRequiredRule(t('Base.name')),
     type: createRequiredRule(tl('lType'), 'select'),
     bind: createRequiredRule(tl('lAddress')),
-    'dtls.certfile': createRequiredRule('TLS Cert'),
-    'dtls.keyfile': createRequiredRule('TLS Key'),
-    'ssl.certfile': createRequiredRule('TLS Cert'),
-    'ssl.keyfile': createRequiredRule('TLS Key'),
+    'dtls_options.certfile': createRequiredRule('TLS Cert'),
+    'dtls_options.keyfile': createRequiredRule('TLS Key'),
+    'ssl_options.certfile': createRequiredRule('TLS Cert'),
+    'ssl_options.keyfile': createRequiredRule('TLS Key'),
   }
 
   const createRawSSLParams = () => ({
@@ -148,13 +149,13 @@ export default (): ListenerUtils => {
     mountpoint: '',
     proxy_protocol: false,
     proxy_protocol_timeout: '15s',
-    tcp: createRawTCPParams(),
-    udp: createRawUDPParams(),
-    dtls: {
+    tcp_options: createRawTCPParams(),
+    udp_options: createRawUDPParams(),
+    dtls_options: {
       versions: ['dtlsv1.2', 'dtlsv1'],
       ...createRawSSLParams(),
     },
-    ssl: {
+    ssl_options: {
       versions: ['tlsv1.3', 'tlsv1.2', 'tlsv1.1', 'tlsv1'],
       ...createRawSSLParams(),
     },
@@ -229,15 +230,17 @@ export default (): ListenerUtils => {
     if (record[type]) {
       result[type] = { ...record[type] }
     }
-    if (hasTCPConfig(type) && record.tcp) {
-      result.tcp = { ...record.tcp }
+    if (hasTCPConfig(type) && record.tcp_options) {
+      result.tcp_options = { ...record.tcp_options }
     }
-    if (hasUDPConfig(type) && record.udp) {
-      result.udp = { ...record.udp }
+    if (hasUDPConfig(type) && record.udp_options) {
+      result.udp_options = { ...record.udp_options }
     }
     if (hasSSLConfig(type)) {
       if (type !== ListenerTypeForGateway.DTLS) {
-        result.ssl = { ...record.ssl }
+        result.ssl_options = { ...record.ssl_options }
+      } else {
+        result.dtls_options = { ...record.dtls_options }
       }
     }
     if (hasWSConfig(type)) {

@@ -240,7 +240,7 @@ export default {
     en: 'Schema Create',
   },
   settings: {
-    zh: '系统设置',
+    zh: '设置',
     en: 'Settings',
   },
   usingDocuments: {

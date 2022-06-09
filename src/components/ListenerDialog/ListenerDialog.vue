@@ -81,17 +81,17 @@
         </div>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item :label="'ActiveN'">
+            <el-form-item label="ActiveN">
               <el-input
-                v-model="listenerRecord.tcp.active_n"
-                :placeholder="String(defaultListener.tcp.active_n)"
+                v-model="listenerRecord.tcp_options.active_n"
+                :placeholder="String(defaultListener.tcp_options.active_n)"
               />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Buffer'">
               <InputWithUnit
-                v-model="listenerRecord.tcp.buffer"
+                v-model="listenerRecord.tcp_options.buffer"
                 number-placeholder="4"
                 :units="['KB']"
               />
@@ -99,18 +99,18 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'TCP_NODELAY'">
-              <BooleanSelect v-model="listenerRecord.tcp.nodelay" />
+              <BooleanSelect v-model="listenerRecord.tcp_options.nodelay" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'SO_REUSEADDR'">
-              <BooleanSelect v-model="listenerRecord.tcp.reuseaddr" />
+              <BooleanSelect v-model="listenerRecord.tcp_options.reuseaddr" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('sendTimeout')">
               <InputWithUnit
-                v-model="listenerRecord.tcp.send_timeout"
+                v-model="listenerRecord.tcp_options.send_timeout"
                 number-placeholder="15"
                 :units="['s']"
               />
@@ -118,7 +118,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('sendTimeoutClose')">
-              <BooleanSelect v-model="listenerRecord.tcp.send_timeout_close" />
+              <BooleanSelect v-model="listenerRecord.tcp_options.send_timeout_close" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -132,15 +132,15 @@
           <el-col :span="12">
             <el-form-item :label="'ActiveN'">
               <el-input
-                v-model="listenerRecord.udp.active_n"
-                :placeholder="String(defaultListener.udp.active_n)"
+                v-model="listenerRecord.udp_options.active_n"
+                :placeholder="String(defaultListener.udp_options.active_n)"
               />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Buffer'">
               <InputWithUnit
-                v-model="listenerRecord.udp.buffer"
+                v-model="listenerRecord.udp_options.buffer"
                 number-placeholder="4"
                 :units="['KB']"
               />
@@ -149,7 +149,7 @@
           <el-col :span="12">
             <el-form-item :label="tl('recBuf')">
               <InputWithUnit
-                v-model="listenerRecord.udp.recbuf"
+                v-model="listenerRecord.udp_options.recbuf"
                 number-placeholder="2"
                 :units="['KB']"
               />
@@ -158,7 +158,7 @@
           <el-col :span="12">
             <el-form-item :label="tl('sendBuf')">
               <InputWithUnit
-                v-model="listenerRecord.udp.sndbuf"
+                v-model="listenerRecord.udp_options.sndbuf"
                 number-placeholder="2"
                 :units="['KB']"
               />
@@ -166,7 +166,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'SO_REUSEADDR'">
-              <BooleanSelect v-model="listenerRecord.udp.reuseaddr" />
+              <BooleanSelect v-model="listenerRecord.udp_options.reuseaddr" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -189,12 +189,12 @@
           <!-- Version of SSL/DTLS -->
           <el-col :span="12" v-if="isDTLS">
             <el-form-item :label="tl('dtlsversion')">
-              <DTLSVersionSelect v-model="listenerRecord.dtls.versions" />
+              <DTLSVersionSelect v-model="listenerRecord.dtls_options.versions" />
             </el-form-item>
           </el-col>
           <el-col :span="12" v-else>
             <el-form-item :label="tl('sslversion')">
-              <SSLVersionSelect v-model="listenerRecord.ssl.versions" />
+              <SSLVersionSelect v-model="listenerRecord.ssl_options.versions" />
             </el-form-item>
           </el-col>
 

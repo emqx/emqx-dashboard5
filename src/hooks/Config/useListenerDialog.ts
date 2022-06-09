@@ -102,7 +102,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
    * the config data put in `dtls` field then type is DTLS
    * put in `ssl` when type is not DTLS
    */
-  const SSLConfigKey: ComputedRef<string> = computed(() => (isDTLS.value ? 'dtls' : 'ssl'))
+  const SSLConfigKey: ComputedRef<string> = computed(() =>
+    isDTLS.value ? 'dtls_options' : 'ssl_options',
+  )
   const showWSConfig = computed(() => hasWSConfig(listenerRecord.value.type))
 
   const isLoading = ref(false)
