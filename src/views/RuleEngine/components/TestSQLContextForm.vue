@@ -37,7 +37,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, computed, defineProps, defineEmits, PropType, WritableComputedRef } from 'vue'
+import { ref, defineProps, defineEmits, PropType, watch, reactive } from 'vue'
 import Monaco from '@/components/Monaco.vue'
 import StretchHeight from './StretchHeight.vue'
 import { createRandomString } from '@/common/tools'
@@ -59,18 +59,10 @@ const emit = defineEmits(['update:modelValue'])
 const payloadType = ref(PayloadType.JSON)
 const payloadEditorHeight = ref(200)
 
-const isSameObj = (obj1: Record<string, string>, obj2: Record<string, string>) =>
-  JSON.stringify(obj1) === JSON.stringify(obj2)
+const record = reactive(props.modelValue)
 
-const record: WritableComputedRef<Record<string, string>> = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    if (!isSameObj(val, props.modelValue)) {
-      emit('update:modelValue', val)
-    }
-  },
+watch(record, (val) => {
+  emit('update:modelValue', val)
 })
 </script>
 
