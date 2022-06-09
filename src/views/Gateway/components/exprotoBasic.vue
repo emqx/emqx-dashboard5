@@ -62,11 +62,15 @@
         </el-row>
         <div class="tls-config-form">
           <TLSBaseConfig
-            v-model="eValue.server.ssl"
+            v-model="eValue.server.ssl_options"
             :show-enable="false"
             :verify-label="tl('tlsVerifyClient', 'Base')"
           />
-          <TLSEnableConfig v-model="eValue.server.ssl" :is-edit="isEdit" :show-sni="false" />
+          <TLSEnableConfig
+            v-model="eValue.server.ssl_options"
+            :is-edit="isEdit"
+            :show-sni="false"
+          />
         </div>
       </div>
 
@@ -83,7 +87,11 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <CommonTLSConfig class="tls-config-form" v-model="eValue.handler.ssl" :is-edit="isEdit" />
+        <CommonTLSConfig
+          class="tls-config-form"
+          v-model="eValue.handler.ssl_options"
+          :is-edit="isEdit"
+        />
       </div>
     </el-form>
   </div>
@@ -123,7 +131,7 @@ export default defineComponent({
       mountpoint: '',
       handler: {
         address: 'http://127.0.0.1:9001',
-        ssl: {
+        ssl_options: {
           certfile: '',
           keyfile: '',
           cacertfile: '',
@@ -132,7 +140,7 @@ export default defineComponent({
       },
       server: {
         bind: '127.0.0.1:9100',
-        ssl: {
+        ssl_options: {
           certfile: '',
           keyfile: '',
           cacertfile: '',

@@ -372,7 +372,6 @@ const getEventTypeInContext = () => {
 
 const submitTest = async () => {
   await setObjByStr()
-  console.log(testParams.value.context)
   emits('changeLoading', true)
   const context = {
     ...testParams.value.context,
