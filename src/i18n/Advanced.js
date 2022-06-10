@@ -84,11 +84,11 @@ export default {
     en: 'Custom',
   },
   sTopic: {
-    zh: '源 Topic',
-    en: 'Source Topic',
+    zh: '原始主题',
+    en: 'Original Topic',
   },
   dTopic: {
-    zh: '目标 Topic',
+    zh: '目标主题',
     en: 'Dest. Topic',
   },
   delayedTime: {
@@ -142,6 +142,14 @@ export default {
   message_acked: {
     en: 'Messages have already acknowledged',
     zh: '消息已确认',
+  },
+  action: {
+    zh: '动作类型',
+    en: 'Action',
+  },
+  re: {
+    zh: '正则表达式',
+    en: 'Regex',
   },
   setting: {
     zh: '设置',
