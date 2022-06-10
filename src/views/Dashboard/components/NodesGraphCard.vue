@@ -105,7 +105,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, Ref } from 'vue'
+import { ref, onMounted, computed, Ref, onUnmounted } from 'vue'
 import { loadNodes, loadStats } from '@/api/common'
 import { getDuration, calcPercentage, getProgressColor } from '@/common/utils'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
@@ -121,6 +121,8 @@ let stats: Ref<Array<NodeStatisticalData>> = ref([])
 let graph: Ref<undefined | HTMLElement> = ref(undefined)
 let currentInfo: Ref<CurrentInfo> = ref({ node: {}, stats: {} } as CurrentInfo)
 let infoLoading: Ref<boolean> = ref(true)
+let timerData: undefined | number = undefined
+const interval = ref(2000)
 
 const nodesGraphData = computed(() => ({
   nodes: nodes.value,
@@ -128,7 +130,7 @@ const nodesGraphData = computed(() => ({
 }))
 
 let getNodes = async () => {
-  let res: Array<NodeMsg> = await loadNodes().catch(() => [])
+  let res: Array<NodeMsg> = await loadNodes(true).catch(() => [])
   if (res) {
     nodes.value = res
   } else {
@@ -167,7 +169,7 @@ const selectFirstNode = () => {
   selectNode(nodeName)
 }
 
-onMounted(async () => {
+const loadData = async () => {
   try {
     await Promise.all([getNodes(), getStats()])
     selectFirstNode()
@@ -176,6 +178,23 @@ onMounted(async () => {
   } finally {
     infoLoading.value = false
   }
+}
+
+onMounted(() => {
+  loadData()
+})
+
+const setInterval = () => {
+  clearInterval(timerData)
+  timerData = window.setInterval(() => {
+    loadData()
+  }, interval.value)
+}
+
+setInterval()
+
+onUnmounted(() => {
+  clearInterval(timerData)
 })
 </script>
 

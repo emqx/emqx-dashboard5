@@ -61,8 +61,8 @@ export function setPrometheus(body: Prometheus): Promise<Prometheus> {
 }
 
 // Nodes
-export async function loadNodes(): Promise<Array<NodeMsg>> {
-  return http.get('/nodes')
+export async function loadNodes(doNotTriggerProgress = false): Promise<Array<NodeMsg>> {
+  return http.get('/nodes', { doNotTriggerProgress })
 }
 
 export async function loadNodeDetail(node: string): Promise<NodeMsg> {
@@ -70,7 +70,7 @@ export async function loadNodeDetail(node: string): Promise<NodeMsg> {
 }
 
 export function loadStats(): Promise<Array<NodeStatisticalData>> {
-  return http.get('/stats')
+  return http.get('/stats', { doNotTriggerProgress: true })
 }
 
 export function loadNodeStats(node: string): Promise<NodeStatisticalData> {
