@@ -153,7 +153,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       return
     }
     try {
-      if (props.gatewayName) {
+      if (props.gatewayName && isEdit.value) {
         await ElMessageBox.confirm(t('Gateway.updateListenerTip'))
       }
       isSubmitting.value = true
