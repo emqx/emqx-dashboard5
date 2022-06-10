@@ -91,8 +91,8 @@ export default defineComponent({
     ]
 
     const ruleengine = [
-      { title: 'iot', path: '/iot' },
       { title: 'bridge', path: '/bridge' },
+      { title: 'iot', path: '/iot' },
       { title: 'flow', path: '/flow' },
     ]
 

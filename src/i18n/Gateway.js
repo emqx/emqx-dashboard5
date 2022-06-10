@@ -286,7 +286,7 @@ export default {
   },
   tlsConfig: {
     zh: 'TLS 配置',
-    en: 'TLS Config',
+    en: 'TLS Configuration',
   },
   enableTls: {
     zh: '启用 TLS',
