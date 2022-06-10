@@ -220,18 +220,20 @@ const SchemaForm = defineComponent({
       }
       const colItem = (
         <el-col span={col}>
-          <el-dropdown
-            class="schema-col-setting"
-            trigger="click"
-            v-slots={slots}
-            onCommand={handleCommand}
-          >
-            <a class="setting-btn">
-              <el-icon>
-                <Setting />
-              </el-icon>
-            </a>
-          </el-dropdown>
+          {['mqtt', 'session'].includes(props.type) ? null : (
+            <el-dropdown
+              class="schema-col-setting"
+              trigger="click"
+              v-slots={slots}
+              onCommand={handleCommand}
+            >
+              <a class="setting-btn">
+                <el-icon>
+                  <Setting />
+                </el-icon>
+              </a>
+            </el-dropdown>
+          )}
           <el-tooltip
             disabled={!property.readOnly}
             popper-class="read-only-tooltip"
