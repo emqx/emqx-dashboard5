@@ -1,6 +1,6 @@
 <template>
   <div class="TLS-base-config">
-    <div class="TLS-base-config-title">
+    <div class="TLS-base-config-title part-header">
       {{ $t('Base.tlsConfig') }}
     </div>
     <div>
@@ -83,10 +83,8 @@ const record: WritableComputedRef<SSL> = computed({
 <style lang="scss">
 .TLS-base-config {
   margin-bottom: 20px;
-
   .TLS-base-config-title {
-    margin-top: 0;
-    margin-bottom: 8px;
+    margin-top: 0px;
     color: var(--color-title-primary);
     font-weight: bold;
     line-height: 20px;

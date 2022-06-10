@@ -1,7 +1,7 @@
 export default {
   createBridge: {
-    zh: '创建 Data Bridge',
-    en: 'Create New Data Bridge',
+    zh: '创建数据桥接',
+    en: 'Create Data Bridge',
   },
   create: {
     zh: '创建',
@@ -133,7 +133,7 @@ export default {
   },
   tlsConfig: {
     zh: 'TLS 配置',
-    en: 'TLS Config',
+    en: 'TLS Configuration',
   },
   connSetting: {
     zh: '连接配置',
@@ -412,8 +412,8 @@ export default {
     en: 'SQL',
   },
   ruleSQLDesc: {
-    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的 MQTT 数据。',
-    en: 'Extract, filter, enrich, and transform MQTT data between devices and business systems in real-time using SQL statements.',
+    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的数据。',
+    en: 'Extract, filter, enrich, and transform the data between devices and business systems in real-time using SQL statements.',
   },
   doc: {
     zh: '参考文档',
@@ -461,11 +461,15 @@ export default {
   },
   remoteTopic: {
     zh: '远程主题',
-    en: 'Remote topic',
+    en: 'Remote Topic',
+  },
+  bridgeUsage: {
+    zh: '如何使用桥接',
+    en: 'How to use Bridge',
   },
   localTopic: {
     zh: '本地主题',
-    en: 'Local topic',
+    en: 'Local Topic',
   },
   username: {
     zh: '用户名',
@@ -633,39 +637,47 @@ export default {
   },
   mqttSourceTransDescDetail: {
     zh: '不经规则处理直接将远程主题数据转发至本地主题中。',
-    en: 'Directly forward remote topic messages to local topic without Rule processing.',
+    en: 'Directly forward Remote Topic messages to local topic without Rule processing.',
   },
   mqttSourceForwardLabel: {
     zh: '你想将数据转发至何处？',
     en: 'Where do you want to forward messages to?',
   },
   iotAndLocalTopic: {
-    zh: '本地主题 + 规则',
-    en: 'Local Topic + Rules',
+    zh: '在规则内或独立使用',
+    en: 'Use in Rules or Separate',
   },
   justIot: {
-    zh: '仅规则',
-    en: 'Just Rules',
+    zh: '仅在规则内使用',
+    en: 'Just for Rules',
   },
   mqttSourceForwardLocalTopicDesc: {
-    zh: '使用规则处理数据，同时将数据转发至本地主题中',
-    en: 'Process messages using rules and forwarding messages to the local topic',
+    zh: '从远程主题获取数据，可通过规则处理数据或直接将数据转发至本地主题（MQTT 作为数据源）',
+    en: 'Forward messages from the Remote Topic, and can be processed by Rules or directly forward messages to Local Topic (MQTT Source)',
   },
   mqttSourceNotForwardLocalTopicDesc: {
-    zh: '仅使用规则处理数据',
-    en: 'Just use rules to process data',
+    zh: '从远程主题获取数据后通过规则处理数据转发至本地主题，不可单独使用（MQTT 作为数据源）',
+    en: 'Forward messages from the Remote Topic, and forward messages to Local Topic (MQTT Source)',
+  },
+  mqttSinkForwardLocalTopicDesc: {
+    zh: '从本地主题获取数据，可通过规则处理数据或直接将数据转发至远程主题（MQTT 作为数据目标）',
+    en: 'Forward messages from the Remote Topic, and can be processed by Rules or directly forward messages to Local Topic (MQTT Sink)',
+  },
+  mqttSinkNotForwardLocalTopicDesc: {
+    zh: '从远程主题获取数据后通过规则处理数据转发至本地主题，不可单独使用（MQTT 作为数据目标）',
+    en: 'Forward messages from the Remote Topic, and forward messages to Local Topic (MQTT Sink)',
   },
   bridgeSinkFromLabel: {
     zh: '你想从什么地方转发数据？',
     en: 'Where do you want to forward messages from?',
   },
   bridgeSinkForwardFromLocalTopicDesc: {
-    zh: '从本地主题和规则中转发数据',
-    en: 'Forward messages from the local topic and Rules',
+    zh: '从本地主题和规则中转发数据，独立使用时将不经过规则处理，直接转发原始数据',
+    en: 'Forward messages from the Local Topic and Rules, without Rules processing, directly forward the original data',
   },
   bridgeSinkNotForwardFromLocalTopicDesc: {
-    zh: '仅从规则转发数据',
-    en: 'Just forward messages from Rules',
+    zh: '数据仅支持规则转发，不可单独使用',
+    en: 'Just forward messages from Rules, not separate',
   },
   headers: {
     zh: '请求头',
@@ -677,7 +689,7 @@ export default {
   },
   forwardFromLocalTopic: {
     zh: '从本地主题转发',
-    en: 'Forward from local topic',
+    en: 'Forward from Local Topic',
   },
   httpBridgeURLFieldDesc: {
     zh: "支持使用 ${'{'}field{'}'} 语法提取数据拼接 URL",
@@ -685,7 +697,7 @@ export default {
   },
   mqttSourceLocalTopicLabel: {
     zh: '要将消息发送到的本地主题',
-    en: 'The local topic where you want to send messages to',
+    en: 'The Local Topic where you want to send messages to',
   },
   useSQLInput: {
     zh: '使用 SQL',

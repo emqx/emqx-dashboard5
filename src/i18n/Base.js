@@ -281,7 +281,7 @@ export default {
   },
   tlsConfig: {
     zh: 'TLS 配置',
-    en: 'TLS Config',
+    en: 'TLS Configuration',
   },
   TLSCerts: {
     zh: 'TLS 证书信息',

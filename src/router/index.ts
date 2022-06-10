@@ -443,8 +443,8 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       hideKey: 'bridge',
       authRequired: true,
-      subMenu: true,
-      showSubMenuInFirstLevel: true,
+      // subMenu: true,
+      // showSubMenuInFirstLevel: true,
     },
     children: [
       {
@@ -464,18 +464,18 @@ export const routes: Array<RouteRecordRaw> = [
           },
         ],
       },
-      {
-        path: 'connector',
-        name: 'bridge-connector',
-        component: Connector,
-        children: [
-          {
-            path: 'create',
-            name: 'connector-create',
-            component: ConnectorCreate,
-          },
-        ],
-      },
+      // {
+      //   path: 'connector',
+      //   name: 'bridge-connector',
+      //   component: Connector,
+      //   children: [
+      //     {
+      //       path: 'create',
+      //       name: 'connector-create',
+      //       component: ConnectorCreate,
+      //     },
+      //   ],
+      // },
     ],
   },
   // configs
