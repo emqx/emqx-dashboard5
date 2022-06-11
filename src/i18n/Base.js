@@ -207,6 +207,10 @@ export default {
     zh: '其它',
     en: 'Other',
   },
+  server: {
+    zh: '服务',
+    en: 'Server',
+  },
   enable: {
     zh: '启用',
     en: 'Enable',

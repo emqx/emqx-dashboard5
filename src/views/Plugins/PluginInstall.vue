@@ -108,7 +108,7 @@ const submit = async () => {
   }
   .upload-placeholder {
     color: var(--color-text-placeholder);
-    font-size: 12px;
+    font-size: 14px;
   }
   :deep(.el-upload) {
     width: 100%;

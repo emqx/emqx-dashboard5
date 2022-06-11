@@ -84,7 +84,7 @@
           </p>
           <template v-if="others.length !== 0">
             <div class="create-form-title">
-              {{ $t('Base.other') }}
+              {{ $t('Base.server') }}
             </div>
             <el-radio-group v-model="backend" size="large">
               <el-badge

@@ -64,7 +64,7 @@ export default defineComponent({
       )
     })
 
-    const getGatewayInfo = async () => {
+    const loadGatewayInfo = async () => {
       let res = await getGateway(gname).catch(() => {})
       if (res) {
         gInfo.value = res
@@ -85,7 +85,7 @@ export default defineComponent({
       }
     }
 
-    onMounted(getGatewayInfo)
+    onMounted(loadGatewayInfo)
 
     return {
       tl: (key, collection = 'Gateway') => t(collection + '.' + key),

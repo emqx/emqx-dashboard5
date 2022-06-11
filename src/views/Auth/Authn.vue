@@ -23,8 +23,8 @@
             :to="{ name: 'authenticationDetail', params: { id: row.id } }"
             class="first-column-with-icon-type"
           >
-            <img :src="row.img" width="48" />
-            <div>
+            <img class="icon-type" :src="row.img" width="48" />
+            <div class="name-type-block">
               <span class="name-data">{{ getAuthnItemBackendForShow(row) }}</span>
               <span class="type-data">{{ getLabelByValue(row.mechanism) }}</span>
             </div>

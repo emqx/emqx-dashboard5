@@ -71,7 +71,7 @@ const { t } = useI18n()
 :deep(.g6-component-tooltip) {
   border: none;
   border-radius: 0;
-  font-size: 12px;
+  font-size: 14px;
   color: #fff;
   background-color: rgba(0, 0, 0, 0.8);
   padding: 0;
