@@ -167,10 +167,6 @@ export default {
     zh: '缓存 TTL',
     en: 'TTL',
   },
-  basicSettings: {
-    zh: '基础设置',
-    en: 'General Settings',
-  },
   authzCache: {
     zh: 'Authorization 缓存',
     en: 'Authorization Cache',
