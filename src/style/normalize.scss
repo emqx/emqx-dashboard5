@@ -744,3 +744,8 @@
 .el-collapse-item__wrap {
   border-bottom: 1px solid var(--color-border-primary);
 }
+
+/* Divider */
+.el-divider--horizontal {
+  border-top: 1px solid var(--color-border-menu);
+}
