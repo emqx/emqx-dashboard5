@@ -67,7 +67,7 @@ export default function useDatabaseConfig(
       `
       defaultDatabase = 'mqtt_user'
     }
-    if (id.value) {
+    if (id.value || route.params.name) {
       return
     }
     databaseConfig.database = defaultDatabase
@@ -107,7 +107,7 @@ export default function useDatabaseConfig(
       `
       defaultDatabase = 'mqtt_acl'
     }
-    if (id.value) {
+    if (id.value || route.params.name) {
       return
     }
     databaseConfig.database = defaultDatabase
@@ -187,7 +187,7 @@ export default function useDatabaseConfig(
         HGETALL mqtt_acl:\${username}
       `
     }
-    if (id.value) {
+    if (id.value || route.params.name) {
       return
     }
     databaseConfig.cmd = defaultContent.value
