@@ -22,7 +22,7 @@
                   class="icon-type"
                   :src="require(`@/assets/img/${row.type}.png`)"
                 />
-                <div>
+                <div class="name-type-block">
                   <span class="name-data">
                     {{ row.name }}
                   </span>

@@ -1,7 +1,6 @@
 <!-- Just for authn -->
 <template>
   <div class="built-in-config config">
-    <div class="create-form-title">Built-in Database</div>
     <el-form
       ref="formCom"
       :model="builtConfig"

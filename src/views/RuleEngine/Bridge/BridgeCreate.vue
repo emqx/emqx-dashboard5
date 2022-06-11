@@ -286,7 +286,7 @@ export default defineComponent({
     }
     .bridge-type-desc {
       color: var(--color-title-primary);
-      font-size: 12px;
+      font-size: 14px;
       word-break: break-all;
       white-space: normal;
     }

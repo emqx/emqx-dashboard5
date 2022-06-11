@@ -7,12 +7,13 @@
   }
   .item-description {
     color: var(--color-text-secondary);
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 12px;
     margin-bottom: 32px;
   }
   .create-form {
     width: 70%;
+    margin-bottom: 24px;
     .el-radio.is-bordered {
       text-align: center;
       &.mechanism {

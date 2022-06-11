@@ -153,21 +153,6 @@ p.tip {
   justify-content: flex-end;
 }
 
-.emq-title {
-  font-size: 16px;
-  color: #333333;
-  font-weight: bolder;
-  margin-bottom: 40px;
-
-  .sub-title {
-    font-weight: normal;
-    display: block;
-    font-size: 12px;
-    color: #8f9297;
-    margin-top: 12px;
-  }
-}
-
 .page-header-title {
   font-size: 18px;
   color: var(--color-title-primary);
@@ -411,6 +396,16 @@ input:disabled {
     }
   }
 }
+.el-card {
+  .el-tabs.detail-tabs {
+    .el-tabs__header {
+      margin-bottom: 24px;
+      .el-tabs__item.is-active {
+        border-bottom: 1px solid var(--color-bg-primary);
+      }
+    }
+  }
+}
 .block-title {
   margin-top: 0;
   margin-bottom: 0;
@@ -579,11 +574,13 @@ input:disabled {
 .first-column-with-icon-type {
   display: flex;
   align-items: center;
-
   .icon-type {
-    width: 32px;
-    height: 32px;
-    margin-right: 4px;
+    width: 48px;
+    height: 48px;
+    margin-right: 6px;
+  }
+  .name-type-block {
+    line-height: 2;
   }
   .name-data {
     display: block;
@@ -591,7 +588,7 @@ input:disabled {
     color: var(--el-color-primary);
   }
   .type-data {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--color-text-secondary);
     line-height: 16px;
   }

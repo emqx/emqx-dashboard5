@@ -54,7 +54,7 @@ export default defineComponent({
     const route = useRoute()
     const name = String(route.params.name).toLowerCase()
 
-    const getGatewayInfo = async () => {
+    const loadGatewayInfo = async () => {
       infoLoading.value = true
       if (!name) return
       try {
@@ -87,12 +87,18 @@ export default defineComponent({
         if (name === GatewayName.ExProto) {
           dataToSubmit = handleExprotoData(dataToSubmit)
         }
+        const needDeleteFields = ['stopped_at']
+        needDeleteFields.forEach((field) => {
+          if (dataToSubmit[field]) {
+            delete dataToSubmit[field]
+          }
+        })
         await updateGateway(name, dataToSubmit)
         this.$message({
           type: 'success',
           message: t('Base.updateSuccess'),
         })
-        getGatewayInfo()
+        loadGatewayInfo()
       } catch (error) {
         //
       } finally {
@@ -102,7 +108,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      getGatewayInfo()
+      loadGatewayInfo()
     })
 
     return {
