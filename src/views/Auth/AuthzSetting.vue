@@ -1,12 +1,11 @@
 <template>
   <div class="authz-setting app-wrapper">
     <detail-header :item="{ name: $t('Auth.authzSetting'), path: '/authorization' }" />
-    <el-card class="app-card">
-      <el-row>
-        <el-col :span="12">
+    <el-row :gutter="26">
+      <el-col :span="12">
+        <el-card class="app-card">
           <el-form :model="record" label-position="top">
             <section>
-              <div class="part-header">{{ $t('Auth.basicSettings') }}</div>
               <el-form-item label="No Match">
                 <el-select v-model="record.no_match">
                   <el-option value="allow"></el-option>
@@ -21,7 +20,6 @@
               </el-form-item>
             </section>
             <section>
-              <div class="part-header">{{ $t('Auth.authzCache') }}</div>
               <el-form-item :label="$t('Auth.enableCache')">
                 <BooleanSelect
                   v-model="record.cache.enable"
@@ -51,14 +49,22 @@
             {{ $t('Base.cancel') }}
           </el-button>
           <el-button type="primary" @click="save">{{ $t('Base.save') }}</el-button>
-        </el-col>
-      </el-row>
-      <section class="block-clear-cache">
-        <div class="part-header">{{ titleCase($t('Auth.clearCache')) }}</div>
-        <p class="block-desc">{{ $t('Auth.clearCacheDesc') }}</p>
-        <el-button type="danger" plain @click="clearCache">{{ $t('Auth.clearCache') }}</el-button>
-      </section>
-    </el-card>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card class="app-card block-clear-card">
+          <el-row>
+            <el-col :span="24">
+              <div class="part-header">{{ titleCase($t('Auth.clearCache')) }}</div>
+              <p class="block-desc">{{ $t('Auth.clearCacheDesc') }}</p>
+              <el-button type="danger" plain @click="clearCache">{{
+                $t('Auth.clearCache')
+              }}</el-button>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -117,11 +123,13 @@ loadData()
 </script>
 
 <style lang="scss">
-.block-clear-cache {
-  margin-top: 20px;
-}
-.block-desc {
-  margin-top: 8px;
-  color: var(--el-text-color-secondary);
+.authz-setting {
+  .el-form {
+    margin-bottom: 24px;
+  }
+  .block-desc {
+    margin: 24px 0;
+    color: var(--el-text-color-secondary);
+  }
 }
 </style>
