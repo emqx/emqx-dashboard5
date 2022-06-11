@@ -60,7 +60,7 @@ export default {
     en: 'Edit Listener',
   },
   addAuth: {
-    en: 'Create Auth',
+    en: 'Create Authentication',
     zh: '添加认证',
   },
   clientid: {
