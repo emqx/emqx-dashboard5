@@ -89,7 +89,7 @@ export default {
   },
   basicSettings: {
     zh: '基础设置',
-    en: 'Basic Settings',
+    en: 'General Settings',
   },
   slowSubscriptionSettings: {
     zh: '慢订阅设置',

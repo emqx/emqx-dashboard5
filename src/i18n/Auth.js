@@ -169,7 +169,7 @@ export default {
   },
   basicSettings: {
     zh: '基础设置',
-    en: 'Basic Settings',
+    en: 'General Settings',
   },
   authzCache: {
     zh: 'Authorization 缓存',
