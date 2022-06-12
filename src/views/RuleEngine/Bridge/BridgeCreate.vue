@@ -27,8 +27,8 @@
                   >
                     <img
                       class="bridge-type-item-img"
-                      height="52"
-                      width="52"
+                      height="64"
+                      width="64"
                       :src="require(`@/assets/img/${item.value}.png`)"
                       :alt="item.label"
                     />
@@ -94,7 +94,7 @@ import { tlsConfig } from '@/types/ruleengine'
 import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage as M } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { useBridgeTypeOptions, BridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -198,7 +198,6 @@ export default defineComponent({
       }
       submitLoading.value = true
       let res = undefined
-
       try {
         switch (chosenBridgeType.value) {
           case BridgeType.Webhook:
@@ -219,13 +218,22 @@ export default defineComponent({
             )
             break
         }
-        M.success(t('Base.createSuccess'))
-
-        if (!isFromRule.value) {
-          router.push({ name: 'data-bridge' })
-        } else {
-          router.push({ name: route.params.from as string, params: { bridgeId: res.id } })
-        }
+        const bridgeId = res.id
+        ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+          confirmButtonText: tl('createRule'),
+          cancelButtonText: tl('backBridgeList'),
+          type: 'success',
+        })
+          .then(() => {
+            router.push({ name: 'iot-create' })
+          })
+          .catch(() => {
+            if (!isFromRule.value) {
+              router.push({ name: 'data-bridge' })
+            } else {
+              router.push({ name: route.params.from as string, params: { bridgeId } })
+            }
+          })
       } catch (error) {
         console.error(error)
       } finally {
@@ -257,11 +265,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .config-btn {
-  margin-top: 50px;
+  margin-top: 24px;
 }
 
 .el-radio.is-bordered {
-  padding: 0px 10px 0 8px;
+  padding: 0 12px 0 2px;
   min-width: 40%;
   border: 2px solid var(--color-border-primary);
   margin-top: 16px;
@@ -279,7 +287,7 @@ export default defineComponent({
     padding: 0 0 0 52px;
     min-height: 52px;
     .title {
-      margin-bottom: 4px;
+      margin-bottom: 8px;
       font-weight: bold;
       font-size: 14px;
       color: var(--color-title-primary);
@@ -287,10 +295,10 @@ export default defineComponent({
     .bridge-type-desc {
       color: var(--color-title-primary);
       font-size: 12px;
-      word-break: break-all;
       white-space: normal;
     }
     .bridge-type-item-bd {
+      padding-left: 16px;
       padding-top: 12px;
       padding-bottom: 12px;
     }
@@ -304,6 +312,7 @@ export default defineComponent({
 }
 .bridge-type-select {
   width: 100%;
+  margin-bottom: 24px;
 }
 .bridge-type-item {
   box-sizing: border-box;

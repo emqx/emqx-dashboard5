@@ -132,7 +132,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .config-btn {
-  margin-top: 50px;
+  margin-top: 24px;
 }
 
 .el-radio.is-bordered {

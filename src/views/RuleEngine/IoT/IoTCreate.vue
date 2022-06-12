@@ -93,8 +93,5 @@ checkRuleClipStatus()
       padding: 0px;
     }
   }
-  .config-btn {
-    margin-top: 50px;
-  }
 }
 </style>
