@@ -23,10 +23,6 @@ export default {
     zh: 'Disabled',
     en: 'Disabled',
   },
-  basic: {
-    zh: '基本信息',
-    en: 'Basic Info',
-  },
   auth: {
     en: 'Authentication',
     zh: '接入认证',

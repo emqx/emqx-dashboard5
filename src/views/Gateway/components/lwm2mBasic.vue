@@ -1,9 +1,6 @@
 <template>
   <div>
     <el-form label-position="top">
-      <div class="part-header">
-        {{ tl('basic') }}
-      </div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('resDirectory')">
@@ -91,7 +88,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl('mountSetting') }}</div>
+
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">

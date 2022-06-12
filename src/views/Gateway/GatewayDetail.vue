@@ -13,15 +13,6 @@
           </el-tag>
         </span>
       </div>
-      <div>
-        <el-button
-          plain
-          :disabled="gInfo.status === GatewayStatus.Unloaded"
-          @click="toggleGatewayStatus()"
-        >
-          {{ $t(`Base.${gInfo.status === GatewayStatus.Running ? 'disable' : 'enable'}`) }}
-        </el-button>
-      </div>
     </div>
     <el-card class="menu-card">
       <el-menu router :default-active="matchedUrl" mode="horizontal">
@@ -35,9 +26,8 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, ref } from 'vue'
-import { getGateway, updateGateway } from '@/api/gateway'
-import { ElMessage as M } from 'element-plus'
+import { computed, defineComponent, ref } from 'vue'
+import { getGateway } from '@/api/gateway'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import DetailHeader from '@/components/DetailHeader.vue'
@@ -72,25 +62,10 @@ export default defineComponent({
         gInfo.value = {}
       }
     }
-
-    const toggleGatewayStatus = async () => {
-      const enable = !(gInfo.value.status === GatewayStatus.Running)
-      let body = { enable }
-      try {
-        await updateGateway(gname, body)
-        M.success(t(`Base.${enable ? 'enableSuccess' : 'disabledSuccess'}`))
-        gInfo.value.status = enable ? GatewayStatus.Running : GatewayStatus.Stopped
-      } catch (error) {
-        //
-      }
-    }
-
-    onMounted(loadGatewayInfo)
-
+    loadGatewayInfo()
     return {
       tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       gInfo,
-      toggleGatewayStatus,
       gname,
       types,
       matchedUrl,
@@ -121,6 +96,9 @@ export default defineComponent({
     .el-card__body {
       padding: 0px 12px;
     }
+  }
+  .el-form {
+    margin-bottom: 24px;
   }
 }
 </style>

@@ -1,9 +1,6 @@
 <template>
   <div>
     <el-form label-position="top">
-      <div class="part-header">
-        {{ tl('basic') }}
-      </div>
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="'Gateway ID'">
@@ -57,7 +54,7 @@
         v-model:list="mValue.predefined"
         v-model:passed="formPassed"
       ></topic-edit-list>
-      <div class="part-header">{{ tl('mountSetting') }}</div>
+
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
