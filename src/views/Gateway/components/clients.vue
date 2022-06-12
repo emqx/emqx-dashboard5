@@ -30,11 +30,11 @@
           </el-select>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" :icon="Search" @click="searchGatewayList()">{{
+          <el-button type="primary" plain :icon="Search" @click="searchGatewayList()">{{
             $t('Base.search')
           }}</el-button>
-          <el-button type="primary" plain @click="handleResetSearch">
-            {{ $t('Base.reset') }}
+          <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
+            {{ $t('Base.refresh') }}
           </el-button>
         </el-col>
       </el-row>
@@ -115,7 +115,7 @@ import moment from 'moment'
 import ClientDetails from '../../Clients/ClientDetails.vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { Search } from '@element-plus/icons-vue'
+import { Search, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CheckIcon from '@/components/CheckIcon.vue'
 import { NodeMsg } from '@/types/dashboard'
@@ -224,6 +224,7 @@ export default defineComponent({
 
     return {
       Search,
+      RefreshRight,
       moment: moment,
       tl: (key: string, collection = 'Gateway') => t(collection + '.' + key),
       loadGatewayClients,

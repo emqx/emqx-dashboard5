@@ -60,11 +60,11 @@ export default {
     en: 'Configuration',
   },
   bridgeDescHTTP: {
-    zh: '发送数据到 Webhook | HTTP 服务',
-    en: 'Send data to Webhook | HTTP service',
+    zh: '发送数据到 Webhook',
+    en: 'Send data to Webhook',
   },
   bridgeDescMQTTIn: {
-    zh: '连接 MQTT Broker 或平台并订阅指定主题的消息',
+    zh: '连接 MQTT Broker 订阅指定主题的消息',
     en: 'Connect to MQTT Broker or platform and subscribe to messages on the specified topic',
   },
   bridgeDescMQTTOut: {

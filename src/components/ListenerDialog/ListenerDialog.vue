@@ -4,7 +4,6 @@
     v-model="showDialog"
     custom-class="listener-dialog"
   >
-    <div class="part-header">{{ tl('basic') }}</div>
     <el-form label-position="top" :rules="listenerFormRules" :model="listenerRecord" ref="formCom">
       <el-row :gutter="20">
         <el-col :span="12">

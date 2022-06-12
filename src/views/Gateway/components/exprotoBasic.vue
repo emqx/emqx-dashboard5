@@ -1,11 +1,7 @@
 <template>
   <div>
     <el-form label-position="top">
-      <!-- Basic Info -->
       <div>
-        <div class="part-header">
-          {{ tl('basic') }}
-        </div>
         <el-row :gutter="30">
           <el-col :span="12">
             <el-form-item :label="tl('useLog')">
@@ -34,7 +30,6 @@
 
       <!-- Mount Setting -->
       <div>
-        <div class="part-header">{{ tl('mountSetting') }}</div>
         <el-row :gutter="30">
           <el-col :span="12">
             <el-form-item :label="tl('mountPoint')">
