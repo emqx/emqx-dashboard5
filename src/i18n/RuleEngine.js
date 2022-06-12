@@ -64,12 +64,12 @@ export default {
     en: 'Send data to Webhook',
   },
   bridgeDescMQTTIn: {
-    zh: '连接 MQTT Broker 订阅指定主题的消息',
-    en: 'Connect to MQTT Broker or platform and subscribe to messages on the specified topic',
+    zh: '订阅指定主题来获取 MQTT 消息数据',
+    en: 'Subscribe to the specified topic to get MQTT messages',
   },
   bridgeDescMQTTOut: {
-    zh: '连接 MQTT Broker 或平台并将数据发送到指定主题',
-    en: 'Connect to MQTT Broker or platform and send messages to the specified topic',
+    zh: '发布指定主题的消息到 MQTT 服务器',
+    en: 'Publish messages to the specified topic to MQTT Server',
   },
   baseInfo: {
     zh: '基本信息',
@@ -156,12 +156,8 @@ export default {
     en: 'Error Retries',
   },
   mqttConn: {
-    zh: 'MQTT 连接',
-    en: 'MQTT Connector',
-  },
-  newMqttConn: {
-    zh: '创建 MQTT 连接',
-    en: 'New MQTT Connector',
+    zh: 'MQTT 服务',
+    en: 'MQTT Server',
   },
   newConn: {
     zh: '创建连接',
@@ -702,5 +698,9 @@ export default {
   useSQLInput: {
     zh: '使用 SQL',
     en: 'Use SQL',
+  },
+  useBridgeCreateRule: {
+    zh: '是否使用该数据桥接创建规则？',
+    en: 'Would you like to create a Rule using this Data Bridge?',
   },
 }

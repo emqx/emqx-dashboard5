@@ -489,6 +489,10 @@ defineExpose({ validate, clearValidate })
     flex-shrink: 0;
   }
 }
+.monaco-container {
+  margin-top: 12px;
+  height: 200px;
+}
 .icon-connector-handler {
   box-sizing: border-box;
   width: 32px;
