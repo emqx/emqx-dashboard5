@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="form-sub-block">
+    <div class="connector-mqtt-config form-sub-block">
       <!-- <div class="part-header">{{ tl('connParams') }}</div> -->
       <el-row :gutter="30">
         <el-col :span="12">
@@ -111,6 +111,7 @@ import { ConnectorType } from '@/types/enum'
 import { MQTT_VERSION_LIST } from '@/common/constants.ts'
 
 export default defineComponent({
+  name: 'ConnectorMqttConfig',
   components: { InputWithUnit, CommonTLSConfig, BooleanSelect },
   props: {
     modelValue: {
@@ -189,11 +190,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .tls-config-form {
-  margin-top: 20px;
-
+  :deep(.TLS-base-config) {
+    margin-bottom: 0px;
+  }
   :deep(.TLS-base-config) .TLS-base-config-title {
-    color: var(--el-text-color-regular);
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: normal;
   }
   :deep(.TLS-enable-config) {
     .TLS-input {

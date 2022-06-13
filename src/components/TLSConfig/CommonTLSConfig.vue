@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="common-tls-config">
     <TLSBaseConfig v-model="record" />
     <el-collapse-transition>
       <template v-if="record.enable">

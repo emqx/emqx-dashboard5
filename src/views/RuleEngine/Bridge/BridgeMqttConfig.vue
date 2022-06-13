@@ -74,6 +74,7 @@
             <ConnectorMqttConfig v-model="mqttBridgeVal.connector" connector-field="connector" />
           </el-col>
         </el-row>
+        <el-divider />
         <el-row :gutter="26">
           <el-col :span="12">
             <el-form-item required prop="remote_topic">
@@ -126,7 +127,7 @@
           <el-col :span="24">
             <p class="block-desc">
               {{
-                isForwardToLocalTopic
+                isForwardFromLocalTopic
                   ? tl('mqttSinkForwardLocalTopicDesc')
                   : tl('mqttSinkNotForwardLocalTopicDesc')
               }}
@@ -139,6 +140,7 @@
             <ConnectorMqttConfig v-model="mqttBridgeVal.connector" connector-field="connector" />
           </el-col>
         </el-row>
+        <el-divider />
         <el-row :gutter="26">
           <el-col :span="12">
             <el-form-item :label="tl('remoteTopic')" required prop="remote_topic">
