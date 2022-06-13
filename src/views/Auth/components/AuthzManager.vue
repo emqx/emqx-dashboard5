@@ -18,12 +18,13 @@
             v-model="searchVal"
             clearable
             :placeholder="getCurrSearchValTip(type)"
-            @clear="handleSearch"
+            @clear="resetPageAndLoadData"
+            @keyup.enter="resetPageAndLoadData"
           ></el-input>
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
+          <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="loadData">
+          <el-button type="primary" :icon="RefreshRight" @click="resetSearchAndLoadData">
             {{ $t('Base.refresh') }}
           </el-button>
         </template>
@@ -220,7 +221,11 @@ export default defineComponent({
         value: 'all',
       },
     ]
-    const pageMeta = ref({})
+    const pageMeta = ref({
+      count: 0,
+      limit: 20,
+      page: 2,
+    })
     const recordForm = ref()
     const tableData = ref([])
     const allTableData = ref<BuiltInDBRule[]>([])
@@ -279,7 +284,7 @@ export default defineComponent({
     }
     watch(type, () => {
       searchVal.value = ''
-      loadData({ page: 1 })
+      resetPageAndLoadData()
     })
     watch(dialogVisible, (val) => {
       if (!val) {
@@ -289,9 +294,12 @@ export default defineComponent({
     const loadData = async (params = {}) => {
       lockTable.value = true
 
-      const sendParams = {
+      const sendParams: Record<string, string | number> = {
         ...pageMeta.value,
         ...params,
+      }
+      if (searchVal.value) {
+        sendParams[`like_${type.value}`] = searchVal.value
       }
       Reflect.deleteProperty(sendParams, 'count')
       const res = await loadBuiltInDatabaseData(type.value, sendParams).catch(() => {
@@ -386,7 +394,7 @@ export default defineComponent({
               rules,
             })
           }
-          loadData({ page: 1 })
+          resetPageAndLoadData()
         })
         .catch(() => {})
     }
@@ -432,14 +440,15 @@ export default defineComponent({
       }
       return typeMap[type]
     }
-    const handleSearch = () => {
-      const page = 1
-      if (searchVal.value) {
-        const searchKey = `like_${type.value}`
-        loadData({ page, [searchKey]: searchVal.value })
-      } else {
-        loadData({ page })
-      }
+
+    const resetPageAndLoadData = () => {
+      pageMeta.value.page = 1
+      loadData()
+    }
+
+    const resetSearchAndLoadData = () => {
+      searchVal.value = ''
+      resetPageAndLoadData()
     }
 
     return {
@@ -468,7 +477,8 @@ export default defineComponent({
       handleEdit,
       handleUp,
       handleDown,
-      handleSearch,
+      resetPageAndLoadData,
+      resetSearchAndLoadData,
       getCurrSearchValTip,
     }
   },
