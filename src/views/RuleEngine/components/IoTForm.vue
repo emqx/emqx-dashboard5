@@ -143,6 +143,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'iot-form',
@@ -151,7 +152,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose } from 'vue'
-import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
+import { getBridgeInfo, getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
@@ -184,6 +185,7 @@ const prop = defineProps({
 const emit = defineEmits(['update:modelValue', 'save'])
 
 const { t } = useI18n()
+const route = useRoute()
 const { transFromStrToFromArr, transSQLFormDataToSQL } = useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const bridgeList = ref([])
@@ -256,6 +258,27 @@ const setRuleValue = () => {
   }
   if (briefEditType.value) {
     syncSQLDataToForm()
+  }
+}
+
+const replaceSQLFrom = (from: string) => {
+  const { fieldStr, whereStr } = getKeywordsFromSQL(ruleValue.value.sql)
+  ruleValue.value.sql = transSQLFormDataToSQL(fieldStr, transFromStrToFromArr(from), whereStr)
+}
+
+const handleBridgeDataFromQuery = async () => {
+  const bridgeId = route.query.bridgeId?.toString()
+  if (!bridgeId) {
+    return
+  }
+  const bridgeMsg = await getBridgeInfo(bridgeId)
+  const isSource = bridgeMsg.direction === MQTTBridgeDirection.In
+  if (isSource) {
+    replaceSQLFrom(`$bridges/${bridgeMsg.id}`)
+  } else {
+    if (Array.isArray(ruleValue.value.actions)) {
+      ruleValue.value.actions?.push(bridgeMsg.id)
+    }
   }
 }
 
@@ -385,10 +408,11 @@ const validate = () => {
   return Promise.all([selfValidate(), formCom.value?.validate()])
 }
 
-onMounted(() => {
+onMounted(async () => {
   loadIngressBridgeList()
-  loadRuleEvents()
   setRuleValue()
+  await loadRuleEvents()
+  handleBridgeDataFromQuery()
 })
 
 defineExpose({ validate })
