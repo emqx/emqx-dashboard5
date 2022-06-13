@@ -98,24 +98,17 @@
 <script lang="ts">
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import { useI18n } from 'vue-i18n'
-import { reactive, computed, defineComponent, watch, onMounted } from 'vue'
-import _ from 'lodash'
+import { computed, defineComponent, onMounted } from 'vue'
+import { cloneDeep } from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
-import { ConnectorItem } from '@/types/rule'
 import BooleanSelect from '@/components/BooleanSelect.vue'
-
-type ConnectorForm = Partial<ConnectorItem>
+import { ConnectorType } from '@/types/enum'
 
 export default defineComponent({
   components: { InputWithUnit, CommonTLSConfig, BooleanSelect },
   props: {
     modelValue: {
-      type: Object,
-      required: false,
-      default: () => ({}),
-    },
-    tls: {
       type: Object,
       required: false,
       default: () => ({}),
@@ -128,10 +121,11 @@ export default defineComponent({
   },
   setup(prop, context) {
     const { t } = useI18n()
-    const tlsParams = computed(() => prop.tls)
+    const tlsParams = computed(() => prop.modelValue.ssl)
     const modeOptions = ['cluster_shareload', 'cluster_singleton']
 
     const connectorDefaultVal = {
+      type: ConnectorType.MQTT,
       server: '',
       clientid: '',
       username: '',
@@ -142,27 +136,25 @@ export default defineComponent({
       bridge_mode: false,
       mode: modeOptions[0],
     }
-    const connectorVal: ConnectorForm = reactive({
-      ..._.cloneDeep(connectorDefaultVal),
-      ..._.cloneDeep({ ...prop.modelValue }),
-    }) as ConnectorForm
 
-    watch(
-      () => _.cloneDeep(connectorVal),
-      (val) => {
-        context.emit('update:modelValue', _.cloneDeep(val))
+    const connectorVal = computed({
+      get() {
+        return prop.modelValue
       },
-    )
+      set(val) {
+        context.emit('update:modelValue', val)
+      },
+    })
 
     // watch(
-    //   () => _.cloneDeep(tlsParams.value),
+    //   () => cloneDeep(tlsParams.value),
     //   (val) => {
-    //     context.emit("update:tls", _.cloneDeep(val));
+    //     context.emit("update:tls", cloneDeep(val));
     //   }
     // );
 
     onMounted(() => {
-      context.emit('update:modelValue', _.cloneDeep(connectorVal))
+      connectorVal.value = { ...cloneDeep(connectorDefaultVal), ...cloneDeep(prop.modelValue) }
     })
 
     return {

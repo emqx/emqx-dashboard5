@@ -41,12 +41,7 @@
             </el-col>
           </el-row>
         </div>
-        <connector-mqtt-config
-          :model-value="connectorData"
-          @update:model-value="updateConnectorData"
-          v-model:tls="connectorTLS"
-          :edit="edit"
-        />
+        <connector-mqtt-config v-model="connectorData" :edit="edit" />
       </el-form>
       <div class="tip-edit" v-if="edit">
         <span>{{ tl('tip') }}</span>
@@ -118,7 +113,6 @@ const { tl } = useI18nTl('RuleEngine')
 const { connectorTypeOptions } = useConnectorTypeValue()
 const { handleSSLDataBeforeSubmit, createSSLForm } = useSSL()
 const connectorData = ref({})
-const connectorTLS = ref(createSSLForm())
 const submitLoading = ref(false)
 const isTesting = ref(false)
 
@@ -153,20 +147,15 @@ const initConnectorAndSSLData = () => {
         // name: props.modelValue.id?.split(':')[1],
       }
     : {
-        type: ConnectorType.MQTT,
+        name: '',
+        ssl: props.edit && props.modelValue.ssl ? cloneDeep(props.modelValue.ssl) : createSSLForm(),
       }
-  connectorTLS.value =
-    props.edit && props.modelValue.ssl ? cloneDeep(props.modelValue.ssl) : createSSLForm()
-}
-
-const updateConnectorData = (newConnectorData) => {
-  connectorData.value = { ...connectorData.value, ...newConnectorData }
 }
 
 const getConnectorData = () => {
   let ret = {
     ...connectorData.value,
-    ssl: handleSSLDataBeforeSubmit(connectorTLS.value),
+    ssl: handleSSLDataBeforeSubmit(connectorData.value.ssl),
     type: props.connType,
   }
 
@@ -237,7 +226,7 @@ watch(visible, async (val) => {
 })
 
 // watch(
-//   () => [cloneDeep(connectorData.value), cloneDeep(connectorTLS.value)],
+//   () => cloneDeep(connectorData.value),
 //   (val) => {
 //     if (props.edit) {
 //       emit("update:modelValue", {
