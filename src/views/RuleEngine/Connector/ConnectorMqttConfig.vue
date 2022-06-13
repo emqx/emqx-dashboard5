@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="form-sub-block">
-      <div class="part-header">{{ tl('connParams') }}</div>
+      <!-- <div class="part-header">{{ tl('connParams') }}</div> -->
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="tl('brokerAddress')" required prop="server">
+          <el-form-item :label="tl('brokerAddress')" required :prop="getFormItemProp('server')">
             <el-input v-model="connectorVal.server" placeholder="broker.emqx.io:1883" />
           </el-form-item>
         </el-col>
@@ -30,7 +30,12 @@
         <el-col :span="12">
           <el-form-item :label="tl('mqttVer')">
             <el-select v-model="connectorVal.proto_ver">
-              <el-option v-for="ver in ['v3', 'v4', 'v5']" :key="ver" :value="ver" />
+              <el-option
+                v-for="{ label, value } in MQTT_VERSION_LIST"
+                :key="value"
+                :value="value"
+                :label="label"
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -44,33 +49,6 @@
             <BooleanSelect v-model="connectorVal.bridge_mode" />
           </el-form-item>
         </el-col>
-      </el-row>
-    </div>
-    <div class="form-sub-block">
-      <div class="part-header">{{ tl('connSetting') }}</div>
-      <el-row :gutter="30">
-        <!-- <el-col :span="12">
-          <el-form-item>
-            <template #label>
-              <label>{{ tl('connMode') }}</label>
-              <InfoTooltip>
-                <template #content>
-                  <span>{{ tl('connectionClusterModeDesc') }}</span>
-                  <br />
-                  <span>{{ tl('connectionNodeModeDesc') }}</span>
-                </template>
-              </InfoTooltip>
-            </template>
-            <el-select v-model="connectorVal.mode">
-              <el-option
-                v-for="cm in modeOptions"
-                :key="cm"
-                :value="cm"
-                :label="tl(`mode_${cm}`)"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col> -->
         <el-col :span="12">
           <el-form-item :label="tl('reconnectInterval')">
             <InputWithUnit
@@ -91,6 +69,32 @@
         </el-col>
       </el-row>
     </div>
+    <!-- <div class="form-sub-block">
+      <el-row :gutter="30">
+        <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <label>{{ tl('connMode') }}</label>
+              <InfoTooltip>
+                <template #content>
+                  <span>{{ tl('connectionClusterModeDesc') }}</span>
+                  <br />
+                  <span>{{ tl('connectionNodeModeDesc') }}</span>
+                </template>
+              </InfoTooltip>
+            </template>
+            <el-select v-model="connectorVal.mode">
+              <el-option
+                v-for="cm in modeOptions"
+                :key="cm"
+                :value="cm"
+                :label="tl(`mode_${cm}`)"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </div> -->
     <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
   </div>
 </template>
@@ -98,12 +102,13 @@
 <script lang="ts">
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import { useI18n } from 'vue-i18n'
-import { computed, defineComponent, onMounted } from 'vue'
+import { computed, defineComponent, onMounted, reactive } from 'vue'
 import { cloneDeep } from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import { ConnectorType } from '@/types/enum'
+import { MQTT_VERSION_LIST } from '@/common/constants.ts'
 
 export default defineComponent({
   components: { InputWithUnit, CommonTLSConfig, BooleanSelect },
@@ -117,6 +122,12 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: () => false,
+    },
+    /**
+     * for form rules
+     */
+    connectorField: {
+      type: String,
     },
   },
   setup(prop, context) {
@@ -146,6 +157,11 @@ export default defineComponent({
       },
     })
 
+    const getFormItemProp = (rawProp: string) => {
+      const { connectorField } = prop
+      return connectorField ? `${connectorField}.${rawProp}` : rawProp
+    }
+
     // watch(
     //   () => cloneDeep(tlsParams.value),
     //   (val) => {
@@ -159,11 +175,13 @@ export default defineComponent({
 
     return {
       tl: (key: string) => t('RuleEngine.' + key),
+      MQTT_VERSION_LIST,
       tlsParams,
       connectorVal,
       connectorDefaultVal,
       modeOptions,
       commonTimeUnits,
+      getFormItemProp,
     }
   },
 })

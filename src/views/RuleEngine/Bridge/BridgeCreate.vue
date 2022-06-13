@@ -71,6 +71,15 @@
             {{ $t('Base.nextStep') }}
           </el-button>
           <el-button
+            v-if="stepActive === 1 && canTest"
+            type="primary"
+            plain
+            :loading="isTesting"
+            @click="testTheConnection"
+          >
+            {{ tl('testTheConnection') }}
+          </el-button>
+          <el-button
             type="primary"
             v-if="stepActive === 1"
             :loading="submitLoading"
@@ -102,6 +111,7 @@ import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useSSL from '@/hooks/useSSL'
 import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
+import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 
 export default defineComponent({
   components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader },
@@ -127,9 +137,10 @@ export default defineComponent({
     const radioSelectedBridgeType = ref(bridgeTypeOptions[0].valueForRadio)
     const chosenBridgeType = ref(bridgeTypeOptions[0].value)
     const submitLoading = ref(false)
-    const bridgeData = ref(createBridgeData())
+    const bridgeData: Ref<any> = ref(createBridgeData())
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
     const { handleSSLDataBeforeSubmit } = useSSL()
+    const { isTesting, canTest, testTheConnection } = useTestConnection(bridgeData)
 
     const formCom = ref()
 
@@ -198,24 +209,25 @@ export default defineComponent({
       }
       submitLoading.value = true
       let res = undefined
+      const dataToSubmit = {
+        ..._.cloneDeep(bridgeData.value),
+        type: chosenBridgeType.value,
+      }
       try {
         switch (chosenBridgeType.value) {
           case BridgeType.Webhook:
             res = await createBridge(
               checkNOmitFromObj({
-                ...bridgeData.value,
+                ...dataToSubmit,
                 ssl: handleSSLDataBeforeSubmit(tlsParams.value),
-                type: chosenBridgeType.value,
               }),
             )
             break
           case BridgeType.MQTT:
-            res = await createBridge(
-              handleBridgeDataBeforeSubmit({
-                ...bridgeData.value,
-                type: chosenBridgeType.value,
-              }),
-            )
+            if (dataToSubmit.connector?.type) {
+              Reflect.deleteProperty(dataToSubmit.connector, 'type')
+            }
+            res = await createBridge(checkNOmitFromObj(handleBridgeDataBeforeSubmit(dataToSubmit)))
             break
         }
         const bridgeId = res.id
@@ -258,6 +270,9 @@ export default defineComponent({
       isBridgeTypeDisabled,
       cancel,
       submitCreateBridge,
+      canTest,
+      isTesting,
+      testTheConnection,
     }
   },
 })
