@@ -313,6 +313,9 @@ watch(showDialog, (val) => {
 })
 
 onActivated(async () => {
+  if (!props.modelValue) {
+    return
+  }
   const { params } = route
   isGoToBridge.value = false
   if (params.bridgeId) {

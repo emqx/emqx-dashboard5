@@ -219,21 +219,21 @@ export default defineComponent({
             break
         }
         const bridgeId = res.id
-        ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
-          confirmButtonText: tl('createRule'),
-          cancelButtonText: tl('backBridgeList'),
-          type: 'success',
-        })
-          .then(() => {
-            router.push({ name: 'iot-create' })
+        if (!isFromRule.value) {
+          ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+            confirmButtonText: tl('createRule'),
+            cancelButtonText: tl('backBridgeList'),
+            type: 'success',
           })
-          .catch(() => {
-            if (!isFromRule.value) {
+            .then(() => {
+              router.push({ name: 'iot-create', query: { bridgeId } })
+            })
+            .catch(() => {
               router.push({ name: 'data-bridge' })
-            } else {
-              router.push({ name: route.params.from as string, params: { bridgeId } })
-            }
-          })
+            })
+        } else {
+          router.push({ name: route.params.from as string, params: { bridgeId } })
+        }
       } catch (error) {
         console.error(error)
       } finally {
