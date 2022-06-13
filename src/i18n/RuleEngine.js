@@ -657,7 +657,7 @@ export default {
   },
   mqttSinkForwardLocalTopicDesc: {
     zh: '从本地主题或规则内转发数据，独立使用时将不经过规则处理，直接转发原始数据到远程主题（MQTT 作为数据目标）',
-    en: 'Forward messages from Local Topic or Rules, and forward messages directly to Remote Topic (MQTT Sink)',
+    en: 'Forward messages from Local Topic or Rules, without Rules processing, directly forward the original data to Remote Topic (MQTT Sink)',
   },
   mqttSinkNotForwardLocalTopicDesc: {
     zh: '数据仅支持通过规则处理后转发到远程主题，不可单独使用（MQTT 作为数据目标）',
