@@ -648,31 +648,31 @@ export default {
     en: 'Just for Rules',
   },
   mqttSourceForwardLocalTopicDesc: {
-    zh: '从远程主题获取数据，可通过规则处理数据或直接将数据转发至本地主题（MQTT 作为数据源）',
-    en: 'Forward messages from the Remote Topic, and can be processed by Rules or directly forward messages to Local Topic (MQTT Source)',
+    zh: '从远程主题获取数据，并将数据转发至本地主题或接入到规则内（MQTT 作为数据源）',
+    en: 'Forward messages from the Remote Topic, and forward messages to Local Topic or Rules (MQTT Source)',
   },
   mqttSourceNotForwardLocalTopicDesc: {
-    zh: '从远程主题获取数据后通过规则处理数据转发至本地主题，不可单独使用（MQTT 作为数据源）',
-    en: 'Forward messages from the Remote Topic, and forward messages to Local Topic (MQTT Source)',
+    zh: '从远程主题获取数据后转发至规则内，不可单独使用（MQTT 作为数据源）',
+    en: 'Forward messages from the Remote Topic to Rules, cannot be used separately (MQTT Source)',
   },
   mqttSinkForwardLocalTopicDesc: {
-    zh: '从本地主题获取数据，可通过规则处理数据或直接将数据转发至远程主题（MQTT 作为数据目标）',
-    en: 'Forward messages from the Remote Topic, and can be processed by Rules or directly forward messages to Local Topic (MQTT Sink)',
+    zh: '从本地主题或规则内转发数据，独立使用时将不经过规则处理，直接转发原始数据到远程主题（MQTT 作为数据目标）',
+    en: 'Forward messages from Local Topic or Rules, and forward messages directly to Remote Topic (MQTT Sink)',
   },
   mqttSinkNotForwardLocalTopicDesc: {
-    zh: '从远程主题获取数据后通过规则处理数据转发至本地主题，不可单独使用（MQTT 作为数据目标）',
-    en: 'Forward messages from the Remote Topic, and forward messages to Local Topic (MQTT Sink)',
+    zh: '数据仅支持通过规则处理后转发到远程主题，不可单独使用（MQTT 作为数据目标）',
+    en: 'Forward messages from the Rules, and forward messages to Remote Topic (MQTT Sink)',
   },
   bridgeSinkFromLabel: {
     zh: '你想从什么地方转发数据？',
     en: 'Where do you want to forward messages from?',
   },
   bridgeSinkForwardFromLocalTopicDesc: {
-    zh: '从本地主题和规则中转发数据，独立使用时将不经过规则处理，直接转发原始数据',
-    en: 'Forward messages from the Local Topic and Rules, without Rules processing, directly forward the original data',
+    zh: '从本地主题或规则中转发数据，独立使用时将不经过规则处理，直接转发原始数据',
+    en: 'Forward messages from the Local Topic or Rules, without Rules processing, directly forward the original data',
   },
   bridgeSinkNotForwardFromLocalTopicDesc: {
-    zh: '数据仅支持规则转发，不可单独使用',
+    zh: '数据仅支持通过规则处理后转发，不可单独使用',
     en: 'Just forward messages from Rules, not separate',
   },
   headers: {
