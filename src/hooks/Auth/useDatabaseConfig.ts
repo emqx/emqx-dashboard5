@@ -142,7 +142,7 @@ export default function useDatabaseConfig(
           ipaddress: "127.0.0.1",
           permission: "allow",
           action: "all",
-          topics: ["#"]
+          topics: ["#", "a/b"]
         }
 
         db.mqtt_acl.findOne({"username": "emqx_user"})
@@ -161,9 +161,6 @@ export default function useDatabaseConfig(
       helpContent.value = `
         # sample data
         HMSET mqtt_user:emqx_u password_hash *** salt foo+bar is_superuser 1
-
-        # sample cmd
-        # HMGET mqtt_user:\${username}
 
         ## only password
         HMGET mqtt_user:emqx_u password_hash
