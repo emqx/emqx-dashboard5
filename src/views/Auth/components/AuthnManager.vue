@@ -3,7 +3,12 @@
     <div class="section-header">
       <div class="searchbar">
         <el-space wrap :size="20">
-          <el-input v-model="searchVal.user_id" clearable :placeholder="getFiledLabel(field)" />
+          <el-input
+            v-model="searchVal.user_id"
+            clearable
+            :placeholder="getFiledLabel(field)"
+            @keyup.enter="resetPageAndLoadData"
+          />
           <el-select
             v-model="searchVal.is_superuser"
             clearable
@@ -13,7 +18,7 @@
             <el-option :value="true" :label="$t('Base.yes')" />
             <el-option :value="false" :label="$t('Base.no')" />
           </el-select>
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
+          <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
             {{ $t('Base.search') }}
           </el-button>
           <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
@@ -124,7 +129,11 @@ export default defineComponent({
   },
   setup(prop) {
     const { t } = useI18n()
-    const pageMeta = ref({})
+    const pageMeta = ref({
+      count: 0,
+      limit: 20,
+      page: 1,
+    })
     let record = ref<DataManagerItem>(createRawUserForm())
     const tableData = ref([])
     const lockTable = ref(false)
@@ -141,10 +150,12 @@ export default defineComponent({
       return route.params.id as string
     })
 
-    const loadData = async (params = {}) => {
+    const loadData = async () => {
+      const { user_id, is_superuser } = searchVal
       const sendParams = {
         ...pageMeta.value,
-        ...params,
+        like_user_id: searchVal.user_id === '' ? null : user_id,
+        is_superuser: is_superuser,
       }
       Reflect.deleteProperty(sendParams, 'count')
 
@@ -160,7 +171,11 @@ export default defineComponent({
         pageMeta.value = res?.meta
       } else {
         tableData.value = []
-        pageMeta.value = {}
+        pageMeta.value = {
+          count: 0,
+          limit: 20,
+          page: 1,
+        }
       }
       lockTable.value = false
     }
@@ -205,7 +220,7 @@ export default defineComponent({
           } else {
             await deleteAuthnUser(id.value, row.user_id)
           }
-          loadData({ page: 1 })
+          resetPageAndLoadData()
         })
         .catch(() => {
           // cancel
@@ -273,24 +288,15 @@ export default defineComponent({
       return fieldMap[field]
     }
 
-    const handleSearch = () => {
-      const page = 1
-      const { user_id, is_superuser } = searchVal
-      if (user_id !== '' || is_superuser !== null) {
-        loadData({
-          like_user_id: searchVal.user_id === '' ? null : user_id,
-          is_superuser: is_superuser,
-          page,
-        })
-      } else {
-        loadData({ page })
-      }
+    const resetPageAndLoadData = () => {
+      pageMeta.value.page = 1
+      loadData()
     }
 
     const handleResetSearch = () => {
       searchVal.user_id = ''
       searchVal.is_superuser = null
-      loadData({ page: 1 })
+      resetPageAndLoadData()
     }
 
     return {
@@ -307,7 +313,7 @@ export default defineComponent({
       isEdit,
       saveLoading,
       searchVal,
-      handleSearch,
+      resetPageAndLoadData,
       handleResetSearch,
       loadData,
       save,
