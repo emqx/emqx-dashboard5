@@ -5,7 +5,6 @@
       <el-row :gutter="30">
         <el-col :span="6">
           <el-select v-model="selectedNode">
-            <el-option :key="ALL_NODES_VALUE" :label="tl('allNodes')" :value="ALL_NODES_VALUE" />
             <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
@@ -57,7 +56,6 @@ let LAST_ACTIVED_SCROLLTOP = 0
 const MAX_LOG_SIZE = 5 * 1024 * 1024
 const BYTEPERPAGE = 50 * 1024
 
-const ALL_NODES_VALUE = 'allNodes'
 
 export default defineComponent({
   components: {
@@ -72,13 +70,9 @@ export default defineComponent({
     const logContent = ref('')
     const viewNodeLoading = ref(false)
     const currentNodes: Ref<Array<NodeMsg>> = ref([])
-    const selectedNode = ref(ALL_NODES_VALUE)
+    const selectedNode = ref('')
     const viewLogName: string = route.params.id as string
     const nextPageLoading = ref('')
-
-    const node = computed(() => {
-      return selectedNode.value === ALL_NODES_VALUE ? undefined : selectedNode.value
-    })
 
     const countInitialHeight = () => {
       const offsetTop = (monacoContainer.value?.getBoundingClientRect()?.top || 250) + 30
@@ -90,6 +84,7 @@ export default defineComponent({
       try {
         const data = await loadNodes()
         currentNodes.value = data
+        selectedNode.value = data[0].node
       } catch (error) {
         console.error(error)
       }
@@ -131,7 +126,7 @@ export default defineComponent({
       const params = {
         position: LOG_VIEW_POSITION,
         bytes: BYTEPERPAGE,
-        node: node.value,
+        node: selectedNode.value,
       }
       const logResp = await getTraceLog(name, params).catch(() => {})
       if (logResp && logResp.items) {
@@ -141,7 +136,7 @@ export default defineComponent({
       }
     }
     const download = async () => {
-      await downloadTrace(viewLogName, node.value)
+      await downloadTrace(viewLogName, selectedNode.value)
       // download link, no more action needed
     }
 
@@ -152,7 +147,7 @@ export default defineComponent({
     })
 
     watch(
-      () => node.value,
+      () => selectedNode.value,
       (v, oldV) => {
         if (v !== oldV) {
           viewDetail(true)
@@ -168,7 +163,6 @@ export default defineComponent({
       logContent,
       scrollLoadFunc,
       currentNodes,
-      ALL_NODES_VALUE,
       selectedNode,
       viewDetail,
       viewNodeLoading,
