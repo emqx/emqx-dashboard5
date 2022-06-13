@@ -28,13 +28,7 @@ export function clearCache() {
 }
 
 export function updateAuthzSetting(body: AuthzSetting) {
-  const {
-    cache: { ttl, unit },
-  } = body
-  const data = _.cloneDeep(body)
-  delete data.cache.unit
-  data.cache.ttl = `${ttl}${unit}`
-  return http.put('/authorization/settings', data)
+  return http.put('/authorization/settings', body)
 }
 
 export function updateAuthz(type: string, body = {}) {

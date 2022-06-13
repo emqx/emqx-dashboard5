@@ -32,15 +32,11 @@
                   <el-input v-model.number="record.cache.max_size" placeholder="32"></el-input>
                 </el-form-item>
                 <el-form-item :label="$t('Auth.ttl')">
-                  <el-input v-model.number="record.cache.ttl" placeholder="1">
-                    <template #append>
-                      <el-select v-model="record.cache.unit">
-                        <el-option value="s" :label="$t('Base.second')"></el-option>
-                        <el-option value="m" :label="$t('Base.minute')"></el-option>
-                        <el-option value="h" :label="$t('Base.hour')"></el-option>
-                      </el-select>
-                    </template>
-                  </el-input>
+                  <InputWithUnit
+                    v-model="record.cache.ttl"
+                    :units="timeUnits"
+                    :number-placeholder="1"
+                  />
                 </el-form-item>
               </template>
             </section>
@@ -83,6 +79,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { titleCase } from '@/common/tools'
 import BooleanSelect from '@/components/BooleanSelect.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -91,14 +88,20 @@ const record = ref({
   cache: {},
 })
 
+const timeUnits = [
+  { value: 's', label: t('Base.second') },
+  { value: 'm', label: t('Base.minute') },
+  { value: 'h', label: t('Base.hour') },
+]
+
 const loadData = async () => {
   const res = await listAuthzSetting()
+  if (res.cache === undefined) {
+    res.cache = {
+      enable: false,
+    }
+  }
   if (res) {
-    const {
-      cache: { ttl },
-    } = res
-    res.cache.ttl = ttl.replace(/[^0-9]/gi, '')
-    res.cache.unit = ttl.replace(/[^a-z]+/gi, '')
     record.value = res
   }
 }
