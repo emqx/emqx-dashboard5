@@ -12,15 +12,15 @@
       <el-table-column prop="description" :label="$t('General.remark')"></el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="small" @click="showDialog('edit', row)"
-            >{{ $t('Base.edit') }}
+          <el-button size="small" @click="showDialog('edit', row)">
+            {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="small" @click="showDialog('chPass', row)">{{
-            $t('General.changePassword')
-          }}</el-button>
+          <el-button size="small" @click="showDialog('chPass', row)">
+            {{ $t('General.changePassword') }}
+          </el-button>
 
-          <el-button type="danger" plain size="small" @click="deleteConfirm(row)"
-            >{{ $t('Base.delete') }}
+          <el-button type="danger" plain size="small" @click="deleteConfirm(row)">
+            {{ $t('Base.delete') }}
           </el-button>
         </template>
       </el-table-column>
@@ -217,41 +217,27 @@ export default {
       }
       this.submitLoading = true
       const { username } = this.record
-      if (this.accessType === 'edit') {
-        updateUser(username, this.record)
-          .then(async () => {
-            ElMessage.success(this.$t('Base.editSuccess'))
-            this.dialogVisible = false
-            this.loadData()
-          })
-          .finally(() => {
-            this.submitLoading = false
-          })
-      } else if (this.accessType === 'chPass') {
-        let pass = {
-          new_pwd: this.record.newPassword,
-          old_pwd: this.record.password,
-        }
-        let res = await changePassword(username, pass).catch(() => {
-          this.submitLoading = false
-        })
-        if (res) {
+      try {
+        if (this.accessType === 'edit') {
+          await updateUser(username, this.record)
+          ElMessage.success(this.$t('Base.editSuccess'))
+        } else if (this.accessType === 'chPass') {
+          let pass = {
+            new_pwd: this.record.newPassword,
+            old_pwd: this.record.password,
+          }
+          await changePassword(username, pass)
           ElMessage.success(this.$t('General.changePassSuccess'))
-          this.dialogVisible = false
+        } else {
+          await createUser(this.record)
+          ElMessage.success(this.$t('General.createUserSuccess'))
         }
+        this.loadData()
+        this.dialogVisible = false
+      } catch (error) {
+        //
+      } finally {
         this.submitLoading = false
-      } else {
-        createUser(this.record)
-          .then(() => {
-            ElMessage.success(this.$t('General.createUserSuccess'))
-            this.dialogVisible = false
-            this.accessType = ''
-            this.record = {}
-            this.loadData()
-          })
-          .finally(() => {
-            this.submitLoading = false
-          })
       }
     },
     deleteConfirm(item) {
