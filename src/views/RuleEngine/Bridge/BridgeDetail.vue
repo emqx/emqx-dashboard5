@@ -54,6 +54,15 @@
               </div>
               <div class="btn-area">
                 <el-button
+                  v-if="bridgeInfo.type && canTest"
+                  type="primary"
+                  plain
+                  :loading="isTesting"
+                  @click="testTheConnection"
+                >
+                  {{ tl('testTheConnection') }}
+                </el-button>
+                <el-button
                   type="primary"
                   v-if="bridgeInfo.type"
                   :loading="infoLoading"
@@ -91,6 +100,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import useDocLink from '@/hooks/useDocLink'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
+import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 
 enum Tab {
   Overview = 'overview',
@@ -104,6 +114,7 @@ const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const { t } = useI18n()
 const infoLoading = ref(false)
 const activeTab = ref(Tab.Overview)
+const { isTesting, canTest, testTheConnection } = useTestConnection(bridgeInfo)
 
 const formCom = ref()
 

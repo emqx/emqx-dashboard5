@@ -115,3 +115,9 @@ export const SESSION_FIELDS = [
   'mqueue_default_priority',
   'mqueue_store_qos0',
 ]
+
+export const MQTT_VERSION_LIST = [
+  { label: 'v3.1', value: 'v3' },
+  { label: 'v3.1.1', value: 'v4' },
+  { label: 'v5', value: 'v5' },
+]

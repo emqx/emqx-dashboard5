@@ -69,36 +69,9 @@
           </el-col>
         </el-row>
         <el-divider />
-        <el-row v-loading="connectorLoading" :gutter="26">
-          <el-col :span="12">
-            <el-form-item :label="tl('mqttConn')" prop="connector" required>
-              <div class="connector-select-container">
-                <el-select v-model="mqttBridgeVal.connector">
-                  <el-option
-                    v-for="item in connectorList"
-                    :key="item.id"
-                    :value="item.id"
-                    :label="item.name"
-                  />
-                </el-select>
-                <div class="icon-connector-handler-container" v-if="!disabled">
-                  <el-icon
-                    :class="['icon-connector-handler', btnEditConnectorClass]"
-                    :size="16"
-                    @click="openConnectorDialog(true)"
-                  >
-                    <edit />
-                  </el-icon>
-                  <el-icon
-                    class="icon-connector-handler"
-                    :size="16"
-                    @click="openConnectorDialog(false)"
-                  >
-                    <plus />
-                  </el-icon>
-                </div>
-              </div>
-            </el-form-item>
+        <el-row :gutter="26">
+          <el-col :span="24">
+            <ConnectorMqttConfig v-model="mqttBridgeVal.connector" connector-field="connector" />
           </el-col>
         </el-row>
         <el-row :gutter="26">
@@ -161,36 +134,9 @@
           </el-col>
         </el-row>
         <el-divider />
-        <el-row v-loading="connectorLoading" :gutter="26">
-          <el-col :span="10">
-            <el-form-item :label="tl('mqttConn')" prop="connector" required>
-              <div class="connector-select-container">
-                <el-select v-model="mqttBridgeVal.connector">
-                  <el-option
-                    v-for="item in connectorList"
-                    :key="item.id"
-                    :value="item.id"
-                    :label="item.name"
-                  />
-                </el-select>
-                <div class="icon-connector-handler-container" v-if="!disabled">
-                  <el-icon
-                    :class="['icon-connector-handler', btnEditConnectorClass]"
-                    :size="16"
-                    @click="openConnectorDialog(true)"
-                  >
-                    <edit />
-                  </el-icon>
-                  <el-icon
-                    class="icon-connector-handler"
-                    :size="16"
-                    @click="openConnectorDialog(false)"
-                  >
-                    <plus />
-                  </el-icon>
-                </div>
-              </div>
-            </el-form-item>
+        <el-row :gutter="26">
+          <el-col :span="24">
+            <ConnectorMqttConfig v-model="mqttBridgeVal.connector" connector-field="connector" />
           </el-col>
         </el-row>
         <el-row :gutter="26">
@@ -242,13 +188,6 @@
         </el-col>
       </el-row>
     </el-form>
-    <connector-dialog
-      v-model:open="isOpenDialog"
-      :edit="isDialogForEdit"
-      v-if="isOpenDialog"
-      @finish="finishConnectorDialog"
-      v-model="chosenConnectorData"
-    />
   </div>
 </template>
 
@@ -262,10 +201,8 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { defineProps, onMounted, ref, PropType, watch, defineEmits, Ref, defineExpose } from 'vue'
-import { Edit, Plus } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { getConnectorList } from '@/api/ruleengine'
-import ConnectorDialog from '../components/ConnectorDialog.vue'
 import { MQTTIn, MQTTOut, ConnectorItem } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -273,8 +210,10 @@ import Monaco from '@/components/Monaco.vue'
 import { createRandomString, waitAMoment } from '@/common/tools'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { MQTTBridgeDirection } from '@/types/enum'
+import { ConnectorType, MQTTBridgeDirection } from '@/types/enum'
 import useDocLink from '@/hooks/useDocLink'
+import useSSL from '@/hooks/useSSL'
+import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
 
 type MQTTBridge = MQTTIn | MQTTOut
 
@@ -295,11 +234,13 @@ const prop = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-const isOpenDialog = ref(false)
-const isDialogForEdit = ref(false)
+const { createSSLForm } = useSSL()
+
 const mqttBridgeDefaultVal = {
   name: '',
-  connector: '',
+  connector: {
+    ssl: createSSLForm(),
+  },
   direction: MQTTBridgeDirection.Out,
   retain: false,
   payload: '${payload}',
@@ -315,7 +256,6 @@ const mqttBridgeVal: Ref<MQTTBridge> = ref({
 } as MQTTBridge)
 const connectorList: Ref<Array<ConnectorItem>> = ref([])
 const connectorLoading: Ref<boolean> = ref(false)
-const chosenConnectorData: Ref<ConnectorItem | Record<string, unknown>> = ref({})
 const isForwardToLocalTopic: Ref<boolean> = ref(true)
 const isForwardFromLocalTopic: Ref<boolean> = ref(true)
 
@@ -326,14 +266,12 @@ const { createRequiredRule } = useFormRules()
 const formCom = ref()
 const formRules = computed(() => ({
   name: createRequiredRule(tl('name')),
-  connector: createRequiredRule(tl('mqttConn'), 'select'),
+  connector: {
+    server: createRequiredRule(tl('brokerAddress')),
+  },
   remote_topic: createRequiredRule(tl('remoteTopic')),
   local_topic: createRequiredRule(tl('localTopic')),
 }))
-
-const btnEditConnectorClass = computed(() =>
-  mqttBridgeVal.value.connector === '_new' || !mqttBridgeVal.value.connector ? 'disabled' : '',
-)
 
 const isShowPayload = computed(
   () =>
@@ -364,38 +302,6 @@ const loadConnectorList = async () => {
     console.error(error)
   } finally {
     connectorLoading.value = false
-  }
-}
-
-const openConnectorDialog = (isEdit: boolean) => {
-  if (isEdit && !mqttBridgeVal.value.connector) {
-    return
-  }
-  isDialogForEdit.value = isEdit
-  isOpenDialog.value = true
-  chosenConnectorData.value =
-    (isEdit &&
-      connectorList.value.find((v: ConnectorItem) => v.id === mqttBridgeVal.value.connector)) ||
-    {}
-}
-
-const finishConnectorDialog = async (success: boolean, data: Record<string, unknown>) => {
-  if (success) {
-    try {
-      await loadConnectorList()
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  if (!isDialogForEdit.value) {
-    if (!success) {
-      mqttBridgeVal.value.connector = ''
-    } else {
-      mqttBridgeVal.value.connector = (data.id as string) || ''
-    }
-  } else {
-    //todo
   }
 }
 
