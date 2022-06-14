@@ -203,24 +203,7 @@
           </el-col>
           <el-collapse-transition>
             <el-col v-if="needHelp" :span="24">
-              <div class="help-block">
-                <div class="part-header">
-                  {{
-                    isMongoDB
-                      ? $t('Auth.exampleDataStructures')
-                      : isRedis
-                      ? $t('Auth.exampleDataCmd')
-                      : $t('Auth.sqlHelpContent')
-                  }}
-                </div>
-                <code-view
-                  :lang="isMongoDB ? 'javascript' : isRedis ? 'bash' : 'sql'"
-                  :code="helpContent"
-                />
-                <el-button ref="btnCopyHelp" @click="copyText(helpContent)">
-                  {{ $t('Base.copy') }}
-                </el-button>
-              </div>
+              <HelpBlock :auth-type="authType" :database-type="database" />
             </el-col>
           </el-collapse-transition>
         </el-row>
@@ -231,28 +214,27 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
-import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
-import useCopy from '@/hooks/useCopy'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import { MongoType, SaltPosition } from '@/types/enum'
 import Monaco from '@/components/Monaco.vue'
 import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
+import HelpBlock from './HelpBlock.vue'
 
 export default defineComponent({
   name: 'DatabaseConfig',
   components: {
-    CodeView,
     CommonTLSConfig,
     TimeInputWithUnitSelect,
     PasswordHashAlgorithmFormItems,
     BooleanSelect,
     Monaco,
+    HelpBlock,
   },
 
   props: {
@@ -275,8 +257,10 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
-    const { defaultSQL, withSaltDefaultSQL, databaseConfig, defaultContent, helpContent } =
-      useDatabaseConfig(props, ctx)
+    const { defaultSQL, withSaltDefaultSQL, databaseConfig, defaultContent } = useDatabaseConfig(
+      props,
+      ctx,
+    )
     const {
       formCom,
       rules,
@@ -299,10 +283,6 @@ export default defineComponent({
         databaseConfig[dataKey] = defaultContent.value
       }
     }
-
-    const { copySuccess, copyText } = useCopy(() => {
-      needHelp.value = false
-    })
 
     const btnCopyHelp = ref()
     const toggleNeedHelp = async () => {
@@ -344,7 +324,6 @@ export default defineComponent({
       isPgSQL,
       isServers,
       needHelp,
-      helpContent,
       databaseConfig,
       isEnableSalt,
       btnCopyHelp,
@@ -352,8 +331,6 @@ export default defineComponent({
       clearValidateAfterSomeFieldChanged,
       validate,
       setDefaultContent,
-      copySuccess,
-      copyText,
       toggleNeedHelp,
       handleSaltChanged,
     }

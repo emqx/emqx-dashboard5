@@ -121,3 +121,14 @@ export const MQTT_VERSION_LIST = [
   { label: 'v3.1.1', value: 'v4' },
   { label: 'v5', value: 'v5' },
 ]
+
+export const AUTH_PLACEHOLDERS = '${clientid}, ${username}'
+
+/* MySQL, PgSQL, Redis */
+export const AUTHZ_COMMON_PLACEHOLDERS =
+  '${username}, ${clientid}, ${peerhost}, ${cert_common_name}, ${cert_subject}'
+
+export const AUTHZ_MONGODB_PLACEHOLDERS = '${username}, ${clientid}, ${peerhost}'
+
+export const AUTHZ_HTTP_PLACEHOLDERS =
+  '${username}, ${clientid}, ${peerhost}, ${mountpoint}, ${topic}, ${action}'

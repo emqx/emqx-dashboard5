@@ -87,15 +87,7 @@
           </el-col>
           <el-collapse-transition>
             <el-col v-if="needHelp" :span="24">
-              <div class="help-block">
-                <div class="create-form-title">
-                  {{ $t('Auth.exampleDataCmd') }}
-                </div>
-                <code-view lang="javascript" :code="helpContent" />
-                <el-button @click="copyText(helpContent)">
-                  {{ $t('Base.copy') }}
-                </el-button>
-              </div>
+              <HelpBlock :auth-type="authType" database-type="http" />
             </el-col>
           </el-collapse-transition>
         </el-row>
@@ -106,22 +98,21 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, watch } from 'vue'
-import CodeView from '@/components/CodeView.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import useCopy from '@/hooks/useCopy'
 import Monaco from '@/components/Monaco.vue'
 import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
+import HelpBlock from './HelpBlock.vue'
 
 export default defineComponent({
   name: 'HttpConfig',
   components: {
     KeyAndValueEditor,
-    CodeView,
     CommonTLSConfig,
     TimeInputWithUnitSelect,
     Monaco,
+    HelpBlock,
   },
 
   props: {
@@ -153,34 +144,6 @@ export default defineComponent({
       ctx.emit('update:modelValue', value)
     })
     const needHelp = ref(false)
-    // FIXME:
-    const helpContent = `
-      const express = require('express')
-      const app = express()
-      app.use(express.json())
-
-      app.post('/login', (req, res) {
-        let data = {
-          // @enum = success, failed, ignore
-          result: 'failed',
-          // enable and set superuser
-          // is_superuser: true,
-        }
-        const { username, password } = req.body
-        if (['admin', 'guest'].includes(username) && password === 'public') {
-          data.result = 'success'
-          if (username === 'admin') {
-            data.is_superuser = true
-          }
-        } else if (username === '') {
-          data.result = 'ignored'
-        } else {
-          data.result = 'failed'
-        }
-        // response with JSON
-        res.json(data)
-      })
-    `
 
     const stringifyBody = () => {
       const { body } = httpConfig || {}
@@ -191,9 +154,7 @@ export default defineComponent({
         httpConfig.body = JSON.stringify(body, null, 2)
       }
     }
-    const { copySuccess, copyText } = useCopy(() => {
-      needHelp.value = false
-    })
+
     const toggleNeedHelp = async () => {
       needHelp.value = !needHelp.value
     }
@@ -204,15 +165,12 @@ export default defineComponent({
     stringifyBody()
 
     return {
-      helpContent,
       httpConfig,
       needHelp,
       formCom,
       rules,
       validate,
       toggleNeedHelp,
-      copyText,
-      copySuccess,
       setDefaultContent,
     }
   },
