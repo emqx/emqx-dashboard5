@@ -19,27 +19,27 @@ export default (context: {
   const helpTextMap = {
     authn: {
       mysql: [
-        t('AuthDoc.authnSQLParagraph1', 'MySQL'),
+        t('AuthDoc.authnSQLParagraph1', ['MySQL']),
         tl('authnSQLParagraph2'),
-        `${t('AuthDoc.supportedPlaceholders', 'SQL')}${AUTH_PLACEHOLDERS}`,
+        `${t('AuthDoc.supportedPlaceholders', ['SQL'])}${AUTH_PLACEHOLDERS}`,
         tl('clientTableExample'),
       ],
       mongodb: [
         tl('authnMongoDBParagraph1'),
         tl('authnMongoDBParagraph2'),
-        `${t('AuthDoc.supportedPlaceholders', tl('selector'))}${AUTH_PLACEHOLDERS}`,
+        `${t('AuthDoc.supportedPlaceholders', [tl('selector')])}${AUTH_PLACEHOLDERS}`,
         tl('clientTableExample'),
       ],
       postgresql: [
-        t('AuthDoc.authnSQLParagraph1', 'PostgreSQL'),
+        t('AuthDoc.authnSQLParagraph1', ['PostgreSQL']),
         tl('authnSQLParagraph2'),
-        `${t('AuthDoc.supportedPlaceholders', 'SQL')}${AUTH_PLACEHOLDERS}`,
+        `${t('AuthDoc.supportedPlaceholders', ['SQL'])}${AUTH_PLACEHOLDERS}`,
         tl('clientTableExample'),
       ],
       redis: [
         tl('authnRedisParagraph1'),
         tl('authnSQLParagraph2'),
-        `${t('AuthDoc.supportedPlaceholders', tl('CMD'))}${AUTH_PLACEHOLDERS}`,
+        `${t('AuthDoc.supportedPlaceholders', [tl('CMD')])}${AUTH_PLACEHOLDERS}`,
         tl('dataStructuresAndCommandExamples'),
       ],
       http: [
@@ -50,23 +50,23 @@ export default (context: {
     },
     authz: {
       mysql: [
-        t('AuthDoc.authzSQLParagraph1', 'MySQL'),
-        `${t('AuthDoc.authzSupportedPlaceholders', 'SQL')}${AUTHZ_COMMON_PLACEHOLDERS}`,
+        t('AuthDoc.authzSQLParagraph1', ['MySQL']),
+        `${t('AuthDoc.authzSupportedPlaceholders', ['SQL'])}${AUTHZ_COMMON_PLACEHOLDERS}`,
         tl('theTableStructureExample'),
       ],
       mongodb: [
         tl('authzMongoDBParagraph1'),
-        `${t('AuthDoc.authzSupportedPlaceholders', tl('selector'))}${AUTHZ_MONGODB_PLACEHOLDERS}`,
+        `${t('AuthDoc.authzSupportedPlaceholders', [tl('selector')])}${AUTHZ_MONGODB_PLACEHOLDERS}`,
         tl('dataStructureExample'),
       ],
       postgresql: [
-        t('AuthDoc.authzSQLParagraph1', 'PostgreSQL'),
-        `${t('AuthDoc.authzSupportedPlaceholders', 'SQL')}${AUTHZ_COMMON_PLACEHOLDERS}`,
+        t('AuthDoc.authzSQLParagraph1', ['PostgreSQL']),
+        `${t('AuthDoc.authzSupportedPlaceholders', ['SQL'])}${AUTHZ_COMMON_PLACEHOLDERS}`,
         tl('theTableStructureExample'),
       ],
       redis: [
         tl('authzRedisParagraph1'),
-        `${t('AuthDoc.authzSupportedPlaceholders', tl('CMD'))}${AUTHZ_COMMON_PLACEHOLDERS}`,
+        `${t('AuthDoc.authzSupportedPlaceholders', [tl('CMD')])}${AUTHZ_COMMON_PLACEHOLDERS}`,
         tl('dataStructuresAndCommandExamples'),
       ],
       http: [tl('authzHTTPParagraph1'), `${tl('authnHTTPParagraph2')}${AUTHZ_HTTP_PLACEHOLDERS}`],
