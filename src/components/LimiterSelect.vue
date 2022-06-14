@@ -17,6 +17,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue'
 import { getLimiters } from '@/api/config'
+import { stringifyObjSafely } from '@/common/tools'
 
 interface DataItem {
   label: string
@@ -56,12 +57,16 @@ watch(selected, (vals) => {
   emit('update:modelValue', limiter)
 })
 
-const stopWatch = watch(
+let modelValueCache = ''
+watch(
   () => props.modelValue,
   (val) => {
-    if (val && Object.keys(val).length) {
-      selected.value = Object.keys(val).map((key) => `${key}/${val[key]}`)
-      stopWatch()
+    if (val && typeof val === 'object') {
+      const objStr = stringifyObjSafely(val)
+      if (objStr !== modelValueCache) {
+        selected.value = Object.keys(val).map((key) => `${key}/${val[key]}`)
+        modelValueCache = objStr
+      }
     }
   },
 )
