@@ -50,17 +50,17 @@
       <el-row :gutter="20">
         <el-col :span="12" v-if="!isUDP">
           <el-form-item :label="'Acceptors'">
-            <el-input v-model="listenerRecord.acceptors" />
+            <el-input v-model.number="listenerRecord.acceptors" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('maxConn')">
-            <el-input v-model="listenerRecord.max_connections" />
+            <el-input v-model.number="listenerRecord.max_connections" />
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="gatewayName">
           <el-form-item :label="tl('maxConnRate')">
-            <el-input v-model="listenerRecord.max_conn_rate" />
+            <el-input v-model.number="listenerRecord.max_conn_rate" />
           </el-form-item>
         </el-col>
         <template v-if="showProxyProtocolConfig">
@@ -89,7 +89,7 @@
           <el-col :span="12">
             <el-form-item label="ActiveN">
               <el-input
-                v-model="listenerRecord.tcp_options.active_n"
+                v-model.number="listenerRecord.tcp_options.active_n"
                 :placeholder="String(defaultListener.tcp_options.active_n)"
               />
             </el-form-item>
@@ -219,7 +219,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'Intermediate Certificate Depth'">
-              <el-input v-model="listenerRecord[SSLConfigKey].depth" />
+              <el-input v-model.number="listenerRecord[SSLConfigKey].depth" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
