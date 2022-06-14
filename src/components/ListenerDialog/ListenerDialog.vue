@@ -39,6 +39,13 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row v-if="showWSConfig" :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="MQTT Path">
+            <el-input v-model="listenerRecord.websocket.mqtt_path" placeholder="/mqtt" />
+          </el-form-item>
+        </el-col>
+      </el-row>
       <div class="part-header">{{ tl('listenerSetting') }}</div>
       <el-row :gutter="20">
         <el-col :span="12" v-if="!isUDP">
@@ -218,19 +225,6 @@
           <el-col :span="12">
             <el-form-item :label="'Key Password'">
               <el-input v-model="listenerRecord[SSLConfigKey].password" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </div>
-      <div v-if="showWSConfig">
-        <div class="part-header">{{ `WebSocket ${tl('configSetting')}` }}</div>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="MQTT path">
-              <el-input
-                v-model="listenerRecord.websocket.mqtt_path"
-                placeholder="ws://{ip}:{port}/mqtt"
-              />
             </el-form-item>
           </el-col>
         </el-row>
