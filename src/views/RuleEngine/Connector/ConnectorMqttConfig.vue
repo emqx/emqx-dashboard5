@@ -102,7 +102,7 @@
 <script lang="ts">
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import { useI18n } from 'vue-i18n'
-import { computed, defineComponent, onMounted, reactive } from 'vue'
+import { computed, defineComponent, onMounted } from 'vue'
 import { cloneDeep } from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
