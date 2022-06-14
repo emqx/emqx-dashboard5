@@ -3,6 +3,7 @@
     <el-card class="config-card">
       <schema-form
         path="/configs/log"
+        type="log"
         :form="configs"
         :btn-loading="saveLoading"
         @save="handleSave"

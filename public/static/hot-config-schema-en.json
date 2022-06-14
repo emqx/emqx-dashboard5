@@ -9,7 +9,7 @@
                         "$ref": "#/components/schemas/cluster.console_handler"
                     },
                     "file_handlers": {
-                        "description": "Key-value list of file-based log handlers.",
+                        "description": "File-based log handlers.",
                         "label": "File Handler",
                         "properties": {
                             "$name": {
@@ -17,13 +17,6 @@
                             }
                         },
                         "type": "object"
-                    },
-                    "error_logger": {
-                        "default": "silent",
-                        "description": "Keep error_logger silent.",
-                        "label": "error_logger",
-                        "readOnly": true,
-                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -69,6 +62,7 @@
                     },
                     "password": {
                         "description": "</br>String containing the user's password.</br>Only used if the private key file is password-protected.</br>",
+                        "example": "",
                         "label": "Keyfile passphrase",
                         "type": "string"
                     },
@@ -269,8 +263,9 @@
                         "type": "boolean"
                     },
                     "bind": {
-                        "default": 18803,
+                        "default": 18083,
                         "description": "Port without IP(18083) or port with specified IP(127.0.0.1:18083).",
+                        "example": "0.0.0.0:18083",
                         "label": "Bind",
                         "oneOf": [
                             {
@@ -443,6 +438,7 @@
             "broker.shared_subscription_group": {
                 "properties": {
                     "strategy": {
+                        "default": "random",
                         "description": "Dispatch strategy for shared subscription.</br>- `random`: dispatch the message to a random selected subscriber</br>- `round_robin`: select the subscribers in a round-robin manner</br>- `sticky`: always use the last selected subscriber to dispatch,</br>until the subscriber disconnects.</br>- `hash`: select the subscribers by the hash of `clientIds`</br>- `local`: send to a random local subscriber. If local</br>subscriber was not found, send to a random subscriber cluster-wide</br>",
                         "label": "strategy",
                         "symbols": [
@@ -468,8 +464,8 @@
                     },
                     "level": {
                         "default": "warning",
-                        "description": "Global log level. This includes the primary log level and all log handlers.",
-                        "label": "Global Log Level",
+                        "description": "</br>The log level for the current log handler.</br>Defaults to warning.</br>",
+                        "label": "Log Level",
                         "symbols": [
                             "debug",
                             "info",
@@ -485,7 +481,7 @@
                     },
                     "time_offset": {
                         "default": "system",
-                        "description": "The time offset to be used when formatting the timestamp.",
+                        "description": "</br>The time offset to be used when formatting the timestamp.</br>Can be one of:</br>  - <code>system</code>: the time offset used by the local system</br>  - <code>utc</code>: the UTC time offset</br>  - <code>+-[hh]:[mm]</code>: user specified time offset, such as \"-02:00\" or \"+00:00\"</br>Defaults to: <code>system</code>.</br>",
                         "label": "Time Offset",
                         "type": "string"
                     },
@@ -508,8 +504,8 @@
                     },
                     "formatter": {
                         "default": "text",
-                        "description": "Choose log format. <code>text</code> for free text, and <code>json</code> for structured logging.",
-                        "label": "Log Format",
+                        "description": "Choose log formatter. <code>text</code> for free text, and <code>json</code> for structured logging.",
+                        "label": "Log Formatter",
                         "symbols": [
                             "text",
                             "json"
@@ -525,19 +521,19 @@
                     "sync_mode_qlen": {
                         "default": 100,
                         "description": "As long as the number of buffered log events is lower than this value,</br>all log events are handled asynchronously. This means that the client process sending the log event,</br>by calling a log function in the Logger API, does not wait for a response from the handler</br>but continues executing immediately after the event is sent.</br>It is not affected by the time it takes the handler to print the event to the log device.</br>If the message queue grows larger than this value,</br>the handler starts handling log events synchronously instead,</br>meaning that the client process sending the event must wait for a response.</br>When the handler reduces the message queue to a level below the sync_mode_qlen threshold,</br>asynchronous operation is resumed.</br>",
-                        "label": "Sync Mode Max Log Events",
+                        "label": "Queue Length before Entering Sync Mode",
                         "minimum": 1,
                         "type": "number"
                     },
                     "drop_mode_qlen": {
                         "default": 3000,
                         "description": "When the number of buffered log events is larger than this value, the new log events are dropped.</br>When drop mode is activated or deactivated, a message is printed in the logs.",
-                        "label": "Drop Mode Max Log Events",
+                        "label": "Queue Length before Entering Drop Mode",
                         "type": "string"
                     },
                     "flush_qlen": {
                         "default": 8000,
-                        "description": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place. To flush events, the handler discards the buffered log messages without logging.",
+                        "description": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place.</br>To flush events, the handler discards the buffered log messages without logging.",
                         "label": "Flush Threshold",
                         "type": "string"
                     },
@@ -553,7 +549,7 @@
                     },
                     "supervisor_reports": {
                         "default": "error",
-                        "description": "Type of supervisor reports that are logged.</br> - `error`: only log errors in the Erlang processes.</br> - `progress`: log process startup.",
+                        "description": "</br>Type of supervisor reports that are logged. Defaults to <code>error</code></br>  - <code>error</code>: only log errors in the Erlang processes.</br>  - <code>progress</code>: log process startup.</br>",
                         "label": "Report Type",
                         "symbols": [
                             "error",
@@ -622,17 +618,8 @@
                     "bind"
                 ],
                 "properties": {
-                    "tcp": {
-                        "description": "tcp Description",
-                        "label": "tcp",
-                        "$ref": "#/components/schemas/broker.tcp_opts"
-                    },
-                    "ssl": {
-                        "description": "ssl Description",
-                        "label": "ssl",
-                        "$ref": "#/components/schemas/broker.listener_ssl_opts"
-                    },
                     "bind": {
+                        "default": 8883,
                         "description": "</br>IP address and port for the listening socket.</br>",
                         "label": "IP address and port",
                         "oneOf": [
@@ -765,6 +752,16 @@
                         },
                         "label": "Per-listener authentication override",
                         "type": "array"
+                    },
+                    "tcp_options": {
+                        "description": "tcp_options Description",
+                        "label": "tcp_options",
+                        "$ref": "#/components/schemas/broker.tcp_opts"
+                    },
+                    "ssl_options": {
+                        "description": "ssl_options Description",
+                        "label": "ssl_options",
+                        "$ref": "#/components/schemas/broker.listener_ssl_opts"
                     }
                 },
                 "type": "object"
@@ -841,6 +838,7 @@
             "cluster.cluster_k8s": {
                 "properties": {
                     "apiserver": {
+                        "default": "http://10.110.111.204:8080",
                         "description": "Kubernetes API endpoint URL.",
                         "label": "Cluster k8s ApiServer",
                         "readOnly": true,
@@ -854,6 +852,7 @@
                         "type": "string"
                     },
                     "address_type": {
+                        "default": "ip",
                         "description": "Address type used for connecting to the discovered nodes.",
                         "label": "K8s Address Type",
                         "readOnly": true,
@@ -910,6 +909,7 @@
                         "type": "number"
                     },
                     "strategy": {
+                        "default": "default",
                         "description": "</br>Specifies the compression strategy.</br>",
                         "label": "compression strategy",
                         "symbols": [
@@ -921,6 +921,7 @@
                         "type": "enum"
                     },
                     "server_context_takeover": {
+                        "default": "takeover",
                         "description": "</br>Takeover means the compression state is retained between server messages.</br>",
                         "label": "Server context takeover",
                         "symbols": [
@@ -930,6 +931,7 @@
                         "type": "enum"
                     },
                     "client_context_takeover": {
+                        "default": "takeover",
                         "description": "</br>Takeover means the compression state is retained between client messages.</br>",
                         "label": "Client context takeover",
                         "symbols": [
@@ -985,16 +987,19 @@
                     },
                     "recbuf": {
                         "description": "</br>The TCP receive buffer (OS kernel) for the connections.</br>",
+                        "example": "2KB",
                         "label": "TCP receive buffer",
                         "type": "byteSize"
                     },
                     "sndbuf": {
                         "description": "</br>The TCP send buffer (OS kernel) for the connections.</br>",
+                        "example": "4KB",
                         "label": "TCP send buffer",
                         "type": "byteSize"
                     },
                     "buffer": {
                         "description": "</br>The size of the user-space buffer used by the driver.</br>",
+                        "example": "4KB",
                         "label": "TCP user-space buffer",
                         "type": "byteSize"
                     },
@@ -1055,8 +1060,8 @@
                     },
                     "level": {
                         "default": "warning",
-                        "description": "Global log level. This includes the primary log level and all log handlers.",
-                        "label": "Global Log Level",
+                        "description": "</br>The log level for the current log handler.</br>Defaults to warning.</br>",
+                        "label": "Log Level",
                         "symbols": [
                             "debug",
                             "info",
@@ -1072,7 +1077,7 @@
                     },
                     "time_offset": {
                         "default": "system",
-                        "description": "The time offset to be used when formatting the timestamp.",
+                        "description": "</br>The time offset to be used when formatting the timestamp.</br>Can be one of:</br>  - <code>system</code>: the time offset used by the local system</br>  - <code>utc</code>: the UTC time offset</br>  - <code>+-[hh]:[mm]</code>: user specified time offset, such as \"-02:00\" or \"+00:00\"</br>Defaults to: <code>system</code>.</br>",
                         "label": "Time Offset",
                         "type": "string"
                     },
@@ -1095,8 +1100,8 @@
                     },
                     "formatter": {
                         "default": "text",
-                        "description": "Choose log format. <code>text</code> for free text, and <code>json</code> for structured logging.",
-                        "label": "Log Format",
+                        "description": "Choose log formatter. <code>text</code> for free text, and <code>json</code> for structured logging.",
+                        "label": "Log Formatter",
                         "symbols": [
                             "text",
                             "json"
@@ -1112,19 +1117,19 @@
                     "sync_mode_qlen": {
                         "default": 100,
                         "description": "As long as the number of buffered log events is lower than this value,</br>all log events are handled asynchronously. This means that the client process sending the log event,</br>by calling a log function in the Logger API, does not wait for a response from the handler</br>but continues executing immediately after the event is sent.</br>It is not affected by the time it takes the handler to print the event to the log device.</br>If the message queue grows larger than this value,</br>the handler starts handling log events synchronously instead,</br>meaning that the client process sending the event must wait for a response.</br>When the handler reduces the message queue to a level below the sync_mode_qlen threshold,</br>asynchronous operation is resumed.</br>",
-                        "label": "Sync Mode Max Log Events",
+                        "label": "Queue Length before Entering Sync Mode",
                         "minimum": 1,
                         "type": "number"
                     },
                     "drop_mode_qlen": {
                         "default": 3000,
                         "description": "When the number of buffered log events is larger than this value, the new log events are dropped.</br>When drop mode is activated or deactivated, a message is printed in the logs.",
-                        "label": "Drop Mode Max Log Events",
+                        "label": "Queue Length before Entering Drop Mode",
                         "type": "string"
                     },
                     "flush_qlen": {
                         "default": 8000,
-                        "description": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place. To flush events, the handler discards the buffered log messages without logging.",
+                        "description": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place.</br>To flush events, the handler discards the buffered log messages without logging.",
                         "label": "Flush Threshold",
                         "type": "string"
                     },
@@ -1140,7 +1145,7 @@
                     },
                     "supervisor_reports": {
                         "default": "error",
-                        "description": "Type of supervisor reports that are logged.</br> - `error`: only log errors in the Erlang processes.</br> - `progress`: log process startup.",
+                        "description": "</br>Type of supervisor reports that are logged. Defaults to <code>error</code></br>  - <code>error</code>: only log errors in the Erlang processes.</br>  - <code>progress</code>: log process startup.</br>",
                         "label": "Report Type",
                         "symbols": [
                             "error",
@@ -1173,12 +1178,8 @@
                     "bind"
                 ],
                 "properties": {
-                    "tcp": {
-                        "description": "tcp Description",
-                        "label": "tcp",
-                        "$ref": "#/components/schemas/broker.tcp_opts"
-                    },
                     "bind": {
+                        "default": 1883,
                         "description": "</br>IP address and port for the listening socket.</br>",
                         "label": "IP address and port",
                         "oneOf": [
@@ -1311,6 +1312,11 @@
                         },
                         "label": "Per-listener authentication override",
                         "type": "array"
+                    },
+                    "tcp_options": {
+                        "description": "tcp_options Description",
+                        "label": "tcp_options",
+                        "$ref": "#/components/schemas/broker.tcp_opts"
                     }
                 },
                 "type": "object"
@@ -1399,7 +1405,7 @@
                         "description": "</br>TCP listeners</br>",
                         "label": "TCP listeners",
                         "properties": {
-                            "$default": {
+                            "$name": {
                                 "$ref": "#/components/schemas/broker.mqtt_tcp_listener"
                             }
                         },
@@ -1409,7 +1415,7 @@
                         "description": "</br>SSL listeners</br>",
                         "label": "SSL listeners",
                         "properties": {
-                            "$default": {
+                            "$name": {
                                 "$ref": "#/components/schemas/broker.mqtt_ssl_listener"
                             }
                         },
@@ -1419,7 +1425,7 @@
                         "description": "</br>HTTP websocket listeners</br>",
                         "label": "HTTP websocket listeners",
                         "properties": {
-                            "$default": {
+                            "$name": {
                                 "$ref": "#/components/schemas/broker.mqtt_ws_listener"
                             }
                         },
@@ -1429,7 +1435,7 @@
                         "description": "</br>HTTPS websocket listeners</br>",
                         "label": "HTTPS websocket listeners",
                         "properties": {
-                            "$default": {
+                            "$name": {
                                 "$ref": "#/components/schemas/broker.mqtt_wss_listener"
                             }
                         },
@@ -1439,7 +1445,7 @@
                         "description": "</br>QUIC listeners</br>",
                         "label": "QUIC listeners",
                         "properties": {
-                            "$default": {
+                            "$name": {
                                 "$ref": "#/components/schemas/broker.mqtt_quic_listener"
                             }
                         },
@@ -1522,10 +1528,10 @@
                         "type": "duration"
                     },
                     "enable_pipelining": {
-                        "default": true,
-                        "description": "Enable the HTTP pipeline.",
+                        "default": 100,
+                        "description": "Whether to send HTTP requests continuously, when set to 0, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
                         "label": "HTTP Pipelineing",
-                        "type": "boolean"
+                        "type": "string"
                     },
                     "max_retries": {
                         "default": 5,
@@ -1599,7 +1605,7 @@
                     },
                     "window_time": {
                         "default": "1s",
-                        "description": "See `max_count`.",
+                        "description": "See <code>max_count</code>.",
                         "label": "Window Time",
                         "type": "duration"
                     }
@@ -2102,16 +2108,19 @@
                         "type": "string"
                     },
                     "password_hash_field": {
+                        "default": "password_hash",
                         "description": "Document field that contains password hash.",
                         "label": "Password Hash Field",
                         "type": "string"
                     },
                     "salt_field": {
+                        "default": "salt",
                         "description": "Document field that contains the password salt.",
                         "label": "Salt Field",
                         "type": "string"
                     },
                     "is_superuser_field": {
+                        "default": "is_superuser",
                         "description": "Document field that defines if the user has superuser privileges.",
                         "label": "Is Superuser Field",
                         "type": "string"
@@ -2615,6 +2624,7 @@
                     },
                     "password": {
                         "description": "</br>String containing the user's password.</br>Only used if the private key file is password-protected.</br>",
+                        "example": "",
                         "label": "Keyfile passphrase",
                         "type": "string"
                     },
@@ -2707,6 +2717,7 @@
                     },
                     "server_name_indication": {
                         "description": "</br>Specify the host name to be used in TLS Server Name Indication extension.</br>For instance, when connecting to \"server.example.net\", the genuine server</br>which accepts the connection and performs TLS handshake may differ from the</br>host the TLS client initially connects to, e.g. when connecting to an IP address</br>or when the host has multiple resolvable DNS records </br>If not specified, it will default to the host name string which is used</br>to establish the connection, unless it is IP addressed used.</br>The host name is then also used in the host name verification of the peer</br>certificate.</br> The special value 'disable' prevents the Server Name</br>Indication extension from being sent and disables the hostname</br>verification check.</br>",
+                        "example": "disable",
                         "label": "Server Name Indication",
                         "oneOf": [
                             {
@@ -2804,7 +2815,7 @@
             "cluster.cluster_call": {
                 "properties": {
                     "retry_interval": {
-                        "default": "1s",
+                        "default": "1m",
                         "description": "Time interval to retry after a failed call.",
                         "label": "Cluster Call Retry Interval",
                         "type": "duration"
@@ -2866,6 +2877,7 @@
                         "type": "percent"
                     },
                     "long_gc": {
+                        "default": "disabled",
                         "description": "Enable Long GC monitoring.",
                         "label": "Enable Long GC monitoring.",
                         "oneOf": [
@@ -3050,7 +3062,7 @@
                 ],
                 "properties": {
                     "method": {
-                        "default": "post",
+                        "default": "get",
                         "description": "HTTP request method.",
                         "label": "Request Method",
                         "symbols": [
@@ -3114,10 +3126,10 @@
                         "type": "duration"
                     },
                     "enable_pipelining": {
-                        "default": true,
-                        "description": "Enable the HTTP pipeline.",
+                        "default": 100,
+                        "description": "Whether to send HTTP requests continuously, when set to 0, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
                         "label": "HTTP Pipelineing",
-                        "type": "boolean"
+                        "type": "string"
                     },
                     "max_retries": {
                         "default": 5,
@@ -3207,6 +3219,11 @@
                     },
                     "shared_subscription_group": {
                         "description": "Per group dispatch strategy for shared subscription.</br>This config is a map from shared subscription group name to the strategy</br>name. The group name should be of format `[A-Za-z0-9]`. i.e. no</br>special characters are allowed.</br>",
+                        "example": {
+                            "example_group": {
+                                "strategy": "random"
+                            }
+                        },
                         "label": "shared_subscription_group",
                         "properties": {
                             "$name": {
@@ -3388,6 +3405,12 @@
                         "label": "JWKS Endpoint",
                         "type": "string"
                     },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
                     "refresh_interval": {
                         "default": 300,
                         "description": "JWKS refresh interval.",
@@ -3479,16 +3502,19 @@
                         "type": "string"
                     },
                     "password_hash_field": {
+                        "default": "password_hash",
                         "description": "Document field that contains password hash.",
                         "label": "Password Hash Field",
                         "type": "string"
                     },
                     "salt_field": {
+                        "default": "salt",
                         "description": "Document field that contains the password salt.",
                         "label": "Salt Field",
                         "type": "string"
                     },
                     "is_superuser_field": {
+                        "default": "is_superuser",
                         "description": "Document field that defines if the user has superuser privileges.",
                         "label": "Is Superuser Field",
                         "type": "string"
@@ -3646,17 +3672,8 @@
                     "bind"
                 ],
                 "properties": {
-                    "tcp": {
-                        "description": "tcp Description",
-                        "label": "tcp",
-                        "$ref": "#/components/schemas/broker.tcp_opts"
-                    },
-                    "websocket": {
-                        "description": "websocket Description",
-                        "label": "websocket",
-                        "$ref": "#/components/schemas/broker.ws_opts"
-                    },
                     "bind": {
+                        "default": 8083,
                         "description": "</br>IP address and port for the listening socket.</br>",
                         "label": "IP address and port",
                         "oneOf": [
@@ -3789,6 +3806,16 @@
                         },
                         "label": "Per-listener authentication override",
                         "type": "array"
+                    },
+                    "tcp_options": {
+                        "description": "tcp_options Description",
+                        "label": "tcp_options",
+                        "$ref": "#/components/schemas/broker.tcp_opts"
+                    },
+                    "websocket": {
+                        "description": "websocket Description",
+                        "label": "websocket",
+                        "$ref": "#/components/schemas/broker.ws_opts"
                     }
                 },
                 "type": "object"
@@ -4176,8 +4203,8 @@
                     },
                     "mem_size": {
                         "default": "30MB",
-                        "description": "Maximum memory size that the handler process is allowed to use.",
-                        "label": "Handler Allowed Max Memory Size",
+                        "description": "Maximum memory size that the log handler process is allowed to use.",
+                        "label": "Log Handler Max Memory Size",
                         "type": "byteSize"
                     },
                     "qlen": {
@@ -4261,6 +4288,7 @@
                         "type": "duration"
                     },
                     "bind": {
+                        "default": 14567,
                         "description": "</br>IP address and port for the listening socket.</br>",
                         "label": "IP address and port",
                         "oneOf": [
@@ -4390,7 +4418,7 @@
                         "type": "boolean"
                     },
                     "idle_timeout": {
-                        "default": "15s",
+                        "default": "7200s",
                         "description": "</br>Close transport-layer connections from the clients that have not sent MQTT CONNECT</br>message within this interval.</br>",
                         "label": "Idle Timeout",
                         "type": "duration"
@@ -4438,11 +4466,9 @@
                     "check_origins": {
                         "default": "",
                         "description": "</br>List of allowed origins.</br>See <code>check_origin_enable</code>.</br>",
-                        "items": {
-                            "type": "string"
-                        },
+                        "example": "http://localhost:18083, http://127.0.0.1:18083",
                         "label": "Allowed origins",
-                        "type": "array"
+                        "type": "string"
                     },
                     "proxy_address_header": {
                         "default": "x-forwarded-for",
@@ -4477,8 +4503,9 @@
                         "type": "boolean"
                     },
                     "bind": {
-                        "default": 18804,
+                        "default": 18084,
                         "description": "Port without IP(18083) or port with specified IP(127.0.0.1:18083).",
+                        "example": "0.0.0.0:18084",
                         "label": "Bind",
                         "oneOf": [
                             {
@@ -4565,6 +4592,7 @@
                     },
                     "password": {
                         "description": "</br>String containing the user's password.</br>Only used if the private key file is password-protected.</br>",
+                        "example": "",
                         "label": "Keyfile passphrase",
                         "type": "string"
                     },
@@ -4700,6 +4728,16 @@
                             "default": {}
                         },
                         "description": "Bucket Configs",
+                        "example": {
+                            "mybucket-name": {
+                                "capcity": "infinity",
+                                "initial": "100",
+                                "per_client": {
+                                    "rate": "infinity"
+                                },
+                                "rate": "infinity"
+                            }
+                        },
                         "label": "Buckets",
                         "properties": {
                             "$bucket_name": {
@@ -4716,22 +4754,8 @@
                     "bind"
                 ],
                 "properties": {
-                    "tcp": {
-                        "description": "tcp Description",
-                        "label": "tcp",
-                        "$ref": "#/components/schemas/broker.tcp_opts"
-                    },
-                    "ssl": {
-                        "description": "ssl Description",
-                        "label": "ssl",
-                        "$ref": "#/components/schemas/broker.listener_wss_opts"
-                    },
-                    "websocket": {
-                        "description": "websocket Description",
-                        "label": "websocket",
-                        "$ref": "#/components/schemas/broker.ws_opts"
-                    },
                     "bind": {
+                        "default": 8084,
                         "description": "</br>IP address and port for the listening socket.</br>",
                         "label": "IP address and port",
                         "oneOf": [
@@ -4864,6 +4888,21 @@
                         },
                         "label": "Per-listener authentication override",
                         "type": "array"
+                    },
+                    "tcp_options": {
+                        "description": "tcp_options Description",
+                        "label": "tcp_options",
+                        "$ref": "#/components/schemas/broker.tcp_opts"
+                    },
+                    "ssl_options": {
+                        "description": "ssl_options Description",
+                        "label": "ssl_options",
+                        "$ref": "#/components/schemas/broker.listener_wss_opts"
+                    },
+                    "websocket": {
+                        "description": "websocket Description",
+                        "label": "websocket",
+                        "$ref": "#/components/schemas/broker.ws_opts"
                     }
                 },
                 "type": "object"
@@ -5073,6 +5112,7 @@
                     },
                     "password": {
                         "description": "</br>String containing the user's password.</br>Only used if the private key file is password-protected.</br>",
+                        "example": "",
                         "label": "Keyfile passphrase",
                         "type": "string"
                     },
@@ -5275,16 +5315,19 @@
                         "type": "string"
                     },
                     "password_hash_field": {
+                        "default": "password_hash",
                         "description": "Document field that contains password hash.",
                         "label": "Password Hash Field",
                         "type": "string"
                     },
                     "salt_field": {
+                        "default": "salt",
                         "description": "Document field that contains the password salt.",
                         "label": "Salt Field",
                         "type": "string"
                     },
                     "is_superuser_field": {
+                        "default": "is_superuser",
                         "description": "Document field that defines if the user has superuser privileges.",
                         "label": "Is Superuser Field",
                         "type": "string"
@@ -5486,7 +5529,7 @@
                         "description": "A zone is a set of configs grouped by the zone <code>name</code>.</br>For flexible configuration mapping, the <code>name</code> can be set to a listener's <code>zone</code> config.</br>NOTE: A built-in zone named <code>default</code> is auto created and can not be deleted.</br>",
                         "label": "zones",
                         "properties": {
-                            "$my_zone_name": {
+                            "$name": {
                                 "$ref": "#/components/schemas/broker.zone"
                             }
                         },
@@ -5727,7 +5770,7 @@
         "/configs/zones": {
             "get": {
                 "properties": {
-                    "$my_zone_name": {
+                    "$name": {
                         "$ref": "#/components/schemas/broker.zone"
                     }
                 },
@@ -5735,7 +5778,7 @@
             },
             "put": {
                 "properties": {
-                    "$my_zone_name": {
+                    "$name": {
                         "$ref": "#/components/schemas/broker.zone"
                     }
                 },
