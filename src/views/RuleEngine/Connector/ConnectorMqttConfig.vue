@@ -139,7 +139,6 @@ export default defineComponent({
     const connectorDefaultVal = {
       type: ConnectorType.MQTT,
       server: '',
-      clientid: '',
       username: '',
       password: '',
       keepalive: '60s',
@@ -162,13 +161,6 @@ export default defineComponent({
       const { connectorField } = prop
       return connectorField ? `${connectorField}.${rawProp}` : rawProp
     }
-
-    // watch(
-    //   () => cloneDeep(tlsParams.value),
-    //   (val) => {
-    //     context.emit("update:tls", cloneDeep(val));
-    //   }
-    // );
 
     onMounted(() => {
       connectorVal.value = { ...cloneDeep(connectorDefaultVal), ...cloneDeep(prop.modelValue) }

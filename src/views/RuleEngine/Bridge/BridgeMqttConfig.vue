@@ -184,6 +184,7 @@
                 v-model="mqttBridgeVal.payload"
                 lang="json"
                 json-without-validate
+                :disabled="disabled"
               />
             </div>
           </el-form-item>

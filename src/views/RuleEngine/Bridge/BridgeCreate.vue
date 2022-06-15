@@ -174,9 +174,7 @@ export default defineComponent({
 
     const formCom = ref()
 
-    const isFromRule = computed(() => {
-      return route.name === 'iot-create'
-    })
+    const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
 
     const radioSelectedBridgeType = ref(isFromRule.value ? '' : bridgeTypeOptions[0].valueForRadio)
     const chosenBridgeType = ref(isFromRule.value ? '' : bridgeTypeOptions[0].value)

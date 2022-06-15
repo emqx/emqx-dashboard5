@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p class="preview-title">{{ tl('parametersPreview') }} - {{ bridgeId }}</p>
     <BridgeHttpConfig
       v-if="bridgeData?.type === BridgeType.Webhook"
       v-model="bridgeData"
@@ -23,7 +22,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { computed, defineProps, PropType } from 'vue'
@@ -40,8 +38,6 @@ const props = defineProps({
   },
 })
 
-const { tl } = useI18nTl('RuleEngine')
-
 const bridgeData = computed(() => {
   return props.bridgeList?.find(({ id }) => id === props.bridgeId)
 })
@@ -50,6 +46,6 @@ const bridgeData = computed(() => {
 <style lang="scss" scoped>
 .preview-title {
   margin: 8px 0 16px;
-  font-size: 18px;
+  font-size: 16px;
 }
 </style>

@@ -75,7 +75,11 @@
       <el-row>
         <el-col>
           <el-form-item :label="tl('headers')">
-            <key-and-value-editor v-model="httpBridgeVal.headers" class="kv-editor" />
+            <key-and-value-editor
+              v-model="httpBridgeVal.headers"
+              :disabled="disabled"
+              class="kv-editor"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -94,6 +98,7 @@
                 v-model="httpBridgeVal.body"
                 lang="json"
                 json-without-validate
+                :disabled="disabled"
               />
             </div>
           </el-form-item>

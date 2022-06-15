@@ -36,7 +36,7 @@
           <el-switch v-model="row.enable" @change="startOrStopRule(row)" />
         </template>
       </el-table-column>
-      <el-table-column :label="tl('createdAt')" sortable>
+      <el-table-column :label="tl('createdAt')">
         <template #default="{ row }">
           {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
