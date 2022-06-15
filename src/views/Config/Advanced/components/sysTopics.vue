@@ -3,72 +3,63 @@
     <div class="sys-tip">{{ tl('sysTopicsDesc') }}</div>
     <div class="no-tab-wrapper">
       <el-form ref="retainerForm" :rules="rules" :model="sysTopics" label-position="top">
-        <section>
-          <div class="part-header">{{ tl('basicConfig') }}</div>
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <el-form-item :label="tl('messagePublishInterval')" prop="sys_msg_interval">
-                <InputWithUnit v-model="sysTopics.sys_msg_interval" v-bind="timeInputProps" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item :label="tl('heartbeatInterval')" prop="sys_heartbeat_interval">
-                <InputWithUnit v-model="sysTopics.sys_heartbeat_interval" v-bind="timeInputProps" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </section>
-        <section>
-          <div class="part-header">{{ tl('clientEvent') }}</div>
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <el-form-item
-                :label="tl('clientConnected')"
-                prop="sys_event_messages.client_connected"
-              >
-                <BooleanSelect
-                  v-model="sysTopics.sys_event_messages.client_connected"
-                  v-bind="booleanSelectProps"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item
-                :label="tl('clientDisconnected')"
-                prop="sys_event_messages.client_disconnected"
-              >
-                <BooleanSelect
-                  v-model="sysTopics.sys_event_messages.client_disconnected"
-                  v-bind="booleanSelectProps"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <el-form-item
-                :label="tl('clientSubscribed')"
-                prop="sys_event_messages.client_subscribed"
-              >
-                <BooleanSelect
-                  v-model="sysTopics.sys_event_messages.client_subscribed"
-                  v-bind="booleanSelectProps"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item
-                :label="tl('clientUnsubscribed')"
-                prop="sys_event_messages.client_unsubscribed"
-              >
-                <BooleanSelect
-                  v-model="sysTopics.sys_event_messages.client_unsubscribed"
-                  v-bind="booleanSelectProps"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </section>
+        <el-row :gutter="30">
+          <el-col :span="8">
+            <el-form-item :label="tl('messagePublishInterval')" prop="sys_msg_interval">
+              <InputWithUnit v-model="sysTopics.sys_msg_interval" v-bind="timeInputProps" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="tl('heartbeatInterval')" prop="sys_heartbeat_interval">
+              <InputWithUnit v-model="sysTopics.sys_heartbeat_interval" v-bind="timeInputProps" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="30">
+          <el-col :span="8">
+            <el-form-item :label="tl('clientConnected')" prop="sys_event_messages.client_connected">
+              <BooleanSelect
+                v-model="sysTopics.sys_event_messages.client_connected"
+                v-bind="booleanSelectProps"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item
+              :label="tl('clientDisconnected')"
+              prop="sys_event_messages.client_disconnected"
+            >
+              <BooleanSelect
+                v-model="sysTopics.sys_event_messages.client_disconnected"
+                v-bind="booleanSelectProps"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="30">
+          <el-col :span="8">
+            <el-form-item
+              :label="tl('clientSubscribed')"
+              prop="sys_event_messages.client_subscribed"
+            >
+              <BooleanSelect
+                v-model="sysTopics.sys_event_messages.client_subscribed"
+                v-bind="booleanSelectProps"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item
+              :label="tl('clientUnsubscribed')"
+              prop="sys_event_messages.client_unsubscribed"
+            >
+              <BooleanSelect
+                v-model="sysTopics.sys_event_messages.client_unsubscribed"
+                v-bind="booleanSelectProps"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row>
           <el-button type="primary" @click="updateConfigData()">
             {{ $t('Base.save') }}

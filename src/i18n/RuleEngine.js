@@ -703,4 +703,8 @@ export default {
     zh: '是否使用该数据桥接创建规则？',
     en: 'Would you like to create a Rule using this Data Bridge?',
   },
+  console: {
+    zh: '打印结果输出到控制台',
+    en: 'Print the result to the Console',
+  },
 }

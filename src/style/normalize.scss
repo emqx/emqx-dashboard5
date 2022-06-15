@@ -749,3 +749,8 @@
 .el-divider--horizontal {
   border-top: 1px solid var(--color-border-menu);
 }
+
+/* Drawer */
+.el-drawer__header {
+  color: var(--color-title-primary);
+}

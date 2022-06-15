@@ -45,7 +45,7 @@ export default {
   },
   keyNameRequired: {
     zh: '请填写密钥名称',
-    en: 'Please enter the name',
+    en: 'Name is required',
   },
   confirmDelete: {
     zh: '确认删除该 API 密钥？',

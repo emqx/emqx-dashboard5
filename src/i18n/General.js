@@ -51,10 +51,6 @@ export default {
     zh: '不启用',
     en: 'Disabled',
   },
-  pleaseEnterAppName: {
-    zh: '请输入应用名称',
-    en: 'Please enter the app name.',
-  },
   pleaseEnterTheAppId: {
     zh: '请输入应用 ID',
     en: 'Please enter the appid',

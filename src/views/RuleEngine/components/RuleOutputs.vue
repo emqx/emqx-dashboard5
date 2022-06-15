@@ -37,11 +37,13 @@
     </el-row>
   </div>
   <RuleOutputsDrawer
-    v-model="showOutputDialog"
+    v-model="showOutputDrawer"
     :output="currentOutputItem"
     :output-disable-list="outputDisableList"
     @submit="submitOutput"
+    @openAddBridge="openBridge"
   />
+  <AddBridgeOnRule v-model="showAddBridgeDrawer" @close="handleCloseAddBridge" />
 </template>
 
 <!-- <script lang="ts">
@@ -57,6 +59,7 @@ import { defineProps, PropType, computed, defineEmits, ref, Ref, WritableCompute
 import { BasicRule, OutputItem, RuleItem } from '@/types/rule'
 import useI18nTl from '@/hooks/useI18nTl'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
+import AddBridgeOnRule from './AddBridgeOnRule.vue'
 import { RuleOutput } from '@/types/enum'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox as MB } from 'element-plus'
@@ -82,10 +85,21 @@ const ruleValue: WritableComputedRef<RuleItem | BasicRule> = computed({
 
 const { t } = useI18n()
 const { tl } = useI18nTl('RuleEngine')
-const showOutputDialog = ref(false)
+const showOutputDrawer = ref(false)
+const showAddBridgeDrawer = ref(false)
 const outputDisableList: Ref<Array<string>> = ref([])
 const editIndex: Ref<number | undefined> = ref(undefined)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
+
+const openBridge = () => {
+  showOutputDrawer.value = false
+  showAddBridgeDrawer.value = true
+}
+
+const handleCloseAddBridge = () => {
+  showAddBridgeDrawer.value = false
+  showOutputDrawer.value = true
+}
 
 const calcDisableList = () => {
   outputDisableList.value = []
@@ -107,7 +121,7 @@ const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void 
   edit = false,
   itemIndex,
 ) => {
-  showOutputDialog.value = true
+  showOutputDrawer.value = true
   let item: OutputItem | undefined
   editIndex.value = itemIndex
   if (itemIndex !== undefined && Array.isArray(ruleValue.value.actions)) {
