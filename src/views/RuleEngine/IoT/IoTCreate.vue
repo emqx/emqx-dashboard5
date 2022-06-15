@@ -43,10 +43,10 @@ const submitLoading = ref(false)
 
 // const mode = 'sql'
 
-const createRuleName = () => `rule_${createRandomString(4)}`
+const createRuleID = () => `rule_${createRandomString(4)}`
 
 const ruleValue: Ref<RuleItem> = ref({
-  name: createRuleName(),
+  id: createRuleID(),
   sql: transSQLFormDataToSQL(DEFAULT_SELECT, [DEFAULT_FROM]),
   actions: [],
   description: '',
@@ -61,7 +61,7 @@ const checkRuleClipStatus = () => {
     if (rule) {
       ruleValue.value = {
         ...(rule as RuleItem),
-        name: createRuleName(),
+        id: createRuleID(),
       }
     }
   }

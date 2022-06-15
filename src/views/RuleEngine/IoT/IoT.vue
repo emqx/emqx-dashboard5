@@ -9,13 +9,13 @@
       </div>
     </div>
     <el-table :data="ruleTable" v-loading="iotLoading">
-      <el-table-column :label="tl('name')" show-overflow-tooltip>
+      <el-table-column label="ID" show-overflow-tooltip>
         <template #default="{ row }">
           <router-link
             :to="{ name: 'iot-detail', params: { id: row.id } }"
             class="table-data-without-break"
           >
-            {{ row.name }}
+            {{ row.id }}
           </router-link>
         </template>
       </el-table-column>

@@ -5,8 +5,8 @@
         <el-form ref="formCom" :model="ruleValue" :rules="formRules" label-position="top">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item required prop="name">
-                <el-input v-model="ruleValue.name" :placeholder="tl('name')" />
+              <el-form-item required prop="id">
+                <el-input v-model="ruleValue.id" placeholder="ID" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -197,7 +197,7 @@ const testSQLRef = ref()
 const testLoading = ref(false)
 
 const ruleValueDefault = {
-  name: '',
+  id: '',
   sql: transSQLFormDataToSQL(DEFAULT_SELECT, [DEFAULT_FROM]),
   actions: [],
   description: '',
@@ -229,7 +229,7 @@ const payloadForTest = ref('')
 const { createRequiredRule } = useFormRules()
 const formCom = ref()
 const formRules = {
-  name: createRequiredRule(tl('name')),
+  id: createRequiredRule('ID'),
   sql: createRequiredRule(tl('SQL')),
 }
 
