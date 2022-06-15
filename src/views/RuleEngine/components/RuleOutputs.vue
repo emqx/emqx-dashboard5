@@ -128,6 +128,7 @@ const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void 
     item = ruleValue.value.actions?.[itemIndex]
   }
   if (edit) {
+    console.log(item)
     currentOutputItem.value = item
   } else {
     currentOutputItem.value = undefined

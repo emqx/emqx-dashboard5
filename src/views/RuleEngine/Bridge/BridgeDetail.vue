@@ -62,7 +62,7 @@
                 <el-button
                   type="primary"
                   v-if="bridgeInfo.type"
-                  :loading="infoLoading"
+                  :loading="updateLoading"
                   @click="updateBridgeInfo()"
                 >
                   {{ $t('Base.update') }}
@@ -94,10 +94,10 @@ import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useDocLink from '@/hooks/useDocLink'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
+import _ from 'lodash'
 
 enum Tab {
   Overview = 'overview',
@@ -110,6 +110,7 @@ const id = route.params.id as string
 const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const { t } = useI18n()
 const infoLoading = ref(false)
+const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 const { isTesting, canTest, testTheConnection } = useTestConnection(bridgeInfo)
 
@@ -152,11 +153,14 @@ const loadBridgeInfo = async () => {
 
 const updateBridgeInfo = async () => {
   await formCom.value.validate()
-  infoLoading.value = true
+  updateLoading.value = true
   try {
-    const data = { ...bridgeInfo.value }
+    const data = _.cloneDeep(bridgeInfo.value)
     if ('ssl' in data) {
       data.ssl = handleSSLDataBeforeSubmit(data.ssl)
+    }
+    if (data.type === BridgeType.MQTT) {
+      Reflect.deleteProperty(data.connector, 'type')
     }
     const res = await updateBridge(bridgeInfo.value.id, data)
     if (!isFromRule.value) {
@@ -168,7 +172,7 @@ const updateBridgeInfo = async () => {
   } catch (error) {
     console.error(error)
   } finally {
-    infoLoading.value = false
+    updateLoading.value = false
   }
 }
 

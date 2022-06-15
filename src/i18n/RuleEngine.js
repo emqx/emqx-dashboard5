@@ -596,8 +596,8 @@ export default {
     en: 'Data type does not match SQL',
   },
   parametersPreview: {
-    zh: '参数预览',
-    en: 'Parameters preview',
+    zh: '配置预览',
+    en: 'Configuration Preview',
   },
   backBridgeList: {
     zh: '返回 Bridge 列表',

@@ -94,7 +94,7 @@ export interface HTTPBridge extends BridgeBaseData {
 }
 
 export interface MQTTOut extends BridgeBaseData {
-  connector: string
+  connector: string | Record<string, any>
   direction: MQTTBridgeDirection
   payload: string
   remote_topic: string

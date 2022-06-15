@@ -9,7 +9,7 @@
     <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
       <el-row>
         <el-col :span="16" v-loading="isLoading">
-          <el-form-item :label="$tc('RuleEngine.action', 1)" prop="type">
+          <el-form-item :label="$tc('RuleEngine.action')" prop="type">
             <div class="form-item-content">
               <el-select v-model="outputForm.type">
                 <el-option
@@ -107,7 +107,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'RuleOutputsDialog',
+  name: 'RuleOutputsDrawer',
 })
 </script>
 
@@ -120,14 +120,13 @@ import {
   watch,
   ref,
   Ref,
-  PropType,
   onActivated,
   nextTick,
 } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getBridgeList } from '@/api/ruleengine'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
-import { BridgeItem, OutputItem } from '@/types/rule'
+import { BridgeItem } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import { useRoute, useRouter } from 'vue-router'
 import { Plus, Edit } from '@element-plus/icons-vue'
@@ -151,7 +150,6 @@ const props = defineProps({
     type: Boolean,
   },
   output: {
-    type: Object as PropType<OutputItem>,
     required: false,
   },
   outputDisableList: {
