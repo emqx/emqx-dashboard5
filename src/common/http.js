@@ -60,7 +60,7 @@ axios.interceptors.response.use(
         respSet.add(status)
         if (status === 404 && error.config.handle404Self);
         else if (data?.code || data?.message)
-          M.error(status + ' ' + data?.code + ':' + data?.message)
+          M.error(status + ' ' + data?.code + ':' + data?.message.toString())
         else M.error(status + ' Network error')
 
         if (status === 401) {

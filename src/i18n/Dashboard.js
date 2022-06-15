@@ -468,27 +468,27 @@ export default {
     zh: '认证数',
     en: 'Authenticate',
   },
-  authorization_allow: {
+  allow: {
     zh: '授权允许数',
     en: 'Authorization Allow',
   },
-  authorization_cache_hit: {
+  cache_hit: {
     zh: '授权缓存命中数',
     en: 'Authorization Cache Hit',
   },
-  authorization_deny: {
+  deny: {
     zh: '授权拒绝数',
     en: 'Authorization Deny',
   },
-  authorization_matched_allow: {
+  matched_allow: {
     zh: '授权匹配允许数',
     en: 'Authorization Matched Allow',
   },
-  authorization_matched_deny: {
+  matched_deny: {
     zh: '授权匹配拒绝数',
     en: 'Authorization Matched Deny',
   },
-  authorization_nomatch: {
+  nomatch: {
     zh: '授权匹配未命中数',
     en: 'Authorization No Match',
   },

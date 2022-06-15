@@ -52,7 +52,7 @@
         <el-card class="top-border table-card auth">
           <el-table
             stripe
-            :data="filterMetrics(currentMetrics, 'auth')"
+            :data="filterMetrics(currentMetrics, 'authorization')"
             v-loading.lock="isDataLoading"
           >
             <el-table-column prop="m" min-width="160" :label="tl('auth')">
@@ -204,17 +204,22 @@ const loadMetricsData = async () => {
 function filterMetrics(data: MetricItem, key: string) {
   let keys: Array<{ m: string; v: number }> = []
   Object.keys(data || []).forEach((v) => {
-    const _key = key === 'auth' ? 'client' : key
-    if (v.startsWith(_key)) {
+    if (v.startsWith(key)) {
       keys.push({ m: v.split('.').slice(1).join('_'), v: data[v] as number })
     }
   })
-  keys = keys.sort((pre, next) => pre.m.localeCompare(next.m))
   if (key === 'client') {
     keys = keys.filter((item) => !item.m.includes('auth'))
   }
-  if (key === 'auth') {
-    keys = keys.filter((item) => item.m.includes('auth'))
+  keys = keys.sort((pre, next) => pre.m.localeCompare(next.m))
+  if (key === 'authorization') {
+    const _authKeys: Array<{ m: string; v: number }> = []
+    Object.keys(data || []).forEach((v) => {
+      if (v.startsWith('client') && v.includes('auth')) {
+        _authKeys.push({ m: v.split('.').slice(1).join('_'), v: data[v] as number })
+      }
+    })
+    keys.push(..._authKeys)
   }
   return keys
 }
