@@ -16,7 +16,7 @@
           </el-col>
         </el-row>
       </div>
-      <el-row :gutter="26">
+      <!-- <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="tl('bridgeUsage')">
             <el-select v-model="isForwardFromLocalTopic" :disabled="edit">
@@ -47,7 +47,7 @@
             }}
           </p>
         </el-col>
-      </el-row>
+      </el-row> -->
       <el-divider />
       <el-row :gutter="26">
         <el-col :span="12">
@@ -197,7 +197,7 @@ export default defineComponent({
       request_timeout: '5s',
       max_retries: 3,
     } as HTTPBridge
-    const isForwardFromLocalTopic: Ref<boolean> = ref(true)
+    const isForwardFromLocalTopic: Ref<boolean> = ref(false)
 
     let modelValueCache = ''
     const httpBridgeVal: Ref<HTTPBridge> = ref(_.cloneDeep(httpBridgeDefaultVal))
