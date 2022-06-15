@@ -1,6 +1,6 @@
 <template>
   <div class="iot-detail app-wrapper">
-    <detail-header :item="{ name: ruleInfo.name, path: '/iot' }" />
+    <detail-header :item="{ name: ruleInfo.id, path: '/iot' }" />
     <div class="section-header">
       <div>
         <span class="title-n-status">
@@ -113,8 +113,8 @@ const deleteRule = async () => {
 const submitUpdateRules = async () => {
   await formCom.value.validate()
   submitLoading.value = true
-  const { name, sql, enable, description, actions } = ruleInfo.value
-  const updateData: Partial<RuleItem> = { name, sql, enable, description, actions }
+  const { id, sql, enable, description, actions } = ruleInfo.value
+  const updateData: Partial<RuleItem> = { id, sql, enable, description, actions }
   try {
     await updateRules(id, updateData)
     ElMessage.success(t('Base.updateSuccess'))

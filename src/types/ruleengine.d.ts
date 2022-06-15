@@ -24,7 +24,7 @@ export type BridgeItem = {
 
 export type RuleItem = {
   actions?: Array<Record<string, unknown> | string>
-  name?: string
+  id?: string
   enable?: boolean
   sql?: string
   description?: string
