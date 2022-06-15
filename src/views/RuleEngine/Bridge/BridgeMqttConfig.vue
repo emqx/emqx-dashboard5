@@ -16,7 +16,7 @@
       </el-row>
       <!-- Source -->
       <template v-if="mqttBridgeVal.direction === MQTTBridgeDirection.In">
-        <el-row :gutter="26">
+        <!-- <el-row :gutter="26">
           <el-col :span="12">
             <el-form-item :label="tl('bridgeUsage')">
               <el-select
@@ -67,7 +67,7 @@
               }}
             </p>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-divider />
         <el-row :gutter="26">
           <el-col :span="24">
@@ -96,7 +96,7 @@
       </template>
       <!-- Sink -->
       <template v-else>
-        <el-row :gutter="26">
+        <!-- <el-row :gutter="26">
           <el-col :span="12">
             <el-form-item :label="tl('bridgeUsage')">
               <el-select
@@ -133,7 +133,7 @@
               }}
             </p>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-divider />
         <el-row :gutter="26">
           <el-col :span="24">
@@ -258,8 +258,8 @@ const mqttBridgeVal: Ref<MQTTBridge> = ref({
 } as MQTTBridge)
 const connectorList: Ref<Array<ConnectorItem>> = ref([])
 const connectorLoading: Ref<boolean> = ref(false)
-const isForwardToLocalTopic: Ref<boolean> = ref(true)
-const isForwardFromLocalTopic: Ref<boolean> = ref(true)
+const isForwardToLocalTopic: Ref<boolean> = ref(false)
+const isForwardFromLocalTopic: Ref<boolean> = ref(false)
 
 const { tl } = useI18nTl('RuleEngine')
 const { docMap } = useDocLink()
