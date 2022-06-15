@@ -407,4 +407,8 @@ export default {
     zh: '速率',
     en: 'Rate',
   },
+  topic: {
+    zh: '主题',
+    en: 'Topic',
+  },
 }
