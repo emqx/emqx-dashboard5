@@ -248,7 +248,7 @@ export default {
     en: 'Send Buffer',
   },
   recBuf: {
-    zh: '接受缓冲区大小',
+    zh: '接收缓冲区大小',
     en: 'Receive Buffer',
   },
   endpointName: {
