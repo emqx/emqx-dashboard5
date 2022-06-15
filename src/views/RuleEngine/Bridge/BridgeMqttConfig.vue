@@ -79,7 +79,7 @@
           <el-col :span="12">
             <el-form-item required prop="remote_topic">
               <template #label>
-                <label>{{ tl('remoteTopic') }}</label>
+                <label>{{ $t('Base.topic') }}</label>
                 <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
               </template>
               <el-input v-model="mqttBridgeVal.remote_topic" placeholder="t/#" />
@@ -143,9 +143,9 @@
         <el-divider />
         <el-row :gutter="26">
           <el-col :span="12">
-            <el-form-item :label="tl('remoteTopic')" required prop="remote_topic">
+            <el-form-item required prop="remote_topic">
               <template #label>
-                <label>{{ tl('remoteTopic') }}</label>
+                <label>{{ $t('Base.topic') }}</label>
                 <InfoTooltip :content="tl('remoteTopicDesc')" />
               </template>
               <el-input
@@ -261,7 +261,7 @@ const connectorLoading: Ref<boolean> = ref(false)
 const isForwardToLocalTopic: Ref<boolean> = ref(false)
 const isForwardFromLocalTopic: Ref<boolean> = ref(false)
 
-const { tl } = useI18nTl('RuleEngine')
+const { tl, t } = useI18nTl('RuleEngine')
 const { docMap } = useDocLink()
 
 const { createRequiredRule } = useFormRules()
@@ -271,7 +271,7 @@ const formRules = computed(() => ({
   connector: {
     server: createRequiredRule(tl('brokerAddress')),
   },
-  remote_topic: createRequiredRule(tl('remoteTopic')),
+  remote_topic: createRequiredRule(t('Base.topic')),
   local_topic: createRequiredRule(tl('localTopic')),
 }))
 
