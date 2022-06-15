@@ -1,7 +1,9 @@
 <template>
-  <div class="app-wrapper">
-    <detail-header :item="{ name: tl('createBridge'), routeName: backRoute.name }" />
-    <div class="data-bridge-create">
+  <div :class="[{ 'app-wrapper': !isFromRule }, 'bridge-create']">
+    <template v-if="!isFromRule">
+      <detail-header :item="{ name: tl('createBridge'), routeName: backRoute.name }" />
+    </template>
+    <div v-if="!isFromRule" class="data-bridge-create">
       <el-card class="app-card">
         <el-row>
           <el-col :span="12">
@@ -19,12 +21,7 @@
             <el-radio-group class="bridge-type-select" v-model="radioSelectedBridgeType">
               <el-row :gutter="28">
                 <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
-                  <el-radio
-                    class="bridge-type-item"
-                    :label="item.valueForRadio"
-                    border
-                    :disabled="isBridgeTypeDisabled(item)"
-                  >
+                  <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
                     <img
                       class="bridge-type-item-img"
                       height="64"
@@ -91,6 +88,42 @@
         <div></div>
       </el-card>
     </div>
+    <div v-else>
+      <el-row :gutter="26">
+        <el-col :span="12">
+          <label>{{ tl('bridgeType') }}</label>
+          <el-select
+            class="bridge-select"
+            v-model="radioSelectedBridgeType"
+            @change="handleTypeSelected"
+          >
+            <el-option
+              v-for="item in bridgeTypeOptions.filter(isBridgeTypeDisabled)"
+              :key="item.label"
+              :label="item.label"
+              :value="item.valueForRadio"
+            >
+              <div class="option-content">
+                <img :src="require(`@/assets/img/${item.value}.png`)" width="30" height="34" />
+                <span>{{ item.label }}</span>
+              </div>
+            </el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+      <el-divider />
+      <bridge-http-config
+        v-if="chosenBridgeType === BridgeType.Webhook"
+        v-model:tls="tlsParams"
+        v-model="bridgeData"
+        ref="formCom"
+      />
+      <bridge-mqtt-config
+        v-if="chosenBridgeType === BridgeType.MQTT"
+        v-model="bridgeData"
+        ref="formCom"
+      />
+    </div>
   </div>
 </template>
 
@@ -103,7 +136,7 @@ import { tlsConfig } from '@/types/ruleengine'
 import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { useBridgeTypeOptions, BridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -114,14 +147,13 @@ import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 
 export default defineComponent({
+  name: 'BridgeCreate',
   components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
-
     const createBridgeData = () => ({
       local_topic: '',
     })
-
     const tlsParamsDefault: tlsConfig = {
       enable: false,
       verify: 'verify_none',
@@ -134,8 +166,6 @@ export default defineComponent({
     const route = useRoute()
     const { t } = useI18n()
     const { bridgeTypeOptions, getTrueTypeObjByRadioValue } = useBridgeTypeOptions()
-    const radioSelectedBridgeType = ref(bridgeTypeOptions[0].valueForRadio)
-    const chosenBridgeType = ref(bridgeTypeOptions[0].value)
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
@@ -144,9 +174,12 @@ export default defineComponent({
 
     const formCom = ref()
 
-    const isFromRule = computed(() =>
-      ['create-bridge-for-create-iot', 'create-bridge-for-edit-iot'].includes(route.name as string),
-    )
+    const isFromRule = computed(() => {
+      return route.name === 'iot-create'
+    })
+
+    const radioSelectedBridgeType = ref(isFromRule.value ? '' : bridgeTypeOptions[0].valueForRadio)
+    const chosenBridgeType = ref(isFromRule.value ? '' : bridgeTypeOptions[0].value)
 
     const backRoute = computed(() => {
       let name = 'data-bridge'
@@ -164,9 +197,9 @@ export default defineComponent({
         bridgeType.externalConfig &&
         'direction' in bridgeType.externalConfig
       ) {
-        return bridgeType.externalConfig.direction === MQTTBridgeDirection.In
+        return bridgeType.externalConfig.direction !== MQTTBridgeDirection.In
       }
-      return false
+      return true
     }
 
     const handleTypeSelected = () => {
@@ -230,7 +263,7 @@ export default defineComponent({
             res = await createBridge(checkNOmitFromObj(handleBridgeDataBeforeSubmit(dataToSubmit)))
             break
         }
-        const bridgeId = res.id
+        const bridgeId = res?.id
         if (!isFromRule.value) {
           ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
             confirmButtonText: tl('createRule'),
@@ -244,7 +277,8 @@ export default defineComponent({
               router.push({ name: 'data-bridge' })
             })
         } else {
-          router.push({ name: route.params.from as string, params: { bridgeId } })
+          ElMessage.success(t('Base.createSuccess'))
+          router.push({ name: 'iot-create', query: { bridgeId } })
         }
       } catch (error) {
         console.error(error)
@@ -255,6 +289,7 @@ export default defineComponent({
 
     return {
       tl,
+      isFromRule,
       backRoute,
       stepActive,
       goPreStep,
@@ -272,6 +307,7 @@ export default defineComponent({
       submitCreateBridge,
       canTest,
       isTesting,
+      handleTypeSelected,
       testTheConnection,
     }
   },
@@ -279,6 +315,22 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.bridge-select {
+  margin-top: 12px;
+  :deep(.el-input) {
+    &::before {
+      background-image: url(~@/assets/img/mqtt.png);
+      background-size: contain;
+    }
+  }
+}
+.option-content {
+  display: flex;
+  align-items: center;
+  img {
+    margin-right: 12px;
+  }
+}
 .config-btn {
   margin-top: 24px;
 }

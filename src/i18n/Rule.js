@@ -25,7 +25,7 @@ export default {
   },
   inputFieldRequiredError: {
     zh: '请输入{name}',
-    en: 'Please enter the {name}.',
+    en: '{name} is required.',
   },
   selectFieldRequiredError: {
     zh: '请选择{name}',

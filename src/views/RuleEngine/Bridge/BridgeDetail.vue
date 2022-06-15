@@ -16,13 +16,10 @@
             </div>
           </div>
           <div>
-            <el-button @click="goDoc">
-              {{ tl('readMore') }}
-            </el-button>
             <el-button @click="enableOrDisableBridge">
               {{ bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
             </el-button>
-            <el-button type="danger" @click="deleteBridge">
+            <el-button type="danger" @click="deleteBridge" plain>
               {{ $t('Base.delete') }}
             </el-button>
           </div>
@@ -151,12 +148,6 @@ const loadBridgeInfo = async () => {
   } finally {
     infoLoading.value = false
   }
-}
-
-const { docMap } = useDocLink()
-const goDoc = () => {
-  // TODO:
-  window.open(docMap.home, '_blank')
 }
 
 const updateBridgeInfo = async () => {

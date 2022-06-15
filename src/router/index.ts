@@ -41,8 +41,8 @@ import IoTDetail from '@/views/RuleEngine/IoT/IoTDetail.vue'
 import Bridge from '@/views/RuleEngine/Bridge/DataBridge.vue'
 import BridgeCreate from '@/views/RuleEngine/Bridge/BridgeCreate.vue'
 import BridgeDetail from '@/views/RuleEngine/Bridge/BridgeDetail.vue'
-import Connector from '@/views/RuleEngine/Connector/Connector.vue'
-import ConnectorCreate from '@/views/RuleEngine/Connector/ConnectorCreate.vue'
+// import Connector from '@/views/RuleEngine/Connector/Connector.vue'
+// import ConnectorCreate from '@/views/RuleEngine/Connector/ConnectorCreate.vue'
 import FlowChart from '@/views/RuleEngine/FlowChart/FlowChart.vue'
 import APIKey from '@/views/APIKey/APIKey.vue'
 import Plugins from '@/views/Plugins/Plugins.vue'
@@ -377,7 +377,7 @@ export const routes: Array<RouteRecordRaw> = [
   },
   // IoT
   {
-    path: '/iot',
+    path: '/rules',
     component: Layout,
     meta: {
       hideKey: 'iot',
@@ -400,11 +400,6 @@ export const routes: Array<RouteRecordRaw> = [
             component: IoTCreate,
           },
           {
-            path: 'bridge',
-            name: 'create-bridge-for-create-iot',
-            component: BridgeCreate,
-          },
-          {
             path: 'bridge/detail',
             name: 'edit-bridge-for-create-iot',
             component: BridgeDetail,
@@ -414,7 +409,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'detail/:id',
         component: KeepAliveChildren,
-        redirect: '/iot/detail/:id/info',
+        redirect: '/rules/detail/:id/info',
         children: [
           {
             path: 'info',

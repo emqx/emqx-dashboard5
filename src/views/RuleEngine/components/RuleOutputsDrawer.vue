@@ -1,20 +1,20 @@
 <template>
   <el-drawer
     :title="!isEdit ? tl('addAction') : tl('editAction')"
-    v-model="showDialog"
+    v-model="showDrawer"
     :lock-scroll="false"
-    :size="600"
+    size="50%"
   >
     <!-- FIXME: scroll bug-->
     <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
       <el-row>
-        <el-col :span="24" v-loading="isLoading">
+        <el-col :span="16" v-loading="isLoading">
           <el-form-item :label="$tc('RuleEngine.action', 1)" prop="type">
             <div class="form-item-content">
               <el-select v-model="outputForm.type">
                 <el-option
                   v-for="bridge in egressBridgeList"
-                  :key="bridge"
+                  :key="bridge.id"
                   :value="bridge.id"
                   :label="bridge.id"
                   :disabled="isDisabledBridge(bridge)"
@@ -46,16 +46,13 @@
       </el-row>
 
       <div class="output-content" v-if="outputForm.type === RuleOutput.Republish">
-        <div class="part-header">{{ tl('paramSetting') }}</div>
-        <el-row>
-          <el-col :span="24">
+        <el-row :gutter="26">
+          <el-col :span="12">
             <el-form-item label="Topic" required prop="args.topic">
               <el-input v-model="outputForm.args.topic" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="QoS">
               <el-select v-model="outputForm.args.qos">
                 <el-option v-for="item in QoSOptions" :value="item" :key="item" />
@@ -84,6 +81,9 @@
             </el-form-item>
           </el-col>
         </el-row>
+      </div>
+      <div class="output-content" v-if="outputForm.type === RuleOutput.Console">
+        {{ tl('console') }}
       </div>
       <BridgePreview
         class="output-content"
@@ -160,7 +160,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'submit'])
+const emit = defineEmits(['update:modelValue', 'submit', 'openAddBridge'])
 
 const createRawOutputForm = (): OutputForm => ({
   type: '',
@@ -188,7 +188,7 @@ const outputFormRules = {
 }
 const { docMap } = useDocLink()
 
-const showDialog: WritableComputedRef<boolean> = computed({
+const showDrawer: WritableComputedRef<boolean> = computed({
   get() {
     return props.modelValue
   },
@@ -262,13 +262,8 @@ const editBridge = async () => {
   })
 }
 
-const addBridge = async () => {
-  isGoToBridge.value = true
-  await nextTick()
-  router.push({
-    name: isEditRule.value ? 'create-bridge-for-edit-iot' : 'create-bridge-for-create-iot',
-    params: { from: route.name as string },
-  })
+const addBridge = () => {
+  emit('openAddBridge')
 }
 
 const submitOutput = async (edit = false) => {
@@ -291,7 +286,7 @@ const submitOutput = async (edit = false) => {
     }
 
     emit('submit', opObj)
-    showDialog.value = false
+    showDrawer.value = false
   } catch (error) {
     console.error(error)
   } finally {
@@ -300,10 +295,10 @@ const submitOutput = async (edit = false) => {
 }
 
 const cancel = () => {
-  showDialog.value = false
+  showDrawer.value = false
 }
 
-watch(showDialog, (val) => {
+watch(showDrawer, (val) => {
   if (val) {
     loadEgressBridgeList()
     setFormDataWhenOpenDialog()
