@@ -40,9 +40,9 @@
     v-model="showOutputDrawer"
     :output="currentOutputItem"
     :output-disable-list="outputDisableList"
-    :edit="!!editIndex"
+    :edit="isEdit"
     @submit="submitOutput"
-    @openAddBridge="openBridge"
+    @openAddBridge="openAddBridge"
   />
   <AddBridgeOnRule
     v-model="showAddBridgeDrawer"
@@ -93,10 +93,11 @@ const { tl } = useI18nTl('RuleEngine')
 const showOutputDrawer = ref(false)
 const showAddBridgeDrawer = ref(false)
 const outputDisableList: Ref<Array<string>> = ref([])
+const isEdit = ref(false)
 const editIndex: Ref<number | undefined> = ref(undefined)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
 
-const openBridge = () => {
+const openAddBridge = () => {
   showOutputDrawer.value = false
   showAddBridgeDrawer.value = true
 }
@@ -139,8 +140,10 @@ const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void 
     item = ruleValue.value.actions?.[itemIndex]
   }
   if (edit) {
+    isEdit.value = edit
     currentOutputItem.value = item
   } else {
+    isEdit.value = false
     currentOutputItem.value = undefined
   }
   calcDisableList()
@@ -158,10 +161,10 @@ const deleteOutput = async (itemIndex: number | undefined) => {
   }
 }
 
-const submitOutput = (opObj: OutputItem) => {
+const submitOutput = (opObj: OutputItem, isEdit: boolean) => {
   const output = ruleValue.value.actions || []
   if (Array.isArray(output)) {
-    if (!currentOutputItem.value || !editIndex.value) {
+    if (!currentOutputItem.value || !isEdit) {
       output.push(opObj)
     } else {
       editIndex.value !== undefined && output.splice(editIndex.value, 1, opObj)

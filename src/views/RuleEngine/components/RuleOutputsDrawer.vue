@@ -256,7 +256,7 @@ const submitOutput = async (edit = false) => {
   try {
     await formCom.value?.validate()
     submitLoading.value = true
-    const res = await BridgeDetailRef.value.updateBridgeInfo()
+    const res = await BridgeDetailRef.value?.updateBridgeInfo()
     if (!res) {
       return
     }
@@ -277,7 +277,7 @@ const submitOutput = async (edit = false) => {
       default:
         opObj = outputForm.value.type
     }
-    emit('submit', opObj)
+    emit('submit', opObj, isEdit.value)
     showDrawer.value = false
   } catch (error) {
     console.error(error)
