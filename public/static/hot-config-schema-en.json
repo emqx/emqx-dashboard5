@@ -618,6 +618,12 @@
                     "bind"
                 ],
                 "properties": {
+                    "enabled": {
+                        "default": true,
+                        "description": "</br>Enable listener.</br>",
+                        "label": "Enable listener",
+                        "type": "boolean"
+                    },
                     "bind": {
                         "default": 8883,
                         "description": "</br>IP address and port for the listening socket.</br>",
@@ -666,7 +672,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
@@ -675,6 +683,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>Set <code>true</code> (default) to enable client authentication on this listener. </br>When set to <code>false</code> clients will be allowed to connect without authentication.</br>",
+                        "label": "Enable authentication",
+                        "type": "boolean"
                     },
                     "access_rules": {
                         "default": [
@@ -853,7 +867,7 @@
                     },
                     "address_type": {
                         "default": "ip",
-                        "description": "Address type used for connecting to the discovered nodes.",
+                        "description": "Address type used for connecting to the discovered nodes.</br>Setting <code>cluster.k8s.address_type</code> to <code>ip</code> will</br>make EMQX to discover IP addresses of peer nodes from Kubernetes API.</br>",
                         "label": "K8s Address Type",
                         "readOnly": true,
                         "symbols": [
@@ -862,13 +876,6 @@
                             "hostname"
                         ],
                         "type": "enum"
-                    },
-                    "app_name": {
-                        "default": "emqx",
-                        "description": "This parameter should be set to the part of the <code>node.name</code></br>before the '@'.</br>For example, if the <code>node.name</code> is <code>emqx@127.0.0.1</code>, then this parameter</br>should be set to <code>emqx</code>.",
-                        "label": "K8s App Name",
-                        "readOnly": true,
-                        "type": "string"
                     },
                     "namespace": {
                         "default": "default",
@@ -1178,6 +1185,12 @@
                     "bind"
                 ],
                 "properties": {
+                    "enabled": {
+                        "default": true,
+                        "description": "</br>Enable listener.</br>",
+                        "label": "Enable listener",
+                        "type": "boolean"
+                    },
                     "bind": {
                         "default": 1883,
                         "description": "</br>IP address and port for the listening socket.</br>",
@@ -1226,7 +1239,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
@@ -1235,6 +1250,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>Set <code>true</code> (default) to enable client authentication on this listener. </br>When set to <code>false</code> clients will be allowed to connect without authentication.</br>",
+                        "label": "Enable authentication",
+                        "type": "boolean"
                     },
                     "access_rules": {
                         "default": [
@@ -1631,6 +1652,40 @@
                         "readOnly": true,
                         "type": "string"
                     },
+                    "process_limit": {
+                        "default": 2097152,
+                        "description": "Maximum number of simultaneously existing processes for this Erlang system.</br>The actual maximum chosen may be much larger than the Number passed.</br>For more information, see: https://www.erlang.org/doc/man/erl.html</br>          ",
+                        "label": "Erlang Process Limit",
+                        "maximum": 134217727,
+                        "minimum": 1024,
+                        "readOnly": true,
+                        "type": "number"
+                    },
+                    "max_ports": {
+                        "default": 1048576,
+                        "description": "Maximum number of simultaneously existing ports for this Erlang system.</br>The actual maximum chosen may be much larger than the Number passed.</br>For more information, see: https://www.erlang.org/doc/man/erl.html</br>          ",
+                        "label": "Erlang Port Limit",
+                        "maximum": 134217727,
+                        "minimum": 1024,
+                        "readOnly": true,
+                        "type": "number"
+                    },
+                    "dist_buffer_size": {
+                        "default": 8192,
+                        "description": "Erlang's distribution buffer busy limit in kilobytes.",
+                        "label": "Erlang's dist buffer size(KB)",
+                        "maximum": 2097151,
+                        "minimum": 1,
+                        "readOnly": true,
+                        "type": "number"
+                    },
+                    "max_ets_tables": {
+                        "default": 262144,
+                        "description": "Max number of ETS tables",
+                        "label": "Max number of ETS tables",
+                        "readOnly": true,
+                        "type": "string"
+                    },
                     "data_dir": {
                         "description": "</br>Path to the persistent data directory.</br>Possible auto-created subdirectories are:</br>- `mnesia/<node_name>`: EMQX's built-in database directory.</br>For example, `mnesia/emqx@127.0.0.1`.</br>There should be only one such subdirectory.</br>Meaning, in case the node is to be renamed (to e.g. `emqx@10.0.1.1`),</br>the old dir should be deleted first.</br>- `configs`: Generated configs at boot time, and cluster/local override configs.</br>- `patches`: Hot-patch beam files are to be placed here.</br>- `trace`: Trace log files.</br></br>**NOTE**: One data dir cannot be shared by two or more EMQX nodes.</br>",
                         "label": "Node Data Dir",
@@ -1783,17 +1838,21 @@
                 "properties": {
                     "name": {
                         "default": "localhost",
-                        "description": "The domain name of the EMQX cluster.",
+                        "description": "The domain name from which to discover peer EMQX nodes' IP addresses.</br>Applicable when <code>cluster.discovery_strategy = dns</code></br>",
                         "label": "Cluster Dns Name",
                         "readOnly": true,
                         "type": "string"
                     },
-                    "app": {
-                        "default": "emqx",
-                        "description": "The symbolic name of the EMQX service.",
-                        "label": "Cluster DNS App",
+                    "record_type": {
+                        "default": "a",
+                        "description": "DNS record type. ",
+                        "label": "DNS Record Type",
                         "readOnly": true,
-                        "type": "string"
+                        "symbols": [
+                            "a",
+                            "srv"
+                        ],
+                        "type": "enum"
                     }
                 },
                 "type": "object"
@@ -2013,7 +2072,7 @@
                     "acl_claim_name": {
                         "default": "acl",
                         "description": "JWT claim name to use for getting ACL rules.",
-                        "label": "acl_claim_name",
+                        "label": "ACL claim name",
                         "type": "string"
                     },
                     "verify_claims": {
@@ -2024,6 +2083,16 @@
                         },
                         "label": "Verify Claims",
                         "type": "array"
+                    },
+                    "from": {
+                        "default": "password",
+                        "description": "Field to take JWT from.",
+                        "label": "From Field",
+                        "symbols": [
+                            "username",
+                            "password"
+                        ],
+                        "type": "enum"
                     },
                     "enable": {
                         "default": true,
@@ -2451,7 +2520,7 @@
                     "acl_claim_name": {
                         "default": "acl",
                         "description": "JWT claim name to use for getting ACL rules.",
-                        "label": "acl_claim_name",
+                        "label": "ACL claim name",
                         "type": "string"
                     },
                     "verify_claims": {
@@ -2462,6 +2531,16 @@
                         },
                         "label": "Verify Claims",
                         "type": "array"
+                    },
+                    "from": {
+                        "default": "password",
+                        "description": "Field to take JWT from.",
+                        "label": "From Field",
+                        "symbols": [
+                            "username",
+                            "password"
+                        ],
+                        "type": "enum"
                     },
                     "enable": {
                         "default": true,
@@ -3443,7 +3522,7 @@
                     "acl_claim_name": {
                         "default": "acl",
                         "description": "JWT claim name to use for getting ACL rules.",
-                        "label": "acl_claim_name",
+                        "label": "ACL claim name",
                         "type": "string"
                     },
                     "verify_claims": {
@@ -3454,6 +3533,16 @@
                         },
                         "label": "Verify Claims",
                         "type": "array"
+                    },
+                    "from": {
+                        "default": "password",
+                        "description": "Field to take JWT from.",
+                        "label": "From Field",
+                        "symbols": [
+                            "username",
+                            "password"
+                        ],
+                        "type": "enum"
                     },
                     "enable": {
                         "default": true,
@@ -3672,6 +3761,12 @@
                     "bind"
                 ],
                 "properties": {
+                    "enabled": {
+                        "default": true,
+                        "description": "</br>Enable listener.</br>",
+                        "label": "Enable listener",
+                        "type": "boolean"
+                    },
                     "bind": {
                         "default": 8083,
                         "description": "</br>IP address and port for the listening socket.</br>",
@@ -3720,7 +3815,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
@@ -3729,6 +3826,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>Set <code>true</code> (default) to enable client authentication on this listener. </br>When set to <code>false</code> clients will be allowed to connect without authentication.</br>",
+                        "label": "Enable authentication",
+                        "type": "boolean"
                     },
                     "access_rules": {
                         "default": [
@@ -4252,12 +4355,6 @@
                     "bind"
                 ],
                 "properties": {
-                    "enabled": {
-                        "default": true,
-                        "description": "</br>Enable QUIC listener.</br>",
-                        "label": "Enable QUIC listener",
-                        "type": "boolean"
-                    },
                     "certfile": {
                         "description": "</br>Path to the certificate file.</br>",
                         "label": "Certificate file",
@@ -4286,6 +4383,12 @@
                         "description": "</br>Close transport-layer connections from the clients that have not sent MQTT CONNECT</br>message within this interval.</br>",
                         "label": "Idle Timeout",
                         "type": "duration"
+                    },
+                    "enabled": {
+                        "default": true,
+                        "description": "</br>Enable listener.</br>",
+                        "label": "Enable listener",
+                        "type": "boolean"
                     },
                     "bind": {
                         "default": 14567,
@@ -4335,7 +4438,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
@@ -4344,6 +4449,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>Set <code>true</code> (default) to enable client authentication on this listener. </br>When set to <code>false</code> clients will be allowed to connect without authentication.</br>",
+                        "label": "Enable authentication",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
@@ -4351,41 +4462,39 @@
             "limiter.limiter": {
                 "properties": {
                     "bytes_in": {
-                        "default": {
-                            "enable": false
-                        },
+                        "default": {},
                         "description": "The bytes_in limiter.</br>This is used to limit the inbound bytes rate for this EMQX node.</br>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
                         "label": "Bytes In",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "message_in": {
-                        "default": {
-                            "enable": false
-                        },
+                        "default": {},
                         "description": "The message in limiter.</br>This is used to limit the inbound message numbers for this EMQX node</br>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
                         "label": "Message In",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "connection": {
                         "default": {
-                            "enable": false
+                            "bucket": {
+                                "default": {
+                                    "capacity": 1000,
+                                    "rate": "1000/s"
+                                }
+                            },
+                            "rate": "1000/s"
                         },
                         "description": "The connection limiter.</br>This is used to limit the connection rate for this EMQX node.</br>Once the limit is reached, new connections will be refused",
                         "label": "Connection",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "message_routing": {
-                        "default": {
-                            "enable": false
-                        },
+                        "default": {},
                         "description": "The message routing limiter.</br>This is used to limit the forwarding rate for this EMQX node.</br>Once the limit is reached, new publish will be refused",
                         "label": "Message Routing",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "batch": {
-                        "default": {
-                            "enable": false
-                        },
+                        "default": {},
                         "description": "The batch limiter.</br>This is used for EMQX internal batch operation</br>e.g. limit the retainer's deliver rate",
                         "label": "Batch",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
@@ -4705,12 +4814,6 @@
             },
             "limiter.limiter_opts": {
                 "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "Enable",
-                        "label": "Enable",
-                        "type": "boolean"
-                    },
                     "rate": {
                         "default": "infinity",
                         "description": "Rate for this bucket.",
@@ -4754,6 +4857,12 @@
                     "bind"
                 ],
                 "properties": {
+                    "enabled": {
+                        "default": true,
+                        "description": "</br>Enable listener.</br>",
+                        "label": "Enable listener",
+                        "type": "boolean"
+                    },
                     "bind": {
                         "default": 8084,
                         "description": "</br>IP address and port for the listening socket.</br>",
@@ -4802,7 +4911,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>Type of the rate limit.</br>",
                         "label": "Type of the rate limit.",
                         "properties": {
@@ -4811,6 +4922,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>Set <code>true</code> (default) to enable client authentication on this listener. </br>When set to <code>false</code> clients will be allowed to connect without authentication.</br>",
+                        "label": "Enable authentication",
+                        "type": "boolean"
                     },
                     "access_rules": {
                         "default": [

@@ -618,6 +618,12 @@
                     "bind"
                 ],
                 "properties": {
+                    "enabled": {
+                        "default": true,
+                        "description": "启停监听器",
+                        "label": "启停监听器",
+                        "type": "boolean"
+                    },
                     "bind": {
                         "default": 8883,
                         "description": "</br>监听套接字的 IP 地址和端口。</br>",
@@ -666,7 +672,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
@@ -675,6 +683,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>配置 <code>true</code> （默认值）启用客户端进行身份认证。</br>配置 <code>false</code> 时，将不对客户端做任何认证。</br>",
+                        "label": "启用身份认证",
+                        "type": "boolean"
                     },
                     "access_rules": {
                         "default": [
@@ -853,7 +867,7 @@
                     },
                     "address_type": {
                         "default": "ip",
-                        "description": "当使用 k8s 方式集群时，address_type 用来从 Kubernetes 接口的应答里获取什么形式的 Host 列表。</br>指定 cluster.k8s.address_type 为 ip，则将从 Kubernetes 接口中获取 emqx 服务的 IP 地址列表:</br>- 172.16.122.31 </br>- 172.16.122.32 </br>- 172.16.122.33 </br>然后与 cluster.k8s.app_name 配置指定的 app name 拼接，得到 emqx 节点列表: </br>- emqx@172.16.122.31</br>- emqx@172.16.122.32</br>- emqx@172.16.122.33</br>          ",
+                        "description": "当使用 k8s 方式集群时，address_type 用来从 Kubernetes 接口的应答里获取什么形式的 Host 列表。</br>指定 <code>cluster.k8s.address_type</code. 为 <code>ip</code>，则将从 Kubernetes 接口中获取集群中其他节点</br>的IP地址。</br>",
                         "label": "K8s 地址类型",
                         "readOnly": true,
                         "symbols": [
@@ -862,13 +876,6 @@
                             "hostname"
                         ],
                         "type": "enum"
-                    },
-                    "app_name": {
-                        "default": "emqx",
-                        "description": "app_name 用来跟获取的 Host 列表拼接，得到节点列表。</br>当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。</br>          ",
-                        "label": "K8s 节点名前缀",
-                        "readOnly": true,
-                        "type": "string"
                     },
                     "namespace": {
                         "default": "default",
@@ -1178,6 +1185,12 @@
                     "bind"
                 ],
                 "properties": {
+                    "enabled": {
+                        "default": true,
+                        "description": "启停监听器",
+                        "label": "启停监听器",
+                        "type": "boolean"
+                    },
                     "bind": {
                         "default": 1883,
                         "description": "</br>监听套接字的 IP 地址和端口。</br>",
@@ -1226,7 +1239,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
@@ -1235,6 +1250,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>配置 <code>true</code> （默认值）启用客户端进行身份认证。</br>配置 <code>false</code> 时，将不对客户端做任何认证。</br>",
+                        "label": "启用身份认证",
+                        "type": "boolean"
                     },
                     "access_rules": {
                         "default": [
@@ -1631,6 +1652,40 @@
                         "readOnly": true,
                         "type": "string"
                     },
+                    "process_limit": {
+                        "default": 2097152,
+                        "description": "Erlang系统同时存在的最大进程数。</br>实际选择的最大值可能比设置的数字大得多。</br>参考: https://www.erlang.org/doc/man/erl.html</br>          ",
+                        "label": "Erlang 最大进程数",
+                        "maximum": 134217727,
+                        "minimum": 1024,
+                        "readOnly": true,
+                        "type": "number"
+                    },
+                    "max_ports": {
+                        "default": 1048576,
+                        "description": "Erlang系统同时存在的最大端口数。</br>实际选择的最大值可能比设置的数字大得多。</br>参考: https://www.erlang.org/doc/man/erl.html</br>          ",
+                        "label": "Erlang 最大端口数",
+                        "maximum": 134217727,
+                        "minimum": 1024,
+                        "readOnly": true,
+                        "type": "number"
+                    },
+                    "dist_buffer_size": {
+                        "default": 8192,
+                        "description": "Erlang分布式缓冲区的繁忙阈值，单位是KB。",
+                        "label": "Erlang分布式缓冲区的繁忙阈值(KB)",
+                        "maximum": 2097151,
+                        "minimum": 1,
+                        "readOnly": true,
+                        "type": "number"
+                    },
+                    "max_ets_tables": {
+                        "default": 262144,
+                        "description": "Erlang ETS 表的最大数量",
+                        "label": "Erlang 表的最大数量",
+                        "readOnly": true,
+                        "type": "string"
+                    },
                     "data_dir": {
                         "description": "</br>节点数据存放目录，可能会自动创建的子目录如下：</br>- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx@127.0.0.1`。</br>如果节点要被重新命名（例如，`emqx@10.0.1.1`）。旧目录应该首先被删除。</br>- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。</br>- `patches`: 热补丁文件将被放在这里。</br>- `trace`: 日志跟踪文件。</br></br>**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。</br>         ",
                         "label": "节点数据目录",
@@ -1783,17 +1838,21 @@
                 "properties": {
                     "name": {
                         "default": "localhost",
-                        "description": "指定 DNS A 记录的名字。emqx 会通过访问这个 DNS A 记录来获取 IP 地址列表，</br>然后拼接 cluster.dns.app 里指定的 APP 名得到集群中所有节点的列表。</br>当 cluster.discovery_strategy 为 dns 时，此配置项才有效。</br>          ",
+                        "description": "指定 DNS A 记录的名字。emqx 会通过访问这个 DNS A 记录来获取 IP 地址列表。</br>当<code>cluster.discovery_strategy</code> 为 <code>dns</code> 时有效。</br>",
                         "label": "DNS名称",
                         "readOnly": true,
                         "type": "string"
                     },
-                    "app": {
-                        "default": "emqx",
-                        "description": "用来与从 cluster.dns.name 获取的 IP 列表拼接得到节点名列表。</br>当 cluster.discovery_strategy 为 dns 时，此配置项才有效。</br>         ",
-                        "label": "DNS前缀标识",
+                    "record_type": {
+                        "default": "a",
+                        "description": "DNS 记录类型。",
+                        "label": "DNS记录类型",
                         "readOnly": true,
-                        "type": "string"
+                        "symbols": [
+                            "a",
+                            "srv"
+                        ],
+                        "type": "enum"
                     }
                 },
                 "type": "object"
@@ -2013,7 +2072,7 @@
                     "acl_claim_name": {
                         "default": "acl",
                         "description": "JWT claim name to use for getting ACL rules.",
-                        "label": "acl_claim_name",
+                        "label": "ACL claim name",
                         "type": "string"
                     },
                     "verify_claims": {
@@ -2024,6 +2083,16 @@
                         },
                         "label": "Verify Claims",
                         "type": "array"
+                    },
+                    "from": {
+                        "default": "password",
+                        "description": "要从中获取 JWT 的字段。",
+                        "label": "源字段",
+                        "symbols": [
+                            "username",
+                            "password"
+                        ],
+                        "type": "enum"
                     },
                     "enable": {
                         "default": true,
@@ -2451,7 +2520,7 @@
                     "acl_claim_name": {
                         "default": "acl",
                         "description": "JWT claim name to use for getting ACL rules.",
-                        "label": "acl_claim_name",
+                        "label": "ACL claim name",
                         "type": "string"
                     },
                     "verify_claims": {
@@ -2462,6 +2531,16 @@
                         },
                         "label": "Verify Claims",
                         "type": "array"
+                    },
+                    "from": {
+                        "default": "password",
+                        "description": "要从中获取 JWT 的字段。",
+                        "label": "源字段",
+                        "symbols": [
+                            "username",
+                            "password"
+                        ],
+                        "type": "enum"
                     },
                     "enable": {
                         "default": true,
@@ -3443,7 +3522,7 @@
                     "acl_claim_name": {
                         "default": "acl",
                         "description": "JWT claim name to use for getting ACL rules.",
-                        "label": "acl_claim_name",
+                        "label": "ACL claim name",
                         "type": "string"
                     },
                     "verify_claims": {
@@ -3454,6 +3533,16 @@
                         },
                         "label": "Verify Claims",
                         "type": "array"
+                    },
+                    "from": {
+                        "default": "password",
+                        "description": "要从中获取 JWT 的字段。",
+                        "label": "源字段",
+                        "symbols": [
+                            "username",
+                            "password"
+                        ],
+                        "type": "enum"
                     },
                     "enable": {
                         "default": true,
@@ -3672,6 +3761,12 @@
                     "bind"
                 ],
                 "properties": {
+                    "enabled": {
+                        "default": true,
+                        "description": "启停监听器",
+                        "label": "启停监听器",
+                        "type": "boolean"
+                    },
                     "bind": {
                         "default": 8083,
                         "description": "</br>监听套接字的 IP 地址和端口。</br>",
@@ -3720,7 +3815,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
@@ -3729,6 +3826,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>配置 <code>true</code> （默认值）启用客户端进行身份认证。</br>配置 <code>false</code> 时，将不对客户端做任何认证。</br>",
+                        "label": "启用身份认证",
+                        "type": "boolean"
                     },
                     "access_rules": {
                         "default": [
@@ -4252,12 +4355,6 @@
                     "bind"
                 ],
                 "properties": {
-                    "enabled": {
-                        "default": true,
-                        "description": "启用 QUIC 监听器",
-                        "label": "启用 QUIC 监听器",
-                        "type": "boolean"
-                    },
                     "certfile": {
                         "description": "证书文件",
                         "label": "证书文件",
@@ -4286,6 +4383,12 @@
                         "description": "</br>关闭在此间隔内未发送 MQTT CONNECT 消息的客户端的传输层连接。</br>",
                         "label": "发呆超时时间",
                         "type": "duration"
+                    },
+                    "enabled": {
+                        "default": true,
+                        "description": "启停监听器",
+                        "label": "启停监听器",
+                        "type": "boolean"
                     },
                     "bind": {
                         "default": 14567,
@@ -4335,7 +4438,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
@@ -4344,6 +4449,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>配置 <code>true</code> （默认值）启用客户端进行身份认证。</br>配置 <code>false</code> 时，将不对客户端做任何认证。</br>",
+                        "label": "启用身份认证",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
@@ -4351,41 +4462,39 @@
             "limiter.limiter": {
                 "properties": {
                     "bytes_in": {
-                        "default": {
-                            "enable": false
-                        },
+                        "default": {},
                         "description": "流入字节率控制器.</br>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
                         "label": "流入字节率",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "message_in": {
-                        "default": {
-                            "enable": false
-                        },
+                        "default": {},
                         "description": "流入速率控制器。</br>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
                         "label": "消息流入速率",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "connection": {
                         "default": {
-                            "enable": false
+                            "bucket": {
+                                "default": {
+                                    "capacity": 1000,
+                                    "rate": "1000/s"
+                                }
+                            },
+                            "rate": "1000/s"
                         },
                         "description": "连接速率控制器。</br>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
                         "label": "连接速率",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "message_routing": {
-                        "default": {
-                            "enable": false
-                        },
+                        "default": {},
                         "description": "消息派发速率控制器。</br>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
                         "label": "消息派发",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
                     },
                     "batch": {
-                        "default": {
-                            "enable": false
-                        },
+                        "default": {},
                         "description": "批量操作速率控制器。</br>这是给 EMQX 内部的批量操作使用的，比如用来控制保留消息的派发速率",
                         "label": "批量操作",
                         "$ref": "#/components/schemas/limiter.limiter_opts"
@@ -4705,12 +4814,6 @@
             },
             "limiter.limiter_opts": {
                 "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "是否开启",
-                        "label": "是否开启",
-                        "type": "boolean"
-                    },
                     "rate": {
                         "default": "infinity",
                         "description": "桶的令牌生成速率",
@@ -4754,6 +4857,12 @@
                     "bind"
                 ],
                 "properties": {
+                    "enabled": {
+                        "default": true,
+                        "description": "启停监听器",
+                        "label": "启停监听器",
+                        "type": "boolean"
+                    },
                     "bind": {
                         "default": 8084,
                         "description": "</br>监听套接字的 IP 地址和端口。</br>",
@@ -4802,7 +4911,9 @@
                         "type": "string"
                     },
                     "limiter": {
-                        "default": {},
+                        "default": {
+                            "connection": "default"
+                        },
                         "description": "</br>速率限制类型</br>",
                         "label": "速率限制类型",
                         "properties": {
@@ -4811,6 +4922,12 @@
                             }
                         },
                         "type": "object"
+                    },
+                    "enable_authn": {
+                        "default": true,
+                        "description": "</br>配置 <code>true</code> （默认值）启用客户端进行身份认证。</br>配置 <code>false</code> 时，将不对客户端做任何认证。</br>",
+                        "label": "启用身份认证",
+                        "type": "boolean"
                     },
                     "access_rules": {
                         "default": [
