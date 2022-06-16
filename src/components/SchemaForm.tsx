@@ -295,7 +295,7 @@ const SchemaForm = defineComponent({
         tabs = null
         currentGroup.value = 'mqtt'
       }
-      if (props.type === 'log' && currentGroup.value === 'Basic') {
+      if (props.type === 'log' && currentGroup.value === t('BasicConfig.basic')) {
         currentGroup.value = 'Console Handler'
       }
       return (
