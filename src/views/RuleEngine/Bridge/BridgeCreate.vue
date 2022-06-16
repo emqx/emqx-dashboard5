@@ -275,7 +275,7 @@ export default defineComponent({
             })
         } else {
           ElMessage.success(t('Base.createSuccess'))
-          router.push({ name: 'iot-create', query: { bridgeId } })
+          return Promise.resolve(bridgeId)
         }
       } catch (error) {
         console.error(error)
