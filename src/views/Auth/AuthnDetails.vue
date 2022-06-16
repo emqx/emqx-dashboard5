@@ -24,11 +24,11 @@
         </template>
       </div>
       <div>
-        <el-button type="danger" plain @click="handleDelete">
-          {{ $t('Base.delete') }}
-        </el-button>
         <el-button @click="handleUpdate(configData)">
           {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
+        </el-button>
+        <el-button type="danger" plain @click="handleDelete">
+          {{ $t('Base.delete') }}
         </el-button>
       </div>
     </div>

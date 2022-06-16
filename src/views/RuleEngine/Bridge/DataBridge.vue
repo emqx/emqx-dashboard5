@@ -50,6 +50,9 @@
               >
                 {{ $t('Base.setting') }}
               </el-button>
+              <el-button size="small" @click="createRuleWithBridge(row.id)">
+                {{ tl('createRule') }}
+              </el-button>
               <el-button size="small" type="danger" plain @click="submitDeleteBridge(row.id)">
                 {{ $t('Base.delete') }}
               </el-button>
@@ -66,18 +69,19 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { getBridgeList, startStopBridge, deleteBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
-import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
+import { ElMessageBox as MB, ElMessage as M, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { onBeforeRouteUpdate } from 'vue-router'
+import { onBeforeRouteUpdate, useRouter } from 'vue-router'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 
 export default defineComponent({
   components: { BridgeItemStatus },
   setup() {
-    let bridgeTb = ref([])
-    let tbLoading = ref(false)
-    let { t } = useI18n()
+    const bridgeTb = ref([])
+    const tbLoading = ref(false)
+    const router = useRouter()
+    const { t } = useI18n()
     const { getTypeStr } = useBridgeTypeOptions()
 
     const listBridge = async function () {
@@ -102,6 +106,17 @@ export default defineComponent({
         console.error(error)
         row.enable = !row.enable
       }
+    }
+
+    const createRuleWithBridge = (bridgeId: string) => {
+      ElMessageBox.confirm(t('RuleEngine.useBridgeCreateRule'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+      })
+        .then(() => {
+          router.push({ name: 'iot-create', query: { bridgeId } })
+        })
+        .catch(() => ({}))
     }
 
     const submitDeleteBridge = async (id: string) => {
@@ -143,6 +158,7 @@ export default defineComponent({
       tbLoading,
       enableOrDisableBridge,
       submitDeleteBridge,
+      createRuleWithBridge,
       getBridgeDetailPageRoute,
     }
   },

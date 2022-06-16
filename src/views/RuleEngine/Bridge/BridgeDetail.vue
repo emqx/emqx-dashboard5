@@ -16,6 +16,14 @@
             </div>
           </div>
           <div>
+            <el-button
+              type="primary"
+              :disabled="!bridgeInfo.enable"
+              plain
+              @click="createRuleWithBridge"
+            >
+              {{ tl('createRule') }}
+            </el-button>
             <el-button @click="enableOrDisableBridge">
               {{ bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
             </el-button>
@@ -189,6 +197,17 @@ const enableOrDisableBridge = async () => {
   } finally {
     infoLoading.value = false
   }
+}
+
+const createRuleWithBridge = () => {
+  ElMessageBox.confirm(tl('useBridgeCreateRule'), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+  })
+    .then(() => {
+      router.push({ name: 'iot-create', query: { bridgeId: bridgeInfo.value.id } })
+    })
+    .catch(() => ({}))
 }
 
 const deleteBridge = async () => {
