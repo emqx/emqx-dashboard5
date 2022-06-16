@@ -181,13 +181,14 @@ const updateBridgeInfo = async () => {
     if (data.type === BridgeType.MQTT) {
       Reflect.deleteProperty(data.connector, 'type')
     }
-    await updateBridge(bridgeInfo.value.id, data)
-    ElMessage.success(t('Base.updateSuccess'))
+    const res = await updateBridge(bridgeInfo.value.id, data)
     if (!isFromRule.value) {
+      ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'data-bridge' })
     }
+    return Promise.resolve(res.id)
   } catch (error) {
-    console.error(error)
+    // ignore error
   } finally {
     updateLoading.value = false
   }
@@ -212,6 +213,7 @@ const createRuleWithBridge = () => {
   ElMessageBox.confirm(tl('useBridgeCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    type: 'success',
   })
     .then(() => {
       router.push({ name: 'iot-create', query: { bridgeId: bridgeInfo.value.id } })
