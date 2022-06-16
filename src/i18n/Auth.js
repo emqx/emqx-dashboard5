@@ -351,4 +351,8 @@ export default {
     zh: '伪随机函数',
     en: 'Pseudorandom function',
   },
+  from: {
+    zh: 'JWT 来自于',
+    en: 'JWT From',
+  },
 }

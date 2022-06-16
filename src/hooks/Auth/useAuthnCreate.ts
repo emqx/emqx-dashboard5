@@ -94,6 +94,7 @@ export default function useAuthnCreate() {
   }
   const getJwtConfig = () => {
     return {
+      from: 'password',
       use_jwks: false,
       algorithm: 'hmac-based',
       secret: 'emqxsecret',

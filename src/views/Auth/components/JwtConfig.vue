@@ -19,6 +19,14 @@
     >
       <el-row :gutter="20">
         <!-- JWT -->
+        <el-col :span="12">
+          <el-form-item :label="$t('Auth.from')" required prop="from">
+            <el-select v-model="jwtConfig.from">
+              <el-option value="username" />
+              <el-option value="password" />
+            </el-select>
+          </el-form-item>
+        </el-col>
         <template v-if="jwtConfig.use_jwks === false">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.algorithm')" required prop="algorithm">
