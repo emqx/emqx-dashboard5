@@ -76,7 +76,7 @@ export interface BridgeBaseData {
   }>
   status: ConnectionStatus
   type: BridgeType
-  local_topic: string
+  local_topic?: string
   enable: boolean
 }
 

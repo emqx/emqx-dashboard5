@@ -7,68 +7,18 @@
       :rules="formRules"
       :disabled="disabled"
     >
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <el-form-item :label="tl('name')" required prop="name">
-            <el-input v-model="mqttBridgeVal.name" :disabled="edit" />
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <template v-if="!disabled">
+        <el-row :gutter="26">
+          <el-col :span="12">
+            <el-form-item :label="tl('name')" required prop="name">
+              <el-input v-model="mqttBridgeVal.name" :disabled="edit" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-divider />
+      </template>
       <!-- Source -->
       <template v-if="mqttBridgeVal.direction === MQTTBridgeDirection.In">
-        <!-- <el-row :gutter="26">
-          <el-col :span="12">
-            <el-form-item :label="tl('bridgeUsage')">
-              <el-select
-                v-model="isForwardToLocalTopic"
-                :disabled="edit"
-                @change="handleIsForwardToLocalTopicChanged"
-              >
-                <el-option
-                  v-for="item in [
-                    { label: tl('iotAndLocalTopic'), value: true },
-                    { label: tl('justIot'), value: false },
-                  ]"
-                  :key="item.label"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="26" v-if="isForwardToLocalTopic">
-          <el-col :span="12">
-            <el-form-item :label="tl('localTopic')" required prop="local_topic">
-              <el-input v-model="mqttBridgeVal.local_topic" placeholder="${topic}" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="QoS">
-              <el-select v-model="mqttBridgeVal.local_qos">
-                <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="Retain">
-              <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <p class="block-desc">
-              {{
-                isForwardToLocalTopic
-                  ? tl('mqttSourceForwardLocalTopicDesc')
-                  : tl('mqttSourceNotForwardLocalTopicDesc')
-              }}
-            </p>
-          </el-col>
-        </el-row> -->
-        <el-divider />
         <el-row :gutter="26">
           <el-col :span="24">
             <ConnectorMqttConfig v-model="mqttBridgeVal.connector" connector-field="connector" />
@@ -96,45 +46,6 @@
       </template>
       <!-- Sink -->
       <template v-else>
-        <!-- <el-row :gutter="26">
-          <el-col :span="12">
-            <el-form-item :label="tl('bridgeUsage')">
-              <el-select
-                v-model="isForwardFromLocalTopic"
-                :disabled="edit"
-                @change="handleIsForwardToLocalTopicChanged"
-              >
-                <el-option
-                  v-for="item in [
-                    { label: tl('iotAndLocalTopic'), value: true },
-                    { label: tl('justIot'), value: false },
-                  ]"
-                  :key="item.label"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col v-if="isForwardFromLocalTopic" :span="12">
-            <el-form-item :label="tl('localTopic')" required prop="local_topic">
-              <el-input v-model="mqttBridgeVal.local_topic" placeholder="t/#" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="26">
-          <el-col :span="24">
-            <p class="block-desc">
-              {{
-                isForwardFromLocalTopic
-                  ? tl('mqttSinkForwardLocalTopicDesc')
-                  : tl('mqttSinkNotForwardLocalTopicDesc')
-              }}
-            </p>
-          </el-col>
-        </el-row> -->
-        <el-divider />
         <el-row :gutter="26">
           <el-col :span="24">
             <ConnectorMqttConfig v-model="mqttBridgeVal.connector" connector-field="connector" />
@@ -173,7 +84,6 @@
           <el-form-item>
             <template #label>
               <label>{{ tl('payload') }}</label>
-              <!-- TODO: -->
               <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
                 <a :href="docMap.home" target="_blank">{{ tl('payloadTempSyntax') }}</a>
               </i18n-t>
@@ -210,7 +120,7 @@ import { MQTTIn, MQTTOut, ConnectorItem } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString, waitAMoment } from '@/common/tools'
+import { createRandomString } from '@/common/tools'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MQTTBridgeDirection } from '@/types/enum'
@@ -247,7 +157,6 @@ const mqttBridgeDefaultVal = {
   direction: MQTTBridgeDirection.Out,
   retain: false,
   payload: '${payload}',
-  local_topic: '',
   remote_topic: '',
   remote_qos: 1,
   local_qos: 1,
@@ -259,8 +168,6 @@ const mqttBridgeVal: Ref<MQTTBridge> = ref({
 } as MQTTBridge)
 const connectorList: Ref<Array<ConnectorItem>> = ref([])
 const connectorLoading: Ref<boolean> = ref(false)
-const isForwardToLocalTopic: Ref<boolean> = ref(false)
-const isForwardFromLocalTopic: Ref<boolean> = ref(false)
 
 const { tl, t } = useI18nTl('RuleEngine')
 const { docMap } = useDocLink()
@@ -273,27 +180,14 @@ const formRules = computed(() => ({
     server: createRequiredRule(tl('brokerAddress')),
   },
   remote_topic: createRequiredRule(t('Base.topic')),
-  local_topic: createRequiredRule(tl('localTopic')),
 }))
 
-const isShowPayload = computed(
-  () =>
-    (mqttBridgeVal.value.direction === MQTTBridgeDirection.In && isForwardToLocalTopic.value) ||
-    mqttBridgeVal.value.direction !== MQTTBridgeDirection.In,
-)
+const isShowPayload = computed(() => mqttBridgeVal.value.direction !== MQTTBridgeDirection.In)
 
 const initMqttBridgeVal = async () => {
-  const { modelValue } = prop
-  if (modelValue.local_topic === undefined) {
-    isForwardToLocalTopic.value = false
-    isForwardFromLocalTopic.value = false
-  }
   mqttBridgeVal.value = {
     ..._.cloneDeep(mqttBridgeDefaultVal),
     ..._.cloneDeep(prop.modelValue),
-  }
-  if (!isForwardToLocalTopic.value || !isForwardFromLocalTopic.value) {
-    handleIsForwardToLocalTopicChanged()
   }
 }
 
@@ -316,40 +210,6 @@ const transformData = (val: MQTTBridge) => {
     Reflect.deleteProperty(data, 'local_qos')
   }
   return data
-}
-
-const handleIsForwardToLocalTopicChangedInSourceType = () => {
-  if (!isForwardToLocalTopic.value) {
-    const needDeleteFields = ['local_topic', 'local_qos', 'retain', 'payload']
-    mqttBridgeVal.value = _.omit(mqttBridgeVal.value, needDeleteFields) as any
-  } else {
-    const { local_topic, local_qos, retain, payload } = mqttBridgeDefaultVal
-    mqttBridgeVal.value = {
-      ...mqttBridgeVal.value,
-      local_topic,
-      local_qos,
-      retain,
-      payload,
-    }
-  }
-}
-
-const handleIsForwardToLocalTopicChangedInSinkType = () => {
-  if (!isForwardFromLocalTopic.value) {
-    mqttBridgeVal.value = _.omit(mqttBridgeVal.value, 'local_topic') as any
-  } else {
-    mqttBridgeVal.value = { ...mqttBridgeVal.value, local_topic: mqttBridgeDefaultVal.local_topic }
-  }
-}
-
-const handleIsForwardToLocalTopicChanged = async () => {
-  if (mqttBridgeVal.value.direction === MQTTBridgeDirection.In) {
-    handleIsForwardToLocalTopicChangedInSourceType()
-  } else {
-    handleIsForwardToLocalTopicChangedInSinkType()
-  }
-  await waitAMoment(4)
-  clearValidate()
 }
 
 const updateModelValue = (val: MQTTBridge) => {

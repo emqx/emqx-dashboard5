@@ -2,7 +2,7 @@
   <div class="resource-item-overview">
     <el-card class="app-card detail-sub-card">
       <div class="card-hd">
-        <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
+        <h2 class="block-title">{{ tl('executionStatistics') }}</h2>
         <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
           <el-icon @click="resetStatistics"><CircleClose /></el-icon>
         </el-tooltip>
@@ -62,9 +62,6 @@
       </el-row>
     </el-card>
     <el-card class="app-card detail-sub-card">
-      <div class="card-hd">
-        <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
-      </div>
       <p class="card-sub-desc">{{ tl('nodeStatusDesc') }}</p>
       <el-table :data="nodeStatusTableData" class="shadow-none">
         <el-table-column prop="node" :label="tl('name')" />

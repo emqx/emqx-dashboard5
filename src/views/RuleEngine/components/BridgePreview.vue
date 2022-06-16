@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p class="preview-title">{{ $t('RuleEngine.parametersPreview') }}</p>
     <BridgeHttpConfig
       v-if="bridgeData?.type === BridgeType.Webhook"
       v-model="bridgeData"
@@ -45,7 +46,7 @@ const bridgeData = computed(() => {
 
 <style lang="scss" scoped>
 .preview-title {
-  margin: 8px 0 16px;
-  font-size: 16px;
+  margin: 0 0 24px;
+  font-size: 14px;
 }
 </style>

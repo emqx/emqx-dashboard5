@@ -5,29 +5,35 @@
     :lock-scroll="false"
     size="50%"
   >
-    <!-- FIXME: scroll bug-->
     <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
-      <el-row>
-        <el-col :span="16" v-loading="isLoading">
+      <el-row :gutter="26">
+        <el-col :span="12" v-loading="isLoading">
           <el-form-item :label="$tc('RuleEngine.action')" prop="type">
+            <el-select v-model="outputForm.type">
+              <el-option :value="RuleOutput.DataBridge" :label="tl('useDataBridge')" />
+              <el-option
+                :value="RuleOutput.Console"
+                :disabled="isDisabledConsole"
+                :label="tl('consoleOutput')"
+              />
+              <el-option
+                :value="RuleOutput.Republish"
+                :disabled="isDisabledRepublish"
+                :label="tl('republish')"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" v-if="outputForm.type === RuleOutput.DataBridge">
+          <el-form-item :label="$tc('RuleEngine.dataBridge')">
             <div class="form-item-content">
-              <el-select v-model="outputForm.type">
+              <el-select v-model="bridgeForm.id">
                 <el-option
                   v-for="bridge in egressBridgeList"
                   :key="bridge.id"
                   :value="bridge.id"
                   :label="bridge.id"
                   :disabled="isDisabledBridge(bridge)"
-                />
-                <el-option
-                  :value="RuleOutput.Console"
-                  :disabled="isDisabledConsole"
-                  :label="tl('consoleOutput')"
-                />
-                <el-option
-                  :value="RuleOutput.Republish"
-                  :disabled="isDisabledRepublish"
-                  :label="tl('republish')"
                 />
               </el-select>
               <div class="handlers-container">
@@ -87,8 +93,8 @@
       </div>
       <BridgePreview
         class="output-content"
-        v-else-if="isOutputToBridge"
-        :bridge-id="outputForm.type"
+        v-else-if="isOutputToBridge && bridgeForm.id"
+        :bridge-id="bridgeForm.id"
         :bridge-list="egressBridgeList"
       />
     </el-form>
@@ -128,7 +134,7 @@ import { getBridgeList } from '@/api/ruleengine'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { Plus, Edit } from '@element-plus/icons-vue'
 import BridgePreview from './BridgePreview.vue'
 import useFormRules from '@/hooks/useFormRules'
@@ -141,7 +147,6 @@ type OutputForm = {
   args?: Record<string, unknown>
 }
 
-const router = useRouter()
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -175,7 +180,7 @@ const isLoading = ref(false)
 const bridgeList: Ref<Array<BridgeItem>> = ref([])
 const egressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const outputForm = ref(createRawOutputForm())
-const isGoToBridge = ref(false)
+const bridgeForm = ref<Record<string, any>>({})
 
 const { createRequiredRule } = useFormRules()
 const outputFormRules = {
@@ -199,28 +204,26 @@ const isEdit = computed(() => !!props.output)
 
 const isDisabledConsole = computed(() => {
   const isEditingConsole =
-    typeof props.output === 'object' && RuleOutput.Console !== props.output.function
+    typeof props.output === 'object' && RuleOutput.Console !== props.output?.function
   return props.outputDisableList.includes(RuleOutput.Console) && !isEditingConsole
 })
 
 const isDisabledRepublish = computed(() => {
   const isEditingRepublish =
-    typeof props.output === 'object' && RuleOutput.Republish !== props.output.function
+    typeof props.output === 'object' && RuleOutput.Republish !== props.output?.function
   return props.outputDisableList.includes(RuleOutput.Republish) && !isEditingRepublish
 })
 
 const isOutputToBridge = computed(() => {
-  const { type } = outputForm.value
-  return !!type && type !== RuleOutput.Console && type !== RuleOutput.Republish
+  return outputForm.value.type === RuleOutput.DataBridge && bridgeForm.value.id
 })
-
-const isEditRule = computed(() => !((route.name as string).indexOf('create') > -1))
 
 const setFormDataWhenOpenDialog = async () => {
   const { output } = props
   if (output) {
     if (typeof output === 'string') {
-      outputForm.value.type = output
+      outputForm.value.type = RuleOutput.DataBridge
+      bridgeForm.value.id = output
     } else if (typeof output === 'object') {
       outputForm.value.type = output.function || ''
       if (output.function === RuleOutput.Republish) {
@@ -252,16 +255,13 @@ const editBridge = async () => {
   if (!isOutputToBridge.value) {
     return
   }
-  isGoToBridge.value = true
-  await nextTick()
-  router.push({
-    name: isEditRule.value ? 'edit-bridge-for-edit-iot' : 'edit-bridge-for-create-iot',
-    params: { activeTab: 'Setting', id: outputForm.value.type, from: route.name as string },
+  emit('openAddBridge', {
+    bridgeId: bridgeForm.value.id,
   })
 }
 
 const addBridge = () => {
-  emit('openAddBridge')
+  emit('openAddBridge', {})
 }
 
 const submitOutput = async (edit = false) => {
@@ -279,10 +279,12 @@ const submitOutput = async (edit = false) => {
           args: { ...outputForm.value.args },
         }
         break
+      case RuleOutput.DataBridge:
+        opObj = bridgeForm.value.id
+        break
       default:
         opObj = outputForm.value.type
     }
-
     emit('submit', opObj)
     showDrawer.value = false
   } catch (error) {
@@ -302,6 +304,7 @@ watch(showDrawer, (val) => {
     setFormDataWhenOpenDialog()
   } else {
     outputForm.value = createRawOutputForm()
+    bridgeForm.value = {}
   }
 })
 
@@ -310,7 +313,6 @@ onActivated(async () => {
     return
   }
   const { params } = route
-  isGoToBridge.value = false
   if (params.bridgeId) {
     await loadEgressBridgeList()
     outputForm.value.type = params.bridgeId as string
@@ -334,10 +336,12 @@ onActivated(async () => {
     justify-content: center;
     width: 32px;
     height: 32px;
-    margin: 0 8px;
     border: 1px solid var(--color-border-primary);
     border-radius: var(--el-border-radius-base);
     cursor: pointer;
+    &:last-child {
+      margin-left: 8px;
+    }
     &.is-disabled {
       opacity: 0.5;
       cursor: not-allowed;
@@ -348,7 +352,7 @@ onActivated(async () => {
 .output-content {
   margin-top: 16px;
   padding-top: 20px;
-  border-top: 1px solid var(--color-border-primary);
+  border-top: 1px solid var(--color-border-menu);
 }
 .payload-desc {
   color: var(--color-text-secondary);

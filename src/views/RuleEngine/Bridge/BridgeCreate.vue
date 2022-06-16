@@ -1,8 +1,9 @@
 <template>
   <div :class="[{ 'app-wrapper': !isFromRule }, 'bridge-create']">
-    <template v-if="!isFromRule">
-      <detail-header :item="{ name: tl('createBridge'), routeName: backRoute.name }" />
-    </template>
+    <detail-header
+      v-if="!isFromRule"
+      :item="{ name: tl('createBridge'), routeName: backRoute.name }"
+    />
     <div v-if="!isFromRule" class="data-bridge-create">
       <el-card class="app-card">
         <el-row>
@@ -151,9 +152,7 @@ export default defineComponent({
   components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
-    const createBridgeData = () => ({
-      local_topic: '',
-    })
+    const createBridgeData = () => ({})
     const tlsParamsDefault: tlsConfig = {
       enable: false,
       verify: 'verify_none',

@@ -1,9 +1,12 @@
 <template>
-  <div class="app-wrapper">
+  <div :class="{ 'app-wrapper': !isFromRule }">
     <div class="bridge-detail">
-      <detail-header :item="{ name: bridgeInfo.name, routeName: backRoute.name }" />
+      <detail-header
+        v-if="!isFromRule"
+        :item="{ name: bridgeInfo.name, routeName: 'data-bridge' }"
+      />
       <div class="detail-main" v-loading="infoLoading">
-        <div class="section-header">
+        <div v-if="!isFromRule" class="section-header">
           <div>
             <img :src="bridgeInfo.type && require(`@/assets/img/${bridgeInfo.type}.png`)" />
             <div class="title-n-status">
@@ -32,7 +35,11 @@
             </el-button>
           </div>
         </div>
-        <el-tabs type="card" class="detail-tabs" v-model="activeTab">
+        <el-tabs
+          type="card"
+          :class="['detail-tabs', { 'hide-tabs': isFromRule }]"
+          v-model="activeTab"
+        >
           <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
             <BridgeItemOverview
               :bridge-msg="bridgeInfo"
@@ -41,8 +48,8 @@
             />
           </el-tab-pane>
           <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
-            <el-card class="app-card">
-              <div class="setting-area">
+            <el-card class="app-card" :shadow="isFromRule ? 'never' : undefined">
+              <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
                 <bridge-http-config
                   v-if="bridgeInfo.type === BridgeType.Webhook"
                   v-model:tls="bridgeInfo.ssl"
@@ -57,7 +64,7 @@
                   :edit="true"
                 />
               </div>
-              <div class="btn-area">
+              <div v-if="!isFromRule" class="btn-area">
                 <el-button
                   v-if="bridgeInfo.type && canTest"
                   type="primary"
@@ -85,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onActivated, onMounted, ref, Ref } from 'vue'
+import { computed, onActivated, onMounted, ref, Ref, defineProps, defineExpose } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   getBridgeInfo,
@@ -114,14 +121,18 @@ enum Tab {
 
 const route = useRoute()
 const router = useRouter()
-const id = route.params.id as string
 const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const { t } = useI18n()
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 const { isTesting, canTest, testTheConnection } = useTestConnection(bridgeInfo)
-
+const props = defineProps({
+  bridgeId: {
+    type: String,
+    defalut: '',
+  },
+})
 const formCom = ref()
 
 const queryTab = computed(() => {
@@ -136,22 +147,22 @@ const { handleSSLDataBeforeSubmit } = useSSL()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
-const isFromRule = computed(() =>
-  ['edit-bridge-for-create-iot', 'edit-bridge-for-edit-iot'].includes(route.name as string),
-)
+const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
+if (isFromRule.value && props.bridgeId) {
+  activeTab.value = Tab.Setting
+}
 
-const backRoute = computed(() => {
-  let name = 'data-bridge'
+const id = computed(() => {
   if (isFromRule.value) {
-    name = route.params.from.indexOf('detail') > -1 ? 'iot-detail' : 'iot-create'
+    return props.bridgeId as string
   }
-  return { name }
+  return route.params.id as string
 })
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
-    bridgeInfo.value = await getBridgeInfo(id)
+    bridgeInfo.value = await getBridgeInfo(id.value)
   } catch (error) {
     console.error(error)
   } finally {
@@ -170,12 +181,10 @@ const updateBridgeInfo = async () => {
     if (data.type === BridgeType.MQTT) {
       Reflect.deleteProperty(data.connector, 'type')
     }
-    const res = await updateBridge(bridgeInfo.value.id, data)
+    await updateBridge(bridgeInfo.value.id, data)
+    ElMessage.success(t('Base.updateSuccess'))
     if (!isFromRule.value) {
-      ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'data-bridge' })
-    } else {
-      router.push({ name: route.params.from as string, params: { bridgeId: res.id } })
     }
   } catch (error) {
     console.error(error)
@@ -217,7 +226,7 @@ const deleteBridge = async () => {
     type: 'warning',
   })
   try {
-    await requestDeleteBridge(id)
+    await requestDeleteBridge(id.value)
     ElMessage.success(t('Base.deleteSuccess'))
     router.push({ name: 'data-bridge' })
   } catch (error) {
@@ -238,6 +247,10 @@ onMounted(() => {
 
 onActivated(() => {
   setActiveTab()
+})
+
+defineExpose({
+  updateBridgeInfo,
 })
 </script>
 
@@ -267,5 +280,10 @@ onActivated(() => {
 }
 .btn-area {
   margin-top: 40px;
+}
+.hide-tabs {
+  :deep(.el-tabs__header) {
+    display: none;
+  }
 }
 </style>

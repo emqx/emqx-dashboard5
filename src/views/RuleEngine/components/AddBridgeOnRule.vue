@@ -1,13 +1,15 @@
 <template>
   <el-drawer
-    :title="tl('createBridge')"
+    :title="isEdit ? tl('editBridge') : tl('createBridge')"
     v-model="showDrawer"
     :lock-scroll="false"
     size="50%"
     :close-on-click-modal="false"
+    destroy-on-close
     @close="cancel"
   >
-    <BridgeCreate ref="BridgeCreateRef" />
+    <BridgeCreate v-if="!isEdit" ref="BridgeCreateRef" />
+    <BridgeDetail v-else :bridge-id="bridgeId" ref="BridgeDetailRef" />
     <template #footer>
       <el-button @click="cancel()">
         {{ $t('Base.cancel') }}
@@ -22,7 +24,7 @@
         {{ tl('testTheConnection') }}
       </el-button>
       <el-button type="primary" @click="submit" :loading="isLoading">
-        {{ $t('Base.add') }}
+        {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>
   </el-drawer>
@@ -32,6 +34,7 @@
 import useI18nTl from '@/hooks/useI18nTl'
 import { defineComponent, defineEmits, ref, defineProps, computed } from 'vue'
 import BridgeCreate from '../Bridge/BridgeCreate.vue'
+import BridgeDetail from '../Bridge/BridgeDetail.vue'
 
 export default defineComponent({
   name: 'AddBridgeOnRule',
@@ -44,8 +47,13 @@ const props = defineProps({
   modelValue: {
     type: Boolean,
   },
+  bridgeId: {
+    type: String,
+    default: '',
+  },
 })
 const BridgeCreateRef = ref()
+const BridgeDetailRef = ref()
 const showDrawer = computed<boolean>({
   get() {
     return props.modelValue
@@ -56,6 +64,9 @@ const showDrawer = computed<boolean>({
 })
 const showTestBtn = computed(() => {
   return BridgeCreateRef.value?.canTest
+})
+const isEdit = computed(() => {
+  return props.bridgeId !== ''
 })
 const isLoading = ref(false)
 const testLoading = ref(false)
@@ -76,7 +87,12 @@ const testConnector = async () => {
 const submit = async () => {
   isLoading.value = true
   try {
-    await BridgeCreateRef.value.submitCreateBridge()
+    if (!isEdit.value) {
+      await BridgeCreateRef.value.submitCreateBridge()
+    } else {
+      await BridgeDetailRef.value.updateBridgeInfo()
+      emits('close')
+    }
   } catch (error) {
     // ignore error
   } finally {
