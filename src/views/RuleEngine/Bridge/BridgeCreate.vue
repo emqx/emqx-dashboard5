@@ -205,6 +205,7 @@ export default defineComponent({
         return
       }
       chosenBridgeType.value = type.value
+      bridgeData.value = createBridgeData()
       if (type.externalConfig) {
         bridgeData.value = { ...bridgeData.value, ..._.cloneDeep(type.externalConfig) }
       }

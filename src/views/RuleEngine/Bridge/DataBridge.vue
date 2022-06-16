@@ -112,6 +112,7 @@ export default defineComponent({
       ElMessageBox.confirm(t('RuleEngine.useBridgeCreateRule'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
+        type: 'success',
       })
         .then(() => {
           router.push({ name: 'iot-create', query: { bridgeId } })

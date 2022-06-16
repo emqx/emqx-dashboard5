@@ -40,12 +40,12 @@
     v-model="showOutputDrawer"
     :output="currentOutputItem"
     :output-disable-list="outputDisableList"
+    :edit="!!editIndex"
     @submit="submitOutput"
     @openAddBridge="openBridge"
   />
   <AddBridgeOnRule
     v-model="showAddBridgeDrawer"
-    :bridgeId="editBridgeId"
     @close="handleCloseAddBridge"
     @added="handleAddedBridge"
   />
@@ -60,16 +60,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import {
-  defineProps,
-  PropType,
-  computed,
-  defineEmits,
-  ref,
-  Ref,
-  WritableComputedRef,
-  nextTick,
-} from 'vue'
+import { defineProps, PropType, computed, defineEmits, ref, Ref, WritableComputedRef } from 'vue'
 import { BasicRule, OutputItem, RuleItem } from '@/types/rule'
 import useI18nTl from '@/hooks/useI18nTl'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
@@ -104,12 +95,10 @@ const showAddBridgeDrawer = ref(false)
 const outputDisableList: Ref<Array<string>> = ref([])
 const editIndex: Ref<number | undefined> = ref(undefined)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
-const editBridgeId = ref<string>('')
 
-const openBridge = ({ bridgeId }: { bridgeId: string }) => {
+const openBridge = () => {
   showOutputDrawer.value = false
   showAddBridgeDrawer.value = true
-  editBridgeId.value = bridgeId || ''
 }
 
 const handleCloseAddBridge = () => {
@@ -118,14 +107,9 @@ const handleCloseAddBridge = () => {
 }
 
 const handleAddedBridge = async (bridgeId: string) => {
-  if (Array.isArray(ruleValue.value.actions)) {
-    ruleValue.value.actions.push(bridgeId)
-  }
+  currentOutputItem.value = bridgeId
   showAddBridgeDrawer.value = false
-  showOutputDrawer.value = false
-  // FIXME:maybe delete it
-  await nextTick()
-  showOutputDrawer.value = false
+  showOutputDrawer.value = true
 }
 
 const calcDisableList = () => {
@@ -177,7 +161,7 @@ const deleteOutput = async (itemIndex: number | undefined) => {
 const submitOutput = (opObj: OutputItem) => {
   const output = ruleValue.value.actions || []
   if (Array.isArray(output)) {
-    if (!currentOutputItem.value) {
+    if (!currentOutputItem.value || !editIndex.value) {
       output.push(opObj)
     } else {
       editIndex.value !== undefined && output.splice(editIndex.value, 1, opObj)

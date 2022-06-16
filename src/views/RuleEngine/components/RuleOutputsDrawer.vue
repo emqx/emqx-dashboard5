@@ -36,16 +36,7 @@
                   :disabled="isDisabledBridge(bridge)"
                 />
               </el-select>
-              <div class="handlers-container">
-                <el-icon
-                  class="btn-handler"
-                  :class="{ 'is-disabled': !isOutputToBridge }"
-                  @click="editBridge"
-                >
-                  <edit />
-                </el-icon>
-                <el-icon class="btn-handler" @click="addBridge"><plus /></el-icon>
-              </div>
+              <el-icon class="btn-handler" @click="addBridge"><plus /></el-icon>
             </div>
           </el-form-item>
         </el-col>
@@ -91,18 +82,18 @@
       <div class="output-content" v-if="outputForm.type === RuleOutput.Console">
         {{ tl('console') }}
       </div>
-      <BridgePreview
-        class="output-content"
+      <BridgeDetail
         v-else-if="isOutputToBridge && bridgeForm.id"
+        ref="BridgeDetailRef"
+        class="output-content"
         :bridge-id="bridgeForm.id"
-        :bridge-list="egressBridgeList"
       />
     </el-form>
     <template #footer>
       <el-button @click="cancel()">
         {{ $t('Base.cancel') }}
       </el-button>
-      <el-button type="primary" @click="submitOutput(isEdit)" :loading="isLoading">
+      <el-button type="primary" @click="submitOutput(isEdit)" :loading="submitLoading">
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>
@@ -135,8 +126,8 @@ import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import { useRoute } from 'vue-router'
-import { Plus, Edit } from '@element-plus/icons-vue'
-import BridgePreview from './BridgePreview.vue'
+import { Plus } from '@element-plus/icons-vue'
+import BridgeDetail from '../Bridge/BridgeDetail.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useDocLink from '@/hooks/useDocLink'
 import { createRandomString } from '@/common/tools'
@@ -149,6 +140,7 @@ type OutputForm = {
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const BridgeDetailRef = ref()
 
 const props = defineProps({
   modelValue: {
@@ -160,6 +152,10 @@ const props = defineProps({
   outputDisableList: {
     type: Array,
     required: true,
+  },
+  edit: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -177,6 +173,7 @@ const createRawOutputForm = (): OutputForm => ({
 const route = useRoute()
 const formCom = ref()
 const isLoading = ref(false)
+const submitLoading = ref(false)
 const bridgeList: Ref<Array<BridgeItem>> = ref([])
 const egressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const outputForm = ref(createRawOutputForm())
@@ -200,7 +197,7 @@ const showDrawer: WritableComputedRef<boolean> = computed({
   },
 })
 
-const isEdit = computed(() => !!props.output)
+const isEdit = computed(() => !!props.output && props.edit)
 
 const isDisabledConsole = computed(() => {
   const isEditingConsole =
@@ -251,23 +248,18 @@ const isDisabledBridge = ({ id }: BridgeItem) => {
   return props.outputDisableList.includes(id) && id !== props.output
 }
 
-const editBridge = async () => {
-  if (!isOutputToBridge.value) {
-    return
-  }
-  emit('openAddBridge', {
-    bridgeId: bridgeForm.value.id,
-  })
-}
-
 const addBridge = () => {
-  emit('openAddBridge', {})
+  emit('openAddBridge')
 }
 
 const submitOutput = async (edit = false) => {
   try {
     await formCom.value?.validate()
-    isLoading.value = true
+    submitLoading.value = true
+    const res = await BridgeDetailRef.value.updateBridgeInfo()
+    if (!res) {
+      return
+    }
     let opObj
     switch (outputForm.value.type) {
       case RuleOutput.Console:
@@ -290,7 +282,7 @@ const submitOutput = async (edit = false) => {
   } catch (error) {
     console.error(error)
   } finally {
-    isLoading.value = false
+    submitLoading.value = false
   }
 }
 
@@ -324,11 +316,6 @@ onActivated(async () => {
 .form-item-content {
   display: flex;
   width: 100%;
-  .handlers-container {
-    display: flex;
-    flex-shrink: 0;
-    margin-left: 8px;
-  }
   .btn-handler {
     box-sizing: border-box;
     display: flex;
@@ -339,9 +326,7 @@ onActivated(async () => {
     border: 1px solid var(--color-border-primary);
     border-radius: var(--el-border-radius-base);
     cursor: pointer;
-    &:last-child {
-      margin-left: 8px;
-    }
+    margin-left: 8px;
     &.is-disabled {
       opacity: 0.5;
       cursor: not-allowed;
