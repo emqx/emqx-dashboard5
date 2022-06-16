@@ -9,7 +9,7 @@
           <div class="outputs-item">
             <span>
               <img
-                :src="getOutputImage(item.function ? item.function : item.split(':')[0])"
+                :src="getOutputImage(item?.function ? item.function : item?.split(':')[0])"
                 width="48"
               />
             </span>
@@ -47,6 +47,7 @@
     v-model="showAddBridgeDrawer"
     :bridgeId="editBridgeId"
     @close="handleCloseAddBridge"
+    @added="handleAddedBridge"
   />
 </template>
 
@@ -59,7 +60,16 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed, defineEmits, ref, Ref, WritableComputedRef } from 'vue'
+import {
+  defineProps,
+  PropType,
+  computed,
+  defineEmits,
+  ref,
+  Ref,
+  WritableComputedRef,
+  nextTick,
+} from 'vue'
 import { BasicRule, OutputItem, RuleItem } from '@/types/rule'
 import useI18nTl from '@/hooks/useI18nTl'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
@@ -105,6 +115,17 @@ const openBridge = ({ bridgeId }: { bridgeId: string }) => {
 const handleCloseAddBridge = () => {
   showAddBridgeDrawer.value = false
   showOutputDrawer.value = true
+}
+
+const handleAddedBridge = async (bridgeId: string) => {
+  if (Array.isArray(ruleValue.value.actions)) {
+    ruleValue.value.actions.push(bridgeId)
+  }
+  showAddBridgeDrawer.value = false
+  showOutputDrawer.value = false
+  // FIXME:maybe delete it
+  await nextTick()
+  showOutputDrawer.value = false
 }
 
 const calcDisableList = () => {
@@ -166,6 +187,9 @@ const submitOutput = (opObj: OutputItem) => {
 }
 
 const getOutputImage = (item: string) => {
+  if (!item) {
+    return ''
+  }
   try {
     return require(`@/assets/img/${item}.png`)
   } catch (e) {

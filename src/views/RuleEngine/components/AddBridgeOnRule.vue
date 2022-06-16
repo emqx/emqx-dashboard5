@@ -42,7 +42,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-const emits = defineEmits(['update:modelValue', 'close'])
+const emits = defineEmits(['update:modelValue', 'close', 'added'])
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -88,7 +88,8 @@ const submit = async () => {
   isLoading.value = true
   try {
     if (!isEdit.value) {
-      await BridgeCreateRef.value.submitCreateBridge()
+      const bridgeId = await BridgeCreateRef.value.submitCreateBridge()
+      emits('added', bridgeId)
     } else {
       await BridgeDetailRef.value.updateBridgeInfo()
       emits('close')
