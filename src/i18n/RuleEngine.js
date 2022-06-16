@@ -459,9 +459,13 @@ export default {
     zh: '上次重置时间',
     en: 'Last reset time',
   },
-  nodeStatusDesc: {
+  nodeStatusBridgeDesc: {
     zh: '每个节点上 Data Bridge 状态和执行情况',
-    en: 'Data bridge status and execution on each node',
+    en: 'Data Bridge status and execution on each node',
+  },
+  nodeStatusRuleDesc: {
+    zh: '每个节点上规则状态和执行情况',
+    en: 'Rules status and execution on each node',
   },
   reconnect: {
     zh: '重连',
