@@ -5,7 +5,7 @@
         v-if="!isFromRule"
         :item="{ name: bridgeInfo.name, routeName: 'data-bridge' }"
       />
-      <div class="detail-main" v-loading="infoLoading">
+      <div class="detail-main">
         <div v-if="!isFromRule" class="section-header">
           <div>
             <img :src="bridgeInfo.type && require(`@/assets/img/${bridgeInfo.type}.png`)" />
@@ -44,14 +44,20 @@
           v-model="activeTab"
         >
           <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
-            <BridgeItemOverview
-              :bridge-msg="bridgeInfo"
-              @reconnect="loadBridgeInfo"
-              @reset="loadBridgeInfo"
-            />
+            <div v-loading="infoLoading">
+              <BridgeItemOverview
+                :bridge-msg="bridgeInfo"
+                @reconnect="loadBridgeInfo"
+                @reset="loadBridgeInfo"
+              />
+            </div>
           </el-tab-pane>
           <el-tab-pane :label="tl('settings')" :name="Tab.Setting">
-            <el-card class="app-card" :shadow="isFromRule ? 'never' : undefined">
+            <el-card
+              v-loading="infoLoading"
+              class="app-card"
+              :shadow="isFromRule ? 'never' : undefined"
+            >
               <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
                 <bridge-http-config
                   v-if="bridgeInfo.type === BridgeType.Webhook"
