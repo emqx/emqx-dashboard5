@@ -107,7 +107,7 @@
       </el-col>
       <el-col :span="10" class="action-col">
         <el-tabs>
-          <el-tab-pane :label="tl('action')">
+          <el-tab-pane :label="tl('actions')">
             <RuleOutputs v-model="ruleValue" />
           </el-tab-pane>
           <el-tab-pane :label="tl('SQLTemplates')">

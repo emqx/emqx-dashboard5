@@ -213,6 +213,10 @@ export default {
   },
   action: {
     zh: '动作',
+    en: 'Action',
+  },
+  actions: {
+    zh: '动作',
     en: 'Actions',
   },
   actionDesc: {
