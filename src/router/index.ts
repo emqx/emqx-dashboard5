@@ -399,11 +399,6 @@ export const routes: Array<RouteRecordRaw> = [
             name: 'iot-create',
             component: IoTCreate,
           },
-          {
-            path: 'bridge/detail',
-            name: 'edit-bridge-for-create-iot',
-            component: BridgeDetail,
-          },
         ],
       },
       {
@@ -420,11 +415,6 @@ export const routes: Array<RouteRecordRaw> = [
             path: 'bridge',
             name: 'create-bridge-for-edit-iot',
             component: BridgeCreate,
-          },
-          {
-            path: 'bridge/detail',
-            name: 'edit-bridge-for-edit-iot',
-            component: BridgeDetail,
           },
         ],
       },

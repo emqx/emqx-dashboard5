@@ -43,16 +43,20 @@
     @submit="submitOutput"
     @openAddBridge="openBridge"
   />
-  <AddBridgeOnRule v-model="showAddBridgeDrawer" @close="handleCloseAddBridge" />
+  <AddBridgeOnRule
+    v-model="showAddBridgeDrawer"
+    :bridgeId="editBridgeId"
+    @close="handleCloseAddBridge"
+  />
 </template>
 
-<!-- <script lang="ts">
+<script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'RuleOutputs',
 })
-</script> -->
+</script>
 
 <script setup lang="ts">
 import { defineProps, PropType, computed, defineEmits, ref, Ref, WritableComputedRef } from 'vue'
@@ -90,10 +94,12 @@ const showAddBridgeDrawer = ref(false)
 const outputDisableList: Ref<Array<string>> = ref([])
 const editIndex: Ref<number | undefined> = ref(undefined)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
+const editBridgeId = ref<string>('')
 
-const openBridge = () => {
+const openBridge = ({ bridgeId }: { bridgeId: string }) => {
   showOutputDrawer.value = false
   showAddBridgeDrawer.value = true
+  editBridgeId.value = bridgeId || ''
 }
 
 const handleCloseAddBridge = () => {
@@ -128,7 +134,6 @@ const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void 
     item = ruleValue.value.actions?.[itemIndex]
   }
   if (edit) {
-    console.log(item)
     currentOutputItem.value = item
   } else {
     currentOutputItem.value = undefined

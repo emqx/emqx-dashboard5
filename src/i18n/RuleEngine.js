@@ -3,6 +3,10 @@ export default {
     zh: '创建数据桥接',
     en: 'Create Data Bridge',
   },
+  editBridge: {
+    zh: '编辑数据桥接',
+    en: 'Edit Data Bridge',
+  },
   create: {
     zh: '创建',
     en: 'Create',
@@ -22,6 +26,10 @@ export default {
   dataBridge: {
     zh: '数据桥接',
     en: 'Data bridge',
+  },
+  useDataBridge: {
+    zh: '使用数据桥接转发',
+    en: 'Forwarding with Data Bridge',
   },
   chooseConnectorType: {
     zh: '选择连接类型',
@@ -228,7 +236,7 @@ export default {
     en: 'Add Action',
   },
   consoleOutput: {
-    zh: 'Console 输出',
+    zh: '控制台输出',
     en: 'Console Output',
   },
   outputResult: {

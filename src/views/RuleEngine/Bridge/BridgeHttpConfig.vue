@@ -7,7 +7,7 @@
       :rules="formRules"
       :model="httpBridgeVal"
     >
-      <div>
+      <template v-if="!disabled">
         <el-row :gutter="26">
           <el-col :span="12">
             <el-form-item :label="tl('name')" required prop="name">
@@ -15,40 +15,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </div>
-      <!-- <el-row :gutter="26">
-        <el-col :span="12">
-          <el-form-item :label="tl('bridgeUsage')">
-            <el-select v-model="isForwardFromLocalTopic" :disabled="edit">
-              <el-option
-                v-for="item in [
-                  { label: tl('iotAndLocalTopic'), value: true },
-                  { label: tl('justIot'), value: false },
-                ]"
-                :key="item.label"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col v-if="isForwardFromLocalTopic" :span="12">
-          <el-form-item :label="tl('localTopic')" prop="local_topic">
-            <el-input v-model="httpBridgeVal.local_topic" placeholder="t/#" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <p class="block-desc">
-            {{
-              isForwardFromLocalTopic
-                ? tl('bridgeSinkForwardFromLocalTopicDesc')
-                : tl('bridgeSinkNotForwardFromLocalTopicDesc')
-            }}
-          </p>
-        </el-col>
-      </el-row> -->
-      <el-divider />
+        <el-divider />
+      </template>
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="tl('method')" required prop="method">
@@ -189,7 +157,6 @@ export default defineComponent({
     const { docMap } = useDocLink()
     const httpBridgeDefaultVal: HTTPBridge = {
       name: '',
-      local_topic: '',
       method: 'post',
       url: 'http://',
       headers: {
@@ -202,7 +169,6 @@ export default defineComponent({
       request_timeout: '5s',
       max_retries: 3,
     } as HTTPBridge
-    const isForwardFromLocalTopic: Ref<boolean> = ref(false)
 
     let modelValueCache = ''
     const httpBridgeVal: Ref<HTTPBridge> = ref(_.cloneDeep(httpBridgeDefaultVal))
@@ -213,7 +179,6 @@ export default defineComponent({
     const formCom = ref()
     const formRules = ref({
       name: createRequiredRule(tl('name')),
-      local_topic: createRequiredRule(tl('localTopic')),
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
       pool_size: [...createRequiredRule('Pool size'), ...createIntFieldRule(1)],
@@ -221,24 +186,7 @@ export default defineComponent({
     })
 
     const initHttpBridgeVal = () => {
-      if (props.modelValue.local_topic === undefined) {
-        isForwardFromLocalTopic.value = false
-      }
       httpBridgeVal.value = { ..._.cloneDeep(httpBridgeDefaultVal), ...props.modelValue }
-      if (!isForwardFromLocalTopic.value) {
-        handleIsForwardToLocalTopicChangedInSinkType()
-      }
-    }
-
-    const handleIsForwardToLocalTopicChangedInSinkType = () => {
-      if (!isForwardFromLocalTopic.value) {
-        httpBridgeVal.value = _.omit(httpBridgeVal.value, 'local_topic') as any
-      } else {
-        httpBridgeVal.value = {
-          ...httpBridgeVal.value,
-          local_topic: httpBridgeDefaultVal.local_topic,
-        }
-      }
     }
 
     const updateModelValue = (val: HTTPBridge) => {
@@ -285,8 +233,6 @@ export default defineComponent({
       tlsParams,
       httpBridgeVal,
       docMap,
-      isForwardFromLocalTopic,
-      handleIsForwardToLocalTopicChangedInSinkType,
       validate,
       clearValidate,
     }

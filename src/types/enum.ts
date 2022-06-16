@@ -59,6 +59,7 @@ export enum ExhookStatus {
 export enum RuleOutput {
   Console = 'console',
   Republish = 'republish',
+  DataBridge = 'dataBridge',
 }
 
 export enum BridgeType {

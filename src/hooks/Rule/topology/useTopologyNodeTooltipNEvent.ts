@@ -192,6 +192,7 @@ export default (): {
     [OtherNodeType.Rule]: createRuleNodeTooltip,
     [OtherNodeType.Bridge]: createBridgeNodeTooltip,
     [RuleOutput.Republish]: createRepublishNodeTooltip,
+    [RuleOutput.DataBridge]: createRepublishNodeTooltip,
   }
 
   /* 
