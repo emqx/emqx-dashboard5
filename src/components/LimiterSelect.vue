@@ -96,13 +96,13 @@ const factoryData = (data: Record<string, any>, parentKey?: string): DataItem[] 
   return _data
 }
 
-const getOpts = async () => {
+const getLimiterOpts = async () => {
   const res = await getLimiters()
   // Batch used in Retainer only
   delete res.batch
   data.value = factoryData(res)
 }
-getOpts()
+getLimiterOpts()
 
 const handleChange = (node: Record<string, any>) => {
   const [id, value] = node.value.split('/')
