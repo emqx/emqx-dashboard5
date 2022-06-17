@@ -378,3 +378,10 @@ export const unflattenObject = (obj: { [key: string]: any }) => {
   }
   return resultholder[''] || resultholder
 }
+
+export const replaceSpaceForHTML = (str: string): string => {
+  if (!str || typeof str !== 'string') {
+    return str
+  }
+  return str.replace(/\s/g, '\u00a0')
+}
