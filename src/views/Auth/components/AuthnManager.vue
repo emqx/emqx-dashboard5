@@ -34,7 +34,11 @@
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="user_id" :label="getFiledLabel(field)" />
+      <el-table-column prop="user_id" :label="getFiledLabel(field)">
+        <template #default="{ row }">
+          {{ replaceSpaceForHTML(row.user_id) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="is_superuser" :label="$t('Auth.isSuperuser')">
         <template #default="{ row }">
           {{ row.is_superuser ? $t('Base.yes') : $t('Base.no') }}
@@ -104,6 +108,7 @@ import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Search, RefreshRight } from '@element-plus/icons-vue'
 import { DataManagerItem } from '@/types/auth'
+import { replaceSpaceForHTML } from '@/common/tools'
 
 const createRawUserForm = () => ({
   user_id: '',
@@ -322,6 +327,7 @@ export default defineComponent({
       handleDelete,
       getRules,
       getFiledLabel,
+      replaceSpaceForHTML,
     }
   },
 })

@@ -37,7 +37,11 @@
       <el-table-column v-if="false" type="expand"></el-table-column>
       <el-table-column prop="permission" label="Permission"></el-table-column>
       <el-table-column prop="action" label="Action"></el-table-column>
-      <el-table-column prop="topic" label="Topic"></el-table-column>
+      <el-table-column prop="topic" label="Topic">
+        <template #default="{ row }">
+          {{ replaceSpaceForHTML(row.topic) }}
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
           <el-button size="small" @click="handleEdit(row, $index)">
@@ -61,16 +65,16 @@
             </el-table>
           </template>
         </el-table-column>
-        <el-table-column
-          v-if="type === 'clientid'"
-          prop="clientid"
-          label="Client ID"
-        ></el-table-column>
-        <el-table-column
-          v-else-if="type === 'username'"
-          prop="username"
-          label="Username"
-        ></el-table-column>
+        <el-table-column v-if="type === 'clientid'" prop="clientid" label="Client ID">
+          <template #default="{ row }">
+            {{ replaceSpaceForHTML(row.clientid) }}
+          </template>
+        </el-table-column>
+        <el-table-column v-else-if="type === 'username'" prop="username" label="Username">
+          <template #default="{ row }">
+            {{ replaceSpaceForHTML(row.username) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="rules" :label="$t('Auth.permissionCount')">
           <template #default="{ row }">
             {{ row.rules.length }}
@@ -198,6 +202,7 @@ import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Search, RefreshRight } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule, BuiltInDBType } from '@/types/auth'
+import { replaceSpaceForHTML } from '@/common/tools'
 
 export default defineComponent({
   components: { commonPagination, InfoTooltip },
@@ -224,7 +229,7 @@ export default defineComponent({
     const pageMeta = ref({
       count: 0,
       limit: 20,
-      page: 2,
+      page: 1,
     })
     const recordForm = ref()
     const tableData = ref([])
@@ -480,6 +485,7 @@ export default defineComponent({
       resetPageAndLoadData,
       resetSearchAndLoadData,
       getCurrSearchValTip,
+      replaceSpaceForHTML,
     }
   },
 })
