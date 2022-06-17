@@ -164,7 +164,9 @@
             <el-row :gutter="30">
               <el-col :span="8">
                 <el-form-item label="Limiter" prop="flow_control.batch_deliver_limiter">
-                  <el-input v-model="retainerConfig.flow_control.batch_deliver_limiter" />
+                  <el-select v-model="retainerConfig.flow_control.batch_deliver_limiter" clearable>
+                    <el-option v-for="item in limiterOpts" :key="item" :value="item"> </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -231,6 +233,7 @@ import useCopy from '@/hooks/useCopy'
 import useFormRules from '@/hooks/useFormRules'
 import usePagination from '@/hooks/usePagination'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import { getLimiters } from '@/api/config'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('Advanced')
@@ -263,11 +266,13 @@ let retainerConfig = reactive({
   enable: false,
 })
 
-let selOptions = reactive({
+const selOptions = reactive({
   retained: 'custom',
   read: 'custom',
   deliver: 'custom',
 })
+
+const limiterOpts = ref([])
 
 const { page, limit, count, resetPageNum } = usePagination()
 let configLoading = ref(true)
@@ -472,9 +477,16 @@ const checkPayload = async (row) => {
   await nextTick()
 }
 
+const getLimiterOpts = async () => {
+  const res = await getLimiters()
+  const { batch } = res
+  limiterOpts.value = Object.keys(batch?.bucket).map((key) => key)
+}
+
 onMounted(() => {
   loadConfigData()
   loadTbData()
+  getLimiterOpts()
 })
 
 let copyShowTimeout = ref(null)
