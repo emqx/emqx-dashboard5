@@ -157,7 +157,7 @@ export default (): {
    * @param ruleIDConcatTopic {ruleID}:{Topic}
    */
   const createRepublishNodeTooltip = (ruleIDConcatTopic: string) => {
-    const reg = new RegExp(`^${ruleList.map(({ id }) => id).join('|')}:(.+)`)
+    const reg = new RegExp(`^(${ruleList.map(({ id }) => id).join('|')}):(.+)`)
     const matchResult = ruleIDConcatTopic.match(reg)
     if (!matchResult || matchResult.length < 2) {
       return ''
