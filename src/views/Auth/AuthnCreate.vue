@@ -255,6 +255,9 @@ const supportBackendMap: any = {
 }
 const saveLoading = ref(false)
 const addedAuthn = computed(() => {
+  if (props.gateway) {
+    return []
+  }
   return JSON.parse(sessionStorage.getItem('addedAuthn') as string) || []
 })
 const mechanismDesc = computed(
