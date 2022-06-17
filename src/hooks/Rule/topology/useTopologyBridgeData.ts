@@ -85,7 +85,6 @@ export default (): {
   }> => {
     try {
       bridgeList = await queryBridgeList()
-
       const { topicNodeArr, bridgeNodeArr, topic2BridgeEdgeArr } = createBridgeNTopicEle(bridgeList)
       const nodeData = {
         bridge: bridgeNodeArr,

@@ -101,7 +101,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onActivated, onMounted, ref, Ref, defineProps, defineExpose } from 'vue'
+import { computed, onActivated, onMounted, ref, Ref, defineProps, defineExpose, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   getBridgeInfo,
@@ -166,6 +166,12 @@ const id = computed(() => {
     return props.bridgeId as string
   }
   return route.params.id as string
+})
+
+watch(id, (val) => {
+  if (val && isFromRule.value) {
+    loadBridgeInfo()
+  }
 })
 
 const loadBridgeInfo = async () => {

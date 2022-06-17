@@ -1,4 +1,4 @@
-import { onMounted, ref, onUnmounted, Ref, computed, ComputedRef, nextTick } from 'vue'
+import { onMounted, ref, onUnmounted, Ref, computed, ComputedRef } from 'vue'
 import G6, { Graph, ModelConfig, IGroup } from '@antv/g6'
 import { NodeItem, EdgeItem } from './topologyType'
 import useTopologyNodeTooltipNEvent from './useTopologyNodeTooltipNEvent'

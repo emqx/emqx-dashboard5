@@ -137,7 +137,7 @@ import { tlsConfig } from '@/types/ruleengine'
 import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { useBridgeTypeOptions, BridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -275,7 +275,6 @@ export default defineComponent({
               router.push({ name: 'data-bridge' })
             })
         } else {
-          ElMessage.success(t('Base.createSuccess'))
           return Promise.resolve(bridgeId)
         }
       } catch (error) {
