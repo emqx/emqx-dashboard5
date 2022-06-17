@@ -50,7 +50,7 @@
               >
                 {{ $t('Base.setting') }}
               </el-button>
-              <el-button size="small" @click="createRuleWithBridge(row.id)">
+              <el-button size="small" :disabled="!row.enable" @click="createRuleWithBridge(row.id)">
                 {{ tl('createRule') }}
               </el-button>
               <el-button size="small" type="danger" plain @click="submitDeleteBridge(row.id)">

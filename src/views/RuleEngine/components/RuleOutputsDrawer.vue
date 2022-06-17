@@ -256,10 +256,6 @@ const submitOutput = async (edit = false) => {
   try {
     await formCom.value?.validate()
     submitLoading.value = true
-    const res = await BridgeDetailRef.value?.updateBridgeInfo()
-    if (!res) {
-      return
-    }
     let opObj
     switch (outputForm.value.type) {
       case RuleOutput.Console:
@@ -276,6 +272,12 @@ const submitOutput = async (edit = false) => {
         break
       default:
         opObj = outputForm.value.type
+    }
+    if (outputForm.value.type === RuleOutput.DataBridge) {
+      const res = await BridgeDetailRef.value?.updateBridgeInfo()
+      if (!res) {
+        return
+      }
     }
     emit('submit', opObj, isEdit.value)
     showDrawer.value = false
