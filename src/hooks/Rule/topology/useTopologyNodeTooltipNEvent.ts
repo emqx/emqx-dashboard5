@@ -162,7 +162,7 @@ export default (): {
     if (!matchResult || matchResult.length < 2) {
       return ''
     }
-    const [, topicStr] = matchResult
+    const [, , topicStr] = matchResult
     const container = createContainerEle()
     container.innerHTML = `
     <ul>
