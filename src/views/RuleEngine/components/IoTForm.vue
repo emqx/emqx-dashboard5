@@ -6,7 +6,7 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item required prop="id">
-                <el-input v-model="ruleValue.id" placeholder="ID" />
+                <el-input v-model="ruleValue.id" placeholder="ID" :disabled="isEdit" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
