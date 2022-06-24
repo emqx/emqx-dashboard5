@@ -1,7 +1,7 @@
-import { onBeforeUnmount } from 'vue'
+import copy from 'copy-to-clipboard'
 import { ElMessage } from 'element-plus'
+import { onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { copyToClipboard } from '@/common/tools'
 
 export default function useCopy(callback?: () => void): {
   copyText: (text: string) => Promise<void>
@@ -11,7 +11,7 @@ export default function useCopy(callback?: () => void): {
   let copyShowTimeout: null | number = null
   const copyText = async (text: string) => {
     try {
-      await copyToClipboard(text)
+      copy(text)
       copySuccess()
     } catch (error) {
       ElMessage.success(t('Base.opErr'))

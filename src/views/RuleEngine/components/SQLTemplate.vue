@@ -71,13 +71,14 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, Ref, defineEmits } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { CopyDocument } from '@element-plus/icons-vue'
-import { copyToClipboard, createRandomString, stringifyObjSafely } from '@/common/tools'
-import { ElMessage } from 'element-plus'
-import Monaco from '@/components/Monaco.vue'
 import SQLTemplates from '@/common/SQLTemplates'
+import { createRandomString, stringifyObjSafely } from '@/common/tools'
+import Monaco from '@/components/Monaco.vue'
+import useCopy from '@/hooks/useCopy'
+import { CopyDocument } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import { defineEmits, ref, Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 interface TemplateItem {
   title: string
@@ -116,10 +117,10 @@ const useSQL = (SQLContent: string) => {
   emit('use-sql', SQLContent)
 }
 
+const { copyText: execCopy } = useCopy()
 const copyText = async (text: string) => {
   try {
-    await copyToClipboard(text)
-    ElMessage.success(t('Base.copied'))
+    execCopy(text)
   } catch (error) {
     ElMessage.error(t('Base.opErr'))
   }
