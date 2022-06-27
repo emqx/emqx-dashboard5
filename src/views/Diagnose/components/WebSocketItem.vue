@@ -10,7 +10,7 @@
         :model="connection"
         :rules="connectionRules"
         @keyup.enter="createConnection"
-        :disabled="compareConnStatus('MCONNECTED')"
+        :disabled="compareConnStatus(WEB_SOCKET_STATUS.Connected)"
       >
         <el-row :gutter="20">
           <el-col :span="8">
@@ -74,7 +74,7 @@
           <el-button
             type="primary"
             @click="createConnection"
-            :disabled="!compareConnStatus('MDISCONNECTED')"
+            :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Disconnected)"
           >
             {{ $t('Tools.connect') }}
           </el-button>
@@ -82,7 +82,10 @@
             type="danger"
             plain
             @click="destroyConnection"
-            :disabled="compareConnStatus('MDISCONNECTING') || compareConnStatus('MDISCONNECTED')"
+            :disabled="
+              compareConnStatus(WEB_SOCKET_STATUS.Disconnecting) ||
+              compareConnStatus(WEB_SOCKET_STATUS.Disconnected)
+            "
           >
             {{ $t('Tools.disconnect') }}
           </el-button>
@@ -100,7 +103,7 @@
         :rules="subscriptionsRules"
         @keyup.enter="subscribe"
         class="sub-area"
-        :disabled="!compareConnStatus('MCONNECTED')"
+        :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Connected)"
         label-position="top"
       >
         <el-row :gutter="26" align="bottom">
@@ -140,7 +143,7 @@
               type="danger"
               plain
               @click="unSubscribe(row)"
-              :disabled="!compareConnStatus('MCONNECTED')"
+              :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Connected)"
             >
               {{ $t('Base.cancel') }}
             </el-button>
@@ -160,7 +163,7 @@
         :rules="messageRecordRules"
         @keyup.enter="publish"
         class="pub-area"
-        :disabled="!compareConnStatus('MCONNECTED')"
+        :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Connected)"
       >
         <el-row :gutter="26" align="bottom">
           <el-col :span="6">
@@ -267,7 +270,7 @@
 import mqtt from 'mqtt'
 import moment from 'moment'
 import { ElMessage } from 'element-plus'
-import { QoSOptions } from '@/common/constants'
+import { QoSOptions, WEB_SOCKET_STATUS } from '@/common/constants'
 import { Delete } from '@element-plus/icons-vue'
 
 export default {
@@ -288,6 +291,7 @@ export default {
 
   data() {
     return {
+      WEB_SOCKET_STATUS,
       QoSOptions,
       times: 0,
       cStatus: 0b00000,
@@ -370,12 +374,13 @@ export default {
           value: 5,
         },
       ],
+
       cStatusMap: new Map([
-        ['MDISCONNECTED', 0b00001],
-        ['MCONNECTING', 0b00010],
-        ['MCONNECTED', 0b00100],
-        ['MDISCONNECTING', 0b01000],
-        ['MRECONNECTING', 0b10000],
+        [WEB_SOCKET_STATUS.Disconnected, 0b00001],
+        [WEB_SOCKET_STATUS.Connecting, 0b00010],
+        [WEB_SOCKET_STATUS.Connected, 0b00100],
+        [WEB_SOCKET_STATUS.Disconnecting, 0b01000],
+        [WEB_SOCKET_STATUS.Reconnecting, 0b10000],
       ]),
       leaveTime: 0,
     }
@@ -391,7 +396,7 @@ export default {
     document.removeEventListener('visibilitychange', this.visibilityChangeFn)
   },
   created() {
-    this.setConnStatus('MDISCONNECTED', false)
+    this.setConnStatus(WEB_SOCKET_STATUS.Disconnected, false)
     this.leaveTime = new Date().getTime()
   },
   mounted() {
@@ -419,15 +424,15 @@ export default {
     },
     reCheckConnStatus() {
       if (this.client?.connected) {
-        this.setConnStatus('MCONNECTED')
+        this.setConnStatus(WEB_SOCKET_STATUS.Connected)
       } else if (this.client?.disconnected) {
-        this.setConnStatus('MDISCONNECTED')
+        this.setConnStatus(WEB_SOCKET_STATUS.Disconnected)
       } else if (this.client?.reconnecting) {
-        this.setConnStatus('MRECONNECTING')
+        this.setConnStatus(WEB_SOCKET_STATUS.Reconnecting)
       } else if (this.client?.disconnecting) {
-        this.setConnStatus('MDISCONNECTING')
+        this.setConnStatus(WEB_SOCKET_STATUS.Disconnecting)
       } else {
-        this.setConnStatus('MDISCONNECTED')
+        this.setConnStatus(WEB_SOCKET_STATUS.Disconnected)
       }
     },
     compareConnStatus(destStatus) {
@@ -453,12 +458,17 @@ export default {
     setNotify(status, custom = false) {
       let label = String(status).substring(1).toLowerCase()
       let labelText = this.$t(`Tools.${label}`)
+      const infoType = [WEB_SOCKET_STATUS.Connected, WEB_SOCKET_STATUS.Disconnected].includes(
+        status,
+      )
+        ? 'success'
+        : 'info'
       setTimeout(() => {
         this.$notify({
           title: labelText,
           message: this.$t('Tools.doing', { name: this.connection.clientId }) + labelText,
           duration: 6000,
-          type: 'info',
+          type: infoType,
         })
       })
     },
@@ -492,7 +502,7 @@ export default {
       if (!this.client?.end) {
         return
       }
-      this.setConnStatus('MDISCONNECTING')
+      this.setConnStatus(WEB_SOCKET_STATUS.Disconnecting)
       try {
         this.client.end(true)
       } catch (e) {
@@ -500,7 +510,7 @@ export default {
       }
     },
     unSubscribe(item) {
-      if (!this.compareConnStatus('MCONNECTED')) {
+      if (!this.compareConnStatus(WEB_SOCKET_STATUS.Connected)) {
         ElMessage.error(this.$t('Tools.clientNotConnected'))
         return
       }
@@ -516,7 +526,7 @@ export default {
       if (!valid) {
         return
       }
-      if (!this.compareConnStatus('MCONNECTED')) {
+      if (!this.compareConnStatus(WEB_SOCKET_STATUS.Connected)) {
         ElMessage.error(this.$t('Tools.clientNotConnected'))
         return
       }
@@ -548,7 +558,7 @@ export default {
       if (!valid) {
         return
       }
-      if (!this.compareConnStatus('MCONNECTED')) {
+      if (!this.compareConnStatus(WEB_SOCKET_STATUS.Connected)) {
         ElMessage.error(this.$t('Tools.clientNotConnected'))
         return
       }
@@ -586,7 +596,7 @@ export default {
       }
     },
     createConnection() {
-      if (!this.compareConnStatus('DISCONNECTED')) {
+      if (!this.compareConnStatus(WEB_SOCKET_STATUS.Disconnected)) {
         return
       }
       this.$refs.configForm.validate((valid) => {
@@ -605,7 +615,7 @@ export default {
           protocolversion,
         } = this.connection
 
-        this.setConnStatus('MCONNECTING')
+        this.setConnStatus(WEB_SOCKET_STATUS.Connecting)
         this.times = 0
         this.client = mqtt.connect(this.connectUrl, {
           port,
@@ -626,7 +636,7 @@ export default {
     assignEvents() {
       this.client.on('error', (error) => {
         ElMessage.error(error.toString())
-        this.setConnStatus('MDISCONNECTED')
+        this.setConnStatus(WEB_SOCKET_STATUS.Disconnected)
       })
       this.client.on('reconnect', () => {
         // this.times += 1
@@ -634,22 +644,22 @@ export default {
         // if (this.times > 2) {
         //   this.destroyConnection()
         //   ElMessage.error(this.$t('Tools.connectionDisconnected'))
-        this.setConnStatus('MRECONNECTING')
+        this.setConnStatus(WEB_SOCKET_STATUS.Reconnecting)
       })
       this.client.on('disconnect', () => {
         // console.log('discon')
-        this.setConnStatus('MDISCONNECTED')
+        this.setConnStatus(WEB_SOCKET_STATUS.Disconnected)
       })
       this.client.on('close', () => {
         // console.log('close')
-        this.setConnStatus('MDISCONNECTED')
+        this.setConnStatus(WEB_SOCKET_STATUS.Disconnected)
       })
       this.client.on('offline', () => {
-        this.setConnStatus('MDISCONNECTED')
+        this.setConnStatus(WEB_SOCKET_STATUS.Disconnected)
         // console.log('offline')
       })
       this.client.on('connect', () => {
-        this.setConnStatus('MCONNECTED')
+        this.setConnStatus(WEB_SOCKET_STATUS.Connected)
       })
       this.client.on('message', this.onMessage)
     },
