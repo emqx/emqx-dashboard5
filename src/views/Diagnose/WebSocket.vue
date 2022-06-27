@@ -21,7 +21,7 @@
           </span>
         </template>
       </el-tab-pane>
-      <el-tab-pane key="add" class="add-btn" name="add">
+      <el-tab-pane v-if="showAddTab" key="add" class="add-btn" name="add">
         <template #label>
           <span :title="$t('Tools.createNew')">
             <el-icon><Plus /></el-icon>
@@ -53,6 +53,7 @@ export default {
     return {
       activeTab: '',
       tabs: [],
+      showAddTab: true,
     }
   },
 
@@ -89,10 +90,18 @@ export default {
         return String(rNum).substring(0, len)
       }
     },
-    // 活动标签切换时触发
+    /**
+     * hack for keep add tab is the last tab
+     */
+    async controlShowAddTab() {
+      this.showAddTab = false
+      await this.$nextTick()
+      this.showAddTab = true
+    },
     handleBeforeLeave(currentName) {
       if (currentName === 'add') {
         this.handleTabEdit('add')
+        this.controlShowAddTab()
         return false
       }
       return true
