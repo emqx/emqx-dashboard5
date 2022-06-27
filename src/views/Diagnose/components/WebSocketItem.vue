@@ -522,10 +522,7 @@ export default {
       })
     },
     async subscribe() {
-      const valid = await this.$refs.subForm.validate()
-      if (!valid) {
-        return
-      }
+      await this.$refs.subForm.validate()
       if (!this.compareConnStatus(WEB_SOCKET_STATUS.Connected)) {
         ElMessage.error(this.$t('Tools.clientNotConnected'))
         return
@@ -595,43 +592,63 @@ export default {
         this.connection.port = 8084
       }
     },
-    createConnection() {
+    /**
+     * after connection, subscribe topics in subscribe table
+     */
+    subTopicsInTable() {
+      const obj = this.subscriptions.reduce((obj, topicItem) => {
+        const { topic, qos } = topicItem
+        return { ...obj, [topic]: { qos } }
+      }, {})
+      this.client.subscribe(obj, (err, res) => {
+        if (err) {
+          ElMessage.error(this.$t('Tools.subscriptionFailure'))
+          this.subscriptions = []
+          return
+        }
+        this.subscriptions = this.subscriptions.map((topicItem) => {
+          return { ...topicItem, createAt: this.getNow() }
+        })
+      })
+    },
+    getConnectionParams() {
+      const {
+        clientId,
+        username,
+        port,
+        password,
+        keepalive,
+        clean,
+        connectTimeout,
+        will,
+        protocolversion,
+      } = this.connection
+      return {
+        clientId,
+        username,
+        port,
+        password,
+        keepalive,
+        clean,
+        connectTimeout,
+        will: will.topic ? will : undefined,
+        protocolVersion: protocolversion,
+      }
+    },
+    async createConnection() {
       if (!this.compareConnStatus(WEB_SOCKET_STATUS.Disconnected)) {
         return
       }
-      this.$refs.configForm.validate((valid) => {
-        if (!valid) {
-          return
-        }
-        const {
-          clientId,
-          username,
-          port,
-          password,
-          keepalive,
-          clean,
-          connectTimeout,
-          will,
-          protocolversion,
-        } = this.connection
+      await this.$refs.configForm.validate()
 
-        this.setConnStatus(WEB_SOCKET_STATUS.Connecting)
-        this.times = 0
-        this.client = mqtt.connect(this.connectUrl, {
-          port,
-          clientId,
-          username,
-          password,
-          keepalive,
-          clean,
-          connectTimeout,
-          protocolVersion: protocolversion,
-          will: will.topic ? will : undefined,
-          reconnectPeriod: 0,
-        })
-
-        this.assignEvents()
+      this.setConnStatus(WEB_SOCKET_STATUS.Connecting)
+      this.times = 0
+      this.client = mqtt.connect(this.connectUrl, {
+        ...this.getConnectionParams(),
+        reconnectPeriod: 0,
       })
+
+      this.assignEvents()
     },
     assignEvents() {
       this.client.on('error', (error) => {
@@ -660,6 +677,9 @@ export default {
       })
       this.client.on('connect', () => {
         this.setConnStatus(WEB_SOCKET_STATUS.Connected)
+        if (this.subscriptions.length) {
+          this.subTopicsInTable()
+        }
       })
       this.client.on('message', this.onMessage)
     },
