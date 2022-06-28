@@ -102,7 +102,7 @@
 <script lang="ts">
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import { useI18n } from 'vue-i18n'
-import { computed, defineComponent, onMounted } from 'vue'
+import { computed, defineComponent, onMounted, watch } from 'vue'
 import { cloneDeep } from 'lodash'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
@@ -157,13 +157,24 @@ export default defineComponent({
       },
     })
 
+    watch(
+      () => prop.modelValue,
+      () => {
+        initConnectorVal()
+      },
+    )
+
     const getFormItemProp = (rawProp: string) => {
       const { connectorField } = prop
       return connectorField ? `${connectorField}.${rawProp}` : rawProp
     }
 
-    onMounted(() => {
+    const initConnectorVal = () => {
       connectorVal.value = { ...cloneDeep(connectorDefaultVal), ...cloneDeep(prop.modelValue) }
+    }
+
+    onMounted(() => {
+      initConnectorVal()
     })
 
     return {
