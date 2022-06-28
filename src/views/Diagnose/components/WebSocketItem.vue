@@ -677,7 +677,7 @@ export default {
       })
       this.client.on('connect', () => {
         this.setConnStatus(WEB_SOCKET_STATUS.Connected)
-        if (this.subscriptions.length) {
+        if (this.subscriptions.length && this.connection.clean === true) {
           this.subTopicsInTable()
         }
       })
