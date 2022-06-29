@@ -1,8 +1,10 @@
 <template>
-  <el-dialog
+  <el-drawer
     :title="tl(isEdit ? 'editListener' : 'addListener')"
     v-model="showDialog"
-    custom-class="listener-dialog"
+    :lock-scroll="false"
+    :close-on-click-modal="false"
+    size="50%"
   >
     <el-form label-position="top" :rules="listenerFormRules" :model="listenerRecord" ref="formCom">
       <el-row :gutter="20">
@@ -238,12 +240,11 @@
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>
-  </el-dialog>
+  </el-drawer>
 </template>
 
 <script lang="ts" setup>
 import { defineProps, defineEmits, PropType, computed } from 'vue'
-import { ElDialog } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Listener } from '@/types/listener'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
