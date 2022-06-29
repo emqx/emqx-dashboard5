@@ -272,6 +272,15 @@ import moment from 'moment'
 import { ElMessage } from 'element-plus'
 import { QoSOptions, WEB_SOCKET_STATUS } from '@/common/constants'
 import { Delete } from '@element-plus/icons-vue'
+import { chunkStr } from '@/common/tools.ts'
+import { MQTT_V3_RES_CODES, MQTT_V5_RES_CODES } from '@/common/constants.ts'
+
+const transBuffet2Hex = (buffer) => {
+  return [...new Uint8Array(buffer)].map((x) => x.toString(16).padStart(2, '0')).join('')
+}
+
+const MQTT_V3_VALUE = 4
+const MQTT_V5_VALUE = 5
 
 export default {
   name: 'WebSocketItem',
@@ -336,7 +345,7 @@ export default {
         protocols: window.location.protocol === 'http:' ? 'ws' : 'wss',
         clientId: `emqx_${this.name}`,
         ssl: window.location.protocol === 'https:',
-        protocolversion: 4,
+        protocolversion: MQTT_V5_VALUE,
         endpoint: '/mqtt',
         username: '',
         password: '',
@@ -367,11 +376,11 @@ export default {
       protocolVerList: [
         {
           name: '3.1.1',
-          value: 4,
+          value: MQTT_V3_VALUE,
         },
         {
           name: '5',
-          value: 5,
+          value: MQTT_V5_VALUE,
         },
       ],
 
@@ -383,6 +392,8 @@ export default {
         [WEB_SOCKET_STATUS.Reconnecting, 0b10000],
       ]),
       leaveTime: 0,
+      // cleared after 300 ms received
+      lastReceivedMessage: [],
     }
   },
   computed: {
@@ -635,6 +646,55 @@ export default {
         protocolVersion: protocolversion,
       }
     },
+    /**
+     * Store messages for a while to handle possible errors
+     */
+    storeMessage(res) {
+      const { data } = res
+      this.lastReceivedMessage = data
+      window.setTimeout(() => {
+        this.lastReceivedMessage = undefined
+      }, 200)
+    },
+    isTheLastMsgAnErrorMsg() {
+      // the format like 2002 0004
+      // the second part is error code (from back end)
+      const hexStr = transBuffet2Hex(this.lastReceivedMessage)
+      const strArr = chunkStr(hexStr)
+      if (
+        !strArr ||
+        (Array.isArray(strArr) && strArr.length > 4) ||
+        !(strArr[1] && strArr[1].indexOf('00') !== 0)
+      ) {
+        return false
+      }
+      const errorCode = strArr[1].slice(2)
+      const version = this.connection.protocolversion === MQTT_V3_VALUE ? 3 : 5
+      const errorCodes = version === 3 ? MQTT_V3_RES_CODES : MQTT_V5_RES_CODES
+      if (!errorCodes.includes(errorCode)) {
+        return false
+      }
+      return errorCode
+    },
+    /**
+     * There are two conditions for displaying errors in mqtt messages
+     * 1. The last received data is a data containing error information
+     * 2. The connection is closed within 200 ms of receiving data
+     */
+    showReceivedMessageAfterClose() {
+      const errorCode = this.isTheLastMsgAnErrorMsg()
+      if (!this.lastReceivedMessage || !errorCode) {
+        return false
+      }
+      const version = this.connection.protocolversion === MQTT_V3_VALUE ? 3 : 5
+      this.$notify({
+        title: this.$t('Tools.errorOccurred'),
+        message: this.$t(`MQTTRes.v${version}${errorCode}`),
+        duration: 6000,
+        type: 'error',
+      })
+      return true
+    },
     async createConnection() {
       if (!this.compareConnStatus(WEB_SOCKET_STATUS.Disconnected)) {
         return
@@ -647,7 +707,6 @@ export default {
         ...this.getConnectionParams(),
         reconnectPeriod: 0,
       })
-
       this.assignEvents()
     },
     assignEvents() {
@@ -669,7 +728,8 @@ export default {
       })
       this.client.on('close', () => {
         // console.log('close')
-        this.setConnStatus(WEB_SOCKET_STATUS.Disconnected)
+        const hasCustomErrorMsg = this.showReceivedMessageAfterClose()
+        this.setConnStatus(WEB_SOCKET_STATUS.Disconnected, !hasCustomErrorMsg)
       })
       this.client.on('offline', () => {
         this.setConnStatus(WEB_SOCKET_STATUS.Disconnected)
@@ -682,6 +742,9 @@ export default {
         }
       })
       this.client.on('message', this.onMessage)
+
+      const { socket } = this.client.stream
+      socket.addEventListener('message', this.storeMessage)
     },
   },
 }

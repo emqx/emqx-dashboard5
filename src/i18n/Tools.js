@@ -163,4 +163,8 @@ export default {
     zh: '条/秒',
     en: 'message(s)/s',
   },
+  errorOccurred: {
+    zh: '发生错误',
+    en: 'Error occurred',
+  },
 }
