@@ -352,3 +352,8 @@ export const replaceSpaceForHTML = (str: string): string => {
   }
   return str.replace(/\s/g, '\u00a0')
 }
+
+export const chunkStr = (str: string, chunkLength = 4) => {
+  const reg = new RegExp(`.{1,${chunkLength}}`, 'g')
+  return str.match(reg)
+}
