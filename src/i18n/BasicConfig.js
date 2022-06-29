@@ -143,4 +143,8 @@ export default {
     zh: '请输入由字母和数字组成的名称',
     en: 'Please enter a name composed of letters and numbers',
   },
+  confirmDeleteListenerType: {
+    zh: '请输入监听器的名称来确认删除',
+    en: 'Please type the listener name to confirm.',
+  },
 }

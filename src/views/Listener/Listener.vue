@@ -49,17 +49,43 @@
           <el-button size="small" @click="editListener(row)">
             {{ $t('Base.setting') }}
           </el-button>
-          <el-button size="small" type="danger" plain @click="deleteListener(row)">
+          <el-button size="small" type="danger" plain @click="handleShowDeleteConfirm(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
     <ListenerDialog v-model="showDialog" :listener="currentListener" @submitted="getListenerData" />
+    <el-dialog
+      v-model="showDeleteDialog"
+      :width="450"
+      custom-class="API-key-dialog"
+      :title="t('Base.confirmDelete')"
+      :z-index="2000"
+    >
+      <el-form label-position="top">
+        <el-form-item :label="$t('BasicConfig.confirmDeleteListenerType')">
+          <el-input v-model="confirmDeleteName"></el-input>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="showDeleteDialog = false">{{ $t('Base.cancel') }}</el-button>
+          <el-button
+            type="primary"
+            @click="deleteListener(removeRow)"
+            :disabled="confirmDeleteName !== removeRow.name"
+            :loading="deleteLoading"
+          >
+            {{ $t('Base.confirm') }}
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import { ref, Ref } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Plus } from '@element-plus/icons-vue'
@@ -72,15 +98,19 @@ import useListenerUtils from '@/hooks/Config/useListenerUtils'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
 import { calcPercentage } from '@/common/utils'
 import { ListenerAction } from '@/types/enum'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import ListenerDialog from '@/components/ListenerDialog/ListenerDialog.vue'
 
 const { t, tl } = useI18nTl('Gateway')
 
 const isTableLoading = ref(false)
+const deleteLoading = ref(false)
 const listenerTable: Ref<Array<ListenerSimpleInfo>> = ref([])
 
 const showDialog = ref(false)
+const showDeleteDialog = ref(false)
+const removeRow = ref<Listener>({})
+const confirmDeleteName = ref('')
 const currentListener: Ref<undefined | Listener> = ref(undefined)
 
 const { getListenerNameNTypeById } = useListenerUtils()
@@ -121,15 +151,24 @@ const toggleListenerStatus = async (listener: Listener) => {
   }
 }
 
+const handleShowDeleteConfirm = (row: Listener) => {
+  showDeleteDialog.value = true
+  removeRow.value = row
+  confirmDeleteName.value = ''
+}
+
 const deleteListener = async ({ id }: Listener) => {
-  await ElMessageBox.confirm(t('Base.confirmDelete'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    type: 'warning',
-  })
-  await requestDeleteListener(id)
-  ElMessage.success(t(`Base.deleteSuccess`))
-  getListenerData()
+  deleteLoading.value = true
+  try {
+    await requestDeleteListener(id)
+    ElMessage.success(t(`Base.deleteSuccess`))
+    getListenerData()
+    showDeleteDialog.value = false
+  } catch (error) {
+    // ignore error
+  } finally {
+    deleteLoading.value = false
+  }
 }
 
 getListenerData()
