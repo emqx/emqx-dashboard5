@@ -664,7 +664,7 @@ export default {
       if (
         !strArr ||
         (Array.isArray(strArr) && strArr.length > 4) ||
-        !(strArr[1] && strArr[1].indexOf('00') !== 0)
+        (strArr[1] && strArr[1].indexOf('00') !== 0)
       ) {
         return false
       }
