@@ -70,7 +70,7 @@ import { TeleStatus } from '@/types/config'
 
 const record = reactive({
   lang: 'en',
-  theme: 'light',
+  theme: 'dark',
   syncOsTheme: false,
   enable: true,
 })
