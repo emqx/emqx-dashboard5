@@ -35,7 +35,6 @@ export default function useAuthzCreate() {
       body: JSON.stringify(
         {
           username: '${username}',
-          password: '${password}',
         },
         null,
         2,
