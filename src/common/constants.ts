@@ -130,7 +130,7 @@ export const MQTT_VERSION_LIST = [
   { label: 'v5', value: 'v5' },
 ]
 
-export const AUTH_PLACEHOLDERS = '${clientid}, ${username}'
+export const AUTH_PLACEHOLDERS = '${clientid}, ${username}, ${password}'
 
 /* MySQL, PgSQL, Redis */
 export const AUTHZ_COMMON_PLACEHOLDERS =

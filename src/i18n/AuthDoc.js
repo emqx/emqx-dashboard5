@@ -47,7 +47,7 @@ export default {
   },
   authnHTTPParagraph2: {
     zh: '其中请求 Body 支持的占位符有：',
-    en: 'The Request Body supports the following placeholders:',
+    en: 'The Request Body supports the following placeholders: ',
   },
   authnHTTPParagraph3: {
     zh: 'HTTP 应答支持设置 is_superuser 字段来向客户端赋予超级权限。',
