@@ -130,14 +130,16 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const defaultContent = JSON.stringify(
-      {
-        username: '${username}',
-        password: '${password}',
-      },
-      null,
-      2,
-    )
+    const httpJSON: {
+      username: string
+      password?: string
+    } = {
+      username: '${username}',
+    }
+    if (props.authType === 'authn') {
+      httpJSON.password = '${password}'
+    }
+    const defaultContent = JSON.stringify(httpJSON, null, 2)
     const httpConfig = reactive(props.modelValue)
     const { formCom, rules, validate } = useHTTPConfigForm()
     watch(httpConfig, (value) => {
