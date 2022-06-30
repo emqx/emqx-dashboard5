@@ -38,12 +38,13 @@
           <el-col :span="12">
             <el-form-item :label="$t('General.banObject')" prop="who">
               <el-input v-model="record.who">
-                <template #append>
+                <template #prepend>
                   <el-select v-model="record.as">
                     <el-option
                       v-for="item in asOptions"
                       :key="item.value"
                       :value="item.value"
+                      :label="item.label"
                     ></el-option>
                   </el-select>
                 </template>
@@ -105,7 +106,11 @@ export default {
       tableData: [],
       params: {},
       submitLoading: false,
-      asOptions: [{ value: 'clientid' }, { value: 'username' }, { value: 'peerhost' }],
+      asOptions: [
+        { label: this.$t('Clients.clientId'), value: 'clientid' },
+        { label: this.$t('Clients.username'), value: 'username' },
+        { label: this.$t('Clients.ipAddress'), value: 'peerhost' },
+      ],
       record: {
         who: '',
       },
