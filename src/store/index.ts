@@ -13,15 +13,23 @@ const getTheme = () => {
   if (theme && ['light', 'dark'].includes(theme)) {
     return theme
   }
-  return 'light'
+  return 'dark'
 }
 
 const getSyncOSTheme = () => {
-  const syncOsTheme = localStorage.getItem('syncOsTheme') || 'true'
+  const syncOsTheme = localStorage.getItem('syncOsTheme') || 'false'
   if (syncOsTheme === 'undefined') {
-    return true
+    return false
   }
   return JSON.parse(syncOsTheme)
+}
+
+const getLeftBarCollapse = () => {
+  const leftBarCollapse = localStorage.getItem('leftBarCollapse') || 'true'
+  if (leftBarCollapse === 'undefined') {
+    return true
+  }
+  return JSON.parse(leftBarCollapse)
 }
 
 export default createStore({
@@ -30,7 +38,7 @@ export default createStore({
     theme: getTheme(),
     syncOsTheme: getSyncOSTheme(),
     lang: getLang(),
-    leftBarCollapse: JSON.parse(<string>localStorage.getItem('leftBarCollapse')),
+    leftBarCollapse: getLeftBarCollapse(),
     alertCount: 0,
     selectedModule: JSON.parse(<string>localStorage.getItem('selectedModule')),
     request_queue: 0,
