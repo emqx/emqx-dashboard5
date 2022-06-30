@@ -16,7 +16,7 @@
       v-loading.lock="isDataLoading"
       row-key="type"
     >
-      <el-table-column prop="type" :label="$t('Auth.dataSource')">
+      <el-table-column prop="type" :label="$t('Auth.dataSource')" min-width="70">
         <template #default="{ row }">
           <router-link
             :to="{
@@ -30,14 +30,14 @@
           </router-link>
         </template>
       </el-table-column>
+      <el-table-column prop="metrics" :label="$t('Base.status')">
+        <template #default="{ row }">
+          <AuthItemStatus :metrics="row.metrics" />
+        </template>
+      </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
           <el-switch v-model="row.enable" @change="toggleEnable(row)" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="enable" :label="$t('Auth.status')">
-        <template #default="{ row }">
-          <AuthItemStatus :metrics="row.metrics" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">

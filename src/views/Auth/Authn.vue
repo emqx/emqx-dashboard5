@@ -17,7 +17,7 @@
       v-loading.lock="isListLoading"
       row-key="id"
     >
-      <el-table-column prop="backend" :label="$t('Auth.mechanismAndBackend')">
+      <el-table-column prop="backend" :label="$t('Auth.mechanismAndBackend')" min-width="80">
         <template #default="{ row }">
           <router-link
             :to="{ name: 'authenticationDetail', params: { id: row.id } }"
@@ -31,14 +31,14 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')">
-        <template #default="{ row }">
-          <el-switch v-model="row.enable" @change="toggleEnable(row)" />
-        </template>
-      </el-table-column>
       <el-table-column prop="metrics" :label="$t('Auth.status')">
         <template #default="{ row }">
           <AuthItemStatus :metrics="row.metrics" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')">
+        <template #default="{ row }">
+          <el-switch v-model="row.enable" @change="toggleEnable(row)" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
