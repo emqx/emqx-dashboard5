@@ -1,6 +1,7 @@
 <template>
   <el-pagination
     v-if="meta.count > 0"
+    hide-on-single-page
     background
     layout="total, sizes, prev, pager, next"
     :page-sizes="[20, 50, 100, 500]"
