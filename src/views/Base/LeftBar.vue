@@ -160,10 +160,10 @@ export default defineComponent({
         title: 'mqtt',
         path: '/mqtt',
       },
-      {
-        title: 'limiter',
-        path: '/limiter',
-      },
+      // {
+      //   title: 'limiter',
+      //   path: '/limiter',
+      // },
       {
         title: 'log',
         path: '/log',
