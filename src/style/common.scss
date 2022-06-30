@@ -284,6 +284,13 @@ p.tip {
     margin: -10px 0;
   }
 }
+.el-input-group--prepend .el-input-group__prepend {
+  width: 120px;
+  padding: 0;
+  .el-select {
+    margin: -10px 0;
+  }
+}
 input:disabled {
   -webkit-text-fill-color: var(--el-disabled-text-color);
   -webkit-opacity: 1;
