@@ -24,7 +24,7 @@ import Session from '@/views/Config/BasicConfig/Session.vue'
 // import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
 import Retainer from '@/views/Config/BasicConfig/Retainer.vue'
 import Log from '@/views/Config/BasicConfig/Log.vue'
-import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
+// import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
 // import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
 import Users from '@/views/General/Users.vue'
 import Blacklist from '@/views/General/Blacklist.vue'
@@ -544,21 +544,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // limiter config
-  {
-    path: '/limiter',
-    component: Layout,
-    meta: {
-      hideKey: 'limiter',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'limiter',
-        component: Limiter,
-      },
-    ],
-  },
+  // {
+  //   path: '/limiter',
+  //   component: Layout,
+  //   meta: {
+  //     hideKey: 'limiter',
+  //     authRequired: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'limiter',
+  //       component: Limiter,
+  //     },
+  //   ],
+  // },
   // Flow chart for IoT rule
   {
     path: '/flow',

@@ -35,11 +35,11 @@
             <ZoneSelect v-model="listenerRecord.zone" />
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="!gatewayName">
+        <!-- <el-col :span="12" v-if="!gatewayName">
           <el-form-item :label="$t('BasicConfig.limiter')">
             <LimiterSelect v-model="listenerRecord.limiter" />
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
       <el-row v-if="showWSConfig" :gutter="20">
         <el-col :span="12">
@@ -254,7 +254,7 @@ import SSLVersionSelect from './SSLVersionSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import ZoneSelect from '../ZoneSelect.vue'
-import LimiterSelect from '../LimiterSelect.vue'
+// import LimiterSelect from '../LimiterSelect.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 
 const props = defineProps({
