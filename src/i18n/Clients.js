@@ -156,7 +156,7 @@ export default {
     en: 'Session Info',
   },
   isBridge: {
-    zh: '桥接设备',
+    zh: '桥接标识',
     en: 'Bridge',
   },
   protocolType: {
@@ -168,7 +168,7 @@ export default {
     en: 'SSL',
   },
   zone: {
-    zh: '接入分区',
+    zh: 'Zone',
     en: 'Zone',
   },
   subscription: {
@@ -180,11 +180,11 @@ export default {
     en: 'Inflight',
   },
   mqueue: {
-    zh: '消息队列大小',
-    en: 'Message Queue Size',
+    zh: '消息队列',
+    en: 'Message Queue',
   },
   heapSize: {
-    zh: '进程堆栈大小',
+    zh: '进程堆栈',
     en: 'Heap Size',
   },
   reductions: {
@@ -304,8 +304,8 @@ export default {
     en: 'Kick Out',
   },
   awaitingRel: {
-    zh: '未确认的 PUBREC 数据包计数',
-    en: 'Unconfirmed PUBREC Packets',
+    zh: 'QoS 2 报文接收队列',
+    en: 'QoS 2 Message Receive Queue',
   },
   collapse: {
     zh: '折叠',
