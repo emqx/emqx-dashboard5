@@ -14,7 +14,7 @@
       >
         <template #content>
           <el-tooltip :content="clientId">
-            <p class="header-content">{{ clientId }}</p>
+            <p class="header-content">{{ clientId }} ({{ tl('clientId') }})</p>
           </el-tooltip>
         </template>
       </detail-header>
@@ -38,7 +38,7 @@
         <el-col :span="12">
           <el-card class="top-border client-info" v-loading="clientDetailLock">
             <el-descriptions :title="tl('connectionInfo')" border :column="1" size="large">
-              <el-descriptions-item label="Status"
+              <el-descriptions-item :label="tl('connectedStatus')"
                 ><el-tag type="info">
                   <CheckIcon :status="record.connected ? 'check' : 'close'" size="small" />
                   {{ record.connected ? tl('connected') : tl('disconnected') }}
@@ -101,10 +101,13 @@
                     {{ record.awaiting_rel_cnt + '/' + record.awaiting_rel_max }}
                   </span>
                 </span>
-                <div v-else-if="item === 'created_at'">
+                <span v-else-if="item === 'created_at'">
                   <span>
                     {{ moment(record[item]).format('YYYY-MM-DD HH:mm:ss') }}
                   </span>
+                </span>
+                <div v-else-if="item === 'heap_size'">
+                  <span>{{ `${record.heap_size} bytes` }}</span>
                 </div>
                 <div v-else>
                   <span>{{ record[item] }}</span>
@@ -442,7 +445,7 @@ const loadGatewaySubs = async () => {
 
 const getLabel = (label: string) => {
   if (label === 'clean_start') {
-    return record.value.proto_ver === 5 ? 'Clean Start' : 'Clean Session'
+    return record.value.proto_ver === 5 ? 'Clean Start' : tl('cleanSession')
   }
   if (!props.gateway) {
     if (label === 'recv_pkt') {
