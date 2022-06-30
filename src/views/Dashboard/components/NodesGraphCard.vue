@@ -23,14 +23,14 @@
                   <span class="node-item-content">{{ getDuration(currentInfo.node.uptime) }}</span>
                 </div>
                 <div class="node-item">
-                  <label class="node-item-label">{{ tl('topics') }}: </label>
-                  <span class="node-item-content">{{ currentInfo.stats['topics.count'] }}</span>
-                </div>
-                <div class="node-item">
                   <label class="node-item-label">{{ tl('currentConnection') }}: </label>
                   <span class="node-item-content">{{
                     currentInfo.stats['connections.count']
                   }}</span>
+                </div>
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('topics') }}: </label>
+                  <span class="node-item-content">{{ currentInfo.stats['topics.count'] }}</span>
                 </div>
               </el-col>
               <el-col :span="10">

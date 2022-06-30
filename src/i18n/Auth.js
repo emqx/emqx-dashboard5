@@ -13,7 +13,7 @@ export default {
   },
   status: {
     zh: '数据源状态',
-    en: 'Backend Status',
+    en: 'Status',
   },
   backAuthnList: {
     zh: '返回认证列表',
