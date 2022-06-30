@@ -153,7 +153,7 @@ export default {
     en: 'Data List',
   },
   packetStatisticsOfNodes: {
-    zh: '集群或单个节点的报文信息，消息统计与流量收发统计',
+    zh: '集群或单个节点的报文信息、消息统计与流量收发统计',
     en: 'Packet statistics of cluster or node, Message I/O Statistics',
   },
   mqttPackets: {

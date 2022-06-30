@@ -24,7 +24,8 @@
           >
             <el-table-column prop="m" min-width="160" :label="tl('connection')">
               <template #default="{ row }">
-                {{ row.m ? tl(row.m) : '' }}
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -41,7 +42,8 @@
           >
             <el-table-column prop="m" min-width="160" :label="tl('session')">
               <template #default="{ row }">
-                {{ row.m ? tl(row.m) : '' }}
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -57,7 +59,8 @@
           >
             <el-table-column prop="m" min-width="160" :label="tl('auth')">
               <template #default="{ row }">
-                {{ row.m ? tl(row.m) : '' }}
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -78,7 +81,8 @@
           >
             <el-table-column prop="m" min-width="160" :label="tl('traffic')">
               <template #default="{ row }">
-                {{ row.m ? tl(row.m) : '' }}
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -92,7 +96,8 @@
           >
             <el-table-column prop="m" min-width="160" :label="tl('mqttPackets')">
               <template #default="{ row }">
-                {{ row.m ? tl(row.m) : '' }}
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -108,7 +113,8 @@
           >
             <el-table-column prop="m" min-width="160" :label="tl('messageNumber')">
               <template #default="{ row }">
-                {{ row.m ? tl(row.m) : '' }}
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -124,7 +130,8 @@
           >
             <el-table-column prop="m" min-width="160" :label="tl('delivery')">
               <template #default="{ row }">
-                {{ row.m ? tl(row.m) : '' }}
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
@@ -202,10 +209,10 @@ const loadMetricsData = async () => {
 
 // FIXME: Temporary data filter, separating Auth in Client, awit API
 function filterMetrics(data: MetricItem, key: string) {
-  let keys: Array<{ m: string; v: number }> = []
+  let keys: Array<{ m: string; v: number; rawKey: string }> = []
   Object.keys(data || []).forEach((v) => {
     if (v.startsWith(key)) {
-      keys.push({ m: v.split('.').slice(1).join('_'), v: data[v] as number })
+      keys.push({ m: v.split('.').slice(1).join('_'), v: data[v] as number, rawKey: v })
     }
   })
   if (key === 'client') {
@@ -213,10 +220,10 @@ function filterMetrics(data: MetricItem, key: string) {
   }
   keys = keys.sort((pre, next) => pre.m.localeCompare(next.m))
   if (key === 'authorization') {
-    const _authKeys: Array<{ m: string; v: number }> = []
+    const _authKeys: Array<{ m: string; v: number; rawKey: string }> = []
     Object.keys(data || []).forEach((v) => {
       if (v.startsWith('client') && v.includes('auth')) {
-        _authKeys.push({ m: v.split('.').slice(1).join('_'), v: data[v] as number })
+        _authKeys.push({ m: v.split('.').slice(1).join('_'), v: data[v] as number, rawKey: v })
       }
     })
     keys.push(..._authKeys)
@@ -292,6 +299,17 @@ onMounted(() => {
     }
     &.el-table--striped .el-table__body tr:not(.el-table__row--striped) td.el-table__cell {
       background: var(--color-bg-split);
+    }
+  }
+  .el-table {
+    .raw-key {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .desc {
+      display: block;
+      margin-top: 4px;
+      color: #bcbcbc;
     }
   }
 }
