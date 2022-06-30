@@ -148,19 +148,23 @@ export default defineComponent({
       mode: modeOptions[0],
     }
 
+    let connectorValCache = ''
     const connectorVal = computed({
       get() {
         return prop.modelValue
       },
       set(val) {
+        connectorValCache = JSON.stringify(val)
         context.emit('update:modelValue', val)
       },
     })
 
     watch(
       () => prop.modelValue,
-      () => {
-        initConnectorVal()
+      (val) => {
+        if (JSON.stringify(val) !== connectorValCache) {
+          initConnectorVal()
+        }
       },
     )
 
