@@ -331,4 +331,8 @@ export default {
     zh: '保留消息',
     en: 'Retainer',
   },
+  'monitoring-integration': {
+    zh: '监控集成',
+    en: 'Monitoring Integration',
+  },
 }

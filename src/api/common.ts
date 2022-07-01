@@ -44,11 +44,11 @@ export function loadChartData(time: number): Promise<Array<ChartDataItem>> {
 }
 
 //metrics integration
-export function getStatsd(): Promise<StatsD> {
+export function getStatsD(): Promise<StatsD> {
   return http.get('/statsd')
 }
 
-export function setStatsd(body: StatsD): Promise<StatsD> {
+export function setStatsD(body: StatsD): Promise<StatsD> {
   return http.put('/statsd', body)
 }
 

@@ -168,6 +168,10 @@ export default defineComponent({
         title: 'log',
         path: '/log',
       },
+      {
+        title: 'monitoring-integration',
+        path: '/monitoring-integration',
+      },
     ]
 
     menus.value = [
