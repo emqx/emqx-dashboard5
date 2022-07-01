@@ -9,7 +9,6 @@
           :value="time.value"
         ></el-option>
       </el-select>
-      <integration-metrics></integration-metrics>
     </div>
     <div class="block">
       <el-row :gutter="26">
@@ -62,7 +61,6 @@ import { loadChartData } from '@/api/common'
 import { ref, reactive, computed, onUnmounted, onMounted, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
-import IntegrationMetrics from './IntegrationMetrics.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 
 type ChartData = Array<{
