@@ -240,8 +240,8 @@ export default {
     en: 'No',
   },
   second: {
-    zh: '秒',
-    en: 'second',
+    zh: '秒 | 秒',
+    en: 'second | seconds',
   },
   minute: {
     zh: '分钟',
