@@ -3,36 +3,28 @@
     <el-form @keyup.enter="searchGatewayList()">
       <el-row :gutter="20" class="search-wrapper">
         <el-col :span="6">
-          <el-input
-            :placeholder="tl('clientid')"
-            v-model="searchParams.like_clientid"
-            clearable
-          ></el-input>
+          <el-input :placeholder="tl('clientid')" v-model="searchParams.like_clientid" clearable />
         </el-col>
         <el-col :span="6" v-if="name === 'lwm2m'">
           <el-input
             :placeholder="tl('endpointName')"
             v-model="searchParams.like_endpoint_name"
             clearable
-          ></el-input>
+          />
         </el-col>
         <el-col :span="6" v-else>
-          <el-input
-            :placeholder="tl('username')"
-            v-model="searchParams.like_username"
-            clearable
-          ></el-input>
+          <el-input :placeholder="tl('username')" v-model="searchParams.like_username" clearable />
         </el-col>
 
         <el-col :span="6">
           <el-select v-model="searchParams.node" :placeholder="$t('Clients.node')" clearable>
-            <el-option v-for="item in nodes" :value="item.node" :key="item.node"></el-option>
+            <el-option v-for="item in nodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" plain :icon="Search" @click="searchGatewayList()">{{
-            $t('Base.search')
-          }}</el-button>
+          <el-button type="primary" plain :icon="Search" @click="searchGatewayList()">
+            {{ $t('Base.search') }}
+          </el-button>
           <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
             {{ $t('Base.refresh') }}
           </el-button>
@@ -46,17 +38,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        :label="'Endpoint Name'"
-        prop="endpoint_name"
-        v-if="name === 'lwm2m'"
-      ></el-table-column>
+      <el-table-column :label="'Endpoint Name'" prop="endpoint_name" v-if="name === 'lwm2m'" />
 
-      <el-table-column
-        :label="tl('username')"
-        prop="username"
-        v-if="name !== 'lwm2m'"
-      ></el-table-column>
+      <el-table-column :label="tl('username')" prop="username" v-if="name !== 'lwm2m'" />
 
       <el-table-column :label="tl('ipaddress')">
         <template #default="{ row }">
@@ -64,11 +48,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        :label="tl('lifetime')"
-        prop="lifetime"
-        v-if="name === 'lwm2m'"
-      ></el-table-column>
+      <el-table-column :label="tl('lifetime')" prop="lifetime" v-if="name === 'lwm2m'" />
       <el-table-column :label="tl('status')" v-else>
         <template #default="{ row }">
           <CheckIcon :status="row.connected ? 'check' : 'close'" size="small" :top="1" />
@@ -82,26 +62,23 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button type="danger" plain @click="disconnectClient(row)" size="small">{{
-            $t('Clients.kickOut')
-          }}</el-button>
+          <el-button type="danger" plain @click="disconnectClient(row)" size="small">
+            {{ $t('Clients.kickOut') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <common-pagination
-        v-model:metaData="pageMeta"
-        @loadPage="loadGatewayClients"
-      ></common-pagination>
+      <common-pagination v-model:metaData="pageMeta" @loadPage="loadGatewayClients" />
     </div>
 
-    <el-drawer v-model="clientsDetailVisible" direction="rtl" size="90%">
+    <el-drawer v-model="clientsDetailVisible" direction="rtl" size="90%" destroy-on-close>
       <client-details
         :gateway="name"
         :clientid="currentClientId"
         :key="currentClientId"
         @refreshGateway="closeClientDetail"
-      ></client-details>
+      />
     </el-drawer>
   </div>
 </template>
