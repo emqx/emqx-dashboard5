@@ -38,8 +38,8 @@
         <el-col :span="12">
           <el-card class="top-border client-info" v-loading="clientDetailLock">
             <el-descriptions :title="tl('connectionInfo')" border :column="1" size="large">
-              <el-descriptions-item :label="tl('connectedStatus')"
-                ><el-tag type="info">
+              <el-descriptions-item :label="tl('connectedStatus')">
+                <el-tag type="info">
                   <CheckIcon :status="record.connected ? 'check' : 'close'" size="small" />
                   {{ record.connected ? tl('connected') : tl('disconnected') }}
                 </el-tag>
@@ -51,12 +51,12 @@
               >
                 <span v-if="item == 'proto_type'">
                   <el-tag type="info">
-                    <span>{{ record.proto_name }}</span
-                    >&nbsp;
-                    <span v-if="record.proto_name === 'MQTT'">{{
-                      mqttVersion[record.proto_ver]
-                    }}</span
-                    ><span v-else>{{ record.proto_ver }}</span>
+                    <span>{{ record.proto_name }}</span>
+                    &nbsp;
+                    <span v-if="record.proto_name === 'MQTT'">
+                      {{ mqttVersion[record.proto_ver] }}
+                    </span>
+                    <span v-else>{{ record.proto_ver }}</span>
                   </el-tag>
                 </span>
                 <span v-else-if="item == 'connected_at' || item == 'disconnected_at'">
@@ -83,34 +83,8 @@
                 :key="item"
                 :label="getLabel(item)"
               >
-                <span v-if="item === 'subscriptions'">
-                  <span>
-                    {{ record.subscriptions_cnt + '/' + record.subscriptions_max }}
-                  </span>
-                </span>
-                <div v-else-if="item === 'mqueue'">
-                  <span>{{ record.mqueue_len + '/' + record.mqueue_max }}</span>
-                </div>
-                <div v-else-if="item === 'inflight'">
-                  <span>
-                    {{ record.inflight_cnt + '/' + record.inflight_max }}
-                  </span>
-                </div>
-                <span v-if="item === 'awaiting_rel'">
-                  <span>
-                    {{ record.awaiting_rel_cnt + '/' + record.awaiting_rel_max }}
-                  </span>
-                </span>
-                <span v-else-if="item === 'created_at'">
-                  <span>
-                    {{ moment(record[item]).format('YYYY-MM-DD HH:mm:ss') }}
-                  </span>
-                </span>
-                <div v-else-if="item === 'heap_size'">
-                  <span>{{ `${record.heap_size} bytes` }}</span>
-                </div>
-                <div v-else>
-                  <span>{{ record[item] }}</span>
+                <div>
+                  <span>{{ getSessionInfoItem(item) }}</span>
                 </div>
               </el-descriptions-item>
             </el-descriptions>
@@ -181,7 +155,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, defineProps, ref, defineEmits } from 'vue'
+import { computed, defineComponent, defineEmits, defineProps, ref } from 'vue'
 
 export default defineComponent({
   name: 'ClientDetails',
@@ -189,24 +163,25 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { loadClientDetail, loadSubscriptions, unsubscribe, disconnectClient } from '@/api/clients'
-import DetailHeader from '@/components/DetailHeader.vue'
-import CheckIcon from '@/components/CheckIcon.vue'
-import CreateSubscribe from './components/CreateSubscribe.vue'
-import moment from 'moment'
+import { disconnectClient, loadClientDetail, loadSubscriptions, unsubscribe } from '@/api/clients'
 import {
+  disconnGatewayClient,
   getGatewayClientDetail,
   getGatewayClientSubs,
-  disconnGatewayClient,
   unsubscribeGatewayClientSub,
 } from '@/api/gateway'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Warning, Refresh, SwitchButton } from '@element-plus/icons-vue'
+import CheckIcon from '@/components/CheckIcon.vue'
+import DetailHeader from '@/components/DetailHeader.vue'
+import useClientDetail from '@/hooks/Clients/useClientDetail'
+import useI18nTl from '@/hooks/useI18nTl'
 import { Client } from '@/types/client'
 import { Subscription } from '@/types/subscription'
-import { useRoute } from 'vue-router'
-import useI18nTl from '@/hooks/useI18nTl'
+import { Plus, Refresh, SwitchButton, Warning } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import moment from 'moment'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
+import CreateSubscribe from './components/CreateSubscribe.vue'
 
 const props = defineProps({
   gateway: {
@@ -329,6 +304,8 @@ const clientDetailParts = computed(() => {
   }
   return clientsOrganizied.others
 })
+
+const { getSessionInfoItem } = useClientDetail(record)
 
 /**
  * snake and point to camel, demo: send_msg -> sendMsg; send_msg.qos1 -> sendMsgQos1
