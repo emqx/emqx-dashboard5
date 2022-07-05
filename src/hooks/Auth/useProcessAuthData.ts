@@ -70,22 +70,26 @@ export default function useProcessAuthData() {
       endpoint,
       refresh_interval,
       verify_claims,
+      ssl,
     } = data
-    const tempData: any = {
+    let tempData: any = {
       from,
       use_jwks,
       verify_claims,
     }
     if (use_jwks) {
-      tempData.endpoint = endpoint
-      tempData.refresh_interval = refresh_interval
+      tempData = {
+        ...tempData,
+        endpoint,
+        refresh_interval,
+        ssl,
+      }
     } else {
-      tempData.algorithm = algorithm
+      tempData = { ...tempData, algorithm }
       if (algorithm === 'hmac-based') {
-        tempData.secret = secret
-        tempData.secret_base64_encoded = secret_base64_encoded
+        tempData = { ...tempData, secret, secret_base64_encoded }
       } else if (algorithm === 'public-key') {
-        tempData.public_key = public_key
+        tempData = { ...tempData, public_key }
       }
     }
     return tempData
