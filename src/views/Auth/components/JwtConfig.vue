@@ -81,6 +81,9 @@
               </el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="20">
+            <CommonTLSConfig v-model="jwtConfig.ssl" />
+          </el-col>
         </template>
         <el-col :span="24">
           <el-form-item label="Verify Claims">
@@ -99,16 +102,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch } from 'vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useJWTConfigForm from '@/hooks/Auth/useJWTConfigForm'
+import { defineComponent, reactive, watch } from 'vue'
 
 export default defineComponent({
   name: 'JwtConfig',
   components: {
     KeyAndValueEditor,
     InfoTooltip,
+    CommonTLSConfig,
   },
   props: {
     modelValue: {

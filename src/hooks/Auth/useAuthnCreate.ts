@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import useProcessAuthData from './useProcessAuthData'
-import { getPasswordHashAlgorithmObj } from './usePasswordHashAlgorithmData'
 import useSSL from '@/hooks/useSSL'
+import _ from 'lodash'
+import { getPasswordHashAlgorithmObj } from './usePasswordHashAlgorithmData'
+import useProcessAuthData from './useProcessAuthData'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthnCreate() {
@@ -102,6 +102,7 @@ export default function useAuthnCreate() {
       endpoint: 'http://127.0.0.1:8080',
       refresh_interval: 300,
       verify_claims: {},
+      ssl: createSSLForm(),
     }
   }
   const {

@@ -2,7 +2,13 @@ import { DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 import { SSL } from '@/types/common'
 import { cloneDeep, omit } from 'lodash'
 
-export default () => {
+type CreateSSLForm = () => SSL
+type HandleSSLDataBeforeSubmit = (data: SSL) => SSL
+
+export default (): {
+  createSSLForm: CreateSSLForm
+  handleSSLDataBeforeSubmit: HandleSSLDataBeforeSubmit
+} => {
   const createSSLForm = (): SSL => ({
     enable: false,
     verify: DEFAULT_SSL_VERIFY_VALUE,
