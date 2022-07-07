@@ -311,6 +311,22 @@ export default {
     zh: '是否确认替换当前内容？',
     en: 'Are you sure you want to replace the current content?',
   },
+  import: {
+    zh: '导入',
+    en: 'Import',
+  },
+  downloadTemplate: {
+    zh: '下载模板',
+    en: 'Download template',
+  },
+  importSuc: {
+    zh: '导入成功',
+    en: 'Imported Successfully',
+  },
+  importFailed: {
+    zh: '导入失败',
+    en: 'Import Failed',
+  },
   uploadFailed: {
     zh: '上传失败',
     en: 'Upload Failed',

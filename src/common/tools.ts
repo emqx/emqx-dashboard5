@@ -20,6 +20,13 @@ export const checkInRange = (val: number, min?: number, max?: number): boolean =
   return true
 }
 
+export const downloadByURL = (url: string) => {
+  const ele = document.createElement('iframe')
+  ele.src = url
+  ele.style.display = 'none'
+  document.body.appendChild(ele)
+}
+
 export const downloadBlobData = (blobRes: {
   data: Blob
   headers: { 'content-disposition': string; 'content-type': string }
