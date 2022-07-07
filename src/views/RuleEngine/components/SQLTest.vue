@@ -233,8 +233,7 @@ const createLineDecoration = (lineContent: string): string => {
 
 const { docMap } = useDocLink()
 const goDoc = () => {
-  // TODO:
-  window.open(docMap.home, '_blank')
+  window.open(docMap.sqlTest, '_blank')
 }
 
 const store = useStore()
