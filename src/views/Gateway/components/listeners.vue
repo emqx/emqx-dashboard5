@@ -33,7 +33,7 @@
       </el-button>
     </div>
 
-    <ListenerDialog
+    <ListenerDrawer
       v-model="opListener"
       :listener="currentListener"
       :gatewayName="gName"
@@ -52,7 +52,7 @@ import { useRoute } from 'vue-router'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import useListenerUtils from '@/hooks/Config/useListenerUtils'
-import ListenerDialog from '@/components/ListenerDialog/ListenerDialog.vue'
+import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
 import useI18nTl from '@/hooks/useI18nTl.ts'
 
 const props = defineProps({

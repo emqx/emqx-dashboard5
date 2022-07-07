@@ -55,7 +55,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <ListenerDialog v-model="showDialog" :listener="currentListener" @submitted="getListenerData" />
+    <ListenerDrawer v-model="showDialog" :listener="currentListener" @submitted="getListenerData" />
     <el-dialog
       v-model="showDeleteDialog"
       :width="450"
@@ -99,7 +99,7 @@ import { Listener, ListenerSimpleInfo } from '@/types/listener'
 import { calcPercentage } from '@/common/utils'
 import { ListenerAction } from '@/types/enum'
 import { ElMessage } from 'element-plus'
-import ListenerDialog from '@/components/ListenerDialog/ListenerDialog.vue'
+import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
 
 const { t, tl } = useI18nTl('Gateway')
 
