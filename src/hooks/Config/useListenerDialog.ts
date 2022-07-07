@@ -56,7 +56,13 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     },
   })
 
-  const isEdit: ComputedRef<boolean> = computed(() => !!props.listener)
+  /**
+   * when the dialog use in create gateway, the listener data handle by gateway
+   * so the edit listener just like create listener
+   */
+  const isEdit: ComputedRef<boolean> = computed(
+    () => !!props.listener && !props.doNotSubmitToBackend,
+  )
 
   const listenerRecord: Ref<Listener> = ref({} as Listener)
 
