@@ -18,7 +18,7 @@
               <div class="part-header">{{ tl('sqlEditor') }}</div>
               <p class="sub-block-desc">
                 <span>{{ tl('ruleSQLDesc') }}</span>
-                <a :href="docMap.home">{{ tl('doc') }}</a>
+                <a :href="docMap.sqlGrammar" target="_blank">{{ tl('doc') }}</a>
               </p>
               <el-form-item required prop="sql" class="self-required">
                 <!-- <template #label>

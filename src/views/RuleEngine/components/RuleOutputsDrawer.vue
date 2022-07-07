@@ -62,9 +62,8 @@
             <el-form-item label="Payload">
               <template #label>
                 <label>Payload</label>
-                <!-- TODO: -->
                 <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
-                  <a :href="docMap.home" target="_blank">{{ tl('payloadTempSyntax') }}</a>
+                  <a :href="docMap.sqlActionRepub" target="_blank">{{ tl('payloadTempSyntax') }}</a>
                 </i18n-t>
               </template>
               <div class="monaco-container">

@@ -1,8 +1,3 @@
-import getDocLinks from '@/common/docLinks.ts'
-
-const enDocLinkMap = getDocLinks('en')
-const zhDocLinkMap = getDocLinks('zh')
-
 export default {
   networkGraph: {
     en: 'Cluster',
@@ -319,22 +314,6 @@ export default {
   notPromptAgain: {
     zh: '不再提示',
     en: 'Stop showing this',
-  },
-  licenseExpiryTip: {
-    zh: `
-    您的试用 License 已过期，请<a target="_blank"  href="${zhDocLinkMap.applyLicense}">更新 License</a>或联系销售人员更新 License。
-    `,
-    en: `
-    Your license has expired. Please <a target="_blank"  href="${enDocLinkMap.applyLicense}">apply</a> for a new license or contact EMQ customer services.
-    `,
-  },
-  licenseEvaluationTip: {
-    zh: `
-    当前正在使用评估 License，限制为10个连接。请<a target="_blank"  href="${zhDocLinkMap.applyLicense}">升级 License</a> 。<br/>
-    如已购买 License，请使用 <code>emqx ctl license update</code> 命令进行升级`,
-    en: `
-    You are using a 10-connection evaluation license. Please<a target="_blank"  href="${enDocLinkMap.applyLicense}"> upgrade license </a>.<br/>
-    If you have already received a license, please update with command <code>emqx ctl license update</code>`,
   },
   konw: {
     zh: '知道了',
