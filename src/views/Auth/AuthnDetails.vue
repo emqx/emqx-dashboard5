@@ -105,6 +105,7 @@ import { queryAuthnItemMetrics } from '@/api/auth'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { checkNOmitFromObj } from '@/common/tools.ts'
+import { getPasswordHashAlgorithmObj } from '@/hooks/Auth/usePasswordHashAlgorithmData.ts'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -171,6 +172,18 @@ export default defineComponent({
       return ''
     })
 
+    const setPassWordBasedFieldsDefaultValue = () => {
+      if (
+        configData.value.mechanism === 'password_based' &&
+        configData.value.password_hash_algorithm
+      ) {
+        configData.value.password_hash_algorithm = {
+          ...getPasswordHashAlgorithmObj().password_hash_algorithm,
+          ...configData.value.password_hash_algorithm,
+        }
+      }
+    }
+
     const loadData = async function () {
       authnDetailLock.value = true
       const res = props.gatewayInfo || (await loadAuthn(id.value).catch(() => {}))
@@ -179,6 +192,7 @@ export default defineComponent({
       if (res) {
         currBackend.value = res.backend || res.mechanism
         configData.value = res
+        setPassWordBasedFieldsDefaultValue()
       }
     }
     const getAuthnMetrics = async () => {
