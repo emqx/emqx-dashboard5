@@ -53,7 +53,12 @@ export default (props: PropsParams, databaseConfig: any): ReturnData => {
     }
 
     if (isRedis.value) {
-      ret = { ...ret, ...createRedisCommonFormRules() }
+      ret = {
+        ...ret,
+        ...createRedisCommonFormRules(),
+        /* For redis type 'sentinel' */
+        sentinel: createRequiredRule(tl('sentinel')),
+      }
     } else if (isMongoDB.value) {
       ret = {
         ...ret,

@@ -49,7 +49,7 @@
           </el-col>
           <!-- Redis -->
           <el-col v-if="isRedis && databaseConfig.redis_type === 'sentinel'" :span="12">
-            <el-form-item :label="$t('Auth.sentinel')">
+            <el-form-item :label="$t('Auth.sentinel')" prop="sentinel" required>
               <el-input v-model="databaseConfig.sentinel" />
             </el-form-item>
           </el-col>
@@ -213,18 +213,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
+import { waitAMoment } from '@/common/tools'
+import BooleanSelect from '@/components/BooleanSelect.vue'
+import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
-import BooleanSelect from '@/components/BooleanSelect.vue'
 import { MongoType, SaltPosition } from '@/types/enum'
-import Monaco from '@/components/Monaco.vue'
-import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
-import { waitAMoment } from '@/common/tools'
+import { computed, defineComponent, ref } from 'vue'
 import HelpBlock from './HelpBlock.vue'
+import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
 export default defineComponent({
   name: 'DatabaseConfig',
