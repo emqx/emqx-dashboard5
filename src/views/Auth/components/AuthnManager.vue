@@ -27,20 +27,22 @@
         </el-space>
       </div>
       <div class="add-funcs-container">
-        <el-button :icon="Document" @click="downloadTemplate">
-          {{ $t('Base.downloadTemplate') }}
-        </el-button>
-        <el-upload
-          ref="upload"
-          class="file-upload"
-          :show-file-list="false"
-          :auto-upload="false"
-          :on-change="handleUsersFileChange"
-        >
-          <el-button type="primary" plain :icon="Upload">
-            {{ $t('Base.import') }}
+        <template v-if="mechanism === 'password_based'">
+          <el-button :icon="Document" @click="downloadTemplate">
+            {{ $t('Base.downloadTemplate') }}
           </el-button>
-        </el-upload>
+          <el-upload
+            ref="upload"
+            class="file-upload"
+            :show-file-list="false"
+            :auto-upload="false"
+            :on-change="handleUsersFileChange"
+          >
+            <el-button type="primary" plain :icon="Upload">
+              {{ $t('Base.import') }}
+            </el-button>
+          </el-upload>
+        </template>
         <el-button type="primary" :icon="Plus" @click="addCommand">
           {{ $t('Base.add') }}
         </el-button>
@@ -171,6 +173,12 @@ const searchVal = reactive({
 
 const id = computed(function (): string {
   return route.params.id as string
+})
+
+const reg = /^(?<mechanism>.+):.+$/
+const mechanism = computed(() => {
+  const matchRes = id.value.match(reg)
+  return matchRes ? matchRes.groups?.mechanism : ''
 })
 
 const loadData = async () => {
