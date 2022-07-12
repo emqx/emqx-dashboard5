@@ -22,16 +22,19 @@
         <el-row v-if="selectedPlatform === PROMETHEUS">
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.isEnabled')">
+              <p class="item-desc">{{ tl('prometheusEnableDesc') }}</p>
               <el-switch v-model="prometheusFormData.enable" />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item label="Pushgateway Server">
+              <p class="item-desc">{{ tl('prometheusServerDesc') }}</p>
               <el-input v-model="prometheusFormData.push_gateway_server" />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('dataReportingInterval')">
+              <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
               <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
             </el-form-item>
           </el-col>
@@ -39,16 +42,19 @@
         <el-row v-else>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.isEnabled')">
+              <p class="item-desc">{{ tl('statsDEnableDesc') }}</p>
               <el-switch v-model="statsDFormData.enable" />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.server')">
+              <p class="item-desc">{{ tl('statsDServerDesc') }}</p>
               <el-input v-model="statsDFormData.server" />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('dataReportingInterval')">
+              <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
               <TimeInputWithUnitSelectVue v-model="statsDFormData.flush_time_interval" />
             </el-form-item>
           </el-col>
