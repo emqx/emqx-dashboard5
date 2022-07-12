@@ -69,7 +69,7 @@ export default {
   },
   jwtDataSourceDesc: {
     zh: 'JWT 认证无需选择数据源，请继续下一步配置',
-    en: 'JWT authentication does not need to select a backend, please continue to the next step of the configuration',
+    en: 'JWT authentication does not require a backend, continue to the next step',
   },
   connect: {
     zh: '连接',
@@ -269,7 +269,7 @@ export default {
   },
   isSuperuser: {
     zh: '是否为超级用户',
-    en: 'is superuser',
+    en: 'Is superuser',
   },
   validMethod: {
     zh: '验证方式',

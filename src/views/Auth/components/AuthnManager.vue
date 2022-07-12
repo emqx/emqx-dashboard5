@@ -365,7 +365,7 @@ const handleResetSearch = () => {
   }
   .el-checkbox.is-bordered {
     margin: 0;
-    padding: 0 30px;
+    padding: 0 12px;
   }
 
   .add-funcs-container {

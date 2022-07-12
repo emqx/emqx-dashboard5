@@ -7,7 +7,7 @@
       </el-button>
     </div>
     <el-table :data="nodes" v-loading.lock="nodesLockTable" class="nodes-table">
-      <el-table-column prop="node" :label="tl('nodeName')">
+      <el-table-column prop="node" :label="tl('name')">
         <template #default="{ row }">
           <router-link class="node-name" :to="`nodes/${row.node}`">{{ row.node }}</router-link>
         </template>
