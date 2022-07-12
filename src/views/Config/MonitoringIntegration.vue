@@ -1,10 +1,10 @@
 <template>
   <div class="monitoring-integration app-wrapper">
     <el-card class="config-card" v-loading="isDataLoading">
-      <el-row>
-        <el-col :span="12">
-          <el-form label-position="top">
-            <el-form-item :label="tl('monitoringPlatformFormItemLabel')">
+      <el-form label-position="top" class="schema-form">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item :label="tl('monitoringPlatformFormItemLabel')" class="radio-form-item">
               <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
                 <el-row :gutter="28">
                   <el-col v-for="item in platformOpts" :key="item.label" :span="12">
@@ -16,34 +16,49 @@
                 </el-row>
               </el-radio-group>
             </el-form-item>
-            <template v-if="selectedPlatform === PROMETHEUS">
-              <el-form-item :label="t('Base.isEnabled')">
-                <el-switch v-model="prometheusFormData.enable" />
-              </el-form-item>
-              <el-form-item label="Pushgateway Server">
-                <el-input v-model="prometheusFormData.push_gateway_server" />
-              </el-form-item>
-              <el-form-item :label="tl('dataReportingInterval')">
-                <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
-              </el-form-item>
-            </template>
-            <template v-else>
-              <el-form-item :label="t('Base.isEnabled')">
-                <el-switch v-model="statsDFormData.enable" />
-              </el-form-item>
-              <el-form-item :label="t('Base.server')">
-                <el-input v-model="statsDFormData.server" />
-              </el-form-item>
-              <el-form-item :label="tl('dataReportingInterval')">
-                <TimeInputWithUnitSelectVue v-model="statsDFormData.flush_time_interval" />
-              </el-form-item>
-            </template>
-            <el-button type="primary" :loading="isSubmitting" @click="submit">
-              {{ $t('Base.update') }}
-            </el-button>
-          </el-form>
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
+
+        <el-row v-if="selectedPlatform === PROMETHEUS">
+          <el-col :span="16" class="custom-col">
+            <el-form-item :label="t('Base.isEnabled')">
+              <el-switch v-model="prometheusFormData.enable" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" class="custom-col">
+            <el-form-item label="Pushgateway Server">
+              <el-input v-model="prometheusFormData.push_gateway_server" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" class="custom-col">
+            <el-form-item :label="tl('dataReportingInterval')">
+              <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-else>
+          <el-col :span="16" class="custom-col">
+            <el-form-item :label="t('Base.isEnabled')">
+              <el-switch v-model="statsDFormData.enable" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" class="custom-col">
+            <el-form-item :label="t('Base.server')">
+              <el-input v-model="statsDFormData.server" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" class="custom-col">
+            <el-form-item :label="tl('dataReportingInterval')">
+              <TimeInputWithUnitSelectVue v-model="statsDFormData.flush_time_interval" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div class="ft">
+          <el-button type="primary" :loading="isSubmitting" @click="submit">
+            {{ $t('Base.update') }}
+          </el-button>
+        </div>
+      </el-form>
     </el-card>
   </div>
 </template>
@@ -140,6 +155,13 @@ loadIntegration()
 
 <style lang="scss">
 .monitoring-integration {
+  .schema-form {
+    padding-bottom: 20px;
+  }
+  .radio-form-item {
+    width: 100%;
+    padding: 0 12px;
+  }
   .platform-radio-group {
     width: 100%;
     .el-row {
@@ -166,6 +188,9 @@ loadIntegration()
       word-break: break-all;
       text-overflow: ellipsis;
     }
+  }
+  .ft {
+    padding: 12px 12px + 12px + 4px;
   }
 }
 </style>
