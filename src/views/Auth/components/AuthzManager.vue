@@ -60,7 +60,11 @@
             <el-table :data="row.rules">
               <el-table-column prop="permission" label="Permission" min-width="80px">
               </el-table-column>
-              <el-table-column prop="action" label="Action" min-width="80px"></el-table-column>
+              <el-table-column label="Action" min-width="80px">
+                <template #default="{ row }">
+                  {{ getLabelFromValueInOptionList(row.action, actionOpts) }}
+                </template>
+              </el-table-column>
               <el-table-column prop="topic" label="Topic"></el-table-column>
             </el-table>
           </template>
@@ -136,12 +140,15 @@
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column prop="action" label="Action">
+              <el-table-column prop="action" label="Action" :width="220">
                 <template #default="{ row }">
                   <el-select v-model="row.action">
-                    <el-option value="publish" label="Publish"></el-option>
-                    <el-option value="subscribe" label="Subscribe"></el-option>
-                    <el-option value="all" label="All"></el-option>
+                    <el-option
+                      v-for="{ label, value } in actionOpts"
+                      :key="value"
+                      :value="value"
+                      :label="label"
+                    />
                   </el-select>
                 </template>
               </el-table-column>
@@ -203,6 +210,7 @@ import { useI18n } from 'vue-i18n'
 import { Plus, Search, RefreshRight } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule, BuiltInDBType } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
+import { getLabelFromValueInOptionList } from '@/common/tools'
 
 export default defineComponent({
   components: { commonPagination, InfoTooltip },
@@ -247,6 +255,12 @@ export default defineComponent({
     const isEdit = ref(false)
     const editIndex = ref(0)
     const searchVal = ref('')
+
+    const actionOpts = [
+      { value: 'publish', label: 'Publish' },
+      { value: 'subscribe', label: 'Subscribe' },
+      { value: 'all', label: 'Publish & Subscribe' },
+    ]
 
     const getRules = function () {
       return {
@@ -472,6 +486,7 @@ export default defineComponent({
       isEdit,
       pageMeta,
       searchVal,
+      actionOpts,
       loadData,
       getRules,
       handleAdd,
@@ -486,6 +501,7 @@ export default defineComponent({
       resetSearchAndLoadData,
       getCurrSearchValTip,
       replaceSpaceForHTML,
+      getLabelFromValueInOptionList,
     }
   },
 })

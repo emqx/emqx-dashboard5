@@ -61,7 +61,7 @@ export default {
   },
   maxFds: {
     zh: '最大文件句柄',
-    en: 'Max FDs',
+    en: 'File Descriptors Limit',
   },
   process: {
     zh: '进程',
@@ -78,6 +78,10 @@ export default {
   nodeName: {
     zh: '节点名称',
     en: 'Node Name',
+  },
+  name: {
+    zh: '名称',
+    en: 'Name',
   },
   nodeList: {
     zh: '节点列表',
