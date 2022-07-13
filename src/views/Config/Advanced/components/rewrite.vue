@@ -8,7 +8,11 @@
     </div>
 
     <el-table :data="rewriteTbData" class="shadow-none" v-loading="tbDataLoading">
-      <el-table-column :label="tl('action')" prop="action" :min-width="108" />
+      <el-table-column :label="tl('action')" prop="action" :min-width="108">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.action, actionOpts) }}
+        </template>
+      </el-table-column>
       <el-table-column :label="tl('sTopic')" prop="source_topic" :min-width="146" />
       <el-table-column :label="tl('re')" prop="re" :min-width="120" />
       <el-table-column :label="tl('dTopic')" prop="dest_topic" :min-width="128" />
@@ -38,7 +42,12 @@
       >
         <el-form-item :label="'Action'" prop="action">
           <el-select v-model="rewriteInput.action">
-            <el-option v-for="item in actionOptions" :key="item" :value="item" :label="item" />
+            <el-option
+              v-for="{ value, label } in actionOpts"
+              :key="value"
+              :value="value"
+              :label="label"
+            />
           </el-select>
         </el-form-item>
         <el-form-item :label="tl('sTopic')" prop="source_topic">
@@ -69,6 +78,7 @@ import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Plus } from '@element-plus/icons-vue'
+import { getLabelFromValueInOptionList } from '@/common/tools'
 
 export default defineComponent({
   name: 'Rewrite',
@@ -79,7 +89,11 @@ export default defineComponent({
     let opRewrite = ref(false)
     let rewriteTbData = ref([])
     let isEdit = ref(false)
-    let actionOptions = ref(['all', 'publish', 'subscribe'])
+    const actionOpts = [
+      { value: 'publish', label: 'Publish' },
+      { value: 'subscribe', label: 'Subscribe' },
+      { value: 'all', label: 'Publish & Subscribe' },
+    ]
     let rewriteInput = reactive({
       action: '',
       source_topic: '',
@@ -201,7 +215,7 @@ export default defineComponent({
       isEdit,
       opRewrite,
       rewriteTbData,
-      actionOptions,
+      actionOpts,
       rewriteInput,
       openOpDialog,
       initForm,
@@ -212,6 +226,7 @@ export default defineComponent({
       reloading,
       rewriteForm,
       rewriteRules,
+      getLabelFromValueInOptionList,
     }
   },
 })

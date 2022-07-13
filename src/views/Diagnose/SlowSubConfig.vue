@@ -14,7 +14,7 @@
                   {{ $t('SlowSub.statsThreshold') }}
                   <InfoTooltip :content="$t('SlowSub.statsThresholdDesc')" />
                 </template>
-                <el-input v-model="configForm.threshold" />
+                <TimeInputWithUnitSelect v-model="configForm.threshold" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -32,7 +32,7 @@
                   {{ $t('SlowSub.evictionTimeOfRecord') }}
                   <InfoTooltip :content="$t('SlowSub.evictionTimeOfRecordDesc')" />
                 </template>
-                <el-input v-model="configForm.expire_interval" />
+                <TimeInputWithUnitSelect v-model="configForm.expire_interval" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -95,6 +95,7 @@ import { SlowSubType } from '@/types/enum'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import DetailHeader from '@/components/DetailHeader.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')

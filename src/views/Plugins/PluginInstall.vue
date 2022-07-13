@@ -94,7 +94,7 @@ const submit = async () => {
   line-height: 20px;
 }
 .plugin-uploader {
-  width: 250px;
+  width: 400px;
   margin-left: auto;
   margin-right: auto;
   .icon-plus {
@@ -108,14 +108,16 @@ const submit = async () => {
   }
   .upload-placeholder {
     color: var(--color-text-placeholder);
-    font-size: 14px;
+    font-size: 16px;
   }
   :deep(.el-upload) {
     width: 100%;
     .el-upload-dragger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
-      height: 100px;
-      padding-top: 20px;
+      height: 200px;
     }
   }
 }
