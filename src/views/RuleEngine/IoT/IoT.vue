@@ -25,7 +25,7 @@
             <template #content>
               <CodeView lang="sql" :code="row.sql" />
             </template>
-            <div>
+            <div class="inputs-container">
               <span class="input-item" v-for="item in row.from" :key="item">{{ item }}</span>
             </div>
           </el-tooltip>
@@ -162,8 +162,12 @@ onMounted(() => {
     }
   }
 }
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
 .input-item {
-  display: block;
   &:not(:last-child)::after {
     content: ',';
   }

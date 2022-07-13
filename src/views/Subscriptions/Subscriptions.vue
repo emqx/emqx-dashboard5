@@ -15,13 +15,22 @@
           ></el-input>
         </el-col>
         <el-col :span="6" class="form-item-col">
-          <el-tooltip effect="dark" popper-class="input-tooltip" placement="top-start">
-            <template #content>
-              <p>{{ $t('Clients.wildcardSupported') }}</p>
-              <p>{{ $t('Clients.topicFilterDesc') }}</p>
+          <el-input
+            v-model="fuzzyParams.match_topic"
+            type="text"
+            clearable
+            placeholder="Topic"
+            class="topic-input"
+          >
+            <template #suffix>
+              <InfoTooltip>
+                <template #content>
+                  <p>{{ $t('Clients.wildcardSupported') }}</p>
+                  <p>{{ $t('Clients.topicFilterDesc') }}</p>
+                </template>
+              </InfoTooltip>
             </template>
-            <el-input v-model="fuzzyParams.match_topic" type="text" clearable placeholder="Topic" />
-          </el-tooltip>
+          </el-input>
         </el-col>
         <template v-if="showMoreQuery">
           <el-col :span="6">
@@ -92,6 +101,7 @@ import { listSubscriptions, loadNodes } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
 import { Search, ArrowDown, ArrowUp, RefreshRight } from '@element-plus/icons-vue'
 import { NodeMsg } from '@/types/dashboard'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const pageMeta = ref({})
 const showMoreQuery = ref(false)
@@ -166,9 +176,17 @@ loadNodeSubscriptions()
 
 <style lang="scss">
 @import '~@/style/management.scss';
-.input-tooltip {
+.info-tooltip {
   p {
     margin: 0;
+  }
+}
+.topic-input {
+  .icon-question {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    line-height: 14px;
   }
 }
 </style>

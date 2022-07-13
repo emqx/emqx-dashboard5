@@ -26,7 +26,7 @@ const { t } = useI18n()
 }
 
 :deep(.topology-node-tooltip) {
-  width: 200px;
+  width: 260px;
   padding: 16px 12px;
 
   ul {

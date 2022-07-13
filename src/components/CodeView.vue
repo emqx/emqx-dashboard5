@@ -64,4 +64,9 @@ export default {
     border-radius: 2px;
   }
 }
+.el-popper {
+  .hljs {
+    border-radius: 8px;
+  }
+}
 </style>
