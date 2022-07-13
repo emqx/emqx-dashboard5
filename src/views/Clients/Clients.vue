@@ -18,7 +18,7 @@
         </el-col>
         <el-col :span="6">
           <el-select v-model="fuzzyParams.node" :placeholder="$t('Clients.node')" clearable>
-            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
+            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
         <template v-if="showMoreQuery">
@@ -35,28 +35,23 @@
               :placeholder="$t('Clients.connectedStatus')"
               clearable
             >
-              <el-option value="connected"></el-option>
-              <el-option value="disconnected"></el-option>
+              <el-option value="connected" />
+              <el-option value="disconnected" />
             </el-select>
           </el-col>
           <el-col :span="6">
-            <el-row class="form-item-row">
-              <el-col :span="10">
-                <el-select v-model="fuzzyParams.comparator" class="comparator">
-                  <el-option :label="$t('Clients.gte')" value="gte"></el-option>
-                  <el-option :label="$t('Clients.lte')" value="lte"></el-option>
-                </el-select>
-              </el-col>
-              <el-col :span="14">
-                <el-date-picker
-                  v-model="fuzzyParams.connected_at"
-                  class="datatime"
-                  type="datetime"
-                  :placeholder="$t('Clients.connectedAt')"
-                  clearable
-                />
-              </el-col>
-            </el-row>
+            <div class="like-input">
+              <el-select v-model="fuzzyParams.comparator">
+                <el-option :label="$t('Clients.gte')" value="gte" />
+                <el-option :label="$t('Clients.lte')" value="lte" />
+              </el-select>
+              <el-date-picker
+                v-model="fuzzyParams.connected_at"
+                type="datetime"
+                :placeholder="$t('Clients.connectedAt')"
+                clearable
+              />
+            </div>
           </el-col>
         </template>
         <el-col :span="6" class="col-oper">
@@ -262,4 +257,35 @@ loadNodeClients()
 
 <style lang="scss">
 @import '~@/style/management.scss';
+.search-wrapper {
+  .like-input {
+    > .el-select,
+    > .el-date-editor {
+      vertical-align: top;
+      .is-focus {
+        .el-input__wrapper {
+          z-index: 20;
+        }
+      }
+    }
+    > .el-select {
+      width: 30%;
+      .el-input__wrapper {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        background-color: var(--el-fill-color-light);
+      }
+    }
+    > .el-date-editor {
+      width: 70%;
+      position: relative;
+      left: -1px;
+      .el-input__wrapper {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left-color: transparent;
+      }
+    }
+  }
+}
 </style>

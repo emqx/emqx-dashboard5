@@ -138,6 +138,9 @@ p.tip {
   }
   & > .el-col {
     margin-bottom: 20px;
+    > .el-button:first-child {
+      margin-left: 0;
+    }
   }
   .el-select {
     width: 100%;
