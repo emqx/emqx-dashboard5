@@ -115,7 +115,7 @@ export default (): {
       </ul>
       <div>
         <label>${tl('SQL')}</label>
-        <div class="sql-container">${highlightSQL(sql)}</div>
+        <div class="sql-container hljs">${highlightSQL(sql)}</div>
       </div>
     `
     return container
