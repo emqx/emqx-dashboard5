@@ -1,5 +1,5 @@
 <template>
-  <div :class="[{ 'app-wrapper': !isFromRule }, 'bridge-create']">
+  <div :class="[!isFromRule ? 'app-wrapper' : '', 'bridge-create']">
     <detail-header
       v-if="!isFromRule"
       :item="{ name: tl('createBridge'), routeName: backRoute.name }"
@@ -8,14 +8,15 @@
       <el-card class="app-card">
         <el-row>
           <el-col :span="12">
-            <el-steps :active="stepActive" finish-status="success">
-              <el-step :title="tl('bridgeType')"> </el-step>
-              <el-step :title="tl('configuration')"></el-step>
-            </el-steps>
+            <guide-bar
+              :guide-list="[tl('bridgeType'), tl('configuration')]"
+              :active-guide-index-list="activeGuidesIndex"
+              :desc-list="guideDescList"
+            ></guide-bar>
           </el-col>
         </el-row>
         <el-row class="config-body">
-          <template v-if="stepActive === 0">
+          <template v-if="step === 0">
             <el-radio-group class="bridge-type-select" v-model="radioSelectedBridgeType">
               <el-row :gutter="28">
                 <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
@@ -36,7 +37,7 @@
               </el-row>
             </el-radio-group>
           </template>
-          <template v-if="stepActive === 1">
+          <template v-if="step === 1">
             <bridge-http-config
               v-if="chosenBridgeType === BridgeType.Webhook"
               v-model:tls="tlsParams"
@@ -51,22 +52,17 @@
           </template>
         </el-row>
         <el-row class="config-btn">
-          <el-button v-if="stepActive === 0" @click="cancel">
+          <el-button v-if="step === 0" @click="cancel">
             {{ $t('Base.cancel') }}
           </el-button>
-          <el-button @click="goPreStep" v-if="stepActive > 0" :disabled="submitLoading">
+          <el-button @click="goPreStep" v-if="step > 0" :disabled="submitLoading">
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button
-            type="primary"
-            @click="goNextStep"
-            v-if="stepActive < 1"
-            :disabled="submitLoading"
-          >
+          <el-button type="primary" @click="goNextStep" v-if="step < 1" :disabled="submitLoading">
             {{ $t('Base.nextStep') }}
           </el-button>
           <el-button
-            v-if="stepActive === 1 && canTest"
+            v-if="step === 1 && canTest"
             type="primary"
             plain
             :loading="isTesting"
@@ -76,7 +72,7 @@
           </el-button>
           <el-button
             type="primary"
-            v-if="stepActive === 1"
+            v-if="step === 1"
             :loading="submitLoading"
             @click="submitCreateBridge"
           >
@@ -143,10 +139,12 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import useSSL from '@/hooks/useSSL'
 import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
+import GuideBar from '@/components/GuideBar.vue'
+import useGuide from '@/hooks/useGuide'
 
 export default defineComponent({
   name: 'BridgeCreate',
-  components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader },
+  components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader, GuideBar },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
     const createBridgeData = () => ({})
@@ -157,7 +155,6 @@ export default defineComponent({
       keyfile: '',
       cacertfile: '',
     }
-    const stepActive = ref(0)
     const router = useRouter()
     const route = useRoute()
     const { t } = useI18n()
@@ -182,6 +179,8 @@ export default defineComponent({
       }
       return { name }
     })
+
+    const { step, activeGuidesIndex, guideDescList } = useGuide(() => {})
 
     const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
@@ -209,15 +208,18 @@ export default defineComponent({
     }
 
     const goPreStep = () => {
-      stepActive.value -= 1
+      step.value -= 1
       bridgeData.value = createBridgeData()
+      guideDescList.value.pop()
     }
 
     const goNextStep = () => {
-      if (stepActive.value === 0) {
+      if (step.value === 0) {
         handleTypeSelected()
+        const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
+        guideDescList.value.push(type?.label || '')
       }
-      stepActive.value += 1
+      step.value += 1
     }
 
     const cancel = () => {
@@ -285,7 +287,9 @@ export default defineComponent({
       tl,
       isFromRule,
       backRoute,
-      stepActive,
+      step,
+      activeGuidesIndex,
+      guideDescList,
       goPreStep,
       goNextStep,
       bridgeTypeOptions,
@@ -368,7 +372,6 @@ export default defineComponent({
 
 .config-body {
   flex-direction: column;
-  margin-top: 30px;
   width: 70%;
 }
 .bridge-type-select {
