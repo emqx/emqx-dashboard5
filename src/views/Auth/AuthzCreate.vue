@@ -5,11 +5,9 @@
       <guide-bar
         :guide-list="getGuideList()"
         :active-guide-index-list="activeGuidesIndex"
+        :desc-list="guideDescList"
       ></guide-bar>
       <div v-if="step === 0" class="create-form">
-        <div class="create-form-title">
-          {{ $t('Auth.selectDataSource') }}
-        </div>
         <el-radio-group v-model="type" size="large">
           <el-badge
             v-for="item in typeList"
@@ -86,6 +84,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { jumpToErrorFormItem } from '@/common/tools'
 import { checkNOmitFromObj } from '@/common/tools.ts'
+import useAuth from '@/hooks/Auth/useAuth'
 
 export default defineComponent({
   name: 'AuthzCreate',
@@ -144,11 +143,12 @@ export default defineComponent({
         img: require('@/assets/img/redis.png'),
       },
     ])
-
-    const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(() => {
+    const { titleMap } = useAuth()
+    const { step, activeGuidesIndex, handleNext, handleBack, guideDescList } = useGuide(() => {
       if (step.value === 0) {
         const data = factory(type.value)
         configData.value = data
+        guideDescList.value.push(titleMap[type.value])
       }
     })
 
@@ -182,6 +182,7 @@ export default defineComponent({
       configData,
       step,
       type,
+      guideDescList,
       typeList,
       activeGuidesIndex,
       addedAuthz,

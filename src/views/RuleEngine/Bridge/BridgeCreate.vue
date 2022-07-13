@@ -16,9 +16,6 @@
         </el-row>
         <el-row class="config-body">
           <template v-if="stepActive === 0">
-            <div class="part-header">
-              {{ tl('chooseBridgeType') }}
-            </div>
             <el-radio-group class="bridge-type-select" v-model="radioSelectedBridgeType">
               <el-row :gutter="28">
                 <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">

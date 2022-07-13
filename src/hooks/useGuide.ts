@@ -4,6 +4,7 @@ import { ref } from 'vue'
 export default function useGuide(before: () => void) {
   const activeGuidesIndex = ref([0])
   const step = ref(0)
+  const guideDescList = ref<string[]>([])
   const handleNext = function () {
     if (before) {
       before()
@@ -14,10 +15,12 @@ export default function useGuide(before: () => void) {
   const handleBack = function () {
     step.value -= 1
     activeGuidesIndex.value.pop()
+    guideDescList.value.pop()
   }
   return {
     activeGuidesIndex,
     step,
+    guideDescList,
     handleNext,
     handleBack,
   }
