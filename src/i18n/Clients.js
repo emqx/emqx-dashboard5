@@ -363,4 +363,12 @@ export default {
     zh: '消息数量',
     en: 'Messages',
   },
+  wildcardSupported: {
+    zh: '支持使用主题通配符',
+    en: 'Topic Wildcards is available',
+  },
+  topicFilterDesc: {
+    zh: '例如，输入 test/#，将过滤得到 topic 是 test/1、test/2 等的订阅',
+    en: 'e.g. typing test/# will filter for subscriptions where the topic is test/1, test/2, etc.',
+  },
 }

@@ -15,19 +15,14 @@
           ></el-input>
         </el-col>
         <el-col :span="6" class="form-item-col">
-          <el-row class="form-item-row">
-            <el-col :span="8">
-              <el-select v-model="fuzzyParams.match" class="match">
-                <el-option label="filter" value="match_topic"></el-option>
-                <el-option label="topic" value="topic"></el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="16">
-              <el-input v-model="fuzzyParams.topic" type="text" clearable> </el-input>
-            </el-col>
-          </el-row>
+          <el-tooltip effect="dark" popper-class="input-tooltip" placement="top-start">
+            <template #content>
+              <p>{{ $t('Clients.wildcardSupported') }}</p>
+              <p>{{ $t('Clients.topicFilterDesc') }}</p>
+            </template>
+            <el-input v-model="fuzzyParams.match_topic" type="text" clearable placeholder="Topic" />
+          </el-tooltip>
         </el-col>
-
         <template v-if="showMoreQuery">
           <el-col :span="6">
             <el-select v-model="fuzzyParams.qos" clearable placeholder="QoS">
@@ -105,9 +100,8 @@ const params = ref({})
 const lockTable = ref(true)
 const currentNodes = ref<NodeMsg[]>([])
 const fuzzyParams = ref({
-  match: 'match_topic',
   node: '',
-  topic: '',
+  match_topic: '',
   clientid: '',
   share_group: '',
   qos: '',
@@ -118,9 +112,8 @@ const handleSearch = async () => {
 }
 const handleResetSerach = async () => {
   fuzzyParams.value = {
-    match: 'match_topic',
     node: '',
-    topic: '',
+    match_topic: '',
     clientid: '',
     share_group: '',
     qos: '',
@@ -130,15 +123,13 @@ const handleResetSerach = async () => {
 }
 
 const genQueryParams = (params: Record<string, any>) => {
-  const { clientid, qos, share_group, node, topic, match } = params
+  const { clientid, qos, share_group, node, match_topic } = params
   let newParams: Record<string, any> = {
     clientid: clientid === '' ? undefined : clientid ?? undefined,
     qos: qos === '' ? undefined : qos,
     share_group: share_group || undefined,
     node: node || undefined,
-  }
-  if (topic) {
-    newParams[match] = topic
+    match_topic: match_topic || undefined,
   }
 
   return newParams
@@ -175,4 +166,9 @@ loadNodeSubscriptions()
 
 <style lang="scss">
 @import '~@/style/management.scss';
+.input-tooltip {
+  p {
+    margin: 0;
+  }
+}
 </style>
