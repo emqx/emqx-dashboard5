@@ -10,6 +10,7 @@
       </el-icon>
       <span class="icon-number" v-else>{{ index + 1 }}</span>
       <span class="guide-title">{{ item }}</span>
+      <span v-if="descList[index]" class="guide-desc">({{ descList[index] }})</span>
     </div>
   </div>
 </template>
@@ -31,6 +32,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    descList: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
@@ -43,7 +48,7 @@ export default {
 .guide-bar {
   display: flex;
   font-size: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 
   .guide-item {
     position: relative;
@@ -81,13 +86,17 @@ export default {
     .icon-number {
       background: var(--color-border-primary);
     }
-
     .guide-title {
       display: inline-block;
       margin-left: 8px;
       color: var(--color-title-primary);
     }
-
+    .guide-desc {
+      color: var(--color-text-secondary);
+      font-size: 14px;
+      font-weight: normal;
+      margin-left: 6px;
+    }
     &.active {
       font-weight: 600;
       .guide-title {

@@ -5,12 +5,13 @@
       v-if="!gateway"
     />
     <el-card :shadow="!gateway ? 'always' : 'never'">
-      <guide-bar :guide-list="getGuideList()" :active-guide-index-list="activeGuidesIndex" />
+      <guide-bar
+        :guide-list="getGuideList()"
+        :active-guide-index-list="activeGuidesIndex"
+        :desc-list="guideDescList"
+      />
       <!-- Mechanism -->
       <div v-if="step === 0" class="create-form">
-        <div class="create-form-title">
-          {{ $t('Auth.selectMechanism') }}
-        </div>
         <el-radio-group v-model="mechanism" size="large">
           <template v-for="{ value, label } in authnMechanismTypeList" :key="value">
             <el-badge
@@ -44,9 +45,6 @@
       </div>
       <!-- Backend -->
       <div v-if="step === 1" class="create-form">
-        <div class="create-form-title">
-          {{ $t('Auth.selectDataSource') }}
-        </div>
         <template v-if="mechanism !== 'jwt'">
           <p class="item-description">
             {{ $t('Auth.dataSourceDesc') }}
@@ -190,6 +188,7 @@ import { checkNOmitFromObj, jumpToErrorFormItem, sortStringArr } from '@/common/
 import useI18nTl from '@/hooks/useI18nTl'
 import { AuthnMechanismType } from '@/types/enum'
 import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
+import useAuth from '@/hooks/Auth/useAuth'
 
 interface PresetData {
   mechanism: AuthnMechanismType
@@ -332,7 +331,8 @@ const checkPresetDataAndSet = (authData: Record<string, any>) => {
     ...cloneDeep(target?.data || {}),
   }
 }
-
+const { getLabelByValue: getMechanismLabel } = useAuthnMechanismType()
+const { titleMap } = useAuth()
 const beforeNext = function () {
   if (step.value === 0) {
     databases.value = []
@@ -341,12 +341,16 @@ const beforeNext = function () {
     if (props.gateway) {
       setDefaultBackendForGateway()
     }
+    guideDescList.value.push(getMechanismLabel(mechanism.value as AuthnMechanismType))
   } else if (step.value === 1) {
     const data = factory(mechanism.value, backend.value)
     configData.value = checkPresetDataAndSet(data)
+    if (mechanism.value !== 'jwt') {
+      guideDescList.value.push(titleMap[backend.value])
+    }
   }
 }
-const { step, activeGuidesIndex, handleNext, handleBack } = useGuide(beforeNext)
+const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide(beforeNext)
 
 const handleCreate = async function () {
   let isVerified = (await formCom.value.validate().catch(() => {
