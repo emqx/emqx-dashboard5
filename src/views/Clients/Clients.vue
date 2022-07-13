@@ -267,6 +267,9 @@ loadNodeClients()
           z-index: 20;
         }
       }
+      .el-input__wrapper:hover {
+        z-index: 20;
+      }
     }
     > .el-select {
       width: 30%;
