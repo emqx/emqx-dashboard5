@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper topics">
     <el-form @keyup.enter="handleSearch">
-      <el-row class="search-wrapper">
+      <el-row class="search-wrapper" :gutter="28">
         <el-col :span="8">
           <el-input v-model="searchValue" :placeholder="$t('Topics.topic')"></el-input>
         </el-col>
