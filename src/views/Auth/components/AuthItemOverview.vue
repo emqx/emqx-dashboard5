@@ -1,6 +1,11 @@
 <template>
   <div class="resource-item-overview">
-    <h2>{{ tl('executionStatistics') }}</h2>
+    <div class="overview-header">
+      <h2>{{ tl('executionStatistics') }}</h2>
+      <el-button type="primary" :loading="refreshLoading" @click="handleRefresh">
+        {{ $t('Base.refresh') }}
+      </el-button>
+    </div>
     <el-row :gutter="28">
       <el-col :span="6">
         <el-card class="success-bg">
@@ -65,7 +70,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed, ref, Ref, watch } from 'vue'
+import { defineProps, PropType, computed, ref, Ref, watch, defineEmits } from 'vue'
 import { ConnectionStatus } from '@/types/enum'
 import { formatNumber } from '@/common/tools'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
@@ -79,6 +84,10 @@ const props = defineProps({
   },
   type: {
     type: String as PropType<'authn' | 'authz'>,
+  },
+  refreshLoading: {
+    type: Boolean,
+    defalut: false,
   },
 })
 
@@ -127,6 +136,11 @@ const setNodeConnectingStatusMap = () => {
       [nodeStatusItem.node]: false,
     }
   }, {})
+}
+const emits = defineEmits(['refresh'])
+
+const handleRefresh = () => {
+  emits('refresh')
 }
 
 watch(() => props.metrics, setNodeConnectingStatusMap)
