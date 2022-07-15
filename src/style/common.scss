@@ -498,7 +498,7 @@ input:disabled {
   .el-card {
     margin-bottom: 24px;
     &.success-bg {
-      background-color: hsla(171, 100%, 33%, 0.1);
+      background-color: rgba(0, 168, 143, 0.1);
     }
     &.failed-bg {
       background-color: rgba(118, 119, 137, 0.1);
