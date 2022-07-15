@@ -510,6 +510,10 @@ input:disabled {
       background-color: rgba(61, 127, 249, 0.1);
     }
   }
+  .overview-header {
+    display: flex;
+    justify-content: space-between;
+  }
   .card-hd {
     display: flex;
     justify-content: flex-start;

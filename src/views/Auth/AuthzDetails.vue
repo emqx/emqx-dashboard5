@@ -23,7 +23,12 @@
     </div>
     <el-tabs type="card" class="detail-tabs" v-if="!authzDetailLock" v-model="currTab">
       <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
-        <AuthItemOverview :metrics="authMetrics" type="authz" />
+        <AuthItemOverview
+          :metrics="authMetrics"
+          type="authz"
+          :refresh-loading="refreshLoading"
+          @refresh="handleRefresh"
+        />
       </el-tab-pane>
       <el-tab-pane
         v-if="type === 'built_in_database'"
@@ -101,7 +106,7 @@ export default defineComponent({
     const { t } = useI18n()
     const route = useRoute()
     const router = useRouter()
-
+    const refreshLoading = ref(false)
     const authzDetailLock = ref(false)
     const { titleMap } = useAuth()
     const configData = ref({
@@ -137,7 +142,16 @@ export default defineComponent({
         configData.value = res
       }
     }
-
+    const handleRefresh = async () => {
+      refreshLoading.value = true
+      try {
+        await getAuthzMetrics()
+      } catch (error) {
+        // ignore error
+      } finally {
+        refreshLoading.value = false
+      }
+    }
     const getAuthzMetrics = async () => {
       try {
         const data = await queryAuthzItemMetrics(type.value)
@@ -201,8 +215,10 @@ export default defineComponent({
       configData,
       authMetrics,
       formCom,
+      refreshLoading,
       handleDelete,
       handleUpdate,
+      handleRefresh,
     }
   },
 })

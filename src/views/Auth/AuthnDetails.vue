@@ -34,7 +34,12 @@
     </div>
     <el-tabs type="card" class="detail-tabs" v-if="!authnDetailLock" v-model="currTab">
       <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
-        <AuthItemOverview :metrics="authMetrics" type="authn" />
+        <AuthItemOverview
+          :metrics="authMetrics"
+          type="authn"
+          :refresh-loading="refreshLoading"
+          @refresh="handleRefresh"
+        />
       </el-tab-pane>
       <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
         <el-card class="app-card">
@@ -145,6 +150,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const { t } = useI18n()
+    const refreshLoading = ref(false)
     const authnDetailLock = ref(false)
     const currTab = ref(props.gateway ? 'settings' : 'overview')
     const id = computed(function () {
@@ -193,6 +199,16 @@ export default defineComponent({
         currBackend.value = res.backend || res.mechanism
         configData.value = res
         setPassWordBasedFieldsDefaultValue()
+      }
+    }
+    const handleRefresh = async () => {
+      refreshLoading.value = true
+      try {
+        await getAuthnMetrics()
+      } catch (error) {
+        // ignore error
+      } finally {
+        refreshLoading.value = false
       }
     }
     const getAuthnMetrics = async () => {
@@ -270,6 +286,7 @@ export default defineComponent({
 
     return {
       currBackend,
+      refreshLoading,
       currTab,
       currImg,
       titleMap,
@@ -279,6 +296,8 @@ export default defineComponent({
       formCom,
       handleUpdate,
       handleDelete,
+      getAuthnMetrics,
+      handleRefresh,
     }
   },
 })
