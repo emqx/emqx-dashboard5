@@ -1,7 +1,7 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
 import { getBridgeKey, getConnectorKey } from '@/common/tools'
-import { BridgeItem, ConnectorItem, RuleItem } from '@/types/rule'
+import { BridgeItem, ConnectorItem, ParamsForQueryRules, RuleItem } from '@/types/rule'
 
 //Bridges
 export async function getBridgeList(): Promise<any> {
@@ -115,8 +115,8 @@ export function testConnector(body: ConnectorItem): Promise<void> {
 }
 
 //Rules
-export function getRules(): Promise<any> {
-  return http.get('/rules')
+export function getRules(params: ParamsForQueryRules = { page: 1, limit: 1000 }): Promise<any> {
+  return http.get('/rules', { params })
 }
 
 export function getRuleInfo(id: string): Promise<any> {

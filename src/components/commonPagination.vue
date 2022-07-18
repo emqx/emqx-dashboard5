@@ -8,8 +8,8 @@
     v-model:page-size="meta.limit"
     v-model:current-page="meta.page"
     :total="meta.count"
-    @size-change="reloadPage"
-    @current-change="reloadPage"
+    @size-change="handleSizeChanged"
+    @current-change="handleCurrentChanged"
   >
   </el-pagination>
 </template>
@@ -36,18 +36,24 @@ export default defineComponent({
       context.emit('update:metaData', v)
     })
 
-    const reloadPage = () => {
+    const handleSizeChanged = (size) => {
       context.emit('loadPage', {
         page: meta.value.page,
+        limit: size,
+      })
+    }
+
+    const handleCurrentChanged = (current) => {
+      context.emit('loadPage', {
+        page: current,
         limit: meta.value.limit,
       })
     }
 
-    // onMounted(reloadPage);
-
     return {
       meta,
-      reloadPage,
+      handleSizeChanged,
+      handleCurrentChanged,
     }
   },
 })

@@ -8,6 +8,8 @@
         </el-button>
       </div>
     </div>
+    <RuleFilterForm @search="searchRule" />
+
     <el-table :data="ruleTable" v-loading="iotLoading">
       <el-table-column label="ID" show-overflow-tooltip>
         <template #default="{ row }">
@@ -65,24 +67,35 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="emq-table-footer">
+      <commonPagination :meta-data="pageParams" @load-page="handlePageParamsChanged" />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, Ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { getRules, updateRules, deleteRules, resetRuleMetrics } from '@/api/ruleengine'
-import moment from 'moment'
-import { RuleItem } from '@/types/rule'
-import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-import TableItemDropDown from './components/TableItemDropDown.vue'
+import { deleteRules, getRules, resetRuleMetrics, updateRules } from '@/api/ruleengine'
 import CodeView from '@/components/CodeView.vue'
 import useCopyRule from '@/hooks/Rule/rule/useCopyRule'
+import usePagination from '@/hooks/usePagination'
+import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
+import { Plus } from '@element-plus/icons-vue'
+import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
+import moment from 'moment'
+import { onMounted, ref, Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import TableItemDropDown from './components/TableItemDropDown.vue'
+import commonPagination from '@/components/commonPagination.vue'
+import { PageParams } from '@/types/common'
+import RuleFilterForm from './components/RuleFilterForm.vue'
 
 const { t } = useI18n()
 const ruleTable: Ref<Array<RuleItem>> = ref([])
 const iotLoading: Ref<boolean> = ref(false)
+
+const { page, limit, count, pageParams, resetPageNum } = usePagination()
+let filterParams: FilterParamsForQueryRules = {}
+
 const { copyRule } = useCopyRule()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
@@ -90,12 +103,31 @@ const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const getRulesList = async () => {
   iotLoading.value = true
   try {
-    ruleTable.value = await getRules()
+    const { page, limit } = pageParams.value
+    const { data = [], meta = {} } = await getRules({ page, limit, ...filterParams })
+    ruleTable.value = data
+    count.value = meta.count
   } catch (error) {
     console.error(error)
   } finally {
     iotLoading.value = false
   }
+}
+
+const handlePageParamsChanged = (newParams: PageParams) => {
+  if (newParams.limit === limit.value) {
+    page.value = newParams.page
+  } else {
+    page.value = 1
+    limit.value = newParams.limit
+  }
+  getRulesList()
+}
+
+const searchRule = (filterParamsData: FilterParamsForQueryRules) => {
+  filterParams = filterParamsData
+  page.value = 1
+  getRulesList()
 }
 
 const startOrStopRule = async (row: RuleItem) => {
@@ -132,6 +164,7 @@ const submitDeleteRules = async ({ id }: RuleItem) => {
     await deleteRules(id)
     M.success(t('Base.deleteSuccess'))
     iotLoading.value = false
+    page.value = resetPageNum(ruleTable.value, page.value)
     getRulesList()
   } catch (error) {
     console.error(error)
@@ -171,6 +204,10 @@ onMounted(() => {
   &:not(:last-child)::after {
     content: ',';
   }
+}
+
+.rule-filter-form {
+  margin-bottom: 16px;
 }
 </style>
 <style lang="scss">

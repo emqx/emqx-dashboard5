@@ -1,4 +1,4 @@
-import { BackendI18n, SSL } from './common'
+import { BackendI18n, SSL, PageParams } from './common'
 import { BridgeType, ConnectionStatus, ConnectorType, MQTTBridgeDirection, QoSLevel } from './enum'
 
 export type Metrics = Record<string, number>
@@ -147,3 +147,14 @@ export interface RuleEvent {
   test_columns: Record<string, TestColumnItem>
   title: BackendI18n
 }
+
+export interface FilterParamsForQueryRules {
+  enable?: boolean
+  from?: string
+  like_id?: string
+  like_from?: string
+  like_description?: string
+  match_from?: string
+}
+
+export type ParamsForQueryRules = FilterParamsForQueryRules & PageParams
