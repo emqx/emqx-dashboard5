@@ -39,8 +39,8 @@
             clearable
             :placeholder="$t('Base.isEnabled')"
           >
-            <el-option :label="$t('Base.enable')" :value="true" />
-            <el-option :label="$t('Base.disable')" :value="false" />
+            <el-option :label="$t('Modules.enabled')" :value="true" />
+            <el-option :label="$t('Modules.disabled')" :value="false" />
           </el-select>
         </el-form-item>
       </el-col>
@@ -142,7 +142,7 @@ const resetFilterParams = () => {
   }
   .select-topic-type {
     .el-input {
-      width: 100px;
+      width: 100%;
     }
   }
 }
