@@ -1,6 +1,8 @@
 import http from '@/common/http'
 import { SlowSubConfig, SlowSubStatistic, TopicMetricItem } from '@/types/diagnose'
-import { downloadBlobData } from '@/common/tools'
+import { downloadBlobData, getLocalMessage } from '@/common/tools'
+import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
+import { ElMessage } from 'element-plus'
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get('/slow_subscriptions/settings')
@@ -43,10 +45,15 @@ export async function downloadTrace(name: string, node?: string) {
     const res = await http.get(`/trace/${encodeURIComponent(name)}/download`, {
       params: { node },
       responseType: 'blob',
+      timeout: 45000,
+      handleTimeoutSelf: true,
     })
     downloadBlobData(res)
     return Promise.resolve()
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === REQUEST_TIMEOUT_CODE) {
+      ElMessage.error(getLocalMessage('LogTrace.logTraceDownloadTimeout'))
+    }
     return Promise.reject(error)
   }
 }

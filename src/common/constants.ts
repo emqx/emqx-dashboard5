@@ -187,3 +187,5 @@ export const MQTT_V5_RES_CODES = [
   'A1',
   'A2',
 ]
+
+export const REQUEST_TIMEOUT_CODE = 'ECONNABORTED'
