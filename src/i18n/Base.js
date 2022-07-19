@@ -297,7 +297,7 @@ export default {
   },
   tlsVerifyClient: {
     zh: '验证客户端证书',
-    en: 'TLS Verify',
+    en: 'TLS Verify Client',
   },
   enableTLS: {
     zh: '启用 TLS',

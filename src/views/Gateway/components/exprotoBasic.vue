@@ -56,15 +56,11 @@
           </el-col>
         </el-row>
         <div class="tls-config-form">
-          <TLSBaseConfig
-            v-model="eValue.server.ssl_options"
-            :show-enable="false"
-            :verify-label="tl('tlsVerifyClient', 'Base')"
-          />
           <TLSEnableConfig
             v-model="eValue.server.ssl_options"
             :is-edit="isEdit"
             :show-sni="false"
+            :verify-label="tl('tlsVerifyClient', 'Base')"
           />
         </div>
       </div>
@@ -98,14 +94,12 @@ import _ from 'lodash'
 import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import TLSBaseConfig from '@/components/TLSConfig/TLSBaseConfig.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 
 export default defineComponent({
   name: 'ExprotoBasic',
   components: {
     CommonTLSConfig,
-    TLSBaseConfig,
     TLSEnableConfig,
   },
   props: {
