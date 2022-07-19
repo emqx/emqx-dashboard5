@@ -3,9 +3,9 @@
     <div class="section-header">
       <div></div>
       <div>
-        <el-button type="primary" :icon="Plus" @click="openCreateDialog">{{
-          $t('Base.create')
-        }}</el-button>
+        <el-button type="primary" :icon="Plus" @click="openCreateDialog">
+          {{ $t('Base.create') }}
+        </el-button>
       </div>
     </div>
 
@@ -20,8 +20,9 @@
                 params: { id: row.name },
               })
             "
-            >{{ row.name }}</a
           >
+            {{ row.name }}
+          </a>
         </template>
       </el-table-column>
       <el-table-column :label="$t('LogTrace.type')" prop="type" :min-width="100">
@@ -71,7 +72,9 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row }">
-          <el-button size="small" @click="download(row)">{{ $t('LogTrace.download') }}</el-button>
+          <el-button size="small" @click="download(row)" :loading="row.isLoading">
+            {{ $t('LogTrace.download') }}
+          </el-button>
           <template v-if="row.status !== 'stopped'">
             <el-button size="small" type="danger" plain @click="stopTraceHandler(row)">
               {{ $t('LogTrace.stop') }}
@@ -86,15 +89,20 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="$t('LogTrace.createLog')" v-model="createDialog" @close="initForm">
+    <el-dialog
+      :title="$t('LogTrace.createLog')"
+      v-model="createDialog"
+      @close="initForm"
+      width="800px"
+    >
       <el-form ref="createForm" label-position="top" :model="record" :rules="createRules">
         <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="12">
             <el-form-item :label="$t('LogTrace.name')" prop="name">
-              <el-input v-model="record.name"></el-input>
+              <el-input v-model="record.name" />
             </el-form-item>
           </el-col>
-          <el-col :span="18">
+          <el-col :span="12">
             <el-form-item :label="$t('LogTrace.type')" prop="type">
               <el-select v-model="record.type">
                 <el-option
@@ -106,22 +114,22 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="18" v-if="record.type === 'topic'">
+          <el-col :span="12" v-if="record.type === 'topic'">
             <el-form-item label="Topic" prop="topic">
               <el-input v-model="record.topic" />
             </el-form-item>
           </el-col>
-          <el-col :span="18" v-if="record.type === 'clientid'">
+          <el-col :span="12" v-if="record.type === 'clientid'">
             <el-form-item label="Client ID" prop="clientid">
               <el-input v-model="record.clientid" />
             </el-form-item>
           </el-col>
-          <el-col :span="18" v-if="record.type === 'ip_address'">
+          <el-col :span="12" v-if="record.type === 'ip_address'">
             <el-form-item label="IP Address" prop="ip_address">
               <el-input v-model="record.ip_address" />
             </el-form-item>
           </el-col>
-          <el-col :span="18" style="clear: both">
+          <el-col :span="12" style="clear: both">
             <el-form-item :label="$t('LogTrace.startEndTime')" prop="startTime">
               <el-date-picker
                 type="datetimerange"
@@ -155,7 +163,7 @@ import { defineComponent, nextTick, onMounted, Ref, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import moment from 'moment'
 import { ElMessage as M, ElMessageBox as MB, ElForm } from 'element-plus'
-import { TraceFormRecord, TraceRecord } from '@/types/diagnose'
+import { TraceFormRecord, TraceRecord, TraceItem } from '@/types/diagnose'
 import { Plus } from '@element-plus/icons-vue'
 import { FormItemRule } from '@/types/common'
 import CheckIcon from '@/components/CheckIcon.vue'
@@ -175,6 +183,10 @@ const createRawTraceForm = () => ({
   startTime: ['', ''] as [string, string],
 })
 
+type TraceItemInTable = TraceItem & {
+  isLoading: boolean
+}
+
 export default defineComponent({
   components: {
     CheckIcon,
@@ -182,7 +194,7 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const traceTbLoading = ref(false)
-    const traceTable = ref([])
+    const traceTable: Ref<Array<TraceItemInTable>> = ref([])
     const createLoading = ref(false)
     const typeOptions = [
       {
@@ -231,9 +243,20 @@ export default defineComponent({
 
     const loadTraceList = async () => {
       traceTbLoading.value = true
-      const traceList = await getTraceList().catch(() => {})
-      traceTable.value = traceList
-      traceTbLoading.value = false
+      try {
+        const traceList = await getTraceList()
+        traceTable.value = traceList.map((item: any) => {
+          return {
+            ...item,
+            // for download
+            isLoading: false,
+          }
+        })
+      } catch (error) {
+        //
+      } finally {
+        traceTbLoading.value = false
+      }
     }
 
     const getTypeLabelByValue = (value: string) => getLabelFromValueInOptionList(value, typeOptions)
@@ -320,12 +343,18 @@ export default defineComponent({
       }
     }
 
-    const download = async (row: TraceRecord) => {
+    const download = async (row: TraceItemInTable) => {
       if (!row.name) {
         return
       }
-      await downloadTrace(row.name)
-      // download link, no more action needed
+      try {
+        row.isLoading = true
+        await downloadTrace(row.name)
+      } catch (error) {
+        //
+      } finally {
+        row.isLoading = false
+      }
     }
 
     onMounted(() => {

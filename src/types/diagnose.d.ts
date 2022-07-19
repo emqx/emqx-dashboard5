@@ -29,6 +29,18 @@ export type TraceFormRecord = {
   startTime: [string, string] | [Date, Date]
 }
 
+export interface TraceItem {
+  name: string
+  type: 'clientid' | 'topic' | 'ip_address'
+  ip_address?: string
+  topic?: string
+  clientid?: string
+  start_at: string
+  end_at: string
+  status: string
+  log_size: Record<string, number>
+}
+
 export interface TopicMetricItem {
   topic: string
   create_time: string

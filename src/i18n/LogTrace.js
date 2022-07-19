@@ -123,4 +123,8 @@ export default {
     zh: '所有节点',
     en: 'All nodes',
   },
+  logTraceDownloadTimeout: {
+    zh: '下载追踪日志超时，追踪日志可至服务器的`data/trace`路径查找',
+    en: 'The download of the trace log times out. The trace log can be found in the `data/trace` path of the server.',
+  },
 }

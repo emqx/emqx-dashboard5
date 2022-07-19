@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css'
 import { toLogin } from '@/router'
 import store from '@/store'
 import _ from 'lodash'
+import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 200 })
 let respSet = new Set()
@@ -37,6 +38,12 @@ axios.interceptors.request.use(async (config) => {
   return config
 })
 
+/**
+ * there are some custom configurations
+ * doNotTriggerProgress: The request progress bar is not affected when the request is initiated or after the request is ended
+ * handle404Self: 404 errors are not handled uniformly
+ * handleTimeoutSelf: when error.code === 'ECONNABORTED', handle the error if self
+ */
 axios.interceptors.response.use(
   (response) => {
     if (!response.config.doNotTriggerProgress) {
@@ -68,8 +75,11 @@ axios.interceptors.response.use(
         }
       }
     } else {
+      const doNotPopupError = error.code === REQUEST_TIMEOUT_CODE && error.config.handleTimeoutSelf
       if (!respSet.has(0)) {
-        M.error('Some error occurred')
+        if (!doNotPopupError) {
+          M.error('Some error occurred')
+        }
         respSet.add(0)
       }
     }

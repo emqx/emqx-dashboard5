@@ -13,6 +13,7 @@
             class="dialog-primary-btn"
             type="primary"
             @click="download()"
+            :loading="isDownloading"
             :disabled="viewNodeLoading"
           >
             {{ $t('Base.download') }}
@@ -40,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue'
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Monaco from '@/components/Monaco.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
@@ -55,7 +56,6 @@ let LOG_VIEW_POSITION = 0
 let LAST_ACTIVED_SCROLLTOP = 0
 const MAX_LOG_SIZE = 5 * 1024 * 1024
 const BYTEPERPAGE = 50 * 1024
-
 
 export default defineComponent({
   components: {
@@ -73,6 +73,7 @@ export default defineComponent({
     const selectedNode = ref('')
     const viewLogName: string = route.params.id as string
     const nextPageLoading = ref('')
+    const isDownloading = ref(false)
 
     const countInitialHeight = () => {
       const offsetTop = (monacoContainer.value?.getBoundingClientRect()?.top || 250) + 30
@@ -136,8 +137,14 @@ export default defineComponent({
       }
     }
     const download = async () => {
-      await downloadTrace(viewLogName, selectedNode.value)
-      // download link, no more action needed
+      try {
+        isDownloading.value = true
+        await downloadTrace(viewLogName, selectedNode.value)
+      } catch (error) {
+        //
+      } finally {
+        isDownloading.value = false
+      }
     }
 
     onMounted(() => {
@@ -166,6 +173,7 @@ export default defineComponent({
       selectedNode,
       viewDetail,
       viewNodeLoading,
+      isDownloading,
       nextPageLoading,
       viewLogName,
     }
