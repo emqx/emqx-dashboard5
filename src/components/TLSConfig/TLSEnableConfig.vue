@@ -1,5 +1,12 @@
 <template>
   <div class="TLS-enable-config">
+    <el-form-item :label="verifyLabel || $t('Base.tlsVerify')">
+      <el-switch
+        v-model="record.verify"
+        :active-value="SSL_VERIFY_VALUE_MAP.get(true)"
+        :inactive-value="SSL_VERIFY_VALUE_MAP.get(false)"
+      />
+    </el-form-item>
     <el-form-item label="SNI" v-if="showSni" :prop="getFormItemProp(`server_name_indication`)">
       <el-input class="TLS-input" v-model="record.server_name_indication" />
     </el-form-item>
@@ -75,19 +82,12 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import {
-  defineProps,
-  defineEmits,
-  computed,
-  PropType,
-  WritableComputedRef,
-  Ref,
-  ref,
-  watch,
-} from 'vue'
+import { SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import TextareaWithUploader from '../TextareaWithUploader.vue'
+import useI18nTl from '@/hooks/useI18nTl'
 import { SSL } from '@/types/common'
+import { computed, defineEmits, defineProps, PropType, Ref, ref, WritableComputedRef } from 'vue'
+import TextareaWithUploader from '../TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
 
 type ConfigItemKey = 'certfile' | 'keyfile' | 'cacertfile'
@@ -111,6 +111,17 @@ const props = defineProps({
    */
   basePath: {
     type: String,
+  },
+  verifyLabel: {
+    type: String,
+    default: function () {
+      try {
+        return useI18nTl('Base').tl('tlsVerify')
+      } catch (error) {
+        console.error(error)
+        return undefined
+      }
+    },
   },
 })
 

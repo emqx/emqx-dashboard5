@@ -4,19 +4,9 @@
       {{ $t('Base.tlsConfig') }}
     </div>
     <div>
-      <el-checkbox
-        v-if="showEnable"
-        v-model="record.enable"
-        :label="enableLabel || $t('Base.enableTLS')"
-        border
-      />
-      <el-checkbox
-        v-model="record.verify"
-        :label="verifyLabel || $t('Base.tlsVerify')"
-        :true-label="SSL_VERIFY_VALUE_MAP.get(true)"
-        :false-label="SSL_VERIFY_VALUE_MAP.get(false)"
-        border
-      />
+      <el-form-item :label="$t('Base.enableTLS')">
+        <el-switch v-model="record.enable" />
+      </el-form-item>
     </div>
   </div>
 </template>
@@ -31,40 +21,12 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from 'vue'
-import { SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import { SSL } from '@/types/common'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   modelValue: {
     type: Object as PropType<SSL>,
     default: () => ({}),
-  },
-  showEnable: {
-    type: Boolean,
-    default: true,
-  },
-  enableLabel: {
-    type: String,
-    default: function () {
-      try {
-        return useI18nTl('Base').tl('enableTLS')
-      } catch (error) {
-        console.error(error)
-        return undefined
-      }
-    },
-  },
-  verifyLabel: {
-    type: String,
-    default: function () {
-      try {
-        return useI18nTl('Base').tl('tlsVerify')
-      } catch (error) {
-        console.error(error)
-        return undefined
-      }
-    },
   },
 })
 
