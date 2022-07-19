@@ -8,8 +8,8 @@
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="username" :label="$t('General.userName')"></el-table-column>
-      <el-table-column prop="description" :label="$t('General.remark')"></el-table-column>
+      <el-table-column prop="username" :label="$t('General.userName')" />
+      <el-table-column prop="description" :label="$t('General.remark')" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="showDialog('edit', row)">
@@ -19,7 +19,13 @@
             {{ $t('General.changePassword') }}
           </el-button>
 
-          <el-button type="danger" plain size="small" @click="deleteConfirm(row)">
+          <el-button
+            type="danger"
+            plain
+            size="small"
+            @click="deleteConfirm(row)"
+            v-if="currentUser.username !== row.username"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -53,32 +59,20 @@
             v-model="record.username"
             :disabled="accessType === 'edit'"
             @change="trimUserName"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item v-if="accessType !== 'chPass'" :label="$t('General.remark')">
-          <el-input v-model="record.description"></el-input>
+          <el-input v-model="record.description" />
         </el-form-item>
         <el-form-item v-if="accessType !== 'edit'" prop="password" :label="$t('General.password')">
-          <el-input
-            v-model="record.password"
-            type="password"
-            autocomplete="new-password"
-          ></el-input>
+          <el-input v-model="record.password" type="password" autocomplete="new-password" />
         </el-form-item>
         <div v-if="accessType === 'chPass'">
           <el-form-item prop="newPassword" :label="$t('General.newPassword')">
-            <el-input
-              v-model="record.newPassword"
-              type="password"
-              autocomplete="new-password"
-            ></el-input>
+            <el-input v-model="record.newPassword" type="password" autocomplete="new-password" />
           </el-form-item>
           <el-form-item prop="repeatPassword" :label="$t('General.confirmPassword')">
-            <el-input
-              v-model="record.repeatPassword"
-              type="password"
-              autocomplete="new-password"
-            ></el-input>
+            <el-input v-model="record.repeatPassword" type="password" autocomplete="new-password" />
           </el-form-item>
         </div>
       </el-form>
@@ -86,9 +80,9 @@
         <div class="dialog-align-footer">
           <el-button @click="closeDialog">{{ $t('Base.cancel') }}</el-button>
 
-          <el-button type="primary" @click="save" :loading="submitLoading">{{
-            accessType == 'create' ? $t('Base.create') : $t('Base.confirm')
-          }}</el-button>
+          <el-button type="primary" @click="save" :loading="submitLoading">
+            {{ accessType == 'create' ? $t('Base.create') : $t('Base.confirm') }}
+          </el-button>
         </div>
       </template>
     </el-dialog>
@@ -99,6 +93,8 @@
 import { loadUser, createUser, updateUser, destroyUser, changePassword } from '@/api/function'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 export default {
   name: 'Users',
@@ -158,8 +154,14 @@ export default {
   },
 
   setup() {
+    const store = useStore()
+
+    const currentUser = computed(() => {
+      return store.state.user
+    })
     return {
       Plus,
+      currentUser,
     }
   },
 
@@ -240,22 +242,22 @@ export default {
         this.submitLoading = false
       }
     },
-    deleteConfirm(item) {
-      // const this = this;
-
-      this.$msgbox
-        .confirm(this.$t('General.confirmDeleteUser'), {
+    async deleteConfirm(item) {
+      if (item.username === this.currentUser.username) {
+        return
+      }
+      try {
+        await this.$msgbox.confirm(this.$t('General.confirmDeleteUser'), {
           confirmButtonText: this.$t('Base.confirm'),
           cancelButtonText: this.$t('Base.cancel'),
           type: 'warning',
         })
-        .then(async () => {
-          destroyUser(item.username).then(() => {
-            ElMessage.success(this.$t('Base.deleteSuccess'))
-            this.loadData()
-          })
-        })
-        .catch(() => {})
+        await destroyUser(item.username)
+        ElMessage.success(this.$t('Base.deleteSuccess'))
+        this.loadData()
+      } catch (error) {
+        //
+      }
     },
   },
 }
