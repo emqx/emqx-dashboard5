@@ -58,7 +58,7 @@
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="handleResetSerach">
+          <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
             {{ $t('Base.refresh') }}
           </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
@@ -220,7 +220,7 @@ const loadNodeData = async () => {
   if (data) currentNodes.value = data
 }
 
-const handleResetSerach = async () => {
+const handleResetSearch = async () => {
   fuzzyParams.value = {
     comparator: 'gte',
   }

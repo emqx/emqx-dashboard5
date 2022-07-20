@@ -62,7 +62,7 @@
   height: 100%;
   z-index: 2;
   border-radius: 8px;
-  background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
+  background: linear-gradient(33deg, #9A66FF 0%, #3651EC 100%);
 }
 
 /* Root Colors */
@@ -74,6 +74,7 @@
   --el-text-color-secondary: var(--color-text-secondary);
   --el-disabled-text-color: var(--color-text-primary);
   --el-border-color-light: var(--color-border-normal);
+  // TODO: should i change this?
   --el-color-success: #00B173;
   --el-color-danger: #E44242;
   --el-color-warning: #FB9237;
@@ -265,7 +266,7 @@
 .el-progress {
   display: block;
   .el-progress-bar__inner {
-    background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
+    background: linear-gradient(135deg, #5E4EFF 0%, #5E4EFF 100%);
   }
   .el-progress-bar {
     &__outer {
@@ -354,16 +355,16 @@
 /* Button */
 .el-button {
   &.el-button--primary {
-    background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
+    background: linear-gradient(135deg, #8c4eff 0%, #3f36ec 100%);
     border: none;
     color: #fff;
     &.is-plain {
       background: var(--color-bg-primary);
       color: var(--color-primary);
-      @include border-gradient(#7ad8b3, #6dbebe);
+      @include border-gradient(#ac6eff, #5f56fc);
     }
     &:hover {
-      background: linear-gradient(135deg, #53DEB0 0%, #4EBFC0 100%);
+      background: linear-gradient(135deg, #bc7eff 0%, #6f66ec 100%);
       color: #fff;
     }
     &.is-disabled {
@@ -371,8 +372,8 @@
       &:hover,
       &:focus,
       &:active {
-        background: linear-gradient(135deg, #CDF5E8 0%, #CCEDED 100%);
-        color: #86DBC1;
+        background: linear-gradient(135deg, #DC9Eff 0%, #8F86ff 100%);
+        color: #fff;
       }
     }
   }
@@ -493,7 +494,7 @@
         left: -4px;
         width: 32px;
         height: 32px;
-        background-color: #00b17333;
+        background-color: #5e4eff33;
       }
       }
     }
@@ -608,7 +609,7 @@
       width: 100%;
       height: 4px;
       border-radius: 0px;
-      background: linear-gradient(317deg, #866DFF 0%, #75C7F5 32%, #1FCA6D 100%);
+      background: linear-gradient(33deg, #29D6E6 0%, #5F6DFF 100%);
     }
   }
 }
