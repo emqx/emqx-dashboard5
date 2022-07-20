@@ -80,7 +80,7 @@ export default {
         left: -4px;
         width: 28px;
         height: 28px;
-        background-color: #00b17333;
+        background-color: #5e4eff33;
       }
     }
     .icon-number {
@@ -103,7 +103,7 @@ export default {
         color: var(--color-title-primary);
       }
     }
-
+    // the line
     &::after {
       position: absolute;
       content: '';
