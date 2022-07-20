@@ -40,7 +40,7 @@ export default function useDatabaseConfig(
       defaultDatabase = 'mqtt_user'
     } else {
       defaultContent.value = `SELECT action, permission, topic FROM mqtt_acl where username = \${username}`
-      defaultDatabase = 'mqtt_user'
+      defaultDatabase = 'mqtt_acl'
     }
     if (id.value || route.params.name) {
       return
