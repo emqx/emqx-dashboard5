@@ -93,8 +93,8 @@ const timeInputProps = {
   defaultUnit: 's',
 }
 const booleanSelectProps = {
-  trueLabel: tl('enable'),
-  falseLabel: tl('disable'),
+  trueLabel: t('Base.enabled'),
+  falseLabel: t('Base.disabled'),
 }
 
 const rules = {}
