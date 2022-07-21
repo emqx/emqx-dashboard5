@@ -31,6 +31,10 @@ export function unsubscribe(clientId: string, topic: string) {
   return http.post(`/clients/${encodeURIComponent(clientId)}/unsubscribe`, { topic })
 }
 
-export function subscribe(clientId: string, { qos, topic }: { qos: number; topic: string }) {
-  return http.post(`/clients/${encodeURIComponent(clientId)}/subscribe`, { qos, topic })
+export function subscribe(
+  clientId: string,
+  { qos, topic, nl, rap, rh }: { qos: number; topic: string; nl: 1 | 0; rap: 1 | 0; rh: 2 | 1 | 0 },
+) {
+  const topicData = { qos, topic, nl, rap, rh }
+  return http.post(`/clients/${encodeURIComponent(clientId)}/subscribe`, topicData)
 }
