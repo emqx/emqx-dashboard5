@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper clients">
-    <el-form @keyup.enter="handleSearch">
+    <el-form @keyup.enter="handleSearch" class="client-filter-form with-dividing-line-bottom">
       <el-row class="search-wrapper" :gutter="20">
         <el-col :span="6">
           <el-input
@@ -259,6 +259,9 @@ loadNodeClients()
 
 <style lang="scss">
 @import '~@/style/management.scss';
+.client-filter-form {
+  margin-bottom: 20px;
+}
 .search-wrapper {
   .like-input {
     > .el-select,
