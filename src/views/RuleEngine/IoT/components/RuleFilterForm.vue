@@ -58,11 +58,11 @@
 
       <el-col :span="showMoreQuery ? 24 : 6">
         <div class="col-oper">
-          <el-button type="primary" plain @click="searchRule">
+          <el-button plain type="primary" :icon="Search" @click="searchRule">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button plain @click="resetFilterParams()">
-            {{ $t('Clients.reset') }}
+          <el-button type="primary" :icon="RefreshRight" @click="resetFilterParams()">
+            {{ $t('Base.refresh') }}
           </el-button>
           <el-button link class="btn-show-more" @click="showMoreQuery = !showMoreQuery">
             {{ showMoreQuery ? $t('Clients.collapse') : $t('Clients.expand') }}
@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
-import { ArrowDown } from '@element-plus/icons-vue'
+import { ArrowDown, RefreshRight, Search } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
 import { defineEmits, ref, Ref } from 'vue'
 
@@ -132,8 +132,16 @@ const resetFilterParams = () => {
 
 <style lang="scss">
 .rule-filter-form {
+  padding-bottom: 20px;
   .col-oper {
     float: right;
+  }
+  // when show more query
+  .el-col-24 {
+    margin-top: 16px;
+  }
+  .el-form-item {
+    margin-bottom: 0;
   }
   .btn-show-more {
     .el-icon {
