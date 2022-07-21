@@ -76,7 +76,10 @@
           <p class="table-data-without-break">{{ row.topic }}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="qos" label="QoS"></el-table-column>
+      <el-table-column prop="qos" label="QoS" />
+      <el-table-column prop="nl" :label="$t('Clients.noLocal')" />
+      <el-table-column prop="rap" :label="$t('Clients.retainAsPublished')" />
+      <el-table-column prop="rh" :label="$t('Clients.retainHandling')" />
     </el-table>
 
     <div class="emq-table-footer">

@@ -375,4 +375,16 @@ export default {
     zh: '例如，输入 test/#，将过滤得到 topic 是 test/1、test/2 等的订阅',
     en: 'e.g. typing test/# will filter for subscriptions where the topic is test/1, test/2, etc.',
   },
+  noLocal: {
+    zh: 'No Local',
+    en: 'No Local',
+  },
+  retainAsPublished: {
+    zh: 'Retain as Published',
+    en: 'Retain as Published',
+  },
+  retainHandling: {
+    zh: 'Retain Handling',
+    en: 'Retain Handling',
+  },
 }
