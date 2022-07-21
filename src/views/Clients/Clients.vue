@@ -101,7 +101,9 @@
       >
         <template #default="{ row }">
           <CheckIcon :status="row.connected ? 'check' : 'close'" size="small" :top="1" />
-          <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
+          <span class="text-status" :class="row.connected ? 'success' : 'danger'">
+            {{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column min-width="150" prop="ip_address" :label="$t('Clients.ipAddress')">
