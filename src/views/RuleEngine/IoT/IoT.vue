@@ -1,5 +1,6 @@
 <template>
   <div class="app-wrapper iot">
+    <RuleFilterForm @search="searchRule" class="with-dividing-line-bottom" />
     <div class="section-header">
       <div></div>
       <div>
@@ -8,7 +9,6 @@
         </el-button>
       </div>
     </div>
-    <RuleFilterForm @search="searchRule" />
 
     <el-table :data="ruleTable" v-loading="iotLoading">
       <el-table-column label="ID" show-overflow-tooltip>
