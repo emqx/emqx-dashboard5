@@ -77,8 +77,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="qos" label="QoS" />
-      <el-table-column prop="nl" :label="$t('Clients.noLocal')" />
-      <el-table-column prop="rap" :label="$t('Clients.retainAsPublished')" />
+      <el-table-column prop="nl" :label="$t('Clients.noLocal')">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="rap" :label="$t('Clients.retainAsPublished')">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="rh" :label="$t('Clients.retainHandling')" />
     </el-table>
 
@@ -105,6 +113,8 @@ import CommonPagination from '../../components/commonPagination.vue'
 import { Search, ArrowDown, ArrowUp, RefreshRight } from '@element-plus/icons-vue'
 import { NodeMsg } from '@/types/dashboard'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import { getLabelFromValueInOptionList } from '@/common/tools'
+import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 
 const pageMeta = ref({})
 const showMoreQuery = ref(false)
@@ -119,6 +129,7 @@ const fuzzyParams = ref({
   share_group: '',
   qos: '',
 })
+const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
   loadNodeSubscriptions({ page: 1 })
