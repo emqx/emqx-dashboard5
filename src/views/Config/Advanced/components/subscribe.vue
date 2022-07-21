@@ -2,25 +2,31 @@
   <div class="no-tab-wrapper subscribe">
     <div class="section-header">
       <div>{{ tl('internalPatterns') }}</div>
-      <el-button type="primary" @click="openOpDialog()" :icon="Plus">{{
-        $t('Base.add')
-      }}</el-button>
+      <el-button type="primary" @click="openOpDialog()" :icon="Plus">
+        {{ $t('Base.add') }}
+      </el-button>
     </div>
 
     <el-table :data="subTbData" class="shadow-none" v-loading="tbLoading">
-      <el-table-column :label="'Topic'" prop="topic" sortable></el-table-column>
-      <el-table-column :label="'QoS'" prop="qos" sortable></el-table-column>
-      <el-table-column :label="'nl/rap/rh'">
+      <el-table-column :label="'Topic'" prop="topic" sortable />
+      <el-table-column :label="'QoS'" prop="qos" sortable />
+      <el-table-column :label="$t('Clients.noLocal')" prop="nl">
         <template #default="{ row }">
-          {{ `${row.nl}/${row.rap}/${row.rh}` }}
+          {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
         </template>
       </el-table-column>
+      <el-table-column :label="$t('Clients.retainAsPublished')" prop="rap">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('Clients.retainHandling')" prop="rh" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
-          <el-button size="small" type="danger" plain @click="deleteSubs(row)">{{
-            $t('Base.delete')
-          }}</el-button>
+          <el-button size="small" type="danger" plain @click="deleteSubs(row)">
+            {{ $t('Base.delete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,32 +44,47 @@
         @keyup.enter="submitSubs(isEdit)"
       >
         <el-form-item :label="'Topic'" prop="topic">
-          <el-input v-model="subsInput.topic"></el-input>
+          <el-input v-model="subsInput.topic" />
         </el-form-item>
         <el-form-item :label="'QoS'" prop="qos">
           <el-select v-model="subsInput.qos">
-            <el-option v-for="item in subsOptions.qos" :key="item" :value="item"></el-option>
+            <el-option v-for="item in QoSOptions" :key="item" :value="item" />
           </el-select>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="nl" prop="nl">
+            <el-form-item :label="$t('Clients.noLocal')" prop="nl">
               <el-select v-model="subsInput.nl">
-                <el-option v-for="item in subsOptions.nl" :key="item" :value="item"></el-option>
+                <el-option
+                  v-for="{ value, label } in noLocalOpts"
+                  :label="label"
+                  :value="value"
+                  :key="value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="rap" prop="rap">
+            <el-form-item :label="$t('Clients.retainAsPublished')" prop="rap">
               <el-select v-model="subsInput.rap">
-                <el-option v-for="item in subsOptions.rap" :key="item" :value="item"></el-option>
+                <el-option
+                  v-for="{ value, label } in retainAsPublishedOpts"
+                  :label="label"
+                  :value="value"
+                  :key="value"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="rh" prop="rh">
+            <el-form-item :label="$t('Clients.retainHandling')" prop="rh">
               <el-select v-model="subsInput.rh">
-                <el-option v-for="item in subsOptions.rh" :key="item" :value="item"></el-option>
+                <el-option
+                  v-for="item in retainHandlingOpts"
+                  :label="item"
+                  :value="item"
+                  :key="item"
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -89,6 +110,8 @@ import { QoSLevel } from '@/types/enum.ts'
 import { QoSOptions } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Plus } from '@element-plus/icons-vue'
+import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig.ts'
+import { getLabelFromValueInOptionList } from '@/common/tools.ts'
 
 const createRawSubForm = () => ({
   topic: '',
@@ -107,12 +130,7 @@ export default defineComponent({
     let isEdit = ref(false)
     let opSubs = ref(false)
     let subTbData = ref([])
-    let subsOptions = reactive({
-      qos: QoSOptions,
-      nl: [0, 1],
-      rap: [0, 1],
-      rh: [0, 1, 2],
-    })
+    const { noLocalOpts, retainAsPublishedOpts, retainHandlingOpts } = useMQTTVersion5NewConfig()
     let subsInput = ref(createRawSubForm())
     let editPos = ref(undefined)
     let submitLoading = ref(false)
@@ -214,7 +232,11 @@ export default defineComponent({
       Plus,
       opSubs,
       openOpDialog,
-      subsOptions,
+      QoSOptions,
+      noLocalOpts,
+      retainAsPublishedOpts,
+      retainHandlingOpts,
+      getLabelFromValueInOptionList,
       subTbData,
       subsInput,
       submitSubs,

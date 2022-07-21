@@ -132,8 +132,16 @@
         <el-table-column prop="topic" show-overflow-tooltip label="Topic" />
         <el-table-column prop="qos" min-width="110px" label="QoS" />
         <template v-if="isMQTTVersion5">
-          <el-table-column prop="nl" :label="tl('noLocal')" />
-          <el-table-column prop="rap" :label="tl('retainAsPublished')" />
+          <el-table-column prop="nl" :label="tl('noLocal')">
+            <template #default="{ row }">
+              {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="rap" :label="tl('retainAsPublished')">
+            <template #default="{ row }">
+              {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
+            </template>
+          </el-table-column>
           <el-table-column prop="rh" :label="tl('retainHandling')" />
         </template>
         <el-table-column :label="$t('Base.operation')">
@@ -188,6 +196,8 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import CreateSubscribe from './components/CreateSubscribe.vue'
+import { getLabelFromValueInOptionList } from '@/common/tools'
+import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 
 const props = defineProps({
   gateway: {
@@ -295,6 +305,7 @@ const subscriptions = ref<Subscription[]>([])
 const route = useRoute()
 const { tl } = useI18nTl('Clients')
 const { t } = useI18n()
+const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
 
 const clientId = computed<string>((): string => {
   return (route.params.clientId as string) || (props.clientid as string)
