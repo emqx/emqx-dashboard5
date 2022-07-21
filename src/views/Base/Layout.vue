@@ -209,8 +209,7 @@ export default defineComponent({
   padding-left: 24px;
   img {
     max-width: initial;
-    width: 86px;
-    height: 30px;
+    height: 28px;
     transition: all 0.3s;
   }
 }
