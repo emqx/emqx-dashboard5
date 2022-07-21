@@ -319,7 +319,7 @@ input:disabled {
 
 .text-status {
   &.success {
-    color: var(--el-color-primary);
+    color: var(--el-color-success);
   }
   &.warning {
     color: var(--el-color-warning);
