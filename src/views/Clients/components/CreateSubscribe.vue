@@ -27,6 +27,33 @@
           <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
+      <template v-if="isMQTTVersion5">
+        <el-form-item prop="nl" :label="tl('noLocal')">
+          <el-select v-model="record.nl">
+            <el-option
+              v-for="{ value, label } in noLocalOpts"
+              :label="label"
+              :value="value"
+              :key="value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="rap" :label="tl('retainAsPublished')">
+          <el-select v-model="record.rap">
+            <el-option
+              v-for="{ value, label } in retainAsPublishedOpts"
+              :label="label"
+              :value="value"
+              :key="value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="rh" :label="tl('retainHandling')">
+          <el-select v-model="record.rh">
+            <el-option v-for="item in retainHandlingOpts" :label="item" :value="item" :key="item" />
+          </el-select>
+        </el-form-item>
+      </template>
     </el-form>
     <template #footer>
       <div class="dialog-align-footer">
@@ -43,6 +70,9 @@
 import { subscribe } from '@/api/clients'
 import { addGatewayClientSubs } from '@/api/gateway'
 import { QoSOptions } from '@/common/constants'
+import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig.ts'
+import useI18nTl from '@/hooks/useI18nTl.ts'
+import { omit } from 'lodash'
 
 export default {
   name: 'CreateSubscribe',
@@ -63,6 +93,11 @@ export default {
       required: false,
       default: '',
     },
+    isMQTTVersion5: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   data() {
@@ -72,6 +107,9 @@ export default {
         clientid: this.clientid,
         qos: 0,
         topic: '',
+        nl: 0,
+        rap: 0,
+        rh: 0,
       },
       rules: {
         clientid: {
@@ -100,24 +138,30 @@ export default {
     open() {
       this.record.clientid = this.clientId
     },
-    async handleAdd() {
-      const valid = await this.$refs.record.validate().catch(() => {})
-      if (!valid) {
-        return
+    getTopicMsg() {
+      if (this.isMQTTVersion5) {
+        return omit(this.record, 'clientid')
       }
-      if (this.gateway) {
-        return this.addGatewaySubs()
-      }
-
-      let clientId = this.clientId || this.record.clientid
-
-      let subs = await subscribe(clientId, {
-        topic: this.record.topic,
+      return {
         qos: this.record.qos,
-      }).catch(() => {})
-      if (subs) {
+        topic: this.record.topic,
+      }
+    },
+    async handleAdd() {
+      try {
+        await this.$refs.record.validate()
+        if (this.gateway) {
+          return this.addGatewaySubs()
+        }
+        this.submitLoading = true
+        let clientId = this.clientId || this.record.clientid
+        await subscribe(clientId, this.getTopicMsg())
         this.$emit('create:subs')
         this.close()
+      } catch (error) {
+        //
+      } finally {
+        this.submitLoading = false
       }
     },
     async addGatewaySubs() {
@@ -143,6 +187,16 @@ export default {
       this.$emit('update:visible', false)
       this.$refs.record.resetFields()
     },
+  },
+  setup(ctx) {
+    const { tl } = useI18nTl('Clients')
+    const { noLocalOpts, retainAsPublishedOpts, retainHandlingOpts } = useMQTTVersion5NewConfig()
+    return {
+      tl,
+      noLocalOpts,
+      retainAsPublishedOpts,
+      retainHandlingOpts,
+    }
   },
 }
 </script>

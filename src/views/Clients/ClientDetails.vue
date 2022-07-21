@@ -128,9 +128,14 @@
           </el-button>
         </div>
       </div>
-      <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable">
-        <el-table-column prop="topic" show-overflow-tooltip label="Topic"></el-table-column>
-        <el-table-column prop="qos" min-width="110px" label="QoS"></el-table-column>
+      <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
+        <el-table-column prop="topic" show-overflow-tooltip label="Topic" />
+        <el-table-column prop="qos" min-width="110px" label="QoS" />
+        <template v-if="isMQTTVersion5">
+          <el-table-column prop="nl" :label="tl('noLocal')" />
+          <el-table-column prop="rap" :label="tl('retainAsPublished')" />
+          <el-table-column prop="rh" :label="tl('retainHandling')" />
+        </template>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
             <el-button type="danger" plain size="small" @click="handleUnSubscription(row)">
@@ -143,6 +148,7 @@
         v-model:visible="dialogVisible"
         :client-id="record.clientid"
         :gateway="gateway"
+        :is-MQTT-Version5="isMQTTVersion5"
         @create:subs="loadSubs"
       >
       </create-subscribe>
@@ -303,6 +309,9 @@ const clientDetailParts = computed(() => {
     return clientsOrganizied[clientType.value]
   }
   return clientsOrganizied.others
+})
+const isMQTTVersion5 = computed(() => {
+  return record.value.proto_name === 'MQTT' && record.value.proto_ver === 5
 })
 
 const { getSessionInfoItem } = useClientDetail(record)
