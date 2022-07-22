@@ -65,7 +65,6 @@
             {{ $t('Base.refresh') }}
           </el-button>
           <el-button link class="btn-show-more" @click="showMoreQuery = !showMoreQuery">
-            {{ showMoreQuery ? $t('Clients.collapse') : $t('Clients.expand') }}
             <el-icon :class="{ 'is-rotate': showMoreQuery }"><ArrowDown /></el-icon>
           </el-button>
         </div>
@@ -143,15 +142,14 @@ const resetFilterParams = () => {
   .el-form-item {
     margin-bottom: 0;
   }
-  .btn-show-more {
-    .el-icon {
-      margin-left: 8px;
-    }
-  }
   .select-topic-type {
     .el-input {
       width: 100%;
     }
+  }
+  .btn-show-more {
+    color: var(--color-primary);
+    font-size: 18px;
   }
 }
 </style>
