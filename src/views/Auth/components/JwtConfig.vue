@@ -67,7 +67,7 @@
         <!-- JWKS -->
         <template v-else>
           <el-col :span="12">
-            <el-form-item label="JWKS Server" required prop="endpoint">
+            <el-form-item label="JWKS Endpoint" required prop="endpoint">
               <el-input v-model="jwtConfig.endpoint" />
             </el-form-item>
           </el-col>
@@ -86,12 +86,12 @@
           </el-col>
         </template>
         <el-col :span="24">
-          <el-form-item label="Verify Claims">
+          <el-form-item label="Payload">
             <key-and-value-editor
               v-model="jwtConfig.verify_claims"
               :custom-label="{
-                key: 'JWT Payload',
-                value: 'Client Info',
+                key: 'Claim',
+                value: 'Expected Value',
               }"
             />
           </el-form-item>
