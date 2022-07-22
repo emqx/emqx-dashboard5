@@ -1,20 +1,20 @@
 <template>
   <div class="app-wrapper clients">
-    <el-form @keyup.enter="handleSearch" class="client-filter-form with-dividing-line-bottom">
+    <el-form @keyup.enter="handleSearch">
       <el-row class="search-wrapper" :gutter="20">
         <el-col :span="6">
           <el-input
             v-model="fuzzyParams.like_clientid"
             :placeholder="$t('Clients.clientId')"
             clearable
-          ></el-input>
+          />
         </el-col>
         <el-col :span="6">
           <el-input
             v-model="fuzzyParams.like_username"
             :placeholder="$t('Clients.username')"
             clearable
-          ></el-input>
+          />
         </el-col>
         <el-col :span="6">
           <el-select v-model="fuzzyParams.node" :placeholder="$t('Clients.node')" clearable>
@@ -27,7 +27,7 @@
               v-model="fuzzyParams.ip_address"
               :placeholder="$t('Clients.ipAddress')"
               clearable
-            ></el-input>
+            />
           </el-col>
           <el-col :span="6">
             <el-select
@@ -89,11 +89,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        prop="username"
-        min-width="120"
-        :label="$t('Clients.username')"
-      ></el-table-column>
+      <el-table-column prop="username" min-width="120" :label="$t('Clients.username')" />
       <el-table-column
         prop="connected"
         :min-width="store.state.lang === 'en' ? 140 : 90"
@@ -109,11 +105,7 @@
           {{ row.ip_address + ':' + row.port }}
         </template>
       </el-table-column>
-      <el-table-column
-        prop="keepalive"
-        min-width="100"
-        :label="$t('Clients.keepalive')"
-      ></el-table-column>
+      <el-table-column prop="keepalive" min-width="100" :label="$t('Clients.keepalive')" />
       <el-table-column prop="connected_at" min-width="140" :label="$t('Clients.connectedAt')">
         <template #default="{ row }">
           {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
@@ -129,10 +121,7 @@
     </el-table>
 
     <div class="emq-table-footer">
-      <common-pagination
-        v-model:metaData="pageMeta"
-        @loadPage="loadNodeClients"
-      ></common-pagination>
+      <common-pagination v-model:metaData="pageMeta" @loadPage="loadNodeClients" />
     </div>
   </div>
 </template>
@@ -257,9 +246,6 @@ loadNodeClients()
 
 <style lang="scss">
 @import '~@/style/management.scss';
-.client-filter-form {
-  margin-bottom: 20px;
-}
 .search-wrapper {
   .like-input {
     > .el-select,
