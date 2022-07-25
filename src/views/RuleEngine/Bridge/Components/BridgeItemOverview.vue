@@ -1,12 +1,17 @@
 <template>
   <div class="resource-item-overview">
-    <div class="overview-sub-block">
-      <div class="card-hd">
-        <h2 class="block-title">{{ tl('executionStatistics') }}</h2>
-        <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
-          <el-icon @click="resetStatistics"><CircleClose /></el-icon>
-        </el-tooltip>
+    <div class="overview-header">
+      <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
+      <div>
+        <el-button type="primary" plain @click="handleRefresh">
+          {{ $t('Base.refresh') }}
+        </el-button>
+        <el-button type="primary" @click="resetStatistics">
+          {{ tl('resetStatistics') }}
+        </el-button>
       </div>
+    </div>
+    <div class="overview-sub-block">
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic" :gutter="28">
         <el-col :span="6">
@@ -89,7 +94,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['reset', 'reconnect'])
+const emit = defineEmits(['reset', 'reconnect', 'refresh'])
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
@@ -118,6 +123,10 @@ const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = comput
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+
+const handleRefresh = () => {
+  emit('refresh')
+}
 
 const resetStatistics = async () => {
   if (!props.bridgeMsg.id) {
