@@ -86,15 +86,6 @@
       </div>
       <el-row class="rule-statistic" :gutter="28">
         <el-col :span="6">
-          <el-card class="rate-bg">
-            <p class="statistic-label">
-              <span>{{ tl('total') }}</span>
-              <InfoTooltip :content="tl('actionTotalDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.total']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
           <el-card class="success-bg">
             <p class="statistic-label">
               <span>{{ tl('success') }}</span>
@@ -110,6 +101,15 @@
               <InfoTooltip :content="tl('actionFailedDesc')" />
             </p>
             <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.failed']) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="rate-bg">
+            <p class="statistic-label">
+              <span>{{ tl('total') }}</span>
+              <InfoTooltip :content="tl('actionTotalDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.total']) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
