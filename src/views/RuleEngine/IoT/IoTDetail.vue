@@ -8,9 +8,6 @@
         </span>
       </div>
       <div>
-        <el-button type="primary" @click="loadRuleDetail()">
-          {{ $t('Base.refresh') }}
-        </el-button>
         <el-button @click="enableOrDisableRule()">
           {{ ruleInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
@@ -22,7 +19,11 @@
     <el-tabs type="card" class="detail-tabs" v-model="activeTab">
       <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
         <div v-loading="infoLoading">
-          <RuleItemOverview :rule-msg="ruleInfo" @reset="loadRuleDetail" />
+          <RuleItemOverview
+            :rule-msg="ruleInfo"
+            @reset="loadRuleDetail"
+            @refresh="loadRuleDetail"
+          />
         </div>
       </el-tab-pane>
       <el-tab-pane :label="tl('settings')" :name="Tab.Setting" lazy>
