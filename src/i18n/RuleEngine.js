@@ -447,6 +447,10 @@ export default {
     zh: '运行统计',
     en: 'Execution Statistics',
   },
+  resultsStatistics: {
+    zh: '结果统计',
+    en: 'Results statistics',
+  },
   nodeStatus: {
     zh: '节点状态',
     en: 'Node Status',
@@ -722,5 +726,37 @@ export default {
   console: {
     zh: '打印结果输出到控制台',
     en: 'Print the result to the Console',
+  },
+  total: {
+    zh: '总数',
+    en: 'Total',
+  },
+  actionTotalDesc: {
+    zh: '规则调用操作的次数。 此值可能是“命中”的数倍，具体取决于规则的操作数',
+    en: "How many times the actions are called by the rule. This value may several times of 'matched', depending on the number of the actions of the rule",
+  },
+  actionSuccessDesc: {
+    zh: '规则成功调用操作的次数',
+    en: 'The number of times the rule has successfully called the action',
+  },
+  actionFailedDesc: {
+    zh: '规则调用操作失败的次数',
+    en: 'The number of times the rule calling operation has failed',
+  },
+  outOfService: {
+    zh: '服务中止',
+    en: 'Out of Service',
+  },
+  actionOutOfServiceDesc: {
+    zh: '由于操作停止服务而导致规则调用操作失败的次数。 例如，数据桥接被禁用或停止。',
+    en: 'The number of times the rule calling action failed due to the action being out of service. For example, a bridge is disabled or stopped.',
+  },
+  unknown: {
+    zh: '未知',
+    en: 'Unknown',
+  },
+  actionUnknownDesc: {
+    zh: '由于未知错误导致的 SQL 失败次数',
+    en: 'Number of SQL failures due to an unknown error',
   },
 }
