@@ -77,6 +77,7 @@ const defaultEdgeConfig = {
 // const toolbar = new G6.ToolBar()
 
 export default (): {
+  isRuleDataMoreThanOnePage: Ref<boolean>
   isDataLoading: Ref<boolean>
   isNoData: ComputedRef<boolean>
   topologyDiagramCanvasEle: Ref<any>
@@ -121,7 +122,11 @@ export default (): {
   let graphInstance: undefined | Graph = undefined
   const { setRuleList, setBridgeList, createNodeTooltip, handleNodeClickEvent } =
     useTopologyNodeTooltipNEvent()
-  const { getData: getRuleNodeNEdgeData, getRuleList } = useTopologyRuleData()
+  const {
+    getData: getRuleNodeNEdgeData,
+    getRuleList,
+    isMoreThanOnePage: isRuleDataMoreThanOnePage,
+  } = useTopologyRuleData()
   const { getData: getBridgeNodeNEdgeData, getBridgeList } = useTopologyBridgeData()
 
   const tooltip = new G6.Tooltip({
@@ -245,5 +250,5 @@ export default (): {
 
   getCanvasHeight()
 
-  return { isDataLoading, isNoData, topologyDiagramCanvasEle }
+  return { isRuleDataMoreThanOnePage, isDataLoading, isNoData, topologyDiagramCanvasEle }
 }
