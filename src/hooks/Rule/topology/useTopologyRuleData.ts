@@ -5,8 +5,12 @@ import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
+import { ref, Ref } from 'vue'
+
+const PAGE_SIZE = 100
 
 export default (): {
+  isMoreThanOnePage: Ref<boolean>
   getData: () => Promise<{
     nodeData: {
       input: Array<NodeItem>
@@ -21,6 +25,7 @@ export default (): {
   getRuleList: () => Array<RuleItem>
 } => {
   let ruleList: Array<RuleItem> = []
+  const isMoreThanOnePage = ref(false)
   const {
     cutLabel,
     addCursorPointerToNodeData,
@@ -148,7 +153,9 @@ export default (): {
 
   const getData = async () => {
     try {
-      ruleList = await getRules()
+      const { meta, data } = await getRules({ page: 1, limit: PAGE_SIZE })
+      isMoreThanOnePage.value = meta.count > PAGE_SIZE
+      ruleList = data
 
       const { inputNodeList, outputNodeList, input2RuleEdgeList, rule2OutputEdgeList } =
         createNodeNEdgeExceptRuleNode(ruleList)
@@ -179,6 +186,7 @@ export default (): {
   const getRuleList = () => ruleList
 
   return {
+    isMoreThanOnePage,
     getData,
     getRuleList,
   }
