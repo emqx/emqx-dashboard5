@@ -1,6 +1,6 @@
 <template>
   <div class="resource-item-overview">
-    <el-card class="app-card detail-sub-card">
+    <div class="overview-sub-block">
       <div class="card-hd">
         <h2 class="block-title">{{ tl('executionStatistics') }}</h2>
         <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
@@ -8,60 +8,133 @@
         </el-tooltip>
       </div>
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
-      <el-row class="rule-statistic">
+      <el-row class="rule-statistic" :gutter="28">
         <el-col :span="6">
-          <p class="statistic-label">
-            <span>{{ tl('sqlMatched') }}</span>
-            <InfoTooltip :content="tl('sqlMatchedDesc')" />
-          </p>
-          <p class="statistic-num">{{ formatNumber(ruleMetrics['matched']) }}</p>
+          <el-card class="success-bg">
+            <p class="statistic-label">
+              <span>{{ tl('sqlMatched') }}</span>
+              <InfoTooltip :content="tl('sqlMatchedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(ruleMetrics['matched']) }}</p>
+          </el-card>
         </el-col>
         <el-col :span="6">
-          <p class="statistic-label">
-            <span>{{ tl('sqlPassed') }}</span>
-            <InfoTooltip :content="tl('sqlPassedDesc')" />
-          </p>
-          <p class="statistic-num">{{ formatNumber(ruleMetrics['passed']) }}</p>
+          <el-card class="matched-bg">
+            <p class="statistic-label">
+              <span>{{ tl('sqlPassed') }}</span>
+              <InfoTooltip :content="tl('sqlPassedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(ruleMetrics['passed']) }}</p>
+          </el-card>
         </el-col>
         <el-col :span="6">
-          <p class="statistic-label">
-            <span>{{ tl('sqlFailed') }}</span>
-            <InfoTooltip :content="tl('sqlFailedDesc')" />
-          </p>
-          <p class="statistic-num">{{ formatNumber(ruleMetrics['failed.exception']) }}</p>
+          <el-card class="failed-bg">
+            <p class="statistic-label">
+              <span>{{ tl('sqlFailed') }}</span>
+              <InfoTooltip :content="tl('sqlFailedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(ruleMetrics['failed.exception']) }}</p>
+          </el-card>
         </el-col>
         <el-col :span="6">
-          <p class="statistic-label">
-            <span>{{ tl('sqlNoResult') }}</span>
-            <InfoTooltip :content="tl('sqlNoResultDesc')" />
-          </p>
-          <p class="statistic-num">{{ formatNumber(ruleMetrics['failed.no_result']) }}</p>
+          <el-card class="no-result-bg">
+            <p class="statistic-label">
+              <span>{{ tl('sqlNoResult') }}</span>
+              <InfoTooltip :content="tl('sqlNoResultDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(ruleMetrics['failed.no_result']) }}</p>
+          </el-card>
         </el-col>
 
         <el-col :span="6">
-          <p class="statistic-label">{{ tl('executionSpeed') }}</p>
-          <p class="statistic-num">
-            {{ formatNumber(ruleMetrics['matched.rate']) }}
-            <span class="unit">msg/s</span>
-          </p>
+          <el-card class="rate-bg">
+            <p class="statistic-label">{{ tl('executionSpeed') }}</p>
+            <p class="statistic-num">
+              {{ formatNumber(ruleMetrics['matched.rate']) }}
+              <span class="unit">msg/s</span>
+            </p>
+          </el-card>
         </el-col>
         <el-col :span="6">
-          <p class="statistic-label">{{ tl('rateLast5M') }}</p>
-          <p class="statistic-num">
-            {{ formatNumber(ruleMetrics['matched.rate.last5m']) }}
-            <span class="unit">msg/s</span>
-          </p>
+          <el-card class="last-five-rate-bg">
+            <p class="statistic-label">{{ tl('rateLast5M') }}</p>
+            <p class="statistic-num">
+              {{ formatNumber(ruleMetrics['matched.rate.last5m']) }}
+              <span class="unit">msg/s</span>
+            </p>
+          </el-card>
         </el-col>
         <el-col :span="6">
-          <p class="statistic-label">{{ tl('rateMax') }}</p>
-          <p class="statistic-num">
-            {{ formatNumber(ruleMetrics['matched.rate.max']) }}
-            <span class="unit">msg/s</span>
-          </p>
+          <el-card class="max-rate-bg">
+            <p class="statistic-label">{{ tl('rateMax') }}</p>
+            <p class="statistic-num">
+              {{ formatNumber(ruleMetrics['matched.rate.max']) }}
+              <span class="unit">msg/s</span>
+            </p>
+          </el-card>
         </el-col>
       </el-row>
-    </el-card>
-    <el-card class="app-card detail-sub-card">
+    </div>
+    <div class="overview-sub-block">
+      <div class="card-hd">
+        <h2 class="block-title">{{ tl('resultsStatistics') }}</h2>
+        <el-tooltip effect="dark" :content="tl('resetStatistics')" placement="top-start">
+          <el-icon @click="resetStatistics"><CircleClose /></el-icon>
+        </el-tooltip>
+      </div>
+      <el-row class="rule-statistic" :gutter="28">
+        <el-col :span="6">
+          <el-card class="rate-bg">
+            <p class="statistic-label">
+              <span>{{ tl('total') }}</span>
+              <InfoTooltip :content="tl('actionTotalDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.total']) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="success-bg">
+            <p class="statistic-label">
+              <span>{{ tl('success') }}</span>
+              <InfoTooltip :content="tl('actionSuccessDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.success']) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">
+              <span>{{ tl('ErrNum') }}</span>
+              <InfoTooltip :content="tl('actionFailedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.failed']) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">
+              <span>{{ tl('outOfService') }}</span>
+              <InfoTooltip :content="tl('actionOutOfServiceDesc')" />
+            </p>
+            <p class="statistic-num">
+              {{ formatNumber(ruleMetrics['actions.failed.out_of_service']) }}
+            </p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="max-rate-bg">
+            <p class="statistic-label">
+              <span>{{ tl('unknown') }}</span>
+              <InfoTooltip :content="tl('actionUnknownDesc')" />
+            </p>
+            <p class="statistic-num">
+              {{ formatNumber(ruleMetrics['actions.failed.unknown']) }}
+            </p>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="overview-sub-block">
       <div class="card-hd">
         <h3 class="block-title">{{ tl('nodeStatus') }}</h3>
       </div>
@@ -122,14 +195,14 @@
           </template>
         </el-table-column>
         <!-- <el-table-column :label="tl('status')">
-          <template #default="{ row }">
-            <span class="text-status" :class="row.enable ? 'success' : 'danger'">
-              {{ row.enable ? tl('enable', 'Base') : tl('disable', 'Base') }}
-            </span>
-          </template>
-        </el-table-column> -->
+      <template #default="{ row }">
+        <span class="text-status" :class="row.enable ? 'success' : 'danger'">
+          {{ row.enable ? tl('enable', 'Base') : tl('disable', 'Base') }}
+        </span>
+      </template>
+    </el-table-column> -->
       </el-table>
-    </el-card>
+    </div>
   </div>
 </template>
 

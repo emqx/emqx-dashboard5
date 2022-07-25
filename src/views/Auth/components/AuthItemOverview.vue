@@ -1,63 +1,70 @@
 <template>
   <div class="resource-item-overview">
-    <div class="overview-header">
-      <h2>{{ tl('executionStatistics') }}</h2>
-      <el-button type="primary" :loading="refreshLoading" @click="handleRefresh">
-        {{ $t('Base.refresh') }}
-      </el-button>
+    <div class="overview-sub-block">
+      <div class="overview-header">
+        <h2>{{ tl('executionStatistics') }}</h2>
+        <el-button type="primary" :loading="refreshLoading" @click="handleRefresh">
+          {{ $t('Base.refresh') }}
+        </el-button>
+      </div>
+      <el-row :gutter="28">
+        <el-col :span="6">
+          <el-card class="success-bg">
+            <p class="statistic-label">{{ tl('SuccessNum') }}</p>
+            <p class="statistic-num">
+              {{ formatNumber(isAuthn ? metrics?.metrics?.success : metrics?.metrics?.allow) }}
+            </p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">{{ tl('ErrNum') }}</p>
+            <p class="statistic-num">
+              {{ formatNumber(isAuthn ? metrics?.metrics?.failed : metrics?.metrics?.deny) }}
+            </p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="matched-bg">
+            <p class="statistic-label">{{ tl('noMatch') }}</p>
+            <p class="statistic-num">
+              {{ formatNumber(metrics?.metrics?.nomatch) }}
+            </p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="rate-bg">
+            <p class="statistic-label">{{ tl('speedNow') }}<span class="unit">(tps)</span></p>
+            <p class="statistic-num">
+              <span>{{ formatNumber(metrics?.metrics?.rate) }}</span>
+            </p>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
-    <el-row :gutter="28">
-      <el-col :span="6">
-        <el-card class="success-bg">
-          <p class="statistic-label">{{ tl('SuccessNum') }}</p>
-          <p class="statistic-num">
-            {{ formatNumber(isAuthn ? metrics?.metrics?.success : metrics?.metrics?.allow) }}
-          </p>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="failed-bg">
-          <p class="statistic-label">{{ tl('ErrNum') }}</p>
-          <p class="statistic-num">
-            {{ formatNumber(isAuthn ? metrics?.metrics?.failed : metrics?.metrics?.deny) }}
-          </p>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="matched-bg">
-          <p class="statistic-label">{{ tl('noMatch') }}</p>
-          <p class="statistic-num">
-            {{ formatNumber(metrics?.metrics?.nomatch) }}
-          </p>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="rate-bg">
-          <p class="statistic-label">{{ tl('speedNow') }}<span class="unit">(tps)</span></p>
-          <p class="statistic-num">
-            <span>{{ formatNumber(metrics?.metrics?.rate) }}</span>
-          </p>
-        </el-card>
-      </el-col>
-    </el-row>
-    <h2>{{ tl('nodeStatus') }}</h2>
-    <p class="card-sub-desc">{{ nodeStatusDesc }}</p>
-    <el-table :data="nodeStatusTableData">
-      <el-table-column prop="node" :label="tl('name')" />
-      <el-table-column :label="$t('Auth.status')">
-        <template #default="{ row }">
-          <span class="text-status" :class="getStatusClass(row.status)">
-            {{ getLabelByStatusValue(row.status) }}
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :prop="isAuthn ? 'metrics.success' : 'metrics.allow'"
-        :label="tl('success')"
-      />
-      <el-table-column :prop="isAuthn ? 'metrics.failed' : 'metrics.deny'" :label="tl('ErrNum')" />
-      <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(tps)`" />
-    </el-table>
+    <div class="overview-sub-block">
+      <h2>{{ tl('nodeStatus') }}</h2>
+      <p class="card-sub-desc">{{ nodeStatusDesc }}</p>
+      <el-table :data="nodeStatusTableData">
+        <el-table-column prop="node" :label="tl('name')" />
+        <el-table-column :label="$t('Auth.status')">
+          <template #default="{ row }">
+            <span class="text-status" :class="getStatusClass(row.status)">
+              {{ getLabelByStatusValue(row.status) }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          :prop="isAuthn ? 'metrics.success' : 'metrics.allow'"
+          :label="tl('success')"
+        />
+        <el-table-column
+          :prop="isAuthn ? 'metrics.failed' : 'metrics.deny'"
+          :label="tl('ErrNum')"
+        />
+        <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(tps)`" />
+      </el-table>
+    </div>
   </div>
 </template>
 
