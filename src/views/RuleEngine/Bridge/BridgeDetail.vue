@@ -19,9 +19,6 @@
             </div>
           </div>
           <div>
-            <el-button type="primary" @click="loadBridgeInfo()">
-              {{ $t('Base.refresh') }}
-            </el-button>
             <el-button
               type="primary"
               :disabled="!bridgeInfo.enable"
@@ -47,6 +44,7 @@
             <div v-loading="infoLoading">
               <BridgeItemOverview
                 :bridge-msg="bridgeInfo"
+                @refresh="loadBridgeInfo"
                 @reconnect="loadBridgeInfo"
                 @reset="loadBridgeInfo"
               />
