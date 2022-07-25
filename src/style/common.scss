@@ -551,7 +551,9 @@ input:disabled {
     margin-bottom: 20px;
   }
   .statistic-num {
-    line-height: 25px;
+    $height: 25px;
+    min-height: $height;
+    line-height: $height;
     font-size: 24px;
     font-weight: 600;
     .unit {
