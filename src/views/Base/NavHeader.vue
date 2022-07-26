@@ -211,7 +211,7 @@ export default defineComponent({
     height: 24px;
   }
   &:hover {
-    background-color: var(--color-hover);
+    background: var(--bg-hover);
     border: 1px solid var(--color-primary);
     color: var(--color-primary);
   }
