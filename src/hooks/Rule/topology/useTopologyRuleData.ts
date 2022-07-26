@@ -4,28 +4,35 @@ import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
+import { RULE_INPUT_BRIDGE_TYPE_PREFIX, RULE_MAX_NUM_PER_PAGE } from '@/common/constants'
 import { ref, Ref } from 'vue'
 
-const PAGE_SIZE = 100
+interface RuleData {
+  nodeData: {
+    input: Array<NodeItem>
+    rule: Array<NodeItem>
+    output: Array<NodeItem>
+  }
+  edgeData: {
+    rule2Output: Array<EdgeItem>
+    input2Rule: Array<EdgeItem>
+  }
+}
 
 export default (): {
-  isMoreThanOnePage: Ref<boolean>
-  getData: () => Promise<{
-    nodeData: {
-      input: Array<NodeItem>
-      rule: Array<NodeItem>
-      output: Array<NodeItem>
-    }
-    edgeData: {
-      rule2Output: Array<EdgeItem>
-      input2Rule: Array<EdgeItem>
-    }
+  pageData: Ref<{
+    count: number
+    page: number
   }>
+  getData: () => Promise<RuleData>
   getRuleList: () => Array<RuleItem>
+  getOtherPageData: (page: number) => Promise<RuleData>
 } => {
   let ruleList: Array<RuleItem> = []
-  const isMoreThanOnePage = ref(false)
+  const pageData = ref({
+    count: 0,
+    page: 1,
+  })
   const {
     cutLabel,
     addCursorPointerToNodeData,
@@ -151,10 +158,18 @@ export default (): {
     }
   }
 
+  const getOtherPageData = async (page: number) => {
+    pageData.value.page = page
+    return getData()
+  }
+
   const getData = async () => {
     try {
-      const { meta, data } = await getRules({ page: 1, limit: PAGE_SIZE })
-      isMoreThanOnePage.value = meta.count > PAGE_SIZE
+      const { meta, data } = await getRules({
+        page: pageData.value.page,
+        limit: RULE_MAX_NUM_PER_PAGE,
+      })
+      pageData.value.count = meta.count
       ruleList = data
 
       const { inputNodeList, outputNodeList, input2RuleEdgeList, rule2OutputEdgeList } =
@@ -186,8 +201,9 @@ export default (): {
   const getRuleList = () => ruleList
 
   return {
-    isMoreThanOnePage,
+    pageData,
     getData,
     getRuleList,
+    getOtherPageData,
   }
 }

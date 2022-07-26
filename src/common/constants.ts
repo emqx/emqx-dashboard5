@@ -189,3 +189,5 @@ export const MQTT_V5_RES_CODES = [
 ]
 
 export const REQUEST_TIMEOUT_CODE = 'ECONNABORTED'
+
+export const RULE_MAX_NUM_PER_PAGE = 100
