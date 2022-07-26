@@ -1,5 +1,14 @@
 <template>
   <div class="app-wrapper flow" v-loading="isDataLoading">
+    <div class="pagination-wrap">
+      <el-pagination
+        hide-on-single-page
+        layout="prev, next"
+        :total="rulePageData.count"
+        :page-size="RULE_MAX_NUM_PER_PAGE"
+        @update:current-page="showOtherPageRuleData"
+      />
+    </div>
     <div class="topology-wrap">
       <div id="rule-topology" ref="topologyDiagramCanvasEle" v-if="!isNoData"></div>
       <p class="topology-placeholder" v-else>{{ t('Base.noData') }}</p>
@@ -8,10 +17,12 @@
 </template>
 
 <script lang="ts" setup>
+import { RULE_MAX_NUM_PER_PAGE } from '@/common/constants'
 import useTopology from '@/hooks/Rule/topology/useTopology'
 import { useI18n } from 'vue-i18n'
 
-const { isDataLoading, topologyDiagramCanvasEle, isNoData } = useTopology()
+const { isDataLoading, topologyDiagramCanvasEle, isNoData, rulePageData, showOtherPageRuleData } =
+  useTopology()
 
 const { t } = useI18n()
 </script>
@@ -76,5 +87,13 @@ const { t } = useI18n()
   background-color: rgba(0, 0, 0, 0.8);
   padding: 0;
   box-shadow: none;
+}
+.pagination-wrap {
+  display: flex;
+  justify-content: flex-end;
+  .el-pagination {
+    padding: 0;
+    margin-bottom: 12px;
+  }
 }
 </style>
