@@ -250,6 +250,7 @@ const drawChart = () => {
       background-color: #bbb;
     }
     .num {
+      padding-left: 12px;
       font-weight: 500;
     }
   }
