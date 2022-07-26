@@ -3,10 +3,10 @@
     <div class="overview-header">
       <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
       <div>
-        <el-button type="primary" plain @click="handleRefresh">
+        <el-button type="primary" @click="handleRefresh">
           {{ $t('Base.refresh') }}
         </el-button>
-        <el-button type="primary" @click="resetStatistics">
+        <el-button type="primary" plain @click="resetStatistics">
           {{ tl('resetStatistics') }}
         </el-button>
       </div>
