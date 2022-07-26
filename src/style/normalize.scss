@@ -130,16 +130,17 @@
       padding: 0px 0px 0px 8px !important;
       min-width: initial;
       &.is-active {
-        background-color: var(--color-hover);
+        background: var(--bg-hover);
         border-radius: 0 8px 8px 0;
+        color: var(--menu-active-color);
         &:before {
           @include menu-left-border;
         }
       }
       &:hover {
-        background-color: var(--color-hover);
+        background: var(--bg-hover);
         border-radius: 0 8px 8px 0;
-        color: var(--color-primary);
+        color: var(--menu-active-color);
         &:before {
           @include menu-left-border;
         }
@@ -150,11 +151,12 @@
     min-width: initial;
     .el-menu-item {
       &.is-active {
-        background-color: var(--color-hover);
+        background: var(--bg-hover);
+        color: var(--color-text-primary);
       }
       &:hover {
-        background-color: var(--color-hover);
-        color: var(--color-primary);
+        background: var(--bg-hover);
+        color: var(--color-text-primary);
       }
     }
   }
@@ -169,7 +171,7 @@
         color: var(--color-primary);
       }
       &.is-active {
-        background-color: var(--color-hover);
+        background: var(--bg-hover);
         border-bottom: none;
       }
     }
