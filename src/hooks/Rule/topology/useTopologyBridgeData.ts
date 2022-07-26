@@ -35,6 +35,7 @@ export default (): {
     const topicNodeArr: Array<NodeItem> = []
     const bridgeNodeArr: Array<NodeItem> = []
     const topic2BridgeEdgeArr: Array<EdgeItem> = []
+
     bridgeArr.forEach((bridgeItem) => {
       const { id, local_topic } = bridgeItem
       const iconKey = `bridge-${getBridgeTypeFromString(id)}`
@@ -44,6 +45,13 @@ export default (): {
         topicNodeArr.push({
           id: topicNodeId,
           label: cutLabel(local_topic),
+          img: iconMap.topic,
+        })
+      } else if ('remote_topic' in bridgeItem) {
+        // FIXME:diff sink and source
+        topicNodeArr.push({
+          id: topicNodeId,
+          label: cutLabel(bridgeItem.remote_topic),
           img: iconMap.topic,
         })
       }

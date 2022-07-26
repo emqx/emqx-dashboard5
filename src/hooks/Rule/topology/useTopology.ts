@@ -77,10 +77,14 @@ const defaultEdgeConfig = {
 // const toolbar = new G6.ToolBar()
 
 export default (): {
-  isRuleDataMoreThanOnePage: Ref<boolean>
+  rulePageData: Ref<{
+    page: number
+    count: number
+  }>
   isDataLoading: Ref<boolean>
   isNoData: ComputedRef<boolean>
   topologyDiagramCanvasEle: Ref<any>
+  showOtherPageRuleData: (page: number) => void
 } => {
   const { getCSSVariables } = useCSSVariables()
   const colorMap = getCSSVariables([bgColorVariableKey, textColorVariableKey])
@@ -125,7 +129,8 @@ export default (): {
   const {
     getData: getRuleNodeNEdgeData,
     getRuleList,
-    isMoreThanOnePage: isRuleDataMoreThanOnePage,
+    pageData: rulePageData,
+    getOtherPageData: getRuleOtherPageData,
   } = useTopologyRuleData()
   const { getData: getBridgeNodeNEdgeData, getBridgeList } = useTopologyBridgeData()
 
@@ -177,6 +182,29 @@ export default (): {
     }
   }
 
+  const getChartData = () => {
+    const data = {
+      nodes: [
+        ...concatNCloneInObj(rulePartNodeData.value),
+        ...concatNCloneInObj(bridgePartNodeData.value),
+      ],
+      edges: [...concatNCloneInObj(rulePartEdgeData.value), ...cloneDeep(bridgePartEdgeData.value)],
+    }
+
+    data.nodes = data.nodes.filter(
+      (v, i, a) => a.findIndex((vi) => (v as NodeItem).id === (vi as NodeItem).id) === i,
+    )
+    return { id: RULE_TOPOLOGY_ID, ...data }
+  }
+
+  const showOtherPageRuleData = async (page: number) => {
+    const { nodeData, edgeData } = await getRuleOtherPageData(page)
+    rulePartNodeData.value = nodeData
+    rulePartEdgeData.value = edgeData
+    graphInstance?.changeData(getChartData())
+    graphInstance?.refresh()
+  }
+
   const setZoom = async () => {
     const zoom = graphInstance?.getZoom()
 
@@ -192,18 +220,6 @@ export default (): {
       return
     }
     const width = container.scrollWidth
-
-    const data = {
-      nodes: [
-        ...concatNCloneInObj(rulePartNodeData.value),
-        ...concatNCloneInObj(bridgePartNodeData.value),
-      ],
-      edges: [...concatNCloneInObj(rulePartEdgeData.value), ...cloneDeep(bridgePartEdgeData.value)],
-    }
-
-    data.nodes = data.nodes.filter(
-      (v, i, a) => a.findIndex((vi) => (v as NodeItem).id === (vi as NodeItem).id) === i,
-    )
 
     graphInstance = new G6.Graph({
       container,
@@ -230,7 +246,7 @@ export default (): {
     })
 
     bindClickNodeEvent()
-    graphInstance.data({ id: RULE_TOPOLOGY_ID, ...data })
+    graphInstance.data(getChartData())
     graphInstance.render()
 
     graphInstance.on('afterrender', () => {
@@ -250,5 +266,5 @@ export default (): {
 
   getCanvasHeight()
 
-  return { isRuleDataMoreThanOnePage, isDataLoading, isNoData, topologyDiagramCanvasEle }
+  return { rulePageData, isDataLoading, isNoData, topologyDiagramCanvasEle, showOtherPageRuleData }
 }
