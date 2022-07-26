@@ -79,3 +79,7 @@ interface ExhookMetricItem {
   rate: number
   max_rate: number
 }
+export interface User {
+  description: string
+  username: string
+}

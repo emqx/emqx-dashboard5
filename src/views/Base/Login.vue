@@ -46,9 +46,9 @@
               ></el-input>
             </el-form-item>
             <el-form-item class="oper-wrapper">
-              <el-button type="primary" @click="nativeLogin" :loading="isLogining">{{
-                $t('Base.login')
-              }}</el-button>
+              <el-button type="primary" @click="nativeLogin" :loading="isLogining">
+                {{ $t('Base.login') }}
+              </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -65,6 +65,7 @@ import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import docLinks from '@/common/docLinks'
+import { DEFAULT_PWD } from '@/common/constants'
 
 const { t } = useI18n()
 const store = useStore()
@@ -116,6 +117,7 @@ const login = async (auto = false) => {
       store.commit('UPDATE_USER_INFO', {
         token: res.token,
         username,
+        isUsingDefaultPwd: password === DEFAULT_PWD,
       })
       store.commit('UPDATE_EDITION', res.license?.edition)
       redirect()
