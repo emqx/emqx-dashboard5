@@ -8,15 +8,15 @@
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="username" :label="$t('General.userName')" />
-      <el-table-column prop="description" :label="$t('General.remark')" />
+      <el-table-column prop="username" :label="tl('userName')" />
+      <el-table-column prop="description" :label="tl('remark')" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="showDialog('edit', row)">
             {{ $t('Base.edit') }}
           </el-button>
           <el-button size="small" @click="showDialog('chPass', row)">
-            {{ $t('General.changePassword') }}
+            {{ tl('changePassword') }}
           </el-button>
 
           <el-button
@@ -35,50 +35,50 @@
     <el-dialog
       :title="
         accessType === 'edit'
-          ? $t('General.editorUser')
+          ? tl('editorUser')
           : accessType === 'chPass'
-          ? $t('General.changePassword')
-          : $t('General.creatingUser')
+          ? tl('changePassword')
+          : tl('creatingUser')
       "
       v-model="dialogVisible"
       destroy-on-close
+      :show-close="!isForChangeDefaultPwd"
+      :close-on-click-modal="!isForChangeDefaultPwd"
     >
       <el-form
-        ref="recordForm"
+        ref="formCom"
         :model="record"
         :rules="rules"
         label-position="top"
         @keyup.enter="save()"
       >
-        <el-form-item
-          v-if="accessType !== 'chPass'"
-          prop="username"
-          :label="$t('General.userName')"
-        >
+        <el-form-item v-if="accessType !== 'chPass'" prop="username" :label="tl('userName')">
           <el-input
             v-model="record.username"
             :disabled="accessType === 'edit'"
             @change="trimUserName"
           />
         </el-form-item>
-        <el-form-item v-if="accessType !== 'chPass'" :label="$t('General.remark')">
+        <el-form-item v-if="accessType !== 'chPass'" :label="tl('remark')">
           <el-input v-model="record.description" />
         </el-form-item>
-        <el-form-item v-if="accessType !== 'edit'" prop="password" :label="$t('General.password')">
+        <el-form-item v-if="accessType !== 'edit'" prop="password" :label="tl('password')">
           <el-input v-model="record.password" type="password" autocomplete="new-password" />
         </el-form-item>
         <div v-if="accessType === 'chPass'">
-          <el-form-item prop="newPassword" :label="$t('General.newPassword')">
+          <el-form-item prop="newPassword" :label="tl('newPassword')">
             <el-input v-model="record.newPassword" type="password" autocomplete="new-password" />
           </el-form-item>
-          <el-form-item prop="repeatPassword" :label="$t('General.confirmPassword')">
+          <el-form-item prop="repeatPassword" :label="tl('confirmPassword')">
             <el-input v-model="record.repeatPassword" type="password" autocomplete="new-password" />
           </el-form-item>
         </div>
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button @click="closeDialog">{{ $t('Base.cancel') }}</el-button>
+          <el-button @click="closeDialog" v-if="!isForChangeDefaultPwd">
+            {{ $t('Base.cancel') }}
+          </el-button>
 
           <el-button type="primary" @click="save" :loading="submitLoading">
             {{ accessType == 'create' ? $t('Base.create') : $t('Base.confirm') }}
@@ -89,176 +89,167 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { loadUser, createUser, updateUser, destroyUser, changePassword } from '@/api/function'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, ref, onBeforeMount } from 'vue'
+import useI18nTl from '@/hooks/useI18nTl.ts'
+import { useHandlersInUsersPage } from '@/hooks/useChangePwdGuide.ts'
 
-export default {
-  name: 'Users',
+const store = useStore()
+const { tl, t } = useI18nTl('General')
 
-  data() {
-    const validatePass = (rule, value, callback) => {
-      if (value !== this.record.newPassword) {
-        callback(new Error(this.$t('General.confirmNotMatch')))
-      } else {
-        callback()
-      }
-    }
-    return {
-      dialogVisible: false,
-      tableData: [],
-      lockTable: false,
-      accessType: '',
-      record: {},
-      submitLoading: false,
-      rules: {
-        username: [{ required: true, message: this.$t('General.enterOneUserName') }],
-        password: [
-          {
-            required: true,
-            message: this.$t('General.pleaseEnterPassword'),
-            trigger: ['blur', 'change'],
-          },
-          {
-            min: 3,
-            max: 32,
-            message: this.$t('General.passwordLength'),
-            trigger: ['blur', 'change'],
-          },
-        ],
-        newPassword: [
-          {
-            required: true,
-            message: this.$t('General.pleaseEnterNewPassword'),
-            trigger: ['blur', 'change'],
-          },
-          {
-            min: 3,
-            max: 32,
-            message: this.$t('General.passwordLength'),
-            trigger: ['blur', 'change'],
-          },
-        ],
-        repeatPassword: [
-          {
-            required: true,
-            message: this.$t('General.pleaseEnterAConfirmationPassword'),
-          },
-          { validator: validatePass, trigger: ['blur', 'change'] },
-        ],
-      },
-    }
-  },
+const dialogVisible = ref(false)
+const tableData = ref([])
+const lockTable = ref(false)
+const accessType = ref('')
+const record = ref({})
+const submitLoading = ref(false)
+const formCom = ref()
 
-  setup() {
-    const store = useStore()
-
-    const currentUser = computed(() => {
-      return store.state.user
-    })
-    return {
-      Plus,
-      currentUser,
-    }
-  },
-
-  created() {
-    this.loadData()
-  },
-
-  methods: {
-    async loadData() {
-      this.lockTable = true
-      let res = await loadUser().catch(() => {})
-      if (res) {
-        this.tableData = res
-      }
-      this.lockTable = false
-    },
-    showDialog(type = 'create', item = {}) {
-      this.dialogVisible = true
-      this.$refs?.recordForm?.resetFields()
-
-      if (type === 'edit') {
-        this.record = Object.assign({}, item)
-        this.accessType = 'edit'
-      } else if (type === 'chPass') {
-        this.accessType = 'chPass'
-        this.record = {
-          username: item.username,
-          password: '',
-          newPassword: '',
-          repeatPassword: '',
-        }
-      } else {
-        this.record = {
-          username: '',
-          description: '',
-          password: '',
-        }
-        this.accessType = 'create'
-      }
-    },
-    closeDialog() {
-      this.dialogVisible = false
-    },
-
-    trimUserName() {
-      this.record.username = this.record.username.trim()
-    },
-
-    async save() {
-      // const this = this;
-      let validation = await this.$refs.recordForm.validate().catch(() => {})
-
-      if (!validation) {
-        return
-      }
-      this.submitLoading = true
-      const { username } = this.record
-      try {
-        if (this.accessType === 'edit') {
-          await updateUser(username, this.record)
-          ElMessage.success(this.$t('Base.editSuccess'))
-        } else if (this.accessType === 'chPass') {
-          let pass = {
-            new_pwd: this.record.newPassword,
-            old_pwd: this.record.password,
-          }
-          await changePassword(username, pass)
-          ElMessage.success(this.$t('General.changePassSuccess'))
-        } else {
-          await createUser(this.record)
-          ElMessage.success(this.$t('General.createUserSuccess'))
-        }
-        this.loadData()
-        this.dialogVisible = false
-      } catch (error) {
-        //
-      } finally {
-        this.submitLoading = false
-      }
-    },
-    async deleteConfirm(item) {
-      if (item.username === this.currentUser.username) {
-        return
-      }
-      try {
-        await this.$msgbox.confirm(this.$t('General.confirmDeleteUser'), {
-          confirmButtonText: this.$t('Base.confirm'),
-          cancelButtonText: this.$t('Base.cancel'),
-          type: 'warning',
-        })
-        await destroyUser(item.username)
-        ElMessage.success(this.$t('Base.deleteSuccess'))
-        this.loadData()
-      } catch (error) {
-        //
-      }
-    },
-  },
+const validatePass = (rule, value, callback) => {
+  if (value !== record.value.newPassword) {
+    callback(new Error(tl('confirmNotMatch')))
+  } else {
+    callback()
+  }
 }
+const rules = {
+  username: [{ required: true, message: tl('enterOneUserName') }],
+  password: [
+    {
+      required: true,
+      message: tl('pleaseEnterPassword'),
+      trigger: ['blur', 'change'],
+    },
+    {
+      min: 3,
+      max: 32,
+      message: tl('passwordLength'),
+      trigger: ['blur', 'change'],
+    },
+  ],
+  newPassword: [
+    {
+      required: true,
+      message: tl('pleaseEnterNewPassword'),
+      trigger: ['blur', 'change'],
+    },
+    {
+      min: 3,
+      max: 32,
+      message: tl('passwordLength'),
+      trigger: ['blur', 'change'],
+    },
+  ],
+  repeatPassword: [
+    {
+      required: true,
+      message: tl('pleaseEnterAConfirmationPassword'),
+    },
+    { validator: validatePass, trigger: ['blur', 'change'] },
+  ],
+}
+
+const currentUser = computed(() => {
+  return store.state.user
+})
+
+const loadData = async () => {
+  lockTable.value = true
+  let res = await loadUser().catch(() => {})
+  if (res) {
+    tableData.value = res
+  }
+  lockTable.value = false
+}
+
+const showDialog = (type = 'create', item = {}) => {
+  dialogVisible.value = true
+  formCom.value?.resetFields()
+
+  if (type === 'edit') {
+    record.value = Object.assign({}, item)
+  } else if (type === 'chPass') {
+    record.value = {
+      username: item.username,
+      password: '',
+      newPassword: '',
+      repeatPassword: '',
+    }
+  } else {
+    record.value = {
+      username: '',
+      description: '',
+      password: '',
+    }
+  }
+  accessType.value = type
+}
+
+const closeDialog = () => {
+  dialogVisible.value = false
+}
+
+const trimUserName = () => {
+  record.value.username = record.value.username.trim()
+}
+
+const save = async () => {
+  try {
+    await formCom.value.validate()
+    submitLoading.value = true
+    const { username } = record.value
+    if (accessType.value === 'edit') {
+      await updateUser(username, record.value)
+      ElMessage.success(t('Base.editSuccess'))
+    } else if (accessType.value === 'chPass') {
+      let pass = {
+        new_pwd: record.value.newPassword,
+        old_pwd: record.value.password,
+      }
+      await changePassword(username, pass)
+      ElMessage.success(tl('changePassSuccess'))
+    } else {
+      await createUser(record.value)
+      ElMessage.success(tl('createUserSuccess'))
+    }
+    loadData()
+    dialogVisible.value = false
+  } catch (error) {
+    //
+  } finally {
+    submitLoading.value = false
+  }
+}
+
+const deleteConfirm = async (item) => {
+  if (item.username === currentUser.value.username) {
+    return
+  }
+  try {
+    await ElMessageBox.confirm(tl('confirmDeleteUser'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
+    })
+    await destroyUser(item.username)
+    ElMessage.success(t('Base.deleteSuccess'))
+    loadData()
+  } catch (error) {
+    //
+  }
+}
+
+const { isForChangeDefaultPwd, confirmForChangeDefaultPwdParam } = useHandlersInUsersPage({
+  showDialog,
+  tableData,
+})
+
+onBeforeMount(async () => {
+  await loadData()
+  confirmForChangeDefaultPwdParam()
+})
 </script>

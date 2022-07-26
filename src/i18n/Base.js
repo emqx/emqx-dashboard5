@@ -435,4 +435,8 @@ export default {
     zh: '主题',
     en: 'Topic',
   },
+  defaultPwdTip: {
+    zh: '您的密码为默认密码，请立即修改',
+    en: 'Your password is the default, please change it immediately',
+  },
 }

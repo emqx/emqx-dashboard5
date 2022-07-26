@@ -58,7 +58,7 @@ import Settings from '@/views/Settings/Settings.vue'
 export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/login',
+    redirect: '/dashboard',
     meta: {
       authRequired: true,
     },
