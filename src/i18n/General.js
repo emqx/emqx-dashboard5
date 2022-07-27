@@ -133,7 +133,7 @@ export default {
   },
   noSameNewPwd: {
     zh: '新密码不能与旧密码相同',
-    en: 'The new password cannot be the same as the old password',
+    en: 'The new and old passwords cannot be the same',
   },
   twoInconsistenciesInPasswordInput: {
     zh: '两次输入密码不一致',
