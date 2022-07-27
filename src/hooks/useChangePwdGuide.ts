@@ -15,8 +15,11 @@ export default (): void => {
   })
 
   const popupMessageBox = () => {
-    ElMessageBox.alert(tl('defaultPwdTip'), {
+    ElMessageBox({
+      type: 'info',
+      message: tl('defaultPwdTip'),
       confirmButtonText: 'OK',
+      customClass: 'default-pwd-tip',
       callback: () => {
         router.push({
           name: 'users',
