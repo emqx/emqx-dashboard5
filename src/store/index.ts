@@ -34,7 +34,7 @@ const getLeftBarCollapse = () => {
 
 export default createStore({
   state: {
-    user: JSON.parse(<string>localStorage.getItem('user')) || {},
+    user: JSON.parse(<string>localStorage.getItem('user') || '{}') || {},
     theme: getTheme(),
     syncOsTheme: getSyncOSTheme(),
     lang: getLang(),
@@ -43,6 +43,7 @@ export default createStore({
     selectedModule: JSON.parse(<string>localStorage.getItem('selectedModule')),
     request_queue: 0,
     edition: localStorage.getItem('edition'),
+    afterCurrentUserPwdChanged: false,
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -109,6 +110,9 @@ export default createStore({
         state.syncOsTheme = syncOsTheme
         location.reload()
       }
+    },
+    SET_AFTER_CURRENT_USER_PWD_CHANGED(state, payload: boolean) {
+      state.afterCurrentUserPwdChanged = payload
     },
   },
   getters: {

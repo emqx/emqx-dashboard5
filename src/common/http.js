@@ -65,10 +65,19 @@ axios.interceptors.response.use(
 
       if (!respSet.has(status)) {
         respSet.add(status)
-        if (status === 404 && error.config.handle404Self);
-        else if (data?.code || data?.message)
+        // some special cases
+        const handle404Self = status === 404 && error.config.handle404Self
+        const doNotPopupAfterPwdChanged = status === 401 && store.state.afterCurrentUserPwdChanged
+        const doNotPopup = handle404Self || doNotPopupAfterPwdChanged
+        if (doNotPopup) {
+          if (doNotPopupAfterPwdChanged) {
+            store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', false)
+          }
+        } else if (data?.code || data?.message) {
           M.error(status + ' ' + data?.code + ':' + data?.message.toString())
-        else M.error(status + ' Network error')
+        } else {
+          M.error(status + ' Network error')
+        }
 
         if (status === 401) {
           toLogin()
