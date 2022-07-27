@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3538061 */
-  src: url('iconfont.woff2?t=1658391684989') format('woff2'),
-       url('iconfont.woff?t=1658391684989') format('woff'),
-       url('iconfont.ttf?t=1658391684989') format('truetype');
+  src: url('iconfont.woff2?t=1658906195839') format('woff2'),
+       url('iconfont.woff?t=1658906195839') format('woff'),
+       url('iconfont.ttf?t=1658906195839') format('truetype');
 }
 
 .iconfont {
@@ -13,16 +13,48 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-configuration-dark-selected:before {
+  content: "\e785";
+}
+
+.icon-subscriptions-dark-selected:before {
+  content: "\e787";
+}
+
+.icon-monitoring-dark-selected:before {
+  content: "\e789";
+}
+
+.icon-diagnosis-dark-selected:before {
+  content: "\e792";
+}
+
+.icon-authentication-dark-selected:before {
+  content: "\e799";
+}
+
+.icon-integration-dark-selected:before {
+  content: "\e79b";
+}
+
+.icon-connections-dark-selected:before {
+  content: "\e79e";
+}
+
+.icon-extensions-dark-selected:before {
+  content: "\e7a1";
+}
+
+.icon-system-dark-selected:before {
+  content: "\e7a2";
+}
+
 .icon-language:before {
   content: "\e6c7";
 }
 
 .icon-fold:before {
   content: "\e74f";
-}
-
-.icon-system-dark-selected:before {
-  content: "\e79e";
 }
 
 .icon-system-light-selected:before {
@@ -37,16 +69,8 @@
   content: "\e77d";
 }
 
-.icon-authentication-dark-selected:before {
-  content: "\e77e";
-}
-
 .icon-authentication-light:before {
   content: "\e77f";
-}
-
-.icon-configuration-dark-selected:before {
-  content: "\e780";
 }
 
 .icon-configuration-light:before {
@@ -65,24 +89,12 @@
   content: "\e784";
 }
 
-.icon-connections-dark-selected:before {
-  content: "\e785";
-}
-
 .icon-connections-dark:before {
   content: "\e786";
 }
 
-.icon-extensions-dark-selected:before {
-  content: "\e787";
-}
-
 .icon-connections-light:before {
   content: "\e788";
-}
-
-.icon-diagnosis-dark-selected:before {
-  content: "\e789";
 }
 
 .icon-extensions-light-selectedbeifen:before {
@@ -117,10 +129,6 @@
   content: "\e791";
 }
 
-.icon-subscriptions--dark-selected:before {
-  content: "\e792";
-}
-
 .icon-system-dark:before {
   content: "\e793";
 }
@@ -145,16 +153,8 @@
   content: "\e798";
 }
 
-.icon-integration-dark-selected:before {
-  content: "\e799";
-}
-
 .icon-integration-light:before {
   content: "\e79a";
-}
-
-.icon-monitoring-dark-selected:before {
-  content: "\e79b";
 }
 
 .icon-extensions-light:before {
@@ -163,5 +163,9 @@
 
 .icon-system-light:before {
   content: "\e79d";
+}
+
+.icon-test:before {
+  content: "\e7a0";
 }
 
