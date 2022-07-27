@@ -647,3 +647,13 @@ input:disabled {
     background-color: var(--color-border-primary);
   }
 }
+
+.default-pwd-tip {
+  width: 380px;
+  .el-message-box__content {
+    padding-top: 24px;
+  }
+  .el-message-box__message {
+    padding-right: 0;
+  }
+}
