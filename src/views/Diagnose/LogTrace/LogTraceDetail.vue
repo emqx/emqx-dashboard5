@@ -156,7 +156,8 @@ export default defineComponent({
     watch(
       () => selectedNode.value,
       (v, oldV) => {
-        if (v !== oldV) {
+        // !!oldV for prevent repeat request on initialization
+        if (v !== oldV && !!oldV) {
           viewDetail(true)
         }
       },
