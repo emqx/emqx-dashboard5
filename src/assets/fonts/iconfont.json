@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "30879729",
+      "name": "configuration-dark-selected",
+      "font_class": "configuration-dark-selected",
+      "unicode": "e785",
+      "unicode_decimal": 59269
+    },
+    {
+      "icon_id": "30879730",
+      "name": "subscriptions-dark-selected",
+      "font_class": "subscriptions-dark-selected",
+      "unicode": "e787",
+      "unicode_decimal": 59271
+    },
+    {
+      "icon_id": "30879731",
+      "name": "monitoring-dark-selected",
+      "font_class": "monitoring-dark-selected",
+      "unicode": "e789",
+      "unicode_decimal": 59273
+    },
+    {
+      "icon_id": "30879732",
+      "name": "diagnosis-dark-selected",
+      "font_class": "diagnosis-dark-selected",
+      "unicode": "e792",
+      "unicode_decimal": 59282
+    },
+    {
+      "icon_id": "30879733",
+      "name": "authentication-dark-selected",
+      "font_class": "authentication-dark-selected",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "30879734",
+      "name": "integration-dark-selected",
+      "font_class": "integration-dark-selected",
+      "unicode": "e79b",
+      "unicode_decimal": 59291
+    },
+    {
+      "icon_id": "30879735",
+      "name": "connections-dark-selected",
+      "font_class": "connections-dark-selected",
+      "unicode": "e79e",
+      "unicode_decimal": 59294
+    },
+    {
+      "icon_id": "30879736",
+      "name": "extensions-dark-selected",
+      "font_class": "extensions-dark-selected",
+      "unicode": "e7a1",
+      "unicode_decimal": 59297
+    },
+    {
+      "icon_id": "30879737",
+      "name": "system-dark-selected",
+      "font_class": "system-dark-selected",
+      "unicode": "e7a2",
+      "unicode_decimal": 59298
+    },
+    {
       "icon_id": "22406913",
       "name": "language",
       "font_class": "language",
@@ -18,13 +81,6 @@
       "font_class": "fold",
       "unicode": "e74f",
       "unicode_decimal": 59215
-    },
-    {
-      "icon_id": "30762232",
-      "name": "system-dark-selected",
-      "font_class": "system-dark-selected",
-      "unicode": "e79e",
-      "unicode_decimal": 59294
     },
     {
       "icon_id": "30762239",
@@ -48,25 +104,11 @@
       "unicode_decimal": 59261
     },
     {
-      "icon_id": "30762209",
-      "name": "authentication-dark-selected",
-      "font_class": "authentication-dark-selected",
-      "unicode": "e77e",
-      "unicode_decimal": 59262
-    },
-    {
       "icon_id": "30762210",
       "name": "authentication-light",
       "font_class": "authentication-light",
       "unicode": "e77f",
       "unicode_decimal": 59263
-    },
-    {
-      "icon_id": "30762211",
-      "name": "configuration-dark-selected",
-      "font_class": "configuration-dark-selected",
-      "unicode": "e780",
-      "unicode_decimal": 59264
     },
     {
       "icon_id": "30762212",
@@ -97,13 +139,6 @@
       "unicode_decimal": 59268
     },
     {
-      "icon_id": "30762216",
-      "name": "connections-dark-selected",
-      "font_class": "connections-dark-selected",
-      "unicode": "e785",
-      "unicode_decimal": 59269
-    },
-    {
       "icon_id": "30762217",
       "name": "connections-dark",
       "font_class": "connections-dark",
@@ -111,25 +146,11 @@
       "unicode_decimal": 59270
     },
     {
-      "icon_id": "30762218",
-      "name": "extensions-dark-selected",
-      "font_class": "extensions-dark-selected",
-      "unicode": "e787",
-      "unicode_decimal": 59271
-    },
-    {
       "icon_id": "30762219",
       "name": "connections-light",
       "font_class": "connections-light",
       "unicode": "e788",
       "unicode_decimal": 59272
-    },
-    {
-      "icon_id": "30762220",
-      "name": "diagnosis-dark-selected",
-      "font_class": "diagnosis-dark-selected",
-      "unicode": "e789",
-      "unicode_decimal": 59273
     },
     {
       "icon_id": "30762221",
@@ -188,13 +209,6 @@
       "unicode_decimal": 59281
     },
     {
-      "icon_id": "30762229",
-      "name": "subscriptions--dark-selected",
-      "font_class": "subscriptions--dark-selected",
-      "unicode": "e792",
-      "unicode_decimal": 59282
-    },
-    {
       "icon_id": "30762230",
       "name": "system-dark",
       "font_class": "system-dark",
@@ -237,25 +251,11 @@
       "unicode_decimal": 59288
     },
     {
-      "icon_id": "30762237",
-      "name": "integration-dark-selected",
-      "font_class": "integration-dark-selected",
-      "unicode": "e799",
-      "unicode_decimal": 59289
-    },
-    {
       "icon_id": "30762238",
       "name": "integration-light",
       "font_class": "integration-light",
       "unicode": "e79a",
       "unicode_decimal": 59290
-    },
-    {
-      "icon_id": "30762240",
-      "name": "monitoring-dark-selected",
-      "font_class": "monitoring-dark-selected",
-      "unicode": "e79b",
-      "unicode_decimal": 59291
     },
     {
       "icon_id": "30762241",
@@ -270,6 +270,13 @@
       "font_class": "system-light",
       "unicode": "e79d",
       "unicode_decimal": 59293
+    },
+    {
+      "icon_id": "30871094",
+      "name": "subscriptions--dark-selected-copy",
+      "font_class": "test",
+      "unicode": "e7a0",
+      "unicode_decimal": 59296
     }
   ]
 }
