@@ -227,6 +227,9 @@ const save = async () => {
       }
       await changePassword(username, pass)
       ElMessage.success(tl('changePassSuccess'))
+      if (username === currentUser.value.username) {
+        store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', true)
+      }
     } else {
       await createUser(record.value)
       ElMessage.success(tl('createUserSuccess'))
