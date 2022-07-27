@@ -116,6 +116,17 @@ const validatePass = (rule, value, callback) => {
     callback()
   }
 }
+
+/**
+ * is the new password same as the old password?
+ */
+const newPwdSameConfirm = (rule, value, callback) => {
+  if (value === record.value.password) {
+    callback(new Error(tl('noSameNewPwd')))
+  } else {
+    callback()
+  }
+}
 const rules = {
   username: [{ required: true, message: tl('enterOneUserName') }],
   password: [
@@ -142,6 +153,10 @@ const rules = {
       max: 32,
       message: tl('passwordLength'),
       trigger: ['blur', 'change'],
+    },
+    {
+      validator: newPwdSameConfirm,
+      trigger: ['blur'],
     },
   ],
   repeatPassword: [
