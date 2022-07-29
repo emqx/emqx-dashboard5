@@ -23,6 +23,7 @@ export default (): {
     createNodeId,
     getBridgeTypeFromString,
     getBridgeNodeLabel,
+    createTopicNodeAndEdgeForBridge,
   } = useUtilsForTopology()
 
   const createBridgeNTopicEle = (
@@ -39,22 +40,8 @@ export default (): {
     bridgeArr.forEach((bridgeItem) => {
       const { id, local_topic } = bridgeItem
       const iconKey = `bridge-${getBridgeTypeFromString(id)}`
-      const topicNodeId = createNodeId(local_topic as string, OtherNodeType.Topic)
       const bridgeNodeId = createNodeId(id, OtherNodeType.Bridge)
-      if (local_topic) {
-        topicNodeArr.push({
-          id: topicNodeId,
-          label: cutLabel(local_topic),
-          img: iconMap.topic,
-        })
-      } else if ('remote_topic' in bridgeItem) {
-        // FIXME:diff sink and source
-        topicNodeArr.push({
-          id: topicNodeId,
-          label: cutLabel(bridgeItem.remote_topic),
-          img: iconMap.topic,
-        })
-      }
+      // bridge node
       bridgeNodeArr.push(
         addCursorPointerToNodeData({
           id: bridgeNodeId,
@@ -62,19 +49,11 @@ export default (): {
           img: iconMap[iconKey],
         }),
       )
-      if (
-        id.indexOf(BridgeType.MQTT) > -1 &&
-        (bridgeItem as MQTTOut).direction === MQTTBridgeDirection.In
-      ) {
-        topic2BridgeEdgeArr.push({
-          source: bridgeNodeId,
-          target: topicNodeId,
-        })
-      } else {
-        topic2BridgeEdgeArr.push({
-          source: topicNodeId,
-          target: bridgeNodeId,
-        })
+      const topicNodeAndEdgeData = createTopicNodeAndEdgeForBridge(bridgeItem)
+      if (topicNodeAndEdgeData) {
+        const { node, edge } = topicNodeAndEdgeData
+        topicNodeArr.push(node)
+        topic2BridgeEdgeArr.push(edge)
       }
     })
     return {
