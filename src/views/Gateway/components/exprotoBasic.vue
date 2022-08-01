@@ -6,23 +6,14 @@
           <el-col :span="12">
             <el-form-item :label="tl('useLog')">
               <el-select v-model="eValue.enable_stats">
-                <el-option :value="true" label="true"></el-option>
-                <el-option :value="false" label="false"></el-option>
+                <el-option :value="true" label="true" />
+                <el-option :value="false" label="false" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('idleTime')">
-              <el-input
-                v-model.number="eValue.idle_timeout[0]"
-                :placeholder="String(eValueDefault.idle_timeout[0])"
-              >
-                <template #append>
-                  <el-select v-model="eValue.idle_timeout[1]">
-                    <el-option value="s"></el-option>
-                  </el-select>
-                </template>
-              </el-input>
+              <InputWithUnit v-model="eValue.idle_timeout" number-placeholder="3" :units="['s']" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -33,10 +24,7 @@
         <el-row :gutter="30">
           <el-col :span="12">
             <el-form-item :label="tl('mountPoint')">
-              <el-input
-                v-model="eValue.mountpoint"
-                :placeholder="eValueDefault.mountpoint"
-              ></el-input>
+              <el-input v-model="eValue.mountpoint" :placeholder="eValueDefault.mountpoint" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -48,10 +36,7 @@
         <el-row :gutter="30">
           <el-col :span="12">
             <el-form-item :label="tl('lAddress')">
-              <el-input
-                v-model="eValue.server.bind"
-                :placeholder="eValueDefault.server.bind"
-              ></el-input>
+              <el-input v-model="eValue.server.bind" :placeholder="eValueDefault.server.bind" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -74,7 +59,7 @@
               <el-input
                 v-model="eValue.handler.address"
                 :placeholder="eValueDefault.handler.address"
-              ></el-input>
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -91,16 +76,18 @@
 <script>
 import { defineComponent, reactive, watch, onMounted } from 'vue'
 import _ from 'lodash'
-import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
+import { transformUnitArrayToStr } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
 
 export default defineComponent({
   name: 'ExprotoBasic',
   components: {
     CommonTLSConfig,
     TLSEnableConfig,
+    InputWithUnit,
   },
   props: {
     value: {
@@ -116,7 +103,7 @@ export default defineComponent({
   setup(props, context) {
     let eValueDefault = {
       enable_stats: true,
-      idle_timeout: [30, 's'],
+      idle_timeout: '30s',
       mountpoint: '',
       handler: {
         address: 'http://127.0.0.1:9001',
@@ -138,9 +125,7 @@ export default defineComponent({
     }
     const { t } = useI18n()
 
-    let eValue = reactive(
-      _.merge(eValueDefault, transformStrToUnitArray(props.value, ['idle_timeout'])),
-    )
+    let eValue = reactive(_.merge(eValueDefault, props.value))
 
     watch(
       () => _.cloneDeep(eValue),
