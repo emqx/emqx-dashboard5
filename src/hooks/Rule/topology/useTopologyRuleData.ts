@@ -56,12 +56,14 @@ export default (): {
       inputType === OtherNodeType.Bridge
         ? fromData.slice(RULE_INPUT_BRIDGE_TYPE_PREFIX.length)
         : fromData
+    const label = inputType === OtherNodeType.Bridge ? getBridgeNodeLabel(rawFrom) : rawFrom
     const idOfInputNode = createNodeId(rawFrom, inputType)
 
-    let node = {
+    let node: NodeItem = {
       id: idOfInputNode,
-      label: cutLabel(getBridgeNodeLabel(rawFrom)),
+      label: cutLabel(label),
       img: getIconFromInputData(fromData),
+      _customData: { id: rawFrom, type: inputType },
     }
     if (inputType === OtherNodeType.Bridge) {
       node = addCursorPointerToNodeData(node)
@@ -93,12 +95,16 @@ export default (): {
   ): { node: NodeItem; edge: EdgeItem } => {
     const outputType = judgeOutputType(outputData)
     const target = getTargetStrInNodeId(outputData, ruleID)
-    const outputNodeLabel = typeof outputData === 'object' ? outputData?.function || '' : outputData
+    const rawNodeLabel = typeof outputData === 'object' ? outputData?.function || '' : outputData
+    const labelBeforeCut =
+      outputType === OtherNodeType.Bridge ? getBridgeNodeLabel(rawNodeLabel) : rawNodeLabel
+
     const toNode = createNodeId(target as string, outputType)
     let node: NodeItem = {
       id: toNode,
-      label: cutLabel(outputNodeLabel),
+      label: cutLabel(labelBeforeCut),
       img: getIconFromOutputItem(outputData),
+      _customData: { type: outputType, id: rawNodeLabel },
     }
     if (outputType === OtherNodeType.Bridge) {
       node = addCursorPointerToNodeData(node)
@@ -179,6 +185,7 @@ export default (): {
           id: createNodeId(v.id, OtherNodeType.Rule),
           label: cutLabel(v.name || 'rule id:' + v.id),
           img: iconMap.rule,
+          _customData: { id: v.id, type: OtherNodeType.Rule },
         })
       })
 

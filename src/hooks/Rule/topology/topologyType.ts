@@ -17,10 +17,16 @@ export interface EdgeItem {
   source: string
   target: string
 }
+
+export interface NodeCustomData {
+  id?: string
+  type: NodeType
+}
 export interface NodeItem {
   id: string
   label: string
   img: SVGElement
+  _customData: NodeCustomData
   style?: {
     cursor: 'pointer'
   }

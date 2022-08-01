@@ -5,7 +5,7 @@ import { IG6GraphEvent } from '@antv/g6'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { OtherNodeType, NodeType } from './topologyType'
+import { OtherNodeType, NodeType, NodeItem, NodeCustomData } from './topologyType'
 import hljs from 'highlight.js/lib/core'
 import sql from 'highlight.js/lib/languages/sql'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
@@ -172,19 +172,6 @@ export default (): {
     return container
   }
 
-  const getNodeTypeNTargetIDByNodeID = (nodeID: string): { id?: string; type?: NodeType } => {
-    const matchResult = nodeID.match(nodeIdReg)
-    if (!matchResult) {
-      return {}
-    }
-    const [, , type, id] = matchResult
-
-    return {
-      id,
-      type: type as NodeType,
-    }
-  }
-
   const createTooltipMap: Record<NodeType, (id: string) => HTMLDivElement | string> = {
     [OtherNodeType.Topic]: createSimpleTooltip,
     [RuleOutput.Console]: createEmptyTooltip,
@@ -195,6 +182,23 @@ export default (): {
     [RuleOutput.DataBridge]: createRepublishNodeTooltip,
   }
 
+  const getNodeData = (nodes: Array<NodeItem>, nodeID: string): undefined | NodeCustomData => {
+    return nodes.find(({ id }) => id === nodeID)?._customData || undefined
+  }
+
+  const getNodeDataFromEvent = (e?: IG6GraphEvent) => {
+    if (!e) {
+      return
+    }
+    const nodeID = e?.item?.get('id')
+    const nodes = e?.currentTarget?.save()?.nodes
+    if (!nodeID || !nodes) {
+      return
+    }
+    const nodeData = getNodeData(nodes, nodeID)
+    return nodeData
+  }
+
   /* 
     DESC
     - console | event | topic: no tooltip
@@ -203,30 +207,27 @@ export default (): {
    */
   // TODO: debounce
   const createNodeTooltip = (e?: IG6GraphEvent | undefined): HTMLDivElement | string => {
-    const model = e?.item?.getModel()
-    if (!e || !model || !model.id || !model.label) {
+    const nodeData = getNodeDataFromEvent(e)
+    if (!nodeData) {
       return ''
     }
-
-    const { id } = model
-    const { type: nodeType, id: targetID } = getNodeTypeNTargetIDByNodeID(id)
+    const { type: nodeType, id: targetID } = nodeData
     if (!nodeType || !targetID) {
       return ''
     }
-
-    const createFunc = createTooltipMap[nodeType]
-    if (!createFunc) {
-      return ''
+    if (nodeType in createTooltipMap) {
+      return createTooltipMap[nodeType](targetID)
     }
-    const ret = createFunc(targetID)
-
-    return ret
+    return ''
   }
 
   const handleNodeClickEvent = (e: IG6GraphEvent) => {
-    const id = e?.item?.get('id')
-    const { type, id: targetId } = getNodeTypeNTargetIDByNodeID(id)
-    if (!id || !type || !targetId) {
+    const nodeData = getNodeDataFromEvent(e)
+    if (!nodeData) {
+      return
+    }
+    const { id: targetId, type } = nodeData
+    if (!type || !targetId) {
       return
     }
 

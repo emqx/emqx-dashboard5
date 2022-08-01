@@ -155,6 +155,10 @@ export default (): {
       id: topicNodeId,
       label: cutLabel(remote_topic),
       img: iconMap.topic,
+      _customData: {
+        type: OtherNodeType.Topic,
+        id: remote_topic,
+      },
     }
     let edge
     if (direction === MQTTBridgeDirection.In) {

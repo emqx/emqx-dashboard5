@@ -38,7 +38,7 @@ export default (): {
     const topic2BridgeEdgeArr: Array<EdgeItem> = []
 
     bridgeArr.forEach((bridgeItem) => {
-      const { id, local_topic } = bridgeItem
+      const { id } = bridgeItem
       const iconKey = `bridge-${getBridgeTypeFromString(id)}`
       const bridgeNodeId = createNodeId(id, OtherNodeType.Bridge)
       // bridge node
@@ -47,6 +47,7 @@ export default (): {
           id: bridgeNodeId,
           label: cutLabel(getBridgeNodeLabel(id)),
           img: iconMap[iconKey],
+          _customData: { id, type: OtherNodeType.Bridge },
         }),
       )
       const topicNodeAndEdgeData = createTopicNodeAndEdgeForBridge(bridgeItem)
