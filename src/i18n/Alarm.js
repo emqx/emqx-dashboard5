@@ -59,10 +59,6 @@ export default {
     zh: '系统',
     en: 'System',
   },
-  describe: {
-    zh: '描述',
-    en: 'Description',
-  },
   state: {
     zh: '状态',
     en: 'State',

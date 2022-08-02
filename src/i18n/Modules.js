@@ -23,10 +23,6 @@ export default {
     zh: '已停用',
     en: 'Disabled',
   },
-  description: {
-    zh: '描述',
-    en: 'Description',
-  },
   searchTip: {
     zh: '搜索模块...',
     en: 'Search modules...',

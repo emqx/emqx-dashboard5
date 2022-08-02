@@ -95,10 +95,6 @@ export default {
     zh: '当前速度',
     en: 'Current speed',
   },
-  desc: {
-    zh: '说明',
-    en: 'Description',
-  },
   params: {
     zh: '参数',
     en: 'Params',

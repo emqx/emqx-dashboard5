@@ -7,10 +7,6 @@ export default {
     zh: '到期时间',
     en: 'Expire At',
   },
-  desc: {
-    zh: '备注',
-    en: 'Description',
-  },
   status: {
     zh: '状态',
     en: 'Status',

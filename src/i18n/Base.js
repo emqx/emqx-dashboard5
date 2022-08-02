@@ -439,4 +439,8 @@ export default {
     zh: '检测到您正在使用默认密码登录，请及时修改密码',
     en: 'Detected that you are logging in with the default password, please change your password in time.',
   },
+  note: {
+    zh: '备注',
+    en: 'Note',
+  },
 }
