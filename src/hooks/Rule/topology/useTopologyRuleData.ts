@@ -70,7 +70,14 @@ export default (): {
     }
     return {
       node,
-      edge: { source: idOfInputNode, target: createNodeId(ruleID, OtherNodeType.Rule) },
+      edge: {
+        source: idOfInputNode,
+        target: createNodeId(ruleID, OtherNodeType.Rule),
+        _customData: {
+          source: rawFrom,
+          target: ruleID,
+        },
+      },
     }
   }
 
@@ -180,7 +187,7 @@ export default (): {
 
       const { inputNodeList, outputNodeList, input2RuleEdgeList, rule2OutputEdgeList } =
         createNodeNEdgeExceptRuleNode(ruleList)
-      const ruleNodeList = ruleList.map((v: RuleItem) => {
+      const ruleNodeList = ruleList.map((v: RuleItem, index: number) => {
         return addCursorPointerToNodeData({
           id: createNodeId(v.id, OtherNodeType.Rule),
           label: cutLabel(v.name || 'rule id:' + v.id),
