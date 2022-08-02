@@ -1,7 +1,7 @@
 <template>
   <div class="auth auth-details app-wrapper">
     <detail-header :item="{ name: titleMap[type], path: '/authorization' }" />
-    <div class="section-header" v-loading.lock="authzDetailLock">
+    <div class="section-header">
       <div class="section-header__block">
         <div>
           <img :src="currImg" width="64" />
@@ -21,7 +21,7 @@
         </el-button>
       </div>
     </div>
-    <el-tabs type="card" class="detail-tabs" v-if="!authzDetailLock" v-model="currTab">
+    <el-tabs type="card" class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
       <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
         <AuthItemOverview
           :metrics="authMetrics"
@@ -36,7 +36,7 @@
         name="users"
         :lazy="true"
       >
-        <authz-manager></authz-manager>
+        <authz-manager />
       </el-tab-pane>
       <el-tab-pane v-else :label="$t('Base.setting')" name="settings" :lazy="true">
         <el-card>
@@ -48,14 +48,14 @@
             auth-type="authz"
             is-edit
           />
-          <file-config v-else-if="type === 'file'" ref="formCom" v-model="configData"></file-config>
+          <file-config v-else-if="type === 'file'" ref="formCom" v-model="configData" />
           <http-config
             v-else-if="type === 'http'"
             ref="formCom"
             auth-type="authz"
             v-model="configData"
             is-edit
-          ></http-config>
+          />
           <el-button @click="$router.push('/authorization')">
             {{ $t('Base.cancel') }}
           </el-button>
@@ -67,7 +67,7 @@
           </el-button> -->
         </el-card>
       </el-tab-pane>
-      <el-tab-pane class="empty-tab"></el-tab-pane>
+      <el-tab-pane class="empty-tab" />
     </el-tabs>
   </div>
 </template>
@@ -134,12 +134,12 @@ export default defineComponent({
 
     const loadData = async function () {
       authzDetailLock.value = true
-      const res = await loadAuthz(type.value).catch(() => {
+      try {
+        configData.value = await loadAuthz(type.value)
+      } catch (error) {
+        //
+      } finally {
         authzDetailLock.value = false
-      })
-      authzDetailLock.value = false
-      if (res) {
-        configData.value = res
       }
     }
     const handleRefresh = async () => {

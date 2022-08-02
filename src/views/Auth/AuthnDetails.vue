@@ -4,10 +4,7 @@
       v-if="!gateway"
       :item="{ name: titleMap[currBackend], path: '/authentication' }"
     />
-    <div
-      :class="{ 'section-header': true, 'embed-gateway': !!gateway }"
-      v-loading.lock="authnDetailLock"
-    >
+    <div :class="{ 'section-header': true, 'embed-gateway': !!gateway }">
       <div class="section-header__block">
         <template v-if="!gateway">
           <div>
@@ -32,7 +29,7 @@
         </el-button>
       </div>
     </div>
-    <el-tabs type="card" class="detail-tabs" v-if="!authnDetailLock" v-model="currTab">
+    <el-tabs type="card" class="detail-tabs" v-model="currTab" v-loading.lock="authnDetailLock">
       <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
         <AuthItemOverview
           :metrics="authMetrics"
@@ -51,22 +48,22 @@
               v-model="configData"
               auth-type="authn"
               is-edit
-            ></database-config>
+            />
             <http-config
               auth-type="authn"
               v-else-if="currBackend === 'http'"
               ref="formCom"
               v-model="configData"
               is-edit
-            ></http-config>
+            />
             <built-in-config
               v-else-if="currBackend === 'built_in_database'"
               ref="formCom"
               :type="configData.mechanism"
               v-model="configData"
-            ></built-in-config>
+            />
           </template>
-          <jwt-config ref="formCom" v-else v-model="configData"></jwt-config>
+          <jwt-config ref="formCom" v-else v-model="configData" />
           <el-button @click="$router.push('/authentication')" v-if="!gateway">
             {{ $t('Base.cancel') }}
           </el-button>
@@ -84,7 +81,7 @@
         :lazy="true"
         name="users"
       >
-        <authn-manager :field="configData.user_id_type" :gateway="gateway"></authn-manager>
+        <authn-manager :field="configData.user_id_type" :gateway="gateway" />
       </el-tab-pane>
     </el-tabs>
   </div>
