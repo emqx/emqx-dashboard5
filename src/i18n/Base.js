@@ -443,4 +443,24 @@ export default {
     zh: '备注',
     en: 'Note',
   },
+  documentation: {
+    zh: '文档',
+    en: 'Documentation',
+  },
+  forum: {
+    zh: '论坛',
+    en: 'Forum(EMQX & MQTT Forum)',
+  },
+  discord: {
+    zh: 'Discord',
+    en: 'Discord',
+  },
+  gitHub: {
+    zh: 'Github',
+    en: 'GitHub',
+  },
+  contact: {
+    zh: '联系我们',
+    en: 'Contact Us',
+  },
 }
