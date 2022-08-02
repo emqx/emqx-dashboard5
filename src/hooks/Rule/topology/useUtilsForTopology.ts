@@ -160,11 +160,13 @@ export default (): {
         id: remote_topic,
       },
     }
-    let edge
-    if (direction === MQTTBridgeDirection.In) {
-      edge = { source: topicNodeId, target: bridgeNodeId }
-    } else {
-      edge = { source: bridgeNodeId, target: topicNodeId }
+    const edge: EdgeItem = {
+      source: bridgeNodeId,
+      target: topicNodeId,
+      _customData: {
+        source: bridgeID,
+        target: topicNodeId,
+      },
     }
     return { node, edge }
   }

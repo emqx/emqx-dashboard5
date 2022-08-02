@@ -7,6 +7,8 @@ import useTopologyBridgeData from './useTopologyBridgeData'
 import { cloneDeep } from 'lodash'
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
 import useCSSVariables from '@/hooks/useCSSVariables'
+import { BridgeItem, MQTTIn, MQTTOut } from '@/types/rule'
+import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 
 type DataList = Array<NodeItem> | Array<EdgeItem>
 const concatNCloneInObj = (obj: Record<string, DataList>): DataList => {
@@ -133,6 +135,8 @@ export default (): {
     getOtherPageData: getRuleOtherPageData,
   } = useTopologyRuleData()
   const { getData: getBridgeNodeNEdgeData, getBridgeList } = useTopologyBridgeData()
+  // for func handleRuleInputs
+  let bridgeList: Array<BridgeItem> = []
 
   const tooltip = new G6.Tooltip({
     offsetX: 10,
@@ -159,6 +163,55 @@ export default (): {
     graphInstance?.on('node:click', handleNodeClickEvent)
   }
 
+  const isMQTTSourceBridge = (bridgeID: string) => {
+    const bridge = bridgeList.find(({ id }) => id === bridgeID)
+    return (
+      bridge &&
+      bridge.type === BridgeType.MQTT &&
+      (bridge as MQTTOut | MQTTIn).direction === MQTTBridgeDirection.In
+    )
+  }
+
+  /**
+   * When the input to the rule is mqtt source, modify the node connected to the rule node
+   * before: mqtt-source bridge -> bridge topic & mqtt-source bridge -> rule
+   * after: mqtt-source bridge -> bridge topic -> rule
+   */
+  const handleRuleInputs = () => {
+    // node ID map
+    const bridgeToRuleMap = new Map()
+    const bridgeNodesNeedsBeHandle: Array<{ nodeID: string; bridgeID: string }> = []
+    const neededInputToRuleEdge = rulePartEdgeData.value.input2Rule.filter(
+      ({ _customData = {}, source, target }) => {
+        const { source: bridgeID } = _customData
+        if (!bridgeID) {
+          return true
+        }
+        const ret = !isMQTTSourceBridge(bridgeID)
+        if (!ret) {
+          bridgeToRuleMap.set(source, target)
+          bridgeNodesNeedsBeHandle.push({ nodeID: source, bridgeID })
+        }
+        return ret
+      },
+    )
+
+    const topicToRuleEdges = bridgeNodesNeedsBeHandle.reduce(
+      (arr: Array<EdgeItem>, { nodeID, bridgeID }) => {
+        const topic = bridgePartEdgeData.value.find(({ _customData = {} }) => {
+          const { source } = _customData
+          return source === bridgeID
+        })?.target
+        if (!topic) {
+          return arr
+        }
+        return [...arr, { source: topic, target: bridgeToRuleMap.get(nodeID) }]
+      },
+      [],
+    )
+    rulePartEdgeData.value.input2Rule = [...neededInputToRuleEdge, ...topicToRuleEdges]
+  }
+
   const getRequiredList = async () => {
     try {
       isDataLoading.value = true
@@ -171,8 +224,13 @@ export default (): {
 
       bridgePartNodeData.value = bridgeNodeNEdgeData.nodeData
       bridgePartEdgeData.value = bridgeNodeNEdgeData.edgeList
+
+      bridgeList = getBridgeList()
       setRuleList(getRuleList())
-      setBridgeList(getBridgeList())
+      setBridgeList(bridgeList)
+
+      handleRuleInputs()
+
       return Promise.resolve()
     } catch (error) {
       console.error(error)
@@ -232,8 +290,8 @@ export default (): {
         type: 'dagre',
         rankdir: 'LR',
         align: 'DL',
-        nodesep: 8,
-        ranksep: 72,
+        nodesep: 28,
+        ranksep: 56,
       },
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'dice-mindmap'],

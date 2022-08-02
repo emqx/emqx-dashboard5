@@ -16,6 +16,10 @@ export type NodeType = OtherNodeType | RuleOutput
 export interface EdgeItem {
   source: string
   target: string
+  _customData?: {
+    source: string
+    target: string
+  }
 }
 
 export interface NodeCustomData {
