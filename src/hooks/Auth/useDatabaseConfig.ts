@@ -23,6 +23,9 @@ export default function useDatabaseConfig(
    */
   const withSaltDefaultSQL =
     'SELECT password_hash, salt FROM mqtt_user where username = ${username} LIMIT 1'
+
+  const authnRedisDefaultCMD = 'HMGET mqtt_user:${username} password_hash'
+  const authnRedisWithSaltDefaultCMD = 'HMGET mqtt_user:${username} password_hash salt'
   const defaultContent = ref('')
   const databaseConfig = reactive(modelValue)
   watch(databaseConfig, (value) => {
@@ -83,7 +86,10 @@ export default function useDatabaseConfig(
   }
   const setRedis = () => {
     if (authType === 'authn') {
-      defaultContent.value = `HMGET mqtt_user:\${username} password_hash`
+      defaultContent.value =
+        DEFAULT_SALT_POSITION === SaltPosition.Disable
+          ? authnRedisDefaultCMD
+          : authnRedisWithSaltDefaultCMD
     } else {
       defaultContent.value = `HGETALL mqtt_acl:\${username}`
     }
@@ -109,6 +115,10 @@ export default function useDatabaseConfig(
   return {
     defaultSQL,
     withSaltDefaultSQL,
+
+    authnRedisDefaultCMD,
+    authnRedisWithSaltDefaultCMD,
+
     defaultContent,
     databaseConfig,
   }
