@@ -53,6 +53,7 @@ const linkList = [
     }
     a {
       padding: 8px;
+      color: var(--color-text-secondary);
     }
   }
 }

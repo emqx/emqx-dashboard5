@@ -449,7 +449,7 @@ export default {
   },
   forum: {
     zh: '论坛',
-    en: 'Forum(EMQX & MQTT Forum)',
+    en: 'Forum',
   },
   discord: {
     zh: 'Discord',

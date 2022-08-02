@@ -59,7 +59,7 @@
             @change="trimUserName"
           />
         </el-form-item>
-        <el-form-item v-if="accessType !== 'chPass'" :label="tl('Base.note')">
+        <el-form-item v-if="accessType !== 'chPass'" :label="t('Base.note')">
           <el-input v-model="record.description" />
         </el-form-item>
         <el-form-item v-if="accessType !== 'edit'" prop="password" :label="tl('password')">
