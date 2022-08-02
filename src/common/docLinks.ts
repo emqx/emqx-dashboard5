@@ -1,4 +1,15 @@
-type DocKey = 'cloud' | 'home' | 'sqlGrammar' | 'sqlActionRepub' | 'sqlTest' | 'bridgePayload'
+type DocKey =
+  | 'cloud'
+  | 'home'
+  | 'sqlGrammar'
+  | 'sqlActionRepub'
+  | 'sqlTest'
+  | 'bridgePayload'
+  | 'documentation'
+  | 'forum'
+  | 'discord'
+  | 'gitHub'
+  | 'contact'
 
 export type DocMap = Record<DocKey, string>
 
@@ -10,5 +21,10 @@ export default (lang: string): DocMap => {
     bridgePayload: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/data-bridge-webhook.html#%E7%A4%BA%E4%BE%8B-%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA-webhook`,
     home: lang === 'en' ? 'https://www.emqx.io/' : `https://www.emqx.io/${lang}`,
     cloud: `https://www.emqx.com/${lang}/signup?utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-to-cloud&continue=https%3A%2F%2Fcloud-intl.emqx.com%2Fconsole%2F`,
+    documentation: `https://www.emqx.io/docs/${lang}/v5.0/`,
+    forum: lang === 'en' ? `https://www.emqx.io/forum/` : `https://askemq.com/`,
+    discord: `https://discord.gg/xYGf3fQnES`,
+    gitHub: `https://github.com/emqx/emqx`,
+    contact: `https://www.emqx.com/${lang}/contact?product=emqx&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-to-contact-us`,
   }
 }

@@ -156,7 +156,7 @@ export default (): {
   })
 
   const getCanvasHeight = () => {
-    canvasHeight = window.innerHeight - 150
+    canvasHeight = window.innerHeight - 200
   }
 
   const bindClickNodeEvent = () => {

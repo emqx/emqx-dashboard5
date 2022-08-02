@@ -29,7 +29,7 @@ const { t } = useI18n()
 
 <style lang="scss" scoped>
 .flow {
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 }
 .topology-wrap {
   border: 1px solid var(--color-border-normal);
