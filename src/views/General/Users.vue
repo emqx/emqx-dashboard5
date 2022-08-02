@@ -9,7 +9,7 @@
 
     <el-table :data="tableData" v-loading.lock="lockTable">
       <el-table-column prop="username" :label="tl('userName')" />
-      <el-table-column prop="description" :label="tl('remark')" />
+      <el-table-column prop="description" :label="t('Base.note')" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="showDialog('edit', row)">
@@ -59,7 +59,7 @@
             @change="trimUserName"
           />
         </el-form-item>
-        <el-form-item v-if="accessType !== 'chPass'" :label="tl('remark')">
+        <el-form-item v-if="accessType !== 'chPass'" :label="tl('Base.note')">
           <el-input v-model="record.description" />
         </el-form-item>
         <el-form-item v-if="accessType !== 'edit'" prop="password" :label="tl('password')">

@@ -62,7 +62,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item :label="tl('desc')" prop="description">
+          <el-form-item :label="t('Base.note')" prop="description">
             <el-input
               type="textarea"
               v-model="formData.desc"

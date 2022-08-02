@@ -23,10 +23,6 @@ export default {
     zh: '到期时间',
     en: 'Expire At',
   },
-  remark: {
-    zh: '备注',
-    en: 'Remark',
-  },
   isEnabled: {
     zh: '是否启用',
     en: 'Is Enabled',
@@ -210,10 +206,6 @@ export default {
   banObject: {
     zh: '禁用对象',
     en: 'Banned Object',
-  },
-  desc: {
-    zh: '描述',
-    en: 'Description',
   },
   until: {
     zh: '到期时间',
