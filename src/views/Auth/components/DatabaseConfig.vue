@@ -257,10 +257,14 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
-    const { defaultSQL, withSaltDefaultSQL, databaseConfig, defaultContent } = useDatabaseConfig(
-      props,
-      ctx,
-    )
+    const {
+      defaultSQL,
+      withSaltDefaultSQL,
+      databaseConfig,
+      defaultContent,
+      authnRedisDefaultCMD,
+      authnRedisWithSaltDefaultCMD,
+    } = useDatabaseConfig(props, ctx)
     const {
       formCom,
       rules,
@@ -299,14 +303,33 @@ export default defineComponent({
       return needSelectSalt && salt_position !== SaltPosition.Disable
     })
 
+    const addSaltToQueryOrCMD = () => {
+      if ((isMySQL.value || isPgSQL.value) && databaseConfig.query === defaultSQL) {
+        // enabled salt
+        databaseConfig.query = withSaltDefaultSQL
+      } else if (isRedis.value && databaseConfig.cmd === authnRedisDefaultCMD) {
+        databaseConfig.cmd = authnRedisWithSaltDefaultCMD
+      }
+    }
+
+    const removeSaltFromQueryOrCMD = () => {
+      if ((isMySQL.value || isPgSQL.value) && databaseConfig.query === withSaltDefaultSQL) {
+        // disabled salt
+        databaseConfig.query = defaultSQL
+      } else if (isRedis.value && databaseConfig.cmd === authnRedisWithSaltDefaultCMD) {
+        databaseConfig.cmd = authnRedisDefaultCMD
+      }
+    }
+
     const handleSaltChanged = () => {
-      if (!(isMySQL.value || isPgSQL.value)) {
+      const needsBeHandled = isMySQL.value || isPgSQL.value || isRedis.value
+      if (!needsBeHandled) {
         return
       }
-      if (!isEnableSalt.value && databaseConfig.query === withSaltDefaultSQL) {
-        databaseConfig.query = defaultSQL
-      } else if (isEnableSalt.value && databaseConfig.query === defaultSQL) {
-        databaseConfig.query = withSaltDefaultSQL
+      if (isEnableSalt.value) {
+        addSaltToQueryOrCMD()
+      } else {
+        removeSaltFromQueryOrCMD()
       }
     }
 
