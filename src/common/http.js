@@ -5,7 +5,8 @@ import 'nprogress/nprogress.css'
 import { toLogin } from '@/router'
 import store from '@/store'
 import _ from 'lodash'
-import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
+import { REQUEST_TIMEOUT_CODE, BAD_TOKEN_CODE } from '@/common/constants'
+import i18n from '@/i18n'
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 200 })
 let respSet = new Set()
@@ -38,6 +39,8 @@ axios.interceptors.request.use(async (config) => {
   return config
 })
 
+const isTokenExpired = (status, data) => status === 401 && data.code === BAD_TOKEN_CODE
+
 /**
  * there are some custom configurations
  * doNotTriggerProgress: The request progress bar is not affected when the request is initiated or after the request is ended
@@ -65,6 +68,12 @@ axios.interceptors.response.use(
 
       if (!respSet.has(status)) {
         respSet.add(status)
+
+        if (isTokenExpired(status, data)) {
+          M.success(i18n.global.t('Base.tokenExpiredMsg'))
+          toLogin()
+          return
+        }
         // some special cases
         const handle404Self = status === 404 && error.config.handle404Self
         const doNotPopupAfterPwdChanged = status === 401 && store.state.afterCurrentUserPwdChanged

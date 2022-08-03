@@ -188,7 +188,15 @@ export const MQTT_V5_RES_CODES = [
   'A2',
 ]
 
+/**
+ * from axios
+ */
 export const REQUEST_TIMEOUT_CODE = 'ECONNABORTED'
+
+/**
+ * from back end
+ */
+export const BAD_TOKEN_CODE = 'BAD_TOKEN'
 
 export const RULE_MAX_NUM_PER_PAGE = 100
 
