@@ -6,6 +6,20 @@
   "description": "for emqx 5.0 dashboard",
   "glyphs": [
     {
+      "icon_id": "27365027",
+      "name": "discord",
+      "font_class": "discord",
+      "unicode": "ebf8",
+      "unicode_decimal": 60408
+    },
+    {
+      "icon_id": "27365088",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "ec01",
+      "unicode_decimal": 60417
+    },
+    {
       "icon_id": "30099152",
       "name": "integration-dark-selected",
       "font_class": "integration-dark-selected",

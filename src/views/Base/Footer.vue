@@ -1,8 +1,10 @@
 <template>
   <div class="footer">
     <ul class="link-list">
-      <li class="link-item" v-for="{ label, link } in linkList" :key="label">
+      <li class="link-item" v-for="{ label, link, icon } in linkList" :key="label">
         <a :href="link" target="_blank">
+          <el-icon :size="14" v-if="isComponent(icon)"><component :is="icon" /></el-icon>
+          <i v-else class="iconfont" :class="icon"></i>
           <span> {{ label }} </span>
         </a>
       </li>
@@ -13,17 +15,21 @@
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import useDocLink from '@/hooks/useDocLink'
+import { Document, ChatLineSquare, Phone } from '@element-plus/icons-vue'
+import { Component } from 'vue'
 
 const { tl } = useI18nTl('Base')
 const { docMap } = useDocLink()
 
 const linkList = [
-  { label: tl('documentation'), link: docMap.documentation },
-  { label: tl('forum'), link: docMap.forum },
-  { label: tl('discord'), link: docMap.discord },
-  { label: tl('gitHub'), link: docMap.gitHub },
-  { label: tl('contact'), link: docMap.contact },
+  { label: tl('documentation'), link: docMap.documentation, icon: Document },
+  { label: tl('forum'), link: docMap.forum, icon: ChatLineSquare },
+  { label: tl('discord'), link: docMap.discord, icon: 'icon-discord' },
+  { label: tl('gitHub'), link: docMap.gitHub, icon: 'icon-github' },
+  { label: tl('contact'), link: docMap.contact, icon: Phone },
 ]
+
+const isComponent = (icon: string | Component) => typeof icon !== 'string'
 </script>
 
 <style lang="scss">
@@ -52,9 +58,19 @@ const linkList = [
       }
     }
     a {
+      display: flex;
+      align-items: center;
       padding: 8px;
       color: var(--color-text-secondary);
     }
+  }
+  .iconfont,
+  .el-icon {
+    font-size: 14px;
+    margin-right: 8px;
+  }
+  .iconfont {
+    opacity: 0.8;
   }
 }
 </style>
