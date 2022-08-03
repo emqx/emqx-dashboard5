@@ -34,7 +34,6 @@ const isComponent = (icon: string | Component) => typeof icon !== 'string'
 
 <style lang="scss">
 .footer {
-  padding: 20px 0;
   .link-list {
     display: flex;
     justify-content: center;
@@ -44,6 +43,7 @@ const isComponent = (icon: string | Component) => typeof icon !== 'string'
   .link-item {
     position: relative;
     padding: 0 12px;
+    font-size: 12px;
     &:not(:last-child) {
       &::after {
         content: '';
@@ -60,8 +60,8 @@ const isComponent = (icon: string | Component) => typeof icon !== 'string'
     a {
       display: flex;
       align-items: center;
-      padding: 8px;
-      color: var(--color-text-secondary);
+      padding: 16px 8px;
+      color: #8e8e8e;
     }
   }
   .iconfont,
@@ -70,6 +70,7 @@ const isComponent = (icon: string | Component) => typeof icon !== 'string'
     margin-right: 8px;
   }
   .iconfont {
+    color: #8e8e8e;
     opacity: 0.8;
   }
 }
