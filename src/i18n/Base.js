@@ -456,7 +456,7 @@ export default {
     en: 'Discord',
   },
   gitHub: {
-    zh: 'Github',
+    zh: 'GitHub',
     en: 'GitHub',
   },
   contact: {
