@@ -463,4 +463,8 @@ export default {
     zh: '联系我们',
     en: 'Contact Us',
   },
+  tokenExpiredMsg: {
+    zh: '登录过期，请重新登录',
+    en: 'Login has expired, please login again',
+  },
 }
