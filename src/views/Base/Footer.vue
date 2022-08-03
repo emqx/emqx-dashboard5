@@ -39,6 +39,8 @@ const isComponent = (icon: string | Component) => typeof icon !== 'string'
     justify-content: center;
     align-items: center;
     list-style: none;
+    margin: 0px;
+    padding: 0px;
   }
   .link-item {
     position: relative;
@@ -61,7 +63,13 @@ const isComponent = (icon: string | Component) => typeof icon !== 'string'
       display: flex;
       align-items: center;
       padding: 16px 8px;
-      color: #8e8e8e;
+      color: var(--color-text-footer);
+      &:hover {
+        color: var(--color-text-primary);
+        .iconfont {
+          color: var(--color-text-primary);
+        }
+      }
     }
   }
   .iconfont,
@@ -70,7 +78,7 @@ const isComponent = (icon: string | Component) => typeof icon !== 'string'
     margin-right: 8px;
   }
   .iconfont {
-    color: #8e8e8e;
+    color: var(--color-text-footer);
     opacity: 0.8;
   }
 }
