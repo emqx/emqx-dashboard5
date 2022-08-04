@@ -8,6 +8,7 @@
     "serve:cloud": "HOST_URL=http://34.219.25.208:18083/ vue-cli-service serve",
     "serve:enterprise:cloud": "VUE_APP_VERSION=enterprise HOST_URL=http://34.219.25.208:18083/ vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:enterprise": "VUE_APP_VERSION=enterprise vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\""
