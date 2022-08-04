@@ -1,11 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path')
 
-const { VUE_APP_VERSION, HOST_URL } = process.env
-const isEnterprise = VUE_APP_VERSION === 'enterprise'
-const iconfontPath = isEnterprise ? 'src/assets/iconfont/enterprise/' : 'src/assets/iconfont/open/'
+const { HOST_URL } = process.env
 
 module.exports = {
   devServer: {
@@ -30,10 +26,5 @@ module.exports = {
         globalAPI: true,
       }),
     ],
-    resolve: {
-      alias: {
-        iconfont: path.resolve(__dirname, iconfontPath),
-      },
-    },
   },
 }
