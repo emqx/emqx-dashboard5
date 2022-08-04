@@ -201,3 +201,6 @@ export const BAD_TOKEN_CODE = 'BAD_TOKEN'
 export const RULE_MAX_NUM_PER_PAGE = 100
 
 export const DEFAULT_PWD = 'public'
+
+const { VUE_APP_VERSION } = process.env
+export const IS_ENTERPRISE = VUE_APP_VERSION === 'enterprise'

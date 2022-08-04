@@ -49,7 +49,13 @@
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import '@/assets/fonts/iconfont'
+import { IS_ENTERPRISE } from '@/common/constants'
+
+if (IS_ENTERPRISE) {
+  require('@/assets/iconfont/enterprise/iconfont.js')
+} else {
+  require('@/assets/iconfont/open/iconfont.js')
+}
 
 interface Menu {
   title: string
