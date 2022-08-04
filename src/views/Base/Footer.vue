@@ -16,7 +16,8 @@
 import useI18nTl from '@/hooks/useI18nTl'
 import useDocLink from '@/hooks/useDocLink'
 import { Document, ChatLineSquare, Phone } from '@element-plus/icons-vue'
-import { Component } from 'vue'
+
+type IconComponent = typeof Document
 
 const { tl } = useI18nTl('Base')
 const { docMap } = useDocLink()
@@ -29,7 +30,7 @@ const linkList = [
   { label: tl('contact'), link: docMap.contact, icon: Phone },
 ]
 
-const isComponent = (icon: string | Component) => typeof icon !== 'string'
+const isComponent = (icon: string | IconComponent) => typeof icon !== 'string'
 </script>
 
 <style lang="scss">
