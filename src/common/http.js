@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ElMessage as M } from 'element-plus'
+import { ElMessage as M, ElNotification } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { toLogin } from '@/router'
@@ -70,7 +70,7 @@ axios.interceptors.response.use(
         respSet.add(status)
 
         if (isTokenExpired(status, data)) {
-          M.success(i18n.global.t('Base.tokenExpiredMsg'))
+          ElNotification.error(i18n.global.t('Base.tokenExpiredMsg'))
           toLogin()
           return
         }
