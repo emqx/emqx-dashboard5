@@ -49,6 +49,11 @@
               v-model="bridgeData"
               ref="formCom"
             />
+            <bridge-influxdb-v1-config
+              v-if="chosenBridgeType === BridgeType.InfluxDBV1"
+              v-model="bridgeData"
+              ref="formCom"
+            />
           </template>
         </el-row>
         <el-row class="config-btn">
@@ -117,6 +122,11 @@
         v-model="bridgeData"
         ref="formCom"
       />
+      <bridge-influxdb-v1-config
+        v-if="chosenBridgeType === BridgeType.InfluxDBV1"
+        v-model="bridgeData"
+        ref="formCom"
+      />
     </div>
   </div>
 </template>
@@ -141,10 +151,17 @@ import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
+import BridgeInfluxdbV1Config from './Components/BridgeInfluxdbV1Config.vue'
 
 export default defineComponent({
   name: 'BridgeCreate',
-  components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader, GuideBar },
+  components: {
+    BridgeHttpConfig,
+    BridgeMqttConfig,
+    DetailHeader,
+    GuideBar,
+    BridgeInfluxdbV1Config,
+  },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
     const createBridgeData = () => ({})
