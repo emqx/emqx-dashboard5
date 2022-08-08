@@ -2,7 +2,7 @@
   <div class="log app-wrapper">
     <el-card class="config-card">
       <schema-form
-        path="/configs/log"
+        :according-to="{ path: '/configs/log' }"
         type="log"
         :form="configs"
         :btn-loading="saveLoading"

@@ -2,11 +2,18 @@
 import { ref, Ref, watch } from 'vue'
 import _ from 'lodash'
 import { InjectSchema, Properties, Component, Schema } from '@/types/schemaForm'
-import { useStore } from 'vuex'
 import axios from 'axios'
 import { flattenObject, unflattenObject } from '@/common/tools'
 
-export default function useSchemaForm(path: string): {
+/**
+ * @param schemaFilePath
+ * @param objForGetComponent path or ref; ref first
+ * @returns
+ */
+export default function useSchemaForm(
+  schemaFilePath: string,
+  objForGetComponent: { path?: string; ref?: string },
+): {
   schema: InjectSchema
   components: Ref<Properties>
   flattenConfigs: (
@@ -25,11 +32,10 @@ export default function useSchemaForm(path: string): {
   const schemaRequest = axios.create({
     baseURL: '',
   })
-  const store = useStore()
   const schema: InjectSchema = ref({})
   const loadSchemaConfig = async () => {
     try {
-      const configPath = `static/hot-config-schema-${store.state.lang}.json`
+      const configPath = schemaFilePath
       const res = await schemaRequest.get(configPath)
       if (res.data) {
         schema.value = res.data
@@ -86,14 +92,18 @@ export default function useSchemaForm(path: string): {
       }
       return res
     }
-    const { $ref, type, properties } = data.paths[path].get
     let ref = ''
-    if ($ref) {
-      ref = $ref
-    } else if (type === 'object') {
-      const varName = Object.keys(properties).find((key) => /\$\w+/g.test(key))
-      if (varName && properties[varName] && properties[varName].$ref) {
-        ref = properties[varName].$ref as string
+    if (objForGetComponent.ref) {
+      ref = objForGetComponent.ref
+    } else if (objForGetComponent.path) {
+      const { $ref, type, properties } = data.paths[objForGetComponent.path].get
+      if ($ref) {
+        ref = $ref
+      } else if (type === 'object') {
+        const varName = Object.keys(properties).find((key) => /\$\w+/g.test(key))
+        if (varName && properties[varName] && properties[varName].$ref) {
+          ref = properties[varName].$ref as string
+        }
       }
     }
     const component = getComponentByRef(data, ref)

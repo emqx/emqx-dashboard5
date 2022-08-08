@@ -2,7 +2,7 @@
   <div class="session app-wrapper">
     <el-card>
       <schema-form
-        path="/configs/zones"
+        :according-to="{ path: '/configs/zones' }"
         type="session"
         :form="configs"
         :btn-loading="saveLoading"
