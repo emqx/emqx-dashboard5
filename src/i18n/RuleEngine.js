@@ -447,9 +447,9 @@ export default {
     zh: '运行统计',
     en: 'Execution Statistics',
   },
-  resultsStatistics: {
-    zh: '结果统计',
-    en: 'Results statistics',
+  actionsStatistics: {
+    zh: '动作统计',
+    en: 'Actions Statistics',
   },
   nodeStatus: {
     zh: '节点状态',

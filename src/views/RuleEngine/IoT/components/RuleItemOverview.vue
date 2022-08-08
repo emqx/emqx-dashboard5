@@ -82,7 +82,7 @@
     </div>
     <div class="overview-sub-block">
       <div class="card-hd">
-        <h2 class="block-title">{{ tl('resultsStatistics') }}</h2>
+        <h2 class="block-title">{{ tl('actionsStatistics') }}</h2>
       </div>
       <el-row class="rule-statistic" :gutter="28">
         <el-col :span="6">
