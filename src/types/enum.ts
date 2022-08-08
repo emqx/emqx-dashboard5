@@ -65,6 +65,9 @@ export enum RuleOutput {
 export enum BridgeType {
   Webhook = 'webhook',
   MQTT = 'mqtt',
+  InfluxDBV1 = 'influxdb_api_v1',
+  InfluxDBV2 = 'influxdb_api_v2',
+  InfluxDBUPD = 'influxdb_udp',
 }
 
 export enum ConnectorType {
@@ -195,4 +198,18 @@ export enum CheckStatus {
   Close = 'close',
   Warning = 'warning',
   Disable = 'disable',
+}
+
+/**
+ * there is another one type but without type field is 'oneof' type, this type with oneOf field
+ */
+export enum PropType {
+  Array = 'array',
+  Enum = 'enum',
+  String = 'string',
+  Boolean = 'boolean',
+  Duration = 'duration',
+  Number = 'number',
+  IPPort = 'ip_port',
+  ByteSize = 'byteSize',
 }
