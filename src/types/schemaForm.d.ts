@@ -1,21 +1,23 @@
 export type InjectSchema = Ref<any> | undefined
 
+export interface Property {
+  $ref?: string
+  description: string
+  label: string
+  default: any
+  symbols?: string[]
+  type: string
+  maximum?: number
+  minimum?: number
+  path?: string
+  readOnly?: boolean
+  items: Properties[string]
+  oneOf: Properties[string][]
+  properties?: Properties
+}
+
 export interface Properties {
-  [key: string]: {
-    $ref?: string
-    description: string
-    label: string
-    default: any
-    symbols?: string[]
-    type: string
-    maximum?: number
-    minimum?: number
-    path?: string
-    readOnly?: boolean
-    items: Properties[string]
-    oneOf: Properties[string][]
-    properties?: Properties
-  }
+  [key: string]: Property
 }
 
 export interface Component {
