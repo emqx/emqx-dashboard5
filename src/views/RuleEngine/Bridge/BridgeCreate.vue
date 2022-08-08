@@ -25,7 +25,7 @@
                       class="bridge-type-item-img"
                       height="64"
                       width="64"
-                      :src="require(`@/assets/img/${item.value}.png`)"
+                      :src="require(`@/assets/img/${getBridgeIconKey(item.value)}.png`)"
                       :alt="item.label"
                     />
                     <div class="bridge-type-item-bd">
@@ -195,6 +195,9 @@ export default defineComponent({
       return true
     }
 
+    const getBridgeIconKey = (value: string) =>
+      value.indexOf('influxdb') > -1 ? `influxdb` : value
+
     const handleTypeSelected = () => {
       const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
       if (!type) {
@@ -307,12 +310,16 @@ export default defineComponent({
       isTesting,
       handleTypeSelected,
       testTheConnection,
+      getBridgeIconKey,
     }
   },
 })
 </script>
 
 <style lang="scss" scoped>
+.el-col {
+  margin-bottom: 16px;
+}
 .bridge-select {
   margin-top: 12px;
   :deep(.el-input) {

@@ -2,7 +2,7 @@
   <div class="dashboard app-wrapper">
     <el-card>
       <schema-form
-        path="/configs/dashboard"
+        :according-to="{ path: '/configs/dashboard' }"
         :form="configs"
         :btn-loading="saveLoading"
         @save="handleSave"

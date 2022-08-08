@@ -185,7 +185,9 @@ export default defineComponent({
     const { tl } = useI18nTl('BasicConfig')
     const addTabDialog = ref(false)
     const store = useStore()
-    const { components } = useSchemaForm('/configs/limiter')
+    const { components } = useSchemaForm(`static/hot-config-schema-${store.state.lang}.json`, {
+      path: '/configs/limiter',
+    })
     const currentLimiterType = ref<LimiterType>('bytes_in')
     const LimiterTypes = ['bytes_in', 'message_in', 'connection', 'message_routing', 'batch']
 

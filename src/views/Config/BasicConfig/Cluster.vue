@@ -2,7 +2,7 @@
   <div class="cluster app-wrapper">
     <el-card class="config-card">
       <schema-form
-        path="/configs/cluster"
+        :according-to="{ path: '/configs/cluster' }"
         type="cluster"
         :form="configs"
         :btn-loading="saveLoading"

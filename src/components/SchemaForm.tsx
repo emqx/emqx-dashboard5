@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch, PropType } from 'vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import { Properties } from '@/types/schemaForm'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
@@ -27,8 +27,8 @@ const SchemaForm = defineComponent({
     Setting,
   },
   props: {
-    path: {
-      type: String,
+    accordingTo: {
+      type: Object as PropType<{ path?: string; ref?: string }>,
       required: true,
     },
     form: {
@@ -47,10 +47,19 @@ const SchemaForm = defineComponent({
       required: false,
       default: '',
     },
+    schemaFilePath: {
+      type: String,
+    },
   },
   setup(props, ctx) {
+    const store = useStore()
     const configForm = ref<{ [key: string]: any }>({})
-    const { components, flattenConfigs, unflattenConfigs } = useSchemaForm(props.path)
+    const schemaLoadPath =
+      props.schemaFilePath || `static/hot-config-schema-${store.state.lang}.json`
+    const { components, flattenConfigs, unflattenConfigs } = useSchemaForm(
+      schemaLoadPath,
+      props.accordingTo,
+    )
     const { t } = useI18n()
     const groups = computed(() => {
       const properties = _.cloneDeep(components.value)
@@ -76,7 +85,6 @@ const SchemaForm = defineComponent({
         configForm.value = _.cloneDeep(flattenConfigs(value))
       },
     )
-    const store = useStore()
     const replaceVarPath = (path: string) => {
       let _path = path
       if (/\$\w+/g.test(_path)) {

@@ -1,8 +1,8 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { useI18n } from 'vue-i18n'
 
 const useBridgeTypeValue = (): {
   bridgeTypeList: Array<{
@@ -41,27 +41,27 @@ export const useBridgeTypeOptions = (): {
   getTrueTypeObjByRadioValue: (radioValue: string) => BridgeTypeOptions | undefined
   getTypeStr: (bridge: BridgeItem) => string
 } => {
-  const { t } = useI18n()
+  const { tl } = useI18nTl('RuleEngine')
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = [
     {
       value: BridgeType.Webhook,
       valueForRadio: BridgeType.Webhook,
       label: 'Webhook',
-      desc: t('RuleEngine.bridgeDescHTTP'),
+      desc: tl('bridgeDescHTTP'),
     },
     {
       value: BridgeType.MQTT,
       valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.In}`,
       label: 'MQTT Source',
-      desc: t('RuleEngine.bridgeDescMQTTIn'),
+      desc: tl('bridgeDescMQTTIn'),
       externalConfig: { direction: MQTTBridgeDirection.In },
     },
     {
       value: BridgeType.MQTT,
       valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.Out}`,
       label: 'MQTT Sink',
-      desc: t('RuleEngine.bridgeDescMQTTOut'),
+      desc: tl('bridgeDescMQTTOut'),
       externalConfig: {
         direction: MQTTBridgeDirection.Out,
       },
