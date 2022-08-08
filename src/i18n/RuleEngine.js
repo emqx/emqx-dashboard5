@@ -815,4 +815,28 @@ export default {
     zh: 'messages/sec | message/sec | messages/sec',
     en: 'messages/sec | message/sec | messages/sec',
   },
+  influxDBV1Label: {
+    zh: 'InfluxDB HTTP 服务',
+    en: 'InfluxDB HTTP Service',
+  },
+  influxDBV1Desc: {
+    zh: '使用 HTTP 协议将数据保存到 InfluxDB v1.0',
+    en: 'Save data to InfluxDB v1.0 using HTTP protocol',
+  },
+  influxDBV2Label: {
+    zh: 'InfluxDB HTTP V2 服务',
+    en: 'InfluxDB HTTP V2 Service',
+  },
+  influxDBV2Desc: {
+    zh: '使用 HTTP 协议将数据保存到 InfluxDB v2.0',
+    en: 'Save data to InfluxDB v2.0 using HTTP protocol',
+  },
+  influxDBUDPLabel: {
+    zh: 'InfluxDB UDP 服务',
+    en: 'InfluxDB UDP Service',
+  },
+  influxDBUDPDesc: {
+    zh: '使用 UDP 协议将数据保存到 InfluxDB',
+    en: 'Save data to InfluxDB using UDP protocol',
+  },
 }
