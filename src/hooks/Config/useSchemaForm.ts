@@ -5,6 +5,8 @@ import { InjectSchema, Properties, Component, Schema } from '@/types/schemaForm'
 import axios from 'axios'
 import { flattenObject, unflattenObject } from '@/common/tools'
 
+const CONNECTOR_KEY = 'connector'
+
 /**
  * @param schemaFilePath
  * @param objForGetComponent path or ref; ref first
@@ -64,7 +66,21 @@ export default function useSchemaForm(
         Object.keys(properties).forEach((key) => {
           const property: Properties[string] = _.cloneDeep(properties[key])
           property.path = path ? `${path}.${key}` : key
+
+          // special handling for connector in bridge
+          const isTargetConnectorProp =
+            key === CONNECTOR_KEY &&
+            'oneOf' in property &&
+            property.oneOf.some(({ type }) => type === 'string') &&
+            property.oneOf.some(({ $ref }) => !!$ref)
+          if (isTargetConnectorProp) {
+            const refValue = property.oneOf.find(({ $ref }) => !!$ref)?.$ref
+            property.$ref = refValue
+            Reflect.deleteProperty(property, 'oneOf')
+          }
+
           const { $ref, label } = property
+
           if ($ref) {
             const component = getComponentByRef(data, $ref)
             property.properties = transComponents(component, property.path)
