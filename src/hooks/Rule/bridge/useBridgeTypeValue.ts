@@ -66,6 +66,24 @@ export const useBridgeTypeOptions = (): {
         direction: MQTTBridgeDirection.Out,
       },
     },
+    {
+      value: BridgeType.InfluxDBV1,
+      valueForRadio: BridgeType.InfluxDBV1,
+      label: tl('influxDBV1Label'),
+      desc: tl('influxDBV1Desc'),
+    },
+    {
+      value: BridgeType.InfluxDBV2,
+      valueForRadio: BridgeType.InfluxDBV2,
+      label: tl('influxDBV2Label'),
+      desc: tl('influxDBV2Desc'),
+    },
+    {
+      value: BridgeType.InfluxDBUPD,
+      valueForRadio: BridgeType.InfluxDBUPD,
+      label: tl('influxDBUDPLabel'),
+      desc: tl('influxDBUDPDesc'),
+    },
   ]
 
   const getTrueTypeObjByRadioValue = (radioValue: string) =>
