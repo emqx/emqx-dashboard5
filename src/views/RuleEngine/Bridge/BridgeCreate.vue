@@ -180,7 +180,7 @@ export default defineComponent({
       return { name }
     })
 
-    const { step, activeGuidesIndex, guideDescList } = useGuide(() => {})
+    const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide(() => {})
 
     const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
@@ -211,9 +211,9 @@ export default defineComponent({
     }
 
     const goPreStep = () => {
-      step.value -= 1
       bridgeData.value = createBridgeData()
       guideDescList.value.pop()
+      handleBack()
     }
 
     const goNextStep = () => {
@@ -222,7 +222,7 @@ export default defineComponent({
         const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
         guideDescList.value.push(type?.label || '')
       }
-      step.value += 1
+      handleNext()
     }
 
     const cancel = () => {
