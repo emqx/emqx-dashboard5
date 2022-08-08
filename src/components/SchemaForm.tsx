@@ -11,6 +11,7 @@ import { Setting } from '@element-plus/icons-vue'
 import '@/style/schemaForm.scss'
 import { useStore } from 'vuex'
 import { SESSION_FIELDS } from '@/common/constants'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 
 interface FormItemMeta {
   col: number
@@ -18,6 +19,8 @@ interface FormItemMeta {
 }
 
 const typesDoNotNeedGroups = ['bridge']
+const typesNeedConciseSSL = ['bridge']
+const SSLPathReg = /^(.+\.)?ssl$/i
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -27,6 +30,7 @@ const SchemaForm = defineComponent({
     ArrayEditor,
     Oneof,
     Setting,
+    CommonTLSConfig,
   },
   props: {
     accordingTo: {
@@ -195,6 +199,8 @@ const SchemaForm = defineComponent({
               disabled={property.readOnly}
             ></oneof>
           )
+        case 'ssl':
+          return <CommonTLSConfig v-model={configForm.value[path]} />
         default:
           return stringInput
       }
@@ -202,6 +208,8 @@ const SchemaForm = defineComponent({
     const setControl = (property: Properties[string]) => {
       if (property.oneOf && !property.type) {
         property.type = 'oneof'
+      } else if (property.$ref && property.path && SSLPathReg.test(property.path)) {
+        property.type = 'ssl'
       }
       if (!property.type) return
       return switchComponent(property)
@@ -348,6 +356,11 @@ const SchemaForm = defineComponent({
       }
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {
+          const isSSLAndNeedConcise =
+            SSLPathReg.test(key) && typesNeedConciseSSL.includes(props.type)
+          if (isSSLAndNeedConcise) {
+            Reflect.deleteProperty(properties[key], 'properties')
+          }
           if (props.type === 'mqtt') {
             if (SESSION_FIELDS.includes(key)) {
               return
