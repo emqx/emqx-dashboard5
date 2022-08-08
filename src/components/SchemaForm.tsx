@@ -17,6 +17,8 @@ interface FormItemMeta {
   levelName?: string
 }
 
+const typesDoNotNeedGroups = ['bridge']
+
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
   components: {
@@ -62,19 +64,21 @@ const SchemaForm = defineComponent({
     )
     const { t } = useI18n()
     const groups = computed(() => {
-      const properties = _.cloneDeep(components.value)
       let _groups: string[] = []
-      let hasBasicInfo = false
-      Object.keys(properties).forEach((key) => {
-        const prop = properties[key]
-        if (prop.properties) {
-          _groups.push(prop.label)
-        } else {
-          hasBasicInfo = true
+      if (!typesDoNotNeedGroups.includes(props.type)) {
+        const properties = _.cloneDeep(components.value)
+        let hasBasicInfo = false
+        Object.keys(properties).forEach((key) => {
+          const prop = properties[key]
+          if (prop.properties) {
+            _groups.push(prop.label)
+          } else {
+            hasBasicInfo = true
+          }
+        })
+        if (hasBasicInfo) {
+          _groups = [t('BasicConfig.basic'), ..._groups]
         }
-      })
-      if (hasBasicInfo) {
-        _groups = [t('BasicConfig.basic'), ..._groups]
       }
       return _groups
     })
@@ -331,7 +335,10 @@ const SchemaForm = defineComponent({
       // Filter the current Group properties
       for (const key in properties) {
         const propItem = properties[key]
-        if (currentGroup.value === propItem.label && propItem.properties) {
+        if (
+          propItem.properties &&
+          (typesDoNotNeedGroups.includes(props.type) || currentGroup.value === propItem.label)
+        ) {
           _properties = propItem?.properties
           break
         }
