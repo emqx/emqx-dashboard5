@@ -6,7 +6,7 @@ import '@/style/schemaForm.scss'
 import { Properties } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
-import { computed, defineComponent, PropType, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, PropType, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
@@ -41,6 +41,7 @@ const SchemaForm = defineComponent({
       required: true,
     },
     form: {
+      type: Object as PropType<Record<string, any>>,
       required: false,
     },
     /**
@@ -473,6 +474,13 @@ const SchemaForm = defineComponent({
       const schemaForm = renderLayout(getComponents(properties, { col: 16 }))
       return schemaForm
     }
+
+    onMounted(() => {
+      // TODO:TODO:TODO:confirm
+      if (props.form) {
+        configForm.value = _.cloneDeep(props.form)
+      }
+    })
 
     return () => <div class="schema-form">{renderSchemaForm(components.value)}</div>
   },

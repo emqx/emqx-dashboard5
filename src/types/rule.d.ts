@@ -106,7 +106,9 @@ export type MQTTIn = MQTTOut & {
   local_qos: QoSLevel
 }
 
-export type BridgeItem = HTTPBridge | MQTTOut | MQTTIn
+export type OtherBridge = Record<string, any>
+
+export type BridgeItem = HTTPBridge | MQTTOut | MQTTIn | OtherBridge
 
 export interface ConnectorBase {
   name: string

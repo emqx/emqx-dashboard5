@@ -125,6 +125,7 @@ import { BridgeType } from '@/types/enum'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import _ from 'lodash'
 import { getBridgeIconKey } from '@/common/tools'
+import { BRIDGE_TYPES_USE_SCHEMA } from '@/common/constants'
 
 enum Tab {
   Overview = 'overview',
@@ -192,9 +193,15 @@ const updateBridgeInfo = async () => {
   await formCom.value.validate()
   updateLoading.value = true
   try {
+    if (BRIDGE_TYPES_USE_SCHEMA.includes(bridgeInfo.value.type)) {
+      bridgeInfo.value = formCom.value.getFormRecord()
+    }
     const data = _.cloneDeep(bridgeInfo.value)
     if ('ssl' in data) {
       data.ssl = handleSSLDataBeforeSubmit(data.ssl)
+    }
+    if ('connector' in data && data.connector.ssl) {
+      data.connector.ssl = handleSSLDataBeforeSubmit(data.connector.ssl)
     }
     if (data.type === BridgeType.MQTT) {
       Reflect.deleteProperty(data.connector, 'type')
