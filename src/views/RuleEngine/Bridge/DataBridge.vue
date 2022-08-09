@@ -20,7 +20,7 @@
                 <img
                   v-if="row.type"
                   class="icon-type"
-                  :src="require(`@/assets/img/${row.type}.png`)"
+                  :src="require(`@/assets/img/${getBridgeIconKey(row.type)}.png`)"
                 />
                 <div class="name-type-block">
                   <span class="name-data">
@@ -74,6 +74,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
+import { getBridgeIconKey } from '@/common/tools'
 
 export default defineComponent({
   components: { BridgeItemStatus },
@@ -157,6 +158,7 @@ export default defineComponent({
       getTypeStr,
       bridgeTb,
       tbLoading,
+      getBridgeIconKey,
       enableOrDisableBridge,
       submitDeleteBridge,
       createRuleWithBridge,
