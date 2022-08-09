@@ -67,6 +67,10 @@ const SchemaForm = defineComponent({
     schemaFilePath: {
       type: String,
     },
+    needFooter: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props, ctx) {
     const store = useStore()
@@ -374,11 +378,15 @@ const SchemaForm = defineComponent({
           <el-form label-position="top">
             <el-row>
               {contents}
-              <el-col span={24} class="btn-col" style={btnStyles}>
-                <el-button type="primary" loading={props.btnLoading} onClick={save}>
-                  {t('Base.save')}
-                </el-button>
-              </el-col>
+              {props.needFooter ? (
+                <el-col span={24} class="btn-col" style={btnStyles}>
+                  <el-button type="primary" loading={props.btnLoading} onClick={save}>
+                    {t('Base.save')}
+                  </el-button>
+                </el-col>
+              ) : (
+                ''
+              )}
             </el-row>
           </el-form>
         </>
