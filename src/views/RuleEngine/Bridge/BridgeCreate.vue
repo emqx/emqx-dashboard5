@@ -141,12 +141,7 @@ import { checkNOmitFromObj, jumpToErrorFormItem, getBridgeIconKey } from '@/comm
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
-
-const BRIDGE_TYPES_USE_SCHEMA = [
-  BridgeType.InfluxDBV1,
-  BridgeType.InfluxDBV2,
-  BridgeType.InfluxDBUPD,
-]
+import { BRIDGE_TYPES_USE_SCHEMA } from '@/common/constants'
 
 export default defineComponent({
   name: 'BridgeCreate',
