@@ -142,6 +142,12 @@ import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
 
+const BRIDGE_TYPES_USE_SCHEMA = [
+  BridgeType.InfluxDBV1,
+  BridgeType.InfluxDBV2,
+  BridgeType.InfluxDBUPD,
+]
+
 export default defineComponent({
   name: 'BridgeCreate',
   components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader, GuideBar },
@@ -170,7 +176,9 @@ export default defineComponent({
     const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
 
     const radioSelectedBridgeType = ref(isFromRule.value ? '' : bridgeTypeOptions[0].valueForRadio)
-    const chosenBridgeType = ref(isFromRule.value ? '' : bridgeTypeOptions[0].value)
+    const chosenBridgeType: Ref<BridgeType> = ref(
+      isFromRule.value ? ('' as BridgeType) : bridgeTypeOptions[0].value,
+    )
 
     const backRoute = computed(() => {
       let name = 'data-bridge'
@@ -233,6 +241,17 @@ export default defineComponent({
       }
     }
 
+    const submitDataWhenUsingSchemaForm = async () => {
+      const bridgeData = _.cloneDeep(formCom.value.getFormRecord())
+      if (bridgeData.ssl) {
+        bridgeData.ssl = handleSSLDataBeforeSubmit(bridgeData.ssl)
+      }
+      if (bridgeData.connector.ssl) {
+        bridgeData.connector.ssl = handleSSLDataBeforeSubmit(bridgeData.connector.ssl)
+      }
+      return createBridge(checkNOmitFromObj(bridgeData))
+    }
+
     const submitCreateBridge = async () => {
       try {
         await formCom.value.validate()
@@ -242,27 +261,35 @@ export default defineComponent({
       }
       submitLoading.value = true
       let res = undefined
-      const dataToSubmit = {
-        ..._.cloneDeep(bridgeData.value),
-        type: chosenBridgeType.value,
-      }
+
       try {
-        switch (chosenBridgeType.value) {
-          case BridgeType.Webhook:
-            res = await createBridge(
-              checkNOmitFromObj({
-                ...dataToSubmit,
-                ssl: handleSSLDataBeforeSubmit(tlsParams.value),
-              }),
-            )
-            break
-          case BridgeType.MQTT:
-            if (dataToSubmit.connector?.type) {
-              Reflect.deleteProperty(dataToSubmit.connector, 'type')
-            }
-            res = await createBridge(checkNOmitFromObj(handleBridgeDataBeforeSubmit(dataToSubmit)))
-            break
+        if (BRIDGE_TYPES_USE_SCHEMA.includes(chosenBridgeType.value)) {
+          await submitDataWhenUsingSchemaForm()
+        } else {
+          const dataToSubmit = {
+            ..._.cloneDeep(bridgeData.value),
+            type: chosenBridgeType.value,
+          }
+          switch (chosenBridgeType.value) {
+            case BridgeType.Webhook:
+              res = await createBridge(
+                checkNOmitFromObj({
+                  ...dataToSubmit,
+                  ssl: handleSSLDataBeforeSubmit(tlsParams.value),
+                }),
+              )
+              break
+            case BridgeType.MQTT:
+              if (dataToSubmit.connector?.type) {
+                Reflect.deleteProperty(dataToSubmit.connector, 'type')
+              }
+              res = await createBridge(
+                checkNOmitFromObj(handleBridgeDataBeforeSubmit(dataToSubmit)),
+              )
+              break
+          }
         }
+
         const bridgeId = res?.id
         if (!isFromRule.value) {
           ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
