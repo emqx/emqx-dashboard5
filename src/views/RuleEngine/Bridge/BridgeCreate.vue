@@ -137,7 +137,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useSSL from '@/hooks/useSSL'
-import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
+import { checkNOmitFromObj, jumpToErrorFormItem, getBridgeIconKey } from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
@@ -202,9 +202,6 @@ export default defineComponent({
       }
       return true
     }
-
-    const getBridgeIconKey = (value: string) =>
-      value.indexOf('influxdb') > -1 ? `influxdb` : value
 
     const handleTypeSelected = () => {
       const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)

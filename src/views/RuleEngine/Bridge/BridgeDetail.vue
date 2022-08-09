@@ -8,7 +8,11 @@
       <div class="detail-main">
         <div v-if="!isFromRule" class="section-header">
           <div>
-            <img :src="bridgeInfo.type && require(`@/assets/img/${bridgeInfo.type}.png`)" />
+            <img
+              :src="
+                bridgeInfo.type && require(`@/assets/img/${getBridgeIconKey(bridgeInfo.type)}.png`)
+              "
+            />
             <div class="title-n-status">
               <div class="info-tags">
                 <BridgeItemStatus :bridge="bridgeInfo" is-tag />
@@ -120,6 +124,7 @@ import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import _ from 'lodash'
+import { getBridgeIconKey } from '@/common/tools'
 
 enum Tab {
   Overview = 'overview',
