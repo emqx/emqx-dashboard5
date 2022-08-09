@@ -13,6 +13,7 @@ import ArrayEditor from './ArrayEditor.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
+import useSSL from '@/hooks/useSSL'
 
 interface FormItemMeta {
   col: number
@@ -21,7 +22,8 @@ interface FormItemMeta {
 
 const typesDoNotNeedGroups = ['bridge']
 const typesNeedConciseSSL = ['bridge']
-const SSLPathReg = /^(.+\.)?ssl$/i
+const SSL_PATH_REG = /^(.+\.)?ssl$/i
+const SSL_KEY = 'ssl'
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -76,6 +78,8 @@ const SchemaForm = defineComponent({
     )
     const { initRecordByComponents } = useSchemaRecord()
 
+    ctx.expose({ configForm })
+
     const { t } = useI18n()
     const groups = computed(() => {
       let _groups: string[] = []
@@ -106,8 +110,9 @@ const SchemaForm = defineComponent({
     )
 
     watch(components, (val) => {
-      if (!props.form) {
+      if (!props.form && props.needRecord) {
         configForm.value = initRecordByComponents(val)
+        handleSSLDataWhenUseConciseSSL()
       }
     })
 
@@ -355,6 +360,9 @@ const SchemaForm = defineComponent({
       if (['mqtt', 'session'].includes(props.type)) {
         tabs = null
         currentGroup.value = 'mqtt'
+      } else if (typesDoNotNeedGroups.includes(props.type)) {
+        // for bridge
+        tabs = null
       }
       if (props.type === 'log' && currentGroup.value === t('BasicConfig.basic')) {
         currentGroup.value = 'Console Handler'
@@ -374,6 +382,30 @@ const SchemaForm = defineComponent({
           </el-form>
         </>
       )
+    }
+
+    /**
+     * called after init record
+     */
+    const { createSSLForm } = useSSL()
+    const SSLDataNeedKeys = Object.keys(createSSLForm())
+    const handleSSLDataWhenUseConciseSSL = () => {
+      if (!typesNeedConciseSSL.includes(props.type)) {
+        return
+      }
+      const walk = (record: Record<string, any>) => {
+        Object.keys(record).forEach((key) => {
+          const propItem = record[key]
+          if (typeof propItem === 'object') {
+            if (key === SSL_KEY && 'enable' in propItem) {
+              record[key] = _.pick(propItem, SSLDataNeedKeys)
+            } else {
+              walk(propItem)
+            }
+          }
+        })
+      }
+      walk(configForm.value)
     }
 
     // Get the components to render form by Propoerties
@@ -403,7 +435,7 @@ const SchemaForm = defineComponent({
           const property = properties[key]
           // for concise SSL
           const isSSLAndNeedConcise =
-            SSLPathReg.test(key) && typesNeedConciseSSL.includes(props.type)
+            SSL_PATH_REG.test(key) && typesNeedConciseSSL.includes(props.type)
           if (isSSLAndNeedConcise) {
             Reflect.deleteProperty(property, 'properties')
             property.type = 'ssl'
