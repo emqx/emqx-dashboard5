@@ -130,15 +130,29 @@ const SchemaForm = defineComponent({
       if (!property.path) return
       Reflect.deleteProperty(configForm.value, property.path)
     }
+    const handleModelValueUpdate = (path: string) => {
+      const _path = path
+      return (event: any) => {
+        _.set(configForm.value, _path, event)
+      }
+    }
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
       property.path = replaceVarPath(property.path)
       const { path } = property
+
+      /**
+       * do not use v-model directly because there have some prop in second level
+       * like the props under the connector field
+       */
+      const modelValue = _.get(configForm.value, path)
+      const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
       const stringInput = (
         <el-input
           disabled={property.readOnly}
           placeholder={property.default?.toString()}
-          v-model={configForm.value[path]}
+          modelValue={modelValue}
+          {...handleUpdateModelValue}
           clearable
         ></el-input>
       )
@@ -150,37 +164,44 @@ const SchemaForm = defineComponent({
             <el-input-number
               controls-position="right"
               disabled={property.readOnly}
-              v-model={configForm.value[path]}
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
               placeholder={property.default?.toString()}
               min={0}
-            ></el-input-number>
+            />
           )
         case 'enum':
           return (
             <el-select
               disabled={property.readOnly}
               placeholder={property.default?.toString()}
-              v-model={configForm.value[path]}
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
               clearable
             >
               {property.symbols?.map((opt) => (
-                <el-option value={opt} label={opt}></el-option>
+                <el-option value={opt} label={opt} />
               ))}
             </el-select>
           )
         case 'boolean':
           return (
-            <el-switch disabled={property.readOnly} v-model={configForm.value[path]}></el-switch>
+            <el-switch
+              disabled={property.readOnly}
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
+            />
           )
         case 'array':
           if (['number', 'string'].includes(property.items.type)) {
             return (
               <array-editor
-                v-model={configForm.value[path]}
+                modelValue={modelValue}
+                {...handleUpdateModelValue}
                 disabled={property.readOnly}
                 type={property.items.type}
                 default={property.default}
-              ></array-editor>
+              />
             )
           }
           return <div></div>
@@ -188,37 +209,41 @@ const SchemaForm = defineComponent({
           return (
             <time-input-with-unit-select
               disabled={property.readOnly}
-              v-model={configForm.value[path]}
-            ></time-input-with-unit-select>
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
+            />
           )
         case 'byteSize':
           return (
             <input-with-unit
               disabled={property.readOnly}
-              v-model={configForm.value[path]}
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
               units={['MB', 'GB', 'KB']}
-            ></input-with-unit>
+            />
           )
         case 'percent':
           return (
             <input-with-unit
               disabled={property.readOnly}
-              v-model={configForm.value[path]}
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
               units={['%']}
-            ></input-with-unit>
+            />
           )
         case 'comma_separated_string':
           return stringInput
         case 'oneof':
           return (
             <oneof
-              v-model={configForm.value[path]}
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
               items={property.oneOf}
               disabled={property.readOnly}
-            ></oneof>
+            />
           )
         case 'ssl':
-          return <CommonTLSConfig v-model={configForm.value[path]} />
+          return <CommonTLSConfig modelValue={modelValue} {...handleUpdateModelValue} />
         default:
           return stringInput
       }
@@ -226,8 +251,6 @@ const SchemaForm = defineComponent({
     const setControl = (property: Properties[string]) => {
       if (property.oneOf && !property.type) {
         property.type = 'oneof'
-      } else if (property.$ref && property.path && SSLPathReg.test(property.path)) {
-        property.type = 'ssl'
       }
       if (!property.type) return
       return switchComponent(property)
@@ -377,11 +400,13 @@ const SchemaForm = defineComponent({
       }
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {
+          const property = properties[key]
           // for concise SSL
           const isSSLAndNeedConcise =
             SSLPathReg.test(key) && typesNeedConciseSSL.includes(props.type)
           if (isSSLAndNeedConcise) {
-            Reflect.deleteProperty(properties[key], 'properties')
+            Reflect.deleteProperty(property, 'properties')
+            property.type = 'ssl'
           }
           if (props.type === 'mqtt') {
             if (SESSION_FIELDS.includes(key)) {
@@ -393,7 +418,6 @@ const SchemaForm = defineComponent({
               return
             }
           }
-          const property = properties[key]
           if (property.properties) {
             const { label, properties } = property
             levelName = label
