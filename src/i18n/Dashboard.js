@@ -715,4 +715,8 @@ export default {
     zh: '接收的取消订阅报文',
     en: 'Unsubscribe Received',
   },
+  superuser: {
+    zh: '超级用户',
+    en: 'Superuser',
+  },
 }
