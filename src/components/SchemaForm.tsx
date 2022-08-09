@@ -1,17 +1,18 @@
-import { computed, defineComponent, ref, watch, PropType } from 'vue'
-import useSchemaForm from '@/hooks/Config/useSchemaForm'
-import { Properties } from '@/types/schemaForm'
-import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
-import InputWithUnit from './InputWithUnit.vue'
-import ArrayEditor from './ArrayEditor.vue'
-import Oneof from './Oneof.vue'
-import { useI18n } from 'vue-i18n'
-import _ from 'lodash'
-import { Setting } from '@element-plus/icons-vue'
-import '@/style/schemaForm.scss'
-import { useStore } from 'vuex'
 import { SESSION_FIELDS } from '@/common/constants'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useSchemaForm from '@/hooks/Config/useSchemaForm'
+import useSchemaRecord from '@/hooks/useSchemaRecord'
+import '@/style/schemaForm.scss'
+import { Properties } from '@/types/schemaForm'
+import { Setting } from '@element-plus/icons-vue'
+import _ from 'lodash'
+import { computed, defineComponent, PropType, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
+import ArrayEditor from './ArrayEditor.vue'
+import InputWithUnit from './InputWithUnit.vue'
+import Oneof from './Oneof.vue'
+import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
 interface FormItemMeta {
   col: number
@@ -38,7 +39,14 @@ const SchemaForm = defineComponent({
       required: true,
     },
     form: {
-      required: true,
+      required: false,
+    },
+    /**
+     * when this prop is set to true, the component will init record by schema
+     */
+    needRecord: {
+      type: Boolean,
+      default: false,
     },
     btnLoading: {
       type: Boolean,
@@ -66,6 +74,8 @@ const SchemaForm = defineComponent({
       schemaLoadPath,
       props.accordingTo,
     )
+    const { initRecordByComponents } = useSchemaRecord()
+
     const { t } = useI18n()
     const groups = computed(() => {
       let _groups: string[] = []
@@ -87,12 +97,20 @@ const SchemaForm = defineComponent({
       return _groups
     })
     const currentGroup = ref(groups.value[0] || t('BasicConfig.basic'))
+
     watch(
       () => props.form,
       (value) => {
         configForm.value = _.cloneDeep(flattenConfigs(value))
       },
     )
+
+    watch(components, (val) => {
+      if (!props.form) {
+        configForm.value = initRecordByComponents(val)
+      }
+    })
+
     const replaceVarPath = (path: string) => {
       let _path = path
       if (/\$\w+/g.test(_path)) {
@@ -343,12 +361,15 @@ const SchemaForm = defineComponent({
       // Filter the current Group properties
       for (const key in properties) {
         const propItem = properties[key]
-        if (
-          propItem.properties &&
-          (typesDoNotNeedGroups.includes(props.type) || currentGroup.value === propItem.label)
-        ) {
-          _properties = propItem?.properties
-          break
+        if (propItem.properties) {
+          if (currentGroup.value === propItem.label) {
+            // for hot configuration
+            _properties = propItem?.properties
+            break
+          } else if (typesDoNotNeedGroups.includes(props.type)) {
+            // for bridge
+            _properties = { ..._properties, ...propItem?.properties }
+          }
         }
         if (!propItem.properties) {
           _properties[key] = propItem
@@ -356,6 +377,7 @@ const SchemaForm = defineComponent({
       }
       const setComponents = (properties: Properties) => {
         Object.keys(properties).forEach((key) => {
+          // for concise SSL
           const isSSLAndNeedConcise =
             SSLPathReg.test(key) && typesNeedConciseSSL.includes(props.type)
           if (isSSLAndNeedConcise) {
@@ -395,6 +417,7 @@ const SchemaForm = defineComponent({
       const schemaForm = renderLayout(getComponents(properties, { col: 16 }))
       return schemaForm
     }
+
     return () => <div class="schema-form">{renderSchemaForm(components.value)}</div>
   },
 })
