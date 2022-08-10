@@ -839,4 +839,13 @@ export default {
     zh: '使用 UDP 协议将数据保存到 InfluxDB',
     en: 'Save data to InfluxDB using UDP protocol',
   },
+  mySQL: {
+    zh: 'MySQL',
+    en: 'MySQL',
+  },
+  // TODO:
+  mySQLDesc: {
+    zh: 'My SQL',
+    en: 'My SQL',
+  },
 }
