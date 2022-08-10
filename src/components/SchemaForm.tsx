@@ -3,7 +3,7 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import useSchemaRecord from '@/hooks/useSchemaRecord'
 import '@/style/schemaForm.scss'
-import { Properties } from '@/types/schemaForm'
+import { Properties, Property } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { computed, defineComponent, onMounted, PropType, ref, watch } from 'vue'
@@ -14,6 +14,7 @@ import InputWithUnit from './InputWithUnit.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import useSSL from '@/hooks/useSSL'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 interface FormItemMeta {
   col: number
@@ -70,6 +71,33 @@ const SchemaForm = defineComponent({
     needFooter: {
       type: Boolean,
       default: true,
+    },
+    formItemSpan: {
+      type: Number,
+      default: 16,
+    },
+    useTooltipShowDesc: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * sort prop by KEY
+     * FIXME: No consideration of level now
+     */
+    propsOrderMap: {
+      type: Object as PropType<Record<string, number>>,
+    },
+    /**
+     * set by path
+     */
+    customColClass: {
+      type: Object as PropType<Record<string, string>>,
+    },
+    /**
+     * set by path
+     */
+    customLabelMap: {
+      type: Object as PropType<Record<string, string>>,
     },
   },
   setup(props, ctx) {
@@ -265,6 +293,54 @@ const SchemaForm = defineComponent({
       return switchComponent(property)
     }
 
+    const getLabel = ({ label, path }: Property) => {
+      if (!props.customLabelMap || !path || !(path in props.customLabelMap)) {
+        return label
+      }
+      return props.customLabelMap[path]
+    }
+
+    const getLabelSlotAndDescEle = (property: Property) => {
+      const { description } = property
+      const label = getLabel(property)
+      const labelSlot: any = {}
+      let descEle: any = null
+      if (props.useTooltipShowDesc) {
+        labelSlot.label = () => (
+          <div>
+            <span>{label}</span>
+            <InfoTooltip content={description} />
+          </div>
+        )
+      } else {
+        descEle = <p class="item-desc" v-html={description}></p>
+      }
+      return {
+        labelSlot,
+        descEle,
+      }
+    }
+
+    /**
+     * if property with special col span, return it, else return undefined
+     */
+    const getColSpan = ({ path }: Property): number | undefined => {
+      if (!path) {
+        return
+      }
+      if (SSL_PATH_REG.test(path)) {
+        return 24
+      }
+      return
+    }
+
+    const getColClass = ({ path }: Property) => {
+      if (!props.customColClass || !path || !(path in props.customColClass)) {
+        return ''
+      }
+      return props.customColClass[path]
+    }
+
     const getColFormItem = (property: Properties[string], { col, levelName }: FormItemMeta) => {
       const handleCommand = (command: string) => {
         if (command === 'reset') {
@@ -288,8 +364,13 @@ const SchemaForm = defineComponent({
           </el-dropdown-menu>
         ),
       }
+
+      const { labelSlot, descEle } = getLabelSlotAndDescEle(property)
+      const colSpan = getColSpan(property) || col
+      const colClass = getColClass(property)
+
       const colItem = (
-        <el-col span={col}>
+        <el-col span={colSpan} class={colClass}>
           {['mqtt', 'session'].includes(props.type) ? null : (
             <el-dropdown
               class="schema-col-setting"
@@ -311,14 +392,14 @@ const SchemaForm = defineComponent({
               placement="right"
               effect="dark"
             >
-              <el-form-item label={property.label} prop={property.path}>
-                <p class="item-desc" v-html={property.description}></p>
+              <el-form-item v-slots={labelSlot} label={property.label} prop={property.path}>
+                {descEle}
                 {setControl(property)}
               </el-form-item>
             </el-tooltip>
           ) : (
-            <el-form-item label={property.label} prop={property.path}>
-              <p class="item-desc" v-html={property.description}></p>
+            <el-form-item v-slots={labelSlot} label={property.label} prop={property.path}>
+              {descEle}
               {setControl(property)}
             </el-form-item>
           )}
@@ -421,6 +502,22 @@ const SchemaForm = defineComponent({
       walk(configForm.value)
     }
 
+    const sortPropKeys = (propKeys: Array<string>) => {
+      if (!props.propsOrderMap) {
+        return propKeys
+      }
+      const ret = propKeys
+      const { propsOrderMap } = props
+      for (let index = 0; index < propKeys.length; index++) {
+        const key = propKeys[index]
+        if (key in propsOrderMap) {
+          ret.splice(index, 1)
+          ret.splice(propsOrderMap[key], 0, key)
+        }
+      }
+      return ret
+    }
+
     // Get the components to render form by Propoerties
     const getComponents = (properties: Properties, meta: FormItemMeta) => {
       let [levelName, oldLevelName] = [meta.levelName || '', '']
@@ -444,7 +541,8 @@ const SchemaForm = defineComponent({
         }
       }
       const setComponents = (properties: Properties) => {
-        Object.keys(properties).forEach((key) => {
+        const propKeys = sortPropKeys(Object.keys(properties))
+        propKeys.forEach((key) => {
           const property = properties[key]
           // for concise SSL
           const isSSLAndNeedConcise =
@@ -483,7 +581,7 @@ const SchemaForm = defineComponent({
       return setComponents(_properties)
     }
     const renderSchemaForm = (properties: Properties) => {
-      const schemaForm = renderLayout(getComponents(properties, { col: 16 }))
+      const schemaForm = renderLayout(getComponents(properties, { col: props.formItemSpan }))
       return schemaForm
     }
 
