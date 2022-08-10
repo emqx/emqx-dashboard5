@@ -27,6 +27,8 @@ const typeRefKeyMap: Record<UseSchemaBridgeType, string> = {
   [BridgeType.InfluxDBV1]: `bridge_influxdb.post_api_v1`,
   [BridgeType.InfluxDBV2]: `bridge_influxdb.post_api_v2`,
   [BridgeType.InfluxDBUPD]: `bridge_influxdb.post_udp`,
+  // TODO:
+  [BridgeType.MySQL]: `bridge.post`,
 }
 
 const props = defineProps({
