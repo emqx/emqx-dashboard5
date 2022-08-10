@@ -49,9 +49,9 @@
               v-model="bridgeData"
               ref="formCom"
             />
-            <bridge-influxdb-v1-config
-              v-if="chosenBridgeType === BridgeType.InfluxDBV1"
-              v-model="bridgeData"
+            <using-schema-bridge-config
+              v-else-if="!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
+              :type="chosenBridgeType"
               ref="formCom"
             />
           </template>
@@ -122,8 +122,9 @@
         v-model="bridgeData"
         ref="formCom"
       />
-      <bridge-influxdb-v1-config
-        v-if="chosenBridgeType === BridgeType.InfluxDBV1"
+      <using-schema-bridge-config
+        v-else-if="!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
+        :type="chosenBridgeType"
         v-model="bridgeData"
         ref="formCom"
       />
@@ -152,7 +153,7 @@ import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
-import BridgeInfluxdbV1Config from './Components/BridgeInfluxdbV1Config.vue'
+import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
 export default defineComponent({
   name: 'BridgeCreate',
@@ -161,7 +162,7 @@ export default defineComponent({
     BridgeMqttConfig,
     DetailHeader,
     GuideBar,
-    BridgeInfluxdbV1Config,
+    UsingSchemaBridgeConfig,
   },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
@@ -329,6 +330,7 @@ export default defineComponent({
       step,
       activeGuidesIndex,
       guideDescList,
+      BRIDGE_TYPES_NOT_USE_SCHEMA,
       goPreStep,
       goNextStep,
       bridgeTypeOptions,
