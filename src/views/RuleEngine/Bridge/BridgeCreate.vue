@@ -141,7 +141,7 @@ import { checkNOmitFromObj, jumpToErrorFormItem, getBridgeIconKey } from '@/comm
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
-import { BRIDGE_TYPES_USE_SCHEMA } from '@/common/constants'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 
 export default defineComponent({
   name: 'BridgeCreate',
@@ -255,7 +255,7 @@ export default defineComponent({
       let res = undefined
 
       try {
-        if (BRIDGE_TYPES_USE_SCHEMA.includes(chosenBridgeType.value)) {
+        if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType.value)) {
           await submitDataWhenUsingSchemaForm()
         } else {
           const dataToSubmit = {
