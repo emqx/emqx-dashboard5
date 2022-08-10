@@ -18,18 +18,6 @@ export default function useSchemaForm(
 ): {
   schema: InjectSchema
   components: Ref<Properties>
-  flattenConfigs: (
-    obj: any,
-    prefix?: any[],
-    current?: {
-      [key: string]: any
-    },
-  ) => {
-    [key: string]: any
-  }
-  unflattenConfigs: (obj: { [key: string]: any }) => {
-    [key: string]: any
-  }
 } {
   const schemaRequest = axios.create({
     baseURL: '',
@@ -133,8 +121,6 @@ export default function useSchemaForm(
     handleSchemaChanged(schema.value)
   }
   return {
-    flattenConfigs: flattenObject,
-    unflattenConfigs: unflattenObject,
     schema,
     components,
   }
