@@ -125,7 +125,7 @@ import { BridgeType } from '@/types/enum'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import _ from 'lodash'
 import { getBridgeIconKey } from '@/common/tools'
-import { BRIDGE_TYPES_USE_SCHEMA } from '@/common/constants'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 
 enum Tab {
   Overview = 'overview',
@@ -193,7 +193,7 @@ const updateBridgeInfo = async () => {
   await formCom.value.validate()
   updateLoading.value = true
   try {
-    if (BRIDGE_TYPES_USE_SCHEMA.includes(bridgeInfo.value.type)) {
+    if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
       bridgeInfo.value = formCom.value.getFormRecord()
     }
     const data = _.cloneDeep(bridgeInfo.value)
