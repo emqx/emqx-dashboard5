@@ -1,13 +1,104 @@
 {
     "components": {
         "schemas": {
-            "bridge.get": {
+            "bridge_influxdb.post_api_v1": {
                 "required": [
-                    "url",
                     "name",
-                    "type"
+                    "type",
+                    "connector",
+                    "write_syntax"
                 ],
                 "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "label": "写语句",
+                        "type": "string"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_api_v1:connector",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v1"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "influxdb_api_v1"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_influxdb.get_api_v2": {
+                "required": [
+                    "name",
+                    "type",
+                    "connector",
+                    "write_syntax"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "写语句",
+                        "type": "array"
+                    },
                     "metrics": {
                         "description": "Bridge 计数",
                         "label": "Bridge 计数",
@@ -39,127 +130,81 @@
                         "label": "节点的状态",
                         "type": "array"
                     },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_api_v2:connector",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v2"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
                     "type": {
                         "description": "Bridge 类型",
-                        "label": "Bridge 类型",
+                        "label": "桥接类型",
                         "symbols": [
-                            "webhook"
+                            "influxdb_api_v2"
                         ],
                         "type": "enum"
                     },
                     "name": {
-                        "description": "Bridge 名字，Bridge 的可读描述",
-                        "label": "Bridge 名字",
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
                         "type": "string"
-                    },
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_influxdb.put_api_v2": {
+                "required": [
+                    "connector",
+                    "write_syntax"
+                ],
+                "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用 Bridge",
-                        "label": "启用/禁用 Bridge",
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "Bridge 的方向， 必须是 egress",
-                        "label": "Bridge 方向",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
                         "symbols": [
                             "egress"
                         ],
                         "type": "enum"
                     },
-                    "connect_timeout": {
-                        "default": "15s",
-                        "description": "连接HTTP服务器的超时时间。",
-                        "label": "连接超时",
-                        "type": "duration"
-                    },
-                    "pool_type": {
-                        "default": "random",
-                        "description": "连接池的类型，可用类型有`random`, `hash`。",
-                        "label": "连接池类型",
-                        "symbols": [
-                            "random",
-                            "hash"
-                        ],
-                        "type": "enum"
-                    },
-                    "pool_size": {
-                        "default": 8,
-                        "description": "连接池大小。",
-                        "label": "连接池大小",
-                        "type": "string"
-                    },
-                    "enable_pipelining": {
-                        "default": 100,
-                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
-                        "label": "HTTP 管道",
-                        "type": "string"
-                    },
-                    "request": {
-                        "description": "</br>如果提供了请求，调用者可以通过以下方式发送 HTTP 请求</br><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code></br>",
-                        "label": "HTTP 请求",
-                        "$ref": "#/components/schemas/connector-http.request"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    },
-                    "url": {
-                        "description": "</br>HTTP Bridge 的 URL。</br>路径中允许使用带变量的模板，但是 host， port 不允许使用变量模板。</br>例如，<code> http://localhost:9901/${topic} </code> 是允许的，</br>但是<code> http://${host}:9901/message </code></br>或 <code> http://localhost:${port}/message </code></br>不允许。</br>",
-                        "label": "HTTP Bridge",
-                        "type": "string"
-                    },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。</br>",
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
-                    "method": {
-                        "default": "post",
-                        "description": "</br>HTTP 请求的方法。 所有可用的方法包括：post、put、get、delete。</br>允许使用带有变量的模板。</br>",
-                        "label": "HTTP 请求方法",
-                        "symbols": [
-                            "post",
-                            "put",
-                            "get",
-                            "delete"
-                        ],
-                        "type": "enum"
-                    },
-                    "headers": {
-                        "default": {
-                            "accept": "application/json",
-                            "cache-control": "no-cache",
-                            "connection": "keep-alive",
-                            "content-type": "application/json",
-                            "keep-alive": "timeout=5"
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "items": {
+                            "type": "string"
                         },
-                        "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
-                        "label": "HTTP 请求标头",
-                        "type": "string"
+                        "label": "写语句",
+                        "type": "array"
                     },
-                    "body": {
-                        "default": "${payload}",
-                        "description": "</br>HTTP 请求的正文。</br>允许使用带有变量的模板。",
-                        "label": "HTTP 请求正文",
-                        "type": "string"
-                    },
-                    "max_retries": {
-                        "default": 2,
-                        "description": "HTTP 请求失败最大重试次数",
-                        "label": "HTTP 请求重试次数",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "request_timeout": {
-                        "default": "15s",
-                        "description": "HTTP 请求超时",
-                        "label": "HTTP 请求超时",
-                        "type": "duration"
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_api_v2:connector",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v2"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     }
                 },
                 "type": "object"
@@ -195,1446 +240,6 @@
                         "description": "5 分钟平均速率，次/秒",
                         "label": "5 分钟平均速率",
                         "type": "number"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge.node_metrics": {
-                "properties": {
-                    "node": {
-                        "description": "节点的名字",
-                        "example": "emqx@127.0.0.1",
-                        "label": "节点名字",
-                        "type": "string"
-                    },
-                    "metrics": {
-                        "description": "metrics Description",
-                        "label": "metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge.node_status": {
-                "properties": {
-                    "node": {
-                        "description": "节点的名字",
-                        "example": "emqx@127.0.0.1",
-                        "label": "节点名字",
-                        "type": "string"
-                    },
-                    "status": {
-                        "description": "status Description",
-                        "label": "status",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge.post": {
-                "required": [
-                    "url",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "Bridge 类型",
-                        "symbols": [
-                            "webhook"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge 名字，Bridge 的可读描述",
-                        "label": "Bridge 名字",
-                        "type": "string"
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用 Bridge",
-                        "label": "启用/禁用 Bridge",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "Bridge 的方向， 必须是 egress",
-                        "label": "Bridge 方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connect_timeout": {
-                        "default": "15s",
-                        "description": "连接HTTP服务器的超时时间。",
-                        "label": "连接超时",
-                        "type": "duration"
-                    },
-                    "pool_type": {
-                        "default": "random",
-                        "description": "连接池的类型，可用类型有`random`, `hash`。",
-                        "label": "连接池类型",
-                        "symbols": [
-                            "random",
-                            "hash"
-                        ],
-                        "type": "enum"
-                    },
-                    "pool_size": {
-                        "default": 8,
-                        "description": "连接池大小。",
-                        "label": "连接池大小",
-                        "type": "string"
-                    },
-                    "enable_pipelining": {
-                        "default": 100,
-                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
-                        "label": "HTTP 管道",
-                        "type": "string"
-                    },
-                    "request": {
-                        "description": "</br>如果提供了请求，调用者可以通过以下方式发送 HTTP 请求</br><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code></br>",
-                        "label": "HTTP 请求",
-                        "$ref": "#/components/schemas/connector-http.request"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    },
-                    "url": {
-                        "description": "</br>HTTP Bridge 的 URL。</br>路径中允许使用带变量的模板，但是 host， port 不允许使用变量模板。</br>例如，<code> http://localhost:9901/${topic} </code> 是允许的，</br>但是<code> http://${host}:9901/message </code></br>或 <code> http://localhost:${port}/message </code></br>不允许。</br>",
-                        "label": "HTTP Bridge",
-                        "type": "string"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "method": {
-                        "default": "post",
-                        "description": "</br>HTTP 请求的方法。 所有可用的方法包括：post、put、get、delete。</br>允许使用带有变量的模板。</br>",
-                        "label": "HTTP 请求方法",
-                        "symbols": [
-                            "post",
-                            "put",
-                            "get",
-                            "delete"
-                        ],
-                        "type": "enum"
-                    },
-                    "headers": {
-                        "default": {
-                            "accept": "application/json",
-                            "cache-control": "no-cache",
-                            "connection": "keep-alive",
-                            "content-type": "application/json",
-                            "keep-alive": "timeout=5"
-                        },
-                        "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
-                        "label": "HTTP 请求标头",
-                        "type": "string"
-                    },
-                    "body": {
-                        "default": "${payload}",
-                        "description": "</br>HTTP 请求的正文。</br>允许使用带有变量的模板。",
-                        "label": "HTTP 请求正文",
-                        "type": "string"
-                    },
-                    "max_retries": {
-                        "default": 2,
-                        "description": "HTTP 请求失败最大重试次数",
-                        "label": "HTTP 请求重试次数",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "request_timeout": {
-                        "default": "15s",
-                        "description": "HTTP 请求超时",
-                        "label": "HTTP 请求超时",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge.put": {
-                "required": [
-                    "url"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用 Bridge",
-                        "label": "启用/禁用 Bridge",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "Bridge 的方向， 必须是 egress",
-                        "label": "Bridge 方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connect_timeout": {
-                        "default": "15s",
-                        "description": "连接HTTP服务器的超时时间。",
-                        "label": "连接超时",
-                        "type": "duration"
-                    },
-                    "pool_type": {
-                        "default": "random",
-                        "description": "连接池的类型，可用类型有`random`, `hash`。",
-                        "label": "连接池类型",
-                        "symbols": [
-                            "random",
-                            "hash"
-                        ],
-                        "type": "enum"
-                    },
-                    "pool_size": {
-                        "default": 8,
-                        "description": "连接池大小。",
-                        "label": "连接池大小",
-                        "type": "string"
-                    },
-                    "enable_pipelining": {
-                        "default": 100,
-                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
-                        "label": "HTTP 管道",
-                        "type": "string"
-                    },
-                    "request": {
-                        "description": "</br>如果提供了请求，调用者可以通过以下方式发送 HTTP 请求</br><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code></br>",
-                        "label": "HTTP 请求",
-                        "$ref": "#/components/schemas/connector-http.request"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    },
-                    "url": {
-                        "description": "</br>HTTP Bridge 的 URL。</br>路径中允许使用带变量的模板，但是 host， port 不允许使用变量模板。</br>例如，<code> http://localhost:9901/${topic} </code> 是允许的，</br>但是<code> http://${host}:9901/message </code></br>或 <code> http://localhost:${port}/message </code></br>不允许。</br>",
-                        "label": "HTTP Bridge",
-                        "type": "string"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "method": {
-                        "default": "post",
-                        "description": "</br>HTTP 请求的方法。 所有可用的方法包括：post、put、get、delete。</br>允许使用带有变量的模板。</br>",
-                        "label": "HTTP 请求方法",
-                        "symbols": [
-                            "post",
-                            "put",
-                            "get",
-                            "delete"
-                        ],
-                        "type": "enum"
-                    },
-                    "headers": {
-                        "default": {
-                            "accept": "application/json",
-                            "cache-control": "no-cache",
-                            "connection": "keep-alive",
-                            "content-type": "application/json",
-                            "keep-alive": "timeout=5"
-                        },
-                        "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
-                        "label": "HTTP 请求标头",
-                        "type": "string"
-                    },
-                    "body": {
-                        "default": "${payload}",
-                        "description": "</br>HTTP 请求的正文。</br>允许使用带有变量的模板。",
-                        "label": "HTTP 请求正文",
-                        "type": "string"
-                    },
-                    "max_retries": {
-                        "default": 2,
-                        "description": "HTTP 请求失败最大重试次数",
-                        "label": "HTTP 请求重试次数",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "request_timeout": {
-                        "default": "15s",
-                        "description": "HTTP 请求超时",
-                        "label": "HTTP 请求超时",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_hstreamdb.get": {
-                "required": [
-                    "connector",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
-                    "status": {
-                        "description": "Bridge 的状态",
-                        "label": "Bridge 状态",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "节点的状态",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "节点的状态",
-                        "type": "array"
-                    },
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "hstreamdb"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "payload": {
-                        "default": "${payload}",
-                        "description": "要转发到 HStreamDB 的数据内容，支持占位符",
-                        "label": "消息内容",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "hstreamdb:demo",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_hstream.config"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_hstreamdb.post": {
-                "required": [
-                    "connector",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "hstreamdb"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "payload": {
-                        "default": "${payload}",
-                        "description": "要转发到 HStreamDB 的数据内容，支持占位符",
-                        "label": "消息内容",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "hstreamdb:demo",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_hstream.config"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_hstreamdb.put": {
-                "required": [
-                    "connector"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "payload": {
-                        "default": "${payload}",
-                        "description": "要转发到 HStreamDB 的数据内容，支持占位符",
-                        "label": "消息内容",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "hstreamdb:demo",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_hstream.config"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.get_api_v1": {
-                "required": [
-                    "name",
-                    "type",
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
-                    "status": {
-                        "description": "Bridge 的状态",
-                        "label": "Bridge 状态",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "节点的状态",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "节点的状态",
-                        "type": "array"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_api_v1:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_api_v1"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "influxdb_api_v1"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.get_api_v2": {
-                "required": [
-                    "name",
-                    "type",
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
-                    "status": {
-                        "description": "Bridge 的状态",
-                        "label": "Bridge 状态",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "节点的状态",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "节点的状态",
-                        "type": "array"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_api_v2:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_api_v2"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "influxdb_api_v2"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.get_udp": {
-                "required": [
-                    "name",
-                    "type",
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
-                    "status": {
-                        "description": "Bridge 的状态",
-                        "label": "Bridge 状态",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "节点的状态",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "节点的状态",
-                        "type": "array"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_udp:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_udp"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "influxdb_udp"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.post_api_v1": {
-                "required": [
-                    "name",
-                    "type",
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_api_v1:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_api_v1"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "influxdb_api_v1"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.post_api_v2": {
-                "required": [
-                    "name",
-                    "type",
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_api_v2:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_api_v2"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "influxdb_api_v2"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.post_udp": {
-                "required": [
-                    "name",
-                    "type",
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_udp:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_udp"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "influxdb_udp"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.put_api_v1": {
-                "required": [
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_api_v1:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_api_v1"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.put_api_v2": {
-                "required": [
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_api_v2:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_api_v2"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_influxdb.put_udp": {
-                "required": [
-                    "connector",
-                    "fields",
-                    "measurement"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
-                        "label": "本地 Topic",
-                        "type": "string"
-                    },
-                    "measurement": {
-                        "description": "要转发到 InfluxDB 的 Measurement 名称，支持占位符",
-                        "label": "Measurement",
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "default": "${timestamp}",
-                        "description": "要转发到 InfluxDB 的时间戳，支持占位符。默认使用消息的时间戳",
-                        "label": "Timestamp",
-                        "type": "string"
-                    },
-                    "tags": {
-                        "description": "要转发到 InfluxDB 的 Tags 数据内容，支持占位符",
-                        "label": "Tags",
-                        "type": "string"
-                    },
-                    "fields": {
-                        "description": "要转发到 InfluxDB 的 fields 数据内容，支持占位符",
-                        "label": "Fields",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "example": "influxdb_udp:connector",
-                        "label": "连接器通用配置。",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/emqx_ee_connector_influxdb.influxdb_udp"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "broker.ssl_client_opts": {
-                "properties": {
-                    "cacertfile": {
-                        "description": "</br>受信任的PEM格式CA证书捆绑文件</br>此文件中的证书用于验证TLS对等方的证书。</br>如果要信任新CA，请将新证书附加到文件中。</br>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）</br>注意：从文件中失效（删除）证书不会影响已建立的连接。</br>",
-                        "label": "CA 证书文件",
-                        "type": "string"
-                    },
-                    "certfile": {
-                        "description": "</br>PEM格式证书链文件</br>此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，然后是直接颁发者证书，依此类推。</br>虽然根CA证书是可选的，但它应该放在</br>如果要添加文件，请将其删除。</br>",
-                        "label": "证书文件",
-                        "type": "string"
-                    },
-                    "keyfile": {
-                        "description": "</br>PEM格式的私钥文件。</br>",
-                        "label": "私钥文件",
-                        "type": "string"
-                    },
-                    "verify": {
-                        "default": "verify_none",
-                        "description": "</br>启用或禁用对等验证。</br>",
-                        "label": "对等验证",
-                        "symbols": [
-                            "verify_peer",
-                            "verify_none"
-                        ],
-                        "type": "enum"
-                    },
-                    "reuse_sessions": {
-                        "default": true,
-                        "description": "</br>启用 TLS 会话重用。</br>",
-                        "label": "TLS 会话重用",
-                        "type": "boolean"
-                    },
-                    "depth": {
-                        "default": 10,
-                        "description": "</br>在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。因此，如果深度为0，则对等方必须由受信任的根CA直接签名；如果1，路径可以是PEER、CA、ROOT-CA；如果是2，则路径可以是PEER、CA、CA、ROOT-CA等等。默认值为10。</br>",
-                        "label": "CA 证书深度",
-                        "type": "number"
-                    },
-                    "password": {
-                        "description": "</br>包含用户密码的字符串。</br>仅在私钥文件受密码保护时使用。</br>",
-                        "example": "",
-                        "label": "秘钥文件密码",
-                        "type": "string"
-                    },
-                    "versions": {
-                        "default": [
-                            "tlsv1.3",
-                            "tlsv1.2",
-                            "tlsv1.1",
-                            "tlsv1"
-                        ],
-                        "description": "</br>支持所有TLS/DTLS版本</br></br>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。</br>",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "SSL 版本",
-                        "type": "array"
-                    },
-                    "ciphers": {
-                        "default": [
-                            "TLS_AES_256_GCM_SHA384",
-                            "TLS_AES_128_GCM_SHA256",
-                            "TLS_CHACHA20_POLY1305_SHA256",
-                            "TLS_AES_128_CCM_SHA256",
-                            "TLS_AES_128_CCM_8_SHA256",
-                            "ECDHE-ECDSA-AES256-GCM-SHA384",
-                            "ECDHE-RSA-AES256-GCM-SHA384",
-                            "ECDHE-ECDSA-AES256-SHA384",
-                            "ECDHE-RSA-AES256-SHA384",
-                            "ECDH-ECDSA-AES256-GCM-SHA384",
-                            "ECDH-RSA-AES256-GCM-SHA384",
-                            "ECDH-ECDSA-AES256-SHA384",
-                            "ECDH-RSA-AES256-SHA384",
-                            "DHE-DSS-AES256-GCM-SHA384",
-                            "DHE-DSS-AES256-SHA256",
-                            "AES256-GCM-SHA384",
-                            "AES256-SHA256",
-                            "ECDHE-ECDSA-AES128-GCM-SHA256",
-                            "ECDHE-RSA-AES128-GCM-SHA256",
-                            "ECDHE-ECDSA-AES128-SHA256",
-                            "ECDHE-RSA-AES128-SHA256",
-                            "ECDH-ECDSA-AES128-GCM-SHA256",
-                            "ECDH-RSA-AES128-GCM-SHA256",
-                            "ECDH-ECDSA-AES128-SHA256",
-                            "ECDH-RSA-AES128-SHA256",
-                            "DHE-DSS-AES128-GCM-SHA256",
-                            "DHE-DSS-AES128-SHA256",
-                            "AES128-GCM-SHA256",
-                            "AES128-SHA256",
-                            "ECDHE-ECDSA-AES256-SHA",
-                            "ECDHE-RSA-AES256-SHA",
-                            "DHE-DSS-AES256-SHA",
-                            "ECDH-ECDSA-AES256-SHA",
-                            "ECDH-RSA-AES256-SHA",
-                            "ECDHE-ECDSA-AES128-SHA",
-                            "ECDHE-RSA-AES128-SHA",
-                            "DHE-DSS-AES128-SHA",
-                            "ECDH-ECDSA-AES128-SHA",
-                            "ECDH-RSA-AES128-SHA",
-                            "RSA-PSK-AES256-GCM-SHA384",
-                            "RSA-PSK-AES256-CBC-SHA384",
-                            "RSA-PSK-AES128-GCM-SHA256",
-                            "RSA-PSK-AES128-CBC-SHA256",
-                            "RSA-PSK-AES256-CBC-SHA",
-                            "RSA-PSK-AES128-CBC-SHA"
-                        ],
-                        "description": "</br>此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如</br><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或</br><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。</br></br>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。</br>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。</br></br>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。</br>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式</br>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。</br>不兼容的密码套件将被自动删除。</br></br>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。</br></br></br>注：PSK 的 Ciphers 不支持 tlsv1.3</br>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。</br></br></br>PSK 密码套件：</br><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,</br>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,</br>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,</br>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code></br>",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "",
-                        "type": "array"
-                    },
-                    "user_lookup_fun": {
-                        "default": "emqx_tls_psk:lookup",
-                        "description": "</br>用于查找预共享密钥（PSK）标识的 EMQX 内部回调。</br>",
-                        "label": "SSL PSK 用户回调",
-                        "type": "string"
-                    },
-                    "secure_renegotiate": {
-                        "default": true,
-                        "description": "</br>SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。</br>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。</br>",
-                        "label": "SSL 重新协商",
-                        "type": "boolean"
-                    },
-                    "enable": {
-                        "default": false,
-                        "description": "启用 TLS",
-                        "label": "启用 TLS",
-                        "type": "boolean"
-                    },
-                    "server_name_indication": {
-                        "description": "</br>指定要在 TLS 服务器名称指示扩展中使用的主机名</br>例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，</br>例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时</br>如果未指定，它将默认为使用的主机名字符串</br>建立连接，除非使用 IP 地址</br>然后，主机名也用于对等机的主机名验证</br>证书</br>特殊值'disable'阻止发送服务器名称指示扩展，并禁用主机名验证检查。</br>",
-                        "example": "disable",
-                        "label": "服务器名称指示",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    "disable"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "connector-http.request": {
-                "properties": {
-                    "method": {
-                        "description": "HTTP 请求方法。",
-                        "label": "HTTP 请求方法",
-                        "symbols": [
-                            "post",
-                            "put",
-                            "get",
-                            "delete"
-                        ],
-                        "type": "enum"
-                    },
-                    "path": {
-                        "description": "HTTP请求路径。",
-                        "label": "HTTP请求路径",
-                        "type": "string"
-                    },
-                    "body": {
-                        "description": "HTTP请求报文主体。",
-                        "label": "HTTP请求报文主体",
-                        "type": "string"
-                    },
-                    "headers": {
-                        "description": "HTTP 头字段列表。",
-                        "label": "HTTP 头字段列表",
-                        "type": "string"
-                    },
-                    "max_retries": {
-                        "description": "请求出错时的最大重试次数。",
-                        "label": "最大重试次数",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "request_timeout": {
-                        "description": "HTTP 请求超时。",
-                        "label": "HTTP 请求超时",
-                        "type": "duration"
                     }
                 },
                 "type": "object"
@@ -1734,11 +339,242 @@
                 },
                 "type": "object"
             },
-            "connector-mqtt.replayq": {
+            "bridge_influxdb.get_api_v1": {
+                "required": [
+                    "name",
+                    "type",
+                    "connector",
+                    "write_syntax"
+                ],
                 "properties": {
-                    "dir": {
-                        "description": "</br>replayq 文件保存的目录。</br>设置为 'false' 会禁用 replayq 功能。</br>",
-                        "label": "Replyq 文件保存目录",
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "写语句",
+                        "type": "array"
+                    },
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_api_v1:connector",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v1"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "influxdb_api_v1"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "connector-http.request": {
+                "properties": {
+                    "method": {
+                        "description": "HTTP 请求方法。",
+                        "label": "HTTP 请求方法",
+                        "symbols": [
+                            "post",
+                            "put",
+                            "get",
+                            "delete"
+                        ],
+                        "type": "enum"
+                    },
+                    "path": {
+                        "description": "HTTP请求路径。",
+                        "label": "HTTP请求路径",
+                        "type": "string"
+                    },
+                    "body": {
+                        "description": "HTTP请求报文主体。",
+                        "label": "HTTP请求报文主体",
+                        "type": "string"
+                    },
+                    "headers": {
+                        "description": "HTTP 头字段列表。",
+                        "label": "HTTP 头字段列表",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "description": "请求出错时的最大重试次数。",
+                        "label": "最大重试次数",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "description": "HTTP 请求超时。",
+                        "label": "HTTP 请求超时",
+                        "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge.node_status": {
+                "properties": {
+                    "node": {
+                        "description": "节点的名字",
+                        "example": "emqx@127.0.0.1",
+                        "label": "节点名字",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "status Description",
+                        "label": "status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
+            "emqx_bridge_mqtt_schema.post_egress": {
+                "required": [
+                    "payload",
+                    "retain",
+                    "remote_qos",
+                    "remote_topic",
+                    "connector",
+                    "direction",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Bridge 的类型",
+                        "label": "Bridge 类型",
+                        "symbols": [
+                            "mqtt"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge 名字，Bridge 的可读描述",
+                        "label": "Bridge 名字",
+                        "type": "string"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The egress config defines how this bridge forwards messages from the local broker to the remote</br>broker.</br>Template with variables is allowed in 'remote_topic', 'qos', 'retain', 'payload'.</br>NOTE: if this bridge is used as the action of a rule (emqx rule engine), and also local_topic</br>is configured, then both the data got from the rule and the MQTT messages that matches</br>local_topic will be forwarded.</br>",
+                        "label": "direction",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "connector": {
+                        "description": "</br>Bridge 使用的 Connector 的 ID 或者配置。Connector ID 的格式必须为：<code>{type}:{name}</code>.</br>在配置文件中，您可以通过以下路径找到 Connector 的相应配置条目：'connector.{type}.{name}'。</br>",
+                        "example": "mqtt:my_mqtt_connector",
+                        "label": "Connector ID",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector-mqtt.connector"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "local_topic": {
+                        "description": "要转发到远程broker的本地主题",
+                        "label": "本地主题",
+                        "type": "string"
+                    },
+                    "remote_topic": {
+                        "description": "</br>转发到远程broker的哪个topic。</br>允许使用带有变量的模板。</br>",
+                        "label": "远程主题",
+                        "type": "string"
+                    },
+                    "remote_qos": {
+                        "description": "</br>待发送 MQTT 消息的 QoS。</br>允许使用带有变量的模板。</br>",
+                        "label": "远程 QoS",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "symbols": [
+                                    0,
+                                    1,
+                                    2
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "retain": {
+                        "description": "</br>要发送的 MQTT 消息的“保留”标志。</br>允许使用带有变量的模板。</br>",
+                        "label": "保留消息标志",
                         "oneOf": [
                             {
                                 "type": "string"
@@ -1748,17 +584,360 @@
                             }
                         ]
                     },
-                    "seg_bytes": {
-                        "default": "100MB",
-                        "description": "</br>单个段的大小（以字节为单位）。</br>一个段映射到 replayq 目录中的一个文件。 如果当前段已满，则新段（文件）将被打开写入。</br>",
-                        "label": "Segment 大小",
-                        "type": "byteSize"
+                    "payload": {
+                        "description": "</br>要发送的 MQTT 消息的负载。</br>允许使用带有变量的模板。</br>",
+                        "label": "消息负载",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "connector_influxdb.influxdb_api_v2": {
+                "required": [
+                    "pool_size",
+                    "port",
+                    "host",
+                    "token",
+                    "org",
+                    "bucket"
+                ],
+                "properties": {
+                    "bucket": {
+                        "description": "InfluxDB bucket 名称",
+                        "label": "Bucket",
+                        "type": "string"
                     },
-                    "offload": {
-                        "default": false,
-                        "description": "</br>在Offload模式下，磁盘队列仅用于卸载队列尾段。</br>消息首先缓存在内存中，然后写入replayq文件。内存缓大小为“seg_bytes” 指定的值。</br>",
-                        "label": "Offload 模式",
+                    "org": {
+                        "description": "InfluxDB 组织名称。",
+                        "label": "组织",
+                        "type": "string"
+                    },
+                    "token": {
+                        "description": "InfluxDB token。",
+                        "label": "Token",
+                        "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "host": {
+                        "default": "120.0.0.1",
+                        "description": "InfluxDB 主机地址。",
+                        "label": "主机",
+                        "type": "string"
+                    },
+                    "port": {
+                        "default": 8086,
+                        "description": "InfluxDB 端口。",
+                        "label": "端口",
+                        "type": "string"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB 时间精度。",
+                        "label": "时间精度",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "pool_size": {
+                        "description": "InfluxDB 连接池大小",
+                        "label": "InfluxDB 连接池大小",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_hstreamdb.post": {
+                "required": [
+                    "connector",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "hstreamdb"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
                         "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "payload": {
+                        "default": "${payload}",
+                        "description": "要转发到 HStreamDB 的数据内容，支持占位符",
+                        "label": "消息内容",
+                        "type": "string"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "hstreamdb:demo",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_hstreamdb.config"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge.node_metrics": {
+                "properties": {
+                    "node": {
+                        "description": "节点的名字",
+                        "example": "emqx@127.0.0.1",
+                        "label": "节点名字",
+                        "type": "string"
+                    },
+                    "metrics": {
+                        "description": "metrics Description",
+                        "label": "metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_influxdb.put_api_v1": {
+                "required": [
+                    "connector",
+                    "write_syntax"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "写语句",
+                        "type": "array"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_api_v1:connector",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v1"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_hstreamdb.put": {
+                "required": [
+                    "connector"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "payload": {
+                        "default": "${payload}",
+                        "description": "要转发到 HStreamDB 的数据内容，支持占位符",
+                        "label": "消息内容",
+                        "type": "string"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "hstreamdb:demo",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_hstreamdb.config"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "connector_influxdb.influxdb_udp": {
+                "required": [
+                    "pool_size",
+                    "port",
+                    "host"
+                ],
+                "properties": {
+                    "host": {
+                        "default": "120.0.0.1",
+                        "description": "InfluxDB 主机地址。",
+                        "label": "主机",
+                        "type": "string"
+                    },
+                    "port": {
+                        "default": 8086,
+                        "description": "InfluxDB 端口。",
+                        "label": "端口",
+                        "type": "string"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB 时间精度。",
+                        "label": "时间精度",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "pool_size": {
+                        "description": "InfluxDB 连接池大小",
+                        "label": "InfluxDB 连接池大小",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "connector_influxdb.influxdb_api_v1": {
+                "required": [
+                    "pool_size",
+                    "port",
+                    "host",
+                    "password",
+                    "username",
+                    "database"
+                ],
+                "properties": {
+                    "database": {
+                        "description": "InfluxDB 数据库。",
+                        "label": "数据库",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "InfluxDB 用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "InfluxDB 密码。",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "host": {
+                        "default": "120.0.0.1",
+                        "description": "InfluxDB 主机地址。",
+                        "label": "主机",
+                        "type": "string"
+                    },
+                    "port": {
+                        "default": 8086,
+                        "description": "InfluxDB 端口。",
+                        "label": "端口",
+                        "type": "string"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB 时间精度。",
+                        "label": "时间精度",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "pool_size": {
+                        "description": "InfluxDB 连接池大小",
+                        "label": "InfluxDB 连接池大小",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -1883,6 +1062,308 @@
                     "payload": {
                         "description": "</br>要发送的 MQTT 消息的负载。</br>允许使用带有变量的模板。</br>",
                         "label": "消息负载",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge.get": {
+                "required": [
+                    "connector",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mysql"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "label": "连接器通用配置。",
+                        "$ref": "#/components/schemas/bridge.connector"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_webhook.get": {
+                "required": [
+                    "url",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "Bridge 类型",
+                        "symbols": [
+                            "webhook"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge 名字，Bridge 的可读描述",
+                        "label": "Bridge 名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用 Bridge",
+                        "label": "启用/禁用 Bridge",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "Bridge 的方向， 必须是 egress",
+                        "label": "Bridge 方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "连接HTTP服务器的超时时间。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "pool_type": {
+                        "default": "random",
+                        "description": "连接池的类型，可用类型有`random`, `hash`。",
+                        "label": "连接池类型",
+                        "symbols": [
+                            "random",
+                            "hash"
+                        ],
+                        "type": "enum"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "enable_pipelining": {
+                        "default": 100,
+                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
+                        "label": "HTTP 管道",
+                        "type": "string"
+                    },
+                    "request": {
+                        "description": "</br>如果提供了请求，调用者可以通过以下方式发送 HTTP 请求</br><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code></br>",
+                        "label": "HTTP 请求",
+                        "$ref": "#/components/schemas/connector-http.request"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "url": {
+                        "description": "</br>HTTP Bridge 的 URL。</br>路径中允许使用带变量的模板，但是 host， port 不允许使用变量模板。</br>例如，<code> http://localhost:9901/${topic} </code> 是允许的，</br>但是<code> http://${host}:9901/message </code></br>或 <code> http://localhost:${port}/message </code></br>不允许。</br>",
+                        "label": "HTTP Bridge",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "method": {
+                        "default": "post",
+                        "description": "</br>HTTP 请求的方法。 所有可用的方法包括：post、put、get、delete。</br>允许使用带有变量的模板。</br>",
+                        "label": "HTTP 请求方法",
+                        "symbols": [
+                            "post",
+                            "put",
+                            "get",
+                            "delete"
+                        ],
+                        "type": "enum"
+                    },
+                    "headers": {
+                        "default": {
+                            "accept": "application/json",
+                            "cache-control": "no-cache",
+                            "connection": "keep-alive",
+                            "content-type": "application/json",
+                            "keep-alive": "timeout=5"
+                        },
+                        "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
+                        "label": "HTTP 请求标头",
+                        "type": "string"
+                    },
+                    "body": {
+                        "default": "${payload}",
+                        "description": "</br>HTTP 请求的正文。</br>允许使用带有变量的模板。",
+                        "label": "HTTP 请求正文",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "HTTP 请求失败最大重试次数",
+                        "label": "HTTP 请求重试次数",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP 请求超时",
+                        "label": "HTTP 请求超时",
+                        "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_influxdb.post_udp": {
+                "required": [
+                    "name",
+                    "type",
+                    "connector",
+                    "write_syntax"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "写语句",
+                        "type": "array"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_udp:connector",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_udp"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "influxdb_udp"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
                         "type": "string"
                     }
                 },
@@ -2031,207 +1512,66 @@
                 },
                 "type": "object"
             },
-            "emqx_bridge_mqtt_schema.post_egress": {
+            "bridge_influxdb.post_api_v2": {
                 "required": [
-                    "payload",
-                    "retain",
-                    "remote_qos",
-                    "remote_topic",
-                    "connector",
-                    "direction",
                     "name",
-                    "type"
+                    "type",
+                    "connector",
+                    "write_syntax"
                 ],
                 "properties": {
-                    "type": {
-                        "description": "Bridge 的类型",
-                        "label": "Bridge 类型",
-                        "symbols": [
-                            "mqtt"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge 名字，Bridge 的可读描述",
-                        "label": "Bridge 名字",
-                        "type": "string"
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The egress config defines how this bridge forwards messages from the local broker to the remote</br>broker.</br>Template with variables is allowed in 'remote_topic', 'qos', 'retain', 'payload'.</br>NOTE: if this bridge is used as the action of a rule (emqx rule engine), and also local_topic</br>is configured, then both the data got from the rule and the MQTT messages that matches</br>local_topic will be forwarded.</br>",
-                        "label": "direction",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
                         "symbols": [
                             "egress"
                         ],
                         "type": "enum"
                     },
-                    "connector": {
-                        "description": "</br>Bridge 使用的 Connector 的 ID 或者配置。Connector ID 的格式必须为：<code>{type}:{name}</code>.</br>在配置文件中，您可以通过以下路径找到 Connector 的相应配置条目：'connector.{type}.{name}'。</br>",
-                        "example": "mqtt:my_mqtt_connector",
-                        "label": "Connector ID",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector-mqtt.connector"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
                     "local_topic": {
-                        "description": "要转发到远程broker的本地主题",
-                        "label": "本地主题",
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "label": "本地 Topic",
                         "type": "string"
                     },
-                    "remote_topic": {
-                        "description": "</br>转发到远程broker的哪个topic。</br>允许使用带有变量的模板。</br>",
-                        "label": "远程主题",
-                        "type": "string"
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "写语句",
+                        "type": "array"
                     },
-                    "remote_qos": {
-                        "description": "</br>待发送 MQTT 消息的 QoS。</br>允许使用带有变量的模板。</br>",
-                        "label": "远程 QoS",
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_api_v2:connector",
+                        "label": "连接器通用配置。",
                         "oneOf": [
                             {
-                                "type": "string"
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v2"
                             },
                             {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
+                                "type": "string"
                             }
                         ]
                     },
-                    "retain": {
-                        "description": "</br>要发送的 MQTT 消息的“保留”标志。</br>允许使用带有变量的模板。</br>",
-                        "label": "保留消息标志",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "payload": {
-                        "description": "</br>要发送的 MQTT 消息的负载。</br>允许使用带有变量的模板。</br>",
-                        "label": "消息负载",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_bridge_mqtt_schema.post_ingress": {
-                "required": [
-                    "remote_topic",
-                    "connector",
-                    "direction",
-                    "name",
-                    "type"
-                ],
-                "properties": {
                     "type": {
-                        "description": "Bridge 的类型",
-                        "label": "Bridge 类型",
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
                         "symbols": [
-                            "mqtt"
+                            "influxdb_api_v2"
                         ],
                         "type": "enum"
                     },
                     "name": {
-                        "description": "Bridge 名字，Bridge 的可读描述",
-                        "label": "Bridge 名字",
-                        "type": "string"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The ingress config defines how this bridge receive messages from the remote MQTT broker, and then</br>send them to the local broker.</br>Template with variables is allowed in 'local_topic', 'remote_qos', 'qos', 'retain',</br>'payload'.</br>NOTE: if this bridge is used as the input of a rule (emqx rule engine), and also local_topic is</br>configured, then messages got from the remote broker will be sent to both the 'local_topic' and</br>the rule.</br>",
-                        "label": "direction",
-                        "symbols": [
-                            "ingress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connector": {
-                        "description": "</br>Bridge 使用的 Connector 的 ID 或者配置。Connector ID 的格式必须为：<code>{type}:{name}</code>.</br>在配置文件中，您可以通过以下路径找到 Connector 的相应配置条目：'connector.{type}.{name}'。</br>",
-                        "example": "mqtt:my_mqtt_connector",
-                        "label": "Connector ID",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector-mqtt.connector"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "remote_topic": {
-                        "description": "从远程broker的哪个topic接收消息",
-                        "label": "远程主题",
-                        "type": "string"
-                    },
-                    "remote_qos": {
-                        "default": 1,
-                        "description": "订阅远程borker时要使用的 QoS 级别",
-                        "label": "远程 QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "local_topic": {
-                        "description": "</br>向本地broker的哪个topic发送消息。</br>允许使用带有变量的模板。</br>",
-                        "label": "本地主题",
-                        "type": "string"
-                    },
-                    "local_qos": {
-                        "default": "${qos}",
-                        "description": "</br>待发送 MQTT 消息的 QoS。</br>允许使用带有变量的模板。</br>",
-                        "label": "本地 QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "retain": {
-                        "default": "${retain}",
-                        "description": "</br>要发送的 MQTT 消息的“保留”标志。</br>允许使用带有变量的模板。</br>",
-                        "label": "保留消息标志",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "payload": {
-                        "default": "${payload}",
-                        "description": "</br>要发送的 MQTT 消息的负载。</br>允许使用带有变量的模板。</br>",
-                        "label": "消息负载",
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
                         "type": "string"
                     }
                 },
@@ -2413,7 +1753,756 @@
                 },
                 "type": "object"
             },
-            "emqx_ee_connector_hstream.config": {
+            "broker.ssl_client_opts": {
+                "properties": {
+                    "cacertfile": {
+                        "description": "</br>受信任的PEM格式CA证书捆绑文件</br>此文件中的证书用于验证TLS对等方的证书。</br>如果要信任新CA，请将新证书附加到文件中。</br>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）</br>注意：从文件中失效（删除）证书不会影响已建立的连接。</br>",
+                        "label": "CA 证书文件",
+                        "type": "string"
+                    },
+                    "certfile": {
+                        "description": "</br>PEM格式证书链文件</br>此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，然后是直接颁发者证书，依此类推。</br>虽然根CA证书是可选的，但它应该放在</br>如果要添加文件，请将其删除。</br>",
+                        "label": "证书文件",
+                        "type": "string"
+                    },
+                    "keyfile": {
+                        "description": "</br>PEM格式的私钥文件。</br>",
+                        "label": "私钥文件",
+                        "type": "string"
+                    },
+                    "verify": {
+                        "default": "verify_none",
+                        "description": "</br>启用或禁用对等验证。</br>",
+                        "label": "对等验证",
+                        "symbols": [
+                            "verify_peer",
+                            "verify_none"
+                        ],
+                        "type": "enum"
+                    },
+                    "reuse_sessions": {
+                        "default": true,
+                        "description": "</br>启用 TLS 会话重用。</br>",
+                        "label": "TLS 会话重用",
+                        "type": "boolean"
+                    },
+                    "depth": {
+                        "default": 10,
+                        "description": "</br>在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。因此，如果深度为0，则对等方必须由受信任的根CA直接签名；如果1，路径可以是PEER、CA、ROOT-CA；如果是2，则路径可以是PEER、CA、CA、ROOT-CA等等。默认值为10。</br>",
+                        "label": "CA 证书深度",
+                        "type": "number"
+                    },
+                    "password": {
+                        "description": "</br>包含用户密码的字符串。</br>仅在私钥文件受密码保护时使用。</br>",
+                        "example": "",
+                        "label": "秘钥文件密码",
+                        "type": "string"
+                    },
+                    "versions": {
+                        "default": [
+                            "tlsv1.3",
+                            "tlsv1.2",
+                            "tlsv1.1",
+                            "tlsv1"
+                        ],
+                        "description": "</br>支持所有TLS/DTLS版本</br></br>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "SSL 版本",
+                        "type": "array"
+                    },
+                    "ciphers": {
+                        "default": [
+                            "TLS_AES_256_GCM_SHA384",
+                            "TLS_AES_128_GCM_SHA256",
+                            "TLS_CHACHA20_POLY1305_SHA256",
+                            "TLS_AES_128_CCM_SHA256",
+                            "TLS_AES_128_CCM_8_SHA256",
+                            "ECDHE-ECDSA-AES256-GCM-SHA384",
+                            "ECDHE-RSA-AES256-GCM-SHA384",
+                            "ECDHE-ECDSA-AES256-SHA384",
+                            "ECDHE-RSA-AES256-SHA384",
+                            "ECDH-ECDSA-AES256-GCM-SHA384",
+                            "ECDH-RSA-AES256-GCM-SHA384",
+                            "ECDH-ECDSA-AES256-SHA384",
+                            "ECDH-RSA-AES256-SHA384",
+                            "DHE-DSS-AES256-GCM-SHA384",
+                            "DHE-DSS-AES256-SHA256",
+                            "AES256-GCM-SHA384",
+                            "AES256-SHA256",
+                            "ECDHE-ECDSA-AES128-GCM-SHA256",
+                            "ECDHE-RSA-AES128-GCM-SHA256",
+                            "ECDHE-ECDSA-AES128-SHA256",
+                            "ECDHE-RSA-AES128-SHA256",
+                            "ECDH-ECDSA-AES128-GCM-SHA256",
+                            "ECDH-RSA-AES128-GCM-SHA256",
+                            "ECDH-ECDSA-AES128-SHA256",
+                            "ECDH-RSA-AES128-SHA256",
+                            "DHE-DSS-AES128-GCM-SHA256",
+                            "DHE-DSS-AES128-SHA256",
+                            "AES128-GCM-SHA256",
+                            "AES128-SHA256",
+                            "ECDHE-ECDSA-AES256-SHA",
+                            "ECDHE-RSA-AES256-SHA",
+                            "DHE-DSS-AES256-SHA",
+                            "ECDH-ECDSA-AES256-SHA",
+                            "ECDH-RSA-AES256-SHA",
+                            "ECDHE-ECDSA-AES128-SHA",
+                            "ECDHE-RSA-AES128-SHA",
+                            "DHE-DSS-AES128-SHA",
+                            "ECDH-ECDSA-AES128-SHA",
+                            "ECDH-RSA-AES128-SHA",
+                            "RSA-PSK-AES256-GCM-SHA384",
+                            "RSA-PSK-AES256-CBC-SHA384",
+                            "RSA-PSK-AES128-GCM-SHA256",
+                            "RSA-PSK-AES128-CBC-SHA256",
+                            "RSA-PSK-AES256-CBC-SHA",
+                            "RSA-PSK-AES128-CBC-SHA"
+                        ],
+                        "description": "</br>此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如</br><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或</br><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。</br></br>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。</br>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。</br></br>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。</br>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式</br>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。</br>不兼容的密码套件将被自动删除。</br></br>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。</br></br></br>注：PSK 的 Ciphers 不支持 tlsv1.3</br>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。</br></br></br>PSK 密码套件：</br><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,</br>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,</br>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,</br>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code></br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "",
+                        "type": "array"
+                    },
+                    "user_lookup_fun": {
+                        "default": "emqx_tls_psk:lookup",
+                        "description": "</br>用于查找预共享密钥（PSK）标识的 EMQX 内部回调。</br>",
+                        "label": "SSL PSK 用户回调",
+                        "type": "string"
+                    },
+                    "secure_renegotiate": {
+                        "default": true,
+                        "description": "</br>SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。</br>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。</br>",
+                        "label": "SSL 重新协商",
+                        "type": "boolean"
+                    },
+                    "enable": {
+                        "default": false,
+                        "description": "启用 TLS",
+                        "label": "启用 TLS",
+                        "type": "boolean"
+                    },
+                    "server_name_indication": {
+                        "description": "</br>指定要在 TLS 服务器名称指示扩展中使用的主机名</br>例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，</br>例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时</br>如果未指定，它将默认为使用的主机名字符串</br>建立连接，除非使用 IP 地址</br>然后，主机名也用于对等机的主机名验证</br>证书</br>特殊值'disable'阻止发送服务器名称指示扩展，并禁用主机名验证检查。</br>",
+                        "example": "disable",
+                        "label": "服务器名称指示",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "symbols": [
+                                    "disable"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "connector-mqtt.replayq": {
+                "properties": {
+                    "dir": {
+                        "description": "</br>replayq 文件保存的目录。</br>设置为 'false' 会禁用 replayq 功能。</br>",
+                        "label": "Replyq 文件保存目录",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "boolean"
+                            }
+                        ]
+                    },
+                    "seg_bytes": {
+                        "default": "100MB",
+                        "description": "</br>单个段的大小（以字节为单位）。</br>一个段映射到 replayq 目录中的一个文件。 如果当前段已满，则新段（文件）将被打开写入。</br>",
+                        "label": "Segment 大小",
+                        "type": "byteSize"
+                    },
+                    "offload": {
+                        "default": false,
+                        "description": "</br>在Offload模式下，磁盘队列仅用于卸载队列尾段。</br>消息首先缓存在内存中，然后写入replayq文件。内存缓大小为“seg_bytes” 指定的值。</br>",
+                        "label": "Offload 模式",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_hstreamdb.get": {
+                "required": [
+                    "connector",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "hstreamdb"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "payload": {
+                        "default": "${payload}",
+                        "description": "要转发到 HStreamDB 的数据内容，支持占位符",
+                        "label": "消息内容",
+                        "type": "string"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "hstreamdb:demo",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_hstreamdb.config"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge.put": {
+                "required": [
+                    "connector"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "label": "连接器通用配置。",
+                        "$ref": "#/components/schemas/bridge.connector"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge.connector": {
+                "required": [
+                    "database",
+                    "server"
+                ],
+                "properties": {
+                    "server": {
+                        "description": "</br>将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MySQL 默认端口 3306。</br>",
+                        "label": "服务器地址",
+                        "type": "ip_port"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "自动重连数据库。",
+                        "label": "自动重连数据库",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "prepare_statement": {
+                        "default": {
+                            "send_message": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))"
+                        },
+                        "description": "SQL 预处理语句列表。",
+                        "example": {
+                            "send_message": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))"
+                        },
+                        "label": "SQL 预处理语句列表",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_influxdb.get_udp": {
+                "required": [
+                    "name",
+                    "type",
+                    "connector",
+                    "write_syntax"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "写语句",
+                        "type": "array"
+                    },
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_udp:connector",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_udp"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "influxdb_udp"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge.post": {
+                "required": [
+                    "connector",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mysql"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "label": "连接器通用配置。",
+                        "$ref": "#/components/schemas/bridge.connector"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_webhook.post": {
+                "required": [
+                    "url",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "Bridge 类型",
+                        "symbols": [
+                            "webhook"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge 名字，Bridge 的可读描述",
+                        "label": "Bridge 名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用 Bridge",
+                        "label": "启用/禁用 Bridge",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "Bridge 的方向， 必须是 egress",
+                        "label": "Bridge 方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "连接HTTP服务器的超时时间。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "pool_type": {
+                        "default": "random",
+                        "description": "连接池的类型，可用类型有`random`, `hash`。",
+                        "label": "连接池类型",
+                        "symbols": [
+                            "random",
+                            "hash"
+                        ],
+                        "type": "enum"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "enable_pipelining": {
+                        "default": 100,
+                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
+                        "label": "HTTP 管道",
+                        "type": "string"
+                    },
+                    "request": {
+                        "description": "</br>如果提供了请求，调用者可以通过以下方式发送 HTTP 请求</br><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code></br>",
+                        "label": "HTTP 请求",
+                        "$ref": "#/components/schemas/connector-http.request"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "url": {
+                        "description": "</br>HTTP Bridge 的 URL。</br>路径中允许使用带变量的模板，但是 host， port 不允许使用变量模板。</br>例如，<code> http://localhost:9901/${topic} </code> 是允许的，</br>但是<code> http://${host}:9901/message </code></br>或 <code> http://localhost:${port}/message </code></br>不允许。</br>",
+                        "label": "HTTP Bridge",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "method": {
+                        "default": "post",
+                        "description": "</br>HTTP 请求的方法。 所有可用的方法包括：post、put、get、delete。</br>允许使用带有变量的模板。</br>",
+                        "label": "HTTP 请求方法",
+                        "symbols": [
+                            "post",
+                            "put",
+                            "get",
+                            "delete"
+                        ],
+                        "type": "enum"
+                    },
+                    "headers": {
+                        "default": {
+                            "accept": "application/json",
+                            "cache-control": "no-cache",
+                            "connection": "keep-alive",
+                            "content-type": "application/json",
+                            "keep-alive": "timeout=5"
+                        },
+                        "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
+                        "label": "HTTP 请求标头",
+                        "type": "string"
+                    },
+                    "body": {
+                        "default": "${payload}",
+                        "description": "</br>HTTP 请求的正文。</br>允许使用带有变量的模板。",
+                        "label": "HTTP 请求正文",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "HTTP 请求失败最大重试次数",
+                        "label": "HTTP 请求重试次数",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP 请求超时",
+                        "label": "HTTP 请求超时",
+                        "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_webhook.put": {
+                "required": [
+                    "url"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用 Bridge",
+                        "label": "启用/禁用 Bridge",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "Bridge 的方向， 必须是 egress",
+                        "label": "Bridge 方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "连接HTTP服务器的超时时间。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "pool_type": {
+                        "default": "random",
+                        "description": "连接池的类型，可用类型有`random`, `hash`。",
+                        "label": "连接池类型",
+                        "symbols": [
+                            "random",
+                            "hash"
+                        ],
+                        "type": "enum"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "enable_pipelining": {
+                        "default": 100,
+                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
+                        "label": "HTTP 管道",
+                        "type": "string"
+                    },
+                    "request": {
+                        "description": "</br>如果提供了请求，调用者可以通过以下方式发送 HTTP 请求</br><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code></br>",
+                        "label": "HTTP 请求",
+                        "$ref": "#/components/schemas/connector-http.request"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "url": {
+                        "description": "</br>HTTP Bridge 的 URL。</br>路径中允许使用带变量的模板，但是 host， port 不允许使用变量模板。</br>例如，<code> http://localhost:9901/${topic} </code> 是允许的，</br>但是<code> http://${host}:9901/message </code></br>或 <code> http://localhost:${port}/message </code></br>不允许。</br>",
+                        "label": "HTTP Bridge",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "method": {
+                        "default": "post",
+                        "description": "</br>HTTP 请求的方法。 所有可用的方法包括：post、put、get、delete。</br>允许使用带有变量的模板。</br>",
+                        "label": "HTTP 请求方法",
+                        "symbols": [
+                            "post",
+                            "put",
+                            "get",
+                            "delete"
+                        ],
+                        "type": "enum"
+                    },
+                    "headers": {
+                        "default": {
+                            "accept": "application/json",
+                            "cache-control": "no-cache",
+                            "connection": "keep-alive",
+                            "content-type": "application/json",
+                            "keep-alive": "timeout=5"
+                        },
+                        "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
+                        "label": "HTTP 请求标头",
+                        "type": "string"
+                    },
+                    "body": {
+                        "default": "${payload}",
+                        "description": "</br>HTTP 请求的正文。</br>允许使用带有变量的模板。",
+                        "label": "HTTP 请求正文",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "HTTP 请求失败最大重试次数",
+                        "label": "HTTP 请求重试次数",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP 请求超时",
+                        "label": "HTTP 请求超时",
+                        "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
+            "connector_hstreamdb.config": {
                 "required": [
                     "pool_size",
                     "stream",
@@ -2443,177 +2532,164 @@
                 },
                 "type": "object"
             },
-            "emqx_ee_connector_influxdb.influxdb_api_v1": {
+            "emqx_bridge_mqtt_schema.post_ingress": {
                 "required": [
-                    "pool_size",
-                    "port",
-                    "host",
-                    "password",
-                    "username",
-                    "database"
+                    "remote_topic",
+                    "connector",
+                    "direction",
+                    "name",
+                    "type"
                 ],
                 "properties": {
-                    "database": {
-                        "description": "InfluxDB 数据库。",
-                        "label": "数据库",
-                        "type": "string"
-                    },
-                    "username": {
-                        "description": "InfluxDB 用户名。",
-                        "label": "用户名",
-                        "type": "string"
-                    },
-                    "password": {
-                        "description": "InfluxDB 密码。",
-                        "label": "密码",
-                        "type": "string"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    },
-                    "host": {
-                        "default": "120.0.0.1",
-                        "description": "InfluxDB 主机地址。",
-                        "label": "主机",
-                        "type": "string"
-                    },
-                    "port": {
-                        "default": 8086,
-                        "description": "InfluxDB 端口。",
-                        "label": "端口",
-                        "type": "string"
-                    },
-                    "precision": {
-                        "default": "ms",
-                        "description": "InfluxDB 时间精度。",
-                        "label": "时间精度",
+                    "type": {
+                        "description": "Bridge 的类型",
+                        "label": "Bridge 类型",
                         "symbols": [
-                            "ns",
-                            "us",
-                            "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "mqtt"
                         ],
                         "type": "enum"
                     },
-                    "pool_size": {
-                        "description": "InfluxDB 连接池大小",
-                        "label": "InfluxDB 连接池大小",
+                    "name": {
+                        "description": "Bridge 名字，Bridge 的可读描述",
+                        "label": "Bridge 名字",
+                        "type": "string"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The ingress config defines how this bridge receive messages from the remote MQTT broker, and then</br>send them to the local broker.</br>Template with variables is allowed in 'local_topic', 'remote_qos', 'qos', 'retain',</br>'payload'.</br>NOTE: if this bridge is used as the input of a rule (emqx rule engine), and also local_topic is</br>configured, then messages got from the remote broker will be sent to both the 'local_topic' and</br>the rule.</br>",
+                        "label": "direction",
+                        "symbols": [
+                            "ingress"
+                        ],
+                        "type": "enum"
+                    },
+                    "connector": {
+                        "description": "</br>Bridge 使用的 Connector 的 ID 或者配置。Connector ID 的格式必须为：<code>{type}:{name}</code>.</br>在配置文件中，您可以通过以下路径找到 Connector 的相应配置条目：'connector.{type}.{name}'。</br>",
+                        "example": "mqtt:my_mqtt_connector",
+                        "label": "Connector ID",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector-mqtt.connector"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "remote_topic": {
+                        "description": "从远程broker的哪个topic接收消息",
+                        "label": "远程主题",
+                        "type": "string"
+                    },
+                    "remote_qos": {
+                        "default": 1,
+                        "description": "订阅远程borker时要使用的 QoS 级别",
+                        "label": "远程 QoS",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "symbols": [
+                                    0,
+                                    1,
+                                    2
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "local_topic": {
+                        "description": "</br>向本地broker的哪个topic发送消息。</br>允许使用带有变量的模板。</br>",
+                        "label": "本地主题",
+                        "type": "string"
+                    },
+                    "local_qos": {
+                        "default": "${qos}",
+                        "description": "</br>待发送 MQTT 消息的 QoS。</br>允许使用带有变量的模板。</br>",
+                        "label": "本地 QoS",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "symbols": [
+                                    0,
+                                    1,
+                                    2
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "retain": {
+                        "default": "${retain}",
+                        "description": "</br>要发送的 MQTT 消息的“保留”标志。</br>允许使用带有变量的模板。</br>",
+                        "label": "保留消息标志",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "boolean"
+                            }
+                        ]
+                    },
+                    "payload": {
+                        "default": "${payload}",
+                        "description": "</br>要发送的 MQTT 消息的负载。</br>允许使用带有变量的模板。</br>",
+                        "label": "消息负载",
                         "type": "string"
                     }
                 },
                 "type": "object"
             },
-            "emqx_ee_connector_influxdb.influxdb_api_v2": {
+            "bridge_influxdb.put_udp": {
                 "required": [
-                    "pool_size",
-                    "port",
-                    "host",
-                    "token",
-                    "org",
-                    "bucket"
+                    "connector",
+                    "write_syntax"
                 ],
                 "properties": {
-                    "bucket": {
-                        "description": "InfluxDB bucket 名称",
-                        "label": "Bucket",
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "label": "本地 Topic",
                         "type": "string"
                     },
-                    "org": {
-                        "description": "InfluxDB 组织名称。",
-                        "label": "组织",
-                        "type": "string"
-                    },
-                    "token": {
-                        "description": "InfluxDB token。",
-                        "label": "Token",
-                        "type": "string"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
+                    "write_syntax": {
+                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "items": {
+                            "type": "string"
                         },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                        "label": "写语句",
+                        "type": "array"
                     },
-                    "host": {
-                        "default": "120.0.0.1",
-                        "description": "InfluxDB 主机地址。",
-                        "label": "主机",
-                        "type": "string"
-                    },
-                    "port": {
-                        "default": 8086,
-                        "description": "InfluxDB 端口。",
-                        "label": "端口",
-                        "type": "string"
-                    },
-                    "precision": {
-                        "default": "ms",
-                        "description": "InfluxDB 时间精度。",
-                        "label": "时间精度",
-                        "symbols": [
-                            "ns",
-                            "us",
-                            "ms",
-                            "s",
-                            "m",
-                            "h"
-                        ],
-                        "type": "enum"
-                    },
-                    "pool_size": {
-                        "description": "InfluxDB 连接池大小",
-                        "label": "InfluxDB 连接池大小",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_ee_connector_influxdb.influxdb_udp": {
-                "required": [
-                    "pool_size",
-                    "port",
-                    "host"
-                ],
-                "properties": {
-                    "host": {
-                        "default": "120.0.0.1",
-                        "description": "InfluxDB 主机地址。",
-                        "label": "主机",
-                        "type": "string"
-                    },
-                    "port": {
-                        "default": 8086,
-                        "description": "InfluxDB 端口。",
-                        "label": "端口",
-                        "type": "string"
-                    },
-                    "precision": {
-                        "default": "ms",
-                        "description": "InfluxDB 时间精度。",
-                        "label": "时间精度",
-                        "symbols": [
-                            "ns",
-                            "us",
-                            "ms",
-                            "s",
-                            "m",
-                            "h"
-                        ],
-                        "type": "enum"
-                    },
-                    "pool_size": {
-                        "description": "InfluxDB 连接池大小",
-                        "label": "InfluxDB 连接池大小",
-                        "type": "string"
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "example": "influxdb_udp:connector",
+                        "label": "连接器通用配置。",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector_influxdb.influxdb_udp"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     }
                 },
                 "type": "object"
@@ -2645,6 +2721,9 @@
                             "$ref": "#/components/schemas/bridge.get"
                         },
                         {
+                            "$ref": "#/components/schemas/bridge_webhook.get"
+                        },
+                        {
                             "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_egress"
                         },
                         {
@@ -2674,6 +2753,9 @@
                         "$ref": "#/components/schemas/bridge.get"
                     },
                     {
+                        "$ref": "#/components/schemas/bridge_webhook.get"
+                    },
+                    {
                         "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_egress"
                     },
                     {
@@ -2697,6 +2779,9 @@
                     },
                     {
                         "$ref": "#/components/schemas/bridge.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_webhook.get"
                     },
                     {
                         "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_egress"
