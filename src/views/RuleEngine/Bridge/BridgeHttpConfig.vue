@@ -242,20 +242,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/style/rule.scss';
-.tls-config-form {
-  :deep(.TLS-base-config) {
-    .TLS-base-config-title {
-      font-size: 14px;
-      font-weight: normal;
-    }
-  }
-  :deep(.TLS-enable-config) {
-    .TLS-input {
-      width: 100%;
-    }
-  }
-}
-
 .payload-desc {
   margin-top: 4px;
   margin-bottom: 0;

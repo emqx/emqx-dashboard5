@@ -117,6 +117,12 @@
   .item-desc {
     width: 100%;
   }
+  .common-tls-config {
+    flex-grow: 1;
+    .TLS-input {
+      width: 100%;
+    }
+  }
 }
 .read-only-tooltip.el-popper {
   width: 210px;
