@@ -45,7 +45,7 @@
               ref="formCom"
             />
             <bridge-mqtt-config
-              v-if="chosenBridgeType === BridgeType.MQTT"
+              v-else-if="chosenBridgeType === BridgeType.MQTT"
               v-model="bridgeData"
               ref="formCom"
             />
@@ -113,7 +113,7 @@
         ref="formCom"
       />
       <bridge-mqtt-config
-        v-if="chosenBridgeType === BridgeType.MQTT"
+        v-else-if="chosenBridgeType === BridgeType.MQTT"
         v-model="bridgeData"
         ref="formCom"
       />
