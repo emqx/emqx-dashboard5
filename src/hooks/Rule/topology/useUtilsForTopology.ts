@@ -4,7 +4,7 @@ import {
   RULE_INPUT_EVENT_PREFIX,
   RULE_TOPOLOGY_ID,
 } from '@/common/constants'
-import { BridgeType, MQTTBridgeDirection, RuleOutput } from '@/types/enum'
+import { BridgeType, RuleOutput } from '@/types/enum'
 import { BridgeItem, MQTTIn, MQTTOut, OutputItem } from '@/types/rule'
 import {
   NodeItem,
@@ -148,9 +148,9 @@ export default (): {
     ) {
       return
     }
-    const { remote_topic, direction, id: bridgeID } = bridge
+    const { remote_topic, id: bridgeID } = bridge
     const bridgeNodeId = createNodeId(bridgeID, OtherNodeType.Bridge)
-    const topicNodeId = createBridgeTopicId(bridge)
+    const topicNodeId = createBridgeTopicId(bridge as MQTTIn | MQTTOut)
     const node = {
       id: topicNodeId,
       label: cutLabel(remote_topic),
