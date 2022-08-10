@@ -304,18 +304,24 @@ const SchemaForm = defineComponent({
               </a>
             </el-dropdown>
           )}
-          <el-tooltip
-            disabled={!property.readOnly}
-            popper-class="read-only-tooltip"
-            content={t('BasicConfig.readOnlyTip')}
-            placement="right"
-            effect="dark"
-          >
+          {property.readOnly ? (
+            <el-tooltip
+              popper-class="read-only-tooltip"
+              content={t('BasicConfig.readOnlyTip')}
+              placement="right"
+              effect="dark"
+            >
+              <el-form-item label={property.label} prop={property.path}>
+                <p class="item-desc" v-html={property.description}></p>
+                {setControl(property)}
+              </el-form-item>
+            </el-tooltip>
+          ) : (
             <el-form-item label={property.label} prop={property.path}>
               <p class="item-desc" v-html={property.description}></p>
               {setControl(property)}
             </el-form-item>
-          </el-tooltip>
+          )}
         </el-col>
       )
       // Cluster form add Invite Node component
