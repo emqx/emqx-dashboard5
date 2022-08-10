@@ -71,8 +71,9 @@
                   :edit="true"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
-                <bridge-influxdb-v1-config
-                  v-if="bridgeInfo.type === BridgeType.InfluxDBV1"
+                <using-schema-bridge-config
+                  v-else-if="!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.type)"
+                  :type="bridgeInfo.type"
                   v-model="bridgeInfo"
                   ref="formCom"
                 />
@@ -128,7 +129,7 @@ import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import BridgeInfluxdbV1Config from './Components/BridgeInfluxdbV1Config.vue'
+import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
 enum Tab {
   Overview = 'overview',
