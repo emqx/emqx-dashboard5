@@ -70,6 +70,11 @@
                   ref="formCom"
                   :edit="true"
                 />
+                <bridge-influxdb-v1-config
+                  v-if="bridgeInfo.type === BridgeType.InfluxDBV1"
+                  v-model="bridgeInfo"
+                  ref="formCom"
+                />
               </div>
               <div v-if="!isFromRule" class="btn-area">
                 <el-button
@@ -121,6 +126,7 @@ import { BridgeType } from '@/types/enum'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
+import BridgeInfluxdbV1Config from './Components/BridgeInfluxdbV1Config.vue'
 
 enum Tab {
   Overview = 'overview',
