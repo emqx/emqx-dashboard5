@@ -77,10 +77,7 @@ const SchemaForm = defineComponent({
     const configForm = ref<{ [key: string]: any }>({})
     const schemaLoadPath =
       props.schemaFilePath || `static/hot-config-schema-${store.state.lang}.json`
-    const { components, flattenConfigs, unflattenConfigs } = useSchemaForm(
-      schemaLoadPath,
-      props.accordingTo,
-    )
+    const { components } = useSchemaForm(schemaLoadPath, props.accordingTo)
     const { initRecordByComponents } = useSchemaRecord()
 
     ctx.expose({ configForm })
@@ -110,7 +107,9 @@ const SchemaForm = defineComponent({
     watch(
       () => props.form,
       (value) => {
-        configForm.value = _.cloneDeep(flattenConfigs(value))
+        if (value) {
+          configForm.value = _.cloneDeep(value)
+        }
       },
     )
 
@@ -345,8 +344,7 @@ const SchemaForm = defineComponent({
     }
 
     const save = () => {
-      const value = unflattenConfigs(configForm.value)
-      ctx.emit('save', value)
+      ctx.emit('save', configForm.value)
     }
 
     const renderLayout = (contents: JSX.Element[]) => {
@@ -484,7 +482,6 @@ const SchemaForm = defineComponent({
     }
 
     onMounted(() => {
-      // TODO:TODO:TODO:confirm
       if (props.form) {
         configForm.value = _.cloneDeep(props.form)
       }
