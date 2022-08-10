@@ -69,7 +69,7 @@
                   :edit="true"
                 />
                 <bridge-mqtt-config
-                  v-if="bridgeInfo.type === BridgeType.MQTT"
+                  v-else-if="bridgeInfo.type === BridgeType.MQTT"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
@@ -87,7 +87,7 @@
                 </el-button>
                 <el-button
                   type="primary"
-                  v-if="bridgeInfo.type"
+                  v-else-if="bridgeInfo.type"
                   :loading="updateLoading"
                   @click="updateBridgeInfo()"
                 >
