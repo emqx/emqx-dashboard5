@@ -84,6 +84,12 @@ export const useBridgeTypeOptions = (): {
       label: tl('influxDBUDPLabel'),
       desc: tl('influxDBUDPDesc'),
     },
+    {
+      value: BridgeType.MySQL,
+      valueForRadio: BridgeType.MySQL,
+      label: tl('mySQL'),
+      desc: tl('mySQLDesc'),
+    },
   ]
 
   const getTrueTypeObjByRadioValue = (radioValue: string) =>
