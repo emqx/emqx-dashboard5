@@ -299,7 +299,13 @@ const SchemaForm = defineComponent({
             />
           )
         case 'ssl':
-          return <CommonTLSConfig modelValue={modelValue} {...handleUpdateModelValue} />
+          return (
+            <CommonTLSConfig
+              modelValue={modelValue}
+              isEdit={!!props.form}
+              {...handleUpdateModelValue}
+            />
+          )
         case 'sql':
           return (
             <div class="monaco-container">
