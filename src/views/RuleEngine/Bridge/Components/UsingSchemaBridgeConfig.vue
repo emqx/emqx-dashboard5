@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="schema-bridge bridge-config">
     <schema-form
       v-if="getRefKey"
       ref="formCom"
@@ -10,6 +10,11 @@
       :schema-file-path="`static/bridge-api-${store.state.lang}.json`"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
       :btn-loading="saveLoading"
+      :form-item-span="12"
+      :use-tooltip-show-desc="true"
+      :props-order-map="{ name: 0 }"
+      :custom-col-class="customColClass"
+      :custom-label-map="customLabelMap"
     >
     </schema-form>
   </div>
@@ -20,6 +25,7 @@ import { ref, defineExpose, defineProps, computed, defineEmits, PropType } from 
 import { useStore } from 'vuex'
 import SchemaForm from '@/components/SchemaForm'
 import { BridgeType } from '@/types/enum'
+import useI18nTl from '@/hooks/useI18nTl'
 
 type UseSchemaBridgeType = Exclude<BridgeType, BridgeType.MQTT | BridgeType.Webhook>
 
@@ -43,10 +49,23 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const store = useStore()
+const { tl } = useI18nTl('RuleEngine')
 
 const saveLoading = ref(false)
 
 const formCom = ref()
+
+const customColClass = {
+  name: 'col-name',
+  direction: 'col-hidden',
+  type: 'col-hidden',
+  enable: 'col-hidden',
+  'connector.ssl': 'col-ssl',
+}
+
+const customLabelMap = {
+  name: tl('name'),
+}
 
 const getRefKey = computed(() => {
   if (!props.type) {
@@ -75,3 +94,27 @@ const getFormRecord = () => {
 
 defineExpose({ getFormRecord, validate })
 </script>
+
+<style lang="scss">
+.schema-bridge {
+  .col-name {
+    // To squeeze the next column down
+    margin-right: 40%;
+  }
+  .col-hidden {
+    display: none;
+  }
+  // hide first label
+  .col-ssl {
+    > .el-form-item {
+      > .el-form-item__label {
+        display: none;
+      }
+    }
+  }
+  .schema-form .el-form-item__label {
+    font-size: var(--el-form-label-font-size);
+    color: var(--el-text-color-regular);
+  }
+}
+</style>
