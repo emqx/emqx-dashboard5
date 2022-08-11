@@ -15,6 +15,8 @@ import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import useSSL from '@/hooks/useSSL'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import Monaco from '@/components/Monaco.vue'
+import { createRandomString } from '@/common/tools'
 
 interface FormItemMeta {
   col: number
@@ -36,6 +38,7 @@ const SchemaForm = defineComponent({
     Setting,
     CommonTLSConfig,
     InfoTooltip: InfoTooltip as any,
+    Monaco,
   },
   props: {
     accordingTo: {
@@ -296,13 +299,28 @@ const SchemaForm = defineComponent({
           )
         case 'ssl':
           return <CommonTLSConfig modelValue={modelValue} {...handleUpdateModelValue} />
+        case 'sql':
+          return (
+            <div class="monaco-container">
+              <Monaco
+                id={createRandomString()}
+                modelValue={modelValue}
+                {...handleUpdateModelValue}
+                lang="sql"
+                disabled={isPropertyDisabled}
+              />
+            </div>
+          )
         default:
           return stringInput
       }
     }
+
     const setControl = (property: Properties[string]) => {
       if (property.oneOf && !property.type) {
         property.type = 'oneof'
+      } else if (property.format === 'sql' && property.type === 'string') {
+        property.type = 'sql'
       }
       if (!property.type) return
       return switchComponent(property)
@@ -340,11 +358,11 @@ const SchemaForm = defineComponent({
     /**
      * if property with special col span, return it, else return undefined
      */
-    const getColSpan = ({ path }: Property): number | undefined => {
+    const getColSpan = ({ path, format }: Property): number | undefined => {
       if (!path) {
         return
       }
-      if (SSL_PATH_REG.test(path)) {
+      if (SSL_PATH_REG.test(path) || format === 'sql') {
         return 24
       }
       return

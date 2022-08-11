@@ -14,6 +14,7 @@ export interface Property {
   items: Properties[string]
   oneOf: Properties[string][]
   properties?: Properties
+  format?: string
 }
 
 export interface Properties {
