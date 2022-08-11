@@ -4,6 +4,7 @@
       v-if="getRefKey"
       ref="formCom"
       type="bridge"
+      need-rules
       :need-footer="false"
       :need-record="!bridgeRecord"
       :form="bridgeRecord"
@@ -60,29 +61,58 @@ const baseOrderMap = {
   name: 0,
 }
 
-const influxDBPropsOrderMap = {
-  // root
-  ...baseOrderMap,
-  connector: 1,
-  local_topic: 6,
-  // connector level
-  host: 0,
-  port: 1,
-  database: 2,
-  username: 3,
-  password: 4,
-  precision: 5,
-  pool_size: 6,
+const propsOrderTypeMap: Record<string, Record<string, number>> = {
+  [BridgeType.InfluxDBV1]: {
+    // root
+    ...baseOrderMap,
+    host: 1,
+    port: 2,
+    database: 3,
+    username: 4,
+    password: 5,
+    precision: 6,
+    pool_size: 7,
+    write_syntax: 8,
+    local_topic: 9,
+  },
+  [BridgeType.InfluxDBV2]: {
+    // root
+    ...baseOrderMap,
+    host: 1,
+    port: 2,
+    token: 3,
+    org: 4,
+    bucket: 5,
+    pool_size: 6,
+    write_syntax: 7,
+    ssl: 8,
+  },
+  [BridgeType.InfluxDBUPD]: {
+    // root
+    ...baseOrderMap,
+    host: 1,
+    port: 2,
+    pool_size: 3,
+    write_syntax: 4,
+  },
+  [BridgeType.MySQL]: {
+    ...baseOrderMap,
+    server: 1,
+    username: 2,
+    password: 3,
+    database: 4,
+    prepare_statement: 5,
+    ssl: 6,
+    pool_size: 7,
+  },
 }
-
-// TODO:my sql
 
 const propsOrderMap = computed(() => {
   if (!props.type) {
     return baseOrderMap
   }
-  if (props.type.indexOf('influxdb') > -1) {
-    return influxDBPropsOrderMap
+  if (props.type in propsOrderTypeMap) {
+    return propsOrderTypeMap[props.type]
   }
   return baseOrderMap
 })
@@ -119,7 +149,9 @@ const bridgeRecord = computed({
 })
 
 const validate = () => {
-  // TODO:
+  if (formCom.value?.validate) {
+    return formCom.value.validate()
+  }
   return Promise.resolve()
 }
 
