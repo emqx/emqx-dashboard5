@@ -567,7 +567,8 @@ const SchemaForm = defineComponent({
       }
       const ret = propKeys
       const { propsOrderMap } = props
-      // FIXME:
+
+      // Sort roughly first, then sort finely
       for (let index = 0; index < propKeys.length; index++) {
         const key = propKeys[index]
         if (key in propsOrderMap) {
@@ -575,6 +576,12 @@ const SchemaForm = defineComponent({
           ret.splice(propsOrderMap[key], 0, key)
         }
       }
+      ret.sort((pre, next) => {
+        if (pre in propsOrderMap && next in propsOrderMap) {
+          return propsOrderMap[pre] - propsOrderMap[next]
+        }
+        return 0
+      })
       return ret
     }
 
