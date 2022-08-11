@@ -24,7 +24,7 @@ export const SSL_VERIFY_VALUE_MAP: Map<boolean, string> = new Map([
   [true, 'verify_peer'],
 ])
 
-export const DEFAULT_SSL_VERIFY_VALUE: string = SSL_VERIFY_VALUE_MAP.get(false) as string
+export const DEFAULT_SSL_VERIFY_VALUE: string = SSL_VERIFY_VALUE_MAP.get(true) as string
 
 // TODO:JSON Hex
 export const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST = [
