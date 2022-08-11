@@ -21,7 +21,6 @@ import { defineProps } from 'vue'
 defineProps({
   content: {
     type: String,
-    requried: true,
   },
 })
 </script>

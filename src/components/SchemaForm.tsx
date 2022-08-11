@@ -35,6 +35,7 @@ const SchemaForm = defineComponent({
     Oneof,
     Setting,
     CommonTLSConfig,
+    InfoTooltip: InfoTooltip as any,
   },
   props: {
     accordingTo: {
@@ -306,10 +307,11 @@ const SchemaForm = defineComponent({
       const labelSlot: any = {}
       let descEle: any = null
       if (props.useTooltipShowDesc) {
+        // FIXME: find why tooltip error
         labelSlot.label = () => (
           <div>
             <span>{label}</span>
-            <InfoTooltip content={description} />
+            <InfoTooltip {...{ content: description }} />
           </div>
         )
       } else {
