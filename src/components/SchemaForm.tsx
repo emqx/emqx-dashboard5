@@ -82,6 +82,12 @@ const SchemaForm = defineComponent({
       default: false,
     },
     /**
+     * disable by path
+     */
+    propsDisabled: {
+      type: Array as PropType<Array<string>>,
+    },
+    /**
      * sort prop by KEY
      * FIXME: No consideration of level now
      */
@@ -174,10 +180,18 @@ const SchemaForm = defineComponent({
         _.set(configForm.value, _path, event)
       }
     }
+
+    const confirmPropertyDisabled = (property: Property) => {
+      const { readOnly, path } = property
+      const { propsDisabled } = props
+      return readOnly || (propsDisabled && path && propsDisabled.includes(path))
+    }
+
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
       property.path = replaceVarPath(property.path)
       const { path } = property
+      const isPropertyDisabled = confirmPropertyDisabled(property)
 
       /**
        * do not use v-model directly because there have some prop in second level
@@ -187,7 +201,7 @@ const SchemaForm = defineComponent({
       const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
       const stringInput = (
         <el-input
-          disabled={property.readOnly}
+          disabled={isPropertyDisabled}
           placeholder={property.default?.toString()}
           modelValue={modelValue}
           {...handleUpdateModelValue}
@@ -201,7 +215,7 @@ const SchemaForm = defineComponent({
           return (
             <el-input-number
               controls-position="right"
-              disabled={property.readOnly}
+              disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
               placeholder={property.default?.toString()}
@@ -211,7 +225,7 @@ const SchemaForm = defineComponent({
         case 'enum':
           return (
             <el-select
-              disabled={property.readOnly}
+              disabled={isPropertyDisabled}
               placeholder={property.default?.toString()}
               modelValue={modelValue}
               {...handleUpdateModelValue}
@@ -225,7 +239,7 @@ const SchemaForm = defineComponent({
         case 'boolean':
           return (
             <el-switch
-              disabled={property.readOnly}
+              disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
             />
@@ -236,7 +250,7 @@ const SchemaForm = defineComponent({
               <array-editor
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
-                disabled={property.readOnly}
+                disabled={isPropertyDisabled}
                 type={property.items.type}
                 default={property.default}
               />
@@ -246,7 +260,7 @@ const SchemaForm = defineComponent({
         case 'duration':
           return (
             <time-input-with-unit-select
-              disabled={property.readOnly}
+              disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
             />
@@ -254,7 +268,7 @@ const SchemaForm = defineComponent({
         case 'byteSize':
           return (
             <input-with-unit
-              disabled={property.readOnly}
+              disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
               units={['MB', 'GB', 'KB']}
@@ -263,7 +277,7 @@ const SchemaForm = defineComponent({
         case 'percent':
           return (
             <input-with-unit
-              disabled={property.readOnly}
+              disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
               units={['%']}
@@ -277,7 +291,7 @@ const SchemaForm = defineComponent({
               modelValue={modelValue}
               {...handleUpdateModelValue}
               items={property.oneOf}
-              disabled={property.readOnly}
+              disabled={isPropertyDisabled}
             />
           )
         case 'ssl':
@@ -510,6 +524,7 @@ const SchemaForm = defineComponent({
       }
       const ret = propKeys
       const { propsOrderMap } = props
+      // FIXME:
       for (let index = 0; index < propKeys.length; index++) {
         const key = propKeys[index]
         if (key in propsOrderMap) {
