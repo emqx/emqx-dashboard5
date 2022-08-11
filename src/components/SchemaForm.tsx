@@ -123,7 +123,7 @@ const SchemaForm = defineComponent({
     const { components, rules } = useSchemaForm(schemaLoadPath, props.accordingTo, props.needRules)
     const { initRecordByComponents } = useSchemaRecord()
 
-    ctx.expose({ configForm })
+    const formCom = ref()
 
     const { t } = useI18n()
     const groups = computed(() => {
@@ -162,6 +162,13 @@ const SchemaForm = defineComponent({
         handleSSLDataWhenUseConciseSSL()
       }
     })
+
+    const validate = () => {
+      if (formCom.value?.validate) {
+        return formCom.value.validate()
+      }
+      return Promise.resolve()
+    }
 
     const replaceVarPath = (path: string) => {
       let _path = path
@@ -512,7 +519,7 @@ const SchemaForm = defineComponent({
       return (
         <>
           {tabs}
-          <el-form label-position="top" rules={rules.value} model={configForm.value}>
+          <el-form ref={formCom} label-position="top" rules={rules.value} model={configForm.value}>
             <el-row>
               {contents}
               {props.needFooter ? (
@@ -643,6 +650,8 @@ const SchemaForm = defineComponent({
         configForm.value = _.cloneDeep(props.form)
       }
     })
+
+    ctx.expose({ configForm, validate })
 
     return () => <div class="schema-form">{renderSchemaForm(components.value)}</div>
   },
