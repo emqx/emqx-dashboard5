@@ -787,9 +787,8 @@ export default {
     zh: 'MySQL',
     en: 'MySQL',
   },
-  // TODO:
   mySQLDesc: {
-    zh: 'My SQL',
-    en: 'My SQL',
+    zh: '将数据保存到 MySQL',
+    en: 'Save data to MySQL',
   },
 }
