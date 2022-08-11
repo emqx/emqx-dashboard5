@@ -27,6 +27,7 @@ const typesDoNotNeedGroups = ['bridge']
 const typesNeedConciseSSL = ['bridge']
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
+const codeBlockReg = /```<\/br>(?<code>(.|\n)+)<\/br>```/
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -333,21 +334,29 @@ const SchemaForm = defineComponent({
       return props.customLabelMap[path]
     }
 
+    const escapeCode = (desc: string) => desc.replace(codeBlockReg, (total, code) => _.escape(code))
+
     const getLabelSlotAndDescEle = (property: Property) => {
       const { description } = property
       const label = getLabel(property)
+      const descContent = <p class="item-desc" v-html={escapeCode(description)}></p>
+
       const labelSlot: any = {}
       let descEle: any = null
+
       if (props.useTooltipShowDesc) {
+        const tooltipSlots = {
+          content: () => descContent,
+        }
         // FIXME: find why tooltip error
         labelSlot.label = () => (
           <div>
             <span>{label}</span>
-            <InfoTooltip {...{ content: description }} />
+            <InfoTooltip v-slots={tooltipSlots} />
           </div>
         )
       } else {
-        descEle = <p class="item-desc" v-html={description}></p>
+        descEle = descContent
       }
       return {
         labelSlot,
