@@ -110,13 +110,17 @@ const SchemaForm = defineComponent({
     customLabelMap: {
       type: Object as PropType<Record<string, string>>,
     },
+    needRules: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props, ctx) {
     const store = useStore()
     const configForm = ref<{ [key: string]: any }>({})
     const schemaLoadPath =
       props.schemaFilePath || `static/hot-config-schema-${store.state.lang}.json`
-    const { components } = useSchemaForm(schemaLoadPath, props.accordingTo)
+    const { components, rules } = useSchemaForm(schemaLoadPath, props.accordingTo, props.needRules)
     const { initRecordByComponents } = useSchemaRecord()
 
     ctx.expose({ configForm })
@@ -354,12 +358,11 @@ const SchemaForm = defineComponent({
         const tooltipSlots = {
           content: () => descContent,
         }
-        // FIXME: find why tooltip error
         labelSlot.label = () => (
-          <div>
+          <label>
             <span>{label}</span>
             <InfoTooltip v-slots={tooltipSlots} />
-          </div>
+          </label>
         )
       } else {
         descEle = descContent
@@ -509,7 +512,7 @@ const SchemaForm = defineComponent({
       return (
         <>
           {tabs}
-          <el-form label-position="top">
+          <el-form label-position="top" rules={rules.value} model={configForm.value}>
             <el-row>
               {contents}
               {props.needFooter ? (

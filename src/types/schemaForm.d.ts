@@ -24,6 +24,7 @@ export interface Properties {
 export interface Component {
   type: string
   properties: Properties
+  required?: Array<string>
 }
 
 export interface Components {
