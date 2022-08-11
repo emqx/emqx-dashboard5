@@ -94,6 +94,7 @@ const customColClass = {
   direction: 'col-hidden',
   type: 'col-hidden',
   enable: 'col-hidden',
+  local_topic: 'col-hidden',
   'connector.ssl': 'col-ssl',
 }
 
