@@ -12,9 +12,10 @@
       :btn-loading="saveLoading"
       :form-item-span="12"
       :use-tooltip-show-desc="true"
-      :props-order-map="{ name: 0 }"
+      :props-order-map="propsOrderMap"
       :custom-col-class="customColClass"
       :custom-label-map="customLabelMap"
+      :props-disabled="propsDisabled"
     >
     </schema-form>
   </div>
@@ -54,6 +55,39 @@ const { tl } = useI18nTl('RuleEngine')
 const saveLoading = ref(false)
 
 const formCom = ref()
+
+const baseOrderMap = {
+  name: 0,
+}
+
+const influxDBPropsOrderMap = {
+  // root
+  ...baseOrderMap,
+  connector: 1,
+  local_topic: 6,
+  // connector level
+  host: 0,
+  port: 1,
+  database: 2,
+  username: 3,
+  password: 4,
+  precision: 5,
+  pool_size: 6,
+}
+
+// TODO:my sql
+
+const propsOrderMap = computed(() => {
+  if (!props.type) {
+    return baseOrderMap
+  }
+  if (props.type.indexOf('influxdb') > -1) {
+    return influxDBPropsOrderMap
+  }
+  return baseOrderMap
+})
+
+const propsDisabled = computed(() => (props.modelValue ? ['name'] : []))
 
 const customColClass = {
   name: 'col-name',
