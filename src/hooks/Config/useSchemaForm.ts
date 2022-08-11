@@ -3,7 +3,7 @@ import { ref, Ref, watch } from 'vue'
 import _ from 'lodash'
 import { InjectSchema, Properties, Component, Schema } from '@/types/schemaForm'
 import axios from 'axios'
-import { flattenObject, unflattenObject } from '@/common/tools'
+import useSchemaFormRules, { SchemaRules } from '../useSchemaFormRules'
 
 const CONNECTOR_KEY = 'connector'
 
@@ -15,14 +15,17 @@ const CONNECTOR_KEY = 'connector'
 export default function useSchemaForm(
   schemaFilePath: string,
   objForGetComponent: { path?: string; ref?: string },
+  needRules = false,
 ): {
   schema: InjectSchema
+  rules: Ref<SchemaRules>
   components: Ref<Properties>
 } {
   const schemaRequest = axios.create({
     baseURL: '',
   })
   const schema: InjectSchema = ref({})
+  const { rules, countRules } = useSchemaFormRules()
   const loadSchemaConfig = async () => {
     try {
       const configPath = schemaFilePath
@@ -51,6 +54,9 @@ export default function useSchemaForm(
       const res: Properties = {}
       const { properties, type } = component
       if (type === 'object' && properties) {
+        if (needRules) {
+          countRules(component, path)
+        }
         Object.keys(properties).forEach((key) => {
           const property: Properties[string] = _.cloneDeep(properties[key])
           property.path = path ? `${path}.${key}` : key
@@ -115,6 +121,9 @@ export default function useSchemaForm(
     return components
   }
   const handleSchemaChanged = (data: Schema) => {
+    if (needRules) {
+      rules.value = {}
+    }
     components.value = getComponents(data)
   }
   if (schema.value.paths) {
@@ -122,6 +131,7 @@ export default function useSchemaForm(
   }
   return {
     schema,
+    rules,
     components,
   }
 }
