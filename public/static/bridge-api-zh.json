@@ -30,6 +30,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
@@ -92,6 +93,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
@@ -183,6 +185,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
@@ -362,6 +365,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
@@ -755,6 +759,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
@@ -1321,6 +1326,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
@@ -1526,6 +1532,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
@@ -2125,6 +2132,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
@@ -2650,6 +2658,7 @@
                         "type": "string"
                     },
                     "write_syntax": {
+                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "label": "写语句",
                         "type": "string"
