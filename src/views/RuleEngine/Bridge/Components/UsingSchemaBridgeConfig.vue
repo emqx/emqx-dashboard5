@@ -90,7 +90,7 @@ const propsOrderMap = computed(() => {
 const propsDisabled = computed(() => (props.modelValue ? ['name'] : []))
 
 const customColClass = {
-  name: 'col-name',
+  name: 'col-name dividing-line-below',
   direction: 'col-hidden',
   type: 'col-hidden',
   enable: 'col-hidden',
@@ -146,6 +146,18 @@ defineExpose({ getFormRecord, validate })
       > .el-form-item__label {
         display: none;
       }
+    }
+  }
+  .el-col-12.dividing-line-below {
+    position: relative;
+    &::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 200%;
+      margin-top: 24px + 18px;
+      margin-bottom: 24px;
+      background-color: var(--color-border-menu);
     }
   }
   .schema-form .el-form-item__label {
