@@ -31,11 +31,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -96,11 +94,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "metrics": {
                         "description": "Bridge metrics.",
@@ -190,11 +186,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -372,11 +366,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "metrics": {
                         "description": "Bridge metrics.",
@@ -768,11 +760,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -1337,11 +1327,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -1545,11 +1533,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -2147,11 +2133,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "metrics": {
                         "description": "Bridge metrics.",
@@ -2675,11 +2659,9 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "write_syntax",
-                        "type": "array"
+                        "format": "sql",
+                        "type": "string"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
