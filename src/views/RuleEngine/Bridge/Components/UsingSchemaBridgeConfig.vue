@@ -131,6 +131,7 @@ defineExpose({ getFormRecord, validate })
 
 <style lang="scss">
 .schema-bridge {
+  min-height: 320px;
   .col-name {
     // To squeeze the next column down
     margin-right: 40%;
