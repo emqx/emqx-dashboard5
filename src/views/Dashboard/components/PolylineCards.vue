@@ -80,7 +80,6 @@ const timeRangeOptions = [
   { label: tl('last3Days'), value: 259200 },
   { label: tl('last7Days'), value: 604800 },
 ]
-const A_DAY_MS = 86400
 
 watch(timeRange, () => {
   loadChartMetrics()
@@ -191,6 +190,9 @@ onUnmounted(clearTimer)
   .big-card,
   .polyline-card {
     position: relative;
+    .el-card__body {
+      padding: 12px 8px 0;
+    }
     .card-title {
       font-size: 16px;
       color: var(--color-title-primary);
