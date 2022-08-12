@@ -59,6 +59,13 @@ const formCom = ref()
 
 const baseOrderMap = {
   name: 0,
+  query_mode: 98,
+  async_inflight_window: 99,
+  enable_batch: 100,
+  batch_size: 101,
+  batch_time: 102,
+  enable_queue: 103,
+  max_queue_bytes: 104,
 }
 
 const propsOrderTypeMap: Record<string, Record<string, number>> = {
@@ -70,10 +77,11 @@ const propsOrderTypeMap: Record<string, Record<string, number>> = {
     database: 3,
     username: 4,
     password: 5,
-    precision: 6,
-    pool_size: 7,
-    write_syntax: 8,
-    local_topic: 9,
+    pool_size: 6,
+    precision: 7,
+    resume_interval: 8,
+    write_syntax: 9,
+    local_topic: 10,
   },
   [BridgeType.InfluxDBV2]: {
     // root
@@ -84,8 +92,10 @@ const propsOrderTypeMap: Record<string, Record<string, number>> = {
     org: 4,
     bucket: 5,
     pool_size: 6,
-    write_syntax: 7,
-    ssl: 8,
+    resume_interval: 7,
+    precision: 8,
+    write_syntax: 9,
+    ssl: 10,
   },
   [BridgeType.InfluxDBUPD]: {
     // root
@@ -93,15 +103,17 @@ const propsOrderTypeMap: Record<string, Record<string, number>> = {
     host: 1,
     port: 2,
     pool_size: 3,
-    write_syntax: 4,
+    resume_interval: 4,
+    precision: 5,
+    write_syntax: 6,
   },
   [BridgeType.MySQL]: {
     ...baseOrderMap,
     server: 1,
-    username: 2,
-    password: 3,
-    database: 4,
-    prepare_statement: 5,
+    database: 2,
+    username: 3,
+    password: 4,
+    sql_template: 5,
     ssl: 6,
     pool_size: 7,
   },
@@ -120,12 +132,14 @@ const propsOrderMap = computed(() => {
 const propsDisabled = computed(() => (props.modelValue ? ['name'] : []))
 
 const customColClass = {
-  name: 'col-name dividing-line-below',
+  name: 'col-need-row dividing-line-below',
   direction: 'col-hidden',
   type: 'col-hidden',
   enable: 'col-hidden',
   local_topic: 'col-hidden',
   'connector.ssl': 'col-ssl',
+  enable_batch: 'col-need-row',
+  enable_queue: 'col-need-row',
 }
 
 const customLabelMap = {
@@ -165,7 +179,7 @@ defineExpose({ getFormRecord, validate })
 <style lang="scss">
 .schema-bridge {
   min-height: 320px;
-  .col-name {
+  .col-need-row {
     // To squeeze the next column down
     margin-right: 40%;
   }
