@@ -113,9 +113,10 @@ const propsOrderTypeMap: Record<string, Record<string, number>> = {
     database: 2,
     username: 3,
     password: 4,
-    sql_template: 5,
-    ssl: 6,
-    pool_size: 7,
+    pool_size: 5,
+    auto_reconnect: 6,
+    sql_template: 7,
+    ssl: 8,
   },
 }
 
