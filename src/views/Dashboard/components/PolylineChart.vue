@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, shallowRef } from 'vue'
+import { defineComponent, shallowRef } from 'vue'
 
 export default defineComponent({
   name: 'PolylineChart',
@@ -132,7 +132,7 @@ const setSeriesConfig = () => {
   }
 }
 
-const _formatTime = (time: string, format = 'MM-DD HH:mm') => {
+const _formatTime = (time: string, format = 'YYYY/MM/DD HH:mm') => {
   return Moment(parseInt(time)).format(format)
 }
 
@@ -199,7 +199,7 @@ const drawChart = () => {
         showMinLabel: false,
         color: props.axisColor.colorAxisLabel,
         formatter(value: string) {
-          return `${_formatTime(value, 'MM/DD')}\n${_formatTime(value, 'HH:mm')}`
+          return `${_formatTime(value, 'MM/DD')} ${_formatTime(value, 'HH:mm')}`
         },
       },
     },
