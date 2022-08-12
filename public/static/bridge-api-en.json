@@ -31,9 +31,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -94,9 +146,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "metrics": {
                         "description": "Bridge metrics.",
@@ -186,9 +290,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -366,9 +522,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "metrics": {
                         "description": "Bridge metrics.",
@@ -456,7 +664,7 @@
                     "headers": {
                         "description": "List of HTTP headers.",
                         "label": "HTTP Headers",
-                        "type": "string"
+                        "type": "object"
                     },
                     "max_retries": {
                         "description": "Max retry times if error on sending request.",
@@ -621,7 +829,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "host": {
-                        "default": "120.0.0.1",
+                        "default": "127.0.0.1",
                         "description": "InfluxDB host.",
                         "label": "Host",
                         "type": "string"
@@ -760,9 +968,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -835,7 +1095,7 @@
                 ],
                 "properties": {
                     "host": {
-                        "default": "120.0.0.1",
+                        "default": "127.0.0.1",
                         "description": "InfluxDB host.",
                         "label": "Host",
                         "type": "string"
@@ -902,7 +1162,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "host": {
-                        "default": "120.0.0.1",
+                        "default": "127.0.0.1",
                         "description": "InfluxDB host.",
                         "label": "Host",
                         "type": "string"
@@ -1126,6 +1386,13 @@
                         ],
                         "type": "enum"
                     },
+                    "sql_template": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
                     "connector": {
                         "description": "Generic configuration for the connector.",
                         "label": "Connector Generic Configuration",
@@ -1273,7 +1540,7 @@
                         },
                         "description": "</br>The headers of the HTTP request.</br>Template with variables is allowed.</br>",
                         "label": "HTTP Header",
-                        "type": "string"
+                        "type": "object"
                     },
                     "body": {
                         "default": "${payload}",
@@ -1327,9 +1594,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -1533,9 +1852,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -2035,6 +2406,13 @@
                         ],
                         "type": "enum"
                     },
+                    "sql_template": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
                     "connector": {
                         "description": "Generic configuration for the connector.",
                         "label": "Connector Generic Configuration",
@@ -2088,17 +2466,6 @@
                         "description": "SSL connection settings.",
                         "label": "Enable SSL",
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    },
-                    "prepare_statement": {
-                        "default": {
-                            "send_message": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))"
-                        },
-                        "description": "Key-value list of SQL prepared statements.",
-                        "example": {
-                            "send_message": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))"
-                        },
-                        "label": "SQL Prepared Statements List",
-                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -2133,9 +2500,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "metrics": {
                         "description": "Bridge metrics.",
@@ -2231,6 +2650,13 @@
                             "egress"
                         ],
                         "type": "enum"
+                    },
+                    "sql_template": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
@@ -2348,7 +2774,7 @@
                         },
                         "description": "</br>The headers of the HTTP request.</br>Template with variables is allowed.</br>",
                         "label": "HTTP Header",
-                        "type": "string"
+                        "type": "object"
                     },
                     "body": {
                         "default": "${payload}",
@@ -2465,7 +2891,7 @@
                         },
                         "description": "</br>The headers of the HTTP request.</br>Template with variables is allowed.</br>",
                         "label": "HTTP Header",
-                        "type": "string"
+                        "type": "object"
                     },
                     "body": {
                         "default": "${payload}",
@@ -2659,9 +3085,61 @@
                     },
                     "write_syntax": {
                         "description": "</br>Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "label": "write_syntax",
                         "format": "sql",
+                        "label": "write_syntax",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "Resume time interval when resource down.",
+                        "label": "resume_interval",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "async_inflight_window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "enable_batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "batch_size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "batch_time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "enable_queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage size in bytes.",
+                        "label": "queue_max_bytes",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "Generic configuration for the connector.",
