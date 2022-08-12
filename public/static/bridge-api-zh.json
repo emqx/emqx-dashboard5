@@ -30,10 +30,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -93,10 +145,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "metrics": {
                         "description": "Bridge 计数",
@@ -185,10 +289,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -365,10 +521,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "metrics": {
                         "description": "Bridge 计数",
@@ -456,7 +664,7 @@
                     "headers": {
                         "description": "HTTP 头字段列表。",
                         "label": "HTTP 头字段列表",
-                        "type": "string"
+                        "type": "object"
                     },
                     "max_retries": {
                         "description": "请求出错时的最大重试次数。",
@@ -621,7 +829,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "host": {
-                        "default": "120.0.0.1",
+                        "default": "127.0.0.1",
                         "description": "InfluxDB 主机地址。",
                         "label": "主机",
                         "type": "string"
@@ -759,10 +967,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -835,7 +1095,7 @@
                 ],
                 "properties": {
                     "host": {
-                        "default": "120.0.0.1",
+                        "default": "127.0.0.1",
                         "description": "InfluxDB 主机地址。",
                         "label": "主机",
                         "type": "string"
@@ -902,7 +1162,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "host": {
-                        "default": "120.0.0.1",
+                        "default": "127.0.0.1",
                         "description": "InfluxDB 主机地址。",
                         "label": "主机",
                         "type": "string"
@@ -1126,6 +1386,13 @@
                         ],
                         "type": "enum"
                     },
+                    "sql_template": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
+                        "description": "SQL 模板",
+                        "format": "sql",
+                        "label": "SQL 模板",
+                        "type": "string"
+                    },
                     "connector": {
                         "description": "连接器的通用配置。",
                         "label": "连接器通用配置。",
@@ -1273,7 +1540,7 @@
                         },
                         "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
                         "label": "HTTP 请求标头",
-                        "type": "string"
+                        "type": "object"
                     },
                     "body": {
                         "default": "${payload}",
@@ -1326,10 +1593,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -1532,10 +1851,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -2035,6 +2406,13 @@
                         ],
                         "type": "enum"
                     },
+                    "sql_template": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
+                        "description": "SQL 模板",
+                        "format": "sql",
+                        "label": "SQL 模板",
+                        "type": "string"
+                    },
                     "connector": {
                         "description": "连接器的通用配置。",
                         "label": "连接器通用配置。",
@@ -2088,17 +2466,6 @@
                         "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    },
-                    "prepare_statement": {
-                        "default": {
-                            "send_message": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))"
-                        },
-                        "description": "SQL 预处理语句列表。",
-                        "example": {
-                            "send_message": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))"
-                        },
-                        "label": "SQL 预处理语句列表",
-                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -2132,10 +2499,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "metrics": {
                         "description": "Bridge 计数",
@@ -2231,6 +2650,13 @@
                             "egress"
                         ],
                         "type": "enum"
+                    },
+                    "sql_template": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
+                        "description": "SQL 模板",
+                        "format": "sql",
+                        "label": "SQL 模板",
+                        "type": "string"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -2348,7 +2774,7 @@
                         },
                         "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
                         "label": "HTTP 请求标头",
-                        "type": "string"
+                        "type": "object"
                     },
                     "body": {
                         "default": "${payload}",
@@ -2465,7 +2891,7 @@
                         },
                         "description": "</br>HTTP 请求的标头。</br>允许使用带有变量的模板。</br>",
                         "label": "HTTP 请求标头",
-                        "type": "string"
+                        "type": "object"
                     },
                     "body": {
                         "default": "${payload}",
@@ -2658,10 +3084,62 @@
                         "type": "string"
                     },
                     "write_syntax": {
-                        "format": "sql",
                         "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
                         "label": "写语句",
                         "type": "string"
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "query_mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "resume_interval": {
+                        "default": "15s",
+                        "description": "资源不可用时的重试时间",
+                        "label": "恢复时间",
+                        "type": "duration"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
