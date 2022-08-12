@@ -569,11 +569,15 @@ const SchemaForm = defineComponent({
       const { propsOrderMap } = props
 
       // Sort roughly first, then sort finely
-      for (let index = 0; index < propKeys.length; index++) {
-        const key = propKeys[index]
-        if (key in propsOrderMap) {
-          ret.splice(index, 1)
-          ret.splice(propsOrderMap[key], 0, key)
+      const propsOrderList = Object.entries(propsOrderMap).sort(
+        (item1, item2) => item1[1] - item2[1],
+      )
+      for (let index = 0; index < propsOrderList.length; index++) {
+        const [key, order] = propsOrderList[index]
+        const propOldIndex = propKeys.findIndex((k) => k === key)
+        if (propOldIndex > -1) {
+          ret.splice(propOldIndex, 1)
+          ret.splice(order, 0, key)
         }
       }
       ret.sort((pre, next) => {
