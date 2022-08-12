@@ -21,7 +21,6 @@
                 :y-title="[item.text]"
                 :chart-data="metricLog[item.value]"
                 :chartColors="chartColorList[item.value]"
-                :need-date-in-tooltip="timeRange >= A_DAY_MS"
               ></polyline-chart>
             </el-card>
           </el-col>
