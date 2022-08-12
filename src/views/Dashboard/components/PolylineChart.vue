@@ -65,10 +65,6 @@ const props = defineProps({
     type: String,
     default: '0px',
   },
-  needDateInTooltip: {
-    type: Boolean,
-    default: true,
-  },
 })
 
 const seriesConfig: Ref<Array<any>> = ref([])
@@ -136,9 +132,7 @@ const setSeriesConfig = () => {
   }
 }
 
-const dateFormatInTooltip = computed(() => (props.needDateInTooltip ? 'MM:DD HH:mm' : 'HH:mm'))
-
-const _formatTime = (time: string, format = 'HH:mm') => {
+const _formatTime = (time: string, format = 'MM-DD HH:mm') => {
   return Moment(parseInt(time)).format(format)
 }
 
@@ -146,7 +140,7 @@ const createTooltip = (xAxis: string, title: string, val: number, color: string)
   const container = document.createElement('div')
   container.innerHTML = `
   <div class="polyline-chart-tooltip">
-    <p class="x-value">${_formatTime(xAxis, dateFormatInTooltip.value)}</p>
+    <p class="x-value">${_formatTime(xAxis)}</p>
     <div class="tooltip-body">
       <div>
         <i class="badge" style="background-color:${color}"></i>
