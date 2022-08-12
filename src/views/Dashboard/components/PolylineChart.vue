@@ -195,10 +195,11 @@ const drawChart = () => {
         },
       },
       axisLabel: {
+        hideOverlap: true,
         showMinLabel: false,
         color: props.axisColor.colorAxisLabel,
         formatter(value: string) {
-          return _formatTime(value)
+          return `${_formatTime(value, 'MM/DD')}\n${_formatTime(value, 'HH:mm')}`
         },
       },
     },
