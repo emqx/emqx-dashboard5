@@ -118,7 +118,7 @@ export default defineComponent({
     }
 
     const submitDeleteBridge = async (id: string) => {
-      await MB.confirm(t('Base.confirmDelete'), {
+      await MB.confirm(t('RuleEngine.deleteBridgeConfirm'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
