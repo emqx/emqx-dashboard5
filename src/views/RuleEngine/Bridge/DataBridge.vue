@@ -17,11 +17,7 @@
                 :to="getBridgeDetailPageRoute(row.id)"
                 class="first-column-with-icon-type"
               >
-                <img
-                  v-if="row.type"
-                  class="icon-type"
-                  :src="require(`@/assets/img/${getBridgeIconKey(row.type)}.png`)"
-                />
+                <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
                 <div class="name-type-block">
                   <span class="name-data">
                     {{ row.name }}
@@ -71,10 +67,9 @@ import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessageBox as MB, ElMessage as M, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
-import { getBridgeIconKey } from '@/common/tools'
 
 export default defineComponent({
   components: { BridgeItemStatus },
@@ -84,6 +79,7 @@ export default defineComponent({
     const router = useRouter()
     const { t } = useI18n()
     const { getTypeStr } = useBridgeTypeOptions()
+    const { getBridgeIcon } = useBridgeTypeIcon()
 
     const listBridge = async function () {
       tbLoading.value = true
@@ -158,7 +154,7 @@ export default defineComponent({
       getTypeStr,
       bridgeTb,
       tbLoading,
-      getBridgeIconKey,
+      getBridgeIcon,
       enableOrDisableBridge,
       submitDeleteBridge,
       createRuleWithBridge,

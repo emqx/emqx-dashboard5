@@ -8,11 +8,7 @@
       <div class="detail-main">
         <div v-if="!isFromRule" class="section-header">
           <div>
-            <img
-              :src="
-                bridgeInfo.type && require(`@/assets/img/${getBridgeIconKey(bridgeInfo.type)}.png`)
-              "
-            />
+            <img :src="getBridgeIcon(bridgeInfo.type)" />
             <div class="title-n-status">
               <div class="info-tags">
                 <BridgeItemStatus :bridge="bridgeInfo" is-tag />
@@ -116,7 +112,7 @@ import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './BridgeHttpConfig.vue'
 import BridgeMqttConfig from './BridgeMqttConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
@@ -124,7 +120,6 @@ import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import _ from 'lodash'
-import { getBridgeIconKey } from '@/common/tools'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 
 enum Tab {
@@ -157,6 +152,7 @@ if (queryTab.value) {
 
 const { getTypeStr } = useBridgeTypeOptions()
 const { handleSSLDataBeforeSubmit } = useSSL()
+const { getBridgeIcon } = useBridgeTypeIcon()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
