@@ -128,8 +128,8 @@ export enum RedisType {
 }
 
 export enum NodeStatus {
-  Running = 'Running',
-  Stopped = 'Stopped',
+  Running = 'running',
+  Stopped = 'stopped',
 }
 
 export enum AuthnMechanismType {

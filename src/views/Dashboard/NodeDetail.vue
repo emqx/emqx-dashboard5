@@ -17,10 +17,13 @@
               <el-tag
                 v-if="node.node_status"
                 size="small"
-                :type="node.node_status === 'Running' ? '' : 'danger'"
+                :type="node.node_status === NodeStatus.Running ? '' : 'danger'"
               >
-                <span :class="[node.node_status === 'Running' ? 'running-status' : 'stop-status']"
-                  >{{ node.node_status === 'Running' ? tl('running') : tl('stopped') }}
+                <span
+                  :class="[
+                    node.node_status === NodeStatus.Running ? 'running-status' : 'stop-status',
+                  ]"
+                  >{{ node.node_status === NodeStatus.Running ? tl('running') : tl('stopped') }}
                 </span>
               </el-tag>
             </el-descriptions-item>
@@ -125,6 +128,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Refresh } from '@element-plus/icons-vue'
+import { NodeStatus } from '@/types/enum'
 
 const nodeLoading = ref(true)
 const statsLoading = ref(true)
