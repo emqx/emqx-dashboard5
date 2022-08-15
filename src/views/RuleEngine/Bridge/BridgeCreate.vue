@@ -50,7 +50,9 @@
               ref="formCom"
             />
             <using-schema-bridge-config
-              v-else-if="!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
+              v-else-if="
+                chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)
+              "
               :type="chosenBridgeType"
               ref="formCom"
             />
@@ -123,7 +125,7 @@
         ref="formCom"
       />
       <using-schema-bridge-config
-        v-else-if="!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
+        v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
         :type="chosenBridgeType"
         v-model="bridgeData"
         ref="formCom"
