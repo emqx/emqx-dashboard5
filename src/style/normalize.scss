@@ -508,8 +508,13 @@
 }
 
 /* Popper */
-.el-popper:not(.el-select__popper):not(.el-picker__popper) {
-  max-width: 360px;
+.el-popper {
+  &:not(.el-select__popper):not(.el-picker__popper):not(.is-wider) {
+    max-width: 320px;
+  }
+  &.is-wider {
+    max-width: 900px;
+  }
 }
 
 .el-popper {
