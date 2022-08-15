@@ -72,7 +72,9 @@
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
                 <using-schema-bridge-config
-                  v-else-if="!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.type)"
+                  v-else-if="
+                    bridgeInfo.type && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.type)
+                  "
                   :type="bridgeInfo.type"
                   v-model="bridgeInfo"
                   ref="formCom"
