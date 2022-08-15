@@ -25,7 +25,7 @@
                       class="bridge-type-item-img"
                       height="64"
                       width="64"
-                      :src="require(`@/assets/img/${getBridgeIconKey(item.value)}.png`)"
+                      :src="getBridgeIcon(item.value)"
                       :alt="item.label"
                     />
                     <div class="bridge-type-item-bd">
@@ -98,7 +98,7 @@
               :value="item.valueForRadio"
             >
               <div class="option-content">
-                <img :src="require(`@/assets/img/${item.value}.png`)" width="30" height="34" />
+                <img :src="getBridgeIcon(item.value)" width="30" height="34" />
                 <span>{{ item.label }}</span>
               </div>
             </el-option>
@@ -131,13 +131,17 @@ import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
-import { useBridgeTypeOptions, BridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  useBridgeTypeOptions,
+  BridgeTypeOptions,
+  useBridgeTypeIcon,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useSSL from '@/hooks/useSSL'
-import { checkNOmitFromObj, jumpToErrorFormItem, getBridgeIconKey } from '@/common/tools'
+import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
@@ -165,6 +169,7 @@ export default defineComponent({
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
     const { handleSSLDataBeforeSubmit } = useSSL()
     const { isTesting, canTest, testTheConnection } = useTestConnection(bridgeData)
+    const { getBridgeIcon } = useBridgeTypeIcon()
 
     const formCom = ref()
 
@@ -329,7 +334,7 @@ export default defineComponent({
       isTesting,
       handleTypeSelected,
       testTheConnection,
-      getBridgeIconKey,
+      getBridgeIcon,
     }
   },
 })

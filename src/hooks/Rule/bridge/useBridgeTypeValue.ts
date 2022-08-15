@@ -88,3 +88,23 @@ export const useBridgeTypeOptions = (): {
     getTypeStr,
   }
 }
+
+export const useBridgeTypeIcon = (): {
+  getBridgeIcon: (type: string) => string
+} => {
+  const getBridgeIconKey = (value: string) => (value.indexOf('influxdb') > -1 ? `influxdb` : value)
+  const getBridgeIcon = (type: string): string => {
+    if (!type) {
+      return ''
+    }
+    try {
+      return require(`@/assets/img/${getBridgeIconKey(type)}.png`)
+    } catch (error) {
+      console.error(error)
+      return ''
+    }
+  }
+  return {
+    getBridgeIcon,
+  }
+}

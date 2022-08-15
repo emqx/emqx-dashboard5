@@ -371,6 +371,3 @@ export const getLocalMessage = (path: string) => {
   const messages = i18n.global.messages[local]
   return get(messages, path)
 }
-
-export const getBridgeIconKey = (value: string) =>
-  value.indexOf('influxdb') > -1 ? `influxdb` : value
