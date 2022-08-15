@@ -759,4 +759,8 @@ export default {
     zh: '由于未知错误导致的 SQL 失败次数',
     en: 'Number of SQL failures due to an unknown error',
   },
+  deleteBridgeConfirm: {
+    zh: '删除前，请确认当前有无使用该数据桥接的规则',
+    en: 'Before deleting, please check if there are any Rules currently using this Data Bridge',
+  },
 }
