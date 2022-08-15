@@ -28,8 +28,8 @@ const registerCustomNode = () => {
           return
         }
         let rectWidth = 0
-        const iconWidth = 16
-        const iconHeight = 16
+        const iconWidth = 24
+        const iconHeight = 24
         if (Array.isArray(config.size)) {
           ;[rectWidth] = config.size
         } else if (typeof config.size === 'number') {

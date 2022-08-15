@@ -102,7 +102,14 @@ export default (): {
 
   const getBridgeTypeFromString = (str: string): BridgeType => {
     // now has mqtt & http
-    const bridgeTypeList = [BridgeType.MQTT, BridgeType.Webhook]
+    const bridgeTypeList = [
+      BridgeType.MQTT,
+      BridgeType.Webhook,
+      BridgeType.InfluxDBV1,
+      BridgeType.InfluxDBV2,
+      BridgeType.InfluxDBUPD,
+      BridgeType.MySQL,
+    ]
     return bridgeTypeList.find((item) => str.indexOf(item) > -1) || BridgeType.MQTT
   }
 
