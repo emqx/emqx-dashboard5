@@ -261,7 +261,7 @@ export default defineComponent({
 
       try {
         if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType.value)) {
-          await submitDataWhenUsingSchemaForm()
+          res = await submitDataWhenUsingSchemaForm()
         } else {
           const dataToSubmit = {
             ..._.cloneDeep(bridgeData.value),
