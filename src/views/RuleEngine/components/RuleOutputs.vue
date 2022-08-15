@@ -8,10 +8,7 @@
         <template v-for="(item, index) in ruleValue.actions" :key="item">
           <div class="outputs-item">
             <span>
-              <img
-                :src="getOutputImage(item?.function ? item.function : item?.split(':')[0])"
-                width="48"
-              />
+              <img :src="getOutputImage(item)" width="48" />
             </span>
             <span>
               <div v-if="!item.function">{{ item.split(':')[1] }}</div>
@@ -60,15 +57,16 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed, defineEmits, ref, Ref, WritableComputedRef } from 'vue'
-import { BasicRule, OutputItem, RuleItem } from '@/types/rule'
 import useI18nTl from '@/hooks/useI18nTl'
-import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
-import AddBridgeOnRule from './AddBridgeOnRule.vue'
 import { RuleOutput } from '@/types/enum'
-import { useI18n } from 'vue-i18n'
-import { ElMessageBox as MB } from 'element-plus'
+import { BasicRule, OutputItem, RuleItem } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
+import { ElMessageBox as MB } from 'element-plus'
+import { computed, defineEmits, defineProps, PropType, ref, Ref, WritableComputedRef } from 'vue'
+import { useI18n } from 'vue-i18n'
+import AddBridgeOnRule from './AddBridgeOnRule.vue'
+import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
+import { useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 
 const props = defineProps({
   modelValue: {
@@ -96,6 +94,8 @@ const outputDisableList: Ref<Array<string>> = ref([])
 const isEdit = ref(false)
 const editIndex: Ref<number | undefined> = ref(undefined)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
+
+const { getBridgeIconKey } = useBridgeTypeIcon()
 
 const openAddBridge = () => {
   showOutputDrawer.value = false
@@ -173,12 +173,25 @@ const submitOutput = (opObj: OutputItem, isEdit: boolean) => {
   calcDisableList()
 }
 
-const getOutputImage = (item: string) => {
+const getOutputImage = (item: OutputItem) => {
   if (!item) {
     return ''
   }
+  let keyForIcon = ''
+  if (typeof item === 'string') {
+    if (item.indexOf(':') > -1) {
+      // bridge
+      keyForIcon = getBridgeIconKey(item.split(':')[0])
+    } else {
+      // console
+      keyForIcon = item
+    }
+  } else if (typeof item === 'object' && 'function' in item) {
+    // re pub
+    keyForIcon = item.function
+  }
   try {
-    return require(`@/assets/img/${item}.png`)
+    return require(`@/assets/img/${keyForIcon}.png`)
   } catch (e) {
     //May it be a user defined module
     console.log('ImgErr:', e)
