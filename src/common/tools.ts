@@ -371,3 +371,6 @@ export const getLocalMessage = (path: string) => {
   const messages = i18n.global.messages[local]
   return get(messages, path)
 }
+
+export const URLReg =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/

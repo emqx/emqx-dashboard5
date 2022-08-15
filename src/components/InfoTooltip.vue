@@ -1,5 +1,10 @@
 <template>
-  <el-tooltip effect="dark" popper-class="info-tooltip" placement="top-start" :content="content">
+  <el-tooltip
+    effect="dark"
+    :popper-class="tooltipPopperClass"
+    placement="top-start"
+    :content="content"
+  >
     <template v-if="$slots.content" #content>
       <slot name="content"></slot>
     </template>
@@ -16,13 +21,18 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   content: {
     type: String,
   },
+  popperClass: {
+    type: String,
+  },
 })
+
+const tooltipPopperClass = computed(() => `info-tooltip ${props.popperClass}`)
 </script>
 
 <style lang="scss" scoped>

@@ -16,7 +16,7 @@ import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import useSSL from '@/hooks/useSSL'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString } from '@/common/tools'
+import { createRandomString, URLReg } from '@/common/tools'
 
 interface FormItemMeta {
   col: number
@@ -28,6 +28,10 @@ const typesNeedConciseSSL = ['bridge']
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
 const codeBlockReg = /```<\/br>(?<code>(.|\n)+)<\/br>```/
+const linkReg = new RegExp(`\\[(?<text>[^\\]]+)\\]\\((?<link>${URLReg.source})\\)`, 'g')
+
+const createATag = (text: string, link: string) =>
+  `<a href="${link}" target="_blank" rel="noopener noreferrer">${text}</a>`
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -353,10 +357,14 @@ const SchemaForm = defineComponent({
 
     const escapeCode = (desc: string) => desc.replace(codeBlockReg, (total, code) => _.escape(code))
 
+    const transLink = (desc: string) =>
+      desc.replace(linkReg, (total: string, text: string, link: string) => createATag(text, link))
+
     const getLabelSlotAndDescEle = (property: Property) => {
       const { description } = property
       const label = getLabel(property)
-      const descContent = <p class="item-desc" v-html={escapeCode(description)}></p>
+
+      const descContent = <p class="item-desc" v-html={escapeCode(transLink(description))}></p>
 
       const labelSlot: any = {}
       let descEle: any = null
@@ -365,10 +373,14 @@ const SchemaForm = defineComponent({
         const tooltipSlots = {
           content: () => descContent,
         }
+
+        // if field is SQL-like field, tooltip can be wider for show SQL template.
+        const popperClass = property.format === 'sql' ? 'is-wider' : ''
+        // FIXME: remove popperClass hack
         labelSlot.label = () => (
           <label>
             <span>{label}</span>
-            <InfoTooltip v-slots={tooltipSlots} />
+            <InfoTooltip {...{ popperClass }} v-slots={tooltipSlots} />
           </label>
         )
       } else {
