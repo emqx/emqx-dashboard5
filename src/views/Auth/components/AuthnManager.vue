@@ -177,7 +177,7 @@ const id = computed(function (): string {
 
 const reg = /^(?<mechanism>.+):.+$/
 const mechanism = computed(() => {
-  const matchRes = id.value.match(reg)
+  const matchRes = id.value?.match(reg)
   return matchRes ? matchRes.groups?.mechanism : ''
 })
 
