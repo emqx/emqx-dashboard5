@@ -4,6 +4,7 @@
     v-model="showDrawer"
     :lock-scroll="false"
     size="50%"
+    destroy-on-close
   >
     <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
       <el-row :gutter="26">
