@@ -74,7 +74,14 @@ const getDefaultNodeConfig = (bgColor: string, textColor: string) => ({
     [0, 0.5],
     [1, 0.5],
   ],
-  labelCfg: { style: { fontSize: 14, fill: textColor } },
+  labelCfg: {
+    style: {
+      fontSize: 14,
+      fill: textColor,
+      fontFamily:
+        'Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue, Helvetica, Arial, sans-serif',
+    },
+  },
 })
 
 const defaultEdgeConfig = {
