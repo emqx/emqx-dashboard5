@@ -11,9 +11,11 @@
               <img :src="getOutputImage(item)" width="48" />
             </span>
             <span>
-              <div v-if="!item.function">{{ item.split(':')[1] }}</div>
+              <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
+                {{ (item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[1] }}
+              </div>
               <div class="output-desc">
-                {{ (item.function ? item.function : item.split(':')[0]).toUpperCase() }}
+                {{ getOutputTypeLabel(item) }}
               </div>
             </span>
             <span class="output-op">
@@ -57,16 +59,19 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { RuleOutput } from '@/types/enum'
-import { BasicRule, OutputItem, RuleItem } from '@/types/rule'
+import { BridgeType, RuleOutput } from '@/types/enum'
+import { BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
+import { upperFirst } from 'lodash'
 import { computed, defineEmits, defineProps, PropType, ref, Ref, WritableComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AddBridgeOnRule from './AddBridgeOnRule.vue'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
-import { useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+
+const BRIDGE_TYPE_ID_CONNECTOR = ':'
 
 const props = defineProps({
   modelValue: {
@@ -96,6 +101,7 @@ const editIndex: Ref<number | undefined> = ref(undefined)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
 
 const { getBridgeIconKey } = useBridgeTypeIcon()
+const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
 const openAddBridge = () => {
   showOutputDrawer.value = false
@@ -173,28 +179,58 @@ const submitOutput = (opObj: OutputItem, isEdit: boolean) => {
   calcDisableList()
 }
 
+const judgeOutputType = (output: OutputItem) => {
+  if (typeof output === 'string') {
+    if (output.indexOf(BRIDGE_TYPE_ID_CONNECTOR) > -1) {
+      // bridge
+      return RuleOutput.DataBridge
+    }
+    return RuleOutput.Console
+  } else if (typeof output === 'object' && 'function' in output) {
+    return RuleOutput.Republish
+  }
+}
+
 const getOutputImage = (item: OutputItem) => {
   if (!item) {
     return ''
   }
+  const itemType = judgeOutputType(item)
   let keyForIcon = ''
-  if (typeof item === 'string') {
-    if (item.indexOf(':') > -1) {
-      // bridge
-      keyForIcon = getBridgeIconKey(item.split(':')[0])
-    } else {
-      // console
-      keyForIcon = item
-    }
-  } else if (typeof item === 'object' && 'function' in item) {
-    // re pub
-    keyForIcon = item.function
+  switch (itemType) {
+    case RuleOutput.DataBridge:
+      keyForIcon = getBridgeIconKey((item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0])
+      break
+    case RuleOutput.Console:
+      keyForIcon = item as string
+      break
+    case RuleOutput.Republish:
+      keyForIcon = (item as OutputItemObj).function
+      break
   }
   try {
     return require(`@/assets/img/${keyForIcon}.png`)
   } catch (e) {
     //May it be a user defined module
     console.log('ImgErr:', e)
+  }
+}
+
+const getOutputTypeLabel = (item: OutputItem) => {
+  // bridge - string; console - string; re pub - object
+  if (!item) {
+    return ''
+  }
+  const itemType = judgeOutputType(item)
+  switch (itemType) {
+    case RuleOutput.DataBridge:
+      return getBridgeLabelByTypeValue(
+        (item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0] as BridgeType,
+      )
+    case RuleOutput.Console:
+      return upperFirst(item as string)
+    case RuleOutput.Republish:
+      return upperFirst((item as OutputItemObj).function)
   }
 }
 </script>

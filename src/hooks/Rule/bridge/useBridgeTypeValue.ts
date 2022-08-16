@@ -4,7 +4,7 @@ import { BridgeType } from '@/types/enum'
 import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 
-const useBridgeTypeValue = (): {
+export const useBridgeTypeValue = (): {
   bridgeTypeList: Array<{
     value: BridgeType
     label: string
