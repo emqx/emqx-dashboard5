@@ -182,21 +182,11 @@ export default (): {
     [RuleOutput.DataBridge]: createRepublishNodeTooltip,
   }
 
-  const getNodeData = (nodes: Array<NodeItem>, nodeID: string): undefined | NodeCustomData => {
-    return nodes.find(({ id }) => id === nodeID)?._customData || undefined
-  }
-
-  const getNodeDataFromEvent = (e?: IG6GraphEvent) => {
+  const getNodeDataFromEvent = (e?: IG6GraphEvent): undefined | NodeCustomData => {
     if (!e) {
       return
     }
-    const nodeID = e?.item?.get('id')
-    const nodes = e?.currentTarget?.save()?.nodes
-    if (!nodeID || !nodes) {
-      return
-    }
-    const nodeData = getNodeData(nodes, nodeID)
-    return nodeData
+    return (e?.item?.getModel()._customData as NodeCustomData) || undefined
   }
 
   /* 
