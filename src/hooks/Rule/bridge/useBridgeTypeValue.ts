@@ -11,9 +11,15 @@ export const useBridgeTypeValue = (): {
   }>
   getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
 } => {
+  const { tl } = useI18nTl('RuleEngine')
+
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: 'Webhook' },
     { value: BridgeType.MQTT, label: 'MQTT' },
+    { value: BridgeType.InfluxDBV1, label: tl('influxDBV1Label') },
+    { value: BridgeType.InfluxDBV2, label: tl('influxDBV2Label') },
+    { value: BridgeType.InfluxDBUPD, label: tl('influxDBUDPLabel') },
+    { value: BridgeType.MySQL, label: tl('mySQL') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
