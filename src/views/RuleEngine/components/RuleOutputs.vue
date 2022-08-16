@@ -185,9 +185,13 @@ const judgeOutputType = (output: OutputItem) => {
       // bridge
       return RuleOutput.DataBridge
     }
-    return RuleOutput.Console
-  } else if (typeof output === 'object' && 'function' in output) {
-    return RuleOutput.Republish
+  }
+  if (
+    typeof output === 'object' &&
+    'function' in output &&
+    (output.function === RuleOutput.Republish || output.function === RuleOutput.Console)
+  ) {
+    return output.function
   }
 }
 
@@ -202,7 +206,7 @@ const getOutputImage = (item: OutputItem) => {
       keyForIcon = getBridgeIconKey((item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0])
       break
     case RuleOutput.Console:
-      keyForIcon = item as string
+      keyForIcon = (item as OutputItemObj).function
       break
     case RuleOutput.Republish:
       keyForIcon = (item as OutputItemObj).function
@@ -228,7 +232,7 @@ const getOutputTypeLabel = (item: OutputItem) => {
         (item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0] as BridgeType,
       )
     case RuleOutput.Console:
-      return upperFirst(item as string)
+      return upperFirst((item as OutputItemObj).function)
     case RuleOutput.Republish:
       return upperFirst((item as OutputItemObj).function)
   }
