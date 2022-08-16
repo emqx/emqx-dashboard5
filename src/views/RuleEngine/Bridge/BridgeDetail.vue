@@ -83,7 +83,7 @@
                 </el-button>
                 <el-button
                   type="primary"
-                  v-else-if="bridgeInfo.type"
+                  v-if="bridgeInfo.type"
                   :loading="updateLoading"
                   @click="updateBridgeInfo()"
                 >
