@@ -1,6 +1,6 @@
 import { onMounted, ref, onUnmounted, Ref, computed, ComputedRef } from 'vue'
 import G6, { Graph, ModelConfig, IGroup } from '@antv/g6'
-import { NodeItem, EdgeItem } from './topologyType'
+import { NodeItem, EdgeItem, NodeCustomData, OtherNodeType } from './topologyType'
 import useTopologyNodeTooltipNEvent from './useTopologyNodeTooltipNEvent'
 import useTopologyRuleData from './useTopologyRuleData'
 import useTopologyBridgeData from './useTopologyBridgeData'
@@ -19,6 +19,10 @@ const concatNCloneInObj = (obj: Record<string, DataList>): DataList => {
   }, ret)
 }
 
+const nodeTypeIconSizeMap: Record<string, number> = {
+  [OtherNodeType.Bridge]: 40,
+}
+
 const registerCustomNode = () => {
   G6.registerNode(
     'custom-rect-with-icon',
@@ -28,8 +32,10 @@ const registerCustomNode = () => {
           return
         }
         let rectWidth = 0
-        const iconWidth = 24
-        const iconHeight = 24
+        const { _customData }: { _customData: NodeCustomData } = config as any
+        const { type } = _customData
+        const iconWidth = nodeTypeIconSizeMap[type] || 18
+        const iconHeight = nodeTypeIconSizeMap[type] || 18
         if (Array.isArray(config.size)) {
           ;[rectWidth] = config.size
         } else if (typeof config.size === 'number') {
@@ -44,6 +50,7 @@ const registerCustomNode = () => {
             height: iconHeight,
             img: config.img,
           },
+          _customData,
           name: 'image-shape',
         })
       },
