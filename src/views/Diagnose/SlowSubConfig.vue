@@ -14,7 +14,7 @@
                   {{ $t('SlowSub.statsThreshold') }}
                   <InfoTooltip :content="$t('SlowSub.statsThresholdDesc')" />
                 </template>
-                <TimeInputWithUnitSelect v-model="configForm.threshold" />
+                <InputWithUnit v-model="configForm.threshold" :units="timeUnits" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -32,7 +32,7 @@
                   {{ $t('SlowSub.evictionTimeOfRecord') }}
                   <InfoTooltip :content="$t('SlowSub.evictionTimeOfRecordDesc')" />
                 </template>
-                <TimeInputWithUnitSelect v-model="configForm.expire_interval" />
+                <InputWithUnit v-model="configForm.expire_interval" :units="timeUnits" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -84,18 +84,18 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, Ref, nextTick } from 'vue'
-import { ElMessage } from 'element-plus'
 import { querySlowSubConfig, updateSlowSubConfig } from '@/api/diagnose'
+import DetailHeader from '@/components/DetailHeader.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
 import { SlowSubConfig } from '@/types/diagnose'
+import { SlowSubType } from '@/types/enum'
+import { ElMessage } from 'element-plus'
+import { nextTick, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import useFormRules from '@/hooks/useFormRules'
-import { SlowSubType } from '@/types/enum'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import DetailHeader from '@/components/DetailHeader.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')
@@ -103,6 +103,10 @@ const router = useRouter()
 const route = useRoute()
 
 const { createRequiredRule, createIntFieldRule, createStringWithUnitFieldRule } = useFormRules()
+const timeUnits = [
+  { value: 's', label: t('Base.second') },
+  { value: 'ms', label: t('Base.milliseconds') },
+]
 
 const isLoading = ref(false)
 const configForm: Ref<SlowSubConfig> = ref({} as SlowSubConfig)
