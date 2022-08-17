@@ -5,7 +5,8 @@ const devBranch = process.argv[2]
 
 async function executeShell() {
   try {
-    await execa('./script/sync-code.sh', [devBranch])
+    const { stdout } = await execa('./script/sync-code.sh', [devBranch])
+    console.log(stdout)
   } catch (error) {
     console.error(error)
   }
