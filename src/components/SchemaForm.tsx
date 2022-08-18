@@ -6,7 +6,7 @@ import '@/style/schemaForm.scss'
 import { Properties, Property } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
-import { computed, defineComponent, onMounted, PropType, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, PropType, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
@@ -165,6 +165,10 @@ const SchemaForm = defineComponent({
         configForm.value = initRecordByComponents(val)
         handleSSLDataWhenUseConciseSSL()
       }
+    })
+
+    watchEffect(() => {
+      ctx.emit('update', configForm.value)
     })
 
     const validate = () => {
