@@ -656,6 +656,9 @@
 .el-form-item__label {
   height: auto;
 }
+.el-form--label-top .el-form-item .el-form-item__label {
+  display: inline-block;
+}
 
 /* Radio */
 .el-radio-button__inner {
