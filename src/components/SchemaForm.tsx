@@ -213,7 +213,7 @@ const SchemaForm = defineComponent({
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
       property.path = replaceVarPath(property.path)
-      const { path } = property
+      const { path, format } = property
       const isPropertyDisabled = confirmPropertyDisabled(property)
 
       /**
@@ -222,14 +222,16 @@ const SchemaForm = defineComponent({
        */
       const modelValue = _.get(configForm.value, path)
       const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
+      const inputType = format === 'password' ? 'password' : 'text'
       const stringInput = (
         <el-input
           disabled={isPropertyDisabled}
           placeholder={property.default?.toString()}
           modelValue={modelValue}
+          type={inputType}
           {...handleUpdateModelValue}
           clearable
-        ></el-input>
+        />
       )
       switch (property.type) {
         case 'string':
