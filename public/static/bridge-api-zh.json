@@ -11,13 +11,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -25,67 +25,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -101,7 +55,7 @@
                         ]
                     },
                     "type": {
-                        "description": "Bridge 类型",
+                        "description": "Bridge 类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_api_v1"
@@ -109,7 +63,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，可读描述",
+                        "description": "桥接名字，人类可读的描述信息。",
                         "label": "桥接名字",
                         "type": "string"
                     }
@@ -126,13 +80,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -140,67 +94,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "metrics": {
                         "description": "Bridge 计数",
@@ -247,7 +155,7 @@
                         ]
                     },
                     "type": {
-                        "description": "Bridge 类型",
+                        "description": "Bridge 类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_api_v2"
@@ -255,7 +163,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，可读描述",
+                        "description": "桥接名字，人类可读的描述信息。",
                         "label": "桥接名字",
                         "type": "string"
                     }
@@ -270,13 +178,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -284,67 +192,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -502,13 +364,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -516,67 +378,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "metrics": {
                         "description": "Bridge 计数",
@@ -623,7 +439,7 @@
                         ]
                     },
                     "type": {
-                        "description": "Bridge 类型",
+                        "description": "Bridge 类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_api_v1"
@@ -631,9 +447,55 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，可读描述",
+                        "description": "桥接名字，人类可读的描述信息。",
                         "label": "桥接名字",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mysql.put": {
+                "required": [
+                    "connector"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 MySQL。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "sql_template": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
+                        "description": "SQL 模板",
+                        "format": "sql",
+                        "label": "SQL 模板",
+                        "type": "string"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "label": "连接器通用配置。",
+                        "$ref": "#/components/schemas/bridge_mysql.connector"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     }
                 },
                 "type": "object"
@@ -697,6 +559,55 @@
                             "connecting"
                         ],
                         "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mysql.connector": {
+                "required": [
+                    "database",
+                    "server"
+                ],
+                "properties": {
+                    "server": {
+                        "description": "</br>将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MySQL 默认端口 3306。</br>",
+                        "label": "服务器地址",
+                        "type": "ip_port"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "自动重连数据库。",
+                        "label": "自动重连数据库",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -797,7 +708,6 @@
             },
             "connector_influxdb.influxdb_api_v2": {
                 "required": [
-                    "pool_size",
                     "port",
                     "host",
                     "token",
@@ -806,7 +716,7 @@
                 ],
                 "properties": {
                     "bucket": {
-                        "description": "InfluxDB bucket 名称",
+                        "description": "InfluxDB bucket 名称。",
                         "label": "Bucket",
                         "type": "string"
                     },
@@ -855,7 +765,7 @@
                         "type": "enum"
                     },
                     "pool_size": {
-                        "description": "InfluxDB 连接池大小",
+                        "description": "InfluxDB 连接池大小，默认为 CPU 线程数。",
                         "label": "InfluxDB 连接池大小",
                         "type": "string"
                     }
@@ -948,13 +858,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -962,67 +872,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -1089,7 +953,6 @@
             },
             "connector_influxdb.influxdb_udp": {
                 "required": [
-                    "pool_size",
                     "port",
                     "host"
                 ],
@@ -1121,7 +984,7 @@
                         "type": "enum"
                     },
                     "pool_size": {
-                        "description": "InfluxDB 连接池大小",
+                        "description": "InfluxDB 连接池大小，默认为 CPU 线程数。",
                         "label": "InfluxDB 连接池大小",
                         "type": "string"
                     }
@@ -1130,7 +993,6 @@
             },
             "connector_influxdb.influxdb_api_v1": {
                 "required": [
-                    "pool_size",
                     "port",
                     "host",
                     "password",
@@ -1188,7 +1050,7 @@
                         "type": "enum"
                     },
                     "pool_size": {
-                        "description": "InfluxDB 连接池大小",
+                        "description": "InfluxDB 连接池大小，默认为 CPU 线程数。",
                         "label": "InfluxDB 连接池大小",
                         "type": "string"
                     }
@@ -1320,87 +1182,6 @@
                 },
                 "type": "object"
             },
-            "bridge.get": {
-                "required": [
-                    "connector",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
-                    "status": {
-                        "description": "Bridge 的状态",
-                        "label": "Bridge 状态",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "节点的状态",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "节点的状态",
-                        "type": "array"
-                    },
-                    "type": {
-                        "description": "Bridge 类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "mysql"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "sql_template": {
-                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
-                        "description": "SQL 模板",
-                        "format": "sql",
-                        "label": "SQL 模板",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "label": "连接器通用配置。",
-                        "$ref": "#/components/schemas/bridge.connector"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_webhook.get": {
                 "required": [
                     "url",
@@ -1467,10 +1248,22 @@
                         ],
                         "type": "enum"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_webhook.creation_opts"
+                    },
                     "connect_timeout": {
                         "default": "15s",
                         "description": "连接HTTP服务器的超时时间。",
                         "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "retry_interval": {
+                        "deprecated": "since(\"5.0.4\")",
+                        "description": "retry_interval Description",
+                        "label": "retry_interval",
                         "type": "duration"
                     },
                     "pool_type": {
@@ -1574,13 +1367,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -1588,67 +1381,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -1664,7 +1411,7 @@
                         ]
                     },
                     "type": {
-                        "description": "Bridge 类型",
+                        "description": "Bridge 类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_udp"
@@ -1672,7 +1419,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，可读描述",
+                        "description": "桥接名字，人类可读的描述信息。",
                         "label": "桥接名字",
                         "type": "string"
                     }
@@ -1832,13 +1579,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -1846,67 +1593,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -1922,7 +1623,7 @@
                         ]
                     },
                     "type": {
-                        "description": "Bridge 类型",
+                        "description": "Bridge 类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_api_v2"
@@ -1930,7 +1631,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，可读描述",
+                        "description": "桥接名字，人类可读的描述信息。",
                         "label": "桥接名字",
                         "type": "string"
                     }
@@ -2264,6 +1965,73 @@
                 },
                 "type": "object"
             },
+            "bridge_webhook.creation_opts": {
+                "properties": {
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "健康检查间隔，单位毫秒。",
+                        "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": true,
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "如果选择了创建后立即启动资源，此选项用来设置等待资源启动的超时时间，单位毫秒。",
+                        "label": "启动超时时间",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "资源断开以后，自动重连的时间间隔，单位毫秒。",
+                        "label": "自动重连间隔",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "请求模式",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小。",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
+                    }
+                },
+                "type": "object"
+            },
             "connector-mqtt.replayq": {
                 "properties": {
                     "dir": {
@@ -2289,6 +2057,98 @@
                         "description": "</br>在Offload模式下，磁盘队列仅用于卸载队列尾段。</br>消息首先缓存在内存中，然后写入replayq文件。内存缓大小为“seg_bytes” 指定的值。</br>",
                         "label": "Offload 模式",
                         "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mysql.get": {
+                "required": [
+                    "connector",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mysql"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "direction": {
+                        "default": "egress",
+                        "description": "桥接的方向， 必须是 egress",
+                        "label": "桥接方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 MySQL。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "sql_template": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
+                        "description": "SQL 模板",
+                        "format": "sql",
+                        "label": "SQL 模板",
+                        "type": "string"
+                    },
+                    "connector": {
+                        "description": "连接器的通用配置。",
+                        "label": "连接器通用配置。",
+                        "$ref": "#/components/schemas/bridge_mysql.connector"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     }
                 },
                 "type": "object"
@@ -2386,90 +2246,6 @@
                 },
                 "type": "object"
             },
-            "bridge.put": {
-                "required": [
-                    "connector"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用/禁用桥接",
-                        "label": "启用/禁用桥接",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
-                        "label": "桥接方向",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "sql_template": {
-                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
-                        "description": "SQL 模板",
-                        "format": "sql",
-                        "label": "SQL 模板",
-                        "type": "string"
-                    },
-                    "connector": {
-                        "description": "连接器的通用配置。",
-                        "label": "连接器通用配置。",
-                        "$ref": "#/components/schemas/bridge.connector"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge.connector": {
-                "required": [
-                    "database",
-                    "server"
-                ],
-                "properties": {
-                    "server": {
-                        "description": "</br>将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MySQL 默认端口 3306。</br>",
-                        "label": "服务器地址",
-                        "type": "ip_port"
-                    },
-                    "database": {
-                        "description": "数据库名字。",
-                        "label": "数据库名字",
-                        "type": "string"
-                    },
-                    "pool_size": {
-                        "default": 8,
-                        "description": "连接池大小。",
-                        "label": "连接池大小",
-                        "type": "string"
-                    },
-                    "username": {
-                        "description": "内部数据库的用户名。",
-                        "label": "用户名",
-                        "type": "string"
-                    },
-                    "password": {
-                        "description": "内部数据库密码。",
-                        "label": "密码",
-                        "type": "string"
-                    },
-                    "auto_reconnect": {
-                        "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
-                        "type": "boolean"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_influxdb.get_udp": {
                 "required": [
                     "name",
@@ -2480,13 +2256,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -2494,67 +2270,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "metrics": {
                         "description": "Bridge 计数",
@@ -2601,7 +2331,7 @@
                         ]
                     },
                     "type": {
-                        "description": "Bridge 类型",
+                        "description": "Bridge 类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_udp"
@@ -2609,14 +2339,14 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，可读描述",
+                        "description": "桥接名字，人类可读的描述信息。",
                         "label": "桥接名字",
                         "type": "string"
                     }
                 },
                 "type": "object"
             },
-            "bridge.post": {
+            "bridge_mysql.post": {
                 "required": [
                     "connector",
                     "name",
@@ -2651,6 +2381,11 @@
                         ],
                         "type": "enum"
                     },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 MySQL。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。</br>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
                     "sql_template": {
                         "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
                         "description": "SQL 模板",
@@ -2661,7 +2396,13 @@
                     "connector": {
                         "description": "连接器的通用配置。",
                         "label": "连接器通用配置。",
-                        "$ref": "#/components/schemas/bridge.connector"
+                        "$ref": "#/components/schemas/bridge_mysql.connector"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     }
                 },
                 "type": "object"
@@ -2701,10 +2442,22 @@
                         ],
                         "type": "enum"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_webhook.creation_opts"
+                    },
                     "connect_timeout": {
                         "default": "15s",
                         "description": "连接HTTP服务器的超时时间。",
                         "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "retry_interval": {
+                        "deprecated": "since(\"5.0.4\")",
+                        "description": "retry_interval Description",
+                        "label": "retry_interval",
                         "type": "duration"
                     },
                     "pool_type": {
@@ -2818,10 +2571,22 @@
                         ],
                         "type": "enum"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_webhook.creation_opts"
+                    },
                     "connect_timeout": {
                         "default": "15s",
                         "description": "连接HTTP服务器的超时时间。",
                         "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "retry_interval": {
+                        "deprecated": "since(\"5.0.4\")",
+                        "description": "retry_interval Description",
+                        "label": "retry_interval",
                         "type": "duration"
                     },
                     "pool_type": {
@@ -2941,6 +2706,91 @@
                         "description": "HStreamDB 连接池大小",
                         "label": "HStreamDB 连接池大小",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "resource_schema.creation_opts": {
+                "properties": {
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "健康检查间隔，单位毫秒。",
+                        "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": true,
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "如果选择了创建后立即启动资源，此选项用来设置等待资源启动的超时时间，单位毫秒。",
+                        "label": "启动超时时间",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "资源断开以后，自动重连的时间间隔，单位毫秒。",
+                        "label": "自动重连间隔",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "请求模式",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小。",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "批量请求大小。",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "消息队列的最大长度，以字节计。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -3065,13 +2915,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用/禁用桥接",
+                        "description": "启用/禁用桥接。",
                         "label": "启用/禁用桥接",
                         "type": "boolean"
                     },
                     "direction": {
                         "default": "egress",
-                        "description": "桥接的方向， 必须是 egress",
+                        "description": "桥接的方向，必须是 egress。",
                         "label": "桥接方向",
                         "symbols": [
                             "egress"
@@ -3079,67 +2929,21 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "</br>发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
+                        "description": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。</br>",
                         "label": "本地 Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "</br>使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "description": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
                         "format": "sql",
                         "label": "写语句",
                         "type": "string"
                     },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-                        "label": "query_mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "resume_interval": {
-                        "default": "15s",
-                        "description": "资源不可用时的重试时间",
-                        "label": "恢复时间",
-                        "type": "duration"
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "异步请求飞行队列窗口大小",
-                        "label": "异步请求飞行队列窗口",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": false,
-                        "description": "启用批量模式。",
-                        "label": "启用批量模式",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 100,
-                        "description": "批量请求大小",
-                        "label": "批量请求大小",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "10ms",
-                        "description": "最大批量请求等待时间。",
-                        "label": "批量等待间隔",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "1GB",
-                        "description": "消息队列的最大长度，以字节计。",
-                        "label": "队列最大长度",
-                        "type": "byteSize"
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "connector": {
                         "description": "连接器的通用配置。",
@@ -3181,7 +2985,7 @@
                             "$ref": "#/components/schemas/bridge_hstreamdb.get"
                         },
                         {
-                            "$ref": "#/components/schemas/bridge.get"
+                            "$ref": "#/components/schemas/bridge_mysql.get"
                         },
                         {
                             "$ref": "#/components/schemas/bridge_webhook.get"
@@ -3213,7 +3017,7 @@
                         "$ref": "#/components/schemas/bridge_hstreamdb.get"
                     },
                     {
-                        "$ref": "#/components/schemas/bridge.get"
+                        "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_webhook.get"
@@ -3241,7 +3045,7 @@
                         "$ref": "#/components/schemas/bridge_hstreamdb.get"
                     },
                     {
-                        "$ref": "#/components/schemas/bridge.get"
+                        "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_webhook.get"
