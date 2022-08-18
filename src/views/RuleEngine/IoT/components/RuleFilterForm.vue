@@ -150,6 +150,11 @@ const resetFilterParams = () => {
   .btn-show-more {
     color: var(--color-primary);
     font-size: 18px;
+    .el-icon {
+      &.is-rotate {
+        transform: rotate(180deg);
+      }
+    }
   }
 }
 </style>
