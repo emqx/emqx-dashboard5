@@ -34,7 +34,6 @@ const prop = defineProps({
   },
   modelValue: {
     type: String,
-    required: true,
   },
   lang: {
     type: String,
@@ -105,7 +104,7 @@ const initEditor = () => {
     return
   }
   const defaultOptions = {
-    value: prop.modelValue,
+    value: prop.modelValue || '',
     language: prop.lang,
     readOnly: prop.disabled,
     // fontSize: 12,
@@ -185,7 +184,7 @@ onUnmounted(() => {
 watch(
   () => prop.modelValue,
   (val) => {
-    if (val !== editor.getValue()) {
+    if (val !== editor.getValue() && val) {
       editor.setValue(val)
     }
   },

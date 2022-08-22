@@ -275,16 +275,17 @@ export default defineComponent({
       isServers,
       validate,
       clearValidate,
-    } = useDatabaseConfigForm(props, databaseConfig)
+    } = useDatabaseConfigForm(props, databaseConfig.value)
     const needHelp = ref(false)
+
     const setDefaultContent = (dataKey: string) => {
       if (isMySQL.value || isPgSQL.value) {
-        databaseConfig[dataKey] =
-          databaseConfig.password_hash_algorithm.salt_position !== SaltPosition.Disable
+        databaseConfig.value[dataKey] =
+          databaseConfig.value.password_hash_algorithm.salt_position !== SaltPosition.Disable
             ? withSaltDefaultSQL
             : defaultSQL
       } else {
-        databaseConfig[dataKey] = defaultContent.value
+        databaseConfig.value[dataKey] = defaultContent.value
       }
     }
 
@@ -298,26 +299,26 @@ export default defineComponent({
     }
 
     const isEnableSalt = computed(() => {
-      const { name, salt_position } = databaseConfig.password_hash_algorithm
+      const { name, salt_position } = databaseConfig.value.password_hash_algorithm
       const needSelectSalt = name && PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION.includes(name)
       return needSelectSalt && salt_position !== SaltPosition.Disable
     })
 
     const addSaltToQueryOrCMD = () => {
-      if ((isMySQL.value || isPgSQL.value) && databaseConfig.query === defaultSQL) {
+      if ((isMySQL.value || isPgSQL.value) && databaseConfig.value.query === defaultSQL) {
         // enabled salt
-        databaseConfig.query = withSaltDefaultSQL
-      } else if (isRedis.value && databaseConfig.cmd === authnRedisDefaultCMD) {
-        databaseConfig.cmd = authnRedisWithSaltDefaultCMD
+        databaseConfig.value.query = withSaltDefaultSQL
+      } else if (isRedis.value && databaseConfig.value.cmd === authnRedisDefaultCMD) {
+        databaseConfig.value.cmd = authnRedisWithSaltDefaultCMD
       }
     }
 
     const removeSaltFromQueryOrCMD = () => {
-      if ((isMySQL.value || isPgSQL.value) && databaseConfig.query === withSaltDefaultSQL) {
+      if ((isMySQL.value || isPgSQL.value) && databaseConfig.value.query === withSaltDefaultSQL) {
         // disabled salt
-        databaseConfig.query = defaultSQL
-      } else if (isRedis.value && databaseConfig.cmd === authnRedisWithSaltDefaultCMD) {
-        databaseConfig.cmd = authnRedisDefaultCMD
+        databaseConfig.value.query = defaultSQL
+      } else if (isRedis.value && databaseConfig.value.cmd === authnRedisWithSaltDefaultCMD) {
+        databaseConfig.value.cmd = authnRedisDefaultCMD
       }
     }
 

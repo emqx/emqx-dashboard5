@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { DEFAULT_SALT_POSITION } from '@/common/constants'
 import { SaltPosition } from '@/types/enum'
-import { watch, reactive, ref, computed, SetupContext } from 'vue'
+import { watch, ref, computed, SetupContext } from 'vue'
 import { useRoute } from 'vue-router'
+import { isEqual } from 'lodash'
 
 export default function useDatabaseConfig(
-  {
-    database,
-    modelValue,
-    authType,
-  }: {
+  props: {
     database: string
     modelValue: any
     authType: string
@@ -27,17 +24,29 @@ export default function useDatabaseConfig(
   const authnRedisDefaultCMD = 'HMGET mqtt_user:${username} password_hash'
   const authnRedisWithSaltDefaultCMD = 'HMGET mqtt_user:${username} password_hash salt'
   const defaultContent = ref('')
-  const databaseConfig = reactive(modelValue)
-  watch(databaseConfig, (value) => {
-    emit('update:modelValue', value)
-  })
+  const databaseConfig = ref(props.modelValue)
+
   const id = computed(function () {
     const { id, type } = route.params
     return id || type
   })
+
+  watch(databaseConfig.value, (value) => {
+    emit('update:modelValue', value)
+  })
+
+  watch(
+    () => props.modelValue,
+    (val) => {
+      if (!isEqual(val, databaseConfig.value)) {
+        databaseConfig.value = val
+      }
+    },
+  )
+
   const setMySql = () => {
     let defaultDatabase = ''
-    if (authType === 'authn') {
+    if (props.authType === 'authn') {
       defaultContent.value =
         DEFAULT_SALT_POSITION === SaltPosition.Disable ? defaultSQL : withSaltDefaultSQL
       defaultDatabase = 'mqtt_user'
@@ -48,13 +57,13 @@ export default function useDatabaseConfig(
     if (id.value || route.params.name) {
       return
     }
-    databaseConfig.database = defaultDatabase
-    databaseConfig.server = '127.0.0.1:3306'
-    databaseConfig.query = defaultContent.value
+    databaseConfig.value.database = defaultDatabase
+    databaseConfig.value.server = '127.0.0.1:3306'
+    databaseConfig.value.query = defaultContent.value
   }
   const setPgSql = () => {
     let defaultDatabase = ''
-    if (authType === 'authn') {
+    if (props.authType === 'authn') {
       defaultContent.value =
         DEFAULT_SALT_POSITION === SaltPosition.Disable ? defaultSQL : withSaltDefaultSQL
       defaultDatabase = 'mqtt_user'
@@ -65,9 +74,9 @@ export default function useDatabaseConfig(
     if (id.value || route.params.name) {
       return
     }
-    databaseConfig.database = defaultDatabase
-    databaseConfig.server = '127.0.0.1:5432'
-    databaseConfig.query = defaultContent.value
+    databaseConfig.value.database = defaultDatabase
+    databaseConfig.value.server = '127.0.0.1:5432'
+    databaseConfig.value.query = defaultContent.value
   }
   const setMongoDB = () => {
     defaultContent.value = JSON.stringify(
@@ -78,14 +87,14 @@ export default function useDatabaseConfig(
       2,
     )
     if (id.value) {
-      const { filter } = databaseConfig
-      databaseConfig.filter = JSON.stringify(filter)
+      const { filter } = databaseConfig.value
+      databaseConfig.value.filter = JSON.stringify(filter)
       return
     }
-    databaseConfig.filter = defaultContent.value
+    databaseConfig.value.filter = defaultContent.value
   }
   const setRedis = () => {
-    if (authType === 'authn') {
+    if (props.authType === 'authn') {
       defaultContent.value =
         DEFAULT_SALT_POSITION === SaltPosition.Disable
           ? authnRedisDefaultCMD
@@ -96,9 +105,9 @@ export default function useDatabaseConfig(
     if (id.value || route.params.name) {
       return
     }
-    databaseConfig.cmd = defaultContent.value
+    databaseConfig.value.cmd = defaultContent.value
   }
-  switch (database) {
+  switch (props.database) {
     case 'mysql':
       setMySql()
       break
