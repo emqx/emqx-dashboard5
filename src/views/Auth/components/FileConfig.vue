@@ -22,9 +22,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch, ref } from 'vue'
+import { defineComponent, watch, ref } from 'vue'
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
+import { isEqual } from 'lodash'
 
 export default defineComponent({
   name: 'FileConfig',
@@ -38,20 +39,30 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const fileConfig = reactive(props.modelValue)
+    const fileConfig = ref(props.modelValue)
     const { createRequiredRule } = useFormRules()
 
     const formCom = ref()
     const rules = {
       rules: createRequiredRule('ACL File'),
     }
+
     const validate = () => {
       return formCom.value.validate()
     }
 
-    watch(fileConfig, (value) => {
+    watch(fileConfig.value, (value) => {
       ctx.emit('update:modelValue', value)
     })
+
+    watch(
+      () => props.modelValue,
+      (val) => {
+        if (!isEqual(val, fileConfig.value)) {
+          fileConfig.value = val
+        }
+      },
+    )
 
     return {
       fileConfig,

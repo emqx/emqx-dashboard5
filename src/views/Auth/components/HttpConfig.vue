@@ -97,13 +97,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
 import HelpBlock from './HelpBlock.vue'
+import { isEqual } from 'lodash'
 
 export default defineComponent({
   name: 'HttpConfig',
@@ -140,20 +141,31 @@ export default defineComponent({
       httpJSON.password = '${password}'
     }
     const defaultContent = JSON.stringify(httpJSON, null, 2)
-    const httpConfig = reactive(props.modelValue)
+    const httpConfig = ref(props.modelValue)
     const { formCom, rules, validate } = useHTTPConfigForm()
-    watch(httpConfig, (value) => {
+    watch(httpConfig.value, (value) => {
       ctx.emit('update:modelValue', value)
     })
+
+    watch(
+      () => props.modelValue,
+      (val) => {
+        if (!isEqual(val, httpConfig.value)) {
+          httpConfig.value = val
+          stringifyBody()
+        }
+      },
+    )
+
     const needHelp = ref(false)
 
     const stringifyBody = () => {
-      const { body } = httpConfig || {}
+      const { body } = httpConfig.value || {}
       if (!body) {
         return
       }
       if (typeof body === 'object') {
-        httpConfig.body = JSON.stringify(body, null, 2)
+        httpConfig.value.body = JSON.stringify(body, null, 2)
       }
     }
 
@@ -161,7 +173,7 @@ export default defineComponent({
       needHelp.value = !needHelp.value
     }
     const setDefaultContent = () => {
-      httpConfig.body = defaultContent
+      httpConfig.value.body = defaultContent
     }
 
     stringifyBody()

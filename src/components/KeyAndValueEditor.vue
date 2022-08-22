@@ -26,8 +26,9 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, Ref, defineComponent } from 'vue'
+import { ref, computed, Ref, defineComponent, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { isPlainObject, cloneDeep, isEqual } from 'lodash'
 
 enum State {
   OK = 0,
@@ -45,7 +46,6 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Object,
-      required: true,
     },
     customLabel: {
       type: Object,
@@ -63,15 +63,23 @@ export default defineComponent({
       state: State.OK,
     }
     const tableData: Ref<kvRow[]> = ref([])
+
+    let lastTimeObjData = {}
+
     const { t } = useI18n()
     const { emit } = context
 
     function createTbData() {
       const d = props.modelValue
+      if (!d || !isPlainObject(d)) {
+        return
+      }
+      lastTimeObjData = cloneDeep(d)
       Object.entries(d).forEach(([key, value]: [string, string]) => {
         tableData.value.push({ key, value, state: 0 })
       })
     }
+
     createTbData()
 
     const keyValueLabel = computed(() => {
@@ -90,6 +98,7 @@ export default defineComponent({
         const { key, value } = item
         data[key] = value
       })
+      lastTimeObjData = cloneDeep(data)
       emit('update:modelValue', data)
     }
     function deleteItem(row: kvRow) {
@@ -99,6 +108,15 @@ export default defineComponent({
     function addColumn() {
       tableData.value.push({ ...rowData })
     }
+
+    watch(
+      () => props.modelValue,
+      (val) => {
+        if (!isEqual(val, lastTimeObjData)) {
+          createTbData()
+        }
+      },
+    )
 
     return {
       tableData,
