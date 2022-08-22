@@ -364,6 +364,12 @@ export default defineComponent({
   margin-top: 24px;
 }
 
+.el-radio-group {
+  .el-row {
+    width: 100%;
+  }
+}
+
 .el-radio.is-bordered {
   padding: 0 12px 0 2px;
   min-width: 40%;
