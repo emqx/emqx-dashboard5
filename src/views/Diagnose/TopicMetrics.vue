@@ -213,14 +213,17 @@ export default defineComponent({
 
     const loadTopicMetrics = async function () {
       tbLoading.value = true
-      let res = await getTopicMetrics().catch(() => {})
-      if (res) {
+      try {
+        let res = await getTopicMetrics()
         const reconRes = Array.prototype.map.call(res, (v) => {
           return Object.assign(v, { _loading: false, topicQoS: DEFAULT_QOS })
         })
         topicMetricsTb.value = reconRes
+      } catch (error) {
+        //
+      } finally {
+        tbLoading.value = false
       }
-      tbLoading.value = false
     }
 
     const addTopic = async function () {
@@ -270,12 +273,15 @@ export default defineComponent({
     }
 
     const loadMetricsFromTopic = async function (row, index, toggleExpand = true) {
-      const { topic } = row
-      row._expand = toggleExpand ? !(row._expand ?? false) : row._expand
-      tbRef.value.toggleRowExpansion(row, row._expand)
-
-      if (!row._expand) {
-        return
+      const { topic, _expand } = row
+      const rowExpand = toggleExpand ? !(_expand ?? false) : _expand
+      if (toggleExpand) {
+        tbRef.value.toggleRowExpansion(row, rowExpand)
+        // do not need request when collapse, just change _expand variable
+        if (!rowExpand && topicMetricsTb.value[index]._expand) {
+          topicMetricsTb.value[index]._expand = rowExpand
+          return
+        }
       }
 
       try {
@@ -283,7 +289,7 @@ export default defineComponent({
         let res = await getTopicMetrics(topic)
         topicMetricsTb.value.splice(index, 1, {
           ...res,
-          _expand: true,
+          _expand: rowExpand,
           _loading: false,
           topicQoS: DEFAULT_QOS,
         })
