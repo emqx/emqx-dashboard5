@@ -58,19 +58,10 @@ export const useBridgeTypeOptions = (): {
     },
     {
       value: BridgeType.MQTT,
-      valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.In}`,
-      label: 'MQTT Source',
+      valueForRadio: BridgeType.MQTT,
+      label: 'MQTT',
+      // TODO:TODO:TODO:
       desc: tl('bridgeDescMQTTIn'),
-      externalConfig: { direction: MQTTBridgeDirection.In },
-    },
-    {
-      value: BridgeType.MQTT,
-      valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.Out}`,
-      label: 'MQTT Sink',
-      desc: tl('bridgeDescMQTTOut'),
-      externalConfig: {
-        direction: MQTTBridgeDirection.Out,
-      },
     },
     {
       value: BridgeType.InfluxDBV1,
@@ -103,14 +94,7 @@ export const useBridgeTypeOptions = (): {
 
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
-  const getTypeStr = (bridge: BridgeItem): string => {
-    if (bridge.type === BridgeType.Webhook) {
-      return getLabelFromValueInOptionList(bridge.type, bridgeTypeOptions)
-    }
-    const directionStr =
-      'direction' in bridge && bridge.direction === MQTTBridgeDirection.In ? 'Source' : 'Sink'
-    return `${getBridgeLabelByTypeValue(bridge.type)} ${directionStr}`
-  }
+  const getTypeStr = (bridge: BridgeItem): string => getBridgeLabelByTypeValue(bridge.type) || ''
 
   return {
     bridgeTypeOptions,
