@@ -17,103 +17,66 @@
         </el-row>
         <el-divider />
       </template>
-      <!-- Source -->
-      <template v-if="mqttBridgeVal.direction === MQTTBridgeDirection.In">
-        <el-row :gutter="26">
-          <el-col :span="24">
-            <ConnectorMqttConfig
-              v-model="mqttBridgeVal.connector"
-              connector-field="connector"
-              :edit="edit"
-            />
-          </el-col>
-        </el-row>
-        <el-divider />
-        <el-row :gutter="26">
-          <el-col :span="12">
-            <el-form-item required prop="remote_topic">
-              <template #label>
-                <label>{{ $t('Base.topic') }}</label>
-                <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
-              </template>
-              <el-input v-model="mqttBridgeVal.remote_topic" placeholder="t/#" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="QoS">
-              <el-select v-model="mqttBridgeVal.remote_qos">
-                <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </template>
-      <!-- Sink -->
-      <template v-else>
-        <el-row :gutter="26">
-          <el-col :span="24">
-            <ConnectorMqttConfig
-              v-model="mqttBridgeVal.connector"
-              connector-field="connector"
-              :edit="edit"
-            />
-          </el-col>
-        </el-row>
-        <el-divider />
-        <el-row :gutter="26">
-          <el-col :span="12">
-            <el-form-item required prop="remote_topic">
-              <template #label>
-                <label>{{ $t('Base.topic') }}</label>
-                <InfoTooltip :content="tl('remoteTopicDesc')" />
-              </template>
-              <el-input
-                v-model="mqttBridgeVal.remote_topic"
-                :placeholder="tl('remoteTopicPlaceholder')"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="QoS">
-              <el-select v-model="mqttBridgeVal.remote_qos">
-                <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="Retain">
-              <el-checkbox :label="'Retain'" border v-model="mqttBridgeVal.retain" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </template>
-      <el-row v-if="isShowPayload">
+      <el-row :gutter="26">
         <el-col :span="24">
-          <el-form-item>
-            <template #label>
-              <label>{{ tl('payload') }}</label>
-              <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
-                <a :href="docMap.bridgePayload" target="_blank">{{ tl('payloadTempSyntax') }}</a>
-              </i18n-t>
-            </template>
-            <div class="monaco-container">
-              <Monaco
-                :id="createRandomString()"
-                v-model="mqttBridgeVal.payload"
-                lang="json"
-                json-without-validate
-                :disabled="disabled"
-              />
-            </div>
-          </el-form-item>
+          <ConnectorMqttConfig v-model="mqttBridgeVal" />
         </el-col>
       </el-row>
+      <el-divider />
+      <div>
+        <!-- TODO:delete -->
+        <h3>INGRESS</h3>
+        <el-row :gutter="26">
+          <el-col :span="12">
+            <el-form-item :prop="['ingress', 'remote', 'topic']">
+              <template #label>
+                <label>{{ tl('remoteTopic') }}</label>
+                <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
+              </template>
+              <el-input v-model="mqttBridgeVal.ingress.remote.topic" placeholder="t/#" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="QoS">
+              <el-select v-model="mqttBridgeVal.ingress.remote.qos">
+                <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <MQTTBridgeTransConfiguration
+          v-model="mqttBridgeVal.ingress.local"
+          path="ingress.locale"
+          :direction="MQTTBridgeDirection.In"
+        />
+      </div>
+      <el-divider />
+      <div>
+        <!-- TODO: -->
+        <h3>EGRESS</h3>
+        <el-row :gutter="26">
+          <el-col :span="12">
+            <el-form-item :prop="['egress', 'remote', 'topic']">
+              <template #label>
+                <label>{{ tl('localTopic') }}</label>
+                <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
+              </template>
+              <el-input v-model="mqttBridgeVal.egress.local.topic" placeholder="t/#" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <MQTTBridgeTransConfiguration
+          v-model="mqttBridgeVal.egress.remote"
+          path="egress.remote"
+          :direction="MQTTBridgeDirection.Out"
+        />
+      </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'BridgeMqttConfig',
@@ -131,19 +94,19 @@ import {
   Ref,
   defineExpose,
   nextTick,
+  computed,
 } from 'vue'
 import _ from 'lodash'
 import { MQTTIn, MQTTOut } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
-import { createRandomString } from '@/common/tools'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MQTTBridgeDirection } from '@/types/enum'
 import useDocLink from '@/hooks/useDocLink'
 import useSSL from '@/hooks/useSSL'
 import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
+import MQTTBridgeTransConfiguration from './Components/MQTTBridgeTransConfiguration.vue'
 
 type MQTTBridge = MQTTIn | MQTTOut
 
@@ -166,26 +129,40 @@ const emit = defineEmits(['update:modelValue', 'init'])
 
 const { createSSLForm } = useSSL()
 
-const mqttBridgeDefaultVal = {
-  name: '',
-  connector: {
-    ssl: createSSLForm(),
-  },
-  direction: MQTTBridgeDirection.Out,
-  retain: false,
+const createRawTransDefaultVal = () => ({
+  topic: '',
+  qos: 1,
   payload: '${payload}',
-  remote_topic: '',
-  remote_qos: 1,
-  local_qos: 1,
-}
+  retain: false,
+})
+
+const createMQTTBridgeDefaultVal = () => ({
+  enable: true,
+  server: '',
+  proto_ver: 'v4',
+  username: '',
+  password: '',
+  ssl: createSSLForm(),
+
+  ingress: {
+    remote: {
+      topic: '',
+      qos: 1,
+    },
+    local: createRawTransDefaultVal(),
+  },
+  egress: {
+    local: {
+      topic: '',
+    },
+    remote: createRawTransDefaultVal(),
+  },
+})
 
 let modelValueCache = ''
-const mqttBridgeVal: Ref<MQTTBridge> = ref({
-  payload: '',
-} as MQTTBridge)
+const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
 
 const { tl, t } = useI18nTl('RuleEngine')
-const { docMap } = useDocLink()
 
 const { createRequiredRule } = useFormRules()
 const formCom = ref()
@@ -197,8 +174,6 @@ const formRules = computed(() => ({
   remote_topic: createRequiredRule(t('Base.topic')),
 }))
 
-const isShowPayload = computed(() => mqttBridgeVal.value.direction !== MQTTBridgeDirection.In)
-
 const initMqttBridgeVal = async () => {
   if (prop.edit) {
     mqttBridgeVal.value = _.cloneDeep(prop.modelValue)
@@ -207,7 +182,7 @@ const initMqttBridgeVal = async () => {
     emit('init', mqttBridgeVal.value)
   } else {
     mqttBridgeVal.value = {
-      ..._.cloneDeep(mqttBridgeDefaultVal),
+      ...createMQTTBridgeDefaultVal(),
       ..._.cloneDeep(prop.modelValue),
     }
   }
