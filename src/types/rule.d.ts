@@ -93,6 +93,40 @@ export interface HTTPBridge extends BridgeBaseData {
   url: string
 }
 
+export interface MQTTBridgeTransConfiguration {
+  payload: string
+  qos: string
+  retain: string
+  topic: string
+}
+
+interface MQTTBridge {
+  clean_start: boolean
+  egress: {
+    local: {
+      topic: string
+    }
+    remote: MQTTBridgeTransConfiguration
+  }
+  enable: boolean
+  ingress: {
+    local: MQTTBridgeTransConfiguration
+    remote: {
+      qos: number
+      topic: string
+    }
+  }
+  keepalive: string
+  max_inflight: number
+  mode: string
+  password: string
+  proto_ver: string
+  retry_interval: string
+  server: string
+  ssl: SSL
+  username: string
+}
+
 export interface MQTTOut extends BridgeBaseData {
   connector: string | Record<string, any>
   direction: MQTTBridgeDirection
