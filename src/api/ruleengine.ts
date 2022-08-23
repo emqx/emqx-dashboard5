@@ -1,6 +1,6 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
-import { getBridgeKey, getConnectorKey } from '@/common/tools'
+import { getBridgeKey } from '@/common/tools'
 import { BridgeItem, ConnectorItem, ParamsForQueryRules, RuleItem } from '@/types/rule'
 
 //Bridges
@@ -67,47 +67,6 @@ export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<
 
 export async function resetBridgeMetrics(bridgeId: string): Promise<string> {
   return http.put(`/bridges/${bridgeId}/reset_metrics`)
-}
-
-//Connectors
-export async function getConnectorList(): Promise<any> {
-  try {
-    const data = await http.get('/connectors')
-    return Promise.resolve(
-      data.map((item: Omit<ConnectorItem, 'id'>) => {
-        return {
-          id: getConnectorKey(item),
-          ...item,
-        }
-      }),
-    )
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
-
-export async function createConnector(body: Record<string, unknown>): Promise<ConnectorItem> {
-  try {
-    const data = await http.post('/connectors', body)
-    return Promise.resolve({ id: getConnectorKey(data), ...data })
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
-
-export async function updateConnector(id: string, body: Record<string, unknown>): Promise<any> {
-  if (!id) return Promise.reject()
-  try {
-    const data = await http.put('/connectors/' + encodeURIComponent(id), body)
-    return Promise.resolve({ id: getConnectorKey(data), ...data })
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
-
-export function deleteConnector(id: string): Promise<any> {
-  if (!id) return Promise.reject()
-  return http.delete('/connectors/' + encodeURIComponent(id))
 }
 
 export function testConnector(body: ConnectorItem): Promise<void> {

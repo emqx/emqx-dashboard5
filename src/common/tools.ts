@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { BridgeItem, ConnectorItem } from '@/types/rule'
+import { BridgeItem } from '@/types/rule'
 import { omit, isObject, get } from 'lodash'
 import i18n from '@/i18n'
 
@@ -197,13 +197,8 @@ export const formatSELECTStatement = (str: string): string => {
     .join(',\n  ')
 }
 
-export const getBridgeKey = ({
-  type,
-  name,
-}: Omit<BridgeItem, 'id' | 'idForRuleFrom'> | Omit<ConnectorItem, 'id'>): string =>
+export const getBridgeKey = ({ type, name }: Omit<BridgeItem, 'id' | 'idForRuleFrom'>): string =>
   `${type}:${name}`
-
-export const getConnectorKey = getBridgeKey
 
 export const usefulMemoryUnit = ['Byte', 'KB', 'MB', 'GB']
 

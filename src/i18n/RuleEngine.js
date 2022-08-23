@@ -11,10 +11,6 @@ export default {
     zh: '创建',
     en: 'Create',
   },
-  createConnector: {
-    zh: '创建连接',
-    en: 'Create Connector',
-  },
   backDataBridge: {
     zh: '返回 Data Bridge 列表',
     en: 'Back To Data Bridge List',
@@ -30,10 +26,6 @@ export default {
   useDataBridge: {
     zh: '使用数据桥接转发',
     en: 'Forwarding with Data Bridge',
-  },
-  chooseConnectorType: {
-    zh: '选择连接类型',
-    en: 'Choose A Connector Type',
   },
   chooseBridgeType: {
     zh: '选择 Data Bridge 类型',
@@ -106,10 +98,6 @@ export default {
   bridgeNum: {
     zh: 'Data Bridge 数量',
     en: 'Total Data Bridge',
-  },
-  connectorType: {
-    zh: '连接类型',
-    en: 'Connector Type',
   },
   connName: {
     zh: '连接名称',
@@ -510,10 +498,6 @@ export default {
   tip: {
     zh: '提示：',
     en: 'Tip:',
-  },
-  tipForEditConnector: {
-    zh: '提交后使用此连接的数据桥接将重新启动，可能造成数据丢失或服务中断，请谨慎操作。',
-    en: 'After submitting, the data bridge using this connector will be restarted, which may cause data loss or service interruption, please operate with caution.',
   },
   clientIDDesc: {
     zh: '由于 MQTT 客户端 ID 不允许重复，如果填写了客户端 ID，使用节点独享连接模式时，EMQ X 会在客户端 ID 后添加随机字符串。',
