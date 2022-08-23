@@ -115,8 +115,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineProps, onMounted, ref, PropType, watch, defineEmits, Ref, defineExpose } from 'vue'
 import _ from 'lodash'
-import { getConnectorList } from '@/api/ruleengine'
-import { MQTTIn, MQTTOut, ConnectorItem } from '@/types/rule'
+import { MQTTIn, MQTTOut } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -166,8 +165,6 @@ let modelValueCache = ''
 const mqttBridgeVal: Ref<MQTTBridge> = ref({
   payload: '',
 } as MQTTBridge)
-const connectorList: Ref<Array<ConnectorItem>> = ref([])
-const connectorLoading: Ref<boolean> = ref(false)
 
 const { tl, t } = useI18nTl('RuleEngine')
 const { docMap } = useDocLink()
@@ -188,17 +185,6 @@ const initMqttBridgeVal = async () => {
   mqttBridgeVal.value = {
     ..._.cloneDeep(mqttBridgeDefaultVal),
     ..._.cloneDeep(prop.modelValue),
-  }
-}
-
-const loadConnectorList = async () => {
-  connectorLoading.value = true
-  try {
-    connectorList.value = await getConnectorList()
-  } catch (error) {
-    console.error(error)
-  } finally {
-    connectorLoading.value = false
   }
 }
 
@@ -240,7 +226,6 @@ watch(
 initMqttBridgeVal()
 
 onMounted(() => {
-  loadConnectorList()
   updateModelValue(mqttBridgeVal.value)
 })
 
@@ -249,44 +234,10 @@ defineExpose({ validate, clearValidate })
 
 <style lang="scss" scoped>
 @import '@/style/rule.scss';
-.connector-select-container {
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-  .icon-connector-handler-container {
-    margin-left: 16px;
-    flex-shrink: 0;
-  }
-}
 .monaco-container {
   margin-top: 12px;
   height: 200px;
 }
-.icon-connector-handler {
-  box-sizing: border-box;
-  width: 32px;
-  height: 32px;
-  line-height: 32px;
-  border: 1px solid var(--color-border-primary);
-  border-radius: var(--el-border-radius-base);
-
-  &:not(:last-child) {
-    margin-right: 12px;
-  }
-
-  &:hover {
-    border-color: var(--el-color-primary);
-    cursor: pointer;
-  }
-
-  &.disabled,
-  &.disabled:hover {
-    border-color: var(--el-border-color-light);
-    color: var(--el-border-color-light);
-    cursor: default;
-  }
-}
-
 .payload-desc {
   margin: 8px 0;
   color: var(--el-text-color-secondary);
