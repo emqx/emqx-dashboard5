@@ -63,13 +63,9 @@ export default {
     zh: '发送数据到 Webhook',
     en: 'Send data to Webhook',
   },
-  bridgeDescMQTTIn: {
-    zh: '订阅指定主题来获取 MQTT 消息数据',
-    en: 'Subscribe to the specified topic to get MQTT messages',
-  },
-  bridgeDescMQTTOut: {
-    zh: '发布指定主题的消息到 MQTT 服务器',
-    en: 'Publish messages to the specified topic to MQTT Server',
+  bridgeDescMQTT: {
+    zh: '使用 MQTT 桥接数据',
+    en: 'Using MQTT to bridge data',
   },
   baseInfo: {
     zh: '基本信息',

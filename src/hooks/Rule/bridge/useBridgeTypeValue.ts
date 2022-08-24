@@ -61,7 +61,7 @@ export const useBridgeTypeOptions = (): {
       valueForRadio: BridgeType.MQTT,
       label: 'MQTT',
       // TODO:TODO:TODO:
-      desc: tl('bridgeDescMQTTIn'),
+      desc: tl('bridgeDescMQTT'),
     },
     {
       value: BridgeType.InfluxDBV1,
