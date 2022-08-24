@@ -243,8 +243,8 @@ export default defineComponent({
       if (bridgeData.ssl) {
         bridgeData.ssl = handleSSLDataBeforeSubmit(bridgeData.ssl)
       }
-      if (bridgeData.connector.ssl) {
-        bridgeData.connector.ssl = handleSSLDataBeforeSubmit(bridgeData.connector.ssl)
+      if (bridgeData.ssl) {
+        bridgeData.ssl = handleSSLDataBeforeSubmit(bridgeData.ssl)
       }
       return createBridge(checkNOmitFromObj(bridgeData))
     }
