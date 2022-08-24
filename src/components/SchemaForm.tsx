@@ -622,7 +622,13 @@ const SchemaForm = defineComponent({
             break
           } else if (typesDoNotNeedGroups.includes(props.type)) {
             // for bridge
-            _properties = { ..._properties, ...propItem?.properties }
+            const isSSLAndNeedConcise =
+              SSL_PATH_REG.test(propItem?.path || '') && typesNeedConciseSSL.includes(props.type)
+            if (isSSLAndNeedConcise) {
+              Reflect.deleteProperty(propItem, 'properties')
+              propItem.type = 'ssl'
+            }
+            _properties = { ..._properties, ...propItem.properties }
           }
         }
         if (!propItem.properties) {
