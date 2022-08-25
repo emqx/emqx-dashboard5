@@ -23,54 +23,67 @@
         </el-col>
       </el-row>
       <el-divider />
-      <div>
-        <!-- TODO:delete -->
-        <h3>INGRESS</h3>
-        <el-row :gutter="26">
-          <el-col :span="12">
-            <el-form-item :prop="['ingress', 'remote', 'topic']">
-              <template #label>
-                <label>{{ tl('remoteTopic') }}</label>
-                <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
-              </template>
-              <el-input v-model="mqttBridgeVal.ingress.remote.topic" placeholder="t/#" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="QoS">
-              <el-select v-model="mqttBridgeVal.ingress.remote.qos">
-                <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <MQTTBridgeTransConfiguration
-          v-model="mqttBridgeVal.ingress.local"
-          path="ingress.locale"
-          :direction="MQTTBridgeDirection.In"
-        />
-      </div>
-      <el-divider />
-      <div>
-        <!-- TODO: -->
-        <h3>EGRESS</h3>
-        <el-row :gutter="26">
-          <el-col :span="12">
-            <el-form-item :prop="['egress', 'remote', 'topic']">
-              <template #label>
-                <label>{{ tl('localTopic') }}</label>
-                <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
-              </template>
-              <el-input v-model="mqttBridgeVal.egress.local.topic" placeholder="t/#" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <MQTTBridgeTransConfiguration
-          v-model="mqttBridgeVal.egress.remote"
-          path="egress.remote"
-          :direction="MQTTBridgeDirection.Out"
-        />
-      </div>
+      <el-tabs v-model="activeDirection" class="trans-tabs" type="card">
+        <el-tab-pane label="Ingress" :name="MQTTBridgeDirection.In" lazy>
+          <p class="trans-desc">{{ tl('ingressDesc') }}</p>
+          <el-row :gutter="26">
+            <el-col :span="12">
+              <el-card class="app-card" shadow="never">
+                <p class="broker-block-title">{{ tl('remoteBroker') }}</p>
+                <el-form-item :prop="['ingress', 'remote', 'topic']">
+                  <template #label>
+                    <label>{{ t('Base.topic') }}</label>
+                    <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
+                  </template>
+                  <el-input v-model="mqttBridgeVal.ingress.remote.topic" placeholder="t/#" />
+                </el-form-item>
+                <el-form-item label="QoS">
+                  <el-select v-model="mqttBridgeVal.ingress.remote.qos">
+                    <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
+                  </el-select>
+                </el-form-item>
+              </el-card>
+            </el-col>
+            <el-col :span="12">
+              <el-card class="app-card" shadow="never">
+                <p class="broker-block-title">{{ tl('localBroker') }}</p>
+                <MQTTBridgeTransConfiguration
+                  v-model="mqttBridgeVal.ingress.local"
+                  path="ingress.locale"
+                  :direction="MQTTBridgeDirection.In"
+                />
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="Egress" :name="MQTTBridgeDirection.Out" lazy>
+          <p class="trans-desc">{{ tl('egressDesc') }}</p>
+          <el-row :gutter="26">
+            <el-col :span="12">
+              <el-card class="app-card" shadow="never">
+                <p class="broker-block-title">{{ tl('localBroker') }}</p>
+                <el-form-item :prop="['egress', 'remote', 'topic']">
+                  <template #label>
+                    <label>{{ t('Base.topic') }}</label>
+                    <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
+                  </template>
+                  <el-input v-model="mqttBridgeVal.egress.local.topic" placeholder="t/#" />
+                </el-form-item>
+              </el-card>
+            </el-col>
+            <el-col :span="12">
+              <el-card class="app-card" shadow="never">
+                <p class="broker-block-title">{{ tl('remoteBroker') }}</p>
+                <MQTTBridgeTransConfiguration
+                  v-model="mqttBridgeVal.egress.remote"
+                  path="egress.remote"
+                  :direction="MQTTBridgeDirection.Out"
+                />
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+      </el-tabs>
     </el-form>
   </div>
 </template>
@@ -96,18 +109,15 @@ import {
   computed,
 } from 'vue'
 import _ from 'lodash'
-import { MQTTIn, MQTTOut } from '@/types/rule'
+import { MQTTBridge } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MQTTBridgeDirection } from '@/types/enum'
-import useDocLink from '@/hooks/useDocLink'
 import useSSL from '@/hooks/useSSL'
 import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
 import MQTTBridgeTransConfiguration from './Components/MQTTBridgeTransConfiguration.vue'
-
-type MQTTBridge = MQTTIn | MQTTOut
 
 const prop = defineProps({
   modelValue: {
@@ -158,8 +168,8 @@ const createMQTTBridgeDefaultVal = () => ({
   },
 })
 
-let modelValueCache = ''
 const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
+const activeDirection = ref(MQTTBridgeDirection.In)
 
 const { tl, t } = useI18nTl('RuleEngine')
 
@@ -180,20 +190,8 @@ const initMqttBridgeVal = async () => {
   }
 }
 
-const transformData = (val: MQTTBridge) => {
-  let data = {
-    ..._.cloneDeep(val),
-  }
-  if (val.direction === MQTTBridgeDirection.Out) {
-    Reflect.deleteProperty(data, 'local_qos')
-  }
-  return data
-}
-
 const updateModelValue = (val: MQTTBridge) => {
-  const value = transformData(val)
-  modelValueCache = JSON.stringify(value)
-  emit('update:modelValue', value)
+  emit('update:modelValue', val)
 }
 
 const validate = () => {
@@ -209,7 +207,7 @@ watch(mqttBridgeVal, updateModelValue, { deep: true })
 watch(
   () => prop.modelValue,
   (val) => {
-    if (JSON.stringify(val) !== modelValueCache) {
+    if (!_.isEqual(val, mqttBridgeVal.value)) {
       initMqttBridgeVal()
     }
   },
@@ -230,8 +228,18 @@ defineExpose({ validate, clearValidate })
   margin-top: 12px;
   height: 200px;
 }
-.payload-desc {
-  margin: 8px 0;
-  color: var(--el-text-color-secondary);
+
+.trans-tabs {
+  .trans-desc {
+    margin: 20px 0;
+    color: var(--color-text-secondary);
+  }
+  .el-card {
+    border: 1px solid var(--el-card-border-color);
+  }
+  .broker-block-title {
+    margin-top: 0;
+    font-size: 16px;
+  }
 }
 </style>
