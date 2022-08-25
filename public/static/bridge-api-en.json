@@ -5,24 +5,16 @@
                 "required": [
                     "name",
                     "type",
-                    "connector",
+                    "database",
+                    "server",
                     "write_syntax"
                 ],
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable or disable this bridge.",
+                        "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "local_topic": {
                         "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
@@ -41,18 +33,49 @@
                         "label": "Resource Options",
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_api_v1:connector",
-                        "label": "Connector Generic Configuration",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v1"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "database": {
+                        "description": "InfluxDB database.",
+                        "label": "Database",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "InfluxDB username.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "InfluxDB password.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -70,28 +93,37 @@
                 },
                 "type": "object"
             },
+            "connector-mqtt.ingress": {
+                "properties": {
+                    "remote": {
+                        "description": "The configs about subscribing to the remote broker.",
+                        "label": "Remote Configs",
+                        "$ref": "#/components/schemas/connector-mqtt.ingress_remote"
+                    },
+                    "local": {
+                        "description": "The configs about sending message to the local broker.",
+                        "label": "Local Configs",
+                        "$ref": "#/components/schemas/connector-mqtt.ingress_local"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_influxdb.get_api_v2": {
                 "required": [
                     "name",
                     "type",
-                    "connector",
+                    "token",
+                    "org",
+                    "bucket",
+                    "server",
                     "write_syntax"
                 ],
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable or disable this bridge.",
+                        "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "local_topic": {
                         "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
@@ -109,6 +141,62 @@
                         "description": "Resource options.",
                         "label": "Resource Options",
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "bucket": {
+                        "description": "InfluxDB bucket name.",
+                        "label": "Bucket",
+                        "type": "string"
+                    },
+                    "org": {
+                        "description": "Organization name of InfluxDB.",
+                        "label": "Organization",
+                        "type": "string"
+                    },
+                    "token": {
+                        "description": "InfluxDB token.",
+                        "label": "Token",
+                        "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "type": {
+                        "description": "The Bridge Type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "influxdb_api_v2"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
                     },
                     "metrics": {
                         "description": "Bridge metrics.",
@@ -140,31 +228,15 @@
                         },
                         "label": "Node Status",
                         "type": "array"
-                    },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_api_v2:connector",
-                        "label": "Connector Generic Configuration",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v2"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "type": {
-                        "description": "The Bridge Type.",
-                        "label": "Bridge Type",
-                        "symbols": [
-                            "influxdb_api_v2"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
-                        "label": "Bridge Name",
+                    }
+                },
+                "type": "object"
+            },
+            "connector-mqtt.egress_local": {
+                "properties": {
+                    "topic": {
+                        "description": "The local topic to be forwarded to the remote broker",
+                        "label": "Local Topic",
                         "type": "string"
                     }
                 },
@@ -172,24 +244,18 @@
             },
             "bridge_influxdb.put_api_v2": {
                 "required": [
-                    "connector",
+                    "token",
+                    "org",
+                    "bucket",
+                    "server",
                     "write_syntax"
                 ],
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable or disable this bridge.",
+                        "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "local_topic": {
                         "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
@@ -208,18 +274,48 @@
                         "label": "Resource Options",
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_api_v2:connector",
-                        "label": "Connector Generic Configuration",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v2"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "bucket": {
+                        "description": "InfluxDB bucket name.",
+                        "label": "Bucket",
+                        "type": "string"
+                    },
+                    "org": {
+                        "description": "Organization name of InfluxDB.",
+                        "label": "Organization",
+                        "type": "string"
+                    },
+                    "token": {
+                        "description": "InfluxDB token.",
+                        "label": "Token",
+                        "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -259,123 +355,20 @@
                 },
                 "type": "object"
             },
-            "connector-mqtt.connector": {
-                "required": [
-                    "server"
-                ],
-                "properties": {
-                    "mode": {
-                        "default": "cluster_shareload",
-                        "description": "</br>The mode of the MQTT Bridge.</br></br>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.</br>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by</br>using shared subscription.</br>Note that the 'clientid' is suffixed by the node name, this is to avoid</br>clientid conflicts between different nodes. And we can only use shared subscription</br>topic filters for 'remote_topic' of ingress connections.</br>",
-                        "label": "MQTT Bridge Mode",
-                        "symbols": [
-                            "cluster_shareload"
-                        ],
-                        "type": "enum"
-                    },
-                    "server": {
-                        "description": "The host and port of the remote MQTT broker",
-                        "label": "Broker IP And Port",
-                        "type": "ip_port"
-                    },
-                    "reconnect_interval": {
-                        "default": "15s",
-                        "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
-                        "label": "reconnect_interval",
-                        "type": "string"
-                    },
-                    "proto_ver": {
-                        "default": "v4",
-                        "description": "The MQTT protocol version",
-                        "label": "Protocol Version",
-                        "symbols": [
-                            "v3",
-                            "v4",
-                            "v5"
-                        ],
-                        "type": "enum"
-                    },
-                    "bridge_mode": {
-                        "default": false,
-                        "description": "</br>If enable bridge mode.</br>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT</br>broker MUST support this feature.</br>    ",
-                        "label": "Bridge Mode",
-                        "type": "boolean"
-                    },
-                    "username": {
-                        "default": "emqx",
-                        "description": "The username of the MQTT protocol",
-                        "label": "Username",
-                        "type": "string"
-                    },
-                    "password": {
-                        "default": "emqx",
-                        "description": "The password of the MQTT protocol",
-                        "label": "Password",
-                        "type": "string"
-                    },
-                    "clean_start": {
-                        "default": true,
-                        "description": "The clean-start or the clean-session of the MQTT protocol",
-                        "label": "Clean Session",
-                        "type": "boolean"
-                    },
-                    "keepalive": {
-                        "default": "300s",
-                        "description": "MQTT Keepalive. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
-                        "label": "keepalive",
-                        "type": "string"
-                    },
-                    "retry_interval": {
-                        "default": "15s",
-                        "description": "Message retry interval. Delay for the MQTT bridge to retry sending the QoS1/QoS2 messages in case of ACK not received. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
-                        "label": "retry_interval",
-                        "type": "string"
-                    },
-                    "max_inflight": {
-                        "default": 32,
-                        "description": "Max inflight (sent, but un-acked) messages of the MQTT protocol",
-                        "label": "Max Inflight Message",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "replayq": {
-                        "description": "replayq Description",
-                        "label": "replayq",
-                        "$ref": "#/components/schemas/connector-mqtt.replayq"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "SSL connection settings.",
-                        "label": "Enable SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_influxdb.get_api_v1": {
                 "required": [
                     "name",
                     "type",
-                    "connector",
+                    "database",
+                    "server",
                     "write_syntax"
                 ],
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable or disable this bridge.",
+                        "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "local_topic": {
                         "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
@@ -393,6 +386,63 @@
                         "description": "Resource options.",
                         "label": "Resource Options",
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "database": {
+                        "description": "InfluxDB database.",
+                        "label": "Database",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "InfluxDB username.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "InfluxDB password.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "type": {
+                        "description": "The Bridge Type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "influxdb_api_v1"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
                     },
                     "metrics": {
                         "description": "Bridge metrics.",
@@ -424,39 +474,14 @@
                         },
                         "label": "Node Status",
                         "type": "array"
-                    },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_api_v1:connector",
-                        "label": "Connector Generic Configuration",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v1"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "type": {
-                        "description": "The Bridge Type.",
-                        "label": "Bridge Type",
-                        "symbols": [
-                            "influxdb_api_v1"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
-                        "label": "Bridge Name",
-                        "type": "string"
                     }
                 },
                 "type": "object"
             },
             "bridge_mysql.put": {
                 "required": [
-                    "connector"
+                    "database",
+                    "server"
                 ],
                 "properties": {
                     "enable": {
@@ -465,37 +490,64 @@
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
                     },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "sql_template": {
+                    "sql": {
                         "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
                         "description": "SQL Template",
                         "format": "sql",
                         "label": "SQL Template",
                         "type": "string"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "label": "Connector Generic Configuration",
-                        "$ref": "#/components/schemas/bridge_mysql.connector"
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
+                        "label": "Local Topic",
+                        "type": "string"
                     },
                     "resource_opts": {
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_mysql.creation_opts"
+                    },
+                    "server": {
+                        "description": "</br>The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MySQL default port 3306 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -563,215 +615,6 @@
                 },
                 "type": "object"
             },
-            "bridge_mysql.connector": {
-                "required": [
-                    "database",
-                    "server"
-                ],
-                "properties": {
-                    "server": {
-                        "description": "</br>The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MySQL default port 3306 is used if `[:Port]` is not specified.</br>",
-                        "label": "Server Host",
-                        "type": "ip_port"
-                    },
-                    "database": {
-                        "description": "Database name.",
-                        "label": "Database Name",
-                        "type": "string"
-                    },
-                    "pool_size": {
-                        "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
-                        "type": "string"
-                    },
-                    "username": {
-                        "description": "EMQX's username in the external database.",
-                        "label": "Username",
-                        "type": "string"
-                    },
-                    "password": {
-                        "description": "EMQX's password in the external database.",
-                        "label": "Password",
-                        "type": "string"
-                    },
-                    "auto_reconnect": {
-                        "default": true,
-                        "description": "Enable automatic reconnect to the database.",
-                        "label": "Auto Reconnect Database",
-                        "type": "boolean"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "SSL connection settings.",
-                        "label": "Enable SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_bridge_mqtt_schema.post_egress": {
-                "required": [
-                    "payload",
-                    "retain",
-                    "remote_qos",
-                    "remote_topic",
-                    "connector",
-                    "direction",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "type": {
-                        "description": "The bridge type.",
-                        "label": "Bridge Type",
-                        "symbols": [
-                            "mqtt"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
-                        "label": "Bridge Name",
-                        "type": "string"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The egress config defines how this bridge forwards messages from the local broker to the remote</br>broker.</br>Template with variables is allowed in 'remote_topic', 'qos', 'retain', 'payload'.</br>NOTE: if this bridge is used as the action of a rule (emqx rule engine), and also local_topic</br>is configured, then both the data got from the rule and the MQTT messages that matches</br>local_topic will be forwarded.</br>",
-                        "label": "direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connector": {
-                        "description": "</br>The ID or the configs of the connector to be used for this bridge. Connector IDs must be of format:</br><code>{type}:{name}</code>.</br>In config files, you can find the corresponding config entry for a connector by such path:</br>'connectors.{type}.{name}'.</br>",
-                        "example": "mqtt:my_mqtt_connector",
-                        "label": "Connector ID",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector-mqtt.connector"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "local_topic": {
-                        "description": "The local topic to be forwarded to the remote broker",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "remote_topic": {
-                        "description": "</br>Forward to which topic of the remote broker.</br>Template with variables is allowed.</br>",
-                        "label": "Remote Topic",
-                        "type": "string"
-                    },
-                    "remote_qos": {
-                        "description": "</br>The QoS of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Remote QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "retain": {
-                        "description": "</br>The 'retain' flag of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Retain Flag",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "payload": {
-                        "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Payload",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "connector_influxdb.influxdb_api_v2": {
-                "required": [
-                    "port",
-                    "host",
-                    "token",
-                    "org",
-                    "bucket"
-                ],
-                "properties": {
-                    "bucket": {
-                        "description": "InfluxDB bucket name.",
-                        "label": "Bucket",
-                        "type": "string"
-                    },
-                    "org": {
-                        "description": "Organization name of InfluxDB.",
-                        "label": "Organization",
-                        "type": "string"
-                    },
-                    "token": {
-                        "description": "InfluxDB token.",
-                        "label": "Token",
-                        "type": "string"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "SSL connection settings.",
-                        "label": "Enable SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    },
-                    "host": {
-                        "default": "127.0.0.1",
-                        "description": "InfluxDB host.",
-                        "label": "Host",
-                        "type": "string"
-                    },
-                    "port": {
-                        "default": 8086,
-                        "description": "InfluxDB port.",
-                        "label": "Port",
-                        "type": "string"
-                    },
-                    "precision": {
-                        "default": "ms",
-                        "description": "InfluxDB time precision.",
-                        "label": "Time Precision",
-                        "symbols": [
-                            "ns",
-                            "us",
-                            "ms",
-                            "s",
-                            "m",
-                            "h"
-                        ],
-                        "type": "enum"
-                    },
-                    "pool_size": {
-                        "description": "InfluxDB Pool Size. Default value is CPU threads.",
-                        "label": "InfluxDB Pool Size",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_hstreamdb.post": {
                 "required": [
                     "connector",
@@ -824,12 +667,62 @@
                         "label": "Connector Generic Configuration",
                         "oneOf": [
                             {
-                                "$ref": "#/components/schemas/connector_hstreamdb.config"
+                                "$ref": "#/components/schemas/emqx_ee_connector_hstreamdb.config"
                             },
                             {
                                 "type": "string"
                             }
                         ]
+                    }
+                },
+                "type": "object"
+            },
+            "connector-mqtt.egress_remote": {
+                "required": [
+                    "payload",
+                    "retain",
+                    "qos",
+                    "topic"
+                ],
+                "properties": {
+                    "topic": {
+                        "description": "</br>Forward to which topic of the remote broker.</br>Template with variables is allowed.</br>",
+                        "label": "Remote Topic",
+                        "type": "string"
+                    },
+                    "qos": {
+                        "description": "</br>The QoS of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
+                        "label": "Remote QoS",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "symbols": [
+                                    0,
+                                    1,
+                                    2
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "retain": {
+                        "description": "</br>The 'retain' flag of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
+                        "label": "Retain Flag",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "boolean"
+                            }
+                        ]
+                    },
+                    "payload": {
+                        "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
+                        "label": "Payload",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -852,24 +745,16 @@
             },
             "bridge_influxdb.put_api_v1": {
                 "required": [
-                    "connector",
+                    "database",
+                    "server",
                     "write_syntax"
                 ],
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable or disable this bridge.",
+                        "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "local_topic": {
                         "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
@@ -888,18 +773,49 @@
                         "label": "Resource Options",
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_api_v1:connector",
-                        "label": "Connector Generic Configuration",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v1"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "database": {
+                        "description": "InfluxDB database.",
+                        "label": "Database",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "InfluxDB username.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "InfluxDB password.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -941,7 +857,7 @@
                         "label": "Connector Generic Configuration",
                         "oneOf": [
                             {
-                                "$ref": "#/components/schemas/connector_hstreamdb.config"
+                                "$ref": "#/components/schemas/emqx_ee_connector_hstreamdb.config"
                             },
                             {
                                 "type": "string"
@@ -951,233 +867,17 @@
                 },
                 "type": "object"
             },
-            "connector_influxdb.influxdb_udp": {
-                "required": [
-                    "port",
-                    "host"
-                ],
+            "connector-mqtt.egress": {
                 "properties": {
-                    "host": {
-                        "default": "127.0.0.1",
-                        "description": "InfluxDB host.",
-                        "label": "Host",
-                        "type": "string"
+                    "local": {
+                        "description": "The configs about receiving messages from local broker.",
+                        "label": "Local Configs",
+                        "$ref": "#/components/schemas/connector-mqtt.egress_local"
                     },
-                    "port": {
-                        "default": 8086,
-                        "description": "InfluxDB port.",
-                        "label": "Port",
-                        "type": "string"
-                    },
-                    "precision": {
-                        "default": "ms",
-                        "description": "InfluxDB time precision.",
-                        "label": "Time Precision",
-                        "symbols": [
-                            "ns",
-                            "us",
-                            "ms",
-                            "s",
-                            "m",
-                            "h"
-                        ],
-                        "type": "enum"
-                    },
-                    "pool_size": {
-                        "description": "InfluxDB Pool Size. Default value is CPU threads.",
-                        "label": "InfluxDB Pool Size",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "connector_influxdb.influxdb_api_v1": {
-                "required": [
-                    "port",
-                    "host",
-                    "password",
-                    "username",
-                    "database"
-                ],
-                "properties": {
-                    "database": {
-                        "description": "InfluxDB database.",
-                        "label": "Database",
-                        "type": "string"
-                    },
-                    "username": {
-                        "description": "InfluxDB username.",
-                        "label": "Username",
-                        "type": "string"
-                    },
-                    "password": {
-                        "description": "InfluxDB password.",
-                        "label": "Password",
-                        "type": "string"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "SSL connection settings.",
-                        "label": "Enable SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    },
-                    "host": {
-                        "default": "127.0.0.1",
-                        "description": "InfluxDB host.",
-                        "label": "Host",
-                        "type": "string"
-                    },
-                    "port": {
-                        "default": 8086,
-                        "description": "InfluxDB port.",
-                        "label": "Port",
-                        "type": "string"
-                    },
-                    "precision": {
-                        "default": "ms",
-                        "description": "InfluxDB time precision.",
-                        "label": "Time Precision",
-                        "symbols": [
-                            "ns",
-                            "us",
-                            "ms",
-                            "s",
-                            "m",
-                            "h"
-                        ],
-                        "type": "enum"
-                    },
-                    "pool_size": {
-                        "description": "InfluxDB Pool Size. Default value is CPU threads.",
-                        "label": "InfluxDB Pool Size",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_bridge_mqtt_schema.get_egress": {
-                "required": [
-                    "payload",
-                    "retain",
-                    "remote_qos",
-                    "remote_topic",
-                    "connector",
-                    "direction",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
-                    "status": {
-                        "description": "The status of the bridge",
-                        "label": "Bridge Status",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "Node status.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "Node Status",
-                        "type": "array"
-                    },
-                    "type": {
-                        "description": "The bridge type.",
-                        "label": "Bridge Type",
-                        "symbols": [
-                            "mqtt"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
-                        "label": "Bridge Name",
-                        "type": "string"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The egress config defines how this bridge forwards messages from the local broker to the remote</br>broker.</br>Template with variables is allowed in 'remote_topic', 'qos', 'retain', 'payload'.</br>NOTE: if this bridge is used as the action of a rule (emqx rule engine), and also local_topic</br>is configured, then both the data got from the rule and the MQTT messages that matches</br>local_topic will be forwarded.</br>",
-                        "label": "direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connector": {
-                        "description": "</br>The ID or the configs of the connector to be used for this bridge. Connector IDs must be of format:</br><code>{type}:{name}</code>.</br>In config files, you can find the corresponding config entry for a connector by such path:</br>'connectors.{type}.{name}'.</br>",
-                        "example": "mqtt:my_mqtt_connector",
-                        "label": "Connector ID",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector-mqtt.connector"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "local_topic": {
-                        "description": "The local topic to be forwarded to the remote broker",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "remote_topic": {
-                        "description": "</br>Forward to which topic of the remote broker.</br>Template with variables is allowed.</br>",
-                        "label": "Remote Topic",
-                        "type": "string"
-                    },
-                    "remote_qos": {
-                        "description": "</br>The QoS of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Remote QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "retain": {
-                        "description": "</br>The 'retain' flag of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Retain Flag",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "payload": {
-                        "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Payload",
-                        "type": "string"
+                    "remote": {
+                        "description": "The configs about sending message to the remote broker.",
+                        "label": "Remote Configs",
+                        "$ref": "#/components/schemas/connector-mqtt.egress_remote"
                     }
                 },
                 "type": "object"
@@ -1238,15 +938,6 @@
                         "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "resource_opts": {
                         "default": {},
@@ -1361,24 +1052,15 @@
                 "required": [
                     "name",
                     "type",
-                    "connector",
+                    "server",
                     "write_syntax"
                 ],
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable or disable this bridge.",
+                        "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "local_topic": {
                         "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
@@ -1397,18 +1079,25 @@
                         "label": "Resource Options",
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_udp:connector",
-                        "label": "Connector Generic Configuration",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_udp"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -1426,171 +1115,22 @@
                 },
                 "type": "object"
             },
-            "emqx_bridge_mqtt_schema.get_ingress": {
-                "required": [
-                    "remote_topic",
-                    "connector",
-                    "direction",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
-                    "status": {
-                        "description": "The status of the bridge",
-                        "label": "Bridge Status",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "Node status.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "Node Status",
-                        "type": "array"
-                    },
-                    "type": {
-                        "description": "The bridge type.",
-                        "label": "Bridge Type",
-                        "symbols": [
-                            "mqtt"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
-                        "label": "Bridge Name",
-                        "type": "string"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The ingress config defines how this bridge receive messages from the remote MQTT broker, and then</br>send them to the local broker.</br>Template with variables is allowed in 'local_topic', 'remote_qos', 'qos', 'retain',</br>'payload'.</br>NOTE: if this bridge is used as the input of a rule (emqx rule engine), and also local_topic is</br>configured, then messages got from the remote broker will be sent to both the 'local_topic' and</br>the rule.</br>",
-                        "label": "direction",
-                        "symbols": [
-                            "ingress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connector": {
-                        "description": "</br>The ID or the configs of the connector to be used for this bridge. Connector IDs must be of format:</br><code>{type}:{name}</code>.</br>In config files, you can find the corresponding config entry for a connector by such path:</br>'connectors.{type}.{name}'.</br>",
-                        "example": "mqtt:my_mqtt_connector",
-                        "label": "Connector ID",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector-mqtt.connector"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "remote_topic": {
-                        "description": "Receive messages from which topic of the remote broker",
-                        "label": "Remote Topic",
-                        "type": "string"
-                    },
-                    "remote_qos": {
-                        "default": 1,
-                        "description": "The QoS level to be used when subscribing to the remote broker",
-                        "label": "Remote QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "local_topic": {
-                        "description": "</br>Send messages to which topic of the local broker.</br>Template with variables is allowed.</br>",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "local_qos": {
-                        "default": "${qos}",
-                        "description": "</br>The QoS of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Local QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "retain": {
-                        "default": "${retain}",
-                        "description": "</br>The 'retain' flag of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Retain Flag",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "payload": {
-                        "default": "${payload}",
-                        "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Payload",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_influxdb.post_api_v2": {
                 "required": [
                     "name",
                     "type",
-                    "connector",
+                    "token",
+                    "org",
+                    "bucket",
+                    "server",
                     "write_syntax"
                 ],
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable or disable this bridge.",
+                        "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "local_topic": {
                         "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
@@ -1609,18 +1149,48 @@
                         "label": "Resource Options",
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_api_v2:connector",
-                        "label": "Connector Generic Configuration",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_api_v2"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
+                    },
+                    "bucket": {
+                        "description": "InfluxDB bucket name.",
+                        "label": "Bucket",
+                        "type": "string"
+                    },
+                    "org": {
+                        "description": "Organization name of InfluxDB.",
+                        "label": "Organization",
+                        "type": "string"
+                    },
+                    "token": {
+                        "description": "InfluxDB token.",
+                        "label": "Token",
+                        "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -1638,120 +1208,17 @@
                 },
                 "type": "object"
             },
-            "emqx_bridge_mqtt_schema.put_egress": {
+            "connector-mqtt.ingress_remote": {
                 "required": [
-                    "payload",
-                    "retain",
-                    "remote_qos",
-                    "remote_topic",
-                    "connector",
-                    "direction"
+                    "topic"
                 ],
                 "properties": {
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The egress config defines how this bridge forwards messages from the local broker to the remote</br>broker.</br>Template with variables is allowed in 'remote_topic', 'qos', 'retain', 'payload'.</br>NOTE: if this bridge is used as the action of a rule (emqx rule engine), and also local_topic</br>is configured, then both the data got from the rule and the MQTT messages that matches</br>local_topic will be forwarded.</br>",
-                        "label": "direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connector": {
-                        "description": "</br>The ID or the configs of the connector to be used for this bridge. Connector IDs must be of format:</br><code>{type}:{name}</code>.</br>In config files, you can find the corresponding config entry for a connector by such path:</br>'connectors.{type}.{name}'.</br>",
-                        "example": "mqtt:my_mqtt_connector",
-                        "label": "Connector ID",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector-mqtt.connector"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "local_topic": {
-                        "description": "The local topic to be forwarded to the remote broker",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "remote_topic": {
-                        "description": "</br>Forward to which topic of the remote broker.</br>Template with variables is allowed.</br>",
-                        "label": "Remote Topic",
-                        "type": "string"
-                    },
-                    "remote_qos": {
-                        "description": "</br>The QoS of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Remote QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "retain": {
-                        "description": "</br>The 'retain' flag of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Retain Flag",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "payload": {
-                        "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Payload",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_bridge_mqtt_schema.put_ingress": {
-                "required": [
-                    "remote_topic",
-                    "connector",
-                    "direction"
-                ],
-                "properties": {
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The ingress config defines how this bridge receive messages from the remote MQTT broker, and then</br>send them to the local broker.</br>Template with variables is allowed in 'local_topic', 'remote_qos', 'qos', 'retain',</br>'payload'.</br>NOTE: if this bridge is used as the input of a rule (emqx rule engine), and also local_topic is</br>configured, then messages got from the remote broker will be sent to both the 'local_topic' and</br>the rule.</br>",
-                        "label": "direction",
-                        "symbols": [
-                            "ingress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connector": {
-                        "description": "</br>The ID or the configs of the connector to be used for this bridge. Connector IDs must be of format:</br><code>{type}:{name}</code>.</br>In config files, you can find the corresponding config entry for a connector by such path:</br>'connectors.{type}.{name}'.</br>",
-                        "example": "mqtt:my_mqtt_connector",
-                        "label": "Connector ID",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector-mqtt.connector"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "remote_topic": {
+                    "topic": {
                         "description": "Receive messages from which topic of the remote broker",
                         "label": "Remote Topic",
                         "type": "string"
                     },
-                    "remote_qos": {
+                    "qos": {
                         "default": 1,
                         "description": "The QoS level to be used when subscribing to the remote broker",
                         "label": "Remote QoS",
@@ -1768,48 +1235,6 @@
                                 "type": "enum"
                             }
                         ]
-                    },
-                    "local_topic": {
-                        "description": "</br>Send messages to which topic of the local broker.</br>Template with variables is allowed.</br>",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "local_qos": {
-                        "default": "${qos}",
-                        "description": "</br>The QoS of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Local QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "retain": {
-                        "default": "${retain}",
-                        "description": "</br>The 'retain' flag of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Retain Flag",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "payload": {
-                        "default": "${payload}",
-                        "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Payload",
-                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -1856,6 +1281,7 @@
                     "password": {
                         "description": "</br>String containing the user's password.</br>Only used if the private key file is password-protected.</br>",
                         "example": "",
+                        "format": "password",
                         "label": "Keyfile passphrase",
                         "type": "string"
                     },
@@ -1967,22 +1393,16 @@
             },
             "bridge_webhook.creation_opts": {
                 "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "Resource worker pool size.",
+                        "label": "Worker Pool Size",
+                        "type": "string"
+                    },
                     "health_check_interval": {
                         "default": "15s",
                         "description": "Health check interval, in milliseconds.",
                         "label": "Health Check Interval",
-                        "type": "duration"
-                    },
-                    "start_after_created": {
-                        "default": true,
-                        "description": "Whether start the resource right after created.",
-                        "label": "Start After Created",
-                        "type": "boolean"
-                    },
-                    "start_timeout": {
-                        "default": "5s",
-                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
-                        "label": "Start Timeout",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
@@ -2025,45 +1445,17 @@
                     },
                     "max_queue_bytes": {
                         "default": "1GB",
-                        "description": "Maximum queue storage size in bytes.",
+                        "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"
                     }
                 },
                 "type": "object"
             },
-            "connector-mqtt.replayq": {
-                "properties": {
-                    "dir": {
-                        "description": "</br>The dir where the replayq file saved.</br>Set to 'false' disables the replayq feature.</br>",
-                        "label": "Replyq file Save Dir",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "seg_bytes": {
-                        "default": "100MB",
-                        "description": "</br>The size in bytes of a single segment.</br>A segment is mapping to a file in the replayq dir. If the current segment is full, a new segment</br>(file) will be opened to write.</br>",
-                        "label": "Segment Size",
-                        "type": "byteSize"
-                    },
-                    "offload": {
-                        "default": false,
-                        "description": "</br>In offload mode, the disk queue is only used to offload queue tail segments.</br>The messages are cached in the memory first, then it writes to the replayq files after the size of</br>the memory cache reaches 'seg_bytes'.</br>",
-                        "label": "Offload Mode",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_mysql.get": {
                 "required": [
-                    "connector",
+                    "database",
+                    "server",
                     "name",
                     "type"
                 ],
@@ -2118,37 +1510,185 @@
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
                     },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "sql_template": {
+                    "sql": {
                         "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
                         "description": "SQL Template",
                         "format": "sql",
                         "label": "SQL Template",
                         "type": "string"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "label": "Connector Generic Configuration",
-                        "$ref": "#/components/schemas/bridge_mysql.connector"
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
+                        "label": "Local Topic",
+                        "type": "string"
                     },
                     "resource_opts": {
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_mysql.creation_opts"
+                    },
+                    "server": {
+                        "description": "</br>The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MySQL default port 3306 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mqtt.put": {
+                "required": [
+                    "server"
+                ],
+                "properties": {
+                    "mode": {
+                        "default": "cluster_shareload",
+                        "description": "</br>The mode of the MQTT Bridge.</br></br>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.</br>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by</br>using shared subscription.</br>Note that the 'clientid' is suffixed by the node name, this is to avoid</br>clientid conflicts between different nodes. And we can only use shared subscription</br>topic filters for 'remote.topic' of ingress connections.</br>",
+                        "label": "MQTT Bridge Mode",
+                        "symbols": [
+                            "cluster_shareload"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "The host and port of the remote MQTT broker",
+                        "label": "Broker IP And Port",
+                        "type": "ip_port"
+                    },
+                    "reconnect_interval": {
+                        "default": "15s",
+                        "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "reconnect_interval",
+                        "type": "string"
+                    },
+                    "proto_ver": {
+                        "default": "v4",
+                        "description": "The MQTT protocol version",
+                        "label": "Protocol Version",
+                        "symbols": [
+                            "v3",
+                            "v4",
+                            "v5"
+                        ],
+                        "type": "enum"
+                    },
+                    "bridge_mode": {
+                        "default": false,
+                        "description": "</br>If enable bridge mode.</br>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT</br>broker MUST support this feature.</br>    ",
+                        "label": "Bridge Mode",
+                        "type": "boolean"
+                    },
+                    "username": {
+                        "default": "emqx",
+                        "description": "The username of the MQTT protocol",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "default": "emqx",
+                        "description": "The password of the MQTT protocol",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "clean_start": {
+                        "default": true,
+                        "description": "The clean-start or the clean-session of the MQTT protocol",
+                        "label": "Clean Session",
+                        "type": "boolean"
+                    },
+                    "keepalive": {
+                        "default": "300s",
+                        "description": "MQTT Keepalive. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "keepalive",
+                        "type": "string"
+                    },
+                    "retry_interval": {
+                        "default": "15s",
+                        "description": "Message retry interval. Delay for the MQTT bridge to retry sending the QoS1/QoS2 messages in case of ACK not received. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "retry_interval",
+                        "type": "string"
+                    },
+                    "max_inflight": {
+                        "default": 32,
+                        "description": "Max inflight (sent, but un-acked) messages of the MQTT protocol",
+                        "label": "Max Inflight Message",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "ingress": {
+                        "description": "The ingress config defines how this bridge receive messages from the remote MQTT broker, and then</br>        send them to the local broker.</br>        Template with variables is allowed in 'remote.qos', 'local.topic', 'local.qos', 'local.retain', 'local.payload'.</br>        NOTE: if this bridge is used as the input of a rule, and also 'local.topic' is</br>        configured, then messages got from the remote broker will be sent to both the 'local.topic' and</br>        the rule.",
+                        "label": "Ingress Configs",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector-mqtt.ingress"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "egress": {
+                        "description": "The egress config defines how this bridge forwards messages from the local broker to the remote broker.</br>Template with variables is allowed in 'remote.topic', 'local.qos', 'local.retain', 'local.payload'.</br>NOTE: if this bridge is used as the action of a rule, and also 'local.topic'</br>is configured, then both the data got from the rule and the MQTT messages that matches</br>'local.topic' will be forwarded.",
+                        "label": "Egress Configs",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector-mqtt.egress"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     }
                 },
                 "type": "object"
@@ -2236,7 +1776,7 @@
                         "label": "Connector Generic Configuration",
                         "oneOf": [
                             {
-                                "$ref": "#/components/schemas/connector_hstreamdb.config"
+                                "$ref": "#/components/schemas/emqx_ee_connector_hstreamdb.config"
                             },
                             {
                                 "type": "string"
@@ -2246,46 +1786,11 @@
                 },
                 "type": "object"
             },
-            "bridge_influxdb.get_udp": {
+            "bridge_mqtt.get": {
                 "required": [
-                    "name",
-                    "type",
-                    "connector",
-                    "write_syntax"
+                    "server"
                 ],
                 "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "Enable or disable this bridge.",
-                        "label": "Enable Or Disable Bridge",
-                        "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "write_syntax": {
-                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
-                        "format": "sql",
-                        "label": "Write Syntax",
-                        "type": "string"
-                    },
-                    "resource_opts": {
-                        "default": {},
-                        "description": "Resource options.",
-                        "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
-                    },
                     "metrics": {
                         "description": "Bridge metrics.",
                         "label": "Bridge Metrics",
@@ -2317,18 +1822,377 @@
                         "label": "Node Status",
                         "type": "array"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_udp:connector",
-                        "label": "Connector Generic Configuration",
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "mode": {
+                        "default": "cluster_shareload",
+                        "description": "</br>The mode of the MQTT Bridge.</br></br>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.</br>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by</br>using shared subscription.</br>Note that the 'clientid' is suffixed by the node name, this is to avoid</br>clientid conflicts between different nodes. And we can only use shared subscription</br>topic filters for 'remote.topic' of ingress connections.</br>",
+                        "label": "MQTT Bridge Mode",
+                        "symbols": [
+                            "cluster_shareload"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "The host and port of the remote MQTT broker",
+                        "label": "Broker IP And Port",
+                        "type": "ip_port"
+                    },
+                    "reconnect_interval": {
+                        "default": "15s",
+                        "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "reconnect_interval",
+                        "type": "string"
+                    },
+                    "proto_ver": {
+                        "default": "v4",
+                        "description": "The MQTT protocol version",
+                        "label": "Protocol Version",
+                        "symbols": [
+                            "v3",
+                            "v4",
+                            "v5"
+                        ],
+                        "type": "enum"
+                    },
+                    "bridge_mode": {
+                        "default": false,
+                        "description": "</br>If enable bridge mode.</br>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT</br>broker MUST support this feature.</br>    ",
+                        "label": "Bridge Mode",
+                        "type": "boolean"
+                    },
+                    "username": {
+                        "default": "emqx",
+                        "description": "The username of the MQTT protocol",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "default": "emqx",
+                        "description": "The password of the MQTT protocol",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "clean_start": {
+                        "default": true,
+                        "description": "The clean-start or the clean-session of the MQTT protocol",
+                        "label": "Clean Session",
+                        "type": "boolean"
+                    },
+                    "keepalive": {
+                        "default": "300s",
+                        "description": "MQTT Keepalive. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "keepalive",
+                        "type": "string"
+                    },
+                    "retry_interval": {
+                        "default": "15s",
+                        "description": "Message retry interval. Delay for the MQTT bridge to retry sending the QoS1/QoS2 messages in case of ACK not received. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "retry_interval",
+                        "type": "string"
+                    },
+                    "max_inflight": {
+                        "default": 32,
+                        "description": "Max inflight (sent, but un-acked) messages of the MQTT protocol",
+                        "label": "Max Inflight Message",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "ingress": {
+                        "description": "The ingress config defines how this bridge receive messages from the remote MQTT broker, and then</br>        send them to the local broker.</br>        Template with variables is allowed in 'remote.qos', 'local.topic', 'local.qos', 'local.retain', 'local.payload'.</br>        NOTE: if this bridge is used as the input of a rule, and also 'local.topic' is</br>        configured, then messages got from the remote broker will be sent to both the 'local.topic' and</br>        the rule.",
+                        "label": "Ingress Configs",
                         "oneOf": [
                             {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_udp"
+                                "$ref": "#/components/schemas/connector-mqtt.ingress"
                             },
                             {
-                                "type": "string"
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
                             }
                         ]
+                    },
+                    "egress": {
+                        "description": "The egress config defines how this bridge forwards messages from the local broker to the remote broker.</br>Template with variables is allowed in 'remote.topic', 'local.qos', 'local.retain', 'local.payload'.</br>NOTE: if this bridge is used as the action of a rule, and also 'local.topic'</br>is configured, then both the data got from the rule and the MQTT messages that matches</br>'local.topic' will be forwarded.",
+                        "label": "Egress Configs",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector-mqtt.egress"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mysql.creation_opts": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "Resource worker pool size.",
+                        "label": "Worker Pool Size",
+                        "type": "string"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "Health check interval, in milliseconds.",
+                        "label": "Health Check Interval",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "The auto restart interval after the resource is disconnected, in milliseconds.",
+                        "label": "Auto Restart Interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "enable_batch": {
+                        "default": false,
+                        "description": "Batch mode enabled.",
+                        "label": "Enable batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 100,
+                        "description": "Maximum batch count.",
+                        "label": "Batch size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "10ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "Batch time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "Enable queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "1GB",
+                        "description": "Maximum queue storage.",
+                        "label": "Queue max bytes",
+                        "type": "byteSize"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mqtt.post": {
+                "required": [
+                    "server",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "The bridge type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "mqtt"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "mode": {
+                        "default": "cluster_shareload",
+                        "description": "</br>The mode of the MQTT Bridge.</br></br>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.</br>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by</br>using shared subscription.</br>Note that the 'clientid' is suffixed by the node name, this is to avoid</br>clientid conflicts between different nodes. And we can only use shared subscription</br>topic filters for 'remote.topic' of ingress connections.</br>",
+                        "label": "MQTT Bridge Mode",
+                        "symbols": [
+                            "cluster_shareload"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "The host and port of the remote MQTT broker",
+                        "label": "Broker IP And Port",
+                        "type": "ip_port"
+                    },
+                    "reconnect_interval": {
+                        "default": "15s",
+                        "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "reconnect_interval",
+                        "type": "string"
+                    },
+                    "proto_ver": {
+                        "default": "v4",
+                        "description": "The MQTT protocol version",
+                        "label": "Protocol Version",
+                        "symbols": [
+                            "v3",
+                            "v4",
+                            "v5"
+                        ],
+                        "type": "enum"
+                    },
+                    "bridge_mode": {
+                        "default": false,
+                        "description": "</br>If enable bridge mode.</br>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT</br>broker MUST support this feature.</br>    ",
+                        "label": "Bridge Mode",
+                        "type": "boolean"
+                    },
+                    "username": {
+                        "default": "emqx",
+                        "description": "The username of the MQTT protocol",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "default": "emqx",
+                        "description": "The password of the MQTT protocol",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "clean_start": {
+                        "default": true,
+                        "description": "The clean-start or the clean-session of the MQTT protocol",
+                        "label": "Clean Session",
+                        "type": "boolean"
+                    },
+                    "keepalive": {
+                        "default": "300s",
+                        "description": "MQTT Keepalive. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "keepalive",
+                        "type": "string"
+                    },
+                    "retry_interval": {
+                        "default": "15s",
+                        "description": "Message retry interval. Delay for the MQTT bridge to retry sending the QoS1/QoS2 messages in case of ACK not received. Time interval is a string that contains a number followed by time unit:</br>- `ms` for milliseconds,</br>- `s` for seconds,</br>- `m` for minutes,</br>- `h` for hours;</br></br>or combination of whereof: `1h5m0s`",
+                        "label": "retry_interval",
+                        "type": "string"
+                    },
+                    "max_inflight": {
+                        "default": 32,
+                        "description": "Max inflight (sent, but un-acked) messages of the MQTT protocol",
+                        "label": "Max Inflight Message",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "ingress": {
+                        "description": "The ingress config defines how this bridge receive messages from the remote MQTT broker, and then</br>        send them to the local broker.</br>        Template with variables is allowed in 'remote.qos', 'local.topic', 'local.qos', 'local.retain', 'local.payload'.</br>        NOTE: if this bridge is used as the input of a rule, and also 'local.topic' is</br>        configured, then messages got from the remote broker will be sent to both the 'local.topic' and</br>        the rule.",
+                        "label": "Ingress Configs",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector-mqtt.ingress"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "egress": {
+                        "description": "The egress config defines how this bridge forwards messages from the local broker to the remote broker.</br>Template with variables is allowed in 'remote.topic', 'local.qos', 'local.retain', 'local.payload'.</br>NOTE: if this bridge is used as the action of a rule, and also 'local.topic'</br>is configured, then both the data got from the rule and the MQTT messages that matches</br>'local.topic' will be forwarded.",
+                        "label": "Egress Configs",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/connector-mqtt.egress"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_influxdb.get_udp": {
+                "required": [
+                    "name",
+                    "type",
+                    "server",
+                    "write_syntax"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "write_syntax": {
+                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>",
+                        "format": "sql",
+                        "label": "Write Syntax",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -2342,13 +2206,92 @@
                         "description": "Bridge name, used as a human-readable description of the bridge.",
                         "label": "Bridge Name",
                         "type": "string"
+                    },
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "The status of the bridge",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "connector-mqtt.ingress_local": {
+                "properties": {
+                    "topic": {
+                        "description": "</br>Send messages to which topic of the local broker.</br>Template with variables is allowed.</br>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "qos": {
+                        "default": "${qos}",
+                        "description": "</br>The QoS of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
+                        "label": "Local QoS",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "symbols": [
+                                    0,
+                                    1,
+                                    2
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "retain": {
+                        "default": "${retain}",
+                        "description": "</br>The 'retain' flag of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
+                        "label": "Retain Flag",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "boolean"
+                            }
+                        ]
+                    },
+                    "payload": {
+                        "default": "${payload}",
+                        "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
+                        "label": "Payload",
+                        "type": "string"
                     }
                 },
                 "type": "object"
             },
             "bridge_mysql.post": {
                 "required": [
-                    "connector",
+                    "database",
+                    "server",
                     "name",
                     "type"
                 ],
@@ -2372,37 +2315,64 @@
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
                     },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
-                    },
-                    "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "sql_template": {
+                    "sql": {
                         "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, FROM_UNIXTIME(${timestamp}/1000))",
                         "description": "SQL Template",
                         "format": "sql",
                         "label": "SQL Template",
                         "type": "string"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "label": "Connector Generic Configuration",
-                        "$ref": "#/components/schemas/bridge_mysql.connector"
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
+                        "label": "Local Topic",
+                        "type": "string"
                     },
                     "resource_opts": {
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_mysql.creation_opts"
+                    },
+                    "server": {
+                        "description": "</br>The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MySQL default port 3306 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -2432,15 +2402,6 @@
                         "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "resource_opts": {
                         "default": {},
@@ -2561,15 +2522,6 @@
                         "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "resource_opts": {
                         "default": {},
@@ -2712,22 +2664,16 @@
             },
             "resource_schema.creation_opts": {
                 "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "Resource worker pool size.",
+                        "label": "Worker Pool Size",
+                        "type": "string"
+                    },
                     "health_check_interval": {
                         "default": "15s",
                         "description": "Health check interval, in milliseconds.",
                         "label": "Health Check Interval",
-                        "type": "duration"
-                    },
-                    "start_after_created": {
-                        "default": true,
-                        "description": "Whether start the resource right after created.",
-                        "label": "Start After Created",
-                        "type": "boolean"
-                    },
-                    "start_timeout": {
-                        "default": "5s",
-                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
-                        "label": "Start Timeout",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
@@ -2788,145 +2734,24 @@
                     },
                     "max_queue_bytes": {
                         "default": "1GB",
-                        "description": "Maximum queue storage size in bytes.",
+                        "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"
                     }
                 },
                 "type": "object"
             },
-            "emqx_bridge_mqtt_schema.post_ingress": {
-                "required": [
-                    "remote_topic",
-                    "connector",
-                    "direction",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "type": {
-                        "description": "The bridge type.",
-                        "label": "Bridge Type",
-                        "symbols": [
-                            "mqtt"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
-                        "label": "Bridge Name",
-                        "type": "string"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of the bridge. Can be one of 'ingress' or 'egress'.</br>The ingress config defines how this bridge receive messages from the remote MQTT broker, and then</br>send them to the local broker.</br>Template with variables is allowed in 'local_topic', 'remote_qos', 'qos', 'retain',</br>'payload'.</br>NOTE: if this bridge is used as the input of a rule (emqx rule engine), and also local_topic is</br>configured, then messages got from the remote broker will be sent to both the 'local_topic' and</br>the rule.</br>",
-                        "label": "direction",
-                        "symbols": [
-                            "ingress"
-                        ],
-                        "type": "enum"
-                    },
-                    "connector": {
-                        "description": "</br>The ID or the configs of the connector to be used for this bridge. Connector IDs must be of format:</br><code>{type}:{name}</code>.</br>In config files, you can find the corresponding config entry for a connector by such path:</br>'connectors.{type}.{name}'.</br>",
-                        "example": "mqtt:my_mqtt_connector",
-                        "label": "Connector ID",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector-mqtt.connector"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "remote_topic": {
-                        "description": "Receive messages from which topic of the remote broker",
-                        "label": "Remote Topic",
-                        "type": "string"
-                    },
-                    "remote_qos": {
-                        "default": 1,
-                        "description": "The QoS level to be used when subscribing to the remote broker",
-                        "label": "Remote QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "local_topic": {
-                        "description": "</br>Send messages to which topic of the local broker.</br>Template with variables is allowed.</br>",
-                        "label": "Local Topic",
-                        "type": "string"
-                    },
-                    "local_qos": {
-                        "default": "${qos}",
-                        "description": "</br>The QoS of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Local QoS",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    0,
-                                    1,
-                                    2
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "retain": {
-                        "default": "${retain}",
-                        "description": "</br>The 'retain' flag of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Retain Flag",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "boolean"
-                            }
-                        ]
-                    },
-                    "payload": {
-                        "default": "${payload}",
-                        "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
-                        "label": "Payload",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_influxdb.put_udp": {
                 "required": [
-                    "connector",
+                    "server",
                     "write_syntax"
                 ],
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "Enable or disable this bridge.",
+                        "description": "Enable or disable this bridge",
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
-                    },
-                    "direction": {
-                        "default": "egress",
-                        "description": "The direction of this bridge, MUST be 'egress'.",
-                        "label": "Bridge Direction",
-                        "symbols": [
-                            "egress"
-                        ],
-                        "type": "enum"
                     },
                     "local_topic": {
                         "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic</br>matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is</br>configured, then both the data got from the rule and the MQTT messages that match local_topic</br>will be forwarded.</br>",
@@ -2945,18 +2770,25 @@
                         "label": "Resource Options",
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
-                    "connector": {
-                        "description": "Generic configuration for the connector.",
-                        "example": "influxdb_udp:connector",
-                        "label": "Connector Generic Configuration",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/connector_influxdb.influxdb_udp"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
+                    "server": {
+                        "default": "127.0.0.1:8086",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "precision": {
+                        "default": "ms",
+                        "description": "InfluxDB time precision.",
+                        "label": "Time Precision",
+                        "symbols": [
+                            "ns",
+                            "us",
+                            "ms",
+                            "s",
+                            "m",
+                            "h"
+                        ],
+                        "type": "enum"
                     }
                 },
                 "type": "object"
@@ -2973,28 +2805,10 @@
                 "items": {
                     "oneOf": [
                         {
-                            "$ref": "#/components/schemas/bridge_influxdb.get_api_v2"
-                        },
-                        {
-                            "$ref": "#/components/schemas/bridge_influxdb.get_api_v1"
-                        },
-                        {
-                            "$ref": "#/components/schemas/bridge_influxdb.get_udp"
-                        },
-                        {
-                            "$ref": "#/components/schemas/bridge_hstreamdb.get"
-                        },
-                        {
-                            "$ref": "#/components/schemas/bridge_mysql.get"
+                            "$ref": "#/components/schemas/bridge_mqtt.get"
                         },
                         {
                             "$ref": "#/components/schemas/bridge_webhook.get"
-                        },
-                        {
-                            "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_egress"
-                        },
-                        {
-                            "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_ingress"
                         }
                     ]
                 },
@@ -3020,13 +2834,10 @@
                         "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
+                        "$ref": "#/components/schemas/bridge_mqtt.get"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_webhook.get"
-                    },
-                    {
-                        "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_egress"
-                    },
-                    {
-                        "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_ingress"
                     }
                 ]
             },
@@ -3048,13 +2859,10 @@
                         "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
+                        "$ref": "#/components/schemas/bridge_mqtt.get"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_webhook.get"
-                    },
-                    {
-                        "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_egress"
-                    },
-                    {
-                        "$ref": "#/components/schemas/emqx_bridge_mqtt_schema.get_ingress"
                     }
                 ]
             }
