@@ -161,7 +161,7 @@ export default {
   },
   rate: {
     zh: '条/秒',
-    en: 'message(s)/s',
+    en: 'message(s)/sec',
   },
   errorOccurred: {
     zh: '发生错误',

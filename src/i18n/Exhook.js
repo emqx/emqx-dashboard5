@@ -121,6 +121,6 @@ export default {
   },
   rateUnit: {
     zh: '次/秒',
-    en: 'time/s',
+    en: 'time/sec',
   },
 }

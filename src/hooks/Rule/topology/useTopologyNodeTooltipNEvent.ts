@@ -140,7 +140,7 @@ export default (): {
       { label: tl('name'), value: name },
       { label: tl('SuccessNum'), value: metrics.success },
       { label: tl('ErrNum'), value: metrics.failed },
-      { label: tl('currentSpeed'), value: metrics.rate + ' Msg/s' },
+      { label: tl('currentSpeed'), value: metrics.rate + ' message/sec' },
       { label: tl('status'), value: statusStr, valueClass: statusClass },
     ]
 
