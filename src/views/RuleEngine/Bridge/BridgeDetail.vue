@@ -138,6 +138,7 @@ import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 
 enum Tab {
   Overview = 'overview',
@@ -218,6 +219,7 @@ const loadBridgeInfo = async () => {
 const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
   rawBridgeInfo = _.cloneDeep(bridgeInfo)
 }
+const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
 const setBridgeInfoFromSchemaForm = () => {
   if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
@@ -267,7 +269,8 @@ const updateBridgeInfo = async () => {
     })
 
     updateLoading.value = true
-    const res = await updateBridge(bridgeInfo.value.id, getDataForSubmit())
+    const data = getDataForSubmit()
+    const res = await updateBridge(bridgeInfo.value.id, handleBridgeDataBeforeSubmit(data))
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'data-bridge' })
