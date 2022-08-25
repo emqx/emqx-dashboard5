@@ -205,7 +205,7 @@ export default {
   },
   second: {
     zh: '秒',
-    en: 's',
+    en: 'sec',
   },
   messageOut: {
     zh: '消息发出',
