@@ -100,7 +100,7 @@ export interface MQTTBridgeTransConfiguration {
   topic: string
 }
 
-interface MQTTBridge {
+interface MQTTBridge extends BridgeBaseData {
   clean_start: boolean
   egress: {
     local: {
