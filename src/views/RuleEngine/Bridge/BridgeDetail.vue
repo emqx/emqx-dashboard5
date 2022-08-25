@@ -131,6 +131,7 @@ import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 
 enum Tab {
   Overview = 'overview',
@@ -204,6 +205,8 @@ const loadBridgeInfo = async () => {
   }
 }
 
+const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+
 const updateBridgeInfo = async () => {
   try {
     await formCom.value.validate()
@@ -214,12 +217,6 @@ const updateBridgeInfo = async () => {
     const data = _.cloneDeep(bridgeInfo.value)
     if ('ssl' in data) {
       data.ssl = handleSSLDataBeforeSubmit(data.ssl)
-    }
-    if ('connector' in data && data.connector.ssl) {
-      data.connector.ssl = handleSSLDataBeforeSubmit(data.connector.ssl)
-    }
-    if (data.type === BridgeType.MQTT) {
-      Reflect.deleteProperty(data.connector, 'type')
     }
 
     // Check for changes before updating and do not request if there are no changes
@@ -235,7 +232,7 @@ const updateBridgeInfo = async () => {
     })
 
     updateLoading.value = true
-    const res = await updateBridge(bridgeInfo.value.id, data)
+    const res = await updateBridge(bridgeInfo.value.id, handleBridgeDataBeforeSubmit(data))
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'data-bridge' })

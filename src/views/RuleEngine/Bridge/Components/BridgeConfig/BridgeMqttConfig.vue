@@ -90,6 +90,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'BridgeMqttConfig',
@@ -198,8 +199,23 @@ const updateModelValue = (val: MQTTBridge) => {
   emit('update:modelValue', val)
 }
 
-const validate = () => {
-  return formCom.value.validate()
+const customValidate = () => {
+  const { ingress, egress } = mqttBridgeVal.value
+  if (!ingress.remote?.topic && !egress.remote?.topic) {
+    ElMessage.error(tl('remoteTopicRequired'))
+    return Promise.reject()
+  }
+  return Promise.resolve()
+}
+
+const validate = async () => {
+  try {
+    await formCom.value.validate()
+    await customValidate()
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject()
+  }
 }
 
 const clearValidate = () => {
