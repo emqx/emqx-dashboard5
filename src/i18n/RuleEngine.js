@@ -475,6 +475,10 @@ export default {
     zh: '将本地服务桥接消息至外部的远程服务。',
     en: 'Bridges local messages to external services.',
   },
+  remoteTopicRequired: {
+    zh: '请配置远程 MQTT 服务',
+    en: 'Please configure the remote MQTT broker',
+  },
   bridgeUsage: {
     zh: '如何使用桥接',
     en: 'How to use Bridge',
