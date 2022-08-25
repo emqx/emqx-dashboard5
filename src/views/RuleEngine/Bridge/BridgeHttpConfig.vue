@@ -56,7 +56,7 @@
           <el-form-item>
             <template #label>
               <label>{{ tl('body') }}</label>
-              <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p">
+              <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p" scope="global">
                 <a :href="docMap.bridgePayload" target="_blank">{{ tl('payloadTempSyntax') }}</a>
               </i18n-t>
             </template>
