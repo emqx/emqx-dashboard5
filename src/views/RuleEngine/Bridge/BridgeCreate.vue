@@ -296,12 +296,7 @@ export default defineComponent({
               )
               break
             case BridgeType.MQTT:
-              if (dataToSubmit.connector?.type) {
-                Reflect.deleteProperty(dataToSubmit.connector, 'type')
-              }
-              res = await createBridge(
-                checkNOmitFromObj(handleBridgeDataBeforeSubmit(dataToSubmit)),
-              )
+              res = await createBridge(handleBridgeDataBeforeSubmit(dataToSubmit))
               break
           }
         }
