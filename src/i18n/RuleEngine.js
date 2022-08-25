@@ -463,6 +463,22 @@ export default {
     zh: '远程主题',
     en: 'Remote Topic',
   },
+  localBroker: {
+    zh: '本地 MQTT 服务',
+    en: 'Local MQTT Broker',
+  },
+  remoteBroker: {
+    zh: '远程 MQTT 服务',
+    en: 'Remote MQTT Broker',
+  },
+  ingressDesc: {
+    zh: '从外部的远程服务桥接消息到本地服务。',
+    en: 'Bridges messages from external services to local.',
+  },
+  egressDesc: {
+    zh: '将本地服务桥接消息至外部的远程服务。',
+    en: 'Bridges local messages to external services.',
+  },
   bridgeUsage: {
     zh: '如何使用桥接',
     en: 'How to use Bridge',
