@@ -463,6 +463,14 @@ export default {
     zh: '远程主题',
     en: 'Remote Topic',
   },
+  ingress: {
+    zh: '入口配置',
+    en: 'Ingress',
+  },
+  egress: {
+    zh: '出口配置',
+    en: 'Egress',
+  },
   localBroker: {
     zh: '本地 MQTT 服务',
     en: 'Local MQTT Broker',
@@ -473,11 +481,11 @@ export default {
   },
   ingressDesc: {
     zh: '从外部的远程服务桥接消息到本地服务。',
-    en: 'Bridges messages from external services to local.',
+    en: 'Bridges messages from external remote services to local.',
   },
   egressDesc: {
     zh: '将本地服务桥接消息至外部的远程服务。',
-    en: 'Bridges local messages to external services.',
+    en: 'Bridges local messages to external remote services.',
   },
   remoteTopicRequired: {
     zh: '请配置远程 MQTT 服务',
@@ -777,7 +785,7 @@ export default {
   },
   mqttSourceLocalTopicLabel: {
     zh: '要将消息发送到的本地主题',
-    en: 'The Local Topic where you want to send messages to',
+    en: 'The local topic where you want to send messages to',
   },
   useSQLInput: {
     zh: '使用 SQL',
