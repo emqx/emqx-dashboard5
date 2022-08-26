@@ -24,7 +24,7 @@
       </el-row>
       <el-divider />
       <el-tabs v-model="activeDirection" class="trans-tabs" type="card">
-        <el-tab-pane label="Ingress" :name="MQTTBridgeDirection.In" lazy>
+        <el-tab-pane :label="tl('ingress')" :name="MQTTBridgeDirection.In" lazy>
           <p class="trans-desc">{{ tl('ingressDesc') }}</p>
           <el-row :gutter="26">
             <el-col :span="12">
@@ -56,7 +56,7 @@
             </el-col>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="Egress" :name="MQTTBridgeDirection.Out" lazy>
+        <el-tab-pane :label="tl('egress')" :name="MQTTBridgeDirection.Out" lazy>
           <p class="trans-desc">{{ tl('egressDesc') }}</p>
           <el-row :gutter="26">
             <el-col :span="12">
@@ -65,7 +65,7 @@
                 <el-form-item :prop="['egress', 'remote', 'topic']">
                   <template #label>
                     <label>{{ t('Base.topic') }}</label>
-                    <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
+                    <InfoTooltip :content="tl('outBridgeLocalTopicPlaceholder')" />
                   </template>
                   <el-input v-model="mqttBridgeVal.egress.local.topic" placeholder="t/#" />
                 </el-form-item>
