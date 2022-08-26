@@ -3,8 +3,7 @@
     <template #label>
       <!-- <label>{{ isIngress ? tl('localTopic') : tl('remoteTopic') }}</label> -->
       <label>{{ t('Base.topic') }}</label>
-      <!-- TODO:TODO:TODO:TODO: -->
-      <InfoTooltip :content="tl('remoteTopicDesc')" />
+      <InfoTooltip :content="tl(isIngress ? 'mqttSourceLocalTopicLabel' : 'remoteTopicDesc')" />
     </template>
     <el-input v-model="config.topic" />
     <!-- :placeholder="isIngress ? tl('remoteTopicPlaceholder') : ''" -->
@@ -80,6 +79,8 @@ const config = computed({
     emit('update:modelValue', val)
   },
 })
+
+const isIngress = computed(() => props.direction === MQTTBridgeDirection.In)
 
 const getProp = (key: string) => (props.path ? '' : `${props.path}.${key}`)
 </script>
