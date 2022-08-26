@@ -266,19 +266,28 @@ const replaceSQLFrom = (from: string) => {
   ruleValue.value.sql = transSQLFormDataToSQL(fieldStr, transFromStrToFromArr(from), whereStr)
 }
 
+const addBridgeToAction = (bridgeID: string) => {
+  if (Array.isArray(ruleValue.value.actions)) {
+    ruleValue.value.actions?.push(bridgeID)
+  }
+}
+
 const handleBridgeDataFromQuery = async () => {
   const bridgeId = route.query.bridgeId?.toString()
   if (!bridgeId) {
     return
   }
-  const bridgeMsg = await getBridgeInfo(bridgeId)
-  const isSource = bridgeMsg.direction === MQTTBridgeDirection.In
-  if (isSource) {
-    replaceSQLFrom(`$bridges/${bridgeMsg.id}`)
-  } else {
-    if (Array.isArray(ruleValue.value.actions)) {
-      ruleValue.value.actions?.push(bridgeMsg.id)
+  const { id, ingress, egress } = await getBridgeInfo(bridgeId)
+
+  if (ingress || egress) {
+    if (ingress) {
+      replaceSQLFrom(`$bridges/${id}`)
     }
+    if (egress) {
+      addBridgeToAction(id)
+    }
+  } else {
+    addBridgeToAction(id)
   }
 }
 
