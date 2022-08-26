@@ -1,7 +1,7 @@
 <template>
   <div class="iot-create app-wrapper">
     <detail-header :item="{ name: $t('RuleEngine.createRule'), path: '/rules' }" />
-    <el-card>
+    <el-card class="iot-form-card">
       <iotform
         ref="formCom"
         v-model="ruleValue"
@@ -88,8 +88,8 @@ checkRuleClipStatus()
 
 <style lang="scss">
 .iot-create {
-  .el-card {
-    .el-card__body {
+  .iot-form-card {
+    > .el-card__body {
       padding: 0px;
     }
   }
