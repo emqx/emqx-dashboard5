@@ -171,6 +171,7 @@ export default defineComponent({
     background-color: var(--color-bg-primary);
     display: flex;
     align-items: center;
+    justify-content: center;
     box-sizing: border-box;
     padding: 0 24px;
     z-index: 100;
