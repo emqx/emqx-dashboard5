@@ -24,14 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineExpose, defineProps, computed, defineEmits, PropType } from 'vue'
-import { useStore } from 'vuex'
 import SchemaForm from '@/components/SchemaForm'
-import { BridgeType } from '@/types/enum'
-import useI18nTl from '@/hooks/useI18nTl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
+import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { cloneDeep } from 'lodash'
+import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
+import { useStore } from 'vuex'
 
 type UseSchemaBridgeType = Exclude<BridgeType, BridgeType.MQTT | BridgeType.Webhook>
 
@@ -75,57 +75,86 @@ const baseOrderMap = {
   max_queue_bytes: 104,
 }
 
+const createOrderObj = (keyArr: Array<string>, beginning: number) =>
+  keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
+
 const propsOrderTypeMap: Record<string, Record<string, number>> = {
   [BridgeType.InfluxDBV1]: {
     // root
     ...baseOrderMap,
-    host: 1,
-    port: 2,
-    database: 3,
-    username: 4,
-    password: 5,
-    pool_size: 6,
-    precision: 7,
-    resume_interval: 8,
-    write_syntax: 9,
-    local_topic: 10,
-    ssl: 11,
-    start_after_created: 12,
+    ...createOrderObj(
+      [
+        'server',
+        'database',
+        'username',
+        'password',
+        'pool_size',
+        'precision',
+        'resume_interval',
+        'worker_pool_size',
+        'health_check_interval',
+        'auto_restart_interval',
+        'write_syntax',
+        'ssl',
+      ],
+      1,
+    ),
   },
+
   [BridgeType.InfluxDBV2]: {
     // root
     ...baseOrderMap,
-    host: 1,
-    port: 2,
-    token: 3,
-    org: 4,
-    bucket: 5,
-    pool_size: 6,
-    resume_interval: 7,
-    precision: 8,
-    write_syntax: 9,
-    ssl: 10,
+    ...createOrderObj(
+      [
+        'server',
+        'token',
+        'org',
+        'bucket',
+        'precision',
+        'worker_pool_size',
+        'health_check_interval',
+        'auto_restart_interval',
+        'resume_interval',
+        'write_syntax',
+        'ssl',
+      ],
+      1,
+    ),
   },
   [BridgeType.InfluxDBUPD]: {
     // root
     ...baseOrderMap,
-    host: 1,
-    port: 2,
-    pool_size: 3,
-    resume_interval: 4,
-    precision: 5,
-    write_syntax: 6,
+    ...createOrderObj(
+      [
+        'server',
+        'pool_size',
+        'resume_interval',
+        'precision',
+        'worker_pool_size',
+        'health_check_interval',
+        'auto_restart_interval',
+        'write_syntax',
+      ],
+      1,
+    ),
   },
   [BridgeType.MySQL]: {
     ...baseOrderMap,
-    server: 1,
-    database: 2,
-    username: 3,
-    password: 4,
-    pool_size: 5,
-    auto_reconnect: 6,
-    sql_template: 7,
-    ssl: 8,
+    ...createOrderObj(
+      [
+        'server',
+        'database',
+        'username',
+        'password',
+        'worker_pool_size',
+        'health_check_interval',
+        'auto_restart_interval',
+        'auto_reconnect',
+        'sql',
+        'ssl',
+      ],
+      1,
+    ),
   },
 }
 
@@ -150,9 +179,6 @@ const customColClass = computed(() => {
     enable: 'col-hidden',
     local_topic: 'col-hidden',
     'connector.ssl': 'col-ssl',
-    // TODO:delete
-    'resource_opts.start_after_created': 'col-hidden',
-    'resource_opts.start_timeout': 'col-hidden',
   }
 })
 
