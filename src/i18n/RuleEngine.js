@@ -487,6 +487,10 @@ export default {
     zh: '请配置远程 MQTT 服务',
     en: 'Please configure the remote MQTT broker',
   },
+  remoteTopicRepeated: {
+    zh: '入口和出口配置的远程 MQTT 主题相同',
+    en: 'The same remote MQTT topics are configured for ingress and egress',
+  },
   bridgeUsage: {
     zh: '如何使用桥接',
     en: 'How to use Bridge',
