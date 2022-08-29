@@ -79,6 +79,10 @@ export default {
     zh: '节点名称',
     en: 'Node Name',
   },
+  nodeRole: {
+    zh: '节点角色',
+    en: 'Node Role',
+  },
   name: {
     zh: '名称',
     en: 'Name',
