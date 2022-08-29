@@ -29,38 +29,20 @@
                   }}</span>
                 </div>
                 <div class="node-item">
-                  <label class="node-item-label">{{ tl('topics') }}: </label>
-                  <span class="node-item-content">{{ currentInfo.stats['topics.count'] }}</span>
-                </div>
-                <div
-                  v-if="![0, '0'].includes(currentInfo?.node?.['memory_total'])"
-                  class="node-item"
-                >
-                  <span class="node-item-label">{{ tl('memory') }}: </span>
-                  <span class="node-item-content">
-                    <el-tooltip
-                      class="box-item"
-                      effect="dark"
-                      :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
-                      placement="top"
-                    >
-                      <el-progress
-                        :stroke-width="14"
-                        :format="() => ''"
-                        :percentage="calcMemoryPercentage"
-                        :color="getProgressColor(calcPercentage)"
-                      >
-                      </el-progress>
-                    </el-tooltip>
-                  </span>
-                </div>
-              </el-col>
-              <el-col :span="10">
-                <div class="node-item">
                   <label class="node-item-label">{{ tl('Subscription') }}: </label>
                   <span class="node-item-content">{{
                     currentInfo.stats['subscriptions.count']
                   }}</span>
+                </div>
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('topics') }}: </label>
+                  <span class="node-item-content">{{ currentInfo.stats['topics.count'] }}</span>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('nodeRole') }}: </label>
+                  <span class="node-item-content">{{ currentInfo.node['role'] }}</span>
                 </div>
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('maxFds') }}: </label>
@@ -93,6 +75,28 @@
                     <a :href="releaseNoteLink" target="_blank">
                       {{ currentInfo.node['version'] }}
                     </a>
+                  </span>
+                </div>
+                <div
+                  v-if="![0, '0'].includes(currentInfo?.node?.['memory_total'])"
+                  class="node-item"
+                >
+                  <span class="node-item-label">{{ tl('memory') }}: </span>
+                  <span class="node-item-content">
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
+                      placement="top"
+                    >
+                      <el-progress
+                        :stroke-width="14"
+                        :format="() => ''"
+                        :percentage="calcMemoryPercentage"
+                        :color="getProgressColor(calcPercentage)"
+                      >
+                      </el-progress>
+                    </el-tooltip>
                   </span>
                 </div>
               </el-col>
@@ -263,7 +267,7 @@ onUnmounted(() => {
 .node-detail {
   width: 66.66%;
   background: var(--color-bg-split);
-  padding: 24px 24px 0px;
+  padding: 26px 26px 8px;
   .node-title {
     font-size: 16px;
     margin-bottom: 20px;
