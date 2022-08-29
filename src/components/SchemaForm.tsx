@@ -559,7 +559,6 @@ const SchemaForm = defineComponent({
      * called after init record
      */
     const { createSSLForm } = useSSL()
-    const SSLDataNeedKeys = Object.keys(createSSLForm())
     const handleSSLDataWhenUseConciseSSL = () => {
       if (!typesNeedConciseSSL.includes(props.type)) {
         return
@@ -569,7 +568,7 @@ const SchemaForm = defineComponent({
           const propItem = record[key]
           if (typeof propItem === 'object') {
             if (key === SSL_KEY && 'enable' in propItem) {
-              record[key] = _.pick(propItem, SSLDataNeedKeys)
+              record[key] = createSSLForm()
             } else {
               walk(propItem)
             }
