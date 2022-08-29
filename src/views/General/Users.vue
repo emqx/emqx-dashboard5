@@ -219,7 +219,7 @@ const save = async () => {
     const { username } = record.value
     if (accessType.value === 'edit') {
       await updateUser(username, record.value)
-      ElMessage.success(t('Base.updateSuccess'))
+      ElMessage.success(t('Base.editSuccess'))
     } else if (accessType.value === 'chPass') {
       let pass = {
         new_pwd: record.value.newPassword,

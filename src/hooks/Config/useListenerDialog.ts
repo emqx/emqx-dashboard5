@@ -165,7 +165,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       isSubmitting.value = true
       const data = checkNOmitFromObj(normalizeStructure(input))
       props.gatewayName ? await submitGatewayListenerInfo(data) : await submitListener(data)
-      ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
+      ElMessage.success(t(`Base.${isEdit.value ? 'editSuccess' : 'createSuccess'}`))
       showDialog.value = false
       emit('submitted')
       isSubmitting.value = false
