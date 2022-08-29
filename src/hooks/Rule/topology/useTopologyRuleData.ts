@@ -1,10 +1,14 @@
 import { getRules } from '@/api/ruleengine'
-import { RuleOutput } from '@/types/enum'
+import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX, RULE_MAX_NUM_PER_PAGE } from '@/common/constants'
+import {
+  RULE_INPUT_BRIDGE_TYPE_PREFIX,
+  RULE_MAX_NUM_PER_PAGE,
+  BRIDGE_TYPES_WITH_TWO_DIRECTIONS,
+} from '@/common/constants'
 import { ref, Ref } from 'vue'
 
 interface RuleData {
@@ -42,6 +46,8 @@ export default (): {
     getIconFromInputData,
     getIconFromOutputItem,
     getBridgeNodeLabel,
+    getBridgeTypeFromString,
+    createBridgeSingleDirectionNodeId,
   } = useUtilsForTopology()
 
   const createInputNodeNInput2RuleEdge = (
@@ -56,8 +62,15 @@ export default (): {
       inputType === OtherNodeType.Bridge
         ? fromData.slice(RULE_INPUT_BRIDGE_TYPE_PREFIX.length)
         : fromData
-    const label = inputType === OtherNodeType.Bridge ? getBridgeNodeLabel(rawFrom) : rawFrom
-    const idOfInputNode = createNodeId(rawFrom, inputType)
+    const isBridgeNode = inputType === OtherNodeType.Bridge
+    const label = isBridgeNode ? getBridgeNodeLabel(rawFrom) : rawFrom
+    let idOfInputNode = createNodeId(rawFrom, inputType)
+    if (
+      isBridgeNode &&
+      BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(getBridgeTypeFromString(fromData))
+    ) {
+      idOfInputNode = createBridgeSingleDirectionNodeId(rawFrom, MQTTBridgeDirection.In)
+    }
 
     let node: NodeItem = {
       id: idOfInputNode,
@@ -103,10 +116,16 @@ export default (): {
     const outputType = judgeOutputType(outputData)
     const target = getTargetStrInNodeId(outputData, ruleID)
     const rawNodeLabel = typeof outputData === 'object' ? outputData?.function || '' : outputData
-    const labelBeforeCut =
-      outputType === OtherNodeType.Bridge ? getBridgeNodeLabel(rawNodeLabel) : rawNodeLabel
+    const isBridgeNode = outputType === OtherNodeType.Bridge
+    const labelBeforeCut = isBridgeNode ? getBridgeNodeLabel(rawNodeLabel) : rawNodeLabel
+    let toNode = createNodeId(target as string, outputType)
+    if (
+      isBridgeNode &&
+      BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(getBridgeTypeFromString(outputData as string))
+    ) {
+      toNode = createBridgeSingleDirectionNodeId(outputData as string, MQTTBridgeDirection.Out)
+    }
 
-    const toNode = createNodeId(target as string, outputType)
     let node: NodeItem = {
       id: toNode,
       label: cutLabel(labelBeforeCut),
