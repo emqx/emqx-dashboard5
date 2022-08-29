@@ -145,7 +145,7 @@ import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA, DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 
 export default defineComponent({
   name: 'BridgeCreate',
@@ -155,7 +155,7 @@ export default defineComponent({
     const createBridgeData = () => ({})
     const tlsParamsDefault: tlsConfig = {
       enable: false,
-      verify: 'verify_none',
+      verify: DEFAULT_SSL_VERIFY_VALUE,
       certfile: '',
       keyfile: '',
       cacertfile: '',
