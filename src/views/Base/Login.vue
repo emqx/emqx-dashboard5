@@ -65,7 +65,7 @@ import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import docLinks from '@/common/docLinks'
-import { DEFAULT_PWD } from '@/common/constants'
+import { DEFAULT_PWD, ADMIN_USERNAMES } from '@/common/constants'
 
 const { t } = useI18n()
 const store = useStore()
@@ -117,7 +117,7 @@ const login = async (auto = false) => {
       store.commit('UPDATE_USER_INFO', {
         token: res.token,
         username,
-        isUsingDefaultPwd: password === DEFAULT_PWD,
+        isUsingDefaultPwd: password === DEFAULT_PWD && ADMIN_USERNAMES.includes(username),
       })
       store.commit('UPDATE_EDITION', res.license?.edition)
       redirect()

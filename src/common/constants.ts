@@ -203,6 +203,8 @@ export const RULE_MAX_NUM_PER_PAGE = 100
 
 export const DEFAULT_PWD = 'public'
 
+export const ADMIN_USERNAMES = ['admin', 'root', 'administrator']
+
 const { VUE_APP_VERSION } = process.env
 export const IS_ENTERPRISE = VUE_APP_VERSION === 'enterprise'
 
