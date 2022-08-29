@@ -6,7 +6,7 @@
           <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
           {{ $t('Dashboard.node', { n: nodes.length }) }}
         </span>
-        <NodesGraph :data="nodesGraphData" @change="selectNode" />
+        <NodesGraph :data="nodesGraphData" @change="selectNode" v-if="!infoLoading" />
       </div>
       <div class="node-detail">
         <div class="node-info" v-if="currentInfo">
@@ -31,6 +31,28 @@
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('topics') }}: </label>
                   <span class="node-item-content">{{ currentInfo.stats['topics.count'] }}</span>
+                </div>
+                <div
+                  v-if="![0, '0'].includes(currentInfo?.node?.['memory_total'])"
+                  class="node-item"
+                >
+                  <span class="node-item-label">{{ tl('memory') }}: </span>
+                  <span class="node-item-content">
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
+                      placement="top"
+                    >
+                      <el-progress
+                        :stroke-width="14"
+                        :format="() => ''"
+                        :percentage="calcMemoryPercentage"
+                        :color="getProgressColor(calcPercentage)"
+                      >
+                      </el-progress>
+                    </el-tooltip>
+                  </span>
                 </div>
               </el-col>
               <el-col :span="10">
@@ -65,26 +87,12 @@
                     </el-tooltip>
                   </span>
                 </div>
-                <div
-                  v-if="![0, '0'].includes(currentInfo?.node?.['memory_total'])"
-                  class="node-item"
-                >
-                  <span class="node-item-label">{{ tl('memory') }}: </span>
+                <div class="node-item">
+                  <label class="node-item-label">{{ tl('version') }}: </label>
                   <span class="node-item-content">
-                    <el-tooltip
-                      class="box-item"
-                      effect="dark"
-                      :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
-                      placement="top"
-                    >
-                      <el-progress
-                        :stroke-width="14"
-                        :format="() => ''"
-                        :percentage="calcMemoryPercentage"
-                        :color="getProgressColor(calcPercentage)"
-                      >
-                      </el-progress>
-                    </el-tooltip>
+                    <a :href="versionLink" target="_blank">
+                      {{ currentInfo.node['version'] }}
+                    </a>
                   </span>
                 </div>
               </el-col>
@@ -111,6 +119,7 @@ import { getDuration, calcPercentage, getProgressColor } from '@/common/utils'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
+import { getDocLinkByVersion } from '@/common/tools'
 
 type CurrentInfo = { node: NodeMsg; stats: NodeStatisticalData }
 
@@ -164,6 +173,18 @@ let calcMemoryPercentage = computed(() => {
   )
 })
 
+const getVersion = (version: string) => {
+  if (!version) {
+    return ''
+  }
+  const [major, minor] = version.split('.')
+  return `${major}.${minor}`
+}
+
+const versionLink = computed(() =>
+  getDocLinkByVersion(getVersion(currentInfo.value?.node?.version)),
+)
+
 const selectFirstNode = () => {
   const nodeName = nodes.value[0].node
   selectNode(nodeName)
@@ -216,8 +237,7 @@ onUnmounted(() => {
 
 .nodes-graph-container {
   flex-grow: 1;
-  height: 240px;
-  padding: 16px 0;
+  padding: 16px 0 4px;
   position: relative;
   .node-count {
     position: absolute;
@@ -237,9 +257,8 @@ onUnmounted(() => {
 
 .node-detail {
   width: 66.66%;
-  height: 240px;
   background: var(--color-bg-split);
-  padding: 24px;
+  padding: 24px 24px 0px;
   .node-title {
     font-size: 16px;
     margin-bottom: 20px;

@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, watch, defineEmits } from 'vue'
+import { defineProps, PropType, watch, defineEmits, onMounted, nextTick } from 'vue'
 import useDrawNodesGraph from '@/hooks/Overview/useDrawNodesGraph'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
 
@@ -28,6 +28,14 @@ const props = defineProps({
 const emit = defineEmits(['change'])
 
 const { canvasEle, drawNodes } = useDrawNodesGraph(emit)
+
+onMounted(async () => {
+  // wait init
+  await nextTick()
+  if (props.data) {
+    drawNodes(props.data)
+  }
+})
 
 watch(
   () => props.data,
