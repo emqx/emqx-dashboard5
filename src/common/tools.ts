@@ -370,7 +370,3 @@ export const getLocalMessage = (path: string) => {
 export const URLReg =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/
 
-export const getDocLinkByVersion = (version: string) => {
-  const lang = i18n.global.locale === 'zh' ? 'zh' : 'en'
-  return `https://www.emqx.io/docs/${lang}/v${version}/`
-}
