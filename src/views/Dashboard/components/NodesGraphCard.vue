@@ -90,7 +90,7 @@
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('version') }}: </label>
                   <span class="node-item-content">
-                    <a :href="versionLink" target="_blank">
+                    <a :href="releaseNoteLink" target="_blank">
                       {{ currentInfo.node['version'] }}
                     </a>
                   </span>
@@ -119,11 +119,10 @@ import { getDuration, calcPercentage, getProgressColor } from '@/common/utils'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
-import { getDocLinkByVersion } from '@/common/tools'
 
 type CurrentInfo = { node: NodeMsg; stats: NodeStatisticalData }
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 let nodes: Ref<Array<NodeMsg>> = ref([])
 let stats: Ref<Array<NodeStatisticalData>> = ref([])
@@ -173,16 +172,22 @@ let calcMemoryPercentage = computed(() => {
   )
 })
 
+const versionReg = /(?<version>\d\.\d+\.\d+)/
 const getVersion = (version: string) => {
   if (!version) {
     return ''
   }
-  const [major, minor] = version.split('.')
-  return `${major}.${minor}`
+  const matchRes = version.match(versionReg)
+  return matchRes && matchRes.groups?.version ? matchRes.groups?.version : ''
 }
 
-const versionLink = computed(() =>
-  getDocLinkByVersion(getVersion(currentInfo.value?.node?.version)),
+const getReleaseNoteLinkByVersion = (version: string) => {
+  const lang = locale.value === 'zh' ? 'zh' : 'en'
+  return ` https://www.emqx.com/${lang}/changelogs/broker/${version}`
+}
+
+const releaseNoteLink = computed(() =>
+  getReleaseNoteLinkByVersion(getVersion(currentInfo.value?.node?.version)),
 )
 
 const selectFirstNode = () => {
