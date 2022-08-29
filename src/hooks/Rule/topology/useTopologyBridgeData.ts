@@ -1,9 +1,8 @@
 import { getBridgeList as queryBridgeList } from '@/api/ruleengine'
-import { BridgeItem, MQTTOut } from '@/types/rule'
-import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
+import { MQTTBridgeDirection } from '@/types/enum'
+import { BridgeItem } from '@/types/rule'
+import { EdgeItem, NodeItem } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
-import iconMap from '@/assets/topologyIcon/index'
-import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 
 export default (): {
   getData: () => Promise<{
@@ -18,13 +17,25 @@ export default (): {
   let bridgeList: Array<BridgeItem> = []
 
   const {
-    cutLabel,
-    addCursorPointerToNodeData,
-    createNodeId,
-    getBridgeTypeFromString,
-    getBridgeNodeLabel,
+    createSingleDirectionBridgeNode,
+    createBridgeNodeWithoutDirection,
     createTopicNodeAndEdgeForBridge,
   } = useUtilsForTopology()
+
+  const createBridgeNodes = (bridge: BridgeItem): Array<NodeItem> => {
+    const ret = []
+    if (!('ingress' in bridge) && !('egress' in bridge)) {
+      ret.push(createBridgeNodeWithoutDirection(bridge))
+    } else {
+      if ('ingress' in bridge) {
+        ret.push(createSingleDirectionBridgeNode(bridge, MQTTBridgeDirection.In))
+      }
+      if ('egress' in bridge) {
+        ret.push(createSingleDirectionBridgeNode(bridge, MQTTBridgeDirection.Out))
+      }
+    }
+    return ret
+  }
 
   const createBridgeNTopicEle = (
     bridgeArr: Array<BridgeItem>,
@@ -38,23 +49,13 @@ export default (): {
     const topic2BridgeEdgeArr: Array<EdgeItem> = []
 
     bridgeArr.forEach((bridgeItem) => {
-      const { id } = bridgeItem
-      const iconKey = `bridge-${getBridgeTypeFromString(id)}`
-      const bridgeNodeId = createNodeId(id, OtherNodeType.Bridge)
       // bridge node
-      bridgeNodeArr.push(
-        addCursorPointerToNodeData({
-          id: bridgeNodeId,
-          label: cutLabel(getBridgeNodeLabel(id)),
-          img: iconMap[iconKey],
-          _customData: { id, type: OtherNodeType.Bridge },
-        }),
-      )
+      bridgeNodeArr.push(...createBridgeNodes(bridgeItem))
       const topicNodeAndEdgeData = createTopicNodeAndEdgeForBridge(bridgeItem)
       if (topicNodeAndEdgeData) {
-        const { node, edge } = topicNodeAndEdgeData
-        topicNodeArr.push(node)
-        topic2BridgeEdgeArr.push(edge)
+        const { nodes, edges } = topicNodeAndEdgeData
+        topicNodeArr.push(...nodes)
+        topic2BridgeEdgeArr.push(...edges)
       }
     })
     return {
