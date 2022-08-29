@@ -155,7 +155,7 @@ export default defineComponent({
       if (res) {
         ElMessage({
           type: 'success',
-          message: edit ? t('Base.updateSuccess') : t('Base.createSuccess'),
+          message: edit ? t('Base.editSuccess') : t('Base.createSuccess'),
         })
         loadData()
       } else {

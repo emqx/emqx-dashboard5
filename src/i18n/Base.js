@@ -425,7 +425,7 @@ export default {
   },
   isEnabled: {
     zh: '是否启用',
-    en: 'Enabled',
+    en: 'Enable',
   },
   rate: {
     zh: '速率',
