@@ -213,3 +213,5 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.MQTT,
   BridgeType.InfluxDB,
 ]
+
+export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
