@@ -8,6 +8,7 @@
         :before-upload="setFile"
         :file-list="fileList"
         :show-file-list="false"
+        accept=".gz"
       >
         <div v-if="!file?.name">
           <el-icon class="icon-plus">
