@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
         <template #default="{ row }">
-          <el-switch v-model="row.enable" @change="toggleListenerStatus(row)" />
+          <el-switch v-model="row.enable" :before-change="handleSwitch(row)" />
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="152">
@@ -98,7 +98,7 @@ import useListenerUtils from '@/hooks/Config/useListenerUtils'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
 import { calcPercentage } from '@/common/utils'
 import { ListenerAction } from '@/types/enum'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
 
 const { t, tl } = useI18nTl('Gateway')
@@ -135,7 +135,7 @@ const addListener = () => {
   currentListener.value = undefined
 }
 
-const editListener = (listener: Listener) => {
+const editListener = (listener: Listener): Promise<boolean> => {
   currentListener.value = listener
   showDialog.value = true
 }
@@ -143,11 +143,26 @@ const editListener = (listener: Listener) => {
 const toggleListenerStatus = async (listener: Listener) => {
   try {
     const { enable, id } = listener
-    const action = enable ? ListenerAction.Start : ListenerAction.Stop
+    if (enable) {
+      await ElMessageBox.confirm(tl('disableListenerTip'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      })
+    }
+    const action = enable ? ListenerAction.Stop : ListenerAction.Start
     await handleListener(id, action)
-    ElMessage.success(t(`Base.${enable ? 'enableSuccess' : 'disabledSuccess'}`))
-  } catch (error) {
+    ElMessage.success(t(`Base.${enable ? 'disabledSuccess' : 'enableSuccess'}`))
     listener.enable = !listener.enable
+  } catch (error) {
+    //
+  }
+  return false
+}
+
+const handleSwitch = (listener: Listener): (() => Promise<boolean>) => {
+  return () => {
+    return toggleListenerStatus(listener)
   }
 }
 

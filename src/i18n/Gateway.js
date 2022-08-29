@@ -55,6 +55,10 @@ export default {
     zh: '编辑监听器',
     en: 'Edit Listener',
   },
+  disableListenerTip: {
+    zh: '在禁用监听器后，监听器中的所有连接将被关闭，是否继续？',
+    en: 'All connections in the listener will be closed after disabling the listener, continue?',
+  },
   addAuth: {
     en: 'Create Authentication',
     zh: '添加认证',
