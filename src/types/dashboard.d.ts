@@ -38,6 +38,7 @@ export interface NodeMsg {
   sys_path: string
   uptime: number
   version: string
+  role: 'core' | 'replicant'
 }
 
 export interface Prometheus {
