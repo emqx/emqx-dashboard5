@@ -201,6 +201,10 @@ const customValidate = () => {
     ElMessage.error(tl('remoteTopicRequired'))
     return Promise.reject()
   }
+  if (ingress.remote?.topic === egress.remote?.topic) {
+    ElMessage.error(tl('remoteTopicRepeated'))
+    return Promise.reject()
+  }
   return Promise.resolve()
 }
 
