@@ -94,22 +94,26 @@ export interface MQTTBridgeTransConfiguration {
   topic: string
 }
 
-interface MQTTBridge extends BridgeBaseData {
+export interface MQTTBridgeEgress {
+  local: {
+    topic: string
+  }
+  remote: MQTTBridgeTransConfiguration
+}
+
+export interface MQTTBridgeIngress {
+  local: MQTTBridgeTransConfiguration
+  remote: {
+    qos: number
+    topic: string
+  }
+}
+
+export interface MQTTBridge extends BridgeBaseData {
   clean_start: boolean
-  egress: {
-    local: {
-      topic: string
-    }
-    remote: MQTTBridgeTransConfiguration
-  }
   enable: boolean
-  ingress: {
-    local: MQTTBridgeTransConfiguration
-    remote: {
-      qos: number
-      topic: string
-    }
-  }
+  egress: MQTTBridgeEgress
+  ingress: MQTTBridgeIngress
   keepalive: string
   max_inflight: number
   mode: string
