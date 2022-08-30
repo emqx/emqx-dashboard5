@@ -19,7 +19,7 @@
       </template>
       <el-row :gutter="26">
         <el-col :span="24">
-          <ConnectorMqttConfig v-model="mqttBridgeVal" />
+          <ConnectorMqttConfig v-model="mqttBridgeVal" :edit="edit" />
         </el-col>
       </el-row>
       <el-divider />
