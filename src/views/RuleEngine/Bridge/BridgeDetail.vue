@@ -305,7 +305,7 @@ defineExpose({
   margin-top: 40px;
 }
 .hide-tabs {
-  :deep(.el-tabs__header) {
+  > :deep(.el-tabs__header) {
     display: none;
   }
 }
