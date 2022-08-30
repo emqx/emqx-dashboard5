@@ -146,6 +146,20 @@ const createRawTransDefaultVal = () => ({
   retain: false,
 })
 
+const createIngressDefaultVal = () => ({
+  remote: {
+    topic: '',
+    qos: 1,
+  },
+  local: createRawTransDefaultVal(),
+})
+const createEgressDefaultValue = () => ({
+  local: {
+    topic: '',
+  },
+  remote: createRawTransDefaultVal(),
+})
+
 const createMQTTBridgeDefaultVal = () => ({
   enable: true,
   server: '',
@@ -153,20 +167,8 @@ const createMQTTBridgeDefaultVal = () => ({
   username: '',
   password: '',
   ssl: createSSLForm(),
-
-  ingress: {
-    remote: {
-      topic: '',
-      qos: 1,
-    },
-    local: createRawTransDefaultVal(),
-  },
-  egress: {
-    local: {
-      topic: '',
-    },
-    remote: createRawTransDefaultVal(),
-  },
+  ingress: createIngressDefaultVal(),
+  egress: createEgressDefaultValue(),
 })
 
 const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
@@ -184,15 +186,30 @@ const formRules = computed(() => ({
   remote_topic: createRequiredRule(t('Base.topic')),
 }))
 
-const initMqttBridgeVal = async () => {
-  if (prop.edit) {
-    mqttBridgeVal.value = _.cloneDeep(prop.modelValue)
-  } else {
-    mqttBridgeVal.value = {
-      ...createMQTTBridgeDefaultVal(),
-      ..._.cloneDeep(prop.modelValue),
+/**
+ * for prevent the data is not complete
+ */
+const initIngressAndEgress = (data: MQTTBridge) => {
+  if ('ingress' in data) {
+    data.ingress = {
+      ...createIngressDefaultVal(),
+      ...data.ingress,
     }
   }
+  if ('egress' in data) {
+    data.egress = {
+      ...createEgressDefaultValue(),
+      ...data.egress,
+    }
+  }
+  return data
+}
+
+const initMqttBridgeVal = async () => {
+  mqttBridgeVal.value = initIngressAndEgress({
+    ...createMQTTBridgeDefaultVal(),
+    ..._.cloneDeep(prop.modelValue),
+  })
 }
 
 const updateModelValue = (val: MQTTBridge) => {
