@@ -140,7 +140,7 @@ onMounted(() => {
 <style lang="scss">
 .iot-detail {
   .el-card.detail-card {
-    .el-card__body {
+    > .el-card__body {
       padding: 0px;
     }
   }
