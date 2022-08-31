@@ -14,18 +14,57 @@
     <div class="overview-sub-block">
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic" :gutter="28">
+        <!-- first row -->
         <el-col :span="6">
           <el-card class="success-bg">
-            <p class="statistic-label">{{ tl('SuccessNum') }}</p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.success) }}</p>
+            <p class="statistic-label">{{ tl('matched') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.matched) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="failed-bg">
-            <p class="statistic-label">{{ tl('ErrNum') }}</p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.failed) }}</p>
+            <p class="statistic-label">{{ tl('sent') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.sent) }}</p>
           </el-card>
         </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">{{ tl('dropped') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.dropped) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">{{ tl('queued') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.queued) }}</p>
+          </el-card>
+        </el-col>
+        <!-- second row -->
+        <el-col :span="6">
+          <el-card class="success-bg">
+            <p class="statistic-label">{{ tl('sentSuccessfully') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.success']) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">{{ tl('sentFailed') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.failed']) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">{{ tl('sentException') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.exception']) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">{{ tl('sentInflight') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.inflight']) }}</p>
+          </el-card>
+        </el-col>
+        <!-- third row -->
         <el-col :span="6">
           <el-card class="rate-bg">
             <p class="statistic-label">{{ tl('speedNow') }}</p>
@@ -44,14 +83,30 @@
       <p class="card-sub-desc">{{ tl('nodeStatusBridgeDesc') }}</p>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column prop="metrics.success" :label="tl('SuccessNum')" />
-        <el-table-column prop="metrics.failed" :label="tl('ErrNum')" />
+
+        <el-table-column prop="metrics.matched" :label="tl('matched')" />
+        <el-table-column prop="metrics.sent" :label="tl('sent')" />
+        <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
+
         <el-table-column prop="metrics.rate">
           <template #header>
-            <p>{{ tl('speedNow') }}</p>
+            <p>{{ tl('executionSpeed') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
         </el-table-column>
+        <el-table-column prop="metrics.rate_last5m">
+          <template #header>
+            <p>{{ tl('rateLast5M') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
+        </el-table-column>
+        <el-table-column prop="metrics.rate_max" :label="tl('rateMax')">
+          <template #header>
+            <p>{{ tl('rateMax') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="tl('status')">
           <template #default="{ row }">
             <span class="text-status" :class="getStatusClass(row.status)">
@@ -90,7 +145,7 @@ import { formatNumber } from '@/common/tools'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   bridgeMsg: {
