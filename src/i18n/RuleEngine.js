@@ -391,6 +391,10 @@ export default {
     zh: '已发送未确认',
     en: 'Sent Inflight',
   },
+  received: {
+    zh: '已接收',
+    en: 'Received',
+  },
   rateMax: {
     zh: '最大执行速率',
     en: 'Maximum Execution Speed',

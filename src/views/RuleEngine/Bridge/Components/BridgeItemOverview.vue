@@ -12,17 +12,25 @@
       </div>
     </div>
     <div class="overview-sub-block">
+      <el-row class="rule-statistic" :gutter="28" v-if="showReceived">
+        <el-col :span="6">
+          <el-card class="max-rate-bg">
+            <p class="statistic-label">{{ tl('received') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.received) }}</p>
+          </el-card>
+        </el-col>
+      </el-row>
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic" :gutter="28">
         <!-- first row -->
         <el-col :span="6">
-          <el-card class="success-bg">
+          <el-card class="matched-bg">
             <p class="statistic-label">{{ tl('matched') }}</p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.matched) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card class="failed-bg">
+          <el-card class="success-bg">
             <p class="statistic-label">{{ tl('sent') }}</p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.sent) }}</p>
           </el-card>
@@ -34,7 +42,7 @@
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card class="failed-bg">
+          <el-card class="max-rate-bg">
             <p class="statistic-label">{{ tl('queued') }}</p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.queued) }}</p>
           </el-card>
@@ -53,13 +61,13 @@
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card class="failed-bg">
+          <el-card class="last-five-rate-bg">
             <p class="statistic-label">{{ tl('sentException') }}</p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.exception']) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card class="failed-bg">
+          <el-card class="no-result-bg">
             <p class="statistic-label">{{ tl('sentInflight') }}</p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.inflight']) }}</p>
           </el-card>
@@ -138,7 +146,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
-import { ConnectionStatus } from '@/types/enum'
+import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
 import { formatNumber } from '@/common/tools'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
@@ -157,6 +165,12 @@ const emit = defineEmits(['reset', 'reconnect', 'refresh'])
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
+
+const showReceived = computed(() => {
+  const isMQTT = props.bridgeMsg.type === BridgeType.MQTT
+  const withIngress = 'ingress' in props.bridgeMsg && props.bridgeMsg.ingress
+  return isMQTT && withIngress
+})
 
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
   const nodeStatusData = props.bridgeMsg?.node_status
