@@ -528,7 +528,9 @@ input:disabled {
   }
   .overview-header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 12px;
   }
   .card-hd {
     display: flex;
