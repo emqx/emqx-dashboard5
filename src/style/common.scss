@@ -469,13 +469,13 @@ input:disabled {
   top: 0px;
   width: 18px;
   height: 18px;
-  background-color: #5E4EFF50;
+  background-color: #5e4eff50;
   animation: scaleAnimate 1.5s ease-out infinite;
 }
 .running-status::after {
   width: 6px;
   height: 6px;
-  background-color: #5E4EFF;
+  background-color: #5e4eff;
   top: 6px;
   left: -8px;
   z-index: 3;
@@ -523,7 +523,9 @@ input:disabled {
   }
   .overview-header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 12px;
   }
   .card-hd {
     display: flex;
