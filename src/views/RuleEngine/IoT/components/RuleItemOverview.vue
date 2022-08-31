@@ -30,7 +30,7 @@
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column prop="metrics.matched">
           <template #header>
-            <span>{{ tl('sqlMatched') }}</span>
+            <span>{{ tl('matched') }}</span>
             <InfoTooltip :content="tl('sqlMatchedDesc')" />
           </template>
         </el-table-column>

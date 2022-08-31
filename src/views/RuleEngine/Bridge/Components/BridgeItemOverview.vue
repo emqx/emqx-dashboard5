@@ -22,14 +22,30 @@
       <p class="card-sub-desc">{{ tl('nodeStatusBridgeDesc') }}</p>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column prop="metrics.success" :label="tl('SuccessNum')" />
-        <el-table-column prop="metrics.failed" :label="tl('ErrNum')" />
+
+        <el-table-column prop="metrics.matched" :label="tl('matched')" />
+        <el-table-column prop="metrics.sent" :label="tl('sent')" />
+        <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
+
         <el-table-column prop="metrics.rate">
           <template #header>
-            <p>{{ tl('speedNow') }}</p>
+            <p>{{ tl('executionSpeed') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
         </el-table-column>
+        <el-table-column prop="metrics.rate_last5m">
+          <template #header>
+            <p>{{ tl('rateLast5M') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
+        </el-table-column>
+        <el-table-column prop="metrics.rate_max" :label="tl('rateMax')">
+          <template #header>
+            <p>{{ tl('rateMax') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="tl('status')">
           <template #default="{ row }">
             <span class="text-status" :class="getStatusClass(row.status)">

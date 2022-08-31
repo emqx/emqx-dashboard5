@@ -327,7 +327,7 @@ export default {
     zh: '成功执行并输出结果',
     en: 'Executes successfully and outputs the result',
   },
-  sqlMatched: {
+  matched: {
     zh: '命中',
     en: 'Matched',
   },
@@ -358,6 +358,34 @@ export default {
   rateLast5M: {
     zh: '最近 5 分钟执行速率',
     en: 'Execution Speed in the Last 5 Minutes',
+  },
+  sent: {
+    zh: '已发送',
+    en: 'Sent',
+  },
+  dropped: {
+    zh: '已丢弃',
+    en: 'Dropped',
+  },
+  queued: {
+    zh: '已缓存',
+    en: 'Queued',
+  },
+  sentSuccessfully: {
+    zh: '发送成功',
+    en: 'Sent Successfully',
+  },
+  sentFailed: {
+    zh: '发送失败',
+    en: 'Sent Failed',
+  },
+  sentException: {
+    zh: '发送异常',
+    en: 'Sent Exception',
+  },
+  sentInflight: {
+    zh: '已发送未确认',
+    en: 'Sent Inflight',
   },
   rateMax: {
     zh: '最大执行速率',
@@ -838,5 +866,9 @@ export default {
   saveAsCopy: {
     zh: '保存为副本',
     en: 'Save as copy',
+  },
+  rateUnit: {
+    zh: 'messages/sec | message/sec | messages/sec',
+    en: 'messages/sec | message/sec | messages/sec',
   },
 }
