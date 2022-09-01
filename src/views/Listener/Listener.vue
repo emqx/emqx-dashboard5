@@ -153,7 +153,8 @@ const toggleListenerStatus = async (listener: Listener) => {
     const action = enable ? ListenerAction.Stop : ListenerAction.Start
     await handleListener(id, action)
     ElMessage.success(t(`Base.${enable ? 'disabledSuccess' : 'enableSuccess'}`))
-    listener.enable = !listener.enable
+    // for update the connections
+    getListenerData()
   } catch (error) {
     //
   }
