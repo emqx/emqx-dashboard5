@@ -12,14 +12,6 @@
       </div>
     </div>
     <div class="overview-sub-block">
-      <el-row class="rule-statistic" :gutter="28" v-if="showReceived">
-        <el-col :span="6">
-          <el-card class="max-rate-bg">
-            <p class="statistic-label">{{ tl('received') }}</p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.received) }}</p>
-          </el-card>
-        </el-col>
-      </el-row>
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic" :gutter="28">
         <!-- first row -->
@@ -33,6 +25,12 @@
           <el-card class="success-bg">
             <p class="statistic-label">{{ tl('sent') }}</p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.sent) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6" v-if="showReceived">
+          <el-card class="max-rate-bg">
+            <p class="statistic-label">{{ tl('received') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.received) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
@@ -49,7 +47,7 @@
         </el-col>
         <!-- second row -->
         <el-col :span="6">
-          <el-card class="success-bg">
+          <el-card class="last-five-rate-bg">
             <p class="statistic-label">{{ tl('sentSuccessfully') }}</p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.success']) }}</p>
           </el-card>
