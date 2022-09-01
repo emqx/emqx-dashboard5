@@ -52,7 +52,11 @@
       <template v-else>
         <el-row :gutter="26">
           <el-col :span="24">
-            <ConnectorMqttConfig v-model="mqttBridgeVal.connector" connector-field="connector" />
+            <ConnectorMqttConfig
+              v-model="mqttBridgeVal.connector"
+              connector-field="connector"
+              :edit="edit"
+            />
           </el-col>
         </el-row>
         <el-divider />
