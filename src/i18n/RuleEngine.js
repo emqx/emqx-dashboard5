@@ -747,4 +747,8 @@ export default {
     zh: '删除前，请确认当前有无使用该数据桥接的规则',
     en: 'Before deleting, please check if there are any Rules currently using this Data Bridge',
   },
+  rateUnit: {
+    zh: 'messages/sec | message/sec | messages/sec',
+    en: 'messages/sec | message/sec | messages/sec',
+  },
 }
