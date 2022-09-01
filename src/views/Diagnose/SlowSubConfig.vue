@@ -126,10 +126,10 @@ const rulesOfConfigForm = {
     {
       validator(rule: InternalRuleItem, val: string) {
         const unit = getUnitInStr(val)
-        if (unit === 'ms' && !checkInRange(parseFloat(val), 100, 10000)) {
-          return [new Error(t('Rule.errorRange', { min: 100, max: 10000 }))]
-        } else if (unit === 's' && !checkInRange(parseFloat(val), 1, 10)) {
-          return [new Error(t('Rule.errorRange', { min: 1, max: 10 }))]
+        if (unit === 'ms' && !checkInRange(parseFloat(val), 100)) {
+          return [new Error(t('Rule.minimumError', { min: 100 }))]
+        } else if (unit === 's' && !checkInRange(parseFloat(val), 1)) {
+          return [new Error(t('Rule.minimumError', { min: 1 }))]
         }
         return []
       },
