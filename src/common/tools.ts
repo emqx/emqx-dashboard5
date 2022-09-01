@@ -8,6 +8,12 @@ export const checkStringWithUnit = (str: string, units: Array<string>): boolean 
   return reg.test(str)
 }
 
+const strWithUnitReg = /^\d+(\.\d+)?(?<unit>\D+)$/
+export const getUnitInStr = (str: string) => {
+  const matchRet = str.match(strWithUnitReg)
+  return matchRet && matchRet.groups?.unit ? matchRet.groups.unit : ''
+}
+
 export const checkInRange = (val: number, min?: number, max?: number): boolean => {
   if (min !== undefined && max !== undefined) {
     return val >= min && val <= max
