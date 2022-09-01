@@ -56,7 +56,7 @@
             <p class="statistic-label">{{ tl('executionSpeed') }}</p>
             <p class="statistic-num">
               {{ formatNumber(ruleMetrics['matched.rate']) }}
-              <span class="unit">msg/s</span>
+              <span class="unit">{{ t('RuleEngine.rateUnit', 0) }}</span>
             </p>
           </el-card>
         </el-col>
@@ -65,7 +65,7 @@
             <p class="statistic-label">{{ tl('rateLast5M') }}</p>
             <p class="statistic-num">
               {{ formatNumber(ruleMetrics['matched.rate.last5m']) }}
-              <span class="unit">msg/s</span>
+              <span class="unit">{{ t('RuleEngine.rateUnit', 0) }}</span>
             </p>
           </el-card>
         </el-col>
@@ -74,7 +74,7 @@
             <p class="statistic-label">{{ tl('rateMax') }}</p>
             <p class="statistic-num">
               {{ formatNumber(ruleMetrics['matched.rate.max']) }}
-              <span class="unit">msg/s</span>
+              <span class="unit">{{ t('RuleEngine.rateUnit', 0) }}</span>
             </p>
           </el-card>
         </el-col>
@@ -180,18 +180,30 @@
             {{ row.metrics['failed.no_result'] }}
           </template>
         </el-table-column>
-        <el-table-column :label="`${tl('executionSpeed')}(mgs/s)`">
+        <el-table-column>
+          <template #header>
+            <p>{{ tl('executionSpeed') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
           <template #default="{ row }">
             {{ row.metrics['matched.rate'] }}
           </template>
         </el-table-column>
 
-        <el-table-column :label="`${tl('rateLast5M')}(mgs/s)`">
+        <el-table-column>
+          <template #header>
+            <p>{{ tl('rateLast5M') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
           <template #default="{ row }">
             {{ row.metrics['matched.rate.last5m'] }}
           </template>
         </el-table-column>
-        <el-table-column :label="`${tl('rateMax')}(mgs/s)`">
+        <el-table-column>
+          <template #header>
+            <p>{{ tl('rateMax') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
           <template #default="{ row }">
             {{ row.metrics['matched.rate.max'] }}
           </template>
@@ -219,7 +231,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { CircleClose } from '@element-plus/icons-vue'
 import { RuleItem, NodeMetrics, NodeStatus, Metrics } from '@/types/rule'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { formatNumber } from '@/common/tools'

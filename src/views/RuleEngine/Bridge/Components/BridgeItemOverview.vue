@@ -31,7 +31,7 @@
             <p class="statistic-label">{{ tl('speedNow') }}</p>
             <p class="statistic-num">
               <span>{{ formatNumber(bridgeMsg?.metrics?.rate) }}</span>
-              <span class="unit">msg/s</span>
+              <span class="unit">{{ t('RuleEngine.rateUnit', bridgeMsg?.metrics?.rate) }}</span>
             </p>
           </el-card>
         </el-col>
@@ -46,7 +46,12 @@
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column prop="metrics.success" :label="tl('SuccessNum')" />
         <el-table-column prop="metrics.failed" :label="tl('ErrNum')" />
-        <el-table-column prop="metrics.rate" :label="tl('speedNow')" />
+        <el-table-column prop="metrics.rate">
+          <template #header>
+            <p>{{ tl('speedNow') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
+        </el-table-column>
         <el-table-column :label="tl('status')">
           <template #default="{ row }">
             <span class="text-status" :class="getStatusClass(row.status)">
@@ -70,6 +75,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'BridgeItemOverview',
@@ -78,7 +84,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
-import { CircleClose } from '@element-plus/icons-vue'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
 import { formatNumber } from '@/common/tools'
@@ -121,8 +126,7 @@ const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = comput
   })
 })
 
-const { t } = useI18n()
-const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const { tl, t } = useI18nTl('RuleEngine')
 
 const handleRefresh = () => {
   emit('refresh')
