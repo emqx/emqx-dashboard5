@@ -136,7 +136,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'BridgeItemOverview',
