@@ -353,7 +353,7 @@ export default {
   },
   sqlNoResultDesc: {
     zh: '成功执行但没有输出结果',
-    en: 'Executes successfully but no output results',
+    en: 'Executes Successfully But No Output Results',
   },
   currentSpeed: {
     zh: '当前速度',
