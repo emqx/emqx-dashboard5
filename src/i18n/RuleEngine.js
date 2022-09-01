@@ -843,8 +843,4 @@ export default {
     zh: '将数据保存到 MySQL',
     en: 'Save data to MySQL',
   },
-  rateUnit: {
-    zh: 'messages/sec | message/sec | messages/sec',
-    en: 'messages/sec | message/sec | messages/sec',
-  },
 }
