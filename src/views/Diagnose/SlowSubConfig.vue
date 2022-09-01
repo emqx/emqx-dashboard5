@@ -128,8 +128,8 @@ const rulesOfConfigForm = {
         const unit = getUnitInStr(val)
         if (unit === 'ms' && !checkInRange(parseFloat(val), 100, 10000)) {
           return [new Error(t('Rule.errorRange', { min: 100, max: 10000 }))]
-        } else if (unit === 's' && !checkInRange(parseFloat(val), 0.1, 10)) {
-          return [new Error(t('Rule.errorRange', { min: 0.1, max: 10 }))]
+        } else if (unit === 's' && !checkInRange(parseFloat(val), 1, 10)) {
+          return [new Error(t('Rule.errorRange', { min: 1, max: 10 }))]
         }
         return []
       },
