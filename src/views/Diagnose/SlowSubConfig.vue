@@ -119,7 +119,7 @@ const fieldNameMap = {
 const rulesOfConfigForm = {
   threshold: [
     ...createRequiredRule(t(`SlowSub.${fieldNameMap.threshold}`)),
-    ...createStringWithUnitFieldRule(['ms'], 100, 10000),
+    ...createStringWithUnitFieldRule(['ms', 's'], 100, 10000),
   ],
   top_k_num: [
     ...createRequiredRule(t(`SlowSub.${fieldNameMap.top_k_num}`)),
