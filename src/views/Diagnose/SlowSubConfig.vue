@@ -96,6 +96,8 @@ import { ElMessage } from 'element-plus'
 import { nextTick, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
+import { checkInRange, getUnitInStr } from '@/common/tools'
+import { InternalRuleItem } from 'async-validator'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')
@@ -116,10 +118,23 @@ const fieldNameMap = {
   top_k_num: 'maximumNumberOfStatistics',
   expire_interval: 'evictionTimeOfRecord',
 }
+
 const rulesOfConfigForm = {
   threshold: [
     ...createRequiredRule(t(`SlowSub.${fieldNameMap.threshold}`)),
-    ...createStringWithUnitFieldRule(['ms', 's'], 100, 10000),
+    ...createStringWithUnitFieldRule(['ms', 's']),
+    {
+      validator(rule: InternalRuleItem, val: string) {
+        const unit = getUnitInStr(val)
+        if (unit === 'ms' && !checkInRange(parseFloat(val), 100, 10000)) {
+          return [new Error(t('Rule.errorRange', { min: 100, max: 10000 }))]
+        } else if (unit === 's' && !checkInRange(parseFloat(val), 0.1, 10)) {
+          return [new Error(t('Rule.errorRange', { min: 0.1, max: 10 }))]
+        }
+        return []
+      },
+      trigger: 'change',
+    },
   ],
   top_k_num: [
     ...createRequiredRule(t(`SlowSub.${fieldNameMap.top_k_num}`)),
