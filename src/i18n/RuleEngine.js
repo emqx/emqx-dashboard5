@@ -371,9 +371,9 @@ export default {
     zh: '已丢弃',
     en: 'Dropped',
   },
-  queued: {
+  queuing: {
     zh: '已缓存',
-    en: 'Queued',
+    en: 'Queuing',
   },
   sentSuccessfully: {
     zh: '发送成功',
