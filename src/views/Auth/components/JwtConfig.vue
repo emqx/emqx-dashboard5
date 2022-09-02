@@ -3,7 +3,7 @@
     <div class="create-form-title">
       {{ $t('Auth.validMethod') }}
     </div>
-    <el-radio-group v-model="jwtConfig.use_jwks">
+    <el-radio-group v-model="jwtConfig.use_jwks" @change="handleUseJWKSChanged">
       <el-radio :label="false" border> JWT </el-radio>
       <el-radio :label="true" border> JWKS </el-radio>
     </el-radio-group>
@@ -82,7 +82,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="20">
-            <CommonTLSConfig v-model="jwtConfig.ssl" />
+            <CommonTLSConfig v-model="jwtConfig.ssl" :is-edit="isEdit" />
           </el-col>
         </template>
         <el-col :span="24">
@@ -107,6 +107,7 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useJWTConfigForm from '@/hooks/Auth/useJWTConfigForm'
 import { defineComponent, reactive, watch } from 'vue'
+import useSSL from '@/hooks/useSSL'
 
 export default defineComponent({
   name: 'JwtConfig',
@@ -120,10 +121,21 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    isEdit: {
+      type: Boolean,
+    },
   },
   setup(props, ctx) {
     const jwtConfig = reactive(props.modelValue)
     const { formCom, rules, validate } = useJWTConfigForm()
+
+    const { createSSLForm } = useSSL()
+    const handleUseJWKSChanged = (val: boolean) => {
+      if (val && !('ssl' in jwtConfig)) {
+        jwtConfig.ssl = createSSLForm()
+      }
+    }
+
     watch(jwtConfig, (value) => {
       ctx.emit('update:modelValue', value)
     })
@@ -131,6 +143,7 @@ export default defineComponent({
       jwtConfig,
       formCom,
       rules,
+      handleUseJWKSChanged,
       validate,
     }
   },

@@ -63,7 +63,7 @@
               v-model="configData"
             />
           </template>
-          <jwt-config ref="formCom" v-else v-model="configData" />
+          <jwt-config ref="formCom" v-else v-model="configData" is-edit />
           <el-button @click="$router.push('/authentication')" v-if="!gateway">
             {{ $t('Base.cancel') }}
           </el-button>
