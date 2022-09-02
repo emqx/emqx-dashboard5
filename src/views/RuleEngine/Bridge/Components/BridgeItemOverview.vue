@@ -41,8 +41,8 @@
         </el-col>
         <el-col :span="6">
           <el-card class="max-rate-bg">
-            <p class="statistic-label">{{ tl('queued') }}</p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.queued) }}</p>
+            <p class="statistic-label">{{ tl('queuing') }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.queuing) }}</p>
           </el-card>
         </el-col>
         <!-- second row -->
@@ -56,12 +56,6 @@
           <el-card class="failed-bg">
             <p class="statistic-label">{{ tl('sentFailed') }}</p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.failed']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="last-five-rate-bg">
-            <p class="statistic-label">{{ tl('sentException') }}</p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.exception']) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
