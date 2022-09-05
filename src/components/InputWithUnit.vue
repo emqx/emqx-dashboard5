@@ -1,7 +1,7 @@
 <template>
   <el-input
     class="input-with-unit"
-    v-model.number="numPart"
+    v-model="numPart"
     :disabled="disabled"
     :readonly="disabledOpt && unit === disabledOpt.value"
     @change="$emit('change')"
@@ -89,10 +89,16 @@ const backupRegExp = computed(() => {
   return new RegExp(`^(?<numberPart>.*)(?<unit>${units?.map(({ value }) => value).join('|')})$`)
 })
 
-const numPartRegExp = /^-?\d*$/
+const numPartRegExp = /^-?\d+(\.\d+)?$/
+const specialStatusNumPartRegExp = /^(\.|\.\d+|\d+\.)$/
 
 const modelValueMatchReg = computed(() => {
   return props.modelValue?.match(strRegExp.value)
+})
+
+// handle chaos input
+const modelValueMatchBackupReg = computed(() => {
+  return props.modelValue?.match(backupRegExp.value)
 })
 
 const numPart: WritableComputedRef<string> = computed({
@@ -101,28 +107,24 @@ const numPart: WritableComputedRef<string> = computed({
     if (disabledOpt && props.modelValue === disabledOpt.value) {
       return '0'
     }
-
-    if (modelValueMatchReg.value) {
-      const { numberPart = '' } = modelValueMatchReg.value.groups || {}
-      return numberPart.trim()
-    }
-    // handle chaos input
-    const { numberPart } = props.modelValue?.match(backupRegExp.value)?.groups || {}
-    if (numberPart) {
-      return numberPart.trim()
-    }
-    return ''
+    const { numberPart = '' } =
+      modelValueMatchReg.value?.groups || modelValueMatchBackupReg.value?.groups || {}
+    return numberPart.trim() || ''
   },
   set(val) {
     let value = val
-    if (!numPartRegExp.test(value)) {
+    if (!numPartRegExp.test(value) && !specialStatusNumPartRegExp.test(value)) {
       const num = parseFloat(value)
       value = Number.isNaN(num) ? '' : num.toString()
+    } else if (numPartRegExp.test(value)) {
+      value = parseFloat(value).toString()
     }
-    if (!value) {
+
+    const isValidNum = value === '' || value === undefined || value === null
+    if (isValidNum) {
       selectedUnit.value = unit.value
     }
-    inputValue.value = value ? value + unit.value : ''
+    inputValue.value = !isValidNum ? value + unit.value : ''
   },
 })
 
@@ -137,15 +139,12 @@ const unit: WritableComputedRef<string> = computed({
       return disabledOpt.value
     }
 
-    if (modelValueMatchReg.value) {
-      const { unit = '' } = modelValueMatchReg.value.groups || {}
+    const { unit = '' } =
+      modelValueMatchReg.value?.groups || modelValueMatchBackupReg.value?.groups || {}
+    if (unit !== '') {
       return unit
     }
-    // handle chaos input
-    const { unit } = props.modelValue?.match(backupRegExp.value)?.groups || {}
-    if (unit) {
-      return unit
-    }
+
     if (!props.modelValue && units && units.length > 0) {
       if (selectedUnit.value) {
         return selectedUnit.value
