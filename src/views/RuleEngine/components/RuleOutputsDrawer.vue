@@ -247,8 +247,12 @@ const loadEgressBridgeList = async () => {
   try {
     bridgeList.value = await getBridgeList()
     egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
-      const isOutDirection = 'direction' in v && v.direction === MQTTBridgeDirection.Out
-      return !('direction' in v) || isOutDirection
+      // without direction configurations
+      if (!('ingress' in v) && !('egress' in v)) {
+        return true
+      }
+      // or configured egress
+      return 'egress' in v
     })
   } catch (error) {
     console.error(error)
