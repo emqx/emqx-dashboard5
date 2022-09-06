@@ -17,50 +17,74 @@
         <!-- first row -->
         <el-col :span="6">
           <el-card class="matched-bg">
-            <p class="statistic-label">{{ tl('matched') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('matched') }}</span>
+              <InfoTooltip :content="tl('bridgeMatchedDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.matched) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="success-bg">
-            <p class="statistic-label">{{ tl('sent') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('sent') }}</span>
+              <InfoTooltip :content="tl('sentDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.sent) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6" v-if="showReceived">
           <el-card class="max-rate-bg">
-            <p class="statistic-label">{{ tl('received') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('received') }}</span>
+              <InfoTooltip :content="tl('receivedDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.received) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="failed-bg">
-            <p class="statistic-label">{{ tl('dropped') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('dropped') }}</span>
+              <InfoTooltip :content="tl('droppedDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.dropped) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="max-rate-bg">
-            <p class="statistic-label">{{ tl('queuing') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('queuing') }}</span>
+              <InfoTooltip :content="tl('queuingDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.queuing) }}</p>
           </el-card>
         </el-col>
         <!-- second row -->
         <el-col :span="6">
           <el-card class="last-five-rate-bg">
-            <p class="statistic-label">{{ tl('sentSuccessfully') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('sentSuccessfully') }}</span>
+              <InfoTooltip :content="tl('sentSuccessfullyDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.success']) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="failed-bg">
-            <p class="statistic-label">{{ tl('sentFailed') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('sentFailed') }}</span>
+              <InfoTooltip :content="tl('sentFailedDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.failed']) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="no-result-bg">
-            <p class="statistic-label">{{ tl('sentInflight') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('sentInflight') }}</span>
+              <InfoTooltip :content="tl('sentInflightDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.inflight']) }}</p>
           </el-card>
         </el-col>
@@ -145,6 +169,7 @@ import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
   bridgeMsg: {
