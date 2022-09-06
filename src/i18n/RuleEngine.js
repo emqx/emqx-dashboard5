@@ -335,6 +335,10 @@ export default {
     zh: '规则启用后的执行次数',
     en: 'The number of executions after the rule is enabled',
   },
+  bridgeMatchedDesc: {
+    zh: 'Bridge 被匹配到（被请求）的次数',
+    en: 'Count of this bridge is matched and queried',
+  },
   sqlFailed: {
     zh: '失败',
     en: 'Failed',
@@ -363,29 +367,57 @@ export default {
     zh: '已发送',
     en: 'Sent',
   },
+  sentDesc: {
+    zh: '已经发送出去的消息个数',
+    en: 'Count of messages that are sent by this bridge',
+  },
   dropped: {
     zh: '已丢弃',
     en: 'Dropped',
   },
-  queued: {
+  droppedDesc: {
+    zh: '被丢弃的消息个数',
+    en: 'Count of messages dropped',
+  },
+  queuing: {
     zh: '已缓存',
     en: 'Queued',
+  },
+  queuingDesc: {
+    zh: '当前被缓存到磁盘队列的消息个数',
+    en: 'Count of messages that are currently queuing',
   },
   sentSuccessfully: {
     zh: '发送成功',
     en: 'Sent Successfully',
   },
+  sentSuccessfullyDesc: {
+    zh: '已经发送成功的消息个数',
+    en: 'Count of messages that sent successfully',
+  },
   sentFailed: {
     zh: '发送失败',
     en: 'Sent Failed',
   },
-  sentException: {
-    zh: '发送异常',
-    en: 'Sent Exception',
+  sentFailedDesc: {
+    zh: '发送失败的消息个数',
+    en: 'Count of messages that sent failed',
   },
   sentInflight: {
     zh: '已发送未确认',
     en: 'Sent Inflight',
+  },
+  sentInflightDesc: {
+    zh: '已异步地发送但没有收到 ACK 的消息个数',
+    en: 'Count of messages that were sent asynchronously but ACKs are not received',
+  },
+  received: {
+    zh: '已接收',
+    en: 'Received',
+  },
+  receivedDesc: {
+    zh: '从远程系统收到的消息个数',
+    en: 'Count of messages that is received from the remote system',
   },
   rateMax: {
     zh: '最大执行速率',
