@@ -124,8 +124,8 @@
 <script lang="ts">
 import { computed, defineComponent, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import BridgeHttpConfig from './BridgeHttpConfig.vue'
-import BridgeMqttConfig from './BridgeMqttConfig.vue'
+import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
+import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import { tlsConfig } from '@/types/ruleengine'
 import { createBridge } from '@/api/ruleengine'
 import _ from 'lodash'
