@@ -26,8 +26,8 @@ export default defineComponent({
 import { BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { computed, defineProps, PropType } from 'vue'
-import BridgeHttpConfig from '../Bridge/BridgeHttpConfig.vue'
-import BridgeMqttConfig from '../Bridge/BridgeMqttConfig.vue'
+import BridgeHttpConfig from '../Bridge/Components/BridgeConfig/BridgeHttpConfig.vue'
+import BridgeMqttConfig from '../Bridge/Components/BridgeConfig/BridgeMqttConfig.vue'
 
 const props = defineProps({
   bridgeId: {
