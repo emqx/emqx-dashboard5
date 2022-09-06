@@ -1,7 +1,6 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 
 export const useBridgeTypeValue = (): {
@@ -18,7 +17,6 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.MQTT, label: 'MQTT' },
     { value: BridgeType.InfluxDBV1, label: tl('influxDBV1Label') },
     { value: BridgeType.InfluxDBV2, label: tl('influxDBV2Label') },
-    { value: BridgeType.InfluxDBUPD, label: tl('influxDBUDPLabel') },
     { value: BridgeType.MySQL, label: tl('mySQL') },
   ]
 
@@ -60,7 +58,6 @@ export const useBridgeTypeOptions = (): {
       value: BridgeType.MQTT,
       valueForRadio: BridgeType.MQTT,
       label: 'MQTT',
-      // TODO:TODO:TODO:
       desc: tl('bridgeDescMQTT'),
     },
     {
@@ -74,12 +71,6 @@ export const useBridgeTypeOptions = (): {
       valueForRadio: BridgeType.InfluxDBV2,
       label: tl('influxDBV2Label'),
       desc: tl('influxDBV2Desc'),
-    },
-    {
-      value: BridgeType.InfluxDBUPD,
-      valueForRadio: BridgeType.InfluxDBUPD,
-      label: tl('influxDBUDPLabel'),
-      desc: tl('influxDBUDPDesc'),
     },
     {
       value: BridgeType.MySQL,
