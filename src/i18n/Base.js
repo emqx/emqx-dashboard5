@@ -75,6 +75,10 @@ export default {
     zh: '添加',
     en: 'Add',
   },
+  added: {
+    zh: '已添加',
+    en: 'Added',
+  },
   update: {
     zh: '更新',
     en: 'Update',
