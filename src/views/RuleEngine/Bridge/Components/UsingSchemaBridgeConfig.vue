@@ -38,7 +38,6 @@ type UseSchemaBridgeType = Exclude<BridgeType, BridgeType.MQTT | BridgeType.Webh
 const typeRefKeyMap: Record<UseSchemaBridgeType, string> = {
   [BridgeType.InfluxDBV1]: `bridge_influxdb.post_api_v1`,
   [BridgeType.InfluxDBV2]: `bridge_influxdb.post_api_v2`,
-  [BridgeType.InfluxDBUPD]: `bridge_influxdb.post_udp`,
   [BridgeType.MySQL]: `bridge_mysql.post`,
 }
 
@@ -117,23 +116,6 @@ const propsOrderTypeMap: Record<string, Record<string, number>> = {
         'resume_interval',
         'write_syntax',
         'ssl',
-      ],
-      1,
-    ),
-  },
-  [BridgeType.InfluxDBUPD]: {
-    // root
-    ...baseOrderMap,
-    ...createOrderObj(
-      [
-        'server',
-        'pool_size',
-        'resume_interval',
-        'precision',
-        'worker_pool_size',
-        'health_check_interval',
-        'auto_restart_interval',
-        'write_syntax',
       ],
       1,
     ),
