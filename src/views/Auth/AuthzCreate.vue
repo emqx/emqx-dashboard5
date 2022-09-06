@@ -12,7 +12,7 @@
           <el-badge
             v-for="item in typeList"
             :key="item.value"
-            :value="$t('Modules.added')"
+            :value="$t('Base.added')"
             class="item"
             :hidden="!addedAuthz.includes(item.value)"
           >

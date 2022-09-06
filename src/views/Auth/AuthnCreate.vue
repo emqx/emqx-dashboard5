@@ -16,7 +16,7 @@
           <template v-for="{ value, label } in authnMechanismTypeList" :key="value">
             <el-badge
               v-if="!isDisabledMechanism(value)"
-              :value="$t('Modules.added')"
+              :value="$t('Base.added')"
               :hidden="
                 value !== AuthnMechanismType.JWT || !addedAuthn.includes(AuthnMechanismType.JWT)
               "
@@ -61,7 +61,7 @@
             <template v-for="item in databases" :key="item.value">
               <el-badge
                 v-if="!isDisabledDatabase(item.value)"
-                :value="$t('Modules.added')"
+                :value="$t('Base.added')"
                 class="item"
                 :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
               >
@@ -88,7 +88,7 @@
               <el-badge
                 v-for="item in others"
                 :key="item.value"
-                :value="$t('Modules.added')"
+                :value="$t('Base.added')"
                 :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
                 class="item"
               >

@@ -19,7 +19,7 @@
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
           <el-button size="small" @click="editListener(row, $index)">
-            {{ $t('Base.edit') }}
+            {{ $t('Base.setting') }}
           </el-button>
           <el-button size="small" type="danger" plain @click="delListener(row)">
             {{ $t('Base.delete') }}
