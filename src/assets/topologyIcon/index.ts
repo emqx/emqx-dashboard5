@@ -14,7 +14,6 @@ const iconMap: Record<string, SVGAElement> = {
   [`bridge-${BridgeType.MQTT}`]: bridgeMQTT,
   [`bridge-${BridgeType.InfluxDBV1}`]: bridgeInfluxDB,
   [`bridge-${BridgeType.InfluxDBV2}`]: bridgeInfluxDB,
-  [`bridge-${BridgeType.InfluxDBUPD}`]: bridgeInfluxDB,
   [`bridge-${BridgeType.MySQL}`]: bridgeMySQL,
   console,
   event,
