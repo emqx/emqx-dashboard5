@@ -2,6 +2,7 @@
 import { BridgeItem } from '@/types/rule'
 import { omit, isObject, get, escape } from 'lodash'
 import i18n from '@/i18n'
+import utf8 from 'utf8'
 
 export const checkStringWithUnit = (str: string, units: Array<string>): boolean => {
   const reg = new RegExp(`^\\d+(.\\d+)?(${units.join('|')})$`)
@@ -385,3 +386,21 @@ const createATag = (text: string, link: string) =>
   `<a href="${link}" target="_blank" rel="noopener noreferrer">${text}</a>`
 export const transLink = (desc: string) =>
   desc.replace(linkReg, (total: string, text: string, link: string) => createATag(text, link))
+
+export const utf8Encode = (str: string) => {
+  try {
+    return utf8.encode(str)
+  } catch (error) {
+    console.error(error)
+    return str
+  }
+}
+
+export const utf8Decode = (str: string) => {
+  try {
+    return utf8.decode(str)
+  } catch (error) {
+    console.error(error)
+    return str
+  }
+}

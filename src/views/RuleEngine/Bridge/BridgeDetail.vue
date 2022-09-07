@@ -121,6 +121,7 @@ import { BridgeType } from '@/types/enum'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
+import { utf8Decode } from '@/common/tools'
 
 enum Tab {
   Overview = 'overview',
@@ -174,10 +175,17 @@ watch(id, (val) => {
   }
 })
 
+const handleBodyField = () => {
+  if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {
+    bridgeInfo.value.body = utf8Decode(bridgeInfo.value.body)
+  }
+}
+
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
     bridgeInfo.value = await getBridgeInfo(id.value)
+    handleBodyField()
   } catch (error) {
     console.error(error)
   } finally {

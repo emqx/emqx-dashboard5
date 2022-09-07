@@ -141,7 +141,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useSSL from '@/hooks/useSSL'
-import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
+import { checkNOmitFromObj, jumpToErrorFormItem, utf8Encode } from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
@@ -263,28 +263,26 @@ export default defineComponent({
         if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType.value)) {
           res = await submitDataWhenUsingSchemaForm()
         } else {
-          const dataToSubmit = {
+          let dataToSubmit = {
             ..._.cloneDeep(bridgeData.value),
             type: chosenBridgeType.value,
           }
           switch (chosenBridgeType.value) {
             case BridgeType.Webhook:
-              res = await createBridge(
-                checkNOmitFromObj({
-                  ...dataToSubmit,
-                  ssl: handleSSLDataBeforeSubmit(tlsParams.value),
-                }),
-              )
+              dataToSubmit = {
+                ...dataToSubmit,
+                ssl: handleSSLDataBeforeSubmit(tlsParams.value),
+                body: utf8Encode(dataToSubmit.body),
+              }
               break
             case BridgeType.MQTT:
               if (dataToSubmit.connector?.type) {
                 Reflect.deleteProperty(dataToSubmit.connector, 'type')
               }
-              res = await createBridge(
-                checkNOmitFromObj(handleBridgeDataBeforeSubmit(dataToSubmit)),
-              )
+              dataToSubmit = handleBridgeDataBeforeSubmit(dataToSubmit)
               break
           }
+          res = await createBridge(checkNOmitFromObj(dataToSubmit))
         }
 
         const bridgeId = res?.id
