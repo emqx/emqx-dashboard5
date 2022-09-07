@@ -118,7 +118,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { MQTTBridgeDirection } from '@/types/enum'
 import useSSL from '@/hooks/useSSL'
 import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
-import MQTTBridgeTransConfiguration from './Components/MQTTBridgeTransConfiguration.vue'
+import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
 
 const prop = defineProps({
   modelValue: {
