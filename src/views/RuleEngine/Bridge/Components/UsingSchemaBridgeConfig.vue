@@ -33,11 +33,12 @@ import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
 import { useStore } from 'vuex'
 
-type UseSchemaBridgeType = Exclude<BridgeType, BridgeType.MQTT | BridgeType.Webhook>
+type UseSchemaBridgeType = Exclude<
+  BridgeType,
+  BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB
+>
 
 const typeRefKeyMap: Record<UseSchemaBridgeType, string> = {
-  [BridgeType.InfluxDBV1]: `bridge_influxdb.post_api_v1`,
-  [BridgeType.InfluxDBV2]: `bridge_influxdb.post_api_v2`,
   [BridgeType.MySQL]: `bridge_mysql.post`,
 }
 
@@ -78,48 +79,6 @@ const createOrderObj = (keyArr: Array<string>, beginning: number) =>
   keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
 
 const propsOrderTypeMap: Record<string, Record<string, number>> = {
-  [BridgeType.InfluxDBV1]: {
-    // root
-    ...baseOrderMap,
-    ...createOrderObj(
-      [
-        'server',
-        'database',
-        'username',
-        'password',
-        'pool_size',
-        'precision',
-        'resume_interval',
-        'worker_pool_size',
-        'health_check_interval',
-        'auto_restart_interval',
-        'write_syntax',
-        'ssl',
-      ],
-      1,
-    ),
-  },
-
-  [BridgeType.InfluxDBV2]: {
-    // root
-    ...baseOrderMap,
-    ...createOrderObj(
-      [
-        'server',
-        'token',
-        'org',
-        'bucket',
-        'precision',
-        'worker_pool_size',
-        'health_check_interval',
-        'auto_restart_interval',
-        'resume_interval',
-        'write_syntax',
-        'ssl',
-      ],
-      1,
-    ),
-  },
   [BridgeType.MySQL]: {
     ...baseOrderMap,
     ...createOrderObj(
