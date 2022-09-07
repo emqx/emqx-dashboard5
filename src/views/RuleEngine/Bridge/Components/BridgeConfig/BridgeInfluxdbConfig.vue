@@ -48,7 +48,7 @@
         <!-- For v2 -->
         <el-col :span="12" v-else-if="formData.type === InfluxDBType.v2">
           <el-form-item :label="tl('authType')">
-            <el-select v-model="v2AuthType">
+            <el-select v-model="v2AuthType" @change="handleAuthTypeChanged">
               <el-option
                 v-for="{ label, value } in V2_AUTH_TYPE_OPT"
                 :value="value"
@@ -307,6 +307,15 @@ watch(
     }
   },
 )
+
+const handleAuthTypeChanged = () => {
+  if (v2AuthType.value === V2AuthType.Token) {
+    formData.value.username = ''
+    formData.value.password = ''
+  } else {
+    formData.value.token = ''
+  }
+}
 
 const validate = () => {
   return formCom.value.validate()
