@@ -65,9 +65,7 @@ export enum RuleOutput {
 export enum BridgeType {
   Webhook = 'webhook',
   MQTT = 'mqtt',
-  InfluxDBV1 = 'influxdb_api_v1',
-  InfluxDBV2 = 'influxdb_api_v2',
-  InfluxDBUPD = 'influxdb_udp',
+  InfluxDB = 'influxdb',
   MySQL = 'mysql',
 }
 

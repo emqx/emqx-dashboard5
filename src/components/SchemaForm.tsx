@@ -16,7 +16,7 @@ import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import useSSL from '@/hooks/useSSL'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString, URLReg } from '@/common/tools'
+import { createRandomString, escapeCode, transLink } from '@/common/tools'
 
 interface FormItemMeta {
   col: number
@@ -27,11 +27,6 @@ const typesDoNotNeedGroups = ['bridge']
 const typesNeedConciseSSL = ['bridge']
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
-const codeBlockReg = /```<\/br>(?<code>(.|\n)+)<\/br>```/
-const linkReg = new RegExp(`\\[(?<text>[^\\]]+)\\]\\((?<link>${URLReg.source})\\)`, 'g')
-
-const createATag = (text: string, link: string) =>
-  `<a href="${link}" target="_blank" rel="noopener noreferrer">${text}</a>`
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -360,11 +355,6 @@ const SchemaForm = defineComponent({
       }
       return props.customLabelMap[path]
     }
-
-    const escapeCode = (desc: string) => desc.replace(codeBlockReg, (total, code) => _.escape(code))
-
-    const transLink = (desc: string) =>
-      desc.replace(linkReg, (total: string, text: string, link: string) => createATag(text, link))
 
     const getLabelSlotAndDescEle = (property: Property) => {
       const { description } = property
