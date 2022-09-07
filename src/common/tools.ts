@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { BridgeItem } from '@/types/rule'
-import { omit, isObject, get } from 'lodash'
+import { omit, isObject, get, escape } from 'lodash'
 import i18n from '@/i18n'
 
 export const checkStringWithUnit = (str: string, units: Array<string>): boolean => {
@@ -376,3 +376,12 @@ export const getLocalMessage = (path: string) => {
 export const URLReg =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/
 
+const codeBlockReg = /```<\/br>(?<code>(.|\n)+)<\/br>```/
+export const escapeCode = (desc: string) =>
+  desc.replace(codeBlockReg, (total, code) => escape(code))
+
+const linkReg = new RegExp(`\\[(?<text>[^\\]]+)\\]\\((?<link>${URLReg.source})\\)`, 'g')
+const createATag = (text: string, link: string) =>
+  `<a href="${link}" target="_blank" rel="noopener noreferrer">${text}</a>`
+export const transLink = (desc: string) =>
+  desc.replace(linkReg, (total: string, text: string, link: string) => createATag(text, link))

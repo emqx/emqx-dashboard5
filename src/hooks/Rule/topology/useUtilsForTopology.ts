@@ -105,9 +105,7 @@ export default (): {
     const bridgeTypeList = [
       BridgeType.MQTT,
       BridgeType.Webhook,
-      BridgeType.InfluxDBV1,
-      BridgeType.InfluxDBV2,
-      BridgeType.InfluxDBUPD,
+      BridgeType.InfluxDB,
       BridgeType.MySQL,
     ]
     return bridgeTypeList.find((item) => str.indexOf(item) > -1) || BridgeType.MQTT
