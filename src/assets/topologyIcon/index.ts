@@ -12,8 +12,7 @@ import topic from './topic.png'
 const iconMap: Record<string, SVGAElement> = {
   [`bridge-${BridgeType.Webhook}`]: bridgeWebhook,
   [`bridge-${BridgeType.MQTT}`]: bridgeMQTT,
-  [`bridge-${BridgeType.InfluxDBV1}`]: bridgeInfluxDB,
-  [`bridge-${BridgeType.InfluxDBV2}`]: bridgeInfluxDB,
+  [`bridge-${BridgeType.InfluxDB}`]: bridgeInfluxDB,
   [`bridge-${BridgeType.MySQL}`]: bridgeMySQL,
   console,
   event,
