@@ -911,29 +911,13 @@ export default {
     zh: 'messages/sec | message/sec | messages/sec',
     en: 'messages/sec | message/sec | messages/sec',
   },
-  influxDBV1Label: {
+  influxDBLabel: {
     zh: 'InfluxDB HTTP 服务',
     en: 'InfluxDB HTTP Service',
   },
-  influxDBV1Desc: {
-    zh: '使用 HTTP 协议将数据保存到 InfluxDB v1.0',
-    en: 'Save data to InfluxDB v1.0 using HTTP protocol',
-  },
-  influxDBV2Label: {
-    zh: 'InfluxDB HTTP V2 服务',
-    en: 'InfluxDB HTTP V2 Service',
-  },
-  influxDBV2Desc: {
-    zh: '使用 HTTP 协议将数据保存到 InfluxDB v2.0',
-    en: 'Save data to InfluxDB v2.0 using HTTP protocol',
-  },
-  influxDBUDPLabel: {
-    zh: 'InfluxDB UDP 服务',
-    en: 'InfluxDB UDP Service',
-  },
-  influxDBUDPDesc: {
-    zh: '使用 UDP 协议将数据保存到 InfluxDB',
-    en: 'Save data to InfluxDB using UDP protocol',
+  influxDBDesc: {
+    zh: '使用 HTTP 协议将数据保存到 InfluxDB',
+    en: 'Save data to InfluxDB using HTTP protocol',
   },
   mySQL: {
     zh: 'MySQL',
@@ -942,5 +926,105 @@ export default {
   mySQLDesc: {
     zh: '将数据保存到 MySQL',
     en: 'Save data to MySQL',
+  },
+  influxDBVersion: {
+    zh: 'InfluxDB 版本',
+    en: 'Version of InfluxDB',
+  },
+  serverHost: {
+    zh: '服务器地址',
+    en: 'Server Host',
+  },
+  serverHostDesc: {
+    en: 'The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>',
+    zh: '将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。</br>',
+  },
+  database: {
+    en: 'Database',
+    zh: '数据库',
+  },
+  databaseDesc: {
+    en: 'InfluxDB database.',
+    zh: 'InfluxDB 数据库。',
+  },
+  precision: {
+    en: 'Time Precision',
+    zh: '时间精度',
+  },
+  precisionDesc: {
+    en: 'InfluxDB time precision.',
+    zh: 'InfluxDB 时间精度。',
+  },
+  writeSyntax: {
+    en: 'Write Syntax',
+    zh: '写语句',
+  },
+  writeSyntaxDesc: {
+    en: 'Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>',
+    zh: '使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>',
+  },
+  workerPoolSize: {
+    en: 'Worker Pool Size',
+    zh: '资源连接池大小',
+  },
+  workerPoolSizeDesc: {
+    en: 'Resource worker pool size.',
+    zh: '资源连接池大小。',
+  },
+  healthCheckInterval: {
+    en: 'Health Check Interval',
+    zh: '健康检查间隔',
+  },
+  healthCheckIntervalDesc: {
+    en: 'Health check interval, in milliseconds.',
+    zh: '健康检查间隔，单位毫秒。',
+  },
+  autoRestartInterval: {
+    en: 'Auto Restart Interval',
+    zh: '自动重连间隔',
+  },
+  autoRestartIntervalDesc: {
+    en: 'The auto restart interval after the resource is disconnected, in milliseconds.',
+    zh: '资源断开以后，自动重连的时间间隔，单位毫秒。',
+  },
+  token: {
+    en: 'Token',
+    zh: 'Token',
+  },
+  tokenDesc: {
+    en: 'InfluxDB token.',
+    zh: 'InfluxDB token。',
+  },
+  usernameDesc: {
+    en: 'InfluxDB username.',
+    zh: 'InfluxDB 用户名。',
+  },
+  passwordDesc: {
+    en: 'InfluxDB password.',
+    zh: 'InfluxDB 密码。',
+  },
+  org: {
+    en: 'Organization',
+    zh: '组织',
+  },
+  orgDesc: {
+    en: 'Organization name of InfluxDB.',
+    zh: 'InfluxDB 组织名称。',
+  },
+  bucket: {
+    en: 'Bucket',
+    zh: 'Bucket',
+  },
+  bucketDesc: {
+    en: 'InfluxDB bucket name.',
+    zh: 'InfluxDB bucket 名称。',
+  },
+  authType: {
+    zh: '认证方式',
+    en: 'Auth Type',
+  },
+  basicAuth: {
+    zh: '基础认证',
+    en: 'Basic auth',
   },
 }
