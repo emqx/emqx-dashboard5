@@ -49,6 +49,11 @@
               v-model="bridgeData"
               ref="formCom"
             />
+            <bridge-influxdb-config
+              v-else-if="chosenBridgeType === BridgeType.InfluxDB"
+              v-model="bridgeData"
+              ref="formCom"
+            />
             <using-schema-bridge-config
               v-else-if="
                 chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)
@@ -124,6 +129,11 @@
         v-model="bridgeData"
         ref="formCom"
       />
+      <bridge-influxdb-config
+        v-else-if="chosenBridgeType === BridgeType.InfluxDB"
+        v-model="bridgeData"
+        ref="formCom"
+      />
       <using-schema-bridge-config
         v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
         :type="chosenBridgeType"
@@ -159,6 +169,7 @@ import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA, DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 
 export default defineComponent({
   name: 'BridgeCreate',
@@ -168,6 +179,7 @@ export default defineComponent({
     DetailHeader,
     GuideBar,
     UsingSchemaBridgeConfig,
+    BridgeInfluxdbConfig,
   },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
@@ -283,8 +295,8 @@ export default defineComponent({
           res = await submitDataWhenUsingSchemaForm()
         } else {
           let dataToSubmit = {
-            ..._.cloneDeep(bridgeData.value),
             type: chosenBridgeType.value,
+            ..._.cloneDeep(bridgeData.value),
           }
           switch (chosenBridgeType.value) {
             case BridgeType.Webhook:
