@@ -15,8 +15,7 @@ export const useBridgeTypeValue = (): {
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: 'Webhook' },
     { value: BridgeType.MQTT, label: 'MQTT' },
-    { value: BridgeType.InfluxDBV1, label: tl('influxDBV1Label') },
-    { value: BridgeType.InfluxDBV2, label: tl('influxDBV2Label') },
+    { value: BridgeType.InfluxDB, label: tl('influxDBLabel') },
     { value: BridgeType.MySQL, label: tl('mySQL') },
   ]
 
@@ -61,16 +60,10 @@ export const useBridgeTypeOptions = (): {
       desc: tl('bridgeDescMQTT'),
     },
     {
-      value: BridgeType.InfluxDBV1,
-      valueForRadio: BridgeType.InfluxDBV1,
-      label: tl('influxDBV1Label'),
-      desc: tl('influxDBV1Desc'),
-    },
-    {
-      value: BridgeType.InfluxDBV2,
-      valueForRadio: BridgeType.InfluxDBV2,
-      label: tl('influxDBV2Label'),
-      desc: tl('influxDBV2Desc'),
+      value: BridgeType.InfluxDB,
+      valueForRadio: BridgeType.InfluxDB,
+      label: tl('influxDBLabel'),
+      desc: tl('influxDBDesc'),
     },
     {
       value: BridgeType.MySQL,
