@@ -58,22 +58,26 @@
             >
               <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
                 <bridge-http-config
-                  v-if="bridgeInfo.type === BridgeType.Webhook"
+                  v-if="bridgeType === BridgeType.Webhook"
                   v-model:tls="bridgeInfo.ssl"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
                 />
                 <bridge-mqtt-config
-                  v-else-if="bridgeInfo.type === BridgeType.MQTT"
+                  v-else-if="bridgeType === BridgeType.MQTT"
+                  v-model="bridgeInfo"
+                  ref="formCom"
+                  :edit="true"
+                />
+                <bridge-influxdb-config
+                  v-else-if="bridgeType === BridgeType.InfluxDB"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
                 />
                 <using-schema-bridge-config
-                  v-else-if="
-                    bridgeInfo.type && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.type)
-                  "
+                  v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
                   :type="bridgeInfo.type"
                   v-model="bridgeInfo"
                   ref="formCom"
@@ -118,6 +122,7 @@ import {
 import { BridgeItem } from '@/types/rule'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
+import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
@@ -186,6 +191,16 @@ watch(id, (val) => {
   }
 })
 
+/**
+ * if type is influxDB v1 or v2, will be count to influxDB uniformly
+ */
+const bridgeType = computed(() => {
+  if (bridgeInfo.value?.type?.indexOf(BridgeType.InfluxDB) > -1) {
+    return BridgeType.InfluxDB
+  }
+  return bridgeInfo.value.type
+})
+
 const handleBodyField = () => {
   if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {
     bridgeInfo.value.body = utf8Decode(bridgeInfo.value.body)
@@ -211,7 +226,7 @@ const updateBridgeInfo = async () => {
   try {
     await formCom.value.validate()
 
-    if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
+    if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {
       bridgeInfo.value = formCom.value.getFormRecord()
     }
     const data = _.cloneDeep(bridgeInfo.value)
