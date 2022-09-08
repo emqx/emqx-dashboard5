@@ -17,6 +17,8 @@ export default (record: Ref<OtherBridge>): FuncReturn => {
   const isAsync = (formData: OtherBridge) =>
     isString(formData.resource_opts?.query_mode) &&
     formData.resource_opts.query_mode.indexOf('async') > -1
+  const canConfigInflightWindow = (formData: OtherBridge) =>
+    !(formData.resource_opts?.async_inflight_window === undefined)
 
   const isEnableBatch = (formData: OtherBridge) =>
     isBoolean(formData.resource_opts?.enable_batch) && formData.resource_opts.enable_batch
@@ -25,7 +27,8 @@ export default (record: Ref<OtherBridge>): FuncReturn => {
     isBoolean(formData.resource_opts?.enable_queue) && formData.resource_opts.enable_queue
 
   const syncFieldsClassMap = computed(() => {
-    if (isAsync(record.value)) {
+    // if can no config inflight window size, the request mode field do not need a row
+    if (isAsync(record.value) || !canConfigInflightWindow(record.value)) {
       return {}
     }
     return {
