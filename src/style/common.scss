@@ -660,3 +660,8 @@ input:disabled {
     padding-right: 0;
   }
 }
+
+.el-col.col-need-row {
+  // To squeeze the next column down
+  margin-right: 40%;
+}
