@@ -64,36 +64,33 @@ const saveLoading = ref(false)
 
 const formCom = ref()
 
-const baseOrderMap = {
-  name: 0,
-  query_mode: 98,
-  async_inflight_window: 99,
-  enable_batch: 100,
-  batch_size: 101,
-  batch_time: 102,
-  enable_queue: 103,
-  max_queue_bytes: 104,
-}
-
 const createOrderObj = (keyArr: Array<string>, beginning: number) =>
   keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
+
+const baseOrderMap = {
+  name: 0,
+  ...createOrderObj(
+    [
+      'worker_pool_size',
+      'health_check_interval',
+      'auto_restart_interval',
+      'query_mode',
+      'async_inflight_window',
+      'enable_queue',
+      'max_queue_bytes',
+      'enable_batch',
+      'batch_size',
+      'batch_time',
+    ],
+    99,
+  ),
+}
 
 const propsOrderTypeMap: Record<string, Record<string, number>> = {
   [BridgeType.MySQL]: {
     ...baseOrderMap,
     ...createOrderObj(
-      [
-        'server',
-        'database',
-        'username',
-        'password',
-        'worker_pool_size',
-        'health_check_interval',
-        'auto_restart_interval',
-        'auto_reconnect',
-        'sql',
-        'ssl',
-      ],
+      ['server', 'database', 'username', 'password', 'pool_size', 'auto_reconnect', 'sql', 'ssl'],
       1,
     ),
   },
