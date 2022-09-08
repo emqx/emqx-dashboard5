@@ -78,7 +78,10 @@ export const useBridgeTypeOptions = (): {
 
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
-  const getTypeStr = (bridge: BridgeItem): string => getBridgeLabelByTypeValue(bridge.type) || ''
+  const getTypeStr = (bridge: BridgeItem): string => {
+    const type = bridge.type?.indexOf(BridgeType.InfluxDB) > -1 ? BridgeType.InfluxDB : bridge.type
+    return getBridgeLabelByTypeValue(type) || ''
+  }
 
   return {
     bridgeTypeOptions,
