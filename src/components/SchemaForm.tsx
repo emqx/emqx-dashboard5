@@ -218,12 +218,14 @@ const SchemaForm = defineComponent({
       const modelValue = _.get(configForm.value, path)
       const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
       const inputType = format === 'password' ? 'password' : 'text'
+      const autocomplete = inputType === 'password' ? 'one-time-code' : ''
       const stringInput = (
         <el-input
           disabled={isPropertyDisabled}
           placeholder={property.default?.toString()}
           modelValue={modelValue}
           type={inputType}
+          autocomplete={autocomplete}
           {...handleUpdateModelValue}
           clearable
         />

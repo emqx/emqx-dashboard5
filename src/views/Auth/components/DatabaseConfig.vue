@@ -74,7 +74,7 @@
               <el-input
                 v-model="databaseConfig.password"
                 type="password"
-                autocomplete="new-password"
+                autocomplete="one-time-code"
               />
             </el-form-item>
           </el-col>
