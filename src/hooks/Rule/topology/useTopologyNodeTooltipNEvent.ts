@@ -91,12 +91,12 @@ export default (): {
       return ''
     }
     const container = createContainerEle()
-    const { name, from, metrics, enable, created_at, sql } = targetRule
+    const { id, from, metrics, enable, created_at, sql } = targetRule
     const fromDataToShow = Array.isArray(from) ? from.join('') : from
     const statusClass = `text-status ${enable ? 'success' : 'danger'}`
 
     const msgArr = [
-      { label: tl('name'), value: name },
+      { label: 'ID', value: id },
       { label: tl('input'), value: fromDataToShow },
       { label: tl('sqlPassed'), value: metrics['passed'] },
       { label: tl('sqlFailed'), value: metrics['failed.exception'] },
@@ -133,7 +133,7 @@ export default (): {
     const container = createContainerEle()
     const { name, metrics, status } = targetBridge
     const statusStr = getStatusLabel(status)
-    const statusClass = getStatusClass(status)
+    const statusClass = `text-status ${getStatusClass(status)}`
 
     const msgArr = [
       { label: tl('type'), value: getTypeStr(targetBridge) },
