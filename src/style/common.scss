@@ -684,3 +684,8 @@ input:disabled {
     }
   }
 }
+
+.el-col.col-need-row {
+  // To squeeze the next column down
+  margin-right: 40%;
+}

@@ -130,37 +130,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="resource_opts.worker_pool_size">
-            <template #label>
-              <span>{{ tl('workerPoolSize') }}</span>
-              <InfoTooltip :content="tl('workerPoolSizeDesc')" />
-            </template>
-            <el-input v-model="formData.resource_opts.worker_pool_size" />
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="12">
-          <el-form-item prop="resource_opts.health_check_interval">
-            <template #label>
-              <span>{{ tl('healthCheckInterval') }}</span>
-              <InfoTooltip :content="tl('healthCheckIntervalDesc')" />
-            </template>
-            <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="resource_opts.auto_restart_interval">
-            <template #label>
-              <span>{{ tl('autoRestartInterval') }}</span>
-              <InfoTooltip :content="tl('autoRestartIntervalDesc')" />
-            </template>
-            <Oneof
-              v-model="formData.resource_opts.auto_restart_interval"
-              :items="[{ type: 'duration' }, { symbols: ['infinity'], type: 'enum' }]"
-            />
-          </el-form-item>
-        </el-col>
 
         <el-col :span="24">
           <el-form-item prop="write_syntax">
@@ -181,6 +150,37 @@
         <el-col :span="24">
           <CommonTLSConfig class="tls-config-form" v-model="formData.ssl" :is-edit="edit" />
         </el-col>
+        <BridgeResourceOpt v-model="formData.resource_opts" />
+        <!-- BATCH -->
+        <el-col :span="12" class="col-need-row">
+          <el-form-item prop="resource_opts.enable_queue">
+            <template #label>
+              <span>{{ tl('enableBatch') }}</span>
+              <InfoTooltip :content="tl('enableBatchDesc')" />
+            </template>
+            <el-switch v-model="formData.resource_opts.enable_batch" />
+          </el-form-item>
+        </el-col>
+        <template v-if="formData.resource_opts.enable_batch">
+          <el-col :span="12">
+            <el-form-item prop="resource_opts.batch_size">
+              <template #label>
+                <span>{{ tl('batchSize') }}</span>
+                <InfoTooltip :content="tl('batchSizeDesc')" />
+              </template>
+              <el-input v-model="formData.resource_opts.batch_size" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="resource_opts.batch_time">
+              <template #label>
+                <span>{{ tl('batchTime') }}</span>
+                <InfoTooltip :content="tl('batchTimeDesc')" />
+              </template>
+              <TimeInputWithUnitSelect v-model="formData.resource_opts.batch_time" />
+            </el-form-item>
+          </el-col>
+        </template>
       </el-row>
     </el-form>
   </div>
@@ -190,14 +190,14 @@
 import { createRandomString, escapeCode, transLink } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
-import Oneof from '@/components/Oneof.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { isEqual } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch, defineExpose } from 'vue'
 import useSSL from '@/hooks/useSSL'
+import { isEqual } from 'lodash'
+import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
+import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
 const props = defineProps({
   modelValue: {
