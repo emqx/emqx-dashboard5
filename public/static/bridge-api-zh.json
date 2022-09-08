@@ -320,21 +320,293 @@
                 },
                 "type": "object"
             },
+            "bridge_mongodb.post_rs": {
+                "required": [
+                    "database",
+                    "replica_set_name",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "rs",
+                        "description": "Replica set模式。",
+                        "label": "Replica set模式",
+                        "symbols": [
+                            "rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`</br>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "服务器列表",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "r_mode": {
+                        "default": "master",
+                        "description": "读模式。",
+                        "label": "读模式",
+                        "symbols": [
+                            "master",
+                            "slave_ok"
+                        ],
+                        "type": "enum"
+                    },
+                    "replica_set_name": {
+                        "description": "副本集的名称。",
+                        "label": "副本集名称",
+                        "type": "string"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.put_rs": {
+                "required": [
+                    "database",
+                    "replica_set_name",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "rs",
+                        "description": "Replica set模式。",
+                        "label": "Replica set模式",
+                        "symbols": [
+                            "rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`</br>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "服务器列表",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "r_mode": {
+                        "default": "master",
+                        "description": "读模式。",
+                        "label": "读模式",
+                        "symbols": [
+                            "master",
+                            "slave_ok"
+                        ],
+                        "type": "enum"
+                    },
+                    "replica_set_name": {
+                        "description": "副本集的名称。",
+                        "label": "副本集名称",
+                        "type": "string"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "bridge.metrics": {
                 "properties": {
+                    "batching": {
+                        "description": "当前积压在内存里，等待批量发送的消息个数",
+                        "label": "等待批量发送",
+                        "type": "number"
+                    },
+                    "dropped": {
+                        "description": "被丢弃的消息个数。",
+                        "label": "丢弃",
+                        "type": "number"
+                    },
+                    "dropped.other": {
+                        "description": "因为其他原因被丢弃的消息个数。",
+                        "label": "其他丢弃",
+                        "type": "number"
+                    },
+                    "dropped.queue_full": {
+                        "description": "因为队列已满被丢弃的消息个数。",
+                        "label": "队列已满被丢弃",
+                        "type": "number"
+                    },
+                    "dropped.queue_not_enabled": {
+                        "description": "因为队列未启用被丢弃的消息个数。",
+                        "label": "队列未启用被丢弃",
+                        "type": "number"
+                    },
+                    "dropped.resource_not_found": {
+                        "description": "因为资源不存在被丢弃的消息个数。",
+                        "label": "资源不存在被丢弃",
+                        "type": "number"
+                    },
+                    "dropped.resource_stopped": {
+                        "description": "因为资源已停用被丢弃的消息个数。",
+                        "label": "资源停用被丢弃",
+                        "type": "number"
+                    },
                     "matched": {
-                        "description": "Bridge 执行操作的次数",
-                        "label": "Bridge 执行操作的次数",
+                        "description": "Bridge 被匹配到（被请求）的次数。",
+                        "label": "匹配次数",
                         "type": "number"
                     },
-                    "success": {
-                        "description": "Bridge 执行操作成功的次数",
-                        "label": "Bridge 执行操作成功的次数",
+                    "queuing": {
+                        "description": "当前被缓存到磁盘队列的消息个数。",
+                        "label": "被缓存",
                         "type": "number"
                     },
-                    "failed": {
-                        "description": "Bridge 执行操作失败的次数",
-                        "label": "Bridge 执行操作失败的次数",
+                    "sent": {
+                        "description": "已经发送出去的消息个数。",
+                        "label": "已发送",
+                        "type": "number"
+                    },
+                    "sent.failed": {
+                        "description": "发送失败的消息个数。",
+                        "label": "发送失败",
+                        "type": "number"
+                    },
+                    "sent.inflight": {
+                        "description": "已异步地发送但没有收到 ACK 的消息个数。",
+                        "label": "已发送未确认",
+                        "type": "number"
+                    },
+                    "sent.success": {
+                        "description": "已经发送成功的消息个数。",
+                        "label": "发送成功",
                         "type": "number"
                     },
                     "rate": {
@@ -350,6 +622,11 @@
                     "rate_last5m": {
                         "description": "5 分钟平均速率，次/秒",
                         "label": "5 分钟平均速率",
+                        "type": "number"
+                    },
+                    "received": {
+                        "description": "从远程系统收到的消息个数。",
+                        "label": "已接收",
                         "type": "number"
                     }
                 },
@@ -557,13 +834,7 @@
                     "method": {
                         "description": "HTTP 请求方法。",
                         "label": "HTTP 请求方法",
-                        "symbols": [
-                            "post",
-                            "put",
-                            "get",
-                            "delete"
-                        ],
-                        "type": "enum"
+                        "type": "string"
                     },
                     "path": {
                         "description": "HTTP请求路径。",
@@ -590,6 +861,101 @@
                         "description": "HTTP 请求超时。",
                         "label": "HTTP 请求超时",
                         "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.post_sharded": {
+                "required": [
+                    "database",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "sharded",
+                        "description": "Sharded cluster模式。",
+                        "label": "Sharded cluster模式",
+                        "symbols": [
+                            "sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`</br>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "服务器列表",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -679,7 +1045,6 @@
             },
             "connector-mqtt.egress_remote": {
                 "required": [
-                    "payload",
                     "retain",
                     "qos",
                     "topic"
@@ -720,6 +1085,7 @@
                         ]
                     },
                     "payload": {
+                        "default": "${payload}",
                         "description": "</br>要发送的 MQTT 消息的负载。</br>允许使用带有变量的模板。</br>",
                         "label": "消息负载",
                         "type": "string"
@@ -739,6 +1105,67 @@
                         "description": "metrics Description",
                         "label": "metrics",
                         "$ref": "#/components/schemas/bridge.metrics"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mqtt.creation_opts": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "资源连接池大小。",
+                        "label": "资源连接池大小",
+                        "type": "string"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "健康检查间隔，单位毫秒。",
+                        "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "资源断开以后，自动重连的时间间隔，单位毫秒。",
+                        "label": "自动重连间隔",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "async",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "请求模式",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小。",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "启用队列模式。",
+                        "label": "启用队列模式",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100GB",
+                        "description": "消息队列的最大长度。",
+                        "label": "队列最大长度",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -867,6 +1294,224 @@
                 },
                 "type": "object"
             },
+            "bridge_mongodb.get_sharded": {
+                "required": [
+                    "database",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "mongo_type": {
+                        "default": "sharded",
+                        "description": "Sharded cluster模式。",
+                        "label": "Sharded cluster模式",
+                        "symbols": [
+                            "sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`</br>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "服务器列表",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.post_single": {
+                "required": [
+                    "database",
+                    "server",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "single",
+                        "description": "Standalone模式。",
+                        "label": "Standalone模式",
+                        "symbols": [
+                            "single"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "</br>将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "label": "服务器地址",
+                        "type": "ip_port"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "connector-mqtt.egress": {
                 "properties": {
                     "local": {
@@ -878,6 +1523,240 @@
                         "description": "发送消息到远程 Broker 相关的配置。",
                         "label": "远程配置",
                         "$ref": "#/components/schemas/connector-mqtt.egress_remote"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.get_rs": {
+                "required": [
+                    "database",
+                    "replica_set_name",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "mongo_type": {
+                        "default": "rs",
+                        "description": "Replica set模式。",
+                        "label": "Replica set模式",
+                        "symbols": [
+                            "rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`</br>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "服务器列表",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "r_mode": {
+                        "default": "master",
+                        "description": "读模式。",
+                        "label": "读模式",
+                        "symbols": [
+                            "master",
+                            "slave_ok"
+                        ],
+                        "type": "enum"
+                    },
+                    "replica_set_name": {
+                        "description": "副本集的名称。",
+                        "label": "副本集名称",
+                        "type": "string"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.put_single": {
+                "required": [
+                    "database",
+                    "server",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "single",
+                        "description": "Standalone模式。",
+                        "label": "Standalone模式",
+                        "symbols": [
+                            "single"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "</br>将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "label": "服务器地址",
+                        "type": "ip_port"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -1208,6 +2087,69 @@
                 },
                 "type": "object"
             },
+            "emqx_connector_mongo.topology": {
+                "properties": {
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "max_overflow": {
+                        "default": 0,
+                        "description": "最大溢出。",
+                        "label": "最大溢出",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "overflow_ttl": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    },
+                    "overflow_check_period": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    },
+                    "local_threshold_ms": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    },
+                    "connect_timeout_ms": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    },
+                    "socket_timeout_ms": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    },
+                    "server_selection_timeout_ms": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    },
+                    "wait_queue_timeout_ms": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    },
+                    "heartbeat_frequency_ms": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    },
+                    "min_heartbeat_frequency_ms": {
+                        "description": "时间间隔，例如超时或 TTL。",
+                        "label": "时间间隔",
+                        "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
             "connector-mqtt.ingress_remote": {
                 "required": [
                     "topic"
@@ -1300,53 +2242,7 @@
                         "type": "array"
                     },
                     "ciphers": {
-                        "default": [
-                            "TLS_AES_256_GCM_SHA384",
-                            "TLS_AES_128_GCM_SHA256",
-                            "TLS_CHACHA20_POLY1305_SHA256",
-                            "TLS_AES_128_CCM_SHA256",
-                            "TLS_AES_128_CCM_8_SHA256",
-                            "ECDHE-ECDSA-AES256-GCM-SHA384",
-                            "ECDHE-RSA-AES256-GCM-SHA384",
-                            "ECDHE-ECDSA-AES256-SHA384",
-                            "ECDHE-RSA-AES256-SHA384",
-                            "ECDH-ECDSA-AES256-GCM-SHA384",
-                            "ECDH-RSA-AES256-GCM-SHA384",
-                            "ECDH-ECDSA-AES256-SHA384",
-                            "ECDH-RSA-AES256-SHA384",
-                            "DHE-DSS-AES256-GCM-SHA384",
-                            "DHE-DSS-AES256-SHA256",
-                            "AES256-GCM-SHA384",
-                            "AES256-SHA256",
-                            "ECDHE-ECDSA-AES128-GCM-SHA256",
-                            "ECDHE-RSA-AES128-GCM-SHA256",
-                            "ECDHE-ECDSA-AES128-SHA256",
-                            "ECDHE-RSA-AES128-SHA256",
-                            "ECDH-ECDSA-AES128-GCM-SHA256",
-                            "ECDH-RSA-AES128-GCM-SHA256",
-                            "ECDH-ECDSA-AES128-SHA256",
-                            "ECDH-RSA-AES128-SHA256",
-                            "DHE-DSS-AES128-GCM-SHA256",
-                            "DHE-DSS-AES128-SHA256",
-                            "AES128-GCM-SHA256",
-                            "AES128-SHA256",
-                            "ECDHE-ECDSA-AES256-SHA",
-                            "ECDHE-RSA-AES256-SHA",
-                            "DHE-DSS-AES256-SHA",
-                            "ECDH-ECDSA-AES256-SHA",
-                            "ECDH-RSA-AES256-SHA",
-                            "ECDHE-ECDSA-AES128-SHA",
-                            "ECDHE-RSA-AES128-SHA",
-                            "DHE-DSS-AES128-SHA",
-                            "ECDH-ECDSA-AES128-SHA",
-                            "ECDH-RSA-AES128-SHA",
-                            "RSA-PSK-AES256-GCM-SHA384",
-                            "RSA-PSK-AES256-CBC-SHA384",
-                            "RSA-PSK-AES128-GCM-SHA256",
-                            "RSA-PSK-AES128-CBC-SHA256",
-                            "RSA-PSK-AES256-CBC-SHA",
-                            "RSA-PSK-AES128-CBC-SHA"
-                        ],
+                        "default": "",
                         "description": "</br>此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如</br><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或</br><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。</br></br>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。</br>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。</br></br>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。</br>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式</br>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。</br>不兼容的密码套件将被自动删除。</br></br>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。</br></br></br>注：PSK 的 Ciphers 不支持 tlsv1.3</br>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。</br></br></br>PSK 密码套件：</br><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,</br>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,</br>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,</br>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code></br>",
                         "items": {
                             "type": "string"
@@ -1422,7 +2318,7 @@
                         ]
                     },
                     "query_mode": {
-                        "default": "sync",
+                        "default": "async",
                         "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
                         "label": "请求模式",
                         "symbols": [
@@ -1444,7 +2340,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "1GB",
+                        "default": "100GB",
                         "description": "消息队列的最大长度。",
                         "label": "队列最大长度",
                         "type": "byteSize"
@@ -1577,6 +2473,18 @@
                     "server"
                 ],
                 "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用 Bridge",
+                        "label": "启用/禁用 Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mqtt.creation_opts"
+                    },
                     "mode": {
                         "default": "cluster_shareload",
                         "description": "</br>MQTT 桥的模式。 </br></br>- cluster_shareload：在 emqx 集群的每个节点上创建一个 MQTT 连接。</br>在“cluster_shareload”模式下，来自远程代理的传入负载通过共享订阅的方式接收。</br>请注意，“clientid”以节点名称为后缀，这是为了避免不同节点之间的clientid冲突。</br>而且对于入口连接的“remote.topic”，我们只能使用共享订阅主题过滤器。</br>",
@@ -1615,13 +2523,11 @@
                         "type": "boolean"
                     },
                     "username": {
-                        "default": "emqx",
                         "description": "MQTT 协议的用户名",
                         "label": "用户名",
                         "type": "string"
                     },
                     "password": {
-                        "default": "emqx",
                         "description": "MQTT 协议的密码",
                         "format": "password",
                         "label": "密码",
@@ -1828,6 +2734,12 @@
                         "label": "启用/禁用 Bridge",
                         "type": "boolean"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mqtt.creation_opts"
+                    },
                     "mode": {
                         "default": "cluster_shareload",
                         "description": "</br>MQTT 桥的模式。 </br></br>- cluster_shareload：在 emqx 集群的每个节点上创建一个 MQTT 连接。</br>在“cluster_shareload”模式下，来自远程代理的传入负载通过共享订阅的方式接收。</br>请注意，“clientid”以节点名称为后缀，这是为了避免不同节点之间的clientid冲突。</br>而且对于入口连接的“remote.topic”，我们只能使用共享订阅主题过滤器。</br>",
@@ -1866,13 +2778,11 @@
                         "type": "boolean"
                     },
                     "username": {
-                        "default": "emqx",
                         "description": "MQTT 协议的用户名",
                         "label": "用户名",
                         "type": "string"
                     },
                     "password": {
-                        "default": "emqx",
                         "description": "MQTT 协议的密码",
                         "format": "password",
                         "label": "密码",
@@ -1974,6 +2884,16 @@
                             }
                         ]
                     },
+                    "query_mode": {
+                        "default": "async",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "请求模式",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
                     "enable_batch": {
                         "default": false,
                         "description": "启用批量模式。",
@@ -1999,7 +2919,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "1GB",
+                        "default": "100GB",
                         "description": "消息队列的最大长度。",
                         "label": "队列最大长度",
                         "type": "byteSize"
@@ -2026,6 +2946,18 @@
                         "description": "Bridge 名字，Bridge 的可读描述",
                         "label": "Bridge 名字",
                         "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用 Bridge",
+                        "label": "启用/禁用 Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mqtt.creation_opts"
                     },
                     "mode": {
                         "default": "cluster_shareload",
@@ -2065,13 +2997,11 @@
                         "type": "boolean"
                     },
                     "username": {
-                        "default": "emqx",
                         "description": "MQTT 协议的用户名",
                         "label": "用户名",
                         "type": "string"
                     },
                     "password": {
-                        "default": "emqx",
                         "description": "MQTT 协议的密码",
                         "format": "password",
                         "label": "密码",
@@ -2139,6 +3069,129 @@
                                 "type": "enum"
                             }
                         ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.get_single": {
+                "required": [
+                    "database",
+                    "server",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "mongo_type": {
+                        "default": "single",
+                        "description": "Standalone模式。",
+                        "label": "Standalone模式",
+                        "symbols": [
+                            "single"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "</br>将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "label": "服务器地址",
+                        "type": "ip_port"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -2693,7 +3746,7 @@
                         ]
                     },
                     "query_mode": {
-                        "default": "sync",
+                        "default": "async",
                         "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
                         "label": "请求模式",
                         "symbols": [
@@ -2733,7 +3786,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "1GB",
+                        "default": "100GB",
                         "description": "消息队列的最大长度。",
                         "label": "队列最大长度",
                         "type": "byteSize"
@@ -2792,6 +3845,101 @@
                     }
                 },
                 "type": "object"
+            },
+            "bridge_mongodb.put_sharded": {
+                "required": [
+                    "database",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "sharded",
+                        "description": "Sharded cluster模式。",
+                        "label": "Sharded cluster模式",
+                        "symbols": [
+                            "sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`</br>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "服务器列表",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "写模式。",
+                        "label": "写模式",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "使用 DNS SRV 记录。",
+                        "label": "SRV 记录",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "与用户证书关联的数据库名称。",
+                        "label": "认证源",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用或停用该MongoDB桥",
+                        "label": "启用或禁用",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "数据将被存储到的集合",
+                        "label": "将要使用的藏品",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -2815,6 +3963,15 @@
                         },
                         {
                             "$ref": "#/components/schemas/bridge_hstreamdb.get"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_mongodb.get_single"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_mongodb.get_sharded"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_mongodb.get_rs"
                         },
                         {
                             "$ref": "#/components/schemas/bridge_mysql.get"
@@ -2846,6 +4003,15 @@
                         "$ref": "#/components/schemas/bridge_hstreamdb.get"
                     },
                     {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_single"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_sharded"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_rs"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
@@ -2869,6 +4035,15 @@
                     },
                     {
                         "$ref": "#/components/schemas/bridge_hstreamdb.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_single"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_sharded"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_rs"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_mysql.get"
