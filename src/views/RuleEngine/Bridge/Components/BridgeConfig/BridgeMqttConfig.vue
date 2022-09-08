@@ -84,6 +84,10 @@
           </el-row>
         </el-tab-pane>
       </el-tabs>
+      <el-divider />
+      <el-row :gutter="26">
+        <BridgeResourceOpt v-model="mqttBridgeVal.resource_opts" />
+      </el-row>
     </el-form>
   </div>
 </template>
@@ -120,6 +124,8 @@ import { MQTTBridgeDirection } from '@/types/enum'
 import useSSL from '@/hooks/useSSL'
 import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
 import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
+import BridgeResourceOpt from './BridgeResourceOpt.vue'
+import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 
 const prop = defineProps({
   modelValue: {
@@ -161,6 +167,8 @@ const createEgressDefaultValue = () => ({
   remote: createRawTransDefaultVal(),
 })
 
+const { createDefaultResourceOptsForm } = useResourceOpt()
+
 const createMQTTBridgeDefaultVal = () => ({
   enable: true,
   server: '',
@@ -170,6 +178,7 @@ const createMQTTBridgeDefaultVal = () => ({
   ssl: createSSLForm(),
   ingress: createIngressDefaultVal(),
   egress: createEgressDefaultValue(),
+  resource_opts: createDefaultResourceOptsForm({ inflight: true }),
 })
 
 const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
