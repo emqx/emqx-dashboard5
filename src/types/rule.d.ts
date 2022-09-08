@@ -52,6 +52,21 @@ export interface RuleItem extends RuleForm {
   id: string
 }
 
+export interface ResourceOpt {
+  worker_pool_size: number
+  health_check_interval: string
+  auto_restart_interval: string
+  query_mode: 'async' | 'sync'
+  async_inflight_window?: number
+
+  enable_queue: boolean
+  max_queue_bytes: string
+
+  enable_batch?: boolean
+  batch_size?: number
+  batch_time?: string
+}
+
 export interface BridgeBaseData {
   /**
    * create by front end {type}:{name}
@@ -72,6 +87,7 @@ export interface BridgeBaseData {
   type: BridgeType
   local_topic?: string
   enable: boolean
+  resource_opts: ResourceOpt
 }
 
 export interface HTTPBridge extends BridgeBaseData {
