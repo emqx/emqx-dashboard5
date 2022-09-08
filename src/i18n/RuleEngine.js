@@ -899,8 +899,60 @@ export default {
     zh: '保存为副本',
     en: 'Save as copy',
   },
-  rateUnit: {
-    zh: 'messages/sec | message/sec | messages/sec',
-    en: 'messages/sec | message/sec | messages/sec',
+  queryMode: {
+    en: 'Query mode',
+    zh: '请求模式',
+  },
+  queryModeDesc: {
+    en: "Query mode. Optional 'sync/async', default 'sync'.",
+    zh: "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+  },
+  asyncInflightWindow: {
+    zh: '异步请求飞行队列窗口',
+    en: 'Async inflight window',
+  },
+  asyncInflightWindowDesc: {
+    zh: '异步请求飞行队列窗口大小。',
+    en: 'Async query inflight window.',
+  },
+  enableQueue: {
+    en: 'Enable queue',
+    zh: '启用队列模式',
+  },
+  enableQueueDesc: {
+    en: 'Queue mode enabled.',
+    zh: '启用队列模式。',
+  },
+  maxQueueBytes: {
+    en: 'Queue max bytes',
+    zh: '队列最大长度',
+  },
+  maxQueueBytesDesc: {
+    en: 'Maximum queue storage.',
+    zh: '消息队列的最大长度。',
+  },
+  enableBatch: {
+    en: 'Enable batch',
+    zh: '启用批量模式',
+  },
+  enableBatchDesc: {
+    en: 'Batch mode enabled.',
+    zh: '启用批量模式。',
+  },
+  batchSize: {
+    en: 'Batch size',
+    zh: '批量请求大小',
+  },
+  batchSizeDesc: {
+    en: 'Maximum batch count.',
+    zh: '批量请求大小。',
+  },
+  batchTime: {
+    en: 'Batch time',
+    zh: '批量等待间隔',
+  },
+  batchTimeDesc: {
+    en: 'Maximum batch waiting interval.',
+    zh: '最大批量请求等待时间。',
   },
 }
