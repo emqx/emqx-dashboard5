@@ -198,6 +198,7 @@ import useSSL from '@/hooks/useSSL'
 import { isEqual } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
+import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 
 const props = defineProps({
   modelValue: {
@@ -231,6 +232,8 @@ const V2_AUTH_TYPE_OPT = [
 ]
 
 const { createSSLForm } = useSSL()
+const { createDefaultResourceOptsForm } = useResourceOpt()
+
 const createDefaultValue = () => ({
   type: InfluxDBType.v2,
   name: '',
@@ -245,19 +248,7 @@ const createDefaultValue = () => ({
   bucket: '',
   org: '',
   token: '',
-  // TODO: use func
-  resource_opts: {
-    worker_pool_size: 16,
-    health_check_interval: '15s',
-    auto_restart_interval: '60s',
-    query_mode: 'sync',
-    async_inflight_window: 100,
-    enable_batch: false,
-    batch_size: 100,
-    batch_time: '10ms',
-    enable_queue: false,
-    max_queue_bytes: '1GB',
-  },
+  resource_opts: createDefaultResourceOptsForm({ inflight: true, batch: true }),
 })
 
 const formData = ref({ ...createDefaultValue(), ...props.modelValue })
