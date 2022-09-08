@@ -103,6 +103,9 @@
         </el-col>
       </el-row>
       <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
+      <el-row :gutter="26">
+        <BridgeResourceOpt v-model="httpBridgeVal.resource_opts" />
+      </el-row>
     </el-form>
   </div>
 </template>
@@ -121,6 +124,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useDocLink from '@/hooks/useDocLink'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import BridgeResourceOpt from './BridgeResourceOpt.vue'
+import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 
 export default defineComponent({
   components: {
@@ -129,6 +134,7 @@ export default defineComponent({
     InfoTooltip,
     CommonTLSConfig,
     InputWithUnit,
+    BridgeResourceOpt,
   },
   name: '',
   props: {
@@ -155,6 +161,7 @@ export default defineComponent({
   setup(props, context) {
     const { tl } = useI18nTl('RuleEngine')
     const { docMap } = useDocLink()
+    const { createDefaultResourceOptsForm } = useResourceOpt()
     const httpBridgeDefaultVal: HTTPBridge = {
       name: '',
       method: 'post',
@@ -168,6 +175,7 @@ export default defineComponent({
       connect_timeout: '5s',
       request_timeout: '5s',
       max_retries: 3,
+      resource_opts: createDefaultResourceOptsForm({ inflight: true }),
     } as HTTPBridge
 
     let modelValueCache = ''
