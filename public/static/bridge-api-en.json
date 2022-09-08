@@ -320,21 +320,293 @@
                 },
                 "type": "object"
             },
+            "bridge_mongodb.post_rs": {
+                "required": [
+                    "database",
+                    "replica_set_name",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "rs",
+                        "description": "Replica set.",
+                        "label": "Replica set",
+                        "symbols": [
+                            "rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`</br>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "Servers",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "r_mode": {
+                        "default": "master",
+                        "description": "Read mode.",
+                        "label": "Read Mode",
+                        "symbols": [
+                            "master",
+                            "slave_ok"
+                        ],
+                        "type": "enum"
+                    },
+                    "replica_set_name": {
+                        "description": "Name of the replica set.",
+                        "label": "Replica Set Name",
+                        "type": "string"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.put_rs": {
+                "required": [
+                    "database",
+                    "replica_set_name",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "rs",
+                        "description": "Replica set.",
+                        "label": "Replica set",
+                        "symbols": [
+                            "rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`</br>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "Servers",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "r_mode": {
+                        "default": "master",
+                        "description": "Read mode.",
+                        "label": "Read Mode",
+                        "symbols": [
+                            "master",
+                            "slave_ok"
+                        ],
+                        "type": "enum"
+                    },
+                    "replica_set_name": {
+                        "description": "Name of the replica set.",
+                        "label": "Replica Set Name",
+                        "type": "string"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "bridge.metrics": {
                 "properties": {
+                    "batching": {
+                        "description": "Count of messages that are currently accumulated in memory waiting for sending in one batch.",
+                        "label": "Batched",
+                        "type": "number"
+                    },
+                    "dropped": {
+                        "description": "Count of messages dropped.",
+                        "label": "Dropped",
+                        "type": "number"
+                    },
+                    "dropped.other": {
+                        "description": "Count of messages dropped due to other reasons.",
+                        "label": "Dropped Other",
+                        "type": "number"
+                    },
+                    "dropped.queue_full": {
+                        "description": "Count of messages dropped due to the queue is full.",
+                        "label": "Dropped Queue Full",
+                        "type": "number"
+                    },
+                    "dropped.queue_not_enabled": {
+                        "description": "Count of messages dropped due to the queue is not enabled.",
+                        "label": "Dropped Queue Disabled",
+                        "type": "number"
+                    },
+                    "dropped.resource_not_found": {
+                        "description": "Count of messages dropped due to the resource is not found.",
+                        "label": "Dropped Resource NotFound",
+                        "type": "number"
+                    },
+                    "dropped.resource_stopped": {
+                        "description": "Count of messages dropped due to the resource is stopped.",
+                        "label": "Dropped Resource Stopped",
+                        "type": "number"
+                    },
                     "matched": {
-                        "description": "Count of this bridge is queried",
-                        "label": "Bridge Matched",
+                        "description": "Count of this bridge is matched and queried.",
+                        "label": "Matched",
                         "type": "number"
                     },
-                    "success": {
-                        "description": "Count of query success",
-                        "label": "Bridge Success",
+                    "queuing": {
+                        "description": "Count of messages that are currently queuing.",
+                        "label": "Queued",
                         "type": "number"
                     },
-                    "failed": {
-                        "description": "Count of query failed",
-                        "label": "Bridge Failed",
+                    "sent": {
+                        "description": "Count of messages that are sent by this bridge.",
+                        "label": "Sent",
+                        "type": "number"
+                    },
+                    "sent.failed": {
+                        "description": "Count of messages that sent failed.",
+                        "label": "Sent Failed",
+                        "type": "number"
+                    },
+                    "sent.inflight": {
+                        "description": "Count of messages that were sent asynchronously but ACKs are not received.",
+                        "label": "Sent Inflight",
+                        "type": "number"
+                    },
+                    "sent.success": {
+                        "description": "Count of messages that sent successfully.",
+                        "label": "Sent Success",
                         "type": "number"
                     },
                     "rate": {
@@ -350,6 +622,11 @@
                     "rate_last5m": {
                         "description": "The average rate of matched in the last 5 minutes, times/second",
                         "label": "Last 5 Minutes Rate",
+                        "type": "number"
+                    },
+                    "received": {
+                        "description": "Count of messages that is received from the remote system.",
+                        "label": "Received",
                         "type": "number"
                     }
                 },
@@ -557,13 +834,7 @@
                     "method": {
                         "description": "HTTP method.",
                         "label": "HTTP Method",
-                        "symbols": [
-                            "post",
-                            "put",
-                            "get",
-                            "delete"
-                        ],
-                        "type": "enum"
+                        "type": "string"
                     },
                     "path": {
                         "description": "URL path.",
@@ -590,6 +861,101 @@
                         "description": "HTTP request timeout.",
                         "label": "Request Timeout",
                         "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.post_sharded": {
+                "required": [
+                    "database",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "sharded",
+                        "description": "Sharded cluster.",
+                        "label": "Sharded cluster",
+                        "symbols": [
+                            "sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`</br>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "Servers",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -667,7 +1033,7 @@
                         "label": "Connector Generic Configuration",
                         "oneOf": [
                             {
-                                "$ref": "#/components/schemas/emqx_ee_connector_hstreamdb.config"
+                                "$ref": "#/components/schemas/connector_hstreamdb.config"
                             },
                             {
                                 "type": "string"
@@ -679,7 +1045,6 @@
             },
             "connector-mqtt.egress_remote": {
                 "required": [
-                    "payload",
                     "retain",
                     "qos",
                     "topic"
@@ -720,6 +1085,7 @@
                         ]
                     },
                     "payload": {
+                        "default": "${payload}",
                         "description": "</br>The payload of the MQTT message to be sent.</br>Template with variables is allowed.</br>",
                         "label": "Payload",
                         "type": "string"
@@ -739,6 +1105,67 @@
                         "description": "metrics Description",
                         "label": "metrics",
                         "$ref": "#/components/schemas/bridge.metrics"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mqtt.creation_opts": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "Resource worker pool size.",
+                        "label": "Worker Pool Size",
+                        "type": "string"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "Health check interval, in milliseconds.",
+                        "label": "Health Check Interval",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "The auto restart interval after the resource is disconnected, in milliseconds.",
+                        "label": "Auto Restart Interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "async",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "Query mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "Async inflight window",
+                        "type": "string"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "description": "Queue mode enabled.",
+                        "label": "Enable queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100GB",
+                        "description": "Maximum queue storage.",
+                        "label": "Queue max bytes",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -857,12 +1284,230 @@
                         "label": "Connector Generic Configuration",
                         "oneOf": [
                             {
-                                "$ref": "#/components/schemas/emqx_ee_connector_hstreamdb.config"
+                                "$ref": "#/components/schemas/connector_hstreamdb.config"
                             },
                             {
                                 "type": "string"
                             }
                         ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.get_sharded": {
+                "required": [
+                    "database",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "The status of the bridge",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "mongo_type": {
+                        "default": "sharded",
+                        "description": "Sharded cluster.",
+                        "label": "Sharded cluster",
+                        "symbols": [
+                            "sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`</br>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "Servers",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.post_single": {
+                "required": [
+                    "database",
+                    "server",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "single",
+                        "description": "Standalone instance.",
+                        "label": "Standalone instance",
+                        "symbols": [
+                            "single"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "</br>The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -878,6 +1523,240 @@
                         "description": "The configs about sending message to the remote broker.",
                         "label": "Remote Configs",
                         "$ref": "#/components/schemas/connector-mqtt.egress_remote"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.get_rs": {
+                "required": [
+                    "database",
+                    "replica_set_name",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "The status of the bridge",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "mongo_type": {
+                        "default": "rs",
+                        "description": "Replica set.",
+                        "label": "Replica set",
+                        "symbols": [
+                            "rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`</br>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "Servers",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "r_mode": {
+                        "default": "master",
+                        "description": "Read mode.",
+                        "label": "Read Mode",
+                        "symbols": [
+                            "master",
+                            "slave_ok"
+                        ],
+                        "type": "enum"
+                    },
+                    "replica_set_name": {
+                        "description": "Name of the replica set.",
+                        "label": "Replica Set Name",
+                        "type": "string"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.put_single": {
+                "required": [
+                    "database",
+                    "server",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "single",
+                        "description": "Standalone instance.",
+                        "label": "Standalone instance",
+                        "symbols": [
+                            "single"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "</br>The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -1208,6 +2087,69 @@
                 },
                 "type": "object"
             },
+            "emqx_connector_mongo.topology": {
+                "properties": {
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "max_overflow": {
+                        "default": 0,
+                        "description": "Max Overflow.",
+                        "label": "Max Overflow",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "overflow_ttl": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    },
+                    "overflow_check_period": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    },
+                    "local_threshold_ms": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    },
+                    "connect_timeout_ms": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    },
+                    "socket_timeout_ms": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    },
+                    "server_selection_timeout_ms": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    },
+                    "wait_queue_timeout_ms": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    },
+                    "heartbeat_frequency_ms": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    },
+                    "min_heartbeat_frequency_ms": {
+                        "description": "Time interval, such as timeout or TTL.",
+                        "label": "Time Interval",
+                        "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
             "connector-mqtt.ingress_remote": {
                 "required": [
                     "topic"
@@ -1300,53 +2242,7 @@
                         "type": "array"
                     },
                     "ciphers": {
-                        "default": [
-                            "TLS_AES_256_GCM_SHA384",
-                            "TLS_AES_128_GCM_SHA256",
-                            "TLS_CHACHA20_POLY1305_SHA256",
-                            "TLS_AES_128_CCM_SHA256",
-                            "TLS_AES_128_CCM_8_SHA256",
-                            "ECDHE-ECDSA-AES256-GCM-SHA384",
-                            "ECDHE-RSA-AES256-GCM-SHA384",
-                            "ECDHE-ECDSA-AES256-SHA384",
-                            "ECDHE-RSA-AES256-SHA384",
-                            "ECDH-ECDSA-AES256-GCM-SHA384",
-                            "ECDH-RSA-AES256-GCM-SHA384",
-                            "ECDH-ECDSA-AES256-SHA384",
-                            "ECDH-RSA-AES256-SHA384",
-                            "DHE-DSS-AES256-GCM-SHA384",
-                            "DHE-DSS-AES256-SHA256",
-                            "AES256-GCM-SHA384",
-                            "AES256-SHA256",
-                            "ECDHE-ECDSA-AES128-GCM-SHA256",
-                            "ECDHE-RSA-AES128-GCM-SHA256",
-                            "ECDHE-ECDSA-AES128-SHA256",
-                            "ECDHE-RSA-AES128-SHA256",
-                            "ECDH-ECDSA-AES128-GCM-SHA256",
-                            "ECDH-RSA-AES128-GCM-SHA256",
-                            "ECDH-ECDSA-AES128-SHA256",
-                            "ECDH-RSA-AES128-SHA256",
-                            "DHE-DSS-AES128-GCM-SHA256",
-                            "DHE-DSS-AES128-SHA256",
-                            "AES128-GCM-SHA256",
-                            "AES128-SHA256",
-                            "ECDHE-ECDSA-AES256-SHA",
-                            "ECDHE-RSA-AES256-SHA",
-                            "DHE-DSS-AES256-SHA",
-                            "ECDH-ECDSA-AES256-SHA",
-                            "ECDH-RSA-AES256-SHA",
-                            "ECDHE-ECDSA-AES128-SHA",
-                            "ECDHE-RSA-AES128-SHA",
-                            "DHE-DSS-AES128-SHA",
-                            "ECDH-ECDSA-AES128-SHA",
-                            "ECDH-RSA-AES128-SHA",
-                            "RSA-PSK-AES256-GCM-SHA384",
-                            "RSA-PSK-AES256-CBC-SHA384",
-                            "RSA-PSK-AES128-GCM-SHA256",
-                            "RSA-PSK-AES128-CBC-SHA256",
-                            "RSA-PSK-AES256-CBC-SHA",
-                            "RSA-PSK-AES128-CBC-SHA"
-                        ],
+                        "default": "",
                         "description": "</br>This config holds TLS cipher suite names separated by comma,</br>or as an array of strings. e.g.</br><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or</br><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.</br></br>Ciphers (and their ordering) define the way in which the</br>client and server encrypts information over the network connection.</br>Selecting a good cipher suite is critical for the</br>application's data security, confidentiality and performance.</br></br>The names should be in OpenSSL string format (not RFC format).</br>All default values and examples provided by EMQX config</br>documentation are all in OpenSSL format.</br></br>NOTE: Certain cipher suites are only compatible with</br>specific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')</br>incompatible cipher suites will be silently dropped.</br>For instance, if only 'tlsv1.3' is given in the <code>versions</code>,</br>configuring cipher suites for other versions will have no effect.</br></br></br>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config</br>If PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.</br>PSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,</br>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,</br>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,</br>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code></br>",
                         "items": {
                             "type": "string"
@@ -1422,7 +2318,7 @@
                         ]
                     },
                     "query_mode": {
-                        "default": "sync",
+                        "default": "async",
                         "description": "Query mode. Optional 'sync/async', default 'sync'.",
                         "label": "Query mode",
                         "symbols": [
@@ -1444,7 +2340,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "1GB",
+                        "default": "100GB",
                         "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"
@@ -1577,6 +2473,18 @@
                     "server"
                 ],
                 "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mqtt.creation_opts"
+                    },
                     "mode": {
                         "default": "cluster_shareload",
                         "description": "</br>The mode of the MQTT Bridge.</br></br>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.</br>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by</br>using shared subscription.</br>Note that the 'clientid' is suffixed by the node name, this is to avoid</br>clientid conflicts between different nodes. And we can only use shared subscription</br>topic filters for 'remote.topic' of ingress connections.</br>",
@@ -1615,13 +2523,11 @@
                         "type": "boolean"
                     },
                     "username": {
-                        "default": "emqx",
                         "description": "The username of the MQTT protocol",
                         "label": "Username",
                         "type": "string"
                     },
                     "password": {
-                        "default": "emqx",
                         "description": "The password of the MQTT protocol",
                         "format": "password",
                         "label": "Password",
@@ -1776,7 +2682,7 @@
                         "label": "Connector Generic Configuration",
                         "oneOf": [
                             {
-                                "$ref": "#/components/schemas/emqx_ee_connector_hstreamdb.config"
+                                "$ref": "#/components/schemas/connector_hstreamdb.config"
                             },
                             {
                                 "type": "string"
@@ -1828,6 +2734,12 @@
                         "label": "Enable Or Disable Bridge",
                         "type": "boolean"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mqtt.creation_opts"
+                    },
                     "mode": {
                         "default": "cluster_shareload",
                         "description": "</br>The mode of the MQTT Bridge.</br></br>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.</br>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by</br>using shared subscription.</br>Note that the 'clientid' is suffixed by the node name, this is to avoid</br>clientid conflicts between different nodes. And we can only use shared subscription</br>topic filters for 'remote.topic' of ingress connections.</br>",
@@ -1866,13 +2778,11 @@
                         "type": "boolean"
                     },
                     "username": {
-                        "default": "emqx",
                         "description": "The username of the MQTT protocol",
                         "label": "Username",
                         "type": "string"
                     },
                     "password": {
-                        "default": "emqx",
                         "description": "The password of the MQTT protocol",
                         "format": "password",
                         "label": "Password",
@@ -1974,6 +2884,16 @@
                             }
                         ]
                     },
+                    "query_mode": {
+                        "default": "async",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "Query mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
                     "enable_batch": {
                         "default": false,
                         "description": "Batch mode enabled.",
@@ -1999,7 +2919,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "1GB",
+                        "default": "100GB",
                         "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"
@@ -2026,6 +2946,18 @@
                         "description": "Bridge name, used as a human-readable description of the bridge.",
                         "label": "Bridge Name",
                         "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mqtt.creation_opts"
                     },
                     "mode": {
                         "default": "cluster_shareload",
@@ -2065,13 +2997,11 @@
                         "type": "boolean"
                     },
                     "username": {
-                        "default": "emqx",
                         "description": "The username of the MQTT protocol",
                         "label": "Username",
                         "type": "string"
                     },
                     "password": {
-                        "default": "emqx",
                         "description": "The password of the MQTT protocol",
                         "format": "password",
                         "label": "Password",
@@ -2139,6 +3069,129 @@
                                 "type": "enum"
                             }
                         ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.get_single": {
+                "required": [
+                    "database",
+                    "server",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "The status of the bridge",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "mongo_type": {
+                        "default": "single",
+                        "description": "Standalone instance.",
+                        "label": "Standalone instance",
+                        "symbols": [
+                            "single"
+                        ],
+                        "type": "enum"
+                    },
+                    "server": {
+                        "description": "</br>The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "label": "Server Host",
+                        "type": "ip_port"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -2693,7 +3746,7 @@
                         ]
                     },
                     "query_mode": {
-                        "default": "sync",
+                        "default": "async",
                         "description": "Query mode. Optional 'sync/async', default 'sync'.",
                         "label": "Query mode",
                         "symbols": [
@@ -2733,7 +3786,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "1GB",
+                        "default": "100GB",
                         "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"
@@ -2792,6 +3845,101 @@
                     }
                 },
                 "type": "object"
+            },
+            "bridge_mongodb.put_sharded": {
+                "required": [
+                    "database",
+                    "servers",
+                    "mongo_type"
+                ],
+                "properties": {
+                    "mongo_type": {
+                        "default": "sharded",
+                        "description": "Sharded cluster.",
+                        "label": "Sharded cluster",
+                        "symbols": [
+                            "sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "servers": {
+                        "description": "</br>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`</br>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The MongoDB default port 27017 is used if `[:Port]` is not specified.</br>",
+                        "items": {
+                            "type": "string"
+                        },
+                        "label": "Servers",
+                        "type": "array"
+                    },
+                    "w_mode": {
+                        "default": "unsafe",
+                        "description": "Write mode.",
+                        "label": "Write Mode",
+                        "symbols": [
+                            "unsafe",
+                            "safe"
+                        ],
+                        "type": "enum"
+                    },
+                    "srv_record": {
+                        "default": false,
+                        "description": "Use DNS SRV record.",
+                        "label": "Srv Record",
+                        "type": "boolean"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auth_source": {
+                        "description": "Database name associated with the user's credentials.",
+                        "label": "Auth Source",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "topology": {
+                        "description": "topology Description",
+                        "label": "topology",
+                        "$ref": "#/components/schemas/emqx_connector_mongo.topology"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this MongoDB Bridge",
+                        "label": "Enable or disable",
+                        "type": "boolean"
+                    },
+                    "collection": {
+                        "default": "mqtt",
+                        "description": "The collection where data will be stored into",
+                        "label": "Collection to be used",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -2804,6 +3952,30 @@
             "get": {
                 "items": {
                     "oneOf": [
+                        {
+                            "$ref": "#/components/schemas/bridge_influxdb.get_api_v2"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_influxdb.get_api_v1"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_influxdb.get_udp"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_hstreamdb.get"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_mongodb.get_single"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_mongodb.get_sharded"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_mongodb.get_rs"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_mysql.get"
+                        },
                         {
                             "$ref": "#/components/schemas/bridge_mqtt.get"
                         },
@@ -2831,6 +4003,15 @@
                         "$ref": "#/components/schemas/bridge_hstreamdb.get"
                     },
                     {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_single"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_sharded"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_rs"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
@@ -2854,6 +4035,15 @@
                     },
                     {
                         "$ref": "#/components/schemas/bridge_hstreamdb.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_single"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_sharded"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_mongodb.get_rs"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_mysql.get"
