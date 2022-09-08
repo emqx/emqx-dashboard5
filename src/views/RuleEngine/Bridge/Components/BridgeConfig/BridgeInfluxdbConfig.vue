@@ -1,6 +1,12 @@
 <template>
   <div class="bridge-influxdb-config">
-    <el-form ref="formCom" label-position="top" :rules="formRules" :model="formData">
+    <el-form
+      ref="formCom"
+      label-position="top"
+      :rules="formRules"
+      :model="formData"
+      :validate-on-rule-change="false"
+    >
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="tl('name')" prop="name">
@@ -196,7 +202,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { isEqual } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, watch, nextTick } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 
@@ -313,6 +319,7 @@ const validate = () => {
 }
 
 const clearValidate = () => {
+  console.log(formCom.value.clearValidate)
   return formCom.value?.clearValidate()
 }
 
