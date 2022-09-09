@@ -840,12 +840,12 @@ export default {
     en: 'messages/sec | message/sec | messages/sec',
   },
   influxDBLabel: {
-    zh: 'InfluxDB HTTP 服务',
-    en: 'InfluxDB HTTP Service',
+    zh: 'InfluxDB',
+    en: 'InfluxDB',
   },
   influxDBDesc: {
-    zh: '使用 HTTP 协议将数据保存到 InfluxDB',
-    en: 'Save data to InfluxDB using HTTP protocol',
+    zh: '将数据保存到 InfluxDB',
+    en: 'Save data to InfluxDB',
   },
   mySQL: {
     zh: 'MySQL',
