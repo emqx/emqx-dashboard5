@@ -3,7 +3,7 @@
     <div class="block-header">
       <detail-header :item="{ name: `${tl('node')} ${nodeName}`, path: '/dashboard/nodes' }" />
       <div class="actions">
-        <el-button type="primary" :icon="Refresh" @click="loadData">
+        <el-button type="primary" :icon="RefreshRight" @click="loadData">
           {{ $t('Base.refresh') }}
         </el-button>
       </div>
@@ -30,7 +30,11 @@
             <el-descriptions-item :label="tl('uptime')">{{
               getDuration(node.uptime)
             }}</el-descriptions-item>
-            <el-descriptions-item :label="tl('version')">{{ node.version }}</el-descriptions-item>
+            <el-descriptions-item :label="tl('version')">
+              <a :href="releaseNoteLink(node.version)" target="_blank">
+                {{ node.version }}
+              </a>
+            </el-descriptions-item>
             <el-descriptions-item :label="tl('role')">{{ node.role }}</el-descriptions-item>
             <el-descriptions-item :label="tl('maxFds')">{{ node.max_fds }}</el-descriptions-item>
             <el-descriptions-item :label="`CPU ${tl('load')}`">
@@ -114,6 +118,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'NodeDetail',
@@ -127,7 +132,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Refresh } from '@element-plus/icons-vue'
+import { RefreshRight } from '@element-plus/icons-vue'
 import { NodeStatus } from '@/types/enum'
 
 const nodeLoading = ref(true)
@@ -143,6 +148,13 @@ const nodeName = computed(() => {
 })
 
 const { tl } = useI18nTl('Dashboard')
+
+const { locale } = useI18n()
+
+const releaseNoteLink = (version: string) => {
+  const lang = locale.value === 'zh' ? 'zh' : 'en'
+  return ` https://www.emqx.com/${lang}/changelogs/broker/${version}`
+}
 
 const loadNode = async () => {
   nodeLoading.value = true
