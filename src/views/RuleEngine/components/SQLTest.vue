@@ -86,7 +86,7 @@
         </div>
       </div>
     </template> -->
-    <el-dialog v-model="sqlDialog" custom-class="sql-dialog" :title="tl('sqlExample')">
+    <el-dialog v-model="sqlDialog" class="sql-dialog" :title="tl('sqlExample')">
       <p>{{ eventDesc }}</p>
       <code-view v-if="sqlDialog" lang="sql" :code="sqlExample" />
       <template #footer>

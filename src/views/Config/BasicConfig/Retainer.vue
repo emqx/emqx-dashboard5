@@ -173,7 +173,7 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
-    <el-dialog v-model="payloadDialog" custom-class="payload-dialog" :title="'Payload'">
+    <el-dialog v-model="payloadDialog" class="payload-dialog" :title="'Payload'">
       <el-row v-loading="payloadLoading">
         <el-input
           type="textarea"
