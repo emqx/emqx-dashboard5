@@ -2,7 +2,7 @@
   <el-dialog
     v-model="showDialog"
     :width="600"
-    custom-class="API-key-dialog"
+    class="API-key-dialog"
     :title="dialogTitle"
     :z-index="2000"
   >

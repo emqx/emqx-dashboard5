@@ -77,7 +77,7 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog custom-class="payload-dialog" v-model="payloadDialog" :title="'Payload'">
+    <el-dialog class="payload-dialog" v-model="payloadDialog" :title="'Payload'">
       <el-row v-loading="payloadLoading">
         <el-input
           type="textarea"

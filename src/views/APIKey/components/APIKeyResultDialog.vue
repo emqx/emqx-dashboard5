@@ -2,7 +2,7 @@
   <el-dialog
     v-model="showDialog"
     :width="600"
-    custom-class="API-key-result-dialog"
+    class="API-key-result-dialog"
     :title="$t('Base.createSuccess')"
     :z-index="2000"
   >

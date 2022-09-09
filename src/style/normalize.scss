@@ -535,11 +535,13 @@
     background: var(--color-bg-popper);
   }
 }
-.el-popper.is-light .el-popper__arrow::before {
+.el-popper.is-light {
   background-color: var(--color-bg-primary);
-  color: #fff;
+  .el-popper__arrow::before {
+    background-color: var(--color-bg-primary);
+    color: #fff;
+  }
 }
-
 
 /* Popover */
 .el-popover {

@@ -19,7 +19,7 @@
       </el-card>
     </div>
     <el-dialog
-      custom-class="gateway-auth-dialog"
+      class="gateway-auth-dialog"
       v-model="createDialog"
       width="80%"
       destroy-on-close

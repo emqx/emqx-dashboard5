@@ -59,7 +59,7 @@
     <el-dialog
       v-model="showDeleteDialog"
       :width="450"
-      custom-class="API-key-dialog"
+      class="API-key-dialog"
       :title="t('Base.confirmDelete')"
       :z-index="2000"
     >
