@@ -150,6 +150,10 @@
             <div class="monaco-container">
               <Monaco :id="createRandomString()" v-model="formData.write_syntax" lang="sql" />
             </div>
+            <div>
+              <h1>TODO:tab</h1>
+              <InfluxdbLineProtocolForm />
+            </div>
           </el-form-item>
         </el-col>
 
@@ -202,8 +206,9 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { isEqual } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, watch, nextTick } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
+import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 
 const props = defineProps({
