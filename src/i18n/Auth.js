@@ -20,7 +20,7 @@ export default {
     en: 'Back to Authentication List',
   },
   backAuthzList: {
-    zh: '返回权限控制列表',
+    zh: '返回授权列表',
     en: 'Back to Authorization List',
   },
   createAuth: {
@@ -28,7 +28,7 @@ export default {
     en: 'Create Authentication',
   },
   createAuthz: {
-    zh: '创建权限控制',
+    zh: '创建授权',
     en: 'Create Authorization',
   },
   config: {
@@ -136,7 +136,7 @@ export default {
     en: 'Move down',
   },
   authzSetting: {
-    zh: '权限控制设置',
+    zh: '授权设置',
     en: 'Authorization Settings',
   },
   enableCache: {
@@ -284,7 +284,7 @@ export default {
     en: 'JWKS Refresh Interval',
   },
   builtInDatabaseDesc: {
-    zh: 'Built-in database 权限控制无需配置参数，请点击创建按钮完成操作',
+    zh: 'Built-in database 授权无需配置参数，请点击创建按钮完成操作',
     en: 'Built-in database authorization does not require configuration parameters, please click the Create button to complete the operation',
   },
   permissionCount: {

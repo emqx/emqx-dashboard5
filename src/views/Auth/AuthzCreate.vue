@@ -133,14 +133,14 @@ export default defineComponent({
         img: require('@/assets/img/postgresql.png'),
       },
       {
-        label: 'HTTP Server',
-        value: 'http',
-        img: require('@/assets/img/http.png'),
-      },
-      {
         label: 'Redis',
         value: 'redis',
         img: require('@/assets/img/redis.png'),
+      },
+      {
+        label: 'HTTP Server',
+        value: 'http',
+        img: require('@/assets/img/http.png'),
       },
     ])
     const { titleMap } = useAuth()
