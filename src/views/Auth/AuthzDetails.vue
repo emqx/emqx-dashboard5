@@ -67,7 +67,6 @@
           </el-button> -->
         </el-card>
       </el-tab-pane>
-      <el-tab-pane class="empty-tab" />
     </el-tabs>
   </div>
 </template>
