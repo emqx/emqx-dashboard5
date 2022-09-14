@@ -33,9 +33,10 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, Ref, defineProps, defineEmits, defineExpose } from 'vue'
+import { ref, Ref, defineProps, defineEmits, defineExpose, watch } from 'vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
+import useInfluxdbLineProtocol from '@/hooks/Rule/bridge/useInfluxdbLineProtocol'
 
 // TODO:the best implementation is bi-bind model value in time, maybe sometime can refactor
 
@@ -52,12 +53,33 @@ const emit = defineEmits(['update:modelValue'])
 const { t } = useI18nTl('Rule')
 
 const measurement = ref('')
-const timestamp = ref(undefined)
+const timestamp: Ref<undefined | number> = ref(undefined)
 const fieldMap: Ref<Record<string, string>> = ref({})
 const tagMap: Ref<Record<string, string>> = ref({})
 
 const measurementErrorMsg = ref('')
 const fieldsErrorMsg = ref('')
+
+/**
+ * prevent duplicate fill the form using the same line protocol
+ */
+const preLineProtocol: Ref<undefined | string> = ref(undefined)
+
+const { parseLine, convertArrToMap } = useInfluxdbLineProtocol()
+const fillFormFromLineProtocol = () => {
+  if (props.modelValue === preLineProtocol.value || !props.modelValue) {
+    return
+  }
+  preLineProtocol.value = props.modelValue
+  const parseResult = parseLine(props.modelValue)
+  if (parseResult) {
+    const { measurement: m, tagArr, fieldArr, timestamp: t } = parseResult
+    measurement.value = m
+    timestamp.value = t
+    fieldMap.value = convertArrToMap(fieldArr)
+    tagMap.value = convertArrToMap(tagArr)
+  }
+}
 
 const getTagPartStr = () => {
   const keys = Object.keys(tagMap.value).filter((key) => {
@@ -89,7 +111,9 @@ const getLineProtocol = () => {
 }
 
 const updateModelValue = () => {
-  emit('update:modelValue', getLineProtocol())
+  const newLineProtocol = getLineProtocol()
+  preLineProtocol.value = newLineProtocol
+  emit('update:modelValue', newLineProtocol)
 }
 
 const handleFieldMapChanged = (val: Record<string, string>) => {
@@ -125,6 +149,10 @@ const clearValidate = () => {
 }
 
 defineExpose({ validate, clearValidate })
+
+watch(() => props.modelValue, fillFormFromLineProtocol)
+
+fillFormFromLineProtocol()
 </script>
 
 <style lang="scss">
