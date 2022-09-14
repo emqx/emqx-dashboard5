@@ -1,7 +1,7 @@
 <template>
   <el-select v-model="selectedValue">
-    <el-option :label="trueLabel" :value="VALUE_MAP.get(true)" />
-    <el-option :label="falseLabel" :value="VALUE_MAP.get(false)" />
+    <el-option :label="trueLabel" :value="true" />
+    <el-option :label="falseLabel" :value="false" />
   </el-select>
 </template>
 
@@ -30,19 +30,15 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'change'])
 
-const VALUE_MAP: Map<boolean, string> = new Map([
-  [false, 'false'],
-  [true, 'true'],
-])
-
-const selectedValue: WritableComputedRef<string> = computed({
+const selectedValue: WritableComputedRef<boolean | undefined> = computed({
   get() {
-    return props.modelValue ? (VALUE_MAP.get(true) as string) : (VALUE_MAP.get(false) as string)
+    return props.modelValue === undefined ? undefined : props.modelValue
   },
   set(val) {
-    emit('update:modelValue', val === VALUE_MAP.get(true) ? true : false)
+    emit('update:modelValue', val)
+    emit('change', val)
   },
 })
 </script>
