@@ -74,6 +74,7 @@ export default defineComponent({
       if (!d || !isPlainObject(d)) {
         return
       }
+      tableData.value = []
       lastTimeObjData = cloneDeep(d)
       Object.entries(d).forEach(([key, value]: [string, string]) => {
         tableData.value.push({ key, value, state: 0 })
