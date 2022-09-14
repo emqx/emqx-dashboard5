@@ -1,22 +1,18 @@
-interface TagKeyValueItem {
+interface KeyValueItem {
   key: string
   value: string
 }
 
-interface FieldKeyValueItem {
-  key: string
-  value: number | string | boolean
-}
-
 interface ParseResult {
   measurement: string
-  tagArr: Array<TagKeyValueItem>
-  fieldArr: Array<FieldKeyValueItem>
-  timestamp: number
+  tagArr: Array<KeyValueItem>
+  fieldArr: Array<KeyValueItem>
+  timestamp: number | undefined
 }
 
 export default (): {
   parseLine: (line: string) => ParseResult | undefined
+  convertArrToMap: (arr: Array<KeyValueItem>) => Record<string, string>
 } => {
   /* 
     # Syntax
@@ -44,13 +40,13 @@ export default (): {
     `^(?<measurement>${measurementReg.source})(,(?<tags>${tagPartReg.source}))?(\\s(?<fields>${fieldsPartReg.source}))(\\s(?<timestamp>${timestampPart.source}))?$`,
   )
 
-  const getTags = (tags: string): Array<TagKeyValueItem> => {
+  const getTags = (tags: string): Array<KeyValueItem> => {
     if (!tags) {
       return []
     }
     const matchRet: Array<string> | null = tags.match(new RegExp(tagItemReg.source, 'g'))
     if (matchRet) {
-      return matchRet.reduce((arr: Array<TagKeyValueItem>, item) => {
+      return matchRet.reduce((arr: Array<KeyValueItem>, item) => {
         const { groups } = item.match(tagItemReg) || {}
         if (groups) {
           return [...arr, { key: groups.tagKey, value: groups.tagValue }]
@@ -61,13 +57,13 @@ export default (): {
     return []
   }
 
-  const getFields = (fields: string): Array<FieldKeyValueItem> => {
+  const getFields = (fields: string): Array<KeyValueItem> => {
     if (!fields) {
       return []
     }
     const matchRet: Array<string> | null = fields.match(new RegExp(fieldItemReg.source, 'g'))
     if (matchRet) {
-      return matchRet.reduce((arr: Array<FieldKeyValueItem>, item) => {
+      return matchRet.reduce((arr: Array<KeyValueItem>, item) => {
         const { groups } = item.match(fieldItemReg) || {}
         if (groups) {
           return [...arr, { key: groups.fieldKey, value: groups.fieldValue }]
@@ -81,15 +77,23 @@ export default (): {
   const parseLine = (line: string): ParseResult | undefined => {
     const matchRet = line.match(protocolReg)
     if (matchRet && matchRet.groups) {
-      const { measurement, tags, fields, timestamp } = matchRet.groups
+      const { measurement, tags, fields, timestamp: t } = matchRet.groups
       const tagArr = getTags(tags)
       const fieldArr = getFields(fields)
-      return { measurement, tagArr, fieldArr, timestamp: Number(timestamp) }
+      const timestamp = t && !Number.isNaN(Number(t)) ? Number(t) : undefined
+      return { measurement, tagArr, fieldArr, timestamp }
     }
     return
   }
 
+  const convertArrToMap = (arr: Array<KeyValueItem>) => {
+    return arr.reduce((map, item) => {
+      return { ...map, [item.key]: item.value }
+    }, {})
+  }
+
   return {
     parseLine,
+    convertArrToMap,
   }
 }
