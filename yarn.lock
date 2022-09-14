@@ -4814,7 +4814,7 @@ electron-to-chromium@^1.3.896:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.907.tgz#c8e155a17cb642a1023481c601aa3ad9ee61f402"
   integrity sha512-xoUPSkjimw51d9ryeH38XUwmR3HmCA+eky4hk0YEgsWeBWGyhb35OCvT3lWAdmvIkcGYCRNOB8LvtO00dJQpOA==
 
-element-plus@^2.2.2:
+element-plus@^2.2.16:
   version "2.2.16"
   resolved "https://registry.yarnpkg.com/element-plus/-/element-plus-2.2.16.tgz#84c00fc4a2d84031ec18d0f28820593c6e451513"
   integrity sha512-rvaTMFIujec9YDC5lyaiQv2XVUCHuhVDq2k+9vQxP78N8Wd07iEOGa9pvEVOO2uYc75l4rSl2RE/IWPH/6Mdzw==

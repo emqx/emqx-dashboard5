@@ -52,7 +52,7 @@ import { useI18n } from 'vue-i18n'
 import PluginInfoItem from './PluginInfoItem.vue'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 
-const props = defineProps({
+defineProps({
   pluginData: {
     type: Object as PropType<PluginItem>,
     default: () => ({

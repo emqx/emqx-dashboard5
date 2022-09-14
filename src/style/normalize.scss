@@ -184,13 +184,14 @@
   }
 }
 /* Table */
-/* Table Border */
 .el-table {
+  border-radius: 8px;
+  box-shadow: var(--el-box-shadow-light);
   &:after,
   &:before,
   .el-table__inner-wrapper:after,
   .el-table__inner-wrapper:before {
-    content: "";
+    content: "" !important;
     position: absolute;
     background-color: transparent;
     pointer-events: none;
@@ -233,13 +234,11 @@
   }
 }
 .el-table {
-  border-radius: 8px;
-  box-shadow: var(--el-box-shadow-light);
   .el-table__expanded-cell {
     background-color: var(--color-bg-split);
   }
   &.shadow-none {
-    box-shadow:none;
+    box-shadow: none;
   }
   .el-badge__content {
     vertical-align: 1px;

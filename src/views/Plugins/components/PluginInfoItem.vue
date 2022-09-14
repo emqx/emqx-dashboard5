@@ -18,7 +18,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
-const props = defineProps({
+defineProps({
   label: {
     type: String,
   },
