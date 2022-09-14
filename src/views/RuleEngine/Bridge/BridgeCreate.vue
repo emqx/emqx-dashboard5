@@ -374,9 +374,6 @@ export default defineComponent({
   border: 2px solid var(--color-border-primary);
   margin-top: 16px;
   height: 100%;
-  :deep(.el-radio__input) {
-    display: none;
-  }
 
   :deep(.el-radio__label) {
     position: relative;

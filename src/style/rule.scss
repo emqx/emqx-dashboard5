@@ -9,11 +9,6 @@
     font-size: 14px;
     font-weight: bold;
   }
-  .radio-forward {
-    :deep(.el-radio__input) {
-      display: none;
-    }
-  }
 
   .TLS-base-config {
     .TLS-base-config-title {

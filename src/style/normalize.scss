@@ -680,6 +680,12 @@
 .el-radio.is-bordered.is-disabled {
   border-color: var(--color-border-normal);
 }
+.el-radio.is-bordered {
+  .el-radio__input {
+    display: none;
+  }
+}
+
 
 /* Descripton */
 .el-descriptions {
