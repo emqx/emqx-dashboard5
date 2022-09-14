@@ -1,14 +1,18 @@
 <template>
-  <el-tabs v-model="activeTab" class="influxdb-write-syntax-input">
-    <el-tab-pane label="LINE PROTOCOL" :name="Tab.Raw">
-      <div class="monaco-container">
+  <div class="influxdb-write-syntax-input">
+    <div>
+      <el-radio-group v-model="activeTab">
+        <el-radio :label="Tab.JSON" border> JSON </el-radio>
+        <el-radio :label="Tab.Raw" border> LINE PROTOCOL </el-radio>
+      </el-radio-group>
+    </div>
+    <el-card class="app-card" shadow="never">
+      <div class="monaco-container" v-if="activeTab === Tab.Raw">
         <Monaco :id="createRandomString()" v-model="lineProtocol" lang="sql" />
       </div>
-    </el-tab-pane>
-    <el-tab-pane label="JSON" :name="Tab.JSON">
-      <InfluxdbLineProtocolForm v-model="lineProtocol" ref="protocolFormCom" />
-    </el-tab-pane>
-  </el-tabs>
+      <InfluxdbLineProtocolForm v-else v-model="lineProtocol" ref="protocolFormCom" />
+    </el-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -57,5 +61,9 @@ defineExpose({ validate, clearValidate })
 <style lang="scss">
 .influxdb-write-syntax-input {
   width: 100%;
+  .el-card {
+    margin-top: 12px;
+    border: 1px solid var(--el-card-border-color);
+  }
 }
 </style>
