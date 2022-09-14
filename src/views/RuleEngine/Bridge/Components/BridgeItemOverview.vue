@@ -75,7 +75,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'BridgeItemOverview',
@@ -90,7 +89,7 @@ import { formatNumber } from '@/common/tools'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   bridgeMsg: {
