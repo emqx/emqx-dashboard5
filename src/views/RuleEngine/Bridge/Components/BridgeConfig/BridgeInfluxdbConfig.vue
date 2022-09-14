@@ -147,13 +147,7 @@
                 </template>
               </InfoTooltip>
             </template>
-            <div class="monaco-container">
-              <Monaco :id="createRandomString()" v-model="formData.write_syntax" lang="sql" />
-            </div>
-            <div>
-              <h1>TODO:tab</h1>
-              <InfluxdbLineProtocolForm />
-            </div>
+            <InfluxdbWriteSyntaxInput v-model="formData.write_syntax" ref="writeSyntaxInputCom" />
           </el-form-item>
         </el-col>
 
@@ -197,19 +191,18 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, escapeCode, transLink } from '@/common/tools'
+import { escapeCode, transLink } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { isEqual } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
-import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
-import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
+import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
 
 const props = defineProps({
   modelValue: {
@@ -264,6 +257,7 @@ const createDefaultValue = () => ({
 
 const formData = ref({ ...createDefaultValue(), ...props.modelValue })
 const formCom = ref()
+const writeSyntaxInputCom = ref()
 
 const v2AuthType = ref(V2AuthType.Token)
 
@@ -320,12 +314,13 @@ const handleAuthTypeChanged = () => {
 }
 
 const validate = () => {
-  return formCom.value.validate()
+  return Promise.all([formCom.value.validate(), writeSyntaxInputCom.value.validate()])
 }
 
 const clearValidate = () => {
-  console.log(formCom.value.clearValidate)
-  return formCom.value?.clearValidate()
+  formCom.value?.clearValidate()
+  writeSyntaxInputCom.value?.clearValidate()
+  return
 }
 
 defineExpose({ validate, clearValidate })
