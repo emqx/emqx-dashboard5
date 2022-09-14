@@ -62,7 +62,7 @@ enum FieldValueType {
 }
 type kvRow = {
   key: string
-  value: string
+  value: string | undefined
   type: FieldValueType
   state: State
 }
@@ -132,7 +132,7 @@ export default defineComponent({
   setup(props, context) {
     const rowData: kvRow = {
       key: '',
-      value: '',
+      value: undefined,
       type: FieldValueType.String,
       state: State.OK,
     }
