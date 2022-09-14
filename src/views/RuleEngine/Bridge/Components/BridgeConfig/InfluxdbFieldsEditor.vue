@@ -62,15 +62,15 @@ enum FieldValueType {
 }
 type kvRow = {
   key: string
-  value: string | undefined
+  value: string | undefined | boolean
   type: FieldValueType
   state: State
 }
 
 const STRING_REGEX = /^".*"$/
 const BOOL_REGEX = /^((t|true)|(f|false))$/i
-const INT_REGEX = /^\di$/
-const U_INT_REGEX = /^\du$/
+const INT_REGEX = /^\d+i$/
+const U_INT_REGEX = /^\d+u$/
 const NUMBER_REGEX = /\d+(\.\d+)?/
 const SCIENTIFIC_NOTATION_REGEX = new RegExp(`${NUMBER_REGEX.source}e(\\+|-)\\d+`)
 const FLOAT_REGEX = new RegExp(`^${SCIENTIFIC_NOTATION_REGEX.source}|${NUMBER_REGEX.source}$`)
@@ -89,6 +89,36 @@ const judgeFieldValueType = (str: string) => {
   return ret ?? undefined
 }
 
+const convertToRawValueByType = (valueInProtocolLine: string, type: FieldValueType) => {
+  switch (type) {
+    case FieldValueType.String:
+      if (STRING_REGEX.test(valueInProtocolLine)) {
+        return valueInProtocolLine.slice(1, -1)
+      }
+      break
+    case FieldValueType.Integer:
+      if (INT_REGEX.test(valueInProtocolLine)) {
+        return valueInProtocolLine.slice(0, -1)
+      }
+      break
+    case FieldValueType.UInteger:
+      if (U_INT_REGEX.test(valueInProtocolLine)) {
+        return valueInProtocolLine.slice(0, -1)
+      }
+      break
+    case FieldValueType.Boolean:
+      if (BOOL_REGEX.test(valueInProtocolLine)) {
+        return valueInProtocolLine[0].toLocaleLowerCase() === 't' ? true : false
+      }
+      break
+  }
+  // float and others, return value directly
+  return valueInProtocolLine
+}
+
+/**
+ * convert raw value to value in line protocol
+ */
 const handleValueByType = (value: string | boolean, type: FieldValueType) => {
   switch (type) {
     case FieldValueType.String:
@@ -157,9 +187,15 @@ export default defineComponent({
         return
       }
       lastTimeObjData = cloneDeep(d)
+      tableData.value = []
       Object.entries(d).forEach(([key, value]: [string, string]) => {
-        // FIXME: type error
-        tableData.value.push({ key, value, state: 0, type: judgeFieldValueType(value) })
+        const type = judgeFieldValueType(value)
+        if (type !== undefined) {
+          const rawValue = convertToRawValueByType(value, type)
+          tableData.value.push({ key, value: rawValue, state: 0, type })
+        } else {
+          // TODO:throw error
+        }
       })
     }
 
@@ -179,7 +215,9 @@ export default defineComponent({
       const data: Record<string, unknown> = {}
       tableData.value.forEach((item) => {
         const { key, value, type } = item
-        data[key] = handleValueByType(value, type)
+        if (value !== undefined) {
+          data[key] = handleValueByType(value, type)
+        }
       })
       lastTimeObjData = cloneDeep(data)
       emit('update:modelValue', data)
