@@ -12,6 +12,11 @@
           v-if="row.type === FieldValueType.Boolean"
           @change="atInputChange"
         />
+        <el-input
+          v-else-if="row.type === FieldValueType.Integer || row.type === FieldValueType.UInteger"
+          v-model="row.value"
+          @input="atInputChange"
+        />
         <el-input v-else v-model="row.value" @input="atInputChange" />
       </template>
     </el-table-column>
