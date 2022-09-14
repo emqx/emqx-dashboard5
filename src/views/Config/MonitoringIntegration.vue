@@ -177,9 +177,6 @@ loadIntegration()
   .platform-radio-radio {
     width: 100%;
     height: auto;
-    .el-radio__input {
-      display: none;
-    }
     .el-radio__label {
       display: flex;
       align-items: center;
