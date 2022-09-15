@@ -44,7 +44,7 @@ const isTokenExpired = (status, data) => status === 401 && data.code === BAD_TOK
 /**
  * there are some custom configurations
  * doNotTriggerProgress: The request progress bar is not affected when the request is initiated or after the request is ended
- * handle404Self: 404 errors are not handled uniformly
+ * errorsHandleCustom: Array<HTTP code> errors are not handled uniformly
  * handleTimeoutSelf: when error.code === 'ECONNABORTED', handle the error if self
  */
 axios.interceptors.response.use(
@@ -75,9 +75,12 @@ axios.interceptors.response.use(
           return
         }
         // some special cases
-        const handle404Self = status === 404 && error.config.handle404Self
+        const handleErrorSelf =
+          error.config?.errorsHandleCustom &&
+          Array.isArray(error.config.errorsHandleCustom) &&
+          error.config.errorsHandleCustom.includes(status)
         const doNotPopupAfterPwdChanged = status === 401 && store.state.afterCurrentUserPwdChanged
-        const doNotPopup = handle404Self || doNotPopupAfterPwdChanged
+        const doNotPopup = handleErrorSelf || doNotPopupAfterPwdChanged
         if (doNotPopup) {
           if (doNotPopupAfterPwdChanged) {
             store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', false)
