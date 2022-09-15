@@ -187,7 +187,7 @@ export default (): {
 
       const { inputNodeList, outputNodeList, input2RuleEdgeList, rule2OutputEdgeList } =
         createNodeNEdgeExceptRuleNode(ruleList)
-      const ruleNodeList = ruleList.map((v: RuleItem, index: number) => {
+      const ruleNodeList = ruleList.map((v: RuleItem) => {
         return addCursorPointerToNodeData({
           id: createNodeId(v.id, OtherNodeType.Rule),
           label: cutLabel(v.name || 'rule id:' + v.id),

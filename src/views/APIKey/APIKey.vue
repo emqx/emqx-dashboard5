@@ -110,13 +110,6 @@ const getList = async () => {
   }
 }
 
-const getKeyStatus = ({ expired, enable }: APIKey) => {
-  if (expired) {
-    return tl('expired')
-  }
-  return tl(enable ? 'enable' : 'disable')
-}
-
 const deleteKey = async ({ name }: APIKey) => {
   try {
     await ElMessageBox.confirm(t('APIKey.confirmDelete'), {
