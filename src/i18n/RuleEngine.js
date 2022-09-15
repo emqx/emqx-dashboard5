@@ -887,9 +887,9 @@ export default {
     zh: '由于未知错误导致的 SQL 失败次数',
     en: 'Number of SQL failures due to an unknown error',
   },
-  deleteBridgeConfirm: {
-    zh: '删除前，请确认当前有无使用该数据桥接的规则',
-    en: 'Before deleting, please check if there are any Rules currently using this Data Bridge',
+  deleteBridgeSecondConfirm: {
+    zh: '当前数据桥接正在被以下规则使用，若继续删除，将在规则内移除当前数据桥接',
+    en: 'This data bridge is being used by the following rules, if it continues to be deleted, the data bridge will be removed within the rule',
   },
   rateUnit: {
     zh: 'messages/sec | message/sec | messages/sec',

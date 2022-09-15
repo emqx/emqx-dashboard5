@@ -30,7 +30,7 @@
             <el-button @click="enableOrDisableBridge">
               {{ bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
             </el-button>
-            <el-button type="danger" @click="deleteBridge" plain>
+            <el-button type="danger" @click="handleDelete" plain>
               {{ $t('Base.delete') }}
             </el-button>
           </div>
@@ -101,6 +101,12 @@
     </div>
     <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
   </div>
+  <DeleteBridgeSecondConfirm
+    v-model="showSecondConfirm"
+    :rule-list="usingBridgeRules"
+    :id="currentDeleteBridgeId"
+    @submitted="handleDeleteSuc"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -116,12 +122,7 @@ import {
   ComputedRef,
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  getBridgeInfo,
-  updateBridge,
-  startStopBridge,
-  deleteBridge as requestDeleteBridge,
-} from '@/api/ruleengine'
+import { getBridgeInfo, updateBridge, startStopBridge, deleteBridge } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
@@ -139,6 +140,8 @@ import { utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
+import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 
 enum Tab {
   Overview = 'overview',
@@ -310,19 +313,22 @@ const createRuleWithBridge = () => {
     .catch(() => ({}))
 }
 
-const deleteBridge = async () => {
-  await ElMessageBox.confirm(t('Base.confirmDelete'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    type: 'warning',
-  })
-  try {
-    await requestDeleteBridge(id.value)
-    ElMessage.success(t('Base.deleteSuccess'))
-    router.push({ name: 'data-bridge' })
-  } catch (error) {
-    console.error(error)
+const goBack = () => {
+  router.push({ name: 'data-bridge' })
+}
+
+const {
+  showSecondConfirm,
+  usingBridgeRules,
+  currentDeleteBridgeId,
+  handleDeleteSuc,
+  handleDeleteBridge,
+} = useDeleteBridge(goBack)
+const handleDelete = async () => {
+  if (!id.value) {
+    return
   }
+  handleDeleteBridge(id.value)
 }
 
 const setActiveTab = () => {
