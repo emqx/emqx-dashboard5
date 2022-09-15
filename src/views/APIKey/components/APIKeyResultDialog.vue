@@ -6,12 +6,7 @@
     :title="$t('Base.createSuccess')"
     :z-index="2000"
   >
-    <div class="tip-container">
-      <p class="result-tip">
-        <el-icon class="icon-tip"><WarningFilled /></el-icon>
-        <span>{{ $t('APIKey.resultTip') }}</span>
-      </p>
-    </div>
+    <TipContainer :content="$t('APIKey.resultTip')" />
     <el-form ref="formCom" label-position="top">
       <el-row :gutter="24">
         <el-col :span="24">
@@ -53,9 +48,9 @@
 <script lang="ts" setup>
 import { computed, defineProps, defineEmits, ref, Ref, watch, PropType } from 'vue'
 import { ElDialog } from 'element-plus'
-import { WarningFilled } from '@element-plus/icons-vue'
 import { APIKey } from '@/types/systemModule'
 import useCopy from '@/hooks/useCopy'
+import TipContainer from '@/components/TipContainer.vue'
 
 const props = defineProps({
   modelValue: {
@@ -87,23 +82,6 @@ watch(showDialog, async (val) => {
 
 <style lang="scss">
 .API-key-result-dialog {
-  .tip-container {
-    margin-bottom: 12px;
-    padding: 8px;
-    background-color: var(--color-bg-split);
-    border: 1px solid var(--color-border-normal);
-    border-radius: 8px;
-  }
-  .icon-tip {
-    --color: var(--el-color-warning);
-    margin-right: 4px;
-    vertical-align: text-top;
-  }
-  .result-tip {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 1.5;
-  }
   .el-col {
     .el-button {
       width: 100%;
