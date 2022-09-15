@@ -57,9 +57,14 @@ export async function getBridgeInfo(id: string): Promise<any> {
   }
 }
 
-export function deleteBridge(id: string): Promise<any> {
+export function deleteBridge(id: string, withDependency = false): Promise<any> {
   if (!id) return Promise.reject()
-  return http.delete('/bridges/' + encodeURIComponent(id))
+  return http.delete(
+    `/bridges/${encodeURIComponent(id)}${withDependency ? '?also_delete_dep_actions' : ''}`,
+    {
+      errorsHandleCustom: [403],
+    },
+  )
 }
 
 export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<number> {
