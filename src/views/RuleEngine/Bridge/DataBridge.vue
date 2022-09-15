@@ -27,15 +27,14 @@
               </router-link>
             </template>
           </el-table-column>
-          <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
-            <template #default="{ row }">
-              <el-switch v-model="row.enable" @change="enableOrDisableBridge(row)" />
-            </template>
-          </el-table-column>
-          <!-- FIXME: -->
           <el-table-column :label="tl('status')" :min-width="120">
             <template #default="{ row }">
               <BridgeItemStatus :bridge="row" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+            <template #default="{ row }">
+              <el-switch v-model="row.enable" @change="enableOrDisableBridge(row)" />
             </template>
           </el-table-column>
           <el-table-column :label="$t('Base.operation')" :min-width="168">

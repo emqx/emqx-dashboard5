@@ -188,7 +188,7 @@ export default {
       this.$refs.record.resetFields()
     },
   },
-  setup(ctx) {
+  setup() {
     const { tl } = useI18nTl('Clients')
     const { noLocalOpts, retainAsPublishedOpts, retainHandlingOpts } = useMQTTVersion5NewConfig()
     return {

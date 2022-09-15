@@ -48,7 +48,6 @@ import { PluginDetail } from '@/types/plugin'
 import { useI18n } from 'vue-i18n'
 import PluginInfo from './components/PluginInfo.vue'
 import { useRoute } from 'vue-router'
-import usePluginStatus from '@/hooks/Plugins/usePluginStatus'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import { queryPluginDetail } from '@/api/plugins'
 import MarkdownContent from '@/components/MarkdownContent.vue'
@@ -59,7 +58,6 @@ import PluginItemStatus from './components/PluginItemStatus.vue'
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Plugins') => t(`${moduleName}.${key}`)
-const { dotClass, statusText, statusTextClass } = usePluginStatus(tl)
 
 const route = useRoute()
 

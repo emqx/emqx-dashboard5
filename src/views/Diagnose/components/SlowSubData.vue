@@ -72,7 +72,6 @@ import { useI18n } from 'vue-i18n'
 import usePaging from '@/hooks/usePaging'
 import { Tools } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { createRandomString } from '@/common/tools'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')

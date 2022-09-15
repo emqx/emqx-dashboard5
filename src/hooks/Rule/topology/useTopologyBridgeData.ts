@@ -1,9 +1,8 @@
 import { getBridgeList as queryBridgeList } from '@/api/ruleengine'
-import { BridgeItem, MQTTOut } from '@/types/rule'
+import { BridgeItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
-import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 
 export default (): {
   getData: () => Promise<{
