@@ -48,7 +48,10 @@ const lineProtocol = computed({
 const protocolFormCom = ref()
 
 const validate = () => {
-  return protocolFormCom.value.validate()
+  if (activeTab.value === Tab.JSON) {
+    return protocolFormCom.value.validate()
+  }
+  return Promise.resolve()
 }
 
 const clearValidate = () => {
