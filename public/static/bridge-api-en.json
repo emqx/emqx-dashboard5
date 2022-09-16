@@ -86,7 +86,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
                     }
@@ -194,7 +194,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
                     },
@@ -589,22 +589,22 @@
                         "label": "Queued",
                         "type": "number"
                     },
-                    "sent": {
-                        "description": "Count of messages that are sent by this bridge.",
-                        "label": "Sent",
+                    "retried": {
+                        "description": "Times of retried from the queue or the inflight window.",
+                        "label": "Retried",
                         "type": "number"
                     },
-                    "sent.failed": {
+                    "failed": {
                         "description": "Count of messages that sent failed.",
                         "label": "Sent Failed",
                         "type": "number"
                     },
-                    "sent.inflight": {
+                    "inflight": {
                         "description": "Count of messages that were sent asynchronously but ACKs are not received.",
                         "label": "Sent Inflight",
                         "type": "number"
                     },
-                    "sent.success": {
+                    "success": {
                         "description": "Count of messages that sent successfully.",
                         "label": "Sent Success",
                         "type": "number"
@@ -717,7 +717,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
                     },
@@ -1162,7 +1162,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "100GB",
+                        "default": "100MB",
                         "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"
@@ -1987,7 +1987,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
                     }
@@ -2080,7 +2080,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
                     }
@@ -2340,7 +2340,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "100GB",
+                        "default": "100MB",
                         "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"
@@ -2895,7 +2895,7 @@
                         "type": "enum"
                     },
                     "enable_batch": {
-                        "default": false,
+                        "default": true,
                         "description": "Batch mode enabled.",
                         "label": "Enable batch",
                         "type": "boolean"
@@ -2907,7 +2907,7 @@
                         "type": "string"
                     },
                     "batch_time": {
-                        "default": "10ms",
+                        "default": "20ms",
                         "description": "Maximum batch waiting interval.",
                         "label": "Batch time",
                         "type": "duration"
@@ -2919,7 +2919,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "100GB",
+                        "default": "100MB",
                         "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"
@@ -3256,7 +3256,7 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
                     },
@@ -3762,7 +3762,7 @@
                         "type": "string"
                     },
                     "enable_batch": {
-                        "default": false,
+                        "default": true,
                         "description": "Batch mode enabled.",
                         "label": "Enable batch",
                         "type": "boolean"
@@ -3774,7 +3774,7 @@
                         "type": "string"
                     },
                     "batch_time": {
-                        "default": "10ms",
+                        "default": "20ms",
                         "description": "Maximum batch waiting interval.",
                         "label": "Batch time",
                         "type": "duration"
@@ -3786,7 +3786,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "100GB",
+                        "default": "100MB",
                         "description": "Maximum queue storage.",
                         "label": "Queue max bytes",
                         "type": "byteSize"

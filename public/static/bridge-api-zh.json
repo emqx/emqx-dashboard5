@@ -78,7 +78,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "type": {
-                        "description": "Bridge 类型。",
+                        "description": "桥接类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_api_v1"
@@ -86,8 +86,8 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，人类可读的描述信息。",
-                        "label": "桥接名字",
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     }
                 },
@@ -186,7 +186,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "type": {
-                        "description": "Bridge 类型。",
+                        "description": "桥接类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_api_v2"
@@ -194,8 +194,8 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，人类可读的描述信息。",
-                        "label": "桥接名字",
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     },
                     "metrics": {
@@ -589,22 +589,22 @@
                         "label": "被缓存",
                         "type": "number"
                     },
-                    "sent": {
-                        "description": "已经发送出去的消息个数。",
-                        "label": "已发送",
+                    "retried": {
+                        "description": "从队列或者飞行窗口里重试的次数。",
+                        "label": "已重试",
                         "type": "number"
                     },
-                    "sent.failed": {
+                    "failed": {
                         "description": "发送失败的消息个数。",
                         "label": "发送失败",
                         "type": "number"
                     },
-                    "sent.inflight": {
+                    "inflight": {
                         "description": "已异步地发送但没有收到 ACK 的消息个数。",
                         "label": "已发送未确认",
                         "type": "number"
                     },
-                    "sent.success": {
+                    "success": {
                         "description": "已经发送成功的消息个数。",
                         "label": "发送成功",
                         "type": "number"
@@ -709,7 +709,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "type": {
-                        "description": "Bridge 类型。",
+                        "description": "桥接类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_api_v1"
@@ -717,8 +717,8 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，人类可读的描述信息。",
-                        "label": "桥接名字",
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     },
                     "metrics": {
@@ -1162,7 +1162,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "100GB",
+                        "default": "100MB",
                         "description": "消息队列的最大长度。",
                         "label": "队列最大长度",
                         "type": "byteSize"
@@ -1979,7 +1979,7 @@
                         "type": "enum"
                     },
                     "type": {
-                        "description": "Bridge 类型。",
+                        "description": "桥接类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_udp"
@@ -1987,8 +1987,8 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，人类可读的描述信息。",
-                        "label": "桥接名字",
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     }
                 },
@@ -2072,7 +2072,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "type": {
-                        "description": "Bridge 类型。",
+                        "description": "桥接类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_api_v2"
@@ -2080,8 +2080,8 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，人类可读的描述信息。",
-                        "label": "桥接名字",
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     }
                 },
@@ -2340,7 +2340,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "100GB",
+                        "default": "100MB",
                         "description": "消息队列的最大长度。",
                         "label": "队列最大长度",
                         "type": "byteSize"
@@ -2895,7 +2895,7 @@
                         "type": "enum"
                     },
                     "enable_batch": {
-                        "default": false,
+                        "default": true,
                         "description": "启用批量模式。",
                         "label": "启用批量模式",
                         "type": "boolean"
@@ -2907,7 +2907,7 @@
                         "type": "string"
                     },
                     "batch_time": {
-                        "default": "10ms",
+                        "default": "20ms",
                         "description": "最大批量请求等待时间。",
                         "label": "批量等待间隔",
                         "type": "duration"
@@ -2919,7 +2919,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "100GB",
+                        "default": "100MB",
                         "description": "消息队列的最大长度。",
                         "label": "队列最大长度",
                         "type": "byteSize"
@@ -3248,7 +3248,7 @@
                         "type": "enum"
                     },
                     "type": {
-                        "description": "Bridge 类型。",
+                        "description": "桥接类型。",
                         "label": "桥接类型",
                         "symbols": [
                             "influxdb_udp"
@@ -3256,8 +3256,8 @@
                         "type": "enum"
                     },
                     "name": {
-                        "description": "桥接名字，人类可读的描述信息。",
-                        "label": "桥接名字",
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     },
                     "metrics": {
@@ -3762,7 +3762,7 @@
                         "type": "string"
                     },
                     "enable_batch": {
-                        "default": false,
+                        "default": true,
                         "description": "启用批量模式。",
                         "label": "启用批量模式",
                         "type": "boolean"
@@ -3774,7 +3774,7 @@
                         "type": "string"
                     },
                     "batch_time": {
-                        "default": "10ms",
+                        "default": "20ms",
                         "description": "最大批量请求等待时间。",
                         "label": "批量等待间隔",
                         "type": "duration"
@@ -3786,7 +3786,7 @@
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
-                        "default": "100GB",
+                        "default": "100MB",
                         "description": "消息队列的最大长度。",
                         "label": "队列最大长度",
                         "type": "byteSize"
