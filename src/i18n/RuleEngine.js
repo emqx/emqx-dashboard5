@@ -383,6 +383,14 @@ export default {
     zh: '被丢弃的消息个数',
     en: 'Count of messages dropped',
   },
+  retried: {
+    zh: '已重试',
+    en: 'Retried',
+  },
+  retriedDesc: {
+    zh: '从队列或者飞行窗口里重试的次数',
+    en: 'Times of retried from the queue or the inflight window',
+  },
   queuing: {
     zh: '已缓存',
     en: 'Queuing',
