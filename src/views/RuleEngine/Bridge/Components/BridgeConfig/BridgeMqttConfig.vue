@@ -190,9 +190,13 @@ const formRules = computed(() => ({
 const isShowPayload = computed(() => mqttBridgeVal.value.direction !== MQTTBridgeDirection.In)
 
 const initMqttBridgeVal = async () => {
-  mqttBridgeVal.value = {
-    ..._.cloneDeep(mqttBridgeDefaultVal),
-    ..._.cloneDeep(prop.modelValue),
+  if (prop.edit) {
+    mqttBridgeVal.value = _.cloneDeep(prop.modelValue)
+  } else {
+    mqttBridgeVal.value = {
+      ..._.cloneDeep(mqttBridgeDefaultVal),
+      ..._.cloneDeep(prop.modelValue),
+    }
   }
 }
 
