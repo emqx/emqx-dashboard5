@@ -7,7 +7,14 @@
     :z-index="2000"
   >
     <div>
-      <p>{{ tl('deleteBridgeSecondConfirm') }}</p>
+      <div class="el-message-box__container">
+        <i class="el-icon el-message-box__status el-message-box-icon--warning">
+          <WarningFilled />
+        </i>
+        <div class="el-message-box__message">
+          {{ tl('deleteBridgeSecondConfirm') }}
+        </div>
+      </div>
       <ul class="rule-list">
         <li v-for="item in ruleList" :key="item" class="rule-item">
           <el-tag size="large">
@@ -39,6 +46,7 @@ import { deleteBridge } from '@/api/ruleengine'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog } from 'element-plus'
 import { computed, defineEmits, defineProps, PropType, ref } from 'vue'
+import { WarningFilled } from '@element-plus/icons-vue'
 
 const props = defineProps({
   modelValue: {
@@ -80,18 +88,16 @@ const submit = async () => {
     display: none;
   }
   .el-dialog__body {
-    padding-top: 12px;
-    padding-bottom: 4px;
-  }
-  p {
-    line-height: 1.5;
+    padding-top: 20px;
+    padding-bottom: 0px;
   }
   .el-dialog__footer {
     padding-bottom: 12px;
   }
   ul {
     list-style: none;
-    padding-left: 0;
+    padding-left: 36px;
+    margin-bottom: 0;
   }
   .rule-item {
     display: inline-block;
