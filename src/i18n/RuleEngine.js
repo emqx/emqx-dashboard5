@@ -895,6 +895,10 @@ export default {
     zh: '定义解析数据',
     en: 'Define Data Parsing',
   },
+  dataDefinitionDesc: {
+    zh: '指定数据格式与内容，使其能被解析并写入到 InfluxDB 中，支持使用占位符。',
+    en: 'Specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
+  },
   dataFormat: {
     zh: '数据格式',
     en: 'Data Format',
