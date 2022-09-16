@@ -140,6 +140,12 @@
         <el-col :span="24">
           <el-form-item :label="tl('dataDefinition')">
             <!-- TODO: DESC -->
+            <template #label>
+              <span>{{ tl('dataDefinition') }}</span>
+              <p class="label-desc">
+                {{ tl('dataDefinitionDesc') }}
+              </p>
+            </template>
             <InfluxdbWriteSyntaxInput v-model="formData.write_syntax" ref="writeSyntaxInputCom" />
           </el-form-item>
         </el-col>
@@ -318,4 +324,9 @@ const clearValidate = () => {
 defineExpose({ validate, clearValidate })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.label-desc {
+  margin: 8px 0 0;
+  color: var(--color-text-secondary);
+}
+</style>
