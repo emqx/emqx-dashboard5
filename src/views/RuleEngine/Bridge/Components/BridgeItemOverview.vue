@@ -25,14 +25,34 @@
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card class="success-bg">
+          <el-card class="last-five-rate-bg">
             <p class="statistic-label">
-              <span>{{ tl('sent') }}</span>
-              <InfoTooltip :content="tl('sentDesc')" />
+              <span>{{ tl('sentSuccessfully') }}</span>
+              <InfoTooltip :content="tl('sentSuccessfullyDesc')" />
             </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.sent) }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.success) }}</p>
           </el-card>
         </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">
+              <span>{{ tl('sentFailed') }}</span>
+              <InfoTooltip :content="tl('sentFailedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.failed) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="no-result-bg">
+            <p class="statistic-label">
+              <span>{{ tl('sentInflight') }}</span>
+              <InfoTooltip :content="tl('sentInflightDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.inflight) }}</p>
+          </el-card>
+        </el-col>
+        <!-- second row -->
+
         <el-col :span="6" v-if="showReceived">
           <el-card class="max-rate-bg">
             <p class="statistic-label">
@@ -60,32 +80,13 @@
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.queuing) }}</p>
           </el-card>
         </el-col>
-        <!-- second row -->
         <el-col :span="6">
-          <el-card class="last-five-rate-bg">
+          <el-card class="success-bg">
             <p class="statistic-label">
-              <span>{{ tl('sentSuccessfully') }}</span>
-              <InfoTooltip :content="tl('sentSuccessfullyDesc')" />
+              <span>{{ tl('retried') }}</span>
+              <InfoTooltip :content="tl('retriedDesc')" />
             </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.success']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="failed-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sentFailed') }}</span>
-              <InfoTooltip :content="tl('sentFailedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.failed']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="no-result-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sentInflight') }}</span>
-              <InfoTooltip :content="tl('sentInflightDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.['sent.inflight']) }}</p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.retried) }}</p>
           </el-card>
         </el-col>
         <!-- third row -->
@@ -109,7 +110,6 @@
         <el-table-column prop="node" :label="tl('name')" />
 
         <el-table-column prop="metrics.matched" :label="tl('matched')" />
-        <el-table-column prop="metrics.sent" :label="tl('sent')" />
         <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
 
         <el-table-column prop="metrics.rate">
