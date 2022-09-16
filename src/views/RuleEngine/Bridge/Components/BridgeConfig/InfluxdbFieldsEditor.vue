@@ -64,6 +64,7 @@ enum FieldValueType {
   UInteger,
   String,
   Boolean,
+  Placeholder,
 }
 type kvRow = {
   key: string
@@ -79,12 +80,14 @@ const U_INT_REGEX = /^\d+u$/
 const NUMBER_REGEX = /\d+(\.\d+)?/
 const SCIENTIFIC_NOTATION_REGEX = new RegExp(`${NUMBER_REGEX.source}e(\\+|-)\\d+`)
 const FLOAT_REGEX = new RegExp(`^${SCIENTIFIC_NOTATION_REGEX.source}|${NUMBER_REGEX.source}$`)
+const PLACEHOLDER_REGEX = /\$\{.+\}(i|u)?/
 const typeRegexMap: Record<FieldValueType, RegExp> = {
   [FieldValueType.String]: STRING_REGEX,
   [FieldValueType.Integer]: INT_REGEX,
   [FieldValueType.UInteger]: U_INT_REGEX,
   [FieldValueType.Boolean]: BOOL_REGEX,
   [FieldValueType.Float]: FLOAT_REGEX,
+  [FieldValueType.Placeholder]: PLACEHOLDER_REGEX,
 }
 const typeRegexMapKeys: Array<FieldValueType> = Object.keys(typeRegexMap).map((key) => Number(key))
 const judgeFieldValueType = (str: string) => {
@@ -179,11 +182,12 @@ export default defineComponent({
     const { emit } = context
 
     const typeOpts = [
-      { value: FieldValueType.Float, label: 'Float' },
-      { value: FieldValueType.Integer, label: 'Integer' },
-      { value: FieldValueType.UInteger, label: 'UInteger' },
-      { value: FieldValueType.String, label: 'String' },
-      { value: FieldValueType.Boolean, label: 'Boolean' },
+      { value: FieldValueType.Float, label: tl('float') },
+      { value: FieldValueType.Integer, label: tl('integer') },
+      { value: FieldValueType.UInteger, label: tl('uInteger') },
+      { value: FieldValueType.String, label: tl('string') },
+      { value: FieldValueType.Boolean, label: tl('boolean') },
+      { value: FieldValueType.Placeholder, label: tl('placeholder') },
     ]
 
     function createTbData() {
