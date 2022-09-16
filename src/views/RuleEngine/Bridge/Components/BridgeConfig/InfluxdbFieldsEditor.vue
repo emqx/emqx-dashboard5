@@ -171,7 +171,7 @@ export default defineComponent({
     const rowData: kvRow = {
       key: '',
       value: undefined,
-      type: FieldValueType.String,
+      type: FieldValueType.Placeholder,
       state: State.OK,
     }
     const tableData: Ref<kvRow[]> = ref([])
@@ -182,12 +182,12 @@ export default defineComponent({
     const { emit } = context
 
     const typeOpts = [
+      { value: FieldValueType.Placeholder, label: tl('placeholder') },
       { value: FieldValueType.Float, label: tl('float') },
       { value: FieldValueType.Integer, label: tl('integer') },
       { value: FieldValueType.UInteger, label: tl('uInteger') },
       { value: FieldValueType.String, label: tl('string') },
       { value: FieldValueType.Boolean, label: tl('boolean') },
-      { value: FieldValueType.Placeholder, label: tl('placeholder') },
     ]
 
     function createTbData() {
