@@ -988,7 +988,7 @@ export default {
     en: 'UInteger',
   },
   string: {
-    zh: '字符型',
+    zh: '字符串',
     en: 'String',
   },
   boolean: {
