@@ -24,7 +24,6 @@
         <el-table-column prop="node" :label="tl('name')" />
 
         <el-table-column prop="metrics.matched" :label="tl('matched')" />
-        <el-table-column prop="metrics.sent" :label="tl('sent')" />
         <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
 
         <el-table-column prop="metrics.rate">

@@ -139,10 +139,8 @@ export default (): {
       { label: tl('type'), value: getTypeStr(targetBridge) },
       { label: tl('name'), value: name },
       { label: tl('matched'), value: metrics.matched },
-      { label: tl('sent'), value: metrics.sent },
-      { label: tl('sentInflight'), value: metrics['sent.inflight'] },
-      { label: tl('speedNow'), value: metrics.rate },
-      { label: tl('currentSpeed'), value: metrics.rate + ' message/sec' },
+      { label: tl('sentInflight'), value: metrics['inflight'] },
+      { label: tl('speedNow'), value: metrics.rate + ' message/sec' },
       { label: tl('status'), value: statusStr, valueClass: statusClass },
     ]
 
