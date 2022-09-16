@@ -138,15 +138,8 @@
         </el-col>
 
         <el-col :span="24">
-          <el-form-item prop="write_syntax">
-            <template #label>
-              <span>{{ tl('writeSyntax') }}</span>
-              <InfoTooltip popper-class="is-wider">
-                <template #content>
-                  <p v-html="escapeCode(transLink(tl('writeSyntaxDesc')))"></p>
-                </template>
-              </InfoTooltip>
-            </template>
+          <el-form-item :label="tl('dataDefinition')">
+            <!-- TODO: DESC -->
             <InfluxdbWriteSyntaxInput v-model="formData.write_syntax" ref="writeSyntaxInputCom" />
           </el-form-item>
         </el-col>
@@ -191,7 +184,6 @@
 </template>
 
 <script setup lang="ts">
-import { escapeCode, transLink } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'

@@ -955,6 +955,14 @@ export default {
     en: 'InfluxDB time precision.',
     zh: 'InfluxDB 时间精度。',
   },
+  dataDefinition: {
+    zh: '定义解析数据',
+    en: 'Define Data Parsing',
+  },
+  dataFormat: {
+    zh: '数据格式',
+    en: 'Data Format',
+  },
   writeSyntax: {
     en: 'Write Syntax',
     zh: '写语句',
