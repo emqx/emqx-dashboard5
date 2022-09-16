@@ -983,6 +983,30 @@ export default {
     en: 'Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>',
     zh: '使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>',
   },
+  float: {
+    zh: '浮点型',
+    en: 'Float',
+  },
+  integer: {
+    zh: '整型',
+    en: 'Integer',
+  },
+  uInteger: {
+    zh: '无符号整型',
+    en: 'UInteger',
+  },
+  string: {
+    zh: '字符型',
+    en: 'String',
+  },
+  boolean: {
+    zh: '布尔型',
+    en: 'Boolean',
+  },
+  placeholder: {
+    zh: '占位符',
+    en: 'Placeholder',
+  },
   workerPoolSize: {
     en: 'Worker Pool Size',
     zh: '资源连接池大小',
