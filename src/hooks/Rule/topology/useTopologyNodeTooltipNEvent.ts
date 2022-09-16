@@ -100,7 +100,7 @@ export default (): {
       { label: tl('input'), value: fromDataToShow },
       { label: tl('sqlPassed'), value: metrics['passed'] },
       { label: tl('sqlFailed'), value: metrics['failed.exception'] },
-      { label: tl('currentSpeed'), value: metrics['matched.rate'] },
+      { label: tl('speedNow'), value: metrics['matched.rate'] },
       {
         label: tl('status'),
         value: tl(enable ? 'activated' : 'deactivated'),
@@ -140,7 +140,7 @@ export default (): {
       { label: tl('name'), value: name },
       { label: tl('SuccessNum'), value: metrics.success },
       { label: tl('ErrNum'), value: metrics.failed },
-      { label: tl('currentSpeed'), value: metrics.rate + ' message/sec' },
+      { label: tl('speedNow'), value: metrics.rate + ' message/sec' },
       { label: tl('status'), value: statusStr, valueClass: statusClass },
     ]
 

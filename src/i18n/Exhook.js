@@ -92,7 +92,7 @@ export default {
     en: 'Metrics Data',
   },
   currentSpeed: {
-    zh: '当前速度',
+    zh: '当前速率',
     en: 'Current speed',
   },
   params: {
