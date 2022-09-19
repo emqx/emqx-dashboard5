@@ -108,7 +108,6 @@ import {
   deleteBridge as requestDeleteBridge,
 } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
-import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -122,6 +121,7 @@ import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { utf8Decode } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
 
 enum Tab {
   Overview = 'overview',
@@ -131,7 +131,6 @@ enum Tab {
 const route = useRoute()
 const router = useRouter()
 const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
-const { t } = useI18n()
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
@@ -155,7 +154,7 @@ const { getTypeStr } = useBridgeTypeOptions()
 const { handleSSLDataBeforeSubmit } = useSSL()
 const { getBridgeIcon } = useBridgeTypeIcon()
 
-const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const { tl, t } = useI18nTl('RuleEngine')
 
 const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
 if (isFromRule.value && props.bridgeId) {
@@ -194,9 +193,14 @@ const loadBridgeInfo = async () => {
 }
 
 const updateBridgeInfo = async () => {
-  await formCom.value.validate()
-  updateLoading.value = true
   try {
+    await ElMessageBox.confirm(tl('updateBridgeTip'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
+    })
+    await formCom.value.validate()
+    updateLoading.value = true
     if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
       bridgeInfo.value = formCom.value.getFormRecord()
     }
