@@ -151,10 +151,15 @@ const setNodeConnectingStatusMap = () => {
 }
 
 const reconnect = async ({ node }: NodeMetrics) => {
-  nodeConnectingStatusMap.value[node] = true
-  await reconnectBridgeForNode(node, props.bridgeMsg.id)
-  nodeConnectingStatusMap.value[node] = false
-  emit('reconnect')
+  try {
+    nodeConnectingStatusMap.value[node] = true
+    await reconnectBridgeForNode(node, props.bridgeMsg.id)
+    emit('reconnect')
+  } catch (error) {
+    //
+  } finally {
+    nodeConnectingStatusMap.value[node] = false
+  }
 }
 
 watch(() => props.bridgeMsg, setNodeConnectingStatusMap)

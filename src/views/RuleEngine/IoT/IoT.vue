@@ -163,11 +163,12 @@ const submitDeleteRules = async ({ id }: RuleItem) => {
   try {
     await deleteRules(id)
     M.success(t('Base.deleteSuccess'))
-    iotLoading.value = false
     page.value = resetPageNum(ruleTable.value, page.value)
     getRulesList()
   } catch (error) {
     console.error(error)
+  } finally {
+    iotLoading.value = false
   }
 }
 

@@ -104,9 +104,10 @@ const getList = async () => {
   try {
     isTableLoading.value = true
     keyList.value = await loadAPIKeyList()
-    isTableLoading.value = false
   } catch (error) {
     //
+  } finally {
+    isTableLoading.value = false
   }
 }
 

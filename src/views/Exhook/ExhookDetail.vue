@@ -131,9 +131,10 @@ const getExhookDetail = async () => {
     isLoading.value = true
     const data = await queryExhookDetail(exhookName.value)
     exhookData.value = data
-    isLoading.value = false
   } catch (error) {
     console.error(error)
+  } finally {
+    isLoading.value = false
   }
 }
 

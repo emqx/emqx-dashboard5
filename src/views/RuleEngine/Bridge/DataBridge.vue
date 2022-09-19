@@ -127,9 +127,10 @@ export default defineComponent({
         await deleteBridge(id)
         M.success(t('Base.deleteSuccess'))
         listBridge()
-        tbLoading.value = false
       } catch (error) {
         console.error(error)
+      } finally {
+        tbLoading.value = false
       }
     }
 
