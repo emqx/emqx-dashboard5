@@ -32,9 +32,10 @@ const getConfig = async () => {
     isLoading.value = true
     const { enable } = await querySlowSubConfig()
     isEnable.value = enable
-    isLoading.value = false
   } catch (error) {
     console.error(error)
+  } finally {
+    isLoading.value = false
   }
 }
 

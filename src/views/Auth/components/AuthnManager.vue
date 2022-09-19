@@ -286,7 +286,6 @@ const handleAdd = async function () {
     }
     if (res) {
       dialogVisible.value = false
-      saveLoading.value = false
       M.success(t('Base.createSuccess'))
       record.value = {
         user_id: '',
@@ -296,6 +295,8 @@ const handleAdd = async function () {
     }
     loadData()
   } catch (error) {
+    //
+  } finally {
     saveLoading.value = false
   }
 }

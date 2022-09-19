@@ -166,9 +166,10 @@ const getConfig = async () => {
     isLoading.value = true
     configForm.value = await querySlowSubConfig()
     enableAutomatically()
-    isLoading.value = false
   } catch (error) {
     console.error(error)
+  } finally {
+    isLoading.value = false
   }
 }
 

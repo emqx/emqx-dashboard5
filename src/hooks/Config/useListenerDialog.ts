@@ -170,9 +170,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
       showDialog.value = false
       emit('submitted')
-      isSubmitting.value = false
     } catch (error) {
       console.error(error)
+    } finally {
       isSubmitting.value = false
     }
   }
