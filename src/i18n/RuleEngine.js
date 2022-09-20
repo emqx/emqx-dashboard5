@@ -9,7 +9,7 @@ export default {
   },
   updateBridgeTip: {
     zh: '更新后该数据桥接将重新启动，可能造成数据丢失或服务中断，是否确认更新？',
-    en: 'This data bridge will be restarted after the update, which may cause data loss or service interruption, is the update confirmed?',
+    en: 'This data bridge will be restarted after the update, which may cause data loss or service interruption, confirm?',
   },
   create: {
     zh: '创建',
