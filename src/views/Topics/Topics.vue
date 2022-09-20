@@ -3,13 +3,18 @@
     <el-form @keyup.enter="handleSearch">
       <el-row class="search-wrapper" :gutter="28">
         <el-col :span="8">
-          <el-input v-model="searchValue" :placeholder="$t('Topics.topic')"></el-input>
+          <el-input
+            v-model="searchValue"
+            :placeholder="$t('Topics.topic')"
+            clearable
+            @clear="handleSearch"
+          />
         </el-col>
         <el-col :span="8">
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
+          <el-button type="primary" :icon="RefreshRight" @click="loadTopics">
             {{ $t('Base.refresh') }}
           </el-button>
         </el-col>
@@ -22,11 +27,11 @@
           <p class="table-data-without-break">{{ row.topic }}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="node" :label="$t('Clients.node')"></el-table-column>
+      <el-table-column prop="node" :label="$t('Clients.node')" />
     </el-table>
 
     <div class="emq-table-footer">
-      <common-pagination v-model:metaData="pageMeta" @loadPage="loadTopics"></common-pagination>
+      <common-pagination v-model:metaData="pageMeta" @loadPage="loadTopics" />
     </div>
   </div>
 </template>
@@ -49,12 +54,6 @@ const searchValue = ref('')
 const lockTable = ref(true)
 const params = ref<Record<string, any>>({})
 const pageMeta = ref({})
-
-const handleResetSearch = () => {
-  searchValue.value = ''
-  params.value = {}
-  loadTopics({ page: 1 })
-}
 
 const handleSearch = async () => {
   const topic = searchValue.value.trim()

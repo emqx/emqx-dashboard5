@@ -3,21 +3,37 @@
     <el-form @keyup.enter="searchGatewayList()">
       <el-row :gutter="20" class="search-wrapper">
         <el-col :span="6">
-          <el-input :placeholder="tl('clientid')" v-model="searchParams.like_clientid" clearable />
+          <el-input
+            :placeholder="tl('clientid')"
+            v-model="searchParams.like_clientid"
+            clearable
+            @clear="searchGatewayList"
+          />
         </el-col>
         <el-col :span="6" v-if="name === 'lwm2m'">
           <el-input
             :placeholder="tl('endpointName')"
             v-model="searchParams.like_endpoint_name"
             clearable
+            @clear="searchGatewayList"
           />
         </el-col>
         <el-col :span="6" v-else>
-          <el-input :placeholder="tl('username')" v-model="searchParams.like_username" clearable />
+          <el-input
+            :placeholder="tl('username')"
+            v-model="searchParams.like_username"
+            clearable
+            @clear="searchGatewayList"
+          />
         </el-col>
 
         <el-col :span="6">
-          <el-select v-model="searchParams.node" :placeholder="$t('Clients.node')" clearable>
+          <el-select
+            v-model="searchParams.node"
+            :placeholder="$t('Clients.node')"
+            clearable
+            @clear="searchGatewayList"
+          >
             <el-option v-for="item in nodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
@@ -25,7 +41,7 @@
           <el-button type="primary" plain :icon="Search" @click="searchGatewayList()">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
+          <el-button type="primary" :icon="RefreshRight" @click="loadGatewayClients">
             {{ $t('Base.refresh') }}
           </el-button>
         </el-col>
@@ -157,15 +173,6 @@ export default defineComponent({
       loadGatewayClients()
     }
 
-    const handleResetSearch = () => {
-      searchParams.like_clientid = ''
-      searchParams.like_username = ''
-      searchParams.like_endpoint_name = ''
-      searchParams.node = ''
-      pageParams = {}
-      loadGatewayClients({ page: 1 })
-    }
-
     const openClientDetail = async function (row: any) {
       clientsDetailVisible.value = true
       currentClientId.value = row.clientid
@@ -209,7 +216,6 @@ export default defineComponent({
       gatewayTable,
       tbLoading,
       searchGatewayList,
-      handleResetSearch,
       closeClientDetail,
       searchParams,
       nodes,

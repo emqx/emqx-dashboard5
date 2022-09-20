@@ -8,12 +8,13 @@
             clearable
             :placeholder="getFiledLabel(field)"
             @keyup.enter="resetPageAndLoadData"
+            @clear="resetPageAndLoadData"
           />
           <el-select
             v-model="searchVal.is_superuser"
             clearable
             :placeholder="$t('Auth.isSuperuser')"
-            @clear="searchVal.is_superuser = null"
+            @clear="resetIsSuperuser(), resetPageAndLoadData()"
           >
             <el-option :value="true" :label="$t('Base.yes')" />
             <el-option :value="false" :label="$t('Base.no')" />
@@ -21,7 +22,7 @@
           <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="handleResetSearch">
+          <el-button type="primary" :icon="RefreshRight" @click="loadData">
             {{ $t('Base.refresh') }}
           </el-button>
         </el-space>
@@ -349,10 +350,8 @@ const resetPageAndLoadData = () => {
   loadData()
 }
 
-const handleResetSearch = () => {
-  searchVal.user_id = ''
+const resetIsSuperuser = () => {
   searchVal.is_superuser = null
-  resetPageAndLoadData()
 }
 </script>
 

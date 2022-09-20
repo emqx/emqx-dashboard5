@@ -7,6 +7,7 @@
             v-model="fuzzyParams.like_clientid"
             :placeholder="$t('Clients.clientId')"
             clearable
+            @clear="handleSearch"
           />
         </el-col>
         <el-col :span="6">
@@ -14,10 +15,16 @@
             v-model="fuzzyParams.like_username"
             :placeholder="$t('Clients.username')"
             clearable
+            @clear="handleSearch"
           />
         </el-col>
         <el-col :span="6">
-          <el-select v-model="fuzzyParams.node" :placeholder="$t('Clients.node')" clearable>
+          <el-select
+            v-model="fuzzyParams.node"
+            :placeholder="$t('Clients.node')"
+            clearable
+            @clear="handleSearch"
+          >
             <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
@@ -27,6 +34,7 @@
               v-model="fuzzyParams.ip_address"
               :placeholder="$t('Clients.ipAddress')"
               clearable
+              @clear="handleSearch"
             />
           </el-col>
           <el-col :span="6">
@@ -34,6 +42,7 @@
               v-model="fuzzyParams.conn_state"
               :placeholder="$t('Clients.connectedStatus')"
               clearable
+              @clear="handleSearch"
             >
               <el-option value="connected" />
               <el-option value="disconnected" />
@@ -50,6 +59,7 @@
                 type="datetime"
                 :placeholder="$t('Clients.connectedAt')"
                 clearable
+                @clear="handleSearch"
               />
             </div>
           </el-col>
@@ -58,7 +68,7 @@
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="handleResetSerach">
+          <el-button type="primary" :icon="RefreshRight" @click="loadNodeClients">
             {{ $t('Base.refresh') }}
           </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
@@ -207,14 +217,6 @@ const genQueryParams = (params: Record<string, any>) => {
 const loadNodeData = async () => {
   const data = await loadNodes()
   if (data) currentNodes.value = data
-}
-
-const handleResetSerach = async () => {
-  fuzzyParams.value = {
-    comparator: 'gte',
-  }
-  params.value = genQueryParams(fuzzyParams.value)
-  loadNodeClients({ page: 1 })
 }
 
 const loadNodeClients = async (_params = {}) => {
