@@ -20,23 +20,21 @@
             :placeholder="getCurrSearchValTip(type)"
             @clear="resetPageAndLoadData"
             @keyup.enter="resetPageAndLoadData"
-          ></el-input>
+          />
           <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="resetSearchAndLoadData">
+          <el-button type="primary" :icon="RefreshRight" @click="loadData">
             {{ $t('Base.refresh') }}
           </el-button>
         </template>
       </div>
-      <el-button type="primary" :icon="Plus" @click="handleAdd">
-        {{ $t('Base.add') }}
-      </el-button>
+      <el-button type="primary" :icon="Plus" @click="handleAdd"> {{ $t('Base.add') }} </el-button>
     </div>
     <el-table v-show="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
-      <el-table-column v-if="false" type="expand"></el-table-column>
-      <el-table-column prop="permission" label="Permission"></el-table-column>
-      <el-table-column prop="action" label="Action"></el-table-column>
+      <el-table-column v-if="false" type="expand" />
+      <el-table-column prop="permission" label="Permission" />
+      <el-table-column prop="action" label="Action" />
       <el-table-column prop="topic" label="Topic">
         <template #default="{ row }">
           {{ replaceSpaceForHTML(row.topic) }}
@@ -65,7 +63,7 @@
                   {{ getLabelFromValueInOptionList(row.action, actionOpts) }}
                 </template>
               </el-table-column>
-              <el-table-column prop="topic" label="Topic"></el-table-column>
+              <el-table-column prop="topic" label="Topic" />
             </el-table>
           </template>
         </el-table-column>
@@ -96,7 +94,7 @@
         </el-table-column>
       </el-table>
       <div class="emq-table-footer">
-        <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
+        <common-pagination v-model:metaData="pageMeta" @loadPage="loadData" />
       </div>
     </div>
     <el-dialog :title="isEdit ? $t('Base.edit') : $t('Base.add')" v-model="dialogVisible">
@@ -104,15 +102,15 @@
         <template v-if="type === 'all'">
           <el-form-item prop="permission" label="Permission">
             <el-select v-model="record.permission">
-              <el-option value="allow" label="Allow"></el-option>
-              <el-option value="deny" label="Deny"></el-option>
+              <el-option value="allow" label="Allow" />
+              <el-option value="deny" label="Deny" />
             </el-select>
           </el-form-item>
           <el-form-item prop="action" label="Action">
             <el-select v-model="record.action">
-              <el-option value="publish" label="Publish"></el-option>
-              <el-option value="subscribe" label="Subscribe"></el-option>
-              <el-option value="all" label="All"></el-option>
+              <el-option value="publish" label="Publish" />
+              <el-option value="subscribe" label="Subscribe" />
+              <el-option value="all" label="All" />
             </el-select>
           </el-form-item>
           <el-form-item prop="topic">
@@ -125,18 +123,18 @@
         </template>
         <template v-else>
           <el-form-item v-if="type === 'clientid'" prop="clientid" label="Client ID">
-            <el-input v-model="record.clientid" :disabled="isEdit"></el-input>
+            <el-input v-model="record.clientid" :disabled="isEdit" />
           </el-form-item>
           <el-form-item v-else-if="type === 'username'" prop="username" label="Username">
-            <el-input v-model="record.username" :disabled="isEdit"></el-input>
+            <el-input v-model="record.username" :disabled="isEdit" />
           </el-form-item>
           <el-form-item label="Permissions">
             <el-table class="form-table shadow-none" :data="rulesData">
               <el-table-column prop="permission" label="Permission">
                 <template #default="{ row }">
                   <el-select v-model="row.permission">
-                    <el-option value="allow" label="Allow"></el-option>
-                    <el-option value="deny" label="Deny"></el-option>
+                    <el-option value="allow" label="Allow" />
+                    <el-option value="deny" label="Deny" />
                   </el-select>
                 </template>
               </el-table-column>
@@ -154,7 +152,7 @@
               </el-table-column>
               <el-table-column prop="topic" label="Topic">
                 <template #default="{ row }">
-                  <el-input v-model="row.topic"></el-input>
+                  <el-input v-model="row.topic" />
                 </template>
               </el-table-column>
               <el-table-column align="right" max-width="160px">
@@ -465,11 +463,6 @@ export default defineComponent({
       loadData()
     }
 
-    const resetSearchAndLoadData = () => {
-      searchVal.value = ''
-      resetPageAndLoadData()
-    }
-
     return {
       Plus,
       Search,
@@ -498,7 +491,6 @@ export default defineComponent({
       handleUp,
       handleDown,
       resetPageAndLoadData,
-      resetSearchAndLoadData,
       getCurrSearchValTip,
       replaceSpaceForHTML,
       getLabelFromValueInOptionList,

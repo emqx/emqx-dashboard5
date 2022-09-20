@@ -3,8 +3,13 @@
     <el-form @keyup.enter="handleSearch">
       <el-row class="search-wrapper" :gutter="20">
         <el-col :span="6">
-          <el-select v-model="fuzzyParams.node" :placeholder="$t('Clients.node')" clearable>
-            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node"></el-option>
+          <el-select
+            v-model="fuzzyParams.node"
+            :placeholder="$t('Clients.node')"
+            clearable
+            @clear="handleSearch"
+          >
+            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
         <el-col :span="6">
@@ -12,7 +17,8 @@
             v-model="fuzzyParams.clientid"
             :placeholder="$t('Clients.clientId')"
             clearable
-          ></el-input>
+            @clear="handleSearch"
+          />
         </el-col>
         <el-col :span="6" class="form-item-col">
           <el-input
@@ -21,6 +27,7 @@
             clearable
             placeholder="Topic"
             class="topic-input"
+            @clear="handleSearch"
           >
             <template #suffix>
               <InfoTooltip>
@@ -34,10 +41,10 @@
         </el-col>
         <template v-if="showMoreQuery">
           <el-col :span="6">
-            <el-select v-model="fuzzyParams.qos" clearable placeholder="QoS">
-              <el-option :value="0"></el-option>
-              <el-option :value="1"></el-option>
-              <el-option :value="2"></el-option>
+            <el-select v-model="fuzzyParams.qos" clearable placeholder="QoS" @clear="handleSearch">
+              <el-option :value="0" />
+              <el-option :value="1" />
+              <el-option :value="2" />
             </el-select>
           </el-col>
           <el-col :span="6">
@@ -46,15 +53,15 @@
               type="text"
               :placeholder="$t('Subs.share')"
               clearable
-            >
-            </el-input>
+              @clear="handleSearch"
+            />
           </el-col>
         </template>
         <el-col class="col-oper" :span="6">
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="handleResetSerach">
+          <el-button type="primary" :icon="RefreshRight" @click="loadTableData">
             {{ $t('Base.refresh') }}
           </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
@@ -91,10 +98,7 @@
     </el-table>
 
     <div class="emq-table-footer">
-      <common-pagination
-        v-model:metaData="pageMeta"
-        @loadPage="loadNodeSubscriptions"
-      ></common-pagination>
+      <common-pagination v-model:metaData="pageMeta" @loadPage="loadTableData" />
     </div>
   </div>
 </template>
@@ -132,9 +136,9 @@ const fuzzyParams = ref({
 const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
-  loadNodeSubscriptions({ page: 1 })
+  loadTableData({ page: 1 })
 }
-const handleResetSerach = async () => {
+const handleResetSearch = async () => {
   fuzzyParams.value = {
     node: '',
     match_topic: '',
@@ -143,7 +147,7 @@ const handleResetSerach = async () => {
     qos: '',
   }
   params.value = genQueryParams(fuzzyParams.value)
-  loadNodeSubscriptions({ page: 1 })
+  loadTableData({ page: 1 })
 }
 
 const genQueryParams = (params: Record<string, any>) => {
@@ -158,11 +162,11 @@ const genQueryParams = (params: Record<string, any>) => {
 
   return newParams
 }
-const loadData = async () => {
+const loadNode = async () => {
   const res = await loadNodes()
   if (res) currentNodes.value = res
 }
-const loadNodeSubscriptions = async (_params = {}) => {
+const loadTableData = async (_params = {}) => {
   lockTable.value = true
   const sendParams = {
     ..._params,
@@ -184,8 +188,9 @@ const loadNodeSubscriptions = async (_params = {}) => {
     pageMeta.value = {}
   }
 }
-loadData()
-loadNodeSubscriptions()
+
+loadNode()
+loadTableData()
 </script>
 
 <style lang="scss">
@@ -197,10 +202,11 @@ loadNodeSubscriptions()
 }
 .topic-input {
   .icon-question {
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
     border-radius: 8px;
-    line-height: 14px;
+    line-height: 1;
+    transform: scale(1);
   }
 }
 </style>

@@ -8,7 +8,13 @@
     <el-row :gutter="32" :class="{ 'multiple-rows': showMoreQuery }">
       <el-col :span="6">
         <el-form-item>
-          <el-input type="text" v-model="filterParams.like_id" placeholder="ID" />
+          <el-input
+            type="text"
+            v-model="filterParams.like_id"
+            placeholder="ID"
+            clearable
+            @clear="searchRule"
+          />
         </el-form-item>
       </el-col>
       <el-col :span="6">
@@ -17,6 +23,8 @@
             type="text"
             v-model="filterParams[keyForSearchTopic]"
             :placeholder="$t('Base.topic')"
+            clearable
+            @clear="searchRule"
           >
             <template #prepend>
               <el-select class="select-topic-type" v-model="keyForSearchTopic">
@@ -37,6 +45,7 @@
             class="select-status"
             v-model="filterParams.enable"
             clearable
+            @clear="searchRule"
             :placeholder="$t('Base.isEnabled')"
           >
             <el-option :label="$t('Base.enabled')" :value="true" />
@@ -50,6 +59,8 @@
             <el-input
               type="text"
               v-model="filterParams.like_description"
+              clearable
+              @clear="searchRule"
               :placeholder="tl('note')"
             />
           </el-form-item>
@@ -61,7 +72,7 @@
           <el-button plain type="primary" :icon="Search" @click="searchRule">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="resetFilterParams()">
+          <el-button type="primary" :icon="RefreshRight" @click="refresh">
             {{ $t('Base.refresh') }}
           </el-button>
           <el-button link class="btn-show-more" @click="showMoreQuery = !showMoreQuery">
@@ -95,7 +106,7 @@ const KEYS_FOR_SEARCH_TOPIC: Array<{ value: 'like_from' | 'match_from'; label: s
   { value: 'match_from', label: t('Clients.wildcard') },
 ]
 
-const emit = defineEmits(['update:modelValue', 'search'])
+const emit = defineEmits(['update:modelValue', 'search', 'refresh'])
 
 const showMoreQuery = ref(false)
 
@@ -123,9 +134,8 @@ const searchRule = () => {
   emit('search', getFilterParams())
 }
 
-const resetFilterParams = () => {
-  filterParams.value = createRawFilterParams()
-  searchRule()
+const refresh = () => {
+  emit('refresh')
 }
 </script>
 

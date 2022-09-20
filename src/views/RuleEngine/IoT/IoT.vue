@@ -1,6 +1,10 @@
 <template>
   <div class="app-wrapper iot">
-    <RuleFilterForm @search="searchRule" class="with-dividing-line-bottom" />
+    <RuleFilterForm
+      @search="searchRule"
+      @refresh="getRulesList"
+      class="with-dividing-line-bottom"
+    />
     <div class="section-header">
       <div></div>
       <div>
