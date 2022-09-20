@@ -130,6 +130,8 @@ enum Tab {
 
 const route = useRoute()
 const router = useRouter()
+// for compare when update
+let rawBridgeInfo: undefined | BridgeItem = undefined
 const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const infoLoading = ref(false)
 const updateLoading = ref(false)
@@ -184,6 +186,7 @@ const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
     bridgeInfo.value = await getBridgeInfo(id.value)
+    rawBridgeInfo = _.cloneDeep(bridgeInfo.value)
     handleBodyField()
   } catch (error) {
     console.error(error)
@@ -194,13 +197,8 @@ const loadBridgeInfo = async () => {
 
 const updateBridgeInfo = async () => {
   try {
-    await ElMessageBox.confirm(tl('updateBridgeTip'), {
-      confirmButtonText: t('Base.confirm'),
-      cancelButtonText: t('Base.cancel'),
-      type: 'warning',
-    })
     await formCom.value.validate()
-    updateLoading.value = true
+
     if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
       bridgeInfo.value = formCom.value.getFormRecord()
     }
@@ -214,6 +212,20 @@ const updateBridgeInfo = async () => {
     if (data.type === BridgeType.MQTT) {
       Reflect.deleteProperty(data.connector, 'type')
     }
+
+    // Check for changes before updating and do not request if there are no changes
+    // TODO:check the schema form & MQTT
+    if (isFromRule.value && _.isEqual(data, rawBridgeInfo)) {
+      return Promise.resolve(bridgeInfo.value.id)
+    }
+
+    await ElMessageBox.confirm(tl('updateBridgeTip'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
+    })
+
+    updateLoading.value = true
     const res = await updateBridge(bridgeInfo.value.id, data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
