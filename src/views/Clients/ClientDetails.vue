@@ -194,7 +194,7 @@ import { Plus, Refresh, SwitchButton, Warning } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
@@ -303,6 +303,7 @@ const mqttVersion = {
 }
 const subscriptions = ref<Subscription[]>([])
 const route = useRoute()
+const router = useRouter()
 const { tl } = useI18nTl('Clients')
 const { t } = useI18n()
 const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
@@ -356,6 +357,9 @@ const handleDisconnect = async () => {
     })
     .then(() => {
       if (record.value === null) return
+      if (!props.gateway) {
+        router.push({ name: 'connections' })
+      }
       record.value.connected = false
       ElMessage.success(successMsg)
     })
