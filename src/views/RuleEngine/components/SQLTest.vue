@@ -86,9 +86,9 @@
         </div>
       </div>
     </template> -->
-    <el-dialog v-model="sqlDialog" class="sql-dialog" :title="tl('sqlExample')">
+    <el-dialog v-model="showSQLDialog" class="sql-dialog" :title="tl('sqlExample')">
       <p>{{ eventDesc }}</p>
-      <code-view v-if="sqlDialog" lang="sql" :code="sqlExample" />
+      <code-view v-if="showSQLDialog" lang="sql" :code="sqlExample" />
       <template #footer>
         <el-button @click="useSQL(sqlExample)">
           {{ tl('useSQL') }}
@@ -178,12 +178,14 @@ const testParams: Ref<TestParams> = ref({
   context: {},
   output: '',
 })
+// JSON.stringify testParams.context
 const contextObjStr: Ref<string> = ref('')
 const inputContextBy = ref(InputContextType.JSON)
+// from what
 const dataType: Ref<string> = ref('')
 const isDataTypeNoMatchSQL = ref(false)
 let testColumnDescMap: Record<string, string> = {}
-const sqlDialog = ref(false)
+const showSQLDialog = ref(false)
 const sqlExample = ref('')
 const eventDesc = ref('')
 const tooltipForToggleBtn = computed(() =>
@@ -239,7 +241,7 @@ const goDoc = () => {
 const store = useStore()
 
 const viewSQLExample = () => {
-  sqlDialog.value = true
+  showSQLDialog.value = true
   props.eventList.forEach((e) => {
     if (e.event === dataType.value) {
       sqlExample.value = e.sql_example
@@ -251,7 +253,7 @@ const viewSQLExample = () => {
 
 const useSQL = (SQLContent: string) => {
   emits('use-sql', SQLContent)
-  sqlDialog.value = false
+  showSQLDialog.value = false
 }
 
 const { copyText } = useCopy()
@@ -318,6 +320,10 @@ const setContext = (obj: Record<string, string>) => {
   setContextObjStr()
 }
 
+const setDescMap = (descMap: Record<string, string>) => {
+  testColumnDescMap = descMap
+}
+
 const handleDataSourceChanged = ({ value }: { value: string }) => {
   // The data type switch will not change the SQL, but if the data type does not match the SQL,
   // a warning will be issued indicating that the data type does not match the SQL
@@ -325,8 +331,9 @@ const handleDataSourceChanged = ({ value }: { value: string }) => {
   const { type, target } = findInputTypeNTarget(value, eventList, ingressBridgeList)
   const { fromStr } = getKeywordsFromSQL(props.sql)
   isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
-  const { context } = getTestColumns(type, value, props.eventList || [])
+  const { context, descMap } = getTestColumns(type, value, props.eventList || [])
   setContext(context)
+  setDescMap(descMap)
 }
 
 watch(
@@ -346,8 +353,9 @@ const handleSQLChanged = () => {
   preFrom = firstInput
   const { type: firstInputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
   setDataType(firstInputType, firstInput)
-  const { context } = getTestColumns(firstInputType, firstInput, eventList)
+  const { context, descMap } = getTestColumns(firstInputType, firstInput, eventList)
   setContext(context)
+  setDescMap(descMap)
 }
 
 watch(
@@ -418,12 +426,13 @@ const setDataTypeNContext = () => {
   const [firstInput = ''] = transFromStrToFromArr(fromStr)
   const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
   const { context, descMap } = getTestColumns(inputType, firstInput, eventList)
+  // for `testSQL` from SQL template, seems useless now..
   if ('payload' in context && payload) {
     context.payload = payload
   }
 
   preFrom = firstInput
-  testColumnDescMap = descMap
+  setDescMap(descMap)
   setDataType(inputType, firstInput)
   testParams.value = { context, output: '' }
 }
