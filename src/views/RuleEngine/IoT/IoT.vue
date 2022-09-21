@@ -64,7 +64,6 @@
           </el-button>
           <TableItemDropDown
             :row-data="row"
-            @resetStatistics="resetRuleItemStatistics(row)"
             @copy="copyRuleItem(row)"
             @delete="submitDeleteRules"
           />
@@ -78,7 +77,7 @@
 </template>
 
 <script lang="ts" setup>
-import { deleteRules, getRules, resetRuleMetrics, updateRules } from '@/api/ruleengine'
+import { deleteRules, getRules, updateRules } from '@/api/ruleengine'
 import CodeView from '@/components/CodeView.vue'
 import useCopyRule from '@/hooks/Rule/rule/useCopyRule'
 import usePagination from '@/hooks/usePagination'
@@ -142,13 +141,6 @@ const startOrStopRule = async (row: RuleItem) => {
     console.error(error)
     row.enable = !row.enable
   }
-}
-
-const resetRuleItemStatistics = async ({ id }: RuleItem) => {
-  await MB.confirm(t('RuleEngine.resetMetricsConfirm', { target: tl('rule') }))
-  await resetRuleMetrics(id)
-  M.success(tl('resetSuccessfully'))
-  getRulesList()
 }
 
 const copyRuleItem = (rule: RuleItem) => {

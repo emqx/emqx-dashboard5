@@ -14,10 +14,6 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="resetStatistics">
-          <el-icon><CircleClose /></el-icon>
-          <span>{{ tl('resetStatistics') }}</span>
-        </el-dropdown-item>
         <el-dropdown-item command="copy">
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
@@ -42,7 +38,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
 import { defineProps, defineEmits, PropType, ref, Ref } from 'vue'
-import { CaretBottom, Delete, CopyDocument, CircleClose } from '@element-plus/icons-vue'
+import { CaretBottom, Delete, CopyDocument } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
