@@ -97,7 +97,11 @@ import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { computed, ref, onBeforeMount } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl.ts'
-import { useHandlersInUsersPage } from '@/hooks/useChangePwdGuide.ts'
+import {
+  useHandlersInUsersPage,
+  useRouteGuardForChangeDefaultPwd,
+} from '@/hooks/useChangePwdGuide.ts'
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
 const store = useStore()
 const { tl, t } = useI18nTl('General')
@@ -270,5 +274,14 @@ const { isForChangeDefaultPwd, confirmForChangeDefaultPwdParam } = useHandlersIn
 onBeforeMount(async () => {
   await loadData()
   confirmForChangeDefaultPwdParam()
+})
+
+const { preventLeaveWithoutChangeDefaultPwd } = useRouteGuardForChangeDefaultPwd()
+onBeforeRouteLeave((to, from, next) => {
+  preventLeaveWithoutChangeDefaultPwd(to, from, next)
+})
+
+onBeforeRouteUpdate(async (to, from, next) => {
+  preventLeaveWithoutChangeDefaultPwd(to, from, next)
 })
 </script>
