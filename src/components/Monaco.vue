@@ -171,9 +171,9 @@ const handleLineDecoration = () => {
 
 onMounted(() => {
   initEditor()
-  if (prop.decorationFunc && typeof prop.decorationFunc === 'function') {
-    handleLineDecoration()
-  }
+  // if (prop.decorationFunc && typeof prop.decorationFunc === 'function') {
+  //   handleLineDecoration()
+  // }
   if (prop.scrollLoading) editor.onDidScrollChange(prop.scrollFunc)
 })
 
