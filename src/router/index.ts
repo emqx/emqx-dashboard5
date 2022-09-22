@@ -1,5 +1,6 @@
 import store from '@/store'
-import Alarm from '@/views/Alarm/Alarm.vue'
+import HistoryAlarm from '@/views/Alarm/HistoryAlarm.vue'
+import CurrentAlarm from '@/views/Alarm/CurrentAlarm.vue'
 import KeepAliveChildren from '@/views/Base/KeepAliveChildren.vue'
 import Layout from '@/views/Base/Layout.vue'
 import Login from '@/views/Base/Login.vue'
@@ -112,15 +113,22 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/alarm',
     component: Layout,
+    redirect: '/alarm/current-alarm',
     meta: {
       hideKey: 'alarm',
       authRequired: true,
+      subMenu: true,
     },
     children: [
       {
-        path: '',
-        name: 'alarm',
-        component: Alarm,
+        path: 'current-alarm',
+        name: 'current-alarm',
+        component: CurrentAlarm,
+      },
+      {
+        path: 'history-alarm',
+        name: 'history-alarm',
+        component: HistoryAlarm,
       },
     ],
   },
