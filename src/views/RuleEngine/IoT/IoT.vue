@@ -32,7 +32,9 @@
               <CodeView lang="sql" :code="row.sql" />
             </template>
             <div class="inputs-container">
-              <span class="input-item" v-for="item in row.from" :key="item">{{ item }}</span>
+              <el-tag class="input-item" type="info" v-for="item in row.from" :key="item">{{
+                item
+              }}</el-tag>
             </div>
           </el-tooltip>
         </template>
@@ -198,8 +200,9 @@ onMounted(() => {
   width: fit-content;
 }
 .input-item {
-  &:not(:last-child)::after {
-    content: ',';
+  height: 26px;
+  &:not(:first-child) {
+    margin-top: 8px;
   }
 }
 
