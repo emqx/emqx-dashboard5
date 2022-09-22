@@ -6,26 +6,8 @@
         <el-card class="app-card">
           <el-form :model="record" label-position="top">
             <section>
-              <el-form-item label="No Match">
-                <el-select v-model="record.no_match">
-                  <el-option value="allow"></el-option>
-                  <el-option value="deny"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="Deny Action">
-                <el-select v-model="record.deny_action">
-                  <el-option value="ignore"></el-option>
-                  <el-option value="disconnect"></el-option>
-                </el-select>
-              </el-form-item>
-            </section>
-            <section>
               <el-form-item :label="$t('Auth.enableCache')">
-                <BooleanSelect
-                  v-model="record.cache.enable"
-                  :true-label="$t('Base.yes')"
-                  :false-label="$t('Base.no')"
-                />
+                <el-switch v-model="record.cache.enable" />
               </el-form-item>
               <template v-if="record.cache.enable">
                 <el-form-item :label="$t('Auth.maxSize')">
@@ -35,10 +17,24 @@
                   <InputWithUnit
                     v-model="record.cache.ttl"
                     :units="timeUnits"
-                    :number-placeholder="1"
+                    number-placeholder="1"
                   />
                 </el-form-item>
               </template>
+            </section>
+            <section>
+              <el-form-item :label="$t('Auth.noMatch')">
+                <el-select v-model="record.no_match">
+                  <el-option value="allow"></el-option>
+                  <el-option value="deny"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item :label="$t('Auth.denyAction')">
+                <el-select v-model="record.deny_action">
+                  <el-option value="ignore"></el-option>
+                  <el-option value="disconnect"></el-option>
+                </el-select>
+              </el-form-item>
             </section>
           </el-form>
           <el-button @click="$router.push('/authorization')">
@@ -78,7 +74,6 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { titleCase } from '@/common/tools'
-import BooleanSelect from '@/components/BooleanSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 
 const { t } = useI18n()
