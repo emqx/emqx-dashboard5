@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
-          <el-switch v-model="row.enable" @change="toggleEnable(row)" />
+          <el-switch v-model="row.enable" :before-change="handleSwitchStatus(row)" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
@@ -47,7 +47,7 @@
             :style="{ marginRight: '10px' }"
             v-if="row.backend === 'built_in_database'"
             size="small"
-            @click="routeToDeatil(row, 'users')"
+            @click="routeToDetail(row, 'users')"
             >{{ $t('Auth.users') }}</el-button
           >
           <table-dropdown
@@ -55,7 +55,7 @@
             :table-data-len="authnList.length"
             :position="findIndex(row)"
             @delete="handleDelete"
-            @setting="routeToDeatil"
+            @setting="routeToDetail"
             @move-up="moveAuthnUp($index)"
             @move-down="moveAuthnDown($index)"
             @move-to-top="moveAuthnToTop(row)"
@@ -74,16 +74,17 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import TableDropdown from './components/TableDropdown.vue'
-import { updateAuthn, deleteAuthn } from '@/api/auth'
-import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox as MB } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import { Plus } from '@element-plus/icons-vue'
-import { AuthnItem } from '@/types/auth'
+import { deleteAuthn } from '@/api/auth'
 import useAuthn, { AuthnItemInTable } from '@/hooks/Auth/useAuthn'
-import AuthItemStatus from './components/AuthItemStatus.vue'
 import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
+import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
+import { AuthnItem } from '@/types/auth'
+import { Plus } from '@element-plus/icons-vue'
+import { ElMessageBox as MB } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import AuthItemStatus from './components/AuthItemStatus.vue'
+import TableDropdown from './components/TableDropdown.vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -100,15 +101,22 @@ const {
   moveAuthnToBottom,
 } = useAuthn()
 const { getLabelByValue } = useAuthnMechanismType()
+const { toggleAuthStatus } = useToggleAuthStatus()
 
 const toggleEnable = async (row: AuthnItemInTable) => {
   try {
-    const { img, metrics, ...data } = row
-    await updateAuthn(row.id, data)
-    ElMessage.success(t(row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
+    await toggleAuthStatus(row, 'authn')
+    row.enable = !row.enable
+
     await updateAuthnItemMetrics(row)
   } catch (error) {
-    row.enable = !row.enable
+    //
+  }
+}
+
+const handleSwitchStatus = (authn: AuthnItemInTable) => {
+  return () => {
+    return toggleEnable(authn)
   }
 }
 
@@ -126,7 +134,7 @@ const handleDelete = async function ({ id }: AuthnItem) {
   }
 }
 
-const routeToDeatil = function ({ id }: AuthnItem, tab: string) {
+const routeToDetail = function ({ id }: AuthnItem, tab: string) {
   router.push({ path: `/authentication/detail/${id}`, query: { tab } })
 }
 

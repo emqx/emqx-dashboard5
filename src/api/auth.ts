@@ -57,7 +57,7 @@ export function createAuthn(body = {}) {
   return http.post('/authentication', body)
 }
 
-export function updateAuthn(id: string, body: { id?: string }) {
+export function updateAuthn(id: string, body: any) {
   delete body.id
   return http.put(`/authentication/${encodeURIComponent(id)}`, body)
 }

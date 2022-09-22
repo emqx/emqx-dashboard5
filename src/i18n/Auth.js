@@ -363,4 +363,12 @@ export default {
     zh: '拒绝时执行',
     en: 'Deny Action',
   },
+  disableAuthnTip: {
+    zh: '停用该认证器后，将影响客户端的安全连接，是否继续？',
+    en: `Disabling this authentication will affect the client's secure connection. Continue?`,
+  },
+  disableAuthzTip: {
+    zh: '停用该授权后，将影响客户端发布/订阅时的权限操作，是否继续？',
+    en: 'Disabling this authorization will affect the operation of permissions when the client publishes/subscribes. Continue?',
+  },
 }
