@@ -355,4 +355,12 @@ export default {
     zh: 'JWT 来自于',
     en: 'JWT From',
   },
+  noMatch: {
+    zh: '未匹配时执行',
+    en: 'No Match Action',
+  },
+  denyAction: {
+    zh: '拒绝时执行',
+    en: 'Deny Action',
+  },
 }
