@@ -335,4 +335,12 @@ export default {
     zh: '监控集成',
     en: 'Monitoring Integration',
   },
+  currentAlarm: {
+    zh: '当前告警',
+    en: 'Active',
+  },
+  historyAlarm: {
+    zh: '历史告警',
+    en: 'History',
+  },
 }

@@ -101,6 +101,10 @@ export default {
   },
   clearSuccess: {
     zh: '清除历史告警成功',
-    en: 'Alarms history is cleared successfully.',
+    en: 'Alarms history is cleared successfully',
+  },
+  clearConfirm: {
+    zh: '确认清除当前所有历史告警吗？',
+    en: 'Confirm to clear all history alarms?',
   },
 }
