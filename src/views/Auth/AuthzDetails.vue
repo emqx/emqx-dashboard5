@@ -89,6 +89,7 @@ import AuthItemOverview from './components/AuthItemOverview.vue'
 import { queryAuthzItemMetrics } from '@/api/auth'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import { checkNOmitFromObj } from '@/common/tools.ts'
+import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 
 export default defineComponent({
   name: 'AuthzDetails',
@@ -130,6 +131,7 @@ export default defineComponent({
       }
       return ''
     })
+    const { toggleAuthStatus } = useToggleAuthStatus()
 
     const loadData = async function () {
       authzDetailLock.value = true
@@ -165,23 +167,29 @@ export default defineComponent({
      */
     const handleUpdate = async function ({ enable }) {
       let isVerified = true
-      if (formCom.value) {
-        await formCom.value.validate().catch(() => {
-          isVerified = false
-          jumpToErrorFormItem()
-        })
+      try {
+        if (formCom.value) {
+          await formCom.value.validate().catch(() => {
+            isVerified = false
+            jumpToErrorFormItem()
+          })
+        }
+        if (!isVerified) {
+          return
+        }
+        const { create } = useAuthzCreate()
+        const data = checkNOmitFromObj(create(configData.value, type.value))
+        if (enable !== undefined) {
+          await toggleAuthStatus(data, 'authz')
+          getAuthzMetrics()
+        } else {
+          await updateAuthz(type.value, data)
+          ElMessage.success(t('Base.updateSuccess'))
+        }
+        enable === undefined ? router.push({ name: 'authorization' }) : loadData()
+      } catch (error) {
+        //
       }
-      if (!isVerified) {
-        return
-      }
-      const { create } = useAuthzCreate()
-      const data = checkNOmitFromObj(create(configData.value, type.value))
-      if (enable !== undefined) {
-        data.enable = !enable
-      }
-      await updateAuthz(type.value, data)
-      ElMessage.success(t('Base.updateSuccess'))
-      enable === undefined ? router.push({ name: 'authorization' }) : loadData()
     }
 
     const handleDelete = async function () {

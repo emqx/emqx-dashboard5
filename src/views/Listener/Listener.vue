@@ -135,7 +135,7 @@ const addListener = () => {
   currentListener.value = undefined
 }
 
-const editListener = (listener: Listener): Promise<boolean> => {
+const editListener = (listener: Listener) => {
   currentListener.value = listener
   showDialog.value = true
 }

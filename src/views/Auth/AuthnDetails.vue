@@ -99,7 +99,7 @@ import { updateAuthn, deleteAuthn } from '@/api/auth'
 import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import useAuth from '@/hooks/Auth/useAuth'
 import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { jumpToErrorFormItem } from '@/common/tools'
 import AuthItemOverview from './components/AuthItemOverview.vue'
@@ -108,6 +108,8 @@ import AuthItemStatus from './components/AuthItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { checkNOmitFromObj } from '@/common/tools.ts'
 import { getPasswordHashAlgorithmObj } from '@/hooks/Auth/usePasswordHashAlgorithmData.ts'
+import { isFunction } from 'lodash'
+import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -146,7 +148,7 @@ export default defineComponent({
   setup(props) {
     const route = useRoute()
     const router = useRouter()
-    const { t } = useI18n()
+    const { t, tl } = useI18nTl('Auth')
     const refreshLoading = ref(false)
     const authnDetailLock = ref(false)
     const currTab = ref(props.gateway ? 'settings' : 'overview')
@@ -174,6 +176,8 @@ export default defineComponent({
       }
       return ''
     })
+
+    const { toggleAuthStatus } = useToggleAuthStatus()
 
     const setPassWordBasedFieldsDefaultValue = () => {
       if (
@@ -218,35 +222,55 @@ export default defineComponent({
     }
     const { titleMap } = useAuth()
 
+    const updateAuthnBelongGateway = async (data, enable) => {
+      if (enable !== undefined) {
+        if (enable) {
+          await MB.confirm(tl('disableAuthnTip'), {
+            confirmButtonText: t('Base.confirm'),
+            cancelButtonText: t('Base.cancel'),
+            type: 'warning',
+          })
+        }
+        data.enable = !enable
+      }
+      if (props.updateFunc && isFunction(props.updateFunc)) {
+        await props.updateFunc(data)
+      }
+    }
+
     /**
      * @param authn has value when the action is update status
      */
     const handleUpdate = async function ({ enable }) {
       let isVerified = true
-      if (formCom.value) {
-        await formCom.value.validate().catch(() => {
-          isVerified = false
-          jumpToErrorFormItem()
-        })
-      }
-      if (!isVerified) {
-        return
-      }
-      const { create } = useAuthnCreate()
-      const { id } = configData.value
-      const data = create(configData.value, configData.value.backend, configData.value.mechanism)
-      if (enable !== undefined) {
-        data.enable = !enable
-      }
-      let res
-      if (props.gateway) {
-        res = await props.updateFunc(data).catch(() => {})
-      } else {
-        res = await updateAuthn(id, checkNOmitFromObj(data)).catch(() => {})
-        if (res) {
-          M.success(t('Base.updateSuccess'))
+      try {
+        if (formCom.value) {
+          await formCom.value.validate().catch(() => {
+            isVerified = false
+            jumpToErrorFormItem()
+          })
+        }
+        if (!isVerified) {
+          return
+        }
+        const { create } = useAuthnCreate()
+        const { id } = configData.value
+        const data = create(configData.value, configData.value.backend, configData.value.mechanism)
+
+        if (props.gateway) {
+          updateAuthnBelongGateway(data, enable)
+        } else {
+          if (enable !== undefined) {
+            await toggleAuthStatus(checkNOmitFromObj({ ...data, id }), 'authn')
+            getAuthnMetrics()
+          } else {
+            await updateAuthn(id, checkNOmitFromObj(data))
+            M.success(t('Base.updateSuccess'))
+          }
           enable === undefined ? router.push({ name: 'authentication' }) : loadData()
         }
+      } catch (error) {
+        //
       }
     }
     const handleDelete = async function () {

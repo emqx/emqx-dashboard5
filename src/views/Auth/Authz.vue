@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
-          <el-switch v-model="row.enable" @change="toggleEnable(row)" />
+          <el-switch v-model="row.enable" :before-change="handleSwitchStatus(row)" />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
@@ -47,8 +47,9 @@
             v-if="row.type === 'built_in_database'"
             size="small"
             @click="routeToDetail(row, 'users')"
-            >{{ $t('Auth.users') }}</el-button
           >
+            {{ $t('Auth.users') }}
+          </el-button>
           <table-dropdown
             :row-data="row"
             :table-data-len="authzList.length"
@@ -74,16 +75,17 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import TableDropdown from './components/TableDropdown.vue'
-import { updateAuthz, deleteAuthz } from '@/api/auth'
-import router from '@/router'
-import { ElMessage, ElMessageBox as MB } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import { Plus, Setting } from '@element-plus/icons-vue'
-import { AuthzSourceItem } from '@/types/auth'
-import useAuthz, { AuthzItemInTable } from '@/hooks/Auth/useAuthz'
+import { deleteAuthz } from '@/api/auth'
 import useAuth from '@/hooks/Auth/useAuth'
+import useAuthz, { AuthzItemInTable } from '@/hooks/Auth/useAuthz'
+import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
+import router from '@/router'
+import { AuthzSourceItem } from '@/types/auth'
+import { Plus, Setting } from '@element-plus/icons-vue'
+import { ElMessageBox as MB } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 import AuthItemStatus from './components/AuthItemStatus.vue'
+import TableDropdown from './components/TableDropdown.vue'
 
 const { t } = useI18n()
 
@@ -94,21 +96,25 @@ const {
   authzList,
   tableCom,
   getAuthzList,
-  updateAuthnItemMetrics,
   moveAuthzUp,
   moveAuthzDown,
   moveAuthzToTop,
   moveAuthzToBottom,
 } = useAuthz()
+const { toggleAuthStatus } = useToggleAuthStatus()
 
 const toggleEnable = async (row: AuthzItemInTable) => {
   try {
-    const { img, metrics, ...data } = row
-    await updateAuthz(row.type, data)
-    ElMessage.success(t(row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
-    await updateAuthnItemMetrics(row)
-  } catch (error) {
+    await toggleAuthStatus(row, 'authz')
     row.enable = !row.enable
+  } catch (error) {
+    //
+  }
+}
+
+const handleSwitchStatus = (authn: AuthzItemInTable) => {
+  return () => {
+    return toggleEnable(authn)
   }
 }
 

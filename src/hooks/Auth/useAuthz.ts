@@ -15,7 +15,7 @@ export default (): {
   authzList: Ref<Array<AuthzItemInTable>>
   tableCom: Ref<Component>
   getAuthzList: (isInit?: boolean) => void
-  updateAuthnItemMetrics: (authz: AuthzItemInTable) => void
+  updateAuthzItemMetrics: (authz: AuthzItemInTable) => void
   moveAuthzUp: (index: number) => Promise<undefined>
   moveAuthzDown: (index: number) => Promise<undefined>
   moveAuthzToTop: (row: AuthzItemInTable) => Promise<void>
@@ -81,7 +81,7 @@ export default (): {
     }
   }
 
-  const updateAuthnItemMetrics = async (authz: AuthzItemInTable) => {
+  const updateAuthzItemMetrics = async (authz: AuthzItemInTable) => {
     const metrics = await queryAuthzItemMetrics(authz.type)
     metricsMap.value[authz.type] = metrics
     const target = authzList.value.find((item) => item.type === authz.type)
@@ -144,7 +144,7 @@ export default (): {
     authzList,
     tableCom,
     getAuthzList,
-    updateAuthnItemMetrics,
+    updateAuthzItemMetrics,
     moveAuthzUp,
     moveAuthzDown,
     moveAuthzToTop,
