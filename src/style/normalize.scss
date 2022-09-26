@@ -614,7 +614,9 @@
 
 /* Card */
 .el-card {
-  border: none;
+  &:not(.with-border){
+    border: none;
+  }
   position: relative;
   &.top-border,
   &.top-primary {
