@@ -67,6 +67,7 @@ export enum BridgeType {
   MQTT = 'mqtt',
   InfluxDB = 'influxdb',
   MySQL = 'mysql',
+  Kafka = 'kafka',
 }
 
 export enum ConnectorType {
