@@ -931,6 +931,14 @@ export default {
     zh: 'InfluxDB 版本',
     en: 'Version of InfluxDB',
   },
+  kafka: {
+    zh: 'Kafka',
+    en: 'Kafka',
+  },
+  kafkaDesc: {
+    zh: '使用 Kafka 桥接数据',
+    en: 'Using Kafka to bridge data',
+  },
   serverHost: {
     zh: '服务器地址',
     en: 'Server Host',
@@ -1118,5 +1126,174 @@ export default {
   batchTimeDesc: {
     en: 'Maximum batch waiting interval.',
     zh: '最大批量请求等待时间。',
+  },
+
+  bootstrapHosts: {
+    en: 'Bootstrap Hosts',
+    zh: '主机列表',
+  },
+  bootstrapHostsDesc: {
+    en: 'A comma separated list of Kafka <code>host:port</code> endpoints to bootstrap the client.',
+    zh: '用逗号分隔的 <code>host:port</code> 主机列表。',
+  },
+  minMetadataRefreshInterval: {
+    en: 'Min Metadata Refresh Interval',
+    zh: '元数据刷新最小间隔',
+  },
+  minMetadataRefreshIntervalDesc: {
+    en: 'Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.',
+    zh: '刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。',
+  },
+  metadataRequestTimeout: {
+    en: 'Metadata Request Timeout',
+    zh: '元数据请求超时',
+  },
+  metadataRequestTimeoutDesc: {
+    en: 'Maximum wait time when fetching metadata from Kafka.',
+    zh: '刷新元数据时最大等待时长。',
+  },
+  connectTimeoutDesc: {
+    en: 'Maximum wait time for TCP connection establishment (including authentication time if enabled).',
+    zh: '建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。',
+  },
+  kerberosPrincipal: {
+    en: 'Kerberos Principal',
+    zh: 'Kerberos Principal',
+  },
+  kerberosPrincipalDesc: {
+    en: 'SASL GSSAPI authentication Kerberos principal. For example <code>client_name@MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.',
+    zh: 'SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name@MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中',
+  },
+  kerberosKeytabFile: {
+    en: 'Kerberos keytab file',
+    zh: 'Kerberos keytab 文件',
+  },
+  kerberosKeytabFileDesc: {
+    en: 'SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
+    zh: 'SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。',
+  },
+  mechanism: {
+    en: 'Mechanism',
+    zh: '认证方法',
+  },
+  mechanismDesc: {
+    en: 'SASL authentication mechanism.',
+    zh: 'SASL 认证方法名称。',
+  },
+  sndbuf: {
+    en: 'Socket Send Buffer Size',
+    zh: 'Socket 发送缓存大小',
+  },
+  sndbufDesc: {
+    en: 'Fine tune the socket send buffer. The default value is tuned for high throughput.',
+    zh: 'TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。',
+  },
+  recbuf: {
+    en: 'Socket Receive Buffer Size',
+    zh: 'Socket 收包缓存大小',
+  },
+  recbufDesc: {
+    en: 'Fine tune the socket receive buffer. The default value is tuned for high throughput.',
+    zh: 'TCP socket 的收包缓存调优。默认值是针对高吞吐量的一个推荐值。',
+  },
+  nodelay: {
+    en: 'No Delay',
+    zh: '是否延迟发送',
+  },
+  nodelayDesc: {
+    en: "When set to 'true', TCP buffer sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
+    zh: "设置 ‘true' 让系统内核立即发送。否则当需要发送当内容很少时，可能会有一定延迟（默认 40 毫秒）。",
+  },
+  producer: {
+    zh: '生产者',
+    en: 'Producer',
+  },
+  kafkaTopic: {
+    en: 'Kafka Topic Name',
+    zh: 'Kafka 主题名称',
+  },
+  kafkaMessage: {
+    en: 'Kafka Message Template',
+    zh: 'Kafka 消息模版',
+  },
+  kafkaMessageDesc: {
+    en: 'Template to render a Kafka message.',
+    zh: '用于生成 Kafka 消息的模版。',
+  },
+  maxBatchBytes: {
+    en: 'Max Batch Bytes',
+    zh: '最大批量字节数',
+  },
+  maxBatchBytesDesc: {
+    en: "Maximum bytes to collect in a Kafka message batch. Most of the Kafka brokers default to a limit of 1 MB batch size. EMQX's default value is less than 1 MB in order to compensate Kafka message encoding overheads (especially when each individual message is very small). When a single message is over the limit, it is still sent (as a single element batch).",
+    zh: '最大消息批量字节数。大多数 Kafka 环境的默认最低值是 1 MB，EMQX 的默认值比 1 MB 更小是因为需要补偿 Kafka 消息编码索需要的额外字节（尤其是当每条消息都很小的情况下）。当单个消息的大小超过该限制时，它仍然会被发送，（相当于该批量中只有单个消息）。',
+  },
+  compression: {
+    en: 'Compression',
+    zh: '压缩',
+  },
+  partitionStrategy: {
+    en: 'Partition Strategy',
+    zh: '分区选择策略',
+  },
+  partitionStrategyDesc: {
+    en: 'Partition strategy is to tell the producer how to dispatch messages to Kafka partitions.</br></br><code>random</code>: Randomly pick a partition for each message</br><code>key_dispatch</code>: Hash Kafka message key to a partition number</br>',
+    zh: '设置消息发布时应该如何选择 Kafka 分区。</br></br><code>random</code>: 为每个消息随机选择一个分区。</br><code>key_dispatch</code>: Hash Kafka message key to a partition number</br>',
+  },
+  requiredAcks: {
+    en: 'Required Acks',
+    zh: 'Kafka 确认数量',
+  },
+  requiredAcksDesc: {
+    en: "Required acknowledgements for Kafka partition leader to wait for its followers before it sends back the acknowledgement to EMQX Kafka producer</br></br><code>all_isr</code>: Require all in-sync replicas to acknowledge.</br><code>leader_only</code>: Require only the partition-leader's acknowledgement.</br><code>none</code>: No need for Kafka to acknowledge at all.</br>",
+    zh: '设置 Kafka leader 在返回给 EMQX 确认之前需要等待多少个 follower 的确认。</br></br><code>all_isr</code>: 需要所有的在线复制者都确认。</br><code>leader_only</code>: 仅需要分区 leader 确认。</br><code>none</code>: 无需 Kafka 回复任何确认。</br>',
+  },
+  partitionCountRefreshInterval: {
+    en: 'Partition Count Refresh Interval',
+    zh: '分区数量刷新间隔',
+  },
+  partitionCountRefreshIntervalDesc: {
+    en: 'The time interval for Kafka producer to discover increased number of partitions.</br>After the number of partitions is increased in Kafka, EMQX will start taking the </br>discovered partitions into account when dispatching messages per <code>partition_strategy</code>.',
+    zh: '配置 Kafka 刷新分区数量的时间间隔。</br>EMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy<code> 配置，把消息发送到新的分区中。',
+  },
+  maxInflight: {
+    en: 'Max Inflight',
+    zh: '飞行窗口',
+  },
+  maxInflightDesc: {
+    en: 'Maximum number of batches allowed for Kafka producer (per-partition) to send before receiving acknowledgement from Kafka. Greater value typically means better throughput. However, there can be a risk of message reordering when this value is greater than 1.',
+    zh: '设置 Kafka 生产者（每个分区一个）在收到 Kafka 的确认前最多发送多少个请求（批量）。调大这个值通常可以增加吞吐量，但是，当该值设置大于 1 是存在消息乱序的风险。',
+  },
+  bufferMode: {
+    en: 'Buffer Mode',
+    zh: '缓存模式',
+  },
+  bufferModeDesc: {
+    en: 'Message buffer mode.</br></br><code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart</br><code>disc</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.</br><code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.',
+    zh: '消息缓存模式。</br><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。</br><code>disc</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。</br><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。与 <code>memory</code> 模式一样，如果 EMQX 服务重启，缓存的消息会丢失。',
+  },
+  perPartitionLimit: {
+    en: 'Per-partition Buffer Limit',
+    zh: 'Kafka 分区缓存上限',
+  },
+  perPartitionLimitDesc: {
+    en: 'Number of bytes allowed to buffer for each Kafka partition. When this limit is exceeded, old messages will be dropped in a trade for credits for new messages to be buffered.',
+    zh: '为每个 Kafka 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，为新的消息腾出空间。',
+  },
+  segmentBytes: {
+    en: 'Segment File Bytes',
+    zh: '缓存文件大小',
+  },
+  segmentBytesDesc: {
+    en: 'Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.</br>This value is to specify the size of each on-disk buffer file.',
+    zh: '当缓存模式是 <code>disk</code> 或 <code>hybrid</code> 时适用。该配置用于指定缓存到磁盘上的文件的大小。',
+  },
+  memoryOverloadProtection: {
+    en: 'Memory Overload Protection',
+    zh: '内存过载保护',
+  },
+  memoryOverloadProtectionDesc: {
+    en: 'Applicable when buffer mode is set to <code>memory</code> or <code>hybrid</code>.</br>EMQX will drop old cached messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>.',
+    zh: '缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。',
   },
 }
