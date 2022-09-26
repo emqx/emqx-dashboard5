@@ -54,6 +54,12 @@
               v-model="bridgeData"
               ref="formCom"
             />
+
+            <bridge-kafka-config
+              v-else-if="chosenBridgeType === BridgeType.Kafka"
+              v-model="bridgeData"
+              ref="formCom"
+            />
             <using-schema-bridge-config
               v-else-if="
                 chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)
@@ -134,6 +140,11 @@
         v-model="bridgeData"
         ref="formCom"
       />
+      <bridge-kafka-config
+        v-else-if="chosenBridgeType === BridgeType.Kafka"
+        v-model="bridgeData"
+        ref="formCom"
+      />
       <using-schema-bridge-config
         v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
         :type="chosenBridgeType"
@@ -170,6 +181,7 @@ import useGuide from '@/hooks/useGuide'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA, DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
+import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
 
 export default defineComponent({
   name: 'BridgeCreate',
@@ -180,6 +192,7 @@ export default defineComponent({
     GuideBar,
     UsingSchemaBridgeConfig,
     BridgeInfluxdbConfig,
+    BridgeKafkaConfig,
   },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
