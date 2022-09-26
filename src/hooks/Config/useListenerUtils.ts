@@ -32,6 +32,7 @@ export interface ListenerUtils {
    * independent is diff from below gateway
    */
   handleListenerDataWhenItIsIndependent: (listener: Listener) => Listener
+  transPort: (port: string) => string
 }
 
 export default (): ListenerUtils => {
@@ -267,6 +268,10 @@ export default (): ListenerUtils => {
     return result
   }
 
+  const portNeedsToTransReg = /^:\d+$/
+  const transPort = (port: string) =>
+    portNeedsToTransReg.test(port) ? port.replace(':', '') : port
+
   return {
     completeGatewayListenerTypeList,
     listenerTypeList,
@@ -287,5 +292,6 @@ export default (): ListenerUtils => {
     normalizeStructure,
     deNormalizeStructure,
     handleListenerDataWhenItIsIndependent,
+    transPort,
   }
 }

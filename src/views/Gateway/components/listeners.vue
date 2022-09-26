@@ -9,7 +9,11 @@
     <el-table :data="listenerTable" v-loading="listenerLoading">
       <el-table-column :label="'ID'" prop="id" />
       <el-table-column :label="tl('lType')" prop="type" />
-      <el-table-column :label="tl('lAddress')" prop="bind" />
+      <el-table-column :label="tl('lAddress')" prop="bind">
+        <template #default="{ row }">
+          {{ transPort(row.bind) }}
+        </template>
+      </el-table-column>
       <el-table-column :label="tl('lMaxConn')" prop="max_connections" />
       <el-table-column label="Acceptors" prop="acceptors">
         <template #default="{ row }">
@@ -80,7 +84,7 @@ const emit = defineEmits(['list'])
 const route = useRoute()
 const { t, tl } = useI18nTl('Gateway')
 const gName = (route.params.name || props.gatewayName).toLowerCase()
-const { normalizeStructure, deNormalizeStructure } = useListenerUtils()
+const { normalizeStructure, deNormalizeStructure, transPort } = useListenerUtils()
 
 let opListener = ref(false)
 let listenerTable = ref([])
