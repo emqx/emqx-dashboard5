@@ -289,18 +289,16 @@ const compareTargetNFromStr = (
   fromStr: string,
 ): boolean => {
   const inputs = transFromStrToFromArr(fromStr)
-  let targetStrToCompare = ''
-
-  if (inputs.length > 1) {
-    return false
-  }
-
   const { eventList = [], ingressBridgeList = [] } = props
-  const { type: typeInSQL } = findInputTypeNTarget(inputs[0], eventList, ingressBridgeList)
-  const typeNeedToCompare = typeInSQL === RuleInputType.Topic ? TOPIC_EVENT : inputs[0]
+  const typeNeedToCompares = inputs.map((input) => {
+    const { type: typeInSQL } = findInputTypeNTarget(input, eventList, ingressBridgeList)
+    const typeNeedToCompare = typeInSQL === RuleInputType.Topic ? TOPIC_EVENT : input
+    return typeNeedToCompare
+  })
   // when comparing, if the type is topic, compare the TOPIC_EVENT;
   // if type is event, compare target.event
   // if type is bridge, compare bridge.id
+  let targetStrToCompare = ''
   switch (targetType) {
     case RuleInputType.Topic:
       targetStrToCompare = target as string
@@ -312,7 +310,7 @@ const compareTargetNFromStr = (
       targetStrToCompare = (target as BridgeItem).idForRuleFrom
       break
   }
-  return targetStrToCompare === typeNeedToCompare
+  return typeNeedToCompares.includes(targetStrToCompare)
 }
 
 const setContext = (obj: Record<string, string>) => {
