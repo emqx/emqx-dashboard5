@@ -17,6 +17,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.MQTT, label: 'MQTT' },
     { value: BridgeType.InfluxDB, label: tl('influxDBLabel') },
     { value: BridgeType.MySQL, label: tl('mySQL') },
+    { value: BridgeType.Kafka, label: tl('kafka') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -70,6 +71,12 @@ export const useBridgeTypeOptions = (): {
       valueForRadio: BridgeType.MySQL,
       label: tl('mySQL'),
       desc: tl('mySQLDesc'),
+    },
+    {
+      value: BridgeType.Kafka,
+      valueForRadio: BridgeType.Kafka,
+      label: tl('kafka'),
+      desc: tl('kafkaDesc'),
     },
   ]
 
