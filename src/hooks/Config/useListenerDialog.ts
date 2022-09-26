@@ -46,6 +46,7 @@ interface UseListenerDialogReturns {
   showWSConfig: ComputedRef<boolean>
   listenerFormRules: FormRules
   submit: () => Promise<void>
+  transPort: (port: string) => string
 }
 
 export default (props: Props, emit: Emit): UseListenerDialogReturns => {
@@ -81,6 +82,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     normalizeStructure,
     handleListenerDataWhenItIsIndependent,
     getListenerNameNTypeById,
+    transPort,
   } = useListenerUtils()
 
   const listenerTypeOptList = computed(() => {
@@ -251,5 +253,6 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     SSLConfigKey,
     listenerFormRules,
     submit,
+    transPort,
   }
 }

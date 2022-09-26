@@ -13,7 +13,11 @@
         </template>
       </el-table-column>
       <el-table-column :label="tl('lType')" prop="type" :min-width="90" />
-      <el-table-column :label="tl('lAddress')" prop="bind" :min-width="132" />
+      <el-table-column :label="tl('lAddress')" prop="bind" :min-width="132">
+        <template #default="{ row }">
+          {{ transPort(row.bind) }}
+        </template>
+      </el-table-column>
       <el-table-column :label="tl('connection')" :min-width="120">
         <template #default="{ row }">
           <el-tooltip
@@ -113,7 +117,7 @@ const removeRow = ref<Listener>({})
 const confirmDeleteName = ref('')
 const currentListener: Ref<undefined | Listener> = ref(undefined)
 
-const { getListenerNameNTypeById } = useListenerUtils()
+const { getListenerNameNTypeById, transPort } = useListenerUtils()
 
 const getListenerData = async () => {
   try {

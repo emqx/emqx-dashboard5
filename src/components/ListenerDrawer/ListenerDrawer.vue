@@ -22,7 +22,8 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('lAddress')" prop="bind" required>
-            <el-input v-model="listenerRecord.bind" :disabled="isEdit" />
+            <el-input v-model="listenerRecord.bind" v-if="!isEdit" />
+            <el-input v-model="bindForShow" v-else disabled />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -298,6 +299,7 @@ const {
   showWSConfig,
   listenerFormRules,
   submit,
+  transPort,
 } = useListenerDialog(props, emit)
 
 const isUDP = computed(
@@ -305,6 +307,8 @@ const isUDP = computed(
     listenerRecord.value.type === ListenerType.QUIC ||
     listenerRecord.value.type === ListenerTypeForGateway.UDP,
 )
+
+const bindForShow = computed(() => transPort(listenerRecord.value.bind))
 </script>
 
 <style lang="scss">
