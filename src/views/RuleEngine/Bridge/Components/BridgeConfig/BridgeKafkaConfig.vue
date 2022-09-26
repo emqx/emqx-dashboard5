@@ -1,5 +1,5 @@
 <template>
-  <div class="bridge-kafka-config">
+  <div class="bridge-config bridge-kafka-config">
     <el-form
       ref="formCom"
       label-position="top"
@@ -100,8 +100,10 @@
                 <span>{{ tl('kerberosKeytabFile') }}</span>
                 <InfoTooltip :content="tl('kerberosKeytabFileDesc')" />
               </template>
-              <!-- TODO:file -->
-              <el-input v-model="formData.authentication.kerberos_keytab_file" />
+              <el-input
+                v-model="formData.authentication.kerberos_keytab_file"
+                :placeholder="tl('filePathPlease')"
+              />
             </el-form-item>
           </el-col>
         </template>
@@ -197,7 +199,7 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { defineExpose, defineProps, ref, computed, Ref } from 'vue'
+import { defineExpose, defineProps, ref, computed, Ref, defineEmits, watchEffect } from 'vue'
 import KafkaProducerKafkaConfig from './KafkaProducerKafkaConfig.vue'
 
 enum AuthType {
@@ -207,9 +209,9 @@ enum AuthType {
 }
 
 enum BasicAuthEncryptType {
-  Plain,
-  SHA256,
-  SHA512,
+  Plain = 'plain',
+  SHA256 = 'scram_sha_256',
+  SHA512 = 'scram_sha_512',
 }
 
 enum StreamDirection {
@@ -225,6 +227,7 @@ const props = defineProps({
     type: Boolean,
   },
 })
+const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -270,6 +273,7 @@ const createDefaultValue = () => ({
 const formCom = ref()
 const { createRequiredRule } = useFormRules()
 const formRules = {
+  name: createRequiredRule(tl('name')),
   bootstrap_hosts: createRequiredRule(tl('bootstrapHosts')),
   authentication: {
     mechanism: createRequiredRule(tl('mechanism')),
@@ -278,9 +282,16 @@ const formRules = {
     kerberos_keytab_file: createRequiredRule(tl('kerberosKeytabFile')),
     kerberos_principal: createRequiredRule(tl('kerberosPrincipal')),
   },
+  producer: {
+    kafka: {
+      topic: createRequiredRule(tl('kafkaTopic')),
+    },
+  },
 }
 
 const formData: Ref<any> = ref({ ...createDefaultValue(), ...props.modelValue })
+
+watchEffect(() => emit('update:modelValue', formData.value))
 
 const judgeAuthType = () => {
   const auth = formData.value.authentication
@@ -329,14 +340,19 @@ const mechanismOptList = [
 
 const activeDirection = ref(StreamDirection.In)
 
-const validate = () => {}
+const validate = () => {
+  return formCom.value.validate()
+}
 
-const clearValidate = () => {}
+const clearValidate = () => {
+  return formCom.value?.clearValidate()
+}
 
 defineExpose({ validate, clearValidate })
 </script>
 
 <style lang="scss">
+@import '~@/style/rule.scss';
 .bridge-kafka-config {
   .el-tabs {
     width: 100%;
