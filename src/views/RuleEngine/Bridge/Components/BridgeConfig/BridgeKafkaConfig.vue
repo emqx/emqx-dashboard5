@@ -201,6 +201,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { defineExpose, defineProps, ref, computed, Ref, defineEmits, watchEffect } from 'vue'
 import KafkaProducerKafkaConfig from './KafkaProducerKafkaConfig.vue'
+import { BridgeType } from '@/types/enum'
 
 enum AuthType {
   None,
@@ -233,8 +234,7 @@ const { t, tl } = useI18nTl('RuleEngine')
 
 const { createSSLForm } = useSSL()
 const createDefaultValue = () => ({
-  // TODO:use enum
-  type: 'kafka',
+  type: BridgeType.Kafka,
   name: '',
   bootstrap_hosts: '',
   connect_timeout: '5s',
