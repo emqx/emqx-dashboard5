@@ -1168,6 +1168,10 @@ export default {
     en: 'Kerberos keytab file',
     zh: 'Kerberos keytab 文件',
   },
+  filePathPlease: {
+    zh: '请填写文件路径',
+    en: 'Fill in the file path',
+  },
   kerberosKeytabFileDesc: {
     en: 'SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
     zh: 'SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。',

@@ -77,6 +77,12 @@
                   :edit="true"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
+                <bridge-kafka-config
+                  v-else-if="bridgeType === BridgeType.Kafka"
+                  v-model="bridgeInfo"
+                  ref="formCom"
+                  :edit="true"
+                />
                 <using-schema-bridge-config
                   v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
                   :type="bridgeInfo.type"
@@ -141,6 +147,7 @@ import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import BridgeKafkaConfig from './Components/BridgeConfig/BridgeKafkaConfig.vue'
 
 enum Tab {
   Overview = 'overview',
