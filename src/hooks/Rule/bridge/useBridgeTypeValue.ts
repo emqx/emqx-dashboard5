@@ -61,6 +61,12 @@ export const useBridgeTypeOptions = (): {
       desc: tl('bridgeDescMQTT'),
     },
     {
+      value: BridgeType.Kafka,
+      valueForRadio: BridgeType.Kafka,
+      label: tl('kafka'),
+      desc: tl('kafkaDesc'),
+    },
+    {
       value: BridgeType.InfluxDB,
       valueForRadio: BridgeType.InfluxDB,
       label: tl('influxDBLabel'),
@@ -71,12 +77,6 @@ export const useBridgeTypeOptions = (): {
       valueForRadio: BridgeType.MySQL,
       label: tl('mySQL'),
       desc: tl('mySQLDesc'),
-    },
-    {
-      value: BridgeType.Kafka,
-      valueForRadio: BridgeType.Kafka,
-      label: tl('kafka'),
-      desc: tl('kafkaDesc'),
     },
   ]
 
