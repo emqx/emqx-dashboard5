@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { BridgeItem } from '@/types/rule'
-import { omit, isObject, get, escape } from 'lodash'
+import { omit, isObject, get, escape, cloneDeep } from 'lodash'
 import i18n from '@/i18n'
 import utf8 from 'utf8'
 
@@ -66,6 +66,9 @@ export const parseJSONSafely = (str: string): Record<string, any> | void => {
 
 export const stringifyObjSafely = (obj: Record<string, any>, tabSpaces?: number): string => {
   try {
+    if (typeof obj === 'string') {
+      return obj
+    }
     return JSON.stringify(obj, null, tabSpaces)
   } catch (error) {
     console.error(error)
@@ -403,4 +406,58 @@ export const utf8Decode = (str: string) => {
     console.error(error)
     return str
   }
+}
+
+export const getEmptyValueByDefaultValue = (value: 'string' | 'number' | 'boolean') => {
+  const type = typeof value
+  return type === 'string' ? '' : undefined
+}
+
+/**
+ * empty all fields in obj
+ */
+export const emptyObject = (obj: Record<string, any>) => {
+  const ret = cloneDeep(obj)
+  const walkALevel = (aLevelDefaultRecord: Record<string, any>) => {
+    const keys = Object.keys(aLevelDefaultRecord)
+    keys.forEach((key) => {
+      const rawValue = aLevelDefaultRecord[key]
+      if (typeof rawValue === 'object') {
+        walkALevel(aLevelDefaultRecord[key])
+      } else {
+        aLevelDefaultRecord[key] = getEmptyValueByDefaultValue(aLevelDefaultRecord[key])
+      }
+    })
+  }
+  walkALevel(ret)
+  return ret
+}
+
+/**
+ * because the field will be deleted if value is empty when submit form
+ * so we need give these field a empty value
+ */
+export const fillEmptyValueToUndefinedField = (
+  formData: Record<string, any>,
+  defaultData: Record<string, any>,
+): Record<string, any> => {
+  const walkALevel = (record: Record<string, any>, defaultRecord: Record<string, any>) => {
+    const keys = Object.keys(defaultRecord)
+    keys.forEach((key) => {
+      const rawValue = defaultRecord[key]
+      const isValueObj = typeof rawValue === 'object'
+
+      if (!(key in record)) {
+        if (isValueObj) {
+          record[key] = emptyObject(rawValue)
+        } else {
+          record[key] = getEmptyValueByDefaultValue(rawValue)
+        }
+      } else if (isValueObj) {
+        walkALevel(record[key], rawValue)
+      }
+    })
+  }
+  walkALevel(formData, defaultData)
+  return formData
 }
