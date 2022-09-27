@@ -22,7 +22,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, onMounted } from 'vue'
 import { marked } from 'marked'
 
 interface TocItem {
@@ -83,19 +83,22 @@ const convertMarkdown = function (text: string) {
   })
 }
 
+const setEle = (val: string | undefined) => {
+  if (!val) {
+    containerEle.value.innerHTML = ''
+  } else {
+    containerEle.value.innerHTML = convertMarkdown(val)
+  }
+}
+
+onMounted(() => {
+  setEle(props.content)
+})
+
 onUnmounted(() => {
   // @ts-ignore-line
   window.scrollView = undefined
 })
 
-watch(
-  () => props.content,
-  (val) => {
-    if (!val) {
-      containerEle.value.innerHTML = ''
-    } else {
-      containerEle.value.innerHTML = convertMarkdown(val)
-    }
-  },
-)
+watch(() => props.content, setEle)
 </script>
