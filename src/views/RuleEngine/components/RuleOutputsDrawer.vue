@@ -45,16 +45,21 @@
 
       <div class="output-content" v-if="outputForm.type === RuleOutput.Republish">
         <el-row :gutter="26">
-          <el-col :span="12">
+          <el-col :span="10">
             <el-form-item :label="$t('Base.topic')" required prop="args.topic">
               <el-input v-model="outputForm.args.topic" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="10">
             <el-form-item label="QoS">
               <el-select v-model="outputForm.args.qos">
                 <el-option v-for="item in QoSOptions" :value="item" :key="item" />
               </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="Retain">
+              <el-checkbox :label="'Retain'" border v-model="outputForm.args.retain" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -172,6 +177,7 @@ const createRawOutputForm = (): OutputForm => ({
     topic: '',
     qos: 0,
     payload: '',
+    retain: false,
   },
 })
 
