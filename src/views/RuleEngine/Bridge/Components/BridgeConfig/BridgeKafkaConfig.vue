@@ -137,6 +137,7 @@
         <el-col :span="24">
           <el-tabs v-model="activeDirection" type="card">
             <el-tab-pane :label="tl('producer')" :name="StreamDirection.In" lazy>
+              <p class="trans-desc">{{ tl('producerDesc') }}</p>
               <el-card class="app-card with-border" shadow="never">
                 <p class="broker-block-title">MQTT</p>
                 <el-row :gutter="26">
@@ -398,12 +399,12 @@ defineExpose({ validate, clearValidate })
       margin-bottom: 16px;
     }
   }
-  .el-tabs__content {
-    padding-top: 16px;
-  }
   .broker-block-title {
     margin-top: 0;
     font-size: 16px;
+  }
+  .trans-desc {
+    margin: 20px 0;
   }
 }
 </style>
