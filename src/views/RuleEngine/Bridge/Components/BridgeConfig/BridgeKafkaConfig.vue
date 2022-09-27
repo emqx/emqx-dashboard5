@@ -23,7 +23,11 @@
             <template #label>
               <span>{{ tl('bootstrapHosts') }}</span>
               <!-- TODO: markdown -->
-              <InfoTooltip :content="tl('bootstrapHostsDesc')" />
+              <InfoTooltip>
+                <template #content>
+                  <MarkdownContent :content="tl('bootstrapHostsDesc')" />
+                </template>
+              </InfoTooltip>
             </template>
             <el-input v-model="formData.bootstrap_hosts" />
           </el-form-item>
@@ -183,7 +187,7 @@
         </el-col>
         <!-- ssl -->
         <el-col :span="24">
-          <CommonTLSConfig />
+          <CommonTLSConfig v-model="formData.ssl" :is-edit="edit" />
         </el-col>
       </el-row>
     </el-form>
@@ -191,7 +195,7 @@
 </template>
 
 <script setup lang="ts">
-import { usefulMemoryUnit } from '@/common/tools'
+import { fillEmptyValueToUndefinedField, usefulMemoryUnit } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
@@ -199,9 +203,11 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { defineExpose, defineProps, ref, computed, Ref, defineEmits, watchEffect } from 'vue'
+import { defineExpose, defineProps, ref, computed, Ref, defineEmits, watch, onMounted } from 'vue'
 import KafkaProducerKafkaConfig from './KafkaProducerKafkaConfig.vue'
 import { BridgeType } from '@/types/enum'
+import MarkdownContent from '@/components/MarkdownContent.vue'
+import { isEqual } from 'lodash'
 
 enum AuthType {
   None,
@@ -247,7 +253,11 @@ const createDefaultValue = () => ({
     },
     kafka: {
       topic: '',
-      message: '',
+      message: {
+        key: '${clientid}',
+        value: '${payload}',
+        timestamp: '${timestamp}',
+      },
       max_batch_bytes: '896KB',
       compression: 'no_compression',
       partition_strategy: 'random',
@@ -289,9 +299,20 @@ const formRules = {
   },
 }
 
-const formData: Ref<any> = ref({ ...createDefaultValue(), ...props.modelValue })
+const formData: Ref<any> = ref({ ...createDefaultValue() })
 
-watchEffect(() => emit('update:modelValue', formData.value))
+const updateParentBridgeData = () => {
+  emit('update:modelValue', formData.value)
+}
+
+watch(formData.value, updateParentBridgeData)
+
+const resetFormDataWhenEdit = () => {
+  formData.value = fillEmptyValueToUndefinedField(
+    props.modelValue as Record<string, any>,
+    createDefaultValue(),
+  )
+}
 
 const judgeAuthType = () => {
   const auth = formData.value.authentication
@@ -347,6 +368,23 @@ const validate = () => {
 const clearValidate = () => {
   return formCom.value?.clearValidate()
 }
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (!isEqual(val, formData.value)) {
+      resetFormDataWhenEdit()
+    }
+  },
+)
+
+onMounted(() => {
+  if (!props.edit) {
+    updateParentBridgeData()
+  } else if (props.edit && props.modelValue) {
+    resetFormDataWhenEdit()
+  }
+})
 
 defineExpose({ validate, clearValidate })
 </script>

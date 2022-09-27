@@ -6,14 +6,13 @@
           <el-input v-model="kafkaConfig.topic" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="24">
         <el-form-item prop="producer.kafka.message">
           <template #label>
             <span>{{ tl('kafkaMessage') }}</span>
             <InfoTooltip :content="tl('kafkaMessageDesc')" />
           </template>
-          <!-- TODO:monaco? -->
-          <el-input v-model="kafkaConfig.message" />
+          <KeyAndValueEditor v-model="kafkaConfig.message" fixed-keys />
         </el-form-item>
       </el-col>
 
@@ -43,7 +42,11 @@
         <el-form-item prop="producer.kafka.partition_strategy">
           <template #label>
             <span>{{ tl('partitionStrategy') }}</span>
-            <InfoTooltip :content="tl('partitionStrategyDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('partitionStrategyDesc')" />
+              </template>
+            </InfoTooltip>
           </template>
           <el-select v-model="kafkaConfig.partition_strategy">
             <el-option
@@ -59,7 +62,11 @@
         <el-form-item prop="producer.kafka.required_acks">
           <template #label>
             <span>{{ tl('requiredAcks') }}</span>
-            <InfoTooltip :content="tl('requiredAcksDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('requiredAcksDesc')" />
+              </template>
+            </InfoTooltip>
           </template>
           <el-select v-model="kafkaConfig.required_acks">
             <el-option
@@ -76,7 +83,11 @@
         <el-form-item prop="producer.kafka.partition_count_refresh_interval">
           <template #label>
             <span>{{ tl('partitionCountRefreshInterval') }}</span>
-            <InfoTooltip :content="tl('partitionCountRefreshIntervalDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('partitionCountRefreshIntervalDesc')" />
+              </template>
+            </InfoTooltip>
           </template>
           <TimeInputWithUnitSelect v-model="kafkaConfig.partition_count_refresh_interval" />
         </el-form-item>
@@ -95,7 +106,11 @@
         <el-form-item prop="producer.kafka.buffer.mode">
           <template #label>
             <span>{{ tl('bufferMode') }}</span>
-            <InfoTooltip :content="tl('bufferModeDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('bufferModeDesc')" />
+              </template>
+            </InfoTooltip>
           </template>
           <el-select v-model="kafkaConfig.buffer.mode">
             <el-option
@@ -123,7 +138,11 @@
         <el-form-item prop="producer.kafka.buffer.segment_bytes">
           <template #label>
             <span>{{ tl('segmentBytes') }}</span>
-            <InfoTooltip :content="tl('segmentBytesDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('segmentBytesDesc')" />
+              </template>
+            </InfoTooltip>
           </template>
           <InputWithUnit v-model="kafkaConfig.buffer.segment_bytes" :units="usefulMemoryUnit" />
         </el-form-item>
@@ -132,7 +151,11 @@
         <el-form-item prop="producer.kafka.buffer.memory_overload_protection">
           <template #label>
             <span>{{ tl('memoryOverloadProtection') }}</span>
-            <InfoTooltip :content="tl('memoryOverloadProtectionDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('memoryOverloadProtectionDesc')" />
+              </template>
+            </InfoTooltip>
           </template>
           <el-switch v-model="kafkaConfig.buffer.memory_overload_protection" />
         </el-form-item>
@@ -145,6 +168,8 @@
 import { usefulMemoryUnit } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps } from 'vue'
