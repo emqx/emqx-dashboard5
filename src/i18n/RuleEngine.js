@@ -549,11 +549,11 @@ export default {
   },
   ingressDesc: {
     zh: '从外部的远程服务桥接消息到本地服务。',
-    en: 'Bridges messages from external remote services to local.',
+    en: 'Bridge messages from external remote service to local.',
   },
   egressDesc: {
     zh: '将本地服务桥接消息至外部的远程服务。',
-    en: 'Bridges local messages to external remote services.',
+    en: 'Bridge local messages to external remote service.',
   },
   remoteTopicRequired: {
     zh: '请配置远程 MQTT 服务',
@@ -1211,6 +1211,10 @@ export default {
   producer: {
     zh: '生产者',
     en: 'Producer',
+  },
+  producerDesc: {
+    zh: '将本地服务中的消息桥接到外部 Kafka 服务。',
+    en: 'Bridge local messages to external Kafka service.',
   },
   kafkaTopic: {
     en: 'Kafka Topic Name',

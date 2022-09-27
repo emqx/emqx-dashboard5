@@ -120,6 +120,7 @@ export default (): {
       BridgeType.Webhook,
       BridgeType.InfluxDB,
       BridgeType.MySQL,
+      BridgeType.Kafka,
     ]
     return bridgeTypeList.find((item) => str.indexOf(item) > -1) || BridgeType.MQTT
   }
