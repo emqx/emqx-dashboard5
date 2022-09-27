@@ -2,15 +2,20 @@
   <el-table class="key-and-value-editor shadow-none" :data="tableData">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
-        <el-input v-model="row.key" class="key-input" @input="atInputChange"></el-input>
+        <el-input
+          v-model="row.key"
+          class="key-input"
+          @input="atInputChange"
+          :readonly="fixedKeys"
+        />
       </template>
     </el-table-column>
     <el-table-column :label="keyValueLabel.value">
       <template #default="{ row }">
-        <el-input v-model="row.value" @input="atInputChange"></el-input>
+        <el-input v-model="row.value" @input="atInputChange" />
       </template>
     </el-table-column>
-    <el-table-column v-if="!disabled" width="100">
+    <el-table-column v-if="!disabled && !fixedKeys" width="100">
       <template #header>
         <a href="javascript:;" class="btn" @click="addColumn">
           {{ $t('Base.add') }}
@@ -26,9 +31,9 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, Ref, defineComponent, watch } from 'vue'
+import { cloneDeep, isEqual, isPlainObject } from 'lodash'
+import { computed, defineComponent, ref, Ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { isPlainObject, cloneDeep, isEqual } from 'lodash'
 
 enum State {
   OK = 0,
@@ -52,6 +57,10 @@ export default defineComponent({
       default: null,
     },
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    fixedKeys: {
       type: Boolean,
       default: false,
     },
