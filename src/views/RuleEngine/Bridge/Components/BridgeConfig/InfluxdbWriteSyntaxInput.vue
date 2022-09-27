@@ -79,6 +79,9 @@ defineExpose({ validate, clearValidate })
   width: 100%;
   margin-top: 12px;
   border: 1px solid var(--el-card-border-color);
+  .el-card__body {
+    padding: 0;
+  }
   .type-select {
     margin-bottom: 16px;
   }
