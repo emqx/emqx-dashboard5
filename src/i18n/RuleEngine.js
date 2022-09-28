@@ -563,9 +563,9 @@ export default {
     zh: '复制规则',
     en: 'Duplicate',
   },
-  SQLTemplates: {
-    zh: 'SQL 模版',
-    en: 'SQL Templates',
+  viewSQLTemplates: {
+    zh: '查看 SQL 模版',
+    en: 'View SQL Templates',
   },
   commonSQLTemplates: {
     zh: '常用 SQL 模板',

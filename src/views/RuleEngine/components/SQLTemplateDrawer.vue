@@ -1,5 +1,10 @@
 <template>
-  <div class="sql-template">
+  <el-drawer
+    v-model="showDrawer"
+    :title="tl('commonSQLTemplates')"
+    custom-class="SQL-template-drawer"
+    :size="500"
+  >
     <el-collapse>
       <el-collapse-item
         v-for="item in templateList"
@@ -59,16 +64,8 @@
         </section>
       </el-collapse-item>
     </el-collapse>
-  </div>
+  </el-drawer>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'SQLTemplate',
-})
-</script>
 
 <script setup lang="ts">
 import SQLTemplates from '@/common/SQLTemplates'
@@ -77,7 +74,7 @@ import Monaco from '@/components/Monaco.vue'
 import useCopy from '@/hooks/useCopy'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { defineEmits, ref, Ref } from 'vue'
+import { computed, defineEmits, defineProps, ref, Ref, WritableComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface TemplateItem {
@@ -93,7 +90,22 @@ const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
 const templateList: Ref<Array<TemplateItem>> = ref([])
 
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+  },
+})
+
 const emit = defineEmits(['update:modelValue', 'use-sql', 'test-sql'])
+
+const showDrawer: WritableComputedRef<boolean> = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  },
+})
 
 const initTemplateList = () => {
   templateList.value = SQLTemplates.map((item) => {
@@ -111,10 +123,12 @@ const initTemplateList = () => {
 
 // const testSQL = ({ sql, input }: TemplateItem) => {
 //   emit('test-sql', { sql, input })
+//   showDrawer.value = false
 // }
 
 const useSQL = (SQLContent: string) => {
   emit('use-sql', SQLContent)
+  showDrawer.value = false
 }
 
 const { copyText: execCopy } = useCopy()
@@ -130,9 +144,15 @@ initTemplateList()
 </script>
 
 <style lang="scss">
-.sql-template {
-  height: 500px;
-  overflow-y: scroll;
+.SQL-template-drawer {
+  .el-drawer__header {
+    padding: 16px 20px;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--color-border-primary);
+  }
+  .el-drawer__body {
+    overflow: auto;
+  }
   $collapse-border: 1px solid var(--color-border-primary);
   .el-collapse {
     border-top: $collapse-border;
