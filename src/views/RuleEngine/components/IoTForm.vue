@@ -49,6 +49,9 @@
               <el-button type="primary" :loading="testLoading" @click="handleTestSQL()">
                 {{ tl('testsql') }}
               </el-button>
+              <el-button @click="openTemplateDrawer" type="primary" plain>
+                {{ tl('viewSQLTemplates') }}
+              </el-button>
             </el-col>
           </el-row>
 
@@ -99,7 +102,7 @@
                 {{ tl('testsql') }}
               </el-button>
               <el-button class="btn-sql-temp" size="small" plain @click="showTemplateDrawer">
-                {{ tl('SQLTemplates') }}
+                {{ tl('viewSQLTemplates') }}
               </el-button>
             </el-col>
           </el-row> -->
@@ -109,9 +112,6 @@
         <el-tabs>
           <el-tab-pane :label="tl('actions')">
             <RuleOutputs v-model="ruleValue" />
-          </el-tab-pane>
-          <el-tab-pane :label="tl('SQLTemplates')">
-            <SQLTemplate @use-sql="useSQLTemplate" @test-sql="testSQLTemplate" />
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -139,6 +139,7 @@
       </el-col>
     </el-row>
   </div>
+  <SQLTemplateDrawer v-model="showSQLTemplateDrawer" @use-sql="useSQLTemplate" />
 </template>
 
 <script lang="ts">
@@ -158,7 +159,7 @@ import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
 import { MQTTBridgeDirection } from '@/types/enum'
 import SQLTest from './SQLTest.vue'
-import SQLTemplate from './SQLTemplate.vue'
+import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, getKeywordsFromSQL, checkIsValidArr } from '@/common/tools'
@@ -225,6 +226,7 @@ const fieldLabelMap = {
 
 const testSQL = ref('')
 const payloadForTest = ref('')
+const showSQLTemplateDrawer = ref(false)
 
 const { createRequiredRule } = useFormRules()
 const formCom = ref()
@@ -351,6 +353,10 @@ const useSQLTemplate = (SQLTemp: string) => {
 const testSQLTemplate = ({ sql, input }: { sql: string; input: string }) => {
   testSQL.value = sql
   payloadForTest.value = input
+}
+
+const openTemplateDrawer = () => {
+  showSQLTemplateDrawer.value = true
 }
 
 const saveSQLFromTest = useSQLTemplate
