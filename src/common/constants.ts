@@ -198,6 +198,7 @@ export const REQUEST_TIMEOUT_CODE = 'ECONNABORTED'
  * from back end
  */
 export const BAD_TOKEN_CODE = 'BAD_TOKEN'
+export const TOKEN_TIME_OUT = 'TOKEN_TIME_OUT'
 
 export const RULE_MAX_NUM_PER_PAGE = 100
 

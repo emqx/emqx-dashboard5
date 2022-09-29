@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css'
 import { toLogin } from '@/router'
 import store from '@/store'
 import _ from 'lodash'
-import { REQUEST_TIMEOUT_CODE, BAD_TOKEN_CODE } from '@/common/constants'
+import { REQUEST_TIMEOUT_CODE, BAD_TOKEN_CODE, TOKEN_TIME_OUT } from '@/common/constants'
 import i18n from '@/i18n'
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 200 })
@@ -39,7 +39,8 @@ axios.interceptors.request.use(async (config) => {
   return config
 })
 
-const isTokenExpired = (status, data) => status === 401 && data.code === BAD_TOKEN_CODE
+const isTokenExpired = (status, data) =>
+  status === 401 && [BAD_TOKEN_CODE, BAD_TOKEN_CODE].includes(data.code)
 
 /**
  * there are some custom configurations
