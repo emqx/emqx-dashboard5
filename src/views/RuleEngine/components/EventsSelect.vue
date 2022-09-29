@@ -7,7 +7,14 @@
             <p>{{ capitalize(getTargetText(item.title)) }}</p>
             <span class="event-name">{{ item.event }}</span>
           </div>
-          <el-button class="btn-use" type="primary" plain size="small" text>
+          <el-button
+            class="btn-use"
+            type="primary"
+            plain
+            size="small"
+            text
+            @click.prevent="useEvent(item.event)"
+          >
             {{ tl('useEvent') }}
           </el-button>
         </div>
@@ -47,7 +54,14 @@
               <p>{{ item.name }}</p>
               <span>{{ item.idForRuleFrom }}</span>
             </div>
-            <el-button class="btn-use" type="primary" plain size="small" text>
+            <el-button
+              class="btn-use"
+              type="primary"
+              plain
+              size="small"
+              text
+              @click.prevent="useEvent(item.idForRuleFrom)"
+            >
               {{ tl('useBridge') }}
             </el-button>
           </li>
@@ -67,7 +81,7 @@ import { RuleEvent } from '@/types/rule'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { capitalize } from 'lodash'
-import { computed, defineProps, PropType } from 'vue'
+import { computed, defineProps, PropType, defineEmits } from 'vue'
 import { useStore } from 'vuex'
 
 const props = defineProps({
@@ -80,6 +94,8 @@ const props = defineProps({
     default: () => [],
   },
 })
+
+const emit = defineEmits(['use-event'])
 
 const { state } = useStore()
 const { tl, t } = useI18nTl('RuleEngine')
@@ -120,6 +136,10 @@ const copyText = async (text: string) => {
   } catch (error) {
     ElMessage.error(t('Base.opErr'))
   }
+}
+
+const useEvent = (event: string) => {
+  emit('use-event', event)
 }
 </script>
 

@@ -56,6 +56,15 @@ export enum ExhookStatus {
   Error = 'error',
 }
 
+export enum RuleSQLKeyword {
+  Select = 'select',
+  From = 'from',
+  Where = 'where',
+  Foreach = 'foreach',
+  Do = 'do',
+  Incase = 'incase',
+}
+
 export enum RuleOutput {
   Console = 'console',
   Republish = 'republish',

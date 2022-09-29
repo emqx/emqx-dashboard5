@@ -1,5 +1,5 @@
 import { RULE_FROM_SEPARATOR } from '@/common/constants'
-import { BridgeType, RuleInputType } from '@/types/enum'
+import { BridgeType, RuleInputType, RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { formatSELECTStatement } from '@/common/tools'
@@ -23,7 +23,10 @@ export const useRuleUtils = (): {
     descMap: Record<string, string>
   }
   transFromStrToFromArr: (fromStr: string) => Array<string>
+  transFromDataArrToStr: (from: Array<string>) => string
   transSQLFormDataToSQL: (select: string, from: Array<string>, where?: string | undefined) => string
+  getSQLPart: (sql: string, part: RuleSQLKeyword) => string
+  replaceTargetPartInSQL: (sql: string, part: RuleSQLKeyword, newPartStr: string) => string
 } => {
   const TOPIC_EVENT = '$events/message_publish'
 
@@ -126,11 +129,45 @@ export const useRuleUtils = (): {
     return ret
   }
 
+  const SQLKeyWords = [
+    RuleSQLKeyword.Select,
+    RuleSQLKeyword.From,
+    RuleSQLKeyword.Where,
+    RuleSQLKeyword.Foreach,
+    RuleSQLKeyword.Do,
+    RuleSQLKeyword.Incase,
+  ]
+  const getSQLPart = (sql: string, part: RuleSQLKeyword) => {
+    const otherKeyWords = SQLKeyWords.filter((key) => key !== part)
+    const partReg = new RegExp(
+      `${part}((\\s|\\n)+)(?<targetPart>((.|\\n)(?!${otherKeyWords.join(
+        '|',
+      )}))+)(\\n|\\s)*(${otherKeyWords.join('|')})?`,
+      'i',
+    )
+    const matchRet = sql.match(partReg)
+    return matchRet?.groups?.targetPart || ''
+  }
+
+  const replaceTargetPartInSQL = (sql: string, part: RuleSQLKeyword, newPartStr: string) => {
+    const oldPartStr = getSQLPart(sql, part)
+    if (oldPartStr.trim() === '') {
+      return sql.replace(new RegExp(`${part}`, 'i'), (matched) => {
+        return `${matched}\n  ${newPartStr}`
+      })
+    } else {
+      return sql.replace(oldPartStr, newPartStr)
+    }
+  }
+
   return {
     TOPIC_EVENT,
     findInputTypeNTarget,
     getTestColumns,
     transFromStrToFromArr,
+    transFromDataArrToStr,
     transSQLFormDataToSQL,
+    getSQLPart,
+    replaceTargetPartInSQL,
   }
 }
