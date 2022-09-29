@@ -10,6 +10,8 @@ type DocKey =
   | 'discord'
   | 'gitHub'
   | 'contact'
+  | 'ruleEvent'
+  | 'bridgeAsFrom'
 
 export type DocMap = Record<DocKey, string>
 
@@ -27,5 +29,9 @@ export default (lang: string): DocMap => {
     discord: `https://discord.gg/xYGf3fQnES`,
     gitHub: `https://github.com/emqx/emqx`,
     contact: `https://www.emqx.com/${lang}/contact?product=emqx&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-to-contact-us`,
+    ruleEvent: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-events-and-fields.html`,
+    bridgeAsFrom: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-events-and-fields.html#${
+      lang === 'zh' ? '数据桥接' : 'data-bridges'
+    }`,
   }
 }

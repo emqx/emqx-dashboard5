@@ -110,6 +110,9 @@
       </el-col>
       <el-col :span="10" class="action-col">
         <el-tabs>
+          <el-tab-pane :label="tl('events')">
+            <EventsSelect :event-list="ruleEventsList" :ingress-bridge-list="ingressBridgeList" />
+          </el-tab-pane>
           <el-tab-pane :label="tl('actions')">
             <RuleOutputs v-model="ruleValue" />
           </el-tab-pane>
@@ -152,7 +155,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose } from 'vue'
+import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose, computed } from 'vue'
 import { getBridgeInfo, getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
@@ -167,6 +170,7 @@ import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import useFormRules from '@/hooks/useFormRules'
 import useDocLink from '@/hooks/useDocLink'
+import EventsSelect from './EventsSelect.vue'
 
 const prop = defineProps({
   modelValue: {
