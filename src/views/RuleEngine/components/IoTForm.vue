@@ -111,7 +111,11 @@
       <el-col :span="10" class="action-col">
         <el-tabs>
           <el-tab-pane :label="tl('events')">
-            <EventsSelect :event-list="ruleEventsList" :ingress-bridge-list="ingressBridgeList" />
+            <EventsSelect
+              :event-list="ruleEventsList"
+              :ingress-bridge-list="ingressBridgeList"
+              @use-event="addEvent"
+            />
           </el-tab-pane>
           <el-tab-pane :label="tl('actions')">
             <RuleOutputs v-model="ruleValue" />
@@ -343,6 +347,13 @@ const loadIngressBridgeList = async () => {
   )
 }
 
+const addEvent = (event: string) => {
+  syncSQLDataToForm()
+  sqlPartValue.value.from.push(event)
+  sqlPartValue.value.from = [...new Set(sqlPartValue.value.from)]
+  syncFormDataToSQL()
+}
+
 const handleTestSQL = () => {
   syncData()
   payloadForTest.value = ''
@@ -440,8 +451,15 @@ defineExpose({ validate })
   }
   .action-col {
     padding: 12px 24px;
+    height: 640px;
+    .el-tabs {
+      display: flex;
+      flex-direction: column;
+      max-height: 100%;
+    }
     .el-tabs__content {
       padding: 4px;
+      overflow-y: scroll;
     }
     .el-tabs__nav {
       width: 100%;
