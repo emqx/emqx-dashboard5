@@ -18,7 +18,7 @@
               <div class="part-header">{{ tl('sqlEditor') }}</div>
               <p class="sub-block-desc">
                 <span>{{ tl('ruleSQLDesc') }}</span>
-                <a :href="docMap.sqlGrammar" target="_blank">{{ tl('doc') }}</a>
+                <a :href="docMap.sqlGrammar" target="_blank">{{ tl('sqlSyntaxAndTem') }}</a>
               </p>
               <el-form-item required prop="sql" class="self-required">
                 <!-- <template #label>
@@ -50,7 +50,7 @@
                 {{ tl('testsql') }}
               </el-button>
               <el-button @click="openTemplateDrawer" type="primary" plain>
-                {{ tl('viewSQLTemplates') }}
+                {{ tl('SQLTemplates') }}
               </el-button>
             </el-col>
           </el-row>
@@ -102,22 +102,22 @@
                 {{ tl('testsql') }}
               </el-button>
               <el-button class="btn-sql-temp" size="small" plain @click="showTemplateDrawer">
-                {{ tl('viewSQLTemplates') }}
+                {{ tl('SQLTemplates') }}
               </el-button>
             </el-col>
           </el-row> -->
         </el-form>
       </el-col>
       <el-col :span="10" class="action-col">
-        <el-tabs>
-          <el-tab-pane :label="tl('events')">
+        <el-tabs v-model="rightBlockActiveTab">
+          <el-tab-pane :label="tl('events')" :name="RightTab.Events">
             <EventsSelect
               :event-list="ruleEventsList"
               :ingress-bridge-list="ingressBridgeList"
               @use-event="addEvent"
             />
           </el-tab-pane>
-          <el-tab-pane :label="tl('actions')">
+          <el-tab-pane :label="tl('actions')" :name="RightTab.Actions">
             <RuleOutputs v-model="ruleValue" />
           </el-tab-pane>
         </el-tabs>
@@ -247,6 +247,12 @@ const fieldLabelMap = {
 const testSQL = ref('')
 const payloadForTest = ref('')
 const showSQLTemplateDrawer = ref(false)
+
+enum RightTab {
+  Events,
+  Actions,
+}
+const rightBlockActiveTab = ref(RightTab.Actions)
 
 const { createRequiredRule } = useFormRules()
 const formCom = ref()

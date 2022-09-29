@@ -408,12 +408,12 @@ export default {
     en: 'SQL',
   },
   ruleSQLDesc: {
-    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的数据。',
-    en: 'Extract, filter, enrich, and transform the data between devices and business systems in real-time using SQL statements.',
+    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的数据。更多详情，请参考 ',
+    en: 'Extract, filter, enrich, and transform the data between devices and business systems in real-time using SQL statements.For more details, please refer to ',
   },
-  doc: {
-    zh: '参考文档',
-    en: 'Document',
+  sqlSyntaxAndTem: {
+    zh: 'SQL 语法与示列',
+    en: 'SQL syntax and templates',
   },
   overview: {
     zh: '概览',
@@ -563,9 +563,9 @@ export default {
     zh: '复制规则',
     en: 'Duplicate',
   },
-  viewSQLTemplates: {
+  SQLTemplates: {
     zh: '查看 SQL 模版',
-    en: 'View SQL Templates',
+    en: 'SQL Templates',
   },
   commonSQLTemplates: {
     zh: '常用 SQL 模板',
@@ -595,9 +595,57 @@ export default {
     zh: '事件',
     en: 'Events',
   },
+  eventsDesc: {
+    zh: '可使用 MQTT 事件或数据桥接作为 SQL 的数据源，当事件被触发或桥接从外部服务接收到消息时，规则将被触发；可通过","分割选择多个事件',
+    en: 'MQTT events or data bridges can be used as data sources for SQL; rules will be triggered when events are triggered or bridges receive messages from external services; multiple events can be selected by splitting them by ","',
+  },
   useEvent: {
     zh: '使用事件',
     en: 'Use event',
+  },
+  messagePublishDesc: {
+    zh: '消息发布到指定的一个或多个主题时触发规则',
+    en: 'Trigger rule when a message is posted to one or more of the specified topics',
+  },
+  messageDeliveredDesc: {
+    zh: '当消息被放入底层 socket 时触发规则',
+    en: 'Trigger the rule when a message is put into the underlying socket',
+  },
+  messageAckedDesc: {
+    zh: '当消息发送到客户端，并收到客户端回复的 ACK 时触发规则，仅 QoS1，QoS2会触发',
+    en: `The rule is triggered when the message is sent to the client and an ack is received from the client. Only QoS1 and QoS2 messages will be triggered`,
+  },
+  messageDroppedDesc: {
+    zh: '当一条消息无任何订阅者时触发规则',
+    en: `Trigger rule when a message has no subscribers`,
+  },
+  deliveryDroppedDesc: {
+    zh: '当订阅者的消息队列已满时触发规则',
+    en: `Trigger rule when subscriber's message queue is full`,
+  },
+  clientConnectedDesc: {
+    zh: '当终端连接成功时触发规则',
+    en: `Trigger the rule when the terminal is connected successfully`,
+  },
+  clientDisconnectedDesc: {
+    zh: '当终端连接断开时触发规则',
+    en: `Trigger rule when terminal connection is lost`,
+  },
+  clientConnackDesc: {
+    zh: '当服务端向客户端发送 CONNACK 报文时触发规则，reason_code 包含各种错误原因代码',
+    en: `The rule event is triggered when the server sends a CONNACK packet to the client. reason_code contains the error reason code.`,
+  },
+  clientCheckAuthzCompleteDesc: {
+    zh: '当客户端鉴权结束时触发规则',
+    en: `The rule event is triggered when the client check acl complete.`,
+  },
+  sessionSubscribedDesc: {
+    zh: '当终端订阅成功时触发规则',
+    en: `Trigger the rule when the terminal subscribes successfully`,
+  },
+  sessionUnsubscribedDesc: {
+    zh: '当取消终端订阅成功时触发规则',
+    en: `Triggered when the terminal subscription is cancelled successfully`,
   },
   useBridge: {
     zh: '使用桥接',

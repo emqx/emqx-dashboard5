@@ -1,74 +1,84 @@
 <template>
-  <el-collapse class="events-select collapse-border">
-    <el-collapse-item v-for="item in eventOptList" :key="item.event" :name="item.event">
-      <template #title>
-        <div class="custom-collapse-item-hd">
-          <div class="event-name-container">
-            <p>{{ capitalize(getTargetText(item.title)) }}</p>
-            <span class="event-name">{{ item.event }}</span>
-          </div>
-          <el-button
-            class="btn-use"
-            type="primary"
-            plain
-            size="small"
-            text
-            @click.prevent="useEvent(item.event)"
-          >
-            {{ tl('useEvent') }}
-          </el-button>
-        </div>
-      </template>
-      <div class="collapse-item-bd">
-        <div class="event-desc-bar">
-          <p class="event-desc">{{ capitalize(getTargetText(item.description)) }}</p>
-          <a :href="getEventDocLink(item.event)" target="_blank">{{ t('Base.documentation') }}</a>
-        </div>
-        <div>
-          <label>{{ tl('sqlExample') }}</label>
-          <div class="code-container">
-            <el-icon class="icon-copy" @click="copyText(formatSQL(item.sql_example))">
-              <copy-document />
-            </el-icon>
-            <CodeView :code="formatSQL(item.sql_example)" lang="sql" />
-          </div>
-        </div>
-      </div>
-    </el-collapse-item>
-    <el-collapse-item name="bridges" :title="tl('dataBridge')">
-      <template #title>
-        <div class="custom-collapse-item-hd">
-          <p>{{ tl('dataBridge') }}</p>
-        </div>
-      </template>
-      <div class="collapse-item-bd">
-        <div class="event-desc-bar">
-          <p class="event-desc">{{ tl('bridgeForInputDesc') }}</p>
-          <a :href="docMap.bridgeAsFrom" target="_blank">
-            {{ t('Base.documentation') }}
-          </a>
-        </div>
-        <ul class="bridge-list">
-          <li class="bridge-item" v-for="item in ingressBridgeList" :key="item.idForRuleFrom">
-            <div class="bridge-item-hd">
-              <p>{{ item.name }}</p>
-              <span>{{ item.idForRuleFrom }}</span>
+  <div class="events-select">
+    <p class="sub-block-desc">{{ tl('eventsDesc') }}</p>
+    <el-collapse class="events-select collapse-border">
+      <el-collapse-item v-for="item in eventOptList" :key="item.event" :name="item.event">
+        <template #title>
+          <div class="custom-collapse-item-hd">
+            <div class="event-name-container">
+              <p>{{ capitalize(getTargetText(item.title)) }}</p>
+              <span class="event-name">{{ getEventForShow(item.event) }}</span>
             </div>
-            <el-button
-              class="btn-use"
-              type="primary"
-              plain
-              size="small"
-              text
-              @click.prevent="useEvent(item.idForRuleFrom)"
-            >
-              {{ tl('useBridge') }}
+          </div>
+        </template>
+        <div class="collapse-item-bd">
+          <p class="event-desc">{{ getEventDesc(item.event) }}</p>
+          <div>
+            <div class="space-between">
+              <label>{{ tl('sqlExample') }}</label>
+              <div>
+                <el-button class="btn-doc" plain size="small">
+                  <a :href="getEventDocLink(item.event)" target="_blank">
+                    {{ t('Base.documentation') }}
+                  </a>
+                </el-button>
+                <el-button
+                  v-if="!isMsgPubEvent(item.event)"
+                  class="btn-use"
+                  type="primary"
+                  size="small"
+                  text
+                  @click.prevent="useEvent(item.event)"
+                >
+                  {{ tl('useEvent') }}
+                </el-button>
+              </div>
+            </div>
+            <div class="code-container">
+              <el-icon class="icon-copy" @click="copyText(formatSQL(item.sql_example))">
+                <copy-document />
+              </el-icon>
+              <CodeView :code="formatSQL(item.sql_example)" lang="sql" />
+            </div>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="bridges" :title="tl('dataBridge')">
+        <template #title>
+          <div class="custom-collapse-item-hd">
+            <p>{{ tl('dataBridge') }}</p>
+          </div>
+        </template>
+        <div class="collapse-item-bd">
+          <div class="space-between">
+            <p class="event-desc">{{ tl('bridgeForInputDesc') }}</p>
+            <el-button class="btn-doc" plain size="small">
+              <a :href="docMap.bridgeAsFrom" target="_blank">
+                {{ t('Base.documentation') }}
+              </a>
             </el-button>
-          </li>
-        </ul>
-      </div>
-    </el-collapse-item>
-  </el-collapse>
+          </div>
+          <ul class="bridge-list">
+            <li class="bridge-item" v-for="item in ingressBridgeList" :key="item.idForRuleFrom">
+              <div class="bridge-item-hd">
+                <p>{{ item.name }}</p>
+                <span>{{ item.idForRuleFrom }}</span>
+              </div>
+              <el-button
+                class="btn-use"
+                type="primary"
+                size="small"
+                text
+                @click.prevent="useEvent(item.idForRuleFrom)"
+              >
+                {{ tl('useBridge') }}
+              </el-button>
+            </li>
+          </ul>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -77,12 +87,14 @@ import CodeView from '@/components/CodeView.vue'
 import useCopy from '@/hooks/useCopy'
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
+import { EventForRule } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { capitalize } from 'lodash'
-import { computed, defineProps, PropType, defineEmits } from 'vue'
+import { camelCase, capitalize } from 'lodash'
+import { computed, defineEmits, defineProps, PropType } from 'vue'
 import { useStore } from 'vuex'
+import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 
 const props = defineProps({
   eventList: {
@@ -102,26 +114,32 @@ const { tl, t } = useI18nTl('RuleEngine')
 const isZh = computed(() => state.lang === 'zh')
 const { docMap } = useDocLink()
 
-const eventDoNotNeedShow = ['$events/message_publish', '$bridges/mqtt:*']
+const eventDoNotNeedShow = ['$bridges/mqtt:*']
 const eventOptList = computed(() =>
   props.eventList.filter(({ event }) => !eventDoNotNeedShow.includes(event)),
 )
 
 const getTargetText = ({ zh, en }: { zh: string; en: string }) => (isZh.value ? zh : en)
 
+const { isMsgPubEvent, getEventForShow } = useRuleUtils()
+const getEventDesc = (event: string) => tl(`${camelCase(event.slice(8))}Desc`)
+
 const zhHookMap: Record<string, string> = {
-  '$events/message_delivered': '消息投递事件',
-  '$events/message_acked': '消息确认事件',
-  '$events/message_dropped': '消息在转发的过程中被丢弃事件',
-  '$events/client_connected': '终端连接成功事件',
-  '$events/client_disconnected': '终端连接断开事件',
-  '$events/client_connack': '连接确认事件',
-  '$events/client_check_authz_complete': '鉴权完成事件',
-  '$events/session_subscribed': '终端订阅成功事件',
-  '$events/session_unsubscribed': '取消终端订阅成功事件',
-  '$events/delivery_dropped': '消息在投递的过程中被丢弃事件',
+  [EventForRule.MessageDelivered]: '消息投递事件',
+  [EventForRule.MessageAcked]: '消息确认事件',
+  [EventForRule.MessageDropped]: '消息在转发的过程中被丢弃事件',
+  [EventForRule.ClientConnected]: '终端连接成功事件',
+  [EventForRule.ClientDisconnected]: '终端连接断开事件',
+  [EventForRule.ClientConnack]: '连接确认事件',
+  [EventForRule.ClientCheckAuthzComplete]: '鉴权完成事件',
+  [EventForRule.SessionSubscribed]: '终端订阅成功事件',
+  [EventForRule.SessionUnsubscribed]: '取消终端订阅成功事件',
+  [EventForRule.DeliveryDropped]: '消息在投递的过程中被丢弃事件',
 }
 const getEventDocLink = (event: string) => {
+  if (isMsgPubEvent(event)) {
+    return docMap.ruleEventMsgPub
+  }
   let hook = event.slice(1).replace(/(\/|_)/g, '-')
   if (isZh.value) {
     hook = `${zhHookMap[event] || ''}-${hook}`
@@ -151,21 +169,21 @@ const useEvent = (event: string) => {
 
   .custom-collapse-item-hd {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     flex-grow: 1;
     margin-right: 8px;
     line-height: 1;
     font-weight: normal;
   }
-  .btn-use {
-    margin-left: 12px;
+  .el-button {
     font-weight: normal;
   }
-  .el-button.is-text:not(.is-disabled):hover,
-  .el-button.is-text:not(.is-disabled):focus,
-  .el-button.el-button--primary.is-plain {
-    box-shadow: none;
+  a {
+    color: unset;
+    transition: none;
+  }
+  .btn-use {
+    margin-left: 12px;
   }
   .event-name-container {
     display: flex;
@@ -184,15 +202,11 @@ const useEvent = (event: string) => {
     .el-collapse-item__content {
       padding-top: 12px;
       padding-bottom: 12px;
+      background-color: var(--color-bg-split);
     }
   }
   .event-desc {
     color: var(--color-text-secondary);
-  }
-  .event-desc-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 16px;
   }
   .code-container {
@@ -208,6 +222,7 @@ const useEvent = (event: string) => {
   .bridge-list {
     list-style: none;
     padding-left: 0;
+    margin-top: 0;
   }
   .bridge-item,
   .bridge-item-hd {
@@ -218,9 +233,6 @@ const useEvent = (event: string) => {
     justify-content: space-between;
     &:not(:last-child) {
       border-bottom: 1px solid #f1f1f1;
-    }
-    .btn-use {
-      margin-right: -10px;
     }
   }
   .bridge-item-hd {

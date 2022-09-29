@@ -26,7 +26,7 @@
               <el-tooltip effect="dark" :content="tl('viewSQL')" placement="top-start">
                 <el-icon @click="viewSQLExample"><View /></el-icon>
               </el-tooltip>
-              <el-tooltip effect="dark" :content="tl('doc')" placement="top-start">
+              <el-tooltip effect="dark" :content="t('Base.documentation')" placement="top-start">
                 <el-icon @click="goDoc"><QuestionFilled /></el-icon>
               </el-tooltip>
               <el-tooltip effect="dark" :content="tl('resetData')" placement="top-start">
@@ -144,7 +144,7 @@ enum InputContextType {
   Form,
 }
 
-const { tl } = useI18nTl('RuleEngine')
+const { tl, t } = useI18nTl('RuleEngine')
 
 const props = defineProps({
   sql: {

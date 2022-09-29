@@ -11,10 +11,6 @@ export default {
     zh: '应用',
     en: 'Application',
   },
-  productDocumentation: {
-    zh: '产品文档',
-    en: 'Document',
-  },
   appName: {
     zh: '应用名称',
     en: 'App Name',

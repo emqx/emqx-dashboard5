@@ -71,6 +71,20 @@ export enum RuleOutput {
   DataBridge = 'dataBridge',
 }
 
+export enum EventForRule {
+  MessagePublish = '$events/message_publish',
+  MessageDelivered = '$events/message_delivered',
+  MessageAcked = '$events/message_acked',
+  MessageDropped = '$events/message_dropped',
+  ClientConnected = '$events/client_connected',
+  ClientDisconnected = '$events/client_disconnected',
+  ClientConnack = '$events/client_connack',
+  ClientCheckAuthzComplete = '$events/client_check_authz_complete',
+  SessionSubscribed = '$events/session_subscribed',
+  SessionUnsubscribed = '$events/session_unsubscribed',
+  DeliveryDropped = '$events/delivery_dropped',
+}
+
 export enum BridgeType {
   Webhook = 'webhook',
   MQTT = 'mqtt',

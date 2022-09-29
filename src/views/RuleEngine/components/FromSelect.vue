@@ -34,7 +34,7 @@
       >
         <div class="option-content">
           <p>{{ item.title[locale] }}</p>
-          <span class="item-id">{{ item.event }}</span>
+          <span class="item-id">{{ getEventForShow(item.event) }}</span>
         </div>
       </el-option>
     </el-option-group>
@@ -75,6 +75,7 @@ import { BackendI18n } from '@/types/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType } from '@/types/enum'
 import { createRandomString, waitAMoment } from '@/common/tools'
+import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 
 const props = defineProps({
   modelValue: {
@@ -103,6 +104,7 @@ const { tl } = useI18nTl('RuleEngine')
 const selectCom = ref()
 const isTopic = ref(false)
 const EMPTY_TOPIC_VALUE = createRandomString()
+const { getEventForShow } = useRuleUtils()
 
 const selected = computed({
   get() {
