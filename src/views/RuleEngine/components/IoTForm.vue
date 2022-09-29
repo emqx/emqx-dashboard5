@@ -111,7 +111,11 @@
       <el-col :span="10" class="action-col">
         <el-tabs>
           <el-tab-pane :label="tl('events')">
-            <EventsSelect :event-list="ruleEventsList" :ingress-bridge-list="ingressBridgeList" />
+            <EventsSelect
+              :event-list="ruleEventsList"
+              :ingress-bridge-list="ingressBridgeList"
+              @use-event="addEvent"
+            />
           </el-tab-pane>
           <el-tab-pane :label="tl('actions')">
             <RuleOutputs v-model="ruleValue" />
@@ -160,12 +164,18 @@ import { getBridgeInfo, getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
-import { MQTTBridgeDirection } from '@/types/enum'
+import { MQTTBridgeDirection, RuleSQLKeyword } from '@/types/enum'
 import SQLTest from './SQLTest.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import Monaco from '@/components/Monaco.vue'
-import { createRandomString, getKeywordsFromSQL, checkIsValidArr } from '@/common/tools'
+import {
+  createRandomString,
+  getKeywordsFromSQL,
+  checkIsValidArr,
+  handleSQLFromPartStatement,
+  sortedUniq,
+} from '@/common/tools'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import useFormRules from '@/hooks/useFormRules'
@@ -191,7 +201,13 @@ const emit = defineEmits(['update:modelValue', 'save'])
 
 const { t } = useI18n()
 const route = useRoute()
-const { transFromStrToFromArr, transSQLFormDataToSQL } = useRuleUtils()
+const {
+  transFromStrToFromArr,
+  transFromDataArrToStr,
+  transSQLFormDataToSQL,
+  getSQLPart,
+  replaceTargetPartInSQL,
+} = useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const bridgeList = ref([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
@@ -343,6 +359,14 @@ const loadIngressBridgeList = async () => {
   )
 }
 
+const addEvent = (event: string) => {
+  const fromStr = handleSQLFromPartStatement(getSQLPart(ruleValue.value.sql, RuleSQLKeyword.From))
+  const fromArr = fromStr.trim() === '' ? [] : transFromStrToFromArr(fromStr)
+  fromArr.push(event)
+  const newFromStr = transFromDataArrToStr(sortedUniq(fromArr))
+  ruleValue.value.sql = replaceTargetPartInSQL(ruleValue.value.sql, RuleSQLKeyword.From, newFromStr)
+}
+
 const handleTestSQL = () => {
   syncData()
   payloadForTest.value = ''
@@ -440,8 +464,15 @@ defineExpose({ validate })
   }
   .action-col {
     padding: 12px 24px;
+    height: 640px;
+    .el-tabs {
+      display: flex;
+      flex-direction: column;
+      max-height: 100%;
+    }
     .el-tabs__content {
       padding: 4px;
+      overflow-y: scroll;
     }
     .el-tabs__nav {
       width: 100%;

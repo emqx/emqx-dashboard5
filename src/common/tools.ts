@@ -478,3 +478,5 @@ export const formatSQL = (sql: string): string => {
   )
   return ret[0] === `\n` ? ret.slice(1) : ret
 }
+
+export const sortedUniq = <T>(arr: Array<T>): Array<T> => [...new Set(arr)]
