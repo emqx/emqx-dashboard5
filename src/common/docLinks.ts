@@ -12,6 +12,7 @@ type DocKey =
   | 'contact'
   | 'ruleEvent'
   | 'bridgeAsFrom'
+  | 'ruleEventMsgPub'
 
 export type DocMap = Record<DocKey, string>
 
@@ -33,6 +34,9 @@ export default (lang: string): DocMap => {
     ruleEvent: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-events-and-fields.html`,
     bridgeAsFrom: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-events-and-fields.html#${
       lang === 'zh' ? '数据桥接' : 'data-bridges'
+    }`,
+    ruleEventMsgPub: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-events-and-fields.html#${
+      lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
     }`,
   }
 }

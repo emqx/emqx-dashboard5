@@ -1,5 +1,5 @@
 import { RULE_FROM_SEPARATOR } from '@/common/constants'
-import { BridgeType, RuleInputType, RuleSQLKeyword } from '@/types/enum'
+import { BridgeType, RuleInputType, RuleSQLKeyword, EventForRule } from '@/types/enum'
 import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { formatSELECTStatement } from '@/common/tools'
@@ -14,6 +14,7 @@ export const useRuleUtils = (): {
     type: RuleInputType
     target: BridgeItem | RuleEvent | string
   }
+  getEventForShow: (event: string) => string
   getTestColumns: (
     type: RuleInputType,
     value: string,
@@ -26,12 +27,16 @@ export const useRuleUtils = (): {
   transFromDataArrToStr: (from: Array<string>) => string
   transSQLFormDataToSQL: (select: string, from: Array<string>, where?: string | undefined) => string
   getSQLPart: (sql: string, part: RuleSQLKeyword) => string
+  isMsgPubEvent: (event: string) => boolean
   replaceTargetPartInSQL: (sql: string, part: RuleSQLKeyword, newPartStr: string) => string
 } => {
   const TOPIC_EVENT = '$events/message_publish'
 
   const { bridgeTypeList } = useBridgeTypeValue()
   const bridgeTypeValueList = bridgeTypeList.map(({ value }) => value)
+
+  const isMsgPubEvent = (event: string) => event === EventForRule.MessagePublish
+  const getEventForShow = (event: string) => (isMsgPubEvent(event) ? '${topic}' : event)
 
   const findInputTypeNTarget = (
     inputItem: string,
@@ -169,5 +174,7 @@ export const useRuleUtils = (): {
     transSQLFormDataToSQL,
     getSQLPart,
     replaceTargetPartInSQL,
+    isMsgPubEvent,
+    getEventForShow,
   }
 }
