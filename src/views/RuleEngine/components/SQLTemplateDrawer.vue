@@ -5,7 +5,7 @@
     custom-class="SQL-template-drawer"
     :size="500"
   >
-    <el-collapse>
+    <el-collapse class="collapse-border">
       <el-collapse-item
         v-for="item in templateList"
         :key="item.title"
@@ -152,29 +152,6 @@ initTemplateList()
   }
   .el-drawer__body {
     overflow: auto;
-  }
-  $collapse-border: 1px solid var(--color-border-primary);
-  .el-collapse {
-    border-top: $collapse-border;
-  }
-  .el-collapse-item__header {
-    min-height: var(--el-collapse-header-height);
-    height: auto;
-    padding: 4px 0 4px 16px;
-    border-bottom: $collapse-border;
-    &.is-active {
-      border-bottom: $collapse-border;
-    }
-  }
-  .el-collapse-item {
-    border-right: $collapse-border;
-    border-left: $collapse-border;
-  }
-  .el-collapse-item__content {
-    padding: 16px 16px;
-    section {
-      margin-bottom: 16px;
-    }
   }
   p {
     margin-top: 0;

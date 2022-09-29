@@ -591,6 +591,22 @@ export default {
     zh: '自定义主题',
     en: 'Custom topic',
   },
+  events: {
+    zh: '事件',
+    en: 'Events',
+  },
+  useEvent: {
+    zh: '使用事件',
+    en: 'Use event',
+  },
+  useBridge: {
+    zh: '使用桥接',
+    en: 'Use bridge',
+  },
+  bridgeForInputDesc: {
+    zh: '当桥接从外部服务接收到消息时触发规则。',
+    en: 'Triggered when a message is received from remote server.',
+  },
   clientEvent: {
     zh: '客户端事件',
     en: 'Client event',

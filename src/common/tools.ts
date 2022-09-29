@@ -461,3 +461,20 @@ export const fillEmptyValueToUndefinedField = (
   walkALevel(formData, defaultData)
   return formData
 }
+
+const selectReg = /select\s+/i
+const fromReg = /\s+from\s+/i
+const whereReg = /\s+where\s+/i
+/**
+ * format SQL roughly
+ */
+export const formatSQL = (sql: string): string => {
+  if (typeof sql !== 'string') {
+    return sql
+  }
+  const ret: string = [selectReg, fromReg, whereReg].reduce(
+    (ret, reg) => (reg.test(ret) ? ret.replace(reg, (str) => `\n${str.trim()}\n  `) : ret),
+    sql,
+  )
+  return ret[0] === `\n` ? ret.slice(1) : ret
+}

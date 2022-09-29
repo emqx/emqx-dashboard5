@@ -658,3 +658,27 @@ input:disabled {
     padding-right: 0;
   }
 }
+
+.collapse-border {
+  $collapse-border: 1px solid var(--color-border-primary);
+  border-top: $collapse-border;
+  .el-collapse-item__header {
+    min-height: var(--el-collapse-header-height);
+    height: auto;
+    padding: 4px 0 4px 16px;
+    border-bottom: $collapse-border;
+    &.is-active {
+      border-bottom: $collapse-border;
+    }
+  }
+  .el-collapse-item {
+    border-right: $collapse-border;
+    border-left: $collapse-border;
+  }
+  .el-collapse-item__content {
+    padding: 16px 16px;
+    section {
+      margin-bottom: 16px;
+    }
+  }
+}
