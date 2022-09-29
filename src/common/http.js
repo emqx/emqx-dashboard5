@@ -40,7 +40,7 @@ axios.interceptors.request.use(async (config) => {
 })
 
 const isTokenExpired = (status, data) =>
-  status === 401 && [BAD_TOKEN_CODE, BAD_TOKEN_CODE].includes(data.code)
+  status === 401 && [BAD_TOKEN_CODE, TOKEN_TIME_OUT].includes(data.code)
 
 /**
  * there are some custom configurations
