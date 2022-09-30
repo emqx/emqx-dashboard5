@@ -69,6 +69,7 @@
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
+                  @init="resetRawBridgeInfoAfterComponentInit"
                 />
               </div>
               <div v-if="!isFromRule" class="btn-area">
@@ -195,6 +196,14 @@ const loadBridgeInfo = async () => {
   }
 }
 
+/**
+ * because each component will fill empty value to the bridgeInfo, so we need to
+ * reset the raw bridge info to prevent compare error
+ */
+const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
+  rawBridgeInfo = _.cloneDeep(bridgeInfo)
+}
+
 const updateBridgeInfo = async () => {
   try {
     await formCom.value.validate()
@@ -203,6 +212,12 @@ const updateBridgeInfo = async () => {
       bridgeInfo.value = formCom.value.getFormRecord()
     }
     const data = _.cloneDeep(bridgeInfo.value)
+    // Check for changes before updating and do not request if there are no changes
+    // TODO:check the schema form & MQTT
+    if (isFromRule.value && _.isEqual(data, rawBridgeInfo)) {
+      return Promise.resolve(bridgeInfo.value.id)
+    }
+
     if ('ssl' in data) {
       data.ssl = handleSSLDataBeforeSubmit(data.ssl)
     }
@@ -211,12 +226,6 @@ const updateBridgeInfo = async () => {
     }
     if (data.type === BridgeType.MQTT) {
       Reflect.deleteProperty(data.connector, 'type')
-    }
-
-    // Check for changes before updating and do not request if there are no changes
-    // TODO:check the schema form & MQTT
-    if (isFromRule.value && _.isEqual(data, rawBridgeInfo)) {
-      return Promise.resolve(bridgeInfo.value.id)
     }
 
     await ElMessageBox.confirm(tl('updateBridgeTip'), {
