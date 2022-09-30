@@ -564,7 +564,7 @@ export default {
     en: 'Duplicate',
   },
   SQLTemplates: {
-    zh: '查看 SQL 模版',
+    zh: 'SQL 模版',
     en: 'SQL Templates',
   },
   commonSQLTemplates: {
@@ -612,7 +612,7 @@ export default {
     en: 'Trigger the rule when a message is put into the underlying socket',
   },
   messageAckedDesc: {
-    zh: '当消息发送到客户端，并收到客户端回复的 ACK 时触发规则，仅 QoS1，QoS2会触发',
+    zh: '当消息发送到客户端，并收到客户端回复的 ACK 时触发规则，仅 QoS1，QoS2 会触发',
     en: `The rule is triggered when the message is sent to the client and an ack is received from the client. Only QoS1 and QoS2 messages will be triggered`,
   },
   messageDroppedDesc: {
