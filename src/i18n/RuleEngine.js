@@ -365,7 +365,7 @@ export default {
   },
   rateLast5M: {
     zh: '最近 5 分钟执行速率',
-    en: 'Execution speed in the last 5 minutes',
+    en: 'Execution Speed in the Last 5 Minutes',
   },
   rateMax: {
     zh: '最大执行速率',
