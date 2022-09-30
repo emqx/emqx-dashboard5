@@ -121,7 +121,17 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineProps, onMounted, ref, PropType, watch, defineEmits, Ref, defineExpose } from 'vue'
+import {
+  defineProps,
+  onMounted,
+  ref,
+  PropType,
+  watch,
+  defineEmits,
+  Ref,
+  defineExpose,
+  nextTick,
+} from 'vue'
 import _ from 'lodash'
 import { MQTTIn, MQTTOut } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
@@ -152,7 +162,7 @@ const prop = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'init'])
 
 const { createSSLForm } = useSSL()
 
@@ -192,6 +202,9 @@ const isShowPayload = computed(() => mqttBridgeVal.value.direction !== MQTTBridg
 const initMqttBridgeVal = async () => {
   if (prop.edit) {
     mqttBridgeVal.value = _.cloneDeep(prop.modelValue)
+    // hack: wait for connector component...
+    await nextTick()
+    emit('init', mqttBridgeVal.value)
   } else {
     mqttBridgeVal.value = {
       ..._.cloneDeep(mqttBridgeDefaultVal),
@@ -224,7 +237,7 @@ const clearValidate = () => {
   return formCom.value?.clearValidate()
 }
 
-watch(() => _.cloneDeep(mqttBridgeVal.value), updateModelValue)
+watch(() => mqttBridgeVal.value, updateModelValue, { deep: true })
 
 watch(
   () => prop.modelValue,
