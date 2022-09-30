@@ -70,7 +70,12 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="'Topic'" prop="topic" :min-width="120" show-overflow-tooltip>
+      <el-table-column
+        :label="$t('Base.topic')"
+        prop="topic"
+        :min-width="120"
+        show-overflow-tooltip
+      >
         <template #default="{ row }">
           <p class="table-data-without-break">{{ row.topic }}</p>
         </template>

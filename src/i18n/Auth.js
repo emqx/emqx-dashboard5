@@ -292,11 +292,11 @@ export default {
     en: 'Number of permissions',
   },
   pleaseEnterClientID: {
-    zh: '请输入 Client ID',
+    zh: '请输入客户端 ID',
     en: 'Client ID is required',
   },
   pleaseEnterUsername: {
-    zh: '请输入 Username',
+    zh: '请输入用户名',
     en: 'Username is required',
   },
   pleaseSelectPermission: {
@@ -370,5 +370,17 @@ export default {
   disableAuthzTip: {
     zh: '停用该授权后，将影响客户端发布/订阅时的权限操作，是否继续？',
     en: 'Disabling this authorization will affect the operation of permissions when the client publishes/subscribes. Continue?',
+  },
+  allUsers: {
+    zh: '所有用户',
+    en: 'All Users',
+  },
+  permission: {
+    zh: '权限',
+    en: 'Permission',
+  },
+  action: {
+    zh: '操作',
+    en: 'Action',
   },
 }

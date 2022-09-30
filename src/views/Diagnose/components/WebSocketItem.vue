@@ -29,7 +29,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="clientId" label="Client ID">
+            <el-form-item prop="clientId" :label="$t('Base.clientid')">
               <el-input v-model="connection.clientId" />
             </el-form-item>
           </el-col>
@@ -108,7 +108,7 @@
       >
         <el-row :gutter="26" align="bottom">
           <el-col :span="6">
-            <el-form-item prop="topic" label="Topic">
+            <el-form-item prop="topic" :label="$t('Base.topic')">
               <el-input v-model="subscriptionsRecord.topic" />
             </el-form-item>
           </el-col>
@@ -133,7 +133,7 @@
         </el-row>
       </el-form>
       <el-table :data="subscriptions" max-height="400px">
-        <el-table-column show-overflow-tooltip prop="topic" label="Topic" />
+        <el-table-column show-overflow-tooltip prop="topic" :label="$t('Base.topic')" />
         <el-table-column prop="qos" label="QoS" sortable />
         <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />
         <el-table-column :label="$t('Base.operation')">
@@ -167,7 +167,7 @@
       >
         <el-row :gutter="26" align="bottom">
           <el-col :span="6">
-            <el-form-item prop="topic" label="Topic">
+            <el-form-item prop="topic" :label="$t('Base.topic')">
               <el-input v-model="messageRecord.topic" />
             </el-form-item>
           </el-col>
@@ -209,7 +209,7 @@
           </el-tooltip>
         </div>
         <el-table :data="messageIn" max-height="400px" class="shadow-none">
-          <el-table-column show-overflow-tooltip prop="topic" label="Topic" />
+          <el-table-column show-overflow-tooltip prop="topic" :label="$t('Base.topic')" />
           <el-table-column prop="qos" label="QoS" sortable min-width="50">
             <template #default="{ row }">
               {{ row.qos }}
@@ -243,7 +243,7 @@
           </el-tooltip>
         </div>
         <el-table :data="messageOut" max-height="400px" class="shadow-none">
-          <el-table-column show-overflow-tooltip prop="topic" label="Topic" />
+          <el-table-column show-overflow-tooltip prop="topic" :label="$t('Base.topic')" />
           <el-table-column prop="qos" label="QoS" sortable min-width="50">
             <template #default="{ row }">
               {{ row.qos }}

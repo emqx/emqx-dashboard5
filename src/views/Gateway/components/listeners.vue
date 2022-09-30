@@ -15,7 +15,7 @@
         </template>
       </el-table-column>
       <el-table-column :label="tl('lMaxConn')" prop="max_connections" />
-      <el-table-column label="Acceptors" prop="acceptors">
+      <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors">
         <template #default="{ row }">
           <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
         </template>

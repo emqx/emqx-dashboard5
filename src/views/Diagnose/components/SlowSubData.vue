@@ -16,7 +16,7 @@
       </div>
     </div>
     <el-table :data="statistics" @sort-change="sortTable">
-      <el-table-column prop="clientid" label="Client ID" show-overflow-tooltip>
+      <el-table-column prop="clientid" :label="$t('Base.clientid')" show-overflow-tooltip>
         <template #default="{ row }">
           <router-link
             :to="{

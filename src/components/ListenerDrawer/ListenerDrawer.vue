@@ -52,7 +52,7 @@
       <div class="part-header">{{ tl('listenerSetting') }}</div>
       <el-row :gutter="20">
         <el-col :span="12" v-if="!isUDP">
-          <el-form-item :label="'Acceptors'">
+          <el-form-item :label="$t('BasicConfig.acceptors')">
             <el-input v-model.number="listenerRecord.acceptors" />
           </el-form-item>
         </el-col>
@@ -68,12 +68,12 @@
         </el-col>
         <template v-if="showProxyProtocolConfig">
           <el-col :span="12">
-            <el-form-item :label="'Proxy Protocol'">
+            <el-form-item :label="$t('BasicConfig.proxyProtocol')">
               <BooleanSelect v-model="listenerRecord.proxy_protocol" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="'Proxy Protocol Timeout'">
+            <el-form-item :label="$t('BasicConfig.proxyProtocolTimeout')">
               <InputWithUnit
                 v-model="listenerRecord.proxy_protocol_timeout"
                 number-placeholder="15"

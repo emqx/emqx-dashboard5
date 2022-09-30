@@ -409,7 +409,7 @@ export default {
   },
   ruleSQLDesc: {
     zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的数据。更多详情，请参考 ',
-    en: 'Extract, filter, enrich, and transform the data between devices and business systems in real-time using SQL statements.For more details, please refer to ',
+    en: 'Extract, filter, enrich, and transform the data between devices and business systems in real-time using SQL. For more details, please refer to ',
   },
   sqlSyntaxAndTem: {
     zh: 'SQL 语法与示列',
@@ -596,16 +596,16 @@ export default {
     en: 'Events',
   },
   eventsDesc: {
-    zh: '可使用 MQTT 事件或数据桥接作为 SQL 的数据源，当事件被触发或桥接从外部服务接收到消息时，规则将被触发；可通过","分割选择多个事件',
-    en: 'MQTT events or data bridges can be used as data sources for SQL; rules will be triggered when events are triggered or bridges receive messages from external services; multiple events can be selected by splitting them by ","',
+    zh: '规则可以通过 MQTT 消息、MQTT 事件，或者是数据桥接来触发。多个数据源可以通过逗号分隔。',
+    en: 'Rules can be triggered by MQTT messages, MQTT events, or data bridges. Multiple data sources can be separated by commas.',
   },
   useEvent: {
     zh: '使用事件',
     en: 'Use event',
   },
   messagePublishDesc: {
-    zh: '消息发布到指定的一个或多个主题时触发规则',
-    en: 'Trigger rule when a message is posted to one or more of the specified topics',
+    zh: '当消息发布到指定的一个或多个主题时触发规则，SQL 语句中可直接使用 MQTT 主题',
+    en: 'Trigger rule when a message is published to one or more of the specified topics, and the MQTT topic can be used directly in the SQL',
   },
   messageDeliveredDesc: {
     zh: '当消息被放入底层 socket 时触发规则',

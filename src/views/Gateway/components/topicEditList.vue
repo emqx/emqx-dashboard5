@@ -9,7 +9,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="Topic">
+        <el-table-column :label="$t('Base.topic')">
           <template #default="{ row, $index }">
             <el-form-item :prop="`[${$index}].topic`">
               <el-input v-model="row.topic"></el-input>

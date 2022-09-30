@@ -79,7 +79,7 @@ export default {
     zh: '用户',
     en: 'Users',
   },
-  userName: {
+  username: {
     zh: '用户名',
     en: 'Username',
   },

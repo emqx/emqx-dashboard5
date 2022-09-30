@@ -8,8 +8,8 @@
     </div>
 
     <el-table :data="subTbData" class="shadow-none" v-loading="tbLoading">
-      <el-table-column :label="'Topic'" prop="topic" sortable />
-      <el-table-column :label="'QoS'" prop="qos" sortable />
+      <el-table-column :label="$t('Base.topic')" prop="topic" />
+      <el-table-column :label="'QoS'" prop="qos" />
       <el-table-column :label="$t('Clients.noLocal')" prop="nl">
         <template #default="{ row }">
           {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
@@ -43,7 +43,7 @@
         label-position="top"
         @keyup.enter="submitSubs(isEdit)"
       >
-        <el-form-item :label="'Topic'" prop="topic">
+        <el-form-item :label="$t('Base.topic')" prop="topic">
           <el-input v-model="subsInput.topic" />
         </el-form-item>
         <el-form-item :label="'QoS'" prop="qos">

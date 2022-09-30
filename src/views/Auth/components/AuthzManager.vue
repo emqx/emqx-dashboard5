@@ -33,9 +33,9 @@
     </div>
     <el-table v-show="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
       <el-table-column v-if="false" type="expand" />
-      <el-table-column prop="permission" label="Permission" />
-      <el-table-column prop="action" label="Action" />
-      <el-table-column prop="topic" label="Topic">
+      <el-table-column prop="permission" :label="$t('Auth.permission')" />
+      <el-table-column prop="action" :label="$t('Auth.action')" />
+      <el-table-column prop="topic" :label="$t('Base.topic')">
         <template #default="{ row }">
           {{ replaceSpaceForHTML(row.topic) }}
         </template>
@@ -56,23 +56,27 @@
         <el-table-column type="expand">
           <template #default="{ row }">
             <el-table :data="row.rules">
-              <el-table-column prop="permission" label="Permission" min-width="80px">
+              <el-table-column prop="permission" :label="$t('Auth.permission')" min-width="80px">
               </el-table-column>
-              <el-table-column label="Action" min-width="80px">
+              <el-table-column :label="$t('Auth.action')" min-width="80px">
                 <template #default="{ row }">
                   {{ getLabelFromValueInOptionList(row.action, actionOpts) }}
                 </template>
               </el-table-column>
-              <el-table-column prop="topic" label="Topic" />
+              <el-table-column prop="topic" :label="$t('Base.topic')" />
             </el-table>
           </template>
         </el-table-column>
-        <el-table-column v-if="type === 'clientid'" prop="clientid" label="Client ID">
+        <el-table-column v-if="type === 'clientid'" prop="clientid" :label="$t('Base.clientid')">
           <template #default="{ row }">
             {{ replaceSpaceForHTML(row.clientid) }}
           </template>
         </el-table-column>
-        <el-table-column v-else-if="type === 'username'" prop="username" label="Username">
+        <el-table-column
+          v-else-if="type === 'username'"
+          prop="username"
+          :label="$t('Base.username')"
+        >
           <template #default="{ row }">
             {{ replaceSpaceForHTML(row.username) }}
           </template>
@@ -100,13 +104,13 @@
     <el-dialog :title="isEdit ? $t('Base.edit') : $t('Base.add')" v-model="dialogVisible">
       <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
         <template v-if="type === 'all'">
-          <el-form-item prop="permission" label="Permission">
+          <el-form-item prop="permission" :label="$t('Auth.permission')">
             <el-select v-model="record.permission">
               <el-option value="allow" label="Allow" />
               <el-option value="deny" label="Deny" />
             </el-select>
           </el-form-item>
-          <el-form-item prop="action" label="Action">
+          <el-form-item prop="action" :label="$t('Auth.action')">
             <el-select v-model="record.action">
               <el-option value="publish" label="Publish" />
               <el-option value="subscribe" label="Subscribe" />
@@ -115,22 +119,26 @@
           </el-form-item>
           <el-form-item prop="topic">
             <template #label>
-              Topic
+              {{ $t('Base.topic') }}
               <InfoTooltip :content="$t('Auth.topicTips', ['{username}', '{clientid}'])" />
             </template>
             <el-input v-model="record.topic" />
           </el-form-item>
         </template>
         <template v-else>
-          <el-form-item v-if="type === 'clientid'" prop="clientid" label="Client ID">
+          <el-form-item v-if="type === 'clientid'" prop="clientid" :label="$t('Base.clientid')">
             <el-input v-model="record.clientid" :disabled="isEdit" />
           </el-form-item>
-          <el-form-item v-else-if="type === 'username'" prop="username" label="Username">
+          <el-form-item
+            v-else-if="type === 'username'"
+            prop="username"
+            :label="$t('Base.username')"
+          >
             <el-input v-model="record.username" :disabled="isEdit" />
           </el-form-item>
           <el-form-item label="Permissions">
             <el-table class="form-table shadow-none" :data="rulesData">
-              <el-table-column prop="permission" label="Permission">
+              <el-table-column prop="permission" :label="$t('Auth.permission')">
                 <template #default="{ row }">
                   <el-select v-model="row.permission">
                     <el-option value="allow" label="Allow" />
@@ -138,7 +146,7 @@
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column prop="action" label="Action" :width="220">
+              <el-table-column prop="action" :label="$t('Auth.action')" :width="220">
                 <template #default="{ row }">
                   <el-select v-model="row.action">
                     <el-option
@@ -150,7 +158,7 @@
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column prop="topic" label="Topic">
+              <el-table-column prop="topic" :label="$t('Base.topic')">
                 <template #default="{ row }">
                   <el-input v-model="row.topic" />
                 </template>
@@ -220,15 +228,15 @@ export default defineComponent({
     const lockTable = ref(false)
     const typeList = [
       {
-        label: 'Client ID',
+        label: t('Base.clientid'),
         value: 'clientid',
       },
       {
-        label: 'Username',
+        label: t('Base.username'),
         value: 'username',
       },
       {
-        label: 'All Users',
+        label: t('Auth.allUsers'),
         value: 'all',
       },
     ]
@@ -452,8 +460,8 @@ export default defineComponent({
     const getCurrSearchValTip = (type: BuiltInDBType) => {
       const typeMap = {
         all: '',
-        clientid: 'Client ID',
-        username: 'Username',
+        clientid: t('Base.clientid'),
+        username: t('Base.username'),
       }
       return typeMap[type]
     }

@@ -48,7 +48,7 @@
       </el-row>
     </el-form>
     <el-table :data="gatewayTable" v-loading="tbLoading">
-      <el-table-column label="Client ID" prop="clientid">
+      <el-table-column :label="$t('Base.clientid')" prop="clientid">
         <template #default="{ row }">
           <a href="javascript:;" @click="openClientDetail(row)">{{ row.clientid }}</a>
         </template>
