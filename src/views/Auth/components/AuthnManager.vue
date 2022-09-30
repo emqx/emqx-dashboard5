@@ -339,8 +339,8 @@ const handleUsersFileChange = async (file: { raw: File; name: string }) => {
 
 const getFiledLabel = (field: 'clientid' | 'username') => {
   const fieldMap = {
-    clientid: 'Client ID',
-    username: 'Username',
+    clientid: t('Base.clientid'),
+    username: t('Base.username'),
   }
   return fieldMap[field]
 }

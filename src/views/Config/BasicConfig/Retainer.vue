@@ -5,9 +5,9 @@
         <el-tab-pane :label="tl('messages')">
           <div>
             <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
-              <el-table-column :label="'Topic'" prop="topic" />
+              <el-table-column :label="$t('Base.topic')" prop="topic" />
               <el-table-column :label="'QoS'" prop="qos" min-width="40" />
-              <el-table-column label="From Client ID" prop="from_clientid" />
+              <el-table-column :label="$t('Base.clientid')" prop="from_clientid" />
               <el-table-column
                 :label="tl('createDate')"
                 prop="publish_at"
@@ -72,7 +72,7 @@
             </el-row>
             <el-row :gutter="30">
               <el-col :span="16">
-                <el-form-item :label="tl('storage')" required prop="backend.storage_type">
+                <el-form-item :label="tl('storageMethod')" required prop="backend.storage_type">
                   <el-select v-model="retainerConfig.backend.storage_type">
                     <el-option value="ram" />
                     <el-option value="disc" />
@@ -83,7 +83,10 @@
             <div class="part-header">{{ tl('policy') }}</div>
             <el-row :gutter="30">
               <el-col :span="8">
-                <el-form-item label="Max Retained Messages" prop="backend.max_retained_messages">
+                <el-form-item
+                  :label="tl('maxRetainedMessages')"
+                  prop="backend.max_retained_messages"
+                >
                   <el-input
                     v-model.number="retainerConfig.backend.max_retained_messages"
                     :readonly="selOptions.retained == 'unlimited'"
@@ -99,7 +102,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="Max Payload Size" prop="max_payload_size">
+                <el-form-item :label="tl('maxPayloadSize')" prop="max_payload_size">
                   <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
                 </el-form-item>
               </el-col>

@@ -115,17 +115,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" v-if="record.type === 'topic'">
-            <el-form-item label="Topic" prop="topic">
+            <el-form-item :label="$t('Base.topic')" prop="topic">
               <el-input v-model="record.topic" />
             </el-form-item>
           </el-col>
           <el-col :span="12" v-if="record.type === 'clientid'">
-            <el-form-item label="Client ID" prop="clientid">
+            <el-form-item :label="$t('Base.clientid')" prop="clientid">
               <el-input v-model="record.clientid" />
             </el-form-item>
           </el-col>
           <el-col :span="12" v-if="record.type === 'ip_address'">
-            <el-form-item label="IP Address" prop="ip_address">
+            <el-form-item :label="$t('Base.ip')" prop="ip_address">
               <el-input v-model="record.ip_address" />
             </el-form-item>
           </el-col>
@@ -199,15 +199,15 @@ export default defineComponent({
     const typeOptions = [
       {
         value: 'clientid',
-        label: 'Client ID',
+        label: t('Base.clientid'),
       },
       {
         value: 'topic',
-        label: 'Topic',
+        label: t('Base.topic'),
       },
       {
         value: 'ip_address',
-        label: 'IP Address',
+        label: t('Base.ip'),
       },
     ]
     const record: Ref<TraceFormRecord> = ref(createRawTraceForm())

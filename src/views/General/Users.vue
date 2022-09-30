@@ -8,7 +8,7 @@
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="username" :label="tl('userName')" />
+      <el-table-column prop="username" :label="tl('username')" />
       <el-table-column prop="description" :label="t('Base.note')" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
@@ -52,7 +52,7 @@
         label-position="top"
         @keyup.enter="save()"
       >
-        <el-form-item v-if="accessType !== 'chPass'" prop="username" :label="tl('userName')">
+        <el-form-item v-if="accessType !== 'chPass'" prop="username" :label="tl('username')">
           <el-input
             v-model="record.username"
             :disabled="accessType === 'edit'"

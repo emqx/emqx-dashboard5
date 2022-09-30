@@ -147,4 +147,16 @@ export default {
     zh: '请输入监听器的名称来确认删除',
     en: 'Please type the listener name to confirm.',
   },
+  acceptors: {
+    zh: '接受器',
+    en: 'Acceptors',
+  },
+  proxyProtocol: {
+    zh: '代理协议',
+    en: 'Proxy Protocol',
+  },
+  proxyProtocolTimeout: {
+    zh: '代理协议超时',
+    en: 'Proxy Protocol Timeout',
+  },
 }

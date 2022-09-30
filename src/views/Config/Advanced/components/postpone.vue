@@ -48,14 +48,14 @@
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')" v-loading="tbLoading">
         <el-table :data="delayedTbData" class="shadow-none postpone-table">
-          <el-table-column :label="'Topic'" prop="topic" :min-width="92" />
+          <el-table-column :label="$t('Base.topic')" prop="topic" :min-width="92" />
           <el-table-column :label="'QoS'" prop="qos" :min-width="84" />
           <el-table-column :label="'Payload'" :min-width="84">
             <template #default="{ row }">
               <el-button size="small" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="From Client ID" prop="from_clientid" :min-width="146" />
+          <el-table-column :label="$t('Base.clientid')" prop="from_clientid" :min-width="146" />
           <el-table-column :label="tl('delayedTime')" prop="delayed_interval" :min-width="92" />
           <el-table-column :label="tl('remainTime')" prop="delayed_remaining" :min-width="124" />
           <el-table-column :label="tl('publishTime')" :min-width="132">

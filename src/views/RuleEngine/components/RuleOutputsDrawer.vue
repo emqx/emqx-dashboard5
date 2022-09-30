@@ -46,7 +46,7 @@
       <div class="output-content" v-if="outputForm.type === RuleOutput.Republish">
         <el-row :gutter="26">
           <el-col :span="12">
-            <el-form-item label="Topic" required prop="args.topic">
+            <el-form-item :label="$t('Base.topic')" required prop="args.topic">
               <el-input v-model="outputForm.args.topic" />
             </el-form-item>
           </el-col>

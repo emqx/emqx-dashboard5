@@ -7,9 +7,13 @@ export default {
     zh: '登 录',
     en: 'Login',
   },
-  userName: {
+  username: {
     zh: '用户名',
     en: 'Username',
+  },
+  clientid: {
+    zh: '客户端 ID',
+    en: 'Client ID',
   },
   password: {
     zh: '密码',
@@ -470,5 +474,9 @@ export default {
   tokenExpiredMsg: {
     zh: '登录过期，请重新登录',
     en: 'Login has expired, please login again',
+  },
+  ip: {
+    zh: 'IP 地址',
+    en: 'IP Address',
   },
 }

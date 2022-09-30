@@ -33,7 +33,7 @@
             <el-form-item prop="username">
               <el-input
                 v-model.trim="record.username"
-                :placeholder="$t('Base.userName')"
+                :placeholder="$t('Base.username')"
                 tabindex="1"
               ></el-input>
             </el-form-item>

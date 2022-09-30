@@ -64,11 +64,11 @@ export default {
     zh: '添加认证',
   },
   clientid: {
-    zh: 'Client ID',
+    zh: '客户端ID',
     en: 'Client ID',
   },
   username: {
-    zh: 'Username',
+    zh: '用户名',
     en: 'Username',
   },
   mountSetting: {
@@ -116,7 +116,7 @@ export default {
     en: 'Enable Statistics',
   },
   mountPoint: {
-    zh: 'MountPoint',
+    zh: '挂载点',
     en: 'MountPoint',
   },
   lType: {
@@ -164,15 +164,15 @@ export default {
     en: 'Heartbeat',
   },
   notifyType: {
-    zh: 'Notification Message Type',
+    zh: '通知类型',
     en: 'Notification Message Type',
   },
   subQos: {
-    zh: 'Subscribe QoS',
+    zh: '订阅 QoS',
     en: 'Subscribe QoS',
   },
   pubQos: {
-    zh: 'Publish QoS',
+    zh: '发布 QoS',
     en: 'Publish QoS',
   },
   resDirectory: {

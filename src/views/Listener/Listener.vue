@@ -38,7 +38,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column label="Acceptors" prop="acceptors" :min-width="128">
+      <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors" :min-width="128">
         <template #default="{ row }">
           <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
         </template>

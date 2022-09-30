@@ -28,8 +28,8 @@ export default {
     en: 'Event Message',
   },
   storage: {
+    zh: '消息存储',
     en: 'Storage',
-    zh: 'Storage',
   },
   policy: {
     en: 'Policy',
@@ -55,9 +55,21 @@ export default {
     en: 'Clean',
     zh: '定时清理',
   },
+  storageMethod: {
+    zh: '存储方式',
+    en: 'Method',
+  },
   storageType: {
     zh: '存储类型',
-    en: 'Storage Type',
+    en: 'Type',
+  },
+  maxRetainedMessages: {
+    zh: '最大保留消息数',
+    en: 'Max Retained Messages',
+  },
+  maxPayloadSize: {
+    zh: '最大消息负载大小',
+    en: 'Max Payload Size',
   },
   enable: {
     zh: '启用',

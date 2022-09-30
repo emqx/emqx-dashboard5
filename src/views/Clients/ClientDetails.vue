@@ -129,7 +129,7 @@
         </div>
       </div>
       <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
-        <el-table-column prop="topic" show-overflow-tooltip label="Topic" />
+        <el-table-column prop="topic" show-overflow-tooltip :label="$t('Base.topic')" />
         <el-table-column prop="qos" min-width="110px" label="QoS" />
         <template v-if="isMQTTVersion5">
           <el-table-column prop="nl" :label="tl('noLocal')">

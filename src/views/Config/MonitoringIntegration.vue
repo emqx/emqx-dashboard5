@@ -27,7 +27,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
-            <el-form-item label="Pushgateway Server">
+            <el-form-item :label="tl('pushgatewayServer')">
               <p class="item-desc">{{ tl('prometheusServerDesc') }}</p>
               <el-input v-model="prometheusFormData.push_gateway_server" />
             </el-form-item>

@@ -27,4 +27,8 @@ export default {
     zh: 'StatsD 服务器地址',
     en: 'URL of StatsD server',
   },
+  pushgatewayServer: {
+    zh: 'Pushgateway 服务',
+    en: 'Pushgateway Server',
+  },
 }
