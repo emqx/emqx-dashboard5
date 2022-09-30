@@ -25,9 +25,7 @@
             </div>
           </div>
           <div class="input-container">
-            <div class="monaco-container">
-              <Monaco :id="createRandomString()" v-model="item.sql" lang="sql" />
-            </div>
+            <CodeView :code="item.sql" lang="sql" />
             <el-icon class="icon-copy" @click="copyText(item.sql)"><copy-document /></el-icon>
           </div>
         </section>
@@ -44,9 +42,7 @@
             <p class="hd-title">{{ tl('exampleOfInput') }}</p>
           </div>
           <div class="input-container">
-            <div class="monaco-container">
-              <Monaco :id="createRandomString()" v-model="item.input" lang="json" />
-            </div>
+            <CodeView :code="item.input" lang="json" />
             <el-icon class="icon-copy" @click="copyText(item.input)"><copy-document /></el-icon>
           </div>
         </section>
@@ -56,9 +52,7 @@
             <p class="hd-title">{{ tl('processedResults') }}</p>
           </div>
           <div class="input-container">
-            <div class="monaco-container">
-              <Monaco :id="createRandomString()" v-model="item.outputs" lang="json" />
-            </div>
+            <CodeView :code="item.outputs" lang="json" />
             <el-icon class="icon-copy" @click="copyText(item.outputs)"><copy-document /></el-icon>
           </div>
         </section>
@@ -69,13 +63,13 @@
 
 <script setup lang="ts">
 import SQLTemplates from '@/common/SQLTemplates'
-import { createRandomString, stringifyObjSafely } from '@/common/tools'
-import Monaco from '@/components/Monaco.vue'
+import { stringifyObjSafely } from '@/common/tools'
 import useCopy from '@/hooks/useCopy'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { computed, defineEmits, defineProps, ref, Ref, WritableComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
+import CodeView from '@/components/CodeView.vue'
 
 interface TemplateItem {
   title: string
@@ -176,6 +170,9 @@ initTemplateList()
   }
   .el-collapse-item__header {
     line-height: 1.6;
+  }
+  .el-collapse-item__content {
+    background-color: var(--color-bg-split);
   }
 }
 </style>
