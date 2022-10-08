@@ -95,6 +95,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { ElMessage } from 'element-plus'
+import { fillEmptyValueToUndefinedField } from '@/common/tools'
 
 export default defineComponent({
   name: 'BridgeMqttConfig',
@@ -196,31 +197,14 @@ const formRules = computed(() => ({
   remote_topic: createRequiredRule(t('Base.topic')),
 }))
 
-/**
- * for prevent the data is not complete
- */
-const initIngressAndEgress = (data: MQTTBridge) => {
-  if ('ingress' in data) {
-    data.ingress = {
-      ...createIngressDefaultVal(),
-      ...data.ingress,
-    }
-  }
-  if ('egress' in data) {
-    data.egress = {
-      ...createEgressDefaultValue(),
-      ...data.egress,
-    }
-  }
-  return data
-}
-
 const initMqttBridgeVal = async () => {
-  mqttBridgeVal.value = initIngressAndEgress({
-    ...createMQTTBridgeDefaultVal(),
-    ..._.cloneDeep(prop.modelValue),
-  })
-  emit('init', mqttBridgeVal.value)
+  if (prop.edit) {
+    mqttBridgeVal.value = fillEmptyValueToUndefinedField(
+      _.cloneDeep(prop.modelValue),
+      createMQTTBridgeDefaultVal(),
+    )
+    emit('init', mqttBridgeVal.value)
+  }
 }
 
 const updateModelValue = (val: MQTTBridge) => {

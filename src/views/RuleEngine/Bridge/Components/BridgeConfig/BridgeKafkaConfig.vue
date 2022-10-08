@@ -235,7 +235,7 @@ const props = defineProps({
     type: Boolean,
   },
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'init'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -300,7 +300,7 @@ const formRules = {
   },
 }
 
-const formData: Ref<any> = ref({ ...createDefaultValue() })
+const formData: Ref<any> = ref(createDefaultValue())
 
 const updateParentBridgeData = () => {
   emit('update:modelValue', formData.value)
@@ -309,10 +309,13 @@ const updateParentBridgeData = () => {
 watch(formData.value, updateParentBridgeData)
 
 const resetFormDataWhenEdit = () => {
-  formData.value = fillEmptyValueToUndefinedField(
-    props.modelValue as Record<string, any>,
-    createDefaultValue(),
-  )
+  if (props.edit && props.modelValue) {
+    formData.value = fillEmptyValueToUndefinedField(
+      props.modelValue as Record<string, any>,
+      createDefaultValue(),
+    )
+    emit('init', formData.value)
+  }
 }
 
 const judgeAuthType = () => {

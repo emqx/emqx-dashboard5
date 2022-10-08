@@ -74,9 +74,9 @@ export default (record: Ref<OtherBridge>): FuncReturn => {
     if (!isEnableBatch(formData)) {
       ret = omit(ret, ['resource_opts.batch_size', 'resource_opts.batch_time'])
     }
-    if (!isEnableQueue(formData)) {
-      ret = omit(ret, 'resource_opts.max_queue_bytes')
-    }
+    // if (!isEnableQueue(formData)) {
+    //   ret = omit(ret, 'resource_opts.max_queue_bytes')
+    // }
     return ret
   }
 
