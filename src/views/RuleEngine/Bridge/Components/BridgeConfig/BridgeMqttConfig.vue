@@ -95,6 +95,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { ElMessage } from 'element-plus'
+import { fillEmptyValueToUndefinedField } from '@/common/tools'
 
 export default defineComponent({
   name: 'BridgeMqttConfig',
@@ -198,15 +199,11 @@ const formRules = computed(() => ({
 
 const initMqttBridgeVal = async () => {
   if (prop.edit) {
-    mqttBridgeVal.value = _.cloneDeep(prop.modelValue)
-    // hack: wait for connector component...
-    await nextTick()
+    mqttBridgeVal.value = fillEmptyValueToUndefinedField(
+      _.cloneDeep(prop.modelValue),
+      createMQTTBridgeDefaultVal(),
+    )
     emit('init', mqttBridgeVal.value)
-  } else {
-    mqttBridgeVal.value = {
-      ...createMQTTBridgeDefaultVal(),
-      ..._.cloneDeep(prop.modelValue),
-    }
   }
 }
 
