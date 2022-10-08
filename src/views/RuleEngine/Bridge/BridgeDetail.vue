@@ -69,6 +69,7 @@
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
+                  @init="resetRawBridgeInfoAfterComponentInit"
                 />
                 <bridge-influxdb-config
                   v-else-if="bridgeType === BridgeType.InfluxDB"
@@ -82,6 +83,7 @@
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
+                  @init="resetRawBridgeInfoAfterComponentInit"
                 />
                 <using-schema-bridge-config
                   v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
@@ -249,7 +251,6 @@ const updateBridgeInfo = async () => {
     }
     const data = _.cloneDeep(bridgeInfo.value)
     // Check for changes before updating and do not request if there are no changes
-    // TODO:check the schema form & MQTT
     if (isFromRule.value && _.isEqual(data, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }

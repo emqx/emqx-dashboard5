@@ -190,6 +190,7 @@
 </template>
 
 <script setup lang="ts">
+import { fillEmptyValueToUndefinedField } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -197,8 +198,9 @@ import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { isEqual } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
+import { BridgeItem } from '@/types/rule'
+import { cloneDeep, isEqual } from 'lodash'
+import { computed, defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
 
@@ -211,7 +213,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'init'])
 
 const { tl } = useI18nTl('RuleEngine')
 
@@ -253,7 +255,7 @@ const createDefaultValue = () => ({
   resource_opts: createDefaultResourceOptsForm({ inflight: true, batch: true }),
 })
 
-const formData = ref({ ...createDefaultValue(), ...props.modelValue })
+const formData: Ref<BridgeItem> = ref(createDefaultValue())
 const formCom = ref()
 const writeSyntaxInputCom = ref()
 
@@ -289,15 +291,29 @@ const showBasicAuthForm = computed(
     (formData.value.type === InfluxDBType.v2 && v2AuthType.value === V2AuthType.Basic),
 )
 
-watch(formData.value, () => {
-  emit('update:modelValue', formData.value)
-})
+const initFormData = async () => {
+  if (props.edit && props.modelValue) {
+    formData.value = fillEmptyValueToUndefinedField(
+      cloneDeep(props.modelValue),
+      createDefaultValue(),
+    ) as BridgeItem
+    emit('init', formData.value)
+  }
+}
+
+watch(
+  () => formData.value,
+  () => {
+    emit('update:modelValue', formData.value)
+  },
+  { deep: true },
+)
 
 watch(
   () => props.modelValue,
   (val) => {
     if (!isEqual(val, formData.value)) {
-      formData.value = { ...createDefaultValue(), ...val }
+      initFormData()
     }
   },
 )
@@ -320,6 +336,8 @@ const clearValidate = () => {
   writeSyntaxInputCom.value?.clearValidate()
   return
 }
+
+initFormData()
 
 defineExpose({ validate, clearValidate })
 </script>
