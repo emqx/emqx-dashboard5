@@ -53,6 +53,8 @@ import RuleItemOverview from './components/RuleItemOverview.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
+import { cloneDeep, isEqual } from 'lodash'
+import useRuleEditingPageUnload from '@/hooks/Rule/rule/useRuleEditingPageUnload'
 
 enum Tab {
   Overview = 'overview',
@@ -60,6 +62,7 @@ enum Tab {
 }
 
 const ruleInfo: Ref<RuleItem> = ref({} as RuleItem)
+let rawRuleInfo: undefined | RuleItem = undefined
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
@@ -80,10 +83,14 @@ if (queryTab.value) {
 
 const { tl } = useI18nTl('RuleEngine')
 
+const countIsRuleRecordChanged = () => !isEqual(rawRuleInfo, ruleInfo.value)
+useRuleEditingPageUnload(countIsRuleRecordChanged)
+
 const loadRuleDetail = async () => {
   infoLoading.value = true
   try {
     ruleInfo.value = await getRuleInfo(id)
+    rawRuleInfo = cloneDeep(ruleInfo.value)
     ++iKey.value
   } catch (error) {
     console.error(error)
