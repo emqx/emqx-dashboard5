@@ -122,5 +122,8 @@ export default createStore({
       const e = String(edition).toLowerCase()
       return e == 'enterprise' ? 0b01 : 0b10
     },
+    isDev() {
+      return process.env.NODE_ENV === 'development'
+    },
   },
 })

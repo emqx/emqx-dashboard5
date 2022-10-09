@@ -33,9 +33,11 @@ import { createRandomString, parseJSONSafely } from '@/common/tools'
 import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { LOCAL_STORAGE_KEY_MAP } from '@/common/constants'
+import useRuleEditingPageUnload from '@/hooks/Rule/rule/useRuleEditingPageUnload'
 
 const { t } = useI18n()
 const { transSQLFormDataToSQL } = useRuleUtils()
+useRuleEditingPageUnload()
 
 const route = useRoute()
 const router = useRouter()

@@ -179,6 +179,18 @@ export default {
     zh: '创建规则',
     en: 'Create Rule',
   },
+  unloadTip: {
+    zh: '修改可能不会被保存',
+    en: 'Changes that you made may not be saved',
+  },
+  leavePage: {
+    zh: '离开页面？',
+    en: 'Leave page?',
+  },
+  leave: {
+    zh: '离开',
+    en: 'Leave',
+  },
   mode_cluster_shareload: {
     zh: '节点独立连接',
     en: 'Cluster Shareload',
