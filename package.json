@@ -20,6 +20,7 @@
     "axios": "^0.21.4",
     "copy-to-clipboard": "^3.3.1",
     "core-js": "^3.6.5",
+    "crypto-js": "^4.1.1",
     "echarts": "^5.2.1",
     "element-plus": "^2.2.16",
     "highlight.js": "10.7.3",
@@ -39,6 +40,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/jest": "^24.0.19",
     "@types/marked": "^4.0.1",
     "@types/sortablejs": "^1.10.7",
