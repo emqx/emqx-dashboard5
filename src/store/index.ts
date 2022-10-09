@@ -1,4 +1,6 @@
 import { createStore } from 'vuex'
+import { getUser, setUser, removeUser } from '@/common/auth'
+import { UserInfo } from '@/types/common'
 
 const getLang = () => {
   const lang = localStorage.getItem('language')
@@ -34,7 +36,7 @@ const getLeftBarCollapse = () => {
 
 export default createStore({
   state: {
-    user: JSON.parse(<string>localStorage.getItem('user') || '{}') || {},
+    user: (getUser() || {}) as UserInfo,
     theme: getTheme(),
     syncOsTheme: getSyncOSTheme(),
     lang: getLang(),
@@ -72,9 +74,9 @@ export default createStore({
     UPDATE_USER_INFO(state, userInfo) {
       const { logOut = false } = userInfo
       if (logOut) {
-        localStorage.removeItem('user')
+        removeUser()
       } else {
-        localStorage.setItem('user', JSON.stringify(userInfo))
+        setUser(userInfo)
       }
       state.user = userInfo
     },
