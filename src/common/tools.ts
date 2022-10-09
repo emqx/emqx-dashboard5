@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { BridgeItem } from '@/types/rule'
-import { omit, isObject, get, escape, cloneDeep } from 'lodash'
-import i18n from '@/i18n'
+import { omit, isObject, escape, cloneDeep } from 'lodash'
 import utf8 from 'utf8'
 
 export const checkStringWithUnit = (str: string, units: Array<string>): boolean => {
@@ -369,12 +368,6 @@ export const replaceSpaceForHTML = (str: string): string => {
 export const chunkStr = (str: string, chunkLength = 4) => {
   const reg = new RegExp(`.{1,${chunkLength}}`, 'g')
   return str.match(reg)
-}
-
-export const getLocalMessage = (path: string) => {
-  const local = i18n.global.locale
-  const messages = i18n.global.messages[local]
-  return get(messages, path)
 }
 
 export const URLReg =
