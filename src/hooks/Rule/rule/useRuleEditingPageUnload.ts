@@ -5,7 +5,7 @@ import { onMounted, onUnmounted } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import { useStore } from 'vuex'
 
-export default (countIsRecordChanged?: () => boolean): Record<string, unknown> => {
+export default (countIsRecordChanged?: () => boolean): void => {
   const { tl } = useI18nTl('RuleEngine')
 
   const { getters } = useStore()
@@ -60,6 +60,4 @@ export default (countIsRecordChanged?: () => boolean): Record<string, unknown> =
   onMounted(bindEventListener)
 
   onUnmounted(unbindEventListener)
-
-  return {}
 }
