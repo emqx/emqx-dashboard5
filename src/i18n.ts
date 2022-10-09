@@ -5,6 +5,8 @@ import { createI18n } from 'vue-i18n'
 import zhLocale from 'element-plus/es/locale/lang/zh-cn'
 import enLocale from 'element-plus/es/locale/lang/en'
 
+import { get } from 'lodash'
+
 const lang: { [key: string]: any } = {
   en: {
     ...enLocale,
@@ -26,7 +28,15 @@ Array.prototype.forEach.call(translations.keys(), (path) => {
   })
 })
 
-export default createI18n({
+const i18nInstance = createI18n({
   messages: lang,
   locale: store.state.lang,
 })
+
+export const getLocalMessage = (path: string): string => {
+  const local = i18nInstance.global.locale
+  const messages = i18nInstance.global.messages[local]
+  return get(messages, path)
+}
+
+export default i18nInstance
