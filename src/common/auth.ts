@@ -71,7 +71,6 @@ export const getUser = (): undefined | UserInfo => {
     return
   }
   const userInfoStr = decryptSafely(user, ek) as string
-  console.log(userInfoStr)
   const userInfo = parseJSONSafely(userInfoStr) as UserInfo
   return userInfo
 }
