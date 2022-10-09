@@ -46,7 +46,7 @@ export async function downloadTrace(name: string, node?: string) {
     const res = await http.get(`/trace/${encodeURIComponent(name)}/download`, {
       params: { node },
       responseType: 'blob',
-      timeout: 1,
+      timeout: 45000,
       handleTimeoutSelf: true,
     })
     downloadBlobData(res)
