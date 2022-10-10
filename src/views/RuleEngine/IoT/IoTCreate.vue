@@ -34,10 +34,10 @@ import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { LOCAL_STORAGE_KEY_MAP } from '@/common/constants'
 import useRuleEditingPageUnload from '@/hooks/Rule/rule/useRuleEditingPageUnload'
+import { cloneDeep, isEqual } from 'lodash'
 
 const { t } = useI18n()
 const { transSQLFormDataToSQL } = useRuleUtils()
-useRuleEditingPageUnload()
 
 const route = useRoute()
 const router = useRouter()
@@ -53,8 +53,12 @@ const ruleValue: Ref<RuleItem> = ref({
   actions: [],
   description: '',
 })
+const rawRuleValue = cloneDeep(ruleValue.value)
+const countIsRuleRecordChanged = () => !isEqual(ruleValue.value, rawRuleValue)
 
 const formCom = ref()
+
+useRuleEditingPageUnload(countIsRuleRecordChanged)
 
 const checkRuleClipStatus = () => {
   if (route.query.action === 'copy') {
