@@ -26,6 +26,9 @@
 
         <template #dropdown>
           <el-dropdown-menu>
+            <el-dropdown-item command="settings">
+              {{ $t('components.settings') }}
+            </el-dropdown-item>
             <el-dropdown-item command="users">
               {{ $t('components.usersManagement') }}
             </el-dropdown-item>
