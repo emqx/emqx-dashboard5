@@ -54,6 +54,7 @@ import Settings from '@/views/Settings/Settings.vue'
 import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
 import Topics from '@/views/Topics/Topics.vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import NotFound from '@/views/Base/NotFound.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -694,6 +695,18 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'settings',
         component: Settings,
+      },
+    ],
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: Layout,
+    meta: {},
+    children: [
+      {
+        path: '',
+        name: 'not-found',
+        component: NotFound,
       },
     ],
   },
