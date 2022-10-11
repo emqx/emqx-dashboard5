@@ -479,4 +479,8 @@ export default {
     zh: 'IP 地址',
     en: 'IP Address',
   },
+  notFound: {
+    zh: '未找到页面',
+    en: 'This page could not be found',
+  },
 }
