@@ -175,8 +175,8 @@ export default defineComponent({
         path: '/log',
       },
       {
-        title: 'monitoring-integration',
-        path: '/monitoring-integration',
+        title: 'monitoring',
+        path: '/monitoring',
       },
     ]
 

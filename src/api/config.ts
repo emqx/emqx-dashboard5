@@ -9,6 +9,7 @@ import {
   RateItem,
   LimiterType,
   Rate,
+  AlarmSettings,
 } from '@/types/config'
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
@@ -48,3 +49,8 @@ export const updateRateConfigsByType = (
   limiterType: LimiterType,
   data: RateItem,
 ): Promise<RateItem> => http.put(`/configs/limiter/${limiterType}`, data)
+
+export const getSysMon = (): Promise<AlarmSettings> => http.get('/configs/sysmon')
+
+export const updateSysMon = (data: AlarmSettings): Promise<AlarmSettings> =>
+  http.post('/configs/sysmon', data)

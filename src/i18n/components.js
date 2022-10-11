@@ -331,9 +331,13 @@ export default {
     zh: '保留消息',
     en: 'Retainer',
   },
-  'monitoring-integration': {
+  integration: {
     zh: '监控集成',
     en: 'Monitoring Integration',
+  },
+  alarmSettings: {
+    zh: '监控告警',
+    en: 'Monitoring Alarm',
   },
   currentAlarm: {
     zh: '当前告警',
