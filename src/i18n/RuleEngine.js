@@ -503,10 +503,6 @@ export default {
     zh: 'SQL 例子',
     en: 'SQL Example',
   },
-  settings: {
-    zh: '设置',
-    en: 'Settings',
-  },
   executionStatistics: {
     zh: '运行统计',
     en: 'Execution Statistics',

@@ -1,7 +1,7 @@
 <template>
   <div class="postpone">
     <el-tabs>
-      <el-tab-pane :label="tl('setting')" v-loading="configPending">
+      <el-tab-pane :label="t('Base.setting')" v-loading="configPending">
         <div class="part-header">{{ tl('enable') }}</div>
         <el-row class="enable-row" align="middle">
           <el-col :span="16">{{ tl('enableDescDelay') }}</el-col>
@@ -123,7 +123,6 @@ import CommonPagination from '@/components/commonPagination.vue'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { dateFormat } from '@/common/utils'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import useI18nTl from '@/hooks/useI18nTl'
 import useCopy from '@/hooks/useCopy'
 
@@ -133,8 +132,7 @@ export default defineComponent({
     CommonPagination,
   },
   setup() {
-    const { tl } = useI18nTl('Advanced')
-    const { t } = useI18n()
+    const { tl, t } = useI18nTl('Advanced')
     const { copyText } = useCopy(copySuccess)
 
     let delayedConfig = reactive({
@@ -306,6 +304,7 @@ export default defineComponent({
     })
 
     return {
+      t,
       tl,
       delayedTbData,
       delayedConfig,

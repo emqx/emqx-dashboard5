@@ -1,8 +1,4 @@
 export default {
-  settings: {
-    zh: '设置',
-    en: 'Settings',
-  },
   language: {
     zh: '语言',
     en: 'Language',
