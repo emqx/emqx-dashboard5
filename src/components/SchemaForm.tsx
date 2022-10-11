@@ -125,25 +125,37 @@ const SchemaForm = defineComponent({
     const formCom = ref()
 
     const { t } = useI18n()
+
+    // Record<string(type), Array<string>>
+    const customGroups: Record<string, Array<string>> = {
+      mqtt: ['mqtt'],
+      session: ['mqtt'],
+      sysmon: ['vm', 'os'],
+    }
     const groups = computed(() => {
       let _groups: string[] = []
-      if (!typesDoNotNeedGroups.includes(props.type)) {
-        const properties = _.cloneDeep(components.value)
-        let hasBasicInfo = false
-        Object.keys(properties).forEach((key) => {
-          const prop = properties[key]
-          if (prop.properties) {
-            _groups.push(prop.label)
-          } else {
-            hasBasicInfo = true
-          }
-        })
-        if (hasBasicInfo) {
-          _groups = [t('BasicConfig.basic'), ..._groups]
+      if (typesDoNotNeedGroups.includes(props.type)) {
+        return _groups
+      }
+      if (Object.keys(customGroups).includes(props.type)) {
+        return customGroups[props.type]
+      }
+      const properties = _.cloneDeep(components.value)
+      let hasBasicInfo = false
+      Object.keys(properties).forEach((key) => {
+        const prop = properties[key]
+        if (prop.properties) {
+          _groups.push(prop.label)
+        } else {
+          hasBasicInfo = true
         }
+      })
+      if (hasBasicInfo) {
+        _groups = [t('BasicConfig.basic'), ..._groups]
       }
       return _groups
     })
+
     const currentGroup = ref(groups.value[0] || t('BasicConfig.basic'))
 
     watch(
@@ -160,11 +172,16 @@ const SchemaForm = defineComponent({
         configForm.value = initRecordByComponents(val)
         handleSSLDataWhenUseConciseSSL()
       }
+      initCurrentGroup()
     })
 
     watchEffect(() => {
       ctx.emit('update', configForm.value)
     })
+
+    const initCurrentGroup = () => {
+      currentGroup.value = groups.value[0] || t('BasicConfig.basic')
+    }
 
     const validate = () => {
       if (formCom.value?.validate) {
@@ -508,6 +525,8 @@ const SchemaForm = defineComponent({
         left: store.state.leftBarCollapse ? '104px' : '224px',
       }
       const groupTabs = groups.value.map((group: string) => (
+        // There is no content inside the tab pane, and the renderSchemaForm function
+        // is retriggered after the tab switch to change the content
         <el-tab-pane label={group} name={group} />
       ))
       let tabs: JSX.Element | null = (
@@ -515,16 +534,9 @@ const SchemaForm = defineComponent({
           {groupTabs}
         </el-tabs>
       )
-      // FIXME: for MQTT page
-      if (['mqtt', 'session'].includes(props.type)) {
+      // do not show tabs when there are just one tab(i think, maybe) or is bridge
+      if (typesDoNotNeedGroups.includes(props.type) || groups.value.length === 1) {
         tabs = null
-        currentGroup.value = 'mqtt'
-      } else if (typesDoNotNeedGroups.includes(props.type)) {
-        // for bridge
-        tabs = null
-      }
-      if (props.type === 'log' && currentGroup.value === t('BasicConfig.basic')) {
-        currentGroup.value = 'Console Handler'
       }
       return (
         <>
