@@ -2,6 +2,9 @@
   <div class="current-alarm app-wrapper">
     <div class="section-header">
       <div></div>
+      <el-button :icon="Setting" @click="$router.push({ name: 'alarm-settings' })">
+        {{ $t('Base.setting') }}
+      </el-button>
       <el-button type="primary" :icon="RefreshRight" @click="loadData({ page: 1 })">
         {{ $t('Base.refresh') }}
       </el-button>
@@ -62,7 +65,7 @@ import { loadAlarm } from '@/api/common'
 import { getDuration, dateFormat } from '@/common/utils'
 import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import { RefreshRight } from '@element-plus/icons-vue'
+import { RefreshRight, Setting } from '@element-plus/icons-vue'
 
 const currentLockTable = ref(false)
 const currentAlarmData = ref<any[]>([])

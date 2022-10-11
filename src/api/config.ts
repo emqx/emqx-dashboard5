@@ -53,4 +53,4 @@ export const updateRateConfigsByType = (
 export const getSysMon = (): Promise<AlarmSettings> => http.get('/configs/sysmon')
 
 export const updateSysMon = (data: AlarmSettings): Promise<AlarmSettings> =>
-  http.post('/configs/sysmon', data)
+  http.put('/configs/sysmon', data)
