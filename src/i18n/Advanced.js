@@ -163,10 +163,6 @@ export default {
     zh: '正则表达式',
     en: 'Regex',
   },
-  setting: {
-    zh: '设置',
-    en: 'Settings',
-  },
   dataManage: {
     zh: '数据管理',
     en: 'Manage Data',

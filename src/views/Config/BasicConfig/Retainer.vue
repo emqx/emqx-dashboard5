@@ -44,7 +44,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane :label="tl('setting')" v-loading="configLoading">
+        <el-tab-pane :label="t('Base.setting')" v-loading="configLoading">
           <div class="part-header">{{ tl('enable') }}</div>
           <el-row align="middle">
             <el-col :span="16" :style="{ marginBottom: '14px' }">{{ tl('enableDesc') }}</el-col>
@@ -221,7 +221,6 @@ import {
 import { dateFormat } from '@/common/utils'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
 import useCopy from '@/hooks/useCopy'
@@ -229,8 +228,7 @@ import useFormRules from '@/hooks/useFormRules'
 import usePagination from '@/hooks/usePagination'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 
-const { t } = useI18n()
-const { tl } = useI18nTl('Advanced')
+const { tl, t } = useI18nTl('Advanced')
 const { copyText } = useCopy(copySuccess)
 const { createRequiredRule } = useFormRules()
 

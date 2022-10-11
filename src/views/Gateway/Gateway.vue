@@ -52,7 +52,7 @@
         <template #default="{ row }">
           <template v-if="hasBeenInitialized(row)">
             <el-button size="small" :disabled="isUnload(row.status)" @click="goSettingPage(row)">
-              {{ tl('setting') }}
+              {{ t('Base.setting') }}
             </el-button>
             <el-button size="small" :disabled="!isRunning(row.status)" @click="goClientPage(row)">
               {{ tl('connections') }}
@@ -71,16 +71,15 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import { getGatewayList, updateGateway } from '@/api/gateway'
 import { calcPercentage, caseInsensitiveCompare } from '@/common/utils'
-import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
 import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'Gateway',
   setup() {
-    const { t } = useI18n()
     let tbData = ref<any[]>([])
     let tbLoading = ref(false)
     let dropdownExclusiveKey = '_drop'
@@ -91,9 +90,7 @@ export default defineComponent({
 
     const { transGatewayName } = useTransName()
 
-    const tl = function (key: string, collection = 'Gateway') {
-      return t(collection + '.' + key)
-    }
+    const { tl, t } = useI18nTl('Gateway')
 
     const isRunning = (status: string) => caseInsensitiveCompare(status, enableStr)
     const isUnload = (status: string) => caseInsensitiveCompare(status, unloadStr)
@@ -146,6 +143,7 @@ export default defineComponent({
     onMounted(loadGateway)
 
     return {
+      t,
       tl,
       tbLoading,
       tbData,
