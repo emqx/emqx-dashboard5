@@ -123,10 +123,6 @@ export default {
     zh: '使用默认的 ACL SQL 请在数据库中创建如下表结构：',
     en: ' To use the default SQL. Please create this table in the database:',
   },
-  setting: {
-    zh: '设置',
-    en: 'Settings',
-  },
   moveUp: {
     zh: '上移',
     en: 'Move up',

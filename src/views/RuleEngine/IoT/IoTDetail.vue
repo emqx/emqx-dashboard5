@@ -26,7 +26,7 @@
           />
         </div>
       </el-tab-pane>
-      <el-tab-pane :label="tl('settings')" :name="Tab.Setting" lazy>
+      <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>
         <el-card class="detail-card" v-loading="infoLoading">
           <iotform
             ref="formCom"

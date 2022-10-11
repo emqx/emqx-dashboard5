@@ -3,7 +3,7 @@
     <div class="section-header">
       <div></div>
       <el-button :icon="Setting" @click="$router.push({ name: 'authorizationSetting' })">
-        {{ $t('Auth.setting') }}
+        {{ $t('Base.setting') }}
       </el-button>
       <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'authorizationCreate' })">
         {{ $t('Base.create') }}
