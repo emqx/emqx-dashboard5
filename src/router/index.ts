@@ -1,15 +1,22 @@
 import store from '@/store'
-import HistoryAlarm from '@/views/Alarm/HistoryAlarm.vue'
 import CurrentAlarm from '@/views/Alarm/CurrentAlarm.vue'
+import HistoryAlarm from '@/views/Alarm/HistoryAlarm.vue'
+import APIKey from '@/views/APIKey/APIKey.vue'
 import KeepAliveChildren from '@/views/Base/KeepAliveChildren.vue'
 import Layout from '@/views/Base/Layout.vue'
 import Login from '@/views/Base/Login.vue'
 import ClientDetails from '@/views/Clients/ClientDetails.vue'
 import Clients from '@/views/Clients/Clients.vue'
 import Advanced from '@/views/Config/Advanced/Advanced.vue'
+// import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
+// import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
+// import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
+import Log from '@/views/Config/BasicConfig/Log.vue'
 import Mqtt from '@/views/Config/BasicConfig/Mqtt.vue'
+import Retainer from '@/views/Config/BasicConfig/Retainer.vue'
 import Session from '@/views/Config/BasicConfig/Session.vue'
-import MonitoringIntegration from '@/views/Config/MonitoringIntegration.vue'
+import AlarmSettings from '@/views/Config/Monitoring/AlarmSettings.vue'
+import MonitoringIntegration from '@/views/Config/Monitoring/MonitoringIntegration.vue'
 import Metrics from '@/views/Dashboard/Metrics.vue'
 import NodeDetail from '@/views/Dashboard/NodeDetail.vue'
 import Nodes from '@/views/Dashboard/Nodes.vue'
@@ -20,14 +27,9 @@ import SlowSub from '@/views/Diagnose/SlowSub.vue'
 import SlowSubConfig from '@/views/Diagnose/SlowSubConfig.vue'
 import TopicMetrics from '@/views/Diagnose/TopicMetrics.vue'
 import Websocket from '@/views/Diagnose/WebSocket.vue'
-import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
-import Topics from '@/views/Topics/Topics.vue'
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-// import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
-import Log from '@/views/Config/BasicConfig/Log.vue'
-import Retainer from '@/views/Config/BasicConfig/Retainer.vue'
-// import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
-// import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
+import Exhook from '@/views/Exhook/Exhook.vue'
+import ExhookCreate from '@/views/Exhook/ExhookCreate.vue'
+import ExhookDetail from '@/views/Exhook/ExhookDetail.vue'
 import GatewayDetailAuth from '@/views/Gateway/components/auth.vue'
 import GatewayDetailBasic from '@/views/Gateway/components/basic.vue'
 import GatewayDetailClients from '@/views/Gateway/components/clients.vue'
@@ -37,24 +39,21 @@ import GatewayCreate from '@/views/Gateway/GatewayCreate.vue'
 import GatewayDetail from '@/views/Gateway/GatewayDetail.vue'
 import Blacklist from '@/views/General/Blacklist.vue'
 import Users from '@/views/General/Users.vue'
-import BridgeCreate from '@/views/RuleEngine/Bridge/BridgeCreate.vue'
-import BridgeDetail from '@/views/RuleEngine/Bridge/BridgeDetail.vue'
-import Bridge from '@/views/RuleEngine/Bridge/DataBridge.vue'
-import IoT from '@/views/RuleEngine/IoT/IoT.vue'
-import IoTCreate from '@/views/RuleEngine/IoT/IoTCreate.vue'
-import IoTDetail from '@/views/RuleEngine/IoT/IoTDetail.vue'
-// import Connector from '@/views/RuleEngine/Connector/Connector.vue'
-// import ConnectorCreate from '@/views/RuleEngine/Connector/ConnectorCreate.vue'
-import APIKey from '@/views/APIKey/APIKey.vue'
-import Exhook from '@/views/Exhook/Exhook.vue'
-import ExhookCreate from '@/views/Exhook/ExhookCreate.vue'
-import ExhookDetail from '@/views/Exhook/ExhookDetail.vue'
 import Listener from '@/views/Listener/Listener.vue'
 import PluginDetail from '@/views/Plugins/PluginDetail.vue'
 import PluginInstall from '@/views/Plugins/PluginInstall.vue'
 import Plugins from '@/views/Plugins/Plugins.vue'
+import BridgeCreate from '@/views/RuleEngine/Bridge/BridgeCreate.vue'
+import BridgeDetail from '@/views/RuleEngine/Bridge/BridgeDetail.vue'
+import Bridge from '@/views/RuleEngine/Bridge/DataBridge.vue'
 import FlowChart from '@/views/RuleEngine/FlowChart/FlowChart.vue'
+import IoT from '@/views/RuleEngine/IoT/IoT.vue'
+import IoTCreate from '@/views/RuleEngine/IoT/IoTCreate.vue'
+import IoTDetail from '@/views/RuleEngine/IoT/IoTDetail.vue'
 import Settings from '@/views/Settings/Settings.vue'
+import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
+import Topics from '@/views/Topics/Topics.vue'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -570,15 +569,20 @@ export const routes: Array<RouteRecordRaw> = [
   // },
   // Monitoring integration
   {
-    path: '/monitoring-integration',
+    path: '/monitoring',
     component: Layout,
     meta: {
-      hideKey: 'monitoring-integration',
       authRequired: true,
+      subMenu: true,
     },
     children: [
       {
-        path: '',
+        path: 'alarm-settings',
+        name: 'alarm-settings',
+        component: AlarmSettings,
+      },
+      {
+        path: 'integration',
         name: 'monitoring-integration',
         component: MonitoringIntegration,
       },

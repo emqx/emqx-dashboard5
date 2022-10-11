@@ -315,3 +315,40 @@ export interface PerClient {
   max_retry_time: string
   failure_strategy: string
 }
+
+export interface AlarmSettings {
+  vm: VM
+  os: OS
+  top: Top
+}
+
+interface Top {
+  num_items: number
+  sample_interval: string
+  max_procs: number
+  db_hostname: string
+  db_port: number
+  db_username: string
+  db_password: string
+  db_name: string
+}
+
+interface OS {
+  cpu_check_interval: string
+  cpu_high_watermark: string
+  cpu_low_watermark: string
+  mem_check_interval: string
+  sysmem_high_watermark: string
+  procmem_high_watermark: string
+}
+
+interface VM {
+  process_check_interval: string
+  process_high_watermark: string
+  process_low_watermark: string
+  long_gc: string
+  long_schedule: string
+  large_heap: string
+  busy_dist_port: boolean
+  busy_port: boolean
+}
