@@ -92,14 +92,17 @@
               name: 'connection-detail',
               params: { clientId: row.clientid },
             }"
-            class="table-data-without-break"
+            class="table-data-without-break keep-spaces"
+            >{{ row.clientid }}</router-link
           >
-            {{ row.clientid }}
-          </router-link>
         </template>
       </el-table-column>
 
-      <el-table-column prop="username" min-width="120" :label="$t('Clients.username')" />
+      <el-table-column prop="username" min-width="120" :label="$t('Clients.username')">
+        <template #default="{ row }">
+          <span class="keep-spaces">{{ row.username }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="connected"
         :min-width="store.state.lang === 'en' ? 140 : 90"
