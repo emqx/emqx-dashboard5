@@ -1,5 +1,5 @@
 <template>
-  <div class="alarm-settings">
+  <div class="alarm-settings app-wrapper">
     <el-card class="config-card">
       <schema-form
         :according-to="{ path: '/configs/sysmon' }"
