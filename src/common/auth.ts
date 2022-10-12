@@ -7,26 +7,16 @@ import { UserInfo } from '@/types/common'
  * key for set/get local storage
  */
 const USER_INFO_KEY = 'uK'
-const ENCRYPTION_KEY = 'eK'
+const ENCRYPTION_KEY = 'YWSCVU8Z55N9N1G1'
 
 const getUserInfoKey = () => {
   return localStorage.getItem(USER_INFO_KEY)
 }
 
 const setUserInfoKey = () => {
-  const uk = createRandomString(8)
+  const uk = createRandomString(4)
   localStorage.setItem(USER_INFO_KEY, uk)
   return uk
-}
-
-const getEncryptionKey = () => {
-  return localStorage.getItem(ENCRYPTION_KEY)
-}
-
-const setEncryptionKey = () => {
-  const ek = createRandomString(10)
-  localStorage.setItem(ENCRYPTION_KEY, ek)
-  return ek
 }
 
 const encryptSafely = (str: string, key: string) => {
@@ -55,22 +45,20 @@ const decryptSafely = (str: string, key: string) => {
  */
 export const setUser = (user: UserInfo): void => {
   const uk = setUserInfoKey()
-  const ek = setEncryptionKey()
-  const userInfo = encryptSafely(stringifyObjSafely(user), ek)
+  const userInfo = encryptSafely(stringifyObjSafely(user), ENCRYPTION_KEY)
   localStorage.setItem(uk, userInfo as string)
 }
 
 export const getUser = (): undefined | UserInfo => {
   const uk = getUserInfoKey()
-  const ek = getEncryptionKey()
-  if (!uk || !ek) {
+  if (!uk) {
     return
   }
   const user = localStorage.getItem(uk)
   if (!user) {
     return
   }
-  const userInfoStr = decryptSafely(user, ek) as string
+  const userInfoStr = decryptSafely(user, ENCRYPTION_KEY) as string
   const userInfo = parseJSONSafely(userInfoStr) as UserInfo
   return userInfo
 }
@@ -82,5 +70,4 @@ export const removeUser = (): void => {
   }
   localStorage.removeItem(uk)
   localStorage.removeItem(USER_INFO_KEY)
-  localStorage.removeItem(ENCRYPTION_KEY)
 }
