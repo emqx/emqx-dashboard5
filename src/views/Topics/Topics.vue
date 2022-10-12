@@ -24,7 +24,7 @@
     <el-table :data="tableData" v-loading.lock="lockTable">
       <el-table-column prop="topic" :label="$t('Topics.topic')" show-overflow-tooltip>
         <template #default="{ row }">
-          <p class="table-data-without-break">{{ row.topic }}</p>
+          <p class="table-data-without-break keep-spaces">{{ row.topic }}</p>
         </template>
       </el-table-column>
       <el-table-column prop="node" :label="$t('Clients.node')" />
