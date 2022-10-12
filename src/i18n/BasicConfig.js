@@ -159,4 +159,21 @@ export default {
     zh: '代理协议超时',
     en: 'Proxy Protocol Timeout',
   },
+  /* Tab Name */
+  vm: {
+    zh: '虚拟机',
+    en: 'Erlang VM',
+  },
+  os: {
+    zh: '操作系统',
+    en: 'OS',
+  },
+  console_handler: {
+    zh: '控制台',
+    en: 'Console',
+  },
+  file_handlers: {
+    zh: '文件',
+    en: 'File',
+  },
 }

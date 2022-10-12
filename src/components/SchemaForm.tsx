@@ -7,7 +7,6 @@ import { Properties, Property } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { computed, defineComponent, onMounted, PropType, ref, watch, watchEffect } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
 import InputWithUnit from './InputWithUnit.vue'
@@ -17,6 +16,7 @@ import useSSL from '@/hooks/useSSL'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, escapeCode, transLink } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
 
 interface FormItemMeta {
   col: number
@@ -124,7 +124,7 @@ const SchemaForm = defineComponent({
 
     const formCom = ref()
 
-    const { t } = useI18n()
+    const { t, tl } = useI18nTl('BasicConfig')
 
     // Record<string(type), Array<string>>
     const customGroups: Record<string, Array<string>> = {
@@ -145,18 +145,18 @@ const SchemaForm = defineComponent({
       Object.keys(properties).forEach((key) => {
         const prop = properties[key]
         if (prop.properties) {
-          _groups.push(prop.label)
+          _groups.push(key)
         } else {
           hasBasicInfo = true
         }
       })
       if (hasBasicInfo) {
-        _groups = [t('BasicConfig.basic'), ..._groups]
+        _groups = [tl('basic'), ..._groups]
       }
       return _groups
     })
 
-    const currentGroup = ref(groups.value[0] || t('BasicConfig.basic'))
+    const currentGroup = ref(groups.value[0] || tl('basic'))
 
     watch(
       () => props.form,
@@ -180,7 +180,7 @@ const SchemaForm = defineComponent({
     })
 
     const initCurrentGroup = () => {
-      currentGroup.value = groups.value[0] || t('BasicConfig.basic')
+      currentGroup.value = groups.value[0] || tl('basic')
     }
 
     const validate = () => {
@@ -474,7 +474,7 @@ const SchemaForm = defineComponent({
           {property.readOnly ? (
             <el-tooltip
               popper-class="read-only-tooltip"
-              content={t('BasicConfig.readOnlyTip')}
+              content={tl('readOnlyTip')}
               placement="right"
               effect="dark"
             >
@@ -527,7 +527,7 @@ const SchemaForm = defineComponent({
       const groupTabs = groups.value.map((group: string) => (
         // There is no content inside the tab pane, and the renderSchemaForm function
         // is retriggered after the tab switch to change the content
-        <el-tab-pane label={group} name={group} />
+        <el-tab-pane label={tl(group)} name={group} />
       ))
       let tabs: JSX.Element | null = (
         <el-tabs type="card" v-model={currentGroup.value} class="group-tabs">
@@ -619,7 +619,7 @@ const SchemaForm = defineComponent({
       for (const key in properties) {
         const propItem = properties[key]
         if (propItem.properties) {
-          if (currentGroup.value === propItem.label) {
+          if (currentGroup.value === propItem.path) {
             // for hot configuration
             _properties = propItem?.properties
             break
