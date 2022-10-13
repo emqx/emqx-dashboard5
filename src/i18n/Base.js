@@ -483,4 +483,8 @@ export default {
     zh: '未找到页面',
     en: 'This page could not be found',
   },
+  temp: {
+    zh: 'temp',
+    en: 'temp',
+  },
 }
