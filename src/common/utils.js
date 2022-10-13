@@ -52,15 +52,6 @@ export function transformUnitArrayToStr(obj) {
   return dest
 }
 
-export function setLanguage(lang = false) {
-  let language = lang ?? null
-  if (!language) {
-    language = navigator.language.substring(0, 2)
-  }
-  store.commit('SET_LANGUAGE', language)
-  document.documentElement.setAttribute('lang', language)
-}
-
 export const caseInsensitiveCompare = (w, k) => {
   return !!String.prototype.match.call(w, new RegExp(k, 'i'))
 }
