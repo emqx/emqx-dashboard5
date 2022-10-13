@@ -1,0 +1,34 @@
+name: Sync to enterprise
+
+on:
+  push:
+    branches:
+      - work-test
+
+jobs:
+  sync_to_enterprise:
+    runs-on: ubuntu-20.04
+    if: github.repository == 'emqx/emqx-dashboard-web-new'
+    steps:
+      - name: create pull request
+        id: create_pull_request
+        run: |
+          set -euo pipefail
+          EE_REF="${enterprise-test}"
+          R=$(curl --silent --show-error \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.CI_GIT_TOKEN }}" \
+            -X POST \
+            -d "{\"title\": \"Sync code from $GITHUB_REF to $EE_REF\", \"head\": \"$GITHUB_REF\", \"base\":\"$EE_REF\"}" \
+            https://api.github.com/repos/${{ github.repository_owner }}/emqx-dashboard-web-new/pulls)
+          echo $R | jq
+          echo "::set-output name=url::$(echo $R | jq '.url')"
+      - name: request reviewers for a pull request
+        if: steps.create_pull_request.outputs.url != 'null'
+        run: |
+          set -euo pipefail
+          curl --silent --show-error \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.CI_GIT_TOKEN }}" \
+          -X POST \
+          ${{ steps.create_pull_request.outputs.url }}/requested_reviewers
