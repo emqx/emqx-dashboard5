@@ -13,7 +13,7 @@ let respSet = new Set()
 
 Object.assign(axios.defaults, {
   baseURL: 'api/v5',
-  timeout: 20000,
+  timeout: 25000,
 })
 
 axios.interceptors.request.use(
