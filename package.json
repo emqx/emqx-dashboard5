@@ -11,8 +11,7 @@
     "build:enterprise": "VUE_APP_VERSION=enterprise vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\"",
-    "sync": "node script/sync-code.js"
+    "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\""
   },
   "dependencies": {
     "@antv/g6": "^4.5.1",
