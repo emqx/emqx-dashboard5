@@ -16,8 +16,8 @@ export default {
     en: 'Turn Prometheus data pushing on or off',
   },
   prometheusServerDesc: {
-    zh: 'Prometheus 服务器地址',
-    en: 'URL of Prometheus server',
+    zh: 'Pushgateway 服务器地址',
+    en: 'URL of Pushgateway server',
   },
   statsDEnableDesc: {
     zh: '打开或关闭 StatsD 数据推送',
