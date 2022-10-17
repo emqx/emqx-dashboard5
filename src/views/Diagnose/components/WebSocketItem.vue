@@ -40,7 +40,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="password" :label="$t('Tools.Password')">
-              <el-input v-model="connection.password" show-password />
+              <el-input v-model="connection.password" show-password autocomplete="one-time-code" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
