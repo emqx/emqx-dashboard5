@@ -247,6 +247,7 @@ const SchemaForm = defineComponent({
           clearable
         />
       )
+      // TODO: use SchemaFormItem
       switch (property.type) {
         case 'string':
           return stringInput
