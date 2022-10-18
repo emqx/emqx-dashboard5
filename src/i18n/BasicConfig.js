@@ -159,6 +159,18 @@ export default {
     zh: '代理协议超时',
     en: 'Proxy Protocol Timeout',
   },
+  rateConfigDesc: {
+    zh: '对于当前节点下的所有资源消耗速率设置',
+    en: 'For all resource usage rate settings under the current node',
+  },
+  connectionTitle: {
+    zh: '连接',
+    en: 'Connection',
+  },
+  clientRateConfigDesc: {
+    zh: '对于当前节点下的单个连接的速率限制',
+    en: 'Rate limit for a single connection under the current node',
+  },
   /* Tab Name */
   vm: {
     zh: '虚拟机',
@@ -175,5 +187,25 @@ export default {
   file_handlers: {
     zh: '文件',
     en: 'File',
+  },
+  bytes_in: {
+    zh: '流入字节速率',
+    en: 'Bytes In',
+  },
+  message_in: {
+    zh: '消息速率',
+    en: 'Message In',
+  },
+  connection: {
+    zh: '连接速率',
+    en: 'Connection',
+  },
+  message_routing: {
+    zh: '消息路由速率',
+    en: 'Message Routing',
+  },
+  internal: {
+    zh: 'Internal',
+    en: 'Internal',
   },
 }
