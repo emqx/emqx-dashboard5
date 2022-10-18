@@ -189,6 +189,23 @@
                 },
                 "type": "object"
             },
+            "limiter.node_opts": {
+                "properties": {
+                    "rate": {
+                        "default": "infinity",
+                        "description": "桶的令牌生成速率",
+                        "label": "速率",
+                        "type": "string"
+                    },
+                    "burst": {
+                        "default": 0,
+                        "description": "突发速率。</br>突发速率允许短时间内速率超过设置的速率值，突发速率 + 速率 = 当前桶能达到的最大速率值",
+                        "label": "突发速率",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "emqx_conf_schema.log_burst_limit": {
                 "properties": {
                     "enable": {
@@ -1686,6 +1703,88 @@
                 },
                 "type": "object"
             },
+            "limiter.client_fields": {
+                "properties": {
+                    "bytes_in": {
+                        "default": {},
+                        "description": "流入字节率控制器.</br>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
+                        "label": "流入字节率",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    },
+                    "message_in": {
+                        "default": {},
+                        "description": "流入速率控制器。</br>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
+                        "label": "消息流入速率",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    },
+                    "connection": {
+                        "default": {},
+                        "description": "连接速率控制器。</br>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
+                        "label": "连接速率",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    },
+                    "message_routing": {
+                        "default": {},
+                        "description": "消息派发速率控制器。</br>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
+                        "label": "消息派发",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    },
+                    "internal": {
+                        "default": {},
+                        "description": "EMQX 内部功能所用限制器。",
+                        "label": "internal",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "limiter.limiter": {
+                "properties": {
+                    "bytes_in": {
+                        "default": {},
+                        "description": "流入字节率控制器.</br>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
+                        "label": "流入字节率",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "message_in": {
+                        "default": {},
+                        "description": "流入速率控制器。</br>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
+                        "label": "消息流入速率",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "connection": {
+                        "default": {},
+                        "description": "连接速率控制器。</br>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
+                        "label": "连接速率",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "message_routing": {
+                        "default": {},
+                        "description": "消息派发速率控制器。</br>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
+                        "label": "消息派发",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "internal": {
+                        "default": {},
+                        "description": "EMQX 内部功能所用限制器。",
+                        "label": "internal",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "client": {
+                        "default": {
+                            "bytes_in": {},
+                            "connection": {},
+                            "internal": {},
+                            "message_in": {},
+                            "message_routing": {}
+                        },
+                        "description": "对桶的每个使用者的速率控制设置",
+                        "label": "每个使用者的限制",
+                        "$ref": "#/components/schemas/limiter.client_fields"
+                    }
+                },
+                "type": "object"
+            },
             "dashboard.https": {
                 "required": [
                     "bind",
@@ -2085,6 +2184,58 @@
                 },
                 "type": "object"
             },
+            "limiter.client_opts": {
+                "properties": {
+                    "rate": {
+                        "default": "infinity",
+                        "description": "桶的令牌生成速率",
+                        "label": "速率",
+                        "type": "string"
+                    },
+                    "initial": {
+                        "default": "0",
+                        "description": "桶中的初始令牌数",
+                        "label": "初始令牌数",
+                        "type": "string"
+                    },
+                    "low_watermark": {
+                        "default": "0",
+                        "description": "当桶中剩余的令牌数低于这个值，即使令牌申请成功了，也会被强制暂停一会儿",
+                        "label": "低水位线",
+                        "type": "string"
+                    },
+                    "capacity": {
+                        "default": "infinity",
+                        "description": "每个使用者的令牌容量上限",
+                        "label": "容量",
+                        "type": "string"
+                    },
+                    "divisible": {
+                        "default": false,
+                        "description": "申请的令牌数是否可以被分割",
+                        "label": "是否可分割",
+                        "type": "boolean"
+                    },
+                    "max_retry_time": {
+                        "default": "10s",
+                        "description": "申请失败后，尝试重新申请的时长最大值",
+                        "label": "最大重试时间",
+                        "type": "duration"
+                    },
+                    "failure_strategy": {
+                        "default": "force",
+                        "description": "当所有的重试都失败后的处理策略",
+                        "label": "失败策略",
+                        "symbols": [
+                            "force",
+                            "drop",
+                            "throw"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "dashboard.dashboard": {
                 "required": [
                     "default_password",
@@ -2232,6 +2383,11 @@
                         "description": "EMQX仪表板配置",
                         "label": "仪表板",
                         "$ref": "#/components/schemas/dashboard.dashboard"
+                    },
+                    "limiter": {
+                        "description": "Settings for the rate limiter.",
+                        "label": "limiter",
+                        "$ref": "#/components/schemas/limiter.limiter"
                     }
                 },
                 "type": "object"
@@ -2349,6 +2505,14 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "/configs/limiter": {
+            "get": {
+                "$ref": "#/components/schemas/limiter.limiter"
+            },
+            "put": {
+                "$ref": "#/components/schemas/limiter.limiter"
             }
         },
         "/configs/log": {
