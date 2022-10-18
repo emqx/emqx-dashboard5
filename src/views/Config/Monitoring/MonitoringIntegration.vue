@@ -8,7 +8,7 @@
               <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
                 <el-row :gutter="28">
                   <el-col v-for="item in platformOpts" :key="item.label" :span="12">
-                    <el-radio class="platform-radio-radio" :label="item.label" border>
+                    <el-radio class="platform-radio" :label="item.label" border>
                       <img class="img-platform" height="52" :src="item.img" :alt="item.label" />
                       <span class="platform-name"> {{ item.label }} </span>
                     </el-radio>
@@ -18,7 +18,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-
+        <!-- Prometheus -->
         <el-row v-if="selectedPlatform === PROMETHEUS">
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.isEnabled')">
@@ -26,19 +26,24 @@
               <el-switch v-model="prometheusFormData.enable" />
             </el-form-item>
           </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('pushgatewayServer')">
-              <p class="item-desc">{{ tl('prometheusServerDesc') }}</p>
-              <el-input v-model="prometheusFormData.push_gateway_server" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('dataReportingInterval')">
-              <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
-              <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
-            </el-form-item>
-          </el-col>
+          <el-collapse-transition>
+            <el-col v-show="prometheusFormData.enable" :span="16" class="custom-col">
+              <el-form-item :label="tl('pushgatewayServer')">
+                <p class="item-desc">{{ tl('prometheusServerDesc') }}</p>
+                <el-input v-model="prometheusFormData.push_gateway_server" />
+              </el-form-item>
+            </el-col>
+          </el-collapse-transition>
+          <el-collapse-transition>
+            <el-col v-show="prometheusFormData.enable" :span="16" class="custom-col">
+              <el-form-item :label="tl('interval')">
+                <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
+                <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
+              </el-form-item>
+            </el-col>
+          </el-collapse-transition>
         </el-row>
+        <!-- StatsD -->
         <el-row v-else>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.isEnabled')">
@@ -46,18 +51,22 @@
               <el-switch v-model="statsDFormData.enable" />
             </el-form-item>
           </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item :label="t('Base.server')">
-              <p class="item-desc">{{ tl('statsDServerDesc') }}</p>
-              <el-input v-model="statsDFormData.server" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('dataReportingInterval')">
-              <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
-              <TimeInputWithUnitSelectVue v-model="statsDFormData.flush_time_interval" />
-            </el-form-item>
-          </el-col>
+          <el-collapse-transition>
+            <el-col v-show="statsDFormData.enable" :span="16" class="custom-col">
+              <el-form-item :label="t('Base.server')">
+                <p class="item-desc">{{ tl('statsDServerDesc') }}</p>
+                <el-input v-model="statsDFormData.server" />
+              </el-form-item>
+            </el-col>
+          </el-collapse-transition>
+          <el-collapse-transition>
+            <el-col v-show="statsDFormData.enable" :span="16" class="custom-col">
+              <el-form-item :label="tl('interval')">
+                <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
+                <TimeInputWithUnitSelectVue v-model="statsDFormData.flush_time_interval" />
+              </el-form-item>
+            </el-col>
+          </el-collapse-transition>
         </el-row>
         <div class="ft">
           <el-button type="primary" :loading="isSubmitting" @click="submit">
@@ -167,6 +176,9 @@ loadIntegration()
   .radio-form-item {
     width: 100%;
     padding: 0 12px;
+    .el-form-item__label {
+      margin-bottom: 26px !important;
+    }
   }
   .platform-radio-group {
     width: 100%;
@@ -174,22 +186,26 @@ loadIntegration()
       width: 80%;
     }
   }
-  .platform-radio-radio {
+  .platform-radio {
     width: 100%;
     height: auto;
+    &.el-radio.is-bordered {
+      padding: 12px;
+    }
     .el-radio__label {
       display: flex;
       align-items: center;
-      padding-top: 8px;
-      padding-bottom: 8px;
+      padding: 0px;
     }
     .img-platform {
       margin-right: 8px;
+      border-radius: 8px;
     }
     .platform-name {
       overflow: hidden;
       word-break: break-all;
       text-overflow: ellipsis;
+      padding-left: 8px;
     }
   }
   .ft {
