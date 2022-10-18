@@ -8,8 +8,8 @@ import {
   TeleStatus,
   RateItem,
   LimiterType,
-  Rate,
   AlarmSettings,
+  Limiter,
 } from '@/types/config'
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
@@ -37,7 +37,10 @@ export const updateZoneConfigs = (data: Zones): Promise<Zones> => http.put('/con
 
 export const getTeleStatus = (): Promise<TeleStatus> => http.get('telemetry/status')
 
-export const getLimiters = (): Promise<Rate> => http.get('/configs/limiter')
+export const getLimiters = (): Promise<Limiter> => http.get('/configs/limiter')
+
+export const updateLimiters = (data: Limiter): Promise<Limiter> =>
+  http.put('/configs/limiter', data)
 
 export const updateTeleStatus = (data: TeleStatus): Promise<TeleStatus> =>
   http.put('telemetry/status', data)

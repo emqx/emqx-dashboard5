@@ -3,119 +3,34 @@
     <el-card>
       <el-form class="schema-form" label-position="top">
         <el-tabs class="group-tabs" type="card" v-model="currentLimiterType">
-          <el-tab-pane v-for="group in LimiterTypes" :key="group" :label="group" :name="group">
-          </el-tab-pane>
+          <el-tab-pane
+            v-for="group in LimiterTypes"
+            :key="group"
+            :label="tl(group)"
+            :name="group"
+          />
         </el-tabs>
-        <el-row v-if="rateProperties">
-          <!-- Map rate -->
-          <template v-for="(rateProp, key) in rateProperties" :key="rateProp">
-            <template v-if="rateProp.path">
-              <el-col v-if="rateProp.type !== 'object'" :span="16">
-                <el-form-item :label="rateProp.label">
-                  <p class="item-desc" v-html="rateProp.description"></p>
-                  <el-input
-                    v-if="rateProp.type === 'string'"
-                    :disabled="rateProp.readOnly"
-                    :placeholder="rateProp.default.toString()"
-                    v-model="configs[key]"
-                    clearable
-                  ></el-input>
-                  <el-switch
-                    v-if="rateProp.type === 'boolean'"
-                    :disabled="rateProp.readOnly"
-                    v-model="configs[key]"
-                  ></el-switch>
-                </el-form-item>
-              </el-col>
-              <el-col class="custom-col" v-else-if="rateProp.type === 'object'" :span="16">
-                <div class="group-title">{{ rateProp.label }}</div>
-                <el-button class="new-bucket-btn" type="primary" @click="handleBeforeAddBucket">
-                  {{ tl('newBucket') }}
-                </el-button>
-                <div class="bucket-configs">
-                  <p class="item-desc">{{ rateProp.description }}</p>
-                  <el-tabs
-                    v-model="currTab"
-                    class="bucket-tabs"
-                    type="border-card"
-                    closable
-                    @tab-remove="removeTab"
-                  >
-                    <!-- Map bucket name -->
-                    <el-tab-pane
-                      v-for="(config, configKey) in configs.bucket"
-                      :key="configKey"
-                      :label="((configKey as unknown) as string)"
-                      :name="((configKey as unknown) as string)"
-                    >
-                      <!-- Map bucket -->
-                      <template
-                        v-for="(bucket, bucketKey) in rateProp.properties?.$bucket_name.properties"
-                        :key="bucketKey"
-                      >
-                        <template v-if="bucket.type && bucket.type !== 'object'">
-                          <el-form-item :label="bucket.label">
-                            <template v-if="bucket.type === 'string'">
-                              <el-input
-                                :disabled="bucket.readOnly"
-                                :placeholder="bucket.default.toString()"
-                                v-model="configs.bucket[configKey][bucketKey]"
-                                clearable
-                              ></el-input>
-                            </template>
-                          </el-form-item>
-                        </template>
-                        <template v-else>
-                          <div class="group-title">{{ bucket.label }}</div>
-                          <!-- Map per_client -->
-                          <template
-                            v-for="(perClient, perClientKey) in bucket.properties"
-                            :key="perClientKey"
-                          >
-                            <el-form-item :label="perClient.label">
-                              <p class="item-desc" v-html="perClient.description"></p>
-                              <el-input
-                                v-if="perClient.type === 'string'"
-                                :disabled="perClient.readOnly"
-                                :placeholder="perClient.default.toString()"
-                                v-model="configs.bucket[configKey][bucketKey][perClientKey]"
-                                clearable
-                              ></el-input>
-                              <el-select
-                                v-if="perClient.type === 'enum'"
-                                :disabled="perClient.readOnly"
-                                :placeholder="perClient.default"
-                                v-model="configs.bucket[configKey][bucketKey][perClientKey]"
-                                clearable
-                              >
-                                <el-option
-                                  v-for="value in perClient.symbols"
-                                  :key="value"
-                                  :value="value"
-                                  :label="value"
-                                ></el-option>
-                              </el-select>
-                              <time-input-with-unit-select
-                                v-if="perClient.type === 'duration'"
-                                :disabled="perClient.readOnly"
-                                v-model="configs.bucket[configKey][bucketKey][perClientKey]"
-                              >
-                              </time-input-with-unit-select>
-                              <el-switch
-                                v-if="perClient.type === 'boolean'"
-                                :disabled="perClient.readOnly"
-                                v-model="configs.bucket[configKey][bucketKey][perClientKey]"
-                              ></el-switch>
-                            </el-form-item>
-                          </template>
-                        </template>
-                      </template>
-                    </el-tab-pane>
-                  </el-tabs>
-                </div>
-              </el-col>
-            </template>
-          </template>
+        <LimiterConfigurationBlock
+          v-if="rateProperties"
+          v-model="configs"
+          :properties="rateProperties"
+          :block-tip="tl('rateConfigDesc')"
+        />
+
+        <!-- Client -->
+        <el-card
+          class="app-card with-border card-client-rate"
+          v-if="clientRateProperties"
+          shadow="none"
+        >
+          <p class="part-header">{{ tl('connectionTitle') }}</p>
+          <LimiterConfigurationBlock
+            v-model="configs"
+            :properties="clientRateProperties"
+            :block-tip="tl('clientRateConfigDesc')"
+          />
+        </el-card>
+        <el-row v-if="rateProperties || clientRateProperties">
           <el-col
             :span="24"
             class="btn-col"
@@ -127,224 +42,95 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-dialog :title="tl('newBucket')" width="420px" v-model="addTabDialog" destroy-on-close>
-        <el-form ref="recordForm" :model="addTabConfig" label-position="top" :rules="rules">
-          <el-form-item prop="name" :label="tl('bucketName')">
-            <el-input v-model="addTabConfig.name"></el-input>
-          </el-form-item>
-          <el-form-item prop="copyFrom" :label="tl('duplicateBucket')">
-            <el-select v-model="addTabConfig.copyFrom">
-              <el-option
-                v-for="(config, bucketName) in configs.bucket"
-                :key="bucketName"
-                :label="bucketName"
-                :value="bucketName"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <div class="dialog-align-footer">
-            <el-button @click="addTabDialog = false">{{ $t('Base.cancel') }}</el-button>
-            <el-button type="primary" @click="addTab">{{ $t('Base.confirm') }}</el-button>
-          </div>
-        </template>
-      </el-dialog>
     </el-card>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, reactive, watch } from 'vue'
-import { getRateConfigsByType, updateRateConfigsByType } from '@/api/config'
-import { LimiterType, RateItem } from '@/types/config'
-import { ElMessage, TabPanelName, ElMessageBox } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import useI18nTl from '@/hooks/useI18nTl'
+<script lang="ts" setup>
+import { getLimiters, updateLimiters } from '@/api/config'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
+import useI18nTl from '@/hooks/useI18nTl'
+import { Limiter, LimiterType } from '@/types/config'
+import { ElMessage } from 'element-plus'
+import { cloneDeep } from 'lodash'
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
-import _ from 'lodash'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useFormRules from '@/hooks/useFormRules'
+import LimiterConfigurationBlock from './components/LimiterConfigurationBlock.vue'
 
-export default defineComponent({
-  name: 'Limiter',
-  components: {
-    TimeInputWithUnitSelect,
-  },
-  setup() {
-    const configs = ref<Record<string, any>>({})
-    const saveLoading = ref(false)
-    const addTabConfig = reactive({
-      name: '',
-      copyFrom: 'default',
-    })
+const configs = ref<Limiter>({} as Limiter)
+const saveLoading = ref(false)
 
-    const currTab = ref('default')
-    const { t } = useI18n()
-    const { tl } = useI18nTl('BasicConfig')
-    const addTabDialog = ref(false)
-    const store = useStore()
-    const { components } = useSchemaForm(`static/hot-config-schema-${store.state.lang}.json`, {
-      path: '/configs/limiter',
-    })
-    const currentLimiterType = ref<LimiterType>('bytes_in')
-    const LimiterTypes = ['bytes_in', 'message_in', 'connection', 'message_routing', 'batch']
+const { t } = useI18n()
+const { tl } = useI18nTl('BasicConfig')
+const store = useStore()
 
-    const recordForm = ref()
-    const { createRequiredRule } = useFormRules()
-    const rules = {
-      name: [
-        ...createRequiredRule(tl('bucketName')),
-        {
-          validator(rule: any, value: string) {
-            if (configs.value.bucket[value] !== undefined) {
-              return new Error(tl('bucketNameExist'))
-            }
-            return []
-          },
-          trigger: 'blur',
-        },
-        {
-          pattern: /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/,
-          message: tl('limierNameRegError'),
-        },
-      ],
-    }
-
-    const rateProperties = computed(() => {
-      const currComponent = components.value[currentLimiterType.value]
-      return currComponent?.properties
-    })
-    const tabs = computed(() => {
-      return Object.keys(configs.value.bucket)
-    })
-    watch(currentLimiterType, () => {
-      handleTypeChange()
-    })
-    const loadData = async () => {
-      const res = await getRateConfigsByType(currentLimiterType.value)
-      if (res) {
-        configs.value = res
-      }
-      currTab.value = tabs.value[0]
-    }
-    const reloading = () => {
-      loadData()
-    }
-    const handleSave = async () => {
-      saveLoading.value = true
-      const data = _.cloneDeep(configs.value) as RateItem
-      try {
-        await updateRateConfigsByType(currentLimiterType.value, data)
-        ElMessage.success(t('Base.updateSuccess'))
-        reloading()
-      } catch (error) {
-        // ignore error
-      } finally {
-        saveLoading.value = false
-      }
-    }
-    loadData()
-    const handleTypeChange = () => {
-      loadData()
-    }
-    const handleBeforeAddBucket = () => {
-      addTabDialog.value = true
-      addTabConfig.name = ''
-      addTabConfig.copyFrom = tabs.value[0]
-    }
-
-    const addTab = async () => {
-      const { name } = addTabConfig
-      await recordForm.value.validate()
-      configs.value.bucket[name] = _.cloneDeep(configs.value.bucket[addTabConfig.copyFrom])
-      addTabDialog.value = false
-    }
-    const removeTab = async (targetName: TabPanelName) => {
-      if (tabs.value.length === 1 || ['default', 'retainer'].includes(targetName as string)) {
-        return
-      }
-      await ElMessageBox.confirm(tl('confirmRemove', { name: targetName as string }), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      })
-      delete configs.value.bucket[targetName]
-      currTab.value = tabs.value[0]
-    }
-    return {
-      tl,
-      tabs,
-      rateProperties,
-      currentLimiterType,
-      LimiterTypes,
-      store,
-      currTab,
-      handleSave,
-      configs,
-      reloading,
-      addTabDialog,
-      addTabConfig,
-      recordForm,
-      rules,
-      handleTypeChange,
-      saveLoading,
-      handleBeforeAddBucket,
-      addTab,
-      removeTab,
-    }
-  },
+const { components } = useSchemaForm(`static/hot-config-schema-${store.state.lang}.json`, {
+  path: '/configs/limiter',
 })
-</script>
+const currentLimiterType = ref<LimiterType>('bytes_in')
+const LimiterTypes = ['bytes_in', 'message_in', 'connection', 'message_routing', 'internal']
 
+const rateProperties = computed(() => {
+  const currComponent = components.value[currentLimiterType.value]
+  return currComponent?.properties
+})
+
+const clientRateProperties = computed(() => {
+  const clientRateComponent = components.value.client?.properties?.[currentLimiterType.value]
+  return clientRateComponent?.properties
+})
+
+const loadData = async () => {
+  try {
+    const res = await getLimiters()
+    configs.value = res
+  } catch (error) {
+    //
+  }
+}
+
+const handleSave = async () => {
+  saveLoading.value = true
+  const data = cloneDeep(configs.value)
+  try {
+    await updateLimiters(data)
+    ElMessage.success(t('Base.updateSuccess'))
+    loadData()
+  } catch (error) {
+    // ignore error
+  } finally {
+    saveLoading.value = false
+  }
+}
+
+loadData()
+</script>
 <style lang="scss">
 .limiter {
-  .bucket-configs {
-    padding: 0px 12px 12px;
-  }
-  .new-bucket-btn {
-    position: absolute;
-    top: 18px;
-    right: 38px;
-  }
-  .bucket-tabs {
-    margin-top: 12px;
-    &.el-tabs--border-card {
-      background: var(--color-bg-primary);
-      border: 1px solid var(--color-border-primary);
-      border-radius: 8px;
-      .el-tabs__header {
-        background-color: var(--color-bg-split);
-        border-bottom: 1px solid var(--color-border-primary);
-        .el-tabs__nav-scroll {
-          border-radius: 8px 8px 0 0;
-        }
-        .el-tabs__nav {
-          border-radius: 8px 8px 0 0;
-          border-bottom: none;
-        }
-      }
-      & > .el-tabs__header .el-tabs__item:first-child {
-        border-radius: 8px 0 0 0;
-        border-right-color: var(--color-border-primary);
-      }
-      & > .el-tabs__header .el-tabs__item.is-active {
-        background: var(--color-bg-primary);
-        border-right-color: var(--color-border-primary);
-        border-left-color: var(--color-border-primary);
-      }
-      .el-tabs__item .is-icon-close {
-        top: 3px;
-        right: 2px;
-      }
-      .el-tabs__header {
-        border-radius: 8px 8px 0 0;
-      }
-      .el-tabs__content {
-        padding: 12px;
-      }
+  .card-client-rate {
+    width: 60%;
+    margin-left: -1px;
+    margin-top: 20px;
+    .part-header {
+      margin-top: 0;
+      padding-left: 12px + 12px + 4px;
     }
+    .el-card__body {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .el-form-item {
+      padding: 8px 12px 12px;
+    }
+    .col-custom-width {
+      flex-basis: 91.6%;
+      max-width: 91.6%;
+    }
+  }
+  .desc-config {
+    margin: 8px 0;
+    padding-left: 12px + 4px;
   }
 }
 </style>
