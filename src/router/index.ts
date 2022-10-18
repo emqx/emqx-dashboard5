@@ -10,7 +10,7 @@ import Clients from '@/views/Clients/Clients.vue'
 import Advanced from '@/views/Config/Advanced/Advanced.vue'
 // import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
 // import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
-// import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
+import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
 import Log from '@/views/Config/BasicConfig/Log.vue'
 import Mqtt from '@/views/Config/BasicConfig/Mqtt.vue'
 import Retainer from '@/views/Config/BasicConfig/Retainer.vue'
@@ -553,25 +553,26 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // limiter config
-  // {
-  //   path: '/limiter',
-  //   component: Layout,
-  //   meta: {
-  //     hideKey: 'limiter',
-  //     authRequired: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'limiter',
-  //       component: Limiter,
-  //     },
-  //   ],
-  // },
+  {
+    path: '/limiter',
+    component: Layout,
+    meta: {
+      hideKey: 'limiter',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'limiter',
+        component: Limiter,
+      },
+    ],
+  },
   // Monitoring integration
   {
     path: '/monitoring',
     component: Layout,
+    redirect: '/monitoring/alarm-settings',
     meta: {
       authRequired: true,
       subMenu: true,

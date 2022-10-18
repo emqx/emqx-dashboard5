@@ -352,3 +352,34 @@ interface VM {
   busy_dist_port: boolean
   busy_port: boolean
 }
+export interface Limiter {
+  bytes_in: NodeConfigItem
+  message_in: NodeConfigItem
+  connection: NodeConfigItem
+  message_routing: NodeConfigItem
+  internal: NodeConfigItem
+  client: Client
+}
+
+interface NodeConfigItem {
+  rate: string
+  burst: string
+}
+
+interface Client {
+  bytes_in: ClientConfigItem
+  message_in: ClientConfigItem
+  connection: ClientConfigItem
+  message_routing: ClientConfigItem
+  internal: ClientConfigItem
+}
+
+interface ClientConfigItem {
+  rate: string
+  initial: string
+  low_watermark: string
+  capacity: string
+  divisible: boolean
+  max_retry_time: string
+  failure_strategy: string
+}
