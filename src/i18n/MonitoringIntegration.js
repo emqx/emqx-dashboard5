@@ -4,8 +4,12 @@ export default {
     en: 'Monitoring platform',
   },
   monitoringPlatformFormItemLabel: {
-    zh: '请选择需要更新配置的监控平台',
-    en: 'Please select the monitoring platform for which you need to update the configuration',
+    zh: '选择一个监控平台，并配置所需信息',
+    en: 'Choose a monitoring platform and configure the required information',
+  },
+  interval: {
+    zh: '采集间隔',
+    en: 'Interval',
   },
   dataReportingInterval: {
     zh: '数据上报时间间隔',
