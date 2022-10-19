@@ -205,7 +205,7 @@ export default {
     en: 'Message Routing',
   },
   internal: {
-    zh: 'Internal',
+    zh: '内部功能',
     en: 'Internal',
   },
 }
