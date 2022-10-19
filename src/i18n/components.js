@@ -333,7 +333,7 @@ export default {
   },
   integration: {
     zh: '监控集成',
-    en: 'Monitoring Integration',
+    en: 'Integration',
   },
   alarmSettings: {
     zh: '监控告警',
