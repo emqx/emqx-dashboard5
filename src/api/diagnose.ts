@@ -36,6 +36,10 @@ export function addTrace(body: Record<string, unknown>) {
   return http.post('/trace', body)
 }
 
+export function getTraceDetail(name: string) {
+  return http.get(`/trace/${name}/log_detail`)
+}
+
 export function getTraceLog(name: string, params: Record<string, unknown>) {
   if (!name) return false
   return http.get(`/trace/${encodeURIComponent(name)}/log`, { params })
