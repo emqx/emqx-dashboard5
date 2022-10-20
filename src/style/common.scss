@@ -693,3 +693,9 @@ input:disabled {
 .keep-spaces {
   white-space: pre-wrap;
 }
+
+[data-theme='dark'] {
+  .img-black {
+    filter: invert(1);
+  }
+}
