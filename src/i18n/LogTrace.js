@@ -127,4 +127,8 @@ export default {
     zh: '下载追踪日志超时，追踪日志可至服务器的`data/trace`路径查找',
     en: 'The download of the trace log times out. The trace log can be found in the `data/trace` path of the server.',
   },
+  defaultNodeTip: {
+    zh: '已默认选中最新产生日志的节点，也可手动选择其他节点进行查看',
+    en: 'The default selected node is the node which generated the log latest, or you can manually select another node to view the log',
+  },
 }
