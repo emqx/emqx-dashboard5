@@ -3,7 +3,7 @@
     <detail-header :item="{ name: gname, path: '/gateway' }" />
     <div class="section-header">
       <div>
-        <span :class="['g-icon', `g-${gname}`]"></span>
+        <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
         <span class="title-n-status">
           <el-tag type="info" class="section-status">
             <span>
