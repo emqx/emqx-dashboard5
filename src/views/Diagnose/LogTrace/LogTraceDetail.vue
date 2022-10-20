@@ -20,6 +20,7 @@
           </el-button>
         </el-col>
       </el-row>
+      <p class="default-node-tip tip">{{ tl('defaultNodeTip') }}</p>
       <el-row>
         <div
           :style="{ height: initialHeight + 'px' }"
@@ -85,19 +86,15 @@ export default defineComponent({
       initialHeight.value = windowHeight - offsetTop
     }
 
-    const getWhichNodeHasNewestLog = () => {
-      const nodeList = nodeOpts.value
-      if (!nodeList || nodeList.length === 0) {
-        return ''
-      }
-      return nodeList.sort((node1, node2) => node2.mtime - node1.mtime)[0].node
+    const sortNodesByTime = (nodeList: Array<NodeMsg>) => {
+      return nodeList.sort((node1, node2) => node2.mtime - node1.mtime)
     }
 
     const loadNodeOpts = async () => {
       try {
         const data = await getTraceDetail(viewLogName)
-        nodeOpts.value = data
-        selectedNode.value = getWhichNodeHasNewestLog()
+        nodeOpts.value = sortNodesByTime(data)
+        selectedNode.value = nodeOpts.value[0].node
       } catch (error) {
         console.error(error)
       }
@@ -194,6 +191,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.default-node-tip {
+  margin-top: 12px;
+}
 .viewer-container {
   border: 1px solid var(--color-border-primary);
   margin-top: 30px;
