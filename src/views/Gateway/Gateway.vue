@@ -3,7 +3,10 @@
     <el-table :data="tbData" v-loading="tbLoading" :row-class-name="getRowClassName">
       <el-table-column :label="tl('name')" :min-width="180">
         <template #default="{ row }">
-          <span :class="`g-${row.name} g-icon`"></span>
+          <span
+            class="g-icon"
+            :class="[`g-${row.name}`, row.name === 'stomp' ? 'img-black' : '']"
+          ></span>
           <span class="g-title">{{ transGatewayName(row.name) }}</span>
         </template>
       </el-table-column>
