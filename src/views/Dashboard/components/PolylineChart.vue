@@ -103,6 +103,7 @@ const setSeriesConfig = () => {
   seriesConfig.value = []
   noYAxisDataMap = {}
   for (let i = 0; i < props.yTitle.length; i += 1) {
+    let areaColor = i % 6 === 0 && i !== 0 ? props.chartColors[6] : props.chartColors[i % 6]
     storeNoDataXAxis(props.chartData[i].yData, props.chartData[i].xData, props.yTitle[i])
     seriesConfig.value.push({
       name: props.yTitle[i],
@@ -119,11 +120,11 @@ const setSeriesConfig = () => {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: i % 6 === 0 && i !== 0 ? props.chartColors[6] : props.chartColors[i % 6],
+            color: areaColor,
           },
           {
             offset: 1,
-            color: '#fff',
+            color: `${areaColor}00`,
           },
         ]),
         opacity: 0.2,
