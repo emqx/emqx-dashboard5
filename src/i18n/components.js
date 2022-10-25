@@ -291,14 +291,6 @@ export default {
     zh: '日志追踪',
     en: 'Log Trace',
   },
-  monitorSettings: {
-    zh: '监控告警',
-    en: 'Monitor Alarm',
-  },
-  clusterSettings: {
-    zh: '集群设置',
-    en: 'Cluster',
-  },
   listenerSettings: {
     zh: '监听器',
     en: 'Listeners',
@@ -306,10 +298,6 @@ export default {
   baseSettings: {
     zh: '基础设置',
     en: 'Basic',
-  },
-  zoneSettings: {
-    zh: 'zone',
-    en: 'zone',
   },
   dataBridge: {
     zh: '数据桥接',
@@ -336,8 +324,8 @@ export default {
     en: 'Integration',
   },
   alarmSettings: {
-    zh: '监控告警',
-    en: 'Monitoring Alarm',
+    zh: '系统',
+    en: 'System',
   },
   currentAlarm: {
     zh: '当前告警',

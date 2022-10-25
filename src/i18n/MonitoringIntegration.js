@@ -5,7 +5,7 @@ export default {
   },
   monitoringPlatformFormItemLabel: {
     zh: '选择一个监控平台，并配置所需信息',
-    en: 'Choose a monitoring platform and configure the required information',
+    en: 'Select a monitoring platform and set the required configuration',
   },
   interval: {
     zh: '采集间隔',
