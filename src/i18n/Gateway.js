@@ -89,7 +89,7 @@ export default {
   },
   basicConfig: {
     zh: '基础参数',
-    en: 'Basic Configration',
+    en: 'Basic Configuration',
   },
   maxHeader: {
     zh: '最大 Header 数',

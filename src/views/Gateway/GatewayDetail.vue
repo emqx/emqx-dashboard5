@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper gateway-detail">
-    <detail-header :item="{ name: gname, path: '/gateway' }" />
+    <detail-header :item="{ name: transGatewayName(gname), path: '/gateway' }" />
     <div class="section-header">
       <div>
         <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
@@ -32,6 +32,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { GatewayStatus } from '@/types/enum.ts'
+import useTransName from '@/hooks/useTransName'
 
 export default defineComponent({
   name: 'GatewayDetail',
@@ -44,6 +45,7 @@ export default defineComponent({
     const route = useRoute()
     const types = ['settings', 'connections', 'auth', 'listeners']
     const gname = String(route.params.name).toLowerCase()
+    const { transGatewayName } = useTransName()
 
     const matchedUrl = computed(function () {
       let currentPath = route.path || ''
@@ -67,6 +69,7 @@ export default defineComponent({
       tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       gInfo,
       gname,
+      transGatewayName,
       types,
       matchedUrl,
       GatewayStatus,
