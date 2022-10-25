@@ -41,7 +41,7 @@ export default {
   },
   connectionParameters: {
     zh: '连接参数',
-    en: 'Connection parameters',
+    en: 'Connection Parameters',
   },
   urlDesc: {
     zh: '回调服务器地址。需要配置为以 `http` 或 `https` 开头的 gRPC 服务器的 URL 地址。例如：`http://127.0.0.1:8080`。该 gRPC 服务器必须实现了 `exhook.proto` 中定义的 `HookProvider` 服务。',

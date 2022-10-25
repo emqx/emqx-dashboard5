@@ -2,7 +2,7 @@
   <div class="app-wrapper gateway-create">
     <el-card>
       <div class="section-header">
-        {{ `${tl('initial')} ${name}` }}
+        {{ `${tl('initial')} ${transGatewayName(name)}` }}
       </div>
       <el-row>
         <el-col :span="16">
@@ -91,6 +91,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData.ts'
 import { GatewayName } from '@/types/enum'
+import useTransName from '@/hooks/useTransName'
 
 const STATIC_LISTENER = {
   exproto: {
@@ -151,6 +152,7 @@ export default defineComponent({
     const { t } = useI18n()
     const route = useRoute()
     const gname = String(route.params.name).toLowerCase()
+    const { transGatewayName } = useTransName()
 
     const gotoList = function () {
       router.push({ name: 'gateway' })
@@ -240,6 +242,7 @@ export default defineComponent({
       createGateway,
       name: gname,
       handleNextStep,
+      transGatewayName,
     }
   },
 })
