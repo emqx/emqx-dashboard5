@@ -4,7 +4,7 @@
       <el-row :gutter="20" class="search-wrapper">
         <el-col :span="6">
           <el-input
-            :placeholder="tl('clientid')"
+            :placeholder="t('Base.clientid')"
             v-model="searchParams.like_clientid"
             clearable
             @clear="searchGatewayList"
@@ -106,12 +106,12 @@ import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
 import { loadNodes } from '@/api/common'
 import moment from 'moment'
 import ClientDetails from '../../Clients/ClientDetails.vue'
-import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { Search, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CheckIcon from '@/components/CheckIcon.vue'
 import { NodeMsg } from '@/types/dashboard'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   components: { commonPagination, ClientDetails, CheckIcon },
@@ -132,7 +132,7 @@ export default defineComponent({
 
     const route = useRoute()
     const gname = String(route.params.name).toLowerCase()
-    const { t } = useI18n()
+    const { tl, t } = useI18nTl('Gateway')
     const pageMeta = ref({})
     let pageParams = {}
 
@@ -210,7 +210,8 @@ export default defineComponent({
       Search,
       RefreshRight,
       moment: moment,
-      tl: (key: string, collection = 'Gateway') => t(collection + '.' + key),
+      tl,
+      t,
       loadGatewayClients,
       pCommon,
       gatewayTable,
