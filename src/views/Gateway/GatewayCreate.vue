@@ -2,7 +2,7 @@
   <div class="app-wrapper gateway-create">
     <el-card>
       <div class="section-header">
-        {{ tl('initial') + name }}
+        {{ `${tl('initial')} ${name}` }}
       </div>
       <el-row>
         <el-col :span="16">

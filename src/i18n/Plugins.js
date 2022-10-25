@@ -84,8 +84,8 @@ export default {
     en: 'Upload file',
   },
   uploadTip: {
-    zh: '您可以在这里上传安装 .tar.gz 格式的 plugin 安装包，或用其他方法将插件包上传到 EMQX 所在服务器的 data_data/plugins/ 目录。随后到插件列表进行安装。',
-    en: 'You can upload and install a plugin .tar.gz package from here, or upload the package to data_dir/plugins/, then you should be able to see it in the list and install from there.',
+    zh: '您可以在这里上传安装 .tar.gz 格式的 plugin 安装包，或用其他方法将插件包上传到 EMQX 所在服务器的 plugins/ 目录并解压安装包进行安装。',
+    en: 'You can upload the plugin installation package in .tar.gz format here, or otherwise upload the plugin package to the plugins/ directory on the EMQX server and extract the package for installation.',
   },
   basicInformation: {
     zh: '基本信息',
