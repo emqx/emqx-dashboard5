@@ -16,6 +16,7 @@
   "dependencies": {
     "@antv/g6": "^4.5.1",
     "@element-plus/icons-vue": "^1.1.0",
+    "@highlightjs/vue-plugin": "^2.1.0",
     "@types/lodash": "^4.14.177",
     "axios": "^0.21.4",
     "copy-to-clipboard": "^3.3.1",
