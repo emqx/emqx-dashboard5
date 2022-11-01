@@ -155,6 +155,7 @@ import { loadMetrics } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatisticalData } from '@/types/dashboard'
 import { RefreshRight } from '@element-plus/icons-vue'
+import { snakeCase } from 'lodash'
 
 interface MetricItem {
   [propName: string]: string | number
@@ -212,7 +213,7 @@ function filterMetrics(data: MetricItem, key: string) {
   let keys: Array<{ m: string; v: number; rawKey: string }> = []
   Object.keys(data || []).forEach((v) => {
     if (v.startsWith(key)) {
-      keys.push({ m: v.split('.').slice(1).join('_'), v: data[v] as number, rawKey: v })
+      keys.push({ m: snakeCase(v), v: data[v] as number, rawKey: v })
     }
   })
   if (key === 'client') {
@@ -223,7 +224,7 @@ function filterMetrics(data: MetricItem, key: string) {
     const _authKeys: Array<{ m: string; v: number; rawKey: string }> = []
     Object.keys(data || []).forEach((v) => {
       if (v.startsWith('client') && v.includes('auth')) {
-        _authKeys.push({ m: v.split('.').slice(1).join('_'), v: data[v] as number, rawKey: v })
+        _authKeys.push({ m: snakeCase(v), v: data[v] as number, rawKey: v })
       }
     })
     keys.push(..._authKeys)
