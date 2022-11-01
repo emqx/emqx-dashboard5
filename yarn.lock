@@ -1254,6 +1254,11 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@highlightjs/vue-plugin@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@highlightjs/vue-plugin/-/vue-plugin-2.1.0.tgz#b7c41e3597a46975665b10cad57882cbde1d1594"
+  integrity sha512-E+bmk4ncca+hBEYRV2a+1aIzIV0VSY/e5ArjpuSN9IO7wBJrzUE2u4ESCwrbQD7sAy+jWQjkV5qCCWgc+pu7CQ==
+
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@intervolga/optimize-cssnano-plugin/-/optimize-cssnano-plugin-1.0.6.tgz#be7c7846128b88f6a9b1d1261a0ad06eb5c0fdf8"

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <pre ref="codeView" class="code-view"><code :class="lang">{{ code }}</code></pre>
-  </div>
+  <hljsVuePlugin :code="code" :language="lang" />
 </template>
 
 <script>
@@ -10,6 +8,7 @@ import 'highlight.js/styles/solarized-dark.css'
 import json from 'highlight.js/lib/languages/json'
 import sql from 'highlight.js/lib/languages/sql'
 import javascript from 'highlight.js/lib/languages/javascript'
+import hljsVuePlugin from '@highlightjs/vue-plugin'
 
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('json', json)
@@ -18,7 +17,9 @@ hljs.registerLanguage('sql', sql)
 export default {
   name: 'CodeView',
 
-  components: {},
+  components: {
+    hljsVuePlugin: hljsVuePlugin.component,
+  },
 
   props: {
     code: {
@@ -28,29 +29,6 @@ export default {
     lang: {
       type: String,
       default: 'json',
-    },
-  },
-
-  data() {
-    return {}
-  },
-
-  watch: {
-    code() {
-      this.render()
-    },
-    lang() {
-      this.render()
-    },
-  },
-
-  mounted() {
-    this.render()
-  },
-
-  methods: {
-    render() {
-      hljs.highlightElement(this.$refs.codeView)
     },
   },
 }
