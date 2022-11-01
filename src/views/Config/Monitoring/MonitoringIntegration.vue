@@ -72,9 +72,17 @@
           <el-button type="primary" :loading="isSubmitting" @click="submit">
             {{ $t('Base.update') }}
           </el-button>
+          <el-button
+            v-if="selectedPlatform === 'Prometheus'"
+            :loading="isSubmitting"
+            @click="showPromSetup = true"
+          >
+            {{ $t('Base.help') }}
+          </el-button>
         </div>
       </el-form>
     </el-card>
+    <HelpDrawer v-model="showPromSetup" />
   </div>
 </template>
 
@@ -87,6 +95,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Prometheus, StatsD } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
 import { ref, Ref } from 'vue'
+import HelpDrawer from './components/HelpDrawer.vue'
 
 const PROMETHEUS = 'Prometheus'
 const STATS_D = 'StatsD'
@@ -107,6 +116,7 @@ const platformOpts = [
 ]
 
 const selectedPlatform = ref(platformOpts[0].value)
+const showPromSetup = ref(false)
 const prometheusFormData: Ref<Prometheus> = ref({
   enable: false,
   interval: '15s',
