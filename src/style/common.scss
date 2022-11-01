@@ -91,6 +91,9 @@ p.tip {
   margin: 0px;
   color: var(--color-text-secondary);
 }
+p.description {
+  line-height: 1.8;
+}
 
 #app {
   min-width: 600px;
