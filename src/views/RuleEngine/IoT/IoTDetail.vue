@@ -34,10 +34,12 @@
             is-edit
             :submit-loading="submitLoading"
             @save="submitUpdateRules"
+            @save-as-copy="saveAsCopy"
           />
         </el-card>
       </el-tab-pane>
     </el-tabs>
+    <RuleCopySubmitDialog :rule="ruleInfo" v-model="showNameInputDialog" />
   </div>
 </template>
 
@@ -55,6 +57,7 @@ import RuleItemStatus from './components/RuleItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { cloneDeep, isEqual } from 'lodash'
 import useRuleEditingPageUnload from '@/hooks/Rule/rule/useRuleEditingPageUnload'
+import RuleCopySubmitDialog from './components/RuleCopySubmitDialog.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -137,6 +140,12 @@ const submitUpdateRules = async () => {
   } finally {
     submitLoading.value = false
   }
+}
+
+const showNameInputDialog = ref(false)
+const saveAsCopy = async () => {
+  await formCom.value.validate()
+  showNameInputDialog.value = true
 }
 
 onMounted(() => {
