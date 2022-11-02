@@ -52,20 +52,8 @@ export default {
     en: 'You can use Docker to install and start the Pushgateway service, for example, use the following command:',
   },
   nodeExporterDesc: {
-    zh: '对于需要监控服务的物理机或虚拟机的用户，您可以使用 Node Exporter 来采集系统信息',
-    en: 'For physical machines or virtual machines that need to monitor services, you can use Node Exporter to collect system information',
-  },
-  checkNodeExporter: {
-    zh: '点击查看',
-    en: 'Click to view the',
-  },
-  nodeExporterVersion: {
-    zh: 'Node Exporter 可用版本',
-    en: 'Node Exporter available versions',
-  },
-  replaceVersion: {
-    zh: '并替换到下方命令中',
-    en: 'and replace it in the command below',
+    zh: '对于需要监控服务的物理机或虚拟机的用户，您可以使用 Node Exporter 来采集系统信息，例如 CPU、内存、磁盘、网络等信息。',
+    en: 'For physical machines or virtual machines that need to monitor services, you can use Node Exporter to collect system information, such as CPU, memory, disk, network, etc.',
   },
   promConfig: {
     zh: '配置 Prometheus',

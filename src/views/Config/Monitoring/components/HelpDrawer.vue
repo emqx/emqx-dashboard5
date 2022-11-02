@@ -25,15 +25,6 @@
               code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway"
             />
             <p class="description">{{ tl('nodeExporterDesc') }}</p>
-            <p href="https://prometheus.io/download/#node_exporter" target="_blank" rel="noopener">
-              {{ tl('checkNodeExporter') }}
-              <a
-                href="https://prometheus.io/download/#node_exporter"
-                target="_blank"
-                rel="noopener"
-                >{{ tl('nodeExporterVersion') }}</a
-              >, {{ tl('replaceVersion') }}
-            </p>
             <CodeView
               lang="bash"
               code="wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
@@ -131,10 +122,7 @@ const showDrawer: WritableComputedRef<boolean> = computed({
 html:lang(en) {
   .prom-setup-drawer {
     .step-1 {
-      flex-basis: 397px !important;
-    }
-    .step-2 {
-      flex-basis: 604px !important;
+      flex-basis: 29% !important;
     }
   }
 }
@@ -146,10 +134,10 @@ html:lang(en) {
     }
   }
   .step-1 {
-    flex-basis: 29% !important;
+    flex-basis: 28% !important;
   }
   .step-2 {
-    flex-basis: 47% !important;
+    flex-basis: 48% !important;
   }
   .step-3 {
     flex-basis: 0% !important;
