@@ -1,5 +1,5 @@
 <template>
-  <hljsVuePlugin :code="code" :language="lang" :autodetect="false" />
+  <hljsVuePlugin class="code-view" :code="code" :language="lang" :autodetect="false" />
 </template>
 
 <script>
