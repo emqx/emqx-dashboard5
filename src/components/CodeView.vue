@@ -7,16 +7,12 @@ import hljs from 'highlight.js/lib/core'
 import 'highlight.js/styles/solarized-dark.css'
 import json from 'highlight.js/lib/languages/json'
 import sql from 'highlight.js/lib/languages/sql'
-import bash from 'highlight.js/lib/languages/bash'
-import yaml from 'highlight.js/lib/languages/yaml'
 import javascript from 'highlight.js/lib/languages/javascript'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
 
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('json', json)
 hljs.registerLanguage('sql', sql)
-hljs.registerLanguage('bash', bash)
-hljs.registerLanguage('yaml', yaml)
 
 export default {
   name: 'CodeView',
