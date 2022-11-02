@@ -64,8 +64,8 @@ export default {
     en: 'Node Exporter available versions',
   },
   replaceVersion: {
-    zh: '并替换到下方命令中',
-    en: 'and replace it in the command below',
+    zh: '，并替换到下方命令中',
+    en: ', and replace it in the command below',
   },
   promConfig: {
     zh: '配置 Prometheus',
@@ -98,5 +98,13 @@ export default {
   genPromConfig: {
     zh: '生成配置文件',
     en: 'Generate Configuration File',
+  },
+  promConfigRequired: {
+    zh: '请配置 Prometheus 地址',
+    en: 'Please configure the Prometheus address',
+  },
+  pushgatewayRequired: {
+    zh: '请配置 Pushgateway 地址',
+    en: 'Please configure the Pushgateway address',
   },
 }

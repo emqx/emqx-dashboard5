@@ -20,10 +20,7 @@
           <div class="step-one step">
             <h3>{{ tl('pushgatewayInstall') }}</h3>
             <p class="description">{{ tl('promStepOne') }}</p>
-            <CodeView
-              lang="bash"
-              code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway"
-            />
+            <CodeView code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway" />
             <p class="description">{{ tl('nodeExporterDesc') }}</p>
             <p href="https://prometheus.io/download/#node_exporter" target="_blank" rel="noopener">
               {{ tl('checkNodeExporter') }}
@@ -32,10 +29,9 @@
                 target="_blank"
                 rel="noopener"
                 >{{ tl('nodeExporterVersion') }}</a
-              >, {{ tl('replaceVersion') }}
+              >{{ tl('replaceVersion') }}
             </p>
             <CodeView
-              lang="bash"
               code="wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
 tar xvfz node_exporter-*.*-amd64.tar.gz"
             />
@@ -43,12 +39,20 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
           <div class="step-two step">
             <h3>{{ tl('promConfig') }}</h3>
             <p class="description">{{ tl('promStepTwo') }}</p>
-            <el-row :gutter="20">
+            <el-row :gutter="20" class="prom-config-row">
               <el-col :span="14">
-                <CodeView class="prom-config" :code="promConfigContent" lang="yml" />
+                <div class="monaco-container">
+                  <Monaco id="prom-config" v-model="promConfigContent" lang="yaml" />
+                </div>
               </el-col>
               <el-col :span="10">
-                <el-form label-position="top" :model="promYamlConfigs">
+                <el-form
+                  ref="formConfig"
+                  label-position="top"
+                  hide-required-asterisk
+                  :model="promYamlConfigs"
+                  :rules="rules"
+                >
                   <el-form-item label="Prometheus" prop="promHost">
                     <el-input v-model="promYamlConfigs.promHost" placeholder="127.0.0.1:9090" />
                   </el-form-item>
@@ -64,7 +68,7 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
                       placeholder="127.0.0.1:9100"
                     />
                   </el-form-item>
-                  <el-button class="gen-button" type="primary" plain>{{
+                  <el-button class="gen-button" type="primary" plain @click="genPromConfig">{{
                     tl('genPromConfig')
                   }}</el-button>
                 </el-form>
@@ -72,7 +76,6 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
             </el-row>
             <p class="description">{{ tl('promRun') }}</p>
             <CodeView
-              lang="bash"
               code="docker run -d --name prometheus -p 9090:9090 -v /path/to/prometheus.yaml:/etc/prometheus/prometheus.yaml prom/prometheus --config.file=/etc/prometheus/prometheus.yaml"
             />
           </div>
@@ -80,11 +83,13 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
             <h3>{{ tl('grafConfig') }}</h3>
             <p class="description">{{ tl('promStepThree') }}</p>
             <CodeView
+              lang="shell"
               code="docker run -d --name grafana -p 3000:3000 grafana/grafana-oss"
-              lang="bash"
             />
             <p class="description">{{ tl('clickDownloadTemplateDesc') }}</p>
-            <el-button type="primary" plain>{{ tl('clickDonwnloadTemplate') }}</el-button>
+            <el-button type="primary" plain @click="downloadGrafaTemplate">{{
+              tl('clickDonwnloadTemplate')
+            }}</el-button>
           </div>
         </div>
       </el-col>
@@ -94,7 +99,6 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import CodeView from '@/components/CodeView.vue'
 
 export default defineComponent({
   name: 'RuleOutputsDrawer',
@@ -105,6 +109,9 @@ export default defineComponent({
 import { defineProps, computed, defineEmits, WritableComputedRef, ref } from 'vue'
 import usePromConfig from '../assets/usePromConfig'
 import useI18nTl from '@/hooks/useI18nTl'
+import CodeView from '@/components/CodeView.vue'
+import Monaco from '@/components/Monaco.vue'
+import GrafanaTemplate from '../assets/emqx5_grafana_template.json'
 
 const { tl } = useI18nTl('MonitoringIntegration')
 
@@ -114,6 +121,22 @@ const props = defineProps({
   },
 })
 const { promYamlConfigs, promConfigContent } = usePromConfig()
+const formConfig = ref()
+
+const rules = {
+  promHost: [
+    {
+      required: true,
+      message: tl('promConfigRequired'),
+    },
+  ],
+  pushgatewayHost: [
+    {
+      required: true,
+      message: tl('pushgatewayRequired'),
+    },
+  ],
+}
 
 const emit = defineEmits(['update:modelValue', 'submit', 'openAddBridge'])
 
@@ -125,16 +148,44 @@ const showDrawer: WritableComputedRef<boolean> = computed({
     emit('update:modelValue', val)
   },
 })
+
+const downloadFile = (fileName: string, type: string, content: string) => {
+  const blob = new Blob([content], { type })
+  const downloadElement = document.createElement('a')
+  const href = window.URL.createObjectURL(blob)
+  downloadElement.href = href
+  downloadElement.download = fileName
+  document.body.appendChild(downloadElement)
+  downloadElement.click()
+  document.body.removeChild(downloadElement)
+  window.URL.revokeObjectURL(href)
+}
+
+const genPromConfig = async () => {
+  try {
+    await formConfig.value.validate()
+    downloadFile('prometheus.yaml', 'text/plain', promConfigContent.value)
+  } catch (error) {
+    // ignore
+  }
+}
+const downloadGrafaTemplate = () => {
+  downloadFile(
+    'emqx5_grafana_template.json',
+    'application/json',
+    JSON.stringify(GrafanaTemplate, null, 2),
+  )
+}
 </script>
 
 <style lang="scss">
 html:lang(en) {
   .prom-setup-drawer {
     .step-1 {
-      flex-basis: 397px !important;
+      flex-basis: 386px !important;
     }
     .step-2 {
-      flex-basis: 604px !important;
+      flex-basis: 592px !important;
     }
   }
 }
@@ -171,6 +222,9 @@ html:lang(en) {
       width: 100%;
       margin-top: 16px;
     }
+  }
+  .prom-config-row {
+    margin-bottom: 24px;
   }
 }
 </style>
