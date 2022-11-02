@@ -20,7 +20,10 @@
           <div class="step-one step">
             <h3>{{ tl('pushgatewayInstall') }}</h3>
             <p class="description">{{ tl('promStepOne') }}</p>
-            <CodeView code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway" />
+            <CodeView
+              code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway"
+              lang="bash"
+            />
             <p class="description">{{ tl('nodeExporterDesc') }}</p>
             <p href="https://prometheus.io/download/#node_exporter" target="_blank" rel="noopener">
               {{ tl('checkNodeExporter') }}
@@ -32,6 +35,7 @@
               >{{ tl('replaceVersion') }}
             </p>
             <CodeView
+              lang="bash"
               code="wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
 tar xvfz node_exporter-*.*-amd64.tar.gz"
             />
@@ -76,6 +80,7 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
             </el-row>
             <p class="description">{{ tl('promRun') }}</p>
             <CodeView
+              lang="bash"
               code="docker run -d --name prometheus -p 9090:9090 -v /path/to/prometheus.yaml:/etc/prometheus/prometheus.yaml prom/prometheus --config.file=/etc/prometheus/prometheus.yaml"
             />
           </div>
@@ -83,7 +88,7 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
             <h3>{{ tl('grafConfig') }}</h3>
             <p class="description">{{ tl('promStepThree') }}</p>
             <CodeView
-              lang="shell"
+              lang="bash"
               code="docker run -d --name grafana -p 3000:3000 grafana/grafana-oss"
             />
             <p class="description">{{ tl('clickDownloadTemplateDesc') }}</p>
