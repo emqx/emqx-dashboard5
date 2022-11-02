@@ -1,5 +1,5 @@
 <template>
-  <hljsVuePlugin :code="code" :language="lang" />
+  <hljsVuePlugin class="code-view" :code="code" :language="lang" />
 </template>
 
 <script>
@@ -36,10 +36,10 @@ export default {
 
 <style lang="scss">
 .code-view {
-  line-height: 1.3;
-  &.hljs {
-    padding: 20px;
-    border-radius: 2px;
+  line-height: 1.6;
+  .hljs {
+    border-radius: 4px;
+    padding: 1em;
   }
 }
 .el-popper {
