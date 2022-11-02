@@ -4,8 +4,14 @@ import {
   RULE_INPUT_EVENT_PREFIX,
   RULE_TOPOLOGY_ID,
 } from '@/common/constants'
-import { BridgeType, RuleOutput } from '@/types/enum'
-import { BridgeItem, MQTTIn, MQTTOut, OutputItem } from '@/types/rule'
+import { BridgeType, MQTTBridgeDirection, RuleOutput } from '@/types/enum'
+import {
+  BridgeItem,
+  OutputItem,
+  MQTTBridgeEgress,
+  MQTTBridgeIngress,
+  MQTTBridge,
+} from '@/types/rule'
 import {
   NodeItem,
   NodeType,
@@ -22,14 +28,17 @@ export default (): {
   judgeInputType: (from: string) => RuleInputType
   judgeOutputType: (output: OutputItem) => RuleOutputType
   createNodeId: (target: string, targetType: NodeType) => string
+  createBridgeSingleDirectionNodeId: (id: string, direction: MQTTBridgeDirection) => string
   getBridgeTypeFromString: (str: string) => BridgeType
   getIconFromInputData: (input: string) => SVGElement
   getIconFromOutputItem: (output: OutputItem) => SVGAElement
   getBridgeNodeLabel: (bridgeID: string) => string
+  createSingleDirectionBridgeNode: (bridge: BridgeItem, direction: MQTTBridgeDirection) => NodeItem
+  createBridgeNodeWithoutDirection: (bridge: BridgeItem) => NodeItem
   createTopicNodeAndEdgeForBridge: (bridge: BridgeItem) =>
     | {
-        node: NodeItem
-        edge: EdgeItem
+        nodes: Array<NodeItem>
+        edges: Array<EdgeItem>
       }
     | undefined
 } => {
@@ -100,6 +109,10 @@ export default (): {
     return `${RULE_TOPOLOGY_ID}-${targetType}-${target}`
   }
 
+  const createBridgeSingleDirectionNodeId = (bridgeID: string, direction: MQTTBridgeDirection) => {
+    return `${RULE_TOPOLOGY_ID}-${OtherNodeType.Bridge}-${bridgeID}-${direction}`
+  }
+
   const getBridgeTypeFromString = (str: string): BridgeType => {
     // now has mqtt & http
     const bridgeTypeList = [
@@ -107,8 +120,35 @@ export default (): {
       BridgeType.Webhook,
       BridgeType.InfluxDB,
       BridgeType.MySQL,
+      BridgeType.Kafka,
     ]
     return bridgeTypeList.find((item) => str.indexOf(item) > -1) || BridgeType.MQTT
+  }
+
+  const createSingleDirectionBridgeNode = (bridge: BridgeItem, direction: MQTTBridgeDirection) => {
+    const { id } = bridge
+    const iconKey = `bridge-${getBridgeTypeFromString(id)}`
+    const bridgeNodeId = createBridgeSingleDirectionNodeId(id, direction)
+    // bridge node
+    return addCursorPointerToNodeData({
+      id: bridgeNodeId,
+      label: cutLabel(getBridgeNodeLabel(id)),
+      img: iconMap[iconKey],
+      _customData: { id, type: OtherNodeType.Bridge },
+    })
+  }
+
+  const createBridgeNodeWithoutDirection = (bridge: BridgeItem) => {
+    const { id } = bridge
+    const iconKey = `bridge-${getBridgeTypeFromString(id)}`
+    const bridgeNodeId = createNodeId(id, OtherNodeType.Bridge)
+    // bridge node
+    return addCursorPointerToNodeData({
+      id: bridgeNodeId,
+      label: cutLabel(getBridgeNodeLabel(id)),
+      img: iconMap[iconKey],
+      _customData: { id, type: OtherNodeType.Bridge },
+    })
   }
 
   const getIconFromInputData = (input: string): SVGElement => {
@@ -130,11 +170,40 @@ export default (): {
     }
   }
 
-  const createBridgeTopicId = (bridge: MQTTIn | MQTTOut) => {
-    const { direction, connector, remote_topic } = bridge
-    const server = typeof connector === 'string' ? connector : connector.server
-
-    return `${server}:${direction}:${remote_topic}`
+  const createMQTTBridgeRemoteTopicAndEdge = (
+    transConfig: MQTTBridgeEgress | MQTTBridgeIngress,
+    server: string,
+    direction: MQTTBridgeDirection,
+    bridgeID: string,
+  ) => {
+    if (!transConfig || !transConfig.remote.topic) {
+      return
+    }
+    const remoteTopic = transConfig.remote.topic
+    const topicNodeId = `${server}:${direction}:${remoteTopic}`
+    const isIngress = direction === MQTTBridgeDirection.In
+    const bridgeNodeId = createBridgeSingleDirectionNodeId(bridgeID, direction)
+    const edgeSource = isIngress ? topicNodeId : bridgeNodeId
+    const edgeTarget = isIngress ? bridgeNodeId : topicNodeId
+    return {
+      node: {
+        id: topicNodeId,
+        label: cutLabel(remoteTopic),
+        img: iconMap.topic,
+        _customData: {
+          type: OtherNodeType.Topic,
+          id: remoteTopic,
+        },
+      },
+      edge: {
+        source: edgeSource,
+        target: edgeTarget,
+        _customData: {
+          source: edgeSource,
+          target: edgeTarget,
+        },
+      },
+    }
   }
 
   const createTopicNodeAndEdgeForBridge = (
@@ -142,38 +211,24 @@ export default (): {
   ):
     | undefined
     | {
-        node: NodeItem
-        edge: EdgeItem
+        nodes: Array<NodeItem>
+        edges: Array<EdgeItem>
       } => {
-    if (
-      bridge.type !== BridgeType.MQTT ||
-      !('connector' in bridge) ||
-      !('remote_topic' in bridge) ||
-      !('direction' in bridge)
-    ) {
+    if (bridge.type !== BridgeType.MQTT) {
       return
     }
-    const { remote_topic, id: bridgeID } = bridge
-    const bridgeNodeId = createNodeId(bridgeID, OtherNodeType.Bridge)
-    const topicNodeId = createBridgeTopicId(bridge as MQTTIn | MQTTOut)
-    const node = {
-      id: topicNodeId,
-      label: cutLabel(remote_topic),
-      img: iconMap.topic,
-      _customData: {
-        type: OtherNodeType.Topic,
-        id: remote_topic,
-      },
-    }
-    const edge: EdgeItem = {
-      source: bridgeNodeId,
-      target: topicNodeId,
-      _customData: {
-        source: bridgeID,
-        target: topicNodeId,
-      },
-    }
-    return { node, edge }
+    const { ingress, egress, id: bridgeID, server } = bridge as MQTTBridge
+    const { node: ingressTopic, edge: ingressTopicToBridgeEdge } =
+      createMQTTBridgeRemoteTopicAndEdge(ingress, server, MQTTBridgeDirection.In, bridgeID) || {}
+    const { node: egressTopic, edge: egressBridgeTOTopicEdge } =
+      createMQTTBridgeRemoteTopicAndEdge(egress, server, MQTTBridgeDirection.Out, bridgeID) || {}
+    const nodes: Array<NodeItem> = [ingressTopic, egressTopic].filter(
+      (item) => item,
+    ) as Array<NodeItem>
+    const edges: Array<EdgeItem> = [ingressTopicToBridgeEdge, egressBridgeTOTopicEdge].filter(
+      (item) => item,
+    ) as Array<EdgeItem>
+    return { nodes, edges }
   }
 
   const getBridgeNodeLabel = (bridgeID: string): string => bridgeID.slice(bridgeID.indexOf(':') + 1)
@@ -184,10 +239,13 @@ export default (): {
     judgeInputType,
     judgeOutputType,
     createNodeId,
+    createBridgeSingleDirectionNodeId,
     getBridgeTypeFromString,
     getIconFromInputData,
     getIconFromOutputItem,
     getBridgeNodeLabel,
+    createSingleDirectionBridgeNode,
+    createBridgeNodeWithoutDirection,
     createTopicNodeAndEdgeForBridge,
   }
 }

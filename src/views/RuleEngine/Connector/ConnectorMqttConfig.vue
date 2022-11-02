@@ -99,7 +99,7 @@
         </el-col>
       </el-row>
     </div> -->
-    <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
+    <CommonTLSConfig class="tls-config-form" v-model="connectorVal.ssl" :is-edit="edit" />
   </div>
 </template>
 
@@ -112,7 +112,7 @@ import InputWithUnit from '@/components/InputWithUnit.vue'
 import { commonTimeUnits } from '@/common/tools'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import { ConnectorType } from '@/types/enum'
-import { MQTT_VERSION_LIST } from '@/common/constants.ts'
+import { MQTT_VERSION_LIST } from '@/common/constants'
 
 export default defineComponent({
   name: 'ConnectorMqttConfig',
@@ -137,7 +137,6 @@ export default defineComponent({
   },
   setup(prop, context) {
     const { t } = useI18n()
-    const tlsParams = computed(() => prop.modelValue.ssl)
     const modeOptions = ['cluster_shareload', 'cluster_singleton']
 
     const connectorDefaultVal = {
@@ -188,7 +187,6 @@ export default defineComponent({
     return {
       tl: (key: string) => t('RuleEngine.' + key),
       MQTT_VERSION_LIST,
-      tlsParams,
       connectorVal,
       connectorDefaultVal,
       modeOptions,

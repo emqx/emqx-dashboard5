@@ -14,18 +14,82 @@
     <div class="overview-sub-block">
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
       <el-row class="rule-statistic" :gutter="28">
+        <!-- first row -->
         <el-col :span="6">
-          <el-card class="success-bg">
-            <p class="statistic-label">{{ tl('SuccessNum') }}</p>
+          <el-card class="matched-bg">
+            <p class="statistic-label">
+              <span>{{ tl('matched') }}</span>
+              <InfoTooltip :content="tl('bridgeMatchedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.matched) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="last-five-rate-bg">
+            <p class="statistic-label">
+              <span>{{ tl('sentSuccessfully') }}</span>
+              <InfoTooltip :content="tl('sentSuccessfullyDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.success) }}</p>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card class="failed-bg">
-            <p class="statistic-label">{{ tl('ErrNum') }}</p>
+            <p class="statistic-label">
+              <span>{{ tl('sentFailed') }}</span>
+              <InfoTooltip :content="tl('sentFailedDesc')" />
+            </p>
             <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.failed) }}</p>
           </el-card>
         </el-col>
+        <el-col :span="6">
+          <el-card class="no-result-bg">
+            <p class="statistic-label">
+              <span>{{ tl('sentInflight') }}</span>
+              <InfoTooltip :content="tl('sentInflightDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.inflight) }}</p>
+          </el-card>
+        </el-col>
+        <!-- second row -->
+
+        <el-col :span="6" v-if="showReceived">
+          <el-card class="max-rate-bg">
+            <p class="statistic-label">
+              <span>{{ tl('received') }}</span>
+              <InfoTooltip :content="tl('receivedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.received) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="failed-bg">
+            <p class="statistic-label">
+              <span>{{ tl('dropped') }}</span>
+              <InfoTooltip :content="tl('droppedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.dropped) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="max-rate-bg">
+            <p class="statistic-label">
+              <span>{{ tl('queuing') }}</span>
+              <InfoTooltip :content="tl('queuingDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.queuing) }}</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="success-bg">
+            <p class="statistic-label">
+              <span>{{ tl('retried') }}</span>
+              <InfoTooltip :content="tl('retriedDesc')" />
+            </p>
+            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.retried) }}</p>
+          </el-card>
+        </el-col>
+        <!-- third row -->
         <el-col :span="6">
           <el-card class="rate-bg">
             <p class="statistic-label">{{ tl('speedNow') }}</p>
@@ -44,14 +108,29 @@
       <p class="card-sub-desc">{{ tl('nodeStatusBridgeDesc') }}</p>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column prop="metrics.success" :label="tl('SuccessNum')" />
-        <el-table-column prop="metrics.failed" :label="tl('ErrNum')" />
+
+        <el-table-column prop="metrics.matched" :label="tl('matched')" />
+        <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
+
         <el-table-column prop="metrics.rate">
           <template #header>
-            <p>{{ tl('speedNow') }}</p>
+            <p>{{ tl('executionSpeed') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
         </el-table-column>
+        <el-table-column prop="metrics.rate_last5m">
+          <template #header>
+            <p>{{ tl('rateLast5M') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
+        </el-table-column>
+        <el-table-column prop="metrics.rate_max" :label="tl('rateMax')">
+          <template #header>
+            <p>{{ tl('rateMax') }}</p>
+            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
+          </template>
+        </el-table-column>
+
         <el-table-column :label="tl('status')">
           <template #default="{ row }">
             <span class="text-status" :class="getStatusClass(row.status)">
@@ -83,13 +162,14 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
-import { ConnectionStatus } from '@/types/enum'
+import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
 import { formatNumber } from '@/common/tools'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
   bridgeMsg: {
@@ -102,6 +182,12 @@ const emit = defineEmits(['reset', 'reconnect', 'refresh'])
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
+
+const showReceived = computed(() => {
+  const isMQTT = props.bridgeMsg.type === BridgeType.MQTT
+  const withIngress = 'ingress' in props.bridgeMsg && props.bridgeMsg.ingress
+  return isMQTT && withIngress
+})
 
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
   const nodeStatusData = props.bridgeMsg?.node_status

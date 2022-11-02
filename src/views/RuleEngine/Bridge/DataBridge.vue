@@ -48,30 +48,38 @@
               <el-button size="small" :disabled="!row.enable" @click="createRuleWithBridge(row.id)">
                 {{ tl('createRule') }}
               </el-button>
-              <el-button size="small" type="danger" plain @click="submitDeleteBridge(row.id)">
+              <el-button size="small" type="danger" plain @click="handleDeleteBridge(row.id)">
                 {{ $t('Base.delete') }}
               </el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
+      <DeleteBridgeSecondConfirm
+        v-model="showSecondConfirm"
+        :rule-list="usingBridgeRules"
+        :id="currentDeleteBridgeId"
+        @submitted="handleDeleteSuc"
+      />
     </template>
   </router-view>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { getBridgeList, startStopBridge, deleteBridge } from '@/api/ruleengine'
+import { getBridgeList, startStopBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
-import { ElMessageBox as MB, ElMessage as M, ElMessageBox } from 'element-plus'
+import { ElMessage as M, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
+import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
+import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 
 export default defineComponent({
-  components: { BridgeItemStatus },
+  components: { BridgeItemStatus, DeleteBridgeSecondConfirm },
   setup() {
     const bridgeTb = ref([])
     const tbLoading = ref(false)
@@ -116,23 +124,13 @@ export default defineComponent({
         .catch(() => ({}))
     }
 
-    const submitDeleteBridge = async (id: string) => {
-      await MB.confirm(t('RuleEngine.deleteBridgeConfirm'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      })
-      tbLoading.value = true
-      try {
-        await deleteBridge(id)
-        M.success(t('Base.deleteSuccess'))
-        listBridge()
-      } catch (error) {
-        console.error(error)
-      } finally {
-        tbLoading.value = false
-      }
-    }
+    const {
+      showSecondConfirm,
+      usingBridgeRules,
+      currentDeleteBridgeId,
+      handleDeleteSuc,
+      handleDeleteBridge,
+    } = useDeleteBridge(listBridge)
 
     const getBridgeDetailPageRoute = (id: string, tab?: string) => ({
       name: 'bridge-detail',
@@ -156,7 +154,11 @@ export default defineComponent({
       tbLoading,
       getBridgeIcon,
       enableOrDisableBridge,
-      submitDeleteBridge,
+      showSecondConfirm,
+      usingBridgeRules,
+      currentDeleteBridgeId,
+      handleDeleteSuc,
+      handleDeleteBridge,
       createRuleWithBridge,
       getBridgeDetailPageRoute,
     }

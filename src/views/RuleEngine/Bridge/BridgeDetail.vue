@@ -30,7 +30,7 @@
             <el-button @click="enableOrDisableBridge">
               {{ bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
             </el-button>
-            <el-button type="danger" @click="deleteBridge" plain>
+            <el-button type="danger" @click="handleDelete" plain>
               {{ $t('Base.delete') }}
             </el-button>
           </div>
@@ -58,18 +58,38 @@
             >
               <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
                 <bridge-http-config
-                  v-if="bridgeInfo.type === BridgeType.Webhook"
+                  v-if="bridgeType === BridgeType.Webhook"
                   v-model:tls="bridgeInfo.ssl"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
                 />
                 <bridge-mqtt-config
-                  v-else-if="bridgeInfo.type === BridgeType.MQTT"
+                  v-else-if="bridgeType === BridgeType.MQTT"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
                   @init="resetRawBridgeInfoAfterComponentInit"
+                />
+                <bridge-influxdb-config
+                  v-else-if="bridgeType === BridgeType.InfluxDB"
+                  v-model="bridgeInfo"
+                  ref="formCom"
+                  :edit="true"
+                  @init="resetRawBridgeInfoAfterComponentInit"
+                />
+                <bridge-kafka-config
+                  v-else-if="bridgeType === BridgeType.Kafka"
+                  v-model="bridgeInfo"
+                  ref="formCom"
+                  :edit="true"
+                  @init="resetRawBridgeInfoAfterComponentInit"
+                />
+                <using-schema-bridge-config
+                  v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
+                  :type="bridgeInfo.type"
+                  v-model="bridgeInfo"
+                  ref="formCom"
                 />
               </div>
               <div v-if="!isFromRule" class="btn-area">
@@ -97,20 +117,22 @@
       </div>
     </div>
   </div>
+  <DeleteBridgeSecondConfirm
+    v-model="showSecondConfirm"
+    :rule-list="usingBridgeRules"
+    :id="currentDeleteBridgeId"
+    @submitted="handleDeleteSuc"
+  />
 </template>
 
 <script lang="ts" setup>
 import { computed, onActivated, onMounted, ref, Ref, defineProps, defineExpose, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  getBridgeInfo,
-  updateBridge,
-  startStopBridge,
-  deleteBridge as requestDeleteBridge,
-} from '@/api/ruleengine'
+import { getBridgeInfo, updateBridge, startStopBridge, deleteBridge } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
+import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
@@ -123,6 +145,11 @@ import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
+import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import BridgeKafkaConfig from './Components/BridgeConfig/BridgeKafkaConfig.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -177,6 +204,16 @@ watch(id, (val) => {
   }
 })
 
+/**
+ * if type is influxDB v1 or v2, will be count to influxDB uniformly
+ */
+const bridgeType = computed(() => {
+  if (bridgeInfo.value?.type?.indexOf(BridgeType.InfluxDB) > -1) {
+    return BridgeType.InfluxDB
+  }
+  return bridgeInfo.value.type
+})
+
 const handleBodyField = () => {
   if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {
     bridgeInfo.value.body = utf8Decode(bridgeInfo.value.body)
@@ -203,29 +240,23 @@ const loadBridgeInfo = async () => {
 const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
   rawBridgeInfo = _.cloneDeep(bridgeInfo)
 }
+const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
 const updateBridgeInfo = async () => {
   try {
     await formCom.value.validate()
 
-    if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
+    if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {
       bridgeInfo.value = formCom.value.getFormRecord()
     }
     const data = _.cloneDeep(bridgeInfo.value)
     // Check for changes before updating and do not request if there are no changes
-    // TODO:check the schema form & MQTT
     if (isFromRule.value && _.isEqual(data, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }
 
     if ('ssl' in data) {
       data.ssl = handleSSLDataBeforeSubmit(data.ssl)
-    }
-    if ('connector' in data && data.connector.ssl) {
-      data.connector.ssl = handleSSLDataBeforeSubmit(data.connector.ssl)
-    }
-    if (data.type === BridgeType.MQTT) {
-      Reflect.deleteProperty(data.connector, 'type')
     }
 
     await ElMessageBox.confirm(tl('updateBridgeTip'), {
@@ -235,7 +266,7 @@ const updateBridgeInfo = async () => {
     })
 
     updateLoading.value = true
-    const res = await updateBridge(bridgeInfo.value.id, data)
+    const res = await updateBridge(bridgeInfo.value.id, handleBridgeDataBeforeSubmit(data))
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'data-bridge' })
@@ -275,19 +306,22 @@ const createRuleWithBridge = () => {
     .catch(() => ({}))
 }
 
-const deleteBridge = async () => {
-  await ElMessageBox.confirm(t('Base.confirmDelete'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    type: 'warning',
-  })
-  try {
-    await requestDeleteBridge(id.value)
-    ElMessage.success(t('Base.deleteSuccess'))
-    router.push({ name: 'data-bridge' })
-  } catch (error) {
-    console.error(error)
+const goBack = () => {
+  router.push({ name: 'data-bridge' })
+}
+
+const {
+  showSecondConfirm,
+  usingBridgeRules,
+  currentDeleteBridgeId,
+  handleDeleteSuc,
+  handleDeleteBridge,
+} = useDeleteBridge(goBack)
+const handleDelete = async () => {
+  if (!id.value) {
+    return
   }
+  handleDeleteBridge(id.value)
 }
 
 const setActiveTab = () => {

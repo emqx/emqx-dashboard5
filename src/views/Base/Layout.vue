@@ -3,7 +3,7 @@
     <el-container>
       <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
         <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-          <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
+          <img class="img-logo" src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
         </div>
         <left-bar></left-bar>
         <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
@@ -222,18 +222,16 @@ export default defineComponent({
   padding-left: 24px;
   img {
     max-width: initial;
-    width: 86px;
-    height: 30px;
+    height: 28px;
     transition: all 0.3s;
   }
 }
 
 .logo.logo-colap {
-  width: 79px;
-  padding-left: 27px;
+  width: 64px;
+  padding-left: 26px;
   img {
-    width: 200px;
-    height: 43px;
+    height: 36px;
   }
 }
 
@@ -248,5 +246,12 @@ export default defineComponent({
 .top-submenu {
   transition: none;
   padding: 0 22px;
+}
+</style>
+<style lang="scss">
+[data-theme='dark'] {
+  .img-logo {
+    filter: invert(1);
+  }
 }
 </style>

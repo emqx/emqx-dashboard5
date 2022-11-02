@@ -102,7 +102,7 @@ p.description {
 
 #nprogress {
   .bar {
-    background: linear-gradient(135deg, #0ad18e 0%, #03a4a5 100%);
+    background: linear-gradient(135deg, #8c4eff 0%, #3f36ec 100%);
   }
 }
 
@@ -322,7 +322,7 @@ input:disabled {
 
 .text-status {
   &.success {
-    color: var(--el-color-primary);
+    color: var(--el-color-success);
   }
   &.warning {
     color: var(--el-color-warning);
@@ -473,13 +473,13 @@ input:disabled {
   top: 0px;
   width: 18px;
   height: 18px;
-  background-color: #00b17350;
+  background-color: #5e4eff50;
   animation: scaleAnimate 1.5s ease-out infinite;
 }
 .running-status::after {
   width: 6px;
   height: 6px;
-  background-color: #00b173;
+  background-color: #5e4eff;
   top: 6px;
   left: -8px;
   z-index: 3;
@@ -527,7 +527,9 @@ input:disabled {
   }
   .overview-header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 12px;
   }
   .card-hd {
     display: flex;
@@ -684,6 +686,11 @@ input:disabled {
       margin-bottom: 16px;
     }
   }
+}
+
+.el-col.col-need-row {
+  // To squeeze the next column down
+  margin-right: 40%;
 }
 
 .keep-spaces {

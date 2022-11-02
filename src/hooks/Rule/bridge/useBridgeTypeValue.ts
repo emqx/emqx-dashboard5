@@ -1,7 +1,6 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 
 export const useBridgeTypeValue = (): {
@@ -11,9 +10,14 @@ export const useBridgeTypeValue = (): {
   }>
   getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
 } => {
+  const { tl } = useI18nTl('RuleEngine')
+
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: 'Webhook' },
     { value: BridgeType.MQTT, label: 'MQTT' },
+    { value: BridgeType.InfluxDB, label: tl('influxDBLabel') },
+    { value: BridgeType.MySQL, label: tl('mySQL') },
+    { value: BridgeType.Kafka, label: tl('kafka') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -52,19 +56,27 @@ export const useBridgeTypeOptions = (): {
     },
     {
       value: BridgeType.MQTT,
-      valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.In}`,
-      label: 'MQTT Source',
-      desc: tl('bridgeDescMQTTIn'),
-      externalConfig: { direction: MQTTBridgeDirection.In },
+      valueForRadio: BridgeType.MQTT,
+      label: 'MQTT',
+      desc: tl('bridgeDescMQTT'),
     },
     {
-      value: BridgeType.MQTT,
-      valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.Out}`,
-      label: 'MQTT Sink',
-      desc: tl('bridgeDescMQTTOut'),
-      externalConfig: {
-        direction: MQTTBridgeDirection.Out,
-      },
+      value: BridgeType.Kafka,
+      valueForRadio: BridgeType.Kafka,
+      label: tl('kafka'),
+      desc: tl('kafkaDesc'),
+    },
+    {
+      value: BridgeType.InfluxDB,
+      valueForRadio: BridgeType.InfluxDB,
+      label: tl('influxDBLabel'),
+      desc: tl('influxDBDesc'),
+    },
+    {
+      value: BridgeType.MySQL,
+      valueForRadio: BridgeType.MySQL,
+      label: tl('mySQL'),
+      desc: tl('mySQLDesc'),
     },
   ]
 
@@ -74,12 +86,8 @@ export const useBridgeTypeOptions = (): {
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   const getTypeStr = (bridge: BridgeItem): string => {
-    if (bridge.type === BridgeType.Webhook) {
-      return getLabelFromValueInOptionList(bridge.type, bridgeTypeOptions)
-    }
-    const directionStr =
-      'direction' in bridge && bridge.direction === MQTTBridgeDirection.In ? 'Source' : 'Sink'
-    return `${getBridgeLabelByTypeValue(bridge.type)} ${directionStr}`
+    const type = bridge.type?.indexOf(BridgeType.InfluxDB) > -1 ? BridgeType.InfluxDB : bridge.type
+    return getBridgeLabelByTypeValue(type) || ''
   }
 
   return {
