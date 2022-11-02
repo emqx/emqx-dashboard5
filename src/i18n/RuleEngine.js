@@ -215,10 +215,6 @@ export default {
     zh: '备注',
     en: 'Note',
   },
-  ruleName: {
-    zh: '规则 Name',
-    en: 'Rule Name',
-  },
   filterData: {
     zh: '筛选数据',
     en: 'Filter Data',
@@ -822,5 +818,9 @@ export default {
   rateUnit: {
     zh: 'messages/sec | message/sec | messages/sec',
     en: 'messages/sec | message/sec | messages/sec',
+  },
+  saveAsCopy: {
+    zh: '保存为副本',
+    en: 'Save as copy',
   },
 }

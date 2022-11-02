@@ -140,6 +140,9 @@
         <el-button @click="$router.push({ name: 'iot' })">
           {{ $t('Base.cancel') }}
         </el-button>
+        <el-button type="primary" plain @click="saveAsCopy" v-if="isEdit">
+          {{ tl('saveAsCopy') }}
+        </el-button>
         <el-button type="primary" :loading="submitLoading" @click="$emit('save')">
           {{ isEdit ? $t('Base.update') : $t('Base.create') }}
         </el-button>
@@ -197,7 +200,7 @@ const prop = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:modelValue', 'save'])
+const emit = defineEmits(['update:modelValue', 'save', 'save-as-copy'])
 
 const { t } = useI18n()
 const route = useRoute()
@@ -419,6 +422,10 @@ const loadRuleEvents = async () => {
 //   }
 //   briefEditType.value = !briefEditType.value
 // }
+
+const saveAsCopy = () => {
+  emit('save-as-copy')
+}
 
 const selfValidate = () => {
   if (!briefEditType.value) {
