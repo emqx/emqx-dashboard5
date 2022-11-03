@@ -564,7 +564,7 @@ export default {
     en: 'Cluster Singleton: An MQTT connection is established on each node, with a random string appended to the client ID',
   },
   duplicate: {
-    zh: '复制规则',
+    zh: '复制',
     en: 'Duplicate',
   },
   SQLTemplates: {

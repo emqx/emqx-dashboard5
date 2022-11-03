@@ -38,17 +38,19 @@
             </el-radio-group>
           </template>
           <template v-if="step === 1">
-            <bridge-http-config
-              v-if="chosenBridgeType === BridgeType.Webhook"
-              v-model:tls="tlsParams"
-              v-model="bridgeData"
-              ref="formCom"
-            />
-            <bridge-mqtt-config
-              v-else-if="chosenBridgeType === BridgeType.MQTT"
-              v-model="bridgeData"
-              ref="formCom"
-            />
+            <div v-loading="targetLoading">
+              <bridge-http-config
+                v-if="chosenBridgeType === BridgeType.Webhook"
+                v-model:tls="tlsParams"
+                v-model="bridgeData"
+                ref="formCom"
+              />
+              <bridge-mqtt-config
+                v-else-if="chosenBridgeType === BridgeType.MQTT"
+                v-model="bridgeData"
+                ref="formCom"
+              />
+            </div>
           </template>
         </el-row>
         <el-row class="config-btn">
@@ -127,7 +129,7 @@ import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import { tlsConfig } from '@/types/ruleengine'
-import { createBridge } from '@/api/ruleengine'
+import { createBridge, getBridgeInfo } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
@@ -238,6 +240,25 @@ export default defineComponent({
       }
     }
 
+    const targetLoading = ref(false)
+    const checkRuleClipStatus = async () => {
+      if (route.query.action === 'copy' && route.query.target) {
+        try {
+          step.value = 1
+          targetLoading.value = true
+          const bridgeInfo = await getBridgeInfo(route.query.target as string)
+          radioSelectedBridgeType.value = bridgeInfo.type
+          if (bridgeInfo) {
+            bridgeData.value = { ...bridgeInfo, name: `${bridgeInfo.name}_duplication` }
+          }
+        } catch (error) {
+          //
+        } finally {
+          targetLoading.value = false
+        }
+      }
+    }
+
     const submitDataWhenUsingSchemaForm = async () => {
       const bridgeData = _.cloneDeep(formCom.value.getFormRecord())
       if (bridgeData.ssl) {
@@ -308,6 +329,8 @@ export default defineComponent({
       }
     }
 
+    checkRuleClipStatus()
+
     return {
       tl,
       isFromRule,
@@ -320,6 +343,7 @@ export default defineComponent({
       bridgeTypeOptions,
       chosenBridgeType,
       radioSelectedBridgeType,
+      targetLoading,
       submitLoading,
       tlsParams,
       bridgeData,
