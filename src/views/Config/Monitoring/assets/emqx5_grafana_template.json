@@ -25,7 +25,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 7,
+  "id": 16,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -94,7 +94,7 @@
             "type": "prometheus",
             "uid": "rqrvxsIVz"
           },
-          "expr": "emqx_connections_count{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(emqx_connections_count{instance=~\".*\",job=\"emqx\"})",
           "refId": "A"
         }
       ],
@@ -154,7 +154,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "emqx_topics_count{instance=~\".*\"}",
+          "expr": "max(emqx_topics_count{instance=~\".*\",job=\"emqx\"})",
           "interval": "",
           "legendFormat": "Active Topics",
           "range": true,
@@ -216,7 +216,7 @@
             "type": "prometheus",
             "uid": "rqrvxsIVz"
           },
-          "expr": "emqx_suboptions_count{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(emqx_suboptions_count{instance=~\".*\",job=\"emqx\"})",
           "refId": "A"
         }
       ],
@@ -317,7 +317,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "emqx_connections_count{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(emqx_connections_count{instance=~\".*\",job=\"emqx\"})",
           "legendFormat": "Connections",
           "range": true,
           "refId": "A"
@@ -534,7 +534,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "emqx_suboptions_count",
+          "expr": "sum(emqx_suboptions_count{instance=~\".*\",job=\"emqx\"})",
           "legendFormat": "Subscriptions",
           "range": true,
           "refId": "A"
@@ -837,7 +837,7 @@
             "type": "prometheus",
             "uid": "rqrvxsIVz"
           },
-          "expr": "emqx_messages_sent",
+          "expr": "sum(emqx_messages_sent{instance=~\".*\",job=\"emqx\"})",
           "refId": "A"
         }
       ],
@@ -896,7 +896,7 @@
             "type": "prometheus",
             "uid": "rqrvxsIVz"
           },
-          "expr": "emqx_messages_received{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(emqx_messages_received{instance=~\".*\",job=\"emqx\"})",
           "refId": "A"
         }
       ],
@@ -1061,8 +1061,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#3eba9a",
-                "value": null
+                "color": "#3eba9a"
               }
             ]
           }
@@ -1097,7 +1096,7 @@
             "type": "prometheus",
             "uid": "rqrvxsIVz"
           },
-          "expr": "emqx_retained_count",
+          "expr": "sum(emqx_retained_count{instance=~\".*\",job=\"emqx\"})",
           "refId": "A"
         }
       ],
@@ -1119,8 +1118,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "light-red",
-                "value": null
+                "color": "light-red"
               }
             ]
           },
@@ -1156,7 +1154,7 @@
             "type": "prometheus",
             "uid": "rqrvxsIVz"
           },
-          "expr": "emqx_messages_dropped{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(emqx_messages_dropped{instance=~\".*\",job=\"emqx\"})",
           "refId": "A"
         }
       ],
@@ -1191,8 +1189,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1253,8 +1250,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1316,8 +1312,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1379,8 +1374,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1519,7 +1513,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "emqx_cluster_nodes_running",
+          "expr": "max(emqx_cluster_nodes_running{instance=~\".*\",job=\"emqx\"})",
           "legendFormat": "EMQX Nodes running",
           "range": true,
           "refId": "A"
@@ -1530,7 +1524,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "emqx_cluster_nodes_stopped",
+          "expr": "max(emqx_cluster_nodes_stopped{instance=~\".*\",job=\"emqx\"})",
           "hide": false,
           "legendFormat": "EMQX Nodes stopped",
           "range": true,
@@ -1584,8 +1578,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-green",
-                "value": null
+                "color": "dark-green"
               },
               {
                 "color": "red",
@@ -1675,8 +1668,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1710,7 +1702,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "emqx_vm_used_memory{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(emqx_vm_used_memory{instance=~\".*\",job=\"emqx\"})",
           "legendFormat": "VM Memory Used",
           "range": true,
           "refId": "A"
@@ -1762,8 +1754,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1800,7 +1791,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "erlang_mnesia_memory_usage_bytes{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(erlang_mnesia_memory_usage_bytes{instance=~\".*\",job=\"emqx\"})",
           "legendFormat": "Mnesia (built-in database) Memory Usage",
           "range": true,
           "refId": "A"
@@ -1852,8 +1843,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1889,7 +1879,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "erlang_vm_process_count{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(erlang_vm_process_count{instance=~\".*\",job=\"emqx\"})",
           "legendFormat": "Process Count",
           "range": true,
           "refId": "A"
@@ -1900,7 +1890,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "erlang_vm_statistics_run_queues_length_total{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(erlang_vm_statistics_run_queues_length_total{instance=~\".*\",job=\"emqx\"})",
           "hide": false,
           "legendFormat": "Run Queue Length",
           "range": true,
@@ -1953,8 +1943,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -1986,7 +1975,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "erlang_vm_threads{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(erlang_vm_threads{instance=~\".*\",job=\"emqx\"})",
           "legendFormat": "Threads",
           "range": true,
           "refId": "A"
@@ -1997,7 +1986,7 @@
             "uid": "rqrvxsIVz"
           },
           "editorMode": "code",
-          "expr": "erlang_vm_thread_pool_size{instance=~\".*\",job=\"emqx\"}",
+          "expr": "sum(erlang_vm_thread_pool_size{instance=~\".*\",job=\"emqx\"})",
           "hide": false,
           "legendFormat": "Thread Pool size",
           "range": true,
@@ -2063,8 +2052,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2228,8 +2216,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2411,8 +2398,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2629,8 +2615,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2864,7 +2849,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "EMQX",
-  "uid": "uAUUbySVz",
-  "version": 59,
+  "uid": "uAUUbySVze",
+  "version": 10,
   "weekStart": ""
 }
