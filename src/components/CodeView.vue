@@ -4,7 +4,7 @@
 
 <script>
 import hljs from 'highlight.js/lib/core'
-import 'highlight.js/styles/solarized-dark.css'
+import 'highlight.js/styles/monokai-sublime.css'
 import json from 'highlight.js/lib/languages/json'
 import sql from 'highlight.js/lib/languages/sql'
 import bash from '@/common/highlight/bash'
@@ -42,8 +42,10 @@ export default {
 .code-view {
   line-height: 1.6;
   .hljs {
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 1em;
+    background-color: #232933;
+    border: 1px solid var(--color-border-primary);
   }
 }
 .el-popper {

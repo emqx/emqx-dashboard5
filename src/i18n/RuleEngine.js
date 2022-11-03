@@ -211,10 +211,6 @@ export default {
     zh: '备注',
     en: 'Note',
   },
-  ruleName: {
-    zh: '规则 Name',
-    en: 'Rule Name',
-  },
   filterData: {
     zh: '筛选数据',
     en: 'Filter Data',
@@ -1311,5 +1307,9 @@ export default {
   memoryOverloadProtectionDesc: {
     en: 'Applicable when buffer mode is set to <code>memory</code> or <code>hybrid</code>.</br>EMQX will drop old cached messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>.',
     zh: '缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。',
+  },
+  saveAsCopy: {
+    zh: '保存为副本',
+    en: 'Save as copy',
   },
 }
