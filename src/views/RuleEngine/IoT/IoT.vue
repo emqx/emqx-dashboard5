@@ -81,7 +81,6 @@
 <script lang="ts" setup>
 import { deleteRules, getRules, updateRules } from '@/api/ruleengine'
 import CodeView from '@/components/CodeView.vue'
-import useCopyRule from '@/hooks/Rule/rule/useCopyRule'
 import usePagination from '@/hooks/usePagination'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
@@ -93,15 +92,15 @@ import TableItemDropDown from '../components/TableItemDropDown.vue'
 import commonPagination from '@/components/commonPagination.vue'
 import { PageParams } from '@/types/common'
 import RuleFilterForm from './components/RuleFilterForm.vue'
+import { useRouter } from 'vue-router'
 
 const { t } = useI18n()
+const router = useRouter()
 const ruleTable: Ref<Array<RuleItem>> = ref([])
 const iotLoading: Ref<boolean> = ref(false)
 
 const { page, limit, count, pageParams, resetPageNum } = usePagination()
 let filterParams: FilterParamsForQueryRules = {}
-
-const { copyRule } = useCopyRule()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -146,7 +145,7 @@ const startOrStopRule = async (row: RuleItem) => {
 }
 
 const copyRuleItem = (rule: RuleItem) => {
-  copyRule(rule)
+  router.push({ name: 'iot-create', query: { target: rule.id, action: 'copy' } })
 }
 
 const submitDeleteRules = async ({ id }: RuleItem) => {
