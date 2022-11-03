@@ -28,6 +28,23 @@
         </template>
       </el-table-column>
       <el-table-column prop="node" :label="$t('Clients.node')" />
+      <el-table-column :label="$t('Base.operation')">
+        <template #default="{ row }">
+          <el-tooltip
+            v-if="!isTopicCanCreateTopic(row.topic)"
+            class="box-item"
+            effect="dark"
+            :content="tl('wildcardNotSupport')"
+          >
+            <span>
+              <el-button size="small" plain disabled> {{ tl('addMetric') }}</el-button>
+            </span>
+          </el-tooltip>
+          <el-button v-else size="small" plain @click="createMetricForTopic(row.topic)">
+            {{ tl('addMetric') }}
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <div class="emq-table-footer">
@@ -48,6 +65,11 @@ export default defineComponent({
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
 import { Search, RefreshRight } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
+import useI18nTl from '@/hooks/useI18nTl'
+
+const router = useRouter()
+const { tl } = useI18nTl('Subs')
 
 const tableData = ref([])
 const searchValue = ref('')
@@ -80,5 +102,13 @@ const loadTopics = async (_params = {}) => {
     pageMeta.value = {}
   }
 }
+
+const wildcardReg = /\/(#|\+)/
+const isTopicCanCreateTopic = (topic: string) => !wildcardReg.test(topic)
+
+const createMetricForTopic = (topic: string) => {
+  router.push({ name: 'topic-metrics', query: { topic } })
+}
+
 loadTopics()
 </script>
