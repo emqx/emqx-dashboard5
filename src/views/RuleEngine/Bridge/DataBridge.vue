@@ -45,13 +45,12 @@
               >
                 {{ $t('Base.setting') }}
               </el-button>
-              <el-button size="small" :disabled="!row.enable" @click="createRuleWithBridge(row.id)">
-                {{ tl('createRule') }}
-              </el-button>
               <TableItemDropDown
+                is-bridge
                 :row-data="row"
                 @copy="copyBridgeItem(row)"
                 @delete="submitDeleteBridge(row.id)"
+                @create-rule="createRuleWithBridge(row.id)"
               />
             </template>
           </el-table-column>
