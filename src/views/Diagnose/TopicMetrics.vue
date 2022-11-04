@@ -135,7 +135,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="tl('addTopic')" v-model="addVisible">
+    <el-dialog :title="tl('addTopic')" v-model="addVisible" width="400px">
       <el-form
         ref="record"
         :model="topicInput"
@@ -171,6 +171,7 @@ import { dateFormat } from '@/common/utils'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const DEFAULT_QOS = 'all'
 
@@ -191,6 +192,9 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n()
+
+    const route = useRoute()
+    const router = useRouter()
 
     let addVisible = ref(false)
     let topicInput = reactive({
@@ -228,6 +232,15 @@ export default defineComponent({
         //
       } finally {
         tbLoading.value = false
+      }
+    }
+
+    const checkTopicInQuery = () => {
+      const { topic = '' } = route.query || {}
+      if (topic) {
+        topicInput.topic = topic
+        addVisible.value = true
+        router.replace({ name: 'topic-metrics' })
       }
     }
 
@@ -308,7 +321,10 @@ export default defineComponent({
 
     const getKey = (qos, subPath) => `messages.${getStrForConcat(qos)}${subPath}`
 
-    onMounted(loadTopicMetrics)
+    onMounted(() => {
+      loadTopicMetrics()
+      checkTopicInQuery()
+    })
 
     return {
       Plus,
