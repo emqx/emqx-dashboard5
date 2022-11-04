@@ -39,12 +39,12 @@
         </el-card>
       </el-tab-pane>
     </el-tabs>
-    <RuleCopySubmitDialog :rule="ruleInfo" v-model="showNameInputDialog" />
+    <CopySubmitDialog :target="copyTarget" v-model="showNameInputDialog" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, Ref, computed } from 'vue'
+import { onMounted, ref, Ref, computed, ComputedRef } from 'vue'
 import iotform from '../components/IoTForm.vue'
 import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import { useRoute, useRouter } from 'vue-router'
@@ -57,7 +57,7 @@ import RuleItemStatus from './components/RuleItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { cloneDeep, isEqual } from 'lodash'
 import useRuleEditingPageUnload from '@/hooks/Rule/rule/useRuleEditingPageUnload'
-import RuleCopySubmitDialog from './components/RuleCopySubmitDialog.vue'
+import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -143,6 +143,10 @@ const submitUpdateRules = async () => {
 }
 
 const showNameInputDialog = ref(false)
+const copyTarget: ComputedRef<{ type: 'rule'; obj: RuleItem }> = computed(() => ({
+  type: 'rule',
+  obj: ruleInfo.value,
+}))
 const saveAsCopy = async () => {
   await formCom.value.validate()
   showNameInputDialog.value = true

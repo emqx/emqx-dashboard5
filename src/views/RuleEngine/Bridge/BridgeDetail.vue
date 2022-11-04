@@ -102,6 +102,9 @@
                 >
                   {{ tl('testTheConnection') }}
                 </el-button>
+                <el-button type="primary" plain @click="saveAsCopy">
+                  {{ tl('saveAsCopy') }}
+                </el-button>
                 <el-button
                   type="primary"
                   v-if="bridgeInfo.type"
@@ -116,6 +119,7 @@
         </el-tabs>
       </div>
     </div>
+    <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
   </div>
   <DeleteBridgeSecondConfirm
     v-model="showSecondConfirm"
@@ -126,7 +130,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onActivated, onMounted, ref, Ref, defineProps, defineExpose, watch } from 'vue'
+import {
+  computed,
+  onActivated,
+  onMounted,
+  ref,
+  Ref,
+  defineProps,
+  defineExpose,
+  watch,
+  ComputedRef,
+} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getBridgeInfo, updateBridge, startStopBridge, deleteBridge } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
@@ -145,6 +159,7 @@ import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
@@ -242,23 +257,48 @@ const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
 }
 const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
+const setBridgeInfoFromSchemaForm = () => {
+  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
+    bridgeInfo.value = formCom.value.getFormRecord()
+  }
+}
+
+const getDataForSubmit = () => {
+  const data = _.cloneDeep(bridgeInfo.value)
+  if ('ssl' in data) {
+    data.ssl = handleSSLDataBeforeSubmit(data.ssl)
+  }
+  if ('connector' in data && data.connector.ssl) {
+    data.connector.ssl = handleSSLDataBeforeSubmit(data.connector.ssl)
+  }
+  if (data.type === BridgeType.MQTT) {
+    Reflect.deleteProperty(data.connector, 'type')
+  }
+  return data
+}
+
+const showNameInputDialog = ref(false)
+const bridgeData = ref({} as BridgeItem)
+const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(() => ({
+  type: 'bridge',
+  obj: bridgeData.value,
+}))
+const saveAsCopy = () => {
+  bridgeData.value = getDataForSubmit()
+  showNameInputDialog.value = true
+}
+
 const updateBridgeInfo = async () => {
   try {
     await formCom.value.validate()
 
-    if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {
-      bridgeInfo.value = formCom.value.getFormRecord()
-    }
-    const data = _.cloneDeep(bridgeInfo.value)
+    setBridgeInfoFromSchemaForm()
+
     // Check for changes before updating and do not request if there are no changes
-    if (isFromRule.value && _.isEqual(data, rawBridgeInfo)) {
+    // TODO:check the schema form & MQTT
+    if (isFromRule.value && _.isEqual(bridgeInfo.value, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }
-
-    if ('ssl' in data) {
-      data.ssl = handleSSLDataBeforeSubmit(data.ssl)
-    }
-
     await ElMessageBox.confirm(tl('updateBridgeTip'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
@@ -266,6 +306,7 @@ const updateBridgeInfo = async () => {
     })
 
     updateLoading.value = true
+    const data = getDataForSubmit()
     const res = await updateBridge(bridgeInfo.value.id, handleBridgeDataBeforeSubmit(data))
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))

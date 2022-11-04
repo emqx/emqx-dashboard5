@@ -51,10 +51,6 @@ export const IP_REG =
 
 export const RULE_INPUT_BRIDGE_TYPE_PREFIX = '$bridges/'
 
-export const LOCAL_STORAGE_KEY_MAP = {
-  RULE_FOR_COPY: 'rule_for_copy',
-}
-
 export const GATEWAY_DISABLED_MECHANISM_MAP = {
   [GatewayName.STOMP]: [AuthnMechanismType.SCRAM],
   [GatewayName.CoAP]: [AuthnMechanismType.SCRAM],

@@ -48,9 +48,11 @@
               <el-button size="small" :disabled="!row.enable" @click="createRuleWithBridge(row.id)">
                 {{ tl('createRule') }}
               </el-button>
-              <el-button size="small" type="danger" plain @click="handleDeleteBridge(row.id)">
-                {{ $t('Base.delete') }}
-              </el-button>
+              <TableItemDropDown
+                :row-data="row"
+                @copy="copyBridgeItem(row)"
+                @delete="handleDeleteBridge(row.id)"
+              />
             </template>
           </el-table-column>
         </el-table>
@@ -75,11 +77,13 @@ import { Plus } from '@element-plus/icons-vue'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
+import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 
 export default defineComponent({
-  components: { BridgeItemStatus, DeleteBridgeSecondConfirm },
+  components: { BridgeItemStatus, TableItemDropDown,DeleteBridgeSecondConfirm },
+
   setup() {
     const bridgeTb = ref([])
     const tbLoading = ref(false)
@@ -138,6 +142,10 @@ export default defineComponent({
       query: { tab },
     })
 
+    const copyBridgeItem = (row: BridgeItem) => {
+      router.push({ name: 'bridge-create', query: { action: 'copy', target: row.id } })
+    }
+
     onMounted(listBridge)
 
     onBeforeRouteUpdate((to) => {
@@ -159,6 +167,7 @@ export default defineComponent({
       currentDeleteBridgeId,
       handleDeleteSuc,
       handleDeleteBridge,
+      copyBridgeItem,
       createRuleWithBridge,
       getBridgeDetailPageRoute,
     }
