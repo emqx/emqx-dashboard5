@@ -14,6 +14,10 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
+        <el-dropdown-item command="createRule" v-if="isBridge" :disabled="!rowData.enable">
+          <el-icon><DocumentAdd /></el-icon>
+          <span>{{ tl('createRule') }}</span>
+        </el-dropdown-item>
         <el-dropdown-item command="copy">
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
@@ -38,7 +42,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
 import { defineProps, defineEmits, PropType, ref, Ref } from 'vue'
-import { CaretBottom, Delete, CopyDocument } from '@element-plus/icons-vue'
+import { CaretBottom, Delete, CopyDocument, DocumentAdd } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -49,9 +53,13 @@ defineProps({
     required: true,
     type: Object as PropType<PluginItem>,
   },
+  isBridge: {
+    type: Boolean,
+    default: false,
+  },
 })
 
-const emit = defineEmits(['resetStatistics', 'copy', 'delete'])
+const emit = defineEmits(['resetStatistics', 'copy', 'delete', 'createRule'])
 
 const dropdownVisible: Ref<boolean> = ref(false)
 
