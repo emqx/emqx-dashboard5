@@ -235,6 +235,10 @@ export default {
     zh: '秒',
     en: 'second|seconds',
   },
+  ms: {
+    zh: '毫秒',
+    en: 'millisecond|milliseconds',
+  },
   timePartSep: {
     zh: '',
     en: ', ',

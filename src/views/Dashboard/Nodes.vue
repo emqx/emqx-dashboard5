@@ -25,7 +25,7 @@
       </el-table-column>
       <el-table-column min-width="100" prop="uptime" :label="tl('uptime')">
         <template #default="{ row }">
-          {{ getDuration(row.uptime) }}
+          {{ transMsNumToSimpleStr(row.uptime) }}
         </template>
       </el-table-column>
       <el-table-column width="120" prop="version" :label="tl('version')"> </el-table-column>
@@ -91,6 +91,7 @@ import { ref, onMounted, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RefreshRight } from '@element-plus/icons-vue'
 import { NodeMsg } from '@/types/dashboard'
+import useDurationStr from '@/hooks/useDurationStr'
 
 const { t } = useI18n()
 
@@ -101,6 +102,9 @@ const hasMemory: Ref<boolean> = ref(true)
 const tl = function (key: string, collection = 'Dashboard') {
   return t(collection + '.' + key)
 }
+
+const { transMsNumToSimpleStr } = useDurationStr()
+
 const loadAllNodes = async () => {
   try {
     nodes.value = (await loadNodes()) ?? []

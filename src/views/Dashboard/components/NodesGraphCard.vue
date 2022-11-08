@@ -20,7 +20,9 @@
                 </div>
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('uptime') }}: </label>
-                  <span class="node-item-content">{{ getDuration(currentInfo.node.uptime) }}</span>
+                  <span class="node-item-content">
+                    {{ transMsNumToSimpleStr(currentInfo.node.uptime) }}
+                  </span>
                 </div>
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('currentConnection') }}: </label>
@@ -45,6 +47,14 @@
                   <span class="node-item-content">{{ currentInfo.node['role'] }}</span>
                 </div>
                 <div class="node-item">
+                  <label class="node-item-label">{{ tl('version') }}: </label>
+                  <span class="node-item-content">
+                    <a :href="releaseNoteLink" target="_blank">
+                      {{ currentInfo.node['version'] }}
+                    </a>
+                  </span>
+                </div>
+                <div class="node-item">
                   <label class="node-item-label">{{ tl('maxFds') }}: </label>
                   <span class="node-item-content">{{ currentInfo.node['max_fds'] }}</span>
                 </div>
@@ -67,14 +77,6 @@
                         }}
                       </span>
                     </el-tooltip>
-                  </span>
-                </div>
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('version') }}: </label>
-                  <span class="node-item-content">
-                    <a :href="releaseNoteLink" target="_blank">
-                      {{ currentInfo.node['version'] }}
-                    </a>
                   </span>
                 </div>
                 <div
@@ -117,10 +119,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, Ref, onUnmounted } from 'vue'
 import { loadNodes, loadStats } from '@/api/common'
-import { getDuration, calcPercentage, getProgressColor } from '@/common/utils'
+import { calcPercentage, getProgressColor } from '@/common/utils'
+import useDurationStr from '@/hooks/useDurationStr'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
+import { computed, onMounted, onUnmounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
 
@@ -140,6 +143,8 @@ const nodesGraphData = computed(() => ({
   nodes: nodes.value,
   stats: stats.value,
 }))
+
+const { transMsNumToSimpleStr } = useDurationStr()
 
 let getNodes = async () => {
   let res: Array<NodeMsg> = await loadNodes(true).catch(() => [])

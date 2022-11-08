@@ -236,3 +236,11 @@ export enum PropType {
   IPPort = 'ip_port',
   ByteSize = 'byteSize',
 }
+
+export enum TimeUnit {
+  Millisecond,
+  Second,
+  Minute,
+  Hour,
+  Day,
+}
