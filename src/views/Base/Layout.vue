@@ -72,7 +72,7 @@ import NavHeader from './NavHeader.vue'
 import { routes } from '@/router'
 import { useStore } from 'vuex'
 import { computed, defineComponent } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
 import useChangePwdGuide from '@/hooks/useChangePwdGuide'
 import Footer from './Footer.vue'
@@ -116,10 +116,11 @@ export default defineComponent({
       return topLvRoute || {}
     })
     const defaultSubMenu = computed(() => {
-      const { children, path: topPath } = topLvRoute.value
+      // const { children, path: topPath } = topLvRoute.value
       const { path } = route
-      const childRoute = Array.prototype.find.call(children, (v) => path.indexOf(v.path) >= 0) || {}
-      return `${topPath}/${childRoute && childRoute.path}` || undefined
+      // const childRoute = Array.prototype.find.call(children, (v) => path.indexOf(v.path) >= 0) || {}
+      // return `${topPath}/${childRoute && childRoute.path}` || undefined
+      return path
     })
     const hasSubMenu = computed(() => {
       const { meta } = topLvRoute.value
