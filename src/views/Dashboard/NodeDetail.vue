@@ -37,7 +37,7 @@
             </el-descriptions-item>
             <el-descriptions-item :label="tl('role')">{{ node.role }}</el-descriptions-item>
             <el-descriptions-item :label="tl('maxFds')">{{ node.max_fds }}</el-descriptions-item>
-            <el-descriptions-item :label="`CPU ${tl('load')}`">
+            <el-descriptions-item :label="tl('osCpuLoad')">
               <el-tooltip
                 class="box-item"
                 effect="dark"

@@ -59,7 +59,7 @@
                   <span class="node-item-content">{{ currentInfo.node['max_fds'] }}</span>
                 </div>
                 <div class="node-item">
-                  <label class="node-item-label">CPU Load: </label>
+                  <label class="node-item-label">{{ tl('osCpuLoad') }}: </label>
                   <span class="node-item-content">
                     <el-tooltip
                       class="box-item"
