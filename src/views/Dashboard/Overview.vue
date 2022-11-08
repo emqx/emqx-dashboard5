@@ -11,11 +11,11 @@
             <div class="rate-item">
               <div>
                 <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
-                <span class="unit"
-                  >{{ $t('Dashboard.strip', { n: currentMetrics.received_msg_rate }) }}/{{
+                <span class="unit">
+                  {{ $t('Dashboard.strip', { n: currentMetrics.received_msg_rate }) }}/{{
                     $t('Dashboard.second')
-                  }}</span
-                >
+                  }}
+                </span>
               </div>
               <div class="line-wrapper">
                 <rate-chart
@@ -28,11 +28,11 @@
             <div class="rate-item">
               <div>
                 <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
-                <span class="unit"
-                  >{{ $t('Dashboard.strip', { n: currentMetrics.sent_msg_rate }) }}/{{
+                <span class="unit">
+                  {{ $t('Dashboard.strip', { n: currentMetrics.sent_msg_rate }) }}/{{
                     $t('Dashboard.second')
-                  }}</span
-                >
+                  }}
+                </span>
               </div>
               <div class="line-wrapper">
                 <rate-chart :value="currentMetricsLogs.sent_msg_rate" type="bar" color="#5D4EFF" />
@@ -75,19 +75,25 @@
         <el-card class="main-info-card top-primary">
           <el-row :gutter="40">
             <el-col :span="8" class="main-info-item">
-              <img src="@/assets/img/connections.png" width="40" height="40" alt="connections" />
-              <p>{{ $t('Dashboard.connectionNumber') }}</p>
+              <router-link :to="{ name: 'connections' }">
+                <img src="@/assets/img/connections.png" width="40" height="40" alt="connections" />
+                <p>{{ $t('Dashboard.connectionNumber') }}</p>
+              </router-link>
               <div class="num">{{ _formatNumber(currentMetrics.connections) }}</div>
             </el-col>
             <el-col :span="8" class="main-info-item">
-              <img src="@/assets/img/topics.png" width="40" height="40" alt="topics" />
-              <p>{{ $t('Dashboard.topics') }}</p>
+              <router-link :to="{ name: 'topics' }">
+                <img src="@/assets/img/topics.png" width="40" height="40" alt="topics" />
+                <p>{{ $t('Dashboard.topics') }}</p>
+              </router-link>
               <div class="num">{{ _formatNumber(currentMetrics.topics) }}</div>
             </el-col>
             <el-col :span="8" class="main-info-item">
               <div>
-                <img src="@/assets/img/subs.png" width="40" height="40" alt="subs" />
-                <p>{{ $t('Dashboard.subscriptionNumber') }}</p>
+                <router-link :to="{ name: 'subscription' }">
+                  <img src="@/assets/img/subs.png" width="40" height="40" alt="subs" />
+                  <p>{{ $t('Dashboard.subscriptionNumber') }}</p>
+                </router-link>
                 <div class="num">{{ _formatNumber(currentMetrics.subscriptions) }}</div>
               </div>
             </el-col>
@@ -221,9 +227,17 @@ onUnmounted(() => {
     .el-card__body {
       padding: 36px;
       .main-info-item {
-        p {
+        a {
+          display: block;
           font-size: 16px;
           color: var(--color-text-secondary);
+          transition: none;
+          &:hover {
+            color: var(--color-primary);
+            img {
+              filter: saturate(65%) contrast(135%);
+            }
+          }
         }
         .num {
           color: var(--color-title-primary);
