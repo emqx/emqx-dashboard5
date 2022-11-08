@@ -43,7 +43,7 @@
       </el-table-column>
       <el-table-column prop="deactivate_at" :label="$t('Alarm.duration')">
         <template #default="{ row }">
-          {{ getDuration(row.duration) }}
+          {{ transMsNumToSimpleStr(row.duration) }}
         </template>
       </el-table-column>
     </el-table>
@@ -64,16 +64,19 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { loadAlarm, clearHistoryAlarm } from '@/api/common'
-import { getDuration, dateFormat } from '@/common/utils'
+import { dateFormat } from '@/common/utils'
 import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { Remove } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import useDurationStr from '@/hooks/useDurationStr'
 
 const historyLockTable = ref(false)
 const historyAlarmData = ref<any[]>([])
 const hPageMeta = ref({})
 const { t } = useI18n()
+
+const { transMsNumToSimpleStr } = useDurationStr()
 
 const loadData = async (params = {}) => {
   historyLockTable.value = true

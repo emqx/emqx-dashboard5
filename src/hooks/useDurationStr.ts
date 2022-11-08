@@ -56,7 +56,7 @@ export default () => {
     let currentRemaining = valNum
     for (let index = 0; index < binaryArr.length; index++) {
       const currentUnitNum = Math.floor(currentRemaining / binaryArr[index])
-      if (currentUnitNum > 1) {
+      if (currentUnitNum >= 1) {
         ret += ` ${currentUnitNum} ${t(unitStrKeyMap[needUseUnitArr[index]], currentUnitNum)}`
         currentRemaining -= currentUnitNum * binaryArr[index]
       }
@@ -67,10 +67,15 @@ export default () => {
         currentRemaining,
       )}`
     }
-    return ret
+    return ret.trim()
+  }
+
+  const transMsNumToSimpleStr = (num: number) => {
+    return getDurationStr(Math.floor(num / 1000), TimeUnit.Second)
   }
 
   return {
     getDurationStr,
+    transMsNumToSimpleStr,
   }
 }

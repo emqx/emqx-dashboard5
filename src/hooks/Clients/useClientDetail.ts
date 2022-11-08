@@ -2,6 +2,7 @@ import { Client } from '@/types/client'
 import moment from 'moment'
 import { Ref } from 'vue'
 import useI18nTl from '../useI18nTl'
+import useDurationStr from '@/hooks/useDurationStr'
 
 type GetSessionInfoItem = (msg: string) => string | number | boolean
 
@@ -11,6 +12,8 @@ export default (
   getSessionInfoItem: GetSessionInfoItem
 } => {
   const { t } = useI18nTl('Base')
+
+  const { transMsNumToSimpleStr } = useDurationStr()
 
   const getSessionInfoItem: GetSessionInfoItem = (key) => {
     const msg = client.value
@@ -28,7 +31,7 @@ export default (
       case 'heap_size':
         return `${msg.heap_size} bytes`
       case 'expiry_interval':
-        return `${msg.expiry_interval} ${t('Base.second', msg.expiry_interval || 0)}`
+        return transMsNumToSimpleStr(msg.expiry_interval as number)
       default:
         return msg[key as keyof Client] ?? ''
     }
