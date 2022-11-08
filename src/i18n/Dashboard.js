@@ -56,8 +56,8 @@ export default {
     en: 'VM Memory',
   },
   memory: {
-    zh: '内存',
-    en: 'Memory',
+    zh: '操作系统内存',
+    en: 'OS Memory',
   },
   maxFds: {
     zh: '最大文件句柄',
@@ -70,6 +70,10 @@ export default {
   load: {
     zh: '负载',
     en: 'Load',
+  },
+  osCpuLoad: {
+    zh: '操作系统 CPU 负载',
+    en: 'OS CPU Load',
   },
   monitor: {
     zh: '监控',
