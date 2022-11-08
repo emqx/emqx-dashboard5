@@ -41,7 +41,7 @@
           </span>
         </template>
         <template #default="{ row }">
-          <span v-show="row.duration">{{ getDuration(row.duration) }}</span>
+          <span v-show="row.duration">{{ transMsNumToSimpleStr(row.duration) }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -62,15 +62,18 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { loadAlarm } from '@/api/common'
-import { getDuration, dateFormat } from '@/common/utils'
+import { dateFormat } from '@/common/utils'
 import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { RefreshRight, Setting } from '@element-plus/icons-vue'
+import useDurationStr from '@/hooks/useDurationStr'
 
 const currentLockTable = ref(false)
 const currentAlarmData = ref<any[]>([])
 const cPageMeta = ref({})
 const store = useStore()
+
+const { transMsNumToSimpleStr } = useDurationStr()
 
 const loadData = async (params = {}) => {
   currentLockTable.value = true

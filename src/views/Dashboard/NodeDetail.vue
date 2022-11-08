@@ -27,9 +27,9 @@
                 </span>
               </el-tag>
             </el-descriptions-item>
-            <el-descriptions-item :label="tl('uptime')">{{
-              getDuration(node.uptime)
-            }}</el-descriptions-item>
+            <el-descriptions-item :label="tl('uptime')">
+              {{ transMsNumToSimpleStr(node.uptime) }}
+            </el-descriptions-item>
             <el-descriptions-item :label="tl('version')">
               <a :href="releaseNoteLink(node.version)" target="_blank">
                 {{ node.version }}
@@ -127,13 +127,14 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
-import { getDuration, calcPercentage } from '@/common/utils'
+import { calcPercentage } from '@/common/utils'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RefreshRight } from '@element-plus/icons-vue'
 import { NodeStatus } from '@/types/enum'
+import useDurationStr from '@/hooks/useDurationStr'
 
 const nodeLoading = ref(true)
 const statsLoading = ref(true)
@@ -150,6 +151,8 @@ const nodeName = computed(() => {
 const { tl } = useI18nTl('Dashboard')
 
 const { locale } = useI18n()
+
+const { transMsNumToSimpleStr } = useDurationStr()
 
 const releaseNoteLink = (version: string) => {
   const lang = locale.value === 'zh' ? 'zh' : 'en'
