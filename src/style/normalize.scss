@@ -730,7 +730,7 @@
   font-size: 14px;
 }
 .el-page-header__left {
-  &:hover {
+  .el-page-header__back:hover {
     color: var(--color-primary);
   }
 }
