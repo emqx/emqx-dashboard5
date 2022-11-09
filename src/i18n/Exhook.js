@@ -35,6 +35,10 @@ export default {
     zh: '添加 ExHook',
     en: 'Add ExHook',
   },
+  hooks: {
+    zh: '已注册钩子',
+    en: 'Hooks',
+  },
   basicInfo: {
     zh: '基本信息',
     en: 'Basic Info',

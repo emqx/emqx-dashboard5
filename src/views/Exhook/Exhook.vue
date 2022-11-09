@@ -54,7 +54,7 @@
       <el-table-column :label="$t('Base.operation')" :min-width="168">
         <template #default="{ row, $index }">
           <el-button size="small" @click="goExhookDetail(row, 'hooks')">
-            {{ tl('setting', 'Base') }}
+            {{ tl('hooks') }}
           </el-button>
           <TableItemDropdown
             :row-data="row"

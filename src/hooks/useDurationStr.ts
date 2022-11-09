@@ -43,7 +43,8 @@ export default () => {
     if (
       unit === undefined ||
       !timeUnitArr.some((item) => item === unit) ||
-      Number.isNaN(Number(val))
+      Number.isNaN(Number(val)) ||
+      Number(val) === 0
     ) {
       return val
     }
