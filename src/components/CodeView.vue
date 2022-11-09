@@ -1,5 +1,12 @@
 <template>
-  <hljsVuePlugin class="code-view" :code="code" :language="lang" :autodetect="false" />
+  <div class="code-view">
+    <hljsVuePlugin :code="code" :language="lang" :autodetect="false" />
+    <el-tooltip v-if="showCopyBtn" effect="dark" placement="top" :content="tl('copy')">
+      <el-icon class="icon-copy" @click="copyText(code)">
+        <copy-document />
+      </el-icon>
+    </el-tooltip>
+  </div>
 </template>
 
 <script>
@@ -11,6 +18,9 @@ import bash from '@/common/highlight/bash'
 import yaml from 'highlight.js/lib/languages/yaml'
 import javascript from 'highlight.js/lib/languages/javascript'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
+import useI18nTl from '@/hooks/useI18nTl'
+import { CopyDocument } from '@element-plus/icons-vue'
+import useCopy from '@/hooks/useCopy'
 
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('json', json)
@@ -23,6 +33,7 @@ export default {
 
   components: {
     hljsVuePlugin: hljsVuePlugin.component,
+    CopyDocument,
   },
 
   props: {
@@ -34,18 +45,42 @@ export default {
       type: String,
       default: 'json',
     },
+    showCopyBtn: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
+  setup() {
+    const { tl } = useI18nTl('Base')
+    const { copyText } = useCopy()
+
+    return {
+      tl,
+      copyText,
+    }
   },
 }
 </script>
 
 <style lang="scss">
 .code-view {
-  line-height: 1.6;
+  position: relative;
+  margin: 1em 0;
   .hljs {
     border-radius: 8px;
-    padding: 1em;
+    padding: 20px;
     background-color: #232933;
     border: 1px solid var(--color-border-primary);
+  }
+  pre {
+    margin: 0;
+  }
+  .icon-copy {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    cursor: pointer;
   }
 }
 .el-popper {
