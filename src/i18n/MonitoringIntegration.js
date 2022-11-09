@@ -52,8 +52,8 @@ export default {
     en: 'You can use Docker to install and start the Pushgateway service, for example, use the following command:',
   },
   nodeExporterDesc: {
-    zh: '对于需要监控服务的物理机或虚拟机的用户，您可以使用 Node Exporter 来采集系统信息',
-    en: 'For physical machines or virtual machines that need to monitor services, you can use Node Exporter to collect system information',
+    zh: '对于需要监控服务的物理机或虚拟机的用户，您可以使用 Node Exporter 来采集系统信息。',
+    en: 'For physical machines or virtual machines that need to monitor services, you can use Node Exporter to collect system information.',
   },
   checkNodeExporter: {
     zh: '点击查看',
@@ -64,19 +64,19 @@ export default {
     en: 'Node Exporter available versions',
   },
   replaceVersion: {
-    zh: '，并替换到下方命令中',
-    en: ', and replace it in the command below',
+    zh: '，并替换到下方命令中：',
+    en: ', and replace it in the command below:',
   },
   promConfig: {
     zh: '配置 Prometheus',
     en: 'Configure Prometheus',
   },
   promStepTwo: {
-    zh: '在 Prometheus 的配置文件中添加 Pushgateway 和 Prometheus 服务的地址，如需使用 Node Exporter，还需添加 Node Exporter 的地址。',
-    en: 'Add the address of the Pushgateway and Prometheus services to the Prometheus configuration file. If you want to use Node Exporter, you also need to add the address of Node Exporter.',
+    zh: '在 Prometheus 的配置文件中添加 Pushgateway 服务的地址，Node Exporter 和 Prometheus 的地址再有需要的情况下再添加。',
+    en: 'Add the address of the Pushgateway service to the Prometheus configuration file, and add the address of Node Exporter and Prometheus if necessary.',
   },
   promRun: {
-    zh: '再使用生成的配置文件来启动 Prometheus，例如使用以下命令:',
+    zh: '再使用生成的配置文件来启动 Prometheus，例如使用以下命令：',
     en: 'Then use the generated configuration file to start Prometheus, for example, use the following command:',
   },
   grafConfig: {
@@ -88,8 +88,8 @@ export default {
     en: 'Add Prometheus as a data source in Grafana, then add a configuration or import a Dashboard to visualize the monitoring data, for example, you can use the following startup command:',
   },
   clickDownloadTemplateDesc: {
-    zh: '点击下方按钮下载默认的 Grafana Dashboard 模版',
-    en: 'Click the button below to download the default Grafana Dashboard template',
+    zh: '点击下方按钮下载默认的 Grafana Dashboard 模版。',
+    en: 'Click the button below to download the default Grafana Dashboard template.',
   },
   clickDonwnloadTemplate: {
     zh: '下载 Grafana 模版',
@@ -98,10 +98,6 @@ export default {
   genPromConfig: {
     zh: '生成配置文件',
     en: 'Generate Configuration File',
-  },
-  promConfigRequired: {
-    zh: '请配置 Prometheus 地址',
-    en: 'Please configure the Prometheus address',
   },
   pushgatewayRequired: {
     zh: '请配置 Pushgateway 地址',
