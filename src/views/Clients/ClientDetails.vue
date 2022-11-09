@@ -14,7 +14,10 @@
       >
         <template #content>
           <el-tooltip :content="clientId">
-            <p class="header-content">{{ clientId }} ({{ tl('clientId') }})</p>
+            <p class="vertical-align-center header-content">
+              <TextEasyCopy>{{ clientId }}</TextEasyCopy>
+              <span>({{ tl('clientId') }})</span>
+            </p>
           </el-tooltip>
         </template>
       </detail-header>
@@ -66,6 +69,16 @@
                 </span>
                 <span v-else-if="item == 'ip_address'">
                   <span>{{ record.ip_address + ':' + record.port }}</span>
+                </span>
+                <span class="space-between vertical-align-center" v-else-if="item == 'clientid'">
+                  <span class="keep-spaces">{{ record[item] }}</span>
+                  <el-button
+                    class="btn-copy"
+                    size="small"
+                    @click="copyText(record.clientid as string)"
+                  >
+                    {{ t('Base.copy') }}
+                  </el-button>
                 </span>
                 <span v-else>
                   <span class="keep-spaces">{{ record[item] }}</span>
@@ -202,6 +215,8 @@ import { useRoute, useRouter } from 'vue-router'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
+import TextEasyCopy from '@/components/TextEasyCopy.vue'
+import useCopy from '@/hooks/useCopy'
 
 const props = defineProps({
   gateway: {
@@ -331,6 +346,7 @@ const isMQTTVersion5 = computed(() => {
 })
 
 const { getSessionInfoItem } = useClientDetail(record)
+const { copyText } = useCopy()
 
 /**
  * snake and point to camel, demo: send_msg -> sendMsg; send_msg.qos1 -> sendMsgQos1
@@ -585,6 +601,9 @@ loadSubs()
   .stats-tip {
     position: absolute;
     right: 25px;
+  }
+  .btn-copy {
+    margin-left: 16px;
   }
 }
 </style>
