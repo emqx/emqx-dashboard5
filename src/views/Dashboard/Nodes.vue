@@ -65,7 +65,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="`CPU ${tl('load')}`">
+      <el-table-column :label="tl('osCpuLoad')">
         <template #default="{ row }">
           <el-tooltip class="box-item" effect="dark" content="load1/load5/load15" placement="top"
             >{{ row.load1 }}/{{ row.load5 }}/{{ row.load15 }}
