@@ -57,14 +57,14 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
                   :model="promYamlConfigs"
                   :rules="rules"
                 >
-                  <el-form-item label="Prometheus" prop="promHost">
-                    <el-input v-model="promYamlConfigs.promHost" placeholder="127.0.0.1:9090" />
-                  </el-form-item>
                   <el-form-item label="Pushgateway" prop="pushgatewayHost">
                     <el-input
                       v-model="promYamlConfigs.pushgatewayHost"
                       placeholder="127.0.0.1:9091"
                     />
+                  </el-form-item>
+                  <el-form-item label="Prometheus" prop="promHost">
+                    <el-input v-model="promYamlConfigs.promHost" placeholder="127.0.0.1:9090" />
                   </el-form-item>
                   <el-form-item label="Node Exporter" prop="nodeExporterHost">
                     <el-input
@@ -129,12 +129,6 @@ const { promYamlConfigs, promConfigContent } = usePromConfig()
 const formConfig = ref()
 
 const rules = {
-  promHost: [
-    {
-      required: true,
-      message: tl('promConfigRequired'),
-    },
-  ],
   pushgatewayHost: [
     {
       required: true,
