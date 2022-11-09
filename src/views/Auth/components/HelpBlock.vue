@@ -4,7 +4,7 @@
       <p v-for="(item, $index) in helpText" :key="$index">{{ item }}</p>
     </div>
     <template v-if="helpCode">
-      <code-view :lang="codeLang" :code="helpCode" />
+      <code-view :lang="codeLang" :code="helpCode" :show-copy-btn="false" />
       <el-button ref="btnCopyHelp" @click="copyText(helpCode)">
         {{ $t('Base.copy') }}
       </el-button>

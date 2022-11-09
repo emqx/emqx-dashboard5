@@ -26,7 +26,6 @@
           </div>
           <div class="input-container">
             <CodeView :code="item.sql" lang="sql" />
-            <el-icon class="icon-copy" @click="copyText(item.sql)"><copy-document /></el-icon>
           </div>
         </section>
 
@@ -43,7 +42,6 @@
           </div>
           <div class="input-container">
             <CodeView :code="item.input" lang="json" />
-            <el-icon class="icon-copy" @click="copyText(item.input)"><copy-document /></el-icon>
           </div>
         </section>
 
@@ -53,7 +51,6 @@
           </div>
           <div class="input-container">
             <CodeView :code="item.outputs" lang="json" />
-            <el-icon class="icon-copy" @click="copyText(item.outputs)"><copy-document /></el-icon>
           </div>
         </section>
       </el-collapse-item>
@@ -64,9 +61,6 @@
 <script setup lang="ts">
 import SQLTemplates from '@/common/SQLTemplates'
 import { stringifyObjSafely } from '@/common/tools'
-import useCopy from '@/hooks/useCopy'
-import { CopyDocument } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { computed, defineEmits, defineProps, ref, Ref, WritableComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CodeView from '@/components/CodeView.vue'
@@ -125,15 +119,6 @@ const useSQL = (SQLContent: string) => {
   showDrawer.value = false
 }
 
-const { copyText: execCopy } = useCopy()
-const copyText = async (text: string) => {
-  try {
-    execCopy(text)
-  } catch (error) {
-    ElMessage.error(t('Base.opErr'))
-  }
-}
-
 initTemplateList()
 </script>
 
@@ -158,15 +143,6 @@ initTemplateList()
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
-  }
-  .input-container {
-    position: relative;
-  }
-  .icon-copy {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    cursor: pointer;
   }
   .el-collapse-item__header {
     line-height: 1.6;
