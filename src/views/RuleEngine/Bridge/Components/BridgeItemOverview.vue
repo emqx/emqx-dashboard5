@@ -13,29 +13,7 @@
     </div>
     <div class="overview-sub-block">
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
-      <el-row class="rule-statistic" :gutter="28">
-        <el-col :span="6">
-          <el-card class="success-bg">
-            <p class="statistic-label">{{ tl('SuccessNum') }}</p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.success) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="failed-bg">
-            <p class="statistic-label">{{ tl('ErrNum') }}</p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.failed) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="rate-bg">
-            <p class="statistic-label">{{ tl('speedNow') }}</p>
-            <p class="statistic-num">
-              <span>{{ formatNumber(bridgeMsg?.metrics?.rate) }}</span>
-              <span class="unit">{{ t('RuleEngine.rateUnit', bridgeMsg?.metrics?.rate) }}</span>
-            </p>
-          </el-card>
-        </el-col>
-      </el-row>
+      <TargetDetailMetrics class="rule-statistic" :metrics="statisticsData" />
     </div>
     <div class="overview-sub-block">
       <div class="card-hd">
@@ -85,11 +63,11 @@ export default defineComponent({
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
-import { formatNumber } from '@/common/tools'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
+import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 
 const props = defineProps({
   bridgeMsg: {
@@ -126,6 +104,25 @@ const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = comput
 })
 
 const { tl, t } = useI18nTl('RuleEngine')
+
+const statisticsData = computed(() => [
+  {
+    label: tl('SuccessNum'),
+    value: props.bridgeMsg?.metrics?.success,
+    className: 'success-bg',
+  },
+  {
+    label: tl('ErrNum'),
+    value: props.bridgeMsg?.metrics?.failed,
+    className: 'failed-bg',
+  },
+  {
+    label: tl('speedNow'),
+    value: props.bridgeMsg?.metrics?.rate,
+    unit: t('RuleEngine.rateUnit', 0),
+    className: 'rate-bg',
+  },
+])
 
 const handleRefresh = () => {
   emit('refresh')

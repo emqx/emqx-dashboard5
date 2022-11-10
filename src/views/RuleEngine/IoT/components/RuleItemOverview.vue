@@ -13,128 +13,13 @@
     </div>
     <div class="overview-sub-block">
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
-      <el-row class="rule-statistic" :gutter="28">
-        <el-col :span="6">
-          <el-card class="success-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sqlMatched') }}</span>
-              <InfoTooltip :content="tl('sqlMatchedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(ruleMetrics['matched']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="matched-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sqlPassed') }}</span>
-              <InfoTooltip :content="tl('sqlPassedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(ruleMetrics['passed']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="failed-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sqlFailed') }}</span>
-              <InfoTooltip :content="tl('sqlFailedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(ruleMetrics['failed.exception']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="no-result-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sqlNoResult') }}</span>
-              <InfoTooltip :content="tl('sqlNoResultDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(ruleMetrics['failed.no_result']) }}</p>
-          </el-card>
-        </el-col>
-
-        <el-col :span="6">
-          <el-card class="rate-bg">
-            <p class="statistic-label">{{ tl('executionSpeed') }}</p>
-            <p class="statistic-num">
-              {{ formatNumber(ruleMetrics['matched.rate']) }}
-              <span class="unit">{{ t('RuleEngine.rateUnit', 0) }}</span>
-            </p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="last-five-rate-bg">
-            <p class="statistic-label">{{ tl('rateLast5M') }}</p>
-            <p class="statistic-num">
-              {{ formatNumber(ruleMetrics['matched.rate.last5m']) }}
-              <span class="unit">{{ t('RuleEngine.rateUnit', 0) }}</span>
-            </p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="max-rate-bg">
-            <p class="statistic-label">{{ tl('rateMax') }}</p>
-            <p class="statistic-num">
-              {{ formatNumber(ruleMetrics['matched.rate.max']) }}
-              <span class="unit">{{ t('RuleEngine.rateUnit', 0) }}</span>
-            </p>
-          </el-card>
-        </el-col>
-      </el-row>
+      <TargetDetailMetrics class="rule-statistic" :metrics="runningStatistics" />
     </div>
     <div class="overview-sub-block">
       <div class="card-hd">
         <h2 class="block-title">{{ tl('actionsStatistics') }}</h2>
       </div>
-      <el-row class="rule-statistic" :gutter="28">
-        <el-col :span="6">
-          <el-card class="success-bg">
-            <p class="statistic-label">
-              <span>{{ tl('success') }}</span>
-              <InfoTooltip :content="tl('actionSuccessDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.success']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="failed-bg">
-            <p class="statistic-label">
-              <span>{{ tl('ErrNum') }}</span>
-              <InfoTooltip :content="tl('actionFailedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.failed']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="rate-bg">
-            <p class="statistic-label">
-              <span>{{ tl('total') }}</span>
-              <InfoTooltip :content="tl('actionTotalDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(ruleMetrics['actions.total']) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="failed-bg">
-            <p class="statistic-label">
-              <span>{{ tl('outOfService') }}</span>
-              <InfoTooltip :content="tl('actionOutOfServiceDesc')" />
-            </p>
-            <p class="statistic-num">
-              {{ formatNumber(ruleMetrics['actions.failed.out_of_service']) }}
-            </p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="max-rate-bg">
-            <p class="statistic-label">
-              <span>{{ tl('unknown') }}</span>
-              <InfoTooltip :content="tl('actionUnknownDesc')" />
-            </p>
-            <p class="statistic-num">
-              {{ formatNumber(ruleMetrics['actions.failed.unknown']) }}
-            </p>
-          </el-card>
-        </el-col>
-      </el-row>
+      <TargetDetailMetrics class="rule-statistic" :metrics="actionStatistics" />
     </div>
     <div class="overview-sub-block">
       <div class="card-hd">
@@ -233,9 +118,9 @@ import { defineProps, PropType, defineEmits, computed, ComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RuleItem, NodeMetrics, NodeStatus, Metrics } from '@/types/rule'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import { formatNumber } from '@/common/tools'
 import { resetRuleMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 
 const props = defineProps({
   ruleMsg: {
@@ -250,6 +135,84 @@ const ruleMetrics: ComputedRef<Metrics> = computed(() => {
   const { metrics } = props.ruleMsg
   return metrics || {}
 })
+
+const runningStatistics = computed(() => [
+  {
+    label: tl('sqlMatched'),
+    desc: tl('sqlMatchedDesc'),
+    value: ruleMetrics.value['matched'],
+    className: 'success-bg',
+  },
+  {
+    label: tl('sqlPassed'),
+    desc: tl('sqlPassedDesc'),
+    value: ruleMetrics.value['passed'],
+    className: 'matched-bg',
+  },
+  {
+    label: tl('sqlFailed'),
+    desc: tl('sqlFailedDesc'),
+    value: ruleMetrics.value['failed.exception'],
+    className: 'failed-bg',
+  },
+  {
+    label: tl('sqlNoResult'),
+    desc: tl('sqlNoResultDesc'),
+    value: ruleMetrics.value['failed.no_result'],
+    className: 'no-result-bg',
+  },
+  {
+    label: tl('executionSpeed'),
+    value: ruleMetrics.value['matched.rate'],
+    className: 'rate-bg',
+    unit: t('RuleEngine.rateUnit', 0),
+  },
+  {
+    label: tl('rateLast5M'),
+    value: ruleMetrics.value['matched.rate.last5m'],
+    className: 'last-five-rate-bg',
+    unit: t('RuleEngine.rateUnit', 0),
+  },
+  {
+    label: tl('rateMax'),
+    value: ruleMetrics.value['matched.rate.max'],
+    className: 'max-rate-bg',
+    unit: t('RuleEngine.rateUnit', 0),
+  },
+])
+
+const actionStatistics = computed(() => [
+  {
+    label: tl('success'),
+    desc: tl('actionSuccessDesc'),
+    value: ruleMetrics.value['actions.success'],
+    className: 'success-bg',
+  },
+  {
+    label: tl('ErrNum'),
+    desc: tl('actionFailedDesc'),
+    value: ruleMetrics.value['actions.failed'],
+    className: 'failed-bg',
+  },
+  {
+    label: tl('total'),
+    desc: tl('actionTotalDesc'),
+    value: ruleMetrics.value['actions.total'],
+    className: 'rate-bg',
+  },
+  {
+    label: tl('outOfService'),
+    desc: tl('actionOutOfServiceDesc'),
+    value: ruleMetrics.value['actions.failed.out_of_service'],
+    className: 'failed-bg',
+  },
+  {
+    label: tl('unknown'),
+    desc: tl('actionUnknownDesc'),
+    value: ruleMetrics.value['actions.failed.unknown'],
+    className: 'max-rate-bg',
+  },
+])
 
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
   return []
