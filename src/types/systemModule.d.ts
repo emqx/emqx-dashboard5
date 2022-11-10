@@ -44,12 +44,12 @@ export interface Exhook extends ExhookFormForCreate {
       rate_last5m: number
     }
   }>
-  metrics: Array<{
+  metrics: {
     failed: number
     max_rate: number
     rate: number
     succeed: number
-  }>
+  }
   node_metrics: Array<{
     metrics: Metrics
     node: string

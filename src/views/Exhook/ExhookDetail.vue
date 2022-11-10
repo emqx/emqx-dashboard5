@@ -18,39 +18,7 @@
       </div>
       <el-tabs type="card" class="detail-tabs" v-model="activeTab">
         <el-tab-pane :label="tl('overview')" name="overview">
-          <el-card class="app-card exhook-metrics-card">
-            <h6 class="block-title metrics-title">{{ tl('metricsData') }}</h6>
-            <div class="metrics-data-content">
-              <el-row>
-                <el-col :span="4">
-                  <span class="metric-num">
-                    {{ exhookData?.hooks?.length }}
-                  </span>
-                  <p class="metric-type">{{ tl('registeredHooks') }}</p>
-                </el-col>
-                <el-col :span="4">
-                  <span class="metric-num">
-                    {{ exhookData?.metrics?.succeed }}
-                  </span>
-                  <p class="metric-type">{{ tl('success') }}</p>
-                </el-col>
-                <el-col :span="4">
-                  <span class="metric-num">{{ exhookData?.metrics?.failed }}</span>
-                  <p class="metric-type">{{ tl('failure') }}</p>
-                </el-col>
-                <el-col :span="4">
-                  <span class="metric-num">{{ exhookData?.metrics?.rate }}</span>
-                  <p class="metric-type">{{ tl('currentSpeed') }}</p>
-                </el-col>
-              </el-row>
-            </div>
-          </el-card>
-          <el-card class="app-card">
-            <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
-            <el-button type="primary" :loading="isSubmitting" @click="updateExhook">
-              {{ $t('Base.update') }}
-            </el-button>
-          </el-card>
+          <ExhookItemOverview :exhook="exhookData" />
         </el-tab-pane>
         <el-tab-pane :label="tl('registeredHooks')" name="hooks">
           <el-table :data="registeredHooks">
@@ -77,6 +45,14 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
+        <el-tab-pane :label="t('Base.setting')">
+          <el-card class="app-card">
+            <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
+            <el-button type="primary" :loading="isSubmitting" @click="updateExhook">
+              {{ $t('Base.update') }}
+            </el-button>
+          </el-card>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -99,6 +75,7 @@ import { stringifyObjSafely } from '@/common/tools'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import useSSL from '@/hooks/useSSL'
 import DetailHeader from '@/components/DetailHeader.vue'
+import ExhookItemOverview from './components/ExhookItemOverview.vue'
 
 const router = useRouter()
 const route = useRoute()
