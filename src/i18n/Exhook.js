@@ -127,4 +127,12 @@ export default {
     zh: '次/秒',
     en: 'time/sec',
   },
+  nodeMetricsData: {
+    zh: '节点指标',
+    en: 'Node Metrics',
+  },
+  nodeStatusDesc: {
+    zh: '每个节点上钩子执行指标数据',
+    en: 'Hook execution metrics data on each node',
+  },
 }
