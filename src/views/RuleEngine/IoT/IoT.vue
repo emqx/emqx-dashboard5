@@ -29,7 +29,7 @@
         <template #default="{ row }">
           <el-tooltip effect="dark" placement="top-start" popper-class="code-popper">
             <template #content>
-              <CodeView lang="sql" :code="row.sql" />
+              <CodeView lang="sql" :code="row.sql" :show-copy-btn="false" />
             </template>
             <div class="inputs-container">
               <el-tag class="input-item" type="info" v-for="item in row.from" :key="item">{{
@@ -214,6 +214,8 @@ onMounted(() => {
   padding: 0;
   .code-view {
     margin: 0;
+  }
+  .hljs {
     padding: 12px;
   }
 }

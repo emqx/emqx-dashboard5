@@ -35,9 +35,6 @@
               </div>
             </div>
             <div class="code-container">
-              <el-icon class="icon-copy" @click="copyText(formatSQL(item.sql_example))">
-                <copy-document />
-              </el-icon>
               <CodeView :code="formatSQL(item.sql_example)" lang="sql" />
             </div>
           </div>
@@ -84,13 +81,10 @@
 <script setup lang="ts">
 import { formatSQL } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
-import useCopy from '@/hooks/useCopy'
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { EventForRule } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
-import { CopyDocument } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { camelCase, capitalize } from 'lodash'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
 import { useStore } from 'vuex'
@@ -145,15 +139,6 @@ const getEventDocLink = (event: string) => {
     hook = `${zhHookMap[event] || ''}-${hook}`
   }
   return `${docMap.ruleEvent}#${hook}`
-}
-
-const { copyText: execCopy } = useCopy()
-const copyText = async (text: string) => {
-  try {
-    execCopy(text)
-  } catch (error) {
-    ElMessage.error(t('Base.opErr'))
-  }
 }
 
 const useEvent = (event: string) => {

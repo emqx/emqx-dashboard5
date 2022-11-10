@@ -88,7 +88,7 @@
     </template> -->
     <el-dialog v-model="showSQLDialog" class="sql-dialog" :title="tl('sqlExample')">
       <p>{{ eventDesc }}</p>
-      <code-view v-if="showSQLDialog" lang="sql" :code="sqlExample" />
+      <code-view v-if="showSQLDialog" lang="sql" :code="sqlExample" :show-copy-btn="false" />
       <template #footer>
         <el-button @click="useSQL(sqlExample)">
           {{ tl('useSQL') }}
