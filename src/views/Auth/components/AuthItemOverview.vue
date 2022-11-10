@@ -7,40 +7,7 @@
           {{ $t('Base.refresh') }}
         </el-button>
       </div>
-      <el-row :gutter="28">
-        <el-col :span="6">
-          <el-card class="success-bg">
-            <p class="statistic-label">{{ tl('SuccessNum') }}</p>
-            <p class="statistic-num">
-              {{ formatNumber(isAuthn ? metrics?.metrics?.success : metrics?.metrics?.allow) }}
-            </p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="failed-bg">
-            <p class="statistic-label">{{ tl('ErrNum') }}</p>
-            <p class="statistic-num">
-              {{ formatNumber(isAuthn ? metrics?.metrics?.failed : metrics?.metrics?.deny) }}
-            </p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="matched-bg">
-            <p class="statistic-label">{{ tl('noMatch') }}</p>
-            <p class="statistic-num">
-              {{ formatNumber(metrics?.metrics?.nomatch) }}
-            </p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="rate-bg">
-            <p class="statistic-label">{{ tl('speedNow') }}<span class="unit">(tps)</span></p>
-            <p class="statistic-num">
-              <span>{{ formatNumber(metrics?.metrics?.rate) }}</span>
-            </p>
-          </el-card>
-        </el-col>
-      </el-row>
+      <TargetDetailMetrics :metrics="metricsData" />
     </div>
     <div class="overview-sub-block">
       <h2>{{ tl('nodeStatus') }}</h2>
@@ -79,11 +46,11 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, PropType, computed, ref, Ref, watch, defineEmits } from 'vue'
 import { ConnectionStatus } from '@/types/enum'
-import { formatNumber } from '@/common/tools'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { Metrics } from '@/types/auth'
 import useI18nTl from '@/hooks/useI18nTl'
 import { upperFirst } from 'lodash'
+import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 
 const props = defineProps({
   metrics: {
@@ -113,6 +80,29 @@ const nodeMetrics = computed(() => {
   const nodeMetricsData = props.metrics?.node_metrics
   return Array.isArray(nodeMetricsData) ? nodeMetricsData : []
 })
+
+const metricsData = computed(() => [
+  {
+    label: tl('SuccessNum'),
+    value: isAuthn.value ? props.metrics?.metrics?.success : props.metrics?.metrics?.allow,
+    className: 'success-bg',
+  },
+  {
+    label: tl('ErrNum'),
+    value: isAuthn.value ? props.metrics?.metrics?.failed : props.metrics?.metrics?.deny,
+    className: 'failed-bg',
+  },
+  {
+    label: tl('noMatch'),
+    value: props.metrics?.metrics?.nomatch,
+    className: 'matched-bg',
+  },
+  {
+    label: `${tl('speedNow')}(tps)`,
+    value: props.metrics?.metrics?.rate,
+    className: 'rate-bg',
+  },
+])
 
 const nodeStatusTableData = computed(() => {
   return nodeMetrics.value.map(({ node, metrics }) => {
