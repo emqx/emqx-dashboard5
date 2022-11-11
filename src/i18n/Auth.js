@@ -375,6 +375,10 @@ export default {
     zh: '权限',
     en: 'Permission',
   },
+  permissions: {
+    zh: '权限管理',
+    en: 'Permissions',
+  },
   action: {
     zh: '操作',
     en: 'Action',
