@@ -138,7 +138,7 @@ const ruleMetrics: ComputedRef<Metrics> = computed(() => {
 
 const runningStatistics = computed(() => [
   {
-    label: tl('sqlMatched'),
+    label: tl('matched'),
     desc: tl('sqlMatchedDesc'),
     value: ruleMetrics.value['matched'],
     className: 'success-bg',
