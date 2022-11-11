@@ -13,24 +13,22 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <template v-if="tableLen > 1">
-          <el-dropdown-item command="up" :disabled="rowIndex === 0">
-            <el-icon><ArrowUp /></el-icon>
-            {{ $t('Base.up') }}
-          </el-dropdown-item>
-          <el-dropdown-item command="down" :disabled="rowIndex === tableLen - 1">
-            <el-icon><ArrowDown /></el-icon>
-            <span>{{ $t('Base.down') }}</span>
-          </el-dropdown-item>
-          <el-dropdown-item command="top" :disabled="rowIndex === 0">
-            <el-icon><Top /></el-icon>
-            <span>{{ $t('Plugins.moveToTop') }}</span>
-          </el-dropdown-item>
-          <el-dropdown-item command="bottom" :disabled="rowIndex === tableLen - 1">
-            <el-icon><Bottom /></el-icon>
-            <span>{{ $t('Plugins.moveToBottom') }}</span>
-          </el-dropdown-item>
-        </template>
+        <el-dropdown-item command="up" :disabled="rowIndex === 0">
+          <el-icon><ArrowUp /></el-icon>
+          {{ $t('Base.up') }}
+        </el-dropdown-item>
+        <el-dropdown-item command="down" :disabled="rowIndex === tableLen - 1">
+          <el-icon><ArrowDown /></el-icon>
+          <span>{{ $t('Base.down') }}</span>
+        </el-dropdown-item>
+        <el-dropdown-item command="top" :disabled="rowIndex === 0">
+          <el-icon><Top /></el-icon>
+          <span>{{ $t('Plugins.moveToTop') }}</span>
+        </el-dropdown-item>
+        <el-dropdown-item command="bottom" :disabled="rowIndex === tableLen - 1">
+          <el-icon><Bottom /></el-icon>
+          <span>{{ $t('Plugins.moveToBottom') }}</span>
+        </el-dropdown-item>
         <el-dropdown-item command="delete" class="danger">
           <el-icon><Delete /></el-icon>
           <span>{{ $t('Base.delete') }}</span>
