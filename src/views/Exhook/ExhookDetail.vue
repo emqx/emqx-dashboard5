@@ -45,7 +45,7 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane :label="t('Base.setting')">
+        <el-tab-pane :label="t('Base.setting')" name="settings">
           <el-card class="app-card">
             <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
             <el-button type="primary" :loading="isSubmitting" @click="updateExhook">
