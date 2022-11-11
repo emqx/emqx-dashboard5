@@ -13,93 +13,7 @@
     </div>
     <div class="overview-sub-block">
       <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
-      <el-row class="rule-statistic" :gutter="28">
-        <!-- first row -->
-        <el-col :span="6">
-          <el-card class="matched-bg">
-            <p class="statistic-label">
-              <span>{{ tl('matched') }}</span>
-              <InfoTooltip :content="tl('bridgeMatchedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.matched) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="last-five-rate-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sentSuccessfully') }}</span>
-              <InfoTooltip :content="tl('sentSuccessfullyDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.success) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="failed-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sentFailed') }}</span>
-              <InfoTooltip :content="tl('sentFailedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.failed) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="no-result-bg">
-            <p class="statistic-label">
-              <span>{{ tl('sentInflight') }}</span>
-              <InfoTooltip :content="tl('sentInflightDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.inflight) }}</p>
-          </el-card>
-        </el-col>
-        <!-- second row -->
-
-        <el-col :span="6" v-if="showReceived">
-          <el-card class="max-rate-bg">
-            <p class="statistic-label">
-              <span>{{ tl('received') }}</span>
-              <InfoTooltip :content="tl('receivedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.received) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="failed-bg">
-            <p class="statistic-label">
-              <span>{{ tl('dropped') }}</span>
-              <InfoTooltip :content="tl('droppedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.dropped) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="max-rate-bg">
-            <p class="statistic-label">
-              <span>{{ tl('queuing') }}</span>
-              <InfoTooltip :content="tl('queuingDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.queuing) }}</p>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="success-bg">
-            <p class="statistic-label">
-              <span>{{ tl('retried') }}</span>
-              <InfoTooltip :content="tl('retriedDesc')" />
-            </p>
-            <p class="statistic-num">{{ formatNumber(bridgeMsg?.metrics?.retried) }}</p>
-          </el-card>
-        </el-col>
-        <!-- third row -->
-        <el-col :span="6">
-          <el-card class="rate-bg">
-            <p class="statistic-label">{{ tl('speedNow') }}</p>
-            <p class="statistic-num">
-              <span>{{ formatNumber(bridgeMsg?.metrics?.rate) }}</span>
-              <span class="unit">{{ t('RuleEngine.rateUnit', bridgeMsg?.metrics?.rate) }}</span>
-            </p>
-          </el-card>
-        </el-col>
-      </el-row>
+      <TargetDetailMetrics class="rule-statistic" :metrics="statisticsData" />
     </div>
     <div class="overview-sub-block">
       <div class="card-hd">
@@ -164,12 +78,11 @@ export default defineComponent({
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
 import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
-import { formatNumber } from '@/common/tools'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
-import InfoTooltip from '@/components/InfoTooltip.vue'
+import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 
 const props = defineProps({
   bridgeMsg: {
@@ -212,6 +125,69 @@ const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = comput
 })
 
 const { tl, t } = useI18nTl('RuleEngine')
+
+const statisticsData = computed(() => {
+  const ret = [
+    {
+      label: tl('matched'),
+      desc: tl('bridgeMatchedDesc'),
+      value: props.bridgeMsg?.metrics?.matched,
+      className: 'matched-bg',
+    },
+    {
+      label: tl('sentSuccessfully'),
+      desc: tl('sentSuccessfullyDesc'),
+      value: props.bridgeMsg?.metrics?.success,
+      className: 'last-five-rate-bg',
+    },
+    {
+      label: tl('sentFailed'),
+      desc: tl('sentFailedDesc'),
+      value: props.bridgeMsg?.metrics?.failed,
+      className: 'failed-bg',
+    },
+    {
+      label: tl('sentInflight'),
+      desc: tl('sentInflightDesc'),
+      value: props.bridgeMsg?.metrics?.inflight,
+      className: 'no-result-bg',
+    },
+
+    {
+      label: tl('dropped'),
+      desc: tl('droppedDesc'),
+      value: props.bridgeMsg?.metrics?.dropped,
+      className: 'failed-bg',
+    },
+    {
+      label: tl('queuing'),
+      desc: tl('queuingDesc'),
+      value: props.bridgeMsg?.metrics?.queuing,
+      className: 'max-rate-bg',
+    },
+    {
+      label: tl('retried'),
+      desc: tl('retriedDesc'),
+      value: props.bridgeMsg?.metrics?.retried,
+      className: 'success-bg',
+    },
+    {
+      label: tl('speedNow'),
+      value: props.bridgeMsg?.metrics?.rate,
+      unit: t('RuleEngine.rateUnit', props.bridgeMsg?.metrics?.rate),
+      className: 'rate-bg',
+    },
+  ]
+  if (showReceived.value) {
+    ret.splice(4, 0, {
+      label: tl('received'),
+      desc: tl('receivedDesc'),
+      value: props.bridgeMsg?.metrics?.received,
+      className: 'max-rate-bg',
+    })
+  }
+  return ret
+})
 
 const handleRefresh = () => {
   emit('refresh')
