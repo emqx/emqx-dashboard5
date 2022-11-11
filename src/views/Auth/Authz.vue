@@ -48,7 +48,7 @@
             size="small"
             @click="routeToDetail(row, 'users')"
           >
-            {{ $t('Auth.users') }}
+            {{ $t('Auth.permissions') }}
           </el-button>
           <table-dropdown
             :row-data="row"
