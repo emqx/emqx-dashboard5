@@ -22,24 +22,22 @@
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <template v-if="tableDataLen !== 1">
-            <el-dropdown-item command="moveUp" :disabled="position === 0">
-              <el-icon><ArrowUp /></el-icon>
-              {{ $t('Base.up') }}
-            </el-dropdown-item>
-            <el-dropdown-item command="moveDown" :disabled="position === tableDataLen - 1">
-              <el-icon><ArrowDown /></el-icon>
-              {{ $t('Base.down') }}
-            </el-dropdown-item>
-            <el-dropdown-item command="moveToTop" :disabled="position === 0">
-              <el-icon><Top /></el-icon>
-              {{ $t('Base.moveToTop') }}
-            </el-dropdown-item>
-            <el-dropdown-item command="moveToBottom" :disabled="position === tableDataLen - 1">
-              <el-icon><Bottom /></el-icon>
-              {{ $t('Base.moveToBottom') }}
-            </el-dropdown-item>
-          </template>
+          <el-dropdown-item command="moveUp" :disabled="position === 0">
+            <el-icon><ArrowUp /></el-icon>
+            {{ $t('Base.up') }}
+          </el-dropdown-item>
+          <el-dropdown-item command="moveDown" :disabled="position === tableDataLen - 1">
+            <el-icon><ArrowDown /></el-icon>
+            {{ $t('Base.down') }}
+          </el-dropdown-item>
+          <el-dropdown-item command="moveToTop" :disabled="position === 0">
+            <el-icon><Top /></el-icon>
+            {{ $t('Base.moveToTop') }}
+          </el-dropdown-item>
+          <el-dropdown-item command="moveToBottom" :disabled="position === tableDataLen - 1">
+            <el-icon><Bottom /></el-icon>
+            {{ $t('Base.moveToBottom') }}
+          </el-dropdown-item>
           <el-dropdown-item class="danger" command="delete">
             <el-icon><Delete /></el-icon>
             {{ $t('Base.delete') }}
