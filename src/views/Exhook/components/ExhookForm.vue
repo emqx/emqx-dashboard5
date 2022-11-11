@@ -6,87 +6,75 @@
     :model="formData"
     :rules="rules"
   >
-    <div class="form-sub-block">
-      <p class="block-title form-sub-block-title">{{ tl('basicInfo') }}</p>
-      <el-row :gutter="24">
-        <el-col :span="12">
-          <el-form-item required prop="name" :label="tl('name')">
-            <el-input v-model="formData.name" :disabled="isEdit" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </div>
-    <div class="form-sub-block">
-      <p class="block-title form-sub-block-title">{{ tl('connectionParameters') }}</p>
-      <el-row :gutter="24">
-        <el-col :span="12">
-          <el-form-item required prop="url">
-            <template #label>
-              <label>URL</label>
-              <InfoTooltip :content="tl('urlDesc')" />
-            </template>
-            <el-input v-model="formData.url" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="24">
-        <el-col :span="12">
-          <el-form-item required prop="pool_size">
-            <template #label>
-              <label>Pool size</label>
-              <InfoTooltip :content="tl('poolSizeDesc')" />
-            </template>
-            <el-input v-model.number="formData.pool_size" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item required prop="request_timeout">
-            <template #label>
-              <label>{{ tl('requestTimeOut') }}</label>
-              <InfoTooltip :content="tl('requestTimeOutDesc')" />
-            </template>
-            <InputWithUnit v-model="formData.request_timeout" :units="timeoutUnits" />
-          </el-form-item>
-        </el-col>
+    <el-row :gutter="24">
+      <el-col :span="12">
+        <el-form-item required prop="name" :label="tl('name')">
+          <el-input v-model="formData.name" :disabled="isEdit" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item required prop="url">
+          <template #label>
+            <label>URL</label>
+            <InfoTooltip :content="tl('urlDesc')" />
+          </template>
+          <el-input v-model="formData.url" />
+        </el-form-item>
+      </el-col>
 
-        <el-col :span="12">
-          <el-form-item required prop="failed_action">
-            <template #label>
-              <label>{{ tl('failedAction') }}</label>
-              <InfoTooltip :content="tl('failedActionDesc')" />
-            </template>
-            <el-select v-model="formData.failed_action">
-              <el-option :label="ExhookFailedAction.Deny" :value="ExhookFailedAction.Deny" />
-              <el-option :label="ExhookFailedAction.Ignore" :value="ExhookFailedAction.Ignore" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item>
-            <template #label>
-              <label>{{ tl('autoReconnect') }}</label>
-              <InfoTooltip :content="tl('autoReconnectDesc')" />
-            </template>
-            <el-select v-model="autoReconnect">
-              <el-option label="true" :value="true" />
-              <el-option label="false" :value="false" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12" v-if="autoReconnect">
-          <el-form-item required prop="auto_reconnect">
-            <template #label>
-              <label>{{ tl('autoReconnectInterval') }}</label>
-            </template>
-            <InputWithUnit
-              v-model="formData.auto_reconnect"
-              :units="timeoutUnits"
-              default-unit="s"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </div>
+      <el-col :span="12">
+        <el-form-item required prop="pool_size">
+          <template #label>
+            <label>Pool size</label>
+            <InfoTooltip :content="tl('poolSizeDesc')" />
+          </template>
+          <el-input v-model.number="formData.pool_size" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item required prop="request_timeout">
+          <template #label>
+            <label>{{ tl('requestTimeOut') }}</label>
+            <InfoTooltip :content="tl('requestTimeOutDesc')" />
+          </template>
+          <InputWithUnit v-model="formData.request_timeout" :units="timeoutUnits" />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="12">
+        <el-form-item required prop="failed_action">
+          <template #label>
+            <label>{{ tl('failedAction') }}</label>
+            <InfoTooltip :content="tl('failedActionDesc')" />
+          </template>
+          <el-select v-model="formData.failed_action">
+            <el-option :label="ExhookFailedAction.Deny" :value="ExhookFailedAction.Deny" />
+            <el-option :label="ExhookFailedAction.Ignore" :value="ExhookFailedAction.Ignore" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item>
+          <template #label>
+            <label>{{ tl('autoReconnect') }}</label>
+            <InfoTooltip :content="tl('autoReconnectDesc')" />
+          </template>
+          <el-select v-model="autoReconnect">
+            <el-option label="true" :value="true" />
+            <el-option label="false" :value="false" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="12" v-if="autoReconnect">
+        <el-form-item required prop="auto_reconnect">
+          <template #label>
+            <label>{{ tl('autoReconnectInterval') }}</label>
+          </template>
+          <InputWithUnit v-model="formData.auto_reconnect" :units="timeoutUnits" default-unit="s" />
+        </el-form-item>
+      </el-col>
+    </el-row>
     <CommonTLSConfig v-model="formData.ssl" :is-edit="isEdit" />
   </el-form>
 </template>
@@ -182,8 +170,11 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped>
-.form-sub-block-title {
-  margin-bottom: 8px;
+<style lang="scss">
+.exhook-create-form {
+  .TLS-base-config-title {
+    font-size: 14 px;
+    font-weight: normal;
+  }
 }
 </style>
