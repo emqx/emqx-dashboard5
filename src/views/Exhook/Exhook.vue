@@ -20,41 +20,33 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('numberOfHooks')" :min-width="160">
-        <template #default="{ row }">
-          {{ row.hooks.length }}
-        </template>
-      </el-table-column>
-      <el-table-column :label="tl('success')" :min-width="120">
-        <template #default="{ row }">
-          {{ row.metrics?.succeed }}
-        </template>
-      </el-table-column>
-      <el-table-column :label="tl('failure')" :min-width="120">
-        <template #default="{ row }">
-          {{ row.metrics?.failed }}
-        </template>
-      </el-table-column>
-      <el-table-column :label="`${tl('speed')}(${tl('second')})`" :min-width="136">
-        <template #default="{ row }">
-          {{ row.metrics?.rate }}
-        </template>
-      </el-table-column>
+      <el-table-column :label="tl('numberOfHooks')" :min-width="144" prop="hooks.length" />
+      <el-table-column :label="tl('success')" :min-width="100" prop="metrics.succeed" />
+      <el-table-column :label="tl('failure')" :min-width="100" prop="metrics.failed" />
+      <el-table-column
+        :label="`${tl('speed')}(${tl('second')})`"
+        :min-width="136"
+        prop="metrics.rate"
+      />
+
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
         <template #default="{ row }">
           <el-switch v-model="row.enable" @change="changeExhookStatus(row)" />
         </template>
       </el-table-column>
       <!-- FIXME: -->
-      <el-table-column :label="tl('status')" :min-width="132">
+      <el-table-column :label="tl('status')" :min-width="128">
         <template #default="{ row }">
           <ExhookItemStatus :exhook="row" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="168">
+      <el-table-column :label="$t('Base.operation')" :min-width="232">
         <template #default="{ row, $index }">
           <el-button size="small" @click="goExhookDetail(row, 'hooks')">
             {{ tl('hooks') }}
+          </el-button>
+          <el-button size="small" @click="goExhookDetail(row, 'settings')">
+            {{ $t('Base.setting') }}
           </el-button>
           <TableItemDropdown
             :row-data="row"
