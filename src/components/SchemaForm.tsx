@@ -524,19 +524,21 @@ const SchemaForm = defineComponent({
       const btnStyles = {
         left: store.state.leftBarCollapse ? '104px' : '224px',
       }
-      const groupTabs = groups.value.map((group: string) => (
-        // There is no content inside the tab pane, and the renderSchemaForm function
-        // is retriggered after the tab switch to change the content
-        <el-tab-pane label={tl(group)} name={group} />
-      ))
-      let tabs: JSX.Element | null = (
-        <el-tabs type="card" v-model={currentGroup.value} class="group-tabs">
-          {groupTabs}
-        </el-tabs>
-      )
+
+      let groupTabs = null
+      let tabs: JSX.Element | null = null
       // do not show tabs when there are just one tab(i think, maybe) or is bridge
-      if (typesDoNotNeedGroups.includes(props.type) || groups.value.length === 1) {
-        tabs = null
+      if (!(typesDoNotNeedGroups.includes(props.type) || groups.value.length === 1)) {
+        groupTabs = groups.value.map((group: string) => (
+          // There is no content inside the tab pane, and the renderSchemaForm function
+          // is retriggered after the tab switch to change the content
+          <el-tab-pane label={tl(group)} name={group} />
+        ))
+        tabs = (
+          <el-tabs type="card" v-model={currentGroup.value} class="group-tabs">
+            {groupTabs}
+          </el-tabs>
+        )
       }
       return (
         <>
