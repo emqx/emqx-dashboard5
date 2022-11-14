@@ -1,12 +1,33 @@
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash'
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, Ref } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import { useStore } from 'vuex'
+import { isEqual, cloneDeep } from 'lodash'
+
+export const useCheckDataChanged = (
+  nowData: Ref<any>,
+): {
+  setRawData: (data: any) => void
+  checkDataIsChanged: () => boolean
+} => {
+  let rawData: any = undefined
+
+  const checkDataIsChanged = () => !isEqual(rawData, nowData.value)
+
+  const setRawData = (data: any) => {
+    rawData = cloneDeep(data)
+  }
+
+  return {
+    setRawData,
+    checkDataIsChanged,
+  }
+}
 
 export default (countIsRecordChanged?: () => boolean): void => {
-  const { tl } = useI18nTl('RuleEngine')
+  const { t } = useI18nTl('RuleEngine')
 
   const { getters } = useStore()
   const unloadHandler = (event: BeforeUnloadEvent) => {
@@ -34,10 +55,10 @@ export default (countIsRecordChanged?: () => boolean): void => {
     }
     return ElMessageBox({
       type: 'info',
-      title: tl('leavePage'),
-      message: tl('unloadTip'),
+      title: t('Base.leavePage'),
+      message: t('Base.unloadTip'),
       showCancelButton: true,
-      confirmButtonText: tl('leave'),
+      confirmButtonText: t('Base.leave'),
       showClose: false,
       closeOnClickModal: false,
       closeOnPressEscape: false,
@@ -45,10 +66,10 @@ export default (countIsRecordChanged?: () => boolean): void => {
     })
   }
 
-  onBeforeRouteLeave(async () => {
+  onBeforeRouteLeave(async (to) => {
     try {
       // is same
-      if (!isFunction(countIsRecordChanged) || countIsRecordChanged()) {
+      if (to.name !== 'login' && (!isFunction(countIsRecordChanged) || countIsRecordChanged())) {
         await customPopupWarning()
       }
       return

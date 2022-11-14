@@ -2,6 +2,7 @@
   <div class="mqtt app-wrapper">
     <el-card>
       <schema-form
+        ref="SchemaFormCom"
         :according-to="{ path: '/configs/zones' }"
         type="mqtt"
         :form="configs"
@@ -20,6 +21,8 @@ import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
 import { Zone } from '../../../types/config'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import { cloneDeep, isEqual } from 'lodash'
 
 export default defineComponent({
   name: 'Mqtt',
@@ -30,10 +33,17 @@ export default defineComponent({
     const configs = ref({})
     const saveLoading = ref(false)
     const { t } = useI18n()
+
+    let rawData: any = undefined
+    const SchemaFormCom = ref()
+    const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
+    useDataNotSaveConfirm(checkDataIsChanged)
+
     const loadData = async () => {
       const res = await getDefaultZoneConfigs()
       if (res) {
         configs.value = res
+        rawData = cloneDeep(res)
       }
     }
     const reloading = () => {
@@ -56,6 +66,7 @@ export default defineComponent({
     }
     loadData()
     return {
+      SchemaFormCom,
       configs,
       saveLoading,
       handleSave,
