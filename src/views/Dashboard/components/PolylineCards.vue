@@ -72,6 +72,8 @@ const { tl } = useI18nTl('Dashboard')
 
 const timeRange = ref(3600)
 
+const isLoading = ref(false)
+
 const timeRangeOptions = [
   { label: tl('lastHour'), value: 3600 },
   { label: tl('last6Hours'), value: 21600 },
@@ -150,17 +152,24 @@ const chartColorList = computed<Record<string, string[]>>(() => {
 })
 
 const loadChartMetrics = async () => {
-  const data = await loadChartData(timeRange.value)
-  dataTypeList.forEach((typeName) => {
-    metricLog[typeName] = chartDataFill(1)
-  })
-  data.forEach((data: Record<string, any>) => {
+  try {
+    isLoading.value = true
+    const data = await loadChartData(timeRange.value)
     dataTypeList.forEach((typeName) => {
-      const currentData = metricLog[typeName][0]
-      currentData.xData.push(data.time_stamp)
-      currentData.yData.push(data[typeName])
+      metricLog[typeName] = chartDataFill(1)
     })
-  })
+    data.forEach((data: Record<string, any>) => {
+      dataTypeList.forEach((typeName) => {
+        const currentData = metricLog[typeName][0]
+        currentData.xData.push(data.time_stamp)
+        currentData.yData.push(data[typeName])
+      })
+    })
+  } catch (error) {
+    //
+  } finally {
+    isLoading.value = false
+  }
 }
 
 const clearTimer = () => {
