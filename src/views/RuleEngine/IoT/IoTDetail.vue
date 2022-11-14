@@ -56,7 +56,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { cloneDeep, isEqual } from 'lodash'
-import useRuleEditingPageUnload from '@/hooks/Rule/rule/useRuleEditingPageUnload'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 
 enum Tab {
@@ -87,7 +87,7 @@ if (queryTab.value) {
 const { tl } = useI18nTl('RuleEngine')
 
 const countIsRuleRecordChanged = () => !isEqual(rawRuleInfo, ruleInfo.value)
-useRuleEditingPageUnload(countIsRuleRecordChanged)
+useDataNotSaveConfirm(countIsRuleRecordChanged)
 
 const loadRuleDetail = async () => {
   infoLoading.value = true
