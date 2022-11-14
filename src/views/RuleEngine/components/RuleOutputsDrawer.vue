@@ -3,7 +3,7 @@
     :title="!isEdit ? tl('addAction') : tl('editAction')"
     v-model="showDrawer"
     :lock-scroll="false"
-    size="50%"
+    size="60%"
     destroy-on-close
   >
     <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
@@ -107,11 +107,13 @@
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>
+    <AddBridgeOnRule v-model="showAddBridgeDrawer" @added="handleAddedBridge" />
   </el-drawer>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'RuleOutputsDrawer',
@@ -129,11 +131,11 @@ import {
   Ref,
   onActivated,
   nextTick,
+  PropType,
 } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { getBridgeList } from '@/api/ruleengine'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
-import { BridgeItem } from '@/types/rule'
+import { BridgeItem, OutputItemObj } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
 import { useRoute } from 'vue-router'
 import { Plus } from '@element-plus/icons-vue'
@@ -142,14 +144,14 @@ import useFormRules from '@/hooks/useFormRules'
 import useDocLink from '@/hooks/useDocLink'
 import { createRandomString } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
+import AddBridgeOnRule from './AddBridgeOnRule.vue'
 
 type OutputForm = {
   type: string
   args?: Record<string, unknown>
 }
 
-const { t } = useI18n()
-const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const { tl, t } = useI18nTl('RuleEngine')
 const BridgeDetailRef = ref()
 
 const props = defineProps({
@@ -157,10 +159,11 @@ const props = defineProps({
     type: Boolean,
   },
   output: {
+    type: Object as PropType<OutputItemObj>,
     required: false,
   },
   outputDisableList: {
-    type: Array,
+    type: Array as PropType<Array<string>>,
     required: true,
   },
   edit: {
@@ -169,7 +172,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'submit', 'openAddBridge'])
+const emit = defineEmits(['update:modelValue', 'submit'])
 
 const createRawOutputForm = (): OutputForm => ({
   type: '',
@@ -263,8 +266,15 @@ const isDisabledBridge = ({ id }: BridgeItem) => {
   return props.outputDisableList.includes(id) && id !== props.output
 }
 
+const showAddBridgeDrawer = ref(false)
 const addBridge = () => {
-  emit('openAddBridge')
+  showAddBridgeDrawer.value = true
+}
+
+const handleAddedBridge = (bridgeId: string) => {
+  showAddBridgeDrawer.value = false
+  outputForm.value.type = RuleOutput.DataBridge
+  bridgeForm.value.id = bridgeId
 }
 
 const submitOutput = async (edit = false) => {

@@ -95,7 +95,7 @@
               {{ stats['connections.count'] }}/{{ stats['connections.max'] }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('topics')">
-              {{ stats['connections.count'] }}/{{ stats['connections.max'] }}
+              {{ stats['topics.count'] }}/{{ stats['topics.max'] }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('retained')">
               {{ stats['retained.count'] }}/{{ stats['retained.max'] }}
