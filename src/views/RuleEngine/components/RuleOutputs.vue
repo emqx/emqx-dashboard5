@@ -41,12 +41,6 @@
     :output-disable-list="outputDisableList"
     :edit="isEdit"
     @submit="submitOutput"
-    @openAddBridge="openAddBridge"
-  />
-  <AddBridgeOnRule
-    v-model="showAddBridgeDrawer"
-    @close="handleCloseAddBridge"
-    @added="handleAddedBridge"
   />
 </template>
 
@@ -67,8 +61,6 @@ import { Plus } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import { upperFirst } from 'lodash'
 import { computed, defineEmits, defineProps, PropType, ref, Ref, WritableComputedRef } from 'vue'
-import { useI18n } from 'vue-i18n'
-import AddBridgeOnRule from './AddBridgeOnRule.vue'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
 
 const BRIDGE_TYPE_ID_CONNECTOR = ':'
@@ -91,10 +83,8 @@ const ruleValue: WritableComputedRef<RuleItem | BasicRule> = computed({
   },
 })
 
-const { t } = useI18n()
-const { tl } = useI18nTl('RuleEngine')
+const { tl, t } = useI18nTl('RuleEngine')
 const showOutputDrawer = ref(false)
-const showAddBridgeDrawer = ref(false)
 const outputDisableList: Ref<Array<string>> = ref([])
 const isEdit = ref(false)
 const editIndex: Ref<number | undefined> = ref(undefined)
@@ -102,22 +92,6 @@ const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
 
 const { getBridgeIconKey } = useBridgeTypeIcon()
 const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
-
-const openAddBridge = () => {
-  showOutputDrawer.value = false
-  showAddBridgeDrawer.value = true
-}
-
-const handleCloseAddBridge = () => {
-  showAddBridgeDrawer.value = false
-  showOutputDrawer.value = true
-}
-
-const handleAddedBridge = async (bridgeId: string) => {
-  currentOutputItem.value = bridgeId
-  showAddBridgeDrawer.value = false
-  showOutputDrawer.value = true
-}
 
 const calcDisableList = () => {
   outputDisableList.value = []
@@ -156,14 +130,18 @@ const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void 
 }
 
 const deleteOutput = async (itemIndex: number | undefined) => {
-  await MB.confirm(t('Base.confirmDelete'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    type: 'warning',
-  })
-  if (itemIndex !== undefined && Array.isArray(ruleValue.value.actions)) {
-    ruleValue.value.actions?.splice(itemIndex, 1)
-    calcDisableList()
+  try {
+    await MB.confirm(t('Base.confirmDelete'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
+    })
+    if (itemIndex !== undefined && Array.isArray(ruleValue.value.actions)) {
+      ruleValue.value.actions?.splice(itemIndex, 1)
+      calcDisableList()
+    }
+  } catch (error) {
+    //
   }
 }
 
@@ -185,8 +163,7 @@ const judgeOutputType = (output: OutputItem) => {
       // bridge
       return RuleOutput.DataBridge
     }
-  }
-  if (
+  } else if (
     typeof output === 'object' &&
     'function' in output &&
     (output.function === RuleOutput.Republish || output.function === RuleOutput.Console)
