@@ -2,13 +2,13 @@
   <div class="session app-wrapper">
     <el-card>
       <schema-form
+        ref="SchemaFormCom"
         :according-to="{ path: '/configs/zones' }"
         type="session"
         :form="configs"
         :btn-loading="saveLoading"
         @save="handleSave"
-      >
-      </schema-form>
+      />
     </el-card>
   </div>
 </template>
@@ -21,6 +21,8 @@ import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
 import { Zone } from '../../../types/config'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import { cloneDeep, isEqual } from 'lodash'
 
 export default defineComponent({
   name: 'Session',
@@ -31,6 +33,12 @@ export default defineComponent({
     const configs = ref<Record<string, any>>({})
     const saveLoading = ref(false)
     const { t } = useI18n()
+
+    let rawData: any = undefined
+    const SchemaFormCom = ref()
+    const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
+    useDataNotSaveConfirm(checkDataIsChanged)
+
     const handleMpField = async (mqueue_priorities: string | Record<string, any>) => {
       if (mqueue_priorities === 'disabled') {
         return Promise.resolve(mqueue_priorities)
@@ -57,6 +65,7 @@ export default defineComponent({
           res.mqtt.mqueue_priorities = stringData
         }
         configs.value = res
+        rawData = cloneDeep(res)
       }
     }
     const reloading = () => {
@@ -89,6 +98,7 @@ export default defineComponent({
       configs,
       saveLoading,
       handleSave,
+      SchemaFormCom,
     }
   },
 })

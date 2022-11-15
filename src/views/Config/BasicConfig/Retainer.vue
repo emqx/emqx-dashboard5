@@ -19,9 +19,9 @@
               </el-table-column>
               <el-table-column :label="$t('Base.operation')">
                 <template #default="{ row }">
-                  <el-button size="small" @click="checkPayload(row)">{{
-                    tl('openPayload')
-                  }}</el-button>
+                  <el-button size="small" @click="checkPayload(row)">
+                    {{ tl('openPayload') }}
+                  </el-button>
                   <el-button size="small" type="danger" plain @click="deleteRetainerTopic(row)">
                     {{ $t('Base.delete') }}
                   </el-button>
@@ -210,7 +210,7 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { nextTick, onMounted, onUnmounted, reactive, ref, watch, computed } from 'vue'
 import {
   getRetainer,
   getRetainerList,
@@ -227,6 +227,7 @@ import useCopy from '@/hooks/useCopy'
 import useFormRules from '@/hooks/useFormRules'
 import usePagination from '@/hooks/usePagination'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 
 const { tl, t } = useI18nTl('Advanced')
 const { copyText } = useCopy(copySuccess)
@@ -266,7 +267,6 @@ const selOptions = reactive({
 
 const { page, limit, count, resetPageNum } = usePagination()
 let configLoading = ref(true)
-let configEnable = ref(false)
 let tbLoading = ref(true)
 let tbData = ref([])
 let payloadDialog = ref(false)
@@ -314,6 +314,11 @@ const retainerRules = ref({
   },
 })
 
+const configEnable = computed(() => retainerConfig?.enable === true)
+
+const { setRawData, checkDataIsChanged } = useCheckDataChanged(ref(retainerConfig))
+useDataNotSaveConfirm(checkDataIsChanged)
+
 watch(
   () => ({ ...selOptions }),
   async (newV) => {
@@ -339,21 +344,13 @@ const loadConfigData = async () => {
     let res = await getRetainer()
     if (res) {
       Object.assign(retainerConfig, res)
-      getConfigFormEnable()
       derivedOptionsFromConfig()
+      setRawData(retainerConfig)
     }
   } catch (error) {
     console.error(error)
   } finally {
     configLoading.value = false
-  }
-}
-
-const getConfigFormEnable = () => {
-  if (retainerConfig?.enable === true) {
-    configEnable.value = true
-  } else {
-    configEnable.value = false
   }
 }
 
@@ -399,17 +396,17 @@ const updateConfigData = async function () {
   let valid = await retainerForm.value.validate().catch(() => {})
   if (!valid) return
 
-  configLoading.value = true
-  const formData = transDataToSubmit(retainerConfig)
-
-  let res = await updateRetainer(formData).catch(() => {})
-  if (res) {
-    getConfigFormEnable()
+  try {
+    configLoading.value = true
+    const formData = transDataToSubmit(retainerConfig)
+    await updateRetainer(formData)
+    setRawData(retainerConfig)
     ElMessage.success(t('Base.updateSuccess'))
-  } else {
+  } catch (error) {
     loadConfigData()
+  } finally {
+    configLoading.value = false
   }
-  configLoading.value = false
 }
 
 const deleteRetainerTopic = async function (row) {

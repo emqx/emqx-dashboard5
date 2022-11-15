@@ -94,8 +94,10 @@ import TimeInputWithUnitSelectVue from '@/components/TimeInputWithUnitSelect.vue
 import useI18nTl from '@/hooks/useI18nTl'
 import { Prometheus, StatsD } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
-import { ref, Ref } from 'vue'
+import { computed, ref, Ref } from 'vue'
 import HelpDrawer from './components/HelpDrawer.vue'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import { cloneDeep, isEqual } from 'lodash'
 
 const PROMETHEUS = 'Prometheus'
 const STATS_D = 'StatsD'
@@ -130,6 +132,21 @@ const statsDFormData: Ref<StatsD> = ref({
 })
 
 const isDataLoading = ref(false)
+
+let rawData: any = undefined
+const nowRecordData = computed(() => ({
+  prometheus: prometheusFormData.value,
+  statsD: statsDFormData.value,
+}))
+const checkDataIsChanged = () => !isEqual(nowRecordData.value, rawData)
+useDataNotSaveConfirm(checkDataIsChanged)
+const updateRawDataForCompare = () => {
+  rawData = cloneDeep({
+    prometheus: prometheusFormData.value,
+    statsD: statsDFormData.value,
+  })
+}
+
 const loadIntegration = async function () {
   isDataLoading.value = true
   let [prometheusRes, statsRes] = await Promise.allSettled([getPrometheus(), getStatsD()])
@@ -139,6 +156,7 @@ const loadIntegration = async function () {
   if (statsRes?.status == 'fulfilled') {
     statsDFormData.value = statsRes.value
   }
+  updateRawDataForCompare()
   isDataLoading.value = false
 }
 const isSubmitting = ref(false)
@@ -173,6 +191,7 @@ const submit = async () => {
   } else {
     await updateStatsD()
   }
+  updateRawDataForCompare()
 }
 
 loadIntegration()
