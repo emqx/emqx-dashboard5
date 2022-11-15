@@ -125,6 +125,7 @@ import { dateFormat } from '@/common/utils'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import useCopy from '@/hooks/useCopy'
+import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 
 export default defineComponent({
   name: 'Postpone',
@@ -167,6 +168,9 @@ export default defineComponent({
     const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
       useShowTextByDifferent()
 
+    const { setRawData, checkDataIsChanged } = useCheckDataChanged(ref(delayedConfig))
+    useDataNotSaveConfirm(checkDataIsChanged)
+
     watch(delayedOption, (newOption) => {
       if (newOption == 'unlimited') {
         delayedConfig.max_delayed_messages = 0
@@ -189,16 +193,20 @@ export default defineComponent({
     }
 
     const loadDelayedConfig = async () => {
-      configPending.value = true
-      delayedForm.value?.resetFields()
+      try {
+        configPending.value = true
+        delayedForm.value?.resetFields()
 
-      let res = await getDelayedConfig().catch(() => {})
-      if (res) {
+        let res = await getDelayedConfig()
         Object.assign(delayedConfig, res)
+        setRawData(delayedConfig)
         getConfigFormEnable()
         delayedOption.value = getDelayedOption()
+      } catch (error) {
+        //
+      } finally {
+        configPending.value = false
       }
-      configPending.value = false
     }
 
     const loadDelayedList = async (params = {}) => {
@@ -266,20 +274,18 @@ export default defineComponent({
     }
 
     const updateDelayedConfig = async function () {
-      let valid = await delayedForm.value?.validate().catch(() => {})
-      if (!valid) return
-      configPending.value = true
-      let res = await editDelayedConfig(delayedConfig).catch(() => {})
-      if (res) {
+      try {
+        await delayedForm.value?.validate()
+        configPending.value = true
+        await editDelayedConfig(delayedConfig)
         getConfigFormEnable()
-        ElMessage({
-          type: 'success',
-          message: t('Base.updateSuccess'),
-        })
-      } else {
+        ElMessage({ type: 'success', message: t('Base.updateSuccess') })
+      } catch (error) {
+        //
+      } finally {
         loadDelayedConfig()
+        configPending.value = false
       }
-      configPending.value = false
     }
 
     const reloading = function () {

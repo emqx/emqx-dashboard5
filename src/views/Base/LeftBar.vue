@@ -176,7 +176,7 @@ export default defineComponent({
       },
       {
         title: 'monitoring',
-        path: '/monitoring/alarm-settings',
+        path: '/monitoring',
       },
     ]
 

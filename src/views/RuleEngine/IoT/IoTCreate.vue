@@ -29,10 +29,10 @@ import { RuleItem } from '@/types/ruleengine'
 import { createRules, getRuleInfo } from '@/api/ruleengine'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { createRandomString, parseJSONSafely } from '@/common/tools'
+import { createRandomString } from '@/common/tools'
 import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
-import useRuleEditingPageUnload from '@/hooks/Rule/rule/useRuleEditingPageUnload'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { cloneDeep, isEqual, pick } from 'lodash'
 
 const { t } = useI18n()
@@ -57,7 +57,7 @@ const countIsRuleRecordChanged = () => !isEqual(ruleValue.value, rawRuleValue)
 
 const formCom = ref()
 
-useRuleEditingPageUnload(countIsRuleRecordChanged)
+useDataNotSaveConfirm(countIsRuleRecordChanged)
 
 const checkRuleClipStatus = async () => {
   if (route.query.action === 'copy' && route.query.target) {
