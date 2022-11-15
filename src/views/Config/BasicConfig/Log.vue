@@ -2,12 +2,13 @@
   <div class="log app-wrapper">
     <el-card class="config-card">
       <schema-form
+        ref="SchemaFormCom"
         :according-to="{ path: '/configs/log' }"
         type="log"
         :form="configs"
         :btn-loading="saveLoading"
         @save="handleSave"
-      ></schema-form>
+      />
     </el-card>
   </div>
 </template>
@@ -19,6 +20,8 @@ import { getLogConfigs, updateLogConfigs } from '@/api/config'
 import { Log } from '@/types/config'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import { cloneDeep, isEqual } from 'lodash'
 
 export default defineComponent({
   name: 'Log',
@@ -29,10 +32,18 @@ export default defineComponent({
     const configs = ref({})
     const saveLoading = ref(false)
     const { t } = useI18n()
+
+    let rawData: any = undefined
+    const SchemaFormCom = ref()
+    const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
+    useDataNotSaveConfirm(checkDataIsChanged)
+
     const loadData = async () => {
-      const res = await getLogConfigs()
-      if (res) {
-        configs.value = res
+      try {
+        configs.value = await getLogConfigs()
+        rawData = cloneDeep(configs.value)
+      } catch (error) {
+        //
       }
     }
     const reloading = () => {
@@ -40,9 +51,7 @@ export default defineComponent({
     }
     const handleSave = async (val: Log) => {
       saveLoading.value = true
-      const data = {
-        ...val,
-      }
+      const data = { ...val }
       try {
         await updateLogConfigs(data)
         ElMessage.success(t('Base.updateSuccess'))
@@ -55,6 +64,7 @@ export default defineComponent({
     }
     loadData()
     return {
+      SchemaFormCom,
       handleSave,
       configs,
       reloading,
