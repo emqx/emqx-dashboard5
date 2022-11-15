@@ -86,6 +86,7 @@ import InputWithUnit from '@/components/InputWithUnit.vue'
 import { SysTopics } from '@/types/advanced'
 import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/advanced'
 import { ElMessage } from 'element-plus'
+import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 
 const { t, tl } = useI18nTl('Advanced')
 const timeInputProps = {
@@ -102,8 +103,16 @@ const sysTopics: Ref<SysTopics> = ref({
   sys_event_messages: {},
 } as SysTopics)
 
+const { setRawData, checkDataIsChanged } = useCheckDataChanged(sysTopics)
+useDataNotSaveConfirm(checkDataIsChanged)
+
 const getConfig = async () => {
-  sysTopics.value = await getSystemTopicsConfig()
+  try {
+    sysTopics.value = await getSystemTopicsConfig()
+    setRawData(sysTopics.value)
+  } catch (error) {
+    //
+  }
 }
 
 const updateConfigData = async () => {
