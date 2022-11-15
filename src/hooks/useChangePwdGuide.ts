@@ -12,7 +12,7 @@ import {
 } from 'vue-router'
 
 export const useRouteGuardForChangeDefaultPwd = () => {
-  const { state } = useStore()
+  const { state, getters } = useStore()
 
   const preventLeaveWithoutChangeDefaultPwd = (
     to: RouteLocationNormalized,
@@ -23,6 +23,7 @@ export const useRouteGuardForChangeDefaultPwd = () => {
 
     if (
       state.user.isUsingDefaultPwd &&
+      !getters.isDev &&
       // For stop infinite loop
       !(name === 'users' && params.forChangeDefaultPwd === 'true')
     ) {
@@ -72,7 +73,7 @@ export default (): void => {
   }
 
   onMounted(() => {
-    if (isUsingDefaultPwd.value) {
+    if (isUsingDefaultPwd.value && !store.getters.isDev) {
       popupMessageBox()
     }
   })
