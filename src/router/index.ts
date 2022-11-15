@@ -572,6 +572,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/monitoring',
     component: Layout,
+    redirect: '/monitoring/alarm-settings',
     meta: {
       authRequired: true,
       subMenu: true,
