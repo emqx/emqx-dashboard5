@@ -1,4 +1,8 @@
 export default {
+  mqtt: {
+    zh: 'MQTT',
+    en: 'MQTT',
+  },
   cluster: {
     zh: '集群',
     en: 'Cluster',
