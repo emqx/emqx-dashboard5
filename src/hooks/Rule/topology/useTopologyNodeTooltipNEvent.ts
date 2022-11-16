@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { OtherNodeType, NodeType, NodeCustomData } from './topologyType'
 import hljs from 'highlight.js/lib/core'
-import sql from 'highlight.js/lib/languages/sql'
+import sql from '@/common/highlight/sql'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
 
@@ -115,7 +115,7 @@ export default (): {
       </ul>
       <div>
         <label>${tl('SQL')}</label>
-        <div class="sql-container hljs">${highlightSQL(sql)}</div>
+        <pre class="sql-container hljs">${highlightSQL(sql)}</pre>
       </div>
     `
     return container
