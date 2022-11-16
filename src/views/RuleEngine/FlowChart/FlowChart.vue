@@ -34,6 +34,11 @@ const { t } = useI18n()
 .topology-wrap {
   border: 1px solid var(--color-border-normal);
   background-color: var(--color-bg-split);
+  z-index: 300;
+}
+
+:deep(.g6-component-tooltip) {
+  z-index: 300;
 }
 
 :deep(.topology-node-tooltip) {
@@ -67,10 +72,10 @@ const { t } = useI18n()
   }
 
   .sql-container {
-    background-color: var(--color-title-primary);
     margin-top: 8px;
     padding: 4px;
     overflow-x: scroll;
+    font-size: 12px;
   }
 }
 .topology-placeholder {
