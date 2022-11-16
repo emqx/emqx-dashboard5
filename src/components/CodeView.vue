@@ -13,7 +13,7 @@
 import hljs from 'highlight.js/lib/core'
 import 'highlight.js/styles/monokai-sublime.css'
 import json from 'highlight.js/lib/languages/json'
-import sql from 'highlight.js/lib/languages/sql'
+import sql from '@/common/highlight/sql'
 import bash from '@/common/highlight/bash'
 import yaml from 'highlight.js/lib/languages/yaml'
 import javascript from 'highlight.js/lib/languages/javascript'
