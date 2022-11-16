@@ -443,6 +443,10 @@ export default {
     zh: '主题',
     en: 'Topic',
   },
+  default: {
+    zh: '默认',
+    en: 'Default',
+  },
   defaultPwdTip: {
     zh: '检测到您正在使用默认密码登录，请及时修改密码',
     en: 'Detected that you are logging in with the default password, please change your password in time.',
