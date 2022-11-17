@@ -11,92 +11,13 @@
       <!-- Default -->
       <el-tab-pane :label="$t('Base.default')" name="default">
         <div class="step-contents">
-          <div class="step-one step">
-            <h3>{{ tl('promConfig') }}</h3>
-            <p class="description">{{ tl('promConfigDesc') }}</p>
-            <div class="node-exporter">
-              <p class="description">
-                {{ tl('nodeExporterDesc') }}
-                <a
-                  href="https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  {{ tl('installNodeExporter') }}
-                </a>
-              </p>
-            </div>
-            <el-row :gutter="20" class="prom-config-row">
-              <el-col :span="14">
-                <div class="monaco-container">
-                  <Monaco id="prom-config-default" v-model="promDefaultContent" lang="yaml" />
-                </div>
-              </el-col>
-              <el-col :span="10">
-                <el-form
-                  ref="promDefaultForm"
-                  label-position="top"
-                  hide-required-asterisk
-                  :model="promConfigDefault"
-                  :rules="rulesDefault"
-                >
-                  <el-form-item label="EMQX" prop="emqxHost">
-                    <el-input v-model="promConfigDefault.emqxHost" placeholder="127.0.0.1:9091" />
-                  </el-form-item>
-                  <el-form-item label="Metrics API Path" prop="metricsPath">
-                    <el-input
-                      v-model="promConfigDefault.metricsPath"
-                      placeholder="127.0.0.1:9090"
-                    />
-                  </el-form-item>
-                  <el-form-item label="Node Exporter" prop="nodeExporterHost">
-                    <el-input
-                      v-model="promConfigDefault.nodeExporterHost"
-                      placeholder="127.0.0.1:9100"
-                    />
-                  </el-form-item>
-                  <el-button
-                    class="gen-button"
-                    type="primary"
-                    plain
-                    @click="genPromConfig('default')"
-                    >{{ tl('genPromConfig') }}</el-button
-                  >
-                </el-form>
-              </el-col>
-            </el-row>
-            <p class="description">{{ tl('promRun') }}</p>
-            <CodeView
-              lang="bash"
-              code="docker run -d --name prometheus -p 9090:9090 -v /path/to/prometheus.yaml:/etc/prometheus/prometheus.yaml prom/prometheus --config.file=/etc/prometheus/prometheus.yaml"
-            />
-          </div>
-          <div class="step-three step">
-            <h3>{{ tl('grafConfig') }}</h3>
-            <p class="description">{{ tl('promStepThree') }}</p>
-            <CodeView
-              lang="bash"
-              code="docker run -d --name grafana -p 3000:3000 grafana/grafana-oss"
-            />
-            <p class="description">{{ tl('clickDownloadTemplateDesc') }}</p>
-            <el-button type="primary" plain @click="downloadGrafaTemplate">{{
-              tl('clickDonwnloadTemplate')
-            }}</el-button>
-          </div>
-        </div>
-      </el-tab-pane>
-      <!-- Use Pushgateway -->
-      <el-tab-pane :label="tl('usePushgateway')" name="usePushgateway">
-        <el-row>
-          <el-col :span="22">
-            <div class="step-contents">
-              <div class="step-one step">
-                <h3>{{ tl('pushgatewayInstall') }}</h3>
-                <p class="description">{{ tl('promStepOne') }}</p>
-                <CodeView
-                  code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway"
-                  lang="bash"
-                />
+          <el-steps direction="vertical">
+            <el-step>
+              <template #title>
+                <h3>{{ tl('promConfig') }}</h3>
+              </template>
+              <template #description>
+                <p class="description">{{ tl('promConfigDesc') }}</p>
                 <div class="node-exporter">
                   <p class="description">
                     {{ tl('nodeExporterDesc') }}
@@ -109,9 +30,105 @@
                     </a>
                   </p>
                 </div>
-              </div>
-              <div class="step-two step">
+                <el-row :gutter="20" class="prom-config-row">
+                  <el-col :span="14">
+                    <div class="monaco-container">
+                      <Monaco id="prom-config-default" v-model="promDefaultContent" lang="yaml" />
+                    </div>
+                  </el-col>
+                  <el-col :span="10">
+                    <el-form
+                      ref="promDefaultForm"
+                      label-position="top"
+                      hide-required-asterisk
+                      :model="promConfigDefault"
+                      :rules="rulesDefault"
+                    >
+                      <el-form-item label="EMQX" prop="emqxHost">
+                        <el-input
+                          v-model="promConfigDefault.emqxHost"
+                          placeholder="127.0.0.1:9091"
+                        />
+                      </el-form-item>
+                      <el-form-item label="Metrics API Path" prop="metricsPath">
+                        <el-input
+                          v-model="promConfigDefault.metricsPath"
+                          placeholder="127.0.0.1:9090"
+                        />
+                      </el-form-item>
+                      <el-form-item label="Node Exporter" prop="nodeExporterHost">
+                        <el-input
+                          v-model="promConfigDefault.nodeExporterHost"
+                          placeholder="127.0.0.1:9100"
+                        />
+                      </el-form-item>
+                      <el-button
+                        class="gen-button"
+                        type="primary"
+                        plain
+                        @click="genPromConfig('default')"
+                        >{{ tl('genPromConfig') }}</el-button
+                      >
+                    </el-form>
+                  </el-col>
+                </el-row>
+                <p class="description">{{ tl('promRun') }}</p>
+                <CodeView
+                  lang="bash"
+                  code="docker run -d --name prometheus -p 9090:9090 -v /path/to/prometheus.yaml:/etc/prometheus/prometheus.yaml prom/prometheus --config.file=/etc/prometheus/prometheus.yaml"
+                />
+              </template>
+            </el-step>
+            <el-step status="process">
+              <template #title>
+                <h3>{{ tl('grafConfig') }}</h3>
+              </template>
+              <template #description>
+                <p class="description">{{ tl('promStepThree') }}</p>
+                <CodeView
+                  lang="bash"
+                  code="docker run -d --name grafana -p 3000:3000 grafana/grafana-oss"
+                />
+                <p class="description">{{ tl('clickDownloadTemplateDesc') }}</p>
+                <el-button type="primary" plain @click="downloadGrafaTemplate">{{
+                  tl('clickDonwnloadTemplate')
+                }}</el-button>
+              </template>
+            </el-step>
+          </el-steps>
+        </div>
+      </el-tab-pane>
+      <!-- Use Pushgateway -->
+      <el-tab-pane :label="tl('usePushgateway')" name="usePushgateway">
+        <div class="step-contents">
+          <el-steps direction="vertical">
+            <el-step>
+              <template #title>
+                <h3>{{ tl('pushgatewayInstall') }}</h3>
+              </template>
+              <template #description>
+                <p class="description">{{ tl('promStepOne') }}</p>
+                <CodeView
+                  code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway"
+                  lang="bash"
+                />
+                <p class="description">
+                  {{ tl('nodeExporterDesc') }}
+                  <a
+                    href="https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {{ tl('installNodeExporter') }}
+                  </a>
+                </p>
+              </template>
+            </el-step>
+            <el-step status="process">
+              <template #title>
                 <h3>{{ tl('promConfig') }}</h3>
+              </template>
+              <template #description>
                 <p class="description">{{ tl('promStepTwo') }}</p>
                 <el-row :gutter="20" class="prom-config-row">
                   <el-col :span="14">
@@ -160,9 +177,13 @@
                   lang="bash"
                   code="docker run -d --name prometheus -p 9090:9090 -v /path/to/prometheus.yaml:/etc/prometheus/prometheus.yaml prom/prometheus --config.file=/etc/prometheus/prometheus.yaml"
                 />
-              </div>
-              <div class="step-three step">
+              </template>
+            </el-step>
+            <el-step status="process">
+              <template #title>
                 <h3>{{ tl('grafConfig') }}</h3>
+              </template>
+              <template #description>
                 <p class="description">{{ tl('promStepThree') }}</p>
                 <CodeView
                   lang="bash"
@@ -172,10 +193,10 @@
                 <el-button type="primary" plain @click="downloadGrafaTemplate">{{
                   tl('clickDonwnloadTemplate')
                 }}</el-button>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
+              </template>
+            </el-step>
+          </el-steps>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </el-drawer>
@@ -263,38 +284,26 @@ const downloadGrafaTemplate = () => {
 </script>
 
 <style lang="scss">
-html:lang(en) {
-  .prom-setup-drawer {
-    .step-1 {
-      flex-basis: 386px !important;
-    }
-    .step-2 {
-      flex-basis: 592px !important;
-    }
-  }
-}
 .prom-setup-drawer {
+  .el-row {
+    width: 100%;
+  }
+  .el-step.is-vertical .el-step__main {
+    width: 96%;
+  }
+  .el-step__description {
+    font-size: 14px;
+    padding-right: 0px;
+  }
   p.description {
     margin-top: 0px;
     &.summary {
       margin-bottom: 32px;
     }
   }
-  .step-1 {
-    flex-basis: 29% !important;
-  }
-  .step-2 {
-    flex-basis: 47% !important;
-  }
-  .step-3 {
-    flex-basis: 0% !important;
-  }
   .step-contents {
     h3 {
-      margin-top: 2px;
-    }
-    .step {
-      margin-bottom: 48px;
+      margin-top: 0px;
     }
     .prom-config {
       margin: 0px;
