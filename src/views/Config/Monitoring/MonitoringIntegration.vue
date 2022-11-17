@@ -4,7 +4,8 @@
       <el-form label-position="top" class="schema-form">
         <el-row>
           <el-col :span="12">
-            <el-form-item :label="tl('monitoringPlatformFormItemLabel')" class="radio-form-item">
+            <el-form-item :label="tl('monitoringPlatform')" class="radio-form-item">
+              <p class="item-desc">{{ tl('monitoringPlatformFormItemLabel') }}</p>
               <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
                 <el-row :gutter="28">
                   <el-col v-for="item in platformOpts" :key="item.label" :span="12">
@@ -28,17 +29,25 @@
           </el-col>
           <el-collapse-transition>
             <el-col v-show="prometheusFormData.enable" :span="16" class="custom-col">
-              <el-form-item :label="tl('pushgatewayServer')">
-                <p class="item-desc">{{ tl('prometheusServerDesc') }}</p>
-                <el-input v-model="prometheusFormData.push_gateway_server" />
+              <el-form-item :label="tl('interval')">
+                <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
+                <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
               </el-form-item>
             </el-col>
           </el-collapse-transition>
           <el-collapse-transition>
             <el-col v-show="prometheusFormData.enable" :span="16" class="custom-col">
-              <el-form-item :label="tl('interval')">
-                <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
-                <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
+              <el-form-item :label="tl('pushgatewayServer')">
+                <p class="item-desc">
+                  {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
+                  <a
+                    href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
+                    target="_blank"
+                    rel="noopener"
+                    >{{ tl('whenToUsePushgateway') }}</a
+                  >
+                </p>
+                <el-input v-model="prometheusFormData.push_gateway_server" />
               </el-form-item>
             </el-col>
           </el-collapse-transition>
@@ -205,11 +214,9 @@ loadIntegration()
   .radio-form-item {
     width: 100%;
     padding: 0 12px;
-    .el-form-item__label {
-      margin-bottom: 26px !important;
-    }
   }
   .platform-radio-group {
+    margin-top: 8px;
     width: 100%;
     .el-row {
       width: 80%;

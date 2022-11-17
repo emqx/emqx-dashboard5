@@ -7,74 +7,61 @@
     size="50%"
   >
     <p class="description summary">{{ tl('promSetupHelpDesc') }}</p>
-    <el-row>
-      <el-col :span="2">
-        <el-steps direction="vertical" space="30%">
-          <el-step class="step-1" />
-          <el-step class="step-2" />
-          <el-step class="step-3" />
-        </el-steps>
-      </el-col>
-      <el-col :span="22">
+    <el-tabs type="card" class="detail-tabs" v-model="activeTab">
+      <!-- Default -->
+      <el-tab-pane :label="$t('Base.default')" name="default">
         <div class="step-contents">
           <div class="step-one step">
-            <h3>{{ tl('pushgatewayInstall') }}</h3>
-            <p class="description">{{ tl('promStepOne') }}</p>
-            <CodeView
-              code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway"
-              lang="bash"
-            />
-            <p class="description">{{ tl('nodeExporterDesc') }}</p>
-            <p href="https://prometheus.io/download/#node_exporter" target="_blank" rel="noopener">
-              {{ tl('checkNodeExporter') }}
-              <a
-                href="https://prometheus.io/download/#node_exporter"
-                target="_blank"
-                rel="noopener"
-                >{{ tl('nodeExporterVersion') }}</a
-              >{{ tl('replaceVersion') }}
-            </p>
-            <CodeView
-              lang="bash"
-              code="wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
-tar xvfz node_exporter-*.*-amd64.tar.gz"
-            />
-          </div>
-          <div class="step-two step">
             <h3>{{ tl('promConfig') }}</h3>
-            <p class="description">{{ tl('promStepTwo') }}</p>
+            <p class="description">{{ tl('promConfigDesc') }}</p>
+            <div class="node-exporter">
+              <p class="description">
+                {{ tl('nodeExporterDesc') }}
+                <a
+                  href="https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {{ tl('installNodeExporter') }}
+                </a>
+              </p>
+            </div>
             <el-row :gutter="20" class="prom-config-row">
               <el-col :span="14">
                 <div class="monaco-container">
-                  <Monaco id="prom-config" v-model="promConfigContent" lang="yaml" />
+                  <Monaco id="prom-config-default" v-model="promDefaultContent" lang="yaml" />
                 </div>
               </el-col>
               <el-col :span="10">
                 <el-form
-                  ref="formConfig"
+                  ref="promDefaultForm"
                   label-position="top"
                   hide-required-asterisk
-                  :model="promYamlConfigs"
-                  :rules="rules"
+                  :model="promConfigDefault"
+                  :rules="rulesDefault"
                 >
-                  <el-form-item label="Pushgateway" prop="pushgatewayHost">
-                    <el-input
-                      v-model="promYamlConfigs.pushgatewayHost"
-                      placeholder="127.0.0.1:9091"
-                    />
+                  <el-form-item label="EMQX" prop="emqxHost">
+                    <el-input v-model="promConfigDefault.emqxHost" placeholder="127.0.0.1:9091" />
                   </el-form-item>
-                  <el-form-item label="Prometheus" prop="promHost">
-                    <el-input v-model="promYamlConfigs.promHost" placeholder="127.0.0.1:9090" />
+                  <el-form-item label="Metrics API Path" prop="metricsPath">
+                    <el-input
+                      v-model="promConfigDefault.metricsPath"
+                      placeholder="127.0.0.1:9090"
+                    />
                   </el-form-item>
                   <el-form-item label="Node Exporter" prop="nodeExporterHost">
                     <el-input
-                      v-model="promYamlConfigs.nodeExporterHost"
+                      v-model="promConfigDefault.nodeExporterHost"
                       placeholder="127.0.0.1:9100"
                     />
                   </el-form-item>
-                  <el-button class="gen-button" type="primary" plain @click="genPromConfig">{{
-                    tl('genPromConfig')
-                  }}</el-button>
+                  <el-button
+                    class="gen-button"
+                    type="primary"
+                    plain
+                    @click="genPromConfig('default')"
+                    >{{ tl('genPromConfig') }}</el-button
+                  >
                 </el-form>
               </el-col>
             </el-row>
@@ -97,8 +84,100 @@ tar xvfz node_exporter-*.*-amd64.tar.gz"
             }}</el-button>
           </div>
         </div>
-      </el-col>
-    </el-row>
+      </el-tab-pane>
+      <!-- Use Pushgateway -->
+      <el-tab-pane :label="tl('usePushgateway')" name="usePushgateway">
+        <el-row>
+          <el-col :span="22">
+            <div class="step-contents">
+              <div class="step-one step">
+                <h3>{{ tl('pushgatewayInstall') }}</h3>
+                <p class="description">{{ tl('promStepOne') }}</p>
+                <CodeView
+                  code="docker run -d --name pushgateway -p 9091:9091 prom/pushgateway"
+                  lang="bash"
+                />
+                <div class="node-exporter">
+                  <p class="description">
+                    {{ tl('nodeExporterDesc') }}
+                    <a
+                      href="https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      {{ tl('installNodeExporter') }}
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <div class="step-two step">
+                <h3>{{ tl('promConfig') }}</h3>
+                <p class="description">{{ tl('promStepTwo') }}</p>
+                <el-row :gutter="20" class="prom-config-row">
+                  <el-col :span="14">
+                    <div class="monaco-container">
+                      <Monaco id="prom-config-pushgateway" v-model="promPgContent" lang="yaml" />
+                    </div>
+                  </el-col>
+                  <el-col :span="10">
+                    <el-form
+                      ref="promWithPgForm"
+                      label-position="top"
+                      hide-required-asterisk
+                      :model="promConfigWithPg"
+                      :rules="rulesWithPg"
+                    >
+                      <el-form-item label="Pushgateway" prop="pushgatewayHost">
+                        <el-input
+                          v-model="promConfigWithPg.pushgatewayHost"
+                          placeholder="127.0.0.1:9091"
+                        />
+                      </el-form-item>
+                      <el-form-item label="Node Exporter" prop="nodeExporterHost">
+                        <el-input
+                          v-model="promConfigWithPg.nodeExporterHost"
+                          placeholder="127.0.0.1:9100"
+                        />
+                      </el-form-item>
+                      <el-form-item label="Prometheus" prop="promHost">
+                        <el-input
+                          v-model="promConfigWithPg.promHost"
+                          placeholder="127.0.0.1:9090"
+                        />
+                      </el-form-item>
+                      <el-button
+                        class="gen-button"
+                        type="primary"
+                        plain
+                        @click="genPromConfig('pushgateway')"
+                        >{{ tl('genPromConfig') }}</el-button
+                      >
+                    </el-form>
+                  </el-col>
+                </el-row>
+                <p class="description">{{ tl('promRun') }}</p>
+                <CodeView
+                  lang="bash"
+                  code="docker run -d --name prometheus -p 9090:9090 -v /path/to/prometheus.yaml:/etc/prometheus/prometheus.yaml prom/prometheus --config.file=/etc/prometheus/prometheus.yaml"
+                />
+              </div>
+              <div class="step-three step">
+                <h3>{{ tl('grafConfig') }}</h3>
+                <p class="description">{{ tl('promStepThree') }}</p>
+                <CodeView
+                  lang="bash"
+                  code="docker run -d --name grafana -p 3000:3000 grafana/grafana-oss"
+                />
+                <p class="description">{{ tl('clickDownloadTemplateDesc') }}</p>
+                <el-button type="primary" plain @click="downloadGrafaTemplate">{{
+                  tl('clickDonwnloadTemplate')
+                }}</el-button>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+    </el-tabs>
   </el-drawer>
 </template>
 
@@ -125,17 +204,17 @@ const props = defineProps({
     type: Boolean,
   },
 })
-const { promYamlConfigs, promConfigContent } = usePromConfig()
-const formConfig = ref()
-
-const rules = {
-  pushgatewayHost: [
-    {
-      required: true,
-      message: tl('pushgatewayRequired'),
-    },
-  ],
-}
+const {
+  promConfigWithPg,
+  promPgContent,
+  promConfigDefault,
+  promDefaultContent,
+  rulesWithPg,
+  rulesDefault,
+} = usePromConfig()
+const promWithPgForm = ref()
+const promDefaultForm = ref()
+const activeTab = ref('default')
 
 const emit = defineEmits(['update:modelValue', 'submit', 'openAddBridge'])
 
@@ -160,10 +239,16 @@ const downloadFile = (fileName: string, type: string, content: string) => {
   window.URL.revokeObjectURL(href)
 }
 
-const genPromConfig = async () => {
+const genPromConfig = async (type: 'default' | 'pushgateway') => {
   try {
-    await formConfig.value.validate()
-    downloadFile('prometheus.yaml', 'text/plain', promConfigContent.value)
+    if (type === 'default') {
+      await promDefaultForm.value.validate()
+      downloadFile('prometheus.yaml', 'text/plain', promDefaultContent.value)
+    }
+    if (type === 'pushgateway') {
+      await promWithPgForm.value.validate()
+      downloadFile('prometheus.yaml', 'text/plain', promPgContent.value)
+    }
   } catch (error) {
     // ignore
   }
@@ -224,6 +309,9 @@ html:lang(en) {
   }
   .prom-config-row {
     margin-bottom: 24px;
+  }
+  .el-tabs.detail-tabs .el-tabs__header .el-tabs__item.is-active {
+    border-bottom: 1px solid var(--color-bg-primary);
   }
 }
 </style>
