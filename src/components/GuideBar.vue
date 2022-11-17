@@ -15,33 +15,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { defineProps, PropType } from 'vue'
 import { Check } from '@element-plus/icons-vue'
 
-export default {
-  name: 'GuideBar',
-
-  components: { Check },
-
-  props: {
-    guideList: {
-      type: Array,
-      default: () => [],
-    },
-    activeGuideIndexList: {
-      type: Array,
-      default: () => [],
-    },
-    descList: {
-      type: Array,
-      default: () => [],
-    },
+defineProps({
+  guideList: {
+    type: Array as PropType<string | number[]>,
+    required: true,
   },
-
-  data() {
-    return {}
+  descList: {
+    type: Array as PropType<string[]>,
+    default: () => [],
   },
-}
+  activeGuideIndexList: {
+    type: Array as PropType<number[]>,
+    default: () => [],
+  },
+})
 </script>
 
 <style lang="scss">
@@ -113,12 +104,25 @@ export default {
       top: 50%;
       right: 12px;
     }
-
     &:last-child {
       padding-right: 0;
       &::after {
         display: none;
       }
+    }
+  }
+}
+.guide-bar.vertical {
+  flex-direction: column;
+  .guide-item {
+    &::after {
+      position: absolute;
+      content: '';
+      width: 1px;
+      height: 90%;
+      background-color: #e2edeb;
+      top: 38px;
+      left: 10px;
     }
   }
 }
