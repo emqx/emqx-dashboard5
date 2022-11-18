@@ -36,7 +36,7 @@ export default defineComponent({
 import { ref, Ref, defineProps, defineEmits, defineExpose, watch } from 'vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
-import useInfluxdbLineProtocol from '@/hooks/Rule/bridge/useInfluxdbLineProtocol'
+import useInfluxdbLineProtocol, { KeyValueItem } from '@/hooks/Rule/bridge/useInfluxdbLineProtocol'
 
 // TODO:the best implementation is bi-bind model value in time, maybe sometime can refactor
 
@@ -65,19 +65,26 @@ const fieldsErrorMsg = ref('')
  */
 const preLineProtocol: Ref<undefined | string> = ref(undefined)
 
-const { parseLine, convertArrToMap } = useInfluxdbLineProtocol()
+const { parseLine, convertArrToMap, trimLineProtocol, escape, unescape } = useInfluxdbLineProtocol()
+
+const unescapeArr = (arr: Array<KeyValueItem>) =>
+  arr.map(({ key, value }) => ({
+    key: unescape(key),
+    value: unescape(value),
+  }))
+
 const fillFormFromLineProtocol = () => {
   if (props.modelValue === preLineProtocol.value || !props.modelValue) {
     return
   }
-  preLineProtocol.value = props.modelValue
-  const parseResult = parseLine(props.modelValue)
+  preLineProtocol.value = trimLineProtocol(props.modelValue)
+  const parseResult = parseLine(trimLineProtocol(props.modelValue))
   if (parseResult) {
     const { measurement: m, tagArr, fieldArr, timestamp: t } = parseResult
-    measurement.value = m
+    measurement.value = unescape(m)
     timestamp.value = t
-    fieldMap.value = convertArrToMap(fieldArr)
-    tagMap.value = convertArrToMap(tagArr)
+    fieldMap.value = convertArrToMap(unescapeArr(fieldArr))
+    tagMap.value = convertArrToMap(unescapeArr(tagArr))
   }
 }
 
@@ -87,7 +94,9 @@ const getTagPartStr = () => {
     return value !== '' && value !== undefined && key !== ''
   })
   const ret = keys.reduce((str, currentKey, index) => {
-    return `${str}${index === 0 ? '' : ','}${currentKey}=${tagMap.value[currentKey]}`
+    const key = escape(currentKey)
+    const value = escape(tagMap.value[currentKey])
+    return `${str}${index === 0 ? '' : ','}${key}=${value}`
   }, '')
   return ret.length > 0 ? `,${ret}` : ret
 }
@@ -98,7 +107,9 @@ const getFieldPartStr = () => {
     return value !== '' && value !== undefined && key !== ''
   })
   return keys.reduce((str, currentKey, index) => {
-    return `${str}${index === 0 ? '' : ','}${currentKey}=${fieldMap.value[currentKey]}`
+    const key = escape(currentKey)
+    const value = escape(fieldMap.value[currentKey])
+    return `${str}${index === 0 ? '' : ','}${key}=${value}`
   }, '')
 }
 
@@ -107,7 +118,7 @@ const getTimestamp = () => {
 }
 
 const getLineProtocol = () => {
-  return `${measurement.value}${getTagPartStr()} ${getFieldPartStr()}${getTimestamp()}`
+  return `${escape(measurement.value)}${getTagPartStr()} ${getFieldPartStr()}${getTimestamp()}`
 }
 
 const updateModelValue = () => {
