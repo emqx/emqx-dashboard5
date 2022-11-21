@@ -6,7 +6,7 @@ export default (): {
 } => {
   const handleExprotoData = (gatewayData: Record<string, any>) => {
     const ret = cloneDeep(gatewayData)
-    if (ret.handler.ssl_options) {
+    if (ret?.handler?.ssl_options) {
       if (!ret.handler.ssl_options.enable) {
         ret.handler.ssl_options = omit(ret.handler.ssl_options, [
           'certfile',
@@ -18,7 +18,7 @@ export default (): {
       }
     }
 
-    if (ret.server.ssl_options) {
+    if (ret?.server?.ssl_options) {
       ret.server.ssl_options = checkNOmitFromObj(ret.server.ssl_options)
     }
     return ret
