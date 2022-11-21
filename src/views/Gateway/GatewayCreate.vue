@@ -84,7 +84,7 @@ import LwBasic from './components/lwm2mBasic.vue'
 import MqttsnBasic from './components/mqttsnBasic.vue'
 import stompBasic from './components/stompBasic.vue'
 import ExprotoBasic from './components/exprotoBasic.vue'
-import { postGateway, getGateway } from '@/api/gateway'
+import { updateGateway, getGateway } from '@/api/gateway'
 import router from '@/router'
 import { ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -160,7 +160,6 @@ export default defineComponent({
 
     const { handleExprotoData } = useHandleExprotoData()
     const createGateway = async () => {
-      submitLoading.value = true
       let data = {
         ...basicData.value,
         listeners: [...listenerList.value],
@@ -169,15 +168,16 @@ export default defineComponent({
       if (gname === GatewayName.ExProto) {
         data = handleExprotoData(data)
       }
-      const res = await postGateway(data).catch(() => {})
-      if (res) {
-        M({
-          type: 'success',
-          message: t('Base.createSuccess'),
-        })
+      try {
+        submitLoading.value = true
+        await updateGateway(gname, data)
+        M.success(t('Base.createSuccess'))
         gotoList()
+      } catch (error) {
+        //
+      } finally {
+        submitLoading.value = false
       }
-      submitLoading.value = false
     }
 
     const gatewayStatus = async () => {
@@ -185,16 +185,14 @@ export default defineComponent({
         gotoList()
       }
 
-      let res = await getGateway(gname).catch(() => {})
-      if (res) {
-        let { status } = res
+      try {
+        let { status } = await getGateway(gname)
         if (status !== 'unloaded') {
-          M({
-            type: 'error',
-            message: t('Gateway.alreadyLoad'),
-          })
+          M.error(t('Gateway.alreadyLoad'))
           gotoList()
         }
+      } catch (error) {
+        //
       }
     }
 
@@ -207,10 +205,7 @@ export default defineComponent({
       ) {
         const { certfile, keyfile } = basicData.value.server.ssl_options
         if (!certfile || !keyfile) {
-          M({
-            type: 'warning',
-            message: t('Gateway.missinggRPCTLSFile'),
-          })
+          M.warning(t('Gateway.missinggRPCTLSFile'))
           return false
         }
       }
