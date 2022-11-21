@@ -76,8 +76,8 @@ export default {
     en: 'Enable',
   },
   enableDesc: {
-    zh: '停用功能不会清除已保存的数据',
-    en: 'The retain message is no longer stored and published, but the data in the database will not be deleted',
+    zh: '停用后不会清除已保存的数据',
+    en: 'Disabling will not clear the saved data',
   },
   enableDescDelay: {
     zh: '启用延迟发布功能，停用将终止延迟列表',
