@@ -68,7 +68,7 @@ export default {
     en: 'Subscriptions',
   },
   subscriptions: {
-    zh: '主题订阅',
+    zh: '订阅管理',
     en: 'Subscriptions',
   },
   schemas: {
