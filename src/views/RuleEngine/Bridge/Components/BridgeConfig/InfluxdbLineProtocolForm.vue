@@ -65,12 +65,26 @@ const fieldsErrorMsg = ref('')
  */
 const preLineProtocol: Ref<undefined | string> = ref(undefined)
 
-const { parseLine, convertArrToMap, trimLineProtocol, escape, unescape } = useInfluxdbLineProtocol()
+const {
+  parseLine,
+  convertArrToMap,
+  trimLineProtocol,
+  escape,
+  escapeFieldValue,
+  unescape,
+  unescapeFieldValue,
+} = useInfluxdbLineProtocol()
 
-const unescapeArr = (arr: Array<KeyValueItem>) =>
+const unescapeTagArr = (arr: Array<KeyValueItem>) =>
   arr.map(({ key, value }) => ({
     key: unescape(key),
     value: unescape(value),
+  }))
+
+const unescapeFieldArr = (arr: Array<KeyValueItem>) =>
+  arr.map(({ key, value }) => ({
+    key: unescape(key),
+    value: unescapeFieldValue(value),
   }))
 
 const fillFormFromLineProtocol = () => {
@@ -83,8 +97,8 @@ const fillFormFromLineProtocol = () => {
     const { measurement: m, tagArr, fieldArr, timestamp: t } = parseResult
     measurement.value = unescape(m)
     timestamp.value = t
-    fieldMap.value = convertArrToMap(unescapeArr(fieldArr))
-    tagMap.value = convertArrToMap(unescapeArr(tagArr))
+    fieldMap.value = convertArrToMap(unescapeFieldArr(fieldArr))
+    tagMap.value = convertArrToMap(unescapeTagArr(tagArr))
   }
 }
 
@@ -108,7 +122,7 @@ const getFieldPartStr = () => {
   })
   return keys.reduce((str, currentKey, index) => {
     const key = escape(currentKey)
-    const value = escape(fieldMap.value[currentKey])
+    const value = escapeFieldValue(fieldMap.value[currentKey])
     return `${str}${index === 0 ? '' : ','}${key}=${value}`
   }, '')
 }
