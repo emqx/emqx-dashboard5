@@ -1,7 +1,7 @@
 <template>
   <div class="no-tab-wrapper subscribe">
     <div class="section-header">
-      <div>{{ tl('internalPatterns') }}</div>
+      <div></div>
       <el-button type="primary" @click="openOpDialog()" :icon="Plus">
         {{ $t('Base.add') }}
       </el-button>
@@ -33,7 +33,7 @@
 
     <el-dialog
       v-model="opSubs"
-      :title="(isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('subscribe')"
+      :title="isEdit ? $t('Base.edit') : $t('Base.add')"
       @close="closeDialog"
     >
       <el-form
