@@ -24,7 +24,6 @@ import Rewrite from './components/rewrite.vue'
 import Subscribe from './components/subscribe.vue'
 import Postpone from './components/postpone.vue'
 import SubTabMenu from '@/components/SubTabMenu.vue'
-import SysTopics from './components/sysTopics.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSubTabMenu from '@/hooks/useSubTabMenu'
 
@@ -34,11 +33,10 @@ export default defineComponent({
     Rewrite,
     Subscribe,
     Postpone,
-    SysTopics,
     SubTabMenu,
   },
   setup() {
-    const panes = ref(['sysTopics', 'rewrite', 'subscribe', 'postpone'])
+    const panes = ref(['rewrite', 'subscribe', 'postpone'])
     const { tl } = useI18nTl('Extension')
     const { handleClickTab, setPaneRef } = useSubTabMenu(panes.value)
 

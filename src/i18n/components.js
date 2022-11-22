@@ -155,6 +155,10 @@ export default {
     zh: '扩展',
     en: 'Extension',
   },
+  systemTopic: {
+    zh: '系统主题',
+    en: 'System Topic',
+  },
   application: {
     zh: '应用',
     en: 'Application',

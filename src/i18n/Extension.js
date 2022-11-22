@@ -123,13 +123,13 @@ export default {
     zh: '配置需要启用的事件消息',
     en: 'Configure event messages that need to be enabled',
   },
-  internalPatterns: {
-    zh: '内置规则',
-    en: 'Build-In Patterns',
-  },
   client_connected: {
     en: 'Clients have already connected',
     zh: '客户端连接完成',
+  },
+  required: {
+    zh: '请填写此项',
+    en: 'Required',
   },
   client_disconnected: {
     en: 'Clients have already disconnected',
