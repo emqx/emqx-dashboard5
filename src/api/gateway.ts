@@ -2,13 +2,13 @@
 import http from '@/common/http'
 
 export function getGatewayList() {
-  return http.get('/gateway')
+  return http.get('/gateways')
 }
 
 export async function getGatewayListeners(name: string, id: string) {
   if (!name) return Promise.reject()
   return http.get(
-    '/gateway/' +
+    '/gateways/' +
       encodeURIComponent(name) +
       '/listeners' +
       ((id && '/' + encodeURIComponent(id)) || ''),
@@ -16,7 +16,7 @@ export async function getGatewayListeners(name: string, id: string) {
 }
 
 export function addGatewayListener(name: string, body: { [key: string]: any }) {
-  return http.post(`/gateway/${encodeURIComponent(name)}/listeners`, body)
+  return http.post(`/gateways/${encodeURIComponent(name)}/listeners`, body)
 }
 
 export async function updateGatewayListener(
@@ -26,7 +26,7 @@ export async function updateGatewayListener(
 ) {
   if (!name || !id) return Promise.reject()
   return http.put(
-    '/gateway/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(id),
+    '/gateways/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(id),
     body,
   )
 }
@@ -34,60 +34,56 @@ export async function updateGatewayListener(
 export async function deleteGatewayListener(name: string, id: string) {
   if (!name || !id) return Promise.reject()
   return http.delete(
-    '/gateway/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(id),
+    '/gateways/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(id),
   )
 }
 
 export async function updateGateway(name: string, body: { [key: string]: any }) {
   if (!name) return Promise.reject()
-  return http.put('/gateway/' + encodeURIComponent(name), body)
-}
-
-export async function postGateway(body: { [key: string]: any }) {
-  return http.post('/gateway', body)
+  return http.put('/gateways/' + encodeURIComponent(name), body)
 }
 
 export async function getGateway(name: string) {
   if (!name) return Promise.reject()
-  return http.get('/gateway/' + encodeURIComponent(name))
+  return http.get('/gateways/' + encodeURIComponent(name))
 }
 
 export async function getGatewayClients(name: string, params = {}) {
   if (!name) return Promise.reject()
-  return http.get('/gateway/' + encodeURIComponent(name) + '/clients', {
+  return http.get('/gateways/' + encodeURIComponent(name) + '/clients', {
     params,
   })
 }
 
 export async function getGatewayClientDetail(name: string, id: string) {
   if (!name || !id) return Promise.reject()
-  return http.get(`/gateway/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}`)
+  return http.get(`/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}`)
 }
 
 export async function getGatewayClientSubs(name: string, id: string) {
   if (!name || !id) return Promise.reject()
   return http.get(
-    `/gateway/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}/subscriptions`,
+    `/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}/subscriptions`,
   )
 }
 
 export async function addGatewayClientSubs(name: string, id: string, body: { [key: string]: any }) {
   if (!name || !id) return Promise.reject()
   return http.post(
-    `/gateway/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}/subscriptions`,
+    `/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}/subscriptions`,
     body,
   )
 }
 
 export async function disconnGatewayClient(name: string, id: string) {
   if (!name || !id) return Promise.reject()
-  return http.delete(`/gateway/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}`)
+  return http.delete(`/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}`)
 }
 
 export async function unsubscribeGatewayClientSub(name: string, id: string, topic: string) {
   if (!name || !id || !topic) return Promise.reject()
   return http.delete(
-    `/gateway/${encodeURIComponent(name)}/clients/${encodeURIComponent(
+    `/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(
       id,
     )}/subscriptions/${encodeURIComponent(topic)}`,
   )
@@ -96,38 +92,38 @@ export async function unsubscribeGatewayClientSub(name: string, id: string, topi
 //gateway auth
 export async function getGatewayAuth(name: string) {
   if (!name) return Promise.reject()
-  return http.get('/gateway/' + encodeURIComponent(name) + '/authentication')
+  return http.get('/gateways/' + encodeURIComponent(name) + '/authentication')
 }
 
 export async function deleteGatewayAuth(name: string) {
   if (!name) return Promise.reject()
-  return http.delete('/gateway/' + encodeURIComponent(name) + '/authentication')
+  return http.delete('/gateways/' + encodeURIComponent(name) + '/authentication')
 }
 
 export async function updateGatewayAuth(name: string, body: { [key: string]: any }) {
   if (!name) return Promise.reject()
-  return http.put('/gateway/' + encodeURIComponent(name) + '/authentication', body)
+  return http.put('/gateways/' + encodeURIComponent(name) + '/authentication', body)
 }
 
 export async function addGatewayAuth(name: string, body: { [key: string]: any }) {
   if (!name) return Promise.reject()
-  return http.post('/gateway/' + encodeURIComponent(name) + '/authentication', body)
+  return http.post('/gateways/' + encodeURIComponent(name) + '/authentication', body)
 }
 
 export async function getGatewayUserManagement(name: string, params = {}) {
   if (!name) return Promise.reject()
-  return http.get('/gateway/' + encodeURIComponent(name) + '/authentication/users', { params })
+  return http.get('/gateways/' + encodeURIComponent(name) + '/authentication/users', { params })
 }
 
 export async function addGatewayUserManagement(name: string, body: { [key: string]: any }) {
   if (!name) return Promise.reject()
-  return http.post('/gateway/' + encodeURIComponent(name) + '/authentication/users', body)
+  return http.post('/gateways/' + encodeURIComponent(name) + '/authentication/users', body)
 }
 
 export async function updateGatewayUser(name: string, uid: string, data: { [key: string]: any }) {
   if (!name || !uid) return Promise.reject()
   return http.put(
-    '/gateway/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
+    '/gateways/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
     data,
   )
 }
@@ -135,13 +131,13 @@ export async function updateGatewayUser(name: string, uid: string, data: { [key:
 export async function deleteGatewayUser(name: string, uid: string) {
   if (!name || !uid) return Promise.reject()
   return http.delete(
-    '/gateway/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
+    '/gateways/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
   )
 }
 
 export async function getGatewayUser(name: string, uid: string) {
   if (!name || !uid) return Promise.reject()
   return http.get(
-    '/gateway/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
+    '/gateways/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
   )
 }

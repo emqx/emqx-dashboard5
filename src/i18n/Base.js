@@ -499,4 +499,8 @@ export default {
     zh: '离开页面？',
     en: 'Leave page?',
   },
+  upgrade: {
+    zh: '升级',
+    en: 'Upgrade',
+  },
 }
