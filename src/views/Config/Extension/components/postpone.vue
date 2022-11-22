@@ -110,6 +110,7 @@
     </el-dialog>
   </div>
 </template>
+
 <script>
 import { defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import {
@@ -118,7 +119,7 @@ import {
   getDelayedList,
   getDelayedInfo,
   delDelayedInfo,
-} from '@/api/advanced'
+} from '@/api/extension'
 import CommonPagination from '@/components/commonPagination.vue'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { dateFormat } from '@/common/utils'
@@ -133,7 +134,7 @@ export default defineComponent({
     CommonPagination,
   },
   setup() {
-    const { tl, t } = useI18nTl('Advanced')
+    const { tl, t } = useI18nTl('Extension')
     const { copyText } = useCopy(copySuccess)
 
     let delayedConfig = reactive({
