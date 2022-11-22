@@ -49,6 +49,34 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
+            <el-form-item
+              prop="clean"
+              :label="
+                connection.protocolversion === MQTT_V5_VALUE ? 'Clean Start' : 'Clean Session'
+              "
+            >
+              <BooleanSelect v-model="connection.clean" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-if="connection.protocolversion === MQTT_V5_VALUE">
+            <el-form-item prop="sessionExpiryInterval" :label="$t('Tools.sessionExpiryInterval')">
+              <el-input
+                class="input-with-unit"
+                v-model.number="connection.sessionExpiryInterval"
+                :placeholder="$t('Tools.neverExpire')"
+              >
+                <template #append>
+                  <span class="single-unit"> s </span>
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="clean" label="TLS">
+              <BooleanSelect v-model="connection.ssl" @change="protocolsChange" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item prop="protocolversion" :label="$t('Tools.ProtocolVersion')">
               <el-select v-model="connection.protocolversion">
                 <el-option
@@ -59,13 +87,6 @@
                 />
               </el-select>
             </el-form-item>
-          </el-col>
-
-          <el-col :span="8" class="checkbox-area">
-            <div class="checkbox-container">
-              <el-checkbox v-model="connection.clean"> Clean Session </el-checkbox>
-              <el-checkbox v-model="connection.ssl" @change="protocolsChange"> TLS </el-checkbox>
-            </div>
           </el-col>
         </el-row>
       </el-form>
@@ -274,6 +295,7 @@ import { QoSOptions, WEB_SOCKET_STATUS } from '@/common/constants'
 import { Delete } from '@element-plus/icons-vue'
 import { chunkStr } from '@/common/tools.ts'
 import { MQTT_V3_RES_CODES, MQTT_V5_RES_CODES } from '@/common/constants.ts'
+import BooleanSelect from '@/components/BooleanSelect.vue'
 
 const transBuffet2Hex = (buffer) => {
   return [...new Uint8Array(buffer)].map((x) => x.toString(16).padStart(2, '0')).join('')
@@ -286,6 +308,7 @@ export default {
   name: 'WebSocketItem',
   components: {
     Delete,
+    BooleanSelect,
   },
   props: {
     messageCount: {
@@ -301,6 +324,7 @@ export default {
   data() {
     return {
       WEB_SOCKET_STATUS,
+      MQTT_V5_VALUE,
       QoSOptions,
       times: 0,
       cStatus: 0b00000,
@@ -633,6 +657,7 @@ export default {
         connectTimeout,
         will,
         protocolversion,
+        sessionExpiryInterval,
       } = this.connection
       return {
         clientId,
@@ -644,6 +669,9 @@ export default {
         connectTimeout,
         will: will.topic ? will : undefined,
         protocolVersion: protocolversion,
+        properties: {
+          sessionExpiryInterval,
+        },
       }
     },
     /**
@@ -759,15 +787,6 @@ export default {
 
 .footer-area {
   margin-top: 20px;
-}
-.checkbox-area {
-  padding-top: 16px;
-  padding-left: 30px;
-  .checkbox-container {
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
 }
 
 .message-btn {
