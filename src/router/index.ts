@@ -7,7 +7,7 @@ import Layout from '@/views/Base/Layout.vue'
 import Login from '@/views/Base/Login.vue'
 import ClientDetails from '@/views/Clients/ClientDetails.vue'
 import Clients from '@/views/Clients/Clients.vue'
-import Advanced from '@/views/Config/Advanced/Advanced.vue'
+import Extension from '@/views/Config/Extension/Extension.vue'
 // import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
 // import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
 // import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
@@ -530,9 +530,9 @@ export const routes: Array<RouteRecordRaw> = [
         component: Retainer,
       },
       {
-        path: 'advanced',
-        name: 'mqtt-advanced',
-        component: Advanced,
+        path: 'extension',
+        name: 'mqtt-extension',
+        component: Extension,
       },
     ],
   },
