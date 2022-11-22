@@ -203,10 +203,6 @@ export default {
     en: 'Show Payload',
     zh: '查看 Payload',
   },
-  required: {
-    en: 'It is required',
-    zh: '请填写',
-  },
   needNumber: {
     en: 'It needs to be a number',
     zh: '请填写数字',

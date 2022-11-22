@@ -83,12 +83,12 @@ import { ref, Ref } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
-import { SysTopics } from '@/types/advanced'
-import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/advanced'
+import { SysTopics } from '@/types/extension'
+import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/extension'
 import { ElMessage } from 'element-plus'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 
-const { t, tl } = useI18nTl('Advanced')
+const { t, tl } = useI18nTl('Extension')
 const timeInputProps = {
   units: ['s', 'm'],
   defaultUnit: 's',
