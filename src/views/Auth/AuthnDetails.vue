@@ -89,27 +89,25 @@
 
 <script>
 import { computed, defineComponent, ref, watch } from 'vue'
-import { loadAuthn } from '@/api/auth'
+import { useRoute, useRouter } from 'vue-router'
+import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
+import { isFunction } from 'lodash'
+import { queryAuthnItemMetrics, updateAuthn, deleteAuthn, loadAuthn } from '@/api/auth'
+import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools.ts'
+import useI18nTl from '@/hooks/useI18nTl'
+import useAuth from '@/hooks/Auth/useAuth'
+import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
+import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
+import { getPasswordHashAlgorithmObj } from '@/hooks/Auth/usePasswordHashAlgorithmData.ts'
+import useBuiltInDataUpdateTip from '@/hooks/Auth/useBuiltInDataUpdateTip.ts'
+import DetailHeader from '@/components/DetailHeader.vue'
+import AuthItemOverview from './components/AuthItemOverview.vue'
+import AuthItemStatus from './components/AuthItemStatus.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
 import AuthnManager from './components/AuthnManager.vue'
-import { updateAuthn, deleteAuthn } from '@/api/auth'
-import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
-import useAuth from '@/hooks/Auth/useAuth'
-import { useRoute, useRouter } from 'vue-router'
-import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
-import { jumpToErrorFormItem } from '@/common/tools'
-import AuthItemOverview from './components/AuthItemOverview.vue'
-import { queryAuthnItemMetrics } from '@/api/auth'
-import AuthItemStatus from './components/AuthItemStatus.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { checkNOmitFromObj } from '@/common/tools.ts'
-import { getPasswordHashAlgorithmObj } from '@/hooks/Auth/usePasswordHashAlgorithmData.ts'
-import { isFunction } from 'lodash'
-import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -199,6 +197,7 @@ export default defineComponent({
       if (res) {
         currBackend.value = res.backend || res.mechanism
         configData.value = res
+        setRawSetting(configData.value)
         setPassWordBasedFieldsDefaultValue()
       }
     }
@@ -238,6 +237,7 @@ export default defineComponent({
       }
     }
 
+    const { setRawSetting, compareData } = useBuiltInDataUpdateTip()
     /**
      * @param authn has value when the action is update status
      */
@@ -256,6 +256,9 @@ export default defineComponent({
         const { create } = useAuthnCreate()
         const { id } = configData.value
         const data = create(configData.value, configData.value.backend, configData.value.mechanism)
+        if (currBackend.value === 'built_in_database') {
+          await compareData(data)
+        }
 
         if (props.gateway) {
           updateAuthnBelongGateway(data, enable)
