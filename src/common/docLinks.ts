@@ -13,6 +13,7 @@ type DocKey =
   | 'ruleEvent'
   | 'bridgeAsFrom'
   | 'ruleEventMsgPub'
+  | 'enterprise'
 
 export type DocMap = Record<DocKey, string>
 
@@ -38,5 +39,6 @@ export default (lang: string): DocMap => {
     ruleEventMsgPub: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-events-and-fields.html#${
       lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
     }`,
+    enterprise: `https://www.emqx.com/${lang}/try?product=enterprise&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-header-upgrade-to-enterprise`,
   }
 }
