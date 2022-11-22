@@ -4,8 +4,8 @@
       {{ $t(`components.${firstPath}`) }}
     </h1>
     <div class="pull-right">
-      <el-button class="go-link" @click="gotoCloud">
-        Try Cloud <el-icon><right /></el-icon>
+      <el-button class="go-link" @click="downloadEnterprise">
+        {{ $t('Base.upgrade') }}<el-icon><right /></el-icon>
       </el-button>
 
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
@@ -117,8 +117,11 @@ export default defineComponent({
       router.currentRoute.value.name !== command && router.push({ name: command })
     }
     const { docMap } = useDocLink()
-    const gotoCloud = () => {
-      window.open(docMap.cloud, '_blank')
+    const downloadEnterprise = () => {
+      const windowUrl = window.open(docMap.enterprise)
+      if (windowUrl) {
+        windowUrl.opener = null
+      }
     }
     const setHeaderTitle = () => {
       let { path } = route || []
@@ -143,7 +146,7 @@ export default defineComponent({
       alertCount,
       alertText,
       user,
-      gotoCloud,
+      downloadEnterprise,
       handleDropdownCommand,
       logout,
       visibilityChangeFunc,
@@ -205,6 +208,7 @@ export default defineComponent({
   color: var(--color-title-primary);
   border: 1px solid var(--color-title-primary);
   margin-right: 12px;
+  font-weight: normal;
   .el-icon {
     padding-left: 10px;
     width: 24px;
