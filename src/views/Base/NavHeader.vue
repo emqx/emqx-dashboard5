@@ -1,7 +1,7 @@
 <template>
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
     <h1 class="header-title">
-      {{ $t(`components.${firstPath}`) }}
+      {{ !isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound') }}
     </h1>
     <div class="pull-right">
       <el-button class="go-link" @click="downloadEnterprise">
@@ -123,10 +123,12 @@ export default defineComponent({
         windowUrl.opener = null
       }
     }
+    const isNotFound = ref(false)
     const setHeaderTitle = () => {
       let { path } = route || []
       let _firstPath = path.split('/')[1]
       firstPath.value = _firstPath
+      isNotFound.value = route.matched[1].name === 'not-found'
     }
     watch(route, () => {
       setHeaderTitle()
@@ -141,6 +143,7 @@ export default defineComponent({
     })
     return {
       store,
+      isNotFound,
       firstPath,
       leftBarCollapse,
       alertCount,
