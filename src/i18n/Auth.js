@@ -383,4 +383,8 @@ export default {
     zh: '操作',
     en: 'Action',
   },
+  updateBuiltInTip: {
+    zh: '更新密码加密方式或加盐方式将导致已添加的认证数据不可用，是否确认更新？',
+    en: 'Updating the Password Hash or Salt Position will cause the added authentication data to be unavailable. Confirm to update?',
+  },
 }
