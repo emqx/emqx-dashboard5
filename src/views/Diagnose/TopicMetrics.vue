@@ -183,7 +183,7 @@ export default defineComponent({
         topic: [
           {
             required: true,
-            message: this.$t('Advanced.required'),
+            message: this.$t('Clients.topicRequried'),
             trigger: 'blur',
           },
         ],

@@ -387,4 +387,8 @@ export default {
     zh: 'Retain Handling',
     en: 'Retain Handling',
   },
+  topicRequried: {
+    zh: '主题不能为空',
+    en: 'Topic is required',
+  },
 }
