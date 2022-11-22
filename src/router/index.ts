@@ -14,6 +14,7 @@ import Extension from '@/views/Config/Extension/Extension.vue'
 import Log from '@/views/Config/BasicConfig/Log.vue'
 import Mqtt from '@/views/Config/BasicConfig/Mqtt.vue'
 import Retainer from '@/views/Config/BasicConfig/Retainer.vue'
+import SysTopics from '@/views/Config/BasicConfig/sysTopics.vue'
 import Session from '@/views/Config/BasicConfig/Session.vue'
 import AlarmSettings from '@/views/Config/Monitoring/AlarmSettings.vue'
 import MonitoringIntegration from '@/views/Config/Monitoring/MonitoringIntegration.vue'
@@ -528,6 +529,11 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'retainer',
         name: 'mqtt-retainer',
         component: Retainer,
+      },
+      {
+        path: 'system-topic',
+        name: 'mqtt-system-topic',
+        component: SysTopics,
       },
       {
         path: 'extension',
