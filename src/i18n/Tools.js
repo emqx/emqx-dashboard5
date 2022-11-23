@@ -167,4 +167,12 @@ export default {
     zh: '发生错误',
     en: 'Error occurred',
   },
+  sessionExpiryInterval: {
+    zh: '会话过期时间',
+    en: 'Session Expiry Interval',
+  },
+  neverExpire: {
+    zh: '永不过期',
+    en: 'Never Expire',
+  },
 }

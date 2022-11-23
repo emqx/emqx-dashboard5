@@ -1,7 +1,7 @@
 <template>
   <div class="no-tab-wrapper subscribe">
     <div class="section-header">
-      <div>{{ tl('internalPatterns') }}</div>
+      <div></div>
       <el-button type="primary" @click="openOpDialog()" :icon="Plus">
         {{ $t('Base.add') }}
       </el-button>
@@ -33,7 +33,7 @@
 
     <el-dialog
       v-model="opSubs"
-      :title="(isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('subscribe')"
+      :title="isEdit ? $t('Base.edit') : $t('Base.add')"
       @close="closeDialog"
     >
       <el-form
@@ -102,7 +102,7 @@
 
 <script>
 import { defineComponent, onMounted, reactive, ref, nextTick } from 'vue'
-import { getSubscribe, editSubscribe } from '@/api/advanced'
+import { getSubscribe, editSubscribe } from '@/api/extension'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
@@ -126,7 +126,7 @@ export default defineComponent({
 
   setup() {
     const { t } = useI18n()
-    const { tl } = useI18nTl('Advanced')
+    const { tl } = useI18nTl('Extension')
     let isEdit = ref(false)
     let opSubs = ref(false)
     let subTbData = ref([])

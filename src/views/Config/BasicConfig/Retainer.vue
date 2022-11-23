@@ -217,7 +217,7 @@ import {
   updateRetainer,
   getRetainerTopic,
   delRetainerTopic,
-} from '@/api/advanced'
+} from '@/api/extension'
 import { dateFormat } from '@/common/utils'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
@@ -229,7 +229,7 @@ import usePagination from '@/hooks/usePagination'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 
-const { tl, t } = useI18nTl('Advanced')
+const { tl, t } = useI18nTl('Extension')
 const { copyText } = useCopy(copySuccess)
 const { createRequiredRule } = useFormRules()
 

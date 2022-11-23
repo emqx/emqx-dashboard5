@@ -72,7 +72,7 @@
 
 <script>
 import { defineComponent, nextTick, onMounted, reactive, ref } from 'vue'
-import { getTopicRewrite, editTopicRewrite } from '@/api/advanced'
+import { getTopicRewrite, editTopicRewrite } from '@/api/extension'
 import { ElMessageBox as MB } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -84,7 +84,7 @@ export default defineComponent({
   name: 'Rewrite',
   setup() {
     const { t } = useI18n()
-    const { tl } = useI18nTl('Advanced')
+    const { tl } = useI18nTl('Extension')
 
     let opRewrite = ref(false)
     let rewriteTbData = ref([])

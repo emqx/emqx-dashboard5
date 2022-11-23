@@ -151,6 +151,14 @@ export default {
     zh: '高级',
     en: 'Advanced',
   },
+  extension: {
+    zh: '扩展',
+    en: 'Extension',
+  },
+  systemTopic: {
+    zh: '系统主题',
+    en: 'System Topic',
+  },
   application: {
     zh: '应用',
     en: 'Application',

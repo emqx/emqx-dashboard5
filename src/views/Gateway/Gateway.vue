@@ -72,7 +72,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { getGatewayList, updateGateway } from '@/api/gateway'
+import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
 import { calcPercentage, caseInsensitiveCompare } from '@/common/utils'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
@@ -124,9 +124,8 @@ export default defineComponent({
     const gatewayStartStop = async function (instance: any) {
       const { name } = instance
       tbLoading.value = true
-      let body = { enable: isRunning(instance.status) }
       try {
-        await updateGateway(name, body)
+        await toggleGatewayEnable(name, isRunning(instance.status))
         M.success(isRunning(instance.status) ? t('Base.enableSuccess') : t('Base.disabledSuccess'))
       } catch (error) {
         instance.status = isRunning(instance.status) ? disableStr : enableStr

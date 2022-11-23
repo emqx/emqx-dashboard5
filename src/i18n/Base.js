@@ -487,6 +487,10 @@ export default {
     zh: '未找到页面',
     en: 'This page could not be found',
   },
+  pageNotFound: {
+    zh: '页面不存在',
+    en: 'Not Found',
+  },
   leave: {
     zh: '离开',
     en: 'Leave',

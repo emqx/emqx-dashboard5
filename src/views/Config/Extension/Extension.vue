@@ -1,10 +1,10 @@
 <template>
-  <div class="advanced app-wrapper">
+  <div class="extension app-wrapper">
     <el-card>
       <SubTabMenu
         v-slot="{ pane }"
         :panes="panes"
-        i18nKeyword="Advanced"
+        i18nKeyword="Extension"
         @tab-click="handleClickTab"
       >
         <component
@@ -24,22 +24,20 @@ import Rewrite from './components/rewrite.vue'
 import Subscribe from './components/subscribe.vue'
 import Postpone from './components/postpone.vue'
 import SubTabMenu from '@/components/SubTabMenu.vue'
-import SysTopics from './components/sysTopics.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSubTabMenu from '@/hooks/useSubTabMenu'
 
 export default defineComponent({
-  name: 'Advanced',
+  name: 'Extension',
   components: {
     Rewrite,
     Subscribe,
     Postpone,
-    SysTopics,
     SubTabMenu,
   },
   setup() {
-    const panes = ref(['sysTopics', 'rewrite', 'subscribe', 'postpone'])
-    const { tl } = useI18nTl('Advanced')
+    const panes = ref(['rewrite', 'subscribe', 'postpone'])
+    const { tl } = useI18nTl('Extension')
     const { handleClickTab, setPaneRef } = useSubTabMenu(panes.value)
 
     return {
@@ -53,7 +51,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.advanced {
+.extension {
   .sec-header-title {
     font-size: 18px;
     font-weight: 600;

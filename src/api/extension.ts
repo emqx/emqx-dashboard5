@@ -9,7 +9,7 @@ import {
   RetainerMessageDetail,
   Rewrite,
   SysTopics,
-} from '@/types/advanced'
+} from '@/types/extension'
 import { ListDataWithPagination, PageParams } from '@/types/common'
 
 /* Retainer */

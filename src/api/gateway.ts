@@ -43,6 +43,11 @@ export async function updateGateway(name: string, body: { [key: string]: any }) 
   return http.put('/gateways/' + encodeURIComponent(name), body)
 }
 
+export async function toggleGatewayEnable(name: string, enable: boolean) {
+  if (!name) return Promise.reject()
+  return http.put(`/gateways/${name}/enable/${enable}`)
+}
+
 export async function getGateway(name: string) {
   if (!name) return Promise.reject()
   return http.get('/gateways/' + encodeURIComponent(name))
