@@ -49,16 +49,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item
-              prop="clean"
-              :label="
-                connection.protocolversion === MQTT_V5_VALUE ? 'Clean Start' : 'Clean Session'
-              "
-            >
-              <BooleanSelect v-model="connection.clean" />
+            <el-form-item prop="clean" :label="isMQTTv5 ? 'Clean Start' : 'Clean Session'">
+              <BooleanSelect v-model="connection.clean" @change="handleCleanChanged" />
             </el-form-item>
           </el-col>
-          <el-col :span="8" v-if="connection.protocolversion === MQTT_V5_VALUE">
+          <el-col :span="8" v-if="isMQTTv5">
             <el-form-item prop="sessionExpiryInterval" :label="$t('Tools.sessionExpiryInterval')">
               <el-input
                 class="input-with-unit"
@@ -93,13 +88,6 @@
       <el-row>
         <el-col :span="24" class="footer-area">
           <el-button
-            type="primary"
-            @click="createConnection"
-            :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Disconnected)"
-          >
-            {{ $t('Tools.connect') }}
-          </el-button>
-          <el-button
             type="danger"
             plain
             @click="destroyConnection"
@@ -109,6 +97,13 @@
             "
           >
             {{ $t('Tools.disconnect') }}
+          </el-button>
+          <el-button
+            type="primary"
+            @click="createConnection"
+            :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Disconnected)"
+          >
+            {{ $t('Tools.connect') }}
           </el-button>
         </el-col>
       </el-row>
@@ -324,7 +319,6 @@ export default {
   data() {
     return {
       WEB_SOCKET_STATUS,
-      MQTT_V5_VALUE,
       QoSOptions,
       times: 0,
       cStatus: 0b00000,
@@ -375,6 +369,7 @@ export default {
         password: '',
         keepalive: 60,
         clean: true,
+        sessionExpiryInterval: 0,
         connectTimeout: 5000,
         will: {
           topic: '',
@@ -424,6 +419,9 @@ export default {
     connectUrl() {
       const { host, port, ssl, endpoint } = this.connection
       return `${ssl ? 'wss://' : 'ws://'}${host}:${port}${endpoint}`
+    },
+    isMQTTv5() {
+      return this.connection.protocolversion === MQTT_V5_VALUE
     },
   },
   beforeUnmount() {
@@ -627,6 +625,19 @@ export default {
         this.connection.port = 8084
       }
     },
+    handleCleanChanged(val) {
+      if (!this.isMQTTv5) {
+        return
+      }
+      // default value for true is 0
+      const { sessionExpiryInterval: interval } = this.connection
+      if (val && (interval === undefined || interval === '')) {
+        this.connection.sessionExpiryInterval = 0
+      } else if (!val && interval === 0) {
+        // default value for true is undefined (never expired)
+        this.connection.sessionExpiryInterval = undefined
+      }
+    },
     /**
      * after connection, subscribe topics in subscribe table
      */
@@ -657,8 +668,12 @@ export default {
         connectTimeout,
         will,
         protocolversion,
-        sessionExpiryInterval,
+        sessionExpiryInterval: interval,
       } = this.connection
+      let sessionExpiryInterval = interval
+      if (this.isMQTTv5 && (sessionExpiryInterval === '' || sessionExpiryInterval === undefined)) {
+        sessionExpiryInterval = parseInt('0xFFFFFFFF', 16)
+      }
       return {
         clientId,
         username,
@@ -786,6 +801,8 @@ export default {
 }
 
 .footer-area {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 20px;
 }
 
