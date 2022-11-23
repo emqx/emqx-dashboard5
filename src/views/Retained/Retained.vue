@@ -2,12 +2,19 @@
   <div class="app-wrapper retained">
     <div class="section-header">
       <div></div>
-      <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
-        {{ $t('Base.setting') }}
-      </el-button>
-      <el-button type="primary" :icon="RefreshRight" @click="refresh">
-        {{ $t('Base.refresh') }}
-      </el-button>
+      <template v-if="isEnabledRetainer">
+        <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
+          {{ $t('Base.setting') }}
+        </el-button>
+        <el-button type="primary" :icon="RefreshRight" @click="refresh">
+          {{ $t('Base.refresh') }}
+        </el-button>
+      </template>
+      <el-tooltip v-else effect="dark" placement="top" :content="tl('retainerDisabled')">
+        <el-button type="primary" @click="$router.push({ name: 'mqtt-retainer' })">
+          {{ $t('Base.enable') }}
+        </el-button>
+      </el-tooltip>
     </div>
     <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
       <el-table-column
@@ -97,7 +104,7 @@ import { RefreshRight, Setting } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { dateFormat } from '@/common/utils'
 import Monaco from '@/components/Monaco.vue'
-import { delRetainerTopic, getRetainerList, getRetainerTopic } from '@/api/extension'
+import { delRetainerTopic, getRetainer, getRetainerList, getRetainerTopic } from '@/api/extension'
 import usePagination from '@/hooks/usePagination'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import useCopy from '@/hooks/useCopy'
@@ -113,6 +120,7 @@ const tbData = ref<RetainerMessage[]>([])
 const payloadDialog = ref(false)
 const payloadDetail = ref('')
 const payloadLoading = ref(false)
+const isEnabledRetainer = ref(true)
 
 const initPageNo = () => {
   page.value = 1
@@ -189,7 +197,19 @@ const deleteRetainerTopic = async function (row: any) {
     })
 }
 
+const loadConfigData = async () => {
+  try {
+    let res = await getRetainer()
+    if (res) {
+      isEnabledRetainer.value = res.enable
+    }
+  } catch (error) {
+    //
+  }
+}
+
 loadTbData()
+loadConfigData()
 </script>
 
 <style lang="scss">
