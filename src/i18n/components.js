@@ -71,6 +71,10 @@ export default {
     zh: '订阅管理',
     en: 'Subscriptions',
   },
+  retained: {
+    zh: '保留消息',
+    en: 'Retained Message',
+  },
   schemas: {
     zh: '编解码',
     en: 'Schema Registry',
