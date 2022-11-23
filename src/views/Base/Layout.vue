@@ -116,10 +116,11 @@ export default defineComponent({
       return topLvRoute || {}
     })
     const defaultSubMenu = computed(() => {
-      // const { children, path: topPath } = topLvRoute.value
       const { path } = route
-      // const childRoute = Array.prototype.find.call(children, (v) => path.indexOf(v.path) >= 0) || {}
-      // return `${topPath}/${childRoute && childRoute.path}` || undefined
+      const pathItem = path.split('/')
+      if (pathItem.length > 2) {
+        return `${topLvRoute.value.path}/${pathItem[2]}`
+      }
       return path
     })
     const hasSubMenu = computed(() => {
