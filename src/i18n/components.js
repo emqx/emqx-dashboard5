@@ -73,7 +73,7 @@ export default {
   },
   retained: {
     zh: '保留消息',
-    en: 'Retained Message',
+    en: 'Retained Messages',
   },
   schemas: {
     zh: '编解码',
