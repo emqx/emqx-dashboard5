@@ -197,6 +197,11 @@ export default defineComponent({
         path: '/subscriptions',
       },
       {
+        title: 'retained',
+        icon: 'icon-retained',
+        path: '/retained',
+      },
+      {
         title: 'auth',
         icon: 'icon-authentication',
         c: authentication,
