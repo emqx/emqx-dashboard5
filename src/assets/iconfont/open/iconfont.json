@@ -6,6 +6,34 @@
   "description": "for emqx 5.0 dashboard",
   "glyphs": [
     {
+      "icon_id": "33010498",
+      "name": "system-dark-keep message",
+      "font_class": "retained-dark-selected",
+      "unicode": "e79b",
+      "unicode_decimal": 59291
+    },
+    {
+      "icon_id": "33010499",
+      "name": "system-dark-keep message 2",
+      "font_class": "retained-dark",
+      "unicode": "e79c",
+      "unicode_decimal": 59292
+    },
+    {
+      "icon_id": "33010500",
+      "name": "ssystem-light-keep message",
+      "font_class": "retained-light",
+      "unicode": "e79d",
+      "unicode_decimal": 59293
+    },
+    {
+      "icon_id": "33010501",
+      "name": "system-light-keep message",
+      "font_class": "retained-light-selected",
+      "unicode": "e79e",
+      "unicode_decimal": 59294
+    },
+    {
       "icon_id": "27365027",
       "name": "discord",
       "font_class": "discord",
