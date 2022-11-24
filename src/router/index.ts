@@ -276,11 +276,6 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Auth/AuthzCreate.vue'),
       },
       {
-        path: 'settings',
-        name: 'authorizationSetting',
-        component: () => import('@/views/Auth/AuthzSetting.vue'),
-      },
-      {
         path: 'detail/:type',
         name: 'authorizationDetail',
         component: () => import('@/views/Auth/AuthzDetails.vue'),
