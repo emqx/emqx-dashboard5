@@ -1,8 +1,11 @@
 import { ConnectionStatus } from './enum'
 
 export interface AuthzSetting {
+  deny_action: 'ignore' | 'disconnect'
+  no_match: 'allow' | 'deny'
   cache: {
-    ttl: string
+    enable: boolean
+    ttl?: string
     unit?: string
   }
 }
