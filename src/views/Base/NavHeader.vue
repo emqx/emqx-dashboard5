@@ -128,7 +128,7 @@ export default defineComponent({
       let { path } = route || []
       let _firstPath = path.split('/')[1]
       firstPath.value = _firstPath
-      isNotFound.value = route.matched[1].name === 'not-found'
+      isNotFound.value = route.matched?.[1]?.name === 'not-found'
     }
     watch(route, () => {
       setHeaderTitle()
