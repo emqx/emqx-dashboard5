@@ -308,4 +308,8 @@ export default {
     zh: '设置',
     en: 'Settings',
   },
+  disableGatewayTip: {
+    zh: '禁用网关将导致通过此网关接入的连接全部断开，继续？',
+    en: 'Disabling the gateway will cause all connections accessed through this gateway to be disconnected. continue?',
+  },
 }
