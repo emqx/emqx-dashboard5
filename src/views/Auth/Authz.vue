@@ -2,7 +2,7 @@
   <div class="authz app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button :icon="Setting" @click="$router.push({ name: 'authorizationSetting' })">
+      <el-button :icon="Setting" @click="showSettingDrawer = true">
         {{ $t('Base.setting') }}
       </el-button>
       <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'authorizationCreate' })">
@@ -66,6 +66,7 @@
       </el-table-column>
     </el-table>
   </div>
+  <AuthzSettingDrawer v-model="showSettingDrawer" />
 </template>
 
 <script lang="ts">
@@ -86,6 +87,8 @@ import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
+import AuthzSettingDrawer from './components/AuthzSettingDrawer.vue'
+import { ref } from 'vue'
 
 const { t } = useI18n()
 
@@ -102,6 +105,8 @@ const {
   moveAuthzToBottom,
 } = useAuthz()
 const { toggleAuthStatus } = useToggleAuthStatus()
+
+const showSettingDrawer = ref(false)
 
 const toggleEnable = async (row: AuthzItemInTable) => {
   try {
