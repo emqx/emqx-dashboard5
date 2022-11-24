@@ -243,4 +243,8 @@ export default {
     zh: '已保留消息',
     en: 'Retained Messages',
   },
+  retainerDisabled: {
+    zh: '保留消息功能已禁用，点击跳转到设置页面中开启。',
+    en: 'Retained message is disabled, click to enable on settings page.',
+  },
 }

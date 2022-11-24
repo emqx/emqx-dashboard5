@@ -212,6 +212,11 @@ export default defineComponent({
         c: config,
       },
       {
+        title: 'retained',
+        icon: 'icon-retained',
+        path: '/retained',
+      },
+      {
         title: 'extensions',
         icon: 'icon-extensions',
         c: extensions,

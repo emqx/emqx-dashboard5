@@ -53,6 +53,7 @@ import IoTCreate from '@/views/RuleEngine/IoT/IoTCreate.vue'
 import IoTDetail from '@/views/RuleEngine/IoT/IoTDetail.vue'
 import Settings from '@/views/Settings/Settings.vue'
 import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
+import Retained from '@/views/Retained/Retained.vue'
 import Topics from '@/views/Topics/Topics.vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import NotFound from '@/views/Base/NotFound.vue'
@@ -176,6 +177,23 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'topics',
         name: 'topics',
         component: Topics,
+      },
+    ],
+  },
+
+  // Connections
+  {
+    path: '/retained',
+    component: Layout,
+    meta: {
+      hideKey: 'retained',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'retained',
+        component: Retained,
       },
     ],
   },
