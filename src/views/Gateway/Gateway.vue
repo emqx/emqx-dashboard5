@@ -47,7 +47,7 @@
             v-model="row.status"
             :active-value="GatewayStatus.Running"
             :inactive-value="GatewayStatus.Stopped"
-            @change="gatewayStartStop(row)"
+            :before-change="handleSwitchStatus(row)"
           />
         </template>
       </el-table-column>
@@ -75,7 +75,7 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
 import { calcPercentage, caseInsensitiveCompare } from '@/common/utils'
 import { useRouter } from 'vue-router'
-import { ElMessage as M } from 'element-plus'
+import { ElMessage as M, ElMessageBox } from 'element-plus'
 import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -123,14 +123,28 @@ export default defineComponent({
 
     const gatewayStartStop = async function (instance: any) {
       const { name } = instance
-      tbLoading.value = true
       try {
-        await toggleGatewayEnable(name, isRunning(instance.status))
-        M.success(isRunning(instance.status) ? t('Base.enableSuccess') : t('Base.disabledSuccess'))
-      } catch (error) {
+        if (isRunning(instance.status)) {
+          await ElMessageBox.confirm(tl('disableGatewayTip'), {
+            confirmButtonText: t('Base.confirm'),
+            cancelButtonText: t('Base.cancel'),
+            type: 'warning',
+          })
+        }
+        tbLoading.value = true
+        await toggleGatewayEnable(name, !isRunning(instance.status))
         instance.status = isRunning(instance.status) ? disableStr : enableStr
+        M.success(isRunning(instance.status) ? t('Base.disabledSuccess') : t('Base.enableSuccess'))
+      } catch (error) {
+        //
       } finally {
         tbLoading.value = false
+      }
+    }
+
+    const handleSwitchStatus = (gateway: any) => {
+      return () => {
+        gatewayStartStop(gateway)
       }
     }
 
@@ -159,7 +173,7 @@ export default defineComponent({
       goSettingPage,
       goClientPage,
       setupGateway,
-      gatewayStartStop,
+      handleSwitchStatus,
     }
   },
 })
