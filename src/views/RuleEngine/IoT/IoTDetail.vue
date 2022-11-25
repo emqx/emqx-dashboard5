@@ -123,6 +123,7 @@ const deleteRule = async () => {
   })
   await deleteRules(id)
   ElMessage.success(t('Base.deleteSuccess'))
+  rawRuleInfo = ruleInfo.value
   router.push({ name: 'iot' })
 }
 
@@ -134,6 +135,7 @@ const submitUpdateRules = async () => {
   try {
     await updateRules(id, updateData)
     ElMessage.success(t('Base.updateSuccess'))
+    rawRuleInfo = ruleInfo.value
     router.push({ name: 'iot' })
   } catch (error) {
     console.error(error)

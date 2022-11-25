@@ -52,7 +52,7 @@ const ruleValue: Ref<RuleItem> = ref({
   actions: [],
   description: '',
 })
-const rawRuleValue = cloneDeep(ruleValue.value)
+let rawRuleValue = cloneDeep(ruleValue.value)
 const countIsRuleRecordChanged = () => !isEqual(ruleValue.value, rawRuleValue)
 
 const formCom = ref()
@@ -76,6 +76,7 @@ const submitCreateIoT = async () => {
 
   try {
     await createRules({ ...ruleValue.value })
+    rawRuleValue = ruleValue.value
     ElMessage.success(t('Base.createSuccess'))
     router.push({ name: 'iot' })
   } catch (error) {
