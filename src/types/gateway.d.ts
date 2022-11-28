@@ -1,1 +1,6 @@
-export type GatewayProtocl = 'coap' | 'lwm2m' | 'exproto' | 'lwm2m' | 'mqttsn' | 'stomp'
+import { GatewayName, GatewayStatus } from './enum'
+
+export interface GatewayItem {
+  name: GatewayName
+  status: GatewayStatus
+}

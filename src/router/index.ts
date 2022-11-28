@@ -1,62 +1,11 @@
 import store from '@/store'
-import CurrentAlarm from '@/views/Alarm/CurrentAlarm.vue'
-import HistoryAlarm from '@/views/Alarm/HistoryAlarm.vue'
-import APIKey from '@/views/APIKey/APIKey.vue'
-import KeepAliveChildren from '@/views/Base/KeepAliveChildren.vue'
-import Layout from '@/views/Base/Layout.vue'
-import Login from '@/views/Base/Login.vue'
-import ClientDetails from '@/views/Clients/ClientDetails.vue'
-import Clients from '@/views/Clients/Clients.vue'
-import Extension from '@/views/Config/Extension/Extension.vue'
-// import Cluster from '@/views/Config/BasicConfig/Cluster.vue'
-// import Dashboard from '@/views/Config/BasicConfig/Dashboard.vue'
-// import Limiter from '@/views/Config/BasicConfig/Limiter.vue'
-import Log from '@/views/Config/BasicConfig/Log.vue'
-import Mqtt from '@/views/Config/BasicConfig/Mqtt.vue'
-import Retainer from '@/views/Config/BasicConfig/Retainer.vue'
-import SysTopics from '@/views/Config/BasicConfig/sysTopics.vue'
-import Session from '@/views/Config/BasicConfig/Session.vue'
-import AlarmSettings from '@/views/Config/Monitoring/AlarmSettings.vue'
-import MonitoringIntegration from '@/views/Config/Monitoring/MonitoringIntegration.vue'
-import Metrics from '@/views/Dashboard/Metrics.vue'
-import NodeDetail from '@/views/Dashboard/NodeDetail.vue'
-import Nodes from '@/views/Dashboard/Nodes.vue'
-import Overview from '@/views/Dashboard/Overview.vue'
-import LogTrace from '@/views/Diagnose/LogTrace/LogTrace.vue'
-import LogTraceDetail from '@/views/Diagnose/LogTrace/LogTraceDetail.vue'
-import SlowSub from '@/views/Diagnose/SlowSub.vue'
-import SlowSubConfig from '@/views/Diagnose/SlowSubConfig.vue'
-import TopicMetrics from '@/views/Diagnose/TopicMetrics.vue'
-import Websocket from '@/views/Diagnose/WebSocket.vue'
-import Exhook from '@/views/Exhook/Exhook.vue'
-import ExhookCreate from '@/views/Exhook/ExhookCreate.vue'
-import ExhookDetail from '@/views/Exhook/ExhookDetail.vue'
-import GatewayDetailAuth from '@/views/Gateway/components/auth.vue'
-import GatewayDetailBasic from '@/views/Gateway/components/basic.vue'
-import GatewayDetailClients from '@/views/Gateway/components/clients.vue'
-import GatewayDetailListener from '@/views/Gateway/components/listeners.vue'
-import Gateway from '@/views/Gateway/Gateway.vue'
-import GatewayCreate from '@/views/Gateway/GatewayCreate.vue'
-import GatewayDetail from '@/views/Gateway/GatewayDetail.vue'
-import Blacklist from '@/views/General/Blacklist.vue'
-import Users from '@/views/General/Users.vue'
-import Listener from '@/views/Listener/Listener.vue'
-import PluginDetail from '@/views/Plugins/PluginDetail.vue'
-import PluginInstall from '@/views/Plugins/PluginInstall.vue'
-import Plugins from '@/views/Plugins/Plugins.vue'
-import BridgeCreate from '@/views/RuleEngine/Bridge/BridgeCreate.vue'
-import BridgeDetail from '@/views/RuleEngine/Bridge/BridgeDetail.vue'
-import Bridge from '@/views/RuleEngine/Bridge/DataBridge.vue'
-import FlowChart from '@/views/RuleEngine/FlowChart/FlowChart.vue'
-import IoT from '@/views/RuleEngine/IoT/IoT.vue'
-import IoTCreate from '@/views/RuleEngine/IoT/IoTCreate.vue'
-import IoTDetail from '@/views/RuleEngine/IoT/IoTDetail.vue'
-import Settings from '@/views/Settings/Settings.vue'
-import Subscriptions from '@/views/Subscriptions/Subscriptions.vue'
-import Retained from '@/views/Retained/Retained.vue'
-import Topics from '@/views/Topics/Topics.vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import NotFound from '@/views/Base/NotFound.vue'
+
+const Layout = () => import('@/views/Base/Layout.vue')
+const BridgeCreate = () => import('@/views/RuleEngine/Bridge/BridgeCreate.vue')
+// const Cluster =()=> import('@/views/Config/BasicConfig/Cluster.vue')
+// const Dashboard =()=> import('@/views/Config/BasicConfig/Dashboard.vue')
+// const Limiter =()=> import('@/views/Config/BasicConfig/Limiter.vue')
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -72,7 +21,7 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       authRequired: false,
     },
-    component: Login,
+    component: () => import('@/views/Base/Login.vue'),
   },
 
   {
@@ -87,25 +36,25 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'overview',
         name: 'overview',
-        component: Overview,
+        component: () => import('@/views/Dashboard/Overview.vue'),
         meta: {},
       },
       {
         path: 'nodes',
         name: 'nodes',
-        component: Nodes,
+        component: () => import('@/views/Dashboard/Nodes.vue'),
         meta: {},
       },
       {
         path: 'metrics',
         name: 'metrics',
-        component: Metrics,
+        component: () => import('@/views/Dashboard/Metrics.vue'),
         meta: {},
       },
       {
         path: 'nodes/:nodeName',
         name: 'nodeDetail',
-        component: NodeDetail,
+        component: () => import('@/views/Dashboard/NodeDetail.vue'),
         meta: {
           hideInMenu: true,
         },
@@ -125,12 +74,12 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'current-alarm',
         name: 'current-alarm',
-        component: CurrentAlarm,
+        component: () => import('@/views/Alarm/CurrentAlarm.vue'),
       },
       {
         path: 'history-alarm',
         name: 'history-alarm',
-        component: HistoryAlarm,
+        component: () => import('@/views/Alarm/HistoryAlarm.vue'),
       },
     ],
   },
@@ -147,12 +96,12 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'connections',
-        component: Clients,
+        component: () => import('@/views/Clients/Clients.vue'),
       },
       {
         path: 'detail/:clientId',
         name: 'connection-detail',
-        component: ClientDetails,
+        component: () => import('@/views/Clients/ClientDetails.vue'),
       },
     ],
   },
@@ -171,12 +120,12 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'subscription',
         name: 'subscription',
-        component: Subscriptions,
+        component: () => import('@/views/Subscriptions/Subscriptions.vue'),
       },
       {
         path: 'topics',
         name: 'topics',
-        component: Topics,
+        component: () => import('@/views/Topics/Topics.vue'),
       },
     ],
   },
@@ -193,7 +142,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'retained',
-        component: Retained,
+        component: () => import('@/views/Retained/Retained.vue'),
       },
     ],
   },
@@ -210,7 +159,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'users',
-        component: Users,
+        component: () => import('@/views/General/Users.vue'),
       },
     ],
   },
@@ -227,7 +176,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'blacklist',
-        component: Blacklist,
+        component: () => import('@/views/General/Blacklist.vue'),
       },
     ],
   },
@@ -294,37 +243,37 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'gateway',
-        component: Gateway,
+        component: () => import('@/views/Gateway/Gateway.vue'),
       },
       {
         path: 'create/:name',
         name: 'gateway-create',
-        component: GatewayCreate,
+        component: () => import('@/views/Gateway/GatewayCreate.vue'),
       },
       {
         path: 'detail/:name',
         name: 'gateway-detail',
-        component: GatewayDetail,
+        component: () => import('@/views/Gateway/GatewayDetail.vue'),
         children: [
           {
             path: 'settings',
             name: 'gateway-detail-settings',
-            component: GatewayDetailBasic,
+            component: () => import('@/views/Gateway/components/basic.vue'),
           },
           {
             path: 'listeners',
             name: 'gateway-detail-listeners',
-            component: GatewayDetailListener,
+            component: () => import('@/views/Gateway/components/listeners.vue'),
           },
           {
             path: 'auth',
             name: 'gateway-detail-auth',
-            component: GatewayDetailAuth,
+            component: () => import('@/views/Gateway/components/auth.vue'),
           },
           {
             path: 'connections',
             name: 'gateway-detail-connections',
-            component: GatewayDetailClients,
+            component: () => import('@/views/Gateway/components/clients.vue'),
           },
         ],
       },
@@ -342,7 +291,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'APIKey',
-        component: APIKey,
+        component: () => import('@/views/APIKey/APIKey.vue'),
       },
     ],
   },
@@ -358,17 +307,17 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'plugins',
-        component: Plugins,
+        component: () => import('@/views/Plugins/Plugins.vue'),
       },
       {
         path: 'install',
         name: 'plugin-install',
-        component: PluginInstall,
+        component: () => import('@/views/Plugins/PluginInstall.vue'),
       },
       {
         path: 'detail/:pluginName-:pluginVersion',
         name: 'plugin-detail',
-        component: PluginDetail,
+        component: () => import('@/views/Plugins/PluginDetail.vue'),
       },
     ],
   },
@@ -384,17 +333,17 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'exhook',
-        component: Exhook,
+        component: () => import('@/views/Exhook/Exhook.vue'),
       },
       {
         path: 'create',
         name: 'exhook-create',
-        component: ExhookCreate,
+        component: () => import('@/views/Exhook/ExhookCreate.vue'),
       },
       {
         path: 'detail/:exhookName',
         name: 'exhook-detail',
-        component: ExhookDetail,
+        component: () => import('@/views/Exhook/ExhookDetail.vue'),
       },
     ],
   },
@@ -410,29 +359,29 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'iot',
-        component: IoT,
+        component: () => import('@/views/RuleEngine/IoT/IoT.vue'),
       },
       {
         path: 'create',
-        component: KeepAliveChildren,
+        component: () => import('@/views/Base/KeepAliveChildren.vue'),
         redirect: '/iot/create/form',
         children: [
           {
             path: 'form',
             name: 'iot-create',
-            component: IoTCreate,
+            component: () => import('@/views/RuleEngine/IoT/IoTCreate.vue'),
           },
         ],
       },
       {
         path: 'detail/:id',
-        component: KeepAliveChildren,
+        component: () => import('@/views/Base/KeepAliveChildren.vue'),
         redirect: '/rules/detail/:id/info',
         children: [
           {
             path: 'info',
             name: 'iot-detail',
-            component: IoTDetail,
+            component: () => import('@/views/RuleEngine/IoT/IoTDetail.vue'),
           },
           {
             path: 'bridge',
@@ -458,7 +407,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'dataBridge',
         name: 'data-bridge',
-        component: Bridge,
+        component: () => import('@/views/RuleEngine/Bridge/DataBridge.vue'),
         children: [
           {
             path: 'create',
@@ -468,7 +417,7 @@ export const routes: Array<RouteRecordRaw> = [
           {
             path: 'detail/:id',
             name: 'bridge-detail',
-            component: BridgeDetail,
+            component: () => import('@/views/RuleEngine/Bridge/BridgeDetail.vue'),
           },
         ],
       },
@@ -513,7 +462,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'listener',
-        component: Listener,
+        component: () => import('@/views/Listener/Listener.vue'),
       },
     ],
   },
@@ -531,27 +480,27 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'general',
         name: 'mqtt-general',
-        component: Mqtt,
+        component: () => import('@/views/Config/BasicConfig/Mqtt.vue'),
       },
       {
         path: 'session',
         name: 'mqtt-session',
-        component: Session,
+        component: () => import('@/views/Config/BasicConfig/Session.vue'),
       },
       {
         path: 'retainer',
         name: 'mqtt-retainer',
-        component: Retainer,
+        component: () => import('@/views/Config/BasicConfig/Retainer.vue'),
       },
       {
         path: 'system-topic',
         name: 'mqtt-system-topic',
-        component: SysTopics,
+        component: () => import('@/views/Config/BasicConfig/sysTopics.vue'),
       },
       {
         path: 'extension',
         name: 'mqtt-extension',
-        component: Extension,
+        component: () => import('@/views/Config/Extension/Extension.vue'),
       },
     ],
   },
@@ -567,7 +516,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'log',
-        component: Log,
+        component: () => import('@/views/Config/BasicConfig/Log.vue'),
       },
     ],
   },
@@ -600,12 +549,12 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'alarm-settings',
         name: 'alarm-settings',
-        component: AlarmSettings,
+        component: () => import('@/views/Config/Monitoring/AlarmSettings.vue'),
       },
       {
         path: 'integration',
         name: 'monitoring-integration',
-        component: MonitoringIntegration,
+        component: () => import('@/views/Config/Monitoring/MonitoringIntegration.vue'),
       },
     ],
   },
@@ -621,7 +570,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'flow',
-        component: FlowChart,
+        component: () => import('@/views/RuleEngine/FlowChart/FlowChart.vue'),
       },
     ],
   },
@@ -640,7 +589,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'websocket',
-        component: Websocket,
+        component: () => import('@/views/Diagnose/WebSocket.vue'),
       },
     ],
   },
@@ -656,7 +605,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'topic-metrics',
-        component: TopicMetrics,
+        component: () => import('@/views/Diagnose/TopicMetrics.vue'),
       },
     ],
   },
@@ -672,12 +621,12 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'slow-sub',
-        component: SlowSub,
+        component: () => import('@/views/Diagnose/SlowSub.vue'),
       },
       {
         path: 'config',
         name: 'slow-sub-config',
-        component: SlowSubConfig,
+        component: () => import('@/views/Diagnose/SlowSubConfig.vue'),
       },
     ],
   },
@@ -693,12 +642,12 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'log-trace',
-        component: LogTrace,
+        component: () => import('@/views/Diagnose/LogTrace/LogTrace.vue'),
       },
       {
         path: 'detail/:id',
         name: 'log-trace-detail',
-        component: LogTraceDetail,
+        component: () => import('@/views/Diagnose/LogTrace/LogTraceDetail.vue'),
       },
     ],
   },
@@ -714,7 +663,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'settings',
-        component: Settings,
+        component: () => import('@/views/Settings/Settings.vue'),
       },
     ],
   },
@@ -726,7 +675,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'not-found',
-        component: NotFound,
+        component: () => import('@/views/Base/NotFound.vue'),
       },
     ],
   },

@@ -146,15 +146,15 @@ export default defineComponent({
       }
       Reflect.deleteProperty(sendParams, 'count')
 
-      let res = await getGatewayClients(gname, sendParams).catch(() => {})
-      if (res) {
-        gatewayTable.value = res.data
-        tbLoading.value = false
-        pageMeta.value = res.meta
-      } else {
-        tbLoading.value = false
+      try {
+        let { data, meta } = await getGatewayClients(gname, sendParams)
+        gatewayTable.value = data
+        pageMeta.value = meta
+      } catch (error) {
         gatewayTable.value = []
         pageMeta.value = {}
+      } finally {
+        tbLoading.value = false
       }
     }
 
@@ -185,20 +185,18 @@ export default defineComponent({
     }
 
     const disconnectClient = async function (row: any) {
-      ElMessageBox.confirm(t('Clients.willDisconnectTheConnection'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      })
-        .then(async () => {
-          let id = row.clientid
-          let res = await disconnGatewayClient(gname, id).catch(() => {})
-          if (res) {
-            ElMessage.success(t('Clients.successfulDisconnection'))
-            loadGatewayClients()
-          }
+      try {
+        await ElMessageBox.confirm(t('Clients.willDisconnectTheConnection'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          type: 'warning',
         })
-        .catch(() => {})
+        await disconnGatewayClient(gname, row.clientid)
+        ElMessage.success(t('Clients.successfulDisconnection'))
+        loadGatewayClients()
+      } catch (error) {
+        //
+      }
     }
 
     onMounted(() => {

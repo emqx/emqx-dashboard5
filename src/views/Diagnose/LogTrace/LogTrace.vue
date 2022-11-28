@@ -289,13 +289,16 @@ export default defineComponent({
         }
 
         // delete sendbody.startTime;
-        const res = await addTrace(sendbody).catch(() => {})
-        if (res) {
+        try {
+          await addTrace(sendbody)
           M.success(t('LogTrace.createSuc'))
           loadTraceList()
           cancelDialog()
+        } catch (error) {
+          //
+        } finally {
+          createLoading.value = false
         }
-        createLoading.value = false
       })
     }
 
@@ -309,10 +312,12 @@ export default defineComponent({
 
     const stopTraceHandler = async (row: TraceRecord) => {
       if (!row.name) return
-      const res = await stopTrace(row.name).catch(() => {})
-      if (res) {
+      try {
+        await stopTrace(row.name)
         M.success(t('LogTrace.stopSuc'))
         loadTraceList()
+      } catch (error) {
+        //
       }
     }
 
@@ -328,18 +333,18 @@ export default defineComponent({
       if (!row.name) {
         return
       }
-      const prompt = await MB.confirm(t('LogTrace.confirmDeleteTrace'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      }).catch(() => {})
+      try {
+        await MB.confirm(t('LogTrace.confirmDeleteTrace'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          type: 'warning',
+        })
 
-      if (prompt) {
-        const res = await deleteTrace(row.name).catch(() => {})
-        if (res) {
-          M.success(t('LogTrace.deleteSuc'))
-          loadTraceList()
-        }
+        await deleteTrace(row.name)
+        M.success(t('LogTrace.deleteSuc'))
+        loadTraceList()
+      } catch (error) {
+        //
       }
     }
 

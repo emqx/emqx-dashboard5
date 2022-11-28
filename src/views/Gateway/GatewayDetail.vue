@@ -57,10 +57,9 @@ export default defineComponent({
     })
 
     const loadGatewayInfo = async () => {
-      let res = await getGateway(gname).catch(() => {})
-      if (res) {
-        gInfo.value = res
-      } else {
+      try {
+        gInfo.value = await getGateway(gname)
+      } catch (error) {
         gInfo.value = {}
       }
     }

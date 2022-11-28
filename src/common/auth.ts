@@ -6,7 +6,7 @@ import { UserInfo } from '@/types/common'
 /**
  * key for set/get local storage
  */
-const USER_INFO_KEY = 'uK'
+const USER_INFO_KEY = 'uKV5'
 const ENCRYPTION_KEY = 'YWSCVU8Z55N9N1G1'
 
 const getUserInfoKey = () => {
