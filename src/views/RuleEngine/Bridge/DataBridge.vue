@@ -71,7 +71,6 @@ import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/use
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
-import { omit } from 'lodash'
 
 export default defineComponent({
   components: { BridgeItemStatus, TableItemDropDown },

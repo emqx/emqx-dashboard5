@@ -138,17 +138,6 @@ const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
   loadTableData({ page: 1 })
 }
-const handleResetSearch = async () => {
-  fuzzyParams.value = {
-    node: '',
-    match_topic: '',
-    clientid: '',
-    share_group: '',
-    qos: '',
-  }
-  params.value = genQueryParams(fuzzyParams.value)
-  loadTableData({ page: 1 })
-}
 
 const genQueryParams = (params: Record<string, any>) => {
   const { clientid, qos, share_group, node, match_topic } = params

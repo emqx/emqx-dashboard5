@@ -162,7 +162,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose, computed } from 'vue'
+import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose } from 'vue'
 import { getBridgeInfo, getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
@@ -387,10 +387,10 @@ const useSQLTemplate = (SQLTemp: string) => {
   syncSQLDataToForm()
 }
 
-const testSQLTemplate = ({ sql, input }: { sql: string; input: string }) => {
-  testSQL.value = sql
-  payloadForTest.value = input
-}
+// const testSQLTemplate = ({ sql, input }: { sql: string; input: string }) => {
+//   testSQL.value = sql
+//   payloadForTest.value = input
+// }
 
 const openTemplateDrawer = () => {
   showSQLTemplateDrawer.value = true

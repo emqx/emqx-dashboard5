@@ -190,7 +190,7 @@ export default defineComponent({
       return { name }
     })
 
-    const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide(() => {})
+    const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 
     const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 

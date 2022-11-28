@@ -106,11 +106,14 @@ const editListener = (listener, index) => {
 
 const loadListenerData = async function () {
   listenerLoading.value = true
-  let res = await getGatewayListeners(gName).catch(() => {})
-  if (res) {
+  try {
+    let res = await getGatewayListeners(gName)
     listenerTable.value = res.map((v) => deNormalizeStructure(v, gName))
+  } catch (error) {
+    //
+  } finally {
+    listenerLoading.value = false
   }
-  listenerLoading.value = false
 }
 
 const submitListener = async function (data) {

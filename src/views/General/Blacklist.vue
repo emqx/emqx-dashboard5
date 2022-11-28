@@ -150,16 +150,15 @@ export default {
       this.tbLoading = true
       const sendParams = { ...this.params, ...this.pageMeta, ...params }
       Reflect.deleteProperty(sendParams, 'count')
-      const res = await loadBlacklist(this.pageMeta).catch(() => {})
-      if (res) {
-        const { data = [], meta = {} } = res
+      try {
+        const { data = [], meta = {} } = await loadBlacklist(this.pageMeta)
         this.tableData = data
-        this.tbLoading = false
         this.pageMeta = meta
-      } else {
-        this.tbLoading = false
+      } catch (error) {
         this.tableData = []
         this.pageMeta = {}
+      } finally {
+        this.tbLoading = false
       }
     },
 
@@ -196,33 +195,34 @@ export default {
         // }
 
         this.submitLoading = true
-        const res = await createBlacklist(record).catch(() => {})
-        if (res) {
+        try {
+          await createBlacklist(record)
           ElMessage.success(this.$t('General.createBlacklistSuccess'))
           this.closeDialog()
           this.listBlackList({ page: 1 })
           // this.$refs.p.$emit("loadPage");
+        } catch (error) {
+          //
+        } finally {
+          this.submitLoading = false
         }
-        this.submitLoading = false
       })
     },
-    deleteConfirm(item) {
-      this.$msgbox
-        .confirm(this.$t('Base.confirmDelete'), {
+    async deleteConfirm(item) {
+      try {
+        await this.$msgbox.confirm(this.$t('Base.confirmDelete'), {
           confirmButtonText: this.$t('Base.confirm'),
           cancelButtonText: this.$t('Base.cancel'),
           type: 'warning',
         })
-        .then(async () => {
-          const { who, as } = item
-          const res = await deleteBlacklist({ who, as }).catch(() => {})
-          if (res) {
-            ElMessage.success(this.$t('Base.deleteSuccess'))
-            this.listBlackList({ page: 1 })
-            // this.$refs.p.$emit("loadPage");
-          }
-        })
-        .catch(() => {})
+        const { who, as } = item
+        await deleteBlacklist({ who, as })
+        ElMessage.success(this.$t('Base.deleteSuccess'))
+        this.listBlackList({ page: 1 })
+        // this.$refs.p.$emit("loadPage");
+      } catch (error) {
+        //
+      }
     },
     formatterUntil({ until }) {
       if (!until) {
