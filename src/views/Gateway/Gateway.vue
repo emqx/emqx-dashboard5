@@ -29,11 +29,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="tl('listeners')"
-        :min-width="132"
-        :sort-by="(row) => row.listeners?.length || 0"
-      >
+      <el-table-column :label="tl('listeners')" :min-width="132">
         <template #default="{ row }">
           <span v-if="hasBeenInitialized(row)">
             {{ row.listeners?.length || 0 }}
@@ -71,21 +67,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
 import { calcPercentage, caseInsensitiveCompare } from '@/common/utils'
-import { useRouter } from 'vue-router'
-import { ElMessage as M, ElMessageBox } from 'element-plus'
+import useI18nTl from '@/hooks/useI18nTl'
 import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
-import useI18nTl from '@/hooks/useI18nTl'
+import { ElMessage as M, ElMessageBox } from 'element-plus'
+import { defineComponent, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { GatewayItem } from '@/types/gateway'
 
 export default defineComponent({
   name: 'Gateway',
   setup() {
-    let tbData = ref<any[]>([])
+    let tbData = ref<GatewayItem[]>([])
     let tbLoading = ref(false)
-    let dropdownExclusiveKey = '_drop'
     const enableStr = GatewayStatus.Running
     const disableStr = GatewayStatus.Stopped
     const unloadStr = GatewayStatus.Unloaded
@@ -100,17 +96,15 @@ export default defineComponent({
 
     const loadGateway = async () => {
       tbLoading.value = true
-      let res = await getGatewayList().catch(() => {})
-      if (res) {
-        let pendingData: any[] = []
-        Array.prototype.forEach.call(res, (v) => {
-          pendingData.push({ ...v, ...{ [dropdownExclusiveKey]: false } })
-        })
-        tbData.value = pendingData.sort((a, b) => a.status.localeCompare(b.status))
-      } else {
-        tbData.value = []
+      tbData.value = []
+      try {
+        let res: Array<GatewayItem> = await getGatewayList()
+        tbData.value = res.sort((a, b) => a.status.localeCompare(b.status))
+      } catch (error) {
+        //
+      } finally {
+        tbLoading.value = false
       }
-      tbLoading.value = false
     }
 
     const hasBeenInitialized = (item: any) => !isUnload(item.status)

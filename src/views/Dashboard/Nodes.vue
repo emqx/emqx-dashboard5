@@ -86,7 +86,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadNodes } from '@/api/common'
-import { getDuration, calcPercentage } from '@/common/utils'
+import { calcPercentage } from '@/common/utils'
 import { ref, onMounted, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RefreshRight } from '@element-plus/icons-vue'

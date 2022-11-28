@@ -179,11 +179,13 @@ const currentUser = computed(() => {
 
 const loadData = async () => {
   lockTable.value = true
-  let res = await loadUser().catch(() => {})
-  if (res) {
-    tableData.value = res
+  try {
+    tableData.value = await loadUser()
+  } catch (error) {
+    //
+  } finally {
+    lockTable.value = false
   }
-  lockTable.value = false
 }
 
 const showDialog = (type = 'create', item = {}) => {

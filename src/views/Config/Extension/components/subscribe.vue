@@ -1,3 +1,4 @@
+<!-- Proxy Subscription -->
 <template>
   <div class="no-tab-wrapper subscribe">
     <div class="section-header">
@@ -185,25 +186,21 @@ export default defineComponent({
     }
 
     const deleteSubs = async function (origin) {
-      MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-      })
-        .then(async () => {
-          let pendingTbData = Object.assign([], subTbData.value)
-          const position = pendingTbData.findIndex((e) => e === origin)
-          pendingTbData.splice(position, 1)
-          let res = await editSubscribe(pendingTbData).catch(() => {})
-          if (res) {
-            ElMessage({
-              type: 'success',
-              message: t('Base.deleteSuccess'),
-            })
-            loadData()
-          }
+      try {
+        await MB.confirm(t('Base.confirmDelete'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          type: 'warning',
         })
-        .catch(() => {})
+        let pendingTbData = Object.assign([], subTbData.value)
+        const position = pendingTbData.findIndex((e) => e === origin)
+        pendingTbData.splice(position, 1)
+        await editSubscribe(pendingTbData)
+        ElMessage.success(t('Base.deleteSuccess'))
+        loadData()
+      } catch (error) {
+        //
+      }
     }
 
     const closeDialog = () => {
@@ -212,12 +209,14 @@ export default defineComponent({
     }
 
     let loadData = async () => {
-      tbLoading.value = true
-      let res = await getSubscribe().catch(() => {})
-      if (res) {
-        subTbData.value = res
+      try {
+        tbLoading.value = true
+        subTbData.value = await getSubscribe()
+      } catch (error) {
+        //
+      } finally {
+        tbLoading.value = false
       }
-      tbLoading.value = false
     }
 
     onMounted(loadData)

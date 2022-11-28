@@ -1,17 +1,15 @@
-import { GatewayProtocl } from '@/types/gateway'
+import { GatewayName } from '@/types/enum'
 
 export default function useTransName(): {
-  transGatewayName: (name: GatewayProtocl) => string
+  transGatewayName: (name: GatewayName) => string
 } {
-  const transGatewayName = (name: GatewayProtocl) => {
-    const gatewayName: {
-      [key in GatewayProtocl]: string
-    } = {
-      coap: 'CoAP',
-      lwm2m: 'LwM2M',
-      exproto: 'ExProto',
-      mqttsn: 'MQTT-SN',
-      stomp: 'STOMP',
+  const transGatewayName = (name: GatewayName) => {
+    const gatewayName: Record<GatewayName, string> = {
+      [GatewayName.CoAP]: 'CoAP',
+      [GatewayName.LwM2M]: 'LwM2M',
+      [GatewayName.ExProto]: 'ExProto',
+      [GatewayName.MQTT_SN]: 'MQTT-SN',
+      [GatewayName.STOMP]: 'STOMP',
     }
     return gatewayName[name]
   }

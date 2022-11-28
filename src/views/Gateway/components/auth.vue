@@ -86,14 +86,19 @@ const openAuthCreate = async function () {
 }
 
 const getAuthInfo = async function () {
-  loadingAuth.value = true
-  let res = await getGatewayAuth(gname).catch(() => {})
-  if (res === 204) {
-    hasAuth.value = false
-  } else if (res) {
-    hasAuth.value = res
+  try {
+    loadingAuth.value = true
+    let res = await getGatewayAuth(gname)
+    if (res === 204) {
+      hasAuth.value = false
+    } else if (res) {
+      hasAuth.value = res
+    }
+  } catch (error) {
+    //
+  } finally {
+    loadingAuth.value = false
   }
-  loadingAuth.value = false
 }
 
 const cancelCreate = function () {
