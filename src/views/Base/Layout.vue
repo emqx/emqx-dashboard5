@@ -59,7 +59,7 @@
             </router-view>
             <router-view v-if="!keepAlive" />
           </div>
-          <Footer />
+          <Footer v-if="route.name !== 'help'" />
         </el-main>
       </el-container>
     </el-container>
@@ -139,6 +139,7 @@ export default defineComponent({
     })
     return {
       store,
+      route,
       edition,
       elMainStyle,
       topLvRoute,

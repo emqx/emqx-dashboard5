@@ -6,6 +6,34 @@
   "description": "for emqx 5.0 dashboard",
   "glyphs": [
     {
+      "icon_id": "33123908",
+      "name": "linkedin",
+      "font_class": "linkedin",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "17458930",
+      "name": "understand more",
+      "font_class": "understandmore",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "792496",
+      "name": "bird-小鸟",
+      "font_class": "twitter",
+      "unicode": "e736",
+      "unicode_decimal": 59190
+    },
+    {
+      "icon_id": "15617495",
+      "name": "youtube",
+      "font_class": "youtube",
+      "unicode": "e8e2",
+      "unicode_decimal": 59618
+    },
+    {
       "icon_id": "33010498",
       "name": "system-dark-keep message",
       "font_class": "retained-dark-selected",

@@ -347,4 +347,8 @@ export default {
     zh: '历史告警',
     en: 'History',
   },
+  help: {
+    zh: '帮助',
+    en: 'Help',
+  },
 }

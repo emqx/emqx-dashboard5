@@ -1,5 +1,11 @@
 import http from '@/common/http'
-import { SlowSubConfig, SlowSubStatistic, TopicMetricItem } from '@/types/diagnose'
+import {
+  SlowSubConfig,
+  SlowSubStatistic,
+  TopicMetricItem,
+  TraceRecord,
+  TraceItem,
+} from '@/types/diagnose'
 import { downloadBlobData } from '@/common/tools'
 import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
 import { ElMessage } from 'element-plus'
@@ -9,11 +15,11 @@ export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get('/slow_subscriptions/settings')
 }
 
-export const updateSlowSubConfig = (data: SlowSubConfig) => {
+export const updateSlowSubConfig = (data: SlowSubConfig): Promise<SlowSubConfig> => {
   return http.put('/slow_subscriptions/settings', data)
 }
 
-export const clearSlowSubData = () => {
+export const clearSlowSubData = (): Promise<void> => {
   return http.delete('/slow_subscriptions')
 }
 
@@ -28,24 +34,29 @@ export const querySlowSubStatistics = async (): Promise<Array<SlowSubStatistic>>
   }
 }
 
-export function getTraceList() {
+export function getTraceList(): Promise<Array<TraceItem>> {
   return http.get('/trace')
 }
 
-export function addTrace(body: Record<string, unknown>) {
+export function addTrace(body: TraceRecord): Promise<TraceRecord> {
   return http.post('/trace', body)
 }
 
-export function getTraceDetail(name: string) {
+export function getTraceDetail(
+  name: string,
+): Promise<Array<{ node: string; size: number; mtime: number }>> {
   return http.get(`/trace/${name}/log_detail`)
 }
 
-export function getTraceLog(name: string, params: Record<string, unknown>) {
-  if (!name) return false
+export function getTraceLog(
+  name: string,
+  params: { bytes: number; position: number },
+): Promise<{ items: string; meta: { bytes: number; position: number } }> {
+  if (!name) return Promise.reject()
   return http.get(`/trace/${encodeURIComponent(name)}/log`, { params })
 }
 
-export async function downloadTrace(name: string, node?: string) {
+export async function downloadTrace(name: string, node?: string): Promise<void> {
   try {
     const res = await http.get(`/trace/${encodeURIComponent(name)}/download`, {
       params: { node },
@@ -62,11 +73,11 @@ export async function downloadTrace(name: string, node?: string) {
     return Promise.reject(error)
   }
 }
-export function stopTrace(name: string) {
+export function stopTrace(name: string): Promise<{ enable: boolean; name: string }> {
   return http.put(`/trace/${encodeURIComponent(name)}/stop`)
 }
 
-export function deleteTrace(name: string) {
+export function deleteTrace(name: string): Promise<void> {
   return http.delete(`/trace/${encodeURIComponent(name)}`)
 }
 
@@ -87,7 +98,7 @@ export function deleteTopicMetrics(topic: string): Promise<any> | undefined {
   return http.delete('/mqtt/topic_metrics/' + encodeURIComponent(topic))
 }
 
-export function resetTopicMetrics(topic: any): any {
+export function resetTopicMetrics(topic: string): any {
   if (topic == null) return
   return http.put(`/mqtt/topic_metrics`, { action: 'reset', topic })
 }

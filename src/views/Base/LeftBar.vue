@@ -124,6 +124,7 @@ export default defineComponent({
         path: '/APIKey',
       },
       { title: 'settings', path: '/settings' },
+      { title: 'help', path: '/help' },
       // {
       //   title: 'dashboard-http',
       //   path: '/dashboard-http',
