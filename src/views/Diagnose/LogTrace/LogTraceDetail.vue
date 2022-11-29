@@ -141,9 +141,9 @@ export default defineComponent({
       try {
         const logResp = await getTraceLog(name, params)
         if (logResp && logResp.items) {
-          const { meta = {} } = logResp
+          const { meta } = logResp
           logContent.value += logResp.items
-          LOG_VIEW_POSITION = meta.position ? meta.position : LOG_VIEW_POSITION + BYTE_PER_PAGE
+          LOG_VIEW_POSITION = meta?.position ? meta.position : LOG_VIEW_POSITION + BYTE_PER_PAGE
         }
       } catch (error) {
         //

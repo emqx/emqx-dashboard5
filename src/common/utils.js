@@ -1,7 +1,6 @@
 // import sqlFormatter from "sql-formatter";
 // import parser from "js-sql-parser";
 import store from '@/store'
-import { useI18n } from 'vue-i18n'
 import moment from 'moment'
 
 export function randomStr(len = 6) {

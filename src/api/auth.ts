@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
 import { AuthzSetting, Metrics } from '@/types/auth'
-import _ from 'lodash'
 
 export function listAuthn(params = {}) {
   return http.get('/authentication', { params })
