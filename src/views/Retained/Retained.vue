@@ -67,7 +67,7 @@
             v-model="payloadForShow"
             :lang="plaintextShow ? 'plaintext' : 'json'"
             disabled
-            jsonWithoutValidate
+            :jsonWithoutValidate="payloadShowBy !== PayloadShowByType.JSON"
           />
         </div>
       </el-row>

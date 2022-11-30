@@ -24,7 +24,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="endpoint" :label="$t('Tools.mountPoint')">
+            <el-form-item prop="endpoint" label="Path">
               <el-input v-model="connection.endpoint" placeholder="/mqtt" />
             </el-form-item>
           </el-col>
