@@ -143,7 +143,7 @@
         :rules="topicRules"
         @submit.prevent="addTopic()"
       >
-        <el-form-item prop="topic" :label="'topic'">
+        <el-form-item prop="topic" :label="$t('Base.topic')">
           <el-input v-model="topicInput.topic"></el-input>
         </el-form-item>
       </el-form>
