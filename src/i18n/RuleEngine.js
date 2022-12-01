@@ -108,8 +108,8 @@ export default {
     en: 'Connection',
   },
   brokerAddress: {
-    zh: 'Broker 地址',
-    en: 'Broker',
+    zh: 'MQTT 服务地址',
+    en: 'MQTT Broker',
   },
   mqttVer: {
     zh: 'MQTT 协议版本',

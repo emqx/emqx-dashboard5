@@ -24,7 +24,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="endpoint" :label="$t('Tools.mountPoint')">
+            <el-form-item prop="endpoint" label="Path">
               <el-input v-model="connection.endpoint" placeholder="/mqtt" />
             </el-form-item>
           </el-col>
@@ -488,7 +488,7 @@ export default {
         return status
       }
     },
-    setNotify(status, custom = false) {
+    setNotify(status) {
       let label = String(status).substring(1).toLowerCase()
       let labelText = this.$t(`Tools.${label}`)
       const infoType = [WEB_SOCKET_STATUS.Connected, WEB_SOCKET_STATUS.Disconnected].includes(
@@ -646,7 +646,7 @@ export default {
         const { topic, qos } = topicItem
         return { ...obj, [topic]: { qos } }
       }, {})
-      this.client.subscribe(obj, (err, res) => {
+      this.client.subscribe(obj, (err) => {
         if (err) {
           ElMessage.error(this.$t('Tools.subscriptionFailure'))
           this.subscriptions = []

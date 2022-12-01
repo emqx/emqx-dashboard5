@@ -40,7 +40,7 @@
         label-position="top"
         @keyup.enter="submitRewrite(isEdit)"
       >
-        <el-form-item :label="'Action'" prop="action">
+        <el-form-item :label="tl('action')" prop="action">
           <el-select v-model="rewriteInput.action">
             <el-option
               v-for="{ value, label } in actionOpts"
@@ -53,7 +53,7 @@
         <el-form-item :label="tl('sTopic')" prop="source_topic">
           <el-input v-model="rewriteInput.source_topic" />
         </el-form-item>
-        <el-form-item :label="'Re'" prop="re">
+        <el-form-item :label="tl('re')" prop="re">
           <el-input v-model="rewriteInput.re" />
         </el-form-item>
         <el-form-item :label="tl('dTopic')" prop="dest_topic">

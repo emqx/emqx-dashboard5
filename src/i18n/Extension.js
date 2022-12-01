@@ -101,7 +101,7 @@ export default {
   },
   dTopic: {
     zh: '目标主题',
-    en: 'Dest. Topic',
+    en: 'Destination Topic',
   },
   delayedTime: {
     zh: '延迟时间',

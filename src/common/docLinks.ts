@@ -14,6 +14,16 @@ type DocKey =
   | 'bridgeAsFrom'
   | 'ruleEventMsgPub'
   | 'enterprise'
+  | 'dashboard'
+  | 'mqttStudy'
+  | 'mqttV5'
+  | 'mqttClient'
+  | 'githubHome'
+  | 'twitterHome'
+  | 'youtubeHome'
+  | 'linkedInHome'
+  | 'emqxEnterprise'
+  | 'cloudHome'
 
 export type DocMap = Record<DocKey, string>
 
@@ -40,5 +50,16 @@ export default (lang: string): DocMap => {
       lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
     }`,
     enterprise: `https://www.emqx.com/${lang}/try?product=enterprise&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-header-upgrade-to-enterprise`,
+    dashboard: `https://www.emqx.io/docs/${lang}/v5.0/dashboard/introduction.html`,
+    mqttStudy: `https://www.emqx.com/${lang}/mqtt`,
+    mqttV5: `https://www.emqx.com/${lang}/mqtt/mqtt5`,
+    mqttClient:
+      lang === 'en' ? `https://www.emqx.io/mqtt-client` : `https://www.emqx.io/zh/mqtt-client`,
+    githubHome: 'https://twitter.com/EMQTech',
+    twitterHome: 'https://twitter.com/EMQTech',
+    youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
+    linkedInHome: 'https://www.linkedin.com/company/emqtech',
+    emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx`,
+    cloudHome: `https://www.emqx.com/${lang}/cloud`,
   }
 }

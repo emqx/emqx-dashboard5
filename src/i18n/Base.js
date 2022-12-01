@@ -471,6 +471,10 @@ export default {
     zh: 'GitHub',
     en: 'GitHub',
   },
+  blog: {
+    zh: '博客',
+    en: 'Blog',
+  },
   contact: {
     zh: '联系我们',
     en: 'Contact Us',
@@ -506,5 +510,25 @@ export default {
   upgrade: {
     zh: '升级',
     en: 'Upgrade',
+  },
+  eeDesc: {
+    zh: '企业级 MQTT 物联网接入平台',
+    en: 'Enterprise MQTT Platform at Scale',
+  },
+  cloudDesc: {
+    zh: '全托管的 MQTT 消息云服务',
+    en: 'Fully Managed MQTT Service for IoT',
+  },
+  gettingStarted: {
+    zh: '快速开始',
+    en: 'Getting Started',
+  },
+  dashboardIntro: {
+    zh: 'Dashboard 介绍',
+    en: 'Dashboard Introduction',
+  },
+  relatedResources: {
+    zh: '相关资源',
+    en: 'Related Resources',
   },
 }

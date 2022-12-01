@@ -1,8 +1,9 @@
 import store from '@/store'
+import { Component } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
-const Layout = () => import('@/views/Base/Layout.vue')
-const BridgeCreate = () => import('@/views/RuleEngine/Bridge/BridgeCreate.vue')
+const Layout = (): Promise<Component> => import('@/views/Base/Layout.vue')
+const BridgeCreate = (): Promise<Component> => import('@/views/RuleEngine/Bridge/BridgeCreate.vue')
 // const Cluster =()=> import('@/views/Config/BasicConfig/Cluster.vue')
 // const Dashboard =()=> import('@/views/Config/BasicConfig/Dashboard.vue')
 // const Limiter =()=> import('@/views/Config/BasicConfig/Limiter.vue')
@@ -664,6 +665,20 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'settings',
         component: () => import('@/views/Settings/Settings.vue'),
+      },
+    ],
+  },
+  {
+    path: '/help',
+    component: Layout,
+    meta: {
+      hideKey: 'help',
+    },
+    children: [
+      {
+        path: '',
+        name: 'help',
+        component: () => import('@/views/Settings/Help.vue'),
       },
     ],
   },

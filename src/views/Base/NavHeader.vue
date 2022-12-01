@@ -18,6 +18,17 @@
         </div>
       </el-tooltip>
 
+      <router-link :to="{ name: 'help' }" class="link-help">
+        <el-tooltip
+          effect="dark"
+          :content="$t('components.help')"
+          placement="bottom"
+          :show-arrow="false"
+        >
+          <i class="iconfont icon-question icon-understandmore"></i>
+        </el-tooltip>
+      </router-link>
+
       <el-dropdown placement="bottom" @command="handleDropdownCommand">
         <div class="user-info func-item">
           <span class="user-avatar">{{ user.username?.substr(0, 1).toUpperCase() }}</span>
@@ -228,6 +239,9 @@ export default defineComponent({
   height: 24px;
   display: inline-block;
 }
+.link-help {
+  margin: 12px;
+}
 .el-icon.bell {
   color: var(--color-title-primary);
   font-size: 20px;
@@ -235,5 +249,9 @@ export default defineComponent({
   height: 24px;
   position: relative;
   top: 1px;
+}
+.icon-question {
+  color: var(--color-title-primary);
+  opacity: 0.85;
 }
 </style>

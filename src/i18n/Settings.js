@@ -31,4 +31,12 @@ export default {
     zh: '开启后，系统将跟随操作系统主题自动切换',
     en: 'Automatically switch between Light and Night themes when your system does.',
   },
+  mqttStudy: {
+    zh: 'MQTT 协议入门与进阶',
+    en: 'The Easy-to-understand Guide to MQTT Protocol',
+  },
+  findMQTTClient: {
+    zh: '找到合适您的 MQTT 客户端',
+    en: 'Choosing the best MQTT client for your needs',
+  },
 }

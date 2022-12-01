@@ -11,8 +11,6 @@ export default (
 ): {
   getSessionInfoItem: GetSessionInfoItem
 } => {
-  const { t } = useI18nTl('Base')
-
   const { transMsNumToSimpleStr } = useDurationStr()
 
   const getSessionInfoItem: GetSessionInfoItem = (key) => {

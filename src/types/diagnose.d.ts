@@ -1,4 +1,4 @@
-import { QoSLevel, SlowSubType } from './enum'
+import { SlowSubType } from './enum'
 
 export interface SlowSubConfig {
   enable: boolean
