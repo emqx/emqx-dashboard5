@@ -32,7 +32,7 @@
       </el-tab-pane>
       <el-tab-pane
         v-if="type === 'built_in_database'"
-        :label="$t('Auth.userConfig')"
+        :label="$t('Auth.permissions')"
         name="users"
         :lazy="true"
       >
