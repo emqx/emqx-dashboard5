@@ -44,13 +44,14 @@ export default (): void => {
   const router = useRouter()
   const { tl } = useI18nTl('Base')
 
-  let isMsgBoxClosed = false
+  let isMsgBoxClosed = true
 
   const isUsingDefaultPwd = computed(() => {
     return store.state.user.isUsingDefaultPwd
   })
 
   const popupMessageBox = () => {
+    isMsgBoxClosed = false
     ElMessageBox({
       type: 'info',
       message: tl('defaultPwdTip'),
@@ -80,8 +81,9 @@ export default (): void => {
 
   const { preventLeaveWithoutChangeDefaultPwd } = useRouteGuardForChangeDefaultPwd()
   onBeforeRouteLeave((to, from, next) => {
-    if (isUsingDefaultPwd.value && !isMsgBoxClosed) {
+    if (!isMsgBoxClosed) {
       ElMessageBox.close()
+      isMsgBoxClosed = true
     }
     preventLeaveWithoutChangeDefaultPwd(to, from, next)
   })

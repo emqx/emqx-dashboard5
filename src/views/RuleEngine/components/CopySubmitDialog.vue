@@ -127,7 +127,6 @@ const submit = async () => {
     if (isRule.value) {
       router.push({ name: 'iot' })
     } else {
-      debugger
       confirmAfterCreatedBridge(res.id)
     }
   } catch (error) {

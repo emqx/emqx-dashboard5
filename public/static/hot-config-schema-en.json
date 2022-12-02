@@ -189,6 +189,23 @@
                 },
                 "type": "object"
             },
+            "limiter.node_opts": {
+                "properties": {
+                    "rate": {
+                        "default": "infinity",
+                        "description": "Rate for this bucket.",
+                        "label": "Rate",
+                        "type": "string"
+                    },
+                    "burst": {
+                        "default": 0,
+                        "description": "The burst, This value is based on rate.</br> This value + rate = the maximum limit that can be achieved when limiter burst.",
+                        "label": "Burst",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "emqx_conf_schema.log_burst_limit": {
                 "properties": {
                     "enable": {
@@ -1686,6 +1703,88 @@
                 },
                 "type": "object"
             },
+            "limiter.client_fields": {
+                "properties": {
+                    "bytes_in": {
+                        "default": {},
+                        "description": "The bytes_in limiter.</br>This is used to limit the inbound bytes rate for this EMQX node.</br>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
+                        "label": "Bytes In",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    },
+                    "message_in": {
+                        "default": {},
+                        "description": "The message in limiter.</br>This is used to limit the inbound message numbers for this EMQX node</br>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
+                        "label": "Message In",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    },
+                    "connection": {
+                        "default": {},
+                        "description": "The connection limiter.</br>This is used to limit the connection rate for this EMQX node.</br>Once the limit is reached, new connections will be refused",
+                        "label": "Connection",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    },
+                    "message_routing": {
+                        "default": {},
+                        "description": "The message routing limiter.</br>This is used to limit the forwarding rate for this EMQX node.</br>Once the limit is reached, new publish will be refused",
+                        "label": "Message Routing",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    },
+                    "internal": {
+                        "default": {},
+                        "description": "Limiter for EMQX internal app.",
+                        "label": "internal",
+                        "$ref": "#/components/schemas/limiter.client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "limiter.limiter": {
+                "properties": {
+                    "bytes_in": {
+                        "default": {},
+                        "description": "The bytes_in limiter.</br>This is used to limit the inbound bytes rate for this EMQX node.</br>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
+                        "label": "Bytes In",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "message_in": {
+                        "default": {},
+                        "description": "The message in limiter.</br>This is used to limit the inbound message numbers for this EMQX node</br>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
+                        "label": "Message In",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "connection": {
+                        "default": {},
+                        "description": "The connection limiter.</br>This is used to limit the connection rate for this EMQX node.</br>Once the limit is reached, new connections will be refused",
+                        "label": "Connection",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "message_routing": {
+                        "default": {},
+                        "description": "The message routing limiter.</br>This is used to limit the forwarding rate for this EMQX node.</br>Once the limit is reached, new publish will be refused",
+                        "label": "Message Routing",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "internal": {
+                        "default": {},
+                        "description": "Limiter for EMQX internal app.",
+                        "label": "internal",
+                        "$ref": "#/components/schemas/limiter.node_opts"
+                    },
+                    "client": {
+                        "default": {
+                            "bytes_in": {},
+                            "connection": {},
+                            "internal": {},
+                            "message_in": {},
+                            "message_routing": {}
+                        },
+                        "description": "The rate limit for each user of the bucket",
+                        "label": "Per Client",
+                        "$ref": "#/components/schemas/limiter.client_fields"
+                    }
+                },
+                "type": "object"
+            },
             "dashboard.https": {
                 "required": [
                     "bind",
@@ -2085,6 +2184,58 @@
                 },
                 "type": "object"
             },
+            "limiter.client_opts": {
+                "properties": {
+                    "rate": {
+                        "default": "infinity",
+                        "description": "Rate for this bucket.",
+                        "label": "Rate",
+                        "type": "string"
+                    },
+                    "initial": {
+                        "default": "0",
+                        "description": "The initial number of tokens for this bucket.",
+                        "label": "Initial",
+                        "type": "string"
+                    },
+                    "low_watermark": {
+                        "default": "0",
+                        "description": "If the remaining tokens are lower than this value,</br>the check/consume will succeed, but it will be forced to wait for a short period of time.",
+                        "label": "Low Watermark",
+                        "type": "string"
+                    },
+                    "capacity": {
+                        "default": "infinity",
+                        "description": "The capacity of per user.",
+                        "label": "Capacity",
+                        "type": "string"
+                    },
+                    "divisible": {
+                        "default": false,
+                        "description": "Is it possible to split the number of requested tokens?",
+                        "label": "Divisible",
+                        "type": "boolean"
+                    },
+                    "max_retry_time": {
+                        "default": "10s",
+                        "description": "The maximum retry time when acquire failed.",
+                        "label": "Max Retry Time",
+                        "type": "duration"
+                    },
+                    "failure_strategy": {
+                        "default": "force",
+                        "description": "The strategy when all the retries failed.",
+                        "label": "Failure Strategy",
+                        "symbols": [
+                            "force",
+                            "drop",
+                            "throw"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "dashboard.dashboard": {
                 "required": [
                     "default_password",
@@ -2232,6 +2383,11 @@
                         "description": "Configuration for EMQX dashboard.",
                         "label": "Dashboard",
                         "$ref": "#/components/schemas/dashboard.dashboard"
+                    },
+                    "limiter": {
+                        "description": "Settings for the rate limiter.",
+                        "label": "limiter",
+                        "$ref": "#/components/schemas/limiter.limiter"
                     }
                 },
                 "type": "object"
@@ -2349,6 +2505,14 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "/configs/limiter": {
+            "get": {
+                "$ref": "#/components/schemas/limiter.limiter"
+            },
+            "put": {
+                "$ref": "#/components/schemas/limiter.limiter"
             }
         },
         "/configs/log": {
