@@ -113,7 +113,11 @@
           <el-button @click="handleBack">
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button type="primary" @click="handleNext">
+          <el-button
+            type="primary"
+            @click="handleNext"
+            :disabled="needSelectInSecondStep && !backend"
+          >
             {{ $t('Base.nextStep') }}
           </el-button>
         </div>
@@ -278,9 +282,24 @@ const hasDatabaseToChoose = computed(() => {
   )
 })
 
+const needSelectInSecondStep = computed(() => databases.value.length + others.value.length > 0)
+
 const getGuideList = function () {
   return [t('Auth.mechanism'), t('Auth.dataSource'), t('Auth.config')]
 }
+
+const findFirstDatabaseDidNotAdd = () => {
+  let firstDatabase = databases.value.find((item: any) => {
+    return !addedAuthn.value.includes(`${mechanism.value}_${item.value}`)
+  })
+  if (!firstDatabase && others.value && others.value.length > 0) {
+    firstDatabase = others.value.find((item: any) => {
+      return !addedAuthn.value.includes(`${mechanism.value}_${item.value}`)
+    })
+  }
+  return firstDatabase ? firstDatabase.value : undefined
+}
+
 const getSupportBackend = function () {
   const supportData = supportBackendMap[mechanism.value]
   Object.keys(supportData).forEach((key) => {
@@ -297,7 +316,7 @@ const getSupportBackend = function () {
     }
   })
   if (databases.value.length !== 0) {
-    backend.value = databases.value[0].value
+    backend.value = findFirstDatabaseDidNotAdd()
   }
 }
 
