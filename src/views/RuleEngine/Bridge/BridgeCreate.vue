@@ -143,7 +143,12 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useSSL from '@/hooks/useSSL'
-import { checkNOmitFromObj, jumpToErrorFormItem, utf8Encode } from '@/common/tools'
+import {
+  checkNOmitFromObj,
+  countDuplicationName,
+  jumpToErrorFormItem,
+  utf8Encode,
+} from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
@@ -249,7 +254,7 @@ export default defineComponent({
           const bridgeInfo = await getBridgeInfo(route.query.target as string)
           radioSelectedBridgeType.value = bridgeInfo.type
           if (bridgeInfo) {
-            bridgeData.value = { ...bridgeInfo, name: `${bridgeInfo.name}_duplication` }
+            bridgeData.value = { ...bridgeInfo, name: countDuplicationName(bridgeInfo.name) }
           }
         } catch (error) {
           //

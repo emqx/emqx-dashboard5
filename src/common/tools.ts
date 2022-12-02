@@ -2,6 +2,7 @@
 import { BridgeItem } from '@/types/rule'
 import { omit, isObject, escape, cloneDeep } from 'lodash'
 import utf8 from 'utf8'
+import { COPY_SUFFIX } from './constants'
 
 export const checkStringWithUnit = (str: string, units: Array<string>): boolean => {
   const reg = new RegExp(`^\\d+(.\\d+)?(${units.join('|')})$`)
@@ -473,3 +474,17 @@ export const formatSQL = (sql: string): string => {
 }
 
 export const sortedUniq = <T>(arr: Array<T>): Array<T> => [...new Set(arr)]
+
+const isCopyReg = new RegExp(`${COPY_SUFFIX}$`)
+const isReCopyReg = new RegExp(`${COPY_SUFFIX}_(?<numPart>\\d+)$`)
+export const countDuplicationName = (rawName: string): string => {
+  if (isCopyReg.test(rawName)) {
+    return `${rawName}_1`
+  }
+  if (isReCopyReg.test(rawName)) {
+    return rawName.replace(/\d+$/, (matched) => {
+      return (Number(matched) + 1).toString()
+    })
+  }
+  return `${rawName}${COPY_SUFFIX}`
+}

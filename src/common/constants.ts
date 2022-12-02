@@ -210,3 +210,5 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.MQTT,
   BridgeType.InfluxDB,
 ]
+
+export const COPY_SUFFIX = '_duplication'
