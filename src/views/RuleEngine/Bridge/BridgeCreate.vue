@@ -393,12 +393,6 @@ export default defineComponent({
 }
 
 .el-radio.is-bordered {
-  padding: 0 12px 0 2px;
-  min-width: 40%;
-  border: 2px solid var(--color-border-primary);
-  margin-top: 16px;
-  height: 100%;
-
   :deep(.el-radio__label) {
     position: relative;
     box-sizing: border-box;
@@ -437,6 +431,11 @@ export default defineComponent({
 .bridge-type-item {
   box-sizing: border-box;
   width: 100%;
+  height: 100%;
+  min-width: 40%;
+  margin-top: 16px;
+  padding: 0 12px 0 2px;
+  border: 2px solid var(--color-border-primary);
 }
 .bridge-type-item-img {
   position: absolute;
