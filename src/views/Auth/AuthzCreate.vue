@@ -32,7 +32,7 @@
           <el-button @click="$router.push('/authorization')">
             {{ $t('Base.cancel') }}
           </el-button>
-          <el-button type="primary" @click="handleNext">
+          <el-button type="primary" @click="handleNext" :disabled="!type">
             {{ $t('Base.nextStep') }}
           </el-button>
         </div>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, onMounted } from 'vue'
 import FileConfig from './components/FileConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
@@ -156,6 +156,11 @@ export default defineComponent({
       return JSON.parse(sessionStorage.getItem('addedAuthz')) || []
     })
 
+    const findFirstTypeDidNotAdd = () => {
+      const ret = typeList.value.find(({ value }) => !addedAuthz.value.includes(value))
+      return ret ? ret.value : undefined
+    }
+
     const handleCreate = async function () {
       let isVerified = true
       if (type.value !== 'built_in_database') {
@@ -177,6 +182,10 @@ export default defineComponent({
         router.push({ name: 'authorization' })
       }
     }
+
+    onMounted(() => {
+      type.value = findFirstTypeDidNotAdd()
+    })
     return {
       saveLoading,
       configData,

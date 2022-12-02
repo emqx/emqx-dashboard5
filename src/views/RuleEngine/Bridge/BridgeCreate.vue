@@ -176,7 +176,12 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useSSL from '@/hooks/useSSL'
-import { checkNOmitFromObj, jumpToErrorFormItem, utf8Encode } from '@/common/tools'
+import {
+  checkNOmitFromObj,
+  countDuplicationName,
+  jumpToErrorFormItem,
+  utf8Encode,
+} from '@/common/tools'
 import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
@@ -293,7 +298,7 @@ export default defineComponent({
           const bridgeInfo = await getBridgeInfo(route.query.target as string)
           radioSelectedBridgeType.value = bridgeInfo.type
           if (bridgeInfo) {
-            bridgeData.value = { ...bridgeInfo, name: `${bridgeInfo.name}_duplication` }
+            bridgeData.value = { ...bridgeInfo, name: countDuplicationName(bridgeInfo.name) }
           }
         } catch (error) {
           //
@@ -435,12 +440,6 @@ export default defineComponent({
 }
 
 .el-radio.is-bordered {
-  padding: 0 12px 0 2px;
-  min-width: 40%;
-  border: 2px solid var(--color-border-primary);
-  margin-top: 16px;
-  height: 100%;
-
   :deep(.el-radio__label) {
     position: relative;
     box-sizing: border-box;
@@ -479,6 +478,11 @@ export default defineComponent({
 .bridge-type-item {
   box-sizing: border-box;
   width: 100%;
+  height: 100%;
+  min-width: 40%;
+  margin-top: 16px;
+  padding: 0 12px 0 2px;
+  border: 2px solid var(--color-border-primary);
 }
 .bridge-type-item-img {
   position: absolute;

@@ -129,7 +129,7 @@ loadData()
     }
   }
   .desc-config {
-    margin: 8px 0;
+    margin: 16px 0;
     padding-left: 12px + 4px;
   }
 }

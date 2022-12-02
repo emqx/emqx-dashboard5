@@ -1,6 +1,7 @@
 @use './themes/light.scss';
 @use './themes/dark.scss';
 @use 'normalize.scss';
+@use '@/style/schemaForm.scss';
 
 @font-face {
   font-family: 'Roboto';

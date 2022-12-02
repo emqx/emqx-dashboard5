@@ -105,8 +105,6 @@ const statusForIcon = computed(() => {
 
 <style lang="scss">
 .el-popper.is-dark {
-  background: #282e38;
-
   &.tooltip-node-status-list {
     padding-top: 4px;
     padding-bottom: 4px;
