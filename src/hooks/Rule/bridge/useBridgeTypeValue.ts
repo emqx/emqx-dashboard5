@@ -1,7 +1,6 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 
 export const useBridgeTypeValue = (): {
@@ -52,19 +51,9 @@ export const useBridgeTypeOptions = (): {
     },
     {
       value: BridgeType.MQTT,
-      valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.In}`,
-      label: 'MQTT Source',
-      desc: tl('bridgeDescMQTTIn'),
-      externalConfig: { direction: MQTTBridgeDirection.In },
-    },
-    {
-      value: BridgeType.MQTT,
-      valueForRadio: `${BridgeType.MQTT}:${MQTTBridgeDirection.Out}`,
-      label: 'MQTT Sink',
-      desc: tl('bridgeDescMQTTOut'),
-      externalConfig: {
-        direction: MQTTBridgeDirection.Out,
-      },
+      valueForRadio: BridgeType.MQTT,
+      label: 'MQTT',
+      desc: tl('bridgeDescMQTT'),
     },
   ]
 
@@ -74,12 +63,8 @@ export const useBridgeTypeOptions = (): {
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   const getTypeStr = (bridge: BridgeItem): string => {
-    if (bridge.type === BridgeType.Webhook) {
-      return getLabelFromValueInOptionList(bridge.type, bridgeTypeOptions)
-    }
-    const directionStr =
-      'direction' in bridge && bridge.direction === MQTTBridgeDirection.In ? 'Source' : 'Sink'
-    return `${getBridgeLabelByTypeValue(bridge.type)} ${directionStr}`
+    const type = bridge.type?.indexOf(BridgeType.InfluxDB) > -1 ? BridgeType.InfluxDB : bridge.type
+    return getBridgeLabelByTypeValue(type) || ''
   }
 
   return {

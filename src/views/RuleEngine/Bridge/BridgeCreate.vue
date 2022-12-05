@@ -302,9 +302,6 @@ export default defineComponent({
               }
               break
             case BridgeType.MQTT:
-              if (dataToSubmit.connector?.type) {
-                Reflect.deleteProperty(dataToSubmit.connector, 'type')
-              }
               dataToSubmit = handleBridgeDataBeforeSubmit(dataToSubmit)
               break
           }

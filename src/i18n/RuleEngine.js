@@ -67,13 +67,9 @@ export default {
     zh: '发送数据到 Webhook',
     en: 'Send data to Webhook',
   },
-  bridgeDescMQTTIn: {
-    zh: '订阅指定主题来获取 MQTT 消息数据',
-    en: 'Subscribe to the specified topic to get MQTT messages',
-  },
-  bridgeDescMQTTOut: {
-    zh: '发布指定主题的消息到 MQTT 服务器',
-    en: 'Publish messages to the specified topic to MQTT Server',
+  bridgeDescMQTT: {
+    zh: '使用 MQTT 桥接数据',
+    en: 'Using MQTT to bridge data',
   },
   baseInfo: {
     zh: '基本信息',
@@ -331,13 +327,17 @@ export default {
     zh: '成功执行并输出结果',
     en: 'Executes successfully and outputs the result',
   },
-  sqlMatched: {
+  matched: {
     zh: '命中',
     en: 'Matched',
   },
   sqlMatchedDesc: {
     zh: '规则启用后的执行次数',
     en: 'The number of executions after the rule is enabled',
+  },
+  bridgeMatchedDesc: {
+    zh: 'Bridge 被匹配到（被请求）的次数',
+    en: 'Count of this bridge is matched and queried',
   },
   sqlFailed: {
     zh: '失败',
@@ -366,6 +366,70 @@ export default {
   rateMax: {
     zh: '最大执行速率',
     en: 'Maximum Execution Speed',
+  },
+  sent: {
+    zh: '已发送',
+    en: 'Sent',
+  },
+  sentDesc: {
+    zh: '已经发送出去的消息个数',
+    en: 'Count of messages that are sent by this bridge',
+  },
+  dropped: {
+    zh: '已丢弃',
+    en: 'Dropped',
+  },
+  droppedDesc: {
+    zh: '被丢弃的消息个数',
+    en: 'Count of messages dropped',
+  },
+  retried: {
+    zh: '已重试',
+    en: 'Retried',
+  },
+  retriedDesc: {
+    zh: '从队列或者飞行窗口里重试的次数',
+    en: 'Times of retried from the queue or the inflight window',
+  },
+  queuing: {
+    zh: '已缓存',
+    en: 'Queuing',
+  },
+  queuingDesc: {
+    zh: '当前被缓存到磁盘队列的消息个数',
+    en: 'Count of messages that are currently queuing',
+  },
+  sentSuccessfully: {
+    zh: '发送成功',
+    en: 'Sent Successfully',
+  },
+  sentSuccessfullyDesc: {
+    zh: '已经发送成功的消息个数',
+    en: 'Count of messages that sent successfully',
+  },
+  sentFailed: {
+    zh: '发送失败',
+    en: 'Sent Failed',
+  },
+  sentFailedDesc: {
+    zh: '发送失败的消息个数',
+    en: 'Count of messages that sent failed',
+  },
+  sentInflight: {
+    zh: '已发送未确认',
+    en: 'Sent Inflight',
+  },
+  sentInflightDesc: {
+    zh: '已异步地发送但没有收到 ACK 的消息个数',
+    en: 'Count of messages that were sent asynchronously but ACKs are not received',
+  },
+  received: {
+    zh: '已接收',
+    en: 'Received',
+  },
+  receivedDesc: {
+    zh: '从远程系统收到的消息个数',
+    en: 'Count of messages that is received from the remote system',
   },
   activated: {
     zh: '已启用',
@@ -543,14 +607,6 @@ export default {
     zh: '从远程 Broker 指定主题中获取数据',
     en: 'Get messages from the specific topic in remote broker',
   },
-  connectionClusterModeDesc: {
-    zh: '集群共享：整个集群中建立一个 MQTT 连接',
-    en: 'Cluster Shareload: Establish an MQTT connection across the cluster',
-  },
-  connectionNodeModeDesc: {
-    zh: '节点独享：每个节点上建立一个 MQTT 连接，会在客户端 ID 后附加随机字符串',
-    en: 'Cluster Singleton: An MQTT connection is established on each node, with a random string appended to the client ID',
-  },
   duplicate: {
     zh: '复制',
     en: 'Duplicate',
@@ -675,66 +731,6 @@ export default {
     zh: '了解更多',
     en: 'Read More',
   },
-  bridgeDataInDesc: {
-    zh: '你想转发哪个主题的数据？',
-    en: 'Which topic do you want to forward data on?',
-  },
-  bridgeDataOutDesc: {
-    zh: '你想将数据转发到什么地方？',
-    en: 'Where do you want to forward the data to?',
-  },
-  mqttSourceMappingDesc: {
-    zh: '你想从哪个地方获取数据？',
-    en: 'Where do you want to get the data from?',
-  },
-  mqttSourceTransDesc: {
-    zh: '是否将数据转发至本地主题？',
-    en: 'Would you like forward messages to a local topic?',
-  },
-  mqttSourceTransDescDetail: {
-    zh: '不经规则处理直接将远程主题数据转发至本地主题中。',
-    en: 'Directly forward Remote Topic messages to local topic without Rule processing.',
-  },
-  mqttSourceForwardLabel: {
-    zh: '你想将数据转发至何处？',
-    en: 'Where do you want to forward messages to?',
-  },
-  iotAndLocalTopic: {
-    zh: '在规则内或独立使用',
-    en: 'Use in Rules or Separate',
-  },
-  justIot: {
-    zh: '仅在规则内使用',
-    en: 'Just for Rules',
-  },
-  mqttSourceForwardLocalTopicDesc: {
-    zh: '从远程主题获取数据，并将数据转发至本地主题或接入到规则内（MQTT 作为数据源）',
-    en: 'Forward messages from the Remote Topic, and forward messages to Local Topic or Rules (MQTT Source)',
-  },
-  mqttSourceNotForwardLocalTopicDesc: {
-    zh: '从远程主题获取数据后转发至规则内，不可单独使用（MQTT 作为数据源）',
-    en: 'Forward messages from the Remote Topic to Rules, cannot be used separately (MQTT Source)',
-  },
-  mqttSinkForwardLocalTopicDesc: {
-    zh: '从本地主题或规则内转发数据，独立使用时将不经过规则处理，直接转发原始数据到远程主题（MQTT 作为数据目标）',
-    en: 'Forward messages from Local Topic or Rules, without Rules processing, directly forward the original data to Remote Topic (MQTT Sink)',
-  },
-  mqttSinkNotForwardLocalTopicDesc: {
-    zh: '数据仅支持通过规则处理后转发到远程主题，不可单独使用（MQTT 作为数据目标）',
-    en: 'Forward messages from the Rules, and forward messages to Remote Topic (MQTT Sink)',
-  },
-  bridgeSinkFromLabel: {
-    zh: '你想从什么地方转发数据？',
-    en: 'Where do you want to forward messages from?',
-  },
-  bridgeSinkForwardFromLocalTopicDesc: {
-    zh: '从本地主题或规则中转发数据，独立使用时将不经过规则处理，直接转发原始数据',
-    en: 'Forward messages from the Local Topic or Rules, without Rules processing, directly forward the original data',
-  },
-  bridgeSinkNotForwardFromLocalTopicDesc: {
-    zh: '数据仅支持通过规则处理后转发，不可单独使用',
-    en: 'Just forward messages from Rules, not separate',
-  },
   headers: {
     zh: '请求头',
     en: 'Headers',
@@ -810,5 +806,122 @@ export default {
   saveAsCopy: {
     zh: '保存为副本',
     en: 'Save as copy',
+  },
+  deleteBridgeSecondConfirm: {
+    zh: '当前数据桥接正在被以下规则使用，若继续删除，将在规则内移除当前数据桥接',
+    en: 'This data bridge is being used by the following rules, if it continues to be deleted, the data bridge will be removed within the rule',
+  },
+
+  ingress: {
+    zh: '入口配置',
+    en: 'Ingress',
+  },
+  egress: {
+    zh: '出口配置',
+    en: 'Egress',
+  },
+  localBroker: {
+    zh: '本地 MQTT 服务',
+    en: 'Local MQTT Broker',
+  },
+  remoteBroker: {
+    zh: '远程 MQTT 服务',
+    en: 'Remote MQTT Broker',
+  },
+  ingressDesc: {
+    zh: '从外部的远程服务桥接消息到本地服务。',
+    en: 'Bridge messages from external remote service to local.',
+  },
+  egressDesc: {
+    zh: '将本地服务桥接消息至外部的远程服务。',
+    en: 'Bridge local messages to external remote service.',
+  },
+  remoteTopicRequired: {
+    zh: '请配置远程 MQTT 服务',
+    en: 'Please configure the remote MQTT broker',
+  },
+  remoteTopicRepeated: {
+    zh: '入口和出口配置的远程 MQTT 主题相同',
+    en: 'The same remote MQTT topics are configured for ingress and egress',
+  },
+  workerPoolSize: {
+    en: 'Worker Pool Size',
+    zh: '资源连接池大小',
+  },
+  workerPoolSizeDesc: {
+    en: 'Resource worker pool size.',
+    zh: '资源连接池大小。',
+  },
+  healthCheckInterval: {
+    en: 'Health Check Interval',
+    zh: '健康检查间隔',
+  },
+  healthCheckIntervalDesc: {
+    en: 'Health check interval, in milliseconds.',
+    zh: '健康检查间隔，单位毫秒。',
+  },
+  autoRestartInterval: {
+    en: 'Auto Restart Interval',
+    zh: '自动重连间隔',
+  },
+  autoRestartIntervalDesc: {
+    en: 'The auto restart interval after the resource is disconnected, in milliseconds.',
+    zh: '资源断开以后，自动重连的时间间隔，单位毫秒。',
+  },
+  queryMode: {
+    en: 'Query mode',
+    zh: '请求模式',
+  },
+  queryModeDesc: {
+    en: "Query mode. Optional 'sync/async', default 'sync'.",
+    zh: "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+  },
+  asyncInflightWindow: {
+    zh: '异步请求飞行队列窗口',
+    en: 'Async inflight window',
+  },
+  asyncInflightWindowDesc: {
+    zh: '异步请求飞行队列窗口大小。',
+    en: 'Async query inflight window.',
+  },
+  enableQueue: {
+    en: 'Enable queue',
+    zh: '启用队列模式',
+  },
+  enableQueueDesc: {
+    en: 'Queue mode enabled.',
+    zh: '启用队列模式。',
+  },
+  maxQueueBytes: {
+    en: 'Queue max bytes',
+    zh: '队列最大长度',
+  },
+  maxQueueBytesDesc: {
+    en: 'Maximum queue storage.',
+    zh: '消息队列的最大长度。',
+  },
+  enableBatch: {
+    en: 'Enable batch',
+    zh: '启用批量模式',
+  },
+  enableBatchDesc: {
+    en: 'Batch mode enabled.',
+    zh: '启用批量模式。',
+  },
+  batchSize: {
+    en: 'Batch size',
+    zh: '批量请求大小',
+  },
+  batchSizeDesc: {
+    en: 'Maximum batch count.',
+    zh: '批量请求大小。',
+  },
+  batchTime: {
+    en: 'Batch time',
+    zh: '批量等待间隔',
+  },
+  batchTimeDesc: {
+    en: 'Maximum batch waiting interval.',
+    zh: '最大批量请求等待时间。',
   },
 }

@@ -30,7 +30,7 @@
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column>
           <template #header>
-            <span>{{ tl('sqlMatched') }}</span>
+            <span>{{ tl('matched') }}</span>
             <InfoTooltip :content="tl('sqlMatchedDesc')" />
           </template>
           <template #default="{ row }">
@@ -138,7 +138,7 @@ const ruleMetrics: ComputedRef<Metrics> = computed(() => {
 
 const runningStatistics = computed(() => [
   {
-    label: tl('sqlMatched'),
+    label: tl('matched'),
     desc: tl('sqlMatchedDesc'),
     value: ruleMetrics.value['matched'],
     className: 'success-bg',
