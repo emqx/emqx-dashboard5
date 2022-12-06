@@ -76,7 +76,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
-import { ConnectionStatus } from '@/types/enum'
+import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
@@ -95,6 +95,12 @@ const emit = defineEmits(['reset', 'reconnect', 'refresh'])
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
+
+const showReceived = computed(() => {
+  const isMQTT = props.bridgeMsg.type === BridgeType.MQTT
+  const withIngress = 'ingress' in props.bridgeMsg && props.bridgeMsg.ingress
+  return isMQTT && withIngress
+})
 
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
   const nodeStatusData = props.bridgeMsg?.node_status
@@ -120,24 +126,68 @@ const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = comput
 
 const { tl, t } = useI18nTl('RuleEngine')
 
-const statisticsData = computed(() => [
-  {
-    label: tl('SuccessNum'),
-    value: props.bridgeMsg?.metrics?.success,
-    className: 'success-bg',
-  },
-  {
-    label: tl('ErrNum'),
-    value: props.bridgeMsg?.metrics?.failed,
-    className: 'failed-bg',
-  },
-  {
-    label: tl('speedNow'),
-    value: props.bridgeMsg?.metrics?.rate,
-    unit: t('RuleEngine.rateUnit', 0),
-    className: 'rate-bg',
-  },
-])
+const statisticsData = computed(() => {
+  const ret = [
+    {
+      label: tl('matched'),
+      desc: tl('bridgeMatchedDesc'),
+      value: props.bridgeMsg?.metrics?.matched,
+      className: 'matched-bg',
+    },
+    {
+      label: tl('sentSuccessfully'),
+      desc: tl('sentSuccessfullyDesc'),
+      value: props.bridgeMsg?.metrics?.success,
+      className: 'last-five-rate-bg',
+    },
+    {
+      label: tl('sentFailed'),
+      desc: tl('sentFailedDesc'),
+      value: props.bridgeMsg?.metrics?.failed,
+      className: 'failed-bg',
+    },
+    {
+      label: tl('sentInflight'),
+      desc: tl('sentInflightDesc'),
+      value: props.bridgeMsg?.metrics?.inflight,
+      className: 'no-result-bg',
+    },
+
+    {
+      label: tl('dropped'),
+      desc: tl('droppedDesc'),
+      value: props.bridgeMsg?.metrics?.dropped,
+      className: 'failed-bg',
+    },
+    {
+      label: tl('queuing'),
+      desc: tl('queuingDesc'),
+      value: props.bridgeMsg?.metrics?.queuing,
+      className: 'max-rate-bg',
+    },
+    {
+      label: tl('retried'),
+      desc: tl('retriedDesc'),
+      value: props.bridgeMsg?.metrics?.retried,
+      className: 'success-bg',
+    },
+    {
+      label: tl('speedNow'),
+      value: props.bridgeMsg?.metrics?.rate,
+      unit: t('RuleEngine.rateUnit', props.bridgeMsg?.metrics?.rate),
+      className: 'rate-bg',
+    },
+  ]
+  if (showReceived.value) {
+    ret.splice(4, 0, {
+      label: tl('received'),
+      desc: tl('receivedDesc'),
+      value: props.bridgeMsg?.metrics?.received,
+      className: 'max-rate-bg',
+    })
+  }
+  return ret
+})
 
 const handleRefresh = () => {
   emit('refresh')

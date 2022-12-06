@@ -963,4 +963,28 @@ export default {
     en: 'Maximum batch waiting interval.',
     zh: '最大批量请求等待时间。',
   },
+  workerPoolSize: {
+    en: 'Worker Pool Size',
+    zh: '资源连接池大小',
+  },
+  workerPoolSizeDesc: {
+    en: 'Resource worker pool size.',
+    zh: '资源连接池大小。',
+  },
+  healthCheckInterval: {
+    en: 'Health Check Interval',
+    zh: '健康检查间隔',
+  },
+  healthCheckIntervalDesc: {
+    en: 'Health check interval, in milliseconds.',
+    zh: '健康检查间隔，单位毫秒。',
+  },
+  autoRestartInterval: {
+    en: 'Auto Restart Interval',
+    zh: '自动重连间隔',
+  },
+  autoRestartIntervalDesc: {
+    en: 'The auto restart interval after the resource is disconnected, in milliseconds.',
+    zh: '资源断开以后，自动重连的时间间隔，单位毫秒。',
+  },
 }
