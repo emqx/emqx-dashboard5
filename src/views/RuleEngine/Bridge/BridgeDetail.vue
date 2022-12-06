@@ -139,9 +139,9 @@ import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 
 enum Tab {
   Overview = 'overview',
@@ -235,12 +235,6 @@ const getDataForSubmit = () => {
   if ('ssl' in data) {
     data.ssl = handleSSLDataBeforeSubmit(data.ssl)
   }
-  if ('connector' in data && data.connector.ssl) {
-    data.connector.ssl = handleSSLDataBeforeSubmit(data.connector.ssl)
-  }
-  if (data.type === BridgeType.MQTT) {
-    Reflect.deleteProperty(data.connector, 'type')
-  }
   return data
 }
 
@@ -316,7 +310,6 @@ const createRuleWithBridge = () => {
 const goBack = () => {
   router.push({ name: 'data-bridge' })
 }
-
 const {
   showSecondConfirm,
   usingBridgeRules,
