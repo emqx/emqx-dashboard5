@@ -422,18 +422,6 @@ export const routes: Array<RouteRecordRaw> = [
           },
         ],
       },
-      // {
-      //   path: 'connector',
-      //   name: 'bridge-connector',
-      //   component: Connector,
-      //   children: [
-      //     {
-      //       path: 'create',
-      //       name: 'connector-create',
-      //       component: ConnectorCreate,
-      //     },
-      //   ],
-      // },
     ],
   },
   // configs

@@ -58,6 +58,21 @@ export interface RuleItem extends RuleForm {
   id: string
 }
 
+export interface ResourceOpt {
+  worker_pool_size: number
+  health_check_interval: string
+  auto_restart_interval: string
+  query_mode: 'async' | 'sync'
+  async_inflight_window?: number
+
+  enable_queue: boolean
+  max_queue_bytes: string
+
+  enable_batch?: boolean
+  batch_size?: number
+  batch_time?: string
+}
+
 export interface BridgeBaseData {
   /**
    * create by front end {type}:{name}
@@ -93,6 +108,45 @@ export interface HTTPBridge extends BridgeBaseData {
   url: string
 }
 
+export interface MQTTBridgeTransConfiguration {
+  payload: string
+  qos: string
+  retain: string
+  topic: string
+}
+
+export interface MQTTBridgeEgress {
+  local: {
+    topic: string
+  }
+  remote: MQTTBridgeTransConfiguration
+}
+
+export interface MQTTBridgeIngress {
+  local: MQTTBridgeTransConfiguration
+  remote: {
+    qos: number
+    topic: string
+  }
+}
+
+export interface MQTTBridge extends BridgeBaseData {
+  clean_start: boolean
+  enable: boolean
+  egress: MQTTBridgeEgress
+  ingress: MQTTBridgeIngress
+  keepalive: string
+  max_inflight: number
+  mode: string
+  password: string
+  proto_ver: string
+  retry_interval: string
+  server: string
+  ssl: SSL
+  username: string
+}
+
+// TODO: remove it
 export interface MQTTOut extends BridgeBaseData {
   connector: string | Record<string, any>
   direction: MQTTBridgeDirection

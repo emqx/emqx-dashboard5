@@ -209,6 +209,9 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.Webhook,
   BridgeType.MQTT,
   BridgeType.InfluxDB,
+  BridgeType.Kafka,
 ]
+
+export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 
 export const COPY_SUFFIX = '_duplication'
