@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "33236074",
+      "name": "system-dark-keep message",
+      "font_class": "retained-light-selected",
+      "unicode": "e7a3",
+      "unicode_decimal": 59299
+    },
+    {
+      "icon_id": "33236075",
+      "name": "system-dark-keep message 2",
+      "font_class": "retained-light",
+      "unicode": "e7a4",
+      "unicode_decimal": 59300
+    },
+    {
+      "icon_id": "33236076",
+      "name": "system-light-keep message",
+      "font_class": "retained-dark-selected",
+      "unicode": "e7a5",
+      "unicode_decimal": 59301
+    },
+    {
+      "icon_id": "33236077",
+      "name": "ssystem-light-keep message",
+      "font_class": "retained-dark",
+      "unicode": "e7a6",
+      "unicode_decimal": 59302
+    },
+    {
+      "icon_id": "33123908",
+      "name": "linkedin",
+      "font_class": "linkedin",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "17458930",
+      "name": "understand more",
+      "font_class": "understandmore",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "792496",
+      "name": "bird-小鸟",
+      "font_class": "twitter",
+      "unicode": "e736",
+      "unicode_decimal": 59190
+    },
+    {
+      "icon_id": "15617495",
+      "name": "youtube",
+      "font_class": "youtube",
+      "unicode": "e8e2",
+      "unicode_decimal": 59618
+    },
+    {
       "icon_id": "27365027",
       "name": "discord",
       "font_class": "discord",
