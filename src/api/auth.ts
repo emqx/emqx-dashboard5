@@ -101,7 +101,7 @@ export function uploadUsers(id: string, file: { raw: File; name: string }) {
 }
 
 export function moveAuthn(id: string, positionStr: string) {
-  return http.post(`/authentication/${encodeURIComponent(id)}/move`, { position: positionStr })
+  return http.put(`/authentication/${id}/position/${positionStr}`)
 }
 
 export function loadBuiltInDatabaseData(type: string, params = {}) {
