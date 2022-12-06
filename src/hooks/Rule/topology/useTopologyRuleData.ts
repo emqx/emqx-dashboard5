@@ -1,6 +1,6 @@
-import { getRules } from '@/api/ruleengine'
+import { getRules, queryRuleMetrics } from '@/api/ruleengine'
 import { RuleOutput } from '@/types/enum'
-import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import { OutputItem, OutputItemObj, RuleDataItemWithMetrics, RuleItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
 import iconMap from '@/assets/topologyIcon/index'
@@ -25,10 +25,10 @@ export default (): {
     page: number
   }>
   getData: () => Promise<RuleData>
-  getRuleList: () => Array<RuleItem>
+  getRuleList: () => Array<RuleDataItemWithMetrics>
   getOtherPageData: (page: number) => Promise<RuleData>
 } => {
-  let ruleList: Array<RuleItem> = []
+  let ruleList: Array<RuleDataItemWithMetrics> = []
   const pageData = ref({
     count: 0,
     page: 1,
@@ -183,7 +183,17 @@ export default (): {
         limit: RULE_MAX_NUM_PER_PAGE,
       })
       pageData.value.count = meta.count
-      ruleList = data
+      ruleList = await Promise.all(
+        data.map(async (item) => {
+          try {
+            const { metrics } = await queryRuleMetrics(item.id)
+            return Promise.resolve({ ...item, metrics })
+          } catch (error) {
+            console.error(error)
+            return Promise.resolve({ ...item, metrics: {} })
+          }
+        }),
+      )
 
       const { inputNodeList, outputNodeList, input2RuleEdgeList, rule2OutputEdgeList } =
         createNodeNEdgeExceptRuleNode(ruleList)

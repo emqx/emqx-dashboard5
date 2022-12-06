@@ -19,11 +19,7 @@
     <el-tabs type="card" class="detail-tabs" v-model="activeTab">
       <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
         <div v-loading="infoLoading">
-          <RuleItemOverview
-            :rule-msg="ruleInfo"
-            @reset="loadRuleDetail"
-            @refresh="loadRuleDetail"
-          />
+          <RuleItemOverview :rule-id="id" />
         </div>
       </el-tab-pane>
       <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>

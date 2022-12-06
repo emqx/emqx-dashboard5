@@ -1,7 +1,8 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
 import { getBridgeKey } from '@/common/tools'
-import { BridgeItem, ConnectorItem, ParamsForQueryRules, RuleItem } from '@/types/rule'
+import { BridgeItem, ConnectorItem, ParamsForQueryRules, RuleItem, RuleMetrics } from '@/types/rule'
+import { ListDataWithPagination } from '@/types/common'
 
 //Bridges
 export async function getBridgeList(): Promise<any> {
@@ -74,7 +75,9 @@ export function testConnector(body: ConnectorItem): Promise<void> {
 }
 
 //Rules
-export function getRules(params: ParamsForQueryRules = { page: 1, limit: 1000 }): Promise<any> {
+export function getRules(
+  params: ParamsForQueryRules = { page: 1, limit: 1000 },
+): Promise<ListDataWithPagination<RuleItem>> {
   return http.get('/rules', { params })
 }
 
@@ -105,6 +108,10 @@ export function testsql(body: Record<string, unknown>): Promise<any> {
   return http.post('/rule_test', body)
 }
 
+export function queryRuleMetrics(ruleId: string): Promise<RuleMetrics> {
+  return http.get(`/rules/${ruleId}/metrics`)
+}
+
 export function resetRuleMetrics(ruleId: string): Promise<string> {
-  return http.put(`/rules/${ruleId}/reset_metrics`)
+  return http.put(`/rules/${ruleId}/metrics/reset`)
 }
