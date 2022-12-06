@@ -1,7 +1,6 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 
 export const useBridgeTypeValue = (): {

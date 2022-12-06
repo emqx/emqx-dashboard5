@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { getBridgeList, startStopBridge } from '@/api/ruleengine'
+import { getBridgeList, startStopBridge, deleteBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
@@ -81,7 +81,7 @@ import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vu
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 
 export default defineComponent({
-  components: { BridgeItemStatus, DeleteBridgeSecondConfirm },
+  components: { BridgeItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
   setup() {
     const bridgeTb = ref([])
     const tbLoading = ref(false)
@@ -160,12 +160,12 @@ export default defineComponent({
       tbLoading,
       getBridgeIcon,
       enableOrDisableBridge,
-      copyBridgeItem,
       showSecondConfirm,
       usingBridgeRules,
       currentDeleteBridgeId,
       handleDeleteSuc,
       handleDeleteBridge,
+      copyBridgeItem,
       createRuleWithBridge,
       getBridgeDetailPageRoute,
     }
