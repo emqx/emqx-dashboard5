@@ -1,35 +1,11 @@
 <template>
   <div class="help app-wrapper">
     <el-row :gutter="28">
-      <el-col :span="6">
+      <el-col :span="6" v-for="{ link, icon, title } in platformList" :key="link">
         <el-card class="card-link" shadow="never">
-          <a :href="docMap.documentation" target="_blank">
-            <img src="@/assets/img/help-doc.png" />
-            <p>{{ tl('documentation') }}</p>
-          </a>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="card-link" shadow="never">
-          <a :href="docMap.forum" target="_blank">
-            <img src="@/assets/img/help-forum.png" />
-            <p>{{ tl('forum') }}</p>
-          </a>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="card-link" shadow="never">
-          <a :href="docMap.gitHub" target="_blank">
-            <img src="@/assets/img/help-github.png" />
-            <p>{{ tl('gitHub') }}</p>
-          </a>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="card-link" shadow="never">
-          <a :href="docMap.TODO" target="_blank">
-            <img src="@/assets/img/help-blog.png" />
-            <p>{{ tl('blog') }}</p>
+          <a :href="link" target="_blank">
+            <img :src="icon" />
+            <p class="text-title">{{ title }}</p>
           </a>
         </el-card>
       </el-col>
@@ -37,36 +13,23 @@
     <el-row :gutter="28">
       <el-col :span="12">
         <el-card shadow="never" class="card-doc">
-          <div class="text-large getting-started">
-            <a :href="docMap.TODO" target="_blank" class="vertical-align-center">
-              <span>{{ tl('gettingStarted') }}</span>
-              <el-icon><Right /></el-icon>
-            </a>
-          </div>
-          <div class="text-large dashboard-intro">
-            <a :href="docMap.dashboard" target="_blank" class="vertical-align-center">
-              <span>{{ tl('dashboardIntro') }}</span>
-              <el-icon><Right /></el-icon>
-            </a>
-          </div>
+          <template v-for="({ link, title }, $index) in level1DocumentList" :key="link">
+            <div class="text-large">
+              <a :href="link" target="_blank" class="vertical-align-center space-between">
+                <span>{{ title }}</span>
+                <el-icon :size="20"><Right /></el-icon>
+              </a>
+            </div>
+            <el-divider v-if="$index !== level1DocumentList.length - 1" />
+          </template>
+        </el-card>
+        <el-card shadow="never" class="card-doc">
           <div class="sub-block-docs">
-            <p class="text-large">{{ tl('relatedResources') }}</p>
+            <p class="text-large">{{ t('Settings.relatedResources') }}</p>
             <ul class="list-link">
-              <li class="item-link">
-                <a :href="docMap.mqttStudy" target="_blank" class="vertical-align-center">
-                  <span>{{ t('Settings.mqttStudy') }}</span>
-                  <el-icon><Right /></el-icon>
-                </a>
-              </li>
-              <li class="item-link">
-                <a :href="docMap.mqttV5" target="_blank" class="vertical-align-center">
-                  <span>MQTT 5.0</span>
-                  <el-icon><Right /></el-icon>
-                </a>
-              </li>
-              <li class="item-link">
-                <a :href="docMap.mqttClient" target="_blank" class="vertical-align-center">
-                  <span>{{ t('Settings.findMQTTClient') }}</span>
+              <li class="item-link" v-for="{ link, title } in level2DocumentList" :key="link">
+                <a :href="link" target="_blank" class="vertical-align-center">
+                  <span>{{ title }}</span>
                   <el-icon><Right /></el-icon>
                 </a>
               </li>
@@ -78,26 +41,28 @@
         <el-row>
           <el-col :span="24">
             <el-card shadow="never" class="card-product top-border enterprise">
-              <div class="card-product-hd">
-                <a :href="docMap.emqxEnterprise" target="_blank" class="vertical-align-center">
-                  <img src="@/assets/img/emqx-enterprise.png" />
-                  <p class="card-product-name">EMQX Enterprise</p>
+              <img class="img-product" src="@/assets/img/emqx-enterprise.png" />
+              <div class="card-product-bd">
+                <p class="card-product-name text-title">EMQX Enterprise</p>
+                <p class="card-product-desc tip">{{ tl('eeDesc') }}</p>
+                <a :href="docMap.emqxEnterprise" target="_blank" class="link-product">
+                  {{ t('Settings.tryEnterprise') }}
                 </a>
               </div>
-              <p class="card-product-desc tip">{{ tl('eeDesc') }}</p>
             </el-card>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <el-card shadow="never" class="card-product top-border cloud">
-              <div class="card-product-hd">
-                <a :href="docMap.cloudHome" target="_blank" class="vertical-align-center">
-                  <img src="@/assets/img/cloud.png" />
-                  <p class="card-product-name">EMQX Cloud</p>
+              <img class="img-product" src="@/assets/img/cloud.png" />
+              <div class="card-product-bd">
+                <p class="card-product-name text-title">EMQX Cloud</p>
+                <p class="card-product-desc tip">{{ tl('cloudDesc') }}</p>
+                <a :href="docMap.cloudHome" target="_blank" class="link-product">
+                  {{ t('Settings.tryCloud') }}
                 </a>
               </div>
-              <p class="card-product-desc tip">{{ tl('cloudDesc') }}</p>
             </el-card>
           </el-col>
         </el-row>
@@ -106,26 +71,11 @@
     <el-row :gutter="28">
       <el-col :span="24">
         <el-card class="card-follow" shadow="never">
-          <p class="label-follow">Follow us</p>
+          <p class="label-follow text-title">Follow us</p>
           <ul class="list-icon">
-            <li class="item-icon">
-              <a :href="docMap.githubHome" target="_blank">
-                <i class="iconfont icon-github"></i>
-              </a>
-            </li>
-            <li class="item-icon">
-              <a :href="docMap.twitterHome" target="_blank">
-                <i class="iconfont icon-twitter"></i>
-              </a>
-            </li>
-            <li class="item-icon">
-              <a :href="docMap.youtubeHome" target="_blank">
-                <i class="iconfont icon-youtube"></i>
-              </a>
-            </li>
-            <li class="item-icon">
-              <a :href="docMap.linkedInHome" target="_blank">
-                <i class="iconfont icon-linkedin"></i>
+            <li class="item-icon" v-for="{ link, icon } in followUsList" :key="link">
+              <a :href="link" target="_blank">
+                <i class="iconfont" :class="icon"></i>
               </a>
             </li>
           </ul>
@@ -142,6 +92,49 @@ import useDocLink from '@/hooks/useDocLink'
 
 const { t, tl } = useI18nTl('Base')
 const { docMap } = useDocLink()
+
+const platformList = [
+  {
+    link: docMap.documentation,
+    icon: require('@/assets/img/help-doc.png'),
+    title: tl('documentation'),
+  },
+  {
+    link: docMap.forum,
+    icon: require('@/assets/img/help-forum.png'),
+    title: tl('forum'),
+  },
+  {
+    link: docMap.gitHub,
+    icon: require('@/assets/img/help-github.png'),
+    title: tl('gitHub'),
+  },
+  {
+    link: docMap.blog,
+    icon: require('@/assets/img/help-blog.png'),
+    title: tl('blog'),
+  },
+]
+
+const level1DocumentList = [
+  { link: docMap.emqxGettingStarted, title: t('Settings.gettingStarted') },
+  { link: docMap.dashboard, title: t('Settings.dashboardIntro') },
+  { link: docMap.accessControl, title: t('Settings.howAccessControl') },
+  { link: docMap.dataIntegration, title: t('Settings.howDataIntegration') },
+]
+
+const level2DocumentList = [
+  { link: docMap.mqttStudy, title: t('Settings.mqttStudy') },
+  { link: docMap.mqttV5, title: t('Settings.mqttV5Intro') },
+  { link: docMap.mqttClient, title: t('Settings.findMQTTClient') },
+]
+
+const followUsList = [
+  { link: docMap.githubHome, icon: 'icon-github' },
+  { link: docMap.twitterHome, icon: 'icon-twitter' },
+  { link: docMap.youtubeHome, icon: 'icon-youtube' },
+  { link: docMap.linkedInHome, icon: 'icon-linkedin' },
+]
 </script>
 
 <style lang="scss">
@@ -151,14 +144,20 @@ const { docMap } = useDocLink()
     padding: 0;
     margin: 0;
   }
-  a {
+  p {
+    margin: 0;
+  }
+  a:not(.link-product) {
     color: unset;
     transition: none;
     &:hover,
-    &:hover .iconfont,
-    &:hover .card-product-desc {
+    &:hover .iconfont {
       color: var(--color-primary);
     }
+  }
+  .text-title {
+    font-size: 16px;
+    font-weight: bold;
   }
   .el-row:not(:last-child) {
     margin-bottom: 24px;
@@ -172,22 +171,34 @@ const { docMap } = useDocLink()
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 16px;
+      font-weight: bold;
     }
     img {
       height: 40px;
       margin-right: 24px;
     }
   }
+  .card-doc {
+    &:not(:last-child) {
+      margin-bottom: 24px;
+    }
+  }
   .text-large {
     position: relative;
     display: flex;
     padding-left: 10px + 2px;
-    font-size: 16px;
-    font-weight: 600;
     line-height: 22px;
     color: var(--color-text-primary);
+    @extend .text-title;
     span {
       margin-right: 8px;
+    }
+    a {
+      width: 100%;
+    }
+    .el-icon {
+      font-weight: bold;
     }
     &::before {
       content: '';
@@ -200,11 +211,11 @@ const { docMap } = useDocLink()
       background: linear-gradient(135deg, #0ad18e 0%, #03a4a5 100%);
     }
   }
-  .getting-started {
-    margin-bottom: 21px;
+  p.text-large {
+    margin-bottom: 16px;
   }
-  .dashboard-intro {
-    margin-bottom: 45px;
+  .el-divider--horizontal {
+    margin: 20px;
   }
   .item-link {
     display: flex;
@@ -216,8 +227,10 @@ const { docMap } = useDocLink()
     }
   }
   .card-product {
-    text-align: center;
+    height: (449px - 24px) / 2;
     .el-card__body {
+      display: flex;
+      align-items: center;
       padding: 28px;
     }
     &.enterprise {
@@ -231,25 +244,20 @@ const { docMap } = useDocLink()
       }
     }
   }
-  .card-product-hd {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 32px;
-    margin-bottom: 16px;
-    img {
-      height: 32px;
-      margin-right: 16px;
-    }
+  .img-product {
+    height: 64px;
+    margin-right: 20px;
   }
   .card-product-name {
     margin: 0;
     font-size: 16px;
     font-weight: 500;
-    line-height: 19px;
+    line-height: 1.6;
+    margin-bottom: 8px;
   }
   .card-product-desc {
-    line-height: 26px;
+    line-height: 1.8;
+    margin-bottom: 12px;
   }
   .card-follow {
     .el-card__body {
