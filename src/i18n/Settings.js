@@ -39,4 +39,36 @@ export default {
     zh: '找到合适您的 MQTT 客户端',
     en: 'Choosing the best MQTT client for your needs',
   },
+  mqttV5Intro: {
+    zh: 'MQTT 5.0 介绍',
+    en: 'MQTT 5.0 Introduction',
+  },
+  gettingStarted: {
+    zh: 'EMQX 快速入门指南',
+    en: 'EMQX Getting Started Guide',
+  },
+  dashboardIntro: {
+    zh: 'EMQX Dashboard 介绍',
+    en: 'EMQX Dashboard Introduction',
+  },
+  howAccessControl: {
+    zh: '如何进行访问控制',
+    en: 'How to perform Access Control',
+  },
+  howDataIntegration: {
+    zh: '如何使用数据集成',
+    en: 'How to use Data Integration',
+  },
+  relatedResources: {
+    zh: '相关资源',
+    en: 'Related Resources',
+  },
+  tryEnterprise: {
+    zh: '免费下载 EMQX 企业版',
+    en: 'Download EMQX Enterprise',
+  },
+  tryCloud: {
+    zh: '免费试用 EMQX Cloud',
+    en: 'Try EMQX Cloud for free',
+  },
 }
