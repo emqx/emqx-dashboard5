@@ -1,5 +1,6 @@
 import { BackendI18n, SSL, PageParams } from './common'
 import { BridgeType, ConnectionStatus, ConnectorType, MQTTBridgeDirection, QoSLevel } from './enum'
+import { Merge } from 'type-fest'
 
 export type Metrics = Record<string, number>
 
@@ -45,13 +46,6 @@ export interface RuleForm extends BasicRule {
   created_at: string
   enable: boolean
   from: FromData
-  metrics: Metrics
-  node_metrics: NodeMetrics
-  // TODO: confirm API
-  node_status: Array<{
-    node: string
-    enable: boolean
-  }>
 }
 
 export interface RuleItem extends RuleForm {
@@ -214,3 +208,11 @@ export interface FilterParamsForQueryRules {
 }
 
 export type ParamsForQueryRules = FilterParamsForQueryRules & PageParams
+
+export interface RuleMetrics {
+  id: string
+  metrics: Metrics
+  node_metrics: Array<Merge<{ node: string }, Metrics>>
+}
+
+export type RuleDataItemWithMetrics = Merge<RuleItem, { metrics: Metrics }>

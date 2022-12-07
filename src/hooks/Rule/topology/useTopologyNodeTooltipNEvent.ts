@@ -1,6 +1,6 @@
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
 import { RuleOutput } from '@/types/enum'
-import { RuleItem, BridgeItem } from '@/types/rule'
+import { BridgeItem, RuleDataItemWithMetrics } from '@/types/rule'
 import { IG6GraphEvent } from '@antv/g6'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
@@ -22,7 +22,7 @@ const highlightSQL = (sql: string): string => {
 }
 
 export default (): {
-  setRuleList: (ruleArr: Array<RuleItem>) => void
+  setRuleList: (ruleArr: Array<RuleDataItemWithMetrics>) => void
   setBridgeList: (bridgeArr: Array<BridgeItem>) => void
   createNodeTooltip: (e?: IG6GraphEvent | undefined) => HTMLDivElement | string
   handleNodeClickEvent: (e: IG6GraphEvent) => void
@@ -41,12 +41,12 @@ export default (): {
   // Id Format Desc: ./useTopology.ts row-31
   const nodeIdReg = new RegExp(`^(${RULE_TOPOLOGY_ID}-)(${nodeTypeList.join('|')})-(.+)$`)
 
-  let ruleList: Array<RuleItem> = []
+  let ruleList: Array<RuleDataItemWithMetrics> = []
   let bridgeList: Array<BridgeItem> = []
 
   const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
-  const setRuleList = (ruleArr: Array<RuleItem>) => {
+  const setRuleList = (ruleArr: Array<RuleDataItemWithMetrics>) => {
     ruleList = ruleArr
   }
 
@@ -92,7 +92,7 @@ export default (): {
     }
     const container = createContainerEle()
     const { id, from, metrics, enable, created_at, sql } = targetRule
-    const fromDataToShow = Array.isArray(from) ? from.join('') : from
+    const fromDataToShow = Array.isArray(from) ? from.join('; ') : from
     const statusClass = `text-status ${enable ? 'success' : 'danger'}`
 
     const msgArr = [
