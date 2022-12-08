@@ -1,7 +1,7 @@
 export default {
   forgetPassword: {
-    zh: '忘记密码?',
-    en: 'Forget the password?',
+    zh: '忘记密码？',
+    en: 'Forgot your password?',
   },
   login: {
     zh: '登 录',
@@ -515,5 +515,4 @@ export default {
     zh: '全托管的 MQTT 消息云服务，支持一键部署，数据集成 40+ 云资源，提供对 7 大平台的支持，涵盖 30+ 区域，并提供 24/7 技术支持。该服务可帮助您降低运营维护成本，提升数据安全可靠性和合规性。',
     en: 'Fully Managed MQTT Service for IoT, with one-click deployment, data integration with 40+ cloud resources, support for 7 major platforms across 30+ regions, and 24/7 technical support. This service helps reduce operational and maintenance costs and improve data security, reliability, and compliance.',
   },
-
 }

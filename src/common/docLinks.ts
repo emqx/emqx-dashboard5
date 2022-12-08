@@ -28,6 +28,7 @@ type DocKey =
   | 'emqxGettingStarted'
   | 'accessControl'
   | 'dataIntegration'
+  | 'resetPassword'
 
 export type DocMap = Record<DocKey, string>
 
@@ -74,5 +75,6 @@ export default (lang: string): DocMap => {
     linkedInHome: 'https://www.linkedin.com/company/emqtech',
     emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
     cloudHome: `https://www.emqx.com/${lang}/cloud?${QUERY_FOR_HELP}`,
+    resetPassword: `https://www.emqx.io/docs/${lang}/v5.0/admin/cli.html#admins`,
   }
 }

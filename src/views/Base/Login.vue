@@ -49,6 +49,13 @@
               <el-button type="primary" @click="nativeLogin" :loading="isLogining">
                 {{ $t('Base.login') }}
               </el-button>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                class="forgot-btn"
+                :href="resetPasswordLink"
+                >{{ $t('Base.forgetPassword') }}</a
+              >
             </el-form-item>
           </el-form>
         </div>
@@ -75,6 +82,10 @@ const route = useRoute()
 const cloudLink = computed(() => {
   const doc = docLinks(store.state.lang)
   return doc.cloud
+})
+const resetPasswordLink = computed(() => {
+  const doc = docLinks(store.state.lang)
+  return doc.resetPassword
 })
 
 const record = reactive({
@@ -195,7 +206,7 @@ const nativeLogin = async () => {
         width: 55%;
         max-width: 500px;
         h1 {
-          margin-bottom: 50px;
+          margin-bottom: 48px;
         }
         .el-form-item--large {
           margin-bottom: 32px;
@@ -208,6 +219,14 @@ const nativeLogin = async () => {
           width: 100%;
           height: 48px;
           line-height: 48px;
+        }
+        .oper-wrapper {
+          .forgot-btn {
+            display: block;
+            width: 100%;
+            text-align: right;
+            margin-top: 16px;
+          }
         }
       }
     }
