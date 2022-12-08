@@ -172,33 +172,54 @@
           </template>
           <!-- MySQL & PgSQL -->
           <el-col :span="24" v-if="isMySQL || isPgSQL">
-            <el-form-item label="SQL" required prop="query">
+            <el-form-item required prop="query" class="label-whole-line">
+              <template #label>
+                <span>SQL</span>
+                <el-button
+                  size="small"
+                  @click="setDefaultContent('query')"
+                  class="button-in-label-line"
+                >
+                  {{ $t('Auth.setDefault') }}
+                </el-button>
+              </template>
               <div class="viewer-container" ref="monacoContainer">
                 <monaco id="adatabase-query" v-model="databaseConfig.query" lang="sql" />
               </div>
-              <el-button class="bottom-btn" size="small" @click="setDefaultContent('query')">
-                {{ $t('Auth.setDefault') }}
-              </el-button>
             </el-form-item>
           </el-col>
           <!-- Mongodb -->
           <el-col :span="24" v-else-if="isMongoDB">
-            <el-form-item :label="$t('Auth.filter')">
+            <el-form-item class="label-whole-line">
+              <template #label>
+                <span>{{ $t('Auth.filter') }}</span>
+                <el-button
+                  class="button-in-label-line"
+                  size="small"
+                  @click="setDefaultContent('filter')"
+                >
+                  {{ $t('Auth.setDefault') }}
+                </el-button>
+              </template>
               <div class="viewer-container" ref="monacoContainer">
                 <monaco id="adatabase-query" v-model="databaseConfig.filter" lang="json" />
               </div>
-              <el-button class="bottom-btn" size="small" @click="setDefaultContent('filter')">
-                {{ $t('Auth.setDefault') }}
-              </el-button>
             </el-form-item>
           </el-col>
           <!-- Redis -->
           <el-col :span="24" v-else-if="isRedis">
-            <el-form-item :label="$t('Auth.cmd')" required prop="cmd">
+            <el-form-item required prop="cmd" class="label-whole-line">
+              <template #label>
+                <span>{{ $t('Auth.cmd') }}</span>
+                <el-button
+                  class="button-in-label-line"
+                  size="small"
+                  @click="setDefaultContent('cmd')"
+                >
+                  {{ $t('Auth.setDefault') }}
+                </el-button>
+              </template>
               <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6" />
-              <el-button class="bottom-btn" size="small" @click="setDefaultContent('cmd')">
-                {{ $t('Auth.setDefault') }}
-              </el-button>
             </el-form-item>
           </el-col>
           <el-collapse-transition>

@@ -3,11 +3,11 @@
     .el-form-item {
       position: relative;
     }
-    .bottom-btn {
+    .button-in-label-line {
       position: absolute;
-      bottom: 8px;
-      right: 10px;
-      line-height: 1;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
     }
     .el-upload-list {
       display: none;
