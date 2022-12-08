@@ -21,7 +21,7 @@ import { Check } from '@element-plus/icons-vue'
 
 defineProps({
   guideList: {
-    type: Array as PropType<string | number[]>,
+    type: Array as PropType<string[] | number[]>,
     required: true,
   },
   descList: {
