@@ -10,8 +10,8 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="28">
-      <el-col :span="12">
+    <el-row :gutter="28" class="row-middle">
+      <el-col :span="12" class="flex-column">
         <el-card shadow="never" class="card-doc">
           <template v-for="({ link, title }, $index) in level1DocumentList" :key="link">
             <div class="text-large">
@@ -23,7 +23,7 @@
             <el-divider v-if="$index !== level1DocumentList.length - 1" />
           </template>
         </el-card>
-        <el-card shadow="never" class="card-doc">
+        <el-card shadow="never" class="card-doc card-second-doc">
           <div class="sub-block-docs">
             <p class="text-large">{{ t('Settings.relatedResources') }}</p>
             <ul class="list-link">
@@ -37,22 +37,24 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12">
-        <el-row :span="24" v-for="item in productList" :key="item.title">
-          <el-col>
-            <el-card shadow="never" class="card-product top-border enterprise">
-              <img class="img-product" :src="item.icon" />
-              <div class="card-product-bd">
-                <p class="card-product-name text-title">{{ item.title }}</p>
-                <p class="card-product-desc tip">{{ item.desc }}</p>
-                <a :href="item.link" target="_blank" class="link-product">
-                  <span>{{ item.linkText }}</span>
-                  <el-icon><Right /></el-icon>
-                </a>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
+      <el-col :span="12" class="flex-column">
+        <el-card
+          shadow="never"
+          class="card-product top-border enterprise"
+          :span="24"
+          v-for="item in productList"
+          :key="item.title"
+        >
+          <img class="img-product" :src="item.icon" />
+          <div class="card-product-bd">
+            <p class="card-product-name text-title">{{ item.title }}</p>
+            <p class="card-product-desc tip">{{ item.desc }}</p>
+            <a :href="item.link" target="_blank" class="link-product">
+              <span>{{ item.linkText }}</span>
+              <el-icon><Right /></el-icon>
+            </a>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
     <el-row :gutter="28">
@@ -170,8 +172,17 @@ const followUsList = [
     font-size: 16px;
     font-weight: bold;
   }
-  .el-row:not(:last-child) {
+  .el-row:not(:last-child),
+  .el-col-12 .el-card:not(:last-child) {
     margin-bottom: 24px;
+  }
+
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+  .card-second-doc {
+    flex-grow: 1;
   }
   .card-link {
     .el-card__body {
@@ -238,7 +249,7 @@ const followUsList = [
     }
   }
   .card-product {
-    height: (449px - 24px) / 2;
+    flex-grow: 1;
     .el-card__body {
       display: flex;
       align-items: center;
