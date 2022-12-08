@@ -24,8 +24,16 @@ type DocKey =
   | 'linkedInHome'
   | 'emqxEnterprise'
   | 'cloudHome'
+  | 'blog'
+  | 'emqxGettingStarted'
+  | 'accessControl'
+  | 'dataIntegration'
+  | 'resetPassword'
 
 export type DocMap = Record<DocKey, string>
+
+const QUERY_FOR_HELP =
+  'utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=emqx-dashboard-help'
 
 export default (lang: string): DocMap => {
   const accountsLink = lang === 'zh' ? 'accounts-zh.emqx.com' : 'accounts.emqx.com'
@@ -37,7 +45,7 @@ export default (lang: string): DocMap => {
     home: lang === 'en' ? 'https://www.emqx.io/' : `https://www.emqx.io/${lang}`,
     cloud: `https://${accountsLink}/signup?utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-to-cloud&continue=https%3A%2F%2Fcloud-intl.emqx.com%2Fconsole%2F`,
     // TODO: version
-    documentation: `https://www.emqx.io/docs/${lang}/v5.0/`,
+    documentation: `https://www.emqx.io/docs/${lang}/v5.0/?${QUERY_FOR_HELP}`,
     forum: lang === 'en' ? `https://www.emqx.io/forum/` : `https://askemq.com/`,
     discord: `https://discord.gg/xYGf3fQnES`,
     gitHub: `https://github.com/emqx/emqx`,
@@ -50,16 +58,23 @@ export default (lang: string): DocMap => {
       lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
     }`,
     enterprise: `https://www.emqx.com/${lang}/try?product=enterprise&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-header-upgrade-to-enterprise`,
-    dashboard: `https://www.emqx.io/docs/${lang}/v5.0/dashboard/introduction.html`,
-    mqttStudy: `https://www.emqx.com/${lang}/mqtt`,
-    mqttV5: `https://www.emqx.com/${lang}/mqtt/mqtt5`,
+    blog: `https://www.emqx.com/${lang}/blog/category/emqx?${QUERY_FOR_HELP}`,
+    dashboard: `https://www.emqx.io/docs/${lang}/v5.0/dashboard/introduction.html?${QUERY_FOR_HELP}`,
+    emqxGettingStarted: `https://www.emqx.io/docs/${lang}/v5.0/getting-started.html?${QUERY_FOR_HELP}`,
+    accessControl: `https://www.emqx.io/docs/${lang}/v5.0/dashboard/authn.html?${QUERY_FOR_HELP}`,
+    dataIntegration: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/introduction.html?${QUERY_FOR_HELP}`,
+    mqttStudy: `https://www.emqx.com/${lang}/mqtt?${QUERY_FOR_HELP}`,
+    mqttV5: `https://www.emqx.com/${lang}/mqtt/mqtt5?${QUERY_FOR_HELP}`,
     mqttClient:
-      lang === 'en' ? `https://www.emqx.io/mqtt-client` : `https://www.emqx.io/zh/mqtt-client`,
-    githubHome: 'https://twitter.com/EMQTech',
+      lang === 'en'
+        ? `https://www.emqx.io/mqtt-client?${QUERY_FOR_HELP}`
+        : `https://www.emqx.io/zh/mqtt-client?${QUERY_FOR_HELP}`,
+    githubHome: 'https://github.com/emqx',
     twitterHome: 'https://twitter.com/EMQTech',
     youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
     linkedInHome: 'https://www.linkedin.com/company/emqtech',
-    emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx`,
-    cloudHome: `https://www.emqx.com/${lang}/cloud`,
+    emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
+    cloudHome: `https://www.emqx.com/${lang}/cloud?${QUERY_FOR_HELP}`,
+    resetPassword: `https://www.emqx.io/docs/${lang}/v5.0/admin/cli.html#admins`,
   }
 }

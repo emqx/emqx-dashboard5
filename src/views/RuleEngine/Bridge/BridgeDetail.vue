@@ -268,12 +268,6 @@ const getDataForSubmit = () => {
   if ('ssl' in data) {
     data.ssl = handleSSLDataBeforeSubmit(data.ssl)
   }
-  if ('connector' in data && data.connector.ssl) {
-    data.connector.ssl = handleSSLDataBeforeSubmit(data.connector.ssl)
-  }
-  if (data.type === BridgeType.MQTT) {
-    Reflect.deleteProperty(data.connector, 'type')
-  }
   return data
 }
 
@@ -350,7 +344,6 @@ const createRuleWithBridge = () => {
 const goBack = () => {
   router.push({ name: 'data-bridge' })
 }
-
 const {
   showSecondConfirm,
   usingBridgeRules,

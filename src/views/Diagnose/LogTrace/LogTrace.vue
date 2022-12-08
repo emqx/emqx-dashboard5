@@ -38,7 +38,7 @@
       <el-table-column
         :label="$t('LogTrace.startEndTime')"
         sortable
-        :sort-by="({ start_at }) => new Date(start_at).getTime()"
+        :sort-by="({ start_at }: Record<string, string>) => new Date(start_at).getTime()"
         :min-width="188"
       >
         <template #default="{ row }">

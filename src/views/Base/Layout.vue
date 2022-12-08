@@ -59,7 +59,6 @@
             </router-view>
             <router-view v-if="!keepAlive" />
           </div>
-          <Footer v-if="route.name !== 'help'" />
         </el-main>
       </el-container>
     </el-container>
@@ -75,7 +74,6 @@ import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
 import useChangePwdGuide from '@/hooks/useChangePwdGuide'
-import Footer from './Footer.vue'
 
 export default defineComponent({
   name: 'Layout',
@@ -84,7 +82,6 @@ export default defineComponent({
     LeftBar,
     Expand,
     Fold,
-    Footer,
   },
   props: {
     keepAlive: {
@@ -196,13 +193,8 @@ export default defineComponent({
 }
 
 .el-main {
-  display: flex;
-  flex-direction: column;
   transition: margin-left 0.3s;
   background-color: var(--color-bg-main);
-  .main-content {
-    flex-grow: 1;
-  }
 }
 
 .el-container {

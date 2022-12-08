@@ -81,8 +81,7 @@ import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vu
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 
 export default defineComponent({
-  components: { BridgeItemStatus, TableItemDropDown,DeleteBridgeSecondConfirm },
-
+  components: { BridgeItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
   setup() {
     const bridgeTb = ref([])
     const tbLoading = ref(false)

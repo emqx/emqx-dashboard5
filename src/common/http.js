@@ -10,6 +10,7 @@ import i18n from '@/i18n'
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 200 })
 let respSet = new Set()
+const resetRespSet = () => (respSet = new Set())
 
 Object.assign(axios.defaults, {
   baseURL: 'api/v5',
@@ -70,9 +71,16 @@ axios.interceptors.response.use(
       if (!respSet.has(status)) {
         respSet.add(status)
 
+        const doNotPopupAfterPwdChanged = status === 401 && store.state.afterCurrentUserPwdChanged
         if (isTokenExpired(status, data)) {
-          ElNotification.error(i18n.global.t('Base.tokenExpiredMsg'))
+          if (doNotPopupAfterPwdChanged) {
+            store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', false)
+          } else {
+            ElNotification.error(i18n.global.t('Base.tokenExpiredMsg'))
+          }
           toLogin()
+          // reset set, otherwise will not popup error msg
+          window.setTimeout(resetRespSet, 1000)
           return
         }
         // some special cases
@@ -80,16 +88,12 @@ axios.interceptors.response.use(
           error.config?.errorsHandleCustom &&
           Array.isArray(error.config.errorsHandleCustom) &&
           error.config.errorsHandleCustom.includes(status)
-        const doNotPopupAfterPwdChanged = status === 401 && store.state.afterCurrentUserPwdChanged
-        const doNotPopup = handleErrorSelf || doNotPopupAfterPwdChanged
-        if (doNotPopup) {
-          if (doNotPopupAfterPwdChanged) {
-            store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', false)
+        if (!handleErrorSelf) {
+          if (data?.code || data?.message) {
+            M.error(status + ' ' + data?.code + ':' + data?.message.toString())
+          } else {
+            M.error(status + ' Network error')
           }
-        } else if (data?.code || data?.message) {
-          M.error(status + ' ' + data?.code + ':' + data?.message.toString())
-        } else {
-          M.error(status + ' Network error')
         }
 
         if (status === 401) {
@@ -107,13 +111,7 @@ axios.interceptors.response.use(
     }
 
     if (store.state.request_queue === 0) respSet = new Set()
-    _.throttle(
-      () => {
-        respSet = new Set()
-      },
-      2000,
-      { trailing: false },
-    )
+    _.throttle(resetRespSet, 2000, { trailing: false })
 
     return Promise.reject(error)
   },

@@ -372,9 +372,12 @@ const loadBridgeList = async () => {
 
 const loadIngressBridgeList = async () => {
   await loadBridgeList()
-  ingressBridgeList.value = bridgeList.value.filter(
-    (v: BridgeItem) => 'direction' in v && v.direction === MQTTBridgeDirection.In,
-  )
+  ingressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
+    const isIngress = 'direction' in v && v.direction === MQTTBridgeDirection.In
+    // For MQTT
+    const withIngressConfig = 'ingress' in v
+    return isIngress || withIngressConfig
+  })
 }
 
 const addEvent = (event: string) => {

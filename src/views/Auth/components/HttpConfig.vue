@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
@@ -123,7 +123,7 @@ export default defineComponent({
     },
     authType: {
       required: true,
-      type: String,
+      type: String as PropType<'authn' | 'authz'>,
     },
     isEdit: {
       type: Boolean,

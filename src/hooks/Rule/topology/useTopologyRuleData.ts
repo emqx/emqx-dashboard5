@@ -1,5 +1,5 @@
-import { getRules, queryRuleMetrics } from '@/api/ruleengine'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
+import { getRules, queryRuleMetrics } from '@/api/ruleengine'
 import { OutputItem, OutputItemObj, RuleDataItemWithMetrics, RuleItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
