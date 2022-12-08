@@ -1,18 +1,21 @@
 <template>
   <div class="textarea-with-uploader">
     <el-input type="textarea" :rows="rows" v-model="inputValue" :placeholder="placeholder" />
-    <el-upload
-      ref="upload"
-      class="file-upload"
-      :show-file-list="false"
-      action="/api/v5/data/file"
-      :auto-upload="false"
-      :on-change="handleChange"
-      :on-error="handleError"
-      :accept="accept"
-    >
-      <el-button plain>{{ $t('Base.selectFile') }}</el-button>
-    </el-upload>
+    <div class="uploader-ft">
+      <p class="tip">{{ tipForShow }}</p>
+      <el-upload
+        ref="upload"
+        class="file-upload"
+        :show-file-list="false"
+        action="/api/v5/data/file"
+        :auto-upload="false"
+        :on-change="handleChange"
+        :on-error="handleError"
+        :accept="accept"
+      >
+        <el-button plain>{{ $t('Base.selectFile') }}</el-button>
+      </el-upload>
+    </div>
   </div>
 </template>
 
@@ -48,11 +51,16 @@ const props = defineProps({
   placeholder: {
     type: String,
   },
+  tip: {
+    type: String,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 const { tl } = useI18nTl('Base')
+
+const tipForShow = computed(() => props.tip || tl('inputWithUploaderTip'))
 
 const inputValue = computed({
   get() {
@@ -108,16 +116,45 @@ const handleError = (error: any) => {
 <style lang="scss" scoped>
 .textarea-with-uploader {
   position: relative;
-  .el-textarea__inner {
-    padding-bottom: 6px + 28px;
+  :deep(.el-textarea__inner) {
+    position: relative;
     box-sizing: border-box;
     resize: none;
+    border-bottom: 60px solid transparent;
+    box-shadow: 0 0 0 1px var(--el-input-border-color, var(--color-border-primary));
+    &:hover {
+      box-shadow: 0 0 0 1px var(--el-input-hover-border-color);
+    }
+    &:focus {
+      box-shadow: 0 0 0 1px var(--el-input-focus-border-color);
+    }
   }
-  .file-upload {
+  .uploader-ft {
     position: absolute;
     bottom: 0;
+    left: 0;
     right: 0;
-    padding: 4px 18px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 10px 12px;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 12px;
+      display: block;
+      height: 1px;
+      width: calc(100% - 12px - 12px);
+      background: var(--color-border-primary);
+    }
+  }
+  .tip {
+    font-size: 12px;
+    line-height: 1.4;
+    margin-right: 16px;
   }
   .el-button {
     font-weight: normal;
