@@ -38,29 +38,16 @@
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-row>
-          <el-col :span="24">
+        <el-row :span="24" v-for="item in productList" :key="item.title">
+          <el-col>
             <el-card shadow="never" class="card-product top-border enterprise">
-              <img class="img-product" src="@/assets/img/emqx-enterprise.png" />
+              <img class="img-product" :src="item.icon" />
               <div class="card-product-bd">
-                <p class="card-product-name text-title">EMQX Enterprise</p>
-                <p class="card-product-desc tip">{{ tl('eeDesc') }}</p>
-                <a :href="docMap.emqxEnterprise" target="_blank" class="link-product">
-                  {{ t('Settings.tryEnterprise') }}
-                </a>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-card shadow="never" class="card-product top-border cloud">
-              <img class="img-product" src="@/assets/img/cloud.png" />
-              <div class="card-product-bd">
-                <p class="card-product-name text-title">EMQX Cloud</p>
-                <p class="card-product-desc tip">{{ tl('cloudDesc') }}</p>
-                <a :href="docMap.cloudHome" target="_blank" class="link-product">
-                  {{ t('Settings.tryCloud') }}
+                <p class="card-product-name text-title">{{ item.title }}</p>
+                <p class="card-product-desc tip">{{ item.desc }}</p>
+                <a :href="item.link" target="_blank" class="link-product">
+                  <span>{{ item.linkText }}</span>
+                  <el-icon><Right /></el-icon>
                 </a>
               </div>
             </el-card>
@@ -89,6 +76,8 @@
 import useI18nTl from '@/hooks/useI18nTl'
 import { Right } from '@element-plus/icons-vue'
 import useDocLink from '@/hooks/useDocLink'
+import { computed } from 'vue'
+import { IS_ENTERPRISE } from '@/common/constants'
 
 const { t, tl } = useI18nTl('Base')
 const { docMap } = useDocLink()
@@ -128,6 +117,28 @@ const level2DocumentList = [
   { link: docMap.mqttV5, title: t('Settings.mqttV5Intro') },
   { link: docMap.mqttClient, title: t('Settings.findMQTTClient') },
 ]
+
+const productList = computed(() => {
+  const ret = [
+    {
+      title: `EMQX Cloud`,
+      desc: tl('cloudDesc'),
+      linkText: t('Settings.tryCloud'),
+      link: docMap.cloudHome,
+      icon: require('@/assets/img/cloud.png'),
+    },
+  ]
+  if (!IS_ENTERPRISE) {
+    ret.unshift({
+      title: `EMQX Enterprise`,
+      desc: tl('eeDesc'),
+      linkText: t('Settings.tryEnterprise'),
+      link: docMap.emqxEnterprise,
+      icon: require('@/assets/img/emqx-enterprise.png'),
+    })
+  }
+  return ret
+})
 
 const followUsList = [
   { link: docMap.githubHome, icon: 'icon-github' },
@@ -258,6 +269,13 @@ const followUsList = [
   .card-product-desc {
     line-height: 1.8;
     margin-bottom: 12px;
+  }
+  .link-product {
+    display: flex;
+    align-items: center;
+    span {
+      margin-right: 8px;
+    }
   }
   .card-follow {
     .el-card__body {

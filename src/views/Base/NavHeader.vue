@@ -4,7 +4,7 @@
       {{ !isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound') }}
     </h1>
     <div class="pull-right">
-      <el-button class="go-link" @click="downloadEnterprise">
+      <el-button class="go-link" @click="downloadEnterprise" v-if="!IS_ENTERPRISE">
         {{ $t('Base.upgrade') }}<el-icon><right /></el-icon>
       </el-button>
 
@@ -63,6 +63,7 @@ import { computed, defineComponent, onBeforeUnmount, onMounted, ref, watch } fro
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import useDocLink from '@/hooks/useDocLink'
+import { IS_ENTERPRISE } from '@/common/constants'
 
 export default defineComponent({
   name: 'NavHeader',
@@ -153,6 +154,7 @@ export default defineComponent({
       document.removeEventListener('visibilitychange', visibilityChangeFunc)
     })
     return {
+      IS_ENTERPRISE,
       store,
       isNotFound,
       firstPath,
