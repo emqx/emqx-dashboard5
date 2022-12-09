@@ -5,6 +5,7 @@
     :lock-scroll="false"
     :close-on-click-modal="false"
     size="50%"
+    custom-class="listener-drawer"
   >
     <el-form label-position="top" :rules="listenerFormRules" :model="listenerRecord" ref="formCom">
       <el-row :gutter="20">
@@ -312,7 +313,7 @@ const bindForShow = computed(() => transPort(listenerRecord.value.bind))
 </script>
 
 <style lang="scss">
-.listener-dialog {
+.listener-drawer {
   .TLS-config {
     .TLS-input {
       width: 100%;
