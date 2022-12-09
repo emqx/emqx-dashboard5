@@ -1,7 +1,6 @@
 import { Client } from '@/types/client'
 import moment from 'moment'
 import { Ref } from 'vue'
-import useI18nTl from '../useI18nTl'
 import useDurationStr from '@/hooks/useDurationStr'
 
 type GetSessionInfoItem = (msg: string) => string | number | boolean

@@ -48,12 +48,12 @@
           <el-switch v-model="row.enable" :before-change="handleSwitch(row)" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="152">
+      <el-table-column :min-width="152">
         <template #default="{ row }">
           <el-button size="small" @click="editListener(row)">
             {{ $t('Base.setting') }}
           </el-button>
-          <el-button size="small" type="danger" plain @click="handleShowDeleteConfirm(row)">
+          <el-button size="small" plain @click="handleShowDeleteConfirm(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -76,7 +76,7 @@
         <span class="dialog-footer">
           <el-button @click="showDeleteDialog = false">{{ $t('Base.cancel') }}</el-button>
           <el-button
-            type="primary"
+            type="danger"
             @click="deleteListener(removeRow)"
             :disabled="confirmDeleteName !== removeRow.name"
             :loading="deleteLoading"
