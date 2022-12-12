@@ -169,7 +169,7 @@ export default defineComponent({
       headers: {
         'content-type': 'application/json',
       },
-      body: '${payload}',
+      body: '',
       pool_size: 4,
       enable_pipelining: 100,
       connect_timeout: '5s',

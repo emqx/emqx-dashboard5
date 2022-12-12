@@ -39,7 +39,7 @@
           <el-button size="small" @click="checkPayload(row)">
             {{ tl('openPayload') }}
           </el-button>
-          <el-button size="small" type="danger" plain @click="deleteRetainerTopic(row)">
+          <el-button size="small" plain @click="deleteRetainerTopic(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>

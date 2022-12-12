@@ -57,7 +57,7 @@ export default {
   },
   expiryInterval: {
     zh: '会话过期间隔',
-    en: 'Expiry Interval',
+    en: 'Session Expiry Interval',
   },
   createdAt: {
     zh: '会话创建时间',

@@ -5,6 +5,8 @@
     :lock-scroll="false"
     :close-on-click-modal="false"
     size="50%"
+    :z-index="1999"
+    custom-class="listener-drawer"
   >
     <el-form label-position="top" :rules="listenerFormRules" :model="listenerRecord" ref="formCom">
       <el-row :gutter="20">
@@ -237,6 +239,9 @@
       <el-button @click="showDialog = false">
         {{ $t('Base.cancel') }}
       </el-button>
+      <el-button type="danger" plain @click="onDelete">
+        {{ $t('Base.delete') }}
+      </el-button>
       <el-button type="primary" @click="submit" :loading="isSubmitting">
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
@@ -277,7 +282,7 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:modelValue', 'submit', 'submitted'])
+const emit = defineEmits(['update:modelValue', 'submit', 'submitted', 'delete'])
 
 const { tl } = useI18nTl('Gateway')
 
@@ -299,6 +304,7 @@ const {
   showWSConfig,
   listenerFormRules,
   submit,
+  onDelete,
   transPort,
 } = useListenerDialog(props, emit)
 
@@ -312,7 +318,7 @@ const bindForShow = computed(() => transPort(listenerRecord.value.bind))
 </script>
 
 <style lang="scss">
-.listener-dialog {
+.listener-drawer {
   .TLS-config {
     .TLS-input {
       width: 100%;

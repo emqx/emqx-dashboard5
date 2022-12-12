@@ -349,6 +349,13 @@ input:disabled {
   display: none;
 }
 
+.el-form-item.label-whole-line {
+  .el-form-item__label {
+    position: relative;
+    width: 100%;
+  }
+}
+
 .form-item-desc {
   margin-left: 4px;
   font-size: 14px;

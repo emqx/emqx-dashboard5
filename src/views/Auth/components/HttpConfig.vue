@@ -76,13 +76,16 @@
         </div>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="Body">
+            <el-form-item class="label-whole-line">
+              <template #label>
+                <span>Body</span>
+                <el-button size="small" @click="setDefaultContent" class="button-in-label-line">
+                  {{ $t('Auth.setDefault') }}
+                </el-button>
+              </template>
               <div class="viewer-container" ref="monacoContainer">
                 <monaco id="acl-file-editor" v-model="httpConfig.body" lang="json" />
               </div>
-              <el-button class="bottom-btn" size="small" @click="setDefaultContent">
-                {{ $t('Auth.setDefault') }}
-              </el-button>
             </el-form-item>
           </el-col>
           <el-collapse-transition>

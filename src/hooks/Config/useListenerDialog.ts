@@ -26,7 +26,7 @@ type Props = Readonly<
   }
 >
 
-type Emit = (event: 'update:modelValue' | 'submit' | 'submitted', ...args: any[]) => void
+type Emit = (event: 'update:modelValue' | 'submit' | 'submitted' | 'delete', ...args: any[]) => void
 
 interface UseListenerDialogReturns {
   showDialog: WritableComputedRef<boolean>
@@ -46,6 +46,7 @@ interface UseListenerDialogReturns {
   showWSConfig: ComputedRef<boolean>
   listenerFormRules: FormRules
   submit: () => Promise<void>
+  onDelete: () => void
   transPort: (port: string) => string
 }
 
@@ -179,6 +180,10 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     }
   }
 
+  const onDelete = () => {
+    emit('delete', listenerRecord.value)
+  }
+
   const submitGatewayListenerInfo = async function (data: Listener) {
     const gatewayName: string = props.gatewayName as string
     const listener = omit(cloneDeep(data), ['zone'])
@@ -253,6 +258,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     SSLConfigKey,
     listenerFormRules,
     submit,
+    onDelete,
     transPort,
   }
 }

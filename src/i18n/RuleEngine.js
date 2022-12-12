@@ -624,8 +624,8 @@ export default {
     en: 'Payload',
   },
   payloadDesc: {
-    zh: '支持使用 {0} 读取数据，置空则原样转发消息。',
-    en: 'Supports reading data using {0} , and forwards the message as it is if it is empty.',
+    zh: "支持使用 {0} 读取数据，例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等，请根据使用数据桥接的业务需求来选择字段，置空则原样转发消息。",
+    en: "Supports reading data using {0} , for example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc, use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
   payloadTempSyntax: {
     zh: "${'{'}field{'}'}语法",

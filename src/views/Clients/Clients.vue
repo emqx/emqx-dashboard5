@@ -98,7 +98,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="username" min-width="120" :label="$t('Clients.username')">
+      <el-table-column prop="username" min-width="100" :label="$t('Clients.username')">
         <template #default="{ row }">
           <span class="keep-spaces">{{ row.username }}</span>
         </template>
@@ -115,22 +115,21 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150" prop="ip_address" :label="$t('Clients.ipAddress')">
+      <el-table-column min-width="140" prop="ip_address" :label="$t('Clients.ipAddress')">
         <template #default="{ row }">
           {{ row.ip_address + ':' + row.port }}
         </template>
       </el-table-column>
-      <el-table-column prop="keepalive" min-width="100" :label="$t('Clients.keepalive')" />
+      <el-table-column prop="keepalive" min-width="80" :label="$t('Clients.keepalive')" />
+      <el-table-column prop="clean_start" min-width="80" label="Clean Start" />
+      <el-table-column prop="expiry_interval" min-width="80" :label="$t('Clients.expiryInterval')">
+        <template #default="{ row }">
+          <span>{{ transMsNumToSimpleStr(row.expiry_interval) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="connected_at" min-width="140" :label="$t('Clients.connectedAt')">
         <template #default="{ row }">
           {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="oper" min-width="120" :label="$t('Base.operation')">
-        <template #default="{ row }">
-          <el-button size="small" type="danger" plain @click="handleDisconnect(row)">
-            {{ row.connected ? $t('Clients.kickOut') : $t('Clients.cleanSession') }}
-          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -150,19 +149,17 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { disconnectClient, listClients } from '@/api/clients'
+import { listClients } from '@/api/clients'
 import { loadNodes } from '@/api/common'
 import moment from 'moment'
 import CommonPagination from '@/components/commonPagination.vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
-import { ArrowUp, ArrowDown, RefreshRight } from '@element-plus/icons-vue'
+import { Search, ArrowUp, ArrowDown, RefreshRight } from '@element-plus/icons-vue'
 import CheckIcon from '@/components/CheckIcon.vue'
-import { Client } from '@/types/client'
 import { useStore } from 'vuex'
-import { useI18n } from 'vue-i18n'
 import { NodeMsg } from '@/types/dashboard'
+import useDurationStr from '@/hooks/useDurationStr'
 
+const { transMsNumToSimpleStr } = useDurationStr()
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const currentNodes = ref<NodeMsg[]>([])
@@ -173,29 +170,6 @@ const fuzzyParams = ref<Record<string, any>>({
 })
 const pageMeta = ref({})
 const store = useStore()
-const { t } = useI18n()
-
-const handleDisconnect = async (row: Client) => {
-  let warningMsg = t('Clients.willDisconnectTheConnection')
-  let successMsg = t('Clients.successfulDisconnection')
-  if (!row.connected) {
-    warningMsg = t('Clients.willCleanSession')
-    successMsg = t('Clients.successfulCleanSession')
-  }
-  ElMessageBox.confirm(warningMsg, {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    type: 'warning',
-  })
-    .then(async () => {
-      await disconnectClient(row.clientid)
-      loadNodeClients()
-      ElMessage.success(successMsg)
-    })
-    .catch(() => {
-      // ignore
-    })
-}
 
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)

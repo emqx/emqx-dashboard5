@@ -154,3 +154,9 @@ const getFormItemProp = (key: string) => {
   return undefined
 }
 </script>
+
+<style lang="scss">
+.TLS-input {
+  width: 100%;
+}
+</style>

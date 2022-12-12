@@ -7,18 +7,25 @@
       </el-button>
     </div>
     <el-table :data="listenerTable" v-loading="isTableLoading" row-key="id">
-      <el-table-column :label="$t('Base.name')" prop="name" :min-width="100" show-overflow-tooltip>
+      <el-table-column :label="$t('Base.name')" prop="name" show-overflow-tooltip>
         <template #default="{ row }">
-          <p class="table-data-without-break">{{ row.name }}</p>
+          <p class="table-data-without-break">
+            <a href="javascript:;" @click="editListener(row)">{{ row.name }}</a>
+          </p>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('lType')" prop="type" :min-width="90" />
-      <el-table-column :label="tl('lAddress')" prop="bind" :min-width="132">
+      <el-table-column :label="tl('lType')" prop="type" />
+      <el-table-column :label="tl('lAddress')" prop="bind">
         <template #default="{ row }">
           {{ transPort(row.bind) }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('connection')" :min-width="120">
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')">
+        <template #default="{ row }">
+          <el-switch v-model="row.enable" :before-change="handleSwitch(row)" />
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('connection')">
         <template #default="{ row }">
           <el-tooltip
             placement="top"
@@ -26,7 +33,7 @@
             :content="`${row.status?.current_connections || 0}/${row.status?.max_connections || 0}`"
           >
             <el-progress
-              :stroke-width="16"
+              :stroke-width="24"
               :text-inside="true"
               :percentage="
                 calcPercentage(row.status?.current_connections, row.status?.max_connections, false)
@@ -38,34 +45,24 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors" :min-width="128">
+      <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors">
         <template #default="{ row }">
           <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
-        <template #default="{ row }">
-          <el-switch v-model="row.enable" :before-change="handleSwitch(row)" />
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="152">
-        <template #default="{ row }">
-          <el-button size="small" @click="editListener(row)">
-            {{ $t('Base.setting') }}
-          </el-button>
-          <el-button size="small" type="danger" plain @click="handleShowDeleteConfirm(row)">
-            {{ $t('Base.delete') }}
-          </el-button>
-        </template>
-      </el-table-column>
     </el-table>
-    <ListenerDrawer v-model="showDialog" :listener="currentListener" @submitted="getListenerData" />
+    <ListenerDrawer
+      v-model="showDialog"
+      :listener="currentListener"
+      @submitted="getListenerData"
+      @delete="handleShowDeleteConfirm"
+    />
     <el-dialog
       v-model="showDeleteDialog"
       :width="450"
-      class="API-key-dialog"
+      append-to-body
+      class="delete-listener-dialog"
       :title="t('Base.confirmDelete')"
-      :z-index="2000"
     >
       <el-form label-position="top">
         <el-form-item :label="$t('BasicConfig.confirmDeleteListenerType')">
@@ -76,7 +73,7 @@
         <span class="dialog-footer">
           <el-button @click="showDeleteDialog = false">{{ $t('Base.cancel') }}</el-button>
           <el-button
-            type="primary"
+            type="danger"
             @click="deleteListener(removeRow)"
             :disabled="confirmDeleteName !== removeRow.name"
             :loading="deleteLoading"
@@ -181,6 +178,7 @@ const deleteListener = async ({ id }: Listener) => {
   deleteLoading.value = true
   try {
     await requestDeleteListener(id)
+    showDialog.value = false
     ElMessage.success(t(`Base.deleteSuccess`))
     getListenerData()
     showDeleteDialog.value = false
