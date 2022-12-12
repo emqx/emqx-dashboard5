@@ -258,7 +258,7 @@ const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
 const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
 const setBridgeInfoFromSchemaForm = () => {
-  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
+  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {
     bridgeInfo.value = formCom.value.getFormRecord()
   }
 }
