@@ -23,38 +23,29 @@
             <el-divider v-if="$index !== level1DocumentList.length - 1" />
           </template>
         </el-card>
-        <el-card shadow="never" class="card-doc card-second-doc">
-          <div class="sub-block-docs">
-            <p class="text-large">{{ t('Settings.relatedResources') }}</p>
-            <ul class="list-link">
-              <li class="item-link" v-for="{ link, title } in level2DocumentList" :key="link">
-                <a :href="link" target="_blank" class="vertical-align-center">
-                  <span>{{ title }}</span>
-                  <el-icon><Right /></el-icon>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </el-card>
+        <DocListCard :doc-list="level2DocumentList" v-if="!IS_ENTERPRISE" />
       </el-col>
       <el-col :span="12" class="flex-column">
-        <el-card
-          shadow="never"
-          class="card-product top-border enterprise"
-          :span="24"
-          v-for="item in productList"
-          :key="item.title"
-        >
-          <img class="img-product" :src="item.icon" />
-          <div class="card-product-bd">
-            <p class="card-product-name text-title">{{ item.title }}</p>
-            <p class="card-product-desc tip">{{ item.desc }}</p>
-            <a :href="item.link" target="_blank" class="link-product">
-              <span>{{ item.linkText }}</span>
-              <el-icon><Right /></el-icon>
-            </a>
-          </div>
-        </el-card>
+        <template v-if="!IS_ENTERPRISE">
+          <el-card
+            shadow="never"
+            class="card-product top-border enterprise"
+            :span="24"
+            v-for="item in productList"
+            :key="item.title"
+          >
+            <img class="img-product" :src="item.icon" />
+            <div class="card-product-bd">
+              <p class="card-product-name text-title">{{ item.title }}</p>
+              <p class="card-product-desc tip">{{ item.desc }}</p>
+              <a :href="item.link" target="_blank" class="link-product">
+                <span>{{ item.linkText }}</span>
+                <el-icon><Right /></el-icon>
+              </a>
+            </div>
+          </el-card>
+        </template>
+        <DocListCard :doc-list="level2DocumentList" v-else />
       </el-col>
     </el-row>
     <el-row :gutter="28">
@@ -78,8 +69,8 @@
 import useI18nTl from '@/hooks/useI18nTl'
 import { Right } from '@element-plus/icons-vue'
 import useDocLink from '@/hooks/useDocLink'
-import { computed } from 'vue'
 import { IS_ENTERPRISE } from '@/common/constants'
+import DocListCard from './components/DocListCard.vue'
 
 const { t, tl } = useI18nTl('Base')
 const { docMap } = useDocLink()
@@ -120,27 +111,22 @@ const level2DocumentList = [
   { link: docMap.mqttClient, title: t('Settings.findMQTTClient') },
 ]
 
-const productList = computed(() => {
-  const ret = [
-    {
-      title: `EMQX Cloud`,
-      desc: tl('cloudDesc'),
-      linkText: t('Settings.tryCloud'),
-      link: docMap.cloudHome,
-      icon: require('@/assets/img/cloud.png'),
-    },
-  ]
-  if (!IS_ENTERPRISE) {
-    ret.unshift({
-      title: `EMQX Enterprise`,
-      desc: tl('eeDesc'),
-      linkText: t('Settings.tryEnterprise'),
-      link: docMap.emqxEnterprise,
-      icon: require('@/assets/img/emqx-enterprise.png'),
-    })
-  }
-  return ret
-})
+const productList = [
+  {
+    title: `EMQX Enterprise`,
+    desc: tl('eeDesc'),
+    linkText: t('Settings.tryEnterprise'),
+    link: docMap.emqxEnterprise,
+    icon: require('@/assets/img/emqx-enterprise.png'),
+  },
+  {
+    title: `EMQX Cloud`,
+    desc: tl('cloudDesc'),
+    linkText: t('Settings.tryCloud'),
+    link: docMap.cloudHome,
+    icon: require('@/assets/img/cloud.png'),
+  },
+]
 
 const followUsList = [
   { link: docMap.githubHome, icon: 'icon-github' },
