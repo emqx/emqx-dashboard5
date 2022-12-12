@@ -258,7 +258,7 @@ const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
 const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
 const setBridgeInfoFromSchemaForm = () => {
-  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
+  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {
     bridgeInfo.value = formCom.value.getFormRecord()
   }
 }
@@ -267,12 +267,6 @@ const getDataForSubmit = () => {
   const data = _.cloneDeep(bridgeInfo.value)
   if ('ssl' in data) {
     data.ssl = handleSSLDataBeforeSubmit(data.ssl)
-  }
-  if ('connector' in data && data.connector.ssl) {
-    data.connector.ssl = handleSSLDataBeforeSubmit(data.connector.ssl)
-  }
-  if (data.type === BridgeType.MQTT) {
-    Reflect.deleteProperty(data.connector, 'type')
   }
   return data
 }
