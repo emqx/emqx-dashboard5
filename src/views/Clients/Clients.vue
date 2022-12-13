@@ -119,8 +119,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="keepalive" min-width="80" :label="$t('Clients.keepalive')" />
-      <el-table-column prop="clean_start" min-width="80" label="Clean Start" />
-      <el-table-column prop="expiry_interval" min-width="80" :label="$t('Clients.expiryInterval')">
+      <el-table-column prop="clean_start" min-width="90" label="Clean Start" />
+      <el-table-column prop="expiry_interval" min-width="140" :label="$t('Clients.expiryInterval')">
         <template #default="{ row }">
           <span>{{ transMsNumToSimpleStr(row.expiry_interval) }}</span>
         </template>
