@@ -100,14 +100,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
-import HelpBlock from './HelpBlock.vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import { ElMessageBox } from 'element-plus'
 import { isEqual } from 'lodash'
+import { defineComponent, PropType, ref, watch } from 'vue'
+import HelpBlock from './HelpBlock.vue'
 
 export default defineComponent({
   name: 'HttpConfig',
@@ -134,6 +136,8 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
+    const { tl, t } = useI18nTl('Auth')
+
     const httpJSON: {
       username: string
       password?: string
@@ -175,7 +179,12 @@ export default defineComponent({
     const toggleNeedHelp = async () => {
       needHelp.value = !needHelp.value
     }
-    const setDefaultContent = () => {
+    const setDefaultContent = async () => {
+      await ElMessageBox.confirm(tl('setDefaultConfirm'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      })
       httpConfig.value.body = defaultContent
     }
 
