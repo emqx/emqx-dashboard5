@@ -17,6 +17,7 @@
       :custom-col-class="customColClass"
       :custom-label-map="customLabelMap"
       :props-disabled="propsDisabled"
+      :array-editor-type="'table'"
       @update="handleRecordChanged"
     >
     </schema-form>
@@ -35,11 +36,12 @@ import { useStore } from 'vuex'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
-  BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB
+  BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB | BridgeType.Kafka
 >
 
 const typeRefKeyMap: Record<UseSchemaBridgeType, string> = {
   [BridgeType.MySQL]: `bridge_mysql.post`,
+  [BridgeType.Redis]: `bridge_redis.post_sentinel`,
 }
 
 const props = defineProps({
