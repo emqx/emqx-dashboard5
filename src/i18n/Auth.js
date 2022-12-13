@@ -171,6 +171,10 @@ export default {
     zh: '设置默认',
     en: 'Set default',
   },
+  setDefaultConfirm: {
+    zh: '确定要将当前输入重置为默认值吗？',
+    en: 'Are you sure you want to reset the current input to default value?',
+  },
   passwordHash: {
     zh: '密码加密方式',
     en: 'Password Hash',

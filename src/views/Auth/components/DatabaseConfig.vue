@@ -242,7 +242,9 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
+import useI18nTl from '@/hooks/useI18nTl'
 import { MongoType, SaltPosition } from '@/types/enum'
+import { ElMessageBox } from 'element-plus'
 import { computed, defineComponent, ref } from 'vue'
 import HelpBlock from './HelpBlock.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
@@ -278,6 +280,8 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
+    const { tl, t } = useI18nTl('Auth')
+
     const {
       defaultSQL,
       withSaltDefaultSQL,
@@ -299,7 +303,12 @@ export default defineComponent({
     } = useDatabaseConfigForm(props, databaseConfig.value)
     const needHelp = ref(false)
 
-    const setDefaultContent = (dataKey: string) => {
+    const setDefaultContent = async (dataKey: string) => {
+      await ElMessageBox.confirm(tl('setDefaultConfirm'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      })
       if (isMySQL.value || isPgSQL.value) {
         databaseConfig.value[dataKey] =
           databaseConfig.value.password_hash_algorithm.salt_position !== SaltPosition.Disable
