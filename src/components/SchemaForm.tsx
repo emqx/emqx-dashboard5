@@ -16,6 +16,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import { createRandomString, escapeCode, transLink } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 
 interface FormItemMeta {
   col: number
@@ -36,6 +37,7 @@ const SchemaForm = defineComponent({
     Oneof,
     Setting,
     CommonTLSConfig,
+    ArrayEditorTable,
     InfoTooltip: InfoTooltip as any,
     Monaco,
   },
@@ -111,6 +113,10 @@ const SchemaForm = defineComponent({
     needRules: {
       type: Boolean,
       default: true,
+    },
+    arrayEditorType: {
+      type: String as PropType<'select' | 'table'>,
+      default: 'select',
     },
   },
   setup(props, ctx) {
@@ -285,13 +291,22 @@ const SchemaForm = defineComponent({
           )
         case 'array':
           if (['number', 'string'].includes(property.items.type)) {
+            if (props.arrayEditorType === 'select') {
+              return (
+                <array-editor
+                  modelValue={modelValue}
+                  {...handleUpdateModelValue}
+                  disabled={isPropertyDisabled}
+                  type={property.items.type}
+                  default={property.default}
+                />
+              )
+            }
             return (
-              <array-editor
+              <ArrayEditorTable
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
                 disabled={isPropertyDisabled}
-                type={property.items.type}
-                default={property.default}
               />
             )
           }
