@@ -21,9 +21,7 @@
       <el-form-item>
         <template #label>
           <label>{{ tl('payload') }}</label>
-          <i18n-t class="payload-desc" keypath="RuleEngine.payloadDesc" tag="p" scope="global">
-            <a :href="docMap.bridgePayload" target="_blank">{{ tl('payloadTempSyntax') }}</a>
-          </i18n-t>
+          <p class="payload-desc">{{ tl('payloadDesc') }}</p>
         </template>
         <div class="monaco-container">
           <Monaco

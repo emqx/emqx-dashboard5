@@ -40,7 +40,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-const emits = defineEmits(['update:modelValue', 'close', 'added'])
+const emits = defineEmits(['update:modelValue', 'added'])
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -62,7 +62,7 @@ const isLoading = ref(false)
 const testLoading = ref(false)
 const { tl } = useI18nTl('RuleEngine')
 const cancel = () => {
-  emits('close')
+  showDrawer.value = false
 }
 const testConnector = async () => {
   testLoading.value = true
