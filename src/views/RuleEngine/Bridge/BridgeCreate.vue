@@ -17,7 +17,7 @@
         </el-row>
         <el-row class="config-body">
           <template v-if="step === 0">
-            <el-radio-group class="bridge-type-select" v-model="radioSelectedBridgeType">
+            <el-radio-group class="bridge-type-select" v-model="chosenBridgeType">
               <el-row :gutter="28">
                 <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
                   <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
@@ -44,11 +44,13 @@
                 v-model:tls="tlsParams"
                 v-model="bridgeData"
                 ref="formCom"
+                :edit="isCopy"
               />
               <bridge-mqtt-config
                 v-else-if="chosenBridgeType === BridgeType.MQTT"
                 v-model="bridgeData"
                 ref="formCom"
+                :edit="isCopy"
               />
               <bridge-influxdb-config
                 v-else-if="chosenBridgeType === BridgeType.InfluxDB"
@@ -106,11 +108,7 @@
       <el-row :gutter="26">
         <el-col :span="12">
           <label>{{ tl('bridgeType') }}</label>
-          <el-select
-            class="bridge-select"
-            v-model="radioSelectedBridgeType"
-            @change="handleTypeSelected"
-          >
+          <el-select class="bridge-select" v-model="chosenBridgeType" @change="handleTypeSelected">
             <el-option
               v-for="item in bridgeTypeOptions.filter(isBridgeTypeDisabled)"
               :key="item.label"
@@ -170,6 +168,7 @@ import {
   useBridgeTypeOptions,
   BridgeTypeOptions,
   useBridgeTypeIcon,
+  useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -214,7 +213,8 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const { t } = useI18n()
-    const { bridgeTypeOptions, getTrueTypeObjByRadioValue } = useBridgeTypeOptions()
+    const { bridgeTypeOptions } = useBridgeTypeOptions()
+    const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
@@ -226,7 +226,8 @@ export default defineComponent({
 
     const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
 
-    const radioSelectedBridgeType = ref(isFromRule.value ? '' : bridgeTypeOptions[0].valueForRadio)
+    const isCopy = computed(() => !!(route.query.action === 'copy' && route.query.target))
+
     const chosenBridgeType: Ref<BridgeType> = ref(
       isFromRule.value ? ('' as BridgeType) : bridgeTypeOptions[0].value,
     )
@@ -255,15 +256,7 @@ export default defineComponent({
     }
 
     const handleTypeSelected = () => {
-      const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
-      if (!type) {
-        return
-      }
-      chosenBridgeType.value = type.value
       bridgeData.value = createBridgeData()
-      if (type.externalConfig) {
-        bridgeData.value = { ...bridgeData.value, ..._.cloneDeep(type.externalConfig) }
-      }
     }
 
     const goPreStep = () => {
@@ -275,8 +268,7 @@ export default defineComponent({
     const goNextStep = () => {
       if (step.value === 0) {
         handleTypeSelected()
-        const type = getTrueTypeObjByRadioValue(radioSelectedBridgeType.value)
-        guideDescList.value.push(type?.label || '')
+        guideDescList.value.push(getBridgeLabelByTypeValue(chosenBridgeType.value) || '')
       }
       handleNext()
     }
@@ -290,29 +282,31 @@ export default defineComponent({
     }
 
     const targetLoading = ref(false)
-    const checkRuleClipStatus = async () => {
-      if (route.query.action === 'copy' && route.query.target) {
-        try {
-          step.value = 1
-          targetLoading.value = true
-          const bridgeInfo = await getBridgeInfo(route.query.target as string)
-          radioSelectedBridgeType.value = bridgeInfo.type
-          if (bridgeInfo) {
-            bridgeData.value = { ...bridgeInfo, name: countDuplicationName(bridgeInfo.name) }
-          }
-        } catch (error) {
-          //
-        } finally {
-          targetLoading.value = false
+    const checkBridgeClipStatus = async () => {
+      if (!isCopy.value) {
+        return
+      }
+      try {
+        const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
+        if (currentType && getBridgeLabelByTypeValue(currentType as BridgeType)) {
+          chosenBridgeType.value = currentType as BridgeType
         }
+        step.value = 1
+        targetLoading.value = true
+        const bridgeInfo = await getBridgeInfo(route.query.target as string)
+        if (bridgeInfo) {
+          bridgeData.value = { ...bridgeInfo, name: countDuplicationName(bridgeInfo.name) }
+          chosenBridgeType.value = bridgeInfo.type
+        }
+      } catch (error) {
+        //
+      } finally {
+        targetLoading.value = false
       }
     }
 
     const submitDataWhenUsingSchemaForm = async () => {
       const bridgeData = _.cloneDeep(formCom.value.getFormRecord())
-      if (bridgeData.ssl) {
-        bridgeData.ssl = handleSSLDataBeforeSubmit(bridgeData.ssl)
-      }
       if (bridgeData.ssl) {
         bridgeData.ssl = handleSSLDataBeforeSubmit(bridgeData.ssl)
       }
@@ -375,7 +369,7 @@ export default defineComponent({
       }
     }
 
-    checkRuleClipStatus()
+    checkBridgeClipStatus()
 
     return {
       tl,
@@ -389,10 +383,10 @@ export default defineComponent({
       goNextStep,
       bridgeTypeOptions,
       chosenBridgeType,
-      radioSelectedBridgeType,
       targetLoading,
       submitLoading,
       tlsParams,
+      isCopy,
       bridgeData,
       formCom,
       BridgeType,

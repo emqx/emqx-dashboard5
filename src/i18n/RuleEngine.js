@@ -896,8 +896,8 @@ export default {
     en: 'This data bridge is being used by the following rules, if it continues to be deleted, the data bridge will be removed within the rule',
   },
   rateUnit: {
-    zh: 'messages/sec | message/sec | messages/sec',
-    en: 'messages/sec | message/sec | messages/sec',
+    zh: 'message/sec | messages/sec',
+    en: 'message/sec | messages/sec',
   },
   influxDBLabel: {
     zh: 'InfluxDB',
