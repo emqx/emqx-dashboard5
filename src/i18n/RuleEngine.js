@@ -903,17 +903,9 @@ export default {
     zh: 'InfluxDB',
     en: 'InfluxDB',
   },
-  influxDBDesc: {
-    zh: '将数据保存到 InfluxDB',
-    en: 'Save data to InfluxDB',
-  },
   mySQL: {
     zh: 'MySQL',
     en: 'MySQL',
-  },
-  mySQLDesc: {
-    zh: '将数据保存到 MySQL',
-    en: 'Save data to MySQL',
   },
   influxDBVersion: {
     zh: 'InfluxDB 版本',
@@ -926,6 +918,14 @@ export default {
   kafkaDesc: {
     zh: '使用 Kafka 桥接数据',
     en: 'Using Kafka to bridge data',
+  },
+  redis: {
+    zh: 'Redis',
+    en: 'Redis',
+  },
+  egressDataBaseDesc: {
+    zh: '将数据保存到 {name}',
+    en: 'Save data to {name}',
   },
   serverHost: {
     zh: '服务器地址',

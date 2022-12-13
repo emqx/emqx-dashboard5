@@ -18,6 +18,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.InfluxDB, label: tl('influxDBLabel') },
     { value: BridgeType.MySQL, label: tl('mySQL') },
     { value: BridgeType.Kafka, label: tl('kafka') },
+    { value: BridgeType.Redis, label: tl('kafka') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -45,7 +46,7 @@ export const useBridgeTypeOptions = (): {
   getTrueTypeObjByRadioValue: (radioValue: string) => BridgeTypeOptions | undefined
   getTypeStr: (bridge: BridgeItem) => string
 } => {
-  const { tl } = useI18nTl('RuleEngine')
+  const { tl, t } = useI18nTl('RuleEngine')
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = [
     {
@@ -70,13 +71,19 @@ export const useBridgeTypeOptions = (): {
       value: BridgeType.InfluxDB,
       valueForRadio: BridgeType.InfluxDB,
       label: tl('influxDBLabel'),
-      desc: tl('influxDBDesc'),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('influxDBLabel') }),
     },
     {
       value: BridgeType.MySQL,
       valueForRadio: BridgeType.MySQL,
       label: tl('mySQL'),
-      desc: tl('mySQLDesc'),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('mySQL') }),
+    },
+    {
+      value: BridgeType.Redis,
+      valueForRadio: BridgeType.Redis,
+      label: tl('redis'),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('mySQL') }),
     },
   ]
 
@@ -101,7 +108,14 @@ export const useBridgeTypeIcon = (): {
   getBridgeIconKey: (value: string) => string
   getBridgeIcon: (type: string) => string
 } => {
-  const getBridgeIconKey = (value: string) => (value.indexOf('influxdb') > -1 ? `influxdb` : value)
+  const specialTypeLabelList = ['influxdb', 'redis']
+  const getBridgeIconKey = (value: string) => {
+    const specialTypeIndex = specialTypeLabelList.findIndex((item) => value.indexOf(item) > -1)
+    if (specialTypeIndex > -1) {
+      return specialTypeLabelList[specialTypeIndex]
+    }
+    return value
+  }
   const getBridgeIcon = (type: string): string => {
     if (!type) {
       return ''
