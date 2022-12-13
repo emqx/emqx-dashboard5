@@ -23,7 +23,9 @@
         <el-row v-if="selectedPlatform === PROMETHEUS">
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.isEnabled')">
-              <p class="item-desc">{{ tl('prometheusEnableDesc') }}</p>
+              <p class="item-desc">
+                {{ t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) }}
+              </p>
               <el-switch v-model="prometheusFormData.enable" />
             </el-form-item>
           </el-col>
@@ -56,7 +58,9 @@
         <el-row v-else>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.isEnabled')">
-              <p class="item-desc">{{ tl('statsDEnableDesc') }}</p>
+              <p class="item-desc">
+                {{ t('MonitoringIntegration.enableDataDesc', { name: 'StatsD' }) }}
+              </p>
               <el-switch v-model="statsDFormData.enable" />
             </el-form-item>
           </el-col>
