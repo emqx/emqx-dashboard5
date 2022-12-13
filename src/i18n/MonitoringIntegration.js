@@ -15,13 +15,9 @@ export default {
     zh: '监控数据指标上报到监控服务的时间间隔。',
     en: 'The time interval at which monitoring data metrics are reported to the monitoring service.',
   },
-  prometheusEnableDesc: {
-    zh: '开启或关闭 Prometheus 数据推送。',
-    en: 'Enable or disable Prometheus data push.',
-  },
-  statsDEnableDesc: {
-    zh: '打开或关闭 StatsD 数据推送',
-    en: 'Turn StatsD data pushing on or off',
+  enableDataDesc: {
+    zh: '开启或关闭 {name} 数据推送',
+    en: 'Enable or disable {name} data push.',
   },
   statsDServerDesc: {
     zh: 'StatsD 服务器地址',
