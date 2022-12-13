@@ -37,7 +37,6 @@ export interface BridgeTypeOptions {
 
 export const useBridgeTypeOptions = (): {
   bridgeTypeOptions: BridgeTypeOptions[]
-  getTrueTypeObjByRadioValue: (radioValue: string) => BridgeTypeOptions | undefined
   getTypeStr: (bridge: BridgeItem) => string
 } => {
   const { tl } = useI18nTl('RuleEngine')
@@ -58,16 +57,12 @@ export const useBridgeTypeOptions = (): {
     },
   ]
 
-  const getTrueTypeObjByRadioValue = (radioValue: string) =>
-    bridgeTypeOptions.find(({ valueForRadio }) => valueForRadio === radioValue)
-
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   const getTypeStr = (bridge: BridgeItem): string => getBridgeLabelByTypeValue(bridge.type) || ''
 
   return {
     bridgeTypeOptions,
-    getTrueTypeObjByRadioValue,
     getTypeStr,
   }
 }
