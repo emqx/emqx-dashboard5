@@ -1,7 +1,12 @@
 import { SESSION_FIELDS } from '@/common/constants'
+import { createRandomString, escapeCode, transLink } from '@/common/tools'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
+import useI18nTl from '@/hooks/useI18nTl'
 import useSchemaRecord from '@/hooks/useSchemaRecord'
+import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
@@ -11,11 +16,6 @@ import ArrayEditor from './ArrayEditor.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
-import useSSL from '@/hooks/useSSL'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
-import { createRandomString, escapeCode, transLink } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
 
 interface FormItemMeta {
   col: number
@@ -112,13 +112,24 @@ const SchemaForm = defineComponent({
       type: Boolean,
       default: true,
     },
+    /**
+     * bind function that does some customization of the form data and form rules after it has been generated according to the schema data
+     */
+    dataHandler: {
+      type: Function,
+    },
   },
   setup(props, ctx) {
     const store = useStore()
     const configForm = ref<{ [key: string]: any }>({})
     const schemaLoadPath =
       props.schemaFilePath || `static/hot-config-schema-${store.state.lang}.json`
-    const { components, rules } = useSchemaForm(schemaLoadPath, props.accordingTo, props.needRules)
+    const { components, rules, resetObjForGetComponent } = useSchemaForm(
+      schemaLoadPath,
+      props.accordingTo,
+      props.needRules,
+    )
+
     const { initRecordByComponents } = useSchemaRecord()
 
     const formCom = ref()
@@ -169,10 +180,36 @@ const SchemaForm = defineComponent({
     watch(components, (val) => {
       if (!props.form && props.needRecord) {
         configForm.value = initRecordByComponents(val)
-        handleSSLDataWhenUseConciseSSL()
+        if (typesNeedConciseSSL.includes(props.type)) {
+          configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value)
+        }
       }
+      handleComponentsData()
       initCurrentGroup()
     })
+
+    watch(
+      () => props.accordingTo,
+      async (nVal, oVal) => {
+        if (!_.isEqual(nVal, oVal)) {
+          const oldComponent = _.cloneDeep(components.value)
+          const oldRecord = _.cloneDeep(configForm.value)
+          resetObjForGetComponent(nVal)
+
+          // because change accordingTo will not reset parent component form value
+          // so we need get new form and emit to parent for compare
+          let newRecord = initRecordByComponents(components.value)
+          if (typesNeedConciseSSL.includes(props.type)) {
+            newRecord = handleSSLDataWhenUseConciseSSL(newRecord)
+          }
+
+          ctx.emit('component-change', {
+            oldVal: { components: oldComponent, record: oldRecord },
+            newVal: { components: components.value, record: newRecord },
+          })
+        }
+      },
+    )
 
     watchEffect(() => {
       ctx.emit('update', configForm.value)
@@ -543,7 +580,13 @@ const SchemaForm = defineComponent({
       return (
         <>
           {tabs}
-          <el-form ref={formCom} label-position="top" rules={rules.value} model={configForm.value}>
+          <el-form
+            ref={formCom}
+            label-position="top"
+            rules={rules.value}
+            model={configForm.value}
+            validate-on-rule-change={false}
+          >
             <el-row>
               {contents}
               {props.needFooter ? (
@@ -565,10 +608,7 @@ const SchemaForm = defineComponent({
      * called after init record
      */
     const { createSSLForm } = useSSL()
-    const handleSSLDataWhenUseConciseSSL = () => {
-      if (!typesNeedConciseSSL.includes(props.type)) {
-        return
-      }
+    const handleSSLDataWhenUseConciseSSL = (data: Record<string, any>) => {
       const walk = (record: Record<string, any>) => {
         Object.keys(record).forEach((key) => {
           const propItem = record[key]
@@ -581,7 +621,8 @@ const SchemaForm = defineComponent({
           }
         })
       }
-      walk(configForm.value)
+      walk(data)
+      return data
     }
 
     const sortPropKeys = (propKeys: Array<string>) => {
@@ -685,10 +726,19 @@ const SchemaForm = defineComponent({
       return schemaForm
     }
 
+    const handleComponentsData = () => {
+      if (props.dataHandler && _.isFunction(props.dataHandler)) {
+        const data = props.dataHandler({ components: components.value, rules: rules.value })
+        components.value = data.components
+        rules.value = data.rules
+      }
+    }
+
     onMounted(() => {
       if (props.form) {
         configForm.value = _.cloneDeep(props.form)
       }
+      handleComponentsData()
     })
 
     ctx.expose({ configForm, validate })
