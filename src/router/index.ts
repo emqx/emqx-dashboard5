@@ -522,21 +522,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // limiter config
-  {
-    path: '/limiter',
-    component: Layout,
-    meta: {
-      hideKey: 'limiter',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'limiter',
-        component:  () => import('@/views/Config/BasicConfig/Limiter.vue'),
-      },
-    ],
-  },
+  // {
+  //   path: '/limiter',
+  //   component: Layout,
+  //   meta: {
+  //     hideKey: 'limiter',
+  //     authRequired: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'limiter',
+  //       component:  () => import('@/views/Config/BasicConfig/Limiter.vue'),
+  //     },
+  //   ],
+  // },
   // Monitoring integration
   {
     path: '/monitoring',
