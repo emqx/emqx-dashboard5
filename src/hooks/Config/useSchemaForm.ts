@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ref, Ref, watch } from 'vue'
-import _ from 'lodash'
-import { InjectSchema, Properties, Component, Schema } from '@/types/schemaForm'
+import { Component, InjectSchema, Properties, Schema } from '@/types/schemaForm'
 import axios from 'axios'
+import _ from 'lodash'
+import { ref, Ref } from 'vue'
 import useSchemaFormRules, { SchemaRules } from '../useSchemaFormRules'
 
 const CONNECTOR_KEY = 'connector'
@@ -20,31 +20,33 @@ export default function useSchemaForm(
   schema: InjectSchema
   rules: Ref<SchemaRules>
   components: Ref<Properties>
+  resetObjForGetComponent: (obj: { path?: string; ref?: string }) => void
 } {
   const schemaRequest = axios.create({
     baseURL: '',
   })
   const schema: InjectSchema = ref({})
   const { rules, countRules } = useSchemaFormRules()
+  /**
+   * for get component
+   */
+  let pathOrRefObj = objForGetComponent
   const loadSchemaConfig = async () => {
     try {
       const configPath = schemaFilePath
       const res = await schemaRequest.get(configPath)
       if (res.data) {
         schema.value = res.data
+        generateComponents()
       }
     } catch (error) {
       // ignore error
     }
   }
+
   loadSchemaConfig()
   const components = ref<Properties>({})
-  watch(
-    () => schema?.value,
-    (val) => {
-      handleSchemaChanged(val)
-    },
-  )
+
   const filter = (ref: string) => ref.replace('#/', '').split('/')
   // https://www.lodashjs.com/docs/lodash.get
   const getComponentByRef = (data: Schema, ref: string): Component => _.get(data, filter(ref), {})
@@ -103,10 +105,10 @@ export default function useSchemaForm(
       return res
     }
     let ref = ''
-    if (objForGetComponent.ref) {
-      ref = objForGetComponent.ref
-    } else if (objForGetComponent.path) {
-      const { $ref, type, properties } = data.paths[objForGetComponent.path].get
+    if (pathOrRefObj.ref) {
+      ref = pathOrRefObj.ref
+    } else if (pathOrRefObj.path) {
+      const { $ref, type, properties } = data.paths[pathOrRefObj.path].get
       if ($ref) {
         ref = $ref
       } else if (type === 'object') {
@@ -120,18 +122,26 @@ export default function useSchemaForm(
     const components = transComponents(component)
     return components
   }
-  const handleSchemaChanged = (data: Schema) => {
+  const generateComponents = () => {
     if (needRules) {
+      // for init
       rules.value = {}
     }
-    components.value = getComponents(data)
+    components.value = getComponents(schema.value)
   }
-  if (schema.value.paths) {
-    handleSchemaChanged(schema.value)
+
+  /**
+   * will refresh component
+   */
+  const resetObjForGetComponent = (obj: { path?: string; ref?: string }) => {
+    pathOrRefObj = obj
+    generateComponents()
   }
+
   return {
     schema,
     rules,
     components,
+    resetObjForGetComponent,
   }
 }
