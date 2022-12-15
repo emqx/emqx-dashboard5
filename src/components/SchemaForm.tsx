@@ -171,7 +171,7 @@ const SchemaForm = defineComponent({
     watch(
       () => props.form,
       (value) => {
-        if (value) {
+        if (value && !_.isEqual(value, configForm.value)) {
           configForm.value = _.cloneDeep(value)
         }
       },
