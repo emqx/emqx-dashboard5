@@ -22,7 +22,7 @@ export default (): {
     { components: newCom, record: newRecord }: Val,
     { components: oldCom, record: oldRecord }: Val,
   ) => {
-    const ret = cloneDeep(oldRecord)
+    let ret = cloneDeep(oldRecord)
     const fieldPathsNeedDelete: Array<string> = []
     const fieldPathsNeedAdd: Array<string> = []
 
@@ -58,12 +58,11 @@ export default (): {
     walkALevel(oldCom, [], 'old')
 
     // delete
-    omit(ret, fieldPathsNeedDelete)
+    ret = omit(ret, fieldPathsNeedDelete)
     // add
     fieldPathsNeedAdd.forEach((path) => {
       set(ret, path, get(newRecord, path))
     })
-
     return ret
   }
 

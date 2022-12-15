@@ -87,7 +87,8 @@
                 />
                 <using-schema-bridge-config
                   v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
-                  :type="bridgeInfo.type"
+                  is-edit
+                  :type="bridgeType"
                   v-model="bridgeInfo"
                   ref="formCom"
                 />
@@ -195,7 +196,7 @@ if (queryTab.value) {
   activeTab.value = queryTab.value
 }
 
-const { getTypeStr } = useBridgeTypeOptions()
+const { getBridgeType, getTypeStr } = useBridgeTypeOptions()
 const { handleSSLDataBeforeSubmit } = useSSL()
 const { getBridgeIcon } = useBridgeTypeIcon()
 
@@ -222,12 +223,7 @@ watch(id, (val) => {
 /**
  * if type is influxDB v1 or v2, will be count to influxDB uniformly
  */
-const bridgeType = computed(() => {
-  if (bridgeInfo.value?.type?.indexOf(BridgeType.InfluxDB) > -1) {
-    return BridgeType.InfluxDB
-  }
-  return bridgeInfo.value.type
-})
+const bridgeType = computed(() => getBridgeType(bridgeInfo.value.type))
 
 const handleBodyField = () => {
   if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {

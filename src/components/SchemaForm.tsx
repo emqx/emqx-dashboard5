@@ -3,6 +3,7 @@ import { createRandomString, escapeCode, transLink, isEmptyObj } from '@/common/
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSchemaRecord from '@/hooks/useSchemaRecord'

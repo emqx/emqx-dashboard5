@@ -1,5 +1,5 @@
 import { OtherBridge } from '@/types/rule'
-import { computed, Ref, ComputedRef } from 'vue'
+import { computed, ComputedRef, WritableComputedRef } from 'vue'
 import { isString, isBoolean, omit } from 'lodash'
 
 /**
@@ -13,7 +13,7 @@ interface FuncReturn {
   handleSyncEtcFormData: (formData: OtherBridge) => OtherBridge
 }
 
-export default (record: Ref<OtherBridge>): FuncReturn => {
+export default (record: WritableComputedRef<OtherBridge>): FuncReturn => {
   const isAsync = (formData: OtherBridge) =>
     isString(formData.resource_opts?.query_mode) &&
     formData.resource_opts.query_mode.indexOf('async') > -1
