@@ -518,6 +518,7 @@
 
 /* Popper */
 .el-popper {
+  font-size: 13px;
   &:not(.el-select__popper):not(.el-picker__popper):not(.is-wider) {
     max-width: 320px;
   }

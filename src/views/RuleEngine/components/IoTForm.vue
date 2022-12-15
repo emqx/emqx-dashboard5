@@ -1,8 +1,14 @@
 <template>
   <div class="iot-form">
     <el-row class="editor-row">
-      <el-col :span="14" class="sql-col">
-        <el-form ref="formCom" :model="ruleValue" :rules="formRules" label-position="top">
+      <el-col :span="15" class="sql-col">
+        <el-form
+          ref="formCom"
+          :model="ruleValue"
+          :rules="formRules"
+          label-position="top"
+          hide-required-asterisk
+        >
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item required prop="id">
@@ -15,26 +21,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="24">
-              <div class="part-header">{{ tl('sqlEditor') }}</div>
-              <p class="sub-block-desc">
-                <span>{{ tl('ruleSQLDesc') }}</span>
-                <a :href="docMap.sqlGrammar" target="_blank">{{ tl('sqlSyntaxAndTem') }}</a>
-              </p>
               <el-form-item required prop="sql" class="self-required">
-                <!-- <template #label>
-                  <div class="label-container">
-                    <label>SQL</label>
-                    <el-tooltip
-                      effect="dark"
-                      :content="tl('changeFormMethod')"
-                      placement="top-start"
-                    >
-                      <el-icon class="icon-edit" @click="toggleTypeForEditSQL">
-                        <edit-pen />
-                      </el-icon>
-                    </el-tooltip>
-                  </div>
-                </template> -->
+                <template #label>
+                  <span>{{ tl('sqlEditor') }}</span>
+                  <InfoTooltip :content="tl('ruleSQLDesc')" />
+                  <p class="sub-block-desc">
+                    <span>{{ tl('sqlEdit') }}</span>
+                    <a :href="docMap.sqlGrammar" target="_blank">{{ tl('sqlSyntaxAndTem') }}</a>
+                  </p>
+                </template>
                 <div class="monaco-container sql">
                   <Monaco
                     :id="createRandomString()"
@@ -46,69 +41,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="24">
-              <el-button type="primary" :loading="testLoading" @click="handleTestSQL()">
-                {{ tl('testsql') }}
-              </el-button>
               <el-button @click="openTemplateDrawer" type="primary" plain>
                 {{ tl('SQLTemplates') }}
               </el-button>
             </el-col>
           </el-row>
-
-          <!-- <el-row v-if="briefEditType">
-          <el-col :span="14">
-            <el-form-item class="self-required" :error="sqlPartValueFormError.from">
-              <template #label>
-                <div class="label-container">
-                  <label>{{ tl('dataSource') }}(FROM)</label>
-                  <el-tooltip effect="dark" :content="tl('changeSqlMethod')" placement="top-start">
-                    <el-icon class="icon-edit" @click="toggleTypeForEditSQL">
-                      <edit-pen />
-                    </el-icon>
-                  </el-tooltip>
-                </div>
-              </template>
-              <FromSelectList
-                v-model="sqlPartValue.from"
-                :ingress-bridge-list="ingressBridgeList"
-                :event-list="eventListForFromSelect"
-                @change="checkSQLPartValue('from')"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="14">
-            <el-form-item :label="`${tl('select')}(SELECT)`" :error="sqlPartValueFormError.select">
-              <div class="monaco-container is-small">
-                <Monaco
-                  :id="createRandomString()"
-                  v-model="sqlPartValue.select"
-                  lang="sql"
-                  @change="checkSQLPartValue('select')"
-                />
-              </div>
-            </el-form-item>
-          </el-col>
-          <el-col :span="14">
-            <el-form-item :label="`${tl('where')}(WHERE)`" :error="sqlPartValueFormError.where">
-              <div class="monaco-container is-small">
-                <Monaco :id="createRandomString()" v-model="sqlPartValue.where" lang="sql" />
-              </div>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
-          <!-- <el-row>
-            <el-col class="sql-ft" :span="14">
-              <el-button type="primary" plain @click="handleTestSQL()" size="large">
-                {{ tl('testsql') }}
-              </el-button>
-              <el-button class="btn-sql-temp" size="small" plain @click="showTemplateDrawer">
-                {{ tl('SQLTemplates') }}
-              </el-button>
-            </el-col>
-          </el-row> -->
         </el-form>
       </el-col>
-      <el-col :span="10" class="action-col">
+      <el-col :span="9" class="action-col">
         <el-tabs v-model="rightBlockActiveTab">
           <el-tab-pane :label="tl('events')" :name="RightTab.Events">
             <EventsSelect
@@ -124,6 +64,9 @@
       </el-col>
     </el-row>
     <el-row class="test-row">
+      <el-button type="primary" :loading="testLoading" @click="handleTestSQL()">
+        {{ tl('testsql') }}
+      </el-button>
       <SQLTest
         ref="testSQLRef"
         :sql="ruleValue.sql"
@@ -172,6 +115,7 @@ import SQLTest from './SQLTest.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import Monaco from '@/components/Monaco.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import {
   createRandomString,
   getKeywordsFromSQL,

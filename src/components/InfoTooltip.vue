@@ -1,14 +1,9 @@
 <template>
-  <el-tooltip
-    effect="dark"
-    :popper-class="tooltipPopperClass"
-    placement="top-start"
-    :content="content"
-  >
+  <el-tooltip effect="dark" :popper-class="tooltipPopperClass" placement="top" :content="content">
     <template v-if="$slots.content" #content>
       <slot name="content"></slot>
     </template>
-    <i class="icon-question">?</i>
+    <i class="iconfont icon-question"></i>
   </el-tooltip>
 </template>
 
@@ -39,18 +34,10 @@ const tooltipPopperClass = computed(() => `info-tooltip ${props.popperClass}`)
 @use 'sass:math';
 .icon-question {
   display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-left: 4px;
-  border: 1px solid currentColor;
-  font-size: 10px;
-  line-height: 12px;
-  text-align: center;
-  font-style: normal;
-  transform: scale(0.8);
-  transform-origin: top;
+  font-size: 14px;
   cursor: pointer;
-  border-radius: math.div(12px, 2);
-  opacity: 0.8;
+  position: relative;
+  left: 8px;
+  top: 0px;
 }
 </style>

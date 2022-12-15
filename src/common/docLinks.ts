@@ -57,7 +57,7 @@ export default (lang: string): DocMap => {
     ruleEventMsgPub: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-events-and-fields.html#${
       lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
     }`,
-    enterprise: `https://www.emqx.com/${lang}/try?product=enterprise&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-header-upgrade-to-enterprise`,
+    enterprise: `https://www.emqx.com/${lang}/products/emqx?&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-header-upgrade-to-enterprise`,
     blog: `https://www.emqx.com/${lang}/blog/category/emqx?${QUERY_FOR_HELP}`,
     dashboard: `https://www.emqx.io/docs/${lang}/v5.0/dashboard/introduction.html?${QUERY_FOR_HELP}`,
     emqxGettingStarted: `https://www.emqx.io/docs/${lang}/v5.0/getting-started.html?${QUERY_FOR_HELP}`,
