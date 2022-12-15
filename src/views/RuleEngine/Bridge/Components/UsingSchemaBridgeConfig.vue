@@ -18,18 +18,25 @@
       :custom-label-map="customLabelMap"
       :props-disabled="propsDisabled"
       :array-editor-type="'table'"
+      :data-handler="getComponentsHandler()"
       @update="handleRecordChanged"
+      @component-change="handleComponentChange"
     >
     </schema-form>
   </div>
 </template>
 
 <script setup lang="ts">
+import { REDIS_TYPE } from '@/common/constants'
 import SchemaForm from '@/components/SchemaForm'
+import useRedisSecondTypeControl from '@/hooks/Rule/bridge/useRedisSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
+import useFillNewRecord from '@/hooks/useFillNewRecord'
 import useI18nTl from '@/hooks/useI18nTl'
+import { SchemaRules } from '@/hooks/useSchemaFormRules'
 import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
+import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -39,9 +46,9 @@ type UseSchemaBridgeType = Exclude<
   BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB | BridgeType.Kafka
 >
 
-const typeRefKeyMap: Record<UseSchemaBridgeType, string> = {
+const typeRefKeyMap = {
   [BridgeType.MySQL]: `bridge_mysql.post`,
-  [BridgeType.Redis]: `bridge_redis.post_sentinel`,
+  // [BridgeType.Redis]: `bridge_redis.post_single`,
 }
 
 const props = defineProps({
@@ -96,6 +103,13 @@ const propsOrderTypeMap: Record<string, Record<string, number>> = {
       1,
     ),
   },
+  [BridgeType.Redis]: {
+    ...baseOrderMap,
+    ...createOrderObj(
+      ['redis_type', 'servers', 'server', 'command_template', 'sentinel', 'database', 'password'],
+      1,
+    ),
+  },
 }
 
 const propsOrderMap = computed(() => {
@@ -110,7 +124,15 @@ const propsOrderMap = computed(() => {
 
 const propsDisabled = computed(() => (props.modelValue ? ['name'] : []))
 
+const typeColClassMap = {
+  [BridgeType.MySQL]: {},
+  [BridgeType.Redis]: {
+    'resource_opts.auto_restart_interval': 'col-need-row',
+  },
+}
+
 const customColClass = computed(() => {
+  const externalClass = props.type ? typeColClassMap[props.type] : {}
   return {
     ...syncEtcFieldsClassMap.value,
     name: 'col-need-row dividing-line-below',
@@ -119,6 +141,7 @@ const customColClass = computed(() => {
     enable: 'col-hidden',
     local_topic: 'col-hidden',
     'connector.ssl': 'col-ssl',
+    ...externalClass,
   }
 })
 
@@ -126,11 +149,19 @@ const customLabelMap = {
   name: tl('name'),
 }
 
+const { currentType: redisFormType } = useRedisSecondTypeControl(record)
+const typesWithSecondControlMap = {
+  [BridgeType.Redis]: redisFormType,
+}
+
 const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
-  return typeRefKeyMap[props.type] || undefined
+  if (Object.keys(typesWithSecondControlMap).includes(props.type)) {
+    return typesWithSecondControlMap[props.type as keyof typeof typesWithSecondControlMap].value
+  }
+  return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
 })
 
 const bridgeRecord = computed({
@@ -142,8 +173,30 @@ const bridgeRecord = computed({
   },
 })
 
+const getComponentsHandler = () => {
+  if (props.type === BridgeType.Redis) {
+    return ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
+      if (components.redis_type?.symbols && Array.isArray(components.redis_type.symbols)) {
+        components.redis_type.symbols = REDIS_TYPE
+      }
+      return { components, rules }
+    }
+  }
+  return undefined
+}
+
+const { fillNewRecord } = useFillNewRecord()
+const handleComponentChange = ({
+  newVal,
+  oldVal,
+}: Record<'oldVal' | 'newVal', { components: Properties; record: Record<string, any> }>) => {
+  record.value = fillNewRecord(newVal, oldVal)
+}
+
 const handleRecordChanged = (formData: OtherBridge) => {
-  record.value = formData
+  if (Object.keys(formData).length > 0) {
+    record.value = formData
+  }
 }
 
 const validate = () => {
@@ -167,6 +220,11 @@ defineExpose({ getFormRecord, validate })
   }
   .col-hidden {
     display: none;
+  }
+  .custom-col-24 {
+    width: 100%;
+    max-width: 100%;
+    flex-basis: 100%;
   }
   // hide first label
   .col-ssl {
