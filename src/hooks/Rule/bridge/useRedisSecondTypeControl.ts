@@ -1,10 +1,10 @@
-import { computed, ComputedRef, Ref } from 'vue'
+import { computed, ComputedRef, WritableComputedRef } from 'vue'
 import { REDIS_TYPE } from '@/common/constants'
 
 type RedisType = typeof REDIS_TYPE[number]
 
 export default (
-  formData: Ref<Record<string, any>>,
+  formData: WritableComputedRef<Record<string, any>>,
 ): {
   currentType: ComputedRef<string>
 } => {

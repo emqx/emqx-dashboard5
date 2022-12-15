@@ -6,7 +6,7 @@
       type="bridge"
       need-rules
       :need-footer="false"
-      :need-record="!bridgeRecord"
+      :need-record="!isEdit"
       :form="bridgeRecord"
       :schema-file-path="`static/bridge-api-${store.state.lang}.json`"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
@@ -59,15 +59,25 @@ const props = defineProps({
   type: {
     type: String as PropType<UseSchemaBridgeType>,
   },
+  isEdit: {
+    type: Boolean,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
 const store = useStore()
 const { tl } = useI18nTl('RuleEngine')
 
-const record = ref({})
+const bridgeRecord = computed({
+  get() {
+    return props.modelValue || {}
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  },
+})
 
-const { syncEtcFieldsClassMap, handleSyncEtcFormData } = useSyncConfiguration(record)
+const { syncEtcFieldsClassMap, handleSyncEtcFormData } = useSyncConfiguration(bridgeRecord)
 
 const saveLoading = ref(false)
 
@@ -122,7 +132,7 @@ const propsOrderMap = computed(() => {
   return baseOrderMap
 })
 
-const propsDisabled = computed(() => (props.modelValue ? ['name'] : []))
+const propsDisabled = computed(() => (props.isEdit ? ['name'] : []))
 
 const typeColClassMap = {
   [BridgeType.MySQL]: {},
@@ -149,7 +159,7 @@ const customLabelMap = {
   name: tl('name'),
 }
 
-const { currentType: redisFormType } = useRedisSecondTypeControl(record)
+const { currentType: redisFormType } = useRedisSecondTypeControl(bridgeRecord)
 const typesWithSecondControlMap = {
   [BridgeType.Redis]: redisFormType,
 }
@@ -162,15 +172,6 @@ const getRefKey = computed(() => {
     return typesWithSecondControlMap[props.type as keyof typeof typesWithSecondControlMap].value
   }
   return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
-})
-
-const bridgeRecord = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emit('update:modelValue', val)
-  },
 })
 
 const getComponentsHandler = () => {
@@ -190,12 +191,12 @@ const handleComponentChange = ({
   newVal,
   oldVal,
 }: Record<'oldVal' | 'newVal', { components: Properties; record: Record<string, any> }>) => {
-  record.value = fillNewRecord(newVal, oldVal)
+  bridgeRecord.value = fillNewRecord(newVal, oldVal)
 }
 
 const handleRecordChanged = (formData: OtherBridge) => {
   if (Object.keys(formData).length > 0) {
-    record.value = formData
+    bridgeRecord.value = formData
   }
 }
 
