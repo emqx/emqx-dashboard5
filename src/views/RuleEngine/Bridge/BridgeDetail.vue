@@ -122,7 +122,7 @@ import {
   ComputedRef,
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getBridgeInfo, updateBridge, startStopBridge, deleteBridge } from '@/api/ruleengine'
+import { getBridgeInfo, updateBridge, startStopBridge } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'

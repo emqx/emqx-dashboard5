@@ -1,5 +1,5 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, escapeCode, transLink } from '@/common/tools'
+import { createRandomString, escapeCode, transLink, isEmptyObj } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -178,7 +178,7 @@ const SchemaForm = defineComponent({
     )
 
     watch(components, (val) => {
-      if (!props.form && props.needRecord) {
+      if ((!props.form || isEmptyObj(props.form)) && props.needRecord) {
         configForm.value = initRecordByComponents(val)
         if (typesNeedConciseSSL.includes(props.type)) {
           configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value)
@@ -735,7 +735,7 @@ const SchemaForm = defineComponent({
     }
 
     onMounted(() => {
-      if (props.form) {
+      if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
       }
       handleComponentsData()

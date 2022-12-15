@@ -488,3 +488,5 @@ export const countDuplicationName = (rawName: string): string => {
   }
   return `${rawName}${COPY_SUFFIX}`
 }
+
+export const isEmptyObj = (obj: Record<any, any>) => Object.keys(obj).length === 0

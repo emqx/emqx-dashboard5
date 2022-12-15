@@ -91,6 +91,7 @@ export enum BridgeType {
   InfluxDB = 'influxdb',
   MySQL = 'mysql',
   Kafka = 'kafka',
+  Redis = 'redis',
 }
 
 export enum ConnectorType {
