@@ -239,7 +239,7 @@
       <el-button @click="showDialog = false">
         {{ $t('Base.cancel') }}
       </el-button>
-      <el-button type="danger" plain @click="onDelete">
+      <el-button v-if="isEdit" type="danger" plain @click="onDelete">
         {{ $t('Base.delete') }}
       </el-button>
       <el-button type="primary" @click="submit" :loading="isSubmitting">
