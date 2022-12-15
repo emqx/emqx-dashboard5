@@ -36,7 +36,8 @@ export type OutputItem = string | OutputItemObj
 export type FromData = Array<string> | string
 
 export interface BasicRule {
-  name: string
+  id: string
+  name?: string
   sql: string
   actions: Array<OutputItem> | OutputItem
   description: string

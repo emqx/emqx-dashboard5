@@ -52,7 +52,7 @@ export default {
     en: 'Port',
   },
   keepalive: {
-    zh: '心跳（秒）',
+    zh: '心跳',
     en: 'Keepalive',
   },
   expiryInterval: {

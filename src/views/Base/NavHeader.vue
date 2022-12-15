@@ -25,7 +25,7 @@
           placement="bottom"
           :show-arrow="false"
         >
-          <i class="iconfont icon-question icon-understandmore"></i>
+          <i class="iconfont icon-question"></i>
         </el-tooltip>
       </router-link>
 
@@ -246,7 +246,7 @@ export default defineComponent({
 }
 .el-icon.bell {
   color: var(--color-title-primary);
-  font-size: 20px;
+  font-size: 21px;
   width: 24px;
   height: 24px;
   position: relative;
@@ -254,6 +254,6 @@ export default defineComponent({
 }
 .icon-question {
   color: var(--color-title-primary);
-  opacity: 0.85;
+  font-size: 21px;
 }
 </style>

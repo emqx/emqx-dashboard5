@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3538061 */
-  src: url('iconfont.woff2?t=1659517067670') format('woff2'),
-       url('iconfont.woff?t=1659517067670') format('woff'),
-       url('iconfont.ttf?t=1659517067670') format('truetype');
+  src: url('iconfont.woff2?t=1671089044825') format('woff2'),
+       url('iconfont.woff?t=1671089044825') format('woff'),
+       url('iconfont.ttf?t=1671089044825') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,38 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-question:before {
+  content: "\e6bd";
+}
+
+.icon-retained-light-selected:before {
+  content: "\e7a3";
+}
+
+.icon-retained-light:before {
+  content: "\e7a4";
+}
+
+.icon-retained-dark-selected:before {
+  content: "\e7a5";
+}
+
+.icon-retained-dark:before {
+  content: "\e7a6";
+}
+
+.icon-linkedin:before {
+  content: "\e611";
+}
+
+.icon-twitter:before {
+  content: "\e736";
+}
+
+.icon-youtube:before {
+  content: "\e8e2";
 }
 
 .icon-discord:before {

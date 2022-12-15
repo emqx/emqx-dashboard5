@@ -6,18 +6,18 @@
   "description": "for emqx 5.0 dashboard",
   "glyphs": [
     {
+      "icon_id": "12906433",
+      "name": "question",
+      "font_class": "question",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
       "icon_id": "33123908",
       "name": "linkedin",
       "font_class": "linkedin",
       "unicode": "e611",
       "unicode_decimal": 58897
-    },
-    {
-      "icon_id": "17458930",
-      "name": "understand more",
-      "font_class": "understandmore",
-      "unicode": "e65f",
-      "unicode_decimal": 58975
     },
     {
       "icon_id": "792496",

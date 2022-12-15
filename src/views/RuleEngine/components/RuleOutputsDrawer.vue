@@ -11,17 +11,17 @@
         <el-col :span="12" v-loading="isLoading">
           <el-form-item :label="$tc('RuleEngine.action')" prop="type">
             <el-select v-model="outputForm.type">
-              <el-option :value="RuleOutput.DataBridge" :label="tl('useDataBridge')" />
-              <el-option
-                :value="RuleOutput.Console"
-                :disabled="isDisabledConsole"
-                :label="tl('consoleOutput')"
-              />
               <el-option
                 :value="RuleOutput.Republish"
                 :disabled="isDisabledRepublish"
                 :label="tl('republish')"
               />
+              <el-option
+                :value="RuleOutput.Console"
+                :disabled="isDisabledConsole"
+                :label="tl('consoleOutput')"
+              />
+              <el-option :value="RuleOutput.DataBridge" :label="tl('useDataBridge')" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -134,7 +134,6 @@ import { useRoute } from 'vue-router'
 import { Plus } from '@element-plus/icons-vue'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
 import useFormRules from '@/hooks/useFormRules'
-import useDocLink from '@/hooks/useDocLink'
 import { createRandomString } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
 import AddBridgeOnRule from './AddBridgeOnRule.vue'
@@ -193,7 +192,6 @@ const outputFormRules = {
     topic: createRequiredRule('Topic'),
   },
 }
-const { docMap } = useDocLink()
 
 const showDrawer: WritableComputedRef<boolean> = computed({
   get() {
