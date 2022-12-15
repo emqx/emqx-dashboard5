@@ -43,6 +43,7 @@ export interface BridgeTypeOptions {
 
 export const useBridgeTypeOptions = (): {
   bridgeTypeOptions: BridgeTypeOptions[]
+  getBridgeType: (typeStr: string) => BridgeType
   getTypeStr: (bridge: BridgeItem) => string
 } => {
   const { tl, t } = useI18nTl('RuleEngine')
@@ -88,13 +89,31 @@ export const useBridgeTypeOptions = (): {
 
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
+  /**
+   * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
+   */
+  const typesWithMultiSpecificType = [BridgeType.InfluxDB, BridgeType.Redis]
+  const getBridgeType = (typeStr: string): BridgeType => {
+    if (!typeStr) {
+      return typeStr as BridgeType
+    }
+    const withMultiSpecificTypeIndex = typesWithMultiSpecificType.findIndex(
+      (item) => typeStr.indexOf(item) > -1,
+    )
+    if (withMultiSpecificTypeIndex > -1) {
+      return typesWithMultiSpecificType[withMultiSpecificTypeIndex]
+    }
+    return typeStr as BridgeType
+  }
+
   const getTypeStr = (bridge: BridgeItem): string => {
-    const type = bridge.type?.indexOf(BridgeType.InfluxDB) > -1 ? BridgeType.InfluxDB : bridge.type
+    const type = getBridgeType(bridge.type)
     return getBridgeLabelByTypeValue(type) || ''
   }
 
   return {
     bridgeTypeOptions,
+    getBridgeType,
     getTypeStr,
   }
 }
@@ -103,14 +122,9 @@ export const useBridgeTypeIcon = (): {
   getBridgeIconKey: (value: string) => string
   getBridgeIcon: (type: string) => string
 } => {
-  const specialTypeLabelList = ['influxdb', 'redis']
-  const getBridgeIconKey = (value: string) => {
-    const specialTypeIndex = specialTypeLabelList.findIndex((item) => value.indexOf(item) > -1)
-    if (specialTypeIndex > -1) {
-      return specialTypeLabelList[specialTypeIndex]
-    }
-    return value
-  }
+  const { getBridgeType } = useBridgeTypeOptions()
+  const getBridgeIconKey = (value: string) => getBridgeType(value)
+
   const getBridgeIcon = (type: string): string => {
     if (!type) {
       return ''
