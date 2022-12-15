@@ -215,3 +215,5 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 
 export const COPY_SUFFIX = '_duplication'
+
+export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
