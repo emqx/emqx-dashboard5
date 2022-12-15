@@ -468,12 +468,16 @@ export default {
     en: 'SQL',
   },
   ruleSQLDesc: {
-    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的数据。更多详情，请参考 ',
-    en: 'Extract, filter, enrich, and transform the data between devices and business systems in real-time using SQL. For more details, please refer to ',
+    zh: '使用 SQL 语句实时提取、过滤、丰富和转换设备与业务系统之间的数据。',
+    en: 'Use SQL to extract, filter, enrich, and transform data in real-time between devices and business systems.',
+  },
+  sqlEdit: {
+    zh: '了解更多 SQL 语法，请参考 ',
+    en: 'To learn more about SQL, see our ',
   },
   sqlSyntaxAndTem: {
-    zh: 'SQL 语法与示列',
-    en: 'SQL syntax and templates',
+    zh: 'SQL 语法与示列。',
+    en: 'SQL syntax and templates.',
   },
   overview: {
     zh: '概览',
@@ -648,12 +652,12 @@ export default {
     en: 'Duplicate',
   },
   SQLTemplates: {
-    zh: 'SQL 模版',
-    en: 'SQL Templates',
+    zh: 'SQL 示例',
+    en: 'SQL Examples',
   },
   commonSQLTemplates: {
-    zh: '常用 SQL 模板',
-    en: 'Common SQL Templates',
+    zh: '常用 SQL 示例',
+    en: 'Common SQL Examples',
   },
   useSQL: {
     zh: '使用 SQL',
