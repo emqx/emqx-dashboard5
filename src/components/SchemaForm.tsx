@@ -13,6 +13,7 @@ import _ from 'lodash'
 import { computed, defineComponent, onMounted, PropType, ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
+import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
@@ -38,6 +39,7 @@ const SchemaForm = defineComponent({
     CommonTLSConfig,
     InfoTooltip: InfoTooltip as any,
     Monaco,
+    ArrayEditorInput,
   },
   props: {
     accordingTo: {
@@ -111,6 +113,10 @@ const SchemaForm = defineComponent({
     needRules: {
       type: Boolean,
       default: true,
+    },
+    arrayEditorType: {
+      type: String as PropType<'select' | 'input'>,
+      default: 'select',
     },
     /**
      * bind function that does some customization of the form data and form rules after it has been generated according to the schema data
@@ -322,6 +328,15 @@ const SchemaForm = defineComponent({
           )
         case 'array':
           if (['number', 'string'].includes(property.items.type)) {
+            if (props.arrayEditorType === 'input') {
+              return (
+                <ArrayEditorInput
+                  modelValue={modelValue}
+                  {...handleUpdateModelValue}
+                  disabled={isPropertyDisabled}
+                />
+              )
+            }
             return (
               <array-editor
                 modelValue={modelValue}
