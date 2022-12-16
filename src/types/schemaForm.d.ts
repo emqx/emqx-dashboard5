@@ -13,6 +13,7 @@ export interface Property {
   readOnly?: boolean
   items: Properties[string]
   component: string
+  clearable: boolean
   oneOf: Properties[string][]
   properties?: Properties
   format?: string
