@@ -36,8 +36,6 @@ const tooltipPopperClass = computed(() => `info-tooltip ${props.popperClass}`)
   display: inline-block;
   font-size: 14px;
   cursor: pointer;
-  position: relative;
-  left: 8px;
-  top: 0px;
+  margin-left: 8px;
 }
 </style>
