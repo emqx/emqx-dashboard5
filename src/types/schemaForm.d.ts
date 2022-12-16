@@ -12,6 +12,7 @@ export interface Property {
   path?: string
   readOnly?: boolean
   items: Properties[string]
+  component: string
   oneOf: Properties[string][]
   properties?: Properties
   format?: string

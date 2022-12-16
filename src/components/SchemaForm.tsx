@@ -1,9 +1,9 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, escapeCode, transLink, isEmptyObj } from '@/common/tools'
+import { createRandomString, escapeCode, isEmptyObj, transLink } from '@/common/tools'
+import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSchemaRecord from '@/hooks/useSchemaRecord'
@@ -14,6 +14,7 @@ import _ from 'lodash'
 import { computed, defineComponent, onMounted, PropType, ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
+import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
@@ -34,10 +35,11 @@ const SchemaForm = defineComponent({
     TimeInputWithUnitSelect,
     InputWithUnit,
     ArrayEditor,
+    ArrayEditorInput,
+    ArrayEditorTable,
     Oneof,
     Setting,
     CommonTLSConfig,
-    ArrayEditorTable,
     InfoTooltip: InfoTooltip as any,
     Monaco,
   },
@@ -113,10 +115,6 @@ const SchemaForm = defineComponent({
     needRules: {
       type: Boolean,
       default: true,
-    },
-    arrayEditorType: {
-      type: String as PropType<'select' | 'table'>,
-      default: 'select',
     },
     /**
      * bind function that does some customization of the form data and form rules after it has been generated according to the schema data
@@ -328,14 +326,20 @@ const SchemaForm = defineComponent({
           )
         case 'array':
           if (['number', 'string'].includes(property.items.type)) {
-            if (props.arrayEditorType === 'select') {
+            if (property.items.component === 'input') {
               return (
-                <array-editor
+                <ArrayEditorInput
                   modelValue={modelValue}
                   {...handleUpdateModelValue}
                   disabled={isPropertyDisabled}
-                  type={property.items.type}
-                  default={property.default}
+                />
+              )
+            } else if (property.items.component === 'table') {
+              return (
+                <ArrayEditorTable
+                  modelValue={modelValue}
+                  {...handleUpdateModelValue}
+                  disabled={isPropertyDisabled}
                 />
               )
             }
