@@ -41,6 +41,9 @@
               </el-form-item>
             </el-col>
             <el-col :span="24">
+              <el-button type="primary" :loading="testLoading" @click="handleTestSQL()">
+                {{ tl('testsql') }}
+              </el-button>
               <el-button @click="openTemplateDrawer" type="primary" plain>
                 {{ tl('SQLTemplates') }}
               </el-button>
@@ -64,9 +67,6 @@
       </el-col>
     </el-row>
     <el-row class="test-row">
-      <el-button type="primary" :loading="testLoading" @click="handleTestSQL()">
-        {{ tl('testsql') }}
-      </el-button>
       <SQLTest
         ref="testSQLRef"
         :sql="ruleValue.sql"
