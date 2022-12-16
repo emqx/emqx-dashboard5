@@ -17,7 +17,6 @@
       :custom-col-class="customColClass"
       :custom-label-map="customLabelMap"
       :props-disabled="propsDisabled"
-      :array-editor-type="'table'"
       :data-handler="getComponentsHandler()"
       @update="handleRecordChanged"
       @component-change="handleComponentChange"
@@ -116,7 +115,17 @@ const propsOrderTypeMap: Record<string, Record<string, number>> = {
   [BridgeType.Redis]: {
     ...baseOrderMap,
     ...createOrderObj(
-      ['redis_type', 'servers', 'server', 'command_template', 'sentinel', 'database', 'password'],
+      [
+        'redis_type',
+        'servers',
+        'server',
+        'password',
+        'database',
+        'sentinel',
+        'pool_size',
+        'auto_reconnect',
+        'command_template',
+      ],
       1,
     ),
   },
@@ -138,6 +147,7 @@ const typeColClassMap = {
   [BridgeType.MySQL]: {},
   [BridgeType.Redis]: {
     'resource_opts.auto_restart_interval': 'col-need-row',
+    command_template: 'custom-col-24',
   },
 }
 
@@ -177,8 +187,15 @@ const getRefKey = computed(() => {
 const getComponentsHandler = () => {
   if (props.type === BridgeType.Redis) {
     return ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
-      if (components.redis_type?.symbols && Array.isArray(components.redis_type.symbols)) {
-        components.redis_type.symbols = REDIS_TYPE
+      const { redis_type, servers, command_template } = components
+      if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
+        redis_type.symbols = REDIS_TYPE
+      }
+      if (servers?.type === 'array' && servers?.items?.type === 'string') {
+        servers.items.component = 'input'
+      }
+      if (command_template?.type === 'array' && command_template?.items?.type === 'string') {
+        command_template.items.component = 'table'
       }
       return { components, rules }
     }
