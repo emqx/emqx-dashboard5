@@ -265,7 +265,7 @@ const SchemaForm = defineComponent({
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
       property.path = replaceVarPath(property.path)
-      const { path, format } = property
+      const { path, format, clearable } = property
       const isPropertyDisabled = confirmPropertyDisabled(property)
 
       /**
@@ -276,6 +276,7 @@ const SchemaForm = defineComponent({
       const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
       const inputType = format === 'password' ? 'password' : 'text'
       const autocomplete = inputType === 'password' ? 'one-time-code' : ''
+      const clearableValue = typeof clearable === 'boolean' ? clearable : true
       const stringInput = (
         <el-input
           disabled={isPropertyDisabled}
@@ -309,7 +310,7 @@ const SchemaForm = defineComponent({
               placeholder={property.default?.toString()}
               modelValue={modelValue}
               {...handleUpdateModelValue}
-              clearable
+              clearable={clearableValue}
             >
               {property.symbols?.map((opt) => (
                 <el-option value={opt} label={opt} />
