@@ -1,5 +1,6 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, escapeCode, transLink, isEmptyObj } from '@/common/tools'
+import { createRandomString, escapeCode, isEmptyObj, transLink } from '@/common/tools'
+import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -34,12 +35,13 @@ const SchemaForm = defineComponent({
     TimeInputWithUnitSelect,
     InputWithUnit,
     ArrayEditor,
+    ArrayEditorInput,
+    ArrayEditorTable,
     Oneof,
     Setting,
     CommonTLSConfig,
     InfoTooltip: InfoTooltip as any,
     Monaco,
-    ArrayEditorInput,
   },
   props: {
     accordingTo: {
@@ -113,10 +115,6 @@ const SchemaForm = defineComponent({
     needRules: {
       type: Boolean,
       default: true,
-    },
-    arrayEditorType: {
-      type: String as PropType<'select' | 'input'>,
-      default: 'select',
     },
     /**
      * bind function that does some customization of the form data and form rules after it has been generated according to the schema data
@@ -328,9 +326,17 @@ const SchemaForm = defineComponent({
           )
         case 'array':
           if (['number', 'string'].includes(property.items.type)) {
-            if (props.arrayEditorType === 'input') {
+            if (property.items.component === 'input') {
               return (
                 <ArrayEditorInput
+                  modelValue={modelValue}
+                  {...handleUpdateModelValue}
+                  disabled={isPropertyDisabled}
+                />
+              )
+            } else if (property.items.component === 'table') {
+              return (
+                <ArrayEditorTable
                   modelValue={modelValue}
                   {...handleUpdateModelValue}
                   disabled={isPropertyDisabled}
