@@ -141,7 +141,16 @@ const propsOrderMap = computed(() => {
   return baseOrderMap
 })
 
-const propsDisabled = computed(() => (props.isEdit ? ['name'] : []))
+const propsDisabled = computed(() => {
+  const ret = []
+  if (props.isEdit) {
+    ret.push('name')
+  }
+  if (props.type === BridgeType.Redis) {
+    ret.push('redis_type')
+  }
+  return ret
+})
 
 const typeColClassMap = {
   [BridgeType.MySQL]: {},
@@ -191,6 +200,7 @@ const getComponentsHandler = () => {
       if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
         redis_type.symbols = REDIS_TYPE
         redis_type.label = t('Auth.redisType')
+        redis_type.clearable = false
         if (redis_type.description) {
           Reflect.deleteProperty(redis_type, 'description')
         }
