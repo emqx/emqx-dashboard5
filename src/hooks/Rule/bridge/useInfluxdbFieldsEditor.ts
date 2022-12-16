@@ -14,7 +14,7 @@ const U_INT_REGEX = /^\d+u$/
 const NUMBER_REGEX = /\d+(\.\d+)?/
 const SCIENTIFIC_NOTATION_REGEX = new RegExp(`${NUMBER_REGEX.source}e(\\+|-)\\d+`)
 const FLOAT_REGEX = new RegExp(`^${SCIENTIFIC_NOTATION_REGEX.source}|${NUMBER_REGEX.source}$`)
-const PLACEHOLDER_REGEX = /\$\{.+\}(i|u)?/
+const PLACEHOLDER_REGEX = /.+/
 const typeRegexMap: Record<FieldValueType, RegExp> = {
   [FieldValueType.String]: STRING_REGEX,
   [FieldValueType.Integer]: INT_REGEX,
