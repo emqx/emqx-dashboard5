@@ -453,7 +453,7 @@ const SchemaForm = defineComponent({
         labelSlot.label = () => (
           <label>
             <span>{label}</span>
-            <InfoTooltip {...{ popperClass }} v-slots={tooltipSlots} />
+            {description ? <InfoTooltip {...{ popperClass }} v-slots={tooltipSlots} /> : null}
           </label>
         )
       } else {
