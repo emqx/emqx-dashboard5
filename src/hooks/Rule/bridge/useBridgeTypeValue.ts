@@ -18,7 +18,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.InfluxDB, label: tl('influxDBLabel') },
     { value: BridgeType.MySQL, label: tl('mySQL') },
     { value: BridgeType.Kafka, label: tl('kafka') },
-    { value: BridgeType.Redis, label: tl('kafka') },
+    { value: BridgeType.Redis, label: tl('redis') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {

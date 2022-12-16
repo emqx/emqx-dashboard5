@@ -65,7 +65,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const store = useStore()
-const { tl } = useI18nTl('RuleEngine')
+const { tl, t } = useI18nTl('RuleEngine')
 
 const bridgeRecord = computed({
   get() {
@@ -190,6 +190,13 @@ const getComponentsHandler = () => {
       const { redis_type, servers, command_template } = components
       if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
         redis_type.symbols = REDIS_TYPE
+        redis_type.label = t('Auth.redisType')
+        if (redis_type.description) {
+          Reflect.deleteProperty(redis_type, 'description')
+        }
+      }
+      if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
+        redis_type.symbols = REDIS_TYPE
       }
       if (servers?.type === 'array' && servers?.items?.type === 'string') {
         servers.items.component = 'input'
@@ -208,7 +215,7 @@ const handleComponentChange = ({
   newVal,
   oldVal,
 }: Record<'oldVal' | 'newVal', { components: Properties; record: Record<string, any> }>) => {
-  bridgeRecord.value = fillNewRecord(newVal, oldVal)
+  bridgeRecord.value = { ...fillNewRecord(newVal, oldVal), type: newVal.record.type }
 }
 
 const handleRecordChanged = (formData: OtherBridge) => {
