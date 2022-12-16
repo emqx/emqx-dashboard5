@@ -145,10 +145,11 @@ const propsDisabled = computed(() => {
   const ret = []
   if (props.isEdit) {
     ret.push('name')
+    if (props.type === BridgeType.Redis) {
+      ret.push('redis_type')
+    }
   }
-  if (props.type === BridgeType.Redis) {
-    ret.push('redis_type')
-  }
+
   return ret
 })
 
