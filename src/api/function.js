@@ -33,7 +33,7 @@ export function updateUser(username, body = {}) {
 }
 
 export function changePassword(username, body = {}) {
-  return http.put(`/users/${encodeURIComponent(username)}/change_pwd`, body)
+  return http.post(`/users/${encodeURIComponent(username)}/change_pwd`, body)
 }
 
 export function destroyUser(username) {
