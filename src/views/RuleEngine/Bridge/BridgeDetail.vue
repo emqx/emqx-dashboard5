@@ -346,7 +346,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 .section-header img {
-  width: 64px;
+  height: 64px;
   vertical-align: top;
 }
 .title-n-status {

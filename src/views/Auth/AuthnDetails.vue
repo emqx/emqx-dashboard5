@@ -7,8 +7,8 @@
     <div :class="{ 'section-header': true, 'embed-gateway': !!gateway }">
       <div class="section-header__block">
         <template v-if="!gateway">
-          <div>
-            <img v-if="configData.mechanism !== 'jwt'" :src="currImg" width="64" />
+          <div class="img-wrap">
+            <img v-if="configData.mechanism !== 'jwt'" :src="currImg" height="64" />
           </div>
           <div>
             <div class="info-tags">

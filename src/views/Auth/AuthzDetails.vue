@@ -4,7 +4,7 @@
     <div class="section-header">
       <div class="section-header__block">
         <div>
-          <img :src="currImg" width="64" />
+          <img :src="currImg" height="64" />
         </div>
         <div>
           <div class="info-tags">

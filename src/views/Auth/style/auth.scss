@@ -62,6 +62,10 @@
     .section-header__block {
       display: flex;
       align-items: center;
+      min-height: 64px;
+      .img-wrap {
+          line-height: 0;
+        }
       & > div {
         margin-right: 20px;
       }
