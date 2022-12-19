@@ -2,7 +2,11 @@
   <el-row class="influx-db-line-protocol-form" :gutter="26">
     <el-col :span="12">
       <el-form-item label="Measurement" class="is-required" :error="measurementErrorMsg">
-        <el-input v-model="measurement" @change="updateModelValue" />
+        <el-input
+          v-model="measurement"
+          @change="updateModelValue"
+          @blur="validateItemWhenBlur('measurement')"
+        />
       </el-form-item>
     </el-col>
     <el-col :span="12">
@@ -142,6 +146,7 @@ const updateModelValue = () => {
 }
 
 const handleFieldMapChanged = (val: Record<string, string>) => {
+  validateItemWhenBlur('fields')
   fieldMap.value = val
   updateModelValue()
 }
@@ -150,22 +155,28 @@ const handleTabMapChanged = (val: Record<string, string>) => {
   updateModelValue()
 }
 
+const validateItemWhenBlur = (fieldName: 'measurement' | 'fields') => {
+  if (fieldName === 'measurement') {
+    measurementErrorMsg.value = !measurement.value
+      ? t('Rule.inputFieldRequiredError', { name: 'Measurement' })
+      : ''
+  } else if (fieldName === 'fields') {
+    fieldsErrorMsg.value = ''
+    if (
+      Object.keys(fieldMap.value).filter((key) => {
+        const value = fieldMap.value[key]
+        return key !== '' && value !== '' && value !== undefined
+      }).length === 0
+    ) {
+      fieldsErrorMsg.value = t('Rule.inputFieldRequiredError', { name: 'Field set' })
+    }
+  }
+}
+
 const validate = () => {
-  if (!measurement.value) {
-    measurementErrorMsg.value = t('Rule.inputFieldRequiredError', { name: 'Measurement' })
-  }
-  if (
-    Object.keys(fieldMap.value).filter((key) => {
-      const value = fieldMap.value[key]
-      return key !== '' && value !== '' && value !== undefined
-    }).length === 0
-  ) {
-    fieldsErrorMsg.value = t('Rule.inputFieldRequiredError', { name: 'Field set' })
-  }
-  if (measurementErrorMsg.value || fieldsErrorMsg.value) {
-    return Promise.reject()
-  }
-  return Promise.resolve()
+  validateItemWhenBlur('measurement')
+  validateItemWhenBlur('fields')
+  return measurementErrorMsg.value || fieldsErrorMsg.value ? Promise.reject() : Promise.resolve()
 }
 
 const clearValidate = () => {
