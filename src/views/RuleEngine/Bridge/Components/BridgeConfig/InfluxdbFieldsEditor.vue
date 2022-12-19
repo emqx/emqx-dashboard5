@@ -72,7 +72,7 @@ const { judgeFieldValueType, convertToRawValueByType, handleValueByType } =
 
 export default defineComponent({
   name: 'KeyAndValueEditor',
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'add'],
   components: { BooleanSelect },
   props: {
     modelValue: {
@@ -157,6 +157,7 @@ export default defineComponent({
     }
     function addColumn() {
       tableData.value.push({ ...rowData })
+      emit('add')
     }
 
     watch(

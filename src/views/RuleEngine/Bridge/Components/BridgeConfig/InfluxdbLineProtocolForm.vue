@@ -16,7 +16,11 @@
     </el-col>
     <el-col :span="24">
       <el-form-item label="Fields" class="is-required" :error="fieldsErrorMsg">
-        <InfluxdbFieldsEditor :model-value="fieldMap" @update:model-value="handleFieldMapChanged" />
+        <InfluxdbFieldsEditor
+          :model-value="fieldMap"
+          @update:model-value="handleFieldMapChanged"
+          @add="fieldsErrorMsg = ''"
+        />
       </el-form-item>
     </el-col>
     <el-col :span="24">
@@ -57,7 +61,7 @@ const emit = defineEmits(['update:modelValue'])
 const { t } = useI18nTl('Rule')
 
 const measurement = ref('')
-const timestamp: Ref<undefined | number> = ref(undefined)
+const timestamp: Ref<undefined | string> = ref(undefined)
 const fieldMap: Ref<Record<string, string>> = ref({})
 const tagMap: Ref<Record<string, string>> = ref({})
 
@@ -146,7 +150,6 @@ const updateModelValue = () => {
 }
 
 const handleFieldMapChanged = (val: Record<string, string>) => {
-  validateItemWhenBlur('fields')
   fieldMap.value = val
   updateModelValue()
 }
