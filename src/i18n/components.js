@@ -7,6 +7,10 @@ export default {
     zh: '值',
     en: 'Value',
   },
+  field: {
+    zh: '字段',
+    en: 'Field',
+  },
   left: {
     zh: '左侧',
     en: 'Left',

@@ -225,11 +225,19 @@ export default {
   },
   outputResult: {
     zh: '输出结果',
-    en: 'Result',
+    en: 'Output Result',
+  },
+  outputResultDesc: {
+    zh: '运行测试后，根据测试数据输出规则 SQL 的处理结果。',
+    en: 'After executing the test, output the result of processing the rule SQL using the test data.',
   },
   testData: {
-    zh: '测试数据',
-    en: 'Test data',
+    zh: '输入测试数据',
+    en: 'Input Test Data',
+  },
+  testDataDesc: {
+    zh: '输入并模拟运行时的使用数据，点击运行测试按钮后开始规则的 SQL 测试，结果将在输出结果中展示。',
+    en: 'Enter the data needed to run, and then click the Run Test button to test the rule SQL. The result will be shown in the Output Result.',
   },
   switchToFormEditing: {
     zh: '切换为表单编辑',
@@ -272,8 +280,8 @@ export default {
     en: 'Edit The Action',
   },
   testsql: {
-    zh: '执行 SQL',
-    en: 'Execute SQL',
+    zh: '运行测试',
+    en: 'Run Test',
   },
   sqlMode: {
     zh: 'SQL 模式',
@@ -301,7 +309,11 @@ export default {
   },
   dataSource: {
     zh: '数据来源',
-    en: 'Data source',
+    en: 'Data Source',
+  },
+  dataSourceDesc: {
+    zh: '选择一个消息事件或数据桥接作为测试数据源，确保它与规则的 SQL 保持一致。',
+    en: `Select a message event or data bridge as the data source for testing, ensuring that it is consistent with the rule's SQL.`,
   },
   addDataSource: {
     zh: '添加数据来源',
@@ -604,8 +616,16 @@ export default {
     en: 'Test the connection',
   },
   test: {
-    zh: '调试',
-    en: 'Test',
+    zh: '启用调试',
+    en: 'Enable Test',
+  },
+  testTip: {
+    zh: '启用调试后，可模拟数据源数据，并查看测试规则 SQL 的结果。',
+    en: 'Test enabled, simulate data source and view the test rule SQL result.',
+  },
+  testDesc: {
+    zh: '在创建规则之前，您可以使用测试数据来执行您刚才编辑的 SQL。这样可以帮助您确保结果符合预期，并且可以放心地创建并使用规则。',
+    en: 'Before creating a rule, you can test rule SQL by using test data. This will help ensure that the results meet your expectations and allow you to confidently use the rule.',
   },
   connectionSuccessful: {
     zh: '连接成功',
@@ -748,8 +768,8 @@ export default {
     en: 'Client event',
   },
   dataTypeSQLNoMatch: {
-    zh: '数据类型与 SQL 不匹配',
-    en: 'Data type does not match SQL',
+    zh: '数据源与当前输入的 SQL 不匹配',
+    en: `Data source doesn't match the entered SQL`,
   },
   parametersPreview: {
     zh: '配置预览',
@@ -986,5 +1006,9 @@ export default {
   autoRestartIntervalDesc: {
     en: 'The auto restart interval after the resource is disconnected, in milliseconds.',
     zh: '资源断开以后，自动重连的时间间隔，单位毫秒。',
+  },
+  confirmReset: {
+    zh: '是否确认重置输入的测试数据？',
+    en: 'Are you sure to reset the test data?',
   },
 }
