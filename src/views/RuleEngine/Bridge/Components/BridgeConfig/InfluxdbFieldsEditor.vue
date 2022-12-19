@@ -7,29 +7,7 @@
     </el-table-column>
     <el-table-column :label="keyValueLabel.value">
       <template #default="{ row }">
-        <BooleanSelect
-          v-model="row.value"
-          v-if="row.type === FieldValueType.Boolean"
-          @change="atInputChange"
-        />
-        <el-input
-          v-else-if="row.type === FieldValueType.Integer || row.type === FieldValueType.UInteger"
-          v-model="row.value"
-          @input="atInputChange"
-        />
-        <el-input v-else v-model="row.value" @input="atInputChange" />
-      </template>
-    </el-table-column>
-    <el-table-column :label="tl('type')">
-      <template #default="{ row }">
-        <el-select v-model="row.type">
-          <el-option
-            v-for="{ value, label } in typeOpts"
-            :label="label"
-            :value="value"
-            :key="value"
-          />
-        </el-select>
+        <el-input v-model="row.value" @input="atInputChange" />
       </template>
     </el-table-column>
     <el-table-column v-if="!disabled" width="100">
@@ -51,29 +29,20 @@
 import { ref, computed, Ref, defineComponent, watch } from 'vue'
 import { isPlainObject, cloneDeep, isEqual } from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
-import BooleanSelect from '@/components/BooleanSelect.vue'
 import useInfluxdbFieldsEditor, {
   FieldValueType,
 } from '@/hooks/Rule/bridge/useInfluxdbFieldsEditor'
 
-enum State {
-  OK = 0,
-  Error,
-}
 type kvRow = {
   key: string
-  value: string | undefined | boolean
-  type: FieldValueType
-  state: State
+  value: string
 }
 
-const { judgeFieldValueType, convertToRawValueByType, handleValueByType } =
-  useInfluxdbFieldsEditor()
+const { judgeFieldValueType, judgeValueInInput } = useInfluxdbFieldsEditor()
 
 export default defineComponent({
   name: 'KeyAndValueEditor',
   emits: ['update:modelValue', 'add'],
-  components: { BooleanSelect },
   props: {
     modelValue: {
       type: Object,
@@ -90,9 +59,7 @@ export default defineComponent({
   setup(props, context) {
     const rowData: kvRow = {
       key: '',
-      value: undefined,
-      type: FieldValueType.Placeholder,
-      state: State.OK,
+      value: '',
     }
     const tableData: Ref<kvRow[]> = ref([])
 
@@ -100,15 +67,6 @@ export default defineComponent({
 
     const { t, tl } = useI18nTl('RuleEngine')
     const { emit } = context
-
-    const typeOpts = [
-      { value: FieldValueType.Placeholder, label: tl('placeholder') },
-      { value: FieldValueType.Float, label: tl('float') },
-      { value: FieldValueType.Integer, label: tl('integer') },
-      { value: FieldValueType.UInteger, label: tl('uInteger') },
-      { value: FieldValueType.String, label: tl('string') },
-      { value: FieldValueType.Boolean, label: tl('boolean') },
-    ]
 
     function createTbData() {
       const d = props.modelValue
@@ -119,11 +77,11 @@ export default defineComponent({
       tableData.value = []
       Object.entries(d).forEach(([key, value]: [string, string]) => {
         const type = judgeFieldValueType(value)
-        if (type !== undefined) {
-          const rawValue = convertToRawValueByType(value, type)
-          tableData.value.push({ key, value: rawValue, state: 0, type })
+        if (type === FieldValueType.String) {
+          // remove quotes
+          tableData.value.push({ key, value: value.slice(1, -1) })
         } else {
-          // TODO:throw error
+          tableData.value.push({ key, value })
         }
       })
     }
@@ -143,9 +101,14 @@ export default defineComponent({
     function atInputChange() {
       const data: Record<string, unknown> = {}
       tableData.value.forEach((item) => {
-        const { key, value, type } = item
+        const { key, value } = item
+        const type = judgeValueInInput(value)
         if (value !== undefined) {
-          data[key] = handleValueByType(value, type)
+          if (type === FieldValueType.String) {
+            data[key] = `"${value}"`
+          } else {
+            data[key] = value
+          }
         }
       })
       lastTimeObjData = cloneDeep(data)
@@ -172,7 +135,6 @@ export default defineComponent({
     return {
       tl,
       tableData,
-      typeOpts,
       FieldValueType,
       atInputChange,
       deleteItem,
