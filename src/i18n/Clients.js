@@ -391,4 +391,44 @@ export default {
     zh: '主题不能为空',
     en: 'Topic is required',
   },
+  topic: {
+    zh: '主题',
+    en: 'Topic',
+  },
+  qos: {
+    zh: 'QoS',
+    en: 'QoS',
+  },
+  payload: {
+    zh: 'Payload',
+    en: 'Payload',
+  },
+  from_clientid: {
+    zh: '来自于客户端 ID',
+    en: 'From Client ID',
+  },
+  from_username: {
+    zh: '来自于用户名',
+    en: 'From Username',
+  },
+  reason: {
+    zh: '原因',
+    en: 'Reason',
+  },
+  peername: {
+    zh: 'Peername',
+    en: 'Peername',
+  },
+  action: {
+    zh: '动作',
+    en: 'Action',
+  },
+  result: {
+    zh: '结果',
+    en: 'Result',
+  },
+  reason_code: {
+    zh: '原因码',
+    en: 'Reason Code',
+  },
 }
