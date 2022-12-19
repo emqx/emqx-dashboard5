@@ -9,18 +9,18 @@ export enum FieldValueType {
 
 const STRING_REGEX = /^".*"$/
 const BOOL_REGEX = /^((t|true)|(f|false))$/i
-const INT_REGEX = /^\d+i$/
+const INT_REGEX = /^-?\d+i$/
 const U_INT_REGEX = /^\d+u$/
-const NUMBER_REGEX = /\d+(\.\d+)?/
+const NUMBER_REGEX = /-?\d+(\.\d+)?/
 const SCIENTIFIC_NOTATION_REGEX = new RegExp(`${NUMBER_REGEX.source}e(\\+|-)\\d+`)
 const FLOAT_REGEX = new RegExp(`^${SCIENTIFIC_NOTATION_REGEX.source}|${NUMBER_REGEX.source}$`)
-const PLACEHOLDER_REGEX = /.+/
+const PLACEHOLDER_REGEX = /.*\$\{.+\}.*/
 const typeRegexMap: Record<FieldValueType, RegExp> = {
   [FieldValueType.String]: STRING_REGEX,
   [FieldValueType.Integer]: INT_REGEX,
   [FieldValueType.UInteger]: U_INT_REGEX,
-  [FieldValueType.Boolean]: BOOL_REGEX,
   [FieldValueType.Float]: FLOAT_REGEX,
+  [FieldValueType.Boolean]: BOOL_REGEX,
   [FieldValueType.Placeholder]: PLACEHOLDER_REGEX,
 }
 
@@ -29,11 +29,31 @@ export default () => {
     Number(key),
   )
 
+  /**
+   * value in the line protocol that have not been processed
+   */
   const judgeFieldValueType = (str: string) => {
     const ret = typeRegexMapKeys.find((type: FieldValueType) => {
       return typeRegexMap[type].test(str)
     })
     return ret ?? undefined
+  }
+
+  /**
+   * value in the input of field value when editing in json mode
+   */
+  const typesDoNotNeedHandle = [
+    FieldValueType.Integer,
+    FieldValueType.UInteger,
+    FieldValueType.Float,
+    FieldValueType.Boolean,
+    FieldValueType.Placeholder,
+  ]
+  const judgeValueInInput = (str: string) => {
+    if (typesDoNotNeedHandle.some((type) => typeRegexMap[type].test(str))) {
+      return str
+    }
+    return FieldValueType.String
   }
 
   const convertToRawValueByType = (valueInProtocolLine: string, type: FieldValueType) => {
@@ -93,5 +113,6 @@ export default () => {
     judgeFieldValueType,
     convertToRawValueByType,
     handleValueByType,
+    judgeValueInInput,
   }
 }
