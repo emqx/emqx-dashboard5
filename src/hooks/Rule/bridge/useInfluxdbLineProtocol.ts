@@ -11,7 +11,7 @@ interface ParseResult {
   measurement: string
   tagArr: Array<KeyValueItem>
   fieldArr: Array<KeyValueItem>
-  timestamp: number | undefined
+  timestamp: string | undefined
 }
 
 export default (): {
@@ -48,7 +48,7 @@ export default (): {
     `(?<fieldKey>${keyNValueReg.source})=(?<fieldValue>${fieldValueReg.source})`,
   )
   const fieldsPartReg = new RegExp(`(${fieldItemReg.source},?)+`)
-  const timestampPart = /\d+/
+  const timestampPart = /.+/
 
   const protocolReg = new RegExp(
     `^(?<measurement>${measurementReg.source})(,(?<tags>${tagPartReg.source}))?(\\s(?<fields>${fieldsPartReg.source}))(\\s(?<timestamp>${timestampPart.source}))?$`,
@@ -91,10 +91,9 @@ export default (): {
   const parseLine = (line: string): ParseResult | undefined => {
     const matchRet = line.match(protocolReg)
     if (matchRet && matchRet.groups) {
-      const { measurement, tags, fields, timestamp: t } = matchRet.groups
+      const { measurement, tags, fields, timestamp } = matchRet.groups
       const tagArr = getTags(tags)
       const fieldArr = getFields(fields)
-      const timestamp = t && !Number.isNaN(Number(t)) ? Number(t) : undefined
       return { measurement, tagArr, fieldArr, timestamp }
     }
     return
