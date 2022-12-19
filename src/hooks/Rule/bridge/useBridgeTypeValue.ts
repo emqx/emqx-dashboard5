@@ -83,7 +83,7 @@ export const useBridgeTypeOptions = (): {
       value: BridgeType.Redis,
       valueForRadio: BridgeType.Redis,
       label: tl('redis'),
-      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('mySQL') }),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('redis') }),
     },
   ]
 
