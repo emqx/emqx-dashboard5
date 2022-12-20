@@ -1,31 +1,35 @@
 <template>
-  <el-form>
-    <el-form-item
-      v-for="key in Object.keys(record)"
-      :key="key"
-      :class="{ 'code-sql': key === 'payload', payload: key === 'payload' }"
-      v-bind="{ label: key, prop: `${key}` }"
-    >
-      <el-input v-if="key !== 'payload'" v-model="record[key]" />
-      <template v-else>
-        <div class="monaco-container" :style="{ height: `${payloadEditorHeight}px` }">
-          <Monaco
-            :id="createRandomString()"
-            v-model="record.payload"
-            class="payload"
-            :lang="payloadType"
-          />
-        </div>
-        <div class="payload-type">
-          <el-radio-group v-model="payloadType">
-            <el-radio :label="PayloadType.JSON">JSON</el-radio>
-            <el-radio :label="PayloadType.Plaintext">Plaintext</el-radio>
-          </el-radio-group>
-        </div>
-        <StretchHeight v-model="payloadEditorHeight" class="payload" />
-      </template>
-    </el-form-item>
-  </el-form>
+  <div class="test-sql-context-form">
+    <el-form label-position="top">
+      <el-row v-if="Object.keys(record).length > 0" :gutter="26">
+        <el-col v-for="key in Object.keys(record)" :key="key" :span="key !== 'payload' ? 12 : 24">
+          <el-form-item
+            :class="{ 'code-sql': key === 'payload', payload: key === 'payload' }"
+            v-bind="{ label: $t(`Clients.${key}`), prop: `${key}` }"
+          >
+            <el-input v-if="key !== 'payload'" v-model="record[key]" />
+            <template v-else>
+              <div class="monaco-container" :style="{ height: `${payloadEditorHeight}px` }">
+                <Monaco
+                  :id="createRandomString()"
+                  v-model="record.payload"
+                  class="payload"
+                  :lang="payloadType"
+                />
+              </div>
+              <div class="payload-type">
+                <el-radio-group v-model="payloadType">
+                  <el-radio :label="PayloadType.JSON">JSON</el-radio>
+                  <el-radio :label="PayloadType.Plaintext">Plaintext</el-radio>
+                </el-radio-group>
+              </div>
+              <StretchHeight v-model="payloadEditorHeight" class="payload" />
+            </template>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -37,7 +41,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, PropType, watch, reactive } from 'vue'
+import { ref, defineProps, defineEmits, PropType, watch } from 'vue'
 import Monaco from '@/components/Monaco.vue'
 import StretchHeight from './StretchHeight.vue'
 import { createRandomString } from '@/common/tools'
@@ -59,7 +63,16 @@ const emit = defineEmits(['update:modelValue'])
 const payloadType = ref(PayloadType.JSON)
 const payloadEditorHeight = ref(200)
 
-const record = reactive(props.modelValue)
+const record = ref<{ [key: string]: string }>(props.modelValue)
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val) {
+      record.value = val
+    }
+  },
+)
 
 watch(record, (val) => {
   emit('update:modelValue', val)

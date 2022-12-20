@@ -6,7 +6,6 @@
     filterable
     @keyup.enter="handleTopicComplete"
     @blur="handleTopicComplete"
-    @change="handleSelectedChanged"
     :popper-class="`from-select-popper ${isInputTopic ? 'is-hidden' : ''}`"
     :filter-method="filterMethod"
   >
@@ -237,13 +236,6 @@ const handleTopicComplete = async () => {
   filterStr.value = ''
 }
 
-const handleSelectedChanged = (val: string) => {
-  if (val === topicOptionValue.value) {
-    return
-  }
-  emit('change', { value: val, type: selectedInputType.value })
-}
-
 const clickOption = async (type: RuleInputType) => {
   isClickOption.value = true
   isTopic.value = type === RuleInputType.Topic
@@ -276,9 +268,6 @@ setSelected()
 </script>
 
 <style lang="scss" scoped>
-.from-select {
-  width: 100%;
-}
 .option-content {
   display: flex;
   justify-content: space-between;

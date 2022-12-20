@@ -266,6 +266,20 @@
 .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
   background: var(--color-bg-split);
 }
+.el-table__header-wrapper tr td.el-table-fixed-column--left,
+.el-table__header-wrapper tr td.el-table-fixed-column--right,
+.el-table__header-wrapper tr th.el-table-fixed-column--left,
+.el-table__header-wrapper tr th.el-table-fixed-column--right,
+.el-table__body-wrapper tr td.el-table-fixed-column--left,
+.el-table__body-wrapper tr td.el-table-fixed-column--right,
+.el-table__body-wrapper tr th.el-table-fixed-column--left,
+.el-table__body-wrapper tr th.el-table-fixed-column--right,
+.el-table__footer-wrapper tr td.el-table-fixed-column--left,
+.el-table__footer-wrapper tr td.el-table-fixed-column--right,
+.el-table__footer-wrapper tr th.el-table-fixed-column--left,
+.el-table__footer-wrapper tr th.el-table-fixed-column--right {
+  background-color: var(--el-table-bg-color);
+}
 
 /* Progress */
 .el-progress-bar__outer {
@@ -519,6 +533,7 @@
 /* Popper */
 .el-popper {
   font-size: 13px;
+  line-height: 1.6;
   &:not(.el-select__popper):not(.el-picker__popper):not(.is-wider) {
     max-width: 320px;
   }

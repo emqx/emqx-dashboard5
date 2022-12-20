@@ -41,9 +41,6 @@
               </el-form-item>
             </el-col>
             <el-col :span="24">
-              <el-button type="primary" :loading="testLoading" @click="handleTestSQL()">
-                {{ tl('testsql') }}
-              </el-button>
               <el-button @click="openTemplateDrawer" type="primary" plain>
                 {{ tl('SQLTemplates') }}
               </el-button>
