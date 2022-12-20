@@ -24,7 +24,7 @@
       <el-table-column :label="tl('success')" :min-width="100" prop="metrics.succeed" />
       <el-table-column :label="tl('failure')" :min-width="100" prop="metrics.failed" />
       <el-table-column
-        :label="`${tl('speed')}(${tl('second')})`"
+        :label="`${tl('rate')}(${tl('second')})`"
         :min-width="136"
         prop="metrics.rate"
       />

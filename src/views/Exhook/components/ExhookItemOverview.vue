@@ -15,7 +15,7 @@
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column :label="tl('success')" prop="metrics.succeed" />
         <el-table-column :label="tl('failure')" prop="metrics.failed" />
-        <el-table-column :label="tl('currentSpeed')" prop="metrics.rate" />
+        <el-table-column :label="tl('currentRate')" prop="metrics.rate" />
         <el-table-column :label="t('Base.status')">
           <template #default="{ row }">
             <span class="text-status" :class="statusTextClass(row.status)">
@@ -48,7 +48,7 @@ const metricsData = computed(() => [
   { label: tl('registeredHooks'), value: props.exhook?.hooks?.length, className: 'matched-bg' },
   { label: tl('success'), value: props.exhook?.metrics?.succeed, className: 'success-bg' },
   { label: tl('failure'), value: props.exhook?.metrics?.failed, className: 'failed-bg' },
-  { label: tl('currentSpeed'), value: props.exhook?.metrics?.rate, className: 'rate-bg' },
+  { label: tl('currentRate'), value: props.exhook?.metrics?.rate, className: 'rate-bg' },
 ])
 
 const nodeMetrics: ComputedRef<Array<NodeMetrics>> = computed(() => {

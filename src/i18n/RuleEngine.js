@@ -51,7 +51,7 @@ export default {
     zh: '不匹配',
     en: 'No match',
   },
-  speedNow: {
+  rateNow: {
     zh: '当前速率',
     en: 'Rate',
   },
@@ -367,13 +367,13 @@ export default {
     zh: '成功执行但没有输出结果',
     en: 'Executes Successfully But No Output Results',
   },
-  executionSpeed: {
+  executionRate: {
     zh: '执行速率',
-    en: 'Execution Speed',
+    en: 'Execution Rate',
   },
   rateLast5M: {
     zh: '最近 5 分钟执行速率',
-    en: 'Execution Speed in the Last 5 Minutes',
+    en: 'Execution Rate in the Last 5 Minutes',
   },
   sent: {
     zh: '已发送',
@@ -441,7 +441,7 @@ export default {
   },
   rateMax: {
     zh: '最大执行速率',
-    en: 'Maximum Execution Speed',
+    en: 'Maximum Execution Rate',
   },
   activated: {
     zh: '已启用',

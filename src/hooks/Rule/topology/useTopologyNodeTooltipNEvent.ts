@@ -100,7 +100,7 @@ export default (): {
       { label: tl('input'), value: fromDataToShow },
       { label: tl('sqlPassed'), value: metrics['passed'] },
       { label: tl('sqlFailed'), value: metrics['failed.exception'] },
-      { label: tl('speedNow'), value: metrics['matched.rate'] },
+      { label: tl('rateNow'), value: metrics['matched.rate'] },
       {
         label: tl('status'),
         value: tl(enable ? 'activated' : 'deactivated'),
@@ -140,7 +140,7 @@ export default (): {
       { label: tl('name'), value: name },
       { label: tl('matched'), value: metrics.matched },
       { label: tl('sentInflight'), value: metrics['inflight'] },
-      { label: tl('speedNow'), value: metrics.rate + ' message/sec' },
+      { label: tl('rateNow'), value: metrics.rate + ' message/sec' },
       { label: tl('status'), value: statusStr, valueClass: statusClass },
     ]
 
