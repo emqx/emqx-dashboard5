@@ -29,7 +29,7 @@
           :prop="isAuthn ? 'metrics.failed' : 'metrics.deny'"
           :label="tl('ErrNum')"
         />
-        <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(tps)`" />
+        <el-table-column prop="metrics.rate" :label="`${tl('rateNow')}(tps)`" />
       </el-table>
     </div>
   </div>
@@ -83,22 +83,25 @@ const nodeMetrics = computed(() => {
 
 const metricsData = computed(() => [
   {
-    label: tl('SuccessNum'),
+    label: t('Auth.allow'),
     value: isAuthn.value ? props.metrics?.metrics?.success : props.metrics?.metrics?.allow,
     className: 'success-bg',
+    desc: t('Auth.allowDesc', { type: t(`Auth.${isAuthn.value ? 'authn' : 'authzCheck'}`) }),
   },
   {
-    label: tl('ErrNum'),
+    label: t('Auth.deny'),
     value: isAuthn.value ? props.metrics?.metrics?.failed : props.metrics?.metrics?.deny,
     className: 'failed-bg',
+    desc: t('Auth.denyDesc', { type: t(`Auth.${isAuthn.value ? 'authn' : 'authzCheck'}`) }),
   },
   {
     label: tl('noMatch'),
     value: props.metrics?.metrics?.nomatch,
     className: 'matched-bg',
+    desc: t(`Auth.${isAuthn.value ? 'noMatchAuthnDesc' : 'noMatchAuthzDesc'}`),
   },
   {
-    label: `${tl('speedNow')}(tps)`,
+    label: `${tl('rateNow')}(tps)`,
     value: props.metrics?.metrics?.rate,
     className: 'rate-bg',
   },

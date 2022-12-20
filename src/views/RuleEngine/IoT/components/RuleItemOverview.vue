@@ -55,7 +55,7 @@
         </el-table-column>
         <el-table-column prop="metrics['matched.rate']">
           <template #header>
-            <p>{{ tl('executionSpeed') }}</p>
+            <p>{{ tl('executionRate') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
         </el-table-column>
@@ -136,7 +136,7 @@ const runningStatistics = computed(() => [
     className: 'no-result-bg',
   },
   {
-    label: tl('executionSpeed'),
+    label: tl('executionRate'),
     value: ruleMetrics.value.metrics['matched.rate'],
     className: 'rate-bg',
     unit: t('RuleEngine.rateUnit', 0),

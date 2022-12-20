@@ -28,7 +28,7 @@
 
         <el-table-column prop="metrics.rate">
           <template #header>
-            <p>{{ tl('executionSpeed') }}</p>
+            <p>{{ tl('executionRate') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
         </el-table-column>
@@ -172,7 +172,7 @@ const statisticsData = computed(() => {
       className: 'success-bg',
     },
     {
-      label: tl('speedNow'),
+      label: tl('rateNow'),
       value: props.bridgeMsg?.metrics?.rate,
       unit: t('RuleEngine.rateUnit', props.bridgeMsg?.metrics?.rate),
       className: 'rate-bg',
