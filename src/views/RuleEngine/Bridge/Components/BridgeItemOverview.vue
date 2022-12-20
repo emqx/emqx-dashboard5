@@ -26,6 +26,7 @@
         <el-table-column prop="node" :label="tl('name')" />
 
         <el-table-column prop="metrics.matched" :label="tl('matched')" />
+        <el-table-column v-if="showReceived" prop="metrics.received" :label="tl('received')" />
         <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
 
         <el-table-column prop="metrics.rate">
