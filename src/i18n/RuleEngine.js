@@ -689,7 +689,7 @@ export default {
   },
   exampleOfInput: {
     zh: '输入消息示例',
-    en: 'Example of input',
+    en: 'Example of input message',
   },
   processedResults: {
     zh: '处理结果',
@@ -704,8 +704,8 @@ export default {
     en: 'Events',
   },
   eventsDesc: {
-    zh: '规则可以通过 MQTT 消息、MQTT 事件，或者是数据桥接来触发。多个数据源可以通过逗号分隔。',
-    en: 'Rules can be triggered by MQTT messages, MQTT events, or data bridges. Multiple data sources can be separated by commas.',
+    zh: '规则可以通过 MQTT 消息、事件或数据桥来触发。在 SQL 中，多个数据源可以使用逗号分隔。',
+    en: 'Rules can be triggered by MQTT messages, events, or data bridges. In SQL, multiple data sources can be separated with commas.',
   },
   useEvent: {
     zh: '使用事件',

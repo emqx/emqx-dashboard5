@@ -101,7 +101,7 @@ const handleChange = async (file: UploadFile) => {
     if (inputValue.value) {
       await confirmReplacement()
     }
-    inputValue.value = content
+    inputValue.value = content as string
   }
   reader.onerror = () => {
     ElMessage.error(tl('uploadFailed'))

@@ -107,7 +107,7 @@ const initEditor = () => {
     value: prop.modelValue || '',
     language: prop.lang,
     readOnly: prop.disabled,
-    // fontSize: 12,
+    fontSize: 13,
     automaticLayout: true,
     scrollBeyondLastLine: false,
     theme: getTheme(),
