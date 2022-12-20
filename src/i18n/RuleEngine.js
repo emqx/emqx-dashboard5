@@ -367,13 +367,9 @@ export default {
     zh: '成功执行但没有输出结果',
     en: 'Executes Successfully But No Output Results',
   },
-  executionRate: {
-    zh: '执行速率',
-    en: 'Execution Rate',
-  },
   rateLast5M: {
-    zh: '最近 5 分钟执行速率',
-    en: 'Execution Rate in the Last 5 Minutes',
+    zh: '最近 5 分钟速率',
+    en: 'Rate in the Last 5 Minutes',
   },
   sent: {
     zh: '已发送',
@@ -440,8 +436,8 @@ export default {
     en: 'Count of messages that is received from the remote system',
   },
   rateMax: {
-    zh: '最大执行速率',
-    en: 'Maximum Execution Rate',
+    zh: '最大速率',
+    en: 'Maximum Rate',
   },
   activated: {
     zh: '已启用',
@@ -502,6 +498,10 @@ export default {
   sqlExample: {
     zh: 'SQL 例子',
     en: 'SQL Example',
+  },
+  statistics: {
+    zh: '统计',
+    en: 'Statistics',
   },
   executionStatistics: {
     zh: '运行统计',

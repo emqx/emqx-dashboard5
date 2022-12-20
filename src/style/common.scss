@@ -508,7 +508,7 @@ input:disabled {
     margin-bottom: 0;
   }
   .overview-sub-block {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   .el-card {
     &.success-bg {
@@ -537,7 +537,9 @@ input:disabled {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: bold;
   }
   .card-hd {
     display: flex;
@@ -556,7 +558,6 @@ input:disabled {
     line-height: 20px;
   }
   .rule-statistic {
-    padding: 8px 0 0;
     .el-col {
       padding-bottom: 20px;
     }
