@@ -944,12 +944,14 @@ export default {
     en: 'Async query inflight window.',
   },
   enableQueue: {
-    en: 'Enable queue',
-    zh: '启用队列模式',
+    en: 'Enable disk buffer queue',
+    zh: '启用磁盘缓存队列',
   },
   enableQueueDesc: {
-    en: 'Queue mode enabled.',
-    zh: '启用队列模式。',
+    en: `Enable disk buffer queue (only applicable for egress bridges).
+When Enalbed, messages will be buffered on disk when the bridge connection is down.
+When disabled the messages are buffered in RAM only.`,
+    zh: '启用磁盘缓存队列（仅对 egress 方向桥接有用）。',
   },
   maxQueueBytes: {
     en: 'Queue max bytes',
@@ -984,12 +986,12 @@ export default {
     zh: '最大批量请求等待时间。',
   },
   workerPoolSize: {
-    en: 'Worker Pool Size',
-    zh: '资源连接池大小',
+    en: 'Buffer Pool Size',
+    zh: '缓存池大小',
   },
   workerPoolSizeDesc: {
-    en: 'Resource worker pool size.',
-    zh: '资源连接池大小。',
+    en: `The number of buffer workers. Only applicable for egress type bridges. For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
+    zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。',
   },
   healthCheckInterval: {
     en: 'Health Check Interval',

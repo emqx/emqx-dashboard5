@@ -4,7 +4,7 @@ export default (): {
   createDefaultResourceOptsForm: (config?: { inflight?: boolean; batch?: boolean }) => ResourceOpt
 } => {
   const createCommonForm = (): ResourceOpt => ({
-    worker_pool_size: 16,
+    worker_pool_size: 4,
     health_check_interval: '15s',
     auto_restart_interval: '60s',
     query_mode: 'sync',
