@@ -1,7 +1,7 @@
 <template>
   <div class="resource-item-overview">
     <div class="overview-header">
-      <h2 class="block-title">{{ tl('executionStatistics') }}</h2>
+      <p class="block-title">{{ tl('executionStatistics') }}</p>
       <div>
         <el-button type="primary" @click="getRuleMetricsData">
           {{ $t('Base.refresh') }}
@@ -17,15 +17,17 @@
     </div>
     <div class="overview-sub-block">
       <div class="card-hd">
-        <h2 class="block-title">{{ tl('actionsStatistics') }}</h2>
+        <p class="block-title">{{ tl('actionsStatistics') }}</p>
       </div>
       <TargetDetailMetrics class="rule-statistic" :metrics="actionStatistics" />
     </div>
     <div class="overview-sub-block">
-      <div class="card-hd">
-        <h3 class="block-title">{{ tl('nodeStatus') }}</h3>
+      <div class="overview-header">
+        <p class="vertical-align-center">
+          {{ tl('nodeStatus') }}
+          <InfoTooltip :content="tl('nodeStatusRuleDesc')" />
+        </p>
       </div>
-      <p class="card-sub-desc">{{ tl('nodeStatusRuleDesc') }}</p>
       <el-table :data="nodeMetrics" class="shadow-none">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column prop="metrics.matched">
@@ -55,7 +57,7 @@
         </el-table-column>
         <el-table-column prop="metrics['matched.rate']">
           <template #header>
-            <p>{{ tl('executionRate') }}</p>
+            <p>{{ t('Base.rate') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
         </el-table-column>
@@ -136,7 +138,7 @@ const runningStatistics = computed(() => [
     className: 'no-result-bg',
   },
   {
-    label: tl('executionRate'),
+    label: t('Base.rate'),
     value: ruleMetrics.value.metrics['matched.rate'],
     className: 'rate-bg',
     unit: t('RuleEngine.rateUnit', 0),

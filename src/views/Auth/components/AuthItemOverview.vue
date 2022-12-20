@@ -2,7 +2,7 @@
   <div class="resource-item-overview">
     <div class="overview-sub-block">
       <div class="overview-header">
-        <h2>{{ tl('executionStatistics') }}</h2>
+        <p>{{ tl('statistics') }}</p>
         <el-button type="primary" :loading="refreshLoading" @click="handleRefresh">
           {{ $t('Base.refresh') }}
         </el-button>
@@ -10,8 +10,13 @@
       <TargetDetailMetrics :metrics="metricsData" />
     </div>
     <div class="overview-sub-block">
-      <h2>{{ tl('nodeStatus') }}</h2>
-      <p class="card-sub-desc">{{ nodeStatusDesc }}</p>
+      <div class="overview-header">
+        <p class="vertical-align-center">
+          {{ tl('nodeStatus') }}
+          <InfoTooltip :content="nodeStatusDesc" />
+        </p>
+      </div>
+
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column :label="$t('Auth.status')">
@@ -51,6 +56,7 @@ import { Metrics } from '@/types/auth'
 import useI18nTl from '@/hooks/useI18nTl'
 import { upperFirst } from 'lodash'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
   metrics: {
