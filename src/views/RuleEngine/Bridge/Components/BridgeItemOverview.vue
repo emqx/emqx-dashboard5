@@ -101,7 +101,7 @@ const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
 
 const showReceived = computed(() => {
   const isMQTT = props.bridgeMsg.type === BridgeType.MQTT
-  const withIngress = 'ingress' in props.bridgeMsg && props.bridgeMsg.ingress
+  const withIngress = 'ingress' in props.bridgeMsg && props.bridgeMsg.ingress?.remote?.topic
   return isMQTT && withIngress
 })
 
