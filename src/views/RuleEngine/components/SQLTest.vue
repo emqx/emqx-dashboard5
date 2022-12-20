@@ -298,10 +298,7 @@ const submitTest = async () => {
           }
         })
       }
-      resultData.value = mapData(res).sort((x: any, y: any) => {
-        console.log(x)
-        console.log(y)
-      })
+      resultData.value = mapData(res)
     }
   } catch (e) {
     // ignore error

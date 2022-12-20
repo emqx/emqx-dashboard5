@@ -156,8 +156,8 @@ FROM
       en: 'Array - Get nested values from JSON-formatted payload',
     },
     scene: {
-      zh: '',
-      en: 'en',
+      zh: '处理 JSON 格式的 payload，从嵌套格式中获取所需要的值。',
+      en: 'Process JSON-formatted payload and get the values needed from the nested format.',
     },
     sql: `SELECT
   payload.data[1].id as id
