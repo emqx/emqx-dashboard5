@@ -19,7 +19,6 @@ import EditorDark from '@/assets/theme/editor-dark.json'
 /**
  * for placeholder to show full desc
  */
-const DESC_SUFFIX = '    '
 
 const store = useStore()
 
@@ -57,7 +56,7 @@ const prop = defineProps({
   },
   scrollFunc: {
     type: Function,
-    default: () => () => {},
+    default: () => () => ({}),
   },
   decorationFunc: {
     type: Function,
@@ -135,45 +134,8 @@ const initEditor = () => {
   })
 }
 
-let decorations = []
-const handleLineDecoration = () => {
-  const createLineDecoration = prop.decorationFunc
-  editor.onDidFocusEditorText(() => {
-    let curLineNumber = -1
-    editor?.onDidChangeCursorPosition((e) => {
-      const { lineNumber } = e.position
-      if (lineNumber === curLineNumber) {
-        return
-      }
-      curLineNumber = lineNumber
-      decorations = editor?.deltaDecorations(decorations, [])
-      const lineContent = editor.getModel()?.getLineContent(lineNumber)
-      const endColumn = lineContent?.length + 1
-      setTimeout(() => {
-        decorations = editor?.deltaDecorations(decorations, [
-          {
-            range: new monaco.Range(lineNumber, 1, lineNumber, endColumn),
-            options: {
-              after: {
-                content: createLineDecoration(lineContent) + DESC_SUFFIX,
-                inlineClassName: 'my-inline-decoration',
-              },
-            },
-          },
-        ])
-      }, 128)
-    })
-  })
-  editor.onDidBlurEditorText(() => {
-    decorations = editor?.deltaDecorations(decorations, [])
-  })
-}
-
 onMounted(() => {
   initEditor()
-  // if (prop.decorationFunc && typeof prop.decorationFunc === 'function') {
-  //   handleLineDecoration()
-  // }
   if (prop.scrollLoading) editor.onDidScrollChange(prop.scrollFunc)
 })
 

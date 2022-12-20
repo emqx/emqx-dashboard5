@@ -320,12 +320,6 @@ const addEvent = (event: string) => {
   ruleValue.value.sql = replaceTargetPartInSQL(ruleValue.value.sql, RuleSQLKeyword.From, newFromStr)
 }
 
-const handleTestSQL = () => {
-  syncData()
-  payloadForTest.value = ''
-  testSQLRef.value.submitTest()
-}
-
 const useSQLTemplate = (SQLTemp: string) => {
   ruleValue.value.sql = SQLTemp
   syncSQLDataToForm()
