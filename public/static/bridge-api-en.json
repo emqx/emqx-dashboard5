@@ -1414,8 +1414,6 @@
             },
             "connector-mqtt.egress_remote": {
                 "required": [
-                    "retain",
-                    "qos",
                     "topic"
                 ],
                 "properties": {
@@ -1425,6 +1423,7 @@
                         "type": "string"
                     },
                     "qos": {
+                        "default": 1,
                         "description": "<br/>The QoS of the MQTT message to be sent.<br/><br/>Template with variables is allowed.<br/>",
                         "label": "Remote QoS",
                         "oneOf": [
@@ -1442,6 +1441,7 @@
                         ]
                     },
                     "retain": {
+                        "default": false,
                         "description": "<br/>The 'retain' flag of the MQTT message to be sent.<br/><br/>Template with variables is allowed.<br/>",
                         "label": "Retain Flag",
                         "oneOf": [
@@ -1618,9 +1618,10 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "Resource worker pool size.",
-                        "label": "Worker Pool Size",
-                        "type": "string"
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
                     },
                     "health_check_interval": {
                         "default": "15s",
@@ -1662,14 +1663,14 @@
                     },
                     "enable_queue": {
                         "default": false,
-                        "description": "Queue mode enabled.",
-                        "label": "Enable queue",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
                         "default": "100MB",
-                        "description": "Maximum queue storage.",
-                        "label": "Queue max bytes",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
                         "type": "byteSize"
                     }
                 },
@@ -1778,6 +1779,79 @@
                         "description": "SSL connection settings.",
                         "label": "Enable SSL",
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_gcp_pubsub.put": {
+                "required": [
+                    "service_account_json",
+                    "pubsub_topic"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "The timeout when connecting to the HTTP server.",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "The pool size.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "pipelining": {
+                        "default": 100,
+                        "description": "A positive integer. Whether to send HTTP requests continuously, when set to 1, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
+                        "label": "HTTP Pipelineing",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "Max retry times if an error occurs when sending a request.",
+                        "label": "Max Retries",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP request timeout.",
+                        "label": "Request Timeout",
+                        "type": "duration"
+                    },
+                    "payload_template": {
+                        "default": "",
+                        "description": "The template for formatting the outgoing messages.  If undefined, will send all the available context in JSON format.",
+                        "label": "Payload template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "pubsub_topic": {
+                        "description": "The GCP PubSub topic to publish messages to.",
+                        "label": "GCP PubSub Topic",
+                        "type": "string"
+                    },
+                    "service_account_json": {
+                        "description": "JSON containing the GCP Service Account credentials to be used with PubSub.<br/>When a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
+                        "label": "GCP Service Account Credentials",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -2801,6 +2875,125 @@
                 },
                 "type": "object"
             },
+            "bridge_gcp_pubsub.get": {
+                "required": [
+                    "service_account_json",
+                    "pubsub_topic",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "The status of the bridge",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "gcp_pubsub"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "The timeout when connecting to the HTTP server.",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "The pool size.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "pipelining": {
+                        "default": 100,
+                        "description": "A positive integer. Whether to send HTTP requests continuously, when set to 1, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
+                        "label": "HTTP Pipelineing",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "Max retry times if an error occurs when sending a request.",
+                        "label": "Max Retries",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP request timeout.",
+                        "label": "Request Timeout",
+                        "type": "duration"
+                    },
+                    "payload_template": {
+                        "default": "",
+                        "description": "The template for formatting the outgoing messages.  If undefined, will send all the available context in JSON format.",
+                        "label": "Payload template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "pubsub_topic": {
+                        "description": "The GCP PubSub topic to publish messages to.",
+                        "label": "GCP PubSub Topic",
+                        "type": "string"
+                    },
+                    "service_account_json": {
+                        "description": "JSON containing the GCP Service Account credentials to be used with PubSub.<br/>When a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
+                        "label": "GCP Service Account Credentials",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "connector-mqtt.ingress_remote": {
                 "required": [
                     "topic"
@@ -3070,9 +3263,10 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "Resource worker pool size.",
-                        "label": "Worker Pool Size",
-                        "type": "string"
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
                     },
                     "health_check_interval": {
                         "default": "15s",
@@ -3114,14 +3308,14 @@
                     },
                     "enable_queue": {
                         "default": false,
-                        "description": "Queue mode enabled.",
-                        "label": "Enable queue",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
                         "default": "100MB",
-                        "description": "Maximum queue storage.",
-                        "label": "Queue max bytes",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
                         "type": "byteSize"
                     }
                 },
@@ -3814,9 +4008,10 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "Resource worker pool size.",
-                        "label": "Worker Pool Size",
-                        "type": "string"
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
                     },
                     "health_check_interval": {
                         "default": "15s",
@@ -3870,14 +4065,14 @@
                     },
                     "enable_queue": {
                         "default": false,
-                        "description": "Queue mode enabled.",
-                        "label": "Enable queue",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
                         "default": "100MB",
-                        "description": "Maximum queue storage.",
-                        "label": "Queue max bytes",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
                         "type": "byteSize"
                     }
                 },
@@ -4974,9 +5169,10 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "Resource worker pool size.",
-                        "label": "Worker Pool Size",
-                        "type": "string"
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
                     },
                     "health_check_interval": {
                         "default": "15s",
@@ -5036,15 +5232,103 @@
                     },
                     "enable_queue": {
                         "default": false,
-                        "description": "Queue mode enabled.",
-                        "label": "Enable queue",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
                         "default": "100MB",
-                        "description": "Maximum queue storage.",
-                        "label": "Queue max bytes",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
                         "type": "byteSize"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_gcp_pubsub.post": {
+                "required": [
+                    "service_account_json",
+                    "pubsub_topic",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "gcp_pubsub"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "The timeout when connecting to the HTTP server.",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "The pool size.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "pipelining": {
+                        "default": 100,
+                        "description": "A positive integer. Whether to send HTTP requests continuously, when set to 1, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
+                        "label": "HTTP Pipelineing",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "Max retry times if an error occurs when sending a request.",
+                        "label": "Max Retries",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP request timeout.",
+                        "label": "Request Timeout",
+                        "type": "duration"
+                    },
+                    "payload_template": {
+                        "default": "",
+                        "description": "The template for formatting the outgoing messages.  If undefined, will send all the available context in JSON format.",
+                        "label": "Payload template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "pubsub_topic": {
+                        "description": "The GCP PubSub topic to publish messages to.",
+                        "label": "GCP PubSub Topic",
+                        "type": "string"
+                    },
+                    "service_account_json": {
+                        "description": "JSON containing the GCP Service Account credentials to be used with PubSub.<br/>When a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
+                        "label": "GCP Service Account Credentials",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -5189,6 +5473,9 @@
                             "$ref": "#/components/schemas/bridge_kafka.get"
                         },
                         {
+                            "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
+                        },
+                        {
                             "$ref": "#/components/schemas/bridge_mqtt.get"
                         },
                         {
@@ -5236,6 +5523,9 @@
                         "$ref": "#/components/schemas/bridge_kafka.get"
                     },
                     {
+                        "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_mqtt.get"
                     },
                     {
@@ -5277,6 +5567,9 @@
                     },
                     {
                         "$ref": "#/components/schemas/bridge_kafka.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_mqtt.get"
