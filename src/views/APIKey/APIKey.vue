@@ -30,7 +30,7 @@
           <el-button size="small" @click="operateKeyItem('edit', row)">
             {{ tl('edit', 'Base') }}
           </el-button>
-          <el-button size="small" type="danger" plain @click="deleteKey(row)">{{
+          <el-button size="small" plain @click="deleteKey(row)">{{
             tl('delete', 'Base')
           }}</el-button>
         </template>
@@ -116,6 +116,7 @@ const deleteKey = async ({ name }: APIKey) => {
     await ElMessageBox.confirm(t('APIKey.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
     await deleteAPIKey(name)

@@ -29,7 +29,7 @@
           <el-icon><Bottom /></el-icon>
           <span>{{ $t('Plugins.moveToBottom') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="delete" class="danger">
+        <el-dropdown-item command="delete">
           <el-icon><Delete /></el-icon>
           <span>{{ $t('Base.delete') }}</span>
         </el-dropdown-item>

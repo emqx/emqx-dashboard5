@@ -176,6 +176,7 @@ const deleteRetainerTopic = async function (row: any) {
   MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
     .then(async () => {

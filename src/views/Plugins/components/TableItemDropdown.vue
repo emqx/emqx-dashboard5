@@ -34,7 +34,7 @@
           <el-icon><Bottom /></el-icon>
           <span>{{ $t('Plugins.moveToBottom') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="uninstall" class="danger">
+        <el-dropdown-item command="uninstall">
           <el-icon><Delete /></el-icon>
           <span>{{ $t('Plugins.uninstall') }}</span>
         </el-dropdown-item>

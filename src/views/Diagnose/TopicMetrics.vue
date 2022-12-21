@@ -128,7 +128,7 @@
           <el-button size="small" @click="resetTopic(row, $index)">
             {{ $t('Base.reset') }}
           </el-button>
-          <el-button size="small" type="danger" plain @click="deleteTopic(row)">
+          <el-button size="small" plain @click="deleteTopic(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -265,6 +265,7 @@ export default defineComponent({
         await MB.confirm(t('Base.confirmDelete'), {
           confirmButtonText: t('Base.confirm'),
           cancelButtonText: t('Base.cancel'),
+          confirmButtonClass: 'confirm-danger',
           type: 'warning',
         })
         await deleteTopicMetrics(topic)

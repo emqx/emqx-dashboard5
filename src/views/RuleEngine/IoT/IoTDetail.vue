@@ -115,6 +115,7 @@ const deleteRule = async () => {
   await ElMessageBox.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
   await deleteRules(id)

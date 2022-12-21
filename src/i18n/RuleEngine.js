@@ -648,8 +648,12 @@ export default {
     en: 'Payload',
   },
   payloadDesc: {
-    zh: "支持使用 ${'{'}field{'}'} 语法读取数据，例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等，请根据使用数据桥接的业务需求来选择字段，置空则原样转发消息。",
-    en: "Supports reading data using ${'{'}field{'}'} syntax , for example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc, use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
+    zh: "支持使用 ${'{'}field{'}'} 语法读取数据。",
+    en: "Supports reading data using ${'{'}field{'}'} syntax.",
+  },
+  payloadExample: {
+    zh: "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。请根据使用数据桥接的业务需求来选择字段，置空则原样转发消息。",
+    en: "For example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc. Use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
   remoteTopicDesc: {
     zh: "桥接数据到远端 Broker 指定主题中，支持使用 ${'{'}field{'}'} 语法拼接动态主题",

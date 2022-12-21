@@ -20,7 +20,12 @@ export default () => {
 
   const deleteExhook = async (name: string) => {
     try {
-      await ElMessageBox.confirm(t('Base.confirmDelete'))
+      await ElMessageBox.confirm(t('Base.confirmDelete'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        confirmButtonClass: 'confirm-danger',
+        type: 'warning',
+      })
       await requestDeleteExhook(name)
       ElMessage.success(t('Base.deleteSuccess'))
       return Promise.resolve()

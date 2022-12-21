@@ -25,7 +25,7 @@
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="openOpDialog(true, row)">{{ $t('Base.edit') }}</el-button>
-          <el-button size="small" type="danger" plain @click="deleteSubs(row)">
+          <el-button size="small" plain @click="deleteSubs(row)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -190,6 +190,7 @@ export default defineComponent({
         await MB.confirm(t('Base.confirmDelete'), {
           confirmButtonText: t('Base.confirm'),
           cancelButtonText: t('Base.cancel'),
+          confirmButtonClass: 'confirm-danger',
           type: 'warning',
         })
         let pendingTbData = Object.assign([], subTbData.value)

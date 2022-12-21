@@ -66,7 +66,7 @@
           <el-button @click="handleEdit(row)" size="small">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button plain type="danger" @click="handleDelete(row)" size="small">
+          <el-button plain @click="handleDelete(row)" size="small">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -249,6 +249,7 @@ const handleDelete = (row: DataManagerItem) => {
   MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
     .then(async () => {

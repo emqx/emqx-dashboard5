@@ -163,7 +163,7 @@
         </template>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button type="danger" plain size="small" @click="handleUnSubscription(row)">
+            <el-button plain size="small" @click="handleUnSubscription(row)">
               {{ $t('Clients.unsubscribe') }}
             </el-button>
           </template>
@@ -365,6 +365,7 @@ const handleDisconnect = async () => {
   ElMessageBox.confirm(warningMsg, {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
     .then(() => {
@@ -499,6 +500,7 @@ const handleUnSubscription = (row: Subscription) => {
   ElMessageBox.confirm(title, {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
     .then(async () => {

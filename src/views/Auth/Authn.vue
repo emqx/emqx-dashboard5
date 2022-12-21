@@ -125,6 +125,7 @@ const handleDelete = async function ({ id }: AuthnItem) {
     await MB.confirm(t('Base.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
     await deleteAuthn(id)

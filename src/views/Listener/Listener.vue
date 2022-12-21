@@ -74,6 +74,7 @@
           <el-button @click="showDeleteDialog = false">{{ $t('Base.cancel') }}</el-button>
           <el-button
             type="danger"
+            plain
             @click="deleteListener(removeRow)"
             :disabled="confirmDeleteName !== removeRow.name"
             :loading="deleteLoading"
