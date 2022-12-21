@@ -92,6 +92,7 @@ export enum BridgeType {
   MySQL = 'mysql',
   Kafka = 'kafka',
   Redis = 'redis',
+  GCP = 'gcp_pubsub',
 }
 
 export enum ConnectorType {
