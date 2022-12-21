@@ -947,6 +947,14 @@ export default {
     zh: 'Redis',
     en: 'Redis',
   },
+  gcpPubSub: {
+    zh: 'GCP PubSub',
+    en: 'GCP PubSub',
+  },
+  gcpPubSubDesc: {
+    zh: '使用 Google Pub/Sub 服务桥接数据',
+    en: 'Using Google Pub/Sub service to bridge data',
+  },
   egressDataBaseDesc: {
     zh: '将数据保存到 {name}',
     en: 'Save data to {name}',

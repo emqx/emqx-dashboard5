@@ -19,6 +19,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.MySQL, label: tl('mySQL') },
     { value: BridgeType.Kafka, label: tl('kafka') },
     { value: BridgeType.Redis, label: tl('redis') },
+    { value: BridgeType.GCP, label: tl('gcpPubSub') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -84,6 +85,12 @@ export const useBridgeTypeOptions = (): {
       valueForRadio: BridgeType.Redis,
       label: tl('redis'),
       desc: t('RuleEngine.egressDataBaseDesc', { name: tl('redis') }),
+    },
+    {
+      value: BridgeType.GCP,
+      valueForRadio: BridgeType.GCP,
+      label: tl('gcpPubSub'),
+      desc: tl('gcpPubSubDesc'),
     },
   ]
 
