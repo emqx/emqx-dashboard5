@@ -1414,8 +1414,6 @@
             },
             "connector-mqtt.egress_remote": {
                 "required": [
-                    "retain",
-                    "qos",
                     "topic"
                 ],
                 "properties": {
@@ -1425,6 +1423,7 @@
                         "type": "string"
                     },
                     "qos": {
+                        "default": 1,
                         "description": "<br/>待发送 MQTT 消息的 QoS。<br/><br/>允许使用带有变量的模板。<br/>",
                         "label": "远程 QoS",
                         "oneOf": [
@@ -1442,6 +1441,7 @@
                         ]
                     },
                     "retain": {
+                        "default": false,
                         "description": "<br/>要发送的 MQTT 消息的“保留”标志。<br/><br/>允许使用带有变量的模板。<br/>",
                         "label": "保留消息标志",
                         "oneOf": [
@@ -1618,9 +1618,10 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "资源连接池大小。",
-                        "label": "资源连接池大小",
-                        "type": "string"
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "label": "缓存池大小",
+                        "minimum": 1,
+                        "type": "number"
                     },
                     "health_check_interval": {
                         "default": "15s",
@@ -1662,14 +1663,14 @@
                     },
                     "enable_queue": {
                         "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
+                        "description": "启用磁盘缓存队列（仅对 egress 方向桥接有用）。",
+                        "label": "启用磁盘缓存队列",
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
                         "default": "100MB",
-                        "description": "消息队列的最大长度。",
-                        "label": "队列最大长度",
+                        "description": "每个缓存 worker 允许使用的最大字节数。",
+                        "label": "缓存队列最大长度",
                         "type": "byteSize"
                     }
                 },
@@ -1778,6 +1779,79 @@
                         "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_gcp_pubsub.put": {
+                "required": [
+                    "service_account_json",
+                    "pubsub_topic"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用 Bridge",
+                        "label": "启用/禁用 Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "连接 HTTP 服务器的超时时间。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "pipelining": {
+                        "default": 100,
+                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
+                        "label": "HTTP 流水线",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "请求出错时的最大重试次数。",
+                        "label": "最大重试次数",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP 请求超时。",
+                        "label": "HTTP 请求超时",
+                        "type": "duration"
+                    },
+                    "payload_template": {
+                        "default": "",
+                        "description": "用于格式化外发信息的模板。 如果未定义，将以JSON格式发送所有可用的上下文。",
+                        "label": "HTTP 请求消息体模板",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 GCP PubSub。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 GCP PubSub。<br/>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "pubsub_topic": {
+                        "description": "要发布消息的GCP PubSub主题。",
+                        "label": "GCP PubSub 主题",
+                        "type": "string"
+                    },
+                    "service_account_json": {
+                        "description": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
+                        "label": "GCP 服务账户凭证",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -2801,6 +2875,125 @@
                 },
                 "type": "object"
             },
+            "bridge_gcp_pubsub.get": {
+                "required": [
+                    "service_account_json",
+                    "pubsub_topic",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "Bridge 的状态",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "桥接类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "gcp_pubsub"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用 Bridge",
+                        "label": "启用/禁用 Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "连接 HTTP 服务器的超时时间。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "pipelining": {
+                        "default": 100,
+                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
+                        "label": "HTTP 流水线",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "请求出错时的最大重试次数。",
+                        "label": "最大重试次数",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP 请求超时。",
+                        "label": "HTTP 请求超时",
+                        "type": "duration"
+                    },
+                    "payload_template": {
+                        "default": "",
+                        "description": "用于格式化外发信息的模板。 如果未定义，将以JSON格式发送所有可用的上下文。",
+                        "label": "HTTP 请求消息体模板",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 GCP PubSub。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 GCP PubSub。<br/>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "pubsub_topic": {
+                        "description": "要发布消息的GCP PubSub主题。",
+                        "label": "GCP PubSub 主题",
+                        "type": "string"
+                    },
+                    "service_account_json": {
+                        "description": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
+                        "label": "GCP 服务账户凭证",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "connector-mqtt.ingress_remote": {
                 "required": [
                     "topic"
@@ -3070,9 +3263,10 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "资源连接池大小。",
-                        "label": "资源连接池大小",
-                        "type": "string"
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "label": "缓存池大小",
+                        "minimum": 1,
+                        "type": "number"
                     },
                     "health_check_interval": {
                         "default": "15s",
@@ -3114,14 +3308,14 @@
                     },
                     "enable_queue": {
                         "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
+                        "description": "启用磁盘缓存队列（仅对 egress 方向桥接有用）。",
+                        "label": "启用磁盘缓存队列",
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
                         "default": "100MB",
-                        "description": "消息队列的最大长度。",
-                        "label": "队列最大长度",
+                        "description": "每个缓存 worker 允许使用的最大字节数。",
+                        "label": "缓存队列最大长度",
                         "type": "byteSize"
                     }
                 },
@@ -3814,9 +4008,10 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "资源连接池大小。",
-                        "label": "资源连接池大小",
-                        "type": "string"
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "label": "缓存池大小",
+                        "minimum": 1,
+                        "type": "number"
                     },
                     "health_check_interval": {
                         "default": "15s",
@@ -3870,14 +4065,14 @@
                     },
                     "enable_queue": {
                         "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
+                        "description": "启用磁盘缓存队列（仅对 egress 方向桥接有用）。",
+                        "label": "启用磁盘缓存队列",
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
                         "default": "100MB",
-                        "description": "消息队列的最大长度。",
-                        "label": "队列最大长度",
+                        "description": "每个缓存 worker 允许使用的最大字节数。",
+                        "label": "缓存队列最大长度",
                         "type": "byteSize"
                     }
                 },
@@ -4974,9 +5169,10 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "资源连接池大小。",
-                        "label": "资源连接池大小",
-                        "type": "string"
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "label": "缓存池大小",
+                        "minimum": 1,
+                        "type": "number"
                     },
                     "health_check_interval": {
                         "default": "15s",
@@ -5036,15 +5232,103 @@
                     },
                     "enable_queue": {
                         "default": false,
-                        "description": "启用队列模式。",
-                        "label": "启用队列模式",
+                        "description": "启用磁盘缓存队列（仅对 egress 方向桥接有用）。",
+                        "label": "启用磁盘缓存队列",
                         "type": "boolean"
                     },
                     "max_queue_bytes": {
                         "default": "100MB",
-                        "description": "消息队列的最大长度。",
-                        "label": "队列最大长度",
+                        "description": "每个缓存 worker 允许使用的最大字节数。",
+                        "label": "缓存队列最大长度",
                         "type": "byteSize"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_gcp_pubsub.post": {
+                "required": [
+                    "service_account_json",
+                    "pubsub_topic",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "桥接类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "gcp_pubsub"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用 Bridge",
+                        "label": "启用/禁用 Bridge",
+                        "type": "boolean"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                    },
+                    "connect_timeout": {
+                        "default": "15s",
+                        "description": "连接 HTTP 服务器的超时时间。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "pipelining": {
+                        "default": 100,
+                        "description": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
+                        "label": "HTTP 流水线",
+                        "type": "string"
+                    },
+                    "max_retries": {
+                        "default": 2,
+                        "description": "请求出错时的最大重试次数。",
+                        "label": "最大重试次数",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "HTTP 请求超时。",
+                        "label": "HTTP 请求超时",
+                        "type": "duration"
+                    },
+                    "payload_template": {
+                        "default": "",
+                        "description": "用于格式化外发信息的模板。 如果未定义，将以JSON格式发送所有可用的上下文。",
+                        "label": "HTTP 请求消息体模板",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 GCP PubSub。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 GCP PubSub。<br/>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "pubsub_topic": {
+                        "description": "要发布消息的GCP PubSub主题。",
+                        "label": "GCP PubSub 主题",
+                        "type": "string"
+                    },
+                    "service_account_json": {
+                        "description": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
+                        "label": "GCP 服务账户凭证",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -5189,6 +5473,9 @@
                             "$ref": "#/components/schemas/bridge_kafka.get"
                         },
                         {
+                            "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
+                        },
+                        {
                             "$ref": "#/components/schemas/bridge_mqtt.get"
                         },
                         {
@@ -5236,6 +5523,9 @@
                         "$ref": "#/components/schemas/bridge_kafka.get"
                     },
                     {
+                        "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_mqtt.get"
                     },
                     {
@@ -5277,6 +5567,9 @@
                     },
                     {
                         "$ref": "#/components/schemas/bridge_kafka.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_mqtt.get"
