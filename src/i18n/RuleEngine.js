@@ -239,13 +239,9 @@ export default {
     zh: '输入并模拟运行时的使用数据，点击运行测试按钮后开始规则的 SQL 测试，结果将在输出结果中展示。',
     en: 'Enter the data needed to run, and then click the Run Test button to test the rule SQL. The result will be shown in the Output Result.',
   },
-  switchToFormEditing: {
-    zh: '切换为表单编辑',
-    en: 'Switch to form editing',
-  },
-  switchToJSONEditing: {
-    zh: '切换为 JSON 编辑',
-    en: 'Switch to JSON editing',
+  testPassed: {
+    zh: '测试通过',
+    en: 'Test Passed',
   },
   resetData: {
     zh: '重置数据',
