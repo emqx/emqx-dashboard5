@@ -127,6 +127,7 @@ const handleDelete = async function ({ type }: AuthzSourceItem) {
   await MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
   await deleteAuthz(type)

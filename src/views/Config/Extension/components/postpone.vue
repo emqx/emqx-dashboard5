@@ -66,7 +66,7 @@
 
           <el-table-column :label="$t('Base.operation')" :min-width="92">
             <template #default="{ row }">
-              <el-button size="small" type="danger" plain @click="deleteDelayedInfo(row)">
+              <el-button size="small" plain @click="deleteDelayedInfo(row)">
                 {{ $t('Base.delete') }}
               </el-button>
             </template>
@@ -233,6 +233,7 @@ export default defineComponent({
       await MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
+        confirmButtonClass: 'confirm-danger',
         type: 'warning',
       })
       const { msgid, node } = row

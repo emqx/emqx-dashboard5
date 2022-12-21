@@ -132,6 +132,7 @@ const clearData = async () => {
     await ElMessageBox.confirm(tl('confirmClearData'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
     await clearSlowSubData()

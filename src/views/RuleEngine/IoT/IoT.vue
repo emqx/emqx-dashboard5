@@ -153,6 +153,7 @@ const submitDeleteRules = async ({ id }: RuleItem) => {
   await MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
   iotLoading.value = true

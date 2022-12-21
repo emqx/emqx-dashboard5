@@ -20,7 +20,6 @@
           </el-button>
 
           <el-button
-            type="danger"
             plain
             size="small"
             @click="deleteConfirm(row)"
@@ -258,6 +257,7 @@ const deleteConfirm = async (item) => {
     await ElMessageBox.confirm(tl('confirmDeleteUser'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
     await destroyUser(item.username)

@@ -21,7 +21,7 @@
         <el-card
           class="app-card with-border card-client-rate"
           v-if="clientRateProperties"
-          shadow="none"
+          shadow="never"
         >
           <p class="part-header">{{ tl('connectionTitle') }}</p>
           <LimiterConfigurationBlock

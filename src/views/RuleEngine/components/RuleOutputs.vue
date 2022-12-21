@@ -22,7 +22,7 @@
               <el-button size="small" @click="openOutputDialog(true, index)">
                 {{ $t('Base.edit') }}
               </el-button>
-              <el-button size="small" type="danger" plain @click="deleteOutput(index)">
+              <el-button size="small" plain @click="deleteOutput(index)">
                 {{ $t('Base.delete') }}
               </el-button>
             </span>
@@ -134,6 +134,7 @@ const deleteOutput = async (itemIndex: number | undefined) => {
     await MB.confirm(t('Base.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
     if (itemIndex !== undefined && Array.isArray(ruleValue.value.actions)) {

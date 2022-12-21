@@ -22,7 +22,7 @@
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="delete" class="danger">
+        <el-dropdown-item command="delete">
           <el-icon><Delete /></el-icon>
           <span>{{ tl('delete', 'Base') }}</span>
         </el-dropdown-item>

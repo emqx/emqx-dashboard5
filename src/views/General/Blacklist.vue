@@ -15,7 +15,7 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button type="danger" plain size="small" @click="deleteConfirm(row)"
+          <el-button plain size="small" @click="deleteConfirm(row)"
             >{{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -213,6 +213,7 @@ export default {
         await this.$msgbox.confirm(this.$t('Base.confirmDelete'), {
           confirmButtonText: this.$t('Base.confirm'),
           cancelButtonText: this.$t('Base.cancel'),
+          confirmButtonClass: 'confirm-danger',
           type: 'warning',
         })
         const { who, as } = item
