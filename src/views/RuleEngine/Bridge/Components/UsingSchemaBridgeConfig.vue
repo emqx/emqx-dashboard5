@@ -47,6 +47,7 @@ type UseSchemaBridgeType = Exclude<
 
 const typeRefKeyMap = {
   [BridgeType.MySQL]: `bridge_mysql.post`,
+  [BridgeType.GCP]: `bridge_gcp_pubsub.post`,
   // [BridgeType.Redis]: `bridge_redis.post_single`,
 }
 
@@ -128,6 +129,10 @@ const propsOrderTypeMap: Record<string, Record<string, number>> = {
       ],
       1,
     ),
+  },
+  [BridgeType.GCP]: {
+    ...baseOrderMap,
+    ...createOrderObj(['pubsub_topic', 'request_timeout', 'pool_size', 'pipelining'], 1),
   },
 }
 
