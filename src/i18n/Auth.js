@@ -391,4 +391,36 @@ export default {
     zh: '更新密码加密方式或加盐方式将导致已添加的认证数据不可用，是否确认更新？',
     en: 'Updating the Password Hash or Salt Position will cause the added authentication data to be unavailable. Confirm to update?',
   },
+  authn: {
+    zh: '认证',
+    en: 'authentication',
+  },
+  authzCheck: {
+    zh: '鉴权检查',
+    en: 'authorizations',
+  },
+  allow: {
+    zh: '允许',
+    en: 'Allow',
+  },
+  allowDesc: {
+    zh: '{type}通过次数',
+    en: 'Number of {type} passed',
+  },
+  deny: {
+    zh: '拒绝',
+    en: 'Deny',
+  },
+  denyDesc: {
+    zh: '{type}失败次数',
+    en: 'Number of {type} failed',
+  },
+  noMatchAuthnDesc: {
+    zh: '未查找到客户端认证数据次数',
+    en: 'Number of times client authentication data not found',
+  },
+  noMatchAuthzDesc: {
+    zh: '未查找到客户端权限数据次数',
+    en: 'Number of times client authorizations data not found',
+  },
 }

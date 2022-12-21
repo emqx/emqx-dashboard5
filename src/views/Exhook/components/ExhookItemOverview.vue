@@ -2,20 +2,22 @@
   <div class="resource-item-overview exhook-item-overview">
     <div class="overview-sub-block">
       <div class="overview-header">
-        <h2 class="block-title">{{ tl('metricsData') }}</h2>
+        <p class="block-title">{{ tl('metricsData') }}</p>
       </div>
       <TargetDetailMetrics class="rule-statistic" :metrics="metricsData" />
     </div>
     <div class="overview-sub-block">
-      <div class="card-hd">
-        <h3 class="block-title">{{ tl('nodeMetricsData') }}</h3>
+      <div class="overview-header">
+        <p class="vertical-align-center">
+          {{ tl('nodeMetricsData') }}
+          <InfoTooltip :content="tl('nodeStatusDesc')" />
+        </p>
       </div>
-      <p class="card-sub-desc">{{ tl('nodeStatusDesc') }}</p>
       <el-table :data="nodeMetricsTableData" class="shadow-none">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column :label="tl('success')" prop="metrics.succeed" />
         <el-table-column :label="tl('failure')" prop="metrics.failed" />
-        <el-table-column :label="tl('currentSpeed')" prop="metrics.rate" />
+        <el-table-column :label="tl('currentRate')" prop="metrics.rate" />
         <el-table-column :label="t('Base.status')">
           <template #default="{ row }">
             <span class="text-status" :class="statusTextClass(row.status)">
@@ -29,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 import useExhookItemStatus from '@/hooks/Exhook/useExhookItemStatus'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -48,7 +51,7 @@ const metricsData = computed(() => [
   { label: tl('registeredHooks'), value: props.exhook?.hooks?.length, className: 'matched-bg' },
   { label: tl('success'), value: props.exhook?.metrics?.succeed, className: 'success-bg' },
   { label: tl('failure'), value: props.exhook?.metrics?.failed, className: 'failed-bg' },
-  { label: tl('currentSpeed'), value: props.exhook?.metrics?.rate, className: 'rate-bg' },
+  { label: tl('currentRate'), value: props.exhook?.metrics?.rate, className: 'rate-bg' },
 ])
 
 const nodeMetrics: ComputedRef<Array<NodeMetrics>> = computed(() => {

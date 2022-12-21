@@ -2,7 +2,7 @@
   <div class="resource-item-overview">
     <div class="overview-sub-block">
       <div class="overview-header">
-        <h2>{{ tl('executionStatistics') }}</h2>
+        <p>{{ tl('statistics') }}</p>
         <el-button type="primary" :loading="refreshLoading" @click="handleRefresh">
           {{ $t('Base.refresh') }}
         </el-button>
@@ -10,8 +10,13 @@
       <TargetDetailMetrics :metrics="metricsData" />
     </div>
     <div class="overview-sub-block">
-      <h2>{{ tl('nodeStatus') }}</h2>
-      <p class="card-sub-desc">{{ nodeStatusDesc }}</p>
+      <div class="overview-header">
+        <p class="vertical-align-center">
+          {{ tl('nodeStatus') }}
+          <InfoTooltip :content="nodeStatusDesc" />
+        </p>
+      </div>
+
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column :label="$t('Auth.status')">
@@ -29,7 +34,7 @@
           :prop="isAuthn ? 'metrics.failed' : 'metrics.deny'"
           :label="tl('ErrNum')"
         />
-        <el-table-column prop="metrics.rate" :label="`${tl('speedNow')}(tps)`" />
+        <el-table-column prop="metrics.rate" :label="`${tl('rateNow')}(tps)`" />
       </el-table>
     </div>
   </div>
@@ -51,6 +56,7 @@ import { Metrics } from '@/types/auth'
 import useI18nTl from '@/hooks/useI18nTl'
 import { upperFirst } from 'lodash'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
   metrics: {
@@ -83,22 +89,25 @@ const nodeMetrics = computed(() => {
 
 const metricsData = computed(() => [
   {
-    label: tl('SuccessNum'),
+    label: t('Auth.allow'),
     value: isAuthn.value ? props.metrics?.metrics?.success : props.metrics?.metrics?.allow,
     className: 'success-bg',
+    desc: t('Auth.allowDesc', { type: t(`Auth.${isAuthn.value ? 'authn' : 'authzCheck'}`) }),
   },
   {
-    label: tl('ErrNum'),
+    label: t('Auth.deny'),
     value: isAuthn.value ? props.metrics?.metrics?.failed : props.metrics?.metrics?.deny,
     className: 'failed-bg',
+    desc: t('Auth.denyDesc', { type: t(`Auth.${isAuthn.value ? 'authn' : 'authzCheck'}`) }),
   },
   {
     label: tl('noMatch'),
     value: props.metrics?.metrics?.nomatch,
     className: 'matched-bg',
+    desc: t(`Auth.${isAuthn.value ? 'noMatchAuthnDesc' : 'noMatchAuthzDesc'}`),
   },
   {
-    label: `${tl('speedNow')}(tps)`,
+    label: `${tl('rateNow')}(tps)`,
     value: props.metrics?.metrics?.rate,
     className: 'rate-bg',
   },

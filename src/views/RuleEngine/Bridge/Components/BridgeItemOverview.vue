@@ -1,7 +1,7 @@
 <template>
   <div class="resource-item-overview">
     <div class="overview-header">
-      <h6 class="block-title">{{ tl('executionStatistics') }}</h6>
+      <p class="block-title">{{ tl('statistics') }}</p>
       <div>
         <el-button type="primary" @click="handleRefresh">
           {{ $t('Base.refresh') }}
@@ -16,19 +16,22 @@
       <TargetDetailMetrics class="rule-statistic" :metrics="statisticsData" />
     </div>
     <div class="overview-sub-block">
-      <div class="card-hd">
-        <h6 class="block-title">{{ tl('nodeStatus') }}</h6>
+      <div class="overview-header">
+        <p class="vertical-align-center">
+          {{ tl('nodeStatus') }}
+          <InfoTooltip :content="tl('nodeStatusBridgeDesc')" />
+        </p>
       </div>
-      <p class="card-sub-desc">{{ tl('nodeStatusBridgeDesc') }}</p>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
 
         <el-table-column prop="metrics.matched" :label="tl('matched')" />
+        <el-table-column v-if="showReceived" prop="metrics.received" :label="tl('received')" />
         <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
 
         <el-table-column prop="metrics.rate">
           <template #header>
-            <p>{{ tl('executionSpeed') }}</p>
+            <p>{{ t('Base.rate') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
         </el-table-column>
@@ -83,6 +86,7 @@ import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
   bridgeMsg: {
@@ -98,7 +102,7 @@ const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
 
 const showReceived = computed(() => {
   const isMQTT = props.bridgeMsg.type === BridgeType.MQTT
-  const withIngress = 'ingress' in props.bridgeMsg && props.bridgeMsg.ingress
+  const withIngress = 'ingress' in props.bridgeMsg && props.bridgeMsg.ingress?.remote?.topic
   return isMQTT && withIngress
 })
 
@@ -172,7 +176,7 @@ const statisticsData = computed(() => {
       className: 'success-bg',
     },
     {
-      label: tl('speedNow'),
+      label: tl('rateNow'),
       value: props.bridgeMsg?.metrics?.rate,
       unit: t('RuleEngine.rateUnit', props.bridgeMsg?.metrics?.rate),
       className: 'rate-bg',

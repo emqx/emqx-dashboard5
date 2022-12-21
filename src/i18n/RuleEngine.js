@@ -51,7 +51,7 @@ export default {
     zh: '不匹配',
     en: 'No match',
   },
-  speedNow: {
+  rateNow: {
     zh: '当前速率',
     en: 'Rate',
   },
@@ -367,13 +367,9 @@ export default {
     zh: '成功执行但没有输出结果',
     en: 'Executes Successfully But No Output Results',
   },
-  executionSpeed: {
-    zh: '执行速率',
-    en: 'Execution Speed',
-  },
   rateLast5M: {
-    zh: '最近 5 分钟执行速率',
-    en: 'Execution Speed in the Last 5 Minutes',
+    zh: '最近 5 分钟速率',
+    en: 'Rate in the Last 5 Minutes',
   },
   sent: {
     zh: '已发送',
@@ -440,8 +436,8 @@ export default {
     en: 'Count of messages that is received from the remote system',
   },
   rateMax: {
-    zh: '最大执行速率',
-    en: 'Maximum Execution Speed',
+    zh: '最大速率',
+    en: 'Maximum Rate',
   },
   activated: {
     zh: '已启用',
@@ -502,6 +498,10 @@ export default {
   sqlExample: {
     zh: 'SQL 例子',
     en: 'SQL Example',
+  },
+  statistics: {
+    zh: '统计',
+    en: 'Statistics',
   },
   executionStatistics: {
     zh: '运行统计',
@@ -689,7 +689,7 @@ export default {
   },
   exampleOfInput: {
     zh: '输入消息示例',
-    en: 'Example of input',
+    en: 'Example of input message',
   },
   processedResults: {
     zh: '处理结果',
@@ -704,8 +704,8 @@ export default {
     en: 'Events',
   },
   eventsDesc: {
-    zh: '规则可以通过 MQTT 消息、MQTT 事件，或者是数据桥接来触发。多个数据源可以通过逗号分隔。',
-    en: 'Rules can be triggered by MQTT messages, MQTT events, or data bridges. Multiple data sources can be separated by commas.',
+    zh: '规则可以通过 MQTT 消息、事件或数据桥来触发。在 SQL 中，多个数据源可以使用逗号分隔。',
+    en: 'Rules can be triggered by MQTT messages, events, or data bridges. In SQL, multiple data sources can be separated with commas.',
   },
   useEvent: {
     zh: '使用事件',
@@ -1100,12 +1100,14 @@ export default {
     en: 'Async query inflight window.',
   },
   enableQueue: {
-    en: 'Enable queue',
-    zh: '启用队列模式',
+    en: 'Enable disk buffer queue',
+    zh: '启用磁盘缓存队列',
   },
   enableQueueDesc: {
-    en: 'Queue mode enabled.',
-    zh: '启用队列模式。',
+    en: `Enable disk buffer queue (only applicable for egress bridges).
+When Enalbed, messages will be buffered on disk when the bridge connection is down.
+When disabled the messages are buffered in RAM only.`,
+    zh: '启用磁盘缓存队列（仅对 egress 方向桥接有用）。',
   },
   maxQueueBytes: {
     en: 'Queue max bytes',
@@ -1139,7 +1141,6 @@ export default {
     en: 'Maximum batch waiting interval.',
     zh: '最大批量请求等待时间。',
   },
-
   bootstrapHosts: {
     en: 'Bootstrap Hosts',
     zh: '主机列表',
@@ -1147,6 +1148,14 @@ export default {
   bootstrapHostsDesc: {
     en: 'A comma separated list of Kafka <code>host:port</code> endpoints to bootstrap the client.',
     zh: '用逗号分隔的 <code>host:port</code> 主机列表。',
+  },
+  workerPoolSize: {
+    en: 'Buffer Pool Size',
+    zh: '缓存池大小',
+  },
+  workerPoolSizeDesc: {
+    en: `The number of buffer workers. Only applicable for egress type bridges. For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
+    zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。',
   },
   minMetadataRefreshInterval: {
     en: 'Min Metadata Refresh Interval',

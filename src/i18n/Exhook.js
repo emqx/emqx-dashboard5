@@ -15,9 +15,9 @@ export default {
     zh: '失败',
     en: 'Failure',
   },
-  speed: {
+  rate: {
     zh: '速度',
-    en: 'Speed',
+    en: 'Rate',
   },
   second: {
     zh: '秒',
@@ -95,9 +95,9 @@ export default {
     zh: '指标数据',
     en: 'Metrics Data',
   },
-  currentSpeed: {
+  currentRate: {
     zh: '当前速率',
-    en: 'Current speed',
+    en: 'Current Rate',
   },
   params: {
     zh: '参数',
