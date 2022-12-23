@@ -68,6 +68,7 @@
             <el-form-item label="Payload">
               <template #label>
                 <label>Payload</label>
+                <InfoTooltip :content="tl('payloadExample')" />
                 <p class="payload-desc">{{ tl('payloadDesc') }}</p>
               </template>
               <div class="monaco-container">
@@ -136,6 +137,7 @@ import BridgeDetail from '../Bridge/BridgeDetail.vue'
 import useFormRules from '@/hooks/useFormRules'
 import { createRandomString } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import AddBridgeOnRule from './AddBridgeOnRule.vue'
 
 type OutputForm = {

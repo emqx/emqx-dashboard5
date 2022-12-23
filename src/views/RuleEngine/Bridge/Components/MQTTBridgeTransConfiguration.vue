@@ -21,6 +21,7 @@
       <el-form-item>
         <template #label>
           <label>{{ tl('payload') }}</label>
+          <InfoTooltip :content="tl('payloadExample')" />
           <p class="payload-desc">{{ tl('payloadDesc') }}</p>
         </template>
         <div class="monaco-container">

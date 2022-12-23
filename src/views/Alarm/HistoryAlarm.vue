@@ -102,6 +102,9 @@ const loadData = async (params = {}) => {
 const handleClearHistory = async () => {
   try {
     await ElMessageBox.confirm(t('Alarm.clearConfirm'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
     let res = await clearHistoryAlarm().catch(() => {

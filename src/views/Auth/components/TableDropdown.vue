@@ -38,7 +38,7 @@
             <el-icon><Bottom /></el-icon>
             {{ $t('Base.moveToBottom') }}
           </el-dropdown-item>
-          <el-dropdown-item class="danger" command="delete">
+          <el-dropdown-item command="delete">
             <el-icon><Delete /></el-icon>
             {{ $t('Base.delete') }}
           </el-dropdown-item>

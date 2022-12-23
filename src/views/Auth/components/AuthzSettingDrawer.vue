@@ -2,7 +2,7 @@
   <el-drawer v-model="showDrawer" :title="t('Auth.authzSetting')" size="800px">
     <el-row :gutter="26" v-loading="isLoading">
       <el-col :span="12">
-        <el-card class="app-card with-border" shadow="none">
+        <el-card class="app-card with-border" shadow="never">
           <el-form :model="record" label-position="top">
             <section>
               <el-form-item :label="$t('Auth.enableCache')">
@@ -45,12 +45,12 @@
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card class="app-card with-border" shadow="none">
+        <el-card class="app-card with-border" shadow="never">
           <el-row>
             <el-col :span="24">
               <div class="part-header">{{ titleCase($t('Auth.clearCache')) }}</div>
               <p class="block-desc">{{ $t('Auth.clearCacheDesc') }}</p>
-              <el-button type="danger" plain @click="clearCache">
+              <el-button type="primary" plain @click="clearCache">
                 {{ $t('Auth.clearCache') }}
               </el-button>
             </el-col>
@@ -136,6 +136,7 @@ const clearCache = async () => {
     await ElMessageBox.confirm(t('Auth.clearCacheConfirm'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
     await requestClearCache()

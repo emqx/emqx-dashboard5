@@ -316,6 +316,16 @@ input:disabled {
     color: inherit;
   }
 }
+.el-button.el-button--primary.confirm-danger {
+  color: var(--el-color-danger);
+  background: var(--el-color-danger-light-9);
+  border: 1px solid var(--el-color-danger-light-5);
+  &:hover {
+    color: var(--el-color-white);
+    background: var(--el-color-danger);
+    border-color: var(--el-color-danger);
+  }
+}
 
 .el-date-editor {
   --el-date-editor-datetimerange-width: 100%;

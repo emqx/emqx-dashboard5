@@ -81,7 +81,7 @@
             </el-button>
           </template>
           <template v-else>
-            <el-button size="small" type="danger" plain @click="deleteTraceHandler(row)">
+            <el-button size="small" plain @click="deleteTraceHandler(row)">
               {{ $t('LogTrace.delete') }}
             </el-button>
           </template>
@@ -337,6 +337,7 @@ export default defineComponent({
         await MB.confirm(t('LogTrace.confirmDeleteTrace'), {
           confirmButtonText: t('Base.confirm'),
           cancelButtonText: t('Base.cancel'),
+          confirmButtonClass: 'confirm-danger',
           type: 'warning',
         })
 

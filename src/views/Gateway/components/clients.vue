@@ -78,7 +78,7 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button type="danger" plain @click="disconnectClient(row)" size="small">
+          <el-button plain @click="disconnectClient(row)" size="small">
             {{ $t('Clients.kickOut') }}
           </el-button>
         </template>
@@ -189,6 +189,7 @@ export default defineComponent({
         await ElMessageBox.confirm(t('Clients.willDisconnectTheConnection'), {
           confirmButtonText: t('Base.confirm'),
           cancelButtonText: t('Base.cancel'),
+          confirmButtonClass: 'confirm-danger',
           type: 'warning',
         })
         await disconnGatewayClient(gname, row.clientid)

@@ -113,7 +113,7 @@ import { getKeywordsFromSQL } from '@/common/tools'
 import { CaretRight, RefreshRight } from '@element-plus/icons-vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import FromSelect from '../components/FromSelect.vue'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
@@ -299,6 +299,7 @@ const submitTest = async () => {
         })
       }
       resultData.value = mapData(res)
+      ElMessage.success(tl('testPassed'))
     }
   } catch (e) {
     // ignore error

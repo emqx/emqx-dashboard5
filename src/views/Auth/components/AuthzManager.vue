@@ -45,7 +45,7 @@
           <el-button size="small" @click="handleEdit(row, $index)">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="small" plain type="danger" @click="handleDelete(row, $index)">
+          <el-button size="small" plain @click="handleDelete(row, $index)">
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -91,7 +91,7 @@
             <el-button size="small" @click="handleEdit(row, $index)">
               {{ $t('Base.edit') }}
             </el-button>
-            <el-button size="small" plain type="danger" @click="handleDelete(row, $index)">
+            <el-button size="small" plain @click="handleDelete(row, $index)">
               {{ $t('Base.delete') }}
             </el-button>
           </template>
@@ -407,6 +407,7 @@ export default defineComponent({
       MB.confirm(t('Base.confirmDelete'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
+        confirmButtonClass: 'confirm-danger',
         type: 'warning',
       })
         .then(async () => {

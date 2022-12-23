@@ -239,13 +239,9 @@ export default {
     zh: '输入并模拟运行时的使用数据，点击运行测试按钮后开始规则的 SQL 测试，结果将在输出结果中展示。',
     en: 'Enter the data needed to run, and then click the Run Test button to test the rule SQL. The result will be shown in the Output Result.',
   },
-  switchToFormEditing: {
-    zh: '切换为表单编辑',
-    en: 'Switch to form editing',
-  },
-  switchToJSONEditing: {
-    zh: '切换为 JSON 编辑',
-    en: 'Switch to JSON editing',
+  testPassed: {
+    zh: '测试通过',
+    en: 'Test Passed',
   },
   resetData: {
     zh: '重置数据',
@@ -648,8 +644,12 @@ export default {
     en: 'Payload',
   },
   payloadDesc: {
-    zh: "支持使用 ${'{'}field{'}'} 语法读取数据，例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等，请根据使用数据桥接的业务需求来选择字段，置空则原样转发消息。",
-    en: "Supports reading data using ${'{'}field{'}'} syntax , for example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc, use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
+    zh: "支持使用 ${'{'}field{'}'} 语法读取数据。",
+    en: "Supports reading data using ${'{'}field{'}'} syntax.",
+  },
+  payloadExample: {
+    zh: "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。请根据使用数据桥接的业务需求来选择字段，置空则原样转发消息。",
+    en: "For example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc. Use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
   remoteTopicDesc: {
     zh: "桥接数据到远端 Broker 指定主题中，支持使用 ${'{'}field{'}'} 语法拼接动态主题",
