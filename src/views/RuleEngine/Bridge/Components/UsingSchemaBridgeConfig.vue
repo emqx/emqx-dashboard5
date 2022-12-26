@@ -199,6 +199,14 @@ const getRefKey = computed(() => {
   return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
 })
 
+const deleteSSLLabelAndDesc = (components: Properties) => {
+  if (components.ssl) {
+    components.ssl.description = ''
+    components.ssl.label = ''
+  }
+  return components
+}
+
 const getComponentsHandler = () => {
   if (props.type === BridgeType.Redis) {
     return ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -220,10 +228,14 @@ const getComponentsHandler = () => {
       if (command_template?.type === 'array' && command_template?.items?.type === 'string') {
         command_template.items.component = 'table'
       }
+      deleteSSLLabelAndDesc(components)
       return { components, rules }
     }
   }
-  return undefined
+  return ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
+    deleteSSLLabelAndDesc(components)
+    return { components, rules }
+  }
 }
 
 const { fillNewRecord } = useFillNewRecord()
