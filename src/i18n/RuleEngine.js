@@ -1027,14 +1027,6 @@ export default {
     zh: '占位符',
     en: 'Placeholder',
   },
-  workerPoolSize: {
-    en: 'Worker Pool Size',
-    zh: '资源连接池大小',
-  },
-  workerPoolSizeDesc: {
-    en: 'Resource worker pool size.',
-    zh: '资源连接池大小。',
-  },
   healthCheckInterval: {
     en: 'Health Check Interval',
     zh: '健康检查间隔',
