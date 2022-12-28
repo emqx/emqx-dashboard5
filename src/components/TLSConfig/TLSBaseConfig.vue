@@ -1,8 +1,5 @@
 <template>
   <div class="TLS-base-config">
-    <div class="TLS-base-config-title part-header">
-      {{ $t('Base.tlsConfig') }}
-    </div>
     <div>
       <el-form-item :label="$t('Base.enableTLS')">
         <el-switch v-model="record.enable" />

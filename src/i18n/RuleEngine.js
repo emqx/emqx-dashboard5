@@ -127,10 +127,6 @@ export default {
     zh: '桥接模式',
     en: 'Bridge Mode',
   },
-  tlsConfig: {
-    zh: 'TLS 配置',
-    en: 'TLS Configuration',
-  },
   connSetting: {
     zh: '连接配置',
     en: 'Connection Settings',
@@ -270,6 +266,10 @@ export default {
   paramSetting: {
     zh: '参数设置',
     en: 'Parameter',
+  },
+  selectOrInput: {
+    zh: '请选择或直接输入',
+    en: 'Select or input directly',
   },
   editAction: {
     zh: '编辑动作',
