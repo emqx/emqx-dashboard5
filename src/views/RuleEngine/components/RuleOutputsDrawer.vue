@@ -72,7 +72,7 @@
               >
                 <el-option label="true" :value="true" />
                 <el-option label="false" :value="false" />
-                <el-option label="${retain}" :value="'${retain}'" />
+                <el-option label="${flags.retain}" value="${flags.retain}" />
               </el-select>
             </el-form-item>
           </el-col>
