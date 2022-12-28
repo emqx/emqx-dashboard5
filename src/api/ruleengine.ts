@@ -75,8 +75,8 @@ export async function resetBridgeMetrics(bridgeId: string): Promise<string> {
   return http.put(`/bridges/${bridgeId}/reset_metrics`)
 }
 
-export function testConnector(body: ConnectorItem): Promise<void> {
-  return http.post(`/connectors_test`, body)
+export function testConnect(body: BridgeItem): Promise<void> {
+  return http.post(`/bridges_probe`, body)
 }
 
 //Rules
