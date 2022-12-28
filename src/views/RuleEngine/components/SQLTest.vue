@@ -231,7 +231,7 @@ const handleDataSourceChanged = ({ value }: { value: string }) => {
   const { type, target } = findInputTypeNTarget(value, eventList, ingressBridgeList)
   const { fromStr } = getKeywordsFromSQL(props.sql)
   isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
-  const { context, descMap } = getTestColumns(type, value, props.eventList || [])
+  const { context } = getTestColumns(type, value, props.eventList || [])
   setContext(context)
 }
 
