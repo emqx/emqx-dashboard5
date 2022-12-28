@@ -271,6 +271,10 @@ export default {
     zh: '参数设置',
     en: 'Parameter',
   },
+  selectOrInput: {
+    zh: '请选择或直接输入',
+    en: 'Select or input directly',
+  },
   editAction: {
     zh: '编辑动作',
     en: 'Edit The Action',
