@@ -95,11 +95,11 @@
               </div>
               <div v-if="!isFromRule" class="btn-area">
                 <el-button
-                  v-if="bridgeInfo.type && canTest"
+                  v-if="bridgeInfo.type"
                   type="primary"
                   plain
                   :loading="isTesting"
-                  @click="testTheConnection"
+                  @click="testConnection"
                 >
                   {{ tl('testTheConnection') }}
                 </el-button>
@@ -143,7 +143,7 @@ import {
   ComputedRef,
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getBridgeInfo, updateBridge, startStopBridge } from '@/api/ruleengine'
+import { getBridgeInfo, updateBridge, startStopBridge, testConnect } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
@@ -153,9 +153,7 @@ import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/use
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
-import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
 import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { utf8Decode } from '@/common/tools'
@@ -180,7 +178,7 @@ const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
-const { isTesting, canTest, testTheConnection } = useTestConnection(bridgeInfo)
+const isTesting = ref(false)
 const props = defineProps({
   bridgeId: {
     type: String,
@@ -197,7 +195,6 @@ if (queryTab.value) {
 }
 
 const { getBridgeType, getTypeStr } = useBridgeTypeOptions()
-const { handleSSLDataBeforeSubmit } = useSSL()
 const { getBridgeIcon } = useBridgeTypeIcon()
 
 const { tl, t } = useI18nTl('RuleEngine')
@@ -260,11 +257,9 @@ const setBridgeInfoFromSchemaForm = () => {
 }
 
 const getDataForSubmit = () => {
+  setBridgeInfoFromSchemaForm()
   const data = _.cloneDeep(bridgeInfo.value)
-  if ('ssl' in data) {
-    data.ssl = handleSSLDataBeforeSubmit(data.ssl)
-  }
-  return data
+  return handleBridgeDataBeforeSubmit(data)
 }
 
 const showNameInputDialog = ref(false)
@@ -276,6 +271,24 @@ const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(()
 const saveAsCopy = () => {
   bridgeData.value = getDataForSubmit()
   showNameInputDialog.value = true
+}
+
+const testConnection = async () => {
+  try {
+    await formCom.value.validate()
+  } catch (error) {
+    return
+  }
+
+  try {
+    isTesting.value = true
+    await testConnect(getDataForSubmit())
+    ElMessage.success(tl('connectionSuccessful'))
+  } catch (error) {
+    //
+  } finally {
+    isTesting.value = false
+  }
 }
 
 const updateBridgeInfo = async () => {
@@ -296,8 +309,7 @@ const updateBridgeInfo = async () => {
     })
 
     updateLoading.value = true
-    const data = getDataForSubmit()
-    const res = await updateBridge(bridgeInfo.value.id, handleBridgeDataBeforeSubmit(data))
+    const res = await updateBridge(bridgeInfo.value.id, getDataForSubmit())
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'data-bridge' })

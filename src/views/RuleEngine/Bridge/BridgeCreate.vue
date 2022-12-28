@@ -85,11 +85,11 @@
             {{ $t('Base.nextStep') }}
           </el-button>
           <el-button
-            v-if="step === 1 && canTest"
+            v-if="step === 1"
             type="primary"
             plain
             :loading="isTesting"
-            @click="testTheConnection"
+            @click="testConnection"
           >
             {{ tl('testTheConnection') }}
           </el-button>
@@ -162,10 +162,10 @@ import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import { tlsConfig } from '@/types/ruleengine'
-import { createBridge, getBridgeInfo } from '@/api/ruleengine'
+import { createBridge, getBridgeInfo, testConnect } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   useBridgeTypeOptions,
   BridgeTypeOptions,
@@ -176,14 +176,7 @@ import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useSSL from '@/hooks/useSSL'
-import {
-  checkNOmitFromObj,
-  countDuplicationName,
-  jumpToErrorFormItem,
-  utf8Encode,
-} from '@/common/tools'
-import useTestConnection from '@/hooks/Rule/bridge/useTestConnection'
+import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA, DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
@@ -220,8 +213,7 @@ export default defineComponent({
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
     const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
-    const { handleSSLDataBeforeSubmit } = useSSL()
-    const { isTesting, canTest, testTheConnection } = useTestConnection(bridgeData)
+    const isTesting = ref(false)
     const { getBridgeIcon } = useBridgeTypeIcon()
 
     const formCom = ref()
@@ -307,12 +299,40 @@ export default defineComponent({
       }
     }
 
-    const submitDataWhenUsingSchemaForm = async () => {
-      const bridgeData = _.cloneDeep(formCom.value.getFormRecord())
-      if (bridgeData.ssl) {
-        bridgeData.ssl = handleSSLDataBeforeSubmit(bridgeData.ssl)
+    const getDataForSubmit = () => {
+      let dataToSubmit = {}
+      if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType.value)) {
+        dataToSubmit = _.cloneDeep(formCom.value.getFormRecord())
+      } else {
+        dataToSubmit = {
+          ..._.cloneDeep(bridgeData.value),
+          type: chosenBridgeType.value,
+        }
+        if (chosenBridgeType.value === BridgeType.Webhook) {
+          // FIXME: delete the damn tlsParams
+          dataToSubmit = { ...dataToSubmit, ssl: tlsParams.value }
+        }
       }
-      return createBridge(checkNOmitFromObj(bridgeData))
+      return handleBridgeDataBeforeSubmit(dataToSubmit)
+    }
+
+    const testConnection = async () => {
+      try {
+        await formCom.value.validate()
+      } catch (error) {
+        jumpToErrorFormItem()
+        return
+      }
+
+      try {
+        isTesting.value = true
+        await testConnect(getDataForSubmit())
+        ElMessage.success(tl('connectionSuccessful'))
+      } catch (error) {
+        //
+      } finally {
+        isTesting.value = false
+      }
     }
 
     const submitCreateBridge = async () => {
@@ -326,27 +346,7 @@ export default defineComponent({
       let res = undefined
 
       try {
-        if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType.value)) {
-          res = await submitDataWhenUsingSchemaForm()
-        } else {
-          let dataToSubmit = {
-            type: chosenBridgeType.value,
-            ..._.cloneDeep(bridgeData.value),
-          }
-          switch (chosenBridgeType.value) {
-            case BridgeType.Webhook:
-              dataToSubmit = {
-                ...dataToSubmit,
-                ssl: handleSSLDataBeforeSubmit(tlsParams.value),
-                body: utf8Encode(dataToSubmit.body),
-              }
-              break
-            case BridgeType.MQTT:
-              dataToSubmit = handleBridgeDataBeforeSubmit(dataToSubmit)
-              break
-          }
-          res = await createBridge(checkNOmitFromObj(dataToSubmit))
-        }
+        res = await createBridge(getDataForSubmit())
 
         const bridgeId = res?.id
         if (!isFromRule.value) {
@@ -395,10 +395,9 @@ export default defineComponent({
       isBridgeTypeDisabled,
       cancel,
       submitCreateBridge,
-      canTest,
       isTesting,
+      testConnection,
       handleTypeSelected,
-      testTheConnection,
       getBridgeIcon,
     }
   },
