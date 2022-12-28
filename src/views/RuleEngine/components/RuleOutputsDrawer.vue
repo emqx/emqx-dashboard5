@@ -50,16 +50,30 @@
               <el-input v-model="outputForm.args.topic" />
             </el-form-item>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="6">
             <el-form-item label="QoS">
-              <el-select v-model="outputForm.args.qos">
+              <el-select
+                v-model="outputForm.args.qos"
+                :placeholder="tl('selectOrInput')"
+                filterable
+                allow-create
+              >
                 <el-option v-for="item in QoSOptions" :value="item" :key="item" />
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item label="Retain">
-              <el-checkbox :label="'Retain'" border v-model="outputForm.args.retain" />
+              <el-select
+                v-model="outputForm.args.retain"
+                :placeholder="tl('selectOrInput')"
+                filterable
+                allow-create
+              >
+                <el-option label="true" :value="true" />
+                <el-option label="false" :value="false" />
+                <el-option label="${retain}" :value="'${retain}'" />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -130,7 +144,7 @@ import {
 import { getBridgeList } from '@/api/ruleengine'
 import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
 import { BridgeItem, OutputItemObj } from '@/types/rule'
-import { QoSOptions } from '@/common/constants'
+import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { useRoute } from 'vue-router'
 import { Plus } from '@element-plus/icons-vue'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
@@ -194,6 +208,8 @@ const outputFormRules = {
     topic: createRequiredRule('Topic'),
   },
 }
+
+const QoSOptions = [...defaultQoSOptions, '${qos}']
 
 const showDrawer: WritableComputedRef<boolean> = computed({
   get() {

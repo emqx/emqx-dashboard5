@@ -9,12 +9,16 @@
     <!-- :placeholder="isIngress ? tl('remoteTopicPlaceholder') : ''" -->
   </el-form-item>
   <el-form-item label="QoS">
-    <el-select v-model="config.qos">
+    <el-select v-model="config.qos" :placeholder="tl('selectOrInput')" filterable allow-create>
       <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
     </el-select>
   </el-form-item>
   <el-form-item label="Retain">
-    <el-checkbox :label="'Retain'" border v-model="config.retain" />
+    <el-select v-model="config.retain" :placeholder="tl('selectOrInput')" filterable allow-create>
+      <el-option label="true" :value="true" />
+      <el-option label="false" :value="false" />
+      <el-option label="${retain}" :value="'${retain}'" />
+    </el-select>
   </el-form-item>
   <el-row :gutter="26">
     <el-col :span="24">
@@ -39,11 +43,10 @@
 </template>
 
 <script setup lang="ts">
-import { QoSOptions } from '@/common/constants'
+import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
-import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MQTTBridgeDirection } from '@/types/enum'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
@@ -68,7 +71,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { tl, t } = useI18nTl('RuleEngine')
-const { docMap } = useDocLink()
+
+const QoSOptions = [...defaultQoSOptions, '${qos}']
 
 const config = computed({
   get() {
