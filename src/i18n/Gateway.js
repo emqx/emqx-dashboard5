@@ -280,10 +280,6 @@ export default {
     zh: 'gRPC 连接',
     en: 'gRPC ConnectionHandler',
   },
-  tlsConfig: {
-    zh: 'TLS 配置',
-    en: 'TLS Configuration',
-  },
   enableTls: {
     zh: '启用 TLS',
     en: 'Enable TLS',
