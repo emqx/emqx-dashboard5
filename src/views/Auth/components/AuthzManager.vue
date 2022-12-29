@@ -67,13 +67,17 @@
             </el-table>
           </template>
         </el-table-column>
-        <el-table-column v-if="type === 'clientid'" prop="clientid" :label="$t('Base.clientid')">
+        <el-table-column
+          v-if="type === BuiltInDBType.Client"
+          prop="clientid"
+          :label="$t('Base.clientid')"
+        >
           <template #default="{ row }">
             {{ replaceSpaceForHTML(row.clientid) }}
           </template>
         </el-table-column>
         <el-table-column
-          v-else-if="type === 'username'"
+          v-else-if="type === BuiltInDBType.User"
           prop="username"
           :label="$t('Base.username')"
         >
@@ -126,11 +130,15 @@
           </el-form-item>
         </template>
         <template v-else>
-          <el-form-item v-if="type === 'clientid'" prop="clientid" :label="$t('Base.clientid')">
+          <el-form-item
+            v-if="type === BuiltInDBType.Client"
+            prop="clientid"
+            :label="$t('Base.clientid')"
+          >
             <el-input v-model="record.clientid" :disabled="isEdit" />
           </el-form-item>
           <el-form-item
-            v-else-if="type === 'username'"
+            v-else-if="type === BuiltInDBType.User"
             prop="username"
             :label="$t('Base.username')"
           >
@@ -214,9 +222,10 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus, Search, RefreshRight } from '@element-plus/icons-vue'
-import { BuiltInDBItem, BuiltInDBRule, BuiltInDBType } from '@/types/auth'
+import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
+import { BuiltInDBType } from '@/types/enum'
 
 export default defineComponent({
   components: { commonPagination, InfoTooltip },
@@ -224,20 +233,20 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
 
-    const type = ref<BuiltInDBType>('clientid')
+    const type = ref<BuiltInDBType>(BuiltInDBType.Client)
     const lockTable = ref(false)
     const typeList = [
       {
         label: t('Base.clientid'),
-        value: 'clientid',
+        value: BuiltInDBType.Client,
       },
       {
         label: t('Base.username'),
-        value: 'username',
+        value: BuiltInDBType.User,
       },
       {
         label: t('Auth.allUsers'),
-        value: 'all',
+        value: BuiltInDBType.All,
       },
     ]
     const pageMeta = ref({
@@ -316,6 +325,9 @@ export default defineComponent({
         handleCancel()
       }
     })
+    const getKeyByCurrentType = () => {
+      return type.value === BuiltInDBType.Client ? 'clientid' : 'username'
+    }
     const loadData = async (params = {}) => {
       lockTable.value = true
 
@@ -324,7 +336,7 @@ export default defineComponent({
         ...params,
       }
       if (searchVal.value) {
-        sendParams[`like_${type.value}`] = searchVal.value
+        sendParams[`like_${getKeyByCurrentType()}`] = searchVal.value
       }
       Reflect.deleteProperty(sendParams, 'count')
       const res = await loadBuiltInDatabaseData(type.value, sendParams).catch(() => {
@@ -371,18 +383,18 @@ export default defineComponent({
         if (!valid) {
           return
         }
-        const key = type.value
         const data: {
           [key: string]: any
         } = {}
-        if (key !== 'all') {
+        if (type.value !== BuiltInDBType.All) {
+          const key = getKeyByCurrentType()
           data[key] = record[key]
           data.rules = rulesData.value
           if (!isEdit.value) {
             await createBuiltInDatabaseData(type.value, [data])
             ElMessage.success(t('Base.createSuccess'))
           } else {
-            await updateBuiltInDatabaseData(type.value, data[type.value], data)
+            await updateBuiltInDatabaseData(type.value, data[key], data)
             ElMessage.success(t('Base.updateSuccess'))
           }
         } else {
@@ -412,7 +424,8 @@ export default defineComponent({
       })
         .then(async () => {
           if (type.value !== 'all') {
-            await deleteBuiltInDatabaseData(type.value, row[type.value]).catch(() => {})
+            const key = getKeyByCurrentType()
+            await deleteBuiltInDatabaseData(type.value, row[key]).catch(() => {})
           } else {
             const rules = _.cloneDeep(allTableData.value)
             rules.splice(index, 1)
@@ -430,7 +443,7 @@ export default defineComponent({
       editIndex.value = 0
       if (type.value !== 'all') {
         const _row = row as BuiltInDBItem
-        const key = type.value
+        const key = getKeyByCurrentType()
         record[key] = _row[key]
         rulesData.value = _row.rules
       } else {
@@ -461,8 +474,8 @@ export default defineComponent({
     const getCurrSearchValTip = (type: BuiltInDBType) => {
       const typeMap = {
         all: '',
-        clientid: t('Base.clientid'),
-        username: t('Base.username'),
+        [BuiltInDBType.Client]: t('Base.clientid'),
+        [BuiltInDBType.User]: t('Base.username'),
       }
       return typeMap[type]
     }
@@ -473,6 +486,7 @@ export default defineComponent({
     }
 
     return {
+      BuiltInDBType,
       Plus,
       Search,
       RefreshRight,

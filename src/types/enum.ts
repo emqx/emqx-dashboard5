@@ -247,3 +247,9 @@ export enum TimeUnit {
   Hour,
   Day,
 }
+
+export enum BuiltInDBType {
+  Client = 'clients',
+  User = 'users',
+  All = 'all',
+}
