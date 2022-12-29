@@ -39,6 +39,7 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
 import { useStore } from 'vuex'
+import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers.ts'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
@@ -66,7 +67,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const store = useStore()
-const { tl, t } = useI18nTl('RuleEngine')
+const { tl } = useI18nTl('RuleEngine')
 
 const bridgeRecord = computed({
   get() {
@@ -164,6 +165,10 @@ const typeColClassMap = {
     'resource_opts.auto_restart_interval': 'col-need-row',
     command_template: 'custom-col-24',
   },
+  [BridgeType.GCP]: {
+    payload_template: 'custom-col-24',
+    service_account_json: 'custom-col-24',
+  },
 }
 
 const customColClass = computed(() => {
@@ -199,38 +204,13 @@ const getRefKey = computed(() => {
   return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
 })
 
-const deleteSSLLabelAndDesc = (components: Properties) => {
-  if (components.ssl) {
-    components.ssl.description = ''
-    components.ssl.label = ''
-  }
-  return components
-}
-
+const { deleteSSLLabelAndDesc, redisComponentsHandler, GCPComponentsHandler } =
+  useComponentsHandlers()
 const getComponentsHandler = () => {
   if (props.type === BridgeType.Redis) {
-    return ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
-      const { redis_type, servers, command_template } = components
-      if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
-        redis_type.symbols = REDIS_TYPE
-        redis_type.label = t('Auth.redisType')
-        redis_type.clearable = false
-        if (redis_type.description) {
-          Reflect.deleteProperty(redis_type, 'description')
-        }
-      }
-      if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
-        redis_type.symbols = REDIS_TYPE
-      }
-      if (servers?.type === 'array' && servers?.items?.type === 'string') {
-        servers.items.component = 'input'
-      }
-      if (command_template?.type === 'array' && command_template?.items?.type === 'string') {
-        command_template.items.component = 'table'
-      }
-      deleteSSLLabelAndDesc(components)
-      return { components, rules }
-    }
+    return redisComponentsHandler
+  } else if (props.type === BridgeType.GCP) {
+    return GCPComponentsHandler
   }
   return ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     deleteSSLLabelAndDesc(components)

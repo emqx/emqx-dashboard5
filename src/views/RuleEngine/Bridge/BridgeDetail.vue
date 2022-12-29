@@ -156,7 +156,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { BridgeType } from '@/types/enum'
 import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
-import { utf8Decode } from '@/common/tools'
+import { stringifyObjSafely, utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
@@ -225,6 +225,14 @@ const bridgeType = computed(() => getBridgeType(bridgeInfo.value.type))
 const handleDataAfterLoaded = () => {
   if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {
     bridgeInfo.value.body = utf8Decode(bridgeInfo.value.body)
+  } else if (
+    bridgeInfo.value.type === BridgeType.GCP &&
+    'service_account_json' in bridgeInfo.value
+  ) {
+    bridgeInfo.value.service_account_json = stringifyObjSafely(
+      bridgeInfo.value.service_account_json,
+      2,
+    )
   }
 }
 

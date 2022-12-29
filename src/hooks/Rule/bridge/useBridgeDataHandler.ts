@@ -2,11 +2,14 @@ import { checkNOmitFromObj, utf8Encode } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { cloneDeep } from 'lodash'
 import useSSL from '@/hooks/useSSL'
+import { ElMessage } from 'element-plus'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => any
 } => {
   const { handleSSLDataBeforeSubmit } = useSSL()
+  const { tl } = useI18nTl('RuleEngine')
 
   const handleMQTTBridgeData = (bridgeData: any) => {
     const { egress, ingress } = bridgeData
@@ -25,6 +28,19 @@ export default (): {
     return bridgeData
   }
 
+  const handleGCPBridgeData = (bridgeData: any) => {
+    if (bridgeData.service_account_json && typeof bridgeData.service_account_json === 'string') {
+      try {
+        bridgeData.service_account_json = JSON.parse(bridgeData.service_account_json)
+        return bridgeData
+      } catch (error) {
+        // TODO: Need to interrupt the submit process
+        ElMessage.error(tl('accountJSONError'))
+      }
+    }
+    return bridgeData
+  }
+
   const handleBridgeDataBeforeSubmit = (bridgeData: any): any => {
     let ret = cloneDeep(bridgeData)
     if (ret.ssl) {
@@ -35,6 +51,9 @@ export default (): {
     }
     if (ret.type === BridgeType.Webhook) {
       ret = handleWebhookBridgeData(ret)
+    }
+    if (ret.type === BridgeType.GCP) {
+      ret = handleGCPBridgeData(ret)
     }
     return checkNOmitFromObj(ret)
   }
