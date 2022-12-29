@@ -1333,4 +1333,8 @@ When disabled the messages are buffered in RAM only.`,
     zh: '是否确认重置输入的测试数据？',
     en: 'Are you sure to reset the test data?',
   },
+  accountJSONError: {
+    zh: '请上传格式有效的 GCP 服务账户凭证',
+    en: 'Please upload your GCP Service Account Credentials in a valid format',
+  },
 }
