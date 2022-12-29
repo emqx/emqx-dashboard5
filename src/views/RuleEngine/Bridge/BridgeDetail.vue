@@ -193,7 +193,7 @@ watch(id, (val) => {
   }
 })
 
-const handleBodyField = () => {
+const handleDataAfterLoaded = () => {
   if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {
     bridgeInfo.value.body = utf8Decode(bridgeInfo.value.body)
   }
@@ -204,7 +204,7 @@ const loadBridgeInfo = async () => {
   try {
     bridgeInfo.value = await getBridgeInfo(id.value)
     rawBridgeInfo = _.cloneDeep(bridgeInfo.value)
-    handleBodyField()
+    handleDataAfterLoaded()
   } catch (error) {
     console.error(error)
   } finally {

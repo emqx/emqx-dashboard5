@@ -18,6 +18,7 @@ import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
+import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 
 interface FormItemMeta {
   col: number
@@ -42,6 +43,7 @@ const SchemaForm = defineComponent({
     CommonTLSConfig,
     InfoTooltip: InfoTooltip as any,
     Monaco,
+    TextareaWithUploader,
   },
   props: {
     accordingTo: {
@@ -412,6 +414,14 @@ const SchemaForm = defineComponent({
               />
             </div>
           )
+        case 'file':
+          return (
+            <TextareaWithUploader
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
+              {...property.fileUploaderConfig}
+            />
+          )
         default:
           return stringInput
       }
@@ -420,8 +430,12 @@ const SchemaForm = defineComponent({
     const setControl = (property: Properties[string]) => {
       if (property.oneOf && !property.type) {
         property.type = 'oneof'
-      } else if (property.format === 'sql' && property.type === 'string') {
-        property.type = 'sql'
+      } else if (property.type === 'string') {
+        if (property.format === 'sql') {
+          property.type = 'sql'
+        } else if (property.format === 'file') {
+          property.type = 'file'
+        }
       }
       if (!property.type) return
       return switchComponent(property)

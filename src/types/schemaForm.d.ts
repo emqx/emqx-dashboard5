@@ -17,6 +17,13 @@ export interface Property {
   oneOf: Properties[string][]
   properties?: Properties
   format?: string
+  /**
+   * when format is `file` (custom define), can set configurations to uploader
+   */
+  fileUploaderConfig: {
+    tip?: string
+    accept?: string
+  }
 }
 
 export interface Properties {
