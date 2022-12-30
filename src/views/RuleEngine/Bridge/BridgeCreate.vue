@@ -308,8 +308,8 @@ export default defineComponent({
         dataToSubmit = _.cloneDeep(formCom.value.getFormRecord())
       } else {
         dataToSubmit = {
-          ..._.cloneDeep(bridgeData.value),
           type: chosenBridgeType.value,
+          ..._.cloneDeep(bridgeData.value),
         }
         if (chosenBridgeType.value === BridgeType.Webhook) {
           // FIXME: delete the damn tlsParams

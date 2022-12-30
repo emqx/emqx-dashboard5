@@ -467,6 +467,16 @@
 .el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
   background-color: var(--color-bg-primary);
 }
+.el-input.is-disabled {
+  &.el-input-group--append .el-input-group__append .el-select .el-input .el-input__wrapper {
+    box-shadow: 0 0 0 1px var(--el-disabled-border-color) inset;
+  }
+
+  &.el-input-group--append .el-input-group__append .el-select:hover .el-input__wrapper{
+    box-shadow: 0 0 0 1px var(--el-disabled-border-color) inset !important;
+  }
+}
+
 
 /* Date Edtior */
 .el-date-editor {

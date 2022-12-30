@@ -1,14 +1,24 @@
 <template>
   <div class="retainer app-wrapper">
-    <el-card>
-      <div class="part-header">{{ tl('enable') }}</div>
-      <el-row align="middle">
-        <el-col :span="16" :style="{ marginBottom: '14px' }">{{ tl('enableDesc') }}</el-col>
-        <el-col :span="16">
-          <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
-        </el-col>
-      </el-row>
-      <div class="part-header">{{ tl('storage') }}</div>
+    <el-card v-loading="configLoading">
+      <el-form
+        ref="retainerForm"
+        :rules="retainerRules"
+        :model="retainerConfig"
+        label-position="top"
+        class="schema-form"
+      >
+        <el-row align="middle">
+          <el-col :span="16" class="custom-col">
+            <el-form-item :label="tl('enable')">
+              <p class="item-desc">
+                {{ tl('enableDesc') }}
+              </p>
+              <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
       <el-form
         :disabled="!configEnable"
         ref="retainerForm"
@@ -16,19 +26,27 @@
         :model="retainerConfig"
         label-position="top"
         @keyup.enter="updateConfigData()"
+        class="schema-form"
       >
-        <el-row :gutter="30">
+        <el-row>
           <el-col :span="16">
+            <div class="group-title">{{ tl('storage') }}</div>
+          </el-col>
+          <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('storageType')">
+              <p class="item-desc">
+                {{ tl('typeDesc') }}
+              </p>
               <el-select v-model="retainerConfig.backend.type">
                 <el-option value="built_in_database" :label="tl('builtInDatabase')" />
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="30">
-          <el-col :span="16">
+          <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('storageMethod')" required prop="backend.storage_type">
+              <p class="item-desc">
+                {{ tl('storageTypeDesc') }}
+              </p>
               <el-select v-model="retainerConfig.backend.storage_type">
                 <el-option value="ram" />
                 <el-option value="disc" />
@@ -36,10 +54,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div class="part-header">{{ tl('policy') }}</div>
-        <el-row :gutter="30">
-          <el-col :span="8">
+        <el-row>
+          <el-col :span="16">
+            <div class="group-title">{{ tl('policy') }}</div>
+          </el-col>
+          <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('maxRetainedMessages')" prop="backend.max_retained_messages">
+              <p class="item-desc">
+                {{ tl('maxRetainedMessagesDesc') }}
+              </p>
               <el-input
                 v-model.number="retainerConfig.backend.max_retained_messages"
                 :readonly="selOptions.retained == 'unlimited'"
@@ -54,15 +77,19 @@
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('maxPayloadSize')" prop="max_payload_size">
+              <p class="item-desc">
+                {{ tl('maxPayloadSizeDesc') }}
+              </p>
               <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="30">
-          <el-col :span="8">
+          <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('expire')" prop="msg_expiry_interval">
+              <p class="item-desc">
+                {{ tl('msgExpiryIntervalDesc') }}
+              </p>
               <InputWithUnit
                 v-model="retainerConfig.msg_expiry_interval"
                 :units="expiryTimeUnits"
@@ -70,8 +97,11 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('intervalClean')" prop="msg_clear_interval">
+              <p class="item-desc">
+                {{ tl('msgClearIntervalDesc') }}
+              </p>
               <InputWithUnit
                 v-model="retainerConfig.msg_clear_interval"
                 :units="expiryTimeUnits"
@@ -80,10 +110,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div class="part-header">{{ tl('flowControl') }}</div>
-        <el-row :gutter="30">
-          <el-col :span="8">
+        <el-row>
+          <el-col :span="16">
+            <div class="group-title">{{ tl('flowControl') }}</div>
+          </el-col>
+          <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('batchReadNumber')" prop="flow_control.batch_read_number">
+              <p class="item-desc">
+                {{ tl('batchReadNumberDesc') }}
+              </p>
               <el-input
                 v-model.number="retainerConfig.flow_control.batch_read_number"
                 :readonly="selOptions.read == 'unlimited'"
@@ -98,11 +133,14 @@
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="16" class="custom-col">
             <el-form-item
               :label="tl('batchDeliverNumber')"
               prop="flow_control.batch_deliver_number"
             >
+              <p class="item-desc">
+                {{ tl('batchDeliverNumberDesc') }}
+              </p>
               <el-input
                 v-model.number="retainerConfig.flow_control.batch_deliver_number"
                 :readonly="selOptions.deliver == 'unlimited'"
@@ -117,9 +155,7 @@
               </el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="btn-col">
-          <el-col :span="24">
+          <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
             <el-button type="primary" @click="updateConfigData()">
               {{ $t('Base.save') }}
             </el-button>
@@ -139,8 +175,10 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useFormRules from '@/hooks/useFormRules'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
+import { useStore } from 'vuex'
 
 const { tl, t } = useI18nTl('Extension')
+const store = useStore()
 const { createRequiredRule } = useFormRules()
 
 const DISABLED_VALUE = 'disabled'
@@ -317,6 +355,9 @@ onMounted(() => {
 
 <style lang="scss">
 .retainer {
+  .schema-form:not(:last-child) {
+    padding-bottom: 0;
+  }
   .el-tabs.el-tabs--card.el-tabs--top {
     .el-tabs__content {
       padding: 0 8px;
