@@ -6,7 +6,7 @@
       type="bridge"
       need-rules
       :need-footer="false"
-      :need-record="!isEdit"
+      :need-record="!edit"
       :form="bridgeRecord"
       :schema-file-path="`static/bridge-api-${store.state.lang}.json`"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { REDIS_TYPE } from '@/common/constants'
 import SchemaForm from '@/components/SchemaForm'
 import useRedisSecondTypeControl from '@/hooks/Rule/bridge/useRedisSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
@@ -39,7 +38,7 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
 import { useStore } from 'vuex'
-import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers.ts'
+import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
@@ -60,7 +59,7 @@ const props = defineProps({
   type: {
     type: String as PropType<UseSchemaBridgeType>,
   },
-  isEdit: {
+  edit: {
     type: Boolean,
   },
 })
@@ -149,7 +148,7 @@ const propsOrderMap = computed(() => {
 
 const propsDisabled = computed(() => {
   const ret = []
-  if (props.isEdit) {
+  if (props.edit) {
     ret.push('name')
     if (props.type === BridgeType.Redis) {
       ret.push('redis_type')
