@@ -34,6 +34,9 @@
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('storageType')">
+              <p class="item-desc">
+                {{ tl('typeDesc') }}
+              </p>
               <el-select v-model="retainerConfig.backend.type">
                 <el-option value="built_in_database" :label="tl('builtInDatabase')" />
               </el-select>
@@ -41,6 +44,9 @@
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('storageMethod')" required prop="backend.storage_type">
+              <p class="item-desc">
+                {{ tl('storageTypeDesc') }}
+              </p>
               <el-select v-model="retainerConfig.backend.storage_type">
                 <el-option value="ram" />
                 <el-option value="disc" />
@@ -54,6 +60,9 @@
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('maxRetainedMessages')" prop="backend.max_retained_messages">
+              <p class="item-desc">
+                {{ tl('maxRetainedMessagesDesc') }}
+              </p>
               <el-input
                 v-model.number="retainerConfig.backend.max_retained_messages"
                 :readonly="selOptions.retained == 'unlimited'"
@@ -70,11 +79,17 @@
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('maxPayloadSize')" prop="max_payload_size">
+              <p class="item-desc">
+                {{ tl('maxPayloadSizeDesc') }}
+              </p>
               <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('expire')" prop="msg_expiry_interval">
+              <p class="item-desc">
+                {{ tl('msgExpiryIntervalDesc') }}
+              </p>
               <InputWithUnit
                 v-model="retainerConfig.msg_expiry_interval"
                 :units="expiryTimeUnits"
@@ -84,6 +99,9 @@
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('intervalClean')" prop="msg_clear_interval">
+              <p class="item-desc">
+                {{ tl('msgClearIntervalDesc') }}
+              </p>
               <InputWithUnit
                 v-model="retainerConfig.msg_clear_interval"
                 :units="expiryTimeUnits"
@@ -98,6 +116,9 @@
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('batchReadNumber')" prop="flow_control.batch_read_number">
+              <p class="item-desc">
+                {{ tl('batchReadNumberDesc') }}
+              </p>
               <el-input
                 v-model.number="retainerConfig.flow_control.batch_read_number"
                 :readonly="selOptions.read == 'unlimited'"
@@ -117,6 +138,9 @@
               :label="tl('batchDeliverNumber')"
               prop="flow_control.batch_deliver_number"
             >
+              <p class="item-desc">
+                {{ tl('batchDeliverNumberDesc') }}
+              </p>
               <el-input
                 v-model.number="retainerConfig.flow_control.batch_deliver_number"
                 :readonly="selOptions.deliver == 'unlimited'"
