@@ -247,4 +247,36 @@ export default {
     zh: '保留消息功能已禁用，点击跳转到设置页面中开启。',
     en: 'Retained message is disabled, click to enable on settings page.',
   },
+  msgExpiryIntervalDesc: {
+    en: 'Message retention time. 0 means message will never be expired',
+    zh: '消息保留时间。0 代表永久保留',
+  },
+  msgClearIntervalDesc: {
+    en: `Periodic interval for cleaning up expired messages. Never clear if the value is 0.`,
+    zh: '消息清理间隔。0 代表不进行清理',
+  },
+  maxPayloadSizeDesc: {
+    en: 'Maximum retained message size',
+    zh: '消息大小最大值',
+  },
+  typeDesc: {
+    en: 'Backend type',
+    zh: '后端类型',
+  },
+  storageTypeDesc: {
+    en: 'Specifies whether the messages are stored in RAM or persisted on disc',
+    zh: '选择消息是存放在磁盘还是内存中',
+  },
+  maxRetainedMessagesDesc: {
+    en: 'Maximum number of retained messages. 0 means no limit',
+    zh: '消息保留的数量上限。0 表示无限',
+  },
+  batchReadNumberDesc: {
+    en: 'Size of the batch when reading messages from storage. 0 means no limit',
+    zh: '从存储后端批量加载时的每批数量上限，0 代表一次性读取',
+  },
+  batchDeliverNumberDesc: {
+    en: 'The number of retained messages can be delivered per batch',
+    zh: '批量派发时每批的数量。0 代表一次性全部派发',
+  },
 }
