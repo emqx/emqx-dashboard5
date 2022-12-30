@@ -594,9 +594,7 @@ const SchemaForm = defineComponent({
     }
 
     const renderLayout = (contents: JSX.Element[]) => {
-      const btnStyles = {
-        left: store.state.leftBarCollapse ? '104px' : '224px',
-      }
+      const btnStyles = store.getters.configPageBtnStyle
 
       let groupTabs = null
       let tabs: JSX.Element | null = null
