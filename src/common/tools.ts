@@ -210,7 +210,7 @@ export const formatSELECTStatement = (str: string): string => {
 export const getBridgeKey = ({ type, name }: Omit<BridgeItem, 'id' | 'idForRuleFrom'>): string =>
   `${type}:${name}`
 
-export const usefulMemoryUnit = ['Byte', 'KB', 'MB', 'GB']
+export const usefulMemoryUnit = ['KB', 'MB', 'GB']
 
 const ONE_KB = 1024
 const ONE_MB = ONE_KB * 1024
