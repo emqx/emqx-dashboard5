@@ -1,6 +1,6 @@
 import { checkNOmitFromObj, utf8Encode } from '@/common/tools'
-import { BridgeType } from '@/types/enum'
-import { cloneDeep } from 'lodash'
+import { BridgeType, InfluxDBType } from '@/types/enum'
+import { cloneDeep, omit } from 'lodash'
 import useSSL from '@/hooks/useSSL'
 import { ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -24,6 +24,15 @@ export default (): {
   const handleWebhookBridgeData = (bridgeData: any) => {
     if (bridgeData.body) {
       bridgeData.body = utf8Encode(bridgeData.body)
+    }
+    return bridgeData
+  }
+
+  const handleInfluxDBBridgeData = (bridgeData: any) => {
+    if (bridgeData.type === InfluxDBType.v1) {
+      bridgeData = omit(bridgeData, ['token', 'org', 'bucket'])
+    } else {
+      bridgeData = omit(bridgeData, ['database'])
     }
     return bridgeData
   }
@@ -54,6 +63,9 @@ export default (): {
     }
     if (ret.type === BridgeType.GCP) {
       ret = handleGCPBridgeData(ret)
+    }
+    if (ret.type === InfluxDBType.v1 || ret.type === InfluxDBType.v2) {
+      ret = handleInfluxDBBridgeData(ret)
     }
     return checkNOmitFromObj(ret)
   }

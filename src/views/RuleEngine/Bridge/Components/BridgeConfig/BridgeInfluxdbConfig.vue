@@ -198,6 +198,7 @@ import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
+import { InfluxDBType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { cloneDeep, isEqual } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
@@ -217,10 +218,6 @@ const emit = defineEmits(['update:modelValue', 'init'])
 
 const { tl } = useI18nTl('RuleEngine')
 
-const enum InfluxDBType {
-  v1 = 'influxdb_api_v1',
-  v2 = 'influxdb_api_v2',
-}
 const enum V2AuthType {
   Token = 'token',
   Basic = 'basic',

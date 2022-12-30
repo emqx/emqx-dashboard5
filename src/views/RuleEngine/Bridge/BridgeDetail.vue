@@ -87,7 +87,7 @@
                 />
                 <using-schema-bridge-config
                   v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
-                  is-edit
+                  edit
                   :type="bridgeType"
                   v-model="bridgeInfo"
                   ref="formCom"
