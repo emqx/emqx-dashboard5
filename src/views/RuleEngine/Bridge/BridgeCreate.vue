@@ -56,12 +56,14 @@
                 v-else-if="chosenBridgeType === BridgeType.InfluxDB"
                 v-model="bridgeData"
                 ref="formCom"
+                :edit="isCopy"
               />
 
               <bridge-kafka-config
                 v-else-if="chosenBridgeType === BridgeType.Kafka"
                 v-model="bridgeData"
                 ref="formCom"
+                :edit="isCopy"
               />
               <using-schema-bridge-config
                 v-else-if="
@@ -70,6 +72,7 @@
                 v-model="bridgeData"
                 :type="chosenBridgeType"
                 ref="formCom"
+                :edit="isCopy"
               />
             </div>
           </template>
@@ -208,7 +211,7 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const { t } = useI18n()
-    const { bridgeTypeOptions } = useBridgeTypeOptions()
+    const { bridgeTypeOptions, getBridgeType } = useBridgeTypeOptions()
     const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
@@ -283,14 +286,14 @@ export default defineComponent({
       try {
         const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
         if (currentType && getBridgeLabelByTypeValue(currentType as BridgeType)) {
-          chosenBridgeType.value = currentType as BridgeType
+          chosenBridgeType.value = getBridgeType(currentType as BridgeType)
         }
         step.value = 1
         targetLoading.value = true
         const bridgeInfo = await getBridgeInfo(route.query.target as string)
         if (bridgeInfo) {
           bridgeData.value = { ...bridgeInfo, name: countDuplicationName(bridgeInfo.name) }
-          chosenBridgeType.value = bridgeInfo.type
+          chosenBridgeType.value = getBridgeType(bridgeInfo.type)
         }
       } catch (error) {
         //
