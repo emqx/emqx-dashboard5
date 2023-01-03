@@ -3,9 +3,10 @@ import { REDIS_TYPE } from '@/common/constants'
 
 type RedisType = typeof REDIS_TYPE[number]
 
-export default (
+export const useRedisSecondTypeControl = (
   formData: WritableComputedRef<Record<string, any>>,
 ): {
+  keyField: string
   currentType: ComputedRef<string>
 } => {
   const keyField: RedisType = 'redis_type'
@@ -22,5 +23,5 @@ export default (
     return fieldTypeMap[keyFieldValue.value]
   })
 
-  return { currentType }
+  return { keyField, currentType }
 }
