@@ -39,3 +39,11 @@ const tooltipPopperClass = computed(() => `info-tooltip ${props.popperClass}`)
   margin-left: 8px;
 }
 </style>
+
+<style lang="scss">
+.info-tooltip {
+  p {
+    margin: 0;
+  }
+}
+</style>
