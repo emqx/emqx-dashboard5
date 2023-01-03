@@ -88,7 +88,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <CommonTLSConfig class="tls-config-form" v-model="tlsParams" :is-edit="edit" />
+      <CommonTLSConfig class="tls-config-form" v-model="httpBridgeVal.ssl" :is-edit="edit" />
       <el-row :gutter="26">
         <BridgeResourceOpt v-model="httpBridgeVal.resource_opts" />
       </el-row>
@@ -97,21 +97,22 @@
 </template>
 
 <script lang="ts">
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import { computed, defineComponent, ref, watch, onMounted, Ref } from 'vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import _ from 'lodash'
-import { transformUnitArrayToStr } from '@/common/utils'
-import { HTTPBridge } from '@/types/rule'
-import Monaco from '@/components/Monaco.vue'
 import { createRandomString } from '@/common/tools'
+import { transformUnitArrayToStr } from '@/common/utils'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import Monaco from '@/components/Monaco.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
+import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import useDocLink from '@/hooks/useDocLink'
-import InputWithUnit from '@/components/InputWithUnit.vue'
+import useSSL from '@/hooks/useSSL'
+import { HTTPBridge } from '@/types/rule'
+import _ from 'lodash'
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
-import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 
 export default defineComponent({
   components: {
@@ -124,11 +125,6 @@ export default defineComponent({
   },
   name: '',
   props: {
-    tls: {
-      type: Object,
-      required: false,
-      default: () => ({}),
-    },
     modelValue: {
       type: Object,
       required: false,
@@ -144,6 +140,7 @@ export default defineComponent({
     const { tl } = useI18nTl('RuleEngine')
     const { docMap } = useDocLink()
     const { createDefaultResourceOptsForm } = useResourceOpt()
+    const { createSSLForm } = useSSL()
     const httpBridgeDefaultVal: HTTPBridge = {
       name: '',
       method: 'post',
@@ -158,12 +155,11 @@ export default defineComponent({
       request_timeout: '5s',
       max_retries: 3,
       resource_opts: createDefaultResourceOptsForm({ inflight: true }),
+      ssl: createSSLForm(),
     } as HTTPBridge
 
     let modelValueCache = ''
     const httpBridgeVal: Ref<HTTPBridge> = ref(_.cloneDeep(httpBridgeDefaultVal))
-
-    const tlsParams = computed(() => props.tls)
 
     const { createRequiredRule, createIntFieldRule } = useFormRules()
     const formCom = ref()
@@ -220,7 +216,6 @@ export default defineComponent({
       createRandomString,
       formCom,
       formRules,
-      tlsParams,
       httpBridgeVal,
       docMap,
       validate,
