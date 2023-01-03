@@ -74,7 +74,7 @@
               </div>
               <div v-if="!isFromRule" class="btn-area">
                 <el-button
-                  v-if="bridgeInfo.type"
+                  v-if="bridgeInfo.type && canTestConnection"
                   type="primary"
                   plain
                   :loading="isTesting"
@@ -192,6 +192,12 @@ watch(id, (val) => {
     loadBridgeInfo()
   }
 })
+
+const canTestConnection = computed(
+  () =>
+    bridgeInfo.value.type.value === BridgeType.Webhook ||
+    bridgeInfo.value.type.value === BridgeType.MQTT,
+)
 
 const handleDataAfterLoaded = () => {
   if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {
