@@ -1,22 +1,14 @@
 <template>
   <div class="bridge-config">
-    <el-form
-      ref="formCom"
-      label-position="top"
-      :disabled="disabled"
-      :rules="formRules"
-      :model="httpBridgeVal"
-    >
-      <template v-if="!disabled">
-        <el-row :gutter="26">
-          <el-col :span="12">
-            <el-form-item :label="tl('name')" required prop="name">
-              <el-input v-model="httpBridgeVal.name" :disabled="edit" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-divider />
-      </template>
+    <el-form ref="formCom" label-position="top" :rules="formRules" :model="httpBridgeVal">
+      <el-row :gutter="26">
+        <el-col :span="12">
+          <el-form-item :label="tl('name')" required prop="name">
+            <el-input v-model="httpBridgeVal.name" :disabled="edit" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-divider />
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="tl('method')" required prop="method">
@@ -43,11 +35,7 @@
       <el-row>
         <el-col>
           <el-form-item :label="tl('headers')">
-            <key-and-value-editor
-              v-model="httpBridgeVal.headers"
-              :disabled="disabled"
-              class="kv-editor"
-            />
+            <key-and-value-editor v-model="httpBridgeVal.headers" class="kv-editor" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -65,7 +53,6 @@
                 v-model="httpBridgeVal.body"
                 lang="json"
                 json-without-validate
-                :disabled="disabled"
               />
             </div>
           </el-form-item>
@@ -146,10 +133,6 @@ export default defineComponent({
       type: Object,
       required: false,
       default: () => ({}),
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
     },
     edit: {
       type: Boolean,
