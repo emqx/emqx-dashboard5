@@ -279,4 +279,34 @@ export default {
     en: 'The number of retained messages can be delivered per batch',
     zh: '批量派发时每批的数量。0 代表一次性全部派发',
   },
+  sysMsgIntervalDesc: {
+    en: `Time interval of publishing \`$SYS\` messages.`,
+    zh: `发送 \`$SYS\` 主题的间隔时间。`,
+  },
+  sysHeartbeatIntervalDesc: {
+    en: `Time interval for publishing following heartbeat messages:
+- \`$SYS/brokers/<node>/uptime\`
+- \`$SYS/brokers/<node>/datetime\`
+`,
+    zh: `发送心跳系统消息的间隔时间，它包括：
+- \`$SYS/brokers/<node>/uptime\`
+- \`$SYS/brokers/<node>/datetime\`
+`,
+  },
+  sysEventClientConnectedDesc: {
+    en: 'Enable to publish client connected event messages',
+    zh: '是否开启客户端已连接事件消息。',
+  },
+  sysEventClientDisconnectedDesc: {
+    en: 'Enable to publish client disconnected event messages.',
+    zh: '是否开启客户端已断开连接事件消息。',
+  },
+  sysEventClientSubscribedDesc: {
+    en: 'Enable to publish event message that client subscribed a topic successfully.',
+    zh: '是否开启客户端已成功订阅主题事件消息。',
+  },
+  sysEventClientUnsubscribedDesc: {
+    en: 'Enable to publish event message that client unsubscribed a topic successfully.',
+    zh: '是否开启客户端已成功取消订阅主题事件消息。',
+  },
 }
