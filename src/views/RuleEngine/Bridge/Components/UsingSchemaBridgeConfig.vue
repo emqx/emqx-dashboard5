@@ -27,7 +27,9 @@
 
 <script setup lang="ts">
 import SchemaForm from '@/components/SchemaForm'
+import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useRedisSecondTypeControl from '@/hooks/Rule/bridge/useRedisSecondTypeControl'
+import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -38,7 +40,6 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
 import { useStore } from 'vuex'
-import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
@@ -77,74 +78,13 @@ const bridgeRecord = computed({
   },
 })
 
-const { syncEtcFieldsClassMap, handleSyncEtcFormData } = useSyncConfiguration(bridgeRecord)
+const { handleSyncEtcFormData } = useSyncConfiguration(bridgeRecord)
 
 const saveLoading = ref(false)
 
 const formCom = ref()
 
-const createOrderObj = (keyArr: Array<string>, beginning: number) =>
-  keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
-
-const baseOrderMap = {
-  name: 0,
-  ...createOrderObj(
-    [
-      'worker_pool_size',
-      'health_check_interval',
-      'auto_restart_interval',
-      'query_mode',
-      'async_inflight_window',
-      'enable_queue',
-      'max_queue_bytes',
-      'enable_batch',
-      'batch_size',
-      'batch_time',
-    ],
-    99,
-  ),
-}
-
-const propsOrderTypeMap: Record<string, Record<string, number>> = {
-  [BridgeType.MySQL]: {
-    ...baseOrderMap,
-    ...createOrderObj(
-      ['server', 'database', 'username', 'password', 'pool_size', 'auto_reconnect', 'sql', 'ssl'],
-      1,
-    ),
-  },
-  [BridgeType.Redis]: {
-    ...baseOrderMap,
-    ...createOrderObj(
-      [
-        'redis_type',
-        'servers',
-        'server',
-        'password',
-        'database',
-        'sentinel',
-        'pool_size',
-        'auto_reconnect',
-        'command_template',
-      ],
-      1,
-    ),
-  },
-  [BridgeType.GCP]: {
-    ...baseOrderMap,
-    ...createOrderObj(['pubsub_topic', 'request_timeout', 'pool_size', 'pipelining'], 1),
-  },
-}
-
-const propsOrderMap = computed(() => {
-  if (!props.type) {
-    return baseOrderMap
-  }
-  if (props.type in propsOrderTypeMap) {
-    return propsOrderTypeMap[props.type]
-  }
-  return baseOrderMap
-})
+const { propsOrderMap, customColClass } = useSchemaBridgePropsLayout(props, bridgeRecord)
 
 const propsDisabled = computed(() => {
   const ret = []
@@ -156,32 +96,6 @@ const propsDisabled = computed(() => {
   }
 
   return ret
-})
-
-const typeColClassMap = {
-  [BridgeType.MySQL]: {},
-  [BridgeType.Redis]: {
-    'resource_opts.auto_restart_interval': 'col-need-row',
-    command_template: 'custom-col-24',
-  },
-  [BridgeType.GCP]: {
-    payload_template: 'custom-col-24',
-    service_account_json: 'custom-col-24',
-  },
-}
-
-const customColClass = computed(() => {
-  const externalClass = props.type ? typeColClassMap[props.type] : {}
-  return {
-    ...syncEtcFieldsClassMap.value,
-    name: 'col-need-row dividing-line-below',
-    direction: 'col-hidden',
-    type: 'col-hidden',
-    enable: 'col-hidden',
-    local_topic: 'col-hidden',
-    'connector.ssl': 'col-ssl',
-    ...externalClass,
-  }
 })
 
 const customLabelMap = {
