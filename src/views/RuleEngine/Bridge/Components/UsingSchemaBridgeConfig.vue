@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import SchemaForm from '@/components/SchemaForm'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
-import useRedisSecondTypeControl from '@/hooks/Rule/bridge/useRedisSecondTypeControl'
+import { useRedisSecondTypeControl } from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
@@ -86,26 +86,32 @@ const formCom = ref()
 
 const { propsOrderMap, customColClass } = useSchemaBridgePropsLayout(props, bridgeRecord)
 
+const customLabelMap = {
+  name: tl('name'),
+}
+
+const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
+  useRedisSecondTypeControl(bridgeRecord)
+const typesWithSecondControlMap = {
+  [BridgeType.Redis]: redisFormType,
+}
+const typesWithSecondControlKeyMap = {
+  [BridgeType.Redis]: redisSecondTypeControlField,
+}
+
 const propsDisabled = computed(() => {
   const ret = []
   if (props.edit) {
     ret.push('name')
-    if (props.type === BridgeType.Redis) {
-      ret.push('redis_type')
+    if (props.type && props.type in typesWithSecondControlKeyMap) {
+      ret.push(
+        typesWithSecondControlKeyMap[props.type as keyof typeof typesWithSecondControlKeyMap],
+      )
     }
   }
 
   return ret
 })
-
-const customLabelMap = {
-  name: tl('name'),
-}
-
-const { currentType: redisFormType } = useRedisSecondTypeControl(bridgeRecord)
-const typesWithSecondControlMap = {
-  [BridgeType.Redis]: redisFormType,
-}
 
 const getRefKey = computed(() => {
   if (!props.type) {

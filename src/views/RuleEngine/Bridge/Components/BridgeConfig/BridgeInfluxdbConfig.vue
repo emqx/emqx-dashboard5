@@ -15,7 +15,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('influxDBVersion')">
-            <el-select v-model="formData.type">
+            <el-select v-model="formData.type" :disabled="edit">
               <el-option
                 v-for="{ value, label } in PROTOCOL_VERSION_OPT"
                 :value="value"
