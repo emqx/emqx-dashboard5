@@ -452,7 +452,12 @@ const SchemaForm = defineComponent({
       const { description } = property
       const label = getLabel(property)
 
-      const descContent = <p class="item-desc" v-html={escapeCode(transLink(description))}></p>
+      const descContent = (
+        <p
+          class={props.useTooltipShowDesc ? '' : 'item-desc'}
+          v-html={escapeCode(transLink(description))}
+        ></p>
+      )
 
       const labelSlot: any = {}
       let descEle: any = null
