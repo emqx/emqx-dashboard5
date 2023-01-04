@@ -55,14 +55,14 @@
                 v-else-if="chosenBridgeType === BridgeType.InfluxDB"
                 v-model="bridgeData"
                 ref="formCom"
-                :edit="isCopy"
+                :copy="isCopy"
               />
 
               <bridge-kafka-config
                 v-else-if="chosenBridgeType === BridgeType.Kafka"
                 v-model="bridgeData"
                 ref="formCom"
-                :edit="isCopy"
+                :copy="isCopy"
               />
               <using-schema-bridge-config
                 v-else-if="
@@ -71,7 +71,7 @@
                 v-model="bridgeData"
                 :type="chosenBridgeType"
                 ref="formCom"
-                :edit="isCopy"
+                :copy="isCopy"
               />
             </div>
           </template>

@@ -234,6 +234,9 @@ const props = defineProps({
   edit: {
     type: Boolean,
   },
+  copy: {
+    type: Boolean,
+  },
 })
 const emit = defineEmits(['update:modelValue', 'init'])
 
@@ -309,7 +312,7 @@ const updateParentBridgeData = () => {
 watch(formData.value, updateParentBridgeData)
 
 const resetFormDataWhenEdit = () => {
-  if (props.edit && props.modelValue) {
+  if ((props.edit || props.copy) && props.modelValue) {
     formData.value = fillEmptyValueToUndefinedField(
       props.modelValue as Record<string, any>,
       createDefaultValue(),

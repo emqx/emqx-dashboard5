@@ -212,6 +212,9 @@ const props = defineProps({
   edit: {
     type: Boolean,
   },
+  copy: {
+    type: Boolean,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'init'])
@@ -289,7 +292,7 @@ const showBasicAuthForm = computed(
 )
 
 const initFormData = async () => {
-  if (props.edit && props.modelValue) {
+  if ((props.edit || props.copy) && props.modelValue) {
     formData.value = fillEmptyValueToUndefinedField(
       cloneDeep(props.modelValue),
       createDefaultValue(),
