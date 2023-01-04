@@ -1,4 +1,4 @@
-import { checkNOmitFromObj, utf8Encode, utf8Decode } from '@/common/tools'
+import { checkNOmitFromObj, utf8Encode, utf8Decode, stringifyObjSafely } from '@/common/tools'
 import { BridgeType, InfluxDBType } from '@/types/enum'
 import { cloneDeep, omit } from 'lodash'
 import useSSL from '@/hooks/useSSL'
@@ -74,6 +74,8 @@ export default (): {
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
     if (bridgeData.type === BridgeType.Webhook && 'body' in bridgeData) {
       bridgeData.body = utf8Decode(bridgeData.body)
+    } else if (bridgeData.type === BridgeType.GCP && 'service_account_json' in bridgeData) {
+      bridgeData.service_account_json = stringifyObjSafely(bridgeData.service_account_json, 2)
     }
     return bridgeData
   }
