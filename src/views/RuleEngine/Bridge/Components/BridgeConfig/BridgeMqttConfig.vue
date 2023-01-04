@@ -129,6 +129,9 @@ const prop = defineProps({
     type: Boolean,
     default: false,
   },
+  copy: {
+    type: Boolean,
+  },
 })
 const emit = defineEmits(['update:modelValue', 'init'])
 
@@ -185,11 +188,11 @@ const formRules = computed(() => ({
 }))
 
 const initMqttBridgeVal = async () => {
-  if (prop.edit) {
+  if (prop.edit || prop.copy) {
     mqttBridgeVal.value = fillEmptyValueToUndefinedField(
       _.cloneDeep(prop.modelValue),
       createMQTTBridgeDefaultVal(),
-    )
+    ) as MQTTBridge
     emit('init', mqttBridgeVal.value)
   }
 }

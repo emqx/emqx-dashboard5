@@ -43,13 +43,13 @@
                 v-if="chosenBridgeType === BridgeType.Webhook"
                 v-model="bridgeData"
                 ref="formCom"
-                :edit="isCopy"
+                :copy="isCopy"
               />
               <bridge-mqtt-config
                 v-else-if="chosenBridgeType === BridgeType.MQTT"
                 v-model="bridgeData"
                 ref="formCom"
-                :edit="isCopy"
+                :copy="isCopy"
               />
               <bridge-influxdb-config
                 v-else-if="chosenBridgeType === BridgeType.InfluxDB"

@@ -156,7 +156,6 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { BridgeType } from '@/types/enum'
 import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
-import { stringifyObjSafely, utf8Decode } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
@@ -182,7 +181,7 @@ const isTesting = ref(false)
 const props = defineProps({
   bridgeId: {
     type: String,
-    defalut: '',
+    default: '',
   },
 })
 const formCom = ref()
@@ -225,26 +224,14 @@ const canTestConnection = computed(
   () => bridgeType.value === BridgeType.Webhook || bridgeType.value === BridgeType.MQTT,
 )
 
-const handleDataAfterLoaded = () => {
-  if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {
-    bridgeInfo.value.body = utf8Decode(bridgeInfo.value.body)
-  } else if (
-    bridgeInfo.value.type === BridgeType.GCP &&
-    'service_account_json' in bridgeInfo.value
-  ) {
-    bridgeInfo.value.service_account_json = stringifyObjSafely(
-      bridgeInfo.value.service_account_json,
-      2,
-    )
-  }
-}
+const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
-    bridgeInfo.value = await getBridgeInfo(id.value)
+    const data = await getBridgeInfo(id.value)
+    bridgeInfo.value = handleBridgeDataAfterLoaded(data)
     rawBridgeInfo = _.cloneDeep(bridgeInfo.value)
-    handleDataAfterLoaded()
   } catch (error) {
     console.error(error)
   } finally {
@@ -259,7 +246,6 @@ const loadBridgeInfo = async () => {
 const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
   rawBridgeInfo = _.cloneDeep(bridgeInfo)
 }
-const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
 const setBridgeInfoFromSchemaForm = () => {
   if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {

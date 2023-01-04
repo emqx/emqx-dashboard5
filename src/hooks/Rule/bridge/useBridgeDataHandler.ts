@@ -1,4 +1,4 @@
-import { checkNOmitFromObj, utf8Encode } from '@/common/tools'
+import { checkNOmitFromObj, utf8Encode, utf8Decode } from '@/common/tools'
 import { BridgeType, InfluxDBType } from '@/types/enum'
 import { cloneDeep, omit } from 'lodash'
 import useSSL from '@/hooks/useSSL'
@@ -7,6 +7,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => any
+  handleBridgeDataAfterLoaded: (bridgeData: any) => any
 } => {
   const { handleSSLDataBeforeSubmit } = useSSL()
   const { tl } = useI18nTl('RuleEngine')
@@ -70,7 +71,15 @@ export default (): {
     return checkNOmitFromObj(ret)
   }
 
+  const handleBridgeDataAfterLoaded = (bridgeData: any) => {
+    if (bridgeData.type === BridgeType.Webhook && 'body' in bridgeData) {
+      bridgeData.body = utf8Decode(bridgeData.body)
+    }
+    return bridgeData
+  }
+
   return {
     handleBridgeDataBeforeSubmit,
+    handleBridgeDataAfterLoaded,
   }
 }
