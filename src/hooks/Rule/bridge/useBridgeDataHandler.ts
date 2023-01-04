@@ -1,10 +1,11 @@
-import { checkNOmitFromObj, utf8Encode } from '@/common/tools'
+import { checkNOmitFromObj, utf8Encode, utf8Decode } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { cloneDeep } from 'lodash'
 import useSSL from '@/hooks/useSSL'
 
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => any
+  handleBridgeDataAfterLoaded: (bridgeData: any) => any
 } => {
   const { handleSSLDataBeforeSubmit } = useSSL()
 
@@ -39,7 +40,15 @@ export default (): {
     return checkNOmitFromObj(ret)
   }
 
+  const handleBridgeDataAfterLoaded = (bridgeData: any) => {
+    if (bridgeData.type === BridgeType.Webhook && 'body' in bridgeData) {
+      bridgeData.body = utf8Decode(bridgeData.body)
+    }
+    return bridgeData
+  }
+
   return {
     handleBridgeDataBeforeSubmit,
+    handleBridgeDataAfterLoaded,
   }
 }
