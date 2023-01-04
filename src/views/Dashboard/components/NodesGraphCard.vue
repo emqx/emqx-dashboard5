@@ -120,6 +120,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadNodes, loadStats } from '@/api/common'
+import { IS_ENTERPRISE } from '@/common/constants'
 import { calcPercentage, getProgressColor } from '@/common/utils'
 import useDurationStr from '@/hooks/useDurationStr'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
@@ -192,7 +193,8 @@ const getVersion = (version: string) => {
 
 const getReleaseNoteLinkByVersion = (version: string) => {
   const lang = locale.value === 'zh' ? 'zh' : 'en'
-  return ` https://www.emqx.com/${lang}/changelogs/broker/${version}`
+  const type = IS_ENTERPRISE ? 'enterprise' : 'broker'
+  return ` https://www.emqx.com/${lang}/changelogs/${type}/${version}`
 }
 
 const releaseNoteLink = computed(() =>
