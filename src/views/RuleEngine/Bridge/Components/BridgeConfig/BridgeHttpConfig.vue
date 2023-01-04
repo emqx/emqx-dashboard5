@@ -135,31 +135,35 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    copy: {
+      type: Boolean,
+    },
   },
   setup(props, context) {
     const { tl } = useI18nTl('RuleEngine')
     const { docMap } = useDocLink()
     const { createDefaultResourceOptsForm } = useResourceOpt()
     const { createSSLForm } = useSSL()
-    const httpBridgeDefaultVal: HTTPBridge = {
-      name: '',
-      method: 'post',
-      url: 'http://',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: '',
-      pool_size: 4,
-      enable_pipelining: 100,
-      connect_timeout: '5s',
-      request_timeout: '5s',
-      max_retries: 3,
-      resource_opts: createDefaultResourceOptsForm({ inflight: true }),
-      ssl: createSSLForm(),
-    } as HTTPBridge
+    const createHttpBridgeDefaultVal = (): HTTPBridge =>
+      ({
+        name: '',
+        method: 'post',
+        url: 'http://',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: '',
+        pool_size: 4,
+        enable_pipelining: 100,
+        connect_timeout: '5s',
+        request_timeout: '5s',
+        max_retries: 3,
+        resource_opts: createDefaultResourceOptsForm({ inflight: true }),
+        ssl: createSSLForm(),
+      } as HTTPBridge)
 
     let modelValueCache = ''
-    const httpBridgeVal: Ref<HTTPBridge> = ref(_.cloneDeep(httpBridgeDefaultVal))
+    const httpBridgeVal: Ref<HTTPBridge> = ref(createHttpBridgeDefaultVal())
 
     const { createRequiredRule, createIntFieldRule } = useFormRules()
     const formCom = ref()
@@ -172,7 +176,9 @@ export default defineComponent({
     })
 
     const initHttpBridgeVal = () => {
-      httpBridgeVal.value = { ..._.cloneDeep(httpBridgeDefaultVal), ...props.modelValue }
+      if (props.edit || props.copy) {
+        httpBridgeVal.value = { ..._.cloneDeep(createHttpBridgeDefaultVal()), ...props.modelValue }
+      }
     }
 
     const updateModelValue = (val: HTTPBridge) => {
