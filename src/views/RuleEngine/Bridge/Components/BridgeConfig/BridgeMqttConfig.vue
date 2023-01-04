@@ -14,18 +14,20 @@
           <ConnectorMqttConfig v-model="mqttBridgeVal" :edit="edit" />
         </el-col>
       </el-row>
-      <el-divider />
-      <el-tabs v-model="activeDirection" class="trans-tabs" type="card">
-        <el-tab-pane :label="tl('ingress')" :name="MQTTBridgeDirection.In" lazy>
-          <p class="trans-desc">{{ tl('ingressDesc') }}</p>
-          <el-row :gutter="26">
+      <div class="direction">
+        <label>{{ tl('ingress') }}</label>
+        <InfoTooltip :content="tl('ingressHelp')" />
+        <p class="payload-desc">{{ tl('ingressDesc') }}</p>
+        <el-switch v-model="enableIngress" />
+        <el-collapse-transition>
+          <el-row v-show="enableIngress" class="direction-body" :gutter="26">
             <el-col :span="12">
-              <el-card class="app-card" shadow="never">
-                <p class="broker-block-title">{{ tl('remoteBroker') }}</p>
-                <el-form-item :prop="['ingress', 'remote', 'topic']">
+              <label>{{ tl('remoteBroker') }}</label>
+              <el-card class="with-border" shadow="never">
+                <el-form-item :prop="['ingress', 'remote', 'topic']" :required="enableIngress">
                   <template #label>
                     <label>{{ t('Base.topic') }}</label>
-                    <InfoTooltip :content="tl('mqttSourceRemoteTopicDesc')" />
+                    <InfoTooltip :content="tl('ingressRemoteTopicDesc')" />
                   </template>
                   <el-input v-model="mqttBridgeVal.ingress.remote.topic" placeholder="t/#" />
                 </el-form-item>
@@ -37,45 +39,53 @@
               </el-card>
             </el-col>
             <el-col :span="12">
-              <el-card class="app-card" shadow="never">
-                <p class="broker-block-title">{{ tl('localBroker') }}</p>
+              <label>{{ tl('localBroker') }}</label>
+              <el-card class="with-border" shadow="never">
                 <MQTTBridgeTransConfiguration
                   v-model="mqttBridgeVal.ingress.local"
                   path="ingress.locale"
                   :direction="MQTTBridgeDirection.In"
+                  :topic-desc="tl('ingressLocalTopicDesc')"
                 />
               </el-card>
             </el-col>
           </el-row>
-        </el-tab-pane>
-        <el-tab-pane :label="tl('egress')" :name="MQTTBridgeDirection.Out" lazy>
-          <p class="trans-desc">{{ tl('egressDesc') }}</p>
-          <el-row :gutter="26">
+        </el-collapse-transition>
+      </div>
+      <div class="direction">
+        <label>{{ tl('egress') }}</label>
+        <InfoTooltip :content="tl('egressHelp')" />
+        <p class="payload-desc">{{ tl('egressDesc') }}</p>
+        <el-switch v-model="enableEgress" />
+        <el-collapse-transition>
+          <el-row v-show="enableEgress" class="direction-body" :gutter="26">
             <el-col :span="12">
-              <el-card class="app-card" shadow="never">
-                <p class="broker-block-title">{{ tl('localBroker') }}</p>
-                <el-form-item :prop="['egress', 'remote', 'topic']">
+              <label>{{ tl('remoteBroker') }}</label>
+              <el-card class="with-border" shadow="never">
+                <MQTTBridgeTransConfiguration
+                  v-model="mqttBridgeVal.egress.remote"
+                  path="egress.remote"
+                  :direction="MQTTBridgeDirection.Out"
+                  :remote-topic-required="enableEgress"
+                  :topic-desc="tl('egressRemoteTopicDesc')"
+                />
+              </el-card>
+            </el-col>
+            <el-col :span="12">
+              <label>{{ tl('localBroker') }}</label>
+              <el-card class="with-border" shadow="never">
+                <el-form-item :prop="['egress', 'local', 'topic']">
                   <template #label>
                     <label>{{ t('Base.topic') }}</label>
-                    <InfoTooltip :content="tl('outBridgeLocalTopicPlaceholder')" />
+                    <InfoTooltip :content="tl('egressLocalTopicDesc')" />
                   </template>
                   <el-input v-model="mqttBridgeVal.egress.local.topic" placeholder="t/#" />
                 </el-form-item>
               </el-card>
             </el-col>
-            <el-col :span="12">
-              <el-card class="app-card" shadow="never">
-                <p class="broker-block-title">{{ tl('remoteBroker') }}</p>
-                <MQTTBridgeTransConfiguration
-                  v-model="mqttBridgeVal.egress.remote"
-                  path="egress.remote"
-                  :direction="MQTTBridgeDirection.Out"
-                />
-              </el-card>
-            </el-col>
           </el-row>
-        </el-tab-pane>
-      </el-tabs>
+        </el-collapse-transition>
+      </div>
       <el-divider />
       <el-row :gutter="26">
         <BridgeResourceOpt v-model="mqttBridgeVal.resource_opts" />
@@ -119,7 +129,7 @@ import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 
-const prop = defineProps({
+const props = defineProps({
   modelValue: {
     type: Object as PropType<MQTTBridge>,
     required: false,
@@ -173,7 +183,8 @@ const createMQTTBridgeDefaultVal = () => ({
 })
 
 const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
-const activeDirection = ref(MQTTBridgeDirection.In)
+const enableIngress = ref(false)
+const enableEgress = ref(false)
 
 const { tl, t } = useI18nTl('RuleEngine')
 
@@ -185,14 +196,21 @@ const formRules = computed(() => ({
     server: createRequiredRule(tl('brokerAddress')),
   },
   remote_topic: createRequiredRule(t('Base.topic')),
-}))
+})) as Partial<Record<string, any>>
 
 const initMqttBridgeVal = async () => {
-  if (prop.edit || prop.copy) {
+  if (props.edit || props.copy) {
     mqttBridgeVal.value = fillEmptyValueToUndefinedField(
-      _.cloneDeep(prop.modelValue),
+      _.cloneDeep(props.modelValue),
       createMQTTBridgeDefaultVal(),
     ) as MQTTBridge
+    const { egress, ingress } = mqttBridgeVal.value
+    if (egress?.remote?.topic) {
+      enableEgress.value = true
+    }
+    if (ingress?.remote?.topic) {
+      enableIngress.value = true
+    }
     emit('init', mqttBridgeVal.value)
   }
 }
@@ -231,11 +249,19 @@ const clearValidate = () => {
 watch(() => mqttBridgeVal.value, updateModelValue, { deep: true })
 
 watch(
-  () => prop.modelValue,
+  () => props.modelValue,
   (val) => {
     if (!_.isEqual(val, mqttBridgeVal.value)) {
       initMqttBridgeVal()
     }
+  },
+)
+
+watch(
+  () => [enableIngress, enableEgress],
+  ([val1, val2]) => {
+    console.log(val1, val2)
+    clearValidate()
   },
 )
 
@@ -250,22 +276,18 @@ defineExpose({ validate, clearValidate })
 
 <style lang="scss" scoped>
 @import '@/style/rule.scss';
-.monaco-container {
-  margin-top: 12px;
-  height: 200px;
-}
-
-.trans-tabs {
-  .trans-desc {
-    margin: 20px 0;
-    color: var(--color-text-secondary);
+.direction {
+  margin-bottom: 18px;
+  .payload-desc {
+    margin: 12px 0 14px 0;
+    line-height: 1.6;
   }
-  .el-card {
-    border: 1px solid var(--el-card-border-color);
-  }
-  .broker-block-title {
-    margin-top: 0;
-    font-size: 16px;
+  .direction-body {
+    margin-top: 16px;
+    label {
+      margin-bottom: 8px;
+      display: inline-block;
+    }
   }
 }
 </style>

@@ -1,12 +1,10 @@
 <template>
-  <el-form-item :prop="getProp('topic')">
+  <el-form-item :prop="['egress', 'remote', 'topic']" :required="remoteTopicRequired">
     <template #label>
-      <!-- <label>{{ isIngress ? tl('localTopic') : tl('remoteTopic') }}</label> -->
       <label>{{ t('Base.topic') }}</label>
-      <InfoTooltip :content="tl(isIngress ? 'mqttSourceLocalTopicLabel' : 'remoteTopicDesc')" />
+      <InfoTooltip :content="topicDesc" />
     </template>
     <el-input v-model="config.topic" />
-    <!-- :placeholder="isIngress ? tl('remoteTopicPlaceholder') : ''" -->
   </el-form-item>
   <el-form-item label="QoS">
     <el-select v-model="config.qos" :placeholder="tl('selectOrInput')" filterable allow-create>
@@ -62,6 +60,14 @@ const props = defineProps({
   direction: {
     type: String as PropType<MQTTBridgeDirection>,
   },
+  remoteTopicRequired: {
+    type: Boolean,
+    default: false,
+  },
+  topicDesc: {
+    type: String,
+    default: '',
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -78,15 +84,15 @@ const config = computed({
     emit('update:modelValue', val)
   },
 })
-
-const isIngress = computed(() => props.direction === MQTTBridgeDirection.In)
-
-const getProp = (key: string) => (props.path ? '' : `${props.path}.${key}`)
 </script>
 
-<style class="scss">
+<style class="scss" scoped>
 .payload-desc {
   margin: 8px 0;
   color: var(--el-text-color-secondary);
+}
+.monaco-container {
+  margin-top: 12px;
+  height: 200px;
 }
 </style>
