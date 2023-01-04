@@ -10,7 +10,7 @@
         <el-input v-model="row.value" @input="atInputChange" />
       </template>
     </el-table-column>
-    <el-table-column v-if="!disabled" width="100">
+    <el-table-column width="100">
       <template #header>
         <a href="javascript:;" class="btn" @click="addColumn">
           {{ $t('Base.add') }}
@@ -50,10 +50,6 @@ export default defineComponent({
     customLabel: {
       type: Object,
       default: null,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
     },
   },
   setup(props, context) {
