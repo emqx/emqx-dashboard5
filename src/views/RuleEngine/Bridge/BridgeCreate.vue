@@ -184,7 +184,7 @@ export default defineComponent({
 
     const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 
-    const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+    const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
 
     const isBridgeTypeDisabled = (bridgeType: BridgeTypeOptions) => {
       if (
@@ -237,7 +237,10 @@ export default defineComponent({
         targetLoading.value = true
         const bridgeInfo = await getBridgeInfo(route.query.target as string)
         if (bridgeInfo) {
-          bridgeData.value = { ...bridgeInfo, name: countDuplicationName(bridgeInfo.name) }
+          bridgeData.value = {
+            ...handleBridgeDataForCopy(bridgeInfo),
+            name: countDuplicationName(bridgeInfo.name),
+          }
           chosenBridgeType.value = bridgeInfo.type
         }
       } catch (error) {

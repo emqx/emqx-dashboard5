@@ -1,11 +1,11 @@
 import { checkNOmitFromObj, utf8Encode, utf8Decode } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, omit } from 'lodash'
 import useSSL from '@/hooks/useSSL'
 
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => any
-  handleBridgeDataAfterLoaded: (bridgeData: any) => any
+  handleBridgeDataForCopy: (bridgeData: any) => any
 } => {
   const { handleSSLDataBeforeSubmit } = useSSL()
 
@@ -47,8 +47,18 @@ export default (): {
     return bridgeData
   }
 
+  const handleBridgeDataForCopy = (bridgeData: any): any => {
+    return omit(handleBridgeDataAfterLoaded(bridgeData), [
+      'metrics',
+      'node_metrics',
+      'node_status',
+      'status',
+      'id',
+    ])
+  }
+
   return {
     handleBridgeDataBeforeSubmit,
-    handleBridgeDataAfterLoaded,
+    handleBridgeDataForCopy,
   }
 }
