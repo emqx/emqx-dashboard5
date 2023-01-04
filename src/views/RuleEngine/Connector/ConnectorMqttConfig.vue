@@ -73,33 +73,8 @@
         </el-col>
       </el-row>
     </div>
-    <!-- <div class="form-sub-block">
-      <el-row :gutter="30">
-        <el-col :span="12">
-          <el-form-item>
-            <template #label>
-              <label>{{ tl('connMode') }}</label>
-              <InfoTooltip>
-                <template #content>
-                  <span>{{ tl('connectionClusterModeDesc') }}</span>
-                  <br />
-                  <span>{{ tl('connectionNodeModeDesc') }}</span>
-                </template>
-              </InfoTooltip>
-            </template>
-            <el-select v-model="connectorVal.mode">
-              <el-option
-                v-for="cm in modeOptions"
-                :key="cm"
-                :value="cm"
-                :label="tl(`mode_${cm}`)"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </div> -->
     <CommonTLSConfig class="tls-config-form" v-model="connectorVal.ssl" :is-edit="edit" />
+    <el-divider />
   </div>
 </template>
 

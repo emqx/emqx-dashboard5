@@ -66,8 +66,8 @@
                 />
                 <bridge-mqtt-config
                   v-else-if="bridgeInfo.type === BridgeType.MQTT"
-                  v-model="bridgeInfo"
                   ref="formCom"
+                  v-model="bridgeInfo"
                   :edit="true"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
@@ -193,9 +193,7 @@ watch(id, (val) => {
 })
 
 const canTestConnection = computed(
-  () =>
-    bridgeInfo.value.type.value === BridgeType.Webhook ||
-    bridgeInfo.value.type.value === BridgeType.MQTT,
+  () => bridgeInfo.value.type === BridgeType.Webhook || bridgeInfo.value.type === BridgeType.MQTT,
 )
 
 const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit } = useBridgeDataHandler()

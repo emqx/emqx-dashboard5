@@ -157,7 +157,7 @@ export type MQTTIn = MQTTOut & {
 
 export type OtherBridge = Record<string, any>
 
-export type BridgeItem = HTTPBridge | MQTTOut | MQTTIn | OtherBridge
+export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 
 export interface ConnectorBase {
   name: string

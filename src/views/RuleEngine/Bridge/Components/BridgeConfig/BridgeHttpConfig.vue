@@ -40,25 +40,6 @@
         </el-col>
       </el-row>
       <el-row :gutter="26">
-        <el-col :span="24">
-          <el-form-item>
-            <template #label>
-              <label>{{ tl('body') }}</label>
-              <InfoTooltip :content="tl('payloadExample')" />
-              <p class="payload-desc">{{ tl('payloadDesc') }}</p>
-            </template>
-            <div class="monaco-container">
-              <Monaco
-                :id="createRandomString()"
-                v-model="httpBridgeVal.body"
-                lang="json"
-                json-without-validate
-              />
-            </div>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="'Pool size'" required prop="pool_size">
             <el-input v-model.number="httpBridgeVal.pool_size" />
@@ -89,6 +70,27 @@
         </el-col>
       </el-row>
       <CommonTLSConfig class="tls-config-form" v-model="httpBridgeVal.ssl" :is-edit="edit" />
+      <el-divider />
+      <el-row :gutter="26">
+        <el-col :span="24">
+          <el-form-item>
+            <template #label>
+              <label>{{ tl('body') }}</label>
+              <InfoTooltip :content="tl('payloadExample')" />
+              <p class="payload-desc">{{ tl('payloadDesc') }}</p>
+            </template>
+            <div class="monaco-container">
+              <Monaco
+                :id="createRandomString()"
+                v-model="httpBridgeVal.body"
+                lang="json"
+                json-without-validate
+              />
+            </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-divider />
       <el-row :gutter="26">
         <BridgeResourceOpt v-model="httpBridgeVal.resource_opts" />
       </el-row>
@@ -97,6 +99,7 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, onMounted, ref, Ref, watch, PropType } from 'vue'
 import { createRandomString } from '@/common/tools'
 import { transformUnitArrayToStr } from '@/common/utils'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -111,7 +114,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { HTTPBridge } from '@/types/rule'
 import _ from 'lodash'
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
 export default defineComponent({
@@ -126,7 +128,7 @@ export default defineComponent({
   name: '',
   props: {
     modelValue: {
-      type: Object,
+      type: Object as PropType<HTTPBridge>,
       required: false,
       default: () => ({}),
     },
