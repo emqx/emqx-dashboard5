@@ -15,7 +15,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('influxDBVersion')">
-            <el-select v-model="formData.type" :disabled="edit">
+            <el-select v-model="formData.type" :disabled="edit" @change="handleVersionChanged">
               <el-option
                 v-for="{ value, label } in PROTOCOL_VERSION_OPT"
                 :value="value"
@@ -317,6 +317,13 @@ watch(
     }
   },
 )
+
+const handleVersionChanged = () => {
+  if (formData.value.type === InfluxDBType.v2 && v2AuthType.value === V2AuthType.Token) {
+    formData.value.username = ''
+    formData.value.password = ''
+  }
+}
 
 const handleAuthTypeChanged = () => {
   if (v2AuthType.value === V2AuthType.Token) {
