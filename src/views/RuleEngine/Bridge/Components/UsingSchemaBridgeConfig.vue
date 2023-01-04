@@ -6,7 +6,7 @@
       type="bridge"
       need-rules
       :need-footer="false"
-      :need-record="!edit"
+      :need-record="!edit && !copy"
       :form="bridgeRecord"
       :schema-file-path="`static/bridge-api-${store.state.lang}.json`"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
@@ -61,6 +61,9 @@ const props = defineProps({
     type: String as PropType<UseSchemaBridgeType>,
   },
   edit: {
+    type: Boolean,
+  },
+  copy: {
     type: Boolean,
   },
 })
