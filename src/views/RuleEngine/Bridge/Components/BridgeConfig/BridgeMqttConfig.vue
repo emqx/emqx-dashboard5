@@ -1,22 +1,14 @@
 <template>
   <div class="bridge-config">
-    <el-form
-      ref="formCom"
-      label-position="top"
-      :model="mqttBridgeVal"
-      :rules="formRules"
-      :disabled="disabled"
-    >
-      <template v-if="!disabled">
-        <el-row :gutter="26">
-          <el-col :span="12">
-            <el-form-item :label="tl('name')" required prop="name">
-              <el-input v-model="mqttBridgeVal.name" :disabled="edit" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-divider />
-      </template>
+    <el-form ref="formCom" label-position="top" :model="mqttBridgeVal" :rules="formRules">
+      <el-row :gutter="26">
+        <el-col :span="12">
+          <el-form-item :label="tl('name')" required prop="name">
+            <el-input v-model="mqttBridgeVal.name" :disabled="edit" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-divider />
       <el-row :gutter="26">
         <el-col :span="24">
           <ConnectorMqttConfig v-model="mqttBridgeVal" :edit="edit" />
@@ -132,10 +124,6 @@ const prop = defineProps({
     type: Object as PropType<MQTTBridge>,
     required: false,
     default: () => ({}),
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
   },
   edit: {
     type: Boolean,

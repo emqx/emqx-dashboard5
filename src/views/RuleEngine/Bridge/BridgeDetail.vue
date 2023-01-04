@@ -95,7 +95,7 @@
               </div>
               <div v-if="!isFromRule" class="btn-area">
                 <el-button
-                  v-if="bridgeInfo.type"
+                  v-if="bridgeInfo.type && canTestConnection"
                   type="primary"
                   plain
                   :loading="isTesting"
@@ -221,6 +221,9 @@ watch(id, (val) => {
  * if type is influxDB v1 or v2, will be count to influxDB uniformly
  */
 const bridgeType = computed(() => getBridgeType(bridgeInfo.value.type))
+const canTestConnection = computed(
+  () => bridgeType.value === BridgeType.Webhook || bridgeType.value === BridgeType.MQTT,
+)
 
 const handleDataAfterLoaded = () => {
   if (bridgeInfo.value.type === BridgeType.Webhook && 'body' in bridgeInfo.value) {

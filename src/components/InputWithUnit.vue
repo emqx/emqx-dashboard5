@@ -93,12 +93,18 @@ const numPartRegExp = /^-?\d+(\.\d+)?$/
 const specialStatusNumPartRegExp = /^(\.|\.\d+|\d+\.)$/
 
 const modelValueMatchReg = computed(() => {
-  return props.modelValue?.match(strRegExp.value)
+  if (typeof props.modelValue !== 'string') {
+    return undefined
+  }
+  return props.modelValue.match(strRegExp.value)
 })
 
 // handle chaos input
 const modelValueMatchBackupReg = computed(() => {
-  return props.modelValue?.match(backupRegExp.value)
+  if (typeof props.modelValue !== 'string') {
+    return undefined
+  }
+  return props.modelValue.match(backupRegExp.value)
 })
 
 const numPart: WritableComputedRef<string> = computed({

@@ -41,7 +41,6 @@
             <div v-loading="targetLoading">
               <bridge-http-config
                 v-if="chosenBridgeType === BridgeType.Webhook"
-                v-model:tls="tlsParams"
                 v-model="bridgeData"
                 ref="formCom"
                 :edit="isCopy"
@@ -88,7 +87,7 @@
             {{ $t('Base.nextStep') }}
           </el-button>
           <el-button
-            v-if="step === 1"
+            v-if="step === 1 && canTestConnection"
             type="primary"
             plain
             :loading="isTesting"
@@ -130,7 +129,6 @@
       <el-divider />
       <bridge-http-config
         v-if="chosenBridgeType === BridgeType.Webhook"
-        v-model:tls="tlsParams"
         v-model="bridgeData"
         ref="formCom"
       />
@@ -164,7 +162,6 @@ import { computed, defineComponent, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
-import { tlsConfig } from '@/types/ruleengine'
 import { createBridge, getBridgeInfo, testConnect } from '@/api/ruleengine'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
@@ -182,7 +179,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
-import { BRIDGE_TYPES_NOT_USE_SCHEMA, DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
@@ -201,13 +198,6 @@ export default defineComponent({
   setup() {
     const { tl } = useI18nTl('RuleEngine')
     const createBridgeData = () => ({})
-    const tlsParamsDefault: tlsConfig = {
-      enable: false,
-      verify: DEFAULT_SSL_VERIFY_VALUE,
-      certfile: '',
-      keyfile: '',
-      cacertfile: '',
-    }
     const router = useRouter()
     const route = useRoute()
     const { t } = useI18n()
@@ -215,7 +205,6 @@ export default defineComponent({
     const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
-    const tlsParams: Ref<tlsConfig> = ref(tlsParamsDefault)
     const isTesting = ref(false)
     const { getBridgeIcon } = useBridgeTypeIcon()
 
@@ -236,6 +225,11 @@ export default defineComponent({
       }
       return { name }
     })
+
+    const canTestConnection = computed(
+      () =>
+        chosenBridgeType.value === BridgeType.Webhook || chosenBridgeType.value === BridgeType.MQTT,
+    )
 
     const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 
@@ -310,10 +304,6 @@ export default defineComponent({
         dataToSubmit = {
           type: chosenBridgeType.value,
           ..._.cloneDeep(bridgeData.value),
-        }
-        if (chosenBridgeType.value === BridgeType.Webhook) {
-          // FIXME: delete the damn tlsParams
-          dataToSubmit = { ...dataToSubmit, ssl: tlsParams.value }
         }
       }
       return handleBridgeDataBeforeSubmit(dataToSubmit)
@@ -390,7 +380,6 @@ export default defineComponent({
       chosenBridgeType,
       targetLoading,
       submitLoading,
-      tlsParams,
       isCopy,
       bridgeData,
       formCom,
@@ -399,6 +388,7 @@ export default defineComponent({
       cancel,
       submitCreateBridge,
       isTesting,
+      canTestConnection,
       testConnection,
       handleTypeSelected,
       getBridgeIcon,

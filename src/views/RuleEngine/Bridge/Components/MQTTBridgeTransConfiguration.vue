@@ -34,7 +34,6 @@
             v-model="config.payload"
             lang="json"
             json-without-validate
-            :disabled="disabled"
           />
         </div>
       </el-form-item>
@@ -56,9 +55,6 @@ const props = defineProps({
   modelValue: {
     type: Object as PropType<MQTTBridgeTransConfiguration>,
     required: true,
-  },
-  disabled: {
-    type: Boolean,
   },
   path: {
     type: String,
