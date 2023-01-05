@@ -59,15 +59,14 @@
               <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
                 <bridge-http-config
                   v-if="bridgeType === BridgeType.Webhook"
-                  v-model:tls="bridgeInfo.ssl"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
                 />
                 <bridge-mqtt-config
                   v-else-if="bridgeType === BridgeType.MQTT"
-                  v-model="bridgeInfo"
                   ref="formCom"
+                  v-model="bridgeInfo"
                   :edit="true"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />

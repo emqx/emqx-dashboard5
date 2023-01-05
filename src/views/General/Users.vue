@@ -102,6 +102,8 @@ import {
 } from '@/hooks/useChangePwdGuide.ts'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
+const PASSWORD_REG = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)[ -~]{8,64}$/
+
 const store = useStore()
 const { tl, t } = useI18nTl('General')
 
@@ -131,47 +133,49 @@ const newPwdSameConfirm = (rule, value, callback) => {
     callback()
   }
 }
-const rules = {
-  username: [{ required: true, message: tl('enterOneUserName') }],
-  password: [
-    {
-      required: true,
-      message: tl('pleaseEnterPassword'),
-      trigger: ['blur', 'change'],
-    },
-    {
-      min: 3,
-      max: 32,
-      message: tl('passwordLength'),
-      trigger: ['blur', 'change'],
-    },
-  ],
-  newPassword: [
-    {
-      required: true,
-      message: tl('pleaseEnterNewPassword'),
-      trigger: ['blur', 'change'],
-    },
-    {
-      min: 3,
-      max: 32,
-      message: tl('passwordLength'),
-      trigger: ['blur', 'change'],
-    },
-    {
-      validator: newPwdSameConfirm,
+const rules = computed(() => {
+  const ret = {
+    username: [{ required: true, message: tl('enterOneUserName') }],
+    password: [
+      {
+        required: true,
+        message: tl('pleaseEnterPassword'),
+        trigger: ['blur', 'change'],
+      },
+    ],
+    newPassword: [
+      {
+        required: true,
+        message: tl('pleaseEnterNewPassword'),
+        trigger: ['blur', 'change'],
+      },
+      {
+        pattern: PASSWORD_REG,
+        message: tl('passwordRequirement'),
+        trigger: ['blur'],
+      },
+      {
+        validator: newPwdSameConfirm,
+        trigger: ['blur'],
+      },
+    ],
+    repeatPassword: [
+      {
+        required: true,
+        message: tl('pleaseEnterAConfirmationPassword'),
+      },
+      { validator: validatePass, trigger: ['blur', 'change'] },
+    ],
+  }
+  if (accessType.value !== 'chPass') {
+    ret.password.push({
+      pattern: PASSWORD_REG,
+      message: tl('passwordRequirement'),
       trigger: ['blur'],
-    },
-  ],
-  repeatPassword: [
-    {
-      required: true,
-      message: tl('pleaseEnterAConfirmationPassword'),
-    },
-    { validator: validatePass, trigger: ['blur', 'change'] },
-  ],
-}
-
+    })
+  }
+  return ret
+})
 const currentUser = computed(() => {
   return store.state.user
 })

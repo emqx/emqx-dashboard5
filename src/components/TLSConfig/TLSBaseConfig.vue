@@ -41,7 +41,6 @@ const record: WritableComputedRef<SSL> = computed({
 
 <style lang="scss">
 .TLS-base-config {
-  margin-bottom: 20px;
   .TLS-base-config-title {
     margin-top: 0px;
     color: var(--color-title-primary);

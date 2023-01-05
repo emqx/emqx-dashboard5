@@ -8,6 +8,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => any
   handleBridgeDataAfterLoaded: (bridgeData: any) => any
+  handleBridgeDataForCopy: (bridgeData: any) => any
 } => {
   const { handleSSLDataBeforeSubmit } = useSSL()
   const { tl } = useI18nTl('RuleEngine')
@@ -80,8 +81,19 @@ export default (): {
     return bridgeData
   }
 
+  const handleBridgeDataForCopy = (bridgeData: any): any => {
+    return omit(handleBridgeDataAfterLoaded(bridgeData), [
+      'metrics',
+      'node_metrics',
+      'node_status',
+      'status',
+      'id',
+    ])
+  }
+
   return {
     handleBridgeDataBeforeSubmit,
     handleBridgeDataAfterLoaded,
+    handleBridgeDataForCopy,
   }
 }

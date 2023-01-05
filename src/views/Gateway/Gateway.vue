@@ -128,7 +128,7 @@ export default defineComponent({
         tbLoading.value = true
         await toggleGatewayEnable(name, !isRunning(instance.status))
         instance.status = isRunning(instance.status) ? disableStr : enableStr
-        M.success(isRunning(instance.status) ? t('Base.disabledSuccess') : t('Base.enableSuccess'))
+        M.success(isRunning(instance.status) ? t('Base.enableSuccess') : t('Base.disabledSuccess'))
       } catch (error) {
         //
       } finally {

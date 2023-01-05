@@ -552,16 +552,24 @@ export default {
     en: 'Remote MQTT Broker',
   },
   ingressDesc: {
-    zh: '从外部的远程服务桥接消息到本地服务。',
-    en: 'Bridge messages from external remote service to local.',
+    zh: '支持从外部的远程 MQTT 服务桥接消息到本地服务，可用于规则的数据源。',
+    en: 'Bridges messages from remote MQTT broker to local, can be used as data source for rule.',
+  },
+  ingressHelp: {
+    zh: '开启后，远程服务将作为数据源，本地服务将作为数据目的地接收消息，当出口配置启用后，该配置可选。',
+    en: "When enabled, remote broker will be the data source, local broker will be the data destination to received messages, it's optional when egress is enabled.",
   },
   egressDesc: {
-    zh: '将本地服务桥接消息至外部的远程服务。',
-    en: 'Bridge local messages to external remote service.',
+    zh: '支持将本地服务消息桥接至外部的远程 MQTT 服务，可用于规则的动作中。',
+    en: 'Bridges local messages to remote MQTT broker, can be used as action for rule.',
+  },
+  egressHelp: {
+    zh: '开启后，远程服务将作为数据目的地接收本地服务的消息，当入口配置启用后，该配置可选。',
+    en: 'When enabled, remote broker will be the data destination to received local messages, it’s optional when ingress is enabled.',
   },
   remoteTopicRequired: {
-    zh: '请配置远程 MQTT 服务',
-    en: 'Please configure the remote MQTT broker',
+    zh: '请至少配置一个入口或出口配置中的远程服务主题',
+    en: 'Please configure at least one remote topic in ingress or egress',
   },
   remoteTopicRepeated: {
     zh: '入口和出口配置的远程 MQTT 主题相同',
@@ -609,7 +617,7 @@ export default {
   },
   testTheConnection: {
     zh: '测试连接',
-    en: 'Test the connection',
+    en: 'Test',
   },
   test: {
     zh: '启用调试',
@@ -651,21 +659,21 @@ export default {
     zh: "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。请根据使用数据桥接的业务需求来选择字段，置空则原样转发消息。",
     en: "For example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc. Use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
-  remoteTopicDesc: {
-    zh: "桥接数据到远端 Broker 指定主题中，支持使用 ${'{'}field{'}'} 语法拼接动态主题",
-    en: "Bridges data to a remote broker specified topic, and supports splicing dynamic topics using the ${'{'}field{'}'} syntax.",
+  ingressRemoteTopicDesc: {
+    zh: '本地服务将订阅该远程服务的主题接收消息。',
+    en: 'The local broker will subscribe to the remote broker topic to receive messages.',
   },
-  mqttSourceRemoteTopicDesc: {
-    zh: '从远程 Broker 指定主题中获取数据',
-    en: 'Get messages from the specific topic in remote broker',
+  egressRemoteTopicDesc: {
+    zh: "本地服务将向该远程服务中的主题发布消息，支持使用 ${'{'}field{'}'} 语法，拼接使用动态主题。",
+    en: "The local broker will publish messages to the remote broker topic, supports using ${'{'}field{'}'} syntax to use the dynamic topics.",
   },
-  connectionClusterModeDesc: {
-    zh: '集群共享：整个集群中建立一个 MQTT 连接',
-    en: 'Cluster Shareload: Establish an MQTT connection across the cluster',
+  ingressLocalTopicDesc: {
+    zh: '订阅该本地服务的主题，可以直接接收远程服务的消息而不用使用规则，如不填写则由规则指定。（可选）',
+    en: 'Subscribe to the local broker topic to receive messages from the remote broker without using rules, if not it will be specified by the rule. (Optional)',
   },
-  connectionNodeModeDesc: {
-    zh: '节点独享：每个节点上建立一个 MQTT 连接，会在客户端 ID 后附加随机字符串',
-    en: 'Cluster Singleton: An MQTT connection is established on each node, with a random string appended to the client ID',
+  egressLocalTopicDesc: {
+    zh: '向该本地服务的主题发布消息，可以直接向远程服务发送消息而不用使用规则，如不填写则由规则指定。（可选）',
+    en: 'Publish messages to the local broker topic to send messages to the remote broker without using rules, if not it will be specified by the rule. (Optional)',
   },
   duplicate: {
     zh: '复制',
