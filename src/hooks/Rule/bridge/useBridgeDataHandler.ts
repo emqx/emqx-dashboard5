@@ -5,6 +5,7 @@ import useSSL from '@/hooks/useSSL'
 
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => any
+  handleBridgeDataAfterLoaded: (bridgeData: any) => any
   handleBridgeDataForCopy: (bridgeData: any) => any
 } => {
   const { handleSSLDataBeforeSubmit } = useSSL()
@@ -59,6 +60,7 @@ export default (): {
 
   return {
     handleBridgeDataBeforeSubmit,
+    handleBridgeDataAfterLoaded,
     handleBridgeDataForCopy,
   }
 }
