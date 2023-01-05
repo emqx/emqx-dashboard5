@@ -39,11 +39,8 @@
                     },
                     "servers": {
                         "description": "<br/><br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "sentinel",
@@ -134,7 +131,7 @@
                     },
                     "memory_overload_protection": {
                         "default": true,
-                        "description": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。",
+                        "description": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
                         "label": "内存过载保护",
                         "type": "boolean"
                     }
@@ -146,7 +143,6 @@
                     "name",
                     "type",
                     "database",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -177,7 +173,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。<br/>",
                         "label": "服务器地址",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -255,7 +251,6 @@
                     "token",
                     "org",
                     "bucket",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -286,7 +281,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。<br/>",
                         "label": "服务器地址",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -387,7 +382,6 @@
                     "token",
                     "org",
                     "bucket",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -418,7 +412,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。<br/>",
                         "label": "服务器地址",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -518,7 +512,7 @@
                         "type": "boolean"
                     },
                     "bootstrap_hosts": {
-                        "description": "用逗号分隔的 <code>host:port</code> 主机列表。",
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
                         "label": "主机列表",
                         "type": "string"
                     },
@@ -592,6 +586,8 @@
             },
             "bridge_mongodb.post_rs": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "replica_set_name",
                     "servers",
@@ -609,11 +605,8 @@
                     },
                     "servers": {
                         "description": "<br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -697,6 +690,19 @@
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
                         "type": "string"
+                    },
+                    "type": {
+                        "description": "桥接类型。",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mongodb_rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -720,11 +726,8 @@
                     },
                     "servers": {
                         "description": "<br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -929,7 +932,7 @@
                         "type": "boolean"
                     },
                     "bootstrap_hosts": {
-                        "description": "用逗号分隔的 <code>host:port</code> 主机列表。",
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
                         "label": "主机列表",
                         "type": "string"
                     },
@@ -1006,7 +1009,6 @@
                     "name",
                     "type",
                     "database",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -1037,7 +1039,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。<br/>",
                         "label": "服务器地址",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -1236,6 +1238,8 @@
             },
             "bridge_mongodb.post_sharded": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "servers",
                     "mongo_type"
@@ -1252,11 +1256,8 @@
                     },
                     "servers": {
                         "description": "<br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -1324,6 +1325,19 @@
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "桥接类型。",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mongodb_sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     }
                 },
@@ -1499,11 +1513,8 @@
                     },
                     "servers": {
                         "description": "<br/><br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "sentinel",
@@ -1709,7 +1720,6 @@
             "bridge_influxdb.put_api_v1": {
                 "required": [
                     "database",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -1740,7 +1750,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。<br/>",
                         "label": "服务器地址",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -1905,6 +1915,8 @@
             },
             "bridge_mongodb.get_sharded": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "servers",
                     "mongo_type"
@@ -1952,11 +1964,8 @@
                     },
                     "servers": {
                         "description": "<br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -2025,12 +2034,27 @@
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
                         "type": "string"
+                    },
+                    "type": {
+                        "description": "桥接类型。",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mongodb_sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
+                        "type": "string"
                     }
                 },
                 "type": "object"
             },
             "bridge_mongodb.post_single": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "server",
                     "mongo_type"
@@ -2117,6 +2141,19 @@
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
                         "type": "string"
+                    },
+                    "type": {
+                        "description": "桥接类型。",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mongodb_single"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -2141,6 +2178,8 @@
             },
             "bridge_mongodb.get_rs": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "replica_set_name",
                     "servers",
@@ -2189,11 +2228,8 @@
                     },
                     "servers": {
                         "description": "<br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -2276,6 +2312,19 @@
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "桥接类型。",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mongodb_rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     }
                 },
@@ -2591,11 +2640,8 @@
                     },
                     "servers": {
                         "description": "<br/><br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "cluster",
@@ -2647,7 +2693,7 @@
                         "type": "boolean"
                     },
                     "bootstrap_hosts": {
-                        "description": "用逗号分隔的 <code>host:port</code> 主机列表。",
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
                         "label": "主机列表",
                         "type": "string"
                     },
@@ -2726,7 +2772,6 @@
                     "token",
                     "org",
                     "bucket",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -2757,7 +2802,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。<br/>",
                         "label": "服务器地址",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -2828,48 +2873,48 @@
                         "type": "number"
                     },
                     "overflow_ttl": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "当池内工人太多时，等待多久清除多余工人。",
+                        "label": "溢出TTL",
                         "type": "duration"
                     },
                     "overflow_check_period": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "检查是否有超过配置的工人的周期（\"溢出\"）。",
+                        "label": "溢出检查周期",
                         "type": "duration"
                     },
                     "local_threshold_ms": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "在多个合适的MongoDB实例中进行选择的延迟窗口的大小。",
+                        "label": "本地阈值",
                         "type": "duration"
                     },
                     "connect_timeout_ms": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "超时重连的等待时间。",
+                        "label": "连接超时",
                         "type": "duration"
                     },
                     "socket_timeout_ms": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "在尝试超时之前，在套接字上尝试发送或接收的持续时间。",
+                        "label": "套接字操作超时",
                         "type": "duration"
                     },
                     "server_selection_timeout_ms": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "指定在抛出异常之前为服务器选择阻断多长时间。",
+                        "label": "服务器选择超时",
                         "type": "duration"
                     },
                     "wait_queue_timeout_ms": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "工作者等待连接可用的最长时间。",
+                        "label": "等待队列超时",
                         "type": "duration"
                     },
                     "heartbeat_frequency_ms": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。",
+                        "label": "心跳期",
                         "type": "duration"
                     },
                     "min_heartbeat_frequency_ms": {
-                        "description": "时间间隔，例如超时或 TTL。",
-                        "label": "时间间隔",
+                        "description": "心跳间的最小间隙",
+                        "label": "最小心跳周期",
                         "type": "duration"
                     }
                 },
@@ -3357,11 +3402,8 @@
                     },
                     "servers": {
                         "description": "<br/><br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "cluster",
@@ -3601,11 +3643,8 @@
                     },
                     "servers": {
                         "description": "<br/><br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "cluster",
@@ -3687,6 +3726,11 @@
                     "server": {
                         "description": "远程 MQTT Broker的主机和端口。",
                         "label": "Broker主机和端口",
+                        "type": "string"
+                    },
+                    "clientid_prefix": {
+                        "description": "可选的前缀，用于在出口网桥使用的clientid前加上前缀。",
+                        "label": "客户ID前缀",
                         "type": "string"
                     },
                     "reconnect_interval": {
@@ -3924,6 +3968,11 @@
                         "label": "Broker主机和端口",
                         "type": "string"
                     },
+                    "clientid_prefix": {
+                        "description": "可选的前缀，用于在出口网桥使用的clientid前加上前缀。",
+                        "label": "客户ID前缀",
+                        "type": "string"
+                    },
                     "reconnect_interval": {
                         "default": "15s",
                         "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:<br/>- `ms` for milliseconds,<br/>- `s` for seconds,<br/>- `m` for minutes,<br/>- `h` for hours;<br/><br/>or combination of whereof: `1h5m0s`",
@@ -4114,11 +4163,8 @@
                     },
                     "servers": {
                         "description": "<br/><br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "sentinel",
@@ -4288,6 +4334,11 @@
                         "label": "Broker主机和端口",
                         "type": "string"
                     },
+                    "clientid_prefix": {
+                        "description": "可选的前缀，用于在出口网桥使用的clientid前加上前缀。",
+                        "label": "客户ID前缀",
+                        "type": "string"
+                    },
                     "reconnect_interval": {
                         "default": "15s",
                         "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:<br/>- `ms` for milliseconds,<br/>- `s` for seconds,<br/>- `m` for minutes,<br/>- `h` for hours;<br/><br/>or combination of whereof: `1h5m0s`",
@@ -4393,6 +4444,8 @@
             },
             "bridge_mongodb.get_single": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "server",
                     "mongo_type"
@@ -4509,6 +4562,19 @@
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "桥接类型。",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "mongodb_single"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名称。",
+                        "label": "桥接名称",
                         "type": "string"
                     }
                 },
@@ -5351,11 +5417,8 @@
                     },
                     "servers": {
                         "description": "<br/>集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "服务器列表",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
