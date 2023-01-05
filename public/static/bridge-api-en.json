@@ -39,11 +39,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "sentinel",
@@ -134,7 +131,7 @@
                     },
                     "memory_overload_protection": {
                         "default": true,
-                        "description": "Applicable when buffer mode is set to <code>memory</code> or <code>hybrid</code>.<br/>EMQX will drop old cached messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>.",
+                        "description": "Applicable when buffer mode is set to <code>memory</code> or <code>hybrid</code>.<br/>EMQX will drop old cached messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
                         "label": "Memory Overload Protection",
                         "type": "boolean"
                     }
@@ -146,7 +143,6 @@
                     "name",
                     "type",
                     "database",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -177,7 +173,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
                         "label": "Server Host",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -255,7 +251,6 @@
                     "token",
                     "org",
                     "bucket",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -286,7 +281,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
                         "label": "Server Host",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -387,7 +382,6 @@
                     "token",
                     "org",
                     "bucket",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -418,7 +412,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
                         "label": "Server Host",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -518,7 +512,7 @@
                         "type": "boolean"
                     },
                     "bootstrap_hosts": {
-                        "description": "A comma separated list of Kafka <code>host:port</code> endpoints to bootstrap the client.",
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
                         "label": "Bootstrap Hosts",
                         "type": "string"
                     },
@@ -592,6 +586,8 @@
             },
             "bridge_mongodb.post_rs": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "replica_set_name",
                     "servers",
@@ -609,11 +605,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -697,6 +690,19 @@
                         "description": "The collection where data will be stored into",
                         "label": "Collection to be used",
                         "type": "string"
+                    },
+                    "type": {
+                        "description": "The Bridge Type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "mongodb_rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -720,11 +726,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -870,7 +873,7 @@
                         "type": "number"
                     },
                     "inflight": {
-                        "description": "Count of messages that were sent asynchronously but ACKs are not received.",
+                        "description": "Count of messages that were sent asynchronously but ACKs are not yet received.",
                         "label": "Sent Inflight",
                         "type": "number"
                     },
@@ -929,7 +932,7 @@
                         "type": "boolean"
                     },
                     "bootstrap_hosts": {
-                        "description": "A comma separated list of Kafka <code>host:port</code> endpoints to bootstrap the client.",
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
                         "label": "Bootstrap Hosts",
                         "type": "string"
                     },
@@ -1006,7 +1009,6 @@
                     "name",
                     "type",
                     "database",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -1037,7 +1039,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
                         "label": "Server Host",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -1236,6 +1238,8 @@
             },
             "bridge_mongodb.post_sharded": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "servers",
                     "mongo_type"
@@ -1252,11 +1256,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -1324,6 +1325,19 @@
                         "default": "mqtt",
                         "description": "The collection where data will be stored into",
                         "label": "Collection to be used",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "The Bridge Type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "mongodb_sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
                         "type": "string"
                     }
                 },
@@ -1499,11 +1513,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "sentinel",
@@ -1709,7 +1720,6 @@
             "bridge_influxdb.put_api_v1": {
                 "required": [
                     "database",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -1740,7 +1750,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
                         "label": "Server Host",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -1905,6 +1915,8 @@
             },
             "bridge_mongodb.get_sharded": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "servers",
                     "mongo_type"
@@ -1952,11 +1964,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -2025,12 +2034,27 @@
                         "description": "The collection where data will be stored into",
                         "label": "Collection to be used",
                         "type": "string"
+                    },
+                    "type": {
+                        "description": "The Bridge Type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "mongodb_sharded"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
                     }
                 },
                 "type": "object"
             },
             "bridge_mongodb.post_single": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "server",
                     "mongo_type"
@@ -2117,6 +2141,19 @@
                         "description": "The collection where data will be stored into",
                         "label": "Collection to be used",
                         "type": "string"
+                    },
+                    "type": {
+                        "description": "The Bridge Type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "mongodb_single"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -2141,6 +2178,8 @@
             },
             "bridge_mongodb.get_rs": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "replica_set_name",
                     "servers",
@@ -2189,11 +2228,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
@@ -2276,6 +2312,19 @@
                         "default": "mqtt",
                         "description": "The collection where data will be stored into",
                         "label": "Collection to be used",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "The Bridge Type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "mongodb_rs"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
                         "type": "string"
                     }
                 },
@@ -2591,11 +2640,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "cluster",
@@ -2647,7 +2693,7 @@
                         "type": "boolean"
                     },
                     "bootstrap_hosts": {
-                        "description": "A comma separated list of Kafka <code>host:port</code> endpoints to bootstrap the client.",
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
                         "label": "Bootstrap Hosts",
                         "type": "string"
                     },
@@ -2726,7 +2772,6 @@
                     "token",
                     "org",
                     "bucket",
-                    "server",
                     "write_syntax"
                 ],
                 "properties": {
@@ -2757,7 +2802,7 @@
                         "default": "127.0.0.1:8086",
                         "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
                         "label": "Server Host",
-                        "type": "ip_port"
+                        "type": "string"
                     },
                     "precision": {
                         "default": "ms",
@@ -2828,48 +2873,48 @@
                         "type": "number"
                     },
                     "overflow_ttl": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "Period of time before workers that exceed the configured pool size (\"overflow\") to be terminated.",
+                        "label": "Overflow TTL",
                         "type": "duration"
                     },
                     "overflow_check_period": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "Period for checking if there are more workers than configured (\"overflow\").",
+                        "label": "Overflow Check Period",
                         "type": "duration"
                     },
                     "local_threshold_ms": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "The size of the latency window for selecting among multiple suitable MongoDB instances.",
+                        "label": "Local Threshold",
                         "type": "duration"
                     },
                     "connect_timeout_ms": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "The duration to attempt a connection before timing out.",
+                        "label": "Connect Timeout",
                         "type": "duration"
                     },
                     "socket_timeout_ms": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "The duration to attempt to send or to receive on a socket before the attempt times out.",
+                        "label": "Socket Timeout",
                         "type": "duration"
                     },
                     "server_selection_timeout_ms": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "Specifies how long to block for server selection before throwing an exception.",
+                        "label": "Server Selection Timeout",
                         "type": "duration"
                     },
                     "wait_queue_timeout_ms": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "The maximum duration that a worker can wait for a connection to become available.",
+                        "label": "Wait Queue Timeout",
                         "type": "duration"
                     },
                     "heartbeat_frequency_ms": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "Controls when the driver checks the state of the MongoDB deployment. Specify the interval between checks, counted from the end of the previous check until the beginning of the next one.",
+                        "label": "Heartbeat period",
                         "type": "duration"
                     },
                     "min_heartbeat_frequency_ms": {
-                        "description": "Time interval, such as timeout or TTL.",
-                        "label": "Time Interval",
+                        "description": "Controls the minimum amount of time to wait between heartbeats.",
+                        "label": "Minimum Heartbeat Period",
                         "type": "duration"
                     }
                 },
@@ -3357,11 +3402,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "cluster",
@@ -3601,11 +3643,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "cluster",
@@ -3687,6 +3726,11 @@
                     "server": {
                         "description": "The host and port of the remote MQTT broker",
                         "label": "Broker IP And Port",
+                        "type": "string"
+                    },
+                    "clientid_prefix": {
+                        "description": "Optional prefix to prepend to the clientid used by egress bridges.",
+                        "label": "Clientid Prefix",
                         "type": "string"
                     },
                     "reconnect_interval": {
@@ -3924,6 +3968,11 @@
                         "label": "Broker IP And Port",
                         "type": "string"
                     },
+                    "clientid_prefix": {
+                        "description": "Optional prefix to prepend to the clientid used by egress bridges.",
+                        "label": "Clientid Prefix",
+                        "type": "string"
+                    },
                     "reconnect_interval": {
                         "default": "15s",
                         "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:<br/>- `ms` for milliseconds,<br/>- `s` for seconds,<br/>- `m` for minutes,<br/>- `h` for hours;<br/><br/>or combination of whereof: `1h5m0s`",
@@ -4114,11 +4163,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "redis_type": {
                         "default": "sentinel",
@@ -4288,6 +4334,11 @@
                         "label": "Broker IP And Port",
                         "type": "string"
                     },
+                    "clientid_prefix": {
+                        "description": "Optional prefix to prepend to the clientid used by egress bridges.",
+                        "label": "Clientid Prefix",
+                        "type": "string"
+                    },
                     "reconnect_interval": {
                         "default": "15s",
                         "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:<br/>- `ms` for milliseconds,<br/>- `s` for seconds,<br/>- `m` for minutes,<br/>- `h` for hours;<br/><br/>or combination of whereof: `1h5m0s`",
@@ -4393,6 +4444,8 @@
             },
             "bridge_mongodb.get_single": {
                 "required": [
+                    "name",
+                    "type",
                     "database",
                     "server",
                     "mongo_type"
@@ -4509,6 +4562,19 @@
                         "default": "mqtt",
                         "description": "The collection where data will be stored into",
                         "label": "Collection to be used",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "The Bridge Type.",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "mongodb_single"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
                         "type": "string"
                     }
                 },
@@ -5351,11 +5417,8 @@
                     },
                     "servers": {
                         "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
-                        "items": {
-                            "type": "string"
-                        },
                         "label": "Servers",
-                        "type": "array"
+                        "type": "string"
                     },
                     "w_mode": {
                         "default": "unsafe",
