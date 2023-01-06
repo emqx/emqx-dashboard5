@@ -279,6 +279,8 @@ const SchemaForm = defineComponent({
       const inputType = format === 'password' ? 'password' : 'text'
       const autocomplete = inputType === 'password' ? 'one-time-code' : ''
       const clearableValue = typeof clearable === 'boolean' ? clearable : true
+      const customProps = property.componentProps || {}
+
       const stringInput = (
         <el-input
           disabled={isPropertyDisabled}
@@ -288,6 +290,7 @@ const SchemaForm = defineComponent({
           autocomplete={autocomplete}
           {...handleUpdateModelValue}
           clearable
+          {...customProps}
         />
       )
       // TODO: use SchemaFormItem
@@ -303,6 +306,7 @@ const SchemaForm = defineComponent({
               {...handleUpdateModelValue}
               placeholder={property.default?.toString()}
               min={0}
+              {...customProps}
             />
           )
         case 'enum':
@@ -313,6 +317,7 @@ const SchemaForm = defineComponent({
               modelValue={modelValue}
               {...handleUpdateModelValue}
               clearable={clearableValue}
+              {...customProps}
             >
               {property.symbols?.map((opt) => (
                 <el-option value={opt} label={opt} />
@@ -335,6 +340,7 @@ const SchemaForm = defineComponent({
                   modelValue={modelValue}
                   {...handleUpdateModelValue}
                   disabled={isPropertyDisabled}
+                  {...customProps}
                 />
               )
             } else if (property.items.component === 'table') {
@@ -343,6 +349,7 @@ const SchemaForm = defineComponent({
                   modelValue={modelValue}
                   {...handleUpdateModelValue}
                   disabled={isPropertyDisabled}
+                  {...customProps}
                 />
               )
             }
@@ -353,6 +360,7 @@ const SchemaForm = defineComponent({
                 disabled={isPropertyDisabled}
                 type={property.items.type}
                 default={property.default}
+                {...customProps}
               />
             )
           }
@@ -363,6 +371,7 @@ const SchemaForm = defineComponent({
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
+              {...customProps}
             />
           )
         case 'byteSize':
@@ -372,6 +381,7 @@ const SchemaForm = defineComponent({
               modelValue={modelValue}
               {...handleUpdateModelValue}
               units={['MB', 'GB', 'KB']}
+              {...customProps}
             />
           )
         case 'percent':
@@ -381,6 +391,7 @@ const SchemaForm = defineComponent({
               modelValue={modelValue}
               {...handleUpdateModelValue}
               units={['%']}
+              {...customProps}
             />
           )
         case 'comma_separated_string':
@@ -419,7 +430,7 @@ const SchemaForm = defineComponent({
             <TextareaWithUploader
               modelValue={modelValue}
               {...handleUpdateModelValue}
-              {...property.fileUploaderConfig}
+              {...customProps}
             />
           )
         default:
