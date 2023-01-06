@@ -18,12 +18,9 @@ export interface Property {
   properties?: Properties
   format?: string
   /**
-   * when format is `file` (custom define), can set configurations to uploader
+   * It is possible to customize the props of component here, with the highest priority.
    */
-  fileUploaderConfig: {
-    tip?: string
-    accept?: string
-  }
+  componentProps: Record<string, any>
 }
 
 export interface Properties {
