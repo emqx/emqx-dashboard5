@@ -25,3 +25,26 @@ export const useRedisSecondTypeControl = (
 
   return { keyField, currentType }
 }
+
+export const useMongoSecondTypeControl = (
+  formData: WritableComputedRef<Record<string, any>>,
+): {
+  currentType: ComputedRef<string>
+  keyField: string
+} => {
+  const keyField: RedisType = 'mongo_type'
+  const fieldTypeMap: Record<RedisType, string> = {
+    rs: 'bridge_mongodb.post_rs',
+    sharded: 'bridge_mongodb.post_sharded',
+    single: 'bridge_mongodb.post_single',
+  }
+  const keyFieldValue = computed(() => formData.value?.[keyField])
+  const currentType = computed(() => {
+    if (keyFieldValue.value === undefined) {
+      return fieldTypeMap[REDIS_TYPE[0]]
+    }
+    return fieldTypeMap[keyFieldValue.value]
+  })
+
+  return { currentType, keyField }
+}
