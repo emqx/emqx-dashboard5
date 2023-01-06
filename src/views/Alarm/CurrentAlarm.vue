@@ -1,5 +1,5 @@
 <template>
-  <div class="current-alarm app-wrapper">
+  <div class="alarm app-wrapper">
     <div class="section-header">
       <div></div>
       <el-button :icon="Setting" @click="$router.push({ name: 'alarm-settings' })">
@@ -101,20 +101,6 @@ const loadData = async (params = {}) => {
 loadData()
 </script>
 
-<style lang="scss" scoped>
-.details {
-  margin-right: 5px;
-  color: #a7a7a7;
-  cursor: pointer;
-  vertical-align: middle;
-}
-.message-with-icon {
-  position: relative;
-  :deep(.icon-question) {
-    left: -20px;
-    top: 5px;
-    transform: scale(0.9);
-    position: absolute;
-  }
-}
+<style lang="scss">
+@import '~@/style/alarm.scss';
 </style>

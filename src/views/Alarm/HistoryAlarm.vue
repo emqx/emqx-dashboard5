@@ -121,20 +121,6 @@ const handleClearHistory = async () => {
 loadData()
 </script>
 
-<style lang="scss" scoped>
-.details {
-  margin-right: 5px;
-  color: #a7a7a7;
-  cursor: pointer;
-  vertical-align: middle;
-}
-.message-with-icon {
-  position: relative;
-  :deep(.icon-question) {
-    left: -20px;
-    top: 5px;
-    transform: scale(0.9);
-    position: absolute;
-  }
-}
+<style lang="scss">
+@import '~@/style/alarm.scss';
 </style>
