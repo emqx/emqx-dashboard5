@@ -37,8 +37,8 @@ export default (): {
     const SQL2 = `my\ Measurement,tag\ Key1=tag\ Value1,tag\ Key2=tag\ Value2,tagKey=🍭 fieldKey="\"string\" within a string",fieldKey2="Launch 🚀"`
    */
   // FIXME: process new row (\n)
-  const measurementReg = /([^,\s]|(?<=\\),|(?<=\\)\s)+/
-  const keyNValueReg = /([^,\s=]|(?<=\\),|(?<=\\)\s|(?<=\\)=)+/
+  const measurementReg = /([^,\s\\]|(\\,)|(\\\s)|(\\\\))+/
+  const keyNValueReg = /([^,\s=\\]|(\\,)|(\\\s)|(\\=)|(\\\\))+/
   const fieldValueReg = /(".+")|[^"\s,]+/
   const tagItemReg = new RegExp(
     `(?<tagKey>${keyNValueReg.source})=(?<tagValue>${keyNValueReg.source})`,
@@ -105,7 +105,7 @@ export default (): {
     }, {})
   }
 
-  const specialLetterReg = /,|\s|=/g
+  const specialLetterReg = /,|\s|=|\\/g
   /**
    * add \ before comma, space and equals sign, for form to line protocol
    * can escape tag key, tag value and field key
@@ -124,7 +124,7 @@ export default (): {
     return str
   }
 
-  const strPartAfterEscapeReg = /\\(=|\s|,)/g
+  const strPartAfterEscapeReg = /\\(=|\s|,|\\)/g
   /**
    * remove \ before comma, space and equals sign, for line protocol to form
    * can unescape tag key, tag value and field key
