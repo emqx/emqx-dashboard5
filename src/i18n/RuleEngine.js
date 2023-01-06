@@ -959,6 +959,10 @@ export default {
     zh: 'Google PubSub',
     en: 'Google PubSub',
   },
+  mongoDB: {
+    zh: 'MongoDB',
+    en: 'MongoDB',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Goole PubSub',
