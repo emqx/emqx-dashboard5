@@ -28,8 +28,11 @@
 <script setup lang="ts">
 import SchemaForm from '@/components/SchemaForm'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
-import { useRedisSecondTypeControl } from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
+import {
+  useMongoSecondTypeControl,
+  useRedisSecondTypeControl,
+} from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -95,11 +98,16 @@ const customLabelMap = {
 
 const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
   useRedisSecondTypeControl(bridgeRecord)
+const { currentType: mongoFormType, keyField: mongoSecondTypeControlField } =
+  useMongoSecondTypeControl(bridgeRecord)
+
 const typesWithSecondControlMap = {
   [BridgeType.Redis]: redisFormType,
+  [BridgeType.MongoDB]: mongoFormType,
 }
 const typesWithSecondControlKeyMap = {
   [BridgeType.Redis]: redisSecondTypeControlField,
+  [BridgeType.MongoDB]: mongoSecondTypeControlField,
 }
 
 const propsDisabled = computed(() => {
@@ -126,13 +134,19 @@ const getRefKey = computed(() => {
   return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
 })
 
-const { deleteSSLLabelAndDesc, redisComponentsHandler, GCPComponentsHandler } =
-  useComponentsHandlers()
+const {
+  deleteSSLLabelAndDesc,
+  redisComponentsHandler,
+  GCPComponentsHandler,
+  mongoComponentsHandler,
+} = useComponentsHandlers()
 const getComponentsHandler = () => {
   if (props.type === BridgeType.Redis) {
     return redisComponentsHandler
   } else if (props.type === BridgeType.GCP) {
     return GCPComponentsHandler
+  } else if (props.type === BridgeType.MongoDB) {
+    return mongoComponentsHandler
   }
   return ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     deleteSSLLabelAndDesc(components)

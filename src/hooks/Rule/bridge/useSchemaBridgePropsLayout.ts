@@ -78,6 +78,25 @@ export default (
     [BridgeType.GCP]: {
       ...createOrderObj(['pubsub_topic', 'request_timeout', 'pool_size', 'pipelining'], 1),
     },
+    [BridgeType.MongoDB]: {
+      ...createOrderObj(
+        [
+          'mongo_type',
+          'srv_record',
+          'database',
+          'servers',
+          'pool_size',
+          'username',
+          'password',
+          'auth_source',
+          'w_mode',
+          'collection',
+          'topology.connect_timeout_ms',
+        ],
+        1,
+      ),
+      ...createOrderObj(['ssl'], 99),
+    },
   }
 
   const propsOrderMap = computed(() => {

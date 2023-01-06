@@ -1,4 +1,4 @@
-import { REDIS_TYPE } from '@/common/constants'
+import { REDIS_TYPE, MONGO_TYPE } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRules } from '@/hooks/useSchemaFormRules'
 import { Properties } from '@/types/schemaForm'
@@ -31,7 +31,7 @@ export default () => {
     if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
       redis_type.symbols = REDIS_TYPE
       redis_type.label = t('Auth.redisType')
-      redis_type.clearable = false
+      redis_type.componentProps = { clearable: false }
       if (redis_type.description) {
         Reflect.deleteProperty(redis_type, 'description')
       }
@@ -52,6 +52,27 @@ export default () => {
     if (command_template?.type === 'array' && command_template?.items?.type === 'string') {
       command_template.items.component = 'table'
     }
+    deleteSSLLabelAndDesc(components)
+    return { components, rules }
+  }
+
+  const mongoComponentsHandler = ({
+    components,
+    rules,
+  }: {
+    components: Properties
+    rules: SchemaRules
+  }) => {
+    const { mongo_type } = components
+    if (mongo_type?.symbols && Array.isArray(mongo_type.symbols)) {
+      mongo_type.symbols = MONGO_TYPE
+      mongo_type.label = t('Auth.mongoType')
+      mongo_type.componentProps = { clearable: false }
+      if (mongo_type.description) {
+        Reflect.deleteProperty(mongo_type, 'description')
+      }
+    }
+
     deleteSSLLabelAndDesc(components)
     return { components, rules }
   }
@@ -81,6 +102,7 @@ export default () => {
   return {
     deleteSSLLabelAndDesc,
     redisComponentsHandler,
+    mongoComponentsHandler,
     GCPComponentsHandler,
   }
 }

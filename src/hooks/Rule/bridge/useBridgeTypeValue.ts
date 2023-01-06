@@ -20,6 +20,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Kafka, label: tl('kafka') },
     { value: BridgeType.Redis, label: tl('redis') },
     { value: BridgeType.GCP, label: tl('gcpPubSub') },
+    { value: BridgeType.MongoDB, label: tl('mongoDB') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -92,6 +93,12 @@ export const useBridgeTypeOptions = (): {
       label: tl('gcpPubSub'),
       desc: tl('gcpPubSubDesc'),
     },
+    {
+      value: BridgeType.MongoDB,
+      valueForRadio: BridgeType.MongoDB,
+      label: tl('mongoDB'),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('mongoDB') }),
+    },
   ]
 
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
@@ -99,7 +106,7 @@ export const useBridgeTypeOptions = (): {
   /**
    * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
    */
-  const typesWithMultiSpecificType = [BridgeType.InfluxDB, BridgeType.Redis]
+  const typesWithMultiSpecificType = [BridgeType.InfluxDB, BridgeType.Redis, BridgeType.MongoDB]
   const getBridgeType = (typeStr: string): BridgeType => {
     if (!typeStr) {
       return typeStr as BridgeType
