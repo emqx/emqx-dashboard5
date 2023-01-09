@@ -60,7 +60,6 @@ export interface ResourceOpt {
   query_mode: 'async' | 'sync'
   async_inflight_window?: number
 
-  enable_queue: boolean
   max_queue_bytes: string
 
   enable_batch?: boolean

@@ -1,0 +1,21 @@
+.alarm {
+
+  .details {
+    margin-right: 5px;
+    color: #a7a7a7;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  .message-with-icon {
+    position: relative;
+
+    .icon-question {
+      position: absolute;
+      left: 0;
+      top: 1px;
+      transform: translateX(-120%);
+      margin-left: 0;
+    }
+  }
+}

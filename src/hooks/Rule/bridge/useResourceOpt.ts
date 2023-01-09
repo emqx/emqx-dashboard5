@@ -8,7 +8,6 @@ export default (): {
     health_check_interval: '15s',
     auto_restart_interval: '60s',
     query_mode: 'sync',
-    enable_queue: false,
     max_queue_bytes: '1GB',
   })
 

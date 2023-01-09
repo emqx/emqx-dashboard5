@@ -58,15 +58,6 @@
 
   <!-- QUEUE -->
   <el-col :span="12" class="col-need-row">
-    <el-form-item prop="resource_opts.enable_queue">
-      <template #label>
-        <span>{{ tl('enableQueue') }}</span>
-        <InfoTooltip :content="tl('enableQueueDesc')" />
-      </template>
-      <el-switch v-model="resourceOptForm.enable_queue" />
-    </el-form-item>
-  </el-col>
-  <el-col :span="12" class="col-need-row" v-if="resourceOptForm.enable_queue">
     <el-form-item prop="resource_opts.max_queue_bytes">
       <template #label>
         <span>{{ tl('maxQueueBytes') }}</span>
