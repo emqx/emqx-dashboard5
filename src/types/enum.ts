@@ -252,3 +252,8 @@ export enum InfluxDBType {
   v1 = 'influxdb_api_v1',
   v2 = 'influxdb_api_v2',
 }
+
+export enum LicenseType {
+  Trial = 'trial',
+  Official = 'official',
+}
