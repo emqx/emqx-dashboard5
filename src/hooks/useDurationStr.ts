@@ -28,7 +28,11 @@ const getBinaryArr = (beginIndex: number) => {
   })
 }
 
-export default () => {
+export default (): {
+  getDurationStr: (val: number | string, unit: TimeUnit) => string | number
+  transMsNumToSimpleStr: (num: number) => string | number
+  transSecondNumToSimpleStr: (num: number) => string | number
+} => {
   const { t } = useI18nTl('General')
 
   const unitStrKeyMap = {
@@ -75,8 +79,11 @@ export default () => {
     return getDurationStr(Math.floor(num / 1000), TimeUnit.Second)
   }
 
+  const transSecondNumToSimpleStr = (num: number) => getDurationStr(num, TimeUnit.Second)
+
   return {
     getDurationStr,
     transMsNumToSimpleStr,
+    transSecondNumToSimpleStr,
   }
 }
