@@ -10,7 +10,7 @@ export default (
 ): {
   getSessionInfoItem: GetSessionInfoItem
 } => {
-  const { transMsNumToSimpleStr } = useDurationStr()
+  const { transSecondNumToSimpleStr } = useDurationStr()
 
   const getSessionInfoItem: GetSessionInfoItem = (key) => {
     const msg = client.value
@@ -28,7 +28,7 @@ export default (
       case 'heap_size':
         return `${msg.heap_size} bytes`
       case 'expiry_interval':
-        return transMsNumToSimpleStr(msg.expiry_interval as number)
+        return transSecondNumToSimpleStr(msg.expiry_interval as number)
       default:
         return msg[key as keyof Client] ?? ''
     }
