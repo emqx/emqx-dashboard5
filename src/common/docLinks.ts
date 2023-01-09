@@ -29,6 +29,7 @@ type DocKey =
   | 'accessControl'
   | 'dataIntegration'
   | 'resetPassword'
+  | 'applyLicense'
 
 export type DocMap = Record<DocKey, string>
 
@@ -76,5 +77,6 @@ export default (lang: string): DocMap => {
     emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
     cloudHome: `https://www.emqx.com/${lang}/cloud?${QUERY_FOR_HELP}`,
     resetPassword: `https://www.emqx.io/docs/${lang}/v5.0/admin/cli.html#admins`,
+    applyLicense: `https://www.emqx.com/${lang}/apply-licenses/emqx?product=emqx&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-to-contact-us`,
   }
 }

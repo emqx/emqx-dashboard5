@@ -74,6 +74,7 @@ import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
 import useChangePwdGuide from '@/hooks/useChangePwdGuide'
+import { loadLicenseInfo } from '@/api/common'
 
 export default defineComponent({
   name: 'Layout',
@@ -134,6 +135,18 @@ export default defineComponent({
       }
       return true
     })
+
+    const initLicense = async () => {
+      try {
+        const res = await loadLicenseInfo()
+        await store.commit('SET_LICENSE_DATA', res)
+      } catch (error) {
+        //
+      }
+    }
+
+    initLicense()
+
     return {
       store,
       route,
