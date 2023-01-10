@@ -292,8 +292,8 @@ export default {
     en: 'For Trial',
   },
   licenseEvaluationTip: {
-    zh: `当前正在使用评估 License，限制为10个连接。请{0}。`,
-    en: `You are now using the 10-connection evaluation license. Please {0}.`,
+    zh: `当前正在使用评估 License，限制为 {0} 个连接。请{1}。`,
+    en: `You are now using the {0}-connection evaluation license. Please {1}.`,
   },
   upgradeLicense: {
     zh: '升级 License',
