@@ -348,8 +348,8 @@ export default {
     en: 'Rate',
   },
   notPromptAgain: {
-    zh: '不再提示',
-    en: 'Stop showing this',
+    zh: '不再询问我',
+    en: "Don't ask me again",
   },
   know: {
     zh: '知道了',

@@ -37,8 +37,8 @@
         tag="p"
         scope="global"
       >
-        {{ licenseData.max_connections }}
-        <a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
+        {{ licenseData.max_connections
+        }}<a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
       </i18n-t>
       <!-- EXPIRED -->
       <i18n-t
