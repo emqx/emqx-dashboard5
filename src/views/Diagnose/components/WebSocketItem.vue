@@ -226,7 +226,7 @@
         </div>
         <el-table :data="messageIn" max-height="400px" class="shadow-none">
           <el-table-column show-overflow-tooltip prop="topic" :label="$t('Base.topic')" />
-          <el-table-column prop="qos" label="QoS" sortable min-width="50">
+          <el-table-column prop="qos" label="QoS" sortable min-width="90">
             <template #default="{ row }">
               {{ row.qos }}
             </template>
@@ -241,7 +241,7 @@
               <code>{{ row.payload }}</code>
             </template>
           </el-table-column>
-          <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />
+          <el-table-column prop="createAt" min-width="90" :label="$t('Tools.time')" sortable />
         </el-table>
       </el-col>
 
@@ -260,7 +260,7 @@
         </div>
         <el-table :data="messageOut" max-height="400px" class="shadow-none">
           <el-table-column show-overflow-tooltip prop="topic" :label="$t('Base.topic')" />
-          <el-table-column prop="qos" label="QoS" sortable min-width="50">
+          <el-table-column prop="qos" label="QoS" sortable min-width="90">
             <template #default="{ row }">
               {{ row.qos }}
             </template>
@@ -275,7 +275,7 @@
               <code>{{ row.payload }}</code>
             </template>
           </el-table-column>
-          <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />
+          <el-table-column prop="createAt" :label="$t('Tools.time')" min-width="90" sortable />
         </el-table>
       </el-col>
     </el-row>
