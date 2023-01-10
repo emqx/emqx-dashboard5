@@ -63,14 +63,19 @@
       </el-container>
     </el-container>
   </div>
+  <LicenseTipDialog
+    v-model="showLicenseTipDialog"
+    :max-connection="store.state.licenseData.max_connections"
+  />
 </template>
 
 <script lang="ts">
 import LeftBar from './LeftBar.vue'
 import NavHeader from './NavHeader.vue'
+import LicenseTipDialog from './LicenseTipDialog.vue'
 import { routes } from '@/router'
 import { useStore } from 'vuex'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
 import useChangePwdGuide from '@/hooks/useChangePwdGuide'
@@ -83,6 +88,7 @@ export default defineComponent({
     LeftBar,
     Expand,
     Fold,
+    LicenseTipDialog,
   },
   props: {
     keepAlive: {
@@ -95,6 +101,9 @@ export default defineComponent({
     const store = useStore()
     const route = useRoute()
     useChangePwdGuide()
+
+    const showLicenseTipDialog = ref(false)
+    const isOfficialLicense = computed(() => store.getters.isOfficialLicense)
 
     const edition = computed(() => {
       return store.state.edition
@@ -140,6 +149,10 @@ export default defineComponent({
       try {
         const res = await loadLicenseInfo()
         await store.commit('SET_LICENSE_DATA', res)
+        showLicenseTipDialog.value =
+          (!isOfficialLicense.value &&
+            localStorage.getItem('licenseTipVisible') !== false.toString()) ||
+          store.state.licenseData.expire
       } catch (error) {
         //
       }
@@ -150,6 +163,7 @@ export default defineComponent({
     return {
       store,
       route,
+      showLicenseTipDialog,
       edition,
       elMainStyle,
       topLvRoute,

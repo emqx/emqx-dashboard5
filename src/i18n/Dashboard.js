@@ -351,7 +351,7 @@ export default {
     zh: '不再提示',
     en: 'Stop showing this',
   },
-  konw: {
+  know: {
     zh: '知道了',
     en: 'Acknowledge',
   },

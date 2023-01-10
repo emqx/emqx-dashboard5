@@ -117,13 +117,10 @@ const licenseData: ComputedRef<LicenseData> = computed(() => store.state.license
 const isOfficialLicense = computed(() => store.getters.isOfficialLicense)
 
 const licensePercentage = computed(() => {
-  const connection = props.currentConnections || 0
+  const connection = props.currentConnections
   const { max_connections } = licenseData.value
-  const value = Math.floor((connection / max_connections) * 100)
-  if (value < 2) {
-    return 2
-  }
-  return value
+  const value = connection ? Math.floor((connection / max_connections) * 100) : 2
+  return value <= 2 ? 2 : value
 })
 
 const refreshLicenseData = async () => {
