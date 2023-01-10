@@ -38,7 +38,7 @@ export default (): {
     if (ret.type === BridgeType.Webhook) {
       ret = handleWebhookBridgeData(ret)
     }
-    return checkNOmitFromObj(ret)
+    return checkNOmitFromObj(omit(ret, ['metrics', 'node_metrics', 'node_status', 'status']))
   }
 
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
