@@ -63,6 +63,10 @@ export default {
     zh: '选择存储认证数据的数据库或提供认证数据功能的 HTTP 服务器',
     en: 'Select the database where the authentication data is stored or the HTTP server that provides the authentication data function',
   },
+  dataSourceScramDesc: {
+    zh: '选择存储认证数据的数据库',
+    en: 'Select the database where the authentication data is stored',
+  },
   database: {
     zh: '数据库',
     en: 'Database',
