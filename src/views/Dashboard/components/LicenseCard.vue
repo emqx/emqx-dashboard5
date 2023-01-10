@@ -1,6 +1,6 @@
 <template>
   <el-card class="license-card block">
-    <h3 class="license-card-title">{{ tl('license') }}</h3>
+    <div class="license-card-title">{{ tl('license') }}</div>
     <div class="license-card-bd">
       <div class="info-item" v-if="isOfficialLicense">
         <label class="info-item-label">{{ tl('customer') }}:</label>
@@ -37,6 +37,7 @@
         tag="p"
         scope="global"
       >
+        {{ licenseData.max_connections }}
         <a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
       </i18n-t>
       <!-- EXPIRED -->
@@ -66,7 +67,7 @@
           placement="top"
           :visible-arrow="false"
         >
-          <el-tag type="danger">{{ tl('trialEdition') }}</el-tag>
+          <el-tag type="warning">{{ tl('trialEdition') }}</el-tag>
         </el-tooltip>
       </div>
       <el-button type="primary" @click="showUpdateDialog = true">
@@ -138,22 +139,24 @@ const refreshLicenseData = async () => {
 <style lang="scss">
 .license-card {
   .license-card-title {
-    margin-top: 0;
+    font-size: 16px;
+    color: var(--color-title-primary);
+    margin-bottom: 16px;
   }
   .progress-label {
-    margin: 0 0 8px;
+    margin: 0 0 12px;
   }
   .progress-desc {
-    margin: 4px 0 8px;
-    font-size: 12px;
+    margin: 4px 0 16px;
+    font-size: 13px;
   }
   .license-card-bd {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
   .tip,
   .tag-container,
   .info-item {
-    margin-bottom: 8px;
+    margin-bottom: 16px;
   }
   .progress-label {
     width: 200px;
