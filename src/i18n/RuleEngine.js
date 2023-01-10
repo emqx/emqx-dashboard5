@@ -948,20 +948,20 @@ export default {
     en: 'Kafka',
   },
   kafkaDesc: {
-    zh: '使用 Kafka 桥接数据',
-    en: 'Using Kafka to bridge data',
+    zh: '桥接数据到 Kafka',
+    en: 'Bridge data to Kafka',
   },
   redis: {
     zh: 'Redis',
     en: 'Redis',
   },
   gcpPubSub: {
-    zh: 'GCP PubSub',
-    en: 'GCP PubSub',
+    zh: 'Google PubSub',
+    en: 'Google PubSub',
   },
   gcpPubSubDesc: {
-    zh: '使用 Google Pub/Sub 服务桥接数据',
-    en: 'Using Google Pub/Sub service to bridge data',
+    zh: '桥接数据到 Google PubSub',
+    en: 'Bridge data to Goole PubSub',
   },
   egressDataBaseDesc: {
     zh: '将数据保存到 {name}',
