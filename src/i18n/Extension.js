@@ -76,8 +76,8 @@ export default {
     en: 'Enable',
   },
   enableDesc: {
-    zh: '停用后不会清除已保存的数据',
-    en: 'Disabling will not clear the saved data',
+    zh: '打开或关闭保留消息功能，停用后不会清除已保留消息',
+    en: 'Enable retainer feature, disabling will not clear the saved retained messages',
   },
   enableDescDelay: {
     zh: '启用延迟发布功能，停用将终止延迟列表',

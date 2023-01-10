@@ -24,7 +24,8 @@
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.isEnabled')">
               <p class="item-desc">
-                {{ t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) }}
+                {{ t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' })
+                }}{{ t('MonitoringIntegration.promToPushgateway') }}
               </p>
               <el-switch v-model="prometheusFormData.enable" />
             </el-form-item>

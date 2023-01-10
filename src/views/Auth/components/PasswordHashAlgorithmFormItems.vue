@@ -55,7 +55,7 @@ import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants
 import { titleCase } from '@/common/tools'
 import usePassword from '@/hooks/usePassword'
 import { SaltPosition } from '@/types/enum'
-import { defineProps, computed, defineEmits, PropType } from 'vue'
+import { defineProps, computed, defineEmits, PropType, watch } from 'vue'
 
 interface PasswordHashAlgorithmFormItems {
   password_hash_algorithm: {
@@ -108,6 +108,15 @@ const needSelectSaltPosition = computed(() => {
   const { name } = formData.value.password_hash_algorithm
   return name && PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION.includes(name)
 })
+
+watch(
+  () => formData.value.password_hash_algorithm.name,
+  () => {
+    if (formData.value.password_hash_algorithm.name === 'plain') {
+      formData.value.password_hash_algorithm.salt_position = SaltPosition.Disable
+    }
+  },
+)
 
 const handleSaltChanged = () => {
   emit('change')
