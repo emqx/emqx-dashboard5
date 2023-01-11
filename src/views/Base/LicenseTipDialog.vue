@@ -7,7 +7,7 @@
   >
     <div class="tip-content">
       <i18n-t
-        v-if="!isOfficialLicense"
+        v-if="!isLicenseExpiry"
         class="tip"
         keypath="Dashboard.licenseEvaluationTip"
         tag="p"
@@ -16,7 +16,9 @@
         <span>{{ maxConnection }}</span>
         <a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
       </i18n-t>
-      <p v-else v-html="tl('licenseExpiryTip')"></p>
+      <i18n-t v-else class="tip" keypath="Dashboard.licenseExpiryTip" tag="p" scope="global">
+        <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
+      </i18n-t>
     </div>
     <div v-if="!isLicenseExpiry" class="tip-checkbox">
       <el-checkbox v-model="noPromptAnyMore" @change="liceEvaTipShowChange">
@@ -65,7 +67,6 @@ const licenseTipVisible = computed({
 
 const license = computed(() => store.state.licenseData)
 const isLicenseExpiry = computed(() => license.value.expiry)
-const isOfficialLicense = computed(() => store.getters.isOfficialLicense)
 const licenseTipWidth = computed(() => (isLicenseExpiry.value ? 600 : 520))
 
 const liceEvaTipShowChange = (val: boolean) => {

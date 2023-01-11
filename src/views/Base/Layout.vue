@@ -103,7 +103,7 @@ export default defineComponent({
     useChangePwdGuide()
 
     const showLicenseTipDialog = ref(false)
-    const isOfficialLicense = computed(() => store.getters.isOfficialLicense)
+    const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
 
     const edition = computed(() => {
       return store.state.edition
@@ -150,9 +150,9 @@ export default defineComponent({
         const res = await loadLicenseInfo()
         await store.commit('SET_LICENSE_DATA', res)
         showLicenseTipDialog.value =
-          (!isOfficialLicense.value &&
+          (isEvaluationLicense.value &&
             localStorage.getItem('licenseTipVisible') !== false.toString()) ||
-          store.state.licenseData.expire
+          store.state.licenseData.expiry
       } catch (error) {
         //
       }
