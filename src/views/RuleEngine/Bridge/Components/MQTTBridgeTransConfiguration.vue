@@ -1,5 +1,5 @@
 <template>
-  <el-form-item :prop="['egress', 'remote', 'topic']" :required="remoteTopicRequired">
+  <el-form-item :prop="getProp('topic')" :required="remoteTopicRequired">
     <template #label>
       <label>{{ t('Base.topic') }}</label>
       <InfoTooltip :content="topicDesc" />
@@ -84,6 +84,8 @@ const config = computed({
     emit('update:modelValue', val)
   },
 })
+
+const getProp = (key: string) => (props.path ? '' : `${props.path}.${key}`)
 </script>
 
 <style class="scss" scoped>

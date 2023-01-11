@@ -1,6 +1,12 @@
 <template>
   <div class="bridge-config">
-    <el-form ref="formCom" label-position="top" :model="mqttBridgeVal" :rules="formRules">
+    <el-form
+      ref="formCom"
+      label-position="top"
+      :model="mqttBridgeVal"
+      :rules="formRules"
+      :validate-on-rule-change="false"
+    >
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="tl('name')" required prop="name">
@@ -196,8 +202,12 @@ const formRules = computed(() => ({
     server: createRequiredRule(tl('brokerAddress')),
   },
   remote_topic: createRequiredRule(t('Base.topic')),
-  ingress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
-  egress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
+  ingress: enableIngress.value
+    ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
+    : undefined,
+  egress: enableEgress.value
+    ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
+    : undefined,
 })) as Partial<Record<string, any>>
 
 const initMqttBridgeVal = async () => {
