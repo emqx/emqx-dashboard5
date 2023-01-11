@@ -196,6 +196,8 @@ const formRules = computed(() => ({
     server: createRequiredRule(tl('brokerAddress')),
   },
   remote_topic: createRequiredRule(t('Base.topic')),
+  ingress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
+  egress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
 })) as Partial<Record<string, any>>
 
 const initMqttBridgeVal = async () => {

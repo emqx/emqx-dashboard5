@@ -126,7 +126,7 @@
               <time-input-with-unit-select v-model="databaseConfig.topology.connect_timeout_ms" />
             </el-form-item>
           </el-col>
-          <el-col v-if="authType === 'authn' && isMySQL" :span="12">
+          <el-col v-if="isAuthn && isMySQL" :span="12">
             <el-form-item :label="$t('Auth.queryTimeout')">
               <time-input-with-unit-select v-model="databaseConfig.query_timeout" />
             </el-form-item>
@@ -138,14 +138,14 @@
       <div class="config-sub-block">
         <div class="part-header">
           <span>
-            {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
+            {{ isAuthn ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
           </span>
           <el-button class="help-btn" size="small" @click="toggleNeedHelp">
             {{ $t('Base.help') }}
           </el-button>
         </div>
         <el-row :gutter="20">
-          <template v-if="authType === 'authn'">
+          <template v-if="isAuthn">
             <el-col v-if="isMongoDB" :span="12">
               <el-form-item :label="$t('Auth.passwordHashField')">
                 <el-input
@@ -302,6 +302,7 @@ export default defineComponent({
       clearValidate,
     } = useDatabaseConfigForm(props, databaseConfig.value)
     const needHelp = ref(false)
+    const isAuthn = computed(() => props.authType === 'authn')
 
     const setDefaultContent = async (dataKey: string) => {
       await ElMessageBox.confirm(tl('setDefaultConfirm'), {
@@ -309,7 +310,7 @@ export default defineComponent({
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
       })
-      if (isMySQL.value || isPgSQL.value) {
+      if (isAuthn.value && (isMySQL.value || isPgSQL.value)) {
         databaseConfig.value[dataKey] =
           databaseConfig.value.password_hash_algorithm.salt_position !== SaltPosition.Disable
             ? withSaltDefaultSQL
@@ -382,6 +383,7 @@ export default defineComponent({
       isEnableSalt,
       btnCopyHelp,
       MongoType,
+      isAuthn,
       clearValidateAfterSomeFieldChanged,
       validate,
       setDefaultContent,

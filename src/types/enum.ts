@@ -257,3 +257,9 @@ export enum LicenseType {
   Trial = 'trial',
   Official = 'official',
 }
+
+export enum BuiltInDBType {
+  Client = 'clients',
+  User = 'users',
+  All = 'all',
+}

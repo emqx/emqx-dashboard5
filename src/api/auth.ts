@@ -105,28 +105,30 @@ export function moveAuthn(id: string, positionStr: string) {
 }
 
 export function loadBuiltInDatabaseData(type: string, params = {}) {
-  return http.get(`/authorization/sources/built_in_database/${type}`, {
+  return http.get(`/authorization/sources/built_in_database/rules/${type}`, {
     params,
   })
 }
 
 export function createBuiltInDatabaseData(type: string, body: { [key: string]: any }) {
-  return http.post(`/authorization/sources/built_in_database/${type}`, body)
+  return http.post(`/authorization/sources/built_in_database/rules/${type}`, body)
 }
 
 export function deleteBuiltInDatabaseData(type: string, key: string) {
-  return http.delete(`/authorization/sources/built_in_database/${type}/${encodeURIComponent(key)}`)
+  return http.delete(
+    `/authorization/sources/built_in_database/rules/${type}/${encodeURIComponent(key)}`,
+  )
 }
 
 export function updateBuiltInDatabaseData(type: string, key: string, body: { [key: string]: any }) {
   return http.put(
-    `/authorization/sources/built_in_database/${type}/${encodeURIComponent(key)}`,
+    `/authorization/sources/built_in_database/rules/${type}/${encodeURIComponent(key)}`,
     body,
   )
 }
 
 export function updateAllBuiltInDatabaseData(body = {}) {
-  return http.post('/authorization/sources/built_in_database/all', body)
+  return http.post('/authorization/sources/built_in_database/rules/all', body)
 }
 
 export default {}
