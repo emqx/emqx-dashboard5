@@ -4,6 +4,8 @@ import bridgeMQTT from '@/assets/img/mqtt.png'
 import bridgeInfluxDB from '@/assets/img/influxdb.png'
 import bridgeMySQL from '@/assets/img/mysql.png'
 import bridgeKafka from '@/assets/img/kafka.png'
+import bridgeRedis from '@/assets/img/redis.png'
+import bridgeGCP from '@/assets/img/gcp_pubsub.png'
 import console from './console.png'
 import event from './event.png'
 import republish from './republish.png'
@@ -16,6 +18,8 @@ const iconMap: Record<string, SVGAElement> = {
   [`bridge-${BridgeType.InfluxDB}`]: bridgeInfluxDB,
   [`bridge-${BridgeType.MySQL}`]: bridgeMySQL,
   [`bridge-${BridgeType.Kafka}`]: bridgeKafka,
+  [`bridge-${BridgeType.Redis}`]: bridgeRedis,
+  [`bridge-${BridgeType.GCP}`]: bridgeGCP,
   console,
   event,
   republish,
