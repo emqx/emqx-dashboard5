@@ -61,6 +61,9 @@ export default function useSchemaForm(
         }
         Object.keys(properties).forEach((key) => {
           const property: Properties[string] = _.cloneDeep(properties[key])
+          if (property.deprecated) {
+            return
+          }
           property.path = path ? `${path}.${key}` : key
 
           // special handling for connector in bridge
