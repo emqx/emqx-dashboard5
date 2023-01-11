@@ -47,7 +47,7 @@
       <div v-if="step === 1" class="create-form">
         <template v-if="mechanism !== 'jwt'">
           <p class="item-description">
-            {{ $t('Auth.dataSourceDesc') }}
+            {{ mechanism === 'scram' ? $t('Auth.dataSourceScramDesc') : $t('Auth.dataSourceDesc') }}
           </p>
           <div class="create-form-title">
             {{ $t('Auth.database') }}

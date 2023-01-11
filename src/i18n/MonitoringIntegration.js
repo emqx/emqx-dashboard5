@@ -17,7 +17,11 @@ export default {
   },
   enableDataDesc: {
     zh: '开启或关闭 {name} 数据推送',
-    en: 'Enable or disable {name} data push.',
+    en: 'Enable or disable {name} data push',
+  },
+  promToPushgateway: {
+    zh: '到 Pushgateway， 需要使用该服务时可开启',
+    en: ' to Pushgateway, enable when using this service',
   },
   statsDServerDesc: {
     zh: 'StatsD 服务器地址',

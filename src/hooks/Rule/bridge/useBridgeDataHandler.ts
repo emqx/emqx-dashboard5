@@ -69,7 +69,7 @@ export default (): {
     if (ret.type === InfluxDBType.v1 || ret.type === InfluxDBType.v2) {
       ret = handleInfluxDBBridgeData(ret)
     }
-    return checkNOmitFromObj(ret)
+    return checkNOmitFromObj(omit(ret, ['metrics', 'node_metrics', 'node_status', 'status']))
   }
 
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {

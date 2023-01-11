@@ -87,7 +87,7 @@
             {{ $t('Base.nextStep') }}
           </el-button>
           <el-button
-            v-if="step === 1 && canTestConnection"
+            v-if="step === 1"
             type="primary"
             plain
             :loading="isTesting"
@@ -225,11 +225,6 @@ export default defineComponent({
       }
       return { name }
     })
-
-    const canTestConnection = computed(
-      () =>
-        chosenBridgeType.value === BridgeType.Webhook || chosenBridgeType.value === BridgeType.MQTT,
-    )
 
     const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 
@@ -391,7 +386,6 @@ export default defineComponent({
       cancel,
       submitCreateBridge,
       isTesting,
-      canTestConnection,
       testConnection,
       handleTypeSelected,
       getBridgeIcon,
