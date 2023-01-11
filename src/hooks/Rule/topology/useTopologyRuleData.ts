@@ -46,7 +46,8 @@ export default (): {
     getIconFromInputData,
     getIconFromOutputItem,
     getBridgeNodeLabel,
-    getBridgeTypeFromString,
+    getBridgeTypeFromId,
+    getBridgeIDFromInputting,
     createBridgeSingleDirectionNodeId,
   } = useUtilsForTopology()
 
@@ -67,7 +68,9 @@ export default (): {
     let idOfInputNode = createNodeId(rawFrom, inputType)
     if (
       isBridgeNode &&
-      BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(getBridgeTypeFromString(fromData))
+      BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(
+        getBridgeTypeFromId(getBridgeIDFromInputting(fromData)),
+      )
     ) {
       idOfInputNode = createBridgeSingleDirectionNodeId(rawFrom, MQTTBridgeDirection.In)
     }
@@ -121,7 +124,7 @@ export default (): {
     let toNode = createNodeId(target as string, outputType)
     if (
       isBridgeNode &&
-      BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(getBridgeTypeFromString(outputData as string))
+      BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(getBridgeTypeFromId(outputData as string))
     ) {
       toNode = createBridgeSingleDirectionNodeId(outputData as string, MQTTBridgeDirection.Out)
     }
