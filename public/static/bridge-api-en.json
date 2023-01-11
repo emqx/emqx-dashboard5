@@ -7,7 +7,6 @@
                     "type",
                     "database",
                     "sentinel",
-                    "redis_type",
                     "servers",
                     "command_template"
                 ],
@@ -44,7 +43,7 @@
                     },
                     "redis_type": {
                         "default": "sentinel",
-                        "description": "Sentinel mode",
+                        "description": "Sentinel mode. Must be set to 'sentinel' when Redis server is running in sentinel mode.",
                         "label": "Sentinel Mode",
                         "symbols": [
                             "sentinel"
@@ -590,13 +589,12 @@
                     "type",
                     "database",
                     "replica_set_name",
-                    "servers",
-                    "mongo_type"
+                    "servers"
                 ],
                 "properties": {
                     "mongo_type": {
                         "default": "rs",
-                        "description": "Replica set.",
+                        "description": "Replica set. Must be set to 'rs' when MongoDB server is running in 'replica set' mode.",
                         "label": "Replica set",
                         "symbols": [
                             "rs"
@@ -711,13 +709,12 @@
                 "required": [
                     "database",
                     "replica_set_name",
-                    "servers",
-                    "mongo_type"
+                    "servers"
                 ],
                 "properties": {
                     "mongo_type": {
                         "default": "rs",
-                        "description": "Replica set.",
+                        "description": "Replica set. Must be set to 'rs' when MongoDB server is running in 'replica set' mode.",
                         "label": "Replica set",
                         "symbols": [
                             "rs"
@@ -817,11 +814,6 @@
             },
             "bridge.metrics": {
                 "properties": {
-                    "batching": {
-                        "description": "Count of messages that are currently accumulated in memory waiting for sending in one batch.",
-                        "label": "Batched",
-                        "type": "number"
-                    },
                     "dropped": {
                         "description": "Count of messages dropped.",
                         "label": "Dropped",
@@ -835,11 +827,6 @@
                     "dropped.queue_full": {
                         "description": "Count of messages dropped due to the queue is full.",
                         "label": "Dropped Queue Full",
-                        "type": "number"
-                    },
-                    "dropped.queue_not_enabled": {
-                        "description": "Count of messages dropped due to the queue is not enabled.",
-                        "label": "Dropped Queue Disabled",
                         "type": "number"
                     },
                     "dropped.resource_not_found": {
@@ -1241,13 +1228,12 @@
                     "name",
                     "type",
                     "database",
-                    "servers",
-                    "mongo_type"
+                    "servers"
                 ],
                 "properties": {
                     "mongo_type": {
                         "default": "sharded",
-                        "description": "Sharded cluster.",
+                        "description": "Sharded cluster. Must be set to 'sharded' when MongoDB server is running in 'sharded' mode.",
                         "label": "Sharded cluster",
                         "symbols": [
                             "sharded"
@@ -1481,7 +1467,6 @@
                     "type",
                     "database",
                     "sentinel",
-                    "redis_type",
                     "servers",
                     "command_template"
                 ],
@@ -1518,7 +1503,7 @@
                     },
                     "redis_type": {
                         "default": "sentinel",
-                        "description": "Sentinel mode",
+                        "description": "Sentinel mode. Must be set to 'sentinel' when Redis server is running in sentinel mode.",
                         "label": "Sentinel Mode",
                         "symbols": [
                             "sentinel"
@@ -1674,6 +1659,7 @@
                     },
                     "enable_queue": {
                         "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
                         "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
                         "label": "Enable disk buffer queue",
                         "type": "boolean"
@@ -1713,6 +1699,95 @@
                         "description": "SASL authentication password.",
                         "label": "Password",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_matrix.post": {
+                "required": [
+                    "database",
+                    "server",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "matrix"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -1781,6 +1856,169 @@
                         "format": "password",
                         "label": "Password",
                         "type": "string"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_pgsql.put": {
+                "required": [
+                    "database",
+                    "server"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_pgsql.post": {
+                "required": [
+                    "database",
+                    "server",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "pgsql"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
                     },
                     "ssl": {
                         "default": {
@@ -1918,8 +2156,7 @@
                     "name",
                     "type",
                     "database",
-                    "servers",
-                    "mongo_type"
+                    "servers"
                 ],
                 "properties": {
                     "metrics": {
@@ -1955,7 +2192,7 @@
                     },
                     "mongo_type": {
                         "default": "sharded",
-                        "description": "Sharded cluster.",
+                        "description": "Sharded cluster. Must be set to 'sharded' when MongoDB server is running in 'sharded' mode.",
                         "label": "Sharded cluster",
                         "symbols": [
                             "sharded"
@@ -2056,13 +2293,12 @@
                     "name",
                     "type",
                     "database",
-                    "server",
-                    "mongo_type"
+                    "server"
                 ],
                 "properties": {
                     "mongo_type": {
                         "default": "single",
-                        "description": "Standalone instance.",
+                        "description": "Standalone instance. Must be set to 'single' when MongoDB server is running in standalone mode.",
                         "label": "Standalone instance",
                         "symbols": [
                             "single"
@@ -2176,14 +2412,87 @@
                 },
                 "type": "object"
             },
+            "bridge_matrix.put": {
+                "required": [
+                    "database",
+                    "server"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_mongodb.get_rs": {
                 "required": [
                     "name",
                     "type",
                     "database",
                     "replica_set_name",
-                    "servers",
-                    "mongo_type"
+                    "servers"
                 ],
                 "properties": {
                     "metrics": {
@@ -2219,7 +2528,7 @@
                     },
                     "mongo_type": {
                         "default": "rs",
-                        "description": "Replica set.",
+                        "description": "Replica set. Must be set to 'rs' when MongoDB server is running in 'replica set' mode.",
                         "label": "Replica set",
                         "symbols": [
                             "rs"
@@ -2333,13 +2642,12 @@
             "bridge_mongodb.put_single": {
                 "required": [
                     "database",
-                    "server",
-                    "mongo_type"
+                    "server"
                 ],
                 "properties": {
                     "mongo_type": {
                         "default": "single",
-                        "description": "Standalone instance.",
+                        "description": "Standalone instance. Must be set to 'single' when MongoDB server is running in standalone mode.",
                         "label": "Standalone instance",
                         "symbols": [
                             "single"
@@ -2567,8 +2875,7 @@
                         "type": "object"
                     },
                     "body": {
-                        "default": "${payload}",
-                        "description": "<br/>The body of the HTTP request.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "<br/>The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.<br/>",
                         "label": "HTTP Body",
                         "type": "string"
                     },
@@ -2608,7 +2915,6 @@
             },
             "bridge_redis.put_cluster": {
                 "required": [
-                    "redis_type",
                     "servers",
                     "command_template"
                 ],
@@ -2645,7 +2951,7 @@
                     },
                     "redis_type": {
                         "default": "cluster",
-                        "description": "Cluster mode",
+                        "description": "Cluster mode. Must be set to 'cluster' when Redis server is running in clustered mode.",
                         "label": "Cluster Mode",
                         "symbols": [
                             "cluster"
@@ -3181,7 +3487,6 @@
                     "name",
                     "type",
                     "database",
-                    "redis_type",
                     "server",
                     "command_template"
                 ],
@@ -3218,7 +3523,7 @@
                     },
                     "redis_type": {
                         "default": "single",
-                        "description": "Single mode",
+                        "description": "Single mode. Must be set to 'single' when Redis server is running in single mode.",
                         "label": "Single Mode",
                         "symbols": [
                             "single"
@@ -3353,6 +3658,7 @@
                     },
                     "enable_queue": {
                         "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
                         "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
                         "label": "Enable disk buffer queue",
                         "type": "boolean"
@@ -3370,7 +3676,6 @@
                 "required": [
                     "name",
                     "type",
-                    "redis_type",
                     "servers",
                     "command_template"
                 ],
@@ -3407,7 +3712,7 @@
                     },
                     "redis_type": {
                         "default": "cluster",
-                        "description": "Cluster mode",
+                        "description": "Cluster mode. Must be set to 'cluster' when Redis server is running in clustered mode.",
                         "label": "Cluster Mode",
                         "symbols": [
                             "cluster"
@@ -3483,6 +3788,126 @@
                         },
                         "label": "Node Status",
                         "type": "array"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_timescale.get": {
+                "required": [
+                    "database",
+                    "server",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "The status of the bridge",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "pgsql"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -3611,7 +4036,6 @@
                 "required": [
                     "name",
                     "type",
-                    "redis_type",
                     "servers",
                     "command_template"
                 ],
@@ -3648,7 +4072,7 @@
                     },
                     "redis_type": {
                         "default": "cluster",
-                        "description": "Cluster mode",
+                        "description": "Cluster mode. Must be set to 'cluster' when Redis server is running in clustered mode.",
                         "label": "Cluster Mode",
                         "symbols": [
                             "cluster"
@@ -3906,6 +4330,246 @@
                 },
                 "type": "object"
             },
+            "bridge_pgsql.get": {
+                "required": [
+                    "database",
+                    "server",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "The status of the bridge",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "pgsql"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_matrix.get": {
+                "required": [
+                    "database",
+                    "server",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    },
+                    "status": {
+                        "description": "The status of the bridge",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "pgsql"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_mqtt.get": {
                 "required": [
                     "server"
@@ -4096,13 +4760,14 @@
                     },
                     "enable_batch": {
                         "default": true,
+                        "deprecated": "since(\"v5.0.14\")",
                         "description": "Batch mode enabled.",
                         "label": "Enable batch",
                         "type": "boolean"
                     },
                     "batch_size": {
-                        "default": 100,
-                        "description": "Maximum batch count.",
+                        "default": 1,
+                        "description": "Maximum batch count. If equal to 1, there's effectively no batching.",
                         "label": "Batch size",
                         "type": "string"
                     },
@@ -4114,6 +4779,7 @@
                     },
                     "enable_queue": {
                         "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
                         "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
                         "label": "Enable disk buffer queue",
                         "type": "boolean"
@@ -4131,7 +4797,6 @@
                 "required": [
                     "database",
                     "sentinel",
-                    "redis_type",
                     "servers",
                     "command_template"
                 ],
@@ -4168,7 +4833,7 @@
                     },
                     "redis_type": {
                         "default": "sentinel",
-                        "description": "Sentinel mode",
+                        "description": "Sentinel mode. Must be set to 'sentinel' when Redis server is running in sentinel mode.",
                         "label": "Sentinel Mode",
                         "symbols": [
                             "sentinel"
@@ -4442,13 +5107,86 @@
                 },
                 "type": "object"
             },
+            "bridge_timescale.put": {
+                "required": [
+                    "database",
+                    "server"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_mongodb.get_single": {
                 "required": [
                     "name",
                     "type",
                     "database",
-                    "server",
-                    "mongo_type"
+                    "server"
                 ],
                 "properties": {
                     "metrics": {
@@ -4484,7 +5222,7 @@
                     },
                     "mongo_type": {
                         "default": "single",
-                        "description": "Standalone instance.",
+                        "description": "Standalone instance. Must be set to 'single' when MongoDB server is running in standalone mode.",
                         "label": "Standalone instance",
                         "symbols": [
                             "single"
@@ -4618,7 +5356,6 @@
                     "name",
                     "type",
                     "database",
-                    "redis_type",
                     "server",
                     "command_template"
                 ],
@@ -4655,7 +5392,7 @@
                     },
                     "redis_type": {
                         "default": "single",
-                        "description": "Single mode",
+                        "description": "Single mode. Must be set to 'single' when Redis server is running in single mode.",
                         "label": "Single Mode",
                         "symbols": [
                             "single"
@@ -4959,8 +5696,7 @@
                         "type": "object"
                     },
                     "body": {
-                        "default": "${payload}",
-                        "description": "<br/>The body of the HTTP request.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "<br/>The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.<br/>",
                         "label": "HTTP Body",
                         "type": "string"
                     },
@@ -5002,7 +5738,6 @@
             "bridge_redis.put_single": {
                 "required": [
                     "database",
-                    "redis_type",
                     "server",
                     "command_template"
                 ],
@@ -5039,7 +5774,7 @@
                     },
                     "redis_type": {
                         "default": "single",
-                        "description": "Single mode",
+                        "description": "Single mode. Must be set to 'single' when Redis server is running in single mode.",
                         "label": "Single Mode",
                         "symbols": [
                             "single"
@@ -5180,8 +5915,7 @@
                         "type": "object"
                     },
                     "body": {
-                        "default": "${payload}",
-                        "description": "<br/>The body of the HTTP request.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "<br/>The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.<br/>",
                         "label": "HTTP Body",
                         "type": "string"
                     },
@@ -5280,13 +6014,14 @@
                     },
                     "enable_batch": {
                         "default": true,
+                        "deprecated": "since(\"v5.0.14\")",
                         "description": "Batch mode enabled.",
                         "label": "Enable batch",
                         "type": "boolean"
                     },
                     "batch_size": {
-                        "default": 100,
-                        "description": "Maximum batch count.",
+                        "default": 1,
+                        "description": "Maximum batch count. If equal to 1, there's effectively no batching.",
                         "label": "Batch size",
                         "type": "string"
                     },
@@ -5298,6 +6033,7 @@
                     },
                     "enable_queue": {
                         "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
                         "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
                         "label": "Enable disk buffer queue",
                         "type": "boolean"
@@ -5307,6 +6043,95 @@
                         "description": "Maximum number of bytes to buffer for each buffer worker.",
                         "label": "Max buffer queue size",
                         "type": "byteSize"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_timescale.post": {
+                "required": [
+                    "database",
+                    "server",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "timescale"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable or disable this bridge",
+                        "label": "Enable Or Disable Bridge",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, TO_TIMESTAMP((${timestamp} :: bigint)/1000))",
+                        "description": "SQL Template",
+                        "format": "sql",
+                        "label": "SQL Template",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "label": "Local Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
+                    },
+                    "server": {
+                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "label": "Server Host",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "Database name.",
+                        "label": "Database Name",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "Size of the connection pool.",
+                        "label": "Pool Size",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "EMQX's username in the external database.",
+                        "label": "Username",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "EMQX's password in the external database.",
+                        "format": "password",
+                        "label": "Password",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "description": "Enable automatic reconnect to the database.",
+                        "label": "Auto Reconnect Database",
+                        "type": "boolean"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -5399,16 +6224,91 @@
                 },
                 "type": "object"
             },
+            "bridge_pgsql.creation_opts": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "Health check interval, in milliseconds.",
+                        "label": "Health Check Interval",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "The auto restart interval after the resource is disconnected, in milliseconds.",
+                        "label": "Auto Restart Interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "async",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "Query mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "enable_batch": {
+                        "default": true,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Batch mode enabled.",
+                        "label": "Enable batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 1,
+                        "description": "Maximum batch count. If equal to 1, there's effectively no batching.",
+                        "label": "Batch size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "20ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "Batch time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
+                        "type": "byteSize"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_mongodb.put_sharded": {
                 "required": [
                     "database",
-                    "servers",
-                    "mongo_type"
+                    "servers"
                 ],
                 "properties": {
                     "mongo_type": {
                         "default": "sharded",
-                        "description": "Sharded cluster.",
+                        "description": "Sharded cluster. Must be set to 'sharded' when MongoDB server is running in 'sharded' mode.",
                         "label": "Sharded cluster",
                         "symbols": [
                             "sharded"
@@ -5503,6 +6403,12 @@
                 "items": {
                     "oneOf": [
                         {
+                            "$ref": "#/components/schemas/bridge_matrix.get"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_timescale.get"
+                        },
+                        {
                             "$ref": "#/components/schemas/bridge_redis.get_cluster"
                         },
                         {
@@ -5530,6 +6436,9 @@
                             "$ref": "#/components/schemas/bridge_mongodb.get_rs"
                         },
                         {
+                            "$ref": "#/components/schemas/bridge_pgsql.get"
+                        },
+                        {
                             "$ref": "#/components/schemas/bridge_mysql.get"
                         },
                         {
@@ -5553,6 +6462,12 @@
             "get": {
                 "oneOf": [
                     {
+                        "$ref": "#/components/schemas/bridge_matrix.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_timescale.get"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_redis.get_cluster"
                     },
                     {
@@ -5578,6 +6493,9 @@
                     },
                     {
                         "$ref": "#/components/schemas/bridge_mongodb.get_rs"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_pgsql.get"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_mysql.get"
@@ -5599,6 +6517,12 @@
             "put": {
                 "oneOf": [
                     {
+                        "$ref": "#/components/schemas/bridge_matrix.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_timescale.get"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_redis.get_cluster"
                     },
                     {
@@ -5624,6 +6548,9 @@
                     },
                     {
                         "$ref": "#/components/schemas/bridge_mongodb.get_rs"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_pgsql.get"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_mysql.get"
