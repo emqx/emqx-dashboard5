@@ -3,6 +3,11 @@ export type InjectSchema = Ref<any> | undefined
 export interface Property {
   $ref?: string
   description: string
+  /**
+   * If `deprecated` has a value, it means that the component here has been deprecated before
+   * or will be deprecated at some later date.
+   */
+  deprecated: string
   label: string
   default: any
   symbols?: string[]

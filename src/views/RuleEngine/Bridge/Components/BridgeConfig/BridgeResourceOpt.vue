@@ -17,7 +17,7 @@
       <TimeInputWithUnitSelect v-model="resourceOptForm.health_check_interval" />
     </el-form-item>
   </el-col>
-  <el-col :span="12" :class="{ 'col-need-row': canConfigInflightWindow }">
+  <el-col :span="12">
     <el-form-item prop="resource_opts.auto_restart_interval">
       <template #label>
         <span>{{ tl('autoRestartInterval') }}</span>
@@ -29,9 +29,40 @@
       />
     </el-form-item>
   </el-col>
+  <!-- QUEUE -->
+  <el-col :span="12">
+    <el-form-item prop="resource_opts.max_queue_bytes">
+      <template #label>
+        <span>{{ tl('maxQueueBytes') }}</span>
+        <InfoTooltip :content="tl('maxQueueBytesDesc')" />
+      </template>
+      <InputWithUnit :units="['MB', 'GB', 'KB']" v-model="resourceOptForm.max_queue_bytes" />
+    </el-form-item>
+  </el-col>
+  <!-- BATCH -->
+  <template v-if="withBatchConfig">
+    <el-col :span="12">
+      <el-form-item prop="resource_opts.batch_size">
+        <template #label>
+          <span>{{ tl('batchSize') }}</span>
+          <InfoTooltip :content="tl('batchSizeDesc')" />
+        </template>
+        <el-input v-model="resourceOptForm.batch_size" />
+      </el-form-item>
+    </el-col>
+    <el-col :span="12">
+      <el-form-item prop="resource_opts.batch_time">
+        <template #label>
+          <span>{{ tl('batchTime') }}</span>
+          <InfoTooltip :content="tl('batchTimeDesc')" />
+        </template>
+        <TimeInputWithUnitSelect v-model="resourceOptForm.batch_time" />
+      </el-form-item>
+    </el-col>
+  </template>
 
   <!-- QUERY MODE -->
-  <el-col :span="12">
+  <el-col :span="12" :class="{ 'col-need-row': resourceOptForm.query_mode !== 'async' }">
     <el-form-item prop="resource_opts.query_mode">
       <template #label>
         <span>{{ tl('queryMode') }}</span>
@@ -55,17 +86,6 @@
       <el-input v-model="resourceOptForm.async_inflight_window" />
     </el-form-item>
   </el-col>
-
-  <!-- QUEUE -->
-  <el-col :span="12" class="col-need-row">
-    <el-form-item prop="resource_opts.max_queue_bytes">
-      <template #label>
-        <span>{{ tl('maxQueueBytes') }}</span>
-        <InfoTooltip :content="tl('maxQueueBytesDesc')" />
-      </template>
-      <InputWithUnit :units="['MB', 'GB', 'KB']" v-model="resourceOptForm.max_queue_bytes" />
-    </el-form-item>
-  </el-col>
 </template>
 
 <script setup lang="ts">
@@ -80,6 +100,10 @@ const props = defineProps({
   modelValue: {
     type: Object,
     required: true,
+  },
+  withBatchConfig: {
+    type: Boolean,
+    default: false,
   },
 })
 
