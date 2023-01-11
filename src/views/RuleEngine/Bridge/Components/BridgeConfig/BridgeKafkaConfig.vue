@@ -130,6 +130,10 @@
             <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
           </el-form-item>
         </el-col>
+        <!-- ssl -->
+        <el-col :span="24">
+          <CommonTLSConfig v-model="formData.ssl" :is-edit="edit" :content="tl('kafkaSniDesc')" />
+        </el-col>
 
         <el-col :span="24"><el-divider /></el-col>
 
@@ -185,10 +189,6 @@
             </template>
             <el-switch v-model="formData.socket_opts.nodelay" />
           </el-form-item>
-        </el-col>
-        <!-- ssl -->
-        <el-col :span="24">
-          <CommonTLSConfig v-model="formData.ssl" :is-edit="edit" />
         </el-col>
       </el-row>
     </el-form>
