@@ -153,37 +153,7 @@
         <el-col :span="24">
           <CommonTLSConfig class="tls-config-form" v-model="formData.ssl" :is-edit="edit" />
         </el-col>
-        <BridgeResourceOpt v-model="formData.resource_opts" />
-        <!-- BATCH -->
-        <el-col :span="12" class="col-need-row">
-          <el-form-item prop="resource_opts.enable_queue">
-            <template #label>
-              <span>{{ tl('enableBatch') }}</span>
-              <InfoTooltip :content="tl('enableBatchDesc')" />
-            </template>
-            <el-switch v-model="formData.resource_opts.enable_batch" />
-          </el-form-item>
-        </el-col>
-        <template v-if="formData.resource_opts.enable_batch">
-          <el-col :span="12">
-            <el-form-item prop="resource_opts.batch_size">
-              <template #label>
-                <span>{{ tl('batchSize') }}</span>
-                <InfoTooltip :content="tl('batchSizeDesc')" />
-              </template>
-              <el-input v-model="formData.resource_opts.batch_size" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item prop="resource_opts.batch_time">
-              <template #label>
-                <span>{{ tl('batchTime') }}</span>
-                <InfoTooltip :content="tl('batchTimeDesc')" />
-              </template>
-              <TimeInputWithUnitSelect v-model="formData.resource_opts.batch_time" />
-            </el-form-item>
-          </el-col>
-        </template>
+        <BridgeResourceOpt v-model="formData.resource_opts" with-batch-config />
       </el-row>
     </el-form>
   </div>
@@ -192,7 +162,6 @@
 <script setup lang="ts">
 import { fillEmptyValueToUndefinedField } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useFormRules from '@/hooks/useFormRules'
