@@ -21,6 +21,7 @@ import {
   EdgeItem,
 } from './topologyType'
 import { escapeRegExp } from 'lodash'
+import { useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
 
 export default (): {
   cutLabel: (label: string) => string
@@ -29,7 +30,8 @@ export default (): {
   judgeOutputType: (output: OutputItem) => RuleOutputType
   createNodeId: (target: string, targetType: NodeType) => string
   createBridgeSingleDirectionNodeId: (id: string, direction: MQTTBridgeDirection) => string
-  getBridgeTypeFromString: (str: string) => BridgeType
+  getBridgeTypeFromId: (str: string) => BridgeType
+  getBridgeIDFromInputting: (inputting: string) => string
   getIconFromInputData: (input: string) => SVGElement
   getIconFromOutputItem: (output: OutputItem) => SVGAElement
   getBridgeNodeLabel: (bridgeID: string) => string
@@ -113,21 +115,18 @@ export default (): {
     return `${RULE_TOPOLOGY_ID}-${OtherNodeType.Bridge}-${bridgeID}-${direction}`
   }
 
-  const getBridgeTypeFromString = (str: string): BridgeType => {
-    // now has mqtt & http
-    const bridgeTypeList = [
-      BridgeType.MQTT,
-      BridgeType.Webhook,
-      BridgeType.InfluxDB,
-      BridgeType.MySQL,
-      BridgeType.Kafka,
-    ]
-    return bridgeTypeList.find((item) => str.indexOf(item) > -1) || BridgeType.MQTT
+  const getBridgeIDFromInputting = (inputting: string) =>
+    inputting.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')
+
+  const { getBridgeType } = useBridgeTypeOptions()
+  const getBridgeTypeFromId = (id: string): BridgeType => {
+    const type = id.slice(0, id.indexOf(':'))
+    return getBridgeType(type)
   }
 
   const createSingleDirectionBridgeNode = (bridge: BridgeItem, direction: MQTTBridgeDirection) => {
     const { id } = bridge
-    const iconKey = `bridge-${getBridgeTypeFromString(id)}`
+    const iconKey = `bridge-${getBridgeTypeFromId(id)}`
     const bridgeNodeId = createBridgeSingleDirectionNodeId(id, direction)
     // bridge node
     return addCursorPointerToNodeData({
@@ -140,7 +139,7 @@ export default (): {
 
   const createBridgeNodeWithoutDirection = (bridge: BridgeItem) => {
     const { id } = bridge
-    const iconKey = `bridge-${getBridgeTypeFromString(id)}`
+    const iconKey = `bridge-${getBridgeTypeFromId(id)}`
     const bridgeNodeId = createNodeId(id, OtherNodeType.Bridge)
     // bridge node
     return addCursorPointerToNodeData({
@@ -163,7 +162,7 @@ export default (): {
 
   const getIconFromOutputItem = (output: OutputItem) => {
     if (typeof output === 'string') {
-      const key = `bridge-${getBridgeTypeFromString(output)}`
+      const key = `bridge-${getBridgeTypeFromId(output)}`
       return iconMap[key]
     } else {
       return output.function === RuleOutput.Console ? iconMap.console : iconMap.republish
@@ -240,7 +239,8 @@ export default (): {
     judgeOutputType,
     createNodeId,
     createBridgeSingleDirectionNodeId,
-    getBridgeTypeFromString,
+    getBridgeIDFromInputting,
+    getBridgeTypeFromId,
     getIconFromInputData,
     getIconFromOutputItem,
     getBridgeNodeLabel,
