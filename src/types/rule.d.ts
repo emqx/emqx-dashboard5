@@ -62,7 +62,6 @@ export interface ResourceOpt {
 
   max_queue_bytes: string
 
-  enable_batch?: boolean
   batch_size?: number
   batch_time?: string
 }
