@@ -1,5 +1,5 @@
 <template>
-  <el-form-item :prop="getProp('topic')" :required="remoteTopicRequired">
+  <el-form-item :prop="getProp('topic')">
     <template #label>
       <label>{{ t('Base.topic') }}</label>
       <InfoTooltip :content="topicDesc" />
@@ -45,7 +45,6 @@ import { createRandomString } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { MQTTBridgeDirection } from '@/types/enum'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
 import { MQTTBridgeTransConfiguration } from '@/types/rule'
 
@@ -56,13 +55,6 @@ const props = defineProps({
   },
   path: {
     type: String,
-  },
-  direction: {
-    type: String as PropType<MQTTBridgeDirection>,
-  },
-  remoteTopicRequired: {
-    type: Boolean,
-    default: false,
   },
   topicDesc: {
     type: String,
@@ -85,7 +77,7 @@ const config = computed({
   },
 })
 
-const getProp = (key: string) => (props.path ? '' : `${props.path}.${key}`)
+const getProp = (key: string) => (props.path ? `${props.path}.${key}` : key)
 </script>
 
 <style class="scss" scoped>
