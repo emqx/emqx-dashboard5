@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import { getUser, setUser, removeUser } from '@/common/auth'
 import { UserInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
-import { LicenseType } from '@/types/enum'
+import { LicenseCustomerType } from '@/types/enum'
 
 const getLang = () => {
   const lang = localStorage.getItem('language')
@@ -138,8 +138,8 @@ export default createStore({
         left: state.leftBarCollapse ? '104px' : '224px',
       }
     },
-    isOfficialLicense(state) {
-      return state.licenseData.type === LicenseType.Official
+    isEvaluationLicense(state) {
+      return state.licenseData.customer_type === LicenseCustomerType.Evaluation
     },
   },
 })

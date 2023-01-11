@@ -2,7 +2,7 @@
   <el-card class="license-card block">
     <div class="license-card-title">{{ tl('license') }}</div>
     <div class="license-card-bd">
-      <div class="info-item" v-if="isOfficialLicense">
+      <div class="info-item" v-if="!isEvaluationLicense">
         <label class="info-item-label">{{ tl('customer') }}:</label>
         <span class="info-item-value">{{ licenseData.customer }}</span>
       </div>
@@ -13,7 +13,7 @@
         <p class="progress-desc">{{ currentConnections }}/{{ licenseData.max_connections }}</p>
       </div>
 
-      <template v-if="isOfficialLicense">
+      <template v-if="!isEvaluationLicense">
         <div class="info-item">
           <label class="info-item-label">{{ tl('issuanceOfEmail') }}:</label>
           <span class="info-item-value">{{ licenseData.email }}</span>
@@ -29,9 +29,9 @@
       </template>
     </div>
     <div class="license-card-ft">
-      <!-- TRIAL -->
+      <!-- EVALUATION -->
       <i18n-t
-        v-if="!isOfficialLicense"
+        v-if="isEvaluationLicense"
         class="tip"
         keypath="Dashboard.licenseEvaluationTip"
         tag="p"
@@ -50,13 +50,13 @@
       >
         <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
       </i18n-t>
-      <!-- OFFICIAL -->
+      <!-- NOT EVALUATION (OFFICIAL OR TRIAL) -->
       <p v-else class="tip">{{ tl('beforeTheCertificateExpires') }}</p>
-      <!-- TRY (DO NOT KNOW WHAT) -->
+      <!-- TRIAL -->
       <div
         v-if="
-          !isOfficialLicense &&
-          licenseData.max_connections !== TRIAL_LICENSE_MAX_CONNECTION &&
+          licenseData.type === LicenseType.Trial &&
+          !isEvaluationLicense &&
           licenseData.expiry === false
         "
         class="tag-container"
@@ -86,6 +86,7 @@ import useDocLink from '@/hooks/useDocLink'
 import LicenseUpdateDialog from './LicenseUpdateDialog.vue'
 import { useStore } from 'vuex'
 import { startCase } from 'lodash'
+import { LicenseType } from '@/types/enum'
 
 interface LicenseData {
   customer: string
@@ -114,7 +115,7 @@ const { docMap } = useDocLink()
 const showUpdateDialog = ref(false)
 
 const licenseData: ComputedRef<LicenseData> = computed(() => store.state.licenseData)
-const isOfficialLicense = computed(() => store.getters.isOfficialLicense)
+const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
 
 const licensePercentage = computed(() => {
   const connection = props.currentConnections

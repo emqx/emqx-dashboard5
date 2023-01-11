@@ -263,3 +263,10 @@ export enum BuiltInDBType {
   User = 'users',
   All = 'all',
 }
+
+export enum LicenseCustomerType {
+  Small = 0,
+  Medium,
+  Large,
+  Evaluation = 10,
+}
