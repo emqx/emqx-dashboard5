@@ -24,7 +24,6 @@ export default (): {
     if (config.batch) {
       formData = {
         ...formData,
-        enable_batch: false,
         batch_size: 100,
         batch_time: '10ms',
       }
