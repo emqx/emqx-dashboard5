@@ -42,13 +42,11 @@ export default (
         'worker_pool_size',
         'health_check_interval',
         'auto_restart_interval',
-        'query_mode',
-        'async_inflight_window',
-        'enable_queue',
         'max_queue_bytes',
-        'enable_batch',
         'batch_size',
         'batch_time',
+        'query_mode',
+        'async_inflight_window',
       ],
       99,
     ),
@@ -93,7 +91,6 @@ export default (
   const typeColClassMap = {
     [BridgeType.MySQL]: {},
     [BridgeType.Redis]: {
-      'resource_opts.auto_restart_interval': 'col-need-row',
       command_template: 'custom-col-24',
     },
     [BridgeType.GCP]: {
