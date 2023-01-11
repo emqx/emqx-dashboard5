@@ -72,7 +72,6 @@
                   v-model="mqttBridgeVal.egress.remote"
                   path="egress.remote"
                   :direction="MQTTBridgeDirection.Out"
-                  :remote-topic-required="enableEgress"
                   :topic-desc="tl('egressRemoteTopicDesc')"
                 />
               </el-card>
