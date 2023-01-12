@@ -54,7 +54,7 @@
             </el-form-item>
           </el-col>
           <!-- Basic -->
-          <el-col :span="12">
+          <el-col :span="12" v-if="!(isRedis && databaseConfig.redis_type === 'cluster')">
             <el-form-item :label="$t('Auth.database')" required prop="database">
               <el-input v-model="databaseConfig.database" />
             </el-form-item>
