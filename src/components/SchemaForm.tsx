@@ -703,6 +703,14 @@ const SchemaForm = defineComponent({
       return ret
     }
 
+    const generatePropertiesUsePathAsKey = (properties: Properties) => {
+      return Object.keys(properties).reduce((obj, currentKey) => {
+        const prop = properties[currentKey]
+        const path = prop.path as string
+        return { ...obj, [path]: prop }
+      }, {})
+    }
+
     // Get the components to render form by Propoerties
     const getComponents = (properties: Properties, meta: FormItemMeta) => {
       let [levelName, oldLevelName] = [meta.levelName || '', '']
@@ -724,31 +732,38 @@ const SchemaForm = defineComponent({
               Reflect.deleteProperty(propItem, 'properties')
               propItem.type = 'ssl'
             }
-            _properties = { ..._properties, ...propItem.properties }
+            // TODO:like bullshit, refactor it
+            if (propItem.properties) {
+              _properties = {
+                ..._properties,
+                ...generatePropertiesUsePathAsKey(propItem.properties),
+              }
+            }
           }
         }
         if (!propItem.properties) {
-          _properties[key] = propItem
+          _properties[propItem.path as string] = propItem
         }
       }
       const setComponents = (properties: Properties) => {
         const propKeys = sortPropKeys(Object.keys(properties))
         propKeys.forEach((key) => {
           const property = properties[key]
+          const propKey = property.key as string
           // for concise SSL
           const isSSLAndNeedConcise =
-            SSL_PATH_REG.test(key) && typesNeedConciseSSL.includes(props.type)
+            SSL_PATH_REG.test(propKey) && typesNeedConciseSSL.includes(props.type)
           if (isSSLAndNeedConcise) {
             Reflect.deleteProperty(property, 'properties')
             property.type = 'ssl'
           }
           if (props.type === 'mqtt') {
-            if (SESSION_FIELDS.includes(key)) {
+            if (SESSION_FIELDS.includes(propKey)) {
               return
             }
           }
           if (props.type === 'session') {
-            if (!SESSION_FIELDS.includes(key)) {
+            if (!SESSION_FIELDS.includes(propKey)) {
               return
             }
           }
