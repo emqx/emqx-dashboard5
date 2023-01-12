@@ -16,6 +16,12 @@ import useDrawNodesGraph from '@/hooks/Overview/useDrawNodesGraph'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
 
 const props = defineProps({
+  /**
+   * current active node id
+   */
+  modelValue: {
+    type: String,
+  },
   data: {
     type: Object as PropType<{
       nodes: Array<NodeMsg>
@@ -25,9 +31,9 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['change'])
+const emit = defineEmits(['update:modelValue'])
 
-const { canvasEle, drawNodes } = useDrawNodesGraph(emit)
+const { canvasEle, drawNodes } = useDrawNodesGraph(props, emit)
 
 onMounted(async () => {
   // wait init
