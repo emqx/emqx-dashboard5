@@ -61,6 +61,7 @@ export default function useProcessAuthData() {
   }
   const processJwtConfig = (data: any) => {
     const {
+      enable,
       from,
       use_jwks,
       algorithm,
@@ -73,6 +74,7 @@ export default function useProcessAuthData() {
       ssl,
     } = data
     let tempData: any = {
+      enable,
       from,
       use_jwks,
       verify_claims,
