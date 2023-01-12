@@ -2,14 +2,14 @@ import { ElMessage as M } from 'element-plus'
 import _ from 'lodash'
 import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
 import { parseJSONSafely } from '@/common/tools'
-import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
+// import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useProcessAuthData() {
   const createResourceOpt = () => ({
-    resource_opts: {
-      auto_restart_interval: AUTO_RESTART_INTERVAL_DEFAULT,
-    },
+    // resource_opts: {
+    //   auto_restart_interval: AUTO_RESTART_INTERVAL_DEFAULT,
+    // },
   })
 
   const parseJSONSelectively = (data: string | Record<string, any>) =>
