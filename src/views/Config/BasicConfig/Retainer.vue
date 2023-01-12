@@ -111,7 +111,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="16">
+          <!-- <el-col :span="16">
             <div class="group-title">{{ tl('flowControl') }}</div>
           </el-col>
           <el-col :span="16" class="custom-col">
@@ -154,7 +154,7 @@
                 </template>
               </el-input>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
             <el-button type="primary" @click="updateConfigData()">
               {{ $t('Base.save') }}
