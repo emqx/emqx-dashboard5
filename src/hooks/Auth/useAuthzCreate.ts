@@ -5,6 +5,8 @@ import useSSL from '@/hooks/useSSL'
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthzCreate() {
   const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
+  const { createResourceOpt, processHttpConfig, processMongoDBConfig, processRedisConfig } =
+    useProcessAuthData()
 
   const getFileConfig = () => {
     return {
@@ -20,9 +22,9 @@ export default function useAuthzCreate() {
       password: '',
       database: '',
       pool_size: 8,
-      auto_reconnect: true,
       ssl: createSSLForm(),
       query: '',
+      ...createResourceOpt(),
     }
   }
   const getHttpConfig = () => {
@@ -70,11 +72,11 @@ export default function useAuthzCreate() {
       sentinel: 'mysentinel',
       redis_type: 'single',
       database: 0,
-      auto_reconnect: true,
       password: '',
       pool_size: 8,
       cmd: '',
       ssl: createSSLForm(),
+      ...createResourceOpt(),
     }
   }
   const factory = (type: string) => {
@@ -95,7 +97,6 @@ export default function useAuthzCreate() {
         return {}
     }
   }
-  const { processHttpConfig, processMongoDBConfig, processRedisConfig } = useProcessAuthData()
   const create = (config: any, type: string) => {
     let data: any = {}
     switch (type) {

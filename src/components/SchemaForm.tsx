@@ -546,7 +546,7 @@ const SchemaForm = defineComponent({
 
       const colItem = (
         <el-col span={colSpan} class={colClass} key={property.path}>
-          {['mqtt', 'session'].includes(props.type) ? null : (
+          {['mqtt', 'session', 'bridge'].includes(props.type) ? null : (
             <el-dropdown
               class="schema-col-setting"
               trigger="click"

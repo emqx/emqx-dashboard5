@@ -1,3 +1,4 @@
+import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
 import { ResourceOpt } from '@/types/rule'
 
 export default (): {
@@ -6,7 +7,7 @@ export default (): {
   const createCommonForm = (): ResourceOpt => ({
     worker_pool_size: 4,
     health_check_interval: '15s',
-    auto_restart_interval: '60s',
+    auto_restart_interval: AUTO_RESTART_INTERVAL_DEFAULT,
     query_mode: 'sync',
     max_queue_bytes: '1GB',
   })

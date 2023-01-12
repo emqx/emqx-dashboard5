@@ -1,42 +1,44 @@
 <template>
-  <el-form-item :prop="getProp('topic')">
-    <template #label>
-      <label>{{ t('Base.topic') }}</label>
-      <InfoTooltip :content="topicDesc" />
-    </template>
-    <el-input v-model="config.topic" />
-  </el-form-item>
-  <el-form-item label="QoS">
-    <el-select v-model="config.qos" :placeholder="tl('selectOrInput')" filterable allow-create>
-      <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
-    </el-select>
-  </el-form-item>
-  <el-form-item label="Retain">
-    <el-select v-model="config.retain" :placeholder="tl('selectOrInput')" filterable allow-create>
-      <el-option label="true" :value="true" />
-      <el-option label="false" :value="false" />
-      <el-option label="${flags.retain}" value="${flags.retain}" />
-    </el-select>
-  </el-form-item>
-  <el-row :gutter="26">
-    <el-col :span="24">
-      <el-form-item>
-        <template #label>
-          <label>{{ tl('payload') }}</label>
-          <InfoTooltip :content="tl('payloadExample')" />
-          <p class="payload-desc">{{ tl('payloadDesc') }}</p>
-        </template>
-        <div class="monaco-container">
-          <Monaco
-            :id="createRandomString()"
-            v-model="config.payload"
-            lang="json"
-            json-without-validate
-          />
-        </div>
-      </el-form-item>
-    </el-col>
-  </el-row>
+  <div class="mqtt-bridge-trans-configuration">
+    <el-form-item :prop="getProp('topic')">
+      <template #label>
+        <label>{{ t('Base.topic') }}</label>
+        <InfoTooltip :content="topicDesc" />
+      </template>
+      <el-input v-model="config.topic" />
+    </el-form-item>
+    <el-form-item label="QoS">
+      <el-select v-model="config.qos" :placeholder="tl('selectOrInput')" filterable allow-create>
+        <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
+      </el-select>
+    </el-form-item>
+    <el-form-item label="Retain">
+      <el-select v-model="config.retain" :placeholder="tl('selectOrInput')" filterable allow-create>
+        <el-option label="true" :value="true" />
+        <el-option label="false" :value="false" />
+        <el-option label="${flags.retain}" value="${flags.retain}" />
+      </el-select>
+    </el-form-item>
+    <el-row :gutter="26">
+      <el-col :span="24">
+        <el-form-item>
+          <template #label>
+            <label>{{ tl('payload') }}</label>
+            <InfoTooltip :content="tl('payloadExample')" />
+            <p class="payload-desc">{{ tl('payloadDesc') }}</p>
+          </template>
+          <div class="monaco-container">
+            <Monaco
+              :id="createRandomString()"
+              v-model="config.payload"
+              lang="json"
+              json-without-validate
+            />
+          </div>
+        </el-form-item>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script setup lang="ts">
