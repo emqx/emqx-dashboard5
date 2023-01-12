@@ -24,7 +24,7 @@
           {{ t('Base.cancel') }}
         </el-button>
         <el-button type="primary" @click="submit" :loading="isSubmitting">
-          {{ t('Base.create') }}
+          {{ t('Base.save') }}
         </el-button>
       </div>
     </template>
