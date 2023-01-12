@@ -6,7 +6,7 @@
           <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
           {{ $t('Dashboard.node', { n: nodes.length }) }}
         </span>
-        <NodesGraph :data="nodesGraphData" @change="selectNode" v-if="!infoLoading" />
+        <NodesGraph v-model="currentNodeName" :data="nodesGraphData" v-if="!infoLoading" />
       </div>
       <div class="node-detail">
         <div class="node-info" v-if="currentInfo">
@@ -132,13 +132,24 @@ type CurrentInfo = { node: NodeMsg; stats: NodeStatisticalData }
 
 const { t, locale } = useI18n()
 
+/**
+ * first time get node data, select the first node
+ */
+let isInitialized = false
 let nodes: Ref<Array<NodeMsg>> = ref([])
 let stats: Ref<Array<NodeStatisticalData>> = ref([])
 let graph: Ref<undefined | HTMLElement> = ref(undefined)
-let currentInfo: Ref<CurrentInfo> = ref({ node: {}, stats: {} } as CurrentInfo)
+const currentNodeName = ref('')
 let infoLoading: Ref<boolean> = ref(true)
 let timerData: undefined | number = undefined
 const interval = ref(2000)
+
+const currentInfo = computed(() => {
+  if (!currentNodeName.value || nodes.value.length === 0 || stats.value.length === 0) {
+    return { node: {}, stats: {} } as CurrentInfo
+  }
+  return getNodeInfoByName(currentNodeName.value)
+})
 
 const nodesGraphData = computed(() => ({
   nodes: nodes.value,
@@ -165,10 +176,10 @@ let getStats = async () => {
   }
 }
 
-const selectNode = (nodeName: string) => {
+const getNodeInfoByName = (nodeName: string) => {
   const node = nodes.value.find(({ node }) => node === nodeName) || {}
   const statsItem = stats.value.find(({ node }) => node === nodeName) || {}
-  currentInfo.value = { node, stats: statsItem } as CurrentInfo
+  return { node, stats: statsItem } as CurrentInfo
 }
 
 const tl = function (key: string, collection = 'Dashboard') {
@@ -201,15 +212,13 @@ const releaseNoteLink = computed(() =>
   getReleaseNoteLinkByVersion(getVersion(currentInfo.value?.node?.version)),
 )
 
-const selectFirstNode = () => {
-  const nodeName = nodes.value[0].node
-  selectNode(nodeName)
-}
-
 const loadData = async () => {
   try {
     await Promise.all([getNodes(), getStats()])
-    selectFirstNode()
+    if (!isInitialized) {
+      currentNodeName.value = nodes.value[0].node
+      isInitialized = true
+    }
   } catch (error) {
     console.error(error)
   } finally {

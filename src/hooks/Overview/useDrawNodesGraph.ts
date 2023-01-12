@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, ref, nextTick, Ref } from 'vue'
+import { onMounted, onUnmounted, ref, nextTick, Ref, watch } from 'vue'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
 import G6, { Graph, IG6GraphEvent, IShape, IGroup } from '@antv/g6'
 import { createRandomString, numToFixed } from '@/common/tools'
@@ -98,6 +98,7 @@ const registerCustomNode = () => {
         attrs: {
           path: getPath(cfg),
           fill: getFill(cfg?.status as NodeStatus),
+          cursor: 'pointer',
         },
         draggable: false,
         name: 'path-shape',
@@ -126,7 +127,20 @@ const registerCustomNode = () => {
 registerCustomNode()
 
 export default (
-  emit: (event: 'change', ...args: any[]) => void,
+  props: Readonly<
+    {
+      modelValue?: unknown
+      data?: unknown
+    } & {
+      data: {
+        nodes: Array<NodeMsg>
+        stats: Array<NodeStatisticalData>
+      }
+    } & {
+      modelValue?: string | undefined
+    }
+  >,
+  emit: (event: 'update:modelValue', ...args: any[]) => void,
 ): {
   canvasEle: Ref<any>
   drawNodes: (data: { nodes: Array<NodeMsg>; stats: Array<NodeStatisticalData> }) => Promise<void>
@@ -134,6 +148,8 @@ export default (
   const canvasEle = ref()
   let canvasWidth = 300
   let canvasHeight = 300
+
+  let currentSelectedNodeName = ''
 
   let lastRenderData: undefined | { nodes: Array<NodeMsg>; stats: Array<NodeStatisticalData> } =
     undefined
@@ -204,8 +220,18 @@ export default (
     graph?.setItemState(node, 'selected', true)
     const id = node.getID()
     if (id) {
-      emit('change', id)
+      emit('update:modelValue', id)
     }
+  }
+
+  const selectNodeById = (id: string) => {
+    currentSelectedNodeName = id
+    setOtherNodesSelected()
+    graph?.getNodes().forEach((node) => {
+      if (node?._cfg?.id === id) {
+        graph?.setItemState(node, 'selected', true)
+      }
+    })
   }
 
   const initCanvas = () => {
@@ -251,14 +277,6 @@ export default (
     }
   }
 
-  const setSingleNodeActive = () => {
-    if (lastRenderData?.nodes.length === 1) {
-      graph?.getNodes().forEach((node) => {
-        graph?.setItemState(node, 'selected', true)
-      })
-    }
-  }
-
   const drawNodes = async (data: { nodes: Array<NodeMsg>; stats: Array<NodeStatisticalData> }) => {
     lastRenderData = data
     const nodes = data?.nodes || []
@@ -269,10 +287,21 @@ export default (
     }
     graph?.data(graphData)
     graph?.render()
-    setSingleNodeActive()
     await nextTick()
     setZoom()
+    if (props.modelValue) {
+      selectNodeById(props.modelValue)
+    }
   }
+
+  watch(
+    () => props.modelValue,
+    (val) => {
+      if (val && val !== currentSelectedNodeName) {
+        selectNodeById(val)
+      }
+    },
+  )
 
   onMounted(() => {
     getCanvasSize()
