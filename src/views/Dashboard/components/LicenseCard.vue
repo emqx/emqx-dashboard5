@@ -20,7 +20,7 @@
         </div>
         <div class="info-item">
           <label class="info-item-label">{{ tl('issuedAt') }}:</label>
-          <span class="info-item-value">{{ licenseData.expiry_at }}</span>
+          <span class="info-item-value">{{ licenseData.start_at }}</span>
         </div>
         <div class="info-item">
           <label class="info-item-label">{{ tl('expireAt') }}:</label>
