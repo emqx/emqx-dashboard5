@@ -14,6 +14,7 @@ export interface Property {
   type: string
   maximum?: number
   minimum?: number
+  key?: string
   path?: string
   readOnly?: boolean
   items: Properties[string]

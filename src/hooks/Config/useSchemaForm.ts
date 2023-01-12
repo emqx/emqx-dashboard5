@@ -65,6 +65,7 @@ export default function useSchemaForm(
             return
           }
           property.path = path ? `${path}.${key}` : key
+          property.key = key
 
           // special handling for connector in bridge
           const isTargetConnectorProp =
@@ -95,6 +96,8 @@ export default function useSchemaForm(
               if (item.$ref) {
                 const component = getComponentByRef(data, item.$ref)
                 item.path = property.path
+                // TODO:maybe useless?
+                item.key = key
                 item.properties = transComponents(component, item.path)
               }
             })
