@@ -40,6 +40,9 @@ export default function useProcessAuthData() {
     } else {
       delete tempData.servers
     }
+    if (redis_type === 'cluster') {
+      delete tempData.database
+    }
     return tempData
   }
   const processMongoDBConfig = (data: any) => {
