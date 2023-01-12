@@ -63,13 +63,26 @@ export default () => {
     components: Properties
     rules: SchemaRules
   }) => {
-    const { mongo_type } = components
+    const { mongo_type, payload_template, servers } = components
     if (mongo_type?.symbols && Array.isArray(mongo_type.symbols)) {
       mongo_type.symbols = MONGO_TYPE
       mongo_type.label = t('Auth.mongoType')
       mongo_type.componentProps = { clearable: false }
       if (mongo_type.description) {
         Reflect.deleteProperty(mongo_type, 'description')
+      }
+    }
+    if (payload_template?.type === 'string') {
+      payload_template.format = 'sql'
+    }
+    if (
+      servers?.type === 'string' ||
+      (servers?.type === 'array' && servers?.items?.type === 'string')
+    ) {
+      servers.type = 'string'
+      servers.componentProps = {
+        type: 'textarea',
+        rows: 3,
       }
     }
 

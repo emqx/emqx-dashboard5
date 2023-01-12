@@ -6,6 +6,7 @@ import bridgeMySQL from '@/assets/img/mysql.png'
 import bridgeKafka from '@/assets/img/kafka.png'
 import bridgeRedis from '@/assets/img/redis.png'
 import bridgeGCP from '@/assets/img/gcp_pubsub.png'
+import bridgeMongoDB from '@/assets/img/mongodb.png'
 import console from './console.png'
 import event from './event.png'
 import republish from './republish.png'
@@ -20,6 +21,7 @@ const iconMap: Record<string, SVGAElement> = {
   [`bridge-${BridgeType.Kafka}`]: bridgeKafka,
   [`bridge-${BridgeType.Redis}`]: bridgeRedis,
   [`bridge-${BridgeType.GCP}`]: bridgeGCP,
+  [`bridge-${BridgeType.MongoDB}`]: bridgeMongoDB,
   console,
   event,
   republish,
