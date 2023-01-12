@@ -136,6 +136,10 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="24">
+          <CommonTLSConfig class="tls-config-form" v-model="formData.ssl" :is-edit="edit" />
+        </el-col>
+        <el-col :span="24"><el-divider /></el-col>
 
         <el-col :span="24">
           <el-form-item :label="tl('dataDefinition')">
@@ -149,10 +153,7 @@
             <InfluxdbWriteSyntaxInput v-model="formData.write_syntax" ref="writeSyntaxInputCom" />
           </el-form-item>
         </el-col>
-
-        <el-col :span="24">
-          <CommonTLSConfig class="tls-config-form" v-model="formData.ssl" :is-edit="edit" />
-        </el-col>
+        <el-col :span="24"><el-divider /></el-col>
         <BridgeResourceOpt v-model="formData.resource_opts" with-batch-config />
       </el-row>
     </el-form>
