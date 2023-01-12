@@ -54,7 +54,7 @@
             </el-form-item>
           </el-col>
           <!-- Basic -->
-          <el-col :span="12">
+          <el-col :span="12" v-if="!(isRedis && databaseConfig.redis_type === 'cluster')">
             <el-form-item :label="$t('Auth.database')" required prop="database">
               <el-input v-model="databaseConfig.database" />
             </el-form-item>
@@ -122,14 +122,14 @@
               <time-input-with-unit-select v-model="databaseConfig.query_timeout" />
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="!isMongoDB">
+          <!-- <el-col :span="12" v-if="!isMongoDB">
             <el-form-item :label="t('RuleEngine.autoRestartInterval')">
               <Oneof
                 v-model="databaseConfig.resource_opts.auto_restart_interval"
                 :items="[{ type: 'duration' }, { symbols: ['infinity'], type: 'enum' }]"
               />
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </div>
 
@@ -236,7 +236,6 @@
 import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
-import Oneof from '@/components/Oneof.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
@@ -256,7 +255,6 @@ export default defineComponent({
     PasswordHashAlgorithmFormItems,
     Monaco,
     HelpBlock,
-    Oneof,
   },
 
   props: {
