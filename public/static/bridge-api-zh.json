@@ -75,8 +75,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -689,6 +690,11 @@
                         "label": "将要使用的藏品",
                         "type": "string"
                     },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
+                        "type": "string"
+                    },
                     "type": {
                         "description": "桥接类型。",
                         "label": "桥接类型",
@@ -807,6 +813,11 @@
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
+                        "type": "string"
+                    },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
                         "type": "string"
                     }
                 },
@@ -1172,8 +1183,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -1311,6 +1323,11 @@
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
+                        "type": "string"
+                    },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
                         "type": "string"
                     },
                     "type": {
@@ -1535,8 +1552,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -1777,8 +1795,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -1927,8 +1946,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -2016,8 +2036,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -2272,6 +2293,11 @@
                         "label": "将要使用的藏品",
                         "type": "string"
                     },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
+                        "type": "string"
+                    },
                     "type": {
                         "description": "桥接类型。",
                         "label": "桥接类型",
@@ -2378,6 +2404,11 @@
                         "label": "将要使用的藏品",
                         "type": "string"
                     },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
+                        "type": "string"
+                    },
                     "type": {
                         "description": "桥接类型。",
                         "label": "桥接类型",
@@ -2471,8 +2502,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -2623,6 +2655,11 @@
                         "label": "将要使用的藏品",
                         "type": "string"
                     },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
+                        "type": "string"
+                    },
                     "type": {
                         "description": "桥接类型。",
                         "label": "桥接类型",
@@ -2725,6 +2762,11 @@
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
+                        "type": "string"
+                    },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
                         "type": "string"
                     }
                 },
@@ -2972,8 +3014,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -3550,8 +3593,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -3733,8 +3777,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -3897,8 +3942,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -4017,8 +4063,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -4093,8 +4140,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -4435,8 +4483,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -4555,8 +4604,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -4865,8 +4915,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -5166,8 +5217,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -5302,6 +5354,11 @@
                         "label": "将要使用的藏品",
                         "type": "string"
                     },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
+                        "type": "string"
+                    },
                     "type": {
                         "description": "桥接类型。",
                         "label": "桥接类型",
@@ -5419,8 +5476,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -5567,8 +5625,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -5801,8 +5860,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -6121,8 +6181,9 @@
                     },
                     "auto_reconnect": {
                         "default": true,
-                        "description": "自动重连数据库。",
-                        "label": "自动重连数据库",
+                        "deprecated": "since(\"v5.0.15\")",
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
                         "type": "boolean"
                     },
                     "ssl": {
@@ -6386,6 +6447,11 @@
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
                         "label": "将要使用的藏品",
+                        "type": "string"
+                    },
+                    "payload_template": {
+                        "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+                        "label": "有效载荷模板",
                         "type": "string"
                     }
                 },
