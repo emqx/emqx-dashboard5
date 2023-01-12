@@ -203,21 +203,52 @@ defineExpose({ getFormRecord, validate })
       }
     }
   }
-  .el-col-12.dividing-line-below {
+  .el-col-12.dividing-line-below,
+  .el-col-24.dividing-line-below {
     position: relative;
     &::after {
       content: '';
       display: block;
       height: 1px;
+      background-color: var(--color-border-menu);
+    }
+  }
+  .el-col-12:not(.custom-col-24).dividing-line-below {
+    &::after {
       width: 200%;
       margin-top: 24px + 18px;
       margin-bottom: 24px;
+    }
+  }
+  .el-col-24.dividing-line-below,
+  .custom-col-24.dividing-line-below {
+    &::after {
+      width: 100%;
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+  }
+  .custom-col-24.dividing-line-above,
+  .el-col-24.dividing-line-above {
+    position: relative;
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      height: 1px;
       background-color: var(--color-border-menu);
     }
   }
   .schema-form .el-form-item__label {
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
+  }
+  .monaco-container,
+  .key-and-value-editor,
+  .textarea-with-uploader {
+    margin-bottom: 18px;
   }
 }
 </style>
