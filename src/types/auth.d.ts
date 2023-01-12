@@ -38,7 +38,6 @@ export interface AuthnItem {
   retry_interval?: string
   ssl?: Ssl
   url?: string
-  auto_reconnect?: boolean
   cmd?: string
   database?: number
   password?: string

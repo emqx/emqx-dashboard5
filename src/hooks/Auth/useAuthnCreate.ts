@@ -6,6 +6,14 @@ import useProcessAuthData from './useProcessAuthData'
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthnCreate() {
   const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
+  const {
+    createResourceOpt,
+    processHttpConfig,
+    processMongoDBConfig,
+    processRedisConfig,
+    processJwtConfig,
+    processPasswordHashAlgorithmData,
+  } = useProcessAuthData()
   const getBuiltInConfig = (type: string) => {
     if (type === 'password_based') {
       return {
@@ -47,10 +55,10 @@ export default function useAuthnCreate() {
       password: '',
       database: '',
       pool_size: 8,
-      auto_reconnect: true,
       ssl: createSSLForm(),
       query: '',
       ...getPasswordHashAlgorithmObj(),
+      ...createResourceOpt(),
     }
     if (backend === 'mysql') {
       data.query_timeout = '5s'
@@ -64,12 +72,12 @@ export default function useAuthnCreate() {
       sentinel: 'mysentinel',
       redis_type: 'single',
       database: 0,
-      auto_reconnect: true,
       password: '',
       ...getPasswordHashAlgorithmObj(),
       pool_size: 8,
       cmd: '',
       ssl: createSSLForm(),
+      ...createResourceOpt(),
     }
   }
   const getMongodbConfig = () => {
@@ -105,13 +113,7 @@ export default function useAuthnCreate() {
       ssl: createSSLForm(),
     }
   }
-  const {
-    processHttpConfig,
-    processMongoDBConfig,
-    processRedisConfig,
-    processJwtConfig,
-    processPasswordHashAlgorithmData,
-  } = useProcessAuthData()
+
   const factory = (mechanism: string, backend: string) => {
     switch (mechanism) {
       case 'password_based':

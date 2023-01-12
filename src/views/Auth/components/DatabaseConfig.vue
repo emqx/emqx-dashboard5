@@ -112,15 +112,6 @@
               <el-input v-model.number="databaseConfig.pool_size" />
             </el-form-item>
           </el-col>
-          <el-col v-if="!isMongoDB" :span="12">
-            <el-form-item :label="$t('Auth.reconnect')">
-              <BooleanSelect
-                v-model="databaseConfig.auto_reconnect"
-                true-label="True"
-                false-label="False"
-              />
-            </el-form-item>
-          </el-col>
           <el-col v-if="isMongoDB" :span="12">
             <el-form-item :label="$t('Auth.connectTimeout')">
               <time-input-with-unit-select v-model="databaseConfig.topology.connect_timeout_ms" />
@@ -129,6 +120,14 @@
           <el-col v-if="isAuthn && isMySQL" :span="12">
             <el-form-item :label="$t('Auth.queryTimeout')">
               <time-input-with-unit-select v-model="databaseConfig.query_timeout" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" v-if="!isMongoDB">
+            <el-form-item :label="t('RuleEngine.autoRestartInterval')">
+              <Oneof
+                v-model="databaseConfig.resource_opts.auto_restart_interval"
+                :items="[{ type: 'duration' }, { symbols: ['infinity'], type: 'enum' }]"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -236,8 +235,8 @@
 <script lang="ts">
 import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
-import BooleanSelect from '@/components/BooleanSelect.vue'
 import Monaco from '@/components/Monaco.vue'
+import Oneof from '@/components/Oneof.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
@@ -255,9 +254,9 @@ export default defineComponent({
     CommonTLSConfig,
     TimeInputWithUnitSelect,
     PasswordHashAlgorithmFormItems,
-    BooleanSelect,
     Monaco,
     HelpBlock,
+    Oneof,
   },
 
   props: {
@@ -371,6 +370,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       formCom,
       rules,
       isMongoDB,
