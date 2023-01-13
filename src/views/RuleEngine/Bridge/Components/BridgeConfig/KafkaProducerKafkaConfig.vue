@@ -7,12 +7,34 @@
         </el-form-item>
       </el-col>
       <el-col :span="24">
-        <el-form-item prop="producer.kafka.message">
+        <el-form-item prop="producer.kafka.message.key">
           <template #label>
-            <span>{{ tl('kafkaMessage') }}</span>
-            <InfoTooltip :content="tl('kafkaMessageDesc')" />
+            <span>{{ tl('kafkaMessageKey') }}</span>
+            <InfoTooltip :content="tl('kafkaMessageKeyDesc')" />
           </template>
-          <KeyAndValueEditor v-model="kafkaConfig.message" fixed-keys />
+          <div class="monaco-container">
+            <Monaco :id="createRandomString()" v-model="kafkaConfig.message.key" lang="sql" />
+          </div>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item prop="producer.kafka.message.value">
+          <template #label>
+            <span>{{ tl('kafkaMessageValue') }}</span>
+            <InfoTooltip :content="tl('kafkaMessageValueDesc')" />
+          </template>
+          <div class="monaco-container">
+            <Monaco :id="createRandomString()" v-model="kafkaConfig.message.value" lang="sql" />
+          </div>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="producer.kafka.message.timestamp">
+          <template #label>
+            <span>{{ tl('kafkaMessageTimestamp') }}</span>
+            <InfoTooltip :content="tl('kafkaMessageTimestampDesc')" />
+          </template>
+          <el-input v-model="kafkaConfig.message.timestamp" />
         </el-form-item>
       </el-col>
 
@@ -165,14 +187,14 @@
 </template>
 
 <script setup lang="ts">
-import { usefulMemoryUnit } from '@/common/tools'
+import { createRandomString, usefulMemoryUnit } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps } from 'vue'
+import Monaco from '@/components/Monaco.vue'
 
 const props = defineProps({
   modelValue: {
