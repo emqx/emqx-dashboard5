@@ -48,7 +48,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column :label="tl('status')">
+        <el-table-column :label="tl('status')" :width="230">
           <template #default="{ row }">
             <span class="text-status" :class="getStatusClass(row.status)">
               {{ getLabelByStatusValue(row.status) }}
@@ -80,22 +80,30 @@ export default defineComponent({
 <script setup lang="ts">
 import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
 import { BridgeType, ConnectionStatus } from '@/types/enum'
-import { BridgeItem, NodeMetrics, NodeStatus } from '@/types/rule'
+import { BridgeMetricsData, NodeMetrics, NodeStatus, BridgeItem } from '@/types/rule'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import { reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
+import { queryBridgeMetrics, reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
+  /**
+   * get node status
+   */
   bridgeMsg: {
     type: Object as PropType<BridgeItem>,
+    required: true,
+  },
+  bridgeId: {
+    type: String,
     required: true,
   },
 })
 
 const emit = defineEmits(['reset', 'reconnect', 'refresh'])
+const bridgeMetrics: Ref<BridgeMetricsData> = ref({ metrics: {}, node_metrics: [] })
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
@@ -112,7 +120,7 @@ const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
 })
 
 const nodeMetrics: ComputedRef<Array<NodeMetrics>> = computed(() => {
-  const nodeMetricsData = props.bridgeMsg?.node_metrics
+  const nodeMetricsData = bridgeMetrics.value.node_metrics
   return Array.isArray(nodeMetricsData) ? nodeMetricsData : []
 })
 
@@ -135,50 +143,50 @@ const statisticsData = computed(() => {
     {
       label: tl('matched'),
       desc: tl('bridgeMatchedDesc'),
-      value: props.bridgeMsg?.metrics?.matched,
+      value: bridgeMetrics.value.metrics.matched,
       className: 'matched-bg',
     },
     {
       label: tl('sentSuccessfully'),
       desc: tl('sentSuccessfullyDesc'),
-      value: props.bridgeMsg?.metrics?.success,
+      value: bridgeMetrics.value.metrics.success,
       className: 'last-five-rate-bg',
     },
     {
       label: tl('sentFailed'),
       desc: tl('sentFailedDesc'),
-      value: props.bridgeMsg?.metrics?.failed,
+      value: bridgeMetrics.value.metrics.failed,
       className: 'failed-bg',
     },
     {
       label: tl('sentInflight'),
       desc: tl('sentInflightDesc'),
-      value: props.bridgeMsg?.metrics?.inflight,
+      value: bridgeMetrics.value.metrics.inflight,
       className: 'no-result-bg',
     },
 
     {
       label: tl('dropped'),
       desc: tl('droppedDesc'),
-      value: props.bridgeMsg?.metrics?.dropped,
+      value: bridgeMetrics.value.metrics.dropped,
       className: 'failed-bg',
     },
     {
       label: tl('queuing'),
       desc: tl('queuingDesc'),
-      value: props.bridgeMsg?.metrics?.queuing,
+      value: bridgeMetrics.value.metrics.queuing,
       className: 'max-rate-bg',
     },
     {
       label: tl('retried'),
       desc: tl('retriedDesc'),
-      value: props.bridgeMsg?.metrics?.retried,
+      value: bridgeMetrics.value.metrics.retried,
       className: 'success-bg',
     },
     {
       label: tl('rateNow'),
-      value: props.bridgeMsg?.metrics?.rate,
-      unit: t('RuleEngine.rateUnit', props.bridgeMsg?.metrics?.rate),
+      value: bridgeMetrics.value.metrics.rate,
+      unit: t('RuleEngine.rateUnit', bridgeMetrics.value.metrics.rate),
       className: 'rate-bg',
     },
   ]
@@ -186,34 +194,56 @@ const statisticsData = computed(() => {
     ret.splice(4, 0, {
       label: tl('received'),
       desc: tl('receivedDesc'),
-      value: props.bridgeMsg?.metrics?.received,
+      value: bridgeMetrics.value.metrics.received,
       className: 'max-rate-bg',
     })
   }
   return ret
 })
 
+const getBridgeMetrics = async () => {
+  try {
+    if (!props.bridgeId) {
+      return
+    }
+    bridgeMetrics.value = await queryBridgeMetrics(props.bridgeId)
+  } catch (error) {
+    //
+  }
+}
+
 const handleRefresh = () => {
+  getBridgeMetrics()
   emit('refresh')
 }
 
 const resetStatistics = async () => {
-  if (!props.bridgeMsg.id) {
+  if (!props.bridgeId) {
     return
   }
   await ElMessageBox.confirm(t('RuleEngine.resetMetricsConfirm', { target: tl('rule') }))
-  await resetBridgeMetrics(props.bridgeMsg.id)
+  await resetBridgeMetrics(props.bridgeId)
   ElMessage.success(tl('resetSuccessfully'))
+  getBridgeMetrics()
   emit('reset')
 }
 
 const setNodeConnectingStatusMap = () => {
-  nodeConnectingStatusMap.value = props.bridgeMsg.node_status?.reduce((obj, nodeStatusItem) => {
-    return {
-      ...obj,
-      [nodeStatusItem.node]: false,
-    }
-  }, {})
+  nodeConnectingStatusMap.value = props.bridgeMsg.node_status?.reduce(
+    (
+      obj: Record<string, ConnectionStatus>,
+      nodeStatusItem: {
+        node: string
+        status: ConnectionStatus
+      },
+    ) => {
+      return {
+        ...obj,
+        [nodeStatusItem.node]: false,
+      }
+    },
+    {},
+  )
 }
 
 const reconnect = async ({ node }: NodeMetrics) => {
@@ -229,4 +259,6 @@ const reconnect = async ({ node }: NodeMetrics) => {
 }
 
 watch(() => props.bridgeMsg, setNodeConnectingStatusMap)
+
+getBridgeMetrics()
 </script>

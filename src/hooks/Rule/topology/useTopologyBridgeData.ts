@@ -1,6 +1,6 @@
-import { getBridgeList as queryBridgeList } from '@/api/ruleengine'
+import { getBridgeList as queryBridgeList, queryBridgeMetrics } from '@/api/ruleengine'
 import { MQTTBridgeDirection } from '@/types/enum'
-import { BridgeItem } from '@/types/rule'
+import { BridgeItem, BridgeItemWithMetrics } from '@/types/rule'
 import { EdgeItem, NodeItem } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
 
@@ -12,9 +12,9 @@ export default (): {
     }
     edgeList: Array<EdgeItem>
   }>
-  getBridgeList: () => BridgeItem[]
+  getBridgeList: () => BridgeItemWithMetrics[]
 } => {
-  let bridgeList: Array<BridgeItem> = []
+  let bridgeList: Array<BridgeItemWithMetrics> = []
 
   const {
     createSingleDirectionBridgeNode,
@@ -73,7 +73,18 @@ export default (): {
     edgeList: Array<EdgeItem>
   }> => {
     try {
-      bridgeList = await queryBridgeList()
+      const bridgeArr = await queryBridgeList()
+      bridgeList = await Promise.all(
+        bridgeArr.map(async (item: any) => {
+          try {
+            const { metrics } = await queryBridgeMetrics(item.id)
+            return Promise.resolve({ ...item, metrics })
+          } catch (error) {
+            console.error(error)
+            return Promise.resolve({ ...item, metrics: {} })
+          }
+        }),
+      )
       const { topicNodeArr, bridgeNodeArr, topic2BridgeEdgeArr } = createBridgeNTopicEle(bridgeList)
       const nodeData = {
         bridge: bridgeNodeArr,

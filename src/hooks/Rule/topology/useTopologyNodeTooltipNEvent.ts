@@ -1,6 +1,6 @@
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
 import { RuleOutput } from '@/types/enum'
-import { BridgeItem, RuleDataItemWithMetrics } from '@/types/rule'
+import { RuleDataItemWithMetrics, BridgeItemWithMetrics } from '@/types/rule'
 import { IG6GraphEvent } from '@antv/g6'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
@@ -23,7 +23,7 @@ const highlightSQL = (sql: string): string => {
 
 export default (): {
   setRuleList: (ruleArr: Array<RuleDataItemWithMetrics>) => void
-  setBridgeList: (bridgeArr: Array<BridgeItem>) => void
+  setBridgeList: (bridgeArr: Array<BridgeItemWithMetrics>) => void
   createNodeTooltip: (e?: IG6GraphEvent | undefined) => HTMLDivElement | string
   handleNodeClickEvent: (e: IG6GraphEvent) => void
 } => {
@@ -42,7 +42,7 @@ export default (): {
   const nodeIdReg = new RegExp(`^(${RULE_TOPOLOGY_ID}-)(${nodeTypeList.join('|')})-(.+)$`)
 
   let ruleList: Array<RuleDataItemWithMetrics> = []
-  let bridgeList: Array<BridgeItem> = []
+  let bridgeList: Array<BridgeItemWithMetrics> = []
 
   const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
@@ -50,7 +50,7 @@ export default (): {
     ruleList = ruleArr
   }
 
-  const setBridgeList = (bridgeArr: Array<BridgeItem>) => {
+  const setBridgeList = (bridgeArr: Array<BridgeItemWithMetrics>) => {
     bridgeList = bridgeArr
   }
 

@@ -43,6 +43,7 @@
           <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
             <div v-loading="infoLoading">
               <BridgeItemOverview
+                :bridge-id="id"
                 :bridge-msg="bridgeInfo"
                 @refresh="loadBridgeInfo"
                 @reconnect="loadBridgeInfo"
