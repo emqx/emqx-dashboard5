@@ -67,6 +67,7 @@ import CommonPagination from '../../components/commonPagination.vue'
 import { Search, RefreshRight } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 const router = useRouter()
 const { tl } = useI18nTl('Subs')
@@ -75,7 +76,8 @@ const tableData = ref([])
 const searchValue = ref('')
 const lockTable = ref(true)
 const params = ref<Record<string, any>>({})
-const pageMeta = ref({})
+
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
 const handleSearch = async () => {
   const topic = searchValue.value.trim()
@@ -85,21 +87,16 @@ const handleSearch = async () => {
 
 const loadTopics = async (_params = {}) => {
   lockTable.value = true
-  const sendParams = { ...params.value, ...pageMeta.value, ..._params }
-  Reflect.deleteProperty(sendParams, 'count')
-  const res = await listTopics(sendParams).catch(() => {
-    lockTable.value = false
-  })
-  if (res) {
-    const { data = [], meta = {} } = res
+  const sendParams = { ...params.value, ...pageParams.value, ..._params }
+  try {
+    const { data = [], meta = {} } = await listTopics(sendParams)
     tableData.value = data
-    lockTable.value = false
-
-    pageMeta.value = meta
-  } else {
+    setPageMeta(meta)
+  } catch (error) {
     tableData.value = []
+    initPageMeta()
+  } finally {
     lockTable.value = false
-    pageMeta.value = {}
   }
 }
 

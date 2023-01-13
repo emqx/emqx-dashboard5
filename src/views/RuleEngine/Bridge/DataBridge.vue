@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { getBridgeList, startStopBridge, deleteBridge } from '@/api/ruleengine'
+import { getBridgeList, startStopBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'

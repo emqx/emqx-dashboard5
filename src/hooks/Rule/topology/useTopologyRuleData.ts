@@ -204,7 +204,7 @@ export default (): {
         page: pageData.value.page,
         limit: RULE_MAX_NUM_PER_PAGE,
       })
-      pageData.value.count = meta.count
+      pageData.value.count = meta.count as number
       ruleList = await Promise.all(
         data.map(async (item) => {
           try {
