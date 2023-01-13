@@ -1253,13 +1253,29 @@ When disabled the messages are buffered in RAM only.`,
     en: 'Kafka Topic Name',
     zh: 'Kafka 主题名称',
   },
-  kafkaMessage: {
-    en: 'Kafka Message Template',
-    zh: 'Kafka 消息模版',
+  kafkaMessageKey: {
+    zh: '消息的 Key',
+    en: 'Message Key',
   },
-  kafkaMessageDesc: {
-    en: 'Template to render a Kafka message.',
-    zh: '用于生成 Kafka 消息的模版。',
+  kafkaMessageKeyDesc: {
+    zh: '生成 Kafka 消息 Key 的模版。当所需要的输入没有时，会使用 <code>NULL</code>。',
+    en: 'Template to render Kafka message key. If the desired variable for this template is not found in the input data <code>NULL</code> is used.',
+  },
+  kafkaMessageValue: {
+    zh: '消息的 Value',
+    en: 'Message Value',
+  },
+  kafkaMessageValueDesc: {
+    zh: '生成 Kafka 消息 Value 的模版。当所需要的输入没有时，会使用 <code>NULL</code>。',
+    en: 'Template to render Kafka message value. If the desired variable for this template is not found in the input data <code>NULL</code> is used.',
+  },
+  kafkaMessageTimestamp: {
+    zh: '消息的时间戳',
+    en: 'Message Timestamp',
+  },
+  kafkaMessageTimestampDesc: {
+    zh: `生成 Kafka 消息时间戳的模版。该时间必需是一个整型数值（可以是字符串格式）例如 <code>1661326462115</code> 或 <code>'1661326462115'</code>。当所需的输入字段不存在，或不是一个整型时，则会使用当前系统时间。`,
+    en: `Which timestamp to use. The timestamp is expected to be a millisecond precision Unix epoch which can be in string format, e.g. <code>1661326462115</code> or <code>'1661326462115'</code>. When the desired data field for this template is not found, or if the found data is not a valid integer, the current system timestamp will be used.`,
   },
   maxBatchBytes: {
     en: 'Max Batch Bytes',
