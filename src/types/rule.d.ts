@@ -75,9 +75,7 @@ export interface BridgeBaseData {
    * $bridges/${id} fill in from when create/edit rule
    */
   idForRuleFrom: string
-  metrics: Metrics
   name: string
-  node_metrics: Array<NodeMetrics>
   node_status: Array<{
     node: string
     status: ConnectionStatus
@@ -156,6 +154,13 @@ export type MQTTIn = MQTTOut & {
 export type OtherBridge = Record<string, any>
 
 export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
+
+export interface BridgeMetricsData {
+  metrics: Metrics
+  node_metrics: Array<NodeMetrics>
+}
+
+export type BridgeItemWithMetrics = BridgeItem & BridgeMetricsData
 
 export interface ConnectorBase {
   name: string
