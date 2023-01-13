@@ -127,6 +127,7 @@ import {
 import { replaceSpaceForHTML } from '@/common/tools'
 import { downloadByURL } from '@/common/tools.ts'
 import commonPagination from '@/components/commonPagination.vue'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
 import { Document, Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
@@ -154,11 +155,6 @@ const prop = defineProps({
 })
 
 const { t } = useI18n()
-const pageMeta = ref({
-  count: 0,
-  limit: 20,
-  page: 1,
-})
 let record = ref<DataManagerItem>(createRawUserForm())
 const tableData = ref([])
 const lockTable = ref(false)
@@ -171,6 +167,7 @@ const searchVal = reactive({
   user_id: '',
   is_superuser: null,
 })
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
 const id = computed(function (): string {
   return route.params.id as string
@@ -185,30 +182,28 @@ const mechanism = computed(() => {
 const loadData = async () => {
   const { user_id, is_superuser } = searchVal
   const sendParams = {
-    ...pageMeta.value,
+    ...pageParams.value,
     like_user_id: searchVal.user_id === '' ? null : user_id,
     is_superuser: is_superuser,
   }
-  Reflect.deleteProperty(sendParams, 'count')
 
   lockTable.value = true
   let res
-  if (prop.gateway) {
-    res = await getGatewayUserManagement(prop.gateway, sendParams)
-  } else {
-    res = await loadAuthnUsers(id.value, sendParams)
-  }
-  if (res) {
-    tableData.value = res.data
-    pageMeta.value = res?.meta
-  } else {
-    tableData.value = []
-    pageMeta.value = {
-      count: 0,
-      limit: 20,
-      page: 1,
+  try {
+    if (prop.gateway) {
+      res = await getGatewayUserManagement(prop.gateway, sendParams)
+    } else {
+      res = await loadAuthnUsers(id.value, sendParams)
     }
+    if (res) {
+      tableData.value = res.data
+      setPageMeta(res?.meta)
+    }
+  } catch (error) {
+    tableData.value = []
+    initPageMeta()
   }
+
   lockTable.value = false
 }
 
