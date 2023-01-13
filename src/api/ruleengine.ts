@@ -1,7 +1,13 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
 import { getBridgeKey } from '@/common/tools'
-import { BridgeItem, ConnectorItem, ParamsForQueryRules, RuleItem, RuleMetrics } from '@/types/rule'
+import {
+  BridgeItem,
+  BridgeMetricsData,
+  ParamsForQueryRules,
+  RuleItem,
+  RuleMetrics,
+} from '@/types/rule'
 import { ListDataWithPagination } from '@/types/common'
 
 //Bridges
@@ -44,7 +50,8 @@ export async function updateBridge(id: string, body: BridgeItem): Promise<any> {
 
 export function startStopBridge(id: string, op: 'enable' | 'disable'): Promise<any> {
   if (!id) return Promise.reject()
-  return http.post(`/bridges/${encodeURIComponent(id)}/operation/${op}`)
+  const isEnable = op === 'enable'
+  return http.put(`/bridges/${encodeURIComponent(id)}/enable/${isEnable}`)
 }
 
 export async function getBridgeInfo(id: string): Promise<any> {
@@ -68,15 +75,19 @@ export function deleteBridge(id: string, withDependency = false): Promise<any> {
 }
 
 export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<number> {
-  return http.post(`/nodes/${node}/bridges/${bridgeID}/operation/restart`)
+  return http.post(`/nodes/${node}/bridges/${bridgeID}/restart`)
 }
 
 export async function resetBridgeMetrics(bridgeId: string): Promise<string> {
-  return http.put(`/bridges/${bridgeId}/reset_metrics`)
+  return http.put(`/bridges/${bridgeId}/metrics/reset`)
 }
 
 export function testConnect(body: BridgeItem): Promise<void> {
   return http.post(`/bridges_probe`, body)
+}
+
+export function queryBridgeMetrics(id: string): Promise<BridgeMetricsData> {
+  return http(`/bridges/${id}/metrics`)
 }
 
 //Rules

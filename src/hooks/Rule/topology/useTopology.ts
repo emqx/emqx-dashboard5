@@ -7,7 +7,7 @@ import useTopologyBridgeData from './useTopologyBridgeData'
 import { cloneDeep } from 'lodash'
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
 import useCSSVariables from '@/hooks/useCSSVariables'
-import { BridgeItem, MQTTIn, MQTTOut } from '@/types/rule'
+import { BridgeItemWithMetrics } from '@/types/rule'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 
 type DataList = Array<NodeItem> | Array<EdgeItem>
@@ -150,7 +150,7 @@ export default (): {
   } = useTopologyRuleData()
   const { getData: getBridgeNodeNEdgeData, getBridgeList } = useTopologyBridgeData()
   // for func handleRuleInputs
-  let bridgeList: Array<BridgeItem> = []
+  let bridgeList: Array<BridgeItemWithMetrics> = []
 
   const tooltip = new G6.Tooltip({
     offsetX: 10,
@@ -182,7 +182,7 @@ export default (): {
     return (
       bridge &&
       bridge.type === BridgeType.MQTT &&
-      (bridge as MQTTOut | MQTTIn).direction === MQTTBridgeDirection.In
+      (bridge as any).direction === MQTTBridgeDirection.In
     )
   }
 
