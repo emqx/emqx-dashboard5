@@ -226,6 +226,7 @@ import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import { BuiltInDBType } from '@/types/enum'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 export default defineComponent({
   components: { commonPagination, InfoTooltip },
@@ -249,11 +250,6 @@ export default defineComponent({
         value: BuiltInDBType.All,
       },
     ]
-    const pageMeta = ref({
-      count: 0,
-      limit: 20,
-      page: 1,
-    })
     const recordForm = ref()
     const tableData = ref([])
     const allTableData = ref<BuiltInDBRule[]>([])
@@ -276,6 +272,8 @@ export default defineComponent({
       { value: 'subscribe', label: 'Subscribe' },
       { value: 'all', label: 'Publish & Subscribe' },
     ]
+
+    const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
     const getRules = function () {
       return {
@@ -332,13 +330,12 @@ export default defineComponent({
       lockTable.value = true
 
       const sendParams: Record<string, string | number> = {
-        ...pageMeta.value,
+        ...pageParams.value,
         ...params,
       }
       if (searchVal.value) {
         sendParams[`like_${getKeyByCurrentType()}`] = searchVal.value
       }
-      Reflect.deleteProperty(sendParams, 'count')
       const res = await loadBuiltInDatabaseData(type.value, sendParams).catch(() => {
         lockTable.value = false
       })
@@ -346,7 +343,7 @@ export default defineComponent({
         allTableData.value = res.rules
       } else {
         tableData.value = res?.data
-        pageMeta.value = res?.meta
+        setPageMeta(res?.meta)
       }
       lockTable.value = false
     }
@@ -481,7 +478,7 @@ export default defineComponent({
     }
 
     const resetPageAndLoadData = () => {
-      pageMeta.value.page = 1
+      initPageMeta()
       loadData()
     }
 
