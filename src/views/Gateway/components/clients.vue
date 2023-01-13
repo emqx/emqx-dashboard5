@@ -112,6 +112,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import CheckIcon from '@/components/CheckIcon.vue'
 import { NodeMsg } from '@/types/dashboard'
 import useI18nTl from '@/hooks/useI18nTl'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 export default defineComponent({
   components: { commonPagination, ClientDetails, CheckIcon },
@@ -133,26 +134,27 @@ export default defineComponent({
     const route = useRoute()
     const gname = String(route.params.name).toLowerCase()
     const { tl, t } = useI18nTl('Gateway')
-    const pageMeta = ref({})
     let pageParams = {}
+
+    const {
+      pageMeta,
+      pageParams: pageQueries,
+      initPageMeta,
+      setPageMeta,
+    } = usePaginationWithHasNext()
 
     const loadGatewayClients = async function (params = {}) {
       tbLoading.value = true
 
-      const sendParams = {
-        ...pageMeta.value,
-        ...pageParams,
-        ...params,
-      }
-      Reflect.deleteProperty(sendParams, 'count')
+      const sendParams = { ...pageQueries.value, ...pageParams, ...params }
 
       try {
         let { data, meta } = await getGatewayClients(gname, sendParams)
         gatewayTable.value = data
-        pageMeta.value = meta
+        setPageMeta(meta)
       } catch (error) {
         gatewayTable.value = []
-        pageMeta.value = {}
+        initPageMeta()
       } finally {
         tbLoading.value = false
       }
@@ -170,6 +172,7 @@ export default defineComponent({
         params[k] = searchParams[k] === '' ? undefined : searchParams[k]
       })
       pageParams = params
+      pageMeta.value.page = 1
       loadGatewayClients()
     }
 

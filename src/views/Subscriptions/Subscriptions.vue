@@ -119,8 +119,8 @@ import { NodeMsg } from '@/types/dashboard'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
-const pageMeta = ref({})
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const params = ref({})
@@ -133,6 +133,7 @@ const fuzzyParams = ref({
   share_group: '',
   qos: '',
 })
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
@@ -155,26 +156,19 @@ const loadNode = async () => {
   const res = await loadNodes()
   if (res) currentNodes.value = res
 }
+
 const loadTableData = async (_params = {}) => {
   lockTable.value = true
-  const sendParams = {
-    ..._params,
-    ...pageMeta,
-    ...params.value,
-  }
-  Reflect.deleteProperty(sendParams, 'count')
-  const res = await listSubscriptions(sendParams).catch(() => {
-    lockTable.value = false
-  })
-  if (res) {
-    const { data = [], meta = {} } = res
+  const sendParams = { ...pageParams.value, ...params.value, ..._params }
+  try {
+    const { data = [], meta = {} } = await listSubscriptions(sendParams)
     tableData.value = data
-    lockTable.value = false
-    pageMeta.value = meta
-  } else {
+    setPageMeta(meta)
+  } catch (error) {
     tableData.value = []
+    initPageMeta()
+  } finally {
     lockTable.value = false
-    pageMeta.value = {}
   }
 }
 

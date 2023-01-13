@@ -8,9 +8,14 @@ export interface UserInfo {
 }
 
 export interface PageData {
-  count: number
+  /**
+   * When the value is -1, it means that we don’t know how many items of data there are,
+   * and we need to display the page up and down component
+   */
+  count?: number
   limit: number
   page: number
+  hasnext?: boolean
 }
 
 export type ListDataWithPagination<T> = {

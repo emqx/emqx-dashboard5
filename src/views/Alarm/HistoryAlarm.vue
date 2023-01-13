@@ -48,7 +48,7 @@
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <common-pagination v-model:metaData="hPageMeta" @loadPage="loadData"></common-pagination>
+      <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
     </div>
   </div>
 </template>
@@ -70,33 +70,27 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import { Remove } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import useDurationStr from '@/hooks/useDurationStr'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 const historyLockTable = ref(false)
 const historyAlarmData = ref<any[]>([])
-const hPageMeta = ref({})
 const { t } = useI18n()
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
 const { transMsNumToSimpleStr } = useDurationStr()
 
 const loadData = async (params = {}) => {
   historyLockTable.value = true
-  const sendParams = {
-    ...hPageMeta.value,
-    ...params,
-  }
-  Reflect.deleteProperty(sendParams, 'count')
-  let res = await loadAlarm(true, sendParams).catch(() => {
-    // ignore
-  })
-  if (res) {
-    let { data, meta = {} } = res
+  const sendParams = { ...pageParams.value, ...params }
+  try {
+    let { data, meta } = await loadAlarm(true, sendParams)
     historyAlarmData.value = data
-    historyLockTable.value = false
-    hPageMeta.value = meta
-  } else {
+    setPageMeta(meta)
+  } catch (error) {
     historyAlarmData.value = []
+    initPageMeta()
+  } finally {
     historyLockTable.value = false
-    hPageMeta.value = {}
   }
 }
 const handleClearHistory = async () => {
