@@ -127,6 +127,7 @@ import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import useCopy from '@/hooks/useCopy'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 export default defineComponent({
   name: 'Postpone',
@@ -165,7 +166,8 @@ export default defineComponent({
     let payloadLoading = ref(false)
     let payloadDetail = ref('')
     let isCopyShow = ref(false)
-    let pageMeta = ref({})
+    const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
+
     const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
       useShowTextByDifferent()
 
@@ -212,20 +214,16 @@ export default defineComponent({
 
     const loadDelayedList = async (params = {}) => {
       tbLoading.value = true
-      let sendParams = {
-        ...pageMeta,
-        ...params,
-      }
-      Reflect.deleteProperty(sendParams, 'count')
-      let res = await getDelayedList(sendParams).catch(() => {})
-      if (res) {
-        delayedTbData.value = res.data
-        tbLoading.value = false
-        pageMeta.value = res.meta
-      } else {
-        tbLoading.value = false
+      let sendParams = { ...pageParams.value, ...params }
+      try {
+        const { data, meta } = await getDelayedList(sendParams)
+        delayedTbData.value = data
+        setPageMeta(meta)
+      } catch (error) {
         delayedTbData.value = []
-        pageMeta.value = {}
+        initPageMeta()
+      } finally {
+        tbLoading.value = false
       }
     }
 

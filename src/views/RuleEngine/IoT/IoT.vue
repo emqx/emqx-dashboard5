@@ -73,7 +73,7 @@
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <commonPagination :meta-data="pageParams" @load-page="handlePageParamsChanged" />
+      <commonPagination :meta-data="pageMeta" @load-page="getRulesList" />
     </div>
   </div>
 </template>
@@ -93,13 +93,15 @@ import commonPagination from '@/components/commonPagination.vue'
 import { PageParams } from '@/types/common'
 import RuleFilterForm from './components/RuleFilterForm.vue'
 import { useRouter } from 'vue-router'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 const { t } = useI18n()
 const router = useRouter()
 const ruleTable: Ref<Array<RuleItem>> = ref([])
 const iotLoading: Ref<boolean> = ref(false)
 
-const { page, limit, count, pageParams, resetPageNum } = usePagination()
+const { resetPageNum } = usePagination()
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 let filterParams: FilterParamsForQueryRules = {}
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
@@ -107,30 +109,20 @@ const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const getRulesList = async () => {
   iotLoading.value = true
   try {
-    const { page, limit } = pageParams.value
-    const { data = [], meta = {} } = await getRules({ page, limit, ...filterParams })
+    const { data = [], meta } = await getRules({ ...pageParams.value, ...filterParams })
     ruleTable.value = data
-    count.value = meta.count
+    setPageMeta(meta)
   } catch (error) {
-    console.error(error)
+    ruleTable.value = []
+    initPageMeta()
   } finally {
     iotLoading.value = false
   }
 }
 
-const handlePageParamsChanged = (newParams: PageParams) => {
-  if (newParams.limit === limit.value) {
-    page.value = newParams.page
-  } else {
-    page.value = 1
-    limit.value = newParams.limit
-  }
-  getRulesList()
-}
-
 const searchRule = (filterParamsData: FilterParamsForQueryRules) => {
   filterParams = filterParamsData
-  page.value = 1
+  pageMeta.value.page = 1
   getRulesList()
 }
 
@@ -161,7 +153,7 @@ const submitDeleteRules = async ({ id }: RuleItem) => {
   try {
     await deleteRules(id)
     M.success(t('Base.deleteSuccess'))
-    page.value = resetPageNum(ruleTable.value, page.value)
+    pageMeta.value.page = resetPageNum(ruleTable.value, pageMeta.value.page)
     getRulesList()
   } catch (error) {
     console.error(error)

@@ -157,6 +157,7 @@ import CheckIcon from '@/components/CheckIcon.vue'
 import { useStore } from 'vuex'
 import { NodeMsg } from '@/types/dashboard'
 import useDurationStr from '@/hooks/useDurationStr'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 const { transSecondNumToSimpleStr } = useDurationStr()
 const showMoreQuery = ref(false)
@@ -167,8 +168,8 @@ const params = ref({})
 const fuzzyParams = ref<Record<string, any>>({
   comparator: 'gte',
 })
-const pageMeta = ref({})
 const store = useStore()
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
@@ -193,30 +194,30 @@ const genQueryParams = (params: Record<string, any>) => {
 }
 
 const loadNodeData = async () => {
-  const data = await loadNodes()
-  if (data) currentNodes.value = data
+  try {
+    const data = await loadNodes()
+    currentNodes.value = data
+  } catch (error) {
+    //
+  }
 }
 
 const loadNodeClients = async (_params = {}) => {
   lockTable.value = true
   const sendParams = {
     ...params.value,
-    ...pageMeta.value,
+    ...pageParams.value,
     ..._params,
   }
-  Reflect.deleteProperty(sendParams, 'count')
-  const res = await listClients(sendParams).catch(() => {
-    lockTable.value = false
-  })
-  if (res) {
-    const { data = [], meta = {} } = res
+  try {
+    const { data = [], meta = {} } = await listClients(sendParams)
     tableData.value = data
-    lockTable.value = false
-    pageMeta.value = meta
-  } else {
+    setPageMeta(meta)
+  } catch (error) {
     tableData.value = []
+    initPageMeta()
+  } finally {
     lockTable.value = false
-    pageMeta.value = {}
   }
 }
 

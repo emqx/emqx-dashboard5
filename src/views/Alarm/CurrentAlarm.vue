@@ -46,7 +46,7 @@
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <common-pagination v-model:metaData="cPageMeta" @loadPage="loadData"></common-pagination>
+      <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
     </div>
   </div>
 </template>
@@ -67,35 +67,30 @@ import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { RefreshRight, Setting } from '@element-plus/icons-vue'
 import useDurationStr from '@/hooks/useDurationStr'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 const currentLockTable = ref(false)
 const currentAlarmData = ref<any[]>([])
-const cPageMeta = ref({})
 const store = useStore()
+
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
 const { transMsNumToSimpleStr } = useDurationStr()
 
 const loadData = async (params = {}) => {
   currentLockTable.value = true
-  const sendParams = {
-    ...cPageMeta.value,
-    ...params,
-  }
-  Reflect.deleteProperty(sendParams, 'count')
+  const sendParams = { ...pageParams.value, ...params }
 
-  let res = await loadAlarm(false, sendParams).catch(() => {
-    // ignore
-  })
-  if (res) {
-    let { data, meta = {} } = res
+  try {
+    let { data, meta } = await loadAlarm(false, sendParams)
     currentAlarmData.value = data
-    currentLockTable.value = false
     store.dispatch('SET_ALERT_COUNT', currentAlarmData.value.length || 0)
-    cPageMeta.value = meta
-  } else {
+    setPageMeta(meta)
+  } catch (error) {
     currentAlarmData.value = []
+    initPageMeta()
+  } finally {
     currentLockTable.value = false
-    cPageMeta.value = {}
   }
 }
 loadData()

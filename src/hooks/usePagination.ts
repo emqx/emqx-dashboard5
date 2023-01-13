@@ -23,7 +23,7 @@ export default (): {
     set(data: PageData) {
       page.value = data.page
       limit.value = data.limit
-      count.value = data.count
+      count.value = data.count || 0
     },
   })
 
