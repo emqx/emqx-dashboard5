@@ -1158,8 +1158,8 @@ When disabled the messages are buffered in RAM only.`,
     zh: '主机列表',
   },
   bootstrapHostsDesc: {
-    en: 'A comma separated list of Kafka <code>host:port</code> endpoints to bootstrap the client.',
-    zh: '用逗号分隔的 <code>host:port</code> 主机列表。',
+    en: 'A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.',
+    zh: '用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。',
   },
   workerPoolSize: {
     en: 'Buffer Pool Size',
@@ -1242,40 +1242,44 @@ When disabled the messages are buffered in RAM only.`,
     zh: "设置 ‘true' 让系统内核立即发送。否则当需要发送当内容很少时，可能会有一定延迟（默认 40 毫秒）。",
   },
   producer: {
-    zh: '生产者',
-    en: 'Producer',
+    en: 'MQTT to Kafka',
+    zh: 'MQTT 到 Kafka',
   },
   producerDesc: {
-    zh: '将本地服务中的消息桥接到外部 Kafka 服务。',
-    en: 'Bridge local messages to external Kafka service.',
+    en: 'Local MQTT data source and Kafka bridge configs.',
+    zh: '本地 MQTT 数据源和 Kafka 桥接的配置。',
   },
-  kafkaTopic: {
-    en: 'Kafka Topic Name',
-    zh: 'Kafka 主题名称',
+  kafkaProducerTopic: {
+    en: 'Source MQTT Topic',
+    zh: '源 MQTT 主题',
+  },
+  kafkaProducerTopicDesc: {
+    en: 'MQTT topic or topic as data source (bridge input).',
+    zh: '指定 MQTT 主题作为桥接的数据源',
   },
   kafkaMessageKey: {
     zh: '消息的 Key',
     en: 'Message Key',
   },
   kafkaMessageKeyDesc: {
-    zh: '生成 Kafka 消息 Key 的模版。当所需要的输入没有时，会使用 <code>NULL</code>。',
-    en: 'Template to render Kafka message key. If the desired variable for this template is not found in the input data <code>NULL</code> is used.',
+    zh: '生成 Kafka 消息 Key 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code ，而非空字符串。',
+    en: "Template to render Kafka message key. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Kafka's <code>NULL</code> (but not empty string) is used.",
   },
   kafkaMessageValue: {
     zh: '消息的 Value',
     en: 'Message Value',
   },
   kafkaMessageValueDesc: {
-    zh: '生成 Kafka 消息 Value 的模版。当所需要的输入没有时，会使用 <code>NULL</code>。',
-    en: 'Template to render Kafka message value. If the desired variable for this template is not found in the input data <code>NULL</code> is used.',
+    zh: '生成 Kafka 消息 Value 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code ，而非空字符串。',
+    en: "Template to render Kafka message value. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Kafka's <code>NULL</code> (but not empty string) is used.",
   },
   kafkaMessageTimestamp: {
     zh: '消息的时间戳',
     en: 'Message Timestamp',
   },
   kafkaMessageTimestampDesc: {
-    zh: `生成 Kafka 消息时间戳的模版。该时间必需是一个整型数值（可以是字符串格式）例如 <code>1661326462115</code> 或 <code>'1661326462115'</code>。当所需的输入字段不存在，或不是一个整型时，则会使用当前系统时间。`,
-    en: `Which timestamp to use. The timestamp is expected to be a millisecond precision Unix epoch which can be in string format, e.g. <code>1661326462115</code> or <code>'1661326462115'</code>. When the desired data field for this template is not found, or if the found data is not a valid integer, the current system timestamp will be used.`,
+    zh: "生成 Kafka 消息时间戳的模版。该时间必需是一个整型数值（可以是字符串格式）例如 <code>1661326462115</code> 或 <code>'1661326462115'</code>。当所需的输入字段不存在，或不是一个整型时，则会使用当前系统时间。",
+    en: "Which timestamp to use. The timestamp is expected to be a millisecond precision Unix epoch which can be in string format, e.g. <code>1661326462115</code> or <code>'1661326462115'</code>. When the desired data field for this template is not found, or if the found data is not a valid integer, the current system timestamp will be used.",
   },
   maxBatchBytes: {
     en: 'Max Batch Bytes',
@@ -1294,24 +1298,24 @@ When disabled the messages are buffered in RAM only.`,
     zh: '分区选择策略',
   },
   partitionStrategyDesc: {
-    en: 'Partition strategy is to tell the producer how to dispatch messages to Kafka partitions.</br></br><code>random</code>: Randomly pick a partition for each message</br><code>key_dispatch</code>: Hash Kafka message key to a partition number</br>',
-    zh: '设置消息发布时应该如何选择 Kafka 分区。</br></br><code>random</code>: 为每个消息随机选择一个分区。</br><code>key_dispatch</code>: Hash Kafka message key to a partition number</br>',
+    en: 'Partition strategy is to tell the producer how to dispatch messages to Kafka partitions.<br/><br/><code>random</code>: Randomly pick a partition for each message<br/><code>key_dispatch</code>: Hash Kafka message key to a partition number<br/>',
+    zh: '设置消息发布时应该如何选择 Kafka 分区。<br/><br/><code>random</code>: 为每个消息随机选择一个分区。<br/><code>key_dispatch</code>: Hash Kafka message key to a partition number<br/>',
   },
   requiredAcks: {
     en: 'Required Acks',
     zh: 'Kafka 确认数量',
   },
   requiredAcksDesc: {
-    en: "Required acknowledgements for Kafka partition leader to wait for its followers before it sends back the acknowledgement to EMQX Kafka producer</br></br><code>all_isr</code>: Require all in-sync replicas to acknowledge.</br><code>leader_only</code>: Require only the partition-leader's acknowledgement.</br><code>none</code>: No need for Kafka to acknowledge at all.</br>",
-    zh: '设置 Kafka leader 在返回给 EMQX 确认之前需要等待多少个 follower 的确认。</br></br><code>all_isr</code>: 需要所有的在线复制者都确认。</br><code>leader_only</code>: 仅需要分区 leader 确认。</br><code>none</code>: 无需 Kafka 回复任何确认。</br>',
+    en: "Required acknowledgements for Kafka partition leader to wait for its followers before it sends back the acknowledgement to EMQX Kafka producer<br/><br/><code>all_isr</code>: Require all in-sync replicas to acknowledge.<br/><code>leader_only</code>: Require only the partition-leader's acknowledgement.<br/><code>none</code>: No need for Kafka to acknowledge at all.<br/>",
+    zh: '设置 Kafka leader 在返回给 EMQX 确认之前需要等待多少个 follower 的确认。<br/><br/><code>all_isr</code>: 需要所有的在线复制者都确认。<br/><code>leader_only</code>: 仅需要分区 leader 确认。<br/><code>none</code>: 无需 Kafka 回复任何确认。<br/>',
   },
   partitionCountRefreshInterval: {
     en: 'Partition Count Refresh Interval',
     zh: '分区数量刷新间隔',
   },
   partitionCountRefreshIntervalDesc: {
-    en: 'The time interval for Kafka producer to discover increased number of partitions.</br>After the number of partitions is increased in Kafka, EMQX will start taking the </br>discovered partitions into account when dispatching messages per <code>partition_strategy</code>.',
-    zh: '配置 Kafka 刷新分区数量的时间间隔。</br>EMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy<code> 配置，把消息发送到新的分区中。',
+    en: 'The time interval for Kafka producer to discover increased number of partitions.<br/>After the number of partitions is increased in Kafka, EMQX will start taking the <br/>discovered partitions into account when dispatching messages per <code>partition_strategy</code>.',
+    zh: '配置 Kafka 刷新分区数量的时间间隔。<br/>EMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy<code> 配置，把消息发送到新的分区中。',
   },
   maxInflight: {
     en: 'Max Inflight',

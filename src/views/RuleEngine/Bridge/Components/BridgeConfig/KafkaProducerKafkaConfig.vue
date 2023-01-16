@@ -2,7 +2,11 @@
   <div class="kafka-producer-kafka-config">
     <el-row :gutter="26">
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.topic" :label="tl('kafkaTopic')">
+        <el-form-item prop="producer.kafka.topic">
+          <template #label>
+            <span>{{ tl('kafkaProducerTopic') }}</span>
+            <InfoTooltip :content="tl('kafkaProducerTopicDesc')" />
+          </template>
           <el-input v-model="kafkaConfig.topic" />
         </el-form-item>
       </el-col>
