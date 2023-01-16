@@ -183,9 +183,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -225,6 +223,88 @@
                         "description": "桥接名称。",
                         "label": "桥接名称",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.creation_opts": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "label": "缓存池大小",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "健康检查间隔。",
+                        "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "资源断开以后，自动重连的时间间隔。",
+                        "label": "自动重连间隔",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+                        "label": "请求模式",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小。",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": true,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 1,
+                        "description": "批量请求大小。如果设为1，则无批处理。",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "20ms",
+                        "description": "最大批量请求等待时间。",
+                        "label": "批量等待间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "启用磁盘缓存队列（仅对 egress 方向桥接有用）。",
+                        "label": "启用磁盘缓存队列",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "每个缓存 worker 允许使用的最大字节数。",
+                        "label": "缓存队列最大长度",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -291,9 +371,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -332,19 +410,6 @@
                         "description": "桥接名称。",
                         "label": "桥接名称",
                         "type": "string"
-                    },
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
                     },
                     "status": {
                         "description": "Bridge 的状态",
@@ -422,9 +487,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -461,19 +524,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -695,6 +745,12 @@
                         "label": "有效载荷模板",
                         "type": "string"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                    },
                     "type": {
                         "description": "桥接类型。",
                         "label": "桥接类型",
@@ -819,6 +875,12 @@
                         "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
                         "label": "有效载荷模板",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     }
                 },
                 "type": "object"
@@ -1047,9 +1109,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -1089,19 +1149,6 @@
                         "description": "桥接名称。",
                         "label": "桥接名称",
                         "type": "string"
-                    },
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
                     },
                     "status": {
                         "description": "Bridge 的状态",
@@ -1171,6 +1218,7 @@
                         "type": "string"
                     },
                     "username": {
+                        "default": "root",
                         "description": "内部数据库的用户名。",
                         "label": "用户名",
                         "type": "string"
@@ -1329,6 +1377,12 @@
                         "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
                         "label": "有效载荷模板",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     },
                     "type": {
                         "description": "桥接类型。",
@@ -1578,19 +1632,6 @@
                         "label": "桥接名字",
                         "type": "string"
                     },
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -1639,13 +1680,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "健康检查间隔，单位毫秒。",
+                        "description": "健康检查间隔。",
                         "label": "健康检查间隔",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "资源断开以后，自动重连的时间间隔，单位毫秒。",
+                        "description": "资源断开以后，自动重连的时间间隔。",
                         "label": "自动重连间隔",
                         "oneOf": [
                             {
@@ -1854,9 +1895,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -2180,19 +2219,6 @@
                     "servers"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -2297,6 +2323,12 @@
                         "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
                         "label": "有效载荷模板",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     },
                     "type": {
                         "description": "桥接类型。",
@@ -2408,6 +2440,12 @@
                         "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
                         "label": "有效载荷模板",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     },
                     "type": {
                         "description": "桥接类型。",
@@ -2527,19 +2565,6 @@
                     "servers"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -2660,6 +2685,12 @@
                         "label": "有效载荷模板",
                         "type": "string"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                    },
                     "type": {
                         "description": "桥接类型。",
                         "label": "桥接类型",
@@ -2768,6 +2799,12 @@
                         "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
                         "label": "有效载荷模板",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     }
                 },
                 "type": "object"
@@ -2779,19 +2816,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -3161,9 +3185,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -3277,19 +3299,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -3619,19 +3628,6 @@
                         "label": "桥接名字",
                         "type": "string"
                     },
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -3664,13 +3660,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "健康检查间隔，单位毫秒。",
+                        "description": "健康检查间隔。",
                         "label": "健康检查间隔",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "资源断开以后，自动重连的时间间隔，单位毫秒。",
+                        "description": "资源断开以后，自动重连的时间间隔。",
                         "label": "自动重连间隔",
                         "oneOf": [
                             {
@@ -3803,19 +3799,6 @@
                         "label": "桥接名字",
                         "type": "string"
                     },
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -3845,19 +3828,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -3966,19 +3936,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -4051,6 +4008,7 @@
                         "type": "string"
                     },
                     "username": {
+                        "default": "root",
                         "description": "内部数据库的用户名。",
                         "label": "用户名",
                         "type": "string"
@@ -4292,19 +4250,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -4386,19 +4331,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -4507,19 +4439,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -4625,19 +4544,6 @@
                     "server"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -4778,13 +4684,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "健康检查间隔，单位毫秒。",
+                        "description": "健康检查间隔。",
                         "label": "健康检查间隔",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "资源断开以后，自动重连的时间间隔，单位毫秒。",
+                        "description": "资源断开以后，自动重连的时间间隔。",
                         "label": "自动重连间隔",
                         "oneOf": [
                             {
@@ -5138,19 +5044,19 @@
             "bridge_kafka.kafka_message": {
                 "properties": {
                     "key": {
-                        "default": "${clientid}",
-                        "description": "生成 Kafka 消息 Key 的模版。当所需要的输入没有时，会使用 <code>NULL</code>。",
+                        "default": "${.clientid}",
+                        "description": "生成 Kafka 消息 Key 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code ，而非空字符串。",
                         "label": "消息的 Key",
                         "type": "string"
                     },
                     "value": {
-                        "default": "${payload}",
-                        "description": "生成 Kafka 消息 Value 的模版。当所需要的输入没有时，会使用 <code>NULL</code>。",
+                        "default": "${.}",
+                        "description": "生成 Kafka 消息 Value 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code ，而非空字符串。",
                         "label": "消息的 Value",
                         "type": "string"
                     },
                     "timestamp": {
-                        "default": "${timestamp}",
+                        "default": "${.timestamp}",
                         "description": "生成 Kafka 消息时间戳的模版。该时间必需是一个整型数值（可以是字符串格式）例如 <code>1661326462115</code> 或 <code>'1661326462115'</code>。当所需的输入字段不存在，或不是一个整型时，则会使用当前系统时间。",
                         "label": "消息的时间戳",
                         "type": "string"
@@ -5241,19 +5147,6 @@
                     "server"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge 计数",
-                        "label": "Bridge 计数",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "节点的计数器",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "节点的计数器",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "Bridge 的状态",
                         "label": "Bridge 状态",
@@ -5358,6 +5251,12 @@
                         "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
                         "label": "有效载荷模板",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     },
                     "type": {
                         "description": "桥接类型。",
@@ -5613,6 +5512,7 @@
                         "type": "string"
                     },
                     "username": {
+                        "default": "root",
                         "description": "内部数据库的用户名。",
                         "label": "用户名",
                         "type": "string"
@@ -6036,13 +5936,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "健康检查间隔，单位毫秒。",
+                        "description": "健康检查间隔。",
                         "label": "健康检查间隔",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "资源断开以后，自动重连的时间间隔，单位毫秒。",
+                        "description": "资源断开以后，自动重连的时间间隔。",
                         "label": "自动重连间隔",
                         "oneOf": [
                             {
@@ -6296,13 +6196,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "健康检查间隔，单位毫秒。",
+                        "description": "健康检查间隔。",
                         "label": "健康检查间隔",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "资源断开以后，自动重连的时间间隔，单位毫秒。",
+                        "description": "资源断开以后，自动重连的时间间隔。",
                         "label": "自动重连间隔",
                         "oneOf": [
                             {
@@ -6453,6 +6353,12 @@
                         "description": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
                         "label": "有效载荷模板",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     }
                 },
                 "type": "object"
@@ -6636,8 +6542,30 @@
                 ]
             }
         },
-        "/bridges/:id/operation/:operation": {},
-        "/bridges/:id/reset_metrics": {},
-        "/nodes/:node/bridges/:id/operation/:operation": {}
+        "/bridges/:id/:operation": {},
+        "/bridges/:id/enable/:enable": {},
+        "/bridges/:id/metrics": {
+            "get": {
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge 计数",
+                        "label": "Bridge 计数",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "节点的计数器",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "节点的计数器",
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "/bridges/:id/metrics/reset": {},
+        "/bridges_probe": {},
+        "/nodes/:node/bridges/:id/:operation": {}
     }
 }
