@@ -183,9 +183,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -225,6 +223,88 @@
                         "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_mongodb.creation_opts": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "Health check interval.",
+                        "label": "Health Check Interval",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "The auto restart interval after the resource is disconnected.",
+                        "label": "Auto Restart Interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "label": "Query mode",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "Async query inflight window.",
+                        "label": "Async inflight window",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": true,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Batch mode enabled.",
+                        "label": "Enable batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 1,
+                        "description": "Maximum batch count. If equal to 1, there's effectively no batching.",
+                        "label": "Batch size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "20ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "Batch time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -291,9 +371,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -332,19 +410,6 @@
                         "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
-                    },
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
                     },
                     "status": {
                         "description": "The status of the bridge",
@@ -422,9 +487,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -461,19 +524,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -695,6 +745,12 @@
                         "label": "Payload template",
                         "type": "string"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                    },
                     "type": {
                         "description": "The Bridge Type.",
                         "label": "Bridge Type",
@@ -819,6 +875,12 @@
                         "description": "The template for formatting the outgoing messages.  If undefined, rule engine will use JSON format to serialize all visible inputs, such as clientid, topic, payload etc.",
                         "label": "Payload template",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     }
                 },
                 "type": "object"
@@ -1047,9 +1109,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -1089,19 +1149,6 @@
                         "description": "Bridge name.",
                         "label": "Bridge Name",
                         "type": "string"
-                    },
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
                     },
                     "status": {
                         "description": "The status of the bridge",
@@ -1171,6 +1218,7 @@
                         "type": "string"
                     },
                     "username": {
+                        "default": "root",
                         "description": "EMQX's username in the external database.",
                         "label": "Username",
                         "type": "string"
@@ -1329,6 +1377,12 @@
                         "description": "The template for formatting the outgoing messages.  If undefined, rule engine will use JSON format to serialize all visible inputs, such as clientid, topic, payload etc.",
                         "label": "Payload template",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -1578,19 +1632,6 @@
                         "label": "Bridge Name",
                         "type": "string"
                     },
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -1639,13 +1680,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "Health check interval, in milliseconds.",
+                        "description": "Health check interval.",
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "The auto restart interval after the resource is disconnected, in milliseconds.",
+                        "description": "The auto restart interval after the resource is disconnected.",
                         "label": "Auto Restart Interval",
                         "oneOf": [
                             {
@@ -1854,9 +1895,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -2180,19 +2219,6 @@
                     "servers"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -2297,6 +2323,12 @@
                         "description": "The template for formatting the outgoing messages.  If undefined, rule engine will use JSON format to serialize all visible inputs, such as clientid, topic, payload etc.",
                         "label": "Payload template",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -2408,6 +2440,12 @@
                         "description": "The template for formatting the outgoing messages.  If undefined, rule engine will use JSON format to serialize all visible inputs, such as clientid, topic, payload etc.",
                         "label": "Payload template",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -2527,19 +2565,6 @@
                     "servers"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -2660,6 +2685,12 @@
                         "label": "Payload template",
                         "type": "string"
                     },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                    },
                     "type": {
                         "description": "The Bridge Type.",
                         "label": "Bridge Type",
@@ -2768,6 +2799,12 @@
                         "description": "The template for formatting the outgoing messages.  If undefined, rule engine will use JSON format to serialize all visible inputs, such as clientid, topic, payload etc.",
                         "label": "Payload template",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     }
                 },
                 "type": "object"
@@ -2779,19 +2816,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -3161,9 +3185,7 @@
                             "ns",
                             "us",
                             "ms",
-                            "s",
-                            "m",
-                            "h"
+                            "s"
                         ],
                         "type": "enum"
                     },
@@ -3277,19 +3299,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -3619,19 +3628,6 @@
                         "label": "Bridge Name",
                         "type": "string"
                     },
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -3664,13 +3660,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "Health check interval, in milliseconds.",
+                        "description": "Health check interval.",
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "The auto restart interval after the resource is disconnected, in milliseconds.",
+                        "description": "The auto restart interval after the resource is disconnected.",
                         "label": "Auto Restart Interval",
                         "oneOf": [
                             {
@@ -3803,19 +3799,6 @@
                         "label": "Bridge Name",
                         "type": "string"
                     },
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -3845,19 +3828,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -3966,19 +3936,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -4051,6 +4008,7 @@
                         "type": "string"
                     },
                     "username": {
+                        "default": "root",
                         "description": "EMQX's username in the external database.",
                         "label": "Username",
                         "type": "string"
@@ -4292,19 +4250,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -4386,19 +4331,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -4507,19 +4439,6 @@
                     "type"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -4625,19 +4544,6 @@
                     "server"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -4778,13 +4684,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "Health check interval, in milliseconds.",
+                        "description": "Health check interval.",
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "The auto restart interval after the resource is disconnected, in milliseconds.",
+                        "description": "The auto restart interval after the resource is disconnected.",
                         "label": "Auto Restart Interval",
                         "oneOf": [
                             {
@@ -5138,19 +5044,19 @@
             "bridge_kafka.kafka_message": {
                 "properties": {
                     "key": {
-                        "default": "${clientid}",
-                        "description": "Template to render Kafka message key. If the desired variable for this template is not found in the input data <code>NULL</code> is used.",
+                        "default": "${.clientid}",
+                        "description": "Template to render Kafka message key. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Kafka's <code>NULL</code> (but not empty string) is used.",
                         "label": "Message Key",
                         "type": "string"
                     },
                     "value": {
-                        "default": "${payload}",
-                        "description": "Template to render Kafka message value. If the desired variable for this template is not found in the input data <code>NULL</code> is used.",
+                        "default": "${.}",
+                        "description": "Template to render Kafka message value. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Kafka's <code>NULL</code> (but not empty string) is used.",
                         "label": "Message Value",
                         "type": "string"
                     },
                     "timestamp": {
-                        "default": "${timestamp}",
+                        "default": "${.timestamp}",
                         "description": "Which timestamp to use. The timestamp is expected to be a millisecond precision Unix epoch which can be in string format, e.g. <code>1661326462115</code> or <code>'1661326462115'</code>. When the desired data field for this template is not found, or if the found data is not a valid integer, the current system timestamp will be used.",
                         "label": "Message Timestamp",
                         "type": "string"
@@ -5241,19 +5147,6 @@
                     "server"
                 ],
                 "properties": {
-                    "metrics": {
-                        "description": "Bridge metrics.",
-                        "label": "Bridge Metrics",
-                        "$ref": "#/components/schemas/bridge.metrics"
-                    },
-                    "node_metrics": {
-                        "description": "Node metrics.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_metrics"
-                        },
-                        "label": "Node Metrics",
-                        "type": "array"
-                    },
                     "status": {
                         "description": "The status of the bridge",
                         "label": "Bridge Status",
@@ -5358,6 +5251,12 @@
                         "description": "The template for formatting the outgoing messages.  If undefined, rule engine will use JSON format to serialize all visible inputs, such as clientid, topic, payload etc.",
                         "label": "Payload template",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -5613,6 +5512,7 @@
                         "type": "string"
                     },
                     "username": {
+                        "default": "root",
                         "description": "EMQX's username in the external database.",
                         "label": "Username",
                         "type": "string"
@@ -6036,13 +5936,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "Health check interval, in milliseconds.",
+                        "description": "Health check interval.",
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "The auto restart interval after the resource is disconnected, in milliseconds.",
+                        "description": "The auto restart interval after the resource is disconnected.",
                         "label": "Auto Restart Interval",
                         "oneOf": [
                             {
@@ -6296,13 +6196,13 @@
                     },
                     "health_check_interval": {
                         "default": "15s",
-                        "description": "Health check interval, in milliseconds.",
+                        "description": "Health check interval.",
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
                         "default": "60s",
-                        "description": "The auto restart interval after the resource is disconnected, in milliseconds.",
+                        "description": "The auto restart interval after the resource is disconnected.",
                         "label": "Auto Restart Interval",
                         "oneOf": [
                             {
@@ -6453,6 +6353,12 @@
                         "description": "The template for formatting the outgoing messages.  If undefined, rule engine will use JSON format to serialize all visible inputs, such as clientid, topic, payload etc.",
                         "label": "Payload template",
                         "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "Resource options.",
+                        "label": "Resource Options",
+                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
                     }
                 },
                 "type": "object"
@@ -6636,8 +6542,30 @@
                 ]
             }
         },
-        "/bridges/:id/operation/:operation": {},
-        "/bridges/:id/reset_metrics": {},
-        "/nodes/:node/bridges/:id/operation/:operation": {}
+        "/bridges/:id/:operation": {},
+        "/bridges/:id/enable/:enable": {},
+        "/bridges/:id/metrics": {
+            "get": {
+                "properties": {
+                    "metrics": {
+                        "description": "Bridge metrics.",
+                        "label": "Bridge Metrics",
+                        "$ref": "#/components/schemas/bridge.metrics"
+                    },
+                    "node_metrics": {
+                        "description": "Node metrics.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_metrics"
+                        },
+                        "label": "Node Metrics",
+                        "type": "array"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "/bridges/:id/metrics/reset": {},
+        "/bridges_probe": {},
+        "/nodes/:node/bridges/:id/:operation": {}
     }
 }
