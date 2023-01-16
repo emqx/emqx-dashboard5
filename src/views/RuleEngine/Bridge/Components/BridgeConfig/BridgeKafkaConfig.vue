@@ -93,7 +93,11 @@
             <el-form-item prop="authentication.kerberos_principal">
               <template #label>
                 <span>{{ tl('kerberosPrincipal') }}</span>
-                <InfoTooltip :content="tl('kerberosPrincipalDesc')" />
+                <InfoTooltip>
+                  <template #content>
+                    <p v-safe-html="tl('kerberosPrincipalDesc')"></p>
+                  </template>
+                </InfoTooltip>
               </template>
               <el-input v-model="formData.authentication.kerberos_principal" />
             </el-form-item>

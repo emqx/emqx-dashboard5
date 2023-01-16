@@ -13,7 +13,7 @@
         <span>{{ tl('writeSyntax') }}</span>
         <InfoTooltip popper-class="is-wider">
           <template #content>
-            <p v-html="escapeCode(transLink(tl('writeSyntaxDesc')))"></p>
+            <p v-safe-html="escapeCode(transLink(tl('writeSyntaxDesc')))"></p>
           </template>
         </InfoTooltip>
       </template>

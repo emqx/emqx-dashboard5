@@ -34,7 +34,7 @@
               <span>{{ tl('serverHost') }}</span>
               <InfoTooltip>
                 <template #content>
-                  <p v-html="tl('serverHostDesc')"></p>
+                  <p v-safe-html="tl('serverHostDesc')"></p>
                 </template>
               </InfoTooltip>
             </template>
