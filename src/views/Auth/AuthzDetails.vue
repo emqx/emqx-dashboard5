@@ -39,7 +39,7 @@
         <authz-manager />
       </el-tab-pane>
       <el-tab-pane v-else :label="$t('Base.setting')" name="settings" :lazy="true">
-        <el-card>
+        <el-card v-if="!authzDetailLock">
           <database-config
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
             ref="formCom"
@@ -111,6 +111,8 @@ export default defineComponent({
     const { titleMap } = useAuth()
     const configData = ref({
       ssl: { enable: false },
+      topology: {},
+      // resource_opts: {},
     })
     const authMetrics = ref(undefined)
     const formCom = ref()
