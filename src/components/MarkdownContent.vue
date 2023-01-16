@@ -24,6 +24,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { ref, defineProps, onMounted } from 'vue'
 import { marked } from 'marked'
+import xss from 'xss'
 
 interface TocItem {
   title: string
@@ -87,7 +88,7 @@ const setEle = (val: string | undefined) => {
   if (!val) {
     containerEle.value.innerHTML = ''
   } else {
-    containerEle.value.innerHTML = convertMarkdown(val)
+    containerEle.value.innerHTML = xss(convertMarkdown(val))
   }
 }
 

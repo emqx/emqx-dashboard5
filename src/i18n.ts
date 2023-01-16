@@ -31,6 +31,7 @@ Array.prototype.forEach.call(translations.keys(), (path) => {
 const i18nInstance = createI18n({
   messages: lang,
   locale: store.state.lang,
+  warnHtmlInMessage: 'off',
 })
 
 export const getLocalMessage = (path: string): string => {

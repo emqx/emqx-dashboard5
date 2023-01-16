@@ -77,11 +77,7 @@
     <el-form-item prop="async_inflight_window">
       <template #label>
         <span>{{ tl('asyncInflightWindow') }}</span>
-        <InfoTooltip>
-          <template #content>
-            <p v-html="tl('asyncInflightWindowDesc')"></p>
-          </template>
-        </InfoTooltip>
+        <InfoTooltip :content="tl('asyncInflightWindowDesc')" />
       </template>
       <el-input v-model="resourceOptForm.async_inflight_window" />
     </el-form-item>
