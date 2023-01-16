@@ -262,9 +262,9 @@ const createDefaultValue = () => ({
     kafka: {
       topic: '',
       message: {
-        key: '${clientid}',
-        value: '${payload}',
-        timestamp: '${timestamp}',
+        key: '${.clientid}',
+        value: '${.}',
+        timestamp: '${.timestamp}',
       },
       max_batch_bytes: '896KB',
       compression: 'no_compression',
@@ -302,7 +302,7 @@ const formRules = {
   },
   producer: {
     kafka: {
-      topic: createRequiredRule(tl('kafkaTopic')),
+      topic: createRequiredRule(tl('kafkaProducerTopic')),
     },
   },
 }
