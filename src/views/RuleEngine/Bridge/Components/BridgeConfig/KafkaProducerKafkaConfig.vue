@@ -10,7 +10,11 @@
         <el-form-item prop="producer.kafka.message.key">
           <template #label>
             <span>{{ tl('kafkaMessageKey') }}</span>
-            <InfoTooltip :content="tl('kafkaMessageKeyDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <p v-safe-html="tl('kafkaMessageKeyDesc')"></p>
+              </template>
+            </InfoTooltip>
           </template>
           <div class="monaco-container">
             <Monaco :id="createRandomString()" v-model="kafkaConfig.message.key" lang="sql" />
@@ -21,7 +25,11 @@
         <el-form-item prop="producer.kafka.message.value">
           <template #label>
             <span>{{ tl('kafkaMessageValue') }}</span>
-            <InfoTooltip :content="tl('kafkaMessageValueDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <p v-safe-html="tl('kafkaMessageValueDesc')"></p>
+              </template>
+            </InfoTooltip>
           </template>
           <div class="monaco-container">
             <Monaco :id="createRandomString()" v-model="kafkaConfig.message.value" lang="sql" />
@@ -32,7 +40,11 @@
         <el-form-item prop="producer.kafka.message.timestamp">
           <template #label>
             <span>{{ tl('kafkaMessageTimestamp') }}</span>
-            <InfoTooltip :content="tl('kafkaMessageTimestampDesc')" />
+            <InfoTooltip>
+              <template #content>
+                <p v-safe-html="tl('kafkaMessageTimestampDesc')"></p>
+              </template>
+            </InfoTooltip>
           </template>
           <el-input v-model="kafkaConfig.message.timestamp" />
         </el-form-item>
