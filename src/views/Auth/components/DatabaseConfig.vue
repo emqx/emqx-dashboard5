@@ -183,7 +183,7 @@
                 </el-button>
               </template>
               <div class="viewer-container" ref="monacoContainer">
-                <monaco id="adatabase-query" v-model="databaseConfig.query" lang="sql" />
+                <monaco id="database-query" v-model="databaseConfig.query" lang="sql" />
               </div>
             </el-form-item>
           </el-col>
@@ -201,7 +201,7 @@
                 </el-button>
               </template>
               <div class="viewer-container" ref="monacoContainer">
-                <monaco id="adatabase-query" v-model="databaseConfig.filter" lang="json" />
+                <monaco id="database-filter" v-model="databaseConfig.filter" lang="json" />
               </div>
             </el-form-item>
           </el-col>
@@ -218,7 +218,9 @@
                   {{ $t('Auth.setDefault') }}
                 </el-button>
               </template>
-              <el-input v-model="databaseConfig.cmd" type="textarea" :rows="6" />
+              <div class="viewer-container" ref="monacoContainer">
+                <monaco id="database-cmd" v-model="databaseConfig.cmd" lang="sql" />
+              </div>
             </el-form-item>
           </el-col>
           <el-collapse-transition>
