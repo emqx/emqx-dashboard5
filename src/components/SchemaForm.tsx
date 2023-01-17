@@ -89,6 +89,7 @@ const SchemaForm = defineComponent({
       type: Boolean,
       default: false,
     },
+    // FIXME: remove this, use `dataHandler`
     /**
      * disable by path
      */
@@ -97,7 +98,6 @@ const SchemaForm = defineComponent({
     },
     /**
      * sort prop by KEY
-     * FIXME: No consideration of level now
      */
     propsOrderMap: {
       type: Object as PropType<Record<string, number>>,
@@ -108,6 +108,7 @@ const SchemaForm = defineComponent({
     customColClass: {
       type: Object as PropType<Record<string, string>>,
     },
+    // FIXME: remove this, use `dataHandler
     /**
      * set by path
      */
@@ -184,14 +185,14 @@ const SchemaForm = defineComponent({
     )
 
     watch(components, (val) => {
+      handleComponentsData()
+      initCurrentGroup()
       if ((!props.form || isEmptyObj(props.form)) && props.needRecord) {
         configForm.value = initRecordByComponents(val)
         if (typesNeedConciseSSL.includes(props.type)) {
           configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value)
         }
       }
-      handleComponentsData()
-      initCurrentGroup()
     })
 
     watch(
@@ -803,6 +804,7 @@ const SchemaForm = defineComponent({
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
       }
+      // TODO:
       handleComponentsData()
     })
 

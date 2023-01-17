@@ -2,6 +2,7 @@ import { checkNOmitFromObj, utf8Encode, utf8Decode } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { cloneDeep, omit } from 'lodash'
 import useSSL from '@/hooks/useSSL'
+import { useBridgeTypeOptions } from './useBridgeTypeValue'
 
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => any
@@ -9,6 +10,7 @@ export default (): {
   handleBridgeDataForCopy: (bridgeData: any) => any
 } => {
   const { handleSSLDataBeforeSubmit } = useSSL()
+  const { getBridgeType } = useBridgeTypeOptions()
 
   const handleMQTTBridgeData = (bridgeData: any) => {
     const { egress, ingress } = bridgeData
@@ -29,13 +31,13 @@ export default (): {
 
   const handleBridgeDataBeforeSubmit = (bridgeData: any): any => {
     let ret = cloneDeep(bridgeData)
+    const bridgeType = getBridgeType(bridgeData.type)
     if (ret.ssl) {
       ret.ssl = handleSSLDataBeforeSubmit(ret.ssl)
     }
-    if (ret.type === BridgeType.MQTT) {
+    if (bridgeType === BridgeType.MQTT) {
       ret = handleMQTTBridgeData(ret)
-    }
-    if (ret.type === BridgeType.Webhook) {
+    } else if (bridgeType === BridgeType.Webhook) {
       ret = handleWebhookBridgeData(ret)
     }
     return checkNOmitFromObj(omit(ret, ['metrics', 'node_metrics', 'node_status', 'status']))
