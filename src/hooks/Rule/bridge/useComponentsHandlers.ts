@@ -50,7 +50,9 @@ export default () => {
       }
     }
     if (command_template?.type === 'array' && command_template?.items?.type === 'string') {
-      command_template.items.component = 'table'
+      command_template.type = 'string'
+      command_template.format = 'sql'
+      command_template.default = ''
     }
     deleteSSLLabelAndDesc(components)
     return { components, rules }
