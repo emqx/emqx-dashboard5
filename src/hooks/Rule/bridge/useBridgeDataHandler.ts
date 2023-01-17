@@ -44,7 +44,8 @@ export default (): {
   }
 
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
-    if (bridgeData.type === BridgeType.Webhook && 'body' in bridgeData) {
+    const bridgeType = getBridgeType(bridgeData.type)
+    if (bridgeType === BridgeType.Webhook && 'body' in bridgeData) {
       bridgeData.body = utf8Decode(bridgeData.body)
     }
     return bridgeData
