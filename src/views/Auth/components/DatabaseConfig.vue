@@ -144,6 +144,11 @@
           </el-button>
         </div>
         <el-row :gutter="20">
+          <el-collapse-transition>
+            <el-col v-if="needHelp" :span="24">
+              <HelpBlock :auth-type="authType" :database-type="database" />
+            </el-col>
+          </el-collapse-transition>
           <template v-if="isAuthn">
             <el-col v-if="isMongoDB" :span="12">
               <el-form-item :label="$t('Auth.passwordHashField')">
@@ -201,7 +206,12 @@
                 </el-button>
               </template>
               <div class="viewer-container" ref="monacoContainer">
-                <monaco id="database-filter" v-model="databaseConfig.filter" lang="json" />
+                <monaco
+                  id="database-filter"
+                  v-model="databaseConfig.filter"
+                  lang="json"
+                  json-without-validate
+                />
               </div>
             </el-form-item>
           </el-col>
@@ -223,11 +233,6 @@
               </div>
             </el-form-item>
           </el-col>
-          <el-collapse-transition>
-            <el-col v-if="needHelp" :span="24">
-              <HelpBlock :auth-type="authType" :database-type="database" />
-            </el-col>
-          </el-collapse-transition>
         </el-row>
       </div>
     </el-form>
