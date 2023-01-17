@@ -268,6 +268,9 @@ export default defineComponent({
   height: 100%;
   padding: 64px 0;
   background-color: var(--color-bg-primary);
+  .el-menu:not(.el-menu--horizontal, .el-menu--popup) .menu-item-title {
+    white-space: nowrap;
+  }
   .el-menu.el-menu--collapse {
     width: 80px;
     .el-sub-menu__title,
