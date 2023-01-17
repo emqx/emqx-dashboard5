@@ -75,6 +75,11 @@
           </el-button>
         </div>
         <el-row :gutter="20">
+          <el-collapse-transition>
+            <el-col v-if="needHelp" :span="24">
+              <HelpBlock :auth-type="authType" database-type="http" />
+            </el-col>
+          </el-collapse-transition>
           <el-col :span="24">
             <el-form-item class="label-whole-line">
               <template #label>
@@ -88,11 +93,6 @@
               </div>
             </el-form-item>
           </el-col>
-          <el-collapse-transition>
-            <el-col v-if="needHelp" :span="24">
-              <HelpBlock :auth-type="authType" database-type="http" />
-            </el-col>
-          </el-collapse-transition>
         </el-row>
       </div>
     </el-form>
