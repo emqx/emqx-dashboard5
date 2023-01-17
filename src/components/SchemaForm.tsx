@@ -466,7 +466,7 @@ const SchemaForm = defineComponent({
       const descContent = (
         <p
           class={props.useTooltipShowDesc ? '' : 'item-desc'}
-          v-html={escapeCode(transLink(description))}
+          v-safe-html={escapeCode(transLink(description))}
         ></p>
       )
 
