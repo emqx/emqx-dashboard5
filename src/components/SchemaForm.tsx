@@ -245,12 +245,12 @@ const SchemaForm = defineComponent({
     const resetValue = (property: Properties[string]) => {
       if (!property.path) return
       if (property.default !== undefined && property.default !== null) {
-        configForm.value[property.path] = property.default
+        _.set(configForm.value, property.path, property.default)
       }
     }
     const removeValue = (property: Properties[string]) => {
       if (!property.path) return
-      Reflect.deleteProperty(configForm.value, property.path)
+      configForm.value = _.omit(configForm.value, property.path)
     }
     const handleModelValueUpdate = (path: string) => {
       const _path = path
