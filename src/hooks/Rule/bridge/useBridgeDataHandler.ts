@@ -1,10 +1,39 @@
-import { checkNOmitFromObj, utf8Encode, utf8Decode, stringifyObjSafely } from '@/common/tools'
+import {
+  checkNOmitFromObj,
+  utf8Encode,
+  utf8Decode,
+  stringifyObjSafely,
+  createRandomString,
+} from '@/common/tools'
 import { BridgeType, InfluxDBType } from '@/types/enum'
 import { cloneDeep, omit } from 'lodash'
 import useSSL from '@/hooks/useSSL'
 import { ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
+
+const strReg = /('[^']+')|("[^"]+")/g
+const SPACE = ' '
+const splitBySpace = (command: string) => {
+  // TODO:handle chaos input
+  const randomStr = createRandomString()
+  const strArr: Array<string> = []
+  const commandRemoveStr = command.replace(/\n/g, SPACE).replace(strReg, (matched: string) => {
+    strArr.push(matched)
+    return randomStr
+  })
+  const ret = commandRemoveStr.split(SPACE)
+  let replaceIndex = 0
+  return ret
+    .map((item) => {
+      if (item === randomStr) {
+        replaceIndex += 1
+        return strArr[replaceIndex - 1]
+      }
+      return item
+    })
+    .filter((item) => !!item)
+}
 
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => any
@@ -41,6 +70,11 @@ export default (): {
     return bridgeData
   }
 
+  const handleRedisBridgeData = (bridgeData: any) => {
+    bridgeData.command_template = splitBySpace(bridgeData.command_template)
+    return bridgeData
+  }
+
   const handleGCPBridgeData = (bridgeData: any) => {
     if (bridgeData.service_account_json && typeof bridgeData.service_account_json === 'string') {
       try {
@@ -64,21 +98,29 @@ export default (): {
       ret = handleMQTTBridgeData(ret)
     } else if (bridgeType === BridgeType.Webhook) {
       ret = handleWebhookBridgeData(ret)
-    }
-    if (ret.type === BridgeType.GCP) {
+    } else if (bridgeType === BridgeType.Redis) {
+      ret = handleRedisBridgeData(ret)
+    } else if (bridgeType === BridgeType.GCP) {
       ret = handleGCPBridgeData(ret)
-    }
-    if (ret.type === InfluxDBType.v1 || ret.type === InfluxDBType.v2) {
+    } else if (bridgeType === BridgeType.InfluxDB) {
       ret = handleInfluxDBBridgeData(ret)
     }
     return checkNOmitFromObj(omit(ret, ['metrics', 'node_metrics', 'node_status', 'status']))
   }
 
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
-    if (bridgeData.type === BridgeType.Webhook && 'body' in bridgeData) {
+    const bridgeType = getBridgeType(bridgeData.type)
+
+    if (bridgeType === BridgeType.Webhook && 'body' in bridgeData) {
       bridgeData.body = utf8Decode(bridgeData.body)
-    } else if (bridgeData.type === BridgeType.GCP && 'service_account_json' in bridgeData) {
+    } else if (bridgeType === BridgeType.GCP && 'service_account_json' in bridgeData) {
       bridgeData.service_account_json = stringifyObjSafely(bridgeData.service_account_json, 2)
+    } else if (
+      bridgeType === BridgeType.Redis &&
+      'command_template' in bridgeData &&
+      Array.isArray(bridgeData.command_template)
+    ) {
+      bridgeData.command_template = bridgeData.command_template.join(SPACE)
     }
     return bridgeData
   }
