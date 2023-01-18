@@ -619,6 +619,10 @@ export default {
     zh: '请重新输入原密码',
     en: 'Please re-enter your original password',
   },
+  changePwdTip: {
+    zh: '目前为加密密码，修改请重新输入',
+    en: 'The password is currently encrypted, to change it please re-enter',
+  },
   testTheConnection: {
     zh: '测试连接',
     en: 'Test',
