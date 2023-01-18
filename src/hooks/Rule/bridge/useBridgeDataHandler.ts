@@ -65,7 +65,7 @@ export default (): {
     if (bridgeData.type === InfluxDBType.v1) {
       bridgeData = omit(bridgeData, ['token', 'org', 'bucket'])
     } else {
-      bridgeData = omit(bridgeData, ['database'])
+      bridgeData = omit(bridgeData, ['database', 'username', 'password'])
     }
     return bridgeData
   }

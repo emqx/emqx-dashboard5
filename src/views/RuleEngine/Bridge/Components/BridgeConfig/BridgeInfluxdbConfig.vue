@@ -51,21 +51,7 @@
             <el-input v-model="formData.database" />
           </el-form-item>
         </el-col>
-        <!-- For v2 -->
-        <el-col :span="12" v-else-if="formData.type === InfluxDBType.v2">
-          <el-form-item :label="tl('authType')">
-            <el-select v-model="v2AuthType" @change="handleAuthTypeChanged">
-              <el-option
-                v-for="{ label, value } in V2_AUTH_TYPE_OPT"
-                :value="value"
-                :key="value"
-                :label="label"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-
-        <template v-if="showBasicAuthForm">
+        <template v-if="formData.type === InfluxDBType.v1">
           <el-col :span="12">
             <el-form-item prop="username">
               <template #label>
@@ -91,21 +77,16 @@
           </el-col>
         </template>
         <!-- For v2 -->
-        <el-col
-          :span="12"
-          v-else-if="formData.type === InfluxDBType.v2 && v2AuthType === V2AuthType.Token"
-        >
-          <el-form-item prop="token">
-            <template #label>
-              <span>{{ tl('token') }}</span>
-              <InfoTooltip :content="tl('tokenDesc')" />
-            </template>
-            <el-input v-model="formData.token" />
-          </el-form-item>
-        </el-col>
-
-        <!-- For v2 -->
         <template v-if="formData.type === InfluxDBType.v2">
+          <el-col :span="12">
+            <el-form-item prop="token">
+              <template #label>
+                <span>{{ tl('token') }}</span>
+                <InfoTooltip :content="tl('tokenDesc')" />
+              </template>
+              <el-input v-model="formData.token" />
+            </el-form-item>
+          </el-col>
           <el-col :span="12">
             <el-form-item prop="org">
               <template #label>
@@ -133,11 +114,7 @@
               <InfoTooltip :content="tl('precisionDesc')" />
             </template>
             <el-select v-model="formData.precision">
-              <el-option
-                v-for="item in ['ns', 'us', 'ms', 's', 'm', 'h']"
-                :value="item"
-                :key="item"
-              />
+              <el-option v-for="item in ['ns', 'us', 'ms', 's']" :value="item" :key="item" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -174,7 +151,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { InfluxDBType } from '@/types/enum'
-import { BridgeItem } from '@/types/rule'
+import { BridgeItem, OtherBridge } from '@/types/rule'
 import { cloneDeep, isEqual } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
@@ -196,18 +173,9 @@ const emit = defineEmits(['update:modelValue', 'init'])
 
 const { tl } = useI18nTl('RuleEngine')
 
-const enum V2AuthType {
-  Token = 'token',
-  Basic = 'basic',
-}
-
 const PROTOCOL_VERSION_OPT = [
   { value: InfluxDBType.v1, label: 'v1' },
   { value: InfluxDBType.v2, label: 'v2' },
-]
-const V2_AUTH_TYPE_OPT = [
-  { value: V2AuthType.Token, label: tl('token') },
-  { value: V2AuthType.Basic, label: tl('basicAuth') },
 ]
 
 const { createSSLForm } = useSSL()
@@ -230,11 +198,9 @@ const createDefaultValue = () => ({
   resource_opts: createDefaultResourceOptsForm({ inflight: true, batch: true }),
 })
 
-const formData: Ref<BridgeItem> = ref(createDefaultValue())
+const formData: Ref<OtherBridge> = ref(createDefaultValue())
 const formCom = ref()
 const writeSyntaxInputCom = ref()
-
-const v2AuthType = ref(V2AuthType.Token)
 
 const { createRequiredRule } = useFormRules()
 const commonRules = {
@@ -259,12 +225,6 @@ const formRules = computed(() => ({
   ...commonRules,
   ...(formData.value.type === InfluxDBType.v1 ? rulesForV1 : rulesForV2),
 }))
-
-const showBasicAuthForm = computed(
-  () =>
-    formData.value.type === InfluxDBType.v1 ||
-    (formData.value.type === InfluxDBType.v2 && v2AuthType.value === V2AuthType.Basic),
-)
 
 const initFormData = async () => {
   if ((props.edit || props.copy) && props.modelValue) {
@@ -294,14 +254,7 @@ watch(
 )
 
 const handleVersionChanged = () => {
-  if (formData.value.type === InfluxDBType.v2 && v2AuthType.value === V2AuthType.Token) {
-    formData.value.username = ''
-    formData.value.password = ''
-  }
-}
-
-const handleAuthTypeChanged = () => {
-  if (v2AuthType.value === V2AuthType.Token) {
+  if (formData.value.type === InfluxDBType.v2) {
     formData.value.username = ''
     formData.value.password = ''
   } else {
