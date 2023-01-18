@@ -133,6 +133,7 @@ import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfi
 import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
+import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 
 const props = defineProps({
   modelValue: {
@@ -145,6 +146,12 @@ const props = defineProps({
     default: false,
   },
   copy: {
+    type: Boolean,
+  },
+  /**
+   * add special rule to the password field
+   */
+  validateForTestConnection: {
     type: Boolean,
   },
 })
@@ -195,11 +202,10 @@ const { tl, t } = useI18nTl('RuleEngine')
 
 const { createRequiredRule } = useFormRules()
 const formCom = ref()
+const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const formRules = computed(() => ({
   name: createRequiredRule(tl('name')),
-  connector: {
-    server: createRequiredRule(tl('brokerAddress')),
-  },
+  server: createRequiredRule(tl('brokerAddress')),
   remote_topic: createRequiredRule(t('Base.topic')),
   ingress: enableIngress.value
     ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
@@ -207,6 +213,7 @@ const formRules = computed(() => ({
   egress: enableEgress.value
     ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
     : undefined,
+  password: ruleWhenTestConnection,
 })) as Partial<Record<string, any>>
 
 const initMqttBridgeVal = async () => {

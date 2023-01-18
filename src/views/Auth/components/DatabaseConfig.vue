@@ -75,6 +75,7 @@
                 v-model="databaseConfig.password"
                 type="password"
                 autocomplete="one-time-code"
+                show-password
               />
             </el-form-item>
           </el-col>

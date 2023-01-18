@@ -279,6 +279,7 @@ const SchemaForm = defineComponent({
       const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
       const inputType = format === 'password' ? 'password' : 'text'
       const autocomplete = inputType === 'password' ? 'one-time-code' : ''
+      const showPassword = inputType === 'password'
       const clearableValue = typeof clearable === 'boolean' ? clearable : true
       const customProps = property.componentProps || {}
 
@@ -289,6 +290,7 @@ const SchemaForm = defineComponent({
           modelValue={modelValue}
           type={inputType}
           autocomplete={autocomplete}
+          showPassword={showPassword}
           {...handleUpdateModelValue}
           clearable
           {...customProps}
