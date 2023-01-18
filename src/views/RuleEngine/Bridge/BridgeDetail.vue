@@ -272,7 +272,13 @@ const testConnection = async () => {
 
 const updateBridgeInfo = async () => {
   try {
-    await formCom.value.validate()
+    try {
+      await formCom.value.validate()
+    } catch (error) {
+      jumpToErrorFormItem()
+      return
+    }
+
     setBridgeInfoFromSchemaForm()
     // Check for changes before updating and do not request if there are no changes
     // TODO:check the schema form & MQTT
