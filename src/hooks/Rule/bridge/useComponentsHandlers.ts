@@ -2,6 +2,7 @@ import { REDIS_TYPE, MONGO_TYPE } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRules } from '@/hooks/useSchemaFormRules'
 import { Properties } from '@/types/schemaForm'
+import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 
 /**
  * Sometimes it is necessary to make some custom changes to the components used by the schema form component,
@@ -9,7 +10,7 @@ import { Properties } from '@/types/schemaForm'
  * or changing the type of a form item if the data given by the backend is incorrect,
  * etc. This can be defined here.
  */
-export default () => {
+export default (props: any) => {
   const { t } = useI18nTl('RuleEngine')
 
   const deleteSSLLabelAndDesc = (components: Properties) => {
@@ -20,13 +21,26 @@ export default () => {
     return components
   }
 
-  const redisComponentsHandler = ({
-    components,
-    rules,
-  }: {
-    components: Properties
-    rules: SchemaRules
-  }) => {
+  const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+  const addRuleForPassword = (rules: any) => {
+    // TODO:consider the path
+    if (!rules.password) {
+      rules.password = []
+    }
+    if (Array.isArray(rules.password)) {
+      rules.password.push(...ruleWhenTestConnection)
+    }
+    return rules
+  }
+
+  const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
+    const comRet = deleteSSLLabelAndDesc(components)
+    const rulesRet = addRuleForPassword(rules)
+    return { components: comRet, rules: rulesRet }
+  }
+
+  const redisComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
     const { redis_type, servers, command_template } = components
     if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
       redis_type.symbols = REDIS_TYPE
@@ -54,17 +68,11 @@ export default () => {
       command_template.format = 'sql'
       command_template.default = ''
     }
-    deleteSSLLabelAndDesc(components)
     return { components, rules }
   }
 
-  const mongoComponentsHandler = ({
-    components,
-    rules,
-  }: {
-    components: Properties
-    rules: SchemaRules
-  }) => {
+  const mongoComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
     const { mongo_type, payload_template, servers } = components
     if (mongo_type?.symbols && Array.isArray(mongo_type.symbols)) {
       mongo_type.symbols = MONGO_TYPE
@@ -88,17 +96,11 @@ export default () => {
       }
     }
 
-    deleteSSLLabelAndDesc(components)
     return { components, rules }
   }
 
-  const GCPComponentsHandler = ({
-    components,
-    rules,
-  }: {
-    components: Properties
-    rules: SchemaRules
-  }) => {
+  const GCPComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
     const { service_account_json, payload_template } = components
     if (service_account_json?.type === 'string') {
       // The backend does not give data indicating that it is possible to upload files here, add it manually
@@ -115,7 +117,7 @@ export default () => {
   }
 
   return {
-    deleteSSLLabelAndDesc,
+    commonHandler,
     redisComponentsHandler,
     mongoComponentsHandler,
     GCPComponentsHandler,

@@ -43,6 +43,7 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
 import { useStore } from 'vuex'
+import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
@@ -67,6 +68,12 @@ const props = defineProps({
     type: Boolean,
   },
   copy: {
+    type: Boolean,
+  },
+  /**
+   * add special rule to the password field
+   */
+  validateForTestConnection: {
     type: Boolean,
   },
 })
@@ -134,12 +141,8 @@ const getRefKey = computed(() => {
   return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
 })
 
-const {
-  deleteSSLLabelAndDesc,
-  redisComponentsHandler,
-  GCPComponentsHandler,
-  mongoComponentsHandler,
-} = useComponentsHandlers()
+const { commonHandler, redisComponentsHandler, GCPComponentsHandler, mongoComponentsHandler } =
+  useComponentsHandlers(props)
 const getComponentsHandler = () => {
   if (props.type === BridgeType.Redis) {
     return redisComponentsHandler
@@ -148,10 +151,7 @@ const getComponentsHandler = () => {
   } else if (props.type === BridgeType.MongoDB) {
     return mongoComponentsHandler
   }
-  return ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
-    deleteSSLLabelAndDesc(components)
-    return { components, rules }
-  }
+  return commonHandler
 }
 
 const { fillNewRecord } = useFillNewRecord()
@@ -168,6 +168,7 @@ const handleRecordChanged = (formData: OtherBridge) => {
   }
 }
 
+const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const validate = () => {
   if (formCom.value?.validate) {
     return formCom.value.validate()
