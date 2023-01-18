@@ -615,6 +615,10 @@ export default {
     zh: '留空则自动生成',
     en: 'Empty will be automatically generated',
   },
+  reInputPwdRequired: {
+    zh: '请重新输入原密码',
+    en: 'Please re-enter your original password',
+  },
   testTheConnection: {
     zh: '测试连接',
     en: 'Test',

@@ -216,3 +216,5 @@ export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 export const COPY_SUFFIX = '_duplication'
 
 export const AUTO_RESTART_INTERVAL_DEFAULT = '60s'
+
+export const ENCRYPTED_PWD_REG = /^\*{6}$/
