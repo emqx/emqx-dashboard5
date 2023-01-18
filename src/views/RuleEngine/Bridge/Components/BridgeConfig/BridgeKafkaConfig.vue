@@ -284,7 +284,7 @@ const createDefaultValue = () => ({
         mode: 'memory',
         per_partition_limit: '2GB',
         segment_bytes: '100MB',
-        memory_overload_protection: true,
+        memory_overload_protection: false,
       },
     },
   },
