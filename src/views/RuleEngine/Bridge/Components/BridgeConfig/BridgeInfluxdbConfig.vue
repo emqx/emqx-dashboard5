@@ -156,6 +156,7 @@ import { cloneDeep, isEqual } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
+import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 
 const props = defineProps({
   modelValue: {
@@ -165,6 +166,12 @@ const props = defineProps({
     type: Boolean,
   },
   copy: {
+    type: Boolean,
+  },
+  /**
+   * add special rule to the password field
+   */
+  validateForTestConnection: {
     type: Boolean,
   },
 })
@@ -209,16 +216,16 @@ const commonRules = {
   write_syntax: createRequiredRule(tl('writeSyntax')),
 }
 
+const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const rulesForV1 = {
   database: createRequiredRule(tl('database')),
+  password: ruleWhenTestConnection,
 }
 
 const rulesForV2 = {
   token: createRequiredRule(tl('token')),
   org: createRequiredRule(tl('org')),
   bucket: createRequiredRule(tl('bucket')),
-  username: createRequiredRule(tl('username')),
-  password: createRequiredRule(tl('password')),
 }
 
 const formRules = computed(() => ({

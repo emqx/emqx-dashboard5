@@ -78,6 +78,7 @@
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
+                  :validate-for-test-connection="validateForTestConnection"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
                 <bridge-kafka-config
