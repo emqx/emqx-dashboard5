@@ -15,7 +15,10 @@ export default (props: any) => {
               callback()
             }
           } else {
-            if (/^\*+$/.test(value)) {
+            if (
+              !ENCRYPTED_PWD_REG.test(value) &&
+              (/^\*{1,5}$/.test(value) || /^\*{6}.+$/.test(value))
+            ) {
               callback(new Error(tl('changePwdTip')))
             } else {
               callback()
