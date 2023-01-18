@@ -304,7 +304,12 @@ const testConnection = async () => {
 
 const updateBridgeInfo = async () => {
   try {
-    await formCom.value.validate()
+    try {
+      await formCom.value.validate()
+    } catch (error) {
+      jumpToErrorFormItem()
+      return
+    }
 
     setBridgeInfoFromSchemaForm()
 
