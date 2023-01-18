@@ -75,7 +75,7 @@ import NavHeader from './NavHeader.vue'
 import LicenseTipDialog from './LicenseTipDialog.vue'
 import { routes } from '@/router'
 import { useStore } from 'vuex'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
 import useChangePwdGuide from '@/hooks/useChangePwdGuide'
@@ -100,7 +100,7 @@ export default defineComponent({
     const kebab2pascal = (s: string) => String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
     const store = useStore()
     const route = useRoute()
-    useChangePwdGuide()
+    const { isUsingDefaultPwd, popupMessageBox } = useChangePwdGuide()
 
     const showLicenseTipDialog = ref(false)
     const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
@@ -149,14 +149,25 @@ export default defineComponent({
       try {
         const res = await loadLicenseInfo()
         await store.commit('SET_LICENSE_DATA', res)
-        showLicenseTipDialog.value =
-          (isEvaluationLicense.value &&
-            localStorage.getItem('licenseTipVisible') !== false.toString()) ||
-          store.state.licenseData.expiry
       } catch (error) {
         //
       }
     }
+
+    const tryOpenLicenseDialog = () => {
+      showLicenseTipDialog.value =
+        (isEvaluationLicense.value &&
+          localStorage.getItem('licenseTipVisible') !== false.toString()) ||
+        store.state.licenseData.expiry
+    }
+
+    onMounted(async () => {
+      await initLicense()
+      tryOpenLicenseDialog()
+      if (!isEvaluationLicense.value && isUsingDefaultPwd.value) {
+        popupMessageBox()
+      }
+    })
 
     initLicense()
 

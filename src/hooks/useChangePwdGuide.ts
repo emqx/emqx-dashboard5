@@ -1,4 +1,4 @@
-import { computed, onMounted, Ref, watch, ComputedRef } from 'vue'
+import { computed, Ref, watch, ComputedRef } from 'vue'
 import { useStore } from 'vuex'
 import { ElMessageBox } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
@@ -25,7 +25,8 @@ export const useRouteGuardForChangeDefaultPwd = () => {
       state.user.isUsingDefaultPwd &&
       !getters.isDev &&
       // For stop infinite loop
-      !(name === 'users' && params.forChangeDefaultPwd === 'true')
+      !(name === 'users' && params.forChangeDefaultPwd === 'true') &&
+      !getters.isEvaluationLicense
     ) {
       ;(next as any)({
         name: 'users',
@@ -39,7 +40,7 @@ export const useRouteGuardForChangeDefaultPwd = () => {
   return { preventLeaveWithoutChangeDefaultPwd }
 }
 
-export default (): void => {
+export default () => {
   const store = useStore()
   const router = useRouter()
   const { tl } = useI18nTl('Base')
@@ -73,12 +74,6 @@ export default (): void => {
     })
   }
 
-  onMounted(() => {
-    if (isUsingDefaultPwd.value && !store.getters.isDev) {
-      popupMessageBox()
-    }
-  })
-
   const { preventLeaveWithoutChangeDefaultPwd } = useRouteGuardForChangeDefaultPwd()
   onBeforeRouteLeave((to, from, next) => {
     if (!isMsgBoxClosed) {
@@ -94,6 +89,11 @@ export default (): void => {
     }
     next()
   })
+
+  return {
+    isUsingDefaultPwd,
+    popupMessageBox,
+  }
 }
 
 interface UserCtx {

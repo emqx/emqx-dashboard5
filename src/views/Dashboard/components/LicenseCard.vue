@@ -87,6 +87,7 @@ import LicenseUpdateDialog from './LicenseUpdateDialog.vue'
 import { useStore } from 'vuex'
 import { startCase } from 'lodash'
 import { LicenseType } from '@/types/enum'
+import useChangePwdGuide from '@/hooks/useChangePwdGuide'
 
 interface LicenseData {
   customer: string
@@ -100,8 +101,6 @@ interface LicenseData {
   type: string
 }
 
-const TRIAL_LICENSE_MAX_CONNECTION = 1000
-
 const props = defineProps({
   currentConnections: {
     type: Number,
@@ -113,6 +112,8 @@ const store = useStore()
 const { docMap } = useDocLink()
 
 const showUpdateDialog = ref(false)
+
+const { isUsingDefaultPwd, popupMessageBox } = useChangePwdGuide()
 
 const licenseData: ComputedRef<LicenseData> = computed(() => store.state.licenseData)
 const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
@@ -126,8 +127,12 @@ const licensePercentage = computed(() => {
 
 const refreshLicenseData = async () => {
   try {
+    const preIsEvaluation = isEvaluationLicense.value
     const data = await loadLicenseInfo()
     store.commit('SET_LICENSE_DATA', data)
+    if (preIsEvaluation && !isEvaluationLicense.value && isUsingDefaultPwd.value) {
+      popupMessageBox()
+    }
   } catch (error) {
     //
   }
