@@ -7,11 +7,22 @@ export default (props: any) => {
   const ruleWhenTestConnection = [
     {
       validator: (rule: any, value: any, callback: any) => {
-        if (props.validateForTestConnection && ENCRYPTED_PWD_REG.test(value)) {
-          callback(new Error(tl('reInputPwdRequired')))
-        } else {
-          callback()
+        if (props.edit) {
+          if (props.validateForTestConnection) {
+            if (ENCRYPTED_PWD_REG.test(value)) {
+              callback(new Error(tl('reInputPwdRequired')))
+            } else {
+              callback()
+            }
+          } else {
+            if (/^\*+$/.test(value)) {
+              callback(new Error(tl('changePwdTip')))
+            } else {
+              callback()
+            }
+          }
         }
+        callback()
       },
     },
   ]
