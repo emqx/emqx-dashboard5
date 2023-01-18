@@ -164,7 +164,7 @@ export default defineComponent({
     onMounted(async () => {
       await initLicense()
       tryOpenLicenseDialog()
-      if (!isEvaluationLicense.value && isUsingDefaultPwd.value) {
+      if (!isEvaluationLicense.value && isUsingDefaultPwd.value && !store.getters.isDev) {
         popupMessageBox()
       }
     })
