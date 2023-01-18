@@ -81,7 +81,12 @@
                 <span>{{ tl('password') }}</span>
                 <InfoTooltip :content="tl('passwordDesc')" />
               </template>
-              <el-input v-model="formData.password" type="password" autocomplete="one-time-code" />
+              <el-input
+                v-model="formData.password"
+                type="password"
+                autocomplete="one-time-code"
+                show-password
+              />
             </el-form-item>
           </el-col>
         </template>

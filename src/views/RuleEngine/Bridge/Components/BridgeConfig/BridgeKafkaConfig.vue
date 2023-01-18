@@ -83,6 +83,7 @@
                 v-model="formData.authentication.password"
                 type="password"
                 autocomplete="one-time-code"
+                show-password
               />
             </el-form-item>
           </el-col>
@@ -213,6 +214,7 @@ import KafkaProducerKafkaConfig from './KafkaProducerKafkaConfig.vue'
 import { BridgeType } from '@/types/enum'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import { isEqual } from 'lodash'
+import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 
 enum AuthType {
   None,
@@ -239,6 +241,12 @@ const props = defineProps({
     type: Boolean,
   },
   copy: {
+    type: Boolean,
+  },
+  /**
+   * add special rule to the password field
+   */
+  validateForTestConnection: {
     type: Boolean,
   },
 })
@@ -290,22 +298,22 @@ const createDefaultValue = () => ({
 
 const formCom = ref()
 const { createRequiredRule } = useFormRules()
-const formRules = {
-  name: createRequiredRule(tl('name')),
-  bootstrap_hosts: createRequiredRule(tl('bootstrapHosts')),
-  authentication: {
-    mechanism: createRequiredRule(tl('mechanism')),
-    username: createRequiredRule(tl('username')),
-    password: createRequiredRule(tl('password')),
-    kerberos_keytab_file: createRequiredRule(tl('kerberosKeytabFile')),
-    kerberos_principal: createRequiredRule(tl('kerberosPrincipal')),
-  },
-  producer: {
-    kafka: {
-      topic: createRequiredRule(tl('kafkaProducerTopic')),
+const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+const formRules = computed(() => {
+  const ret = {
+    name: createRequiredRule(tl('name')),
+    bootstrap_hosts: createRequiredRule(tl('bootstrapHosts')),
+    authentication: {
+      mechanism: createRequiredRule(tl('mechanism')),
+      username: createRequiredRule(tl('username')),
+      password: [...createRequiredRule(tl('password')), ...ruleWhenTestConnection],
+      kerberos_keytab_file: createRequiredRule(tl('kerberosKeytabFile')),
+      kerberos_principal: createRequiredRule(tl('kerberosPrincipal')),
     },
-  },
-}
+    producer: { kafka: { topic: createRequiredRule(tl('kafkaProducerTopic')) } },
+  }
+  return ret
+})
 
 const formData: Ref<any> = ref(createDefaultValue())
 

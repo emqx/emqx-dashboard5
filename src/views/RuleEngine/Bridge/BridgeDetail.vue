@@ -72,6 +72,7 @@
                   :validate-for-test-connection="validateForTestConnection"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
+                <!-- TODO:until refactored influxdb -->
                 <bridge-influxdb-config
                   v-else-if="bridgeType === BridgeType.InfluxDB"
                   v-model="bridgeInfo"
@@ -84,12 +85,14 @@
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
+                  :validate-for-test-connection="validateForTestConnection"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
                 <using-schema-bridge-config
                   v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
                   edit
                   :type="bridgeType"
+                  :validate-for-test-connection="validateForTestConnection"
                   v-model="bridgeInfo"
                   ref="formCom"
                 />
@@ -165,7 +168,6 @@ import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import { jumpToErrorFormItem } from '@/common/tools'
 
 enum Tab {
