@@ -132,6 +132,7 @@ export default (): {
       'node_status',
       'status',
       'password',
+      'authentication.password',
       'id',
     ])
   }
