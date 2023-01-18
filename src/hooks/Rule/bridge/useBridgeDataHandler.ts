@@ -131,6 +131,7 @@ export default (): {
       'node_metrics',
       'node_status',
       'status',
+      'password',
       'id',
     ])
   }
