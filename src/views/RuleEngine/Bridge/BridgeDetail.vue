@@ -70,6 +70,7 @@
                   ref="formCom"
                   v-model="bridgeInfo"
                   :edit="true"
+                  :validate-for-test-connection="validateForTestConnection"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
               </div>
@@ -121,6 +122,7 @@ import {
   defineExpose,
   watch,
   ComputedRef,
+  nextTick,
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getBridgeInfo, updateBridge, startStopBridge, testConnect } from '@/api/ruleengine'
@@ -140,6 +142,7 @@ import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { jumpToErrorFormItem } from '@/common/tools'
 
 enum Tab {
   Overview = 'overview',
@@ -239,10 +242,20 @@ const saveAsCopy = () => {
   showNameInputDialog.value = true
 }
 
+const validateForTestConnection = ref(false)
 const testConnection = async () => {
+  let passed = true
   try {
+    validateForTestConnection.value = true
+    await nextTick()
     await formCom.value.validate()
   } catch (error) {
+    passed = false
+  } finally {
+    validateForTestConnection.value = false
+  }
+  if (!passed) {
+    jumpToErrorFormItem()
     return
   }
 

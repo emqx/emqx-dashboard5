@@ -14,11 +14,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('password')">
+          <el-form-item :label="tl('password')" :prop="getFormItemProp('password')">
             <el-input
               type="password"
               autocomplete="one-time-code"
               v-model="connectorVal.password"
+              show-password
             />
           </el-form-item>
         </el-col>
