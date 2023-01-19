@@ -32,8 +32,19 @@ type DocKey =
 
 export type DocMap = Record<DocKey, string>
 
-const QUERY_FOR_HELP =
-  'utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=emqx-dashboard-help'
+const defaultQueryObj = {
+  utm_source: 'emqx-dashboard',
+  utm_medium: 'referral',
+}
+const createQueryStr = (queryObj: Record<string, string | number>) => {
+  const obj = { ...defaultQueryObj, ...queryObj }
+  return Object.entries(obj).reduce(
+    (str, [key, value]) => (str ? `${str}&${key}=${value}` : `${key}=${value}`),
+    '',
+  )
+}
+
+const QUERY_FOR_HELP = createQueryStr({ utm_campaign: 'emqx-dashboard-help' })
 
 export default (lang: string): DocMap => {
   const accountsLink = lang === 'zh' ? 'accounts-zh.emqx.com' : 'accounts.emqx.com'
