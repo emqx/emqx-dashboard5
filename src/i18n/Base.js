@@ -459,10 +459,6 @@ export default {
     zh: '论坛',
     en: 'Forum',
   },
-  discord: {
-    zh: 'Discord',
-    en: 'Discord',
-  },
   gitHub: {
     zh: 'GitHub',
     en: 'GitHub',
