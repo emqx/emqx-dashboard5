@@ -12,14 +12,16 @@ import { ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
 
-const strReg = /('[^']+')|("[^"]+")/g
+// TODO: Consider more escape characters
+const strReg = /('([^'\\]|(\\'))+')|("([^"\\]|(\\"))+")/g
 const SPACE = ' '
 const splitBySpace = (command: string) => {
   // TODO:handle chaos input
   const randomStr = createRandomString()
   const strArr: Array<string> = []
   const commandRemoveStr = command.replace(/\n/g, SPACE).replace(strReg, (matched: string) => {
-    strArr.push(matched)
+    // remove quota
+    strArr.push(matched.slice(1, -1))
     return randomStr
   })
   const ret = commandRemoveStr.split(SPACE)
@@ -33,6 +35,15 @@ const splitBySpace = (command: string) => {
       return item
     })
     .filter((item) => !!item)
+}
+
+const transCommandArrToStr = (commandArr: Array<string>) => {
+  // If an string item has space or escape characters, wrap it in double quotes.
+  return commandArr.reduce((str, current) => {
+    const item =
+      current.indexOf(SPACE) > -1 || current.indexOf('\\') > -1 ? `"${current}"` : current
+    return str ? `${str} ${item}` : item
+  }, '')
 }
 
 export default (): {
@@ -120,7 +131,7 @@ export default (): {
       'command_template' in bridgeData &&
       Array.isArray(bridgeData.command_template)
     ) {
-      bridgeData.command_template = bridgeData.command_template.join(SPACE)
+      bridgeData.command_template = transCommandArrToStr(bridgeData.command_template)
     }
     return bridgeData
   }
