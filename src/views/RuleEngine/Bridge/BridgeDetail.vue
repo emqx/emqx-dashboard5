@@ -52,6 +52,7 @@
             </div>
           </el-tab-pane>
           <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting">
+            <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
             <el-card
               v-loading="infoLoading"
               class="app-card"
@@ -242,6 +243,7 @@ const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(()
 }))
 const tryToViewPwdInput = () => jumpToErrorFormItem(true, 'input[type="password"]')
 
+const pwdErrorWhenCoping = ref('')
 const saveAsCopy = async () => {
   try {
     await formCom.value.validate()
@@ -251,8 +253,9 @@ const saveAsCopy = async () => {
   }
   const pwdValue =
     _.get(bridgeInfo.value, 'password') || _.get(bridgeInfo.value, 'authentication.password')
+  pwdErrorWhenCoping.value = ''
   if (pwdValue !== undefined && ENCRYPTED_PWD_REG.test(pwdValue)) {
-    ElMessage.warning(tl('pwdWarningWhenCoping'))
+    pwdErrorWhenCoping.value = tl('pwdWarningWhenCoping')
     tryToViewPwdInput()
     return
   }
@@ -419,5 +422,10 @@ defineExpose({
   > :deep(.el-tabs__header) {
     display: none;
   }
+}
+
+.el-alert {
+  width: 75%;
+  margin-bottom: 12px;
 }
 </style>
