@@ -52,7 +52,7 @@ const QUERY_FOR_GO_ENTERPRISE = createQueryStr({
 export default (lang: string): DocMap => {
   const accountsLink = lang === 'zh' ? 'accounts-zh.emqx.com' : 'accounts.emqx.com'
   return {
-    sqlGrammar: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-grammar-and-examples.html`,
+    sqlGrammar: `https://www.emqx.io/docs/${lang}/v5.0/data-integration/rule-sql-syntax.html`,
     cloud: `https://${accountsLink}/signup?${QUERY_FOR_GO_CLOUD}`,
     // TODO: version
     documentation: `https://www.emqx.io/docs/${lang}/v5.0/?${QUERY_FOR_HELP}`,
