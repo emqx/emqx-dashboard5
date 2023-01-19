@@ -136,7 +136,7 @@ import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { BridgeType } from '@/types/enum'
 import _ from 'lodash'
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA, ENCRYPTED_PWD_REG } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
@@ -232,12 +232,30 @@ const getDataForSubmit = () => {
 }
 
 const showNameInputDialog = ref(false)
+/**
+ * diff form bridge info, data for copy
+ */
 const bridgeData = ref({} as BridgeItem)
 const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(() => ({
   type: 'bridge',
   obj: bridgeData.value,
 }))
-const saveAsCopy = () => {
+const tryToViewPwdInput = () => jumpToErrorFormItem(true, 'input[type="password"]')
+
+const saveAsCopy = async () => {
+  try {
+    await formCom.value.validate()
+  } catch (error) {
+    jumpToErrorFormItem()
+    return
+  }
+  const pwdValue =
+    _.get(bridgeInfo.value, 'password') || _.get(bridgeInfo.value, 'authentication.password')
+  if (pwdValue !== undefined && ENCRYPTED_PWD_REG.test(pwdValue)) {
+    ElMessage.warning(tl('pwdWarningWhenCoping'))
+    tryToViewPwdInput()
+    return
+  }
   bridgeData.value = getDataForSubmit()
   showNameInputDialog.value = true
 }
