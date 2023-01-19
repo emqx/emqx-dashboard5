@@ -623,6 +623,10 @@ export default {
     zh: '目前为加密密码，修改请重新输入',
     en: 'The password is currently encrypted, to change it please re-enter',
   },
+  pwdWarningWhenCoping: {
+    zh: '目前为加密密码，另存为副本需重新输入',
+    en: 'The password is currently encrypted. If you save this data bridge as a copy, you need to enter it again',
+  },
   testTheConnection: {
     zh: '测试连接',
     en: 'Test',
