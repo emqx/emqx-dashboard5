@@ -135,6 +135,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { RefreshRight } from '@element-plus/icons-vue'
 import { NodeStatus } from '@/types/enum'
 import useDurationStr from '@/hooks/useDurationStr'
+import { IS_ENTERPRISE } from '@/common/constants'
 
 const nodeLoading = ref(true)
 const statsLoading = ref(true)
@@ -156,7 +157,8 @@ const { transMsNumToSimpleStr } = useDurationStr()
 
 const releaseNoteLink = (version: string) => {
   const lang = locale.value === 'zh' ? 'zh' : 'en'
-  return ` https://www.emqx.com/${lang}/changelogs/broker/${version}`
+  const type = IS_ENTERPRISE ? 'enterprise' : 'broker'
+  return ` https://www.emqx.com/${lang}/changelogs/${type}/${version}`
 }
 
 const loadNode = async () => {
