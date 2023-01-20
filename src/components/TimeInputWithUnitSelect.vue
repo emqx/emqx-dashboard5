@@ -4,13 +4,15 @@
     v-model="inputValue"
     :units="unitList"
     :disabled="disabled"
+    :default-unit="defaultUnit"
+    :number-placeholder="numberPlaceholder"
     @change="$emit('change')"
   />
 </template>
 
 <script lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import InputWithUnit from './InputWithUnit.vue'
 
 export default defineComponent({
@@ -27,27 +29,42 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-  },
-  computed: {
-    inputValue: {
-      get() {
-        return this.modelValue
-      },
-      set(val: string) {
-        this.$emit('update:modelValue', val)
-      },
+    enabledUnits: {
+      type: Array as PropType<Array<string>>,
+      default: () => ['ms', 's', 'm', 'h'],
+    },
+    numberPlaceholder: {
+      type: String,
+      default: '',
+    },
+    defaultUnit: {
+      type: String,
     },
   },
-  setup() {
-    const { tl } = useI18nTl('Base')
-    const unitList = [
-      { value: 'h', label: tl('hour') },
-      { value: 'm', label: tl('minute') },
-      { value: 's', label: tl('second') },
+  setup(props, context) {
+    const { tl, t } = useI18nTl('Base')
+    const totalUnitList = [
       { value: 'ms', label: tl('milliseconds') },
+      { value: 's', label: tl('second') },
+      { value: 'm', label: tl('minute') },
+      { value: 'h', label: tl('hour') },
+      { value: 'd', label: t('Base.day', 1) },
     ]
 
-    return { unitList }
+    const inputValue = computed({
+      get() {
+        return props.modelValue
+      },
+      set(val: string) {
+        context.emit('update:modelValue', val)
+      },
+    })
+
+    const unitList = computed(() => {
+      return totalUnitList.filter(({ value }) => props.enabledUnits.includes(value))
+    })
+
+    return { inputValue, unitList }
   },
 })
 </script>

@@ -184,9 +184,9 @@ const { createRequiredRule } = useFormRules()
 const DISABLED_VALUE = 'disabled'
 const VALUE_FOR_NO_VALUE = '0s'
 const expiryTimeUnits = [
-  { value: 's', label: tl('sec') },
-  { value: 'm', label: tl('min') },
-  { value: 'h', label: tl('hour') },
+  { value: 's', label: t('Base.second') },
+  { value: 'm', label: t('Base.minute') },
+  { value: 'h', label: t('Base.hour') },
 ]
 const keysNeedTrans = ['msg_expiry_interval', 'msg_clear_interval']
 
