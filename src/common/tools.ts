@@ -120,8 +120,6 @@ export const getLabelFromValueInOptionList = <T>(
   return target?.label || ''
 }
 
-export const commonTimeUnits = ['ms', 's', 'm', 'h', 'd']
-
 export const formatNumber = (num: number) => {
   const ret = new Intl.NumberFormat().format(num)
   return ret === 'NaN' ? '' : ret

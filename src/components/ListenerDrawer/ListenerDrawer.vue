@@ -76,10 +76,10 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('BasicConfig.proxyProtocolTimeout')">
-              <InputWithUnit
+              <TimeInputWithUnitSelect
                 v-model="listenerRecord.proxy_protocol_timeout"
                 number-placeholder="15"
-                :units="['s']"
+                :enabled-units="['s']"
               />
             </el-form-item>
           </el-col>
@@ -120,10 +120,10 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('sendTimeout')">
-              <InputWithUnit
+              <TimeInputWithUnitSelect
                 v-model="listenerRecord.tcp_options.send_timeout"
                 number-placeholder="15"
-                :units="['s']"
+                :enabled-units="['s']"
               />
             </el-form-item>
           </el-col>
@@ -259,6 +259,7 @@ import BooleanSelect from '@/components/BooleanSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import ZoneSelect from '../ZoneSelect.vue'
 // import LimiterSelect from '../LimiterSelect.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'

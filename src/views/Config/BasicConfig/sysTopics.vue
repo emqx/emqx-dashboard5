@@ -15,13 +15,19 @@
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('messagePublishInterval')" prop="sys_msg_interval">
               <pre class="item-desc">{{ tl('sysMsgIntervalDesc') }}</pre>
-              <InputWithUnit v-model="sysTopics.sys_msg_interval" v-bind="timeInputProps" />
+              <TimeInputWithUnitSelect
+                v-model="sysTopics.sys_msg_interval"
+                v-bind="timeInputProps"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('heartbeatInterval')" prop="sys_heartbeat_interval">
               <pre class="item-desc">{{ tl('sysHeartbeatIntervalDesc') }}</pre>
-              <InputWithUnit v-model="sysTopics.sys_heartbeat_interval" v-bind="timeInputProps" />
+              <TimeInputWithUnitSelect
+                v-model="sysTopics.sys_heartbeat_interval"
+                v-bind="timeInputProps"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
@@ -100,7 +106,7 @@ export default defineComponent({
 import { ref, Ref } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import BooleanSelect from '@/components/BooleanSelect.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { SysTopics } from '@/types/extension'
 import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/extension'
 import { ElMessage } from 'element-plus'
@@ -110,7 +116,7 @@ import { useStore } from 'vuex'
 const { t, tl } = useI18nTl('Extension')
 const store = useStore()
 const timeInputProps = {
-  units: ['s', 'm'],
+  enabledUnits: ['s', 'm'],
   defaultUnit: 's',
 }
 const booleanSelectProps = {

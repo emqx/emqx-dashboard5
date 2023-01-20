@@ -37,7 +37,10 @@
             <label>{{ tl('requestTimeOut') }}</label>
             <InfoTooltip :content="tl('requestTimeOutDesc')" />
           </template>
-          <InputWithUnit v-model="formData.request_timeout" :units="timeoutUnits" />
+          <TimeInputWithUnitSelect
+            v-model="formData.request_timeout"
+            :enabled-units="['ms', 's', 'm', 'h', 'd']"
+          />
         </el-form-item>
       </el-col>
 
@@ -71,7 +74,11 @@
           <template #label>
             <label>{{ tl('autoReconnectInterval') }}</label>
           </template>
-          <InputWithUnit v-model="formData.auto_reconnect" :units="timeoutUnits" default-unit="s" />
+          <TimeInputWithUnitSelect
+            v-model="formData.auto_reconnect"
+            :enabled-units="['ms', 's', 'm', 'h', 'd']"
+            default-unit="s"
+          />
         </el-form-item>
       </el-col>
     </el-row>
@@ -102,7 +109,7 @@ import {
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
 import useFormRules from '@/hooks/useFormRules'
-import InputWithUnit from '@/components/InputWithUnit.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({

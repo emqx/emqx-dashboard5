@@ -52,12 +52,18 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('connTimeout')">
-            <InputWithUnit v-model="httpBridgeVal.connect_timeout" :units="['s']" />
+            <TimeInputWithUnitSelect
+              v-model="httpBridgeVal.connect_timeout"
+              :enabled-units="['s']"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('reqTimeout')">
-            <InputWithUnit v-model="httpBridgeVal.request_timeout" :units="['s']" />
+            <TimeInputWithUnitSelect
+              v-model="httpBridgeVal.request_timeout"
+              :enabled-units="['s']"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -103,7 +109,7 @@ import { defineComponent, onMounted, ref, Ref, watch, PropType } from 'vue'
 import { createRandomString } from '@/common/tools'
 import { transformUnitArrayToStr } from '@/common/utils'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -122,7 +128,7 @@ export default defineComponent({
     Monaco,
     InfoTooltip,
     CommonTLSConfig,
-    InputWithUnit,
+    TimeInputWithUnitSelect,
     BridgeResourceOpt,
   },
   name: '',
