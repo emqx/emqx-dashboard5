@@ -25,10 +25,10 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'Keep Alive'">
-            <InputWithUnit
+            <TimeInputWithUnitSelect
               v-model="connectorVal.keepalive"
               number-placeholder="60"
-              :units="['s']"
+              :enabled-units="['s']"
             />
           </el-form-item>
         </el-col>
@@ -56,18 +56,18 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('reconnectInterval')">
-            <InputWithUnit
+            <TimeInputWithUnitSelect
               v-model="connectorVal.reconnect_interval"
-              :units="commonTimeUnits"
+              :enabled-units="['ms', 's', 'm', 'h', 'd']"
               default-unit="s"
             />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('retryInterval')">
-            <InputWithUnit
+            <TimeInputWithUnitSelect
               v-model="connectorVal.retry_interval"
-              :units="commonTimeUnits"
+              :enabled-units="['ms', 's', 'm', 'h', 'd']"
               default-unit="s"
             />
           </el-form-item>
@@ -84,15 +84,14 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import { useI18n } from 'vue-i18n'
 import { computed, defineComponent, onMounted, watch } from 'vue'
 import { cloneDeep } from 'lodash'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import { commonTimeUnits } from '@/common/tools'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import { ConnectorType } from '@/types/enum'
 import { MQTT_VERSION_LIST } from '@/common/constants'
 
 export default defineComponent({
   name: 'ConnectorMqttConfig',
-  components: { InputWithUnit, CommonTLSConfig, BooleanSelect },
+  components: { TimeInputWithUnitSelect, CommonTLSConfig, BooleanSelect },
   props: {
     modelValue: {
       type: Object,
@@ -166,7 +165,6 @@ export default defineComponent({
       connectorVal,
       connectorDefaultVal,
       modeOptions,
-      commonTimeUnits,
       getFormItemProp,
     }
   },

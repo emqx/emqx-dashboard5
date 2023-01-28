@@ -13,7 +13,11 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('idleTime')">
-              <InputWithUnit v-model="eValue.idle_timeout" number-placeholder="3" :units="['s']" />
+              <TimeInputWithUnitSelect
+                v-model="eValue.idle_timeout"
+                number-placeholder="3"
+                :enabled-units="['s']"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -80,14 +84,14 @@ import { transformUnitArrayToStr } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
 export default defineComponent({
   name: 'ExprotoBasic',
   components: {
     CommonTLSConfig,
     TLSEnableConfig,
-    InputWithUnit,
+    TimeInputWithUnitSelect,
   },
   props: {
     value: {
