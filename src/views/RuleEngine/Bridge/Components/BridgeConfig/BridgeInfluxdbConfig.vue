@@ -31,10 +31,10 @@
         <el-col :span="12">
           <el-form-item prop="server">
             <template #label>
-              <span>{{ tl('serverHost') }}</span>
+              <span>{{ getPropItem('server').label }}</span>
               <InfoTooltip>
                 <template #content>
-                  <p v-safe-html="tl('serverHostDesc')"></p>
+                  <MarkdownContent :content="getPropItem('server').description" />
                 </template>
               </InfoTooltip>
             </template>
@@ -45,8 +45,8 @@
         <el-col :span="12" v-if="formData.type === InfluxDBType.v1">
           <el-form-item prop="database">
             <template #label>
-              <span>{{ tl('database') }}</span>
-              <InfoTooltip :content="tl('databaseDesc')" />
+              <span>{{ getPropItem('database').label }}</span>
+              <InfoTooltip :content="getPropItem('database').description" />
             </template>
             <el-input v-model="formData.database" />
           </el-form-item>
@@ -81,8 +81,8 @@
           <el-col :span="12">
             <el-form-item prop="token">
               <template #label>
-                <span>{{ tl('token') }}</span>
-                <InfoTooltip :content="tl('tokenDesc')" />
+                <span>{{ getPropItem('token').label }}</span>
+                <InfoTooltip :content="getPropItem('token').description" />
               </template>
               <el-input v-model="formData.token" />
             </el-form-item>
@@ -90,8 +90,8 @@
           <el-col :span="12">
             <el-form-item prop="org">
               <template #label>
-                <span>{{ tl('org') }}</span>
-                <InfoTooltip :content="tl('orgDesc')" />
+                <span>{{ getPropItem('org').label }}</span>
+                <InfoTooltip :content="getPropItem('org').description" />
               </template>
               <el-input v-model="formData.org" />
             </el-form-item>
@@ -99,8 +99,8 @@
           <el-col :span="12">
             <el-form-item prop="bucket">
               <template #label>
-                <span>{{ tl('bucket') }}</span>
-                <InfoTooltip :content="tl('bucketDesc')" />
+                <span>{{ getPropItem('bucket').label }}</span>
+                <InfoTooltip :content="getPropItem('bucket').description" />
               </template>
               <el-input v-model="formData.bucket" />
             </el-form-item>
@@ -110,11 +110,15 @@
         <el-col :span="12">
           <el-form-item prop="precision">
             <template #label>
-              <span>{{ tl('precision') }}</span>
-              <InfoTooltip :content="tl('precisionDesc')" />
+              <span>{{ getPropItem('precision').label }}</span>
+              <InfoTooltip :content="getPropItem('precision').description" />
             </template>
             <el-select v-model="formData.precision">
-              <el-option v-for="item in ['ns', 'us', 'ms', 's']" :value="item" :key="item" />
+              <el-option
+                v-for="item in getPropItem('precision').symbols || []"
+                :value="item"
+                :key="item"
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -132,7 +136,11 @@
                 {{ tl('dataDefinitionDesc') }}
               </p>
             </template>
-            <InfluxdbWriteSyntaxInput v-model="formData.write_syntax" ref="writeSyntaxInputCom" />
+            <InfluxdbWriteSyntaxInput
+              v-model="formData.write_syntax"
+              ref="writeSyntaxInputCom"
+              :write-syntax-prop-item="getPropItem('write_syntax')"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="24"><el-divider /></el-col>
@@ -145,8 +153,12 @@
 <script setup lang="ts">
 import { fillEmptyValueToUndefinedField } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useSchemaForm from '@/hooks/Config/useSchemaForm'
+import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
+import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
@@ -154,9 +166,9 @@ import { InfluxDBType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { cloneDeep, isEqual } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
+import { useStore } from 'vuex'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
-import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 
 const props = defineProps({
   modelValue: {
@@ -178,12 +190,18 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'init'])
 
+const { state } = useStore()
 const { tl } = useI18nTl('RuleEngine')
 
 const PROTOCOL_VERSION_OPT = [
   { value: InfluxDBType.v1, label: 'v1' },
   { value: InfluxDBType.v2, label: 'v2' },
 ]
+
+const { components } = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
+  ref: '#/components/schemas/bridge_influxdb.post_api_v2',
+})
+const { getPropItem } = useGetInfoFromComponents(components)
 
 const { createSSLForm } = useSSL()
 const { createDefaultResourceOptsForm } = useResourceOpt()
@@ -210,17 +228,17 @@ const formCom = ref()
 const writeSyntaxInputCom = ref()
 
 const { createRequiredRule } = useFormRules()
-const commonRules = {
+const commonRules = computed(() => ({
   name: createRequiredRule(tl('name')),
-  server: createRequiredRule(tl('serverHost')),
-  write_syntax: createRequiredRule(tl('writeSyntax')),
-}
+  server: createRequiredRule(getPropItem('server').label),
+  write_syntax: createRequiredRule(getPropItem('write_syntax').label),
+}))
 
 const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
-const rulesForV1 = {
-  database: createRequiredRule(tl('database')),
+const rulesForV1 = computed(() => ({
+  database: createRequiredRule(getPropItem('database').label),
   password: ruleWhenTestConnection,
-}
+}))
 
 const rulesForV2 = {
   token: createRequiredRule(tl('token')),
@@ -229,8 +247,8 @@ const rulesForV2 = {
 }
 
 const formRules = computed(() => ({
-  ...commonRules,
-  ...(formData.value.type === InfluxDBType.v1 ? rulesForV1 : rulesForV2),
+  ...commonRules.value,
+  ...(formData.value.type === InfluxDBType.v1 ? rulesForV1.value : rulesForV2),
 }))
 
 const initFormData = async () => {

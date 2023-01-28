@@ -983,29 +983,9 @@ export default {
     zh: '将数据保存到 {name}',
     en: 'Save data to {name}',
   },
-  serverHost: {
-    zh: '服务器地址',
-    en: 'Server Host',
-  },
-  serverHostDesc: {
-    en: 'The IPv4 or IPv6 address or the hostname to connect to.</br>A host entry has the following form: `Host[:Port]`.</br>The InfluxDB default port 8086 is used if `[:Port]` is not specified.</br>',
-    zh: '将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>主机名具有以下形式：`Host[:Port]`。</br>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。</br>',
-  },
   database: {
     en: 'Database',
     zh: '数据库',
-  },
-  databaseDesc: {
-    en: 'InfluxDB database.',
-    zh: 'InfluxDB 数据库。',
-  },
-  precision: {
-    en: 'Time Precision',
-    zh: '时间精度',
-  },
-  precisionDesc: {
-    en: 'InfluxDB time precision.',
-    zh: 'InfluxDB 时间精度。',
   },
   dataDefinition: {
     zh: '定义解析数据',
@@ -1018,14 +998,6 @@ export default {
   dataFormat: {
     zh: '数据格式',
     en: 'Data Format',
-  },
-  writeSyntax: {
-    en: 'Write Syntax',
-    zh: '写语句',
-  },
-  writeSyntaxDesc: {
-    en: 'Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.</br>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR:</br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>',
-    zh: '使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及</br>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>TLDR: </br>```</br><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]</br>```</br>',
   },
   float: {
     zh: '浮点型',
@@ -1071,10 +1043,6 @@ export default {
     en: 'Token',
     zh: 'Token',
   },
-  tokenDesc: {
-    en: 'InfluxDB token.',
-    zh: 'InfluxDB token。',
-  },
   usernameDesc: {
     en: 'InfluxDB username.',
     zh: 'InfluxDB 用户名。',
@@ -1087,17 +1055,9 @@ export default {
     en: 'Organization',
     zh: '组织',
   },
-  orgDesc: {
-    en: 'Organization name of InfluxDB.',
-    zh: 'InfluxDB 组织名称。',
-  },
   bucket: {
     en: 'Bucket',
     zh: 'Bucket',
-  },
-  bucketDesc: {
-    en: 'InfluxDB bucket name.',
-    zh: 'InfluxDB bucket 名称。',
   },
   authType: {
     zh: '认证方式',

@@ -10,10 +10,10 @@
     </div>
     <el-form-item prop="write_syntax" v-if="activeTab === Tab.Raw">
       <template #label>
-        <span>{{ tl('writeSyntax') }}</span>
+        <span>{{ writeSyntaxPropItem?.label }}</span>
         <InfoTooltip popper-class="is-wider">
           <template #content>
-            <p v-safe-html="escapeCode(transLink(tl('writeSyntaxDesc')))"></p>
+            <MarkdownContent :content="writeSyntaxPropItem?.description" />
           </template>
         </InfoTooltip>
       </template>
@@ -26,11 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, escapeCode, transLink } from '@/common/tools'
+import { createRandomString } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import { Property } from '@/types/schemaForm'
+import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
 import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
 
 enum Tab {
@@ -41,6 +43,9 @@ enum Tab {
 const props = defineProps({
   modelValue: {
     type: String,
+  },
+  writeSyntaxPropItem: {
+    type: Object as PropType<Property>,
   },
 })
 
