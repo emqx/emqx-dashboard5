@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, InjectSchema, Properties, Schema } from '@/types/schemaForm'
+import { Component, Properties, Schema } from '@/types/schemaForm'
 import axios from 'axios'
 import _ from 'lodash'
 import { ref, Ref } from 'vue'
@@ -17,7 +17,6 @@ export default function useSchemaForm(
   objForGetComponent: { path?: string; ref?: string },
   needRules = false,
 ): {
-  schema: InjectSchema
   rules: Ref<SchemaRules>
   components: Ref<Properties>
   resetObjForGetComponent: (obj: { path?: string; ref?: string }) => void
@@ -25,7 +24,7 @@ export default function useSchemaForm(
   const schemaRequest = axios.create({
     baseURL: '',
   })
-  const schema: InjectSchema = ref({})
+  let schema: any = {}
   const { rules, countRules } = useSchemaFormRules()
   /**
    * for get component
@@ -36,7 +35,7 @@ export default function useSchemaForm(
       const configPath = schemaFilePath
       const res = await schemaRequest.get(configPath)
       if (res.data) {
-        schema.value = res.data
+        schema = res.data
         generateComponents()
       }
     } catch (error) {
@@ -133,7 +132,7 @@ export default function useSchemaForm(
       // for init
       rules.value = {}
     }
-    components.value = getComponents(schema.value)
+    components.value = getComponents(schema)
   }
 
   /**
@@ -145,7 +144,6 @@ export default function useSchemaForm(
   }
 
   return {
-    schema,
     rules,
     components,
     resetObjForGetComponent,
