@@ -21,11 +21,10 @@
         <el-col :span="12">
           <el-form-item prop="bootstrap_hosts">
             <template #label>
-              <span>{{ tl('bootstrapHosts') }}</span>
-              <!-- TODO: markdown -->
+              <span>{{ getPropItem('bootstrap_hosts').label }}</span>
               <InfoTooltip>
                 <template #content>
-                  <MarkdownContent :content="tl('bootstrapHostsDesc')" />
+                  <MarkdownContent :content="getPropItem('bootstrap_hosts').description" />
                 </template>
               </InfoTooltip>
             </template>
@@ -35,8 +34,8 @@
         <el-col :span="12">
           <el-form-item prop="min_metadata_refresh_interval">
             <template #label>
-              <span>{{ tl('minMetadataRefreshInterval') }}</span>
-              <InfoTooltip :content="tl('minMetadataRefreshIntervalDesc')" />
+              <span>{{ getPropItem('bootstrap_hosts').label }}</span>
+              <InfoTooltip :content="getPropItem('bootstrap_hosts').description" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
           </el-form-item>
@@ -120,8 +119,8 @@
         <el-col :span="12">
           <el-form-item prop="metadata_request_timeout">
             <template #label>
-              <span>{{ tl('metadataRequestTimeout') }}</span>
-              <InfoTooltip :content="tl('metadataRequestTimeoutDesc')" />
+              <span>{{ getPropItem('metadata_request_timeout').label }}</span>
+              <InfoTooltip :content="getPropItem('metadata_request_timeout').description" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.metadata_request_timeout" />
           </el-form-item>
@@ -130,7 +129,7 @@
           <el-form-item prop="connect_timeout">
             <template #label>
               <span>{{ tl('connTimeout') }}</span>
-              <InfoTooltip :content="tl('connectTimeoutDesc')" />
+              <InfoTooltip :content="getPropItem('connect_timeout').description" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
           </el-form-item>
@@ -171,8 +170,8 @@
         <el-col :span="12">
           <el-form-item prop="socket_opts.sndbuf">
             <template #label>
-              <span>{{ tl('sndbuf') }}</span>
-              <InfoTooltip :content="tl('sndbufDesc')" />
+              <span>{{ getPropItem('socket_opts.sndbuf').label }}</span>
+              <InfoTooltip :content="getPropItem('socket_opts.sndbuf').description" />
             </template>
             <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
           </el-form-item>
@@ -180,8 +179,8 @@
         <el-col :span="12">
           <el-form-item prop="socket_opts.recbuf">
             <template #label>
-              <span>{{ tl('recbuf') }}</span>
-              <InfoTooltip :content="tl('recbufDesc')" />
+              <span>{{ getPropItem('socket_opts.recbuf').label }}</span>
+              <InfoTooltip :content="getPropItem('socket_opts.recbuf').description" />
             </template>
             <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
           </el-form-item>
@@ -189,8 +188,8 @@
         <el-col :span="12">
           <el-form-item prop="socket_opts.nodelay">
             <template #label>
-              <span>{{ tl('nodelay') }}</span>
-              <InfoTooltip :content="tl('nodelayDesc')" />
+              <span>{{ getPropItem('socket_opts.nodelay').label }}</span>
+              <InfoTooltip :content="getPropItem('socket_opts.nodelay').description" />
             </template>
             <el-switch v-model="formData.socket_opts.nodelay" />
           </el-form-item>
@@ -204,17 +203,20 @@
 import { fillEmptyValueToUndefinedField, usefulMemoryUnit } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useSchemaForm from '@/hooks/Config/useSchemaForm'
+import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
+import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { defineExpose, defineProps, ref, computed, Ref, defineEmits, watch, onMounted } from 'vue'
-import KafkaProducerKafkaConfig from './KafkaProducerKafkaConfig.vue'
 import { BridgeType } from '@/types/enum'
-import MarkdownContent from '@/components/MarkdownContent.vue'
 import { isEqual } from 'lodash'
-import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
+import { computed, defineEmits, defineExpose, defineProps, onMounted, ref, Ref, watch } from 'vue'
+import { useStore } from 'vuex'
+import KafkaProducerKafkaConfig from './KafkaProducerKafkaConfig.vue'
 
 enum AuthType {
   None,
@@ -252,7 +254,13 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'init'])
 
+const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
+
+const { components } = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
+  ref: '#/components/schemas/bridge_kafka.post',
+})
+const { getPropItem } = useGetInfoFromComponents(components)
 
 const { createSSLForm } = useSSL()
 const createDefaultValue = () => ({
@@ -302,7 +310,7 @@ const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const formRules = computed(() => {
   const ret = {
     name: createRequiredRule(tl('name')),
-    bootstrap_hosts: createRequiredRule(tl('bootstrapHosts')),
+    bootstrap_hosts: createRequiredRule(getPropItem('bootstrap_hosts').label),
     authentication: {
       mechanism: createRequiredRule(tl('mechanism')),
       username: createRequiredRule(tl('username')),
