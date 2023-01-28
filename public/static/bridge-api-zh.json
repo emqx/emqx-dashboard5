@@ -23,7 +23,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -57,7 +57,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -231,7 +231,7 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。",
                         "label": "缓存池大小",
                         "minimum": 1,
                         "type": "number"
@@ -240,6 +240,18 @@
                         "default": "15s",
                         "description": "健康检查间隔。",
                         "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "如果选择了创建后立即启动资源，此选项用来设置等待资源启动的超时时间，单位毫秒。",
+                        "label": "启动超时时间",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
@@ -267,6 +279,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "请求的超时。 如果<code>query_mode</code>是<code>sync</code>，对资源的调用将在超时前被阻断这一时间。",
+                        "label": "请求超时",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "async_inflight_window": {
                         "default": 100,
@@ -690,7 +718,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -737,7 +765,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
@@ -821,7 +849,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -868,7 +896,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
@@ -1213,7 +1241,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -1323,7 +1351,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -1370,7 +1398,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
@@ -1554,7 +1582,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -1588,7 +1616,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -1673,7 +1701,7 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。",
                         "label": "缓存池大小",
                         "minimum": 1,
                         "type": "number"
@@ -1682,6 +1710,18 @@
                         "default": "15s",
                         "description": "健康检查间隔。",
                         "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "如果选择了创建后立即启动资源，此选项用来设置等待资源启动的超时时间，单位毫秒。",
+                        "label": "启动超时时间",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
@@ -1709,6 +1749,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "请求的超时。 如果<code>query_mode</code>是<code>sync</code>，对资源的调用将在超时前被阻断这一时间。",
+                        "label": "请求超时",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "async_inflight_window": {
                         "default": 100,
@@ -1819,7 +1875,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -1968,7 +2024,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -2058,7 +2114,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -2269,7 +2325,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -2316,7 +2372,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
@@ -2386,7 +2442,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -2433,7 +2489,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
@@ -2523,7 +2579,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -2630,7 +2686,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -2677,7 +2733,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
@@ -2745,7 +2801,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -2792,7 +2848,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
@@ -2911,6 +2967,15 @@
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
+                    "direction": {
+                        "deprecated": "since(\"5.0.12\")",
+                        "description": "已废弃，Bridge 的方向，必须是 egress",
+                        "label": "Bridge 方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
                     "local_topic": {
                         "description": "<br/>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 <br/><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。<br/>",
                         "label": "本地 Topic",
@@ -2997,7 +3062,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -3026,7 +3091,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -3232,7 +3297,7 @@
                 "properties": {
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -3555,7 +3620,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -3569,7 +3634,7 @@
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
+                        "description": "<br/>将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
                         "label": "服务器地址",
                         "type": "string"
                     },
@@ -3584,7 +3649,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -3653,7 +3718,7 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。",
                         "label": "缓存池大小",
                         "minimum": 1,
                         "type": "number"
@@ -3662,6 +3727,18 @@
                         "default": "15s",
                         "description": "健康检查间隔。",
                         "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "如果选择了创建后立即启动资源，此选项用来设置等待资源启动的超时时间，单位毫秒。",
+                        "label": "启动超时时间",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
@@ -3689,6 +3766,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "请求的超时。 如果<code>query_mode</code>是<code>sync</code>，对资源的调用将在超时前被阻断这一时间。",
+                        "label": "请求超时",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "async_inflight_window": {
                         "default": 100,
@@ -3732,7 +3825,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -3761,7 +3854,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -3895,7 +3988,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -4003,7 +4096,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -4057,7 +4150,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -4086,7 +4179,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -4398,7 +4491,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -4506,7 +4599,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -4677,7 +4770,7 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。",
                         "label": "缓存池大小",
                         "minimum": 1,
                         "type": "number"
@@ -4686,6 +4779,18 @@
                         "default": "15s",
                         "description": "健康检查间隔。",
                         "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "如果选择了创建后立即启动资源，此选项用来设置等待资源启动的超时时间，单位毫秒。",
+                        "label": "启动超时时间",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
@@ -4713,6 +4818,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "请求的超时。 如果<code>query_mode</code>是<code>sync</code>，对资源的调用将在超时前被阻断这一时间。",
+                        "label": "请求超时",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "enable_batch": {
                         "default": true,
@@ -4769,7 +4890,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -4803,7 +4924,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -5045,13 +5166,13 @@
                 "properties": {
                     "key": {
                         "default": "${.clientid}",
-                        "description": "生成 Kafka 消息 Key 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code ，而非空字符串。",
+                        "description": "生成 Kafka 消息 Key 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code> ，而非空字符串。",
                         "label": "消息的 Key",
                         "type": "string"
                     },
                     "value": {
                         "default": "${.}",
-                        "description": "生成 Kafka 消息 Value 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code ，而非空字符串。",
+                        "description": "生成 Kafka 消息 Value 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code>，而非空字符串。",
                         "label": "消息的 Value",
                         "type": "string"
                     },
@@ -5106,7 +5227,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -5197,7 +5318,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -5244,7 +5365,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
@@ -5328,7 +5449,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -5342,7 +5463,7 @@
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
+                        "description": "<br/>将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
                         "label": "服务器地址",
                         "type": "string"
                     },
@@ -5357,7 +5478,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -5507,7 +5628,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -5625,6 +5746,15 @@
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
+                    "direction": {
+                        "deprecated": "since(\"5.0.12\")",
+                        "description": "已废弃，Bridge 的方向，必须是 egress",
+                        "label": "Bridge 方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
                     "local_topic": {
                         "description": "<br/>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 <br/><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。<br/>",
                         "label": "本地 Topic",
@@ -5713,7 +5843,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command 模板",
+                        "description": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -5727,7 +5857,7 @@
                         "$ref": "#/components/schemas/resource_schema.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。<br/>",
+                        "description": "<br/>将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。<br/>",
                         "label": "服务器地址",
                         "type": "string"
                     },
@@ -5742,7 +5872,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -5845,6 +5975,15 @@
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
+                    "direction": {
+                        "deprecated": "since(\"5.0.12\")",
+                        "description": "已废弃，Bridge 的方向，必须是 egress",
+                        "label": "Bridge 方向",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
                     "local_topic": {
                         "description": "<br/>发送到 'local_topic' 的消息都会转发到 HTTP 服务器。 <br/><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HTTP 服务器。<br/>",
                         "label": "本地 Topic",
@@ -5929,7 +6068,7 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。",
                         "label": "缓存池大小",
                         "minimum": 1,
                         "type": "number"
@@ -5938,6 +6077,18 @@
                         "default": "15s",
                         "description": "健康检查间隔。",
                         "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "如果选择了创建后立即启动资源，此选项用来设置等待资源启动的超时时间，单位毫秒。",
+                        "label": "启动超时时间",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
@@ -5965,6 +6116,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "请求的超时。 如果<code>query_mode</code>是<code>sync</code>，对资源的调用将在超时前被阻断这一时间。",
+                        "label": "请求超时",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "async_inflight_window": {
                         "default": 100,
@@ -6064,7 +6231,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -6189,7 +6356,7 @@
                 "properties": {
                     "worker_pool_size": {
                         "default": 16,
-                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。",
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。",
                         "label": "缓存池大小",
                         "minimum": 1,
                         "type": "number"
@@ -6198,6 +6365,18 @@
                         "default": "15s",
                         "description": "健康检查间隔。",
                         "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "如果选择了创建后立即启动资源，此选项用来设置等待资源启动的超时时间，单位毫秒。",
+                        "label": "启动超时时间",
                         "type": "duration"
                     },
                     "auto_restart_interval": {
@@ -6225,6 +6404,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "请求的超时。 如果<code>query_mode</code>是<code>sync</code>，对资源的调用将在超时前被阻断这一时间。",
+                        "label": "请求超时",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "enable_batch": {
                         "default": true,
@@ -6299,7 +6494,7 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "连接池大小。",
+                        "description": "桥接远端服务时使用的连接池大小。",
                         "label": "连接池大小",
                         "type": "string"
                     },
@@ -6346,7 +6541,7 @@
                     "collection": {
                         "default": "mqtt",
                         "description": "数据将被存储到的集合",
-                        "label": "将要使用的藏品",
+                        "label": "将要使用的集合（Collection）",
                         "type": "string"
                     },
                     "payload_template": {
