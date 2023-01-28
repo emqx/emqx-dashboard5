@@ -45,8 +45,8 @@
         <el-col :span="12" v-if="formData.type === InfluxDBType.v1">
           <el-form-item prop="database">
             <template #label>
-              <span>{{ getPropItem('database').label }}</span>
-              <InfoTooltip :content="getPropItem('database').description" />
+              <span>{{ tl('database') }}</span>
+              <InfoTooltip :content="tl('databaseDesc')" />
             </template>
             <el-input v-model="formData.database" />
           </el-form-item>
