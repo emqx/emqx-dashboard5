@@ -23,7 +23,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -57,8 +57,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -131,7 +131,7 @@
                     },
                     "memory_overload_protection": {
                         "default": true,
-                        "description": "Applicable when buffer mode is set to <code>memory</code> or <code>hybrid</code>.<br/>EMQX will drop old cached messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
+                        "description": "Applicable when buffer mode is set to <code>memory</code> or <code>hybrid</code>.<br/>EMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
                         "label": "Memory Overload Protection",
                         "type": "boolean"
                     }
@@ -242,6 +242,18 @@
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
                     "auto_restart_interval": {
                         "default": "60s",
                         "description": "The auto restart interval after the resource is disconnected.",
@@ -267,6 +279,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "async_inflight_window": {
                         "default": 100,
@@ -690,8 +718,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -821,8 +849,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -1213,8 +1241,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -1323,8 +1351,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -1554,7 +1582,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -1588,8 +1616,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -1684,6 +1712,18 @@
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
                     "auto_restart_interval": {
                         "default": "60s",
                         "description": "The auto restart interval after the resource is disconnected.",
@@ -1709,6 +1749,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "async_inflight_window": {
                         "default": 100,
@@ -1819,8 +1875,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -1968,8 +2024,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -2058,8 +2114,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -2269,8 +2325,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -2386,8 +2442,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -2523,8 +2579,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -2630,8 +2686,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -2745,8 +2801,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -2911,6 +2967,15 @@
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
+                    "direction": {
+                        "deprecated": "since(\"5.0.12\")",
+                        "description": "Deprecated, The direction of this bridge, MUST be 'egress'",
+                        "label": "Bridge Direction",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
                     "local_topic": {
                         "description": "<br/>The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
                         "label": "Local Topic",
@@ -2997,7 +3062,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -3026,8 +3091,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -3232,8 +3297,8 @@
                 "properties": {
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "max_overflow": {
@@ -3555,7 +3620,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -3584,8 +3649,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -3664,6 +3729,18 @@
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
                     "auto_restart_interval": {
                         "default": "60s",
                         "description": "The auto restart interval after the resource is disconnected.",
@@ -3689,6 +3766,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "async_inflight_window": {
                         "default": 100,
@@ -3732,7 +3825,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -3761,8 +3854,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -3895,8 +3988,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -4003,8 +4096,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -4057,7 +4150,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -4086,8 +4179,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -4398,8 +4491,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -4506,8 +4599,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -4688,6 +4781,18 @@
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
                     "auto_restart_interval": {
                         "default": "60s",
                         "description": "The auto restart interval after the resource is disconnected.",
@@ -4713,6 +4818,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "enable_batch": {
                         "default": true,
@@ -4769,7 +4890,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -4803,8 +4924,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -5106,8 +5227,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -5197,8 +5318,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -5328,7 +5449,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -5357,8 +5478,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -5507,8 +5628,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -5625,6 +5746,15 @@
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
+                    "direction": {
+                        "deprecated": "since(\"5.0.12\")",
+                        "description": "Deprecated, The direction of this bridge, MUST be 'egress'",
+                        "label": "Bridge Direction",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
                     "local_topic": {
                         "description": "<br/>The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
                         "label": "Local Topic",
@@ -5713,7 +5843,7 @@
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis Command Template",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
                         "items": {
                             "type": "string"
                         },
@@ -5742,8 +5872,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "password": {
@@ -5845,6 +5975,15 @@
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
+                    "direction": {
+                        "deprecated": "since(\"5.0.12\")",
+                        "description": "Deprecated, The direction of this bridge, MUST be 'egress'",
+                        "label": "Bridge Direction",
+                        "symbols": [
+                            "egress"
+                        ],
+                        "type": "enum"
+                    },
                     "local_topic": {
                         "description": "<br/>The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
                         "label": "Local Topic",
@@ -5940,6 +6079,18 @@
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
                     "auto_restart_interval": {
                         "default": "60s",
                         "description": "The auto restart interval after the resource is disconnected.",
@@ -5965,6 +6116,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "async_inflight_window": {
                         "default": 100,
@@ -6064,8 +6231,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
@@ -6200,6 +6367,18 @@
                         "label": "Health Check Interval",
                         "type": "duration"
                     },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
                     "auto_restart_interval": {
                         "default": "60s",
                         "description": "The auto restart interval after the resource is disconnected.",
@@ -6225,6 +6404,22 @@
                             "async"
                         ],
                         "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "enable_batch": {
                         "default": true,
@@ -6299,8 +6494,8 @@
                     },
                     "pool_size": {
                         "default": 8,
-                        "description": "Size of the connection pool.",
-                        "label": "Pool Size",
+                        "description": "Size of the connection pool towards the bridge target service.",
+                        "label": "Connection Pool Size",
                         "type": "string"
                     },
                     "username": {
