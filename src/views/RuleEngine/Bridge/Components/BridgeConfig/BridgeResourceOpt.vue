@@ -9,6 +9,22 @@
     </el-form-item>
   </el-col>
   <el-col :span="12">
+    <el-form-item prop="resource_opts.request_timeout">
+      <template #label>
+        <span>{{ tl('requestTimeout') }}</span>
+        <InfoTooltip>
+          <template #content>
+            <MarkdownContent :content="tl('requestTimeoutDesc')" />
+          </template>
+        </InfoTooltip>
+      </template>
+      <Oneof
+        v-model="resourceOptForm.request_timeout"
+        :items="[{ type: 'duration' }, { symbols: ['infinity'], type: 'enum' }]"
+      />
+    </el-form-item>
+  </el-col>
+  <el-col :span="12">
     <el-form-item prop="resource_opts.health_check_interval">
       <template #label>
         <span>{{ tl('healthCheckInterval') }}</span>
@@ -86,9 +102,10 @@
 
 <script setup lang="ts">
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import Oneof from '@/components/Oneof.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps } from 'vue'
 
