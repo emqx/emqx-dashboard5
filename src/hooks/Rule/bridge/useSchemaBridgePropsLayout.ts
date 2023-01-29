@@ -40,6 +40,7 @@ export default (
     ...createOrderObj(
       [
         'resource_opts.worker_pool_size',
+        'resource_opts.request_timeout',
         'resource_opts.health_check_interval',
         'resource_opts.auto_restart_interval',
         'resource_opts.max_queue_bytes',
