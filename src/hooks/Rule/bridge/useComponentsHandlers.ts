@@ -37,6 +37,9 @@ export default (props: any) => {
 
   const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     const comRet = deleteSSLLabelAndDesc(components)
+    if (comRet.resource_opts?.properties?.start_after_created) {
+      Reflect.deleteProperty(comRet.resource_opts.properties, 'start_after_created')
+    }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
   }
