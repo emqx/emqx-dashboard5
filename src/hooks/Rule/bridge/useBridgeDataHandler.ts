@@ -12,38 +12,60 @@ import { ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
 
-// TODO: Consider more escape characters
-const strReg = /('([^'\\]|(\\'))+')|("([^"\\]|(\\"))+")/g
-const SPACE = ' '
-const splitBySpace = (command: string) => {
-  // TODO:handle chaos input
-  const randomStr = createRandomString()
-  const strArr: Array<string> = []
-  const commandRemoveStr = command.replace(/\n/g, SPACE).replace(strReg, (matched: string) => {
-    // remove quota
-    strArr.push(matched.slice(1, -1))
-    return randomStr
-  })
-  const ret = commandRemoveStr.split(SPACE)
-  let replaceIndex = 0
-  return ret
-    .map((item) => {
-      if (item === randomStr) {
-        replaceIndex += 1
-        return strArr[replaceIndex - 1]
-      }
-      return item
-    })
-    .filter((item) => !!item)
-}
+export const useRedisCommandCheck = (): {
+  commandReg: RegExp
+  splitBySpace: (command: string) => string[] | Promise<never>
+  transCommandArrToStr: (commandArr: Array<string>) => string
+} => {
+  const { tl } = useI18nTl('RuleEngine')
 
-const transCommandArrToStr = (commandArr: Array<string>) => {
-  // If an string item has space or escape characters, wrap it in double quotes.
-  return commandArr.reduce((str, current) => {
-    const item =
-      current.indexOf(SPACE) > -1 || current.indexOf('\\') > -1 ? `"${current}"` : current
-    return str ? `${str} ${item}` : item
-  }, '')
+  const strReg = /('(([^'\\]|(\\')|\\))+')|("(([^"\\]|(\\")|\\))+")/g
+  const partItem = /[^\s"']+/
+  const commandReg = new RegExp(
+    `^((${strReg.source}|${partItem.source})\\s)*(${strReg.source}|${partItem.source})$`,
+  )
+  const SPACE = ' '
+
+  const splitBySpace = (command: string) => {
+    const randomStr = createRandomString()
+    const strArr: Array<string> = []
+    const newCommand = command.replace(/\n/g, SPACE).trim()
+    if (!commandReg.test(newCommand)) {
+      ElMessage.error(tl('redisCommandError'))
+      return Promise.reject()
+    }
+    const commandRemoveStr = newCommand.replace(/\n/g, SPACE).replace(strReg, (matched: string) => {
+      // remove quota
+      strArr.push(matched.slice(1, -1))
+      return randomStr
+    })
+    const ret = commandRemoveStr.split(SPACE)
+    let replaceIndex = 0
+    return ret
+      .map((item) => {
+        if (item === randomStr) {
+          replaceIndex += 1
+          return strArr[replaceIndex - 1]
+        }
+        return item
+      })
+      .filter((item) => !!item)
+  }
+
+  const transCommandArrToStr = (commandArr: Array<string>) => {
+    // If an string item has space or escape characters, wrap it in double quotes.
+    return commandArr.reduce((str, current) => {
+      const item =
+        current.indexOf(SPACE) > -1 || current.indexOf('\\') > -1 ? `"${current}"` : current
+      return str ? `${str} ${item}` : item
+    }, '')
+  }
+
+  return {
+    commandReg,
+    splitBySpace,
+    transCommandArrToStr,
+  }
 }
 
 export default (): {
@@ -81,9 +103,14 @@ export default (): {
     return bridgeData
   }
 
-  const handleRedisBridgeData = (bridgeData: any) => {
-    bridgeData.command_template = splitBySpace(bridgeData.command_template)
-    return bridgeData
+  const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
+  const handleRedisBridgeData = async (bridgeData: any) => {
+    try {
+      bridgeData.command_template = await splitBySpace(bridgeData.command_template)
+      return bridgeData
+    } catch (error) {
+      return Promise.reject()
+    }
   }
 
   const handleGCPBridgeData = (bridgeData: any) => {
@@ -92,8 +119,8 @@ export default (): {
         bridgeData.service_account_json = JSON.parse(bridgeData.service_account_json)
         return bridgeData
       } catch (error) {
-        // TODO: Need to interrupt the submit process
         ElMessage.error(tl('accountJSONError'))
+        return Promise.reject()
       }
     }
     return bridgeData
@@ -111,11 +138,11 @@ export default (): {
       } else if (bridgeType === BridgeType.Webhook) {
         ret = await handleWebhookBridgeData(ret)
       } else if (bridgeType === BridgeType.Redis) {
-        ret = handleRedisBridgeData(ret)
+        ret = await handleRedisBridgeData(ret)
       } else if (bridgeType === BridgeType.GCP) {
-        ret = handleGCPBridgeData(ret)
+        ret = await handleGCPBridgeData(ret)
       } else if (bridgeType === BridgeType.InfluxDB) {
-        ret = handleInfluxDBBridgeData(ret)
+        ret = await handleInfluxDBBridgeData(ret)
       }
       return Promise.resolve(
         checkNOmitFromObj(omit(ret, ['metrics', 'node_metrics', 'node_status', 'status'])),

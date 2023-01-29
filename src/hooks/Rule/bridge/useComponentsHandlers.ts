@@ -3,6 +3,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRules } from '@/hooks/useSchemaFormRules'
 import { Properties } from '@/types/schemaForm'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
+import { useRedisCommandCheck } from './useBridgeDataHandler'
+import { FormItemRule } from 'element-plus'
 
 /**
  * Sometimes it is necessary to make some custom changes to the components used by the schema form component,
@@ -11,7 +13,7 @@ import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPass
  * etc. This can be defined here.
  */
 export default (props: any) => {
-  const { t } = useI18nTl('RuleEngine')
+  const { t, tl } = useI18nTl('RuleEngine')
 
   const deleteSSLLabelAndDesc = (components: Properties) => {
     if (components.ssl) {
@@ -39,6 +41,7 @@ export default (props: any) => {
     return { components: comRet, rules: rulesRet }
   }
 
+  const { commandReg } = useRedisCommandCheck()
   const redisComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const { redis_type, servers, command_template } = components
@@ -67,6 +70,17 @@ export default (props: any) => {
       command_template.type = 'string'
       command_template.format = 'sql'
       command_template.default = ''
+    }
+    if (rules?.command_template && Array.isArray(rules.command_template)) {
+      rules.command_template.push({
+        validator(rules: FormItemRule, value: string) {
+          if (!commandReg.test(value.replace(/\n/g, ' ').trim())) {
+            return Promise.reject(tl('redisCommandError'))
+          }
+          return Promise.resolve()
+        },
+        trigger: 'blur',
+      })
     }
     return { components, rules }
   }
@@ -112,6 +126,24 @@ export default (props: any) => {
     }
     if (payload_template?.type === 'string') {
       payload_template.format = 'sql'
+    }
+    if (rules && !rules.service_account_json) {
+      rules.service_account_json = []
+    }
+    if (rules.service_account_json && Array.isArray(rules.service_account_json)) {
+      rules.service_account_json.push({
+        validator(rule: FormItemRule, value: string) {
+          return new Promise((resolve, reject) => {
+            try {
+              JSON.parse(value)
+              resolve(true)
+            } catch (error) {
+              reject(tl('accountJSONError'))
+            }
+          })
+        },
+        trigger: 'blur',
+      })
     }
     return { components, rules }
   }

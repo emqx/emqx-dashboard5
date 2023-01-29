@@ -1189,4 +1189,8 @@ When disabled the messages are buffered in RAM only.`,
     zh: `TLS Server Name Indication (SNI)。可以设置为 "auto" 来自动使用连接主机名为 SNI，设置为 "none" 来禁用 SNI（与该字段留白效果一样），或者设置一个主机名，例如 "my.kafka.host" 来使用静态的 SNI。`,
     en: `The TLS Server Name Indication (SNI). We can set it to "auto" to use connecting hostname as SNI, set to none to disable SNI (same as leaving it blank), or set to an FQDN such as "my.kafka.host" to use a static SNI for all SSL connections.`,
   },
+  redisCommandError: {
+    zh: '不正确的 Redis 命令',
+    en: 'Incorrect Redis command',
+  },
 }
