@@ -317,7 +317,8 @@ export default defineComponent({
 
       try {
         isTesting.value = true
-        await testConnect(getDataForSubmit())
+        const data = await getDataForSubmit()
+        await testConnect(data)
         ElMessage.success(tl('connectionSuccessful'))
       } catch (error) {
         //
@@ -337,7 +338,8 @@ export default defineComponent({
       let res = undefined
 
       try {
-        res = await createBridge(getDataForSubmit())
+        const data = await getDataForSubmit()
+        res = await createBridge(data)
 
         const bridgeId = res?.id
         if (!isFromRule.value) {

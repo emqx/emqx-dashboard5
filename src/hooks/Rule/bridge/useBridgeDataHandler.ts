@@ -47,7 +47,7 @@ const transCommandArrToStr = (commandArr: Array<string>) => {
 }
 
 export default (): {
-  handleBridgeDataBeforeSubmit: (bridgeData: any) => any
+  handleBridgeDataBeforeSubmit: (bridgeData: any) => Promise<any>
   handleBridgeDataAfterLoaded: (bridgeData: any) => any
   handleBridgeDataForCopy: (bridgeData: any) => any
 } => {
@@ -99,24 +99,31 @@ export default (): {
     return bridgeData
   }
 
-  const handleBridgeDataBeforeSubmit = (bridgeData: any): any => {
-    let ret = cloneDeep(bridgeData)
-    const bridgeType = getBridgeType(bridgeData.type)
-    if (ret.ssl) {
-      ret.ssl = handleSSLDataBeforeSubmit(ret.ssl)
+  const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
+    try {
+      let ret = cloneDeep(bridgeData)
+      const bridgeType = getBridgeType(bridgeData.type)
+      if (ret.ssl) {
+        ret.ssl = handleSSLDataBeforeSubmit(ret.ssl)
+      }
+      if (bridgeType === BridgeType.MQTT) {
+        ret = await handleMQTTBridgeData(ret)
+      } else if (bridgeType === BridgeType.Webhook) {
+        ret = await handleWebhookBridgeData(ret)
+      } else if (bridgeType === BridgeType.Redis) {
+        ret = handleRedisBridgeData(ret)
+      } else if (bridgeType === BridgeType.GCP) {
+        ret = handleGCPBridgeData(ret)
+      } else if (bridgeType === BridgeType.InfluxDB) {
+        ret = handleInfluxDBBridgeData(ret)
+      }
+      return Promise.resolve(
+        checkNOmitFromObj(omit(ret, ['metrics', 'node_metrics', 'node_status', 'status'])),
+      )
+    } catch (error) {
+      console.error(error)
+      return Promise.reject()
     }
-    if (bridgeType === BridgeType.MQTT) {
-      ret = handleMQTTBridgeData(ret)
-    } else if (bridgeType === BridgeType.Webhook) {
-      ret = handleWebhookBridgeData(ret)
-    } else if (bridgeType === BridgeType.Redis) {
-      ret = handleRedisBridgeData(ret)
-    } else if (bridgeType === BridgeType.GCP) {
-      ret = handleGCPBridgeData(ret)
-    } else if (bridgeType === BridgeType.InfluxDB) {
-      ret = handleInfluxDBBridgeData(ret)
-    }
-    return checkNOmitFromObj(omit(ret, ['metrics', 'node_metrics', 'node_status', 'status']))
   }
 
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {

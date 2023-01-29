@@ -260,8 +260,7 @@ const setBridgeInfoFromSchemaForm = () => {
 
 const getDataForSubmit = () => {
   setBridgeInfoFromSchemaForm()
-  const data = _.cloneDeep(bridgeInfo.value)
-  return handleBridgeDataBeforeSubmit(data)
+  return handleBridgeDataBeforeSubmit(_.cloneDeep(bridgeInfo.value))
 }
 
 const showNameInputDialog = ref(false)
@@ -291,7 +290,7 @@ const saveAsCopy = async () => {
     tryToViewPwdInput()
     return
   }
-  bridgeData.value = getDataForSubmit()
+  bridgeData.value = await getDataForSubmit()
   showNameInputDialog.value = true
 }
 
@@ -314,7 +313,8 @@ const testConnection = async () => {
 
   try {
     isTesting.value = true
-    await testConnect(_.omit(getDataForSubmit(), 'id'))
+    const data = await getDataForSubmit()
+    await testConnect(_.omit(data, 'id'))
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
@@ -346,7 +346,8 @@ const updateBridgeInfo = async () => {
     })
 
     updateLoading.value = true
-    const res = await updateBridge(bridgeInfo.value.id, getDataForSubmit())
+    const data = await getDataForSubmit()
+    const res = await updateBridge(bridgeInfo.value.id, data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'data-bridge' })
