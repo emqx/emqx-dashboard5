@@ -143,10 +143,6 @@ export default {
     zh: '请求超时',
     en: 'Request Timeout',
   },
-  errRetry: {
-    zh: '错误重试次数',
-    en: 'Error Retries',
-  },
   mqttConn: {
     zh: 'MQTT 服务',
     en: 'MQTT Server',
