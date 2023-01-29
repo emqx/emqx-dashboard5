@@ -46,11 +46,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('errRetry')" required prop="max_retries">
-            <el-input v-model.number="httpBridgeVal.max_retries" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item :label="tl('connTimeout')">
             <TimeInputWithUnitSelect
               v-model="httpBridgeVal.connect_timeout"
@@ -165,7 +160,6 @@ export default defineComponent({
         enable_pipelining: 100,
         connect_timeout: '5s',
         request_timeout: '5s',
-        max_retries: 3,
         resource_opts: createDefaultResourceOptsForm({ inflight: true }),
         ssl: createSSLForm(),
       } as HTTPBridge)
@@ -180,7 +174,6 @@ export default defineComponent({
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
       pool_size: [...createRequiredRule('Pool size'), ...createIntFieldRule(1)],
-      max_retries: [...createRequiredRule(tl('errRetry')), ...createIntFieldRule(1)],
     })
 
     const initHttpBridgeVal = () => {
