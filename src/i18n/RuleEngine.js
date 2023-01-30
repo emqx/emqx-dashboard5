@@ -140,8 +140,16 @@ export default {
     en: 'Connect Timeout',
   },
   reqTimeout: {
+    zh: 'HTTP 请求超时',
+    en: 'HTTP Request Timeout',
+  },
+  requestTimeout: {
     zh: '请求超时',
-    en: 'Request Timeout',
+    en: 'Request timeout',
+  },
+  requestTimeoutDesc: {
+    zh: '请求的超时。 如果<code>query_mode</code>是<code>sync</code>，对资源的调用将在超时前被阻断这一时间。',
+    en: 'Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.',
   },
   mqttConn: {
     zh: 'MQTT 服务',
