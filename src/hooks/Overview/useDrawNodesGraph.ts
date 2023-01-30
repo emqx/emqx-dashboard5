@@ -20,7 +20,8 @@ interface EdgeItem {
 
 const SQUARE_ROOT_3 = parseFloat(Math.pow(3, 1 / 2).toFixed(2))
 const DEFAULT_SIDE_LENGTH = 20
-const LARGER_SIDE_LENGTH = 32
+const LARGER_SIDE_LENGTH = 30
+const MAX_NUM_USE_LARGER_SIDE = 3
 
 const getPath = (cfg: any) => {
   const size = cfg.size || [DEFAULT_SIDE_LENGTH * SQUARE_ROOT_3, DEFAULT_SIDE_LENGTH * 2]
@@ -50,12 +51,15 @@ const getFill = (status: NodeStatus, opacity = 1) => {
     : `l(0) 0:#dcdcdc${opacityHEX} 1:#cdcdcd${opacityHEX}`
 }
 
+const OUTER_SIDE_MULTIPLES = 2
+const INNER_SIDE_MULTIPLES = 1 + (OUTER_SIDE_MULTIPLES - 1) / 2
+
 let outerDecor: undefined | IShape = undefined
 let innerDecor: undefined | IShape = undefined
 
 const addDecorToNode = (nodeCfg: any, group: IGroup, shape: IShape) => {
-  const outerSideLength = (shape.getBBox().height / 2) * 2
-  const innerSideLength = (shape.getBBox().height / 2) * 1.5
+  const outerSideLength = (shape.getBBox().height / 2) * OUTER_SIDE_MULTIPLES
+  const innerSideLength = (shape.getBBox().height / 2) * INNER_SIDE_MULTIPLES
 
   outerDecor = group.addShape('path', {
     attrs: {
@@ -175,7 +179,10 @@ export default (
   const arcRandom = numToFixed(Math.random() * Math.PI)
   const getNodePosition = (nodeIndex: number, nodesNum: number): { x: number; y: number } => {
     const angle = numToFixed((Math.PI * 2) / nodesNum) * nodeIndex + arcRandom
-    const radius = Math.min(canvasWidth, canvasHeight) / 2 - DEFAULT_SIDE_LENGTH
+    const radius =
+      Math.min(canvasWidth, canvasHeight) / 2 -
+      (nodesNum <= MAX_NUM_USE_LARGER_SIDE ? LARGER_SIDE_LENGTH : DEFAULT_SIDE_LENGTH) *
+        OUTER_SIDE_MULTIPLES
     return {
       x: radius * Math.cos(angle),
       y: radius * Math.sin(angle),
@@ -191,7 +198,7 @@ export default (
       type: 'customNode',
       status: node.node_status,
     }
-    if (nodesNum < 4) {
+    if (nodesNum <= MAX_NUM_USE_LARGER_SIDE) {
       ret.size = [LARGER_SIDE_LENGTH * SQUARE_ROOT_3, LARGER_SIDE_LENGTH * 2]
     }
     return ret
@@ -240,7 +247,6 @@ export default (
       width: canvasWidth,
       height: canvasHeight,
       fitCenter: true,
-      fitView: true,
       linkCenter: true,
       defaultEdge: {
         style: { stroke: '#8E9BF266', lineWidth: 1.5 },
