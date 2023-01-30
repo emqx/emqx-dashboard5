@@ -1009,6 +1009,10 @@ When disabled the messages are buffered in RAM only.`,
     en: 'Maximum batch waiting interval.',
     zh: '最大批量请求等待时间。',
   },
+  poolType: {
+    zh: '连接池类型',
+    en: 'Pool Type',
+  },
   connectionPoolSize: {
     zh: '连接池大小',
     en: 'Connection Pool Size',
