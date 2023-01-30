@@ -84,7 +84,7 @@
                 <span>{{ getPropItem('token').label }}</span>
                 <InfoTooltip :content="getPropItem('token').description" />
               </template>
-              <el-input v-model="formData.token" />
+              <el-input v-model="formData.token" type="password" show-password />
             </el-form-item>
           </el-col>
           <el-col :span="12">
