@@ -60,8 +60,13 @@ export default function useSchemaForm(
         }
         Object.keys(properties).forEach((key) => {
           const property: Properties[string] = _.cloneDeep(properties[key])
+          // remove deprecated prop
           if (property.deprecated) {
             return
+          }
+          // hide token
+          if (typeof property.label === 'string' && /token/i.test(property.label)) {
+            property.format === 'password'
           }
           property.path = path ? `${path}.${key}` : key
           property.key = key

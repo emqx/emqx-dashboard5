@@ -55,17 +55,13 @@ export default {
     zh: 'gRPC 客户端进程池大小。',
     en: 'Process pool size for gRPC client. ',
   },
-  requestTimeOut: {
-    zh: '请求超时',
-    en: 'Request time-out',
-  },
   requestTimeOutDesc: {
     zh: '请求超时时间。请求超时后，视为本次请求失败。',
     en: 'Request timeout. After the request timeout, the request is treated failure',
   },
   failedAction: {
     zh: '失败动作',
-    en: 'Failed action',
+    en: 'Failed Action',
   },
   failedActionDesc: {
     zh: '请求失败后的备用动作，目前仅对 ` client.authenticate` 和 `client.authorize` 钩子有效。可选值为 `ignore` ：忽略本次权限检查；`deny`：返回权限检查失败。',
@@ -73,7 +69,7 @@ export default {
   },
   autoReconnect: {
     zh: '自动重连',
-    en: 'Auto reconnect',
+    en: 'Auto Reconnect',
   },
   autoReconnectDesc: {
     zh: '是否开启自动重连。当加载 ExHook 回调服务器失败后，是否进行重试。',
@@ -81,7 +77,7 @@ export default {
   },
   autoReconnectInterval: {
     zh: '自动重连周期',
-    en: 'Auto reconnect interval',
+    en: 'Auto Reconnect Interval',
   },
   overview: {
     zh: '概览',
