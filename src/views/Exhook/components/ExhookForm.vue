@@ -25,7 +25,7 @@
       <el-col :span="12">
         <el-form-item required prop="pool_size">
           <template #label>
-            <label>Pool size</label>
+            <label>Pool Size</label>
             <InfoTooltip :content="tl('poolSizeDesc')" />
           </template>
           <el-input v-model.number="formData.pool_size" />
@@ -34,7 +34,7 @@
       <el-col :span="12">
         <el-form-item required prop="request_timeout">
           <template #label>
-            <label>{{ tl('requestTimeOut') }}</label>
+            <label>{{ t('Auth.requestTimeout') }}</label>
             <InfoTooltip :content="tl('requestTimeOutDesc')" />
           </template>
           <TimeInputWithUnitSelect
@@ -164,7 +164,7 @@ const timeoutUnits = [
 const rules = {
   name: createRequiredRule(tl('name')),
   url: createRequiredRule('URL'),
-  pool_size: [...createRequiredRule('Pool size'), ...createIntFieldRule()],
+  pool_size: [...createRequiredRule('Pool Size'), ...createIntFieldRule()],
   request_timeout: createStringWithUnitFieldRule(timeoutUnits.map(({ value }) => value)),
   failed_action: createRequiredRule(tl('failedAction'), 'select'),
   auto_reconnect: createRequiredRule(tl('autoReconnectInterval'), 'input'),

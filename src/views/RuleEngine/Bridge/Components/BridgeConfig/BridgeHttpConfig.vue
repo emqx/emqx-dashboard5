@@ -41,7 +41,7 @@
       </el-row>
       <el-row :gutter="26">
         <el-col :span="12">
-          <el-form-item :label="'Pool size'" required prop="pool_size">
+          <el-form-item :label="tl('connectionPoolSize')" required prop="pool_size">
             <el-input v-model.number="httpBridgeVal.pool_size" />
           </el-form-item>
         </el-col>
@@ -173,7 +173,7 @@ export default defineComponent({
       name: createRequiredRule(tl('name')),
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
-      pool_size: [...createRequiredRule('Pool size'), ...createIntFieldRule(1)],
+      pool_size: [...createRequiredRule(tl('connectionPoolSize')), ...createIntFieldRule(1)],
     })
 
     const initHttpBridgeVal = () => {

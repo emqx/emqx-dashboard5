@@ -17,7 +17,7 @@ export default {
   },
   isEnable: {
     zh: '是否启用',
-    en: 'Is enable',
+    en: 'Is Enable',
   },
   show: {
     zh: '显示',
