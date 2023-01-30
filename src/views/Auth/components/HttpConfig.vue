@@ -37,7 +37,7 @@
         <div class="create-form-title">{{ $t('Auth.connectConfig') }}</div>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="Pool size">
+            <el-form-item label="Pool Size">
               <el-input v-model.number="httpConfig.pool_size" />
             </el-form-item>
           </el-col>
