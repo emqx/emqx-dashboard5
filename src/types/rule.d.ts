@@ -95,6 +95,7 @@ export interface HTTPBridge extends BridgeBaseData {
   headers: Headers
   max_retries: number
   method: string
+  pool_type: 'random' | 'hash'
   pool_size: number
   request_timeout: string
   ssl: SSL

@@ -46,6 +46,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item :label="tl('poolType')" prop="pool_type">
+            <el-select v-model="httpBridgeVal.pool_type">
+              <el-option
+                v-for="item in ['random', 'hash']"
+                :key="item"
+                :value="item"
+                :label="item"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="tl('connTimeout')">
             <TimeInputWithUnitSelect
               v-model="httpBridgeVal.connect_timeout"
@@ -156,6 +168,7 @@ export default defineComponent({
           'content-type': 'application/json',
         },
         body: '',
+        pool_type: 'random',
         pool_size: 4,
         enable_pipelining: 100,
         connect_timeout: '5s',
