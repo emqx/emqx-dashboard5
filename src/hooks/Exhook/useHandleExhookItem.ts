@@ -3,6 +3,7 @@ import { updateExhook, deleteExhook as requestDeleteExhook, moveExhook } from '@
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
 import { TargetPosition } from '@/types/enum'
+import useSSL from '../useSSL'
 
 export default () => {
   const { t } = useI18n()
@@ -41,9 +42,11 @@ export default () => {
     }, {}) as ExhookFormForCreate
   }
 
+  const { handleSSLDataBeforeSubmit } = useSSL()
   const updateExhookEnable = async (exhookData: Exhook, enable: boolean) => {
     try {
       const data = getExhookDataNecessaryDataForUpdate(exhookData)
+      data.ssl = handleSSLDataBeforeSubmit(data.ssl)
       data.enable = enable
       await updateExhook(data)
       ElMessage.success(t(`Base.${enable ? 'enableSuccess' : 'disabledSuccess'}`))
