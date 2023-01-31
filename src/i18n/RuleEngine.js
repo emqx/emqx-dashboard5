@@ -633,7 +633,7 @@ export default {
   },
   testTheConnection: {
     zh: '测试连接',
-    en: 'Test',
+    en: 'Test Connectivity',
   },
   test: {
     zh: '启用调试',
