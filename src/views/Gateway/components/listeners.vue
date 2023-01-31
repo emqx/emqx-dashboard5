@@ -44,6 +44,7 @@
       :doNotSubmitToBackend="integration"
       @submitted="loadListenerData"
       @submit="submitListener"
+      @delete="delListener($event)"
     />
   </div>
 </template>
@@ -138,6 +139,9 @@ const delListener = async function (row) {
       await deleteGatewayListener(gName, row.id)
       M.success(t('Base.deleteSuccess'))
       loadListenerData()
+      if (opListener.value === true) {
+        opListener.value = false
+      }
     } catch (error) {
       //
     }
