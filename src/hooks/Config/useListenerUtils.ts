@@ -46,7 +46,13 @@ export default (): ListenerUtils => {
   ]
 
   // ListenerType.QUIC,
-  const listenerTypeList = [ListenerType.TCP, ListenerType.SSL, ListenerType.WS, ListenerType.WSS]
+  const listenerTypeList = [
+    ListenerType.TCP,
+    ListenerType.SSL,
+    ListenerType.WS,
+    ListenerType.WSS,
+    ListenerType.QUIC,
+  ]
 
   /* 
     |                | SSL  | DTLS | UDP  | TCP  |
