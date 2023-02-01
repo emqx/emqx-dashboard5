@@ -166,6 +166,7 @@ const statisticsData = computed(() => {
     },
     {
       label: tl('lateReply'),
+      desc: tl('lateReplyDesc'),
       value: bridgeMetrics.value.metrics.late_reply,
       className: 'no-result-bg',
     },

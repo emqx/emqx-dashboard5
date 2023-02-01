@@ -415,10 +415,13 @@ export default {
     zh: '已异步地发送但没有收到 ACK 的消息个数',
     en: 'Count of messages that were sent asynchronously but ACKs are not received',
   },
-  // TODO:TODO:TODO:TODO:
   lateReply: {
-    zh: 'Late Reply',
+    zh: '超期回复',
     en: 'Late Reply',
+  },
+  lateReplyDesc: {
+    zh: '请求过期后收到回复',
+    en: 'Reply Received After Request Expired',
   },
   received: {
     zh: '已接收',
