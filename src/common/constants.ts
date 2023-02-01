@@ -209,6 +209,7 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.Webhook,
   BridgeType.MQTT,
   BridgeType.InfluxDB,
+  BridgeType.Kafka,
 ]
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
@@ -218,3 +219,7 @@ export const COPY_SUFFIX = '_duplication'
 export const AUTO_RESTART_INTERVAL_DEFAULT = '60s'
 
 export const ENCRYPTED_PWD_REG = /^\*{6}$/
+
+export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
+
+export const MONGO_TYPE = ['single', 'rs', 'sharded']

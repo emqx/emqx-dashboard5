@@ -385,7 +385,7 @@ export default {
   },
   queuing: {
     zh: '已缓存',
-    en: 'Queued',
+    en: 'Queuing',
   },
   queuingDesc: {
     zh: '当前被缓存到磁盘队列的消息个数',
@@ -939,9 +939,133 @@ export default {
     zh: 'message/sec | messages/sec',
     en: 'message/sec | messages/sec',
   },
-  saveAsCopy: {
-    zh: '保存为副本',
-    en: 'Save as copy',
+  influxDBLabel: {
+    zh: 'InfluxDB',
+    en: 'InfluxDB',
+  },
+  mySQL: {
+    zh: 'MySQL',
+    en: 'MySQL',
+  },
+  influxDBVersion: {
+    zh: 'InfluxDB 版本',
+    en: 'Version of InfluxDB',
+  },
+  kafka: {
+    zh: 'Kafka',
+    en: 'Kafka',
+  },
+  kafkaDesc: {
+    zh: '桥接数据到 Kafka',
+    en: 'Bridge data to Kafka',
+  },
+  redis: {
+    zh: 'Redis',
+    en: 'Redis',
+  },
+  gcpPubSub: {
+    zh: 'Google PubSub',
+    en: 'Google PubSub',
+  },
+  mongoDB: {
+    zh: 'MongoDB',
+    en: 'MongoDB',
+  },
+  gcpPubSubDesc: {
+    zh: '桥接数据到 Google PubSub',
+    en: 'Bridge data to Goole PubSub',
+  },
+  egressDataBaseDesc: {
+    zh: '将数据保存到 {name}',
+    en: 'Save data to {name}',
+  },
+  database: {
+    en: 'Database',
+    zh: '数据库',
+  },
+  databaseDesc: {
+    en: 'InfluxDB database.',
+    zh: 'InfluxDB 数据库。',
+  },
+  dataDefinition: {
+    zh: '定义解析数据',
+    en: 'Define Data Parsing',
+  },
+  dataDefinitionDesc: {
+    zh: '指定数据格式与内容，使其能被解析并写入到 InfluxDB 中，支持使用占位符。',
+    en: 'Specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
+  },
+  dataFormat: {
+    zh: '数据格式',
+    en: 'Data Format',
+  },
+  float: {
+    zh: '浮点型',
+    en: 'Float',
+  },
+  integer: {
+    zh: '整型',
+    en: 'Integer',
+  },
+  uInteger: {
+    zh: '无符号整型',
+    en: 'UInteger',
+  },
+  string: {
+    zh: '字符串',
+    en: 'String',
+  },
+  boolean: {
+    zh: '布尔型',
+    en: 'Boolean',
+  },
+  placeholder: {
+    zh: '占位符',
+    en: 'Placeholder',
+  },
+  healthCheckInterval: {
+    en: 'Health Check Interval',
+    zh: '健康检查间隔',
+  },
+  healthCheckIntervalDesc: {
+    en: 'Health check interval, in milliseconds.',
+    zh: '健康检查间隔，单位毫秒。',
+  },
+  autoRestartInterval: {
+    en: 'Auto Restart Interval',
+    zh: '自动重连间隔',
+  },
+  autoRestartIntervalDesc: {
+    en: 'The auto restart interval after the resource is disconnected, in milliseconds.',
+    zh: '资源断开以后，自动重连的时间间隔，单位毫秒。',
+  },
+  token: {
+    en: 'Token',
+    zh: 'Token',
+  },
+  usernameDesc: {
+    en: 'InfluxDB username.',
+    zh: 'InfluxDB 用户名。',
+  },
+  passwordDesc: {
+    en: 'InfluxDB password.',
+    zh: 'InfluxDB 密码。',
+  },
+  org: {
+    en: 'Organization',
+    zh: '组织',
+  },
+  bucket: {
+    en: 'Bucket',
+    zh: 'Bucket',
+  },
+  authType: {
+    zh: '认证方式',
+    en: 'Auth Type',
+  },
+  basicAuth: {
+    zh: '基础认证',
+    en: 'Basic auth',
   },
   queryMode: {
     en: 'Query mode',
@@ -1017,17 +1141,17 @@ When disabled the messages are buffered in RAM only.`,
     en: `The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
     zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。',
   },
-  healthCheckInterval: {
-    en: 'Health Check Interval',
-    zh: '健康检查间隔',
+  kerberosPrincipal: {
+    en: 'Kerberos Principal',
+    zh: 'Kerberos Principal',
   },
   healthCheckIntervalDesc: {
     en: 'Health check interval.',
     zh: '健康检查间隔。',
   },
-  autoRestartInterval: {
-    en: 'Auto Restart Interval',
-    zh: '自动重连间隔',
+  kerberosKeytabFile: {
+    en: 'Kerberos keytab file',
+    zh: 'Kerberos keytab 文件',
   },
   autoRestartIntervalDesc: {
     en: 'The auto restart interval after the resource is disconnected. ',
@@ -1040,5 +1164,17 @@ When disabled the messages are buffered in RAM only.`,
   confirmReset: {
     zh: '是否确认重置输入的测试数据？',
     en: 'Are you sure to reset the test data?',
+  },
+  accountJSONError: {
+    zh: '请上传格式有效的 GCP 服务账户凭证',
+    en: 'Please upload your GCP Service Account Credentials in a valid format',
+  },
+  kafkaSniDesc: {
+    zh: `TLS Server Name Indication (SNI)。可以设置为 "auto" 来自动使用连接主机名为 SNI，设置为 "none" 来禁用 SNI（与该字段留白效果一样），或者设置一个主机名，例如 "my.kafka.host" 来使用静态的 SNI。`,
+    en: `The TLS Server Name Indication (SNI). We can set it to "auto" to use connecting hostname as SNI, set to none to disable SNI (same as leaving it blank), or set to an FQDN such as "my.kafka.host" to use a static SNI for all SSL connections.`,
+  },
+  redisCommandError: {
+    zh: '不正确的 Redis 命令',
+    en: 'Incorrect Redis command',
   },
 }

@@ -60,19 +60,43 @@
             >
               <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
                 <bridge-http-config
-                  v-if="bridgeInfo.type === BridgeType.Webhook"
-                  v-model:tls="bridgeInfo.ssl"
+                  v-if="bridgeType === BridgeType.Webhook"
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
                 />
                 <bridge-mqtt-config
-                  v-else-if="bridgeInfo.type === BridgeType.MQTT"
+                  v-else-if="bridgeType === BridgeType.MQTT"
                   ref="formCom"
                   v-model="bridgeInfo"
                   :edit="true"
                   :validate-for-test-connection="validateForTestConnection"
                   @init="resetRawBridgeInfoAfterComponentInit"
+                />
+                <!-- TODO:until refactored influxdb -->
+                <bridge-influxdb-config
+                  v-else-if="bridgeType === BridgeType.InfluxDB"
+                  v-model="bridgeInfo"
+                  ref="formCom"
+                  :edit="true"
+                  :validate-for-test-connection="validateForTestConnection"
+                  @init="resetRawBridgeInfoAfterComponentInit"
+                />
+                <bridge-kafka-config
+                  v-else-if="bridgeType === BridgeType.Kafka"
+                  v-model="bridgeInfo"
+                  ref="formCom"
+                  :edit="true"
+                  :validate-for-test-connection="validateForTestConnection"
+                  @init="resetRawBridgeInfoAfterComponentInit"
+                />
+                <using-schema-bridge-config
+                  v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
+                  edit
+                  :type="bridgeType"
+                  :validate-for-test-connection="validateForTestConnection"
+                  v-model="bridgeInfo"
+                  ref="formCom"
                 />
               </div>
               <div v-if="!isFromRule" class="btn-area">
@@ -130,6 +154,8 @@ import { getBridgeInfo, updateBridge, startStopBridge, testConnect } from '@/api
 import { BridgeItem } from '@/types/rule'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
+import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
+import BridgeKafkaConfig from './Components/BridgeConfig/BridgeKafkaConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
@@ -140,9 +166,10 @@ import _ from 'lodash'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA, ENCRYPTED_PWD_REG } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import { jumpToErrorFormItem } from '@/common/tools'
 
 enum Tab {
@@ -174,7 +201,7 @@ if (queryTab.value) {
   activeTab.value = queryTab.value
 }
 
-const { getTypeStr } = useBridgeTypeOptions()
+const { getBridgeType, getTypeStr } = useBridgeTypeOptions()
 const { getBridgeIcon } = useBridgeTypeIcon()
 
 const { tl, t } = useI18nTl('RuleEngine')
@@ -196,6 +223,11 @@ watch(id, (val) => {
     loadBridgeInfo()
   }
 })
+
+/**
+ * if type is influxDB v1 or v2, will be count to influxDB uniformly
+ */
+const bridgeType = computed(() => getBridgeType(bridgeInfo.value.type))
 
 const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
@@ -221,7 +253,7 @@ const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
 }
 
 const setBridgeInfoFromSchemaForm = () => {
-  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
+  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {
     bridgeInfo.value = formCom.value.getFormRecord()
   }
 }
@@ -301,12 +333,12 @@ const updateBridgeInfo = async () => {
     }
 
     setBridgeInfoFromSchemaForm()
+
     // Check for changes before updating and do not request if there are no changes
     // TODO:check the schema form & MQTT
     if (isFromRule.value && _.isEqual(bridgeInfo.value, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }
-
     await ElMessageBox.confirm(tl('updateBridgeTip'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),

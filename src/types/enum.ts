@@ -248,8 +248,25 @@ export enum TimeUnit {
   Day,
 }
 
+export enum InfluxDBType {
+  v1 = 'influxdb_api_v1',
+  v2 = 'influxdb_api_v2',
+}
+
+export enum LicenseType {
+  Trial = 'trial',
+  Official = 'official',
+}
+
 export enum BuiltInDBType {
   Client = 'clients',
   User = 'users',
   All = 'all',
+}
+
+export enum LicenseCustomerType {
+  Small = 0,
+  Medium,
+  Large,
+  Evaluation = 10,
 }

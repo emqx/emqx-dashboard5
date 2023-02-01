@@ -47,7 +47,7 @@ const getPath = (cfg: any) => {
 const getFill = (status: NodeStatus, opacity = 1) => {
   const opacityHEX = Number((255 * opacity).toFixed(0)).toString(16)
   return status === NodeStatus.Running
-    ? `l(0) 0:#00B299${opacityHEX} 1:#45E3C9${opacityHEX}`
+    ? `l(0) 0:#9a66ff${opacityHEX} 1:#3651ec${opacityHEX}`
     : `l(0) 0:#dcdcdc${opacityHEX} 1:#cdcdcd${opacityHEX}`
 }
 
