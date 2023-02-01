@@ -10,6 +10,7 @@ export default function useDatabaseConfig(
     database: string
     modelValue: any
     authType: string
+    isEdit: boolean
   },
   { emit }: SetupContext<'update:modelValue'[]>,
 ) {
@@ -54,7 +55,8 @@ export default function useDatabaseConfig(
       defaultContent.value = `SELECT action, permission, topic FROM mqtt_acl where username = \${username}`
       defaultDatabase = 'mqtt_acl'
     }
-    if (id.value || route.params.name) {
+    // do not set value when is editing
+    if (id.value || (route.params.name && props.isEdit)) {
       return
     }
     databaseConfig.value.database = defaultDatabase
@@ -71,7 +73,8 @@ export default function useDatabaseConfig(
       defaultContent.value = `SELECT action, permission, topic FROM mqtt_acl where username = \${username}`
       defaultDatabase = 'mqtt_acl'
     }
-    if (id.value || route.params.name) {
+    // do not set value when is editing
+    if (id.value || (route.params.name && props.isEdit)) {
       return
     }
     databaseConfig.value.database = defaultDatabase
@@ -102,7 +105,8 @@ export default function useDatabaseConfig(
     } else {
       defaultContent.value = `HGETALL mqtt_acl:\${username}`
     }
-    if (id.value || route.params.name) {
+    // do not set value when is editing
+    if (id.value || (route.params.name && props.isEdit)) {
       return
     }
     databaseConfig.value.cmd = defaultContent.value

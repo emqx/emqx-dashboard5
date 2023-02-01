@@ -7,6 +7,7 @@
         type="log"
         :form="configs"
         :btn-loading="saveLoading"
+        :props-order-map="propsOrderMap"
         @save="handleSave"
       />
     </el-card>
@@ -35,6 +36,8 @@ export default defineComponent({
 
     let rawData: any = undefined
     const SchemaFormCom = ref()
+    const propsOrderMap = { enable: 0 }
+
     const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
     useDataNotSaveConfirm(checkDataIsChanged)
 
@@ -67,6 +70,7 @@ export default defineComponent({
       SchemaFormCom,
       handleSave,
       configs,
+      propsOrderMap,
       reloading,
       saveLoading,
     }

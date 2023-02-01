@@ -164,6 +164,12 @@ const statisticsData = computed(() => {
       value: bridgeMetrics.value.metrics.inflight,
       className: 'no-result-bg',
     },
+    {
+      label: tl('lateReply'),
+      desc: tl('lateReplyDesc'),
+      value: bridgeMetrics.value.metrics.late_reply,
+      className: 'no-result-bg',
+    },
 
     {
       label: tl('dropped'),

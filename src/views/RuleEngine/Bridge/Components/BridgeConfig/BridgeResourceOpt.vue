@@ -37,7 +37,9 @@
     <el-form-item prop="resource_opts.auto_restart_interval">
       <template #label>
         <span>{{ tl('autoRestartInterval') }}</span>
-        <InfoTooltip :content="tl('autoRestartIntervalDesc')" />
+        <InfoTooltip
+          :content="tl('autoRestartIntervalDesc') + tl('autoRestartIntervalValueDesc')"
+        />
       </template>
       <Oneof
         v-model="resourceOptForm.auto_restart_interval"
