@@ -34,8 +34,8 @@
         <el-col :span="12">
           <el-form-item prop="min_metadata_refresh_interval">
             <template #label>
-              <span>{{ getPropItem('bootstrap_hosts').label }}</span>
-              <InfoTooltip :content="getPropItem('bootstrap_hosts').description" />
+              <span>{{ getPropItem('min_metadata_refresh_interval').label }}</span>
+              <InfoTooltip :content="getPropItem('min_metadata_refresh_interval').description" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
           </el-form-item>
