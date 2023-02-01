@@ -8,7 +8,7 @@ export default (): {
     worker_pool_size: 4,
     health_check_interval: '15s',
     auto_restart_interval: AUTO_RESTART_INTERVAL_DEFAULT,
-    query_mode: 'sync',
+    query_mode: 'async',
     max_queue_bytes: '1GB',
     request_timeout: '15s',
   })
