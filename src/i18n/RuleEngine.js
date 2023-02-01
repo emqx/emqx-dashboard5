@@ -1022,8 +1022,8 @@ When disabled the messages are buffered in RAM only.`,
     zh: '缓存池大小',
   },
   workerPoolSizeDesc: {
-    en: `The number of buffer workers. Only applicable for egress type bridges. For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
-    zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0）。',
+    en: `The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
+    zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。',
   },
   healthCheckInterval: {
     en: 'Health Check Interval',
@@ -1038,8 +1038,12 @@ When disabled the messages are buffered in RAM only.`,
     zh: '自动重连间隔',
   },
   autoRestartIntervalDesc: {
-    en: 'The auto restart interval after the resource is disconnected. If the auto restart time interval is set too small, it might cause the connection test to be repeated when the service is offline, which will bring a lot load to the system.',
-    zh: '资源断开以后，自动重连的时间间隔。如果时间间隔设置过短，可导致服务离线时反复进行连接测试以致给系统带来较大负载。',
+    en: 'The auto restart interval after the resource is disconnected. ',
+    zh: '资源断开以后，自动重连的时间间隔。',
+  },
+  autoRestartIntervalValueDesc: {
+    zh: '如果时间间隔设置过短，可导致服务离线时反复进行连接测试以致给系统带来较大负载。',
+    en: 'If the auto restart time interval is set too small, it might cause the connection test to be repeated when the service is offline, which will bring a lot load to the system.',
   },
   confirmReset: {
     zh: '是否确认重置输入的测试数据？',
