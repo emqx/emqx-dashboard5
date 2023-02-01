@@ -36,14 +36,12 @@ import {
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
 import useI18nTl from '@/hooks/useI18nTl'
-import { SchemaRules } from '@/hooks/useSchemaFormRules'
 import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
 import { useStore } from 'vuex'
-import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
@@ -168,7 +166,6 @@ const handleRecordChanged = (formData: OtherBridge) => {
   }
 }
 
-const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const validate = () => {
   if (formCom.value?.validate) {
     return formCom.value.validate()

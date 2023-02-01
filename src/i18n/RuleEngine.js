@@ -1027,17 +1027,9 @@ export default {
     en: 'Health Check Interval',
     zh: '健康检查间隔',
   },
-  healthCheckIntervalDesc: {
-    en: 'Health check interval, in milliseconds.',
-    zh: '健康检查间隔，单位毫秒。',
-  },
   autoRestartInterval: {
     en: 'Auto Restart Interval',
     zh: '自动重连间隔',
-  },
-  autoRestartIntervalDesc: {
-    en: 'The auto restart interval after the resource is disconnected, in milliseconds.',
-    zh: '资源断开以后，自动重连的时间间隔，单位毫秒。',
   },
   token: {
     en: 'Token',
@@ -1153,6 +1145,10 @@ When disabled the messages are buffered in RAM only.`,
     en: 'Kerberos keytab file',
     zh: 'Kerberos keytab 文件',
   },
+  kerberosPrincipalDesc: {
+    en: `SASL GSSAPI authentication Kerberos principal. For example <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.`,
+    zh: `SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中`,
+  },
   autoRestartIntervalDesc: {
     en: 'The auto restart interval after the resource is disconnected. ',
     zh: '资源断开以后，自动重连的时间间隔。',
@@ -1160,6 +1156,34 @@ When disabled the messages are buffered in RAM only.`,
   autoRestartIntervalValueDesc: {
     zh: '如果时间间隔设置过短，可导致服务离线时反复进行连接测试以致给系统带来较大负载。',
     en: 'If the auto restart time interval is set too small, it might cause the connection test to be repeated when the service is offline, which will bring a lot load to the system.',
+  },
+  filePathPlease: {
+    zh: '请填写文件路径',
+    en: 'Fill in the file path',
+  },
+  kerberosKeytabFileDesc: {
+    en: 'SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
+    zh: 'SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。',
+  },
+  mechanism: {
+    en: 'Mechanism',
+    zh: '认证方法',
+  },
+  mechanismDesc: {
+    en: 'SASL authentication mechanism.',
+    zh: 'SASL 认证方法名称。',
+  },
+  producer: {
+    en: 'MQTT to Kafka',
+    zh: 'MQTT 到 Kafka',
+  },
+  producerDesc: {
+    en: 'Local MQTT data source and Kafka bridge configs.',
+    zh: '本地 MQTT 数据源和 Kafka 桥接的配置。',
+  },
+  saveAsCopy: {
+    zh: '保存为副本',
+    en: 'Save as copy',
   },
   confirmReset: {
     zh: '是否确认重置输入的测试数据？',
