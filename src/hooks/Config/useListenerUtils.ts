@@ -51,7 +51,7 @@ export default (): ListenerUtils => {
     ListenerType.SSL,
     ListenerType.WS,
     ListenerType.WSS,
-    ListenerType.QUIC,
+    // ListenerType.QUIC,
   ]
 
   /* 
