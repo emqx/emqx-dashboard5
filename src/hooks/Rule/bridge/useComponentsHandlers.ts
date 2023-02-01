@@ -40,6 +40,11 @@ export default (props: any) => {
     if (comRet.resource_opts?.properties?.start_after_created) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'start_after_created')
     }
+    if (comRet.resource_opts?.properties?.auto_restart_interval) {
+      comRet.resource_opts.properties.auto_restart_interval.description += tl(
+        'autoRestartIntervalValueDesc',
+      )
+    }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
   }
