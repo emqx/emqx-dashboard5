@@ -12,7 +12,7 @@ export interface ListenerUtils {
   ID_SEPARATOR: string
   gatewayTypesWhichCanEnableProxyProtocol: Array<ListenerTypeForGateway | ListenerType>
   gatewayTypesWhichHasTCPConfig: Array<ListenerTypeForGateway | ListenerType>
-  gatewayTypesWhichHasUDPConfig: Array<ListenerTypeForGateway | ListenerType>
+  gatewayTypesWhichHasUDPConfig: Array<ListenerTypeForGateway>
   gatewayTypesWhichHasSSLConfig: Array<ListenerTypeForGateway | ListenerType>
   listenerFormRules: FormRules
   createRawListener: () => Listener
@@ -22,7 +22,7 @@ export interface ListenerUtils {
   }
   createListenerId: (listener: Listener, gatewayName?: string | undefined) => string
   hasTCPConfig: (type: ListenerType | ListenerTypeForGateway) => boolean
-  hasUDPConfig: (type: ListenerType | ListenerTypeForGateway) => boolean
+  hasUDPConfig: (type: ListenerTypeForGateway) => boolean
   hasSSLConfig: (type: ListenerType | ListenerTypeForGateway) => boolean
   hasWSConfig: (type: ListenerType) => boolean
   canConfigProxyProtocol: (type: ListenerType | ListenerTypeForGateway) => boolean
@@ -67,7 +67,7 @@ export default (): ListenerUtils => {
     | -------------- | ---- | ---- | ---- | ---- | ---- |
     | TCP            |      | ✓    | ✓    | ✓    | ✓    |
     | SSL            |      |      | ✓    |      | ✓    |
-    | UDP            | ✓    |      |      |      |      |
+    | UDP            |      |      |      |      |      |
     | WS             |      |      |      | ✓    | ✓    |
     | Proxy Protocol |      | ✓    | ✓    | ✓    | ✓    |
   */
@@ -89,11 +89,7 @@ export default (): ListenerUtils => {
     ListenerType.WSS,
   ]
 
-  const gatewayTypesWhichHasUDPConfig = [
-    ListenerTypeForGateway.DTLS,
-    ListenerTypeForGateway.UDP,
-    ListenerType.QUIC,
-  ]
+  const gatewayTypesWhichHasUDPConfig = [ListenerTypeForGateway.DTLS, ListenerTypeForGateway.UDP]
 
   const gatewayTypesWhichHasSSLConfig = [
     ListenerTypeForGateway.DTLS,
@@ -202,7 +198,7 @@ export default (): ListenerUtils => {
     gatewayTypesWhichCanEnableProxyProtocol.includes(type)
   const hasTCPConfig = (type: ListenerType | ListenerTypeForGateway) =>
     gatewayTypesWhichHasTCPConfig.includes(type)
-  const hasUDPConfig = (type: ListenerType | ListenerTypeForGateway) =>
+  const hasUDPConfig = (type: ListenerTypeForGateway) =>
     gatewayTypesWhichHasUDPConfig.includes(type)
   const hasSSLConfig = (type: ListenerType | ListenerTypeForGateway) =>
     gatewayTypesWhichHasSSLConfig.includes(type)
