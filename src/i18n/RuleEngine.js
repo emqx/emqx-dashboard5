@@ -1030,16 +1030,16 @@ When disabled the messages are buffered in RAM only.`,
     zh: '健康检查间隔',
   },
   healthCheckIntervalDesc: {
-    en: 'Health check interval, in milliseconds.',
-    zh: '健康检查间隔，单位毫秒。',
+    en: 'Health check interval.',
+    zh: '健康检查间隔。',
   },
   autoRestartInterval: {
     en: 'Auto Restart Interval',
     zh: '自动重连间隔',
   },
   autoRestartIntervalDesc: {
-    en: 'The auto restart interval after the resource is disconnected, in milliseconds.',
-    zh: '资源断开以后，自动重连的时间间隔，单位毫秒。',
+    en: 'The auto restart interval after the resource is disconnected.',
+    zh: '资源断开以后，自动重连的时间间隔。',
   },
   confirmReset: {
     zh: '是否确认重置输入的测试数据？',
