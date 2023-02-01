@@ -16,11 +16,11 @@ export default {
     en: 'Create',
   },
   backDataBridge: {
-    zh: '返回 Data Bridge 列表',
+    zh: '返回数据桥接列表',
     en: 'Back To Data Bridge List',
   },
   bridgeType: {
-    zh: 'Data Bridge 类型',
+    zh: '数据桥接类型',
     en: 'Type of Data Bridge',
   },
   dataBridge: {
@@ -32,7 +32,7 @@ export default {
     en: 'Forwarding with Data Bridge',
   },
   chooseBridgeType: {
-    zh: '选择 Data Bridge 类型',
+    zh: '选择数据桥接类型',
     en: 'Choose The Type of Data Bridge',
   },
   direction: {
@@ -96,12 +96,8 @@ export default {
     en: 'Connection Type',
   },
   bridgeNum: {
-    zh: 'Data Bridge 数量',
+    zh: '数据桥接数量',
     en: 'Total Data Bridge',
-  },
-  connName: {
-    zh: '连接名称',
-    en: 'Connector Name',
   },
   connParams: {
     zh: '连接参数',
@@ -154,14 +150,6 @@ export default {
   mqttConn: {
     zh: 'MQTT 服务',
     en: 'MQTT Server',
-  },
-  newConn: {
-    zh: '创建连接',
-    en: 'New Connector',
-  },
-  editConn: {
-    zh: '编辑连接',
-    en: 'Edit Connector',
   },
   selectPlease: {
     zh: '请选择',
@@ -524,7 +512,7 @@ export default {
     en: 'Last reset time',
   },
   nodeStatusBridgeDesc: {
-    zh: '每个节点上 Data Bridge 状态和执行情况',
+    zh: '每个节点上数据桥接状态和执行情况',
     en: 'Data Bridge status and execution on each node',
   },
   nodeStatusRuleDesc: {
@@ -602,10 +590,6 @@ export default {
   retryInterval: {
     zh: '消息重发间隔',
     en: 'Message Resend Interval',
-  },
-  descForCreateConnector: {
-    zh: '连接配置可以在 Data Bridge 中复用',
-    en: 'Connector can be reused in data bridge',
   },
   tip: {
     zh: '提示：',
