@@ -1064,8 +1064,8 @@ export default {
     zh: '请求模式',
   },
   queryModeDesc: {
-    en: "Query mode. Optional 'sync/async', default 'sync'.",
-    zh: "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+    en: "Query mode. Optional 'sync/async', default 'async'.",
+    zh: "请求模式。可选 '同步/异步'，默认为'异步'模式。",
   },
   asyncInflightWindow: {
     zh: '异步请求飞行队列窗口',
@@ -1130,7 +1130,7 @@ When disabled the messages are buffered in RAM only.`,
     zh: '缓存池大小',
   },
   workerPoolSizeDesc: {
-    en: `The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
+    en: `The number of buffer workers. Only applicable for egress type bridges.</br>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
     zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。',
   },
   kerberosPrincipal: {
