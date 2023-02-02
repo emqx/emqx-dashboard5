@@ -253,3 +253,9 @@ export enum BuiltInDBType {
   User = 'users',
   All = 'all',
 }
+
+export enum BannedType {
+  Client = 'clientid',
+  User = 'username',
+  Address = 'peerhost',
+}
