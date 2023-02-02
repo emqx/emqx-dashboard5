@@ -16,7 +16,7 @@
         </el-button>
       </el-tooltip>
     </div>
-    <el-table class="shadow-none" :data="tbData" v-loading="tbLoading">
+    <el-table class="shadow-none" :data="tbData" v-loading="tbLoading" row-key="topic">
       <el-table-column
         :label="$t('Base.topic')"
         prop="topic"
@@ -46,18 +46,7 @@
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <el-pagination
-        v-if="count > 0"
-        hide-on-single-page
-        background
-        layout="total, sizes, prev, pager, next"
-        :page-sizes="[20, 50, 100, 500]"
-        v-model:page-size="limit"
-        v-model:current-page="page"
-        :total="count"
-        @size-change="initPageNo(), loadTbData()"
-        @current-change="loadTbData"
-      />
+      <CommonPagination @loadPage="loadTbData" v-model:metaData="pageMeta" />
     </div>
     <el-dialog v-model="payloadDialog" class="payload-dialog" :title="'Payload'">
       <el-row v-loading="payloadLoading">
@@ -105,15 +94,16 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { dateFormat } from '@/common/utils'
 import Monaco from '@/components/Monaco.vue'
 import { delRetainerTopic, getRetainer, getRetainerList, getRetainerTopic } from '@/api/extension'
-import usePagination from '@/hooks/usePagination'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import useCopy from '@/hooks/useCopy'
 import { RetainerMessage } from '@/types/extension'
 import { PayloadShowByType } from '@/types/enum'
+import CommonPagination from '@/components/commonPagination.vue'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 const { tl, t } = useI18nTl('Extension')
 const { copyText } = useCopy()
-const { page, limit, count, resetPageNum } = usePagination()
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent()
 const tbLoading = ref(true)
 const tbData = ref<RetainerMessage[]>([])
@@ -121,10 +111,6 @@ const payloadDialog = ref(false)
 const payloadDetail = ref('')
 const payloadLoading = ref(false)
 const isEnabledRetainer = ref(true)
-
-const initPageNo = () => {
-  page.value = 1
-}
 
 const plaintextShow = computed(() => {
   return (
@@ -135,21 +121,20 @@ const plaintextShow = computed(() => {
 
 const loadTbData = async (reload?: boolean) => {
   tbLoading.value = true
-  const params = { page: page.value, limit: limit.value }
-  count.value = 0
   try {
-    const { data, meta } = await getRetainerList(params)
+    const { data, meta } = await getRetainerList(pageParams.value)
     tbData.value = data
-    count.value = meta.count
+    setPageMeta(meta)
   } catch (error) {
-    //
+    tbData.value = []
+    initPageMeta()
   } finally {
     tbLoading.value = false
   }
 }
 
 const refresh = () => {
-  page.value = resetPageNum(tbData.value, page.value)
+  initPageMeta()
   loadTbData()
 }
 
@@ -186,7 +171,7 @@ const deleteRetainerTopic = async function (row: any) {
         const res = await delRetainerTopic(topic)
         if (res) {
           ElMessage.success(t('Base.deleteSuccess'))
-          page.value = resetPageNum(tbData.value, page.value)
+          initPageMeta()
           loadTbData()
         }
       } catch (error) {
