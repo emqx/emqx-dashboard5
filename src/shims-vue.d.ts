@@ -9,6 +9,7 @@ declare module '*.vue' {
 }
 
 declare module '@/common/utils'
+declare module '@/api/function'
 declare module '@/common/highlight/sql'
 declare module 'js-sql-parser'
 declare module 'highlight.js/lib/core'
