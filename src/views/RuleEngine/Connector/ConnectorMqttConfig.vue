@@ -45,11 +45,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('cleanStart')">
-            <BooleanSelect v-model="connectorVal.clean_start" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item :label="tl('bridgeMode')">
             <BooleanSelect v-model="connectorVal.bridge_mode" />
           </el-form-item>
@@ -121,7 +116,6 @@ export default defineComponent({
       password: '',
       keepalive: '60s',
       proto_ver: 'v4',
-      clean_start: true,
       bridge_mode: false,
       mode: modeOptions[0],
     }

@@ -125,7 +125,6 @@ export interface MQTTBridgeIngress {
 }
 
 export interface MQTTBridge extends BridgeBaseData {
-  clean_start: boolean
   enable: boolean
   egress: MQTTBridgeEgress
   ingress: MQTTBridgeIngress
