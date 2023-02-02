@@ -1,4 +1,4 @@
-import { ConnectionStatus } from './enum'
+import { BannedType, ConnectionStatus } from './enum'
 
 export interface AuthzSetting {
   deny_action: 'ignore' | 'disconnect'
@@ -75,4 +75,11 @@ export interface Metrics {
     status: string
   }>
   status: ConnectionStatus
+}
+
+export interface Banned {
+  as: BannedType
+  who: string
+  reason: string
+  until: string
 }
