@@ -124,13 +124,16 @@ import { IS_ENTERPRISE } from '@/common/constants'
 import { calcPercentage, getProgressColor } from '@/common/utils'
 import useDurationStr from '@/hooks/useDurationStr'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
-import { computed, onMounted, onUnmounted, ref, Ref } from 'vue'
+import { computed, onMounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
+import useSyncPolling from '@/hooks/useSyncPolling'
 
 type CurrentInfo = { node: NodeMsg; stats: NodeStatisticalData }
 
 const { t, locale } = useI18n()
+
+const POLLING_INTERVAL = 2000
 
 /**
  * first time get node data, select the first node
@@ -141,8 +144,6 @@ let stats: Ref<Array<NodeStatisticalData>> = ref([])
 let graph: Ref<undefined | HTMLElement> = ref(undefined)
 const currentNodeName = ref('')
 let infoLoading: Ref<boolean> = ref(true)
-let timerData: undefined | number = undefined
-const interval = ref(2000)
 
 const currentInfo = computed(() => {
   if (!currentNodeName.value || nodes.value.length === 0 || stats.value.length === 0) {
@@ -157,22 +158,21 @@ const nodesGraphData = computed(() => ({
 }))
 
 const { transMsNumToSimpleStr } = useDurationStr()
+const { syncPolling } = useSyncPolling()
 
 let getNodes = async () => {
-  let res: Array<NodeMsg> = await loadNodes(true).catch(() => [])
-  if (res) {
-    nodes.value = res
-  } else {
-    return Promise.reject()
+  try {
+    nodes.value = await loadNodes(true, 25000)
+  } catch (error) {
+    return Promise.reject(error)
   }
 }
 
 let getStats = async () => {
-  let res = await loadStats().catch(() => [])
-  if (res) {
-    stats.value = res
-  } else {
-    return Promise.reject()
+  try {
+    stats.value = await loadStats()
+  } catch (error) {
+    return Promise.reject(error)
   }
 }
 
@@ -219,10 +219,11 @@ const loadData = async () => {
       currentNodeName.value = nodes.value[0].node
       isInitialized = true
     }
-  } catch (error) {
-    console.error(error)
-  } finally {
     infoLoading.value = false
+    return Promise.resolve()
+  } catch (error) {
+    infoLoading.value = false
+    return Promise.reject()
   }
 }
 
@@ -230,18 +231,7 @@ onMounted(() => {
   loadData()
 })
 
-const setInterval = () => {
-  clearInterval(timerData)
-  timerData = window.setInterval(() => {
-    loadData()
-  }, interval.value)
-}
-
-setInterval()
-
-onUnmounted(() => {
-  clearInterval(timerData)
-})
+syncPolling(loadData, POLLING_INTERVAL)
 </script>
 
 <style lang="scss" scoped>
