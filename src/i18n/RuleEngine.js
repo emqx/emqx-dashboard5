@@ -115,10 +115,6 @@ export default {
     zh: '连接模式',
     en: 'Mode',
   },
-  cleanStart: {
-    zh: '清除会话',
-    en: 'Clean start',
-  },
   bridgeMode: {
     zh: '桥接模式',
     en: 'Bridge Mode',
