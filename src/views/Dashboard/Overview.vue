@@ -117,20 +117,21 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, reactive, onUnmounted, Ref } from 'vue'
+import { ref, reactive, Ref } from 'vue'
 import RateChart from './components/RateChart.vue'
 import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
 import Moment from 'moment'
 import { loadCurrentMetrics } from '@/api/common'
 import { formatNumber } from '@/common/tools'
+import useSyncPolling from '@/hooks/useSyncPolling'
 
 interface MetricData {
   x: Array<string>
   y: Array<number>
 }
 
-const interval = ref(2000)
+const POLLING_INTERVAL = 2000
 
 const currentMetricsLogs: Record<string, MetricData> = reactive({
   received_msg_rate: {
@@ -152,19 +153,19 @@ const currentMetricsLogs: Record<string, MetricData> = reactive({
 })
 const currentMetrics: Ref<Record<string, number>> = ref({
   node: 0, // Nodes number
-  received_msg_rate: 0, // Incomming Rate
+  received_msg_rate: 0, // Incoming Rate
   sent_msg_rate: 0, // Outgoing Rate
-  received_bytes_rate: 0, // Incomming Bytes Rate
+  received_bytes_rate: 0, // Incoming Bytes Rate
   sent_bytes_rate: 0, // Outgoing Bytes Rate
   subscriptions: 0, // Subs number
   connections: 0, // Connections number
   topics: 0, // Topics
 })
-let timerData: undefined | number = undefined
 
 const rateType = ref<'msg' | 'byte'>('msg')
 
 const _formatNumber = (num: number) => (num === undefined ? 0 : formatNumber(num))
+const { syncPolling } = useSyncPolling()
 
 const loadData = async () => {
   const state = await loadCurrentMetrics()
@@ -197,20 +198,7 @@ const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
   )
 }
 
-loadData()
-
-const setInterval = () => {
-  clearInterval(timerData)
-  timerData = window.setInterval(() => {
-    loadData()
-  }, interval.value)
-}
-
-setInterval()
-
-onUnmounted(() => {
-  clearInterval(timerData)
-})
+syncPolling(loadData, POLLING_INTERVAL)
 </script>
 
 <style lang="scss">
