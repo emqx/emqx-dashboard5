@@ -125,7 +125,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       isLoading.value = true
       const data = await queryListenerDetail(props.listener.id)
       const { name, type } = getListenerNameNTypeById(data.id)
-      listenerRecord.value = { ...data, name, type }
+      listenerRecord.value = { ...data, name, type, bind: transPort(data.bind) }
     } catch (error) {
       //
     } finally {
