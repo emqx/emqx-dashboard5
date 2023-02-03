@@ -120,8 +120,12 @@ export const getLabelFromValueInOptionList = <T>(
   return target?.label || ''
 }
 
-export const formatNumber = (num: number) => {
-  const ret = new Intl.NumberFormat().format(num)
+export const formatNumber = (num: number | string | undefined) => {
+  const numType = typeof num
+  if (numType !== 'string' && numType !== 'number') {
+    return num
+  }
+  const ret = new Intl.NumberFormat().format(Number(num))
   return ret === 'NaN' ? '' : ret
 }
 
