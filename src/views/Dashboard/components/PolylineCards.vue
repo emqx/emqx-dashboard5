@@ -57,10 +57,13 @@ export default defineComponent({
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
 import { loadChartData } from '@/api/common'
-import { ref, reactive, computed, onUnmounted, onMounted, Ref } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
+import useSyncPolling from '@/hooks/useSyncPolling'
+
+const POLLING_INTERVAL = 60000
 
 type ChartData = Array<{
   xData: Array<string>
@@ -119,7 +122,6 @@ const dataTypeList: Array<ChartType> = reactive([
   ChartType.Sent,
   ChartType.Received,
 ])
-const timerMetrics: Ref<null | number> = ref(null)
 
 const messageDataTypeFilter = computed(() => {
   return Object.entries(messageDataTypeMap).map(([value, text]) => ({
@@ -151,6 +153,8 @@ const chartColorList = computed<Record<string, string[]>>(() => {
   }
 })
 
+const { syncPolling } = useSyncPolling()
+
 const loadChartMetrics = async () => {
   try {
     isLoading.value = true
@@ -172,16 +176,7 @@ const loadChartMetrics = async () => {
   }
 }
 
-const clearTimer = () => {
-  timerMetrics.value && clearInterval(timerMetrics.value)
-}
-
-onMounted(() => {
-  loadChartMetrics()
-  timerMetrics.value = window.setInterval(loadChartMetrics, 60000)
-})
-
-onUnmounted(clearTimer)
+syncPolling(loadChartMetrics, POLLING_INTERVAL)
 </script>
 
 <style lang="scss">

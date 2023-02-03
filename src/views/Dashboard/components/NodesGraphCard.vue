@@ -227,10 +227,6 @@ const loadData = async () => {
   }
 }
 
-onMounted(() => {
-  loadData()
-})
-
 syncPolling(loadData, POLLING_INTERVAL)
 </script>
 
