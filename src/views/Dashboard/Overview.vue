@@ -125,6 +125,7 @@ import NodesGraphCard from './components/NodesGraphCard.vue'
 import LicenseCard from './components/LicenseCard.vue'
 import Moment from 'moment'
 import { loadCurrentMetrics } from '@/api/common'
+import { formatNumber } from '@/common/tools'
 
 interface MetricData {
   x: Array<string>
@@ -165,11 +166,7 @@ let timerData: undefined | number = undefined
 
 const rateType = ref<'msg' | 'byte'>('msg')
 
-const _formatNumber = (num: number) => {
-  if (num === undefined) return 0
-  let number = String(parseInt(num.toString()))
-  return number.replace(/(\d{1,3})(?=(\d{3})+($|\.))/g, '$1,')
-}
+const _formatNumber = (num: number) => (num === undefined ? 0 : formatNumber(num))
 
 const loadData = async () => {
   const state = await loadCurrentMetrics()
