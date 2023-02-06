@@ -52,8 +52,8 @@ export default {
     en: 'Only shown once when created',
   },
   resultTip: {
-    zh: '请立即将 API Key 和 Secret Key 保存到安全的地方，后续将不再显示 Secret Key。',
-    en: 'Save the API Key and Secret Key in a sage place immediately. The Secret Key will no longer be displayed in the future.',
+    zh: '将 API Key 和 Secret Key 保存到安全的地方，后续将不再显示 Secret Key。',
+    en: 'Save API Key and Secret Key to a safe place, Secret Key will not be shown again.',
   },
   neverExpire: {
     zh: '永不过期',
