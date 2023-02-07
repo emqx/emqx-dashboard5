@@ -73,7 +73,6 @@ import { useStore } from 'vuex'
 import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
-import useChangePwdGuide from '@/hooks/useChangePwdGuide'
 
 export default defineComponent({
   name: 'Layout',
@@ -93,7 +92,6 @@ export default defineComponent({
     const kebab2pascal = (s: string) => String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
     const store = useStore()
     const route = useRoute()
-    useChangePwdGuide()
 
     const edition = computed(() => {
       return store.state.edition
