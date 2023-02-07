@@ -5,9 +5,32 @@
         <el-input v-model="row.key" class="key-input" @input="atInputChange" />
       </template>
     </el-table-column>
-    <el-table-column :label="keyValueLabel.value">
+    <el-table-column>
+      <template #header>
+        <span>{{ keyValueLabel.value }}</span>
+        <InfoTooltip>
+          <template #content>
+            <MarkdownContent :content="tl('fieldValueDesc')" />
+          </template>
+        </InfoTooltip>
+      </template>
       <template #default="{ row }">
-        <el-input v-model="row.value" @input="atInputChange" />
+        <el-input v-model="row.value" @input="atInputChange">
+          <template #suffix>
+            <div class="suffix-container">
+              <template v-if="explicitlySpecifyTypeInValue(row.value)">
+                <el-tooltip
+                  class="box-item"
+                  effect="dark"
+                  :content="getTooltipContent(row.value)"
+                  placement="top-start"
+                >
+                  <el-icon><Warning /></el-icon>
+                </el-tooltip>
+              </template>
+            </div>
+          </template>
+        </el-input>
       </template>
     </el-table-column>
     <el-table-column width="100">
@@ -26,22 +49,23 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, Ref, defineComponent, watch } from 'vue'
-import { isPlainObject, cloneDeep, isEqual } from 'lodash'
-import useI18nTl from '@/hooks/useI18nTl'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import useInfluxdbFieldsEditor, {
   FieldValueType,
 } from '@/hooks/Rule/bridge/useInfluxdbFieldsEditor'
+import useI18nTl from '@/hooks/useI18nTl'
+import { Warning } from '@element-plus/icons-vue'
+import { cloneDeep, isEqual, isPlainObject } from 'lodash'
+import { computed, defineComponent, ref, Ref, watch } from 'vue'
 
 type kvRow = {
   key: string
   value: string
 }
 
-const { judgeFieldValueType, judgeValueInInput } = useInfluxdbFieldsEditor()
-
 export default defineComponent({
-  name: 'KeyAndValueEditor',
+  components: { InfoTooltip, MarkdownContent, Warning },
   emits: ['update:modelValue', 'add'],
   props: {
     modelValue: {
@@ -63,6 +87,9 @@ export default defineComponent({
 
     const { t, tl } = useI18nTl('RuleEngine')
     const { emit } = context
+
+    const { judgeFieldValueType, judgeValueInInput, explicitlySpecifyTypeInValue, getTypeLabel } =
+      useInfluxdbFieldsEditor()
 
     function createTbData() {
       const d = props.modelValue
@@ -119,6 +146,14 @@ export default defineComponent({
       emit('add')
     }
 
+    const getTooltipContent = (value: string) => {
+      return t('RuleEngine.specifiedTypeTip', {
+        type: getTypeLabel(
+          explicitlySpecifyTypeInValue(value) as FieldValueType.Integer | FieldValueType.UInteger,
+        ),
+      })
+    }
+
     watch(
       () => props.modelValue,
       (val) => {
@@ -132,6 +167,9 @@ export default defineComponent({
       tl,
       tableData,
       FieldValueType,
+      explicitlySpecifyTypeInValue,
+      getTooltipContent,
+      getTypeLabel,
       atInputChange,
       deleteItem,
       addColumn,
@@ -144,5 +182,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .key-and-value-editor {
   min-width: 200px;
+}
+.suffix-container {
+  display: flex;
+  align-items: center;
 }
 </style>
