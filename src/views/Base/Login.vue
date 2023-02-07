@@ -35,7 +35,7 @@
                 v-model.trim="record.username"
                 :placeholder="$t('Base.username')"
                 tabindex="1"
-              ></el-input>
+              />
             </el-form-item>
             <el-form-item prop="password">
               <el-input
@@ -43,7 +43,7 @@
                 type="password"
                 :placeholder="$t('Base.password')"
                 tabindex="2"
-              ></el-input>
+              />
             </el-form-item>
             <el-form-item class="oper-wrapper">
               <el-button type="primary" @click="nativeLogin" :loading="isLogining">
@@ -54,8 +54,9 @@
                 rel="noopener noreferrer"
                 class="forgot-btn"
                 :href="resetPasswordLink"
-                >{{ $t('Base.forgetPassword') }}</a
               >
+                {{ $t('Base.forgetPassword') }}
+              </a>
             </el-form-item>
           </el-form>
         </div>
