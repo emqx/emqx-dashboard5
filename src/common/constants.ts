@@ -218,3 +218,5 @@ export const COPY_SUFFIX = '_duplication'
 export const AUTO_RESTART_INTERVAL_DEFAULT = '60s'
 
 export const ENCRYPTED_PWD_REG = /^\*{6}$/
+
+export const PASSWORD_REG = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)[ -~]{8,64}$/
