@@ -94,8 +94,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { computed, ref, onBeforeMount } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl.ts'
-
-const PASSWORD_REG = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)[ -~]{8,64}$/
+import { PASSWORD_REG } from '@/common/constants'
 
 const store = useStore()
 const { tl, t } = useI18nTl('General')
