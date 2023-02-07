@@ -264,6 +264,12 @@ export enum BuiltInDBType {
   All = 'all',
 }
 
+export enum BannedType {
+  Client = 'clientid',
+  User = 'username',
+  Address = 'peerhost',
+}
+
 export enum LicenseCustomerType {
   Small = 0,
   Medium,

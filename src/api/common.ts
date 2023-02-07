@@ -66,8 +66,11 @@ export function setPrometheus(body: Prometheus): Promise<Prometheus> {
 }
 
 // Nodes
-export async function loadNodes(doNotTriggerProgress = false): Promise<Array<NodeMsg>> {
-  return http.get('/nodes', { doNotTriggerProgress })
+export async function loadNodes(
+  doNotTriggerProgress = false,
+  timeout = 20000,
+): Promise<Array<NodeMsg>> {
+  return http.get('/nodes', { doNotTriggerProgress, timeout })
 }
 
 export async function loadNodeDetail(node: string): Promise<NodeMsg> {

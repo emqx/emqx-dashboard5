@@ -68,7 +68,7 @@ export default (lang: string): DocMap => {
     enterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_GO_ENTERPRISE}`,
     blog: `https://www.emqx.com/${lang}/blog/category/emqx?${QUERY_FOR_HELP}`,
     dashboard: `https://docs.emqx.com/${lang}/enterprise/v5.0/dashboard/introduction.html?${QUERY_FOR_HELP}`,
-    emqxGettingStarted: `https://docs.emqx.com/${lang}/enterprise/v5.0/getting-started.html?${QUERY_FOR_HELP}`,
+    emqxGettingStarted: `https://docs.emqx.com/${lang}/enterprise/v5.0/getting-started/getting-started.html?${QUERY_FOR_HELP}`,
     accessControl: `https://docs.emqx.com/${lang}/enterprise/v5.0/dashboard/authn.html?${QUERY_FOR_HELP}`,
     dataIntegration: `https://docs.emqx.com/${lang}/enterprise/v5.0/data-integration/introduction.html?${QUERY_FOR_HELP}`,
     mqttStudy: `https://www.emqx.com/${lang}/mqtt?${QUERY_FOR_HELP}`,
