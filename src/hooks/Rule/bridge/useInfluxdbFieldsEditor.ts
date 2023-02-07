@@ -1,3 +1,5 @@
+import useI18nTl from '@/hooks/useI18nTl'
+
 export enum FieldValueType {
   Float,
   Integer,
@@ -15,6 +17,7 @@ const NUMBER_REGEX = /-?\d+(\.\d+)?/
 const SCIENTIFIC_NOTATION_REGEX = new RegExp(`${NUMBER_REGEX.source}e(\\+|-)\\d+`)
 const FLOAT_REGEX = new RegExp(`^${SCIENTIFIC_NOTATION_REGEX.source}|${NUMBER_REGEX.source}$`)
 const PLACEHOLDER_REGEX = /.*\$\{.+\}.*/
+const VALUE_WITH_TYPE_REGEX = new RegExp(`^(\\d+|${NUMBER_REGEX.source}|\\$\\{.+\\})(i|u)$`)
 const typeRegexMap: Record<FieldValueType, RegExp> = {
   [FieldValueType.String]: STRING_REGEX,
   [FieldValueType.Integer]: INT_REGEX,
@@ -25,6 +28,8 @@ const typeRegexMap: Record<FieldValueType, RegExp> = {
 }
 
 export default () => {
+  const { t, tl } = useI18nTl('RuleEngine')
+
   const typeRegexMapKeys: Array<FieldValueType> = Object.keys(typeRegexMap).map((key) =>
     Number(key),
   )
@@ -50,69 +55,35 @@ export default () => {
     FieldValueType.Placeholder,
   ]
   const judgeValueInInput = (str: string) => {
+    const type = typesDoNotNeedHandle.find((typeName) => typeRegexMap[typeName].test(str))
     if (typesDoNotNeedHandle.some((type) => typeRegexMap[type].test(str))) {
       return str
     }
-    return FieldValueType.String
+    return type ? type : FieldValueType.String
   }
 
-  const convertToRawValueByType = (valueInProtocolLine: string, type: FieldValueType) => {
-    switch (type) {
-      case FieldValueType.String:
-        if (STRING_REGEX.test(valueInProtocolLine)) {
-          return valueInProtocolLine.slice(1, -1)
-        }
-        break
-      case FieldValueType.Integer:
-        if (INT_REGEX.test(valueInProtocolLine)) {
-          return valueInProtocolLine.slice(0, -1)
-        }
-        break
-      case FieldValueType.UInteger:
-        if (U_INT_REGEX.test(valueInProtocolLine)) {
-          return valueInProtocolLine.slice(0, -1)
-        }
-        break
-      case FieldValueType.Boolean:
-        if (BOOL_REGEX.test(valueInProtocolLine)) {
-          return valueInProtocolLine[0].toLocaleLowerCase() === 't' ? true : false
-        }
-        break
+  const explicitlySpecifyTypeInValue = (
+    value: string,
+  ): boolean | FieldValueType.Integer | FieldValueType.UInteger => {
+    const withType = VALUE_WITH_TYPE_REGEX.test(value)
+    if (!withType) {
+      return withType
     }
-    // float and others, return value directly
-    return valueInProtocolLine
+    return /i/i.test(value.slice(-1)) ? FieldValueType.Integer : FieldValueType.UInteger
   }
 
-  /**
-   * convert raw value to value in line protocol
-   */
-  const handleValueByType = (value: string | boolean, type: FieldValueType) => {
-    switch (type) {
-      case FieldValueType.String:
-        return `"${value}"`
-      case FieldValueType.Integer:
-        if (Number.isNaN(Number(value))) {
-          throw new Error()
-        }
-        return `${value}i`
-      case FieldValueType.UInteger:
-        if (Number.isNaN(Number(value))) {
-          throw new Error()
-        }
-        return `${value}u`
-      case FieldValueType.Boolean:
-        return value
-      case FieldValueType.Float:
-        return value
-      default:
-        return value
-    }
+  const typeLabelMap = {
+    [FieldValueType.Integer]: tl('integer'),
+    [FieldValueType.UInteger]: tl('uInteger'),
+  }
+  const getTypeLabel = (type: FieldValueType.Integer | FieldValueType.UInteger) => {
+    return typeLabelMap[type] || ''
   }
 
   return {
     judgeFieldValueType,
-    convertToRawValueByType,
-    handleValueByType,
     judgeValueInInput,
+    explicitlySpecifyTypeInValue,
+    getTypeLabel,
   }
 }
