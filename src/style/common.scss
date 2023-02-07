@@ -673,16 +673,6 @@ input:disabled {
   }
 }
 
-.default-pwd-tip {
-  width: 380px;
-  .el-message-box__content {
-    padding-top: 24px;
-  }
-  .el-message-box__message {
-    padding-right: 0;
-  }
-}
-
 .collapse-border {
   $collapse-border: 1px solid var(--color-border-primary);
   border-top: $collapse-border;
