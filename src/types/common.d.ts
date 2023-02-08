@@ -4,7 +4,6 @@ import { RuleItem } from 'async-validator'
 export interface UserInfo {
   username: string
   token: string
-  isUsingDefaultPwd: boolean
 }
 
 export interface PageData {

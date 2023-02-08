@@ -41,8 +41,6 @@
       "
       v-model="dialogVisible"
       destroy-on-close
-      :show-close="!isForChangeDefaultPwd"
-      :close-on-click-modal="!isForChangeDefaultPwd"
     >
       <el-form
         ref="formCom"
@@ -76,7 +74,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button @click="closeDialog" v-if="!isForChangeDefaultPwd">
+          <el-button @click="closeDialog">
             {{ $t('Base.cancel') }}
           </el-button>
 
@@ -96,13 +94,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { computed, ref, onBeforeMount } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl.ts'
-import {
-  useHandlersInUsersPage,
-  useRouteGuardForChangeDefaultPwd,
-} from '@/hooks/useChangePwdGuide.ts'
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
-
-const PASSWORD_REG = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)[ -~]{8,64}$/
+import { PASSWORD_REG } from '@/common/constants'
 
 const store = useStore()
 const { tl, t } = useI18nTl('General')
@@ -272,22 +264,7 @@ const deleteConfirm = async (item) => {
   }
 }
 
-const { isForChangeDefaultPwd, confirmForChangeDefaultPwdParam } = useHandlersInUsersPage({
-  showDialog,
-  tableData,
-})
-
 onBeforeMount(async () => {
   await loadData()
-  confirmForChangeDefaultPwdParam()
-})
-
-const { preventLeaveWithoutChangeDefaultPwd } = useRouteGuardForChangeDefaultPwd()
-onBeforeRouteLeave((to, from, next) => {
-  preventLeaveWithoutChangeDefaultPwd(to, from, next)
-})
-
-onBeforeRouteUpdate(async (to, from, next) => {
-  preventLeaveWithoutChangeDefaultPwd(to, from, next)
 })
 </script>

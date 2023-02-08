@@ -78,7 +78,6 @@ import { useStore } from 'vuex'
 import { computed, defineComponent, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
-import useChangePwdGuide from '@/hooks/useChangePwdGuide'
 import { loadLicenseInfo } from '@/api/common'
 
 export default defineComponent({
@@ -100,7 +99,6 @@ export default defineComponent({
     const kebab2pascal = (s: string) => String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
     const store = useStore()
     const route = useRoute()
-    const { isUsingDefaultPwd, popupMessageBox } = useChangePwdGuide()
 
     const showLicenseTipDialog = ref(false)
     const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
@@ -164,9 +162,6 @@ export default defineComponent({
     onMounted(async () => {
       await initLicense()
       tryOpenLicenseDialog()
-      if (!isEvaluationLicense.value && isUsingDefaultPwd.value && !store.getters.isDev) {
-        popupMessageBox()
-      }
     })
 
     initLicense()
