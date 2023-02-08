@@ -168,7 +168,7 @@ export default {
     en: 'Manage Data',
   },
   maxDelayedMsg: {
-    zh: '最多消息延时数',
+    zh: '最大延迟消息数',
     en: 'Max Delayed Messages',
   },
   builtInDatabase: {
