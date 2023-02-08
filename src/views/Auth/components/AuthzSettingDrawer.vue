@@ -10,7 +10,11 @@
               </el-form-item>
               <template v-if="record.cache?.enable">
                 <el-form-item :label="$t('Auth.maxSize')">
-                  <el-input v-model.number="record.cache.max_size" placeholder="32" />
+                  <el-input-number
+                    v-model.number="record.cache.max_size"
+                    controls-position="right"
+                    placeholder="32"
+                  />
                 </el-form-item>
                 <el-form-item :label="$t('Auth.ttl')">
                   <InputWithUnit
