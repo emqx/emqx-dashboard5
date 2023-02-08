@@ -992,8 +992,8 @@ export default {
     en: 'Specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
   },
   fieldValueDesc: {
-    zh: `如果 value 或模板值为数字，默认以浮点类型写入数据，如需显式指定类型，可在 value 或模板值后添加类型后缀，如 \`\${'{'}payload.int_key{'}'}i\`，详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
-    en: `If the value or template value is a number, the data is written in float type by default. If you need to specify the type explicitly, you can add a type suffix after the value or template value, such as \`\${'{'}payload.int_key{'}'}i\`, see details in <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
+    zh: `Key 和 value 都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
+    en: `Both key and value support placeholders. Numbers are written as floats by default, but you can add a type suffix to specify a type (e.g. \`\${'{'}payload.int_key{'}'}i\`). Learn more in the <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
   },
   dataFormat: {
     zh: '数据格式',
