@@ -6,7 +6,7 @@ export interface AuthzSetting {
   cache: {
     enable: boolean
     ttl?: string
-    unit?: string
+    max_size?: number
   }
 }
 
