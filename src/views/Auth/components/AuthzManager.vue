@@ -31,7 +31,7 @@
       </div>
       <el-button type="primary" :icon="Plus" @click="handleAdd"> {{ $t('Base.add') }} </el-button>
     </div>
-    <el-table v-show="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
+    <el-table v-if="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
       <el-table-column v-if="false" type="expand" />
       <el-table-column prop="permission" :label="$t('Auth.permission')" />
       <el-table-column prop="action" :label="$t('Auth.action')" />
@@ -51,8 +51,9 @@
         </template>
       </el-table-column>
     </el-table>
-    <div v-show="type !== 'all'">
-      <el-table :data="tableData" v-loading.lock="lockTable">
+    <div v-else>
+      <!-- bind `key` is a hack for re-render table component to remove shake phenomenon -->
+      <el-table :key="type" :data="tableData" v-loading.lock="lockTable">
         <el-table-column type="expand">
           <template #default="{ row }">
             <el-table :data="row.rules">
@@ -67,25 +68,17 @@
             </el-table>
           </template>
         </el-table-column>
-        <el-table-column
-          v-if="type === BuiltInDBType.Client"
-          prop="clientid"
-          :label="$t('Base.clientid')"
-        >
+        <el-table-column v-if="type === BuiltInDBType.Client" :label="$t('Base.clientid')">
           <template #default="{ row }">
             {{ replaceSpaceForHTML(row.clientid) }}
           </template>
         </el-table-column>
-        <el-table-column
-          v-else-if="type === BuiltInDBType.User"
-          prop="username"
-          :label="$t('Base.username')"
-        >
+        <el-table-column v-else-if="type === BuiltInDBType.User" :label="$t('Base.username')">
           <template #default="{ row }">
             {{ replaceSpaceForHTML(row.username) }}
           </template>
         </el-table-column>
-        <el-table-column prop="rules" :label="$t('Auth.permissionCount')">
+        <el-table-column :label="$t('Auth.permissionCount')">
           <template #default="{ row }">
             {{ row.rules.length }}
           </template>
