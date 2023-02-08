@@ -24,6 +24,7 @@
                   v-model.number="delayedConfig.max_delayed_messages"
                   :readonly="delayedOption == 'unlimited'"
                   maxlength="6"
+                  type="number"
                 >
                   <template #append>
                     <el-select v-model="delayedOption">
