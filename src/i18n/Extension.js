@@ -309,4 +309,8 @@ export default {
     en: 'Enable to publish event message that client unsubscribed a topic successfully.',
     zh: '是否开启客户端已成功取消订阅主题事件消息。',
   },
+  proxySubTip: {
+    zh: '通过代理订阅为客户端订阅主题时，不会经过 AuthZ 检查权限。',
+    en: 'The authorization will not check permission when clients subscribe to topics through Auto Subscribe.',
+  },
 }
