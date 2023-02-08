@@ -32,7 +32,7 @@ const createTooltip = (xAxis: string, val: number | undefined) => {
   const container = document.createElement('div')
   container.className = 'rate-chart-tooltip'
   if (val === undefined) {
-    container.innerHTML = `<p class="tip">${tl('noData')}</p>`
+    container.innerHTML = `<p class="no-data">${tl('noData')}</p>`
   } else {
     container.innerHTML = `
     <p class="x-value">${xAxis}</p>
@@ -173,6 +173,10 @@ onMounted(() => {
   p {
     margin-top: 0;
     margin-bottom: 0;
+  }
+  .no-data {
+    color: var(--color-text-popper);
+    opacity: 0.7;
   }
   .x-value {
     margin-bottom: 4px;
