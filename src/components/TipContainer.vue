@@ -25,6 +25,10 @@ defineProps({
   background-color: var(--color-bg-split);
   border: 1px solid var(--color-border-normal);
   border-radius: 8px;
+  .result-tip {
+    display: flex;
+    align-items: center;
+  }
   .icon-tip {
     --color: var(--el-color-warning);
     margin-right: 4px;

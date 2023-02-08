@@ -152,7 +152,7 @@ export default {
     en: 'Please type the listener name to confirm.',
   },
   acceptors: {
-    zh: '接受器',
+    zh: '接收器',
     en: 'Acceptors',
   },
   proxyProtocol: {

@@ -37,6 +37,7 @@
       :title="isEdit ? $t('Base.edit') : $t('Base.add')"
       @close="closeDialog"
     >
+      <TipContainer :content="$t('Extension.proxySubTip')" />
       <el-form
         :rules="subsRules"
         :model="subsInput"
@@ -113,6 +114,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Plus } from '@element-plus/icons-vue'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig.ts'
 import { getLabelFromValueInOptionList } from '@/common/tools.ts'
+import TipContainer from '@/components/TipContainer.vue'
 
 const createRawSubForm = () => ({
   topic: '',
@@ -124,6 +126,8 @@ const createRawSubForm = () => ({
 
 export default defineComponent({
   name: 'Subscribe',
+
+  components: { TipContainer },
 
   setup() {
     const { t } = useI18n()
@@ -253,6 +257,6 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .el-form:not(:first-child) {
-  margin-top: 50px;
+  margin-top: 12px;
 }
 </style>
