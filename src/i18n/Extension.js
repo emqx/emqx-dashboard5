@@ -257,7 +257,7 @@ export default {
   },
   maxPayloadSizeDesc: {
     en: 'Maximum retained message size',
-    zh: '消息大小最大值',
+    zh: '保留消息的最大长度',
   },
   typeDesc: {
     en: 'Backend type',
