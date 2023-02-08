@@ -5,15 +5,7 @@
         <el-input v-model="row.key" class="key-input" @input="atInputChange" />
       </template>
     </el-table-column>
-    <el-table-column>
-      <template #header>
-        <span>{{ keyValueLabel.value }}</span>
-        <InfoTooltip>
-          <template #content>
-            <MarkdownContent :content="tl('fieldValueDesc')" />
-          </template>
-        </InfoTooltip>
-      </template>
+    <el-table-column :label="keyValueLabel.value">
       <template #default="{ row }">
         <el-input v-model="row.value" @input="atInputChange">
           <template #suffix>
@@ -49,8 +41,6 @@
 </template>
 
 <script lang="ts">
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
 import useInfluxdbFieldsEditor, {
   FieldValueType,
 } from '@/hooks/Rule/bridge/useInfluxdbFieldsEditor'
@@ -65,7 +55,7 @@ type kvRow = {
 }
 
 export default defineComponent({
-  components: { InfoTooltip, MarkdownContent, Warning },
+  components: { Warning },
   emits: ['update:modelValue', 'add'],
   props: {
     modelValue: {

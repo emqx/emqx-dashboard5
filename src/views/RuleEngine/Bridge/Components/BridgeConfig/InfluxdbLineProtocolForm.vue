@@ -15,7 +15,15 @@
       </el-form-item>
     </el-col>
     <el-col :span="24">
-      <el-form-item label="Fields" class="is-required" :error="fieldsErrorMsg">
+      <el-form-item class="is-required" :error="fieldsErrorMsg">
+        <template #label>
+          <span>Fields</span>
+          <InfoTooltip>
+            <template #content>
+              <MarkdownContent :content="tl('fieldValueDesc')" />
+            </template>
+          </InfoTooltip>
+        </template>
         <InfluxdbFieldsEditor
           :model-value="fieldMap"
           @update:model-value="handleFieldMapChanged"
@@ -33,7 +41,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'InfluxDBLineProtocolForm',
@@ -41,10 +48,13 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, Ref, defineProps, defineEmits, defineExpose, watch } from 'vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import useInfluxdbLineProtocol, { KeyValueItem } from '@/hooks/Rule/bridge/useInfluxdbLineProtocol'
+import useI18nTl from '@/hooks/useI18nTl'
+import { defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
+import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
 
 // TODO:the best implementation is bi-bind model value in time, maybe sometime can refactor
 
@@ -58,7 +68,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { t } = useI18nTl('Rule')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const measurement = ref('')
 const timestamp: Ref<undefined | string> = ref(undefined)
