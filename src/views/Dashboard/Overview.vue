@@ -133,23 +133,16 @@ interface MetricData {
 
 const POLLING_INTERVAL = 2000
 
+const createEmptyDataItem = (length: number) => ({
+  x: new Array(length).fill(undefined),
+  y: new Array(length).fill(undefined),
+})
+
 const currentMetricsLogs: Record<string, MetricData> = reactive({
-  received_msg_rate: {
-    x: Array(32).fill('N/A'),
-    y: Array(32).fill(0),
-  },
-  sent_msg_rate: {
-    x: Array(32).fill('N/A'),
-    y: Array(32).fill(0),
-  },
-  received_bytes_rate: {
-    x: Array(32).fill('N/A'),
-    y: Array(32).fill(0),
-  },
-  sent_bytes_rate: {
-    x: Array(32).fill('N/A'),
-    y: Array(32).fill(0),
-  },
+  received_msg_rate: createEmptyDataItem(32),
+  sent_msg_rate: createEmptyDataItem(32),
+  received_bytes_rate: createEmptyDataItem(32),
+  sent_bytes_rate: createEmptyDataItem(32),
 })
 const currentMetrics: Ref<Record<string, number>> = ref({
   node: 0, // Nodes number
