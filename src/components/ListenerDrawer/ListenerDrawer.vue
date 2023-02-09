@@ -223,6 +223,7 @@
               <el-input
                 v-model="listenerRecord[SSLConfigKey].password"
                 type="password"
+                autocomplete="one-time-code"
                 show-password
               />
             </el-form-item>
