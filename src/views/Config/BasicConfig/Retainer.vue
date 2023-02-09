@@ -245,7 +245,7 @@ const retainerRules = ref({
     max_retained_messages: validatorRules,
     storage_type: createRequiredRule('Storage', 'select'),
   },
-  max_payload_size: [...createRequiredRule('Max Payload Size'), numberRule],
+  max_payload_size: [...createRequiredRule(tl('maxPayloadSize')), numberRule],
   msg_expiry_interval: [...createRequiredRule(tl('expire')), numberRule],
   msg_clear_interval: [...createRequiredRule(tl('intervalClean')), numberRule],
   flow_control: {

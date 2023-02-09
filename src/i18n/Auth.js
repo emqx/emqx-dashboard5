@@ -160,12 +160,12 @@ export default {
     en: 'Cleared successfully',
   },
   maxSize: {
-    zh: '单客户端缓存条数',
-    en: 'Max number of cache per client',
+    zh: '缓存最大数量',
+    en: 'Maximum number of cached items',
   },
   ttl: {
-    zh: '缓存 TTL',
-    en: 'TTL',
+    zh: '缓存过期时间',
+    en: 'Time to live for the cached data',
   },
   authzCache: {
     zh: 'Authorization 缓存',

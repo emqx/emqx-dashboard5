@@ -175,8 +175,7 @@ onMounted(() => {
     margin-bottom: 0;
   }
   .no-data {
-    color: var(--color-text-popper);
-    opacity: 0.7;
+    color: #909090;
   }
   .x-value {
     margin-bottom: 4px;

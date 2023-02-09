@@ -168,7 +168,7 @@ export default {
     en: 'Manage Data',
   },
   maxDelayedMsg: {
-    zh: '最多消息延时数',
+    zh: '最大延迟消息数',
     en: 'Max Delayed Messages',
   },
   builtInDatabase: {
@@ -257,7 +257,7 @@ export default {
   },
   maxPayloadSizeDesc: {
     en: 'Maximum retained message size',
-    zh: '消息大小最大值',
+    zh: '保留消息的最大长度',
   },
   typeDesc: {
     en: 'Backend type',
