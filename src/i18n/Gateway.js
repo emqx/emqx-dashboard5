@@ -172,7 +172,7 @@ export default {
     en: 'Publish QoS',
   },
   resDirectory: {
-    en: 'Resource Defination Files Directory',
+    en: 'Resource Definition Files Directory',
     zh: '资源定义文件目录',
   },
   qmodewindow: {

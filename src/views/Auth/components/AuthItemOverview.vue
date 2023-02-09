@@ -67,7 +67,7 @@ const props = defineProps({
   },
   refreshLoading: {
     type: Boolean,
-    defalut: false,
+    default: false,
   },
 })
 

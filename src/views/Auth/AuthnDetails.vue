@@ -139,7 +139,7 @@ export default defineComponent({
     },
     gateway: {
       type: String,
-      requierd: false,
+      required: false,
       default: '',
     },
   },

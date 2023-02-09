@@ -1422,21 +1422,21 @@
                     "sndbuf": {
                         "default": "16KB",
                         "description": "Size of the kernel-level buffer for outgoing datagrams.",
-                        "label": "Cluster Muticast Sendbuf",
+                        "label": "Cluster Multicast Sendbuf",
                         "readOnly": true,
                         "type": "byteSize"
                     },
                     "recbuf": {
                         "default": "16KB",
                         "description": "Size of the kernel-level buffer for incoming datagrams.",
-                        "label": "Cluster Muticast Sendbuf",
+                        "label": "Cluster Multicast Sendbuf",
                         "readOnly": true,
                         "type": "byteSize"
                     },
                     "buffer": {
                         "default": "32KB",
                         "description": "Size of the user-level buffer.",
-                        "label": "Cluster Muticast Buffer",
+                        "label": "Cluster Multicast Buffer",
                         "readOnly": true,
                         "type": "byteSize"
                     }
