@@ -48,6 +48,7 @@ const QUERY_FOR_GO_CLOUD = createQueryStr({
 const QUERY_FOR_GO_ENTERPRISE = createQueryStr({
   utm_campaign: 'dashboard-header-upgrade-to-enterprise',
 })
+const QUERY_FOR_LICENSE = createQueryStr({ version: 5, utm_campaign: 'dashboard-to-license' })
 
 export default (lang: string): DocMap => {
   const accountsLink = lang === 'zh' ? 'accounts-zh.emqx.com' : 'accounts.emqx.com'
@@ -84,6 +85,6 @@ export default (lang: string): DocMap => {
     emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
     cloudHome: `https://www.emqx.com/${lang}/cloud?${QUERY_FOR_HELP}`,
     resetPassword: `https://docs.emqx.com/${lang}/enterprise/v5.0/admin/cli.html#admins`,
-    applyLicense: `https://www.emqx.com/${lang}/apply-licenses/emqx?product=emqx&utm_source=emqx-dashboard&utm_medium=referral&utm_campaign=dashboard-to-contact-us`,
+    applyLicense: `https://www.emqx.com/${lang}/apply-licenses/emqx?${QUERY_FOR_LICENSE}`,
   }
 }
