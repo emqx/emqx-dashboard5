@@ -209,14 +209,6 @@
           </el-col>
 
           <el-col :span="12">
-            <el-form-item :label="'Verify'">
-              <el-select v-model="listenerRecord[SSLConfigKey].verify">
-                <el-option value="verify_none" />
-                <el-option value="verify_peer" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item :label="'Fail If No Peer Cert'">
               <BooleanSelect v-model="listenerRecord[SSLConfigKey].fail_if_no_peer_cert" />
             </el-form-item>

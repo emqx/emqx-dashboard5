@@ -265,11 +265,11 @@ export default {
   },
   recvMsgDropped: {
     zh: '消息流入丢弃数',
-    en: 'Dropped Incomming Messages',
+    en: 'Dropped Incoming Messages',
   },
   recvMsgDroppedAwaitPubrelTimeout: {
     zh: '消息流入丢弃数（过期）',
-    en: 'Dropped Incomming Messages (Expired)',
+    en: 'Dropped Incoming Messages (Expired)',
   },
   sendMsgQos0: {
     zh: 'QoS 0 消息流出',
@@ -329,7 +329,7 @@ export default {
   },
   clientDetailErr: {
     zh: '客户端详情获取出错',
-    en: "There are some errors occured in retriving the client's detail",
+    en: "There are some errors occurred in retrieving the client's detail",
   },
   endpointName: {
     zh: 'Endpoint',
@@ -387,7 +387,7 @@ export default {
     zh: 'Retain Handling',
     en: 'Retain Handling',
   },
-  topicRequried: {
+  topicRequired: {
     zh: '主题不能为空',
     en: 'Topic is required',
   },

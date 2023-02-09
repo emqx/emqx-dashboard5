@@ -51,7 +51,7 @@ export default (): ListenerUtils => {
     ListenerType.SSL,
     ListenerType.WS,
     ListenerType.WSS,
-    // ListenerType.QUIC,
+    ListenerType.QUIC,
   ]
 
   /* 
@@ -66,7 +66,7 @@ export default (): ListenerUtils => {
     |                | QUIC | TCP  | SSL  | WS   | WSS  |
     | -------------- | ---- | ---- | ---- | ---- | ---- |
     | TCP            |      | ✓    | ✓    | ✓    | ✓    |
-    | SSL            |      |      | ✓    |      | ✓    |
+    | SSL            | ✓    |      | ✓    |      | ✓    |
     | UDP            |      |      |      |      |      |
     | WS             |      |      |      | ✓    | ✓    |
     | Proxy Protocol |      | ✓    | ✓    | ✓    | ✓    |
@@ -96,6 +96,7 @@ export default (): ListenerUtils => {
     ListenerTypeForGateway.SSL,
     ListenerType.SSL,
     ListenerType.WSS,
+    ListenerType.QUIC,
   ]
 
   const gatewayTypesWhichHasWSConfig = [ListenerType.WS, ListenerType.WSS]

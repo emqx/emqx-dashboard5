@@ -149,7 +149,7 @@
         <!-- Result -->
         <div v-if="testRes" :class="['create-form', 'result-block', isWork ? 'success' : 'error']">
           <div class="result-title">
-            {{ isWork ? $t('Auth.testSuccess') : $t('Auth.testFaild') }}
+            {{ isWork ? $t('Auth.testSuccess') : $t('Auth.testFailed') }}
           </div>
         </div>
         <div class="step-btn">
