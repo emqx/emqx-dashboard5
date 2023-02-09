@@ -351,10 +351,6 @@ export default {
     zh: '不再询问我',
     en: "Don't ask me again",
   },
-  know: {
-    zh: '知道了',
-    en: 'Acknowledge',
-  },
   expired: {
     zh: '过期',
     en: 'Expired',
