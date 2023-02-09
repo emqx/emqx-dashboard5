@@ -152,9 +152,9 @@ const currentMetricsLogs: Record<string, MetricData> = reactive({
 })
 const currentMetrics: Ref<Record<string, number>> = ref({
   node: 0, // Nodes number
-  received_msg_rate: 0, // Incomming Rate
+  received_msg_rate: 0, // Incoming Rate
   sent_msg_rate: 0, // Outgoing Rate
-  received_bytes_rate: 0, // Incomming Bytes Rate
+  received_bytes_rate: 0, // Incoming Bytes Rate
   sent_bytes_rate: 0, // Outgoing Bytes Rate
   subscriptions: 0, // Subs number
   connections: 0, // Connections number

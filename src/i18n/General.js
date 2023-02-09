@@ -157,7 +157,7 @@ export default {
   },
   changePassSuccess: {
     zh: '修改密码成功',
-    en: 'Changing Password Successully',
+    en: 'Changing Password Successfully',
   },
   passwordRequirement: {
     zh: '密码长度必须为 8～64 个字符；至少包含字母、数字、符号中的两种',

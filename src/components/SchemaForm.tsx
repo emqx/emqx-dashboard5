@@ -714,7 +714,7 @@ const SchemaForm = defineComponent({
       }, {})
     }
 
-    // Get the components to render form by Propoerties
+    // Get the components to render form by Properties
     const getComponents = (properties: Properties, meta: FormItemMeta) => {
       let [levelName, oldLevelName] = [meta.levelName || '', '']
       const elements: JSX.Element[] = []

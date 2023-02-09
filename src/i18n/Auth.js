@@ -119,7 +119,7 @@ export default {
     zh: '测试通过，您的配置可以正常使用',
     en: 'Test success, your configuration works fine',
   },
-  testFaild: {
+  testFailed: {
     zh: '测试失败',
     en: 'Test failed',
   },

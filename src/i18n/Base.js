@@ -27,7 +27,7 @@ export default {
     zh: '资源未找到',
     en: 'Resources not found',
   },
-  loging: {
+  logging: {
     zh: '登录中...',
     en: 'logging in...',
   },
@@ -117,7 +117,7 @@ export default {
   },
   resetSuccess: {
     zh: '重置成功',
-    en: 'Reseted Successfully',
+    en: 'Reset Successfully',
   },
   editSuccess: {
     zh: '编辑成功',
