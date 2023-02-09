@@ -50,15 +50,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('reconnectInterval')">
-            <TimeInputWithUnitSelect
-              v-model="connectorVal.reconnect_interval"
-              :enabled-units="['ms', 's', 'm', 'h', 'd']"
-              default-unit="s"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item :label="tl('retryInterval')">
             <TimeInputWithUnitSelect
               v-model="connectorVal.retry_interval"
