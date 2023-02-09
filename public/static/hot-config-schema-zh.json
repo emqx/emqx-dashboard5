@@ -1292,7 +1292,7 @@
                     },
                     "session_locking_strategy": {
                         "default": "quorum",
-                        "description": "Session 在集群中的锁策略。</br>  - `loca`: 仅锁本节点的 Session</br>  - `one`: 任选一个其它节点加锁</br>  - `quorum`: 选择集群中半数以上的节点加锁</br>  - `all`: 选择所有节点加锁</br>",
+                        "description": "Session 在集群中的锁策略。</br>  - `local`: 仅锁本节点的 Session</br>  - `one`: 任选一个其它节点加锁</br>  - `quorum`: 选择集群中半数以上的节点加锁</br>  - `all`: 选择所有节点加锁</br>",
                         "label": "session_locking_strategy",
                         "symbols": [
                             "local",

@@ -961,7 +961,7 @@ export default {
   },
   enableQueueDesc: {
     en: `Enable disk buffer queue (only applicable for egress bridges).
-When Enalbed, messages will be buffered on disk when the bridge connection is down.
+When Enabled, messages will be buffered on disk when the bridge connection is down.
 When disabled the messages are buffered in RAM only.`,
     zh: '启用磁盘缓存队列（仅对 egress 方向桥接有用）。',
   },
