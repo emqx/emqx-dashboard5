@@ -327,10 +327,6 @@ export default {
     zh: '不再提示',
     en: 'Stop showing this',
   },
-  know: {
-    zh: '知道了',
-    en: 'Acknowledge',
-  },
   expired: {
     zh: '过期',
     en: 'Expired',

@@ -19,17 +19,9 @@ export default {
     zh: '密码',
     en: 'Password',
   },
-  remember: {
-    zh: '记住',
-    en: 'remember',
-  },
   resourcesNotFound: {
     zh: '资源未找到',
     en: 'Resources not found',
-  },
-  logging: {
-    zh: '登录中...',
-    en: 'logging in...',
   },
   copied: {
     zh: '复制成功！',
@@ -194,10 +186,6 @@ export default {
   operation: {
     zh: '操作',
     en: 'Actions',
-  },
-  logining: {
-    zh: '登录中,请稍候...',
-    en: 'Logining.Please wait...',
   },
   opErr: {
     zh: '操作失败',
