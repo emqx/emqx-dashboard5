@@ -7,10 +7,6 @@ export default {
     zh: '系统主题',
     en: 'System Topics',
   },
-  sysTopicsDesc: {
-    zh: '周期性将运行状态，使用统计和即时客户端事件发布到 $SYS/ 开头的系统主题。',
-    en: 'Periodically publish running status, usage statistics and instant client events to system topics starting with $SYS/.',
-  },
   rewrite: {
     zh: '主题重写',
     en: 'Topic Rewrite',
@@ -224,20 +220,20 @@ export default {
     en: 'Client event',
   },
   clientConnected: {
-    zh: '客户端已连接',
-    en: 'Client connected',
+    zh: '客户端已连接提醒',
+    en: 'Client connected notification',
   },
   clientDisconnected: {
-    zh: '客户端断开连接',
-    en: 'Client disconnected',
+    zh: '客户端断开连接提醒',
+    en: 'Client disconnected notification ',
   },
   clientSubscribed: {
-    zh: '客户端订阅',
-    en: 'Client subscribed',
+    zh: '客户端订阅提醒',
+    en: 'Client subscribed notification ',
   },
   clientUnsubscribed: {
-    zh: '客户端取消订阅',
-    en: 'Client unsubscribed',
+    zh: '客户端取消订阅提醒',
+    en: 'Client unsubscribed notification ',
   },
   messages: {
     zh: '已保留消息',
