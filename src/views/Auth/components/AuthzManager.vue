@@ -137,7 +137,7 @@
           >
             <el-input v-model="record.username" :disabled="isEdit" />
           </el-form-item>
-          <el-form-item label="Permissions">
+          <el-form-item>
             <el-table class="form-table shadow-none" :data="rulesData">
               <el-table-column prop="permission" :label="$t('Auth.permission')">
                 <template #default="{ row }">
