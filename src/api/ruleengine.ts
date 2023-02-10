@@ -75,7 +75,7 @@ export function deleteBridge(id: string, withDependency = false): Promise<any> {
 }
 
 export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<number> {
-  return http.post(`/nodes/${node}/bridges/${bridgeID}/restart`)
+  return http.post(`/nodes/${node}/bridges/${bridgeID}/start`)
 }
 
 export async function resetBridgeMetrics(bridgeId: string): Promise<string> {
