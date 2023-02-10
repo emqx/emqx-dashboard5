@@ -83,6 +83,7 @@
             <el-form-item prop="password">
               <el-input
                 v-model.trim="newPasswordRecord.password"
+                autofocus
                 show-password
                 tabindex="1"
                 type="password"
