@@ -49,12 +49,9 @@
                 <el-input v-model="jwtConfig.secret" />
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="Secret Base64 Encoded">
-                <el-select v-model="jwtConfig.secret_base64_encoded">
-                  <el-option :value="true" label="True" />
-                  <el-option :value="false" label="False" />
-                </el-select>
+            <el-col :span="24">
+              <el-form-item :label="$t('Auth.secret_base64_encoded')">
+                <el-switch v-model="jwtConfig.secret_base64_encoded"></el-switch>
               </el-form-item>
             </el-col>
           </template>

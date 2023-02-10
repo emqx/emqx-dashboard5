@@ -51,6 +51,10 @@ export default {
     zh: '客户端携带 JWT 进行认证',
     en: 'Authentication using client JWT',
   },
+  secret_base64_encoded: {
+    zh: 'Secret 使用 Base64 编码',
+    en: 'Secret Base64 Encoded',
+  },
   scramDesc: {
     zh: 'MQTT 5.0 增强认证',
     en: 'MQTT 5 Enhanced Authentication',
