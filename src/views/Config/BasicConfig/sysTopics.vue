@@ -9,9 +9,6 @@
         class="schema-form"
       >
         <el-row>
-          <el-col :span="16">
-            <div class="tip sys-tip">{{ tl('sysTopicsDesc') }}</div>
-          </el-col>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="tl('messagePublishInterval')" prop="sys_msg_interval">
               <pre class="item-desc">{{ tl('sysMsgIntervalDesc') }}</pre>
@@ -35,10 +32,7 @@
               <p class="item-desc">
                 {{ tl('sysEventClientConnectedDesc') }}
               </p>
-              <BooleanSelect
-                v-model="sysTopics.sys_event_messages.client_connected"
-                v-bind="booleanSelectProps"
-              />
+              <el-switch v-model="sysTopics.sys_event_messages.client_connected"></el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
@@ -49,10 +43,7 @@
               <p class="item-desc">
                 {{ tl('sysEventClientDisconnectedDesc') }}
               </p>
-              <BooleanSelect
-                v-model="sysTopics.sys_event_messages.client_disconnected"
-                v-bind="booleanSelectProps"
-              />
+              <el-switch v-model="sysTopics.sys_event_messages.client_disconnected"></el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
@@ -63,10 +54,7 @@
               <p class="item-desc">
                 {{ tl('sysEventClientSubscribedDesc') }}
               </p>
-              <BooleanSelect
-                v-model="sysTopics.sys_event_messages.client_subscribed"
-                v-bind="booleanSelectProps"
-              />
+              <el-switch v-model="sysTopics.sys_event_messages.client_subscribed"></el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
@@ -77,10 +65,7 @@
               <p class="item-desc">
                 {{ tl('sysEventClientUnsubscribedDesc') }}
               </p>
-              <BooleanSelect
-                v-model="sysTopics.sys_event_messages.client_unsubscribed"
-                v-bind="booleanSelectProps"
-              />
+              <el-switch v-model="sysTopics.sys_event_messages.client_unsubscribed"></el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
@@ -105,7 +90,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { ref, Ref } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import BooleanSelect from '@/components/BooleanSelect.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { SysTopics } from '@/types/extension'
 import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/extension'
@@ -118,10 +102,6 @@ const store = useStore()
 const timeInputProps = {
   enabledUnits: ['s', 'm'],
   defaultUnit: 's',
-}
-const booleanSelectProps = {
-  trueLabel: t('Base.enabled'),
-  falseLabel: t('Base.disabled'),
 }
 
 const rules = {}
