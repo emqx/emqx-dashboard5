@@ -33,8 +33,16 @@
     </div>
     <el-table v-if="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
       <el-table-column v-if="false" type="expand" />
-      <el-table-column prop="permission" :label="$t('Auth.permission')" />
-      <el-table-column prop="action" :label="$t('Auth.action')" />
+      <el-table-column prop="action" :label="$t('Auth.action')">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.action, actionOpts) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="permission" :label="$t('Auth.permission')">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.permission, permissionOpts) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="topic" :label="$t('Base.topic')">
         <template #default="{ row }">
           {{ replaceSpaceForHTML(row.topic) }}
@@ -57,11 +65,14 @@
         <el-table-column type="expand">
           <template #default="{ row }">
             <el-table :data="row.rules">
-              <el-table-column prop="permission" :label="$t('Auth.permission')" min-width="80px">
-              </el-table-column>
               <el-table-column :label="$t('Auth.action')" min-width="80px">
                 <template #default="{ row }">
                   {{ getLabelFromValueInOptionList(row.action, actionOpts) }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="permission" :label="$t('Auth.permission')" min-width="80px">
+                <template #default="{ row }">
+                  {{ getLabelFromValueInOptionList(row.permission, permissionOpts) }}
                 </template>
               </el-table-column>
               <el-table-column prop="topic" :label="$t('Base.topic')" />
@@ -101,17 +112,24 @@
     <el-dialog :title="isEdit ? $t('Base.edit') : $t('Base.add')" v-model="dialogVisible">
       <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
         <template v-if="type === 'all'">
-          <el-form-item prop="permission" :label="$t('Auth.permission')">
-            <el-select v-model="record.permission">
-              <el-option value="allow" label="Allow" />
-              <el-option value="deny" label="Deny" />
-            </el-select>
-          </el-form-item>
           <el-form-item prop="action" :label="$t('Auth.action')">
             <el-select v-model="record.action">
-              <el-option value="publish" label="Publish" />
-              <el-option value="subscribe" label="Subscribe" />
-              <el-option value="all" label="All" />
+              <el-option
+                v-for="{ label, value } in actionOpts"
+                :key="value"
+                :value="value"
+                :label="label"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="permission" :label="$t('Auth.permission')">
+            <el-select v-model="record.permission">
+              <el-option
+                v-for="{ label, value } in permissionOpts"
+                :key="value"
+                :value="value"
+                :label="label"
+              />
             </el-select>
           </el-form-item>
           <el-form-item prop="topic">
@@ -137,21 +155,25 @@
           >
             <el-input v-model="record.username" :disabled="isEdit" />
           </el-form-item>
-          <el-form-item label="Permissions">
+          <el-form-item>
             <el-table class="form-table shadow-none" :data="rulesData">
-              <el-table-column prop="permission" :label="$t('Auth.permission')">
-                <template #default="{ row }">
-                  <el-select v-model="row.permission">
-                    <el-option value="allow" label="Allow" />
-                    <el-option value="deny" label="Deny" />
-                  </el-select>
-                </template>
-              </el-table-column>
               <el-table-column prop="action" :label="$t('Auth.action')" :width="220">
                 <template #default="{ row }">
                   <el-select v-model="row.action">
                     <el-option
                       v-for="{ label, value } in actionOpts"
+                      :key="value"
+                      :value="value"
+                      :label="label"
+                    />
+                  </el-select>
+                </template>
+              </el-table-column>
+              <el-table-column prop="permission" :label="$t('Auth.permission')">
+                <template #default="{ row }">
+                  <el-select v-model="row.permission">
+                    <el-option
+                      v-for="{ label, value } in permissionOpts"
                       :key="value"
                       :value="value"
                       :label="label"
@@ -261,9 +283,14 @@ export default defineComponent({
     const searchVal = ref('')
 
     const actionOpts = [
-      { value: 'publish', label: 'Publish' },
-      { value: 'subscribe', label: 'Subscribe' },
-      { value: 'all', label: 'Publish & Subscribe' },
+      { value: 'publish', label: t('Auth.publish') },
+      { value: 'subscribe', label: t('Auth.subscribe') },
+      { value: 'all', label: t('Auth.all') },
+    ]
+
+    const permissionOpts = [
+      { value: 'allow', label: t('Auth.allow') },
+      { value: 'deny', label: t('Auth.deny') },
     ]
 
     const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
@@ -493,6 +520,7 @@ export default defineComponent({
       pageMeta,
       searchVal,
       actionOpts,
+      permissionOpts,
       loadData,
       getRules,
       handleAdd,

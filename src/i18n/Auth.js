@@ -51,6 +51,10 @@ export default {
     zh: '客户端携带 JWT 进行认证',
     en: 'Authentication using client JWT',
   },
+  secret_base64_encoded: {
+    zh: 'Secret 使用 Base64 编码',
+    en: 'Secret Base64 Encoded',
+  },
   scramDesc: {
     zh: 'MQTT 5.0 增强认证',
     en: 'MQTT 5 Enhanced Authentication',
@@ -426,5 +430,17 @@ export default {
   noMatchAuthzDesc: {
     zh: '未查找到客户端权限数据次数',
     en: 'Number of times client authorizations data not found',
+  },
+  publish: {
+    zh: '发布时',
+    en: 'Publish',
+  },
+  subscribe: {
+    zh: '订阅时',
+    en: 'Subscribe',
+  },
+  all: {
+    zh: '发布和订阅时',
+    en: 'Publish & Subscribe',
   },
 }
