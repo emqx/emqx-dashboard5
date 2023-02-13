@@ -19,10 +19,6 @@ export default {
     zh: '类型',
     en: 'Type',
   },
-  triggerThreshold: {
-    zh: '触发阈值',
-    en: 'Trigger threshold',
-  },
   triggerNode: {
     zh: '触发节点',
     en: 'Trigger Node',
@@ -38,10 +34,6 @@ export default {
   activateAt: {
     zh: '开始时间',
     en: 'Activate At',
-  },
-  deactivateAt: {
-    zh: '结束时间',
-    en: 'Deactivate At',
   },
   activateTime: {
     zh: '告警时间',

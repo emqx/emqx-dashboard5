@@ -60,7 +60,6 @@
           <el-input v-model="record.description" />
         </el-form-item>
         <el-form-item v-if="accessType !== 'edit'" prop="password" :label="tl('password')">
-          <!-- TODO: set autocomplete by judge current user -->
           <el-input v-model="record.password" type="password" autocomplete="new-password" />
         </el-form-item>
         <div v-if="accessType === 'chPass'">
