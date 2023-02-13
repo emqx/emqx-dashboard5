@@ -18,12 +18,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -34,10 +34,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_sentinel"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -108,7 +108,7 @@
                 "properties": {
                     "mode": {
                         "default": "memory",
-                        "description": "Message buffer mode.<br/><br/><code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart<br/><code>disc</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.<br/><code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.",
+                        "description": "Message buffer mode.<br/><br/><code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart<br/><code>disk</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.<br/><code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.",
                         "label": "Buffer Mode",
                         "symbols": [
                             "memory",
@@ -153,12 +153,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```<br/>",
+                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```",
                         "format": "sql",
                         "label": "Write Syntax",
                         "type": "string"
@@ -171,7 +171,7 @@
                     },
                     "server": {
                         "default": "127.0.0.1:8086",
-                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -227,116 +227,6 @@
                 },
                 "type": "object"
             },
-            "bridge_mongodb.creation_opts": {
-                "properties": {
-                    "worker_pool_size": {
-                        "default": 16,
-                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
-                        "label": "Buffer Pool Size",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "health_check_interval": {
-                        "default": "15s",
-                        "description": "Health check interval.",
-                        "label": "Health Check Interval",
-                        "type": "duration"
-                    },
-                    "start_after_created": {
-                        "default": "true",
-                        "description": "Whether start the resource right after created.",
-                        "label": "Start After Created",
-                        "type": "boolean"
-                    },
-                    "start_timeout": {
-                        "default": "5s",
-                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
-                        "label": "Start Timeout",
-                        "type": "duration"
-                    },
-                    "auto_restart_interval": {
-                        "default": "60s",
-                        "description": "The auto restart interval after the resource is disconnected.",
-                        "label": "Auto Restart Interval",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "query_mode": {
-                        "default": "sync",
-                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
-                        "label": "Query mode",
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "request_timeout": {
-                        "default": "15s",
-                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
-                        "label": "Request timeout",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "async_inflight_window": {
-                        "default": 100,
-                        "description": "Async query inflight window.",
-                        "label": "Async inflight window",
-                        "type": "string"
-                    },
-                    "enable_batch": {
-                        "default": true,
-                        "deprecated": "since(\"v5.0.14\")",
-                        "description": "Batch mode enabled.",
-                        "label": "Enable batch",
-                        "type": "boolean"
-                    },
-                    "batch_size": {
-                        "default": 1,
-                        "description": "Maximum batch count. If equal to 1, there's effectively no batching.",
-                        "label": "Batch size",
-                        "type": "string"
-                    },
-                    "batch_time": {
-                        "default": "20ms",
-                        "description": "Maximum batch waiting interval.",
-                        "label": "Batch time",
-                        "type": "duration"
-                    },
-                    "enable_queue": {
-                        "default": false,
-                        "deprecated": "since(\"v5.0.14\")",
-                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
-                        "label": "Enable disk buffer queue",
-                        "type": "boolean"
-                    },
-                    "max_queue_bytes": {
-                        "default": "100MB",
-                        "description": "Maximum number of bytes to buffer for each buffer worker.",
-                        "label": "Max buffer queue size",
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            },
             "connector-mqtt.ingress": {
                 "properties": {
                     "remote": {
@@ -369,12 +259,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```<br/>",
+                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```",
                         "format": "sql",
                         "label": "Write Syntax",
                         "type": "string"
@@ -387,7 +277,7 @@
                     },
                     "server": {
                         "default": "127.0.0.1:8086",
-                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -485,12 +375,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```<br/>",
+                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```",
                         "format": "sql",
                         "label": "Write Syntax",
                         "type": "string"
@@ -503,7 +393,7 @@
                     },
                     "server": {
                         "default": "127.0.0.1:8086",
-                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -541,6 +431,109 @@
                         "description": "SSL connection settings.",
                         "label": "Enable SSL",
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_redis.creation_opts_redis_single": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "Health check interval.",
+                        "label": "Health Check Interval",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "The auto restart interval after the resource is disconnected.",
+                        "label": "Auto Restart Interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Only support 'sync'.",
+                        "label": "Query mode",
+                        "symbols": [
+                            "sync"
+                        ],
+                        "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "enable_batch": {
+                        "default": true,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Batch mode enabled.",
+                        "label": "Enable batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 1,
+                        "description": "Maximum batch count. If equal to 1, there's effectively no batching.",
+                        "label": "Batch size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "20ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "Batch time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -681,7 +674,7 @@
                         "type": "enum"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -777,7 +770,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -812,7 +805,7 @@
                         "type": "enum"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -908,7 +901,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     }
                 },
                 "type": "object"
@@ -1107,12 +1100,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```<br/>",
+                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```",
                         "format": "sql",
                         "label": "Write Syntax",
                         "type": "string"
@@ -1125,7 +1118,7 @@
                     },
                     "server": {
                         "default": "127.0.0.1:8086",
-                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -1219,7 +1212,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -1230,7 +1223,7 @@
                         "$ref": "#/components/schemas/bridge_mysql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MySQL default port 3306 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MySQL default port 3306 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -1329,7 +1322,7 @@
                         "type": "enum"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -1410,7 +1403,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -1485,7 +1478,7 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "<br/>The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -1517,13 +1510,13 @@
                 ],
                 "properties": {
                     "topic": {
-                        "description": "<br/>Forward to which topic of the remote broker.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "Forward to which topic of the remote broker.<br/><br/>Template with variables is allowed.",
                         "label": "Remote Topic",
                         "type": "string"
                     },
                     "qos": {
                         "default": 1,
-                        "description": "<br/>The QoS of the MQTT message to be sent.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The QoS of the MQTT message to be sent.<br/><br/>Template with variables is allowed.",
                         "label": "Remote QoS",
                         "oneOf": [
                             {
@@ -1541,7 +1534,7 @@
                     },
                     "retain": {
                         "default": false,
-                        "description": "<br/>The 'retain' flag of the MQTT message to be sent.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The 'retain' flag of the MQTT message to be sent.<br/><br/>Template with variables is allowed.",
                         "label": "Retain Flag",
                         "oneOf": [
                             {
@@ -1553,7 +1546,7 @@
                         ]
                     },
                     "payload": {
-                        "description": "<br/>The payload of the MQTT message to be sent.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The payload of the MQTT message to be sent.<br/><br/>Template with variables is allowed.",
                         "label": "Payload",
                         "type": "string"
                     }
@@ -1577,12 +1570,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -1593,10 +1586,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_sentinel"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -1720,7 +1713,7 @@
                     },
                     "start_timeout": {
                         "default": "5s",
-                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
                         "label": "Start Timeout",
                         "type": "duration"
                     },
@@ -1742,7 +1735,7 @@
                     },
                     "query_mode": {
                         "default": "async",
-                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "description": "Query mode. Optional 'sync/async', default 'async'.",
                         "label": "Query mode",
                         "symbols": [
                             "sync",
@@ -1853,7 +1846,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -1864,7 +1857,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -1921,12 +1914,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```<br/>",
+                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```",
                         "format": "sql",
                         "label": "Write Syntax",
                         "type": "string"
@@ -1939,7 +1932,7 @@
                     },
                     "server": {
                         "default": "127.0.0.1:8086",
-                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -2002,7 +1995,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -2013,7 +2006,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -2092,7 +2085,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -2103,7 +2096,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -2203,7 +2196,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -2241,7 +2234,7 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "<br/>The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -2303,7 +2296,7 @@
                         "type": "enum"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -2384,7 +2377,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -2420,7 +2413,7 @@
                         "type": "enum"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -2501,7 +2494,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -2537,6 +2530,109 @@
                 },
                 "type": "object"
             },
+            "resource_schema.creation_opts_sync_only": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "Health check interval.",
+                        "label": "Health Check Interval",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "The auto restart interval after the resource is disconnected.",
+                        "label": "Auto Restart Interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Only support 'sync'.",
+                        "label": "Query mode",
+                        "symbols": [
+                            "sync"
+                        ],
+                        "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "enable_batch": {
+                        "default": true,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Batch mode enabled.",
+                        "label": "Enable batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 1,
+                        "description": "Maximum batch count. If equal to 1, there's effectively no batching.",
+                        "label": "Batch size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "20ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "Batch time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
+                        "type": "byteSize"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_matrix.put": {
                 "required": [
                     "database",
@@ -2557,7 +2653,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -2568,7 +2664,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -2649,7 +2745,7 @@
                         "type": "enum"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -2745,7 +2841,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -2779,7 +2875,7 @@
                         "type": "enum"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -2860,7 +2956,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     }
                 },
                 "type": "object"
@@ -2950,7 +3046,7 @@
                         "type": "string"
                     },
                     "request": {
-                        "description": "<br/>If the request is provided, the caller can send HTTP requests via<br/><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code><br/>",
+                        "description": "Configure HTTP request parameters.",
                         "label": "Request",
                         "$ref": "#/components/schemas/connector-http.request"
                     },
@@ -2963,7 +3059,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "url": {
-                        "description": "<br/>The URL of the HTTP Bridge.<br/><br/>Template with variables is allowed in the path, but variables cannot be used in the scheme, host,<br/>or port part.<br/><br/>For example, <code> http://localhost:9901/${topic} </code> is allowed, but<br/><code> http://${host}:9901/message </code> or <code> http://localhost:${port}/message </code><br/>is not allowed.<br/>",
+                        "description": "The URL of the HTTP Bridge.<br/><br/>Template with variables is allowed in the path, but variables cannot be used in the scheme, host,<br/>or port part.<br/><br/>For example, <code> http://localhost:9901/${topic} </code> is allowed, but<br/><code> http://${host}:9901/message </code> or <code> http://localhost:${port}/message </code><br/>is not allowed.",
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
@@ -2977,13 +3073,13 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "<br/>The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "method": {
                         "default": "post",
-                        "description": "<br/>The method of the HTTP request. All the available methods are: post, put, get, delete.<br/><br/>Template with variables is allowed.<br/><br/>",
+                        "description": "The method of the HTTP request. All the available methods are: post, put, get, delete.<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Method",
                         "symbols": [
                             "post",
@@ -3001,12 +3097,12 @@
                             "content-type": "application/json",
                             "keep-alive": "timeout=5"
                         },
-                        "description": "<br/>The headers of the HTTP request.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The headers of the HTTP request.<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Header",
                         "type": "object"
                     },
                     "body": {
-                        "description": "<br/>The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Body",
                         "type": "string"
                     },
@@ -3057,12 +3153,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -3073,10 +3169,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_cluster"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -3220,12 +3316,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "write_syntax": {
-                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```<br/>",
+                        "description": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```",
                         "format": "sql",
                         "label": "Write Syntax",
                         "type": "string"
@@ -3238,7 +3334,7 @@
                     },
                     "server": {
                         "default": "127.0.0.1:8086",
-                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -3445,7 +3541,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -3458,6 +3554,90 @@
                         "description": "JSON containing the GCP Service Account credentials to be used with PubSub.<br/>When a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
                         "label": "GCP Service Account Credentials",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_redis.creation_opts_redis_cluster": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "Health check interval.",
+                        "label": "Health Check Interval",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "The auto restart interval after the resource is disconnected.",
+                        "label": "Auto Restart Interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Only support 'sync'.",
+                        "label": "Query mode",
+                        "symbols": [
+                            "sync"
+                        ],
+                        "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -3496,23 +3676,23 @@
             "broker.ssl_client_opts": {
                 "properties": {
                     "cacertfile": {
-                        "description": "<br/>Trusted PEM format CA certificates bundle file.<br/><br/>The certificates in this file are used to verify the TLS peer's certificates.<br/>Append new certificates to the file if new CAs are to be trusted.<br/>There is no need to restart EMQX to have the updated file loaded, because<br/>the system regularly checks if file has been updated (and reload).<br/><br/>NOTE: invalidating (deleting) a certificate from the file will not affect<br/>already established connections.<br/>",
+                        "description": "Trusted PEM format CA certificates bundle file.<br/><br/>The certificates in this file are used to verify the TLS peer's certificates.<br/>Append new certificates to the file if new CAs are to be trusted.<br/>There is no need to restart EMQX to have the updated file loaded, because<br/>the system regularly checks if file has been updated (and reload).<br/><br/>NOTE: invalidating (deleting) a certificate from the file will not affect<br/>already established connections.",
                         "label": "CACertfile",
                         "type": "string"
                     },
                     "certfile": {
-                        "description": "<br/>PEM format certificates chain file.<br/><br/>The certificates in this file should be in reversed order of the certificate<br/>issue chain. That is, the host's certificate should be placed in the beginning<br/>of the file, followed by the immediate issuer certificate and so on.<br/>Although the root CA certificate is optional, it should be placed at the end of<br/>the file if it is to be added.<br/>",
+                        "description": "PEM format certificates chain file.<br/><br/>The certificates in this file should be in reversed order of the certificate<br/>issue chain. That is, the host's certificate should be placed in the beginning<br/>of the file, followed by the immediate issuer certificate and so on.<br/>Although the root CA certificate is optional, it should be placed at the end of<br/>the file if it is to be added.",
                         "label": "Certfile",
                         "type": "string"
                     },
                     "keyfile": {
-                        "description": "PEM format private key file. ",
+                        "description": "PEM format private key file.",
                         "label": "Keyfile",
                         "type": "string"
                     },
                     "verify": {
                         "default": "verify_none",
-                        "description": "Enable or disable peer verification. ",
+                        "description": "Enable or disable peer verification.",
                         "label": "Verify peer",
                         "symbols": [
                             "verify_peer",
@@ -3522,18 +3702,18 @@
                     },
                     "reuse_sessions": {
                         "default": true,
-                        "description": "Enable TLS session reuse. ",
+                        "description": "Enable TLS session reuse.",
                         "label": "TLS session reuse",
                         "type": "boolean"
                     },
                     "depth": {
                         "default": 10,
-                        "description": "<br/>Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.<br/>So, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/><br/>if 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/><br/>if 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.<br/><br/>",
+                        "description": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.<br/>So, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/><br/>if 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/><br/>if 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
                         "label": "CACert Depth",
                         "type": "number"
                     },
                     "password": {
-                        "description": "<br/>String containing the user's password.<br/>Only used if the private key file is password-protected.<br/>",
+                        "description": "String containing the user's password. Only used if the private key file is password-protected.",
                         "example": "",
                         "format": "password",
                         "label": "Keyfile passphrase",
@@ -3546,7 +3726,7 @@
                             "tlsv1.1",
                             "tlsv1"
                         ],
-                        "description": "<br/>All TLS/DTLS versions to be supported.<br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/><br/>In case PSK cipher suites are intended, make sure to configure<br/><code>['tlsv1.2', 'tlsv1.1']</code> here.<br/>",
+                        "description": "All TLS/DTLS versions to be supported.<br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/><br/>In case PSK cipher suites are intended, make sure to configure<br/><code>['tlsv1.2', 'tlsv1.1']</code> here.",
                         "items": {
                             "type": "string"
                         },
@@ -3555,7 +3735,7 @@
                     },
                     "ciphers": {
                         "default": "",
-                        "description": "<br/>This config holds TLS cipher suite names separated by comma,<br/>or as an array of strings. e.g.<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.<br/><br/><br/>Ciphers (and their ordering) define the way in which the<br/>client and server encrypts information over the network connection.<br/>Selecting a good cipher suite is critical for the<br/>application's data security, confidentiality and performance.<br/><br/>The names should be in OpenSSL string format (not RFC format).<br/>All default values and examples provided by EMQX config<br/>documentation are all in OpenSSL format.<br/><br/><br/>NOTE: Certain cipher suites are only compatible with<br/>specific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')<br/>incompatible cipher suites will be silently dropped.<br/>For instance, if only 'tlsv1.3' is given in the <code>versions</code>,<br/>configuring cipher suites for other versions will have no effect.<br/><br/><br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/><br/>If PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/><br/>PSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code><br/><br/>",
+                        "description": "This config holds TLS cipher suite names separated by comma,<br/>or as an array of strings. e.g.<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.<br/><br/><br/>Ciphers (and their ordering) define the way in which the<br/>client and server encrypts information over the network connection.<br/>Selecting a good cipher suite is critical for the<br/>application's data security, confidentiality and performance.<br/><br/>The names should be in OpenSSL string format (not RFC format).<br/>All default values and examples provided by EMQX config<br/>documentation are all in OpenSSL format.<br/><br/><br/>NOTE: Certain cipher suites are only compatible with<br/>specific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')<br/>incompatible cipher suites will be silently dropped.<br/>For instance, if only 'tlsv1.3' is given in the <code>versions</code>,<br/>configuring cipher suites for other versions will have no effect.<br/><br/><br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/><br/>If PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/><br/>PSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
                         "items": {
                             "type": "string"
                         },
@@ -3564,24 +3744,24 @@
                     },
                     "user_lookup_fun": {
                         "default": "emqx_tls_psk:lookup",
-                        "description": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity. ",
+                        "description": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
                         "label": "SSL PSK user lookup fun",
                         "type": "string"
                     },
                     "secure_renegotiate": {
                         "default": true,
-                        "description": "<br/>SSL parameter renegotiation is a feature that allows a client and a server<br/>to renegotiate the parameters of the SSL connection on the fly.<br/>RFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,<br/>you drop support for the insecure renegotiation, prone to MitM attacks.<br/>",
+                        "description": "SSL parameter renegotiation is a feature that allows a client and a server<br/>to renegotiate the parameters of the SSL connection on the fly.<br/>RFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,<br/>you drop support for the insecure renegotiation, prone to MitM attacks.",
                         "label": "SSL renegotiate",
                         "type": "boolean"
                     },
                     "enable": {
                         "default": false,
-                        "description": "Enable TLS. ",
+                        "description": "Enable TLS.",
                         "label": "Enable TLS.",
                         "type": "boolean"
                     },
                     "server_name_indication": {
-                        "description": "<br/>Specify the host name to be used in TLS Server Name Indication extension.<br/><br/>For instance, when connecting to \"server.example.net\", the genuine server<br/>which accepts the connection and performs TLS handshake may differ from the<br/>host the TLS client initially connects to, e.g. when connecting to an IP address<br/>or when the host has multiple resolvable DNS records <br/><br/>If not specified, it will default to the host name string which is used<br/>to establish the connection, unless it is IP addressed used.<br/><br/>The host name is then also used in the host name verification of the peer<br/>certificate.<br/> The special value 'disable' prevents the Server Name<br/>Indication extension from being sent and disables the hostname<br/>verification check.<br/>",
+                        "description": "Specify the host name to be used in TLS Server Name Indication extension.<br/><br/>For instance, when connecting to \"server.example.net\", the genuine server<br/>which accepts the connection and performs TLS handshake may differ from the<br/>host the TLS client initially connects to, e.g. when connecting to an IP address<br/>or when the host has multiple resolvable DNS records <br/><br/>If not specified, it will default to the host name string which is used<br/>to establish the connection, unless it is IP addressed used.<br/><br/>The host name is then also used in the host name verification of the peer<br/>certificate.<br/> The special value 'disable' prevents the Server Name<br/>Indication extension from being sent and disables the hostname<br/>verification check.",
                         "example": "disable",
                         "label": "Server Name Indication",
                         "oneOf": [
@@ -3615,12 +3795,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -3631,10 +3811,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_single"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The Redis default port 6379 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -3737,7 +3917,7 @@
                     },
                     "start_timeout": {
                         "default": "5s",
-                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
                         "label": "Start Timeout",
                         "type": "duration"
                     },
@@ -3759,7 +3939,7 @@
                     },
                     "query_mode": {
                         "default": "async",
-                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "description": "Query mode. Optional 'sync/async', default 'async'.",
                         "label": "Query mode",
                         "symbols": [
                             "sync",
@@ -3820,12 +4000,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -3836,10 +4016,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_cluster"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -3966,7 +4146,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -3977,7 +4157,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -4074,7 +4254,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -4085,7 +4265,7 @@
                         "$ref": "#/components/schemas/bridge_mysql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MySQL default port 3306 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MySQL default port 3306 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -4145,12 +4325,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -4161,10 +4341,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_cluster"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -4239,7 +4419,7 @@
                     },
                     "mode": {
                         "default": "cluster_shareload",
-                        "description": "<br/>The mode of the MQTT Bridge.<br/><br/><br/>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.<br/><br/>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by<br/>using shared subscription.<br/><br/>Note that the 'clientid' is suffixed by the node name, this is to avoid<br/>clientid conflicts between different nodes. And we can only use shared subscription<br/>topic filters for <code>remote.topic</code> of ingress connections.<br/>",
+                        "description": "The mode of the MQTT Bridge.<br/><br/>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.<br/><br/>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by<br/>using shared subscription.<br/><br/>Note that the 'clientid' is suffixed by the node name, this is to avoid<br/>clientid conflicts between different nodes. And we can only use shared subscription<br/>topic filters for <code>remote.topic</code> of ingress connections.",
                         "label": "MQTT Bridge Mode",
                         "symbols": [
                             "cluster_shareload"
@@ -4256,12 +4436,6 @@
                         "label": "Clientid Prefix",
                         "type": "string"
                     },
-                    "reconnect_interval": {
-                        "default": "15s",
-                        "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:<br/>- `ms` for milliseconds,<br/>- `s` for seconds,<br/>- `m` for minutes,<br/>- `h` for hours;<br/><br/>or combination of whereof: `1h5m0s`",
-                        "label": "reconnect_interval",
-                        "type": "string"
-                    },
                     "proto_ver": {
                         "default": "v4",
                         "description": "The MQTT protocol version",
@@ -4275,7 +4449,7 @@
                     },
                     "bridge_mode": {
                         "default": false,
-                        "description": "<br/>If enable bridge mode.<br/>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT<br/>broker MUST support this feature.<br/>    ",
+                        "description": "If enable bridge mode.<br/>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT<br/>broker MUST support this feature.",
                         "label": "Bridge Mode",
                         "type": "boolean"
                     },
@@ -4292,6 +4466,7 @@
                     },
                     "clean_start": {
                         "default": true,
+                        "deprecated": "since(\"v5.0.16\")",
                         "description": "The clean-start or the clean-session of the MQTT protocol",
                         "label": "Clean Session",
                         "type": "boolean"
@@ -4390,7 +4565,7 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "<br/>The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -4412,6 +4587,109 @@
                                 "type": "string"
                             }
                         ]
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_redis.creation_opts_redis_sentinel": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.",
+                        "label": "Buffer Pool Size",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "Health check interval.",
+                        "label": "Health Check Interval",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "Whether start the resource right after created.",
+                        "label": "Start After Created",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
+                        "label": "Start Timeout",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "The auto restart interval after the resource is disconnected.",
+                        "label": "Auto Restart Interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "sync",
+                        "description": "Query mode. Only support 'sync'.",
+                        "label": "Query mode",
+                        "symbols": [
+                            "sync"
+                        ],
+                        "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.",
+                        "label": "Request timeout",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "enable_batch": {
+                        "default": true,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Batch mode enabled.",
+                        "label": "Enable batch",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 1,
+                        "description": "Maximum batch count. If equal to 1, there's effectively no batching.",
+                        "label": "Batch size",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "20ms",
+                        "description": "Maximum batch waiting interval.",
+                        "label": "Batch time",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": "since(\"v5.0.14\")",
+                        "description": "Enable disk buffer queue (only applicable for egress bridges).<br/>When Enabled, messages will be buffered on disk when the bridge connection is down.<br/>When disabled the messages are buffered in RAM only.",
+                        "label": "Enable disk buffer queue",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "Maximum number of bytes to buffer for each buffer worker.",
+                        "label": "Max buffer queue size",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -4469,7 +4747,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -4480,7 +4758,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -4577,7 +4855,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -4588,7 +4866,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -4669,7 +4947,7 @@
                     },
                     "mode": {
                         "default": "cluster_shareload",
-                        "description": "<br/>The mode of the MQTT Bridge.<br/><br/><br/>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.<br/><br/>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by<br/>using shared subscription.<br/><br/>Note that the 'clientid' is suffixed by the node name, this is to avoid<br/>clientid conflicts between different nodes. And we can only use shared subscription<br/>topic filters for <code>remote.topic</code> of ingress connections.<br/>",
+                        "description": "The mode of the MQTT Bridge.<br/><br/>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.<br/><br/>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by<br/>using shared subscription.<br/><br/>Note that the 'clientid' is suffixed by the node name, this is to avoid<br/>clientid conflicts between different nodes. And we can only use shared subscription<br/>topic filters for <code>remote.topic</code> of ingress connections.",
                         "label": "MQTT Bridge Mode",
                         "symbols": [
                             "cluster_shareload"
@@ -4686,12 +4964,6 @@
                         "label": "Clientid Prefix",
                         "type": "string"
                     },
-                    "reconnect_interval": {
-                        "default": "15s",
-                        "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:<br/>- `ms` for milliseconds,<br/>- `s` for seconds,<br/>- `m` for minutes,<br/>- `h` for hours;<br/><br/>or combination of whereof: `1h5m0s`",
-                        "label": "reconnect_interval",
-                        "type": "string"
-                    },
                     "proto_ver": {
                         "default": "v4",
                         "description": "The MQTT protocol version",
@@ -4705,7 +4977,7 @@
                     },
                     "bridge_mode": {
                         "default": false,
-                        "description": "<br/>If enable bridge mode.<br/>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT<br/>broker MUST support this feature.<br/>    ",
+                        "description": "If enable bridge mode.<br/>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT<br/>broker MUST support this feature.",
                         "label": "Bridge Mode",
                         "type": "boolean"
                     },
@@ -4722,6 +4994,7 @@
                     },
                     "clean_start": {
                         "default": true,
+                        "deprecated": "since(\"v5.0.16\")",
                         "description": "The clean-start or the clean-session of the MQTT protocol",
                         "label": "Clean Session",
                         "type": "boolean"
@@ -4789,7 +5062,7 @@
                     },
                     "start_timeout": {
                         "default": "5s",
-                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
                         "label": "Start Timeout",
                         "type": "duration"
                     },
@@ -4810,12 +5083,11 @@
                         ]
                     },
                     "query_mode": {
-                        "default": "async",
-                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "default": "sync",
+                        "description": "Query mode. Only support 'sync'.",
                         "label": "Query mode",
                         "symbols": [
-                            "sync",
-                            "async"
+                            "sync"
                         ],
                         "type": "enum"
                     },
@@ -4885,12 +5157,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -4901,10 +5173,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_sentinel"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -4992,7 +5264,7 @@
                     },
                     "partition_strategy": {
                         "default": "random",
-                        "description": "Partition strategy is to tell the producer how to dispatch messages to Kafka partitions.<br/><br/><code>random</code>: Randomly pick a partition for each message<br/><code>key_dispatch</code>: Hash Kafka message key to a partition number<br/>",
+                        "description": "Partition strategy is to tell the producer how to dispatch messages to Kafka partitions.<br/><br/><code>random</code>: Randomly pick a partition for each message<br/><code>key_dispatch</code>: Hash Kafka message key to a partition number",
                         "label": "Partition Strategy",
                         "symbols": [
                             "random",
@@ -5002,7 +5274,7 @@
                     },
                     "required_acks": {
                         "default": "all_isr",
-                        "description": "Required acknowledgements for Kafka partition leader to wait for its followers before it sends back the acknowledgement to EMQX Kafka producer<br/><br/><code>all_isr</code>: Require all in-sync replicas to acknowledge.<br/><code>leader_only</code>: Require only the partition-leader's acknowledgement.<br/><code>none</code>: No need for Kafka to acknowledge at all.<br/>",
+                        "description": "Required acknowledgements for Kafka partition leader to wait for its followers before it sends back the acknowledgement to EMQX Kafka producer<br/><br/><code>all_isr</code>: Require all in-sync replicas to acknowledge.<br/><code>leader_only</code>: Require only the partition-leader's acknowledgement.<br/><code>none</code>: No need for Kafka to acknowledge at all.",
                         "label": "Required Acks",
                         "symbols": [
                             "all_isr",
@@ -5024,7 +5296,7 @@
                         "type": "string"
                     },
                     "buffer": {
-                        "description": "Configure producer message buffer.<br/><br/>Tell Kafka producer how to buffer messages when EMQX has more messages to send than Kafka can keep up, or when Kafka is down.<br/><br/>",
+                        "description": "Configure producer message buffer.<br/><br/>Tell Kafka producer how to buffer messages when EMQX has more messages to send than Kafka can keep up, or when Kafka is down.",
                         "label": "Message Buffer",
                         "$ref": "#/components/schemas/bridge_kafka.producer_buffer"
                     }
@@ -5065,7 +5337,7 @@
                     },
                     "mode": {
                         "default": "cluster_shareload",
-                        "description": "<br/>The mode of the MQTT Bridge.<br/><br/><br/>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.<br/><br/>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by<br/>using shared subscription.<br/><br/>Note that the 'clientid' is suffixed by the node name, this is to avoid<br/>clientid conflicts between different nodes. And we can only use shared subscription<br/>topic filters for <code>remote.topic</code> of ingress connections.<br/>",
+                        "description": "The mode of the MQTT Bridge.<br/><br/>- cluster_shareload: create an MQTT connection on each node in the emqx cluster.<br/><br/>In 'cluster_shareload' mode, the incoming load from the remote broker is shared by<br/>using shared subscription.<br/><br/>Note that the 'clientid' is suffixed by the node name, this is to avoid<br/>clientid conflicts between different nodes. And we can only use shared subscription<br/>topic filters for <code>remote.topic</code> of ingress connections.",
                         "label": "MQTT Bridge Mode",
                         "symbols": [
                             "cluster_shareload"
@@ -5082,12 +5354,6 @@
                         "label": "Clientid Prefix",
                         "type": "string"
                     },
-                    "reconnect_interval": {
-                        "default": "15s",
-                        "description": "Reconnect interval. Delay for the MQTT bridge to retry establishing the connection in case of transportation failure. Time interval is a string that contains a number followed by time unit:<br/>- `ms` for milliseconds,<br/>- `s` for seconds,<br/>- `m` for minutes,<br/>- `h` for hours;<br/><br/>or combination of whereof: `1h5m0s`",
-                        "label": "reconnect_interval",
-                        "type": "string"
-                    },
                     "proto_ver": {
                         "default": "v4",
                         "description": "The MQTT protocol version",
@@ -5101,7 +5367,7 @@
                     },
                     "bridge_mode": {
                         "default": false,
-                        "description": "<br/>If enable bridge mode.<br/>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT<br/>broker MUST support this feature.<br/>    ",
+                        "description": "If enable bridge mode.<br/>NOTE: This setting is only for MQTT protocol version older than 5.0, and the remote MQTT<br/>broker MUST support this feature.",
                         "label": "Bridge Mode",
                         "type": "boolean"
                     },
@@ -5118,6 +5384,7 @@
                     },
                     "clean_start": {
                         "default": true,
+                        "deprecated": "since(\"v5.0.16\")",
                         "description": "The clean-start or the clean-session of the MQTT protocol",
                         "label": "Clean Session",
                         "type": "boolean"
@@ -5205,7 +5472,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -5216,7 +5483,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -5296,7 +5563,7 @@
                         "type": "enum"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -5377,7 +5644,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     },
                     "type": {
                         "description": "The Bridge Type.",
@@ -5444,12 +5711,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -5460,10 +5727,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_single"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The Redis default port 6379 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -5528,13 +5795,13 @@
             "connector-mqtt.ingress_local": {
                 "properties": {
                     "topic": {
-                        "description": "<br/>Send messages to which topic of the local broker.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "Send messages to which topic of the local broker.<br/><br/>Template with variables is allowed.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "qos": {
                         "default": "${qos}",
-                        "description": "<br/>The QoS of the MQTT message to be sent.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The QoS of the MQTT message to be sent.<br/><br/>Template with variables is allowed.",
                         "label": "Local QoS",
                         "oneOf": [
                             {
@@ -5552,7 +5819,7 @@
                     },
                     "retain": {
                         "default": "${retain}",
-                        "description": "<br/>The 'retain' flag of the MQTT message to be sent.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The 'retain' flag of the MQTT message to be sent.<br/><br/>Template with variables is allowed.",
                         "label": "Retain Flag",
                         "oneOf": [
                             {
@@ -5564,7 +5831,7 @@
                         ]
                     },
                     "payload": {
-                        "description": "<br/>The payload of the MQTT message to be sent.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The payload of the MQTT message to be sent.<br/><br/>Template with variables is allowed.",
                         "label": "Payload",
                         "type": "string"
                     }
@@ -5606,7 +5873,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -5617,7 +5884,7 @@
                         "$ref": "#/components/schemas/bridge_mysql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MySQL default port 3306 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The MySQL default port 3306 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -5729,7 +5996,7 @@
                         "type": "string"
                     },
                     "request": {
-                        "description": "<br/>If the request is provided, the caller can send HTTP requests via<br/><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code><br/>",
+                        "description": "Configure HTTP request parameters.",
                         "label": "Request",
                         "$ref": "#/components/schemas/connector-http.request"
                     },
@@ -5742,7 +6009,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "url": {
-                        "description": "<br/>The URL of the HTTP Bridge.<br/><br/>Template with variables is allowed in the path, but variables cannot be used in the scheme, host,<br/>or port part.<br/><br/>For example, <code> http://localhost:9901/${topic} </code> is allowed, but<br/><code> http://${host}:9901/message </code> or <code> http://localhost:${port}/message </code><br/>is not allowed.<br/>",
+                        "description": "The URL of the HTTP Bridge.<br/><br/>Template with variables is allowed in the path, but variables cannot be used in the scheme, host,<br/>or port part.<br/><br/>For example, <code> http://localhost:9901/${topic} </code> is allowed, but<br/><code> http://${host}:9901/message </code> or <code> http://localhost:${port}/message </code><br/>is not allowed.",
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
@@ -5756,13 +6023,13 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "<br/>The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "method": {
                         "default": "post",
-                        "description": "<br/>The method of the HTTP request. All the available methods are: post, put, get, delete.<br/><br/>Template with variables is allowed.<br/><br/>",
+                        "description": "The method of the HTTP request. All the available methods are: post, put, get, delete.<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Method",
                         "symbols": [
                             "post",
@@ -5780,12 +6047,12 @@
                             "content-type": "application/json",
                             "keep-alive": "timeout=5"
                         },
-                        "description": "<br/>The headers of the HTTP request.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The headers of the HTTP request.<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Header",
                         "type": "object"
                     },
                     "body": {
-                        "description": "<br/>The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Body",
                         "type": "string"
                     },
@@ -5838,12 +6105,12 @@
                         "type": "boolean"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "command_template": {
-                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.<br/>",
+                        "description": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${payload}`.",
                         "items": {
                             "type": "string"
                         },
@@ -5854,10 +6121,10 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/resource_schema.creation_opts"
+                        "$ref": "#/components/schemas/bridge_redis.creation_opts_redis_single"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The Redis default port 6379 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -5958,7 +6225,7 @@
                         "type": "string"
                     },
                     "request": {
-                        "description": "<br/>If the request is provided, the caller can send HTTP requests via<br/><code>emqx_resource:query(ResourceId, {send_message, BridgeId, Message})</code><br/>",
+                        "description": "Configure HTTP request parameters.",
                         "label": "Request",
                         "$ref": "#/components/schemas/connector-http.request"
                     },
@@ -5971,7 +6238,7 @@
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
                     },
                     "url": {
-                        "description": "<br/>The URL of the HTTP Bridge.<br/><br/>Template with variables is allowed in the path, but variables cannot be used in the scheme, host,<br/>or port part.<br/><br/>For example, <code> http://localhost:9901/${topic} </code> is allowed, but<br/><code> http://${host}:9901/message </code> or <code> http://localhost:${port}/message </code><br/>is not allowed.<br/>",
+                        "description": "The URL of the HTTP Bridge.<br/><br/>Template with variables is allowed in the path, but variables cannot be used in the scheme, host,<br/>or port part.<br/><br/>For example, <code> http://localhost:9901/${topic} </code> is allowed, but<br/><code> http://${host}:9901/message </code> or <code> http://localhost:${port}/message </code><br/>is not allowed.",
                         "label": "HTTP Bridge",
                         "type": "string"
                     },
@@ -5985,13 +6252,13 @@
                         "type": "enum"
                     },
                     "local_topic": {
-                        "description": "<br/>The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to the HTTP server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.<br/><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
                     "method": {
                         "default": "post",
-                        "description": "<br/>The method of the HTTP request. All the available methods are: post, put, get, delete.<br/><br/>Template with variables is allowed.<br/><br/>",
+                        "description": "The method of the HTTP request. All the available methods are: post, put, get, delete.<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Method",
                         "symbols": [
                             "post",
@@ -6009,12 +6276,12 @@
                             "content-type": "application/json",
                             "keep-alive": "timeout=5"
                         },
-                        "description": "<br/>The headers of the HTTP request.<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The headers of the HTTP request.<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Header",
                         "type": "object"
                     },
                     "body": {
-                        "description": "<br/>The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.<br/>",
+                        "description": "The body of the HTTP request.<br/><br/>If not provided, the body will be a JSON object of all the available fields.<br/><br/>There, 'all the available fields' means the context of a MQTT message when<br/>this webhook is triggered by receiving a MQTT message (the `local_topic` is set),<br/>or the context of the event when this webhook is triggered by a rule (i.e. this<br/>webhook is used as an action of a rule).<br/><br/>Template with variables is allowed.",
                         "label": "HTTP Body",
                         "type": "string"
                     },
@@ -6087,7 +6354,7 @@
                     },
                     "start_timeout": {
                         "default": "5s",
-                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
                         "label": "Start Timeout",
                         "type": "duration"
                     },
@@ -6109,7 +6376,7 @@
                     },
                     "query_mode": {
                         "default": "async",
-                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "description": "Query mode. Optional 'sync/async', default 'async'.",
                         "label": "Query mode",
                         "symbols": [
                             "sync",
@@ -6209,7 +6476,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -6220,7 +6487,7 @@
                         "$ref": "#/components/schemas/bridge_pgsql.creation_opts"
                     },
                     "server": {
-                        "description": "<br/>The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.<br/>",
+                        "description": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
                         "label": "Server Host",
                         "type": "string"
                     },
@@ -6335,7 +6602,7 @@
                         "type": "string"
                     },
                     "local_topic": {
-                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.<br/>",
+                        "description": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
                         "label": "Local Topic",
                         "type": "string"
                     },
@@ -6375,7 +6642,7 @@
                     },
                     "start_timeout": {
                         "default": "5s",
-                        "description": "If 'start_after_created' enabled, how long time do we wait for the resource get started, in milliseconds.",
+                        "description": "Time interval to wait for an auto-started resource to become healthy before responding resource creation requests.",
                         "label": "Start Timeout",
                         "type": "duration"
                     },
@@ -6396,12 +6663,11 @@
                         ]
                     },
                     "query_mode": {
-                        "default": "async",
-                        "description": "Query mode. Optional 'sync/async', default 'sync'.",
+                        "default": "sync",
+                        "description": "Query mode. Only support 'sync'.",
                         "label": "Query mode",
                         "symbols": [
-                            "sync",
-                            "async"
+                            "sync"
                         ],
                         "type": "enum"
                     },
@@ -6472,7 +6738,7 @@
                         "type": "enum"
                     },
                     "servers": {
-                        "description": "<br/>A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.<br/>",
+                        "description": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
                         "label": "Servers",
                         "type": "string"
                     },
@@ -6553,7 +6819,7 @@
                         "default": {},
                         "description": "Resource options.",
                         "label": "Resource Options",
-                        "$ref": "#/components/schemas/bridge_mongodb.creation_opts"
+                        "$ref": "#/components/schemas/resource_schema.creation_opts_sync_only"
                     }
                 },
                 "type": "object"
