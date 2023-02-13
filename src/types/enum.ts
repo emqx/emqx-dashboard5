@@ -95,7 +95,7 @@ export enum BridgeType {
   GCP = 'gcp_pubsub',
   MongoDB = 'mongodb',
   PgSQL = 'pgsql',
-  Timescale = 'timescale',
+  TimescaleDB = 'timescale',
   MatrixDB = 'matrix',
 }
 
