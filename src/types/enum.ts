@@ -94,6 +94,9 @@ export enum BridgeType {
   Redis = 'redis',
   GCP = 'gcp_pubsub',
   MongoDB = 'mongodb',
+  PgSQL = 'pgsql',
+  Timescale = 'timescale',
+  MatrixDB = 'matrix',
 }
 
 export enum ConnectorType {

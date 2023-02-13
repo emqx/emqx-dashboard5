@@ -180,7 +180,6 @@ export type ConnectorMQTT = Omit<ConnectorBase, 'type'> & {
   mode: string
   password: string
   proto_ver: string
-  reconnect_interval: string
   retry_interval: string
   server: string
   ssl: SSL
