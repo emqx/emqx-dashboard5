@@ -89,6 +89,7 @@ export interface BridgeBaseData {
 }
 
 export interface HTTPBridge extends BridgeBaseData {
+  clean_start: boolean
   body: string
   connect_timeout: string
   enable_pipelining: number

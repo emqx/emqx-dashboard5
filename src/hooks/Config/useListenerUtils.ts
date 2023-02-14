@@ -46,7 +46,13 @@ export default (): ListenerUtils => {
   ]
 
   // ListenerType.QUIC,
-  const listenerTypeList = [ListenerType.TCP, ListenerType.SSL, ListenerType.WS, ListenerType.WSS, ListenerType.QUIC]
+  const listenerTypeList = [
+    ListenerType.TCP,
+    ListenerType.SSL,
+    ListenerType.WS,
+    ListenerType.WSS,
+    ListenerType.QUIC,
+  ]
 
   /* 
     |                | SSL  | DTLS | UDP  | TCP  |
@@ -83,17 +89,14 @@ export default (): ListenerUtils => {
     ListenerType.WSS,
   ]
 
-  const gatewayTypesWhichHasUDPConfig = [
-    ListenerTypeForGateway.DTLS,
-    ListenerTypeForGateway.UDP,
-  ]
+  const gatewayTypesWhichHasUDPConfig = [ListenerTypeForGateway.DTLS, ListenerTypeForGateway.UDP]
 
   const gatewayTypesWhichHasSSLConfig = [
     ListenerTypeForGateway.DTLS,
     ListenerTypeForGateway.SSL,
     ListenerType.SSL,
     ListenerType.WSS,
-    ListenerType.QUIC
+    ListenerType.QUIC,
   ]
 
   const gatewayTypesWhichHasWSConfig = [ListenerType.WS, ListenerType.WSS]
