@@ -5,7 +5,8 @@ import 'nprogress/nprogress.css'
 import { toLogin } from '@/router'
 import store from '@/store'
 import _ from 'lodash'
-import { REQUEST_TIMEOUT_CODE, BAD_TOKEN_CODE, TOKEN_TIME_OUT } from '@/common/constants'
+import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
+import { BAD_TOKEN, TOKEN_TIME_OUT, NAME_PWD_ERROR } from '@/common/customErrorCode'
 import i18n from '@/i18n'
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 200 })
@@ -41,7 +42,7 @@ axios.interceptors.request.use(async (config) => {
 })
 
 const isTokenExpired = (status, data) =>
-  status === 401 && [BAD_TOKEN_CODE, TOKEN_TIME_OUT].includes(data.code)
+  status === 401 && [BAD_TOKEN, TOKEN_TIME_OUT].includes(data.code)
 
 /**
  * there are some custom configurations
@@ -89,7 +90,9 @@ axios.interceptors.response.use(
           Array.isArray(error.config.errorsHandleCustom) &&
           error.config.errorsHandleCustom.includes(status)
         if (!handleErrorSelf) {
-          if (data?.code || data?.message) {
+          if (data?.code === NAME_PWD_ERROR) {
+            ElNotification.error(i18n.global.t('Base.namePwdError'))
+          } else if (data?.code || data?.message) {
             M.error(status + ' ' + data?.code + ':' + data?.message.toString())
           } else {
             M.error(status + ' Network error')
