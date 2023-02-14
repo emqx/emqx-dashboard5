@@ -37,7 +37,6 @@ export default useBridgeTypeValue
 
 export interface BridgeTypeOptions {
   value: BridgeType
-  valueForRadio: string
   label: string
   desc: string
   externalConfig?: Partial<BridgeItem>
@@ -53,13 +52,11 @@ export const useBridgeTypeOptions = (): {
   const bridgeTypeOptions: Array<BridgeTypeOptions> = [
     {
       value: BridgeType.Webhook,
-      valueForRadio: BridgeType.Webhook,
       label: 'Webhook',
       desc: tl('bridgeDescHTTP'),
     },
     {
       value: BridgeType.MQTT,
-      valueForRadio: BridgeType.MQTT,
       label: 'MQTT',
       desc: tl('bridgeDescMQTT'),
     },

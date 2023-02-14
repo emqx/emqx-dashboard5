@@ -20,7 +20,7 @@
             <el-radio-group class="bridge-type-select" v-model="chosenBridgeType">
               <el-row :gutter="28">
                 <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
-                  <el-radio class="bridge-type-item" :label="item.valueForRadio" border>
+                  <el-radio class="bridge-type-item" :label="item.value" border>
                     <img
                       class="bridge-type-item-img"
                       height="64"
@@ -116,7 +116,7 @@
               v-for="item in bridgeTypeOptions.filter(isBridgeTypeDisabled)"
               :key="item.label"
               :label="item.label"
-              :value="item.valueForRadio"
+              :value="item.value"
             >
               <div class="option-content">
                 <img :src="getBridgeIcon(item.value)" width="30" height="34" />
