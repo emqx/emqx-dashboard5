@@ -53,6 +53,10 @@ export default (
     ),
   }
 
+  const pgSqlOrderMap = {
+    ...createOrderObj(['server', 'database', 'username', 'password', 'pool_size', 'ssl'], 1),
+  }
+
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.MySQL]: {
       ...createOrderObj(
@@ -112,6 +116,9 @@ export default (
         1,
       ),
     },
+    [BridgeType.PgSQL]: pgSqlOrderMap,
+    [BridgeType.TimescaleDB]: pgSqlOrderMap,
+    [BridgeType.MatrixDB]: pgSqlOrderMap,
   }
 
   const propsOrderMap = computed(() => {

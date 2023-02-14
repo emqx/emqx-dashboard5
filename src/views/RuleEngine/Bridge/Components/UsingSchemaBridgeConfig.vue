@@ -51,7 +51,9 @@ type UseSchemaBridgeType = Exclude<
 const typeRefKeyMap = {
   [BridgeType.MySQL]: `bridge_mysql.post`,
   [BridgeType.GCP]: `bridge_gcp_pubsub.post`,
-  // [BridgeType.Redis]: `bridge_redis.post_single`,
+  [BridgeType.PgSQL]: `bridge_pgsql.post`,
+  [BridgeType.TimescaleDB]: `bridge_timescale.post`,
+  [BridgeType.MatrixDB]: `bridge_matrix.post`,
 }
 
 const props = defineProps({
