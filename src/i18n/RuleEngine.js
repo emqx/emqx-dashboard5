@@ -981,7 +981,7 @@ export default {
   },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
-    en: 'Bridge data to Goole PubSub',
+    en: 'Bridge data to Google PubSub',
   },
   egressDataBaseDesc: {
     zh: '将数据保存到 {name}',
