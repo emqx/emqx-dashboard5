@@ -45,17 +45,34 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('bridgeMode')">
-            <BooleanSelect v-model="connectorVal.bridge_mode" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('retryInterval')">
+          <el-form-item>
+            <template #label>
+              <label>{{ tl('retryInterval') }}</label>
+              <InfoTooltip :content="tl('retryIntervalDesc')" />
+            </template>
             <TimeInputWithUnitSelect
               v-model="connectorVal.retry_interval"
               :enabled-units="['ms', 's', 'm', 'h', 'd']"
               default-unit="s"
             />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <label>{{ tl('cleanStart') }}</label>
+              <InfoTooltip :content="tl('cleanStartDesc')" />
+            </template>
+            <el-switch v-model="connectorVal.clean_start" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <label>{{ tl('bridgeMode') }}</label>
+              <InfoTooltip :content="tl('bridgeModeDesc')" />
+            </template>
+            <el-switch v-model="connectorVal.bridge_mode" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -71,13 +88,13 @@ import { useI18n } from 'vue-i18n'
 import { computed, defineComponent, onMounted, watch } from 'vue'
 import { cloneDeep } from 'lodash'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import BooleanSelect from '@/components/BooleanSelect.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ConnectorType } from '@/types/enum'
 import { MQTT_VERSION_LIST } from '@/common/constants'
 
 export default defineComponent({
   name: 'ConnectorMqttConfig',
-  components: { TimeInputWithUnitSelect, CommonTLSConfig, BooleanSelect },
+  components: { TimeInputWithUnitSelect, CommonTLSConfig, InfoTooltip },
   props: {
     modelValue: {
       type: Object,
@@ -107,6 +124,7 @@ export default defineComponent({
       password: '',
       keepalive: '60s',
       proto_ver: 'v4',
+      clean_start: false,
       bridge_mode: false,
       mode: modeOptions[0],
     }
