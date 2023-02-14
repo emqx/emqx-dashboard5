@@ -115,9 +115,21 @@ export default {
     zh: '连接模式',
     en: 'Mode',
   },
+  cleanStart: {
+    zh: '清除会话',
+    en: 'Clean start',
+  },
+  cleanStartDesc: {
+    zh: '当重新连接到远程服务，该 MQTT 服务作为入口桥接时，是否启动一个干净的会话。',
+    en: 'Whether to start a clean session when reconnecting a remote broker for ingress bridge.',
+  },
   bridgeMode: {
     zh: '桥接模式',
     en: 'Bridge Mode',
+  },
+  bridgeModeDesc: {
+    en: `This setting is only for MQTT protocol version older than 5.0, and the remote MQTT broker MUST support this feature.`,
+    zh: '该设置仅适用于 MQTT 协议版本低于 5.0 的情况，且远程 MQTT 服务必须支持该功能。',
   },
   connSetting: {
     zh: '连接配置',
@@ -593,7 +605,11 @@ export default {
   },
   retryInterval: {
     zh: '消息重发间隔',
-    en: 'Message Resend Interval',
+    en: 'Message Retry Interval',
+  },
+  retryIntervalDesc: {
+    en: 'Delay for the MQTT bridge to retry sending the QoS1/QoS2 messages in case of ACK not received.',
+    zh: 'MQTT 桥接在未收到 ACK 的情况下，延迟重发 QoS1/QoS2 消息的时间间隔。',
   },
   tip: {
     zh: '提示：',
