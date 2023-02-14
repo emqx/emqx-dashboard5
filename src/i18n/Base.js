@@ -503,4 +503,8 @@ export default {
     zh: '请上传 {format} 文件',
     en: 'Please upload a {format} file',
   },
+  namePwdError: {
+    zh: '用户名或密码错误',
+    en: 'Incorrect username or password',
+  },
 }
