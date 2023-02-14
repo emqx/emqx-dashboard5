@@ -21,6 +21,9 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Redis, label: tl('redis') },
     { value: BridgeType.GCP, label: tl('gcpPubSub') },
     { value: BridgeType.MongoDB, label: tl('mongoDB') },
+    { value: BridgeType.PgSQL, label: tl('pgSql') },
+    { value: BridgeType.TimescaleDB, label: tl('timescaleDB') },
+    { value: BridgeType.MatrixDB, label: tl('matrixDB') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -62,39 +65,48 @@ export const useBridgeTypeOptions = (): {
     },
     {
       value: BridgeType.Kafka,
-      valueForRadio: BridgeType.Kafka,
       label: tl('kafka'),
       desc: tl('kafkaDesc'),
     },
     {
       value: BridgeType.InfluxDB,
-      valueForRadio: BridgeType.InfluxDB,
       label: tl('influxDBLabel'),
       desc: t('RuleEngine.egressDataBaseDesc', { name: tl('influxDBLabel') }),
     },
     {
       value: BridgeType.MySQL,
-      valueForRadio: BridgeType.MySQL,
       label: tl('mySQL'),
       desc: t('RuleEngine.egressDataBaseDesc', { name: tl('mySQL') }),
     },
     {
       value: BridgeType.Redis,
-      valueForRadio: BridgeType.Redis,
       label: tl('redis'),
       desc: t('RuleEngine.egressDataBaseDesc', { name: tl('redis') }),
     },
     {
       value: BridgeType.GCP,
-      valueForRadio: BridgeType.GCP,
       label: tl('gcpPubSub'),
       desc: tl('gcpPubSubDesc'),
     },
     {
       value: BridgeType.MongoDB,
-      valueForRadio: BridgeType.MongoDB,
       label: tl('mongoDB'),
       desc: t('RuleEngine.egressDataBaseDesc', { name: tl('mongoDB') }),
+    },
+    {
+      value: BridgeType.PgSQL,
+      label: tl('pgSql'),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('pgSql') }),
+    },
+    {
+      value: BridgeType.TimescaleDB,
+      label: tl('timescaleDB'),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('timescaleDB') }),
+    },
+    {
+      value: BridgeType.MatrixDB,
+      label: tl('matrixDB'),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('matrixDB') }),
     },
   ]
 
@@ -133,8 +145,18 @@ export const useBridgeTypeIcon = (): {
   getBridgeIconKey: (value: string) => string
   getBridgeIcon: (type: string) => string
 } => {
+  const specialIconMap = {
+    [BridgeType.PgSQL]: 'postgresql',
+  }
+
   const { getBridgeType } = useBridgeTypeOptions()
-  const getBridgeIconKey = (value: string) => getBridgeType(value)
+  const getBridgeIconKey = (value: string) => {
+    const ret = getBridgeType(value)
+    if (ret && ret in specialIconMap) {
+      return specialIconMap[ret as keyof typeof specialIconMap]
+    }
+    return ret
+  }
 
   const getBridgeIcon = (type: string): string => {
     if (!type) {

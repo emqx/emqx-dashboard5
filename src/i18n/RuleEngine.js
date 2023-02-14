@@ -967,6 +967,18 @@ export default {
     zh: 'MongoDB',
     en: 'MongoDB',
   },
+  pgSql: {
+    zh: 'PostgreSQL',
+    en: 'PostgreSQL',
+  },
+  timescaleDB: {
+    zh: 'TimescaleDB',
+    en: 'TimescaleDB',
+  },
+  matrixDB: {
+    zh: 'MatrixDB',
+    en: 'MatrixDB',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Goole PubSub',
