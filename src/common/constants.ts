@@ -26,7 +26,6 @@ export const SSL_VERIFY_VALUE_MAP: Map<boolean, string> = new Map([
 
 export const DEFAULT_SSL_VERIFY_VALUE: string = SSL_VERIFY_VALUE_MAP.get(true) as string
 
-// TODO:JSON Hex
 export const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST = [
   PayloadShowByType.Plaintext,
   PayloadShowByType.Base64,
@@ -189,12 +188,6 @@ export const MQTT_V5_RES_CODES = [
  * from axios
  */
 export const REQUEST_TIMEOUT_CODE = 'ECONNABORTED'
-
-/**
- * from back end
- */
-export const BAD_TOKEN_CODE = 'BAD_TOKEN'
-export const TOKEN_TIME_OUT = 'TOKEN_TIME_OUT'
 
 export const RULE_MAX_NUM_PER_PAGE = 100
 
