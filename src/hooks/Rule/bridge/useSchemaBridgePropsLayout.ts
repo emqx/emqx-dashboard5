@@ -129,6 +129,8 @@ export default (
     return ret
   })
 
+  const pgSqlColClassMap = { sql: 'dividing-line-below' }
+
   const typeColClassMap = {
     [BridgeType.MySQL]: {
       sql: 'dividing-line-below',
@@ -143,6 +145,9 @@ export default (
     [BridgeType.MongoDB]: {
       payload_template: 'dividing-line-below',
     },
+    [BridgeType.PgSQL]: pgSqlColClassMap,
+    [BridgeType.TimescaleDB]: pgSqlColClassMap,
+    [BridgeType.MatrixDB]: pgSqlColClassMap,
   }
 
   const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)
