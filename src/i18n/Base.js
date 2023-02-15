@@ -515,8 +515,4 @@ export default {
     zh: '用户名或密码错误',
     en: 'Incorrect username or password',
   },
-  later: {
-    zh: '后',
-    en: ' later',
-  },
 }

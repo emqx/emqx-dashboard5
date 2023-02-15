@@ -6,10 +6,10 @@ export default (): {
     value: () => Date
   }[]
 } => {
-  const { tl, t } = useI18nTl('Base')
+  const { t } = useI18nTl('Base')
 
   const getLabel = (num: number, unitKey: string) => {
-    return `${num} ${t(unitKey, num)}${tl('later')}`
+    return `${num} ${t(unitKey, num)}`
   }
 
   const datePickerShortcuts = [
