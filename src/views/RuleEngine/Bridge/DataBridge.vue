@@ -41,6 +41,17 @@
             <template #default="{ row }">
               <el-button
                 size="small"
+                v-if="
+                  row.status === ConnectionStatus.Disconnected ||
+                  row.status === ConnectionStatus.Inconsistent
+                "
+                :loading="reconnectingMap.get(row.id)"
+                @click="reconnect(row)"
+              >
+                {{ $t('RuleEngine.reconnect') }}
+              </el-button>
+              <el-button
+                size="small"
                 @click="$router.push(getBridgeDetailPageRoute(row.id, 'settings'))"
               >
                 {{ $t('Base.setting') }}
@@ -67,8 +78,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
-import { getBridgeList, startStopBridge } from '@/api/ruleengine'
+import { defineComponent, onMounted, ref, Ref } from 'vue'
+import { getBridgeList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
@@ -79,6 +90,7 @@ import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import { ConnectionStatus } from '@/types/enum'
 
 export default defineComponent({
   components: { BridgeItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
@@ -86,14 +98,21 @@ export default defineComponent({
     const bridgeTb = ref([])
     const tbLoading = ref(false)
     const router = useRouter()
+    const reconnectingMap: Ref<Map<string, boolean>> = ref(new Map())
     const { t } = useI18n()
     const { getTypeStr } = useBridgeTypeOptions()
     const { getBridgeIcon } = useBridgeTypeIcon()
+
+    const initReconnectingMap = () => {
+      reconnectingMap.value = new Map()
+      bridgeTb.value.forEach(({ id }) => reconnectingMap.value.set(id, false))
+    }
 
     const listBridge = async function () {
       tbLoading.value = true
       try {
         bridgeTb.value = await getBridgeList()
+        initReconnectingMap()
       } catch (error) {
         console.error(error)
       } finally {
@@ -144,6 +163,17 @@ export default defineComponent({
       router.push({ name: 'bridge-create', query: { action: 'copy', target: row.id } })
     }
 
+    const reconnect = async ({ id }: BridgeItem) => {
+      try {
+        reconnectingMap.value.set(id, true)
+        await reconnectBridge(id)
+      } catch (error) {
+        //
+      } finally {
+        reconnectingMap.value.set(id, false)
+      }
+    }
+
     onMounted(listBridge)
 
     onBeforeRouteUpdate((to) => {
@@ -166,6 +196,9 @@ export default defineComponent({
       handleDeleteSuc,
       handleDeleteBridge,
       copyBridgeItem,
+      reconnectingMap,
+      ConnectionStatus,
+      reconnect,
       createRuleWithBridge,
       getBridgeDetailPageRoute,
     }

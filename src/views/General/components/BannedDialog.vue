@@ -36,6 +36,7 @@
               type="datetime"
               format="YYYY-MM-DD HH:mm:ss"
               popper-class="datepicker-until"
+              :shortcuts="datePickerShortcuts"
               :disabledDate="isItEarlierThanToday"
             />
           </el-form-item>
@@ -69,6 +70,7 @@
 <script setup lang="ts">
 import { createBlacklist } from '@/api/function'
 import useBannedType from '@/hooks/Auth/useBannedType'
+import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BannedType } from '@/types/enum'
 import { ElMessage } from 'element-plus'
@@ -96,7 +98,7 @@ const submitLoading = ref(false)
 const { typeList: asOptions } = useBannedType()
 const record = ref(generateRawRecord())
 const rules = {
-  who: [{ required: true, message: tl('enterWho') }],
+  who: [{ required: true, message: tl('enterWho'), trigger: 'change' }],
   until: [
     {
       validator: (rule: any, value: string) => {
@@ -113,6 +115,8 @@ const rules = {
   ],
 }
 const FormCom = ref()
+
+const { datePickerShortcuts } = useDatePickerShortcuts()
 
 const showDialog = computed({
   get: () => props.modelValue,
@@ -161,11 +165,11 @@ const save = async () => {
   .el-input-group--append :deep(.el-input-group__append) {
     width: 110px;
   }
-  .datepicker-until {
-    // hide [now] button
-    .el-picker-panel__footer .el-button--text {
-      display: none;
-    }
+}
+.datepicker-until {
+  // hide [now] button
+  .el-picker-panel__footer button.el-button.is-text {
+    display: none;
   }
 }
 </style>
