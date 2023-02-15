@@ -351,6 +351,14 @@ export default {
     zh: '连接中',
     en: 'Connecting',
   },
+  inconsistent: {
+    zh: '集群中各节点不一致',
+    en: 'Inconsistent for nodes in the cluster',
+  },
+  stopped: {
+    zh: '已停止',
+    en: 'stopped',
+  },
   overview: {
     zh: '概览',
     en: 'Overview',

@@ -74,6 +74,10 @@ export function deleteBridge(id: string, withDependency = false): Promise<any> {
   )
 }
 
+export function reconnectBridge(bridgeID: string): Promise<number> {
+  return http.post(`/bridges/${bridgeID}/start`)
+}
+
 export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<number> {
   return http.post(`/nodes/${node}/bridges/${bridgeID}/start`)
 }

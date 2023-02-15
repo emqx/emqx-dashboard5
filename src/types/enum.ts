@@ -38,6 +38,10 @@ export enum ConnectionStatus {
   Connected = 'connected',
   Disconnected = 'disconnected',
   Connecting = 'connecting',
+  // for cluster-aggregated, if nodes are at different statuses
+  Inconsistent = 'inconsistent',
+  // For Bridge, when the bridge resource is requested to be stopped
+  Stopped = 'stopped',
 }
 
 // [ top, bottom, before, after ]

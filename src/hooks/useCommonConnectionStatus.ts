@@ -12,6 +12,8 @@ export default (): {
       [ConnectionStatus.Connected]: NodeStatusClass.Success,
       [ConnectionStatus.Disconnected]: NodeStatusClass.Danger,
       [ConnectionStatus.Connecting]: NodeStatusClass.Warning,
+      [ConnectionStatus.Inconsistent]: NodeStatusClass.Warning,
+      [ConnectionStatus.Stopped]: NodeStatusClass.Danger,
     }
     return status ? map[status] || NodeStatusClass.Danger : NodeStatusClass.Danger
   }
@@ -21,6 +23,8 @@ export default (): {
       [ConnectionStatus.Connected]: tl('connected'),
       [ConnectionStatus.Disconnected]: tl('disconnected'),
       [ConnectionStatus.Connecting]: tl('connecting'),
+      [ConnectionStatus.Inconsistent]: tl('inconsistent'),
+      [ConnectionStatus.Stopped]: tl('stopped'),
     }
     return status ? statusLabelMap[status] || tl('disconnected') : ''
   }
