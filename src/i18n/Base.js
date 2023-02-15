@@ -515,16 +515,8 @@ export default {
     zh: '用户名或密码错误',
     en: 'Incorrect username or password',
   },
-  sevenDaysLater: {
-    zh: '七天后',
-    en: 'Seven days later',
-  },
-  thirtyDaysLater: {
-    zh: '三十天后',
-    en: 'Thirty days later',
-  },
-  aYearLater: {
-    zh: '一年后',
-    en: 'A year later',
+  later: {
+    zh: '后',
+    en: ' later',
   },
 }

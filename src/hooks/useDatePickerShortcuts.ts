@@ -6,19 +6,23 @@ export default (): {
     value: () => Date
   }[]
 } => {
-  const { tl } = useI18nTl('Base')
+  const { tl, t } = useI18nTl('Base')
+
+  const getLabel = (num: number, unitKey: string) => {
+    return `${num} ${t(unitKey, num)}${tl('later')}`
+  }
 
   const datePickerShortcuts = [
     {
-      text: tl('sevenDaysLater'),
+      text: getLabel(7, 'Base.day'),
       value: () => new Date(Date.now() + 3600 * 1000 * 24 * 7),
     },
     {
-      text: tl('thirtyDaysLater'),
+      text: getLabel(30, 'Base.day'),
       value: () => new Date(Date.now() + 3600 * 1000 * 24 * 30),
     },
     {
-      text: tl('aYearLater'),
+      text: getLabel(1, 'Base.year'),
       value: () => {
         const date = new Date()
         const dateNum = date.getMonth() === 1 && date.getDate() === 29 ? 28 : date.getDate()
