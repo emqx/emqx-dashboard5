@@ -1,5 +1,5 @@
 <template>
-  <div class="client-details app-wrapper">
+  <div class="client-details app-wrapper" :class="{ 'in-drawer': !!gateway }">
     <div class="block-header">
       <detail-header
         :item="{
@@ -536,6 +536,22 @@ loadSubs()
 
 <style lang="scss">
 .client-details {
+  &.in-drawer {
+    padding-top: 0;
+    .block-header {
+      margin-bottom: 24px;
+    }
+    .el-page-header__header {
+      .el-page-header__back,
+      .el-divider {
+        display: none;
+      }
+    }
+    .detail-header {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
   .header-content {
     max-width: 400px;
     overflow: hidden;

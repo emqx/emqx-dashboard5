@@ -52,6 +52,9 @@ const goBack = () => {
   margin-top: 18px;
   margin-bottom: 24px;
   max-width: 90%;
+  .el-page-header__breadcrumb {
+    display: none;
+  }
   .el-page-header__content {
     overflow: hidden;
     white-space: nowrap;
