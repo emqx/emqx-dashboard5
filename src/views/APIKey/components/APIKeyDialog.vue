@@ -23,6 +23,7 @@
           <el-form-item :label="tl('expireAt')" prop="expired_at">
             <el-date-picker
               v-model="formData.expired_at"
+              :shortcuts="datePickerShortcuts"
               :disabled="operationType === 'view'"
               :disabledDate="isItEarlierThanToday"
               :placeholder="tl('neverExpire')"
@@ -100,6 +101,7 @@ import { createAPIKey, updateAPIKey } from '@/api/systemModule'
 import { ElInput } from 'element-plus'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 import useCopy from '@/hooks/useCopy'
+import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
 
 export type OperationType = 'create' | 'view' | 'edit'
 
@@ -160,6 +162,8 @@ const btnCopyAPIKey = ref()
 
 const createdResult: Ref<APIKey | undefined> = ref(undefined)
 const showResultDialog: Ref<boolean> = ref(false)
+
+const { datePickerShortcuts } = useDatePickerShortcuts()
 
 const showDialog = computed({
   get: () => props.modelValue,
