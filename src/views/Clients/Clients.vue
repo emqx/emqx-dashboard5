@@ -123,7 +123,7 @@
       <el-table-column prop="clean_start" min-width="120" label="Clean Start" />
       <el-table-column prop="expiry_interval" min-width="180" :label="$t('Clients.expiryInterval')">
         <template #default="{ row }">
-          <span>{{ transSecondNumToSimpleStr(row.expiry_interval) }}</span>
+          <span>{{ sessionExpiryIntervalHandler(row.expiry_interval) }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="connected_at" min-width="150" :label="$t('Clients.connectedAt')">
@@ -141,6 +141,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
 
 export default defineComponent({
   name: 'Clients',
@@ -160,6 +162,7 @@ import useDurationStr from '@/hooks/useDurationStr'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 const { transSecondNumToSimpleStr } = useDurationStr()
+const { tl } = useI18nTl('Clients')
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const currentNodes = ref<NodeMsg[]>([])
@@ -219,6 +222,12 @@ const loadNodeClients = async (_params = {}) => {
   } finally {
     lockTable.value = false
   }
+}
+
+const sessionExpiryIntervalHandler = (interval: number): string | number => {
+  return interval === SESSION_NEVER_EXPIRE_TIME
+    ? tl('neverExpire')
+    : transSecondNumToSimpleStr(interval)
 }
 
 loadNodeData()
