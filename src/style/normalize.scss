@@ -498,6 +498,11 @@
   background-color: var(--color-bg-primary);
 }
 
+.el-picker-panel *[slot=sidebar],
+.el-picker-panel__sidebar {
+  background-color: var(--color-bg-primary);
+}
+
 /* Steps */
 .el-steps {
   .el-step__head.is-process {
