@@ -431,4 +431,8 @@ export default {
     zh: '原因码',
     en: 'Reason Code',
   },
+  neverExpire: {
+    zh: '永不过期',
+    en: 'Never Expire',
+  },
 }
