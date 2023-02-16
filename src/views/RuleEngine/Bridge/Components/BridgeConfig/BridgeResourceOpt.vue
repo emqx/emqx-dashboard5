@@ -3,7 +3,11 @@
     <el-form-item prop="resource_opts.worker_pool_size">
       <template #label>
         <span>{{ tl('workerPoolSize') }}</span>
-        <InfoTooltip :content="tl('workerPoolSizeDesc')" />
+        <InfoTooltip>
+          <template #content>
+            <MarkdownContent :content="tl('workerPoolSizeDesc')" />
+          </template>
+        </InfoTooltip>
       </template>
       <el-input v-model="resourceOptForm.worker_pool_size" />
     </el-form-item>

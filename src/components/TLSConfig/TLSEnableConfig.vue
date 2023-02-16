@@ -7,7 +7,11 @@
         :inactive-value="SSL_VERIFY_VALUE_MAP.get(false)"
       />
     </el-form-item>
-    <el-form-item label="SNI" v-if="showSni" :prop="getFormItemProp(`server_name_indication`)">
+    <el-form-item v-if="showSni" :prop="getFormItemProp(`server_name_indication`)">
+      <template #label>
+        <span>SNI</span>
+        <InfoTooltip v-if="$attrs.content" v-bind="$attrs" />
+      </template>
       <el-input class="TLS-input" v-model="record.server_name_indication" />
     </el-form-item>
     <el-form-item :prop="getFormItemProp(`certfile`)">

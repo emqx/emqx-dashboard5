@@ -393,7 +393,7 @@ export default {
   },
   queuing: {
     zh: '已缓存',
-    en: 'Queued',
+    en: 'Queuing',
   },
   queuingDesc: {
     zh: '当前被缓存到磁盘队列的消息个数',
@@ -951,17 +951,153 @@ export default {
     zh: 'message/sec | messages/sec',
     en: 'message/sec | messages/sec',
   },
-  saveAsCopy: {
-    zh: '保存为副本',
-    en: 'Save as copy',
+  influxDBLabel: {
+    zh: 'InfluxDB',
+    en: 'InfluxDB',
+  },
+  mySQL: {
+    zh: 'MySQL',
+    en: 'MySQL',
+  },
+  influxDBVersion: {
+    zh: 'InfluxDB 版本',
+    en: 'Version of InfluxDB',
+  },
+  kafka: {
+    zh: 'Kafka',
+    en: 'Kafka',
+  },
+  kafkaDesc: {
+    zh: '桥接数据到 Kafka',
+    en: 'Bridge data to Kafka',
+  },
+  redis: {
+    zh: 'Redis',
+    en: 'Redis',
+  },
+  gcpPubSub: {
+    zh: 'Google PubSub',
+    en: 'Google PubSub',
+  },
+  mongoDB: {
+    zh: 'MongoDB',
+    en: 'MongoDB',
+  },
+  pgSql: {
+    zh: 'PostgreSQL',
+    en: 'PostgreSQL',
+  },
+  timescaleDB: {
+    zh: 'TimescaleDB',
+    en: 'TimescaleDB',
+  },
+  matrixDB: {
+    zh: 'MatrixDB',
+    en: 'MatrixDB',
+  },
+  gcpPubSubDesc: {
+    zh: '桥接数据到 Google PubSub',
+    en: 'Bridge data to Google PubSub',
+  },
+  egressDataBaseDesc: {
+    zh: '将数据保存到 {name}',
+    en: 'Save data to {name}',
+  },
+  database: {
+    en: 'Database',
+    zh: '数据库',
+  },
+  databaseDesc: {
+    en: 'InfluxDB database.',
+    zh: 'InfluxDB 数据库。',
+  },
+  dataDefinition: {
+    zh: '定义解析数据',
+    en: 'Define Data Parsing',
+  },
+  dataDefinitionDesc: {
+    zh: '指定数据格式与内容，使其能被解析并写入到 InfluxDB 中，支持使用占位符。',
+    en: 'Specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
+  },
+  fieldValueDesc: {
+    zh: `Key 和 value 都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
+    en: `Both key and value support placeholders. Numbers are written as floats by default, but you can add a type suffix to specify a type (e.g. \`\${'{'}payload.int_key{'}'}i\`). Learn more in the <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
+  },
+  dataFormat: {
+    zh: '数据格式',
+    en: 'Data Format',
+  },
+  float: {
+    zh: '浮点型',
+    en: 'Float',
+  },
+  integer: {
+    zh: '整型',
+    en: 'Integer',
+  },
+  uInteger: {
+    zh: '无符号整型',
+    en: 'UInteger',
+  },
+  string: {
+    zh: '字符串',
+    en: 'String',
+  },
+  boolean: {
+    zh: '布尔型',
+    en: 'Boolean',
+  },
+  placeholder: {
+    zh: '占位符',
+    en: 'Placeholder',
+  },
+  specifiedTypeTip: {
+    zh: '当前显式指定数据类型为 {type}',
+    en: 'The currently explicitly specified data type is {type}',
+  },
+  healthCheckInterval: {
+    en: 'Health Check Interval',
+    zh: '健康检查间隔',
+  },
+  autoRestartInterval: {
+    en: 'Auto Restart Interval',
+    zh: '自动重连间隔',
+  },
+  token: {
+    en: 'Token',
+    zh: 'Token',
+  },
+  usernameDesc: {
+    en: 'InfluxDB username.',
+    zh: 'InfluxDB 用户名。',
+  },
+  passwordDesc: {
+    en: 'InfluxDB password.',
+    zh: 'InfluxDB 密码。',
+  },
+  org: {
+    en: 'Organization',
+    zh: '组织',
+  },
+  bucket: {
+    en: 'Bucket',
+    zh: 'Bucket',
+  },
+  authType: {
+    zh: '认证方式',
+    en: 'Auth Type',
+  },
+  basicAuth: {
+    zh: '基础认证',
+    en: 'Basic auth',
   },
   queryMode: {
     en: 'Query mode',
     zh: '请求模式',
   },
   queryModeDesc: {
-    en: "Query mode. Optional 'sync/async', default 'sync'.",
-    zh: "请求模式。可选 '同步/异步'，默认为'同步'模式。",
+    en: "Query mode. Optional 'sync/async', default 'async'.",
+    zh: "请求模式。可选 '同步/异步'，默认为'异步'模式。",
   },
   asyncInflightWindow: {
     zh: '异步请求飞行队列窗口',
@@ -1026,20 +1162,24 @@ When disabled the messages are buffered in RAM only.`,
     zh: '缓存池大小',
   },
   workerPoolSizeDesc: {
-    en: `The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
+    en: `The number of buffer workers. Only applicable for egress type bridges.</br>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
     zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。',
   },
-  healthCheckInterval: {
-    en: 'Health Check Interval',
-    zh: '健康检查间隔',
+  kerberosPrincipal: {
+    en: 'Kerberos Principal',
+    zh: 'Kerberos Principal',
   },
   healthCheckIntervalDesc: {
     en: 'Health check interval.',
     zh: '健康检查间隔。',
   },
-  autoRestartInterval: {
-    en: 'Auto Restart Interval',
-    zh: '自动重连间隔',
+  kerberosKeytabFile: {
+    en: 'Kerberos keytab file',
+    zh: 'Kerberos keytab 文件',
+  },
+  kerberosPrincipalDesc: {
+    en: `SASL GSSAPI authentication Kerberos principal. For example <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.`,
+    zh: `SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中`,
   },
   autoRestartIntervalDesc: {
     en: 'The auto restart interval after the resource is disconnected. ',
@@ -1049,8 +1189,48 @@ When disabled the messages are buffered in RAM only.`,
     zh: '如果时间间隔设置过短，可导致服务离线时反复进行连接测试以致给系统带来较大负载。',
     en: 'If the auto restart time interval is set too small, it might cause the connection test to be repeated when the service is offline, which will bring a lot load to the system.',
   },
+  filePathPlease: {
+    zh: '请填写文件路径',
+    en: 'Fill in the file path',
+  },
+  kerberosKeytabFileDesc: {
+    en: 'SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
+    zh: 'SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。',
+  },
+  mechanism: {
+    en: 'Mechanism',
+    zh: '认证方法',
+  },
+  mechanismDesc: {
+    en: 'SASL authentication mechanism.',
+    zh: 'SASL 认证方法名称。',
+  },
+  producer: {
+    en: 'MQTT to Kafka',
+    zh: 'MQTT 到 Kafka',
+  },
+  producerDesc: {
+    en: 'Local MQTT data source and Kafka bridge configs.',
+    zh: '本地 MQTT 数据源和 Kafka 桥接的配置。',
+  },
+  saveAsCopy: {
+    zh: '保存为副本',
+    en: 'Save as copy',
+  },
   confirmReset: {
     zh: '是否确认重置输入的测试数据？',
     en: 'Are you sure to reset the test data?',
+  },
+  accountJSONError: {
+    zh: '请上传格式有效的 GCP 服务账户凭证',
+    en: 'Please upload your GCP Service Account Credentials in a valid format',
+  },
+  kafkaSniDesc: {
+    zh: `TLS Server Name Indication (SNI)。可以设置为 "auto" 来自动使用连接主机名为 SNI，设置为 "none" 来禁用 SNI（与该字段留白效果一样），或者设置一个主机名，例如 "my.kafka.host" 来使用静态的 SNI。`,
+    en: `The TLS Server Name Indication (SNI). We can set it to "auto" to use connecting hostname as SNI, set to none to disable SNI (same as leaving it blank), or set to an FQDN such as "my.kafka.host" to use a static SNI for all SSL connections.`,
+  },
+  redisCommandError: {
+    zh: '不正确的 Redis 命令',
+    en: 'Incorrect Redis command',
   },
 }

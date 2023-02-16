@@ -202,6 +202,7 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.Webhook,
   BridgeType.MQTT,
   BridgeType.InfluxDB,
+  BridgeType.Kafka,
 ]
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
@@ -215,3 +216,7 @@ export const ENCRYPTED_PWD_REG = /^\*{6}$/
 export const PASSWORD_REG = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)[ -~]{8,64}$/
 
 export const SESSION_NEVER_EXPIRE_TIME = parseInt('0xFFFFFFFF', 16)
+
+export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
+
+export const MONGO_TYPE = ['single', 'rs', 'sharded']

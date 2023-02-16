@@ -35,12 +35,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="16">
-            <el-form-item :label="$t('BasicConfig.enableTelemetry')">
-              <p class="item-desc">{{ $t('BasicConfig.telemetryTip') }}</p>
-              <el-switch v-model="record.enable"></el-switch>
-            </el-form-item>
-          </el-col>
           <el-col :span="24">
             <el-button type="primary" :loading="saveLoading" @click="handleSave">
               {{ $t('Base.apply') }}
@@ -72,7 +66,7 @@ const record = reactive({
   lang: 'en',
   theme: 'dark',
   syncOsTheme: false,
-  enable: true,
+  enable: false,
 })
 const teleConfigs = ref<TeleStatus>({
   enable: true,

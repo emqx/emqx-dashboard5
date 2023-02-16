@@ -51,6 +51,28 @@
                 ref="formCom"
                 :copy="isCopy"
               />
+              <bridge-influxdb-config
+                v-else-if="chosenBridgeType === BridgeType.InfluxDB"
+                v-model="bridgeData"
+                ref="formCom"
+                :copy="isCopy"
+              />
+
+              <bridge-kafka-config
+                v-else-if="chosenBridgeType === BridgeType.Kafka"
+                v-model="bridgeData"
+                ref="formCom"
+                :copy="isCopy"
+              />
+              <using-schema-bridge-config
+                v-else-if="
+                  chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)
+                "
+                v-model="bridgeData"
+                :type="chosenBridgeType"
+                ref="formCom"
+                :copy="isCopy"
+              />
             </div>
           </template>
         </el-row>
@@ -115,6 +137,22 @@
         v-model="bridgeData"
         ref="formCom"
       />
+      <bridge-influxdb-config
+        v-else-if="chosenBridgeType === BridgeType.InfluxDB"
+        v-model="bridgeData"
+        ref="formCom"
+      />
+      <bridge-kafka-config
+        v-else-if="chosenBridgeType === BridgeType.Kafka"
+        v-model="bridgeData"
+        ref="formCom"
+      />
+      <using-schema-bridge-config
+        v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
+        :type="chosenBridgeType"
+        v-model="bridgeData"
+        ref="formCom"
+      />
     </div>
   </div>
 </template>
@@ -142,17 +180,28 @@ import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
+import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
+import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
 
 export default defineComponent({
   name: 'BridgeCreate',
-  components: { BridgeHttpConfig, BridgeMqttConfig, DetailHeader, GuideBar },
+  components: {
+    BridgeHttpConfig,
+    BridgeMqttConfig,
+    DetailHeader,
+    GuideBar,
+    UsingSchemaBridgeConfig,
+    BridgeInfluxdbConfig,
+    BridgeKafkaConfig,
+  },
   setup() {
     const { tl } = useI18nTl('RuleEngine')
     const createBridgeData = () => ({})
     const router = useRouter()
     const route = useRoute()
     const { t } = useI18n()
-    const { bridgeTypeOptions } = useBridgeTypeOptions()
+    const { bridgeTypeOptions, getBridgeType } = useBridgeTypeOptions()
     const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
@@ -226,7 +275,7 @@ export default defineComponent({
       try {
         const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
         if (currentType && getBridgeLabelByTypeValue(currentType as BridgeType)) {
-          chosenBridgeType.value = currentType as BridgeType
+          chosenBridgeType.value = getBridgeType(currentType as BridgeType)
         }
         step.value = 1
         targetLoading.value = true
@@ -236,7 +285,7 @@ export default defineComponent({
             ...handleBridgeDataForCopy(bridgeInfo),
             name: countDuplicationName(bridgeInfo.name),
           }
-          chosenBridgeType.value = bridgeInfo.type
+          chosenBridgeType.value = getBridgeType(bridgeInfo.type)
         }
       } catch (error) {
         //
@@ -324,6 +373,7 @@ export default defineComponent({
       step,
       activeGuidesIndex,
       guideDescList,
+      BRIDGE_TYPES_NOT_USE_SCHEMA,
       goPreStep,
       goNextStep,
       bridgeTypeOptions,

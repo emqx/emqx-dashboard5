@@ -265,7 +265,7 @@ export default {
   },
   issuanceOfEmail: {
     zh: '签发邮箱',
-    en: 'email',
+    en: 'Email',
   },
   issuedAt: {
     zh: '签发时间',
@@ -290,6 +290,30 @@ export default {
   trialEdition: {
     zh: '试用版',
     en: 'For Trial',
+  },
+  licenseEvaluationTip: {
+    zh: `当前正在使用评估 License，限制为 {0} 个连接。请{1}。`,
+    en: `You are now using the {0}-connection evaluation license. Please {1}.`,
+  },
+  upgradeLicense: {
+    zh: '升级 License',
+    en: 'upgrade license',
+  },
+  licenseExpiryTip: {
+    zh: '您的 License 已过期，请{0}或联系销售人员更新 License。',
+    en: 'Your license has expired. Please {0} or contact our customer services for an updated license.',
+  },
+  updateLicense: {
+    zh: '更新 License',
+    en: 'update license',
+  },
+  key: {
+    zh: 'Key',
+    en: 'Key',
+  },
+  uploadedSuccessfully: {
+    zh: '上传成功',
+    en: 'Uploaded successfully',
   },
   messageDrop: {
     zh: '消息丢弃',
@@ -324,8 +348,12 @@ export default {
     en: 'Rate',
   },
   notPromptAgain: {
-    zh: '不再提示',
-    en: 'Stop showing this',
+    zh: '不再询问我',
+    en: "Don't ask me again",
+  },
+  know: {
+    zh: '知道了',
+    en: 'Acknowledge',
   },
   expired: {
     zh: '过期',

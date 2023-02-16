@@ -3,7 +3,7 @@
     <el-container>
       <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
         <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-          <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
+          <img class="img-logo" src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
         </div>
         <left-bar></left-bar>
         <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
@@ -63,16 +63,22 @@
       </el-container>
     </el-container>
   </div>
+  <LicenseTipDialog
+    v-model="showLicenseTipDialog"
+    :max-connection="store.state.licenseData.max_connections"
+  />
 </template>
 
 <script lang="ts">
 import LeftBar from './LeftBar.vue'
 import NavHeader from './NavHeader.vue'
+import LicenseTipDialog from './LicenseTipDialog.vue'
 import { routes } from '@/router'
 import { useStore } from 'vuex'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
+import { loadLicenseInfo } from '@/api/common'
 
 export default defineComponent({
   name: 'Layout',
@@ -81,6 +87,7 @@ export default defineComponent({
     LeftBar,
     Expand,
     Fold,
+    LicenseTipDialog,
   },
   props: {
     keepAlive: {
@@ -92,6 +99,9 @@ export default defineComponent({
     const kebab2pascal = (s: string) => String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
     const store = useStore()
     const route = useRoute()
+
+    const showLicenseTipDialog = ref(false)
+    const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
 
     const edition = computed(() => {
       return store.state.edition
@@ -132,9 +142,34 @@ export default defineComponent({
       }
       return true
     })
+
+    const initLicense = async () => {
+      try {
+        const res = await loadLicenseInfo()
+        await store.commit('SET_LICENSE_DATA', res)
+      } catch (error) {
+        //
+      }
+    }
+
+    const tryOpenLicenseDialog = () => {
+      showLicenseTipDialog.value =
+        (isEvaluationLicense.value &&
+          localStorage.getItem('licenseTipVisible') !== false.toString()) ||
+        store.state.licenseData.expiry
+    }
+
+    onMounted(async () => {
+      await initLicense()
+      tryOpenLicenseDialog()
+    })
+
+    initLicense()
+
     return {
       store,
       route,
+      showLicenseTipDialog,
       edition,
       elMainStyle,
       topLvRoute,
@@ -215,18 +250,16 @@ export default defineComponent({
   padding-left: 24px;
   img {
     max-width: initial;
-    width: 86px;
-    height: 30px;
+    height: 28px;
     transition: all 0.3s;
   }
 }
 
 .logo.logo-colap {
-  width: 79px;
-  padding-left: 27px;
+  width: 64px;
+  padding-left: 26px;
   img {
-    width: 200px;
-    height: 43px;
+    height: 36px;
   }
 }
 
@@ -241,5 +274,12 @@ export default defineComponent({
 .top-submenu {
   transition: none;
   padding: 0 22px;
+}
+</style>
+<style lang="scss">
+[data-theme='dark'] {
+  .img-logo {
+    filter: invert(1);
+  }
 }
 </style>
