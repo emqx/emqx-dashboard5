@@ -1,5 +1,5 @@
 import { NodeStatusClass } from './enum'
-import { RuleItem } from 'async-validator'
+import { FormItemRule } from 'element-plus'
 
 export interface UserInfo {
   username: string
@@ -64,7 +64,7 @@ export type OptionList<T> = Array<{
   label: string
 }>
 
-export interface FormItemRule extends RuleItem {
+export interface FormItemRule extends FormItemRule {
   trigger?: Array<string>
 }
 
