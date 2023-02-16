@@ -176,7 +176,7 @@ export default {
     en: 'Never Expire',
   },
   topicExistedTip: {
-    zh: '该主题已创建主题监控，将跳至现有主题监控数据处并展开详情',
-    en: 'This topic has already created topic metrics, and will jump to the existing topic monitoring data and expand the details',
+    zh: '该主题已添加，自动跳转至该主题下查看监控数据',
+    en: 'Topic already registered, automatically redirecting to the topic to view the monitoring data',
   },
 }
