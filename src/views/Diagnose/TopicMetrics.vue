@@ -13,10 +13,11 @@
       ref="tbRef"
       row-key="topic"
       :expand-row-keys="tableExpandRowKeys"
+      :row-class-name="({ rowIndex }) => getTopicClassName(rowIndex)"
     >
       <el-table-column type="expand" width="1">
-        <template #default="{ row }">
-          <div v-loading="row._loading" class="topic-detail">
+        <template #default="{ row, $index }">
+          <div v-loading="row._loading" class="topic-detail" :class="getTopicClassName($index)">
             <el-row class="topic-detail-header">
               <div>{{ $t('Base.detail') }}</div>
               <el-radio-group v-model="row.topicQoS" size="small">
@@ -122,7 +123,11 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row, $index }">
-          <el-button size="small" @click="loadMetricsFromTopic(row, $index)">
+          <el-button
+            size="small"
+            :class="BTN_VIEW_CLASS"
+            @click="loadMetricsFromTopic(row, $index)"
+          >
             {{ $t('Base.view') }}
           </el-button>
           <el-button size="small" @click="resetTopic(row, $index)">
@@ -172,6 +177,7 @@ import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
+import { waitAMoment } from '@/common/tools.ts'
 
 const DEFAULT_QOS = 'all'
 
@@ -191,6 +197,7 @@ export default defineComponent({
     }
   },
   setup() {
+    const BTN_VIEW_CLASS = 'btn-view'
     const { t } = useI18n()
 
     const route = useRoute()
@@ -214,6 +221,8 @@ export default defineComponent({
       return t(collection + '.' + key)
     }
 
+    const getTopicClassName = (topicIndex) => `is-${topicIndex}`
+
     const openAdd = () => {
       addVisible.value = true
       record.value?.resetFields()
@@ -235,13 +244,31 @@ export default defineComponent({
       }
     }
 
+    const viewTopicDetail = async (topicIndex) => {
+      ElMessage({ message: translate('topicExistedTip'), type: 'message', duration: 5000 })
+      await waitAMoment(1024)
+      const ele = document.querySelector(`tr.${getTopicClassName(topicIndex)}`)
+      const btn = ele ? ele.querySelector(`.${BTN_VIEW_CLASS}`) : null
+      if (btn) {
+        btn.click()
+        await waitAMoment(200)
+        const detailEle = document.querySelector(`.topic-detail.${getTopicClassName(topicIndex)}`)
+        detailEle?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    }
+
     const checkTopicInQuery = () => {
       const { topic = '' } = route.query || {}
       if (topic) {
-        topicInput.topic = topic
-        addVisible.value = true
-        router.replace({ name: 'topic-metrics' })
+        let topicIndex = topicMetricsTb.value.findIndex(({ topic: t }) => t === topic)
+        if (topicIndex > -1) {
+          viewTopicDetail(topicIndex)
+        } else {
+          topicInput.topic = topic
+          addVisible.value = true
+        }
       }
+      router.replace({ name: 'topic-metrics' })
     }
 
     const addTopic = async function () {
@@ -322,13 +349,14 @@ export default defineComponent({
 
     const getKey = (qos, subPath) => `messages.${getStrForConcat(qos)}${subPath}`
 
-    onMounted(() => {
-      loadTopicMetrics()
+    onMounted(async () => {
+      await loadTopicMetrics()
       checkTopicInQuery()
     })
 
     return {
       Plus,
+      BTN_VIEW_CLASS,
       df: dateFormat,
       tl: translate,
       DEFAULT_QOS,
@@ -347,6 +375,7 @@ export default defineComponent({
       addLoading,
       getStrForConcat,
       getKey,
+      getTopicClassName,
     }
   },
 })
