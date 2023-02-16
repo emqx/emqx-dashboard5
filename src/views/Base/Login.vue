@@ -227,6 +227,7 @@ const submitNewPwd = async () => {
     const { username, password: old_pwd } = record
     const { password: new_pwd } = newPasswordRecord
     await changePassword(username, { new_pwd, old_pwd })
+    store.commit('UPDATE_USER_INFO', { logOut: true })
     queryLogin({ username, password: new_pwd })
   } catch (error) {
     //
