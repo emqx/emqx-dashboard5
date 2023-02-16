@@ -500,7 +500,7 @@ export default {
         this.$notify({
           title: labelText,
           message: this.$t('Tools.doing', { name: this.connection.clientId }) + labelText,
-          duration: 6000,
+          duration: 3000,
           type: infoType,
         })
       })
@@ -735,7 +735,7 @@ export default {
       this.$notify({
         title: this.$t('Tools.errorOccurred'),
         message: this.$t(`MQTTRes.v${version}${errorCode}`),
-        duration: 6000,
+        duration: 3000,
         type: 'error',
       })
       return true
@@ -746,7 +746,7 @@ export default {
       }
       await this.$refs.configForm.validate()
 
-      this.setConnStatus(WEB_SOCKET_STATUS.Connecting)
+      this.setConnStatus(WEB_SOCKET_STATUS.Connecting, false)
       this.times = 0
       this.client = mqtt.connect(this.connectUrl, {
         ...this.getConnectionParams(),
