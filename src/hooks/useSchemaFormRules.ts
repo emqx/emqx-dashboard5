@@ -1,12 +1,12 @@
 import { PropType } from '@/types/enum'
 import { Component } from '@/types/schemaForm'
-import { RuleItem } from 'async-validator'
+import { FormItemRule } from 'element-plus'
 import { ref, Ref } from 'vue'
 import useFormRules from './useFormRules'
 import { set } from 'lodash'
 
 export type SchemaRules = {
-  [key: string]: RuleItem | SchemaRules
+  [key: string]: FormItemRule | SchemaRules
 }
 
 export default (): {
