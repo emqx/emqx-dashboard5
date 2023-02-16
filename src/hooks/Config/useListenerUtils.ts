@@ -102,11 +102,15 @@ export default (): ListenerUtils => {
   const gatewayTypesWhichHasWSConfig = [ListenerType.WS, ListenerType.WSS]
 
   const { t, tl } = useI18nTl('Gateway')
-  const { createRequiredRule } = useFormRules()
+  const { createRequiredRule, createIntFieldRule } = useFormRules()
+  const positiveIntegerRule = createIntFieldRule(1)
   const listenerFormRules: FormRules = {
     name: createRequiredRule(t('Base.name')),
     type: createRequiredRule(tl('lType'), 'select'),
     bind: createRequiredRule(tl('lAddress')),
+    acceptors: positiveIntegerRule,
+    max_connections: positiveIntegerRule,
+    max_conn_rate: positiveIntegerRule,
     'dtls_options.certfile': createRequiredRule('TLS Cert'),
     'dtls_options.keyfile': createRequiredRule('TLS Key'),
     'ssl_options.certfile': createRequiredRule('TLS Cert'),
