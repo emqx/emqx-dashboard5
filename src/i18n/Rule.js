@@ -12,7 +12,7 @@ export default {
     en: 'Please enter a number less than or equal {max}',
   },
   errorType: {
-    zh: '类型错误：请填写 {type} 类型',
+    zh: '类型错误：请填写{type}类型',
     en: 'Type error: please enter {type}',
   },
   errorUnit: {
