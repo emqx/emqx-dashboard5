@@ -1,22 +1,23 @@
 import { useI18n } from 'vue-i18n'
 import { checkStringWithUnit, checkInRange } from '@/common/tools'
-import { InternalRuleItem, RuleItem } from 'async-validator'
+import { FormItemRule } from 'element-plus'
+import { InternalRuleItem } from 'async-validator'
 
 export default (): {
-  createRequiredRule: (name: string, type?: 'input' | 'select') => Array<RuleItem>
-  createIntFieldRule: (min?: number | undefined, max?: number | undefined) => Array<RuleItem>
+  createRequiredRule: (name: string, type?: 'input' | 'select') => Array<FormItemRule>
+  createIntFieldRule: (min?: number | undefined, max?: number | undefined) => Array<FormItemRule>
   createStringWithUnitFieldRule: (
     units: Array<string>,
     min?: number | undefined,
     max?: number | undefined,
-  ) => Array<RuleItem>
+  ) => Array<FormItemRule>
 } => {
   const { t } = useI18n()
 
   const createRequiredRule = (
     name: string,
     type: 'input' | 'select' = 'input',
-  ): Array<RuleItem> => {
+  ): Array<FormItemRule> => {
     return [
       {
         required: true,
@@ -28,11 +29,12 @@ export default (): {
     ]
   }
 
-  const createIntFieldRule = (min?: number, max?: number): Array<RuleItem> => {
-    const ret: Array<RuleItem> = [
+  const createIntFieldRule = (min?: number, max?: number): Array<FormItemRule> => {
+    const ret: Array<FormItemRule> = [
       {
         type: 'number',
         message: t('Rule.errorType', { type: t('Rule.int') }),
+        trigger: 'blur',
       },
     ]
     if (min !== undefined && max !== undefined) {
@@ -41,6 +43,7 @@ export default (): {
         min,
         max,
         message: t('Rule.errorRange', { min, max }),
+        trigger: 'blur',
       })
     } else if (min !== undefined) {
       ret.push({
@@ -53,6 +56,7 @@ export default (): {
         type: 'number',
         max,
         message: t('Rule.maximumError', { max }),
+        trigger: 'blur',
       })
     }
     return ret
@@ -62,7 +66,7 @@ export default (): {
     units: Array<string>,
     min?: number,
     max?: number,
-  ): Array<RuleItem> => {
+  ): Array<FormItemRule> => {
     const ret = [
       {
         validator(rule: InternalRuleItem, val: string) {
