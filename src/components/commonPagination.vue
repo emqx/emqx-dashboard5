@@ -1,10 +1,10 @@
 <template>
   <div class="common-pagination">
     <el-pagination
-      v-if="meta.count > 0"
+      v-if="meta.count > defaultPageSizeOpt[0]"
       background
       layout="total, sizes, prev, pager, next"
-      :page-sizes="[20, 50, 100, 500]"
+      :page-sizes="defaultPageSizeOpt"
       v-model:page-size="meta.limit"
       v-model:current-page="meta.page"
       :total="meta.count"
@@ -42,6 +42,8 @@ export default defineComponent({
     meta.value.limit ||= 20
     meta.value.page ||= 1
 
+    const defaultPageSizeOpt = [20, 50, 100, 500]
+
     watch(meta, (v) => {
       context.emit('update:metaData', v)
     })
@@ -67,6 +69,7 @@ export default defineComponent({
 
     return {
       meta,
+      defaultPageSizeOpt,
       handleSizeChanged,
       handleCurrentChanged,
     }
