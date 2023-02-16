@@ -128,8 +128,8 @@ export default {
     en: 'Bridge Mode',
   },
   bridgeModeDesc: {
-    en: `This setting is only for MQTT protocol version older than 5.0, and the remote MQTT broker MUST support this feature.`,
-    zh: '该设置仅适用于 MQTT 协议版本低于 5.0 的情况，且远程 MQTT 服务必须支持该功能。',
+    zh: '该设置仅适用于 MQTT 协议版本低于 5.0 的情况，且远程 MQTT 服务必须支持该功能。开启后，远端服务器将识别当前连接为一个桥接，消息回环检测更高效，收到的保留消息标志位会透传给本地。',
+    en: 'This setting is only for MQTT protocol version older than 5.0, and the remote MQTT broker MUST support this feature. After being enabled, the remote broker will recognize the current connection as a bridge, that loop detection will be more effective and that retained messages will be propagated correctly.',
   },
   connSetting: {
     zh: '连接配置',
