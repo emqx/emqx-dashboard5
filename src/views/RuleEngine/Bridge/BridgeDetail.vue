@@ -41,8 +41,13 @@
           v-model="activeTab"
         >
           <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
-            <div v-loading="infoLoading">
+            <div
+              class="overview-container"
+              :class="{ 'is-loading': infoLoading }"
+              v-loading="infoLoading"
+            >
               <BridgeItemOverview
+                v-if="!infoLoading"
                 :bridge-id="id"
                 :bridge-msg="bridgeInfo"
                 @refresh="loadBridgeInfo"
@@ -428,5 +433,9 @@ defineExpose({
 .el-alert {
   width: 75%;
   margin-bottom: 12px;
+}
+
+.overview-container.is-loading {
+  height: 600px;
 }
 </style>
