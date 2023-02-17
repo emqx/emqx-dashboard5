@@ -1,20 +1,40 @@
 <template>
   <div class="resource-item-overview">
-    <div class="overview-header">
-      <p class="block-title">{{ tl('statistics') }}</p>
-      <div>
-        <el-button type="primary" @click="handleRefresh">
-          {{ $t('Base.refresh') }}
-        </el-button>
-        <el-button type="primary" plain @click="resetStatistics">
-          {{ tl('resetStatistics') }}
-        </el-button>
+    <div class="overview-sub-block" v-if="showEgressStats">
+      <div class="overview-header">
+        <p class="block-title">{{ tl('egressStatistics') }}</p>
+        <div v-if="!(showIngressStats && !showEgressStats)">
+          <el-button type="primary" @click="handleRefresh">
+            {{ $t('Base.refresh') }}
+          </el-button>
+          <el-button type="primary" plain @click="resetStatistics">
+            {{ tl('resetStatistics') }}
+          </el-button>
+        </div>
+      </div>
+      <div class="overview-sub-block">
+        <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
+        <TargetDetailMetrics class="rule-statistic" :metrics="egressStatisticsData" />
       </div>
     </div>
-    <div class="overview-sub-block">
-      <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
-      <TargetDetailMetrics class="rule-statistic" :metrics="statisticsData" />
+    <div class="overview-sub-block" v-if="showIngressStats">
+      <div class="overview-header">
+        <p class="block-title">{{ tl('ingressStatistics') }}</p>
+        <div v-if="showIngressStats && !showEgressStats">
+          <el-button type="primary" @click="handleRefresh">
+            {{ $t('Base.refresh') }}
+          </el-button>
+          <el-button type="primary" plain @click="resetStatistics">
+            {{ tl('resetStatistics') }}
+          </el-button>
+        </div>
+      </div>
+      <div class="overview-sub-block">
+        <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
+        <TargetDetailMetrics class="rule-statistic" :metrics="ingressStatisticsData" />
+      </div>
     </div>
+
     <div class="overview-sub-block">
       <div class="overview-header">
         <p class="vertical-align-center">
@@ -26,7 +46,7 @@
         <el-table-column prop="node" :label="tl('name')" />
 
         <el-table-column prop="metrics.matched" :label="tl('matched')" />
-        <el-table-column v-if="showReceived" prop="metrics.received" :label="tl('received')" />
+        <el-table-column v-if="showIngressStats" prop="metrics.received" :label="tl('received')" />
         <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
 
         <el-table-column prop="metrics.rate">
@@ -78,15 +98,16 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, defineEmits, computed, ComputedRef, ref, Ref, watch } from 'vue'
-import { BridgeType, ConnectionStatus } from '@/types/enum'
-import { BridgeMetricsData, NodeMetrics, NodeStatus, BridgeItem } from '@/types/rule'
-import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { queryBridgeMetrics, reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import useI18nTl from '@/hooks/useI18nTl'
-import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
+import useShowBridgeStats from '@/hooks/Rule/bridge/useShowBridgeStats'
+import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
+import useI18nTl from '@/hooks/useI18nTl'
+import { ConnectionStatus } from '@/types/enum'
+import { BridgeItem, BridgeMetricsData, NodeMetrics, NodeStatus } from '@/types/rule'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { computed, ComputedRef, defineEmits, defineProps, PropType, ref, Ref, watch } from 'vue'
 
 const props = defineProps({
   /**
@@ -108,10 +129,14 @@ const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConne
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
 
-const showReceived = computed(() => {
-  const isMQTT = props.bridgeMsg.type === BridgeType.MQTT
-  const withIngress = 'ingress' in props.bridgeMsg && props.bridgeMsg.ingress?.remote?.topic
-  return isMQTT && withIngress
+const { judgeShowEgressStats, judgeShowIngressStats } = useShowBridgeStats()
+
+const showEgressStats = computed(() => {
+  return judgeShowEgressStats(props.bridgeMsg)
+})
+
+const showIngressStats = computed(() => {
+  return judgeShowIngressStats(props.bridgeMsg)
 })
 
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
@@ -138,74 +163,72 @@ const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = comput
 
 const { tl, t } = useI18nTl('RuleEngine')
 
-const statisticsData = computed(() => {
-  const ret = [
-    {
-      label: tl('matched'),
-      desc: tl('bridgeMatchedDesc'),
-      value: bridgeMetrics.value.metrics.matched,
-      className: 'matched-bg',
-    },
-    {
-      label: tl('sentSuccessfully'),
-      desc: tl('sentSuccessfullyDesc'),
-      value: bridgeMetrics.value.metrics.success,
-      className: 'last-five-rate-bg',
-    },
-    {
-      label: tl('sentFailed'),
-      desc: tl('sentFailedDesc'),
-      value: bridgeMetrics.value.metrics.failed,
-      className: 'failed-bg',
-    },
-    {
-      label: tl('sentInflight'),
-      desc: tl('sentInflightDesc'),
-      value: bridgeMetrics.value.metrics.inflight,
-      className: 'no-result-bg',
-    },
-    {
-      label: tl('lateReply'),
-      desc: tl('lateReplyDesc'),
-      value: bridgeMetrics.value.metrics.late_reply,
-      className: 'no-result-bg',
-    },
+const egressStatisticsData = computed(() => [
+  {
+    label: tl('matched'),
+    desc: tl('bridgeMatchedDesc'),
+    value: bridgeMetrics.value.metrics.matched,
+    className: 'matched-bg',
+  },
+  {
+    label: tl('sentSuccessfully'),
+    desc: tl('sentSuccessfullyDesc'),
+    value: bridgeMetrics.value.metrics.success,
+    className: 'last-five-rate-bg',
+  },
+  {
+    label: tl('sentFailed'),
+    desc: tl('sentFailedDesc'),
+    value: bridgeMetrics.value.metrics.failed,
+    className: 'failed-bg',
+  },
+  {
+    label: tl('sentInflight'),
+    desc: tl('sentInflightDesc'),
+    value: bridgeMetrics.value.metrics.inflight,
+    className: 'no-result-bg',
+  },
+  {
+    label: tl('lateReply'),
+    desc: tl('lateReplyDesc'),
+    value: bridgeMetrics.value.metrics.late_reply,
+    className: 'no-result-bg',
+  },
 
-    {
-      label: tl('dropped'),
-      desc: tl('droppedDesc'),
-      value: bridgeMetrics.value.metrics.dropped,
-      className: 'failed-bg',
-    },
-    {
-      label: tl('queuing'),
-      desc: tl('queuingDesc'),
-      value: bridgeMetrics.value.metrics.queuing,
-      className: 'max-rate-bg',
-    },
-    {
-      label: tl('retried'),
-      desc: tl('retriedDesc'),
-      value: bridgeMetrics.value.metrics.retried,
-      className: 'success-bg',
-    },
-    {
-      label: tl('rateNow'),
-      value: bridgeMetrics.value.metrics.rate,
-      unit: t('RuleEngine.rateUnit', bridgeMetrics.value.metrics.rate),
-      className: 'rate-bg',
-    },
-  ]
-  if (showReceived.value) {
-    ret.splice(4, 0, {
-      label: tl('received'),
-      desc: tl('receivedDesc'),
-      value: bridgeMetrics.value.metrics.received,
-      className: 'max-rate-bg',
-    })
-  }
-  return ret
-})
+  {
+    label: tl('dropped'),
+    desc: tl('droppedDesc'),
+    value: bridgeMetrics.value.metrics.dropped,
+    className: 'failed-bg',
+  },
+  {
+    label: tl('queuing'),
+    desc: tl('queuingDesc'),
+    value: bridgeMetrics.value.metrics.queuing,
+    className: 'max-rate-bg',
+  },
+  {
+    label: tl('retried'),
+    desc: tl('retriedDesc'),
+    value: bridgeMetrics.value.metrics.retried,
+    className: 'success-bg',
+  },
+  {
+    label: tl('rateNow'),
+    value: bridgeMetrics.value.metrics.rate,
+    unit: t('RuleEngine.rateUnit', bridgeMetrics.value.metrics.rate),
+    className: 'rate-bg',
+  },
+])
+
+const ingressStatisticsData = computed(() => [
+  {
+    label: tl('received'),
+    desc: tl('receivedDesc'),
+    value: bridgeMetrics.value.metrics.received,
+    className: 'max-rate-bg',
+  },
+])
 
 const getBridgeMetrics = async () => {
   try {

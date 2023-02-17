@@ -515,6 +515,14 @@ export default {
     zh: '动作统计',
     en: 'Actions Statistics',
   },
+  egressStatistics: {
+    zh: '流出统计',
+    en: 'Egress Statistics',
+  },
+  ingressStatistics: {
+    zh: '流入统计',
+    en: 'Ingress Statistics',
+  },
   nodeStatus: {
     zh: '节点状态',
     en: 'Node Status',
