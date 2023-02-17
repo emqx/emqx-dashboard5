@@ -23,6 +23,7 @@ import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { cloneDeep, isEqual } from 'lodash'
+import { customValidate } from '@/common/tools'
 
 export default defineComponent({
   name: 'Session',
@@ -72,6 +73,7 @@ export default defineComponent({
       loadData()
     }
     const handleSave = async (val: Zone) => {
+      await customValidate(SchemaFormCom.value)
       const data = _.cloneDeep(val)
       const {
         mqtt: { mqueue_priorities },
