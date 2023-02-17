@@ -10,6 +10,7 @@ import hljs from 'highlight.js/lib/core'
 import sql from '@/common/highlight/sql'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
+import useShowBridgeStats from '../bridge/useShowBridgeStats'
 
 hljs.registerLanguage('sql', sql)
 
@@ -123,6 +124,28 @@ export default (): {
 
   const { getStatusLabel, getStatusClass } = useCommonConnectionStatus()
   const { getTypeStr } = useBridgeTypeOptions()
+  const { judgeShowEgressStats, judgeShowIngressStats } = useShowBridgeStats()
+
+  const getBridgeStatsData = (bridge: BridgeItemWithMetrics) => {
+    const showEgressStats = judgeShowEgressStats(bridge)
+    const showIngressStats = judgeShowIngressStats(bridge)
+    const { metrics } = bridge
+
+    const statsMsg = []
+    if (showEgressStats) {
+      statsMsg.push(
+        ...[
+          { label: tl('matched'), value: metrics.matched },
+          { label: tl('sentInflight'), value: metrics['inflight'] },
+          { label: tl('rateNow'), value: metrics.rate + ' message/sec' },
+        ],
+      )
+    }
+    if (showIngressStats) {
+      statsMsg.push({ label: tl('received'), value: metrics.received })
+    }
+    return statsMsg
+  }
 
   const createBridgeNodeTooltip = (bridgeID: string) => {
     const targetBridge = bridgeList.find(({ id }) => id === bridgeID)
@@ -131,16 +154,15 @@ export default (): {
     }
 
     const container = createContainerEle()
-    const { name, metrics, status } = targetBridge
+    const { name, status } = targetBridge
     const statusStr = getStatusLabel(status)
     const statusClass = `text-status ${getStatusClass(status)}`
+    const statsMsg = getBridgeStatsData(targetBridge)
 
     const msgArr = [
       { label: tl('type'), value: getTypeStr(targetBridge) },
       { label: tl('name'), value: name },
-      { label: tl('matched'), value: metrics.matched },
-      { label: tl('sentInflight'), value: metrics['inflight'] },
-      { label: tl('rateNow'), value: metrics.rate + ' message/sec' },
+      ...statsMsg,
       { label: tl('status'), value: statusStr, valueClass: statusClass },
     ]
 
