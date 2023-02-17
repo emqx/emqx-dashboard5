@@ -138,7 +138,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       await formCom.value.validate()
       return Promise.resolve()
     } catch (error) {
-      jumpToErrorFormItem(false)
+      jumpToErrorFormItem()
       return Promise.reject()
     }
   }
