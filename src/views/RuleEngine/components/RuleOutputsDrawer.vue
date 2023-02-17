@@ -260,6 +260,7 @@ const loadEgressBridgeList = async () => {
     bridgeList.value = await getBridgeList()
     egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
       // without direction configurations
+      // TODO: consider Kafka
       if (!('ingress' in v) && !('egress' in v)) {
         return true
       }
