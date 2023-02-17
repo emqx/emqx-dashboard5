@@ -90,8 +90,11 @@
           <el-input v-model="record.password" type="password" autocomplete="one-time-code" />
         </el-form-item>
         <el-form-item>
-          <div>
-            <el-checkbox v-model="record.is_superuser" :label="$t('Auth.isSuperuser')" border />
+          <div class="border-checkbox">
+            <el-checkbox v-model="record.is_superuser" :label="$t('Auth.isSuperuser')" />
+            <p class="checkbox-note">
+              {{ $t('Auth.isSuperuserDesc') }}
+            </p>
           </div>
         </el-form-item>
       </el-form>
@@ -359,9 +362,8 @@ const resetIsSuperuser = () => {
       width: 260px;
     }
   }
-  .el-checkbox.is-bordered {
-    margin: 0;
-    padding: 0 12px;
+  .border-checkbox {
+    margin-top: 16px;
   }
 
   .add-funcs-container {
