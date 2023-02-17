@@ -5,6 +5,7 @@ import { InternalRuleItem } from 'async-validator'
 
 export default (): {
   createRequiredRule: (name: string, type?: 'input' | 'select') => Array<FormItemRule>
+  createNumRangeRule: (min?: number, max?: number) => Array<FormItemRule>
   createIntFieldRule: (min?: number | undefined, max?: number | undefined) => Array<FormItemRule>
   createStringWithUnitFieldRule: (
     units: Array<string>,
@@ -29,37 +30,28 @@ export default (): {
     ]
   }
 
+  const createNumRangeRule = (min?: number, max?: number): Array<FormItemRule> => {
+    if (min === undefined && max === undefined) {
+      return []
+    }
+    const errorMsg =
+      min !== undefined && max !== undefined
+        ? t('Rule.errorRange', { min, max })
+        : min !== undefined
+        ? t('Rule.minimumError', { min })
+        : t('Rule.maximumError', { max })
+    return [{ type: 'number', min, max, message: errorMsg, trigger: 'change' }]
+  }
+
   const createIntFieldRule = (min?: number, max?: number): Array<FormItemRule> => {
-    const ret: Array<FormItemRule> = [
+    return [
       {
         type: 'number',
         message: t('Rule.errorType', { type: t('Rule.int') }),
         trigger: 'blur',
       },
+      ...createNumRangeRule(min, max),
     ]
-    if (min !== undefined && max !== undefined) {
-      ret.push({
-        type: 'number',
-        min,
-        max,
-        message: t('Rule.errorRange', { min, max }),
-        trigger: 'blur',
-      })
-    } else if (min !== undefined) {
-      ret.push({
-        type: 'number',
-        min,
-        message: t('Rule.minimumError', { min }),
-      })
-    } else if (max !== undefined) {
-      ret.push({
-        type: 'number',
-        max,
-        message: t('Rule.maximumError', { max }),
-        trigger: 'blur',
-      })
-    }
-    return ret
   }
 
   const createStringWithUnitFieldRule = (
@@ -95,6 +87,7 @@ export default (): {
   return {
     createRequiredRule,
     createIntFieldRule,
+    createNumRangeRule,
     createStringWithUnitFieldRule,
   }
 }

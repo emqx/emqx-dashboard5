@@ -2,6 +2,7 @@
   <div class="cluster app-wrapper">
     <el-card class="config-card">
       <schema-form
+        ref="SchemaFormCom"
         :according-to="{ path: '/configs/cluster' }"
         type="cluster"
         :form="configs"
@@ -27,6 +28,7 @@ import { getClusterConfigs, updateClusterConfigs } from '@/api/config'
 import { Cluster } from '@/types/config'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import { customValidate } from '@/common/tools'
 
 export default defineComponent({
   name: 'Cluster',
@@ -38,6 +40,7 @@ export default defineComponent({
     const configs = ref({})
     const saveLoading = ref(false)
     const { t } = useI18n()
+    const SchemaFormCom = ref()
     const loadData = async () => {
       const res = await getClusterConfigs()
       if (res) {
@@ -48,11 +51,10 @@ export default defineComponent({
       loadData()
     }
     const handleSave = async (val: Cluster) => {
-      saveLoading.value = true
-      const data = {
-        ...val,
-      }
       try {
+        await customValidate(SchemaFormCom.value)
+        saveLoading.value = true
+        const data = { ...val }
         await updateClusterConfigs(data)
         ElMessage.success(t('Base.updateSuccess'))
         reloading()
@@ -64,6 +66,7 @@ export default defineComponent({
     }
     loadData()
     return {
+      SchemaFormCom,
       handleSave,
       configs,
       reloading,

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { BridgeItem } from '@/types/rule'
-import { omit, isObject, escape, cloneDeep } from 'lodash'
+import { omit, isObject, isFunction, escape, cloneDeep } from 'lodash'
 import utf8 from 'utf8'
 import { COPY_SUFFIX } from './constants'
 
@@ -263,22 +263,25 @@ export const waitAMoment = (ms = 100): Promise<boolean> => {
 
 export const numToFixed = (number: number, digits = 3): number => parseFloat(number.toFixed(digits))
 
+export const customValidate = async (form: any) => {
+  try {
+    if (form.validate && isFunction(form.validate)) {
+      await form.validate()
+    }
+    return Promise.resolve()
+  } catch (error) {
+    jumpToErrorFormItem()
+    return Promise.reject(error)
+  }
+}
+
 /**
  * @param scrollWindow set to false when the form is in dialog or form is in container which can scroll
  */
-export const jumpToErrorFormItem = (
-  scrollWindow = true,
-  className = '.el-form-item.is-error',
-): void => {
+export const jumpToErrorFormItem = (className = '.el-form-item.is-error'): void => {
   const el = document.querySelector(className)
   if (el) {
-    if (scrollWindow) {
-      const top = el.getBoundingClientRect().top - 100
-      // can not use scrollIntoView directly, because el will be hidden by header
-      window.scrollTo({ top, behavior: 'smooth' })
-    } else {
-      el.scrollIntoView({ behavior: 'smooth' })
-    }
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 }
 
