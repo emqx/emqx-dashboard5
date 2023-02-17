@@ -23,6 +23,7 @@ import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { cloneDeep, isEqual } from 'lodash'
+import { customValidate } from '@/common/tools'
 
 export default defineComponent({
   name: 'Mqtt',
@@ -50,11 +51,10 @@ export default defineComponent({
       loadData()
     }
     const handleSave = async (val: Zone) => {
-      saveLoading.value = true
-      const data = {
-        ...val,
-      }
       try {
+        await customValidate(SchemaFormCom.value)
+        saveLoading.value = true
+        const data = { ...val }
         await updateDefaultZoneConfigs(data)
         ElMessage.success(t('Base.updateSuccess'))
         reloading()

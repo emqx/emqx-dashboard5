@@ -2,6 +2,7 @@
   <div class="dashboard app-wrapper">
     <el-card>
       <schema-form
+        ref="SchemaFormCom"
         :according-to="{ path: '/configs/dashboard' }"
         :form="configs"
         :btn-loading="saveLoading"
@@ -18,6 +19,7 @@ import { getDashboardConfigs, updateDashboardConfigs } from '@/api/config'
 import { Dashboard } from '@/types/config'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import { customValidate } from '@/common/tools'
 
 export default defineComponent({
   name: 'Dashboard',
@@ -28,6 +30,7 @@ export default defineComponent({
     const configs = ref({})
     const saveLoading = ref(false)
     const { t } = useI18n()
+    const SchemaFormCom = ref()
     const loadData = async () => {
       const res = await getDashboardConfigs()
       if (res) {
@@ -38,11 +41,10 @@ export default defineComponent({
       loadData()
     }
     const handleSave = async (val: Dashboard) => {
-      saveLoading.value = true
-      const data = {
-        ...val,
-      }
       try {
+        await customValidate(SchemaFormCom.value)
+        saveLoading.value = true
+        const data = { ...val }
         await ElMessageBox.confirm(t('BasicConfig.dashboardHttpTip'))
         await updateDashboardConfigs(data)
         ElMessage.success(t('Base.updateSuccess'))
@@ -55,6 +57,7 @@ export default defineComponent({
     }
     loadData()
     return {
+      SchemaFormCom,
       handleSave,
       configs,
       reloading,

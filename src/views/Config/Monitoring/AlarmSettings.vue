@@ -22,6 +22,7 @@ import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { cloneDeep, isEqual } from 'lodash'
+import { customValidate } from '@/common/tools'
 
 const configs = ref({})
 const saveLoading = ref(false)
@@ -44,9 +45,10 @@ const reloading = () => {
   loadData()
 }
 const handleSave = async (val: AlarmSettings) => {
-  saveLoading.value = true
-  const data = { ...val }
   try {
+    await customValidate(SchemaFormCom.value)
+    saveLoading.value = true
+    const data = { ...val }
     await updateSysMon(data)
     ElMessage.success(t('Base.updateSuccess'))
     reloading()
