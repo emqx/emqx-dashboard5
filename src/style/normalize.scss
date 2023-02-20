@@ -816,3 +816,11 @@
 .el-drawer__header {
   color: var(--color-title-primary);
 }
+
+/* Skeleton */ 
+[data-theme='dark'] {
+  .el-skeleton {
+    --el-skeleton-color: var(--color-bg-main);
+    --el-skeleton-to-color: var(--color-bg-split);
+  }
+}
