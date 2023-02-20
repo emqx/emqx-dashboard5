@@ -1,5 +1,15 @@
 .schema-form {
   padding-bottom: 48px;
+  &.is-loading {
+    min-height: 400px;
+    .el-skeleton {
+      width: 70%;
+    }
+    .el-form,
+    .el-tabs {
+      display: none;
+    }
+  }
   .el-tabs.group-tabs {
     margin: 0px 20px 12px;
   }
