@@ -75,12 +75,12 @@
     <el-table :data="tableData" v-loading.lock="lockTable">
       <el-table-column prop="clientid" :label="$t('Clients.clientId')" show-overflow-tooltip>
         <template #default="{ row }">
-          <p class="table-data-without-break keep-spaces">{{ row.clientid }}</p>
+          <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
         </template>
       </el-table-column>
       <el-table-column prop="topic" :label="$t('Subs.topic')" show-overflow-tooltip>
         <template #default="{ row }">
-          <p class="table-data-without-break keep-spaces">{{ row.topic }}</p>
+          <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
         </template>
       </el-table-column>
       <el-table-column prop="qos" label="QoS" />
@@ -120,6 +120,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 const showMoreQuery = ref(false)
 const tableData = ref([])

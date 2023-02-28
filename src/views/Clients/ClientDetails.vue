@@ -15,7 +15,9 @@
         <template #content>
           <el-tooltip :content="clientId">
             <p class="vertical-align-center header-content">
-              <TextEasyCopy>{{ clientId }}</TextEasyCopy>
+              <TextEasyCopy :content="clientId">
+                <PreWithEllipsis>{{ clientId }}</PreWithEllipsis>
+              </TextEasyCopy>
               <span>({{ tl('clientId') }})</span>
             </p>
           </el-tooltip>
@@ -217,6 +219,7 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import TextEasyCopy from '@/components/TextEasyCopy.vue'
 import useCopy from '@/hooks/useCopy'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 const props = defineProps({
   gateway: {
