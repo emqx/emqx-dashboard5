@@ -78,7 +78,7 @@
         show-overflow-tooltip
       >
         <template #default="{ row }">
-          <p class="table-data-without-break">{{ row.topic }}</p>
+          <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
         </template>
       </el-table-column>
       <el-table-column
@@ -178,6 +178,7 @@ import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { waitAMoment } from '@/common/tools.ts'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 const DEFAULT_QOS = 'all'
 
