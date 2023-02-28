@@ -76,7 +76,6 @@
                   ref="formCom"
                   v-model="bridgeInfo"
                   :edit="true"
-                  :validate-for-test-connection="validateForTestConnection"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
               </div>
@@ -128,7 +127,6 @@ import {
   defineExpose,
   watch,
   ComputedRef,
-  nextTick,
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getBridgeInfo, updateBridge, startStopBridge, testConnect } from '@/api/ruleengine'
@@ -148,7 +146,7 @@ import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
-import { jumpToErrorFormItem } from '@/common/tools'
+import { customValidate, jumpToErrorFormItem } from '@/common/tools'
 
 enum Tab {
   Overview = 'overview',
@@ -245,46 +243,30 @@ const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(()
   type: 'bridge',
   obj: bridgeData.value,
 }))
-const tryToViewPwdInput = () => jumpToErrorFormItem(true, 'input[type="password"]')
+const tryToViewPwdInput = () => jumpToErrorFormItem('input[type="password"]')
 
 const pwdErrorWhenCoping = ref('')
 const saveAsCopy = async () => {
   try {
-    await formCom.value.validate()
+    await customValidate(formCom.value)
+    const pwdValue =
+      _.get(bridgeInfo.value, 'password') || _.get(bridgeInfo.value, 'authentication.password')
+    pwdErrorWhenCoping.value = ''
+    if (pwdValue !== undefined && ENCRYPTED_PWD_REG.test(pwdValue)) {
+      pwdErrorWhenCoping.value = tl('pwdWarningWhenCoping')
+      tryToViewPwdInput()
+      return
+    }
+    bridgeData.value = await getDataForSubmit()
+    showNameInputDialog.value = true
   } catch (error) {
-    jumpToErrorFormItem()
-    return
+    //
   }
-  const pwdValue =
-    _.get(bridgeInfo.value, 'password') || _.get(bridgeInfo.value, 'authentication.password')
-  pwdErrorWhenCoping.value = ''
-  if (pwdValue !== undefined && ENCRYPTED_PWD_REG.test(pwdValue)) {
-    pwdErrorWhenCoping.value = tl('pwdWarningWhenCoping')
-    tryToViewPwdInput()
-    return
-  }
-  bridgeData.value = await getDataForSubmit()
-  showNameInputDialog.value = true
 }
 
-const validateForTestConnection = ref(false)
 const testConnection = async () => {
-  let passed = true
   try {
-    validateForTestConnection.value = true
-    await nextTick()
-    await formCom.value.validate()
-  } catch (error) {
-    passed = false
-  } finally {
-    validateForTestConnection.value = false
-  }
-  if (!passed) {
-    jumpToErrorFormItem()
-    return
-  }
-
-  try {
+    await customValidate(formCom.value)
     isTesting.value = true
     const data = await getDataForSubmit()
     await testConnect(_.omit(data, 'id'))
@@ -298,13 +280,7 @@ const testConnection = async () => {
 
 const updateBridgeInfo = async () => {
   try {
-    try {
-      await formCom.value.validate()
-    } catch (error) {
-      jumpToErrorFormItem()
-      return
-    }
-
+    await customValidate(formCom.value)
     setBridgeInfoFromSchemaForm()
     // Check for changes before updating and do not request if there are no changes
     // TODO:check the schema form & MQTT

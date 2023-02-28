@@ -7,23 +7,14 @@ export default (props: any) => {
   const ruleWhenTestConnection = [
     {
       validator: (rule: any, value: any, callback: any) => {
-        if (props.edit) {
-          if (props.validateForTestConnection) {
-            if (ENCRYPTED_PWD_REG.test(value)) {
-              callback(new Error(tl('reInputPwdRequired')))
-            } else {
-              callback()
-            }
-          } else {
-            if (
-              !ENCRYPTED_PWD_REG.test(value) &&
-              (/^\*{1,5}$/.test(value) || /^\*{6}.+$/.test(value))
-            ) {
-              callback(new Error(tl('changePwdTip')))
-            } else {
-              callback()
-            }
-          }
+        if (
+          props.edit &&
+          // is not encrypted pwd
+          !ENCRYPTED_PWD_REG.test(value) &&
+          // changed part of pwd
+          (/^\*{1,5}$/.test(value) || /^\*{6}.+$/.test(value))
+        ) {
+          callback(new Error(tl('changePwdTip')))
         }
         callback()
       },
