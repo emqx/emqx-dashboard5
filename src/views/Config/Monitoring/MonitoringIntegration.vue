@@ -20,41 +20,57 @@
           </el-col>
         </el-row>
         <!-- Prometheus -->
-        <el-row v-if="selectedPlatform === PROMETHEUS">
-          <el-col :span="16" class="custom-col">
-            <el-form-item :label="t('Base.isEnabled')">
-              <p class="item-desc">
-                {{ t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' })
-                }}{{ t('MonitoringIntegration.promToPushgateway') }}
-              </p>
-              <el-switch v-model="prometheusFormData.enable" />
-            </el-form-item>
-          </el-col>
-          <el-collapse-transition>
-            <el-col v-show="prometheusFormData.enable" :span="16" class="custom-col">
-              <el-form-item :label="tl('interval')">
-                <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
-                <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
-              </el-form-item>
-            </el-col>
-          </el-collapse-transition>
-          <el-collapse-transition>
-            <el-col v-show="prometheusFormData.enable" :span="16" class="custom-col">
-              <el-form-item :label="tl('pushgatewayServer')">
+        <template v-if="selectedPlatform === PROMETHEUS">
+          <el-row>
+            <el-col :span="16" class="custom-col">
+              <el-form-item :label="t('Base.isEnabled')">
                 <p class="item-desc">
-                  {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
-                  <a
-                    href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
-                    target="_blank"
-                    rel="noopener"
-                    >{{ tl('whenToUsePushgateway') }}</a
-                  >
+                  {{ t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) }}
+                  {{ t('MonitoringIntegration.promToPushgateway') }}
                 </p>
-                <el-input v-model="prometheusFormData.push_gateway_server" />
+                <el-switch v-model="prometheusFormData.enable" />
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-collapse-transition>
+            <el-row v-show="prometheusFormData.enable">
+              <el-col :span="16" class="custom-col">
+                <el-form-item :label="tl('interval')">
+                  <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
+                  <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="16" class="custom-col">
+                <el-form-item :label="tl('pushgatewayServer')">
+                  <p class="item-desc">
+                    {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
+                    <a
+                      href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      {{ tl('whenToUsePushgateway') }}
+                    </a>
+                  </p>
+                  <el-input v-model="prometheusFormData.push_gateway_server" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="16" class="custom-col">
+                <el-form-item :label="tl('jobName')">
+                  <p v-safe-html="tl('jobNameDesc')" class="item-desc"></p>
+                  <el-input v-model="prometheusFormData.job_name" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="16" class="custom-col">
+                <el-form-item :label="t('RuleEngine.headers')">
+                  <p v-safe-html="tl('headersDesc')" class="item-desc"></p>
+                  <KeyAndValueEditor v-model="prometheusFormData.headers" />
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-collapse-transition>
-        </el-row>
+        </template>
+
         <!-- StatsD -->
         <el-row v-else>
           <el-col :span="16" class="custom-col">
@@ -112,6 +128,7 @@ import { computed, ref, Ref } from 'vue'
 import HelpDrawer from './components/HelpDrawer.vue'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { cloneDeep, isEqual } from 'lodash'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 
 const PROMETHEUS = 'Prometheus'
 const STATS_D = 'StatsD'
@@ -137,6 +154,8 @@ const prometheusFormData: Ref<Prometheus> = ref({
   enable: false,
   interval: '15s',
   push_gateway_server: '',
+  job_name: '',
+  headers: {},
 })
 const statsDFormData: Ref<StatsD> = ref({
   enable: false,
