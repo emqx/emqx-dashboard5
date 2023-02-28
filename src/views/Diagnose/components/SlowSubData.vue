@@ -23,15 +23,14 @@
               name: 'connection-detail',
               params: { clientId: row.clientid },
             }"
-            class="table-data-without-break"
           >
-            {{ row.clientid }}
+            <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
           </router-link>
         </template>
       </el-table-column>
       <el-table-column prop="topic" :label="tl('topic')" show-overflow-tooltip>
         <template #default="{ row }">
-          <p class="table-data-without-break">{{ row.topic }}</p>
+          <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
         </template>
       </el-table-column>
       <el-table-column prop="timespan" :label="tl('duration')" sortable="custom">
@@ -72,6 +71,7 @@ import { useI18n } from 'vue-i18n'
 import usePaging from '@/hooks/usePaging'
 import { Tools } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')

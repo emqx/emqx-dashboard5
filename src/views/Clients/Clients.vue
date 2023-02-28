@@ -80,6 +80,7 @@
     </el-form>
 
     <el-table :data="tableData" ref="clientsTable" v-loading.lock="lockTable">
+      <!-- TODO:fixed the tooltip content (spaces) -->
       <el-table-column
         prop="clientid"
         min-width="140"
@@ -93,15 +94,20 @@
               name: 'connection-detail',
               params: { clientId: row.clientid },
             }"
-            class="table-data-without-break keep-spaces"
-            >{{ row.clientid }}</router-link
           >
+            <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
+          </router-link>
         </template>
       </el-table-column>
 
-      <el-table-column prop="username" min-width="100" :label="$t('Clients.username')">
+      <el-table-column
+        prop="username"
+        min-width="100"
+        :label="$t('Clients.username')"
+        show-overflow-tooltip
+      >
         <template #default="{ row }">
-          <span class="keep-spaces">{{ row.username }}</span>
+          <PreWithEllipsis>{{ row.username }}</PreWithEllipsis>
         </template>
       </el-table-column>
       <el-table-column
@@ -160,6 +166,7 @@ import { useStore } from 'vuex'
 import { NodeMsg } from '@/types/dashboard'
 import useDurationStr from '@/hooks/useDurationStr'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 const { transSecondNumToSimpleStr } = useDurationStr()
 const { tl } = useI18nTl('Clients')

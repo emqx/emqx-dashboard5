@@ -5,15 +5,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, defineProps } from 'vue'
 import useCopy from '@/hooks/useCopy'
+
+const props = defineProps({
+  content: {
+    type: String,
+  },
+})
 
 const textWrap = ref()
 
 const { copyText } = useCopy()
 
 const handleClick = () => {
-  const text = textWrap.value.innerText
+  const text = props.content ? props.content : textWrap.value.innerText
   copyText(text)
 }
 </script>
