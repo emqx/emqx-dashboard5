@@ -45,6 +45,8 @@ export interface Prometheus {
   enable: boolean
   interval: string
   push_gateway_server: string
+  job_name: string
+  headers: Record<string, string>
 }
 
 export interface StatsD {
