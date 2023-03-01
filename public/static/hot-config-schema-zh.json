@@ -80,13 +80,13 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "忽略或启用该监听器配置",
+                        "description": "忽略或启用该监听器。",
                         "label": "启用",
                         "type": "boolean"
                     },
                     "bind": {
                         "default": 18083,
-                        "description": "监听的地址与端口，在dashboard更新此配置时，会重启dashboard服务。",
+                        "description": "监听地址和端口，热更新此配置时，会重启 Dashboard 服务。",
                         "example": "0.0.0.0:18083",
                         "label": "绑定端口",
                         "oneOf": [
@@ -100,32 +100,32 @@
                         ]
                     },
                     "num_acceptors": {
-                        "default": 4,
-                        "description": "TCP协议的Socket acceptor池大小",
+                        "default": 8,
+                        "description": "TCP协议的Socket acceptor池大小, 默认设置在线的调度器数量（通常为 CPU 核数）",
                         "label": "Acceptor 数量",
                         "type": "number"
                     },
                     "max_connections": {
                         "default": 512,
-                        "description": "同时处理的最大连接数",
+                        "description": "同时处理的最大连接数。",
                         "label": "最大连接数",
                         "type": "number"
                     },
                     "backlog": {
                         "default": 1024,
-                        "description": "排队等待连接的队列的最大长度",
+                        "description": "排队等待连接的队列的最大长度。",
                         "label": "排队长度",
                         "type": "number"
                     },
                     "send_timeout": {
-                        "default": "5s",
-                        "description": "Socket发送超时时间",
+                        "default": "10s",
+                        "description": "Socket发送超时时间。",
                         "label": "发送超时时间",
                         "type": "duration"
                     },
                     "inet6": {
                         "default": false,
-                        "description": "启用IPv6， 如果机器不支持IPv6，请关闭此选项，否则会导致仪表盘无法使用。",
+                        "description": "启用IPv6， 如果机器不支持IPv6，请关闭此选项，否则会导致 Dashboard 无法使用。",
                         "label": "IPv6",
                         "type": "boolean"
                     },
@@ -134,6 +134,12 @@
                         "description": "当开启 inet6 功能的同时禁用 IPv4-to-IPv6 映射。该配置仅在 inet6 功能开启时有效。",
                         "label": "IPv6 only",
                         "type": "boolean"
+                    },
+                    "proxy_header": {
+                        "default": false,
+                        "description": "开启对  `HAProxy` 的支持，注意：一旦开启了这个功能，就无法再处理普通的 HTTP 请求了。",
+                        "label": "开启对 `HAProxy` 的支持",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
@@ -141,27 +147,27 @@
             "emqx_conf_schema.cluster_etcd": {
                 "properties": {
                     "server": {
-                        "description": "指定 etcd 服务的地址。如有多个服务使用逗号 , 分隔。</br>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。</br>          ",
+                        "description": "指定 etcd 服务的地址。如有多个服务使用逗号 , 分隔。<br/>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
                         "label": "Etcd 服务器地址",
                         "readOnly": true,
                         "type": "comma_separated_string"
                     },
                     "prefix": {
                         "default": "emqxcl",
-                        "description": "指定 etcd 路径的前缀。每个节点在 etcd 中都会创建一个路径:</br>v2/keys/<prefix>/<cluster.name>/<node.name> </br>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。</br>      ",
+                        "description": "指定 etcd 路径的前缀。每个节点在 etcd 中都会创建一个路径:<br/>v2/keys/<prefix>/<cluster.name>/<node.name> <br/><br/>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
                         "label": "Etcd 路径前缀",
                         "readOnly": true,
                         "type": "string"
                     },
                     "node_ttl": {
                         "default": "1m",
-                        "description": "指定 etcd 中节点信息的过期时间。</br>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。</br>          ",
+                        "description": "指定 etcd 中节点信息的过期时间。<br/>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
                         "label": "Etcd 节点过期时间",
                         "readOnly": true,
                         "type": "duration"
                     },
                     "ssl": {
-                        "description": "当使用 TLS 连接 etcd 时的配置选项。</br>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。</br>          ",
+                        "description": "当使用 TLS 连接 etcd 时的配置选项。<br/>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
                         "label": "Etcd SSL 选项",
                         "readOnly": true,
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
@@ -173,7 +179,7 @@
                 "properties": {
                     "strategy": {
                         "default": "random",
-                        "description": "strategy Description",
+                        "description": "共享订阅的分发策略名称。<br/>- `random`：随机选择一个组内成员；<br/>- `round_robin`：循环选择下一个成员；<br/>- `round_robin_per_group`：在共享组内循环选择下一个成员；<br/>- `sticky`：使用上一次选中的成员；<br/>- `hash`：根据 ClientID 哈希映射到一个成员；<br/>- `local`：随机分发到节点本地成成员，如果本地成员不存在，则随机分发到任意一个成员。",
                         "label": "strategy",
                         "symbols": [
                             "random",
@@ -198,8 +204,8 @@
                         "type": "string"
                     },
                     "burst": {
-                        "default": 0,
-                        "description": "突发速率。</br>突发速率允许短时间内速率超过设置的速率值，突发速率 + 速率 = 当前桶能达到的最大速率值",
+                        "default": "0",
+                        "description": "突发速率。<br/>突发速率允许短时间内速率超过设置的速率值，突发速率 + 速率 = 当前桶能达到的最大速率值",
                         "label": "突发速率",
                         "type": "string"
                     }
@@ -240,7 +246,7 @@
                     },
                     "discovery_strategy": {
                         "default": "manual",
-                        "description": "集群节点发现方式。可选值为:</br>- manual: 手动加入集群</br>- static: 配置静态节点。配置几个固定的节点，新节点通过连接固定节点中的某一个来加入集群。</br>- mcast: 使用 UDP 多播的方式发现节点。</br>- dns: 使用 DNS A 记录的方式发现节点。</br>- etcd: 使用 etcd 发现节点。</br>- k8s: 使用 Kubernetes 发现节点。</br>           ",
+                        "description": "集群节点发现方式。可选值为:<br/>- manual: 使用 <code>emqx ctl cluster</code> 命令管理集群。<br/><br/>- static: 配置静态节点。配置几个固定的节点，新节点通过连接固定节点中的某一个来加入集群。<br/><br/>- dns: 使用 DNS A 记录的方式发现节点。<br/><br/>- etcd: 使用 etcd 发现节点。<br/><br/>- k8s: 使用 Kubernetes API 发现节点。",
                         "label": "集群服务发现策略",
                         "readOnly": true,
                         "symbols": [
@@ -255,7 +261,7 @@
                     },
                     "core_nodes": {
                         "default": "",
-                        "description": "当前节点连接的核心节点列表。</br>注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code></br>并且设置<code>role</code>为<code>replicant</code>时生效。</br>该值需要在手动或静态集群发现机制下设置。</br>如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。</br>          ",
+                        "description": "当前节点连接的核心节点列表。<br/><br/>注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code><br/>并且设置<code>role</code>为<code>replicant</code>时生效。<br/><br/>该值需要在手动或静态集群发现机制下设置。<br/><br/>如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。",
                         "label": "数据库核心节点",
                         "readOnly": true,
                         "type": "comma_separated_string"
@@ -276,7 +282,7 @@
                     },
                     "proto_dist": {
                         "default": "inet_tcp",
-                        "description": "分布式 Erlang 集群协议类型。可选值为:</br>- inet_tcp: 使用 IPv4 </br>- inet6_tcp 使用 IPv6 </br>- inet_tls: 使用 TLS，需要与 node.ssl_dist_optfile 配置一起使用。</br>         ",
+                        "description": "分布式 Erlang 集群协议类型。可选值为:<br/><br/>- inet_tcp: 使用 IPv4 <br/><br/>- inet_tls: 使用 TLS，需要配合 <code>etc/ssl_dist.conf</code> 一起使用。",
                         "label": "集群内部通信协议",
                         "readOnly": true,
                         "symbols": [
@@ -338,21 +344,21 @@
                 "properties": {
                     "apiserver": {
                         "default": "http://10.110.111.204:8080",
-                        "description": "指定 Kubernetes API Server。如有多个 Server 使用逗号 , 分隔。</br>当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。</br>          ",
+                        "description": "指定 Kubernetes API Server。如有多个 Server 使用逗号 , 分隔。<br/>当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
                         "label": "K8s 服务地址",
                         "readOnly": true,
                         "type": "string"
                     },
                     "service_name": {
                         "default": "emqx",
-                        "description": "指定 Kubernetes 中 EMQX 的服务名。</br>当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。</br>          ",
+                        "description": "指定 Kubernetes 中 EMQX 的服务名。<br/>当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
                         "label": "K8s 服务别名",
                         "readOnly": true,
                         "type": "string"
                     },
                     "address_type": {
                         "default": "ip",
-                        "description": "当使用 k8s 方式集群时，address_type 用来从 Kubernetes 接口的应答里获取什么形式的 Host 列表。</br>指定 <code>cluster.k8s.address_type</code. 为 <code>ip</code>，则将从 Kubernetes 接口中获取集群中其他节点</br>的IP地址。</br>",
+                        "description": "当使用 k8s 方式集群时，address_type 用来从 Kubernetes 接口的应答里获取什么形式的 Host 列表。<br/>指定 <code>cluster.k8s.address_type</code> 为 <code>ip</code>，则将从 Kubernetes 接口中获取集群中其他节点<br/>的IP地址。",
                         "label": "K8s 地址类型",
                         "readOnly": true,
                         "symbols": [
@@ -364,14 +370,14 @@
                     },
                     "namespace": {
                         "default": "default",
-                        "description": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，</br>可设置 emqx 节点名的命名空间。与 cluster.k8s.suffix 一起使用用以拼接得到节点名列表。</br>      ",
+                        "description": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，<br/>可设置 emqx 节点名的命名空间。与 cluster.k8s.suffix 一起使用用以拼接得到节点名列表。",
                         "label": "K8s 命名空间",
                         "readOnly": true,
                         "type": "string"
                     },
                     "suffix": {
                         "default": "pod.local",
-                        "description": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，可设置 emqx 节点名的后缀。</br>与 cluster.k8s.namespace 一起使用用以拼接得到节点名列表。</br>          ",
+                        "description": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，可设置 emqx 节点名的后缀。<br/>与 cluster.k8s.namespace 一起使用用以拼接得到节点名列表。",
                         "label": "K8s 前缀",
                         "readOnly": true,
                         "type": "string"
@@ -389,7 +395,7 @@
                     },
                     "level": {
                         "default": "warning",
-                        "description": "</br>当前日志处理进程的日志级别。</br>默认为 warning 级别。</br>",
+                        "description": "当前日志处理进程的日志级别。<br/>默认为 warning 级别。",
                         "label": "日志级别",
                         "symbols": [
                             "debug",
@@ -406,13 +412,13 @@
                     },
                     "time_offset": {
                         "default": "system",
-                        "description": "</br>日志中的时间戳使用的时间偏移量。</br>可选值为：</br>  - <code>system</code>: 本地系统使用的时区偏移量</br>  - <code>utc</code>: 0 时区的偏移量</br>  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"</br>默认值为本地系统的时区偏移量：<code>system</code>。</br>",
+                        "description": "日志中的时间戳使用的时间偏移量。<br/>可选值为：<br/>  - <code>system</code>: 本地系统使用的时区偏移量<br/>  - <code>utc</code>: 0 时区的偏移量<br/>  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"<br/>默认值为本地系统的时区偏移量：<code>system</code>。",
                         "label": "时间偏移量",
                         "type": "string"
                     },
                     "chars_limit": {
                         "default": "unlimited",
-                        "description": "</br>设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。</br>注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。</br>",
+                        "description": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。<br/>注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。",
                         "label": "单条日志长度限制",
                         "oneOf": [
                             {
@@ -445,20 +451,20 @@
                     },
                     "sync_mode_qlen": {
                         "default": 100,
-                        "description": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。</br>这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。</br>如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。</br>当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。</br>默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
+                        "description": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。<br/>这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。<br/>如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。<br/>当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。<br/>默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
                         "label": "进入异步模式的队列长度",
                         "minimum": 1,
                         "type": "number"
                     },
                     "drop_mode_qlen": {
                         "default": 3000,
-                        "description": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。</br>为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1</br>要禁用某些模式，请执行以下操作。</br>- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。</br>- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。</br>- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。</br>",
+                        "description": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。<br/>为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1<br/>要禁用某些模式，请执行以下操作。<br/>- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。<br/>- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。<br/>- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。",
                         "label": "进入丢弃模式的队列长度",
                         "type": "string"
                     },
                     "flush_qlen": {
                         "default": 8000,
-                        "description": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。</br>来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
+                        "description": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。<br/>来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
                         "label": "冲刷阈值",
                         "type": "string"
                     },
@@ -474,7 +480,7 @@
                     },
                     "supervisor_reports": {
                         "default": "error",
-                        "description": "</br>Supervisor 报告的类型。默认为 error 类型。</br>  - <code>error</code>：仅记录 Erlang 进程中的错误。</br>  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。</br>",
+                        "description": "Supervisor 报告的类型。默认为 error 类型。<br/><br/>  - <code>error</code>：仅记录 Erlang 进程中的错误。<br/>  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。",
                         "label": "报告类型",
                         "symbols": [
                             "error",
@@ -506,33 +512,33 @@
                 "properties": {
                     "num_items": {
                         "default": 10,
-                        "description": "每个监视组的顶级进程数",
+                        "description": "每个监视组的顶级进程数。",
                         "label": "顶级进程数",
                         "minimum": 1,
                         "type": "number"
                     },
                     "sample_interval": {
                         "default": "2s",
-                        "description": "指定应收集进程顶部的频率",
+                        "description": "指定应收集进程顶部的频率。",
                         "label": "取样时间",
                         "type": "duration"
                     },
                     "max_procs": {
                         "default": 1000000,
-                        "description": "当VM中的进程数超过此值时，停止收集数据",
+                        "description": "当 VM 中的进程数超过此值时，停止收集数据。",
                         "label": "最大进程数",
                         "minimum": 1,
                         "type": "number"
                     },
                     "db_hostname": {
                         "default": "",
-                        "description": "收集数据点的 PostgreSQL 数据库的主机名",
+                        "description": "收集数据点的 PostgreSQL 数据库的主机名。",
                         "label": "数据库主机名",
                         "type": "string"
                     },
                     "db_port": {
                         "default": 5432,
-                        "description": "收集数据点的 PostgreSQL 数据库的端口",
+                        "description": "收集数据点的 PostgreSQL 数据库的端口。",
                         "label": "数据库端口",
                         "type": "number"
                     },
@@ -557,21 +563,50 @@
                 },
                 "type": "object"
             },
+            "broker.event_names": {
+                "properties": {
+                    "client_connected": {
+                        "default": true,
+                        "description": "是否开启客户端已连接事件消息。",
+                        "label": "client_connected",
+                        "type": "boolean"
+                    },
+                    "client_disconnected": {
+                        "default": true,
+                        "description": "是否开启客户端已断开连接事件消息。",
+                        "label": "client_disconnected",
+                        "type": "boolean"
+                    },
+                    "client_subscribed": {
+                        "default": false,
+                        "description": "是否开启客户端已成功订阅主题事件消息。",
+                        "label": "client_subscribed",
+                        "type": "boolean"
+                    },
+                    "client_unsubscribed": {
+                        "default": false,
+                        "description": "是否开启客户端已成功取消订阅主题事件消息。",
+                        "label": "client_unsubscribed",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
             "zone.force_gc": {
                 "properties": {
                     "enable": {
-                        "description": "启用强制垃圾回收",
+                        "description": "启用强制垃圾回收。",
                         "label": "启用强制垃圾回收",
                         "type": "boolean"
                     },
                     "count": {
-                        "description": "在进程收到多少消息之后，对此进程执行垃圾回收",
+                        "description": "在进程收到多少消息之后，对此进程执行垃圾回收。",
                         "label": "垃圾回收消息数",
                         "minimum": 0,
                         "type": "number"
                     },
                     "bytes": {
-                        "description": "在进程处理过多少个字节之后，对此进程执行垃圾回收",
+                        "description": "在进程处理过多少个字节之后，对此进程执行垃圾回收。",
                         "label": "垃圾回收字节数",
                         "type": "byteSize"
                     }
@@ -582,7 +617,7 @@
                 "properties": {
                     "name": {
                         "default": "localhost",
-                        "description": "指定 DNS A 记录的名字。emqx 会通过访问这个 DNS A 记录来获取 IP 地址列表。</br>当<code>cluster.discovery_strategy</code> 为 <code>dns</code> 时有效。</br>",
+                        "description": "指定 DNS A 记录的名字。emqx 会通过访问这个 DNS A 记录来获取 IP 地址列表。<br/>当<code>cluster.discovery_strategy</code> 为 <code>dns</code> 时有效。",
                         "label": "DNS名称",
                         "readOnly": true,
                         "type": "string"
@@ -615,7 +650,7 @@
                     },
                     "max_size": {
                         "default": "50MB",
-                        "description": "此参数控制日志文件轮换。 `infinity` 意味着日志文件将无限增长，否则日志文件将在达到 `max_size`（以字节为单位）时进行轮换。</br>与 rotation count配合使用。如果 counter 为 10，则是10个文件轮换。</br>",
+                        "description": "此参数控制日志文件轮换。 `infinity` 意味着日志文件将无限增长，否则日志文件将在达到 `max_size`（以字节为单位）时进行轮换。<br/>与 rotation count配合使用。如果 counter 为 10，则是10个文件轮换。",
                         "label": "日志文件轮换大小",
                         "oneOf": [
                             {
@@ -637,7 +672,7 @@
                     },
                     "level": {
                         "default": "warning",
-                        "description": "</br>当前日志处理进程的日志级别。</br>默认为 warning 级别。</br>",
+                        "description": "当前日志处理进程的日志级别。<br/>默认为 warning 级别。",
                         "label": "日志级别",
                         "symbols": [
                             "debug",
@@ -654,13 +689,13 @@
                     },
                     "time_offset": {
                         "default": "system",
-                        "description": "</br>日志中的时间戳使用的时间偏移量。</br>可选值为：</br>  - <code>system</code>: 本地系统使用的时区偏移量</br>  - <code>utc</code>: 0 时区的偏移量</br>  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"</br>默认值为本地系统的时区偏移量：<code>system</code>。</br>",
+                        "description": "日志中的时间戳使用的时间偏移量。<br/>可选值为：<br/>  - <code>system</code>: 本地系统使用的时区偏移量<br/>  - <code>utc</code>: 0 时区的偏移量<br/>  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"<br/>默认值为本地系统的时区偏移量：<code>system</code>。",
                         "label": "时间偏移量",
                         "type": "string"
                     },
                     "chars_limit": {
                         "default": "unlimited",
-                        "description": "</br>设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。</br>注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。</br>",
+                        "description": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。<br/>注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。",
                         "label": "单条日志长度限制",
                         "oneOf": [
                             {
@@ -693,20 +728,20 @@
                     },
                     "sync_mode_qlen": {
                         "default": 100,
-                        "description": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。</br>这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。</br>如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。</br>当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。</br>默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
+                        "description": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。<br/>这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。<br/>如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。<br/>当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。<br/>默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
                         "label": "进入异步模式的队列长度",
                         "minimum": 1,
                         "type": "number"
                     },
                     "drop_mode_qlen": {
                         "default": 3000,
-                        "description": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。</br>为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1</br>要禁用某些模式，请执行以下操作。</br>- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。</br>- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。</br>- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。</br>",
+                        "description": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。<br/>为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1<br/>要禁用某些模式，请执行以下操作。<br/>- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。<br/>- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。<br/>- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。",
                         "label": "进入丢弃模式的队列长度",
                         "type": "string"
                     },
                     "flush_qlen": {
                         "default": 8000,
-                        "description": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。</br>来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
+                        "description": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。<br/>来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
                         "label": "冲刷阈值",
                         "type": "string"
                     },
@@ -722,7 +757,7 @@
                     },
                     "supervisor_reports": {
                         "default": "error",
-                        "description": "</br>Supervisor 报告的类型。默认为 error 类型。</br>  - <code>error</code>：仅记录 Erlang 进程中的错误。</br>  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。</br>",
+                        "description": "Supervisor 报告的类型。默认为 error 类型。<br/><br/>  - <code>error</code>：仅记录 Erlang 进程中的错误。<br/>  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。",
                         "label": "报告类型",
                         "symbols": [
                             "error",
@@ -753,12 +788,12 @@
             "zone.flapping_detect": {
                 "properties": {
                     "enable": {
-                        "description": "启用抖动检测功能",
+                        "description": "启用抖动检测功能。",
                         "label": "启用抖动检测",
                         "type": "boolean"
                     },
                     "max_count": {
-                        "description": "MQTT 客户端在\"窗口\"时间内允许的最大断开次数",
+                        "description": "MQTT 客户端在“窗口”时间内允许的最大断开次数。",
                         "label": "最大断开次数",
                         "type": "number"
                     },
@@ -768,8 +803,8 @@
                         "type": "duration"
                     },
                     "ban_time": {
-                        "description": "抖动的客户端将会被禁止登陆多长时间",
-                        "label": "禁止登陆时长",
+                        "description": "抖动的客户端将会被禁止登录多长时间。",
+                        "label": "禁止登录时长",
                         "type": "duration"
                     }
                 },
@@ -778,7 +813,7 @@
             "zone.stats": {
                 "properties": {
                     "enable": {
-                        "description": "启用/禁用统计数据收集功能",
+                        "description": "启用/禁用统计数据收集功能。",
                         "label": "启用/禁用统计数据收集功能",
                         "type": "boolean"
                     }
@@ -788,37 +823,37 @@
             "broker.zone": {
                 "properties": {
                     "mqtt": {
-                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
+                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
+                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
+                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
+                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
+                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
                     }
@@ -876,7 +911,7 @@
                         "type": "enum"
                     },
                     "session": {
-                        "description": "用于内建会话表的性能调优参数",
+                        "description": "用于内建会话表的性能调优参数。",
                         "label": "持久会话",
                         "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
                     },
@@ -886,7 +921,7 @@
                         "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
                     },
                     "messages": {
-                        "description": "用于内建消息表的性能调优参数",
+                        "description": "用于内建消息表的性能调优参数。",
                         "label": "持久化消息",
                         "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
                     }
@@ -897,7 +932,7 @@
                 "properties": {
                     "seeds": {
                         "default": "",
-                        "description": "集群中的EMQX节点名称列表，</br>指定固定的节点列表，多个节点间使用逗号 , 分隔。</br>当 cluster.discovery_strategy 为 static 时，此配置项才有效。</br>适合于节点数量较少且固定的集群。</br>          ",
+                        "description": "集群中的EMQX节点名称列表，<br/>指定固定的节点列表，多个节点间使用逗号 , 分隔。<br/>当 cluster.discovery_strategy 为 static 时，此配置项才有效。<br/>适合于节点数量较少且固定的集群。",
                         "items": {
                             "type": "string"
                         },
@@ -911,23 +946,23 @@
             "broker.ssl_client_opts": {
                 "properties": {
                     "cacertfile": {
-                        "description": "</br>受信任的PEM格式CA证书捆绑文件</br>此文件中的证书用于验证TLS对等方的证书。</br>如果要信任新CA，请将新证书附加到文件中。</br>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）</br>注意：从文件中失效（删除）证书不会影响已建立的连接。</br>",
+                        "description": "受信任的PEM格式 CA  证书捆绑文件<br/><br/>此文件中的证书用于验证TLS对等方的证书。<br/>如果要信任新 CA，请将新证书附加到文件中。<br/>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）<br/><br/>注意：从文件中失效（删除）证书不会影响已建立的连接。",
                         "label": "CA 证书文件",
                         "type": "string"
                     },
                     "certfile": {
-                        "description": "</br>PEM格式证书链文件</br>此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，然后是直接颁发者证书，依此类推。</br>虽然根CA证书是可选的，但它应该放在</br>如果要添加文件，请将其删除。</br>",
+                        "description": "PEM格式证书链文件<br/><br/>此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，<br/>然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。<br/>根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
                         "label": "证书文件",
                         "type": "string"
                     },
                     "keyfile": {
-                        "description": "</br>PEM格式的私钥文件。</br>",
+                        "description": "PEM格式的私钥文件。",
                         "label": "私钥文件",
                         "type": "string"
                     },
                     "verify": {
                         "default": "verify_none",
-                        "description": "</br>启用或禁用对等验证。</br>",
+                        "description": "启用或禁用对等验证。",
                         "label": "对等验证",
                         "symbols": [
                             "verify_peer",
@@ -937,19 +972,20 @@
                     },
                     "reuse_sessions": {
                         "default": true,
-                        "description": "</br>启用 TLS 会话重用。</br>",
+                        "description": "启用 TLS 会话重用。",
                         "label": "TLS 会话重用",
                         "type": "boolean"
                     },
                     "depth": {
                         "default": 10,
-                        "description": "</br>在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。因此，如果深度为0，则对等方必须由受信任的根CA直接签名；如果1，路径可以是PEER、CA、ROOT-CA；如果是2，则路径可以是PEER、CA、CA、ROOT-CA等等。默认值为10。</br>",
+                        "description": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。<br/>因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/><br/>如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/><br/>如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
                         "label": "CA 证书深度",
                         "type": "number"
                     },
                     "password": {
-                        "description": "</br>包含用户密码的字符串。</br>仅在私钥文件受密码保护时使用。</br>",
+                        "description": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
                         "example": "",
+                        "format": "password",
                         "label": "秘钥文件密码",
                         "type": "string"
                     },
@@ -960,7 +996,7 @@
                             "tlsv1.1",
                             "tlsv1"
                         ],
-                        "description": "</br>支持所有TLS/DTLS版本</br></br>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。</br>",
+                        "description": "支持所有TLS/DTLS版本<br/><br/>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
                         "items": {
                             "type": "string"
                         },
@@ -969,7 +1005,7 @@
                     },
                     "ciphers": {
                         "default": "",
-                        "description": "</br>此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如</br><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或</br><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。</br></br>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。</br>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。</br></br>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。</br>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式</br>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。</br>不兼容的密码套件将被自动删除。</br></br>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。</br></br></br>注：PSK 的 Ciphers 不支持 tlsv1.3</br>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。</br></br></br>PSK 密码套件：</br><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,</br>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,</br>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,</br>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code></br>",
+                        "description": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。<br/><br/><br/>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。<br/>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。<br/><br/>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。<br/>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/><br/>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。<br/>不兼容的密码套件将被自动删除。<br/><br/>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。<br/><br/><br/><br/>注：PSK 的 Ciphers 不支持 tlsv1.3<br/><br/>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。<br/><br/><br/><br/>PSK 密码套件：<br/><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
                         "items": {
                             "type": "string"
                         },
@@ -978,24 +1014,30 @@
                     },
                     "user_lookup_fun": {
                         "default": "emqx_tls_psk:lookup",
-                        "description": "</br>用于查找预共享密钥（PSK）标识的 EMQX 内部回调。</br>",
+                        "description": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
                         "label": "SSL PSK 用户回调",
                         "type": "string"
                     },
                     "secure_renegotiate": {
                         "default": true,
-                        "description": "</br>SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。</br>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。</br>",
+                        "description": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。<br/>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
                         "label": "SSL 重新协商",
                         "type": "boolean"
                     },
+                    "hibernate_after": {
+                        "default": "5s",
+                        "description": " 在闲置一定时间后休眠 SSL 进程，减少其内存占用。",
+                        "label": "闲置多久后休眠",
+                        "type": "duration"
+                    },
                     "enable": {
                         "default": false,
-                        "description": "启用 TLS",
+                        "description": "启用 TLS。",
                         "label": "启用 TLS",
                         "type": "boolean"
                     },
                     "server_name_indication": {
-                        "description": "</br>指定要在 TLS 服务器名称指示扩展中使用的主机名</br>例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，</br>例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时</br>如果未指定，它将默认为使用的主机名字符串</br>建立连接，除非使用 IP 地址</br>然后，主机名也用于对等机的主机名验证</br>证书</br>特殊值'disable'阻止发送服务器名称指示扩展，并禁用主机名验证检查。</br>",
+                        "description": "指定要在 TLS 服务器名称指示扩展中使用的主机名。<br/><br/>例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，<br/>例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时<br/><br/>如果未指定，它将默认为使用的主机名字符串<br/>建立连接，除非使用 IP 地址<br/><br/>然后，主机名也用于对等机的主机名验证证书<br/><br/>特殊值 <code>disable</code> 阻止发送服务器名称指示扩展，并禁用主机名验证检查。",
                         "example": "disable",
                         "label": "服务器名称指示",
                         "oneOf": [
@@ -1041,28 +1083,28 @@
             "zone.overload_protection": {
                 "properties": {
                     "enable": {
-                        "description": "是否对系统过载做出反应",
+                        "description": "是否对系统过载做出反应。",
                         "label": "是否对系统过载做出反应",
                         "type": "boolean"
                     },
                     "backoff_delay": {
-                        "description": "一些不重要的任务可能会延迟执行，以毫秒为单位设置延迟",
+                        "description": "高负载时，一些不重要的任务可能会延迟执行，在这里设置允许延迟的时间。",
                         "label": "延迟时间",
                         "minimum": 0,
                         "type": "number"
                     },
                     "backoff_gc": {
-                        "description": "如有必要，跳过强制GC",
+                        "description": "高负载时，跳过强制 GC。",
                         "label": "跳过GC",
                         "type": "boolean"
                     },
                     "backoff_hibernation": {
-                        "description": "如有必要，跳过进程休眠",
+                        "description": "高负载时，跳过进程休眠。",
                         "label": "跳过休眠",
                         "type": "boolean"
                     },
                     "backoff_new_conn": {
-                        "description": "如有必要，关闭新进来的连接",
+                        "description": "高负载时，拒绝新进来的客户端连接。",
                         "label": "关闭新连接",
                         "type": "boolean"
                     }
@@ -1073,7 +1115,7 @@
                 "properties": {
                     "payload_encode": {
                         "default": "text",
-                        "description": "</br>确定跟踪文件中有效负载格式的格式</br>`text`：基于文本的协议或纯文本协议。</br>建议在有效负载为JSON编码时使用</br>`hex`：二进制十六进制编码。当有效负载是自定义二进制协议时，建议使用此选项</br>`hidden`：有效负载被模糊化为 `******`</br>",
+                        "description": "确定跟踪文件中有效负载格式的格式。<br/><br/>`text`：基于文本的协议或纯文本协议。<br/>建议在有效负载为JSON编码时使用<br/><br/>`hex`：二进制十六进制编码。当有效负载是自定义二进制协议时，建议使用此选项<br/><br/>`hidden`：有效负载被模糊化为 `******`",
                         "label": "有效负载编码",
                         "symbols": [
                             "hex",
@@ -1107,7 +1149,7 @@
                     },
                     "long_gc": {
                         "default": "disabled",
-                        "description": "启用长垃圾回收监控",
+                        "description": "当系统检测到某个 Erlang 进程垃圾回收占用过长时间，会触发一条带有 <code>long_gc</code> 关键字的日志。<br/>同时还会发布一条主题为 <code>$SYS/sysmon/long_gc</code> 的 MQTT 系统消息。",
                         "label": "启用长垃圾回收监控",
                         "oneOf": [
                             {
@@ -1123,7 +1165,7 @@
                     },
                     "long_schedule": {
                         "default": "240ms",
-                        "description": "启用长调度监控",
+                        "description": "启用后，如果 Erlang VM 调度器出现某个任务占用时间过长时，会触发一条带有 'long_schedule' 关键字的日志。<br/>同时还会发布一条主题为 <code>$SYS/sysmon/long_schedule</code> 的 MQTT 系统消息。",
                         "label": "启用长调度监控",
                         "oneOf": [
                             {
@@ -1139,7 +1181,7 @@
                     },
                     "large_heap": {
                         "default": "32MB",
-                        "description": "启用大 heap 监控",
+                        "description": "启用后，当一个 Erlang 进程申请了大量内存，系统会触发一条带有 <code>large_heap</code> 关键字的<br/>warning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
                         "label": "启用大 heap 监控",
                         "oneOf": [
                             {
@@ -1155,13 +1197,13 @@
                     },
                     "busy_dist_port": {
                         "default": true,
-                        "description": "启用分布式端口过忙监控",
+                        "description": "启用后，当用于集群接点之间 RPC 的连接过忙时，会触发一条带有 <code>busy_dist_port</code> 关键字的 warning 级别日志。<br/>同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
                         "label": "启用分布式端口过忙监控",
                         "type": "boolean"
                     },
                     "busy_port": {
                         "default": true,
-                        "description": "启用端口过忙监控",
+                        "description": "当一个系统接口（例如 TCP socket）过忙，会触发一条带有 <code>busy_port</code> 关键字的 warning 级别的日志。<br/>同时还会发布一条主题为 <code>$SYS/sysmon/busy_port</code> 的 MQTT 系统消息。",
                         "label": "启用端口过忙监控",
                         "type": "boolean"
                     }
@@ -1190,7 +1232,7 @@
                             "log",
                             "publish"
                         ],
-                        "description": "警报激活时触发的动作。</br>目前，支持以下操作：<code>log</code> 和 <code>publish</code>.</br><code>log</code> 将告警写入日志 (控制台或者文件).</br><code>publish</code> 将告警作为 MQTT 消息发布到系统主题:</br><code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/activate</code> and</br><code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/deactivate</code>",
+                        "description": "警报激活时触发的动作。<br/>目前，支持以下操作：<code>log</code> 和 <code>publish</code>.<br/><code>log</code> 将告警写入日志 (控制台或者文件).<br/><code>publish</code> 将告警作为 MQTT 消息发布到系统主题:<br/><code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/activate</code> and<br/><code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/deactivate</code>",
                         "example": [
                             "log",
                             "publish"
@@ -1224,13 +1266,13 @@
                 "properties": {
                     "enabled": {
                         "default": false,
-                        "description": "使用数据库存储有关持久会话的信息。</br>这使得在节点停止时，可以将客户端连接迁移到另一个群集节点。",
+                        "description": "使用数据库存储有关持久会话的信息。<br/>这使得在节点停止时，可以将客户端连接迁移到另一个群集节点。",
                         "label": "启用持久会话保存",
                         "type": "boolean"
                     },
                     "on_disc": {
                         "default": true,
-                        "description": "将持久会话数据保存在磁盘上。如果为 false 则存储在内存中。</br>如开启， 持久会话数据可在集群重启后恢复。</br>如关闭， 数据仅存储在内存中， 则在整个集群停止后丢失。",
+                        "description": "将持久会话数据保存在磁盘上。如果为 false 则存储在内存中。<br/>如开启， 持久会话数据可在集群重启后恢复。<br/>如关闭， 数据仅存储在内存中， 则在整个集群停止后丢失。",
                         "label": "持久化在磁盘上",
                         "type": "boolean"
                     },
@@ -1253,7 +1295,7 @@
                             },
                             "type": "builtin"
                         },
-                        "description": "用于存储持久性会话和信息的数据库管理后端</br>- `builtin`: 使用内置的数据库（mria）",
+                        "description": "用于存储持久性会话和信息的数据库管理后端<br/>- `builtin`: 使用内置的数据库（mria）",
                         "label": "后端类型",
                         "oneOf": [
                             {
@@ -1269,13 +1311,13 @@
                     },
                     "message_gc_interval": {
                         "default": "1h",
-                        "description": "将未送达的消息垃圾收集到持久会话的开始间隔。</br>这会影响检查 \"max_retain_undelivered\"（最大保留未送达）的删除频率。",
+                        "description": "将未送达的消息垃圾收集到持久会话的开始间隔。<br/>这会影响检查 \"max_retain_undelivered\"（最大保留未送达）的删除频率。",
                         "label": "消息清理间隔",
                         "type": "duration"
                     },
                     "session_message_gc_interval": {
                         "default": "1m",
-                        "description": "持久会话消息的临时数据垃圾收集的开始间隔。</br>这不会影响持久会话消息的生命周期长度。</br>",
+                        "description": "持久会话消息的临时数据垃圾收集的开始间隔。<br/>这不会影响持久会话消息的生命周期长度。",
                         "label": "会话消息清理间隔",
                         "type": "duration"
                     }
@@ -1292,7 +1334,7 @@
                     },
                     "session_locking_strategy": {
                         "default": "quorum",
-                        "description": "Session 在集群中的锁策略。</br>  - `local`: 仅锁本节点的 Session</br>  - `one`: 任选一个其它节点加锁</br>  - `quorum`: 选择集群中半数以上的节点加锁</br>  - `all`: 选择所有节点加锁</br>",
+                        "description": "Session 在集群中的锁策略。<br/>  - `loca`：仅锁本节点的 Session；<br/>  - `one`：任选一个其它节点加锁；<br/>  - `quorum`：选择集群中半数以上的节点加锁；<br/>  - `all`：选择所有节点加锁。",
                         "label": "session_locking_strategy",
                         "symbols": [
                             "local",
@@ -1304,7 +1346,7 @@
                     },
                     "shared_subscription_strategy": {
                         "default": "round_robin",
-                        "description": "共享订阅消息派发策略。</br>  - `random`: 随机挑选一个共享订阅者派发</br>  - `round_robin`: 使用 round-robin 策略派发</br>  - `sticky`: 总是使用上次选中的订阅者派发，直到它断开连接</br>  - `hash`: 使用发送者的 Client ID 进行 Hash 来选择订阅者</br>",
+                        "description": "共享订阅消息派发策略。<br/>  - `random`：随机挑选一个共享订阅者派发；<br/>  - `round_robin`：使用 round-robin 策略派发；<br/>  - `sticky`：总是使用上次选中的订阅者派发，直到它断开连接；<br/>  - `hash`：使用发送者的 Client ID 进行 Hash 来选择订阅者。",
                         "label": "shared_subscription_strategy",
                         "symbols": [
                             "random",
@@ -1319,7 +1361,7 @@
                     },
                     "shared_dispatch_ack_enabled": {
                         "default": false,
-                        "description": "启用/禁用 QoS 1 和 QoS 2 消息的共享派发确认。</br>开启后，允许将消息从未及时回复 ACK 的订阅者 （例如，客户端离线）重新派发给另外一个订阅者。</br>",
+                        "description": "该配置项已废弃，会在 5.1 中移除。<br/>启用/禁用 QoS 1 和 QoS 2 消息的共享派发确认。<br/>开启后，允许将消息从未及时回复 ACK 的订阅者 （例如，客户端离线）重新派发给另外一个订阅者。",
                         "label": "shared_dispatch_ack_enabled",
                         "type": "boolean"
                     },
@@ -1335,7 +1377,7 @@
                         "$ref": "#/components/schemas/broker.broker_perf"
                     },
                     "shared_subscription_group": {
-                        "description": "shared_subscription_group Description",
+                        "description": "设置共享订阅组为单位的分发策略。该配置是一个从组名到<br/>策略名的一个map，组名不得包含 `[A-Za-z0-9]` 之外的特殊字符。",
                         "example": {
                             "example_group": {
                                 "strategy": "random"
@@ -1356,7 +1398,7 @@
                 "properties": {
                     "route_lock_type": {
                         "default": "key",
-                        "description": "通配主题订阅/取消订阅性能调优。</br>建议仅当通配符主题较多时才更改此参数。</br></br>注：当从/更改为 `global` 锁时，它要求集群中的所有节点在更改之前停止。</br>  - `key`: 为 Mnesia 事务涉及到的每个 key 上锁，建议单节点时使用。</br>  - `tab`: 为 Mnesia 事务涉及到的表上锁，建议在集群中使用。</br>  - `global`: 所以更新操作都被全局的锁保护，仅建议在超大规模集群中使用。</br>",
+                        "description": "通配主题订阅/取消订阅性能调优。<br/>建议仅当通配符主题较多时才更改此参数。<br/><br/>注：当从/更改为 `global` 锁时，它要求集群中的所有节点在更改之前停止。<br/>  - `key`：为 Mnesia 事务涉及到的每个 key 上锁，建议单节点时使用。<br/>  - `tab`：为 Mnesia 事务涉及到的表上锁，建议在集群中使用。<br/>  - `global`：所以更新操作都被全局的锁保护，仅建议在超大规模集群中使用。",
                         "label": "route_lock_type",
                         "symbols": [
                             "key",
@@ -1367,7 +1409,7 @@
                     },
                     "trie_compaction": {
                         "default": true,
-                        "description": "是否开启主题表压缩存储。</br>启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{{id}}/+/'，其中每个订阅者的 ID 是唯一的。</br>如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。</br></br>注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。</br>",
+                        "description": "是否开启主题表压缩存储。<br/>启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{{id}}/+/'，其中每个订阅者的 ID 是唯一的。<br/>如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。<br/><br/>注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。",
                         "label": "trie_compaction",
                         "type": "boolean"
                     }
@@ -1378,7 +1420,7 @@
                 "properties": {
                     "addr": {
                         "default": "239.192.0.1",
-                        "description": "指定多播 IPv4 地址。</br>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。</br>          ",
+                        "description": "指定多播 IPv4 地址。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
                         "label": "多播地址",
                         "readOnly": true,
                         "type": "string"
@@ -1388,7 +1430,7 @@
                             4369,
                             4370
                         ],
-                        "description": "指定多播端口。如有多个端口使用逗号 , 分隔。</br>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。</br>          ",
+                        "description": "指定多播端口。如有多个端口使用逗号 , 分隔。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
                         "items": {
                             "type": "number"
                         },
@@ -1398,14 +1440,14 @@
                     },
                     "iface": {
                         "default": "0.0.0.0",
-                        "description": "指定节点发现服务需要绑定到本地 IP 地址。</br>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。</br>          ",
+                        "description": "指定节点发现服务需要绑定到本地 IP 地址。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
                         "label": "多播绑定地址",
                         "readOnly": true,
                         "type": "string"
                     },
                     "ttl": {
                         "default": 255,
-                        "description": "指定多播的 Time-To-Live 值。</br>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。</br>          ",
+                        "description": "指定多播的 Time-To-Live 值。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
                         "label": "多播TTL",
                         "maximum": 255,
                         "minimum": 0,
@@ -1414,28 +1456,28 @@
                     },
                     "loop": {
                         "default": true,
-                        "description": "设置多播的报文是否投递到本地回环地址。</br>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。</br>          ",
+                        "description": "设置多播的报文是否投递到本地回环地址。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
                         "label": "多播回环开关",
                         "readOnly": true,
                         "type": "boolean"
                     },
                     "sndbuf": {
                         "default": "16KB",
-                        "description": "外发数据报的内核级缓冲区的大小。</br>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。</br>          ",
+                        "description": "外发数据报的内核级缓冲区的大小。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
                         "label": "多播发送缓存区",
                         "readOnly": true,
                         "type": "byteSize"
                     },
                     "recbuf": {
                         "default": "16KB",
-                        "description": "接收数据报的内核级缓冲区的大小。</br>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。</br>          ",
+                        "description": "接收数据报的内核级缓冲区的大小。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
                         "label": "多播接收数据缓冲区",
                         "readOnly": true,
                         "type": "byteSize"
                     },
                     "buffer": {
                         "default": "32KB",
-                        "description": "用户级缓冲区的大小。</br>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。</br>          ",
+                        "description": "用户级缓冲区的大小。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
                         "label": "多播用户级缓冲区",
                         "readOnly": true,
                         "type": "byteSize"
@@ -1446,7 +1488,7 @@
             "zone.mqtt": {
                 "properties": {
                     "idle_timeout": {
-                        "description": "TCP 连接建立后，如果在 <code>idle_timeout</code> 指定的时间内未收到客户端的 MQTT CONNECT 报文，则连接将被断开。",
+                        "description": "TCP 连接建立后，如果在 <code>idle_timeout</code> 指定的时间内未收到客户端的 MQTT CONNECT 报文，则连接将被断开。<br/>如果连接在 CONNECT 报文被 EMQX 接受之后空闲超过该时长，那么服务这个连接的 Erlang 进程会进入休眠以节省系统资源。<br/>注意，该配置值如果设置过大的情况下，如果大量恶意客户端只连接，但不发任何数据，可能会导致系统资源被恶意消耗。",
                         "label": "空闲超时",
                         "oneOf": [
                             {
@@ -1517,12 +1559,12 @@
                         "type": "boolean"
                     },
                     "ignore_loop_deliver": {
-                        "description": "是否为 MQTT v3.1.1/v3.1.0 客户端忽略投递自己发布的消息，类似于 MQTT 5.0 中的 <code>No Local</code> 订阅选项",
+                        "description": "是否为 MQTT v3.1.1/v3.1.0 客户端忽略投递自己发布的消息，类似于 MQTT 5.0 中的 <code>No Local</code> 订阅选项。",
                         "label": "忽略循环投递",
                         "type": "boolean"
                     },
                     "strict_mode": {
-                        "description": "是否以严格模式解析 MQTT 消息。</br>当设置为 true 时，例如客户端 ID、主题名称等中的无效 utf8 字符串将导致客户端断开连接。",
+                        "description": "是否以严格模式解析 MQTT 消息。<br/>当设置为 true 时，例如客户端 ID、主题名称等中的无效 utf8 字符串将导致客户端断开连接。",
                         "label": "严格模式",
                         "type": "boolean"
                     },
@@ -1585,8 +1627,8 @@
                         "type": "duration"
                     },
                     "max_awaiting_rel": {
-                        "description": "PUBREL (Client -> Broker) 最大等待队列长度。",
-                        "label": "Max Awaiting PUBREL",
+                        "description": "每个发布者的会话中，都存在一个队列来处理客户端发送的 QoS 2 消息。该队列会存储 QoS 2 消息的报文 ID 直到收到客户端的 PUBREL 或超时，达到队列长度的限制后，新的 QoS 2 消息发布会被拒绝，并返回 `147(0x93)` 错误。",
+                        "label": "PUBREL 等待队列长度",
                         "oneOf": [
                             {
                                 "symbols": [
@@ -1600,8 +1642,8 @@
                         ]
                     },
                     "await_rel_timeout": {
-                        "description": "PUBREL (Client -> Broker) 最大等待时间，超时则会被丢弃。",
-                        "label": "Max Awaiting PUBREL TIMEOUT",
+                        "description": "客户端发布 QoS 2 消息时，服务器等待 `PUBREL` 的最长时延。超过该时长后服务器会放弃等待，该PACKET ID 会被释放，从而允许后续新的 PUBLISH 消息使用。如果超时后收到 PUBREL，服务器将会产生一条告警日志。注意，向订阅客户端转发消息的动作发生在进入等待之前。",
+                        "label": "PUBREL 最大等待时间",
                         "type": "duration"
                     },
                     "session_expiry_interval": {
@@ -1626,7 +1668,7 @@
                         ]
                     },
                     "mqueue_priorities": {
-                        "description": "主题优先级。取值范围 [1-255]</br>默认优先级表为空，即所有的主题优先级相同。</br></br>注：优先主题名称中不支持使用逗号和等号。</br>注：不在此列表中的主题，被视为最高/最低优先级，这取决于<code>mqtt.mqueue_default_priority</code> 的配置</br></br>示例：</br>配置 <code>\"topic/1\" > \"topic/2\"</code>:</br><code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code></br>",
+                        "description": "主题优先级。取值范围 [1-255]<br/>默认优先级表为空，即所有的主题优先级相同。<br/><br/>注：优先主题名称中不支持使用逗号和等号。<br/>注：不在此列表中的主题，被视为最高/最低优先级，这取决于<code>mqtt.mqueue_default_priority</code> 的配置<br/><br/>示例：<br/>配置 <code>\"topic/1\" > \"topic/2\"</code>:<br/><code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code>",
                         "label": "主题优先级",
                         "oneOf": [
                             {
@@ -1636,7 +1678,7 @@
                                 "type": "enum"
                             },
                             {
-                                "type": "string"
+                                "type": "object"
                             }
                         ]
                     },
@@ -1655,12 +1697,12 @@
                         "type": "boolean"
                     },
                     "use_username_as_clientid": {
-                        "description": "是否使用用户名作为客户端 ID。</br>此设置的作用时间晚于 <code>使用对端证书作为用户名</code>（<code>peer_cert_as_username</code>） 和 <code>使用对端证书作为客户端 ID</code>（<code>peer_cert_as_clientid</code>）。</br>",
+                        "description": "是否使用用户名作为客户端 ID。<br/>此设置的作用时间晚于 <code>使用对端证书作为用户名</code>（<code>peer_cert_as_username</code>） 和 <code>使用对端证书作为客户端 ID</code>（<code>peer_cert_as_clientid</code>）。",
                         "label": "使用用户名作为客户端 ID",
                         "type": "boolean"
                     },
                     "peer_cert_as_username": {
-                        "description": "使用对端证书中的 CN, DN 字段或整个证书内容来作为用户名。仅适用于 TLS 连接。</br>目前支持配置为以下内容：</br>- <code>cn</code>: 取证书的 CN 字段作为 Username</br>- <code>dn</code>: 取证书的 DN 字段作为 Username</br>- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容作为 Username</br>- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式后作为 Username</br>- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容的 MD5 值作为 Username</br>",
+                        "description": "使用对端证书中的 CN、DN 字段或整个证书内容来作为用户名。仅适用于 TLS 连接。<br/>目前支持配置为以下内容：<br/>- <code>cn</code>: 取证书的 CN 字段作为 Username<br/>- <code>dn</code>: 取证书的 DN 字段作为 Username<br/>- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容作为 Username<br/>- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式后作为 Username<br/>- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容的 MD5 值作为 Username",
                         "label": "使用对端证书作为用户名",
                         "symbols": [
                             "disabled",
@@ -1673,7 +1715,7 @@
                         "type": "enum"
                     },
                     "peer_cert_as_clientid": {
-                        "description": "使用对端证书中的 CN, DN 字段或整个证书内容来作为客户端 ID。仅适用于 TLS 连接。</br>目前支持配置为以下内容：</br>- <code>cn</code>: 取证书的 CN 字段作为 Client ID</br>- <code>dn</code>: 取证书的 DN 字段作为 Client ID</br>- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容作为 Client ID</br>- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式后作为 Client ID</br>- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容的 MD5 值作为 Client ID</br>",
+                        "description": "使用对端证书中的 CN、DN 字段或整个证书内容来作为客户端 ID。仅适用于 TLS 连接。<br/>目前支持配置为以下内容：<br/>- <code>cn</code>: 取证书的 CN 字段作为 Client ID<br/>- <code>dn</code>: 取证书的 DN 字段作为 Client ID<br/>- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容作为 Client ID<br/>- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式后作为 Client ID<br/>- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容的 MD5 值作为 Client ID",
                         "label": "使用对端证书作为客户端 ID",
                         "symbols": [
                             "disabled",
@@ -1691,12 +1733,12 @@
             "zone.conn_congestion": {
                 "properties": {
                     "enable_alarm": {
-                        "description": "启用或者禁用连接阻塞告警功能",
+                        "description": "启用或者禁用连接阻塞告警功能。",
                         "label": "启用/禁用阻塞告警",
                         "type": "boolean"
                     },
                     "min_alarm_sustain_duration": {
-                        "description": "清除警报前的最短时间。</br></br>只有当队列中没有挂起的数据，并且连接至少被堵塞了 \"min_alarm_sustain_duration\" 毫秒时，</br>报警才会被清除。这是为了避免太频繁地清除和再次发出警报.",
+                        "description": "清除警报前的最短时间。<br/>只有当队列中没有挂起的数据，并且连接至少被堵塞了 <code>min_alarm_sustain_duration</code> 毫秒时，<br/>报警才会被清除。这是为了避免太频繁地清除和再次发出警报。",
                         "label": "告警维持时间",
                         "type": "duration"
                     }
@@ -1707,25 +1749,25 @@
                 "properties": {
                     "bytes_in": {
                         "default": {},
-                        "description": "流入字节率控制器.</br>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
+                        "description": "流入字节率控制器。<br/>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
                         "label": "流入字节率",
                         "$ref": "#/components/schemas/limiter.client_opts"
                     },
                     "message_in": {
                         "default": {},
-                        "description": "流入速率控制器。</br>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
+                        "description": "流入速率控制器。<br/>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
                         "label": "消息流入速率",
                         "$ref": "#/components/schemas/limiter.client_opts"
                     },
                     "connection": {
                         "default": {},
-                        "description": "连接速率控制器。</br>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
+                        "description": "连接速率控制器。<br/>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
                         "label": "连接速率",
                         "$ref": "#/components/schemas/limiter.client_opts"
                     },
                     "message_routing": {
                         "default": {},
-                        "description": "消息派发速率控制器。</br>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
+                        "description": "消息派发速率控制器。<br/>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
                         "label": "消息派发",
                         "$ref": "#/components/schemas/limiter.client_opts"
                     },
@@ -1742,25 +1784,25 @@
                 "properties": {
                     "bytes_in": {
                         "default": {},
-                        "description": "流入字节率控制器.</br>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
+                        "description": "流入字节率控制器。<br/>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
                         "label": "流入字节率",
                         "$ref": "#/components/schemas/limiter.node_opts"
                     },
                     "message_in": {
                         "default": {},
-                        "description": "流入速率控制器。</br>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
+                        "description": "流入速率控制器。<br/>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
                         "label": "消息流入速率",
                         "$ref": "#/components/schemas/limiter.node_opts"
                     },
                     "connection": {
                         "default": {},
-                        "description": "连接速率控制器。</br>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
+                        "description": "连接速率控制器。<br/>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
                         "label": "连接速率",
                         "$ref": "#/components/schemas/limiter.node_opts"
                     },
                     "message_routing": {
                         "default": {},
-                        "description": "消息派发速率控制器。</br>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
+                        "description": "消息派发速率控制器。<br/>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
                         "label": "消息派发",
                         "$ref": "#/components/schemas/limiter.node_opts"
                     },
@@ -1793,13 +1835,13 @@
                 "properties": {
                     "enable": {
                         "default": false,
-                        "description": "忽略或启用该监听器配置",
+                        "description": "忽略或启用该监听器。",
                         "label": "启用",
                         "type": "boolean"
                     },
                     "bind": {
                         "default": 18084,
-                        "description": "监听的地址与端口，在dashboard更新此配置时，会重启dashboard服务。",
+                        "description": "监听地址和端口，热更新此配置时，会重启 Dashboard 服务。",
                         "example": "0.0.0.0:18084",
                         "label": "绑定端口",
                         "oneOf": [
@@ -1813,32 +1855,32 @@
                         ]
                     },
                     "num_acceptors": {
-                        "default": 4,
-                        "description": "TCP协议的Socket acceptor池大小",
+                        "default": 8,
+                        "description": "TCP协议的Socket acceptor池大小, 默认设置在线的调度器数量（通常为 CPU 核数）",
                         "label": "Acceptor 数量",
                         "type": "number"
                     },
                     "max_connections": {
                         "default": 512,
-                        "description": "同时处理的最大连接数",
+                        "description": "同时处理的最大连接数。",
                         "label": "最大连接数",
                         "type": "number"
                     },
                     "backlog": {
                         "default": 1024,
-                        "description": "排队等待连接的队列的最大长度",
+                        "description": "排队等待连接的队列的最大长度。",
                         "label": "排队长度",
                         "type": "number"
                     },
                     "send_timeout": {
-                        "default": "5s",
-                        "description": "Socket发送超时时间",
+                        "default": "10s",
+                        "description": "Socket发送超时时间。",
                         "label": "发送超时时间",
                         "type": "duration"
                     },
                     "inet6": {
                         "default": false,
-                        "description": "启用IPv6， 如果机器不支持IPv6，请关闭此选项，否则会导致仪表盘无法使用。",
+                        "description": "启用IPv6， 如果机器不支持IPv6，请关闭此选项，否则会导致 Dashboard 无法使用。",
                         "label": "IPv6",
                         "type": "boolean"
                     },
@@ -1848,24 +1890,30 @@
                         "label": "IPv6 only",
                         "type": "boolean"
                     },
+                    "proxy_header": {
+                        "default": false,
+                        "description": "开启对  `HAProxy` 的支持，注意：一旦开启了这个功能，就无法再处理普通的 HTTP 请求了。",
+                        "label": "开启对 `HAProxy` 的支持",
+                        "type": "boolean"
+                    },
                     "cacertfile": {
-                        "description": "</br>受信任的PEM格式CA证书捆绑文件</br>此文件中的证书用于验证TLS对等方的证书。</br>如果要信任新CA，请将新证书附加到文件中。</br>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）</br>注意：从文件中失效（删除）证书不会影响已建立的连接。</br>",
+                        "description": "受信任的PEM格式 CA  证书捆绑文件<br/><br/>此文件中的证书用于验证TLS对等方的证书。<br/>如果要信任新 CA，请将新证书附加到文件中。<br/>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）<br/><br/>注意：从文件中失效（删除）证书不会影响已建立的连接。",
                         "label": "CA 证书文件",
                         "type": "string"
                     },
                     "certfile": {
-                        "description": "</br>PEM格式证书链文件</br>此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，然后是直接颁发者证书，依此类推。</br>虽然根CA证书是可选的，但它应该放在</br>如果要添加文件，请将其删除。</br>",
+                        "description": "PEM格式证书链文件<br/><br/>此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，<br/>然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。<br/>根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
                         "label": "证书文件",
                         "type": "string"
                     },
                     "keyfile": {
-                        "description": "</br>PEM格式的私钥文件。</br>",
+                        "description": "PEM格式的私钥文件。",
                         "label": "私钥文件",
                         "type": "string"
                     },
                     "verify": {
                         "default": "verify_none",
-                        "description": "</br>启用或禁用对等验证。</br>",
+                        "description": "启用或禁用对等验证。",
                         "label": "对等验证",
                         "symbols": [
                             "verify_peer",
@@ -1875,19 +1923,20 @@
                     },
                     "reuse_sessions": {
                         "default": true,
-                        "description": "</br>启用 TLS 会话重用。</br>",
+                        "description": "启用 TLS 会话重用。",
                         "label": "TLS 会话重用",
                         "type": "boolean"
                     },
                     "depth": {
                         "default": 10,
-                        "description": "</br>在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。因此，如果深度为0，则对等方必须由受信任的根CA直接签名；如果1，路径可以是PEER、CA、ROOT-CA；如果是2，则路径可以是PEER、CA、CA、ROOT-CA等等。默认值为10。</br>",
+                        "description": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。<br/>因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/><br/>如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/><br/>如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
                         "label": "CA 证书深度",
                         "type": "number"
                     },
                     "password": {
-                        "description": "</br>包含用户密码的字符串。</br>仅在私钥文件受密码保护时使用。</br>",
+                        "description": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
                         "example": "",
+                        "format": "password",
                         "label": "秘钥文件密码",
                         "type": "string"
                     },
@@ -1898,7 +1947,7 @@
                             "tlsv1.1",
                             "tlsv1"
                         ],
-                        "description": "</br>支持所有TLS/DTLS版本</br></br>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。</br>",
+                        "description": "支持所有TLS/DTLS版本<br/><br/>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
                         "items": {
                             "type": "string"
                         },
@@ -1907,7 +1956,7 @@
                     },
                     "ciphers": {
                         "default": "",
-                        "description": "</br>此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如</br><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或</br><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。</br></br>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。</br>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。</br></br>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。</br>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式</br>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。</br>不兼容的密码套件将被自动删除。</br></br>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。</br></br></br>注：PSK 的 Ciphers 不支持 tlsv1.3</br>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。</br></br></br>PSK 密码套件：</br><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,</br>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,</br>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,</br>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code></br>",
+                        "description": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。<br/><br/><br/>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。<br/>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。<br/><br/>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。<br/>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/><br/>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。<br/>不兼容的密码套件将被自动删除。<br/><br/>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。<br/><br/><br/><br/>注：PSK 的 Ciphers 不支持 tlsv1.3<br/><br/>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。<br/><br/><br/><br/>PSK 密码套件：<br/><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
                         "items": {
                             "type": "string"
                         },
@@ -1916,36 +1965,42 @@
                     },
                     "user_lookup_fun": {
                         "default": "emqx_tls_psk:lookup",
-                        "description": "</br>用于查找预共享密钥（PSK）标识的 EMQX 内部回调。</br>",
+                        "description": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
                         "label": "SSL PSK 用户回调",
                         "type": "string"
                     },
                     "secure_renegotiate": {
                         "default": true,
-                        "description": "</br>SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。</br>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。</br>",
+                        "description": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。<br/>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
                         "label": "SSL 重新协商",
                         "type": "boolean"
                     },
+                    "hibernate_after": {
+                        "default": "5s",
+                        "description": " 在闲置一定时间后休眠 SSL 进程，减少其内存占用。",
+                        "label": "闲置多久后休眠",
+                        "type": "duration"
+                    },
                     "dhfile": {
-                        "description": "</br>如果协商使用Diffie-Hellman密钥交换的密码套件，则服务器将使用包含PEM编码的Diffie-Hellman参数的文件的路径。如果未指定，则使用默认参数</br></br>注意：TLS 1.3不支持<code>dhfile</code>选项。</br>",
+                        "description": "如果协商使用Diffie-Hellman密钥交换的密码套件，则服务器将使用包含PEM编码的Diffie-Hellman参数的文件的路径。如果未指定，则使用默认参数。<br/><br/>注意：TLS 1.3不支持<code>dhfile</code>选项。",
                         "label": "SSL dhfile",
                         "type": "string"
                     },
                     "honor_cipher_order": {
                         "default": true,
-                        "description": "</br>一个重要的安全设置，它强制根据服务器指定的顺序而不是客户机指定的顺序设置密码，从而强制服务器管理员执行（通常配置得更正确）安全顺序。</br>",
+                        "description": "一个重要的安全设置，它强制根据服务器指定的顺序而不是客户机指定的顺序设置密码，从而强制服务器管理员执行（通常配置得更正确）安全顺序。",
                         "label": "SSL honor cipher order",
                         "type": "boolean"
                     },
                     "client_renegotiation": {
                         "default": true,
-                        "description": "</br>在支持客户机发起的重新协商的协议中，这种操作的资源成本对于服务器来说高于客户机。</br>这可能会成为拒绝服务攻击的载体。</br>SSL 应用程序已经采取措施来反击此类尝试，但通过将此选项设置为 false，可以严格禁用客户端发起的重新协商。</br>默认值为 true。请注意，由于基础密码套件可以加密的消息数量有限，禁用重新协商可能会导致长期连接变得不可用。</br>",
+                        "description": "在支持客户机发起的重新协商的协议中，这种操作的资源成本对于服务器来说高于客户机。<br/>这可能会成为拒绝服务攻击的载体。<br/>SSL 应用程序已经采取措施来反击此类尝试，但通过将此选项设置为 false，可以严格禁用客户端发起的重新协商。<br/>默认值为 true。请注意，由于基础密码套件可以加密的消息数量有限，禁用重新协商可能会导致长期连接变得不可用。",
                         "label": "SSL 客户端冲协商",
                         "type": "boolean"
                     },
                     "handshake_timeout": {
                         "default": "15s",
-                        "description": "</br>握手完成所允许的最长时间</br>",
+                        "description": "握手完成所允许的最长时间",
                         "label": "握手超时时间",
                         "type": "duration"
                     }
@@ -1956,7 +2011,7 @@
                 "properties": {
                     "enable": {
                         "default": true,
-                        "description": "启用日志轮换功能。启动后生成日志文件后缀会加上对应的索引数字，比如：log/emqx.log.1。</br>系统会默认生成<code>*.siz/*.idx<code>用于记录日志位置，请不要手动修改这两个文件。</br>",
+                        "description": "启用日志轮换功能。启动后生成日志文件后缀会加上对应的索引数字，比如：log/emqx.log.1。<br/>系统会默认生成<code>*.siz/*.idx</code>用于记录日志位置，请不要手动修改这两个文件。",
                         "label": "日志轮换",
                         "type": "boolean"
                     },
@@ -1979,7 +2034,7 @@
                 "properties": {
                     "name": {
                         "default": "emqx@127.0.0.1",
-                        "description": "节点名。格式为 \\<name>@\\<host>。其中 <host> 可以是 IP 地址，也可以是 FQDN。</br>详见 http://erlang.org/doc/reference_manual/distributed.html。</br>          ",
+                        "description": "节点名。格式为 \\<name>@\\<host>。其中 <host> 可以是 IP 地址，也可以是 FQDN。<br/>详见 http://erlang.org/doc/reference_manual/distributed.html。",
                         "label": "节点名",
                         "readOnly": true,
                         "type": "string"
@@ -1992,7 +2047,7 @@
                     },
                     "process_limit": {
                         "default": 2097152,
-                        "description": "Erlang系统同时存在的最大进程数。</br>实际选择的最大值可能比设置的数字大得多。</br>参考: https://www.erlang.org/doc/man/erl.html</br>          ",
+                        "description": "Erlang系统同时存在的最大进程数。<br/>实际选择的最大值可能比设置的数字大得多。<br/>参考: https://www.erlang.org/doc/man/erl.html",
                         "label": "Erlang 最大进程数",
                         "maximum": 134217727,
                         "minimum": 1024,
@@ -2001,7 +2056,7 @@
                     },
                     "max_ports": {
                         "default": 1048576,
-                        "description": "Erlang系统同时存在的最大端口数。</br>实际选择的最大值可能比设置的数字大得多。</br>参考: https://www.erlang.org/doc/man/erl.html</br>          ",
+                        "description": "Erlang系统同时存在的最大端口数。<br/>实际选择的最大值可能比设置的数字大得多。<br/>参考: https://www.erlang.org/doc/man/erl.html",
                         "label": "Erlang 最大端口数",
                         "maximum": 134217727,
                         "minimum": 1024,
@@ -2025,26 +2080,36 @@
                         "type": "string"
                     },
                     "data_dir": {
-                        "description": "</br>节点数据存放目录，可能会自动创建的子目录如下：</br>- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx@127.0.0.1`。</br>如果节点要被重新命名（例如，`emqx@10.0.1.1`）。旧目录应该首先被删除。</br>- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。</br>- `patches`: 热补丁文件将被放在这里。</br>- `trace`: 日志跟踪文件。</br></br>**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。</br>         ",
+                        "description": "节点数据存放目录，可能会自动创建的子目录如下：<br/><br/>- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx@127.0.0.1`。<br/><br/>如果节点要被重新命名（例如，`emqx@10.0.1.1`）。旧目录应该首先被删除。<br/><br/>- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。<br/><br/>- `patches`: 热补丁文件将被放在这里。<br/><br/>- `trace`: 日志跟踪文件。<br/><br/><br/>**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。",
                         "label": "节点数据目录",
                         "readOnly": true,
                         "type": "string"
                     },
                     "config_files": {
-                        "description": "启动时读取的配置文件列表。后面的配置文件项覆盖前面的文件。",
+                        "description": "config_files Description",
                         "items": {
                             "type": "string"
                         },
-                        "label": "配置文件",
+                        "label": "config_files",
                         "readOnly": true,
                         "type": "array"
                     },
                     "global_gc_interval": {
                         "default": "15m",
-                        "description": "系统调优参数，设置节点运行多久强制进行一次全局垃圾回收。",
+                        "description": "系统调优参数，设置节点运行多久强制进行一次全局垃圾回收。禁用设置为 <code>disabled</code>。",
                         "label": "全局垃圾回收",
                         "readOnly": true,
-                        "type": "duration"
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "disabled"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
                     },
                     "crash_dump_file": {
                         "default": "log/erl_crash.dump",
@@ -2055,21 +2120,21 @@
                     },
                     "crash_dump_seconds": {
                         "default": "30s",
-                        "description": "保存崩溃文件最大允许时间，如果文件太大，在规则时间内没有保存完成，则会直接结束。",
+                        "description": "该配置给出了运行时系统允许花费的写入崩溃转储的秒数。当给定的秒数已经过去，运行时系统将被终止。<br/><br/>- 如果设置为0秒，运行时会立即终止，不会尝试写入崩溃转储文件。<br/><br/>- 如果设置为一个正数 S，节点会等待 S 秒来完成崩溃转储文件，然后用SIGALRM信号终止运行时系统。<br/><br/>- 如果设置为一个负值导致运行时系统的终止等待无限期地直到崩溃转储文件已经完全写入。",
                         "label": "保存崩溃文件最长时间",
                         "readOnly": true,
                         "type": "duration"
                     },
                     "crash_dump_bytes": {
                         "default": "100MB",
-                        "description": "限制崩溃文件的大小，当崩溃时节点内存太大，</br>如果为了保存现场，需要全部存到崩溃文件中，此处限制最多能保存多大的文件。</br>          ",
+                        "description": "限制崩溃文件的大小，当崩溃时节点内存太大，<br/>如果为了保存现场，需要全部存到崩溃文件中，此处限制最多能保存多大的文件。<br/>如果超过此限制，崩溃转储将被截断。如果设置为0，系统不会尝试写入崩溃转储文件。",
                         "label": "崩溃文件最大容量",
                         "readOnly": true,
                         "type": "byteSize"
                     },
                     "dist_net_ticktime": {
                         "default": "2m",
-                        "description": "系统调优参数，此配置将覆盖 vm.args 文件里的 -kernel net_ticktime 参数。当一个节点持续无响应多久之后，认为其已经宕机并断开连接。</br>      ",
+                        "description": "系统调优参数，此配置将覆盖 vm.args 文件里的 -kernel net_ticktime 参数。当一个节点持续无响应多久之后，认为其已经宕机并断开连接。",
                         "label": "节点间心跳间隔",
                         "readOnly": true,
                         "type": "duration"
@@ -2089,7 +2154,7 @@
                         "type": "comma_separated_string"
                     },
                     "etc_dir": {
-                        "deprecated": "since(\"5.0.8\")",
+                        "deprecated": true,
                         "description": "<code>etc</code> 存放目录",
                         "label": "Etc 目录",
                         "readOnly": true,
@@ -2103,7 +2168,7 @@
                     },
                     "db_backend": {
                         "default": "rlog",
-                        "description": " rlog是默认的数据库，他适用于大规模的集群。</br>mnesia是备选数据库，在小集群中提供了很好的性能。</br>      ",
+                        "description": "配置后端数据库驱动，默认值为 <code>rlog</code> 它适用于大规模的集群。<br/><code>mnesia</code> 是备选数据库，适合中小集群。",
                         "label": "内置数据库",
                         "readOnly": true,
                         "symbols": [
@@ -2114,7 +2179,7 @@
                     },
                     "db_role": {
                         "default": "core",
-                        "description": "</br>选择节点的角色。</br><code>core</code> 节点提供数据的持久性，并负责写入。建议将核心节点放置在不同的机架或不同的可用区。</br><code>repliant</code> 节点是临时工作节点。 从集群中删除它们，不影响数据库冗余</br>建议复制节点多于核心节点。</br>注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>。</br>          ",
+                        "description": "选择节点的角色。<br/><br/><code>core</code> 节点提供数据的持久性，并负责写入。建议将核心节点放置在不同的机架或不同的可用区。<br/><br/><code>repliant</code> 节点是临时工作节点。 从集群中删除它们，不影响数据库冗余<br/><br/>建议复制节点多于核心节点。<br/><br/>注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>。",
                         "label": "数据库角色",
                         "readOnly": true,
                         "symbols": [
@@ -2147,7 +2212,7 @@
                     },
                     "default_shard_transport": {
                         "default": "gen_rpc",
-                        "description": "</br>定义用于推送事务日志的默认传输。</br>这可以在 <code>db.shard_transports</code> 中基于每个分片被覆盖。</br><code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，</br><code>distr</code> 使用 Erlang 发行版。</br>      ",
+                        "description": "定义用于推送事务日志的默认传输。<br/><br/>这可以在 <code>db.shard_transports</code> 中基于每个分片被覆盖。<br/><code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，<br/><code>distr</code> 使用 Erlang 发行版。",
                         "label": "事务日志传输默认协议",
                         "symbols": [
                             "gen_rpc",
@@ -2157,7 +2222,7 @@
                     },
                     "shard_transports": {
                         "default": {},
-                        "description": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。</br><code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，</br><code>distr</code> 使用 Erlang 自带的 rpc 库。</br>如果未指定，</br>默认是使用 <code>db.default_shard_transport</code> 中设置的值。</br>      ",
+                        "description": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。<br/><br/><code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，<br/><code>distr</code> 使用 Erlang 自带的 rpc 库。<br/>如果未指定，<br/>默认是使用 <code>db.default_shard_transport</code> 中设置的值。",
                         "label": "事务日志传输协议",
                         "properties": {
                             "$shard": {
@@ -2243,45 +2308,45 @@
                 ],
                 "properties": {
                     "listeners": {
-                        "description": "仪表盘监听器设置。",
+                        "description": "Dashboard 监听器设置。监听器必须有唯一的端口号和IP地址的组合。<br/>例如，可以通过指定IP地址 0.0.0.0 来监听机器上给定端口上的所有配置的IP地址。<br/>或者，可以为每个监听器指定唯一的IP地址，但使用相同的端口。",
                         "label": "监听器",
                         "$ref": "#/components/schemas/dashboard.listeners"
                     },
                     "default_username": {
                         "default": "admin",
-                        "description": "默认的仪表板用户名",
+                        "description": "Dashboard 的默认用户名。",
                         "label": "默认用户名",
                         "readOnly": true,
                         "type": "string"
                     },
                     "default_password": {
                         "default": "public",
-                        "description": "默认的仪表板用户密码</br>为了安全，应该尽快修改密码。",
+                        "description": "Dashboard 的默认密码，为了安全，应该尽快修改密码。<br/>当通过网页首次登录 Dashboard 并按提示修改成复杂密码后，此值就会失效。",
                         "label": "默认密码",
                         "readOnly": true,
                         "type": "string"
                     },
                     "sample_interval": {
                         "default": "10s",
-                        "description": "更新仪表板中显示的指标的时间间隔。必须小于60，且被60的整除。",
+                        "description": "Dashboard 中图表指标的时间间隔。必须小于60，且被60的整除，默认设置 10s。",
                         "label": "sample_interval",
                         "type": "duration"
                     },
                     "token_expired_time": {
                         "default": "60m",
-                        "description": "JWT token 过期时间",
+                        "description": "JWT token 过期时间。默认设置为 60 分钟。",
                         "label": "JWT 过期时间",
                         "type": "duration"
                     },
                     "cors": {
                         "default": false,
-                        "description": "支持跨域资源共享(CORS)</br>允许服务器指示任何来源(域名、协议或端口)，除了本服务器之外的任何浏览器应允许加载资源。",
+                        "description": "支持跨域资源共享(CORS)，<br/>允许服务器指示任何来源(域名、协议或端口)，除了本服务器之外的任何浏览器应允许加载资源。",
                         "label": "跨域资源共享",
                         "type": "boolean"
                     },
                     "i18n_lang": {
                         "default": "en",
-                        "description": "swagger多语言支持",
+                        "description": "设置 Swagger 多语言的版本，可为 en 或 zh。",
                         "label": "多语言支持",
                         "readOnly": true,
                         "symbols": [
@@ -2291,9 +2356,52 @@
                         "type": "enum"
                     },
                     "bootstrap_users_file": {
-                        "description": "初始化用户文件",
-                        "label": "用于在首次启动 emqx 时，为 Dashboard 添加管理用户，其格式为：\n      ```\n      username1:password1\n      username2:password2\n      ```\n",
+                        "default": "",
+                        "description": "已废弃，请使用 api_key.bootstrap_file。",
+                        "label": "已废弃",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "broker.sys_topics": {
+                "properties": {
+                    "sys_msg_interval": {
+                        "default": "1m",
+                        "description": "发送 `$SYS` 主题的间隔时间。",
+                        "label": "sys_msg_interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "disabled"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "sys_heartbeat_interval": {
+                        "default": "30s",
+                        "description": "发送心跳系统消息的间隔时间，它包括：<br/>  - `$SYS/brokers/<node>/uptime`<br/>  - `$SYS/brokers/<node>/datetime`",
+                        "label": "sys_heartbeat_interval",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "disabled"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "sys_event_messages": {
+                        "description": "客户端事件消息。",
+                        "label": "sys_event_messages",
+                        "$ref": "#/components/schemas/broker.event_names"
                     }
                 },
                 "type": "object"
@@ -2301,18 +2409,18 @@
             "zone.force_shutdown": {
                 "properties": {
                     "enable": {
-                        "description": "启用 `force_shutdown` 功能",
+                        "description": "启用 `force_shutdown` 功能。",
                         "label": "启用 `force_shutdown` 功能",
                         "type": "boolean"
                     },
                     "max_message_queue_len": {
-                        "description": "消息队列的最大长度",
+                        "description": "消息队列的最大长度。",
                         "label": "进程邮箱消息队列的最大长度",
                         "minimum": 0,
                         "type": "number"
                     },
                     "max_heap_size": {
-                        "description": "Heap 的总大小",
+                        "description": "Heap 的总大小。",
                         "label": "Heap 的总大小",
                         "type": "byteSize"
                     }
@@ -2330,7 +2438,7 @@
             "get": {
                 "properties": {
                     "zones": {
-                        "description": "<code>zone</code> 是按<code>name</code> 分组的一组配置。</br>对于灵活的配置映射，可以将 <code>name</code> 设置为侦听器的 <code>zone</code> 配置。</br>注：名为 <code>default</code> 的内置区域是自动创建的，无法删除。",
+                        "description": "<code>zone</code> 是按<code>name</code> 分组的一组配置。<br/>对于灵活的配置映射，可以将 <code>name</code> 设置为侦听器的 <code>zone</code> 配置。<br/>注：名为 <code>default</code> 的内置区域是自动创建的，无法删除。",
                         "label": "zones",
                         "properties": {
                             "$name": {
@@ -2359,6 +2467,11 @@
                         "label": "broker",
                         "$ref": "#/components/schemas/broker.broker"
                     },
+                    "sys_topics": {
+                        "description": "系统主题配置。",
+                        "label": "sys_topics",
+                        "$ref": "#/components/schemas/broker.sys_topics"
+                    },
                     "sysmon": {
                         "description": "sysmon Description",
                         "label": "sysmon",
@@ -2380,8 +2493,8 @@
                         "$ref": "#/components/schemas/broker.trace"
                     },
                     "dashboard": {
-                        "description": "EMQX仪表板配置",
-                        "label": "仪表板",
+                        "description": "EMQX Dashboard 配置。",
+                        "label": "Dashboard",
                         "$ref": "#/components/schemas/dashboard.dashboard"
                     },
                     "limiter": {
@@ -2429,37 +2542,37 @@
             "get": {
                 "properties": {
                     "mqtt": {
-                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
+                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
+                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
+                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
+                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
+                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
                     }
@@ -2469,37 +2582,37 @@
             "put": {
                 "properties": {
                     "mqtt": {
-                        "description": "Global MQTT configuration.</br>The configs here work as default values which can be overridden</br>in <code>zone</code> configs",
+                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
                         "label": "mqtt",
                         "$ref": "#/components/schemas/zone.mqtt"
                     },
                     "stats": {
-                        "description": "Enable/disable statistic data collection.</br>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
+                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
                         "label": "stats",
                         "$ref": "#/components/schemas/zone.stats"
                     },
                     "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received</br>from the same clientid in a time frame defined by `window_time`.</br>After the limit is reached, successive `CONNECT` requests are forbidden</br>(banned) until the end of the time period defined by `ban_time`.",
+                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
                         "label": "flapping_detect",
                         "$ref": "#/components/schemas/zone.flapping_detect"
                     },
                     "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes</br>reaches a certain value, the process is forced to close.</br></br>Note: \"message queue\" here refers to the \"message mailbox\"</br>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
+                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
                         "label": "force_shutdown",
                         "$ref": "#/components/schemas/zone.force_shutdown"
                     },
                     "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.</br></br>Sometimes the MQTT connection (usually an MQTT subscriber) may</br>get \"congested\", because there are too many packets to be sent.</br>The socket tries to buffer the packets until the buffer is</br>full. If more packets arrive after that, the packets will be</br>\"pending\" in the queue, and we consider the connection</br>congested.</br></br>Note: `sndbuf` can be set to larger value if the</br>alarm is triggered too often.</br>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,</br>where the `<ClientID>` is the client ID of the congested MQTT connection,</br>and `<Username>` is the username or `unknown_user`.",
+                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
                         "label": "conn_congestion",
                         "$ref": "#/components/schemas/zone.conn_congestion"
                     },
                     "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after</br> they process certain number of messages or bytes of data.",
+                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
                         "label": "force_gc",
                         "$ref": "#/components/schemas/zone.force_gc"
                     },
                     "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily</br>disables some features (such as accepting new connections) when the load is high.",
+                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
                         "label": "overload_protection",
                         "$ref": "#/components/schemas/zone.overload_protection"
                     }
@@ -2537,6 +2650,14 @@
             },
             "put": {
                 "$ref": "#/components/schemas/broker.persistent_session_store"
+            }
+        },
+        "/configs/sys_topics": {
+            "get": {
+                "$ref": "#/components/schemas/broker.sys_topics"
+            },
+            "put": {
+                "$ref": "#/components/schemas/broker.sys_topics"
             }
         },
         "/configs/sysmon": {

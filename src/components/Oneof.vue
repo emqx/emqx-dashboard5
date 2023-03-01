@@ -46,6 +46,14 @@
         @change="handleValChange(bindForms[index].ip_port, 'ip_port')"
         clearable
       ></el-input>
+      <el-input
+        v-else-if="item.type === 'object'"
+        type="textarea"
+        v-model="bindForms[index].object"
+        :disabled="disabled"
+        @change="handleValChange(bindForms[index].object, 'object')"
+        clearable
+      />
       <div v-if="index !== items.length - 1" class="split">{{ $t('Base.or') }}</div>
     </div>
   </div>
@@ -65,9 +73,10 @@ interface BindForm {
   duration?: string
   byteSize?: string
   ip_port?: string
+  object?: string
 }
 
-type Type = 'enum' | 'string' | 'number' | 'duration' | 'byteSize' | 'ip_port'
+type Type = keyof BindForm
 
 export default defineComponent({
   name: 'Oneof',
@@ -94,6 +103,14 @@ export default defineComponent({
     props.items.forEach((item) => {
       bindForms.value.push({ [item.type]: undefined })
     })
+    const isJSONString = (str: string) => {
+      try {
+        JSON.parse(str)
+        return true
+      } catch (e) {
+        return false
+      }
+    }
     const setFormValue = (val: any, type: Type) => {
       bindForms.value.forEach((form) => {
         if (Object.keys(form)[0] === type) {
@@ -129,6 +146,10 @@ export default defineComponent({
         setFormValue(val, 'ip_port')
         return 'ip_port'
       }
+      if (isJSONString(val)) {
+        setFormValue(val, 'object')
+        return 'object'
+      }
       return 'string'
     }
     watch(
@@ -150,7 +171,7 @@ export default defineComponent({
     if (props.modelValue !== undefined) {
       handleWatchVal(props.modelValue, props.modelValue)
     }
-    const handleValChange = (val: string | number, type: Type) => {
+    const handleValChange = (val: string | number | undefined, type: Type) => {
       if (val) {
         resetOtherFormValue(type)
       }
