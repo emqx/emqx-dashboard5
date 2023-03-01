@@ -82,7 +82,7 @@ export default (
       ),
     },
     [BridgeType.GCP]: {
-      ...createOrderObj(['pubsub_topic', 'request_timeout', 'pool_size', 'pipelining'], 1),
+      ...createOrderObj(['pubsub_topic', 'pool_size', 'pipelining'], 1),
     },
     [BridgeType.MongoDB]: {
       ...createOrderObj(
