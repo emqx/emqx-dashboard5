@@ -50,40 +50,44 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <div class="part-header">{{ tl('listenerSetting') }}</div>
-      <el-row :gutter="20">
-        <el-col :span="12" v-if="!isUDP">
-          <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
-            <el-input v-model.number="listenerRecord.acceptors" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('maxConn')" prop="max_connections">
-            <el-input v-model.number="listenerRecord.max_connections" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12" v-if="gatewayName">
-          <el-form-item :label="tl('maxConnRate')" prop="max_conn_rate">
-            <el-input v-model.number="listenerRecord.max_conn_rate" />
-          </el-form-item>
-        </el-col>
-        <template v-if="showProxyProtocolConfig">
-          <el-col :span="12">
-            <el-form-item :label="$t('BasicConfig.proxyProtocol')">
-              <BooleanSelect v-model="listenerRecord.proxy_protocol" />
+      <!-- Listener Config -->
+      <!-- FIXME: remove it -->
+      <div v-if="!isQUIC">
+        <div class="part-header">{{ tl('listenerSetting') }}</div>
+        <el-row :gutter="20">
+          <el-col :span="12" v-if="!isUDP && !isQUIC">
+            <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
+              <el-input v-model.number="listenerRecord.acceptors" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="$t('BasicConfig.proxyProtocolTimeout')">
-              <TimeInputWithUnitSelect
-                v-model="listenerRecord.proxy_protocol_timeout"
-                number-placeholder="15"
-                :enabled-units="['s']"
-              />
+            <el-form-item :label="tl('maxConn')" prop="max_connections">
+              <el-input v-model.number="listenerRecord.max_connections" />
             </el-form-item>
           </el-col>
-        </template>
-      </el-row>
+          <el-col :span="12" v-if="gatewayName">
+            <el-form-item :label="tl('maxConnRate')" prop="max_conn_rate">
+              <el-input v-model.number="listenerRecord.max_conn_rate" />
+            </el-form-item>
+          </el-col>
+          <template v-if="showProxyProtocolConfig">
+            <el-col :span="12">
+              <el-form-item :label="$t('BasicConfig.proxyProtocol')">
+                <BooleanSelect v-model="listenerRecord.proxy_protocol" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('BasicConfig.proxyProtocolTimeout')">
+                <TimeInputWithUnitSelect
+                  v-model="listenerRecord.proxy_protocol_timeout"
+                  number-placeholder="15"
+                  :enabled-units="['s']"
+                />
+              </el-form-item>
+            </el-col>
+          </template>
+        </el-row>
+      </div>
       <!-- TCP Config -->
       <div v-if="showTCPConfig">
         <div class="part-header">
@@ -304,11 +308,9 @@ const {
   onDelete,
 } = useListenerDialog(props, emit)
 
-const isUDP = computed(
-  () =>
-    listenerRecord.value.type === ListenerType.QUIC ||
-    listenerRecord.value.type === ListenerTypeForGateway.UDP,
-)
+const isUDP = computed(() => listenerRecord.value.type === ListenerTypeForGateway.UDP)
+
+const isQUIC = computed(() => listenerRecord.value.type === ListenerType.QUIC)
 </script>
 
 <style lang="scss">
