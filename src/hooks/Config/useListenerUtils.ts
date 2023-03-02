@@ -1,7 +1,7 @@
 import { Listener } from '@/types/listener'
 import { cloneDeep, omit } from 'lodash'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
-import { DEFAULT_ZONE } from '@/common/constants'
+import { DEFAULT_ZONE, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import useFormRules from '../useFormRules'
 import useI18nTl from '../useI18nTl'
 import { FormRules } from '@/types/common'
@@ -121,7 +121,7 @@ export default (): ListenerUtils => {
     certfile: '',
     cacertfile: '',
     keyfile: '',
-    verify: 'verify_none',
+    verify: SSL_VERIFY_VALUE_MAP.get(true),
     fail_if_no_peer_cert: false,
     depth: 10,
     password: '',
