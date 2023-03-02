@@ -195,6 +195,7 @@
               v-if="showDialog && !isLoading"
               class="TLS-config"
               v-model="listenerRecord[SSLConfigKey]"
+              :switch-disabled="isQUIC"
               :show-sni="false"
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
@@ -206,32 +207,34 @@
               <DTLSVersionSelect v-model="listenerRecord.dtls_options.versions" />
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-else>
+          <el-col :span="12" v-else-if="!isQUIC">
             <el-form-item :label="tl('sslversion')">
               <SSLVersionSelect v-model="listenerRecord.ssl_options.versions" />
             </el-form-item>
           </el-col>
 
-          <el-col :span="12">
-            <el-form-item :label="'Fail If No Peer Cert'">
-              <BooleanSelect v-model="listenerRecord[SSLConfigKey].fail_if_no_peer_cert" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Intermediate Certificate Depth'">
-              <el-input v-model.number="listenerRecord[SSLConfigKey].depth" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Key Password'">
-              <el-input
-                v-model="listenerRecord[SSLConfigKey].password"
-                type="password"
-                autocomplete="one-time-code"
-                show-password
-              />
-            </el-form-item>
-          </el-col>
+          <template v-if="!isQUIC">
+            <el-col :span="12">
+              <el-form-item :label="'Fail If No Peer Cert'">
+                <BooleanSelect v-model="listenerRecord[SSLConfigKey].fail_if_no_peer_cert" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="'Intermediate Certificate Depth'">
+                <el-input v-model.number="listenerRecord[SSLConfigKey].depth" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="'Key Password'">
+                <el-input
+                  v-model="listenerRecord[SSLConfigKey].password"
+                  type="password"
+                  autocomplete="one-time-code"
+                  show-password
+                />
+              </el-form-item>
+            </el-col>
+          </template>
         </el-row>
       </div>
     </el-form>
