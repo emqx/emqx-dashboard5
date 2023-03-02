@@ -803,6 +803,7 @@ const SchemaForm = defineComponent({
     }
 
     const fakeLoading = ref(true)
+    const showSkeleton = computed(() => fakeLoading.value && props.type !== 'bridge')
     onMounted(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
@@ -817,8 +818,8 @@ const SchemaForm = defineComponent({
     ctx.expose({ configForm, validate })
 
     return () => (
-      <div class={`schema-form ${fakeLoading.value ? 'is-loading' : ''}`}>
-        {fakeLoading.value ? <el-skeleton rows={16} animated={true} /> : null}
+      <div class={`schema-form ${showSkeleton.value ? 'is-loading' : ''}`}>
+        {showSkeleton.value ? <el-skeleton rows={16} animated={true} /> : null}
         {renderSchemaForm(components.value)}
       </div>
     )

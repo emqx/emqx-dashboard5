@@ -428,9 +428,14 @@ defineExpose({
 }
 .setting-area {
   width: 75%;
+  min-height: 400px;
 }
 .btn-area {
   margin-top: 40px;
+  .el-button {
+    margin-left: 0;
+    margin-right: 12px;
+  }
 }
 .hide-tabs {
   > :deep(.el-tabs__header) {
