@@ -105,8 +105,8 @@ export default defineComponent({
     })
     const isJSONString = (str: string) => {
       try {
-        JSON.parse(str)
-        return true
+        const obj = JSON.parse(str)
+        return typeof obj === 'object'
       } catch (e) {
         return false
       }
