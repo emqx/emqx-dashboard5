@@ -1027,6 +1027,12 @@ export default {
     zh: '指定数据格式与内容，使其能被解析并写入到 InfluxDB 中，支持使用占位符。',
     en: 'Specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
   },
+  timestampDesc: {
+    zh: `数据的 UNIX 时间戳。 如果未提供时间戳，InfluxDB 使用其主机的系统时间 (UTC)。</br>
+建议使用模板语法，例如 \`\${'{'}timestamp{'}'}\` ，为每个时间线编写消息数据。`,
+    en: `The UNIX timestamp for the data. InfluxDB uses its host machine’s system time (UTC) if no timestamp is provided.</br>
+Recommend using a template syntax, e.g., \`\${'{'}timestamp{'}'}\` , to write the message data for each timeline.`,
+  },
   fieldValueDesc: {
     zh: `Key 和 value 都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
     en: `Both key and value support placeholders. Numbers are written as floats by default, but you can add a type suffix to specify a type (e.g. \`\${'{'}payload.int_key{'}'}i\`). Learn more in the <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,

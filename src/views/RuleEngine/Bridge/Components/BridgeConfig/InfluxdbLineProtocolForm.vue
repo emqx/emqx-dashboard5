@@ -10,7 +10,15 @@
       </el-form-item>
     </el-col>
     <el-col :span="12">
-      <el-form-item label="Timestamp">
+      <el-form-item>
+        <template #label>
+          <span>Timestamp</span>
+          <InfoTooltip>
+            <template #content>
+              <MarkdownContent :content="tl('timestampDesc')" />
+            </template>
+          </InfoTooltip>
+        </template>
         <el-input v-model="timestamp" @change="updateModelValue" />
       </el-form-item>
     </el-col>
