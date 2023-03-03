@@ -19,6 +19,7 @@ export default function useSchemaForm(
 ): {
   rules: Ref<SchemaRules>
   components: Ref<Properties>
+  setTypeForProperty: (property: Properties[string]) => Properties[string]
   resetObjForGetComponent: (obj: { path?: string; ref?: string }) => void
 } {
   const schemaRequest = axios.create({
@@ -49,6 +50,24 @@ export default function useSchemaForm(
   const filter = (ref: string) => ref.replace('#/', '').split('/')
   // https://www.lodashjs.com/docs/lodash.get
   const getComponentByRef = (data: Schema, ref: string): Component => _.get(data, filter(ref), {})
+
+  /**
+   * Calling it before components are assigned as much as possible will reduce the number of re-renders,
+   * but because sometimes data such as `format` may be custom modified by the parent component
+   * and may need to be called again, it needs to be exposed.
+   */
+  const setTypeForProperty = (property: Properties[string]) => {
+    if (property.oneOf && !property.type) {
+      property.type = 'oneof'
+    } else if (property.type === 'string') {
+      if (property.format === 'sql') {
+        property.type = 'sql'
+      } else if (property.format === 'file') {
+        property.type = 'file'
+      }
+    }
+    return property
+  }
   const getComponents = (data: Schema) => {
     let lastLabel = ''
     const transComponents = (component: Component, path?: string): Properties => {
@@ -109,7 +128,7 @@ export default function useSchemaForm(
           if (!label) {
             property.label = lastLabel
           }
-          res[key] = property
+          res[key] = setTypeForProperty(property)
         })
       }
       return res
@@ -151,6 +170,7 @@ export default function useSchemaForm(
   return {
     rules,
     components,
+    setTypeForProperty,
     resetObjForGetComponent,
   }
 }
