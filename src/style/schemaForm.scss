@@ -4,6 +4,12 @@
     min-height: 400px;
     .el-skeleton {
       width: 70%;
+      padding: 8px 28px;
+
+      .el-skeleton__item {
+        height: 16px;
+        margin-top: 20px;
+      }
     }
     .el-form,
     .el-tabs {
