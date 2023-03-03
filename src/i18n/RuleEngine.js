@@ -1179,6 +1179,10 @@ When disabled the messages are buffered in RAM only.`,
     en: `The number of buffer workers. Only applicable for egress type bridges.</br>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
     zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。',
   },
+  kafkaProducerTopic: {
+    zh: 'Kafka 主题名称',
+    en: 'Kafka Topic Name',
+  },
   kerberosPrincipal: {
     en: 'Kerberos Principal',
     zh: 'Kerberos Principal',
