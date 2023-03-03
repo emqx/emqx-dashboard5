@@ -180,12 +180,6 @@ const props = defineProps({
   copy: {
     type: Boolean,
   },
-  /**
-   * add special rule to the password field
-   */
-  validateForTestConnection: {
-    type: Boolean,
-  },
 })
 
 const emit = defineEmits(['update:modelValue', 'init'])

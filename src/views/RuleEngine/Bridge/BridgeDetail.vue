@@ -83,7 +83,6 @@
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
-                  :validate-for-test-connection="validateForTestConnection"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
                 <bridge-kafka-config
@@ -91,14 +90,12 @@
                   v-model="bridgeInfo"
                   ref="formCom"
                   :edit="true"
-                  :validate-for-test-connection="validateForTestConnection"
                   @init="resetRawBridgeInfoAfterComponentInit"
                 />
                 <using-schema-bridge-config
                   v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
                   edit
                   :type="bridgeType"
-                  :validate-for-test-connection="validateForTestConnection"
                   v-model="bridgeInfo"
                   ref="formCom"
                 />
