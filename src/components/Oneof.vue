@@ -65,6 +65,7 @@ import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import { IP_REG } from '@/common/constants'
 import { Properties } from '@/types/schemaForm'
+import { isJSONString } from '@/common/tools'
 
 interface BindForm {
   enum?: string
@@ -103,14 +104,7 @@ export default defineComponent({
     props.items.forEach((item) => {
       bindForms.value.push({ [item.type]: undefined })
     })
-    const isJSONString = (str: string) => {
-      try {
-        const obj = JSON.parse(str)
-        return typeof obj === 'object'
-      } catch (e) {
-        return false
-      }
-    }
+
     const setFormValue = (val: any, type: Type) => {
       bindForms.value.forEach((form) => {
         if (Object.keys(form)[0] === type) {
