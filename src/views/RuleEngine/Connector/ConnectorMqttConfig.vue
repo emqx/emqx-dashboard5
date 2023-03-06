@@ -122,10 +122,10 @@ export default defineComponent({
       server: '',
       username: '',
       password: '',
-      keepalive: '60s',
+      keepalive: '300s',
       proto_ver: 'v4',
       retry_interval: '15s',
-      clean_start: false,
+      clean_start: true,
       bridge_mode: false,
       mode: modeOptions[0],
     }
