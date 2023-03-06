@@ -503,3 +503,13 @@ export const countDuplicationName = (rawName: string): string => {
 }
 
 export const isEmptyObj = (obj: Record<any, any>) => Object.keys(obj).length === 0
+
+export const isJSONString = (str: string): boolean => {
+  if (typeof str !== 'string') return false
+  try {
+    const obj = JSON.parse(str)
+    return typeof obj === 'object' && obj !== null
+  } catch (e) {
+    return false
+  }
+}
