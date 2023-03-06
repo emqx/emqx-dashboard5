@@ -133,6 +133,7 @@ export interface MQTTBridge extends BridgeBaseData {
   max_inflight: number
   mode: string
   password: string
+  clean_start: boolean
   proto_ver: string
   retry_interval: string
   server: string
