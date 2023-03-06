@@ -2,6 +2,7 @@ import { computed, ref, Ref, ComputedRef } from 'vue'
 import useFormRules from '@/hooks/useFormRules'
 import { FormRules } from '@/types/common'
 import useI18nTl from '../useI18nTl'
+import { isJSONString } from '@/common/tools'
 
 export default (): {
   formCom: Ref<any>
@@ -15,6 +16,16 @@ export default (): {
     return {
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
+      body: [
+        {
+          validator(rules, value, callback) {
+            if (!value || isJSONString(value)) {
+              return callback()
+            }
+            callback(new Error(tl('jsonFormatError')))
+          },
+        },
+      ],
     }
   })
 
