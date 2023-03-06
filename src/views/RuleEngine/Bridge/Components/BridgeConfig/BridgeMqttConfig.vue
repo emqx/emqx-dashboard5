@@ -24,7 +24,7 @@
         <label>{{ tl('ingress') }}</label>
         <InfoTooltip :content="tl('ingressHelp')" />
         <p class="payload-desc">{{ tl('ingressDesc') }}</p>
-        <el-switch v-model="enableIngress" />
+        <el-switch v-model="enableIngress" @change="handleIngressChanged" />
         <el-collapse-transition>
           <el-row v-show="enableIngress" class="direction-body" :gutter="26">
             <el-col :span="12">
@@ -62,7 +62,7 @@
         <label>{{ tl('egress') }}</label>
         <InfoTooltip :content="tl('egressHelp')" />
         <p class="payload-desc">{{ tl('egressDesc') }}</p>
-        <el-switch v-model="enableEgress" />
+        <el-switch v-model="enableEgress" @change="handleEgressChanged" />
         <el-collapse-transition>
           <el-row v-show="enableEgress" class="direction-body" :gutter="26">
             <el-col :span="12">
@@ -102,7 +102,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { ElMessage } from 'element-plus'
-import { fillEmptyValueToUndefinedField } from '@/common/tools'
+import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
 
 export default defineComponent({
   name: 'BridgeMqttConfig',
@@ -192,6 +192,14 @@ const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
 const enableIngress = ref(false)
 const enableEgress = ref(false)
 
+/**
+ * If the ingress/egress configuration was enabled before and then turned off,
+ * in order for the user to enable the ingress/egress configuration again during the same edit,
+ * the following variable storage is used
+ */
+let preIngressTopic = ''
+let preEgressTopic = ''
+
 const { tl, t } = useI18nTl('RuleEngine')
 
 const { createRequiredRule } = useFormRules()
@@ -231,6 +239,27 @@ const updateModelValue = (val: MQTTBridge) => {
   emit('update:modelValue', val)
 }
 
+const handleIngressChanged = async () => {
+  const topicTarget = mqttBridgeVal.value.ingress?.remote || {}
+  if (!enableIngress.value && topicTarget.topic) {
+    preIngressTopic = topicTarget.topic
+    await waitAMoment(200)
+    topicTarget.topic = ''
+  } else if (enableIngress.value && preIngressTopic) {
+    topicTarget.topic = preIngressTopic
+  }
+}
+const handleEgressChanged = async () => {
+  const topicTarget = mqttBridgeVal.value.egress?.remote || {}
+  if (!enableEgress.value && topicTarget.topic) {
+    preEgressTopic = topicTarget.topic
+    await waitAMoment(200)
+    topicTarget.topic = ''
+  } else if (enableEgress.value && preEgressTopic) {
+    topicTarget.topic = preEgressTopic
+  }
+}
+
 const customValidate = () => {
   const { ingress, egress } = mqttBridgeVal.value
   if (!ingress.remote?.topic && !egress.remote?.topic) {
@@ -266,13 +295,6 @@ watch(
     if (!_.isEqual(val, mqttBridgeVal.value)) {
       initMqttBridgeVal()
     }
-  },
-)
-
-watch(
-  () => [enableIngress, enableEgress],
-  ([val1, val2]) => {
-    clearValidate()
   },
 )
 
