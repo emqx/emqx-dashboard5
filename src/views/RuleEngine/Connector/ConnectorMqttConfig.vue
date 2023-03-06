@@ -124,6 +124,7 @@ export default defineComponent({
       password: '',
       keepalive: '60s',
       proto_ver: 'v4',
+      retry_interval: '15s',
       clean_start: false,
       bridge_mode: false,
       mode: modeOptions[0],
