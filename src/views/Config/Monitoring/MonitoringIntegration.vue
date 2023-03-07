@@ -209,6 +209,7 @@ const updatePrometheus = async function () {
 const updateStatsD = async function () {
   try {
     isSubmitting.value = true
+    statsDFormData.value.sample_time_interval = statsDFormData.value.flush_time_interval
     await setStatsD(statsDFormData.value)
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
