@@ -39,7 +39,7 @@
                 </el-form-item>
                 <el-form-item label="QoS">
                   <el-select v-model="mqttBridgeVal.ingress.remote.qos">
-                    <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
+                    <el-option v-for="qos in ingressRemoteQoS" :key="qos" :value="qos" />
                   </el-select>
                 </el-form-item>
               </el-card>
@@ -127,7 +127,7 @@ import { QoSOptions } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { MQTTBridgeDirection } from '@/types/enum'
+import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
 import useSSL from '@/hooks/useSSL'
 import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
 import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
@@ -238,6 +238,8 @@ const initMqttBridgeVal = async () => {
 const updateModelValue = (val: MQTTBridge) => {
   emit('update:modelValue', val)
 }
+
+const ingressRemoteQoS = ref(QoSOptions.filter((item) => item !== QoSLevel.QoS2))
 
 const handleIngressChanged = async () => {
   const topicTarget = mqttBridgeVal.value.ingress?.remote || {}
