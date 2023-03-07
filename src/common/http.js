@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { ElMessage as M, ElNotification } from 'element-plus'
+import { ElNotification } from 'element-plus'
+import CustomMessage from '@/common/CustomMessage'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { toLogin } from '@/router'
@@ -93,9 +94,9 @@ axios.interceptors.response.use(
           if (data?.code === NAME_PWD_ERROR) {
             ElNotification.error(i18n.global.t('Base.namePwdError'))
           } else if (data?.code || data?.message) {
-            M.error(status + ' ' + data?.code + ':' + data?.message.toString())
+            CustomMessage.error(status + ' ' + data?.code + ':' + data?.message.toString())
           } else {
-            M.error(status + ' Network error')
+            CustomMessage.error(status + ' Network error')
           }
         }
 
@@ -107,7 +108,7 @@ axios.interceptors.response.use(
       const doNotPopupError = error.code === REQUEST_TIMEOUT_CODE && error.config.handleTimeoutSelf
       if (!respSet.has(0)) {
         if (!doNotPopupError) {
-          M.error('Some error occurred')
+          CustomMessage.error('Some error occurred')
         }
         respSet.add(0)
       }
