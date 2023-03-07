@@ -172,7 +172,7 @@ export default defineComponent({
         pool_size: 4,
         enable_pipelining: 100,
         connect_timeout: '5s',
-        request_timeout: '5s',
+        request_timeout: '15s',
         resource_opts: createDefaultResourceOptsForm({ inflight: true }),
         ssl: createSSLForm(),
       } as HTTPBridge)
