@@ -115,9 +115,10 @@
             </template>
             <el-select v-model="formData.precision">
               <el-option
-                v-for="item in getPropItem('precision').symbols || []"
-                :value="item"
-                :key="item"
+                v-for="{ value, label } in getPrecisionOpts()"
+                :value="value"
+                :key="value"
+                :label="label"
               />
             </el-select>
           </el-form-item>
@@ -185,7 +186,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'init'])
 
 const { state } = useStore()
-const { tl } = useI18nTl('RuleEngine')
+const { tl, t } = useI18nTl('RuleEngine')
 
 const PROTOCOL_VERSION_OPT = [
   { value: InfluxDBType.v1, label: 'v1' },
@@ -279,6 +280,14 @@ const handleVersionChanged = () => {
   } else {
     formData.value.token = ''
   }
+}
+
+const getPrecisionOpts = () => {
+  const rawPrecisionOpts: Array<string> = getPropItem('precision').symbols || []
+  return rawPrecisionOpts.map((item) => ({
+    value: item,
+    label: t(`General.${item === 's' ? 'sec' : item}`),
+  }))
 }
 
 const validate = () => {

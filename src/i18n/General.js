@@ -239,6 +239,14 @@ export default {
     zh: '毫秒',
     en: 'millisecond|milliseconds',
   },
+  us: {
+    zh: '微秒',
+    en: 'microsecond|microseconds',
+  },
+  ns: {
+    zh: '纳秒',
+    en: 'nanosecond|nanoseconds',
+  },
   timePartSep: {
     zh: '',
     en: ', ',
