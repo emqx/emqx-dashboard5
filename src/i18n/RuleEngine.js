@@ -152,8 +152,8 @@ export default {
     en: 'Request timeout',
   },
   requestTimeoutDesc: {
-    zh: '请求的超时。 如果<code>query_mode</code>是<code>sync</code>，对资源的调用将在超时前被阻断这一时间。',
-    en: 'Timeout for requests.  If <code>query_mode</code> is <code>sync</code>, calls to the resource will be blocked for this amount of time before timing out.',
+    zh: '从请求进入缓冲区开始计时，如果请求在规定的时间内仍停留在缓冲区内或者已发送但未能及时收到响应或确认，该请求将被视为过期。',
+    en: 'Starting from the moment when the request enters the buffer, if the request remains in the buffer for the specified time or is sent but does not receive a response or acknowledgement in time, the request is considered expired.',
   },
   mqttConn: {
     zh: 'MQTT 服务',
