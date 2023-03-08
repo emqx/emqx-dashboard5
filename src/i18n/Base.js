@@ -515,4 +515,8 @@ export default {
     zh: '用户名或密码错误',
     en: 'Incorrect username or password',
   },
+  networkError: {
+    zh: '网络错误',
+    en: 'Network Error',
+  },
 }

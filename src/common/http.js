@@ -107,7 +107,7 @@ axios.interceptors.response.use(
       const doNotPopupError = error.code === REQUEST_TIMEOUT_CODE && error.config.handleTimeoutSelf
       if (!respSet.has(0)) {
         if (!doNotPopupError) {
-          M.error('Some error occurred')
+          M.error(i18n.global.t('Base.networkError'))
         }
         respSet.add(0)
       }
