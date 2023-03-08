@@ -196,19 +196,19 @@ export default defineComponent({
   background-color: var(--color-bg-primary);
   height: 100vh;
   .footer-menu {
-    transition: all 0.3s;
+    z-index: 100;
     position: fixed;
+    box-sizing: border-box;
     bottom: 0;
     height: 48px;
     border-top: 1px solid var(--color-border-menu);
     background-color: var(--color-bg-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    padding: 0 24px;
-    z-index: 100;
+    transition: all 0.3s;
     .footer-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
       transition: all 0.3s;
       .iconfont {
         color: var(--color-text-secondary);
