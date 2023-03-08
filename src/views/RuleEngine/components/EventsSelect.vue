@@ -204,6 +204,13 @@ const useEvent = (event: string) => {
     color: white;
     cursor: pointer;
   }
+  .btn-doc {
+    padding: 0;
+    a {
+      display: block;
+      padding: 4px 9px;
+    }
+  }
   .bridge-list {
     list-style: none;
     padding-left: 0;
