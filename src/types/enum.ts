@@ -101,6 +101,7 @@ export enum BridgeType {
   PgSQL = 'pgsql',
   TimescaleDB = 'timescale',
   MatrixDB = 'matrix',
+  TDengine = 'tdengine',
 }
 
 export enum ConnectorType {
