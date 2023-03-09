@@ -60,7 +60,7 @@ export default (
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.MySQL]: {
       ...createOrderObj(
-        ['server', 'database', 'username', 'password', 'pool_size', 'auto_reconnect', 'ssl', 'sql'],
+        ['server', 'database', 'username', 'password', 'pool_size', 'ssl', 'sql'],
         1,
       ),
     },
@@ -74,7 +74,6 @@ export default (
           'database',
           'sentinel',
           'pool_size',
-          'auto_reconnect',
           'ssl',
           'command_template',
         ],
@@ -119,6 +118,9 @@ export default (
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
+    [BridgeType.TDengine]: {
+      ...createOrderObj(['server', 'database', 'username', 'password', 'pool_size'], 1),
+    },
   }
 
   const propsOrderMap = computed(() => {
@@ -148,6 +150,10 @@ export default (
     [BridgeType.PgSQL]: pgSqlColClassMap,
     [BridgeType.TimescaleDB]: pgSqlColClassMap,
     [BridgeType.MatrixDB]: pgSqlColClassMap,
+    [BridgeType.TDengine]: {
+      pool_size: 'dividing-line-below',
+      sql: 'dividing-line-below',
+    },
   }
 
   const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)

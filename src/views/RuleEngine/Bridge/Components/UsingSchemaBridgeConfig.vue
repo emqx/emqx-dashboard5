@@ -54,6 +54,7 @@ const typeRefKeyMap = {
   [BridgeType.PgSQL]: `bridge_pgsql.post`,
   [BridgeType.TimescaleDB]: `bridge_timescale.post`,
   [BridgeType.MatrixDB]: `bridge_matrix.post`,
+  [BridgeType.TDengine]: `bridge_tdengine.post`,
 }
 
 const props = defineProps({

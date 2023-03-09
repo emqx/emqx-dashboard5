@@ -24,6 +24,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.PgSQL, label: tl('pgSql') },
     { value: BridgeType.TimescaleDB, label: tl('timescaleDB') },
     { value: BridgeType.MatrixDB, label: tl('matrixDB') },
+    { value: BridgeType.TDengine, label: tl('TDengine') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -107,6 +108,11 @@ export const useBridgeTypeOptions = (): {
       value: BridgeType.MatrixDB,
       label: tl('matrixDB'),
       desc: t('RuleEngine.egressDataBaseDesc', { name: tl('matrixDB') }),
+    },
+    {
+      value: BridgeType.TDengine,
+      label: tl('TDengine'),
+      desc: t('RuleEngine.egressDataBaseDesc', { name: tl('TDengine') }),
     },
   ]
 
