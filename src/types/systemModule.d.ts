@@ -83,3 +83,29 @@ export interface User {
   description: string
   username: string
 }
+
+export interface UserItem {
+  description: string
+  username: string
+}
+
+export type UserFormForCreate = UserItem & {
+  password: string
+}
+
+export type PwdFormForUpdate = {
+  new_pwd: string
+  old_pwd: string
+}
+
+export interface BannedFormForCreate {
+  as: BannedType
+  who: string
+  reason: string
+  until?: string | null
+}
+
+export type BannedItem = BannedFormForCreate & {
+  at: string
+  by: string
+}
