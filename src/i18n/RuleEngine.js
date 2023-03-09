@@ -1003,6 +1003,10 @@ export default {
     zh: 'MatrixDB',
     en: 'MatrixDB',
   },
+  TDengine: {
+    zh: 'TDengine',
+    en: 'TDengine',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Google PubSub',
