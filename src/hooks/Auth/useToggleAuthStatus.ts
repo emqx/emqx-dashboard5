@@ -3,6 +3,7 @@ import { ElMessageBox, ElMessage } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import { AuthnItemInTable } from './useAuthn'
 import { AuthzItemInTable } from './useAuthz'
+import { omit } from 'lodash'
 
 export default (): {
   toggleAuthStatus: (
@@ -17,7 +18,7 @@ export default (): {
     type: 'authn' | 'authz',
   ) => {
     try {
-      const { img, metrics, ...data } = authData
+      const data = omit(authData, ['img', 'metrics'])
       const isAuthn = type === 'authn'
       const requestFunc = isAuthn ? updateAuthn : updateAuthz
       const primaryKey = isAuthn

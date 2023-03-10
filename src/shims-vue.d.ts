@@ -8,7 +8,6 @@ declare module '*.vue' {
   export default component
 }
 
-declare module '@/common/utils'
 declare module '@/common/highlight/sql'
 declare module 'js-sql-parser'
 declare module 'highlight.js/lib/core'

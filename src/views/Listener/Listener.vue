@@ -98,7 +98,7 @@ import {
 } from '@/api/listener'
 import useListenerUtils from '@/hooks/Config/useListenerUtils'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
-import { calcPercentage } from '@/common/utils'
+import { calcPercentage } from '@/common/tools'
 import { ListenerAction } from '@/types/enum'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'

@@ -123,7 +123,7 @@ import {
 } from '@/api/extension'
 import CommonPagination from '@/components/commonPagination.vue'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
-import { dateFormat } from '@/common/utils'
+import { dateFormat } from '@/common/tools'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import useCopy from '@/hooks/useCopy'
