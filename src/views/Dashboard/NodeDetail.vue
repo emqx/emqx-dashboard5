@@ -127,7 +127,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
-import { calcPercentage } from '@/common/utils'
+import { calcPercentage } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'

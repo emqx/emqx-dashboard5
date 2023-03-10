@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { deleteBlacklist, loadBlacklist } from '@/api/function'
-import { dateFormat } from '@/common/utils'
+import { dateFormat } from '@/common/tools'
 import useBannedType from '@/hooks/Auth/useBannedType'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'

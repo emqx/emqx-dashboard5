@@ -91,7 +91,7 @@ export default defineComponent({
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { RefreshRight, Setting } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { dateFormat } from '@/common/utils'
+import { dateFormat } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
 import { delRetainerTopic, getRetainer, getRetainerList, getRetainerTopic } from '@/api/extension'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
