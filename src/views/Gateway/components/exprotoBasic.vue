@@ -80,7 +80,6 @@
 <script>
 import { defineComponent, reactive, watch, onMounted } from 'vue'
 import _ from 'lodash'
-import { transformUnitArrayToStr } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
@@ -134,11 +133,11 @@ export default defineComponent({
     watch(
       () => _.cloneDeep(eValue),
       (v) => {
-        context.emit('update:value', transformUnitArrayToStr(v))
+        context.emit('update:value', v)
       },
     )
     onMounted(() => {
-      context.emit('update:value', transformUnitArrayToStr(eValue))
+      context.emit('update:value', eValue)
     })
 
     return {
