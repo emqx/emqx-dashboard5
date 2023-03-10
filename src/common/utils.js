@@ -1,44 +1,6 @@
 // import sqlFormatter from "sql-formatter";
 // import parser from "js-sql-parser";
-import store from '@/store'
 import moment from 'moment'
-
-// template ['a.b.c','a','a.d']
-export function transformStrToUnitArray(obj, template = [], prefix = '') {
-  let dest = {}
-  Object.keys(obj).forEach((k) => {
-    let kPrefix = prefix ? prefix + '.' + k : k
-    if (template.includes(kPrefix)) {
-      let matching = obj[k].match(/(\d+)(\w+)/)
-      dest[k] = [+matching[1], matching[2]]
-    } else if (typeof obj[k] === 'object' && obj[k] && !(obj[k] instanceof Array)) {
-      let nextTemplate = template.filter((v) => v.indexOf(kPrefix + '.') >= 0)
-      dest[k] = transformStrToUnitArray(obj[k], nextTemplate, kPrefix)
-    } else {
-      dest[k] = obj[k]
-    }
-  })
-  return dest
-}
-
-export function transformUnitArrayToStr(obj) {
-  let dest = {}
-  Object.entries(obj).forEach((e) => {
-    const [k, v] = e
-    if (v instanceof Array) {
-      if (v.length === 2 && typeof v[0] === 'number' && typeof v[1] === 'string') {
-        dest[k] = v.join('')
-      } else {
-        dest[k] = v
-      }
-    } else if (typeof v === 'object' && v) {
-      dest[k] = transformUnitArrayToStr(v)
-    } else {
-      dest[k] = v
-    }
-  })
-  return dest
-}
 
 export const caseInsensitiveCompare = (w, k) => {
   return !!String.prototype.match.call(w, new RegExp(k, 'i'))
@@ -92,29 +54,6 @@ export const matchSearch = (data, searchKey, searchValue) => {
       return reject(error)
     }
   })
-}
-
-export function ruleOldSqlCheck(sql) {
-  const $sql = sql.replace(/"/g, '')
-  const oldEvent = [
-    'message.publish',
-    'message.deliver',
-    'message.acked',
-    'message.dropped',
-    'client.connected',
-    'client.disconnected',
-    'client.subscribe',
-    'client.unsubscribe',
-  ]
-  let matchRes = null
-  oldEvent.forEach((e) => {
-    const [eventType, eventValue] = e.split('.')
-    const eventReg = new RegExp(`${eventType}\\.${eventValue}`, 'gim')
-    if ($sql.match(eventReg)) {
-      matchRes = $sql.match(eventReg)
-    }
-  })
-  return matchRes
 }
 
 // export function ruleNewSqlParser(sql, e) {

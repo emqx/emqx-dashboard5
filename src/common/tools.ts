@@ -237,7 +237,7 @@ export const transMemorySizeStrToNum = (sizeStr: string): number | string => {
   if (!matchResult) {
     return sizeStr
   }
-  const [totalStr, numPart, decimalPart, unit] = matchResult
+  const [, numPart, , unit] = matchResult
   switch (unit) {
     case 'Byte':
       return Number(numPart)
