@@ -130,10 +130,6 @@
           </el-col>
           <el-col :span="6">
             <el-form-item prop="qos" label="QoS">
-              <!-- <emq-select
-                v-model.number="subscriptionsRecord.qos"
-                :field="{ list: QoSOptions }"
-              /> -->
               <el-select v-model.number="subscriptionsRecord.qos">
                 <el-option v-for="item in QoSOptions" :key="item" :value="item" />
               </el-select>
