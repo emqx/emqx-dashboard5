@@ -29,7 +29,7 @@ export interface NodeCustomData {
 export interface NodeItem {
   id: string
   label: string
-  img: SVGElement
+  img: SVGElement | undefined
   _customData: NodeCustomData
   style?: {
     cursor: 'pointer'

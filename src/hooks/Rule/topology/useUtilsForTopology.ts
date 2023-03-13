@@ -1,4 +1,4 @@
-import iconMap from '@/assets/topologyIcon/index'
+import getIcon from '@/assets/topologyIcon/index'
 import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
@@ -32,8 +32,8 @@ export default (): {
   createBridgeSingleDirectionNodeId: (id: string, direction: MQTTBridgeDirection) => string
   getBridgeTypeFromId: (str: string) => BridgeType
   getBridgeIDFromInputting: (inputting: string) => string
-  getIconFromInputData: (input: string) => SVGElement
-  getIconFromOutputItem: (output: OutputItem) => SVGAElement
+  getIconFromInputData: (input: string) => SVGElement | undefined
+  getIconFromOutputItem: (output: OutputItem) => SVGAElement | undefined
   getBridgeNodeLabel: (bridgeID: string) => string
   createSingleDirectionBridgeNode: (bridge: BridgeItem, direction: MQTTBridgeDirection) => NodeItem
   createBridgeNodeWithoutDirection: (bridge: BridgeItem) => NodeItem
@@ -132,7 +132,7 @@ export default (): {
     return addCursorPointerToNodeData({
       id: bridgeNodeId,
       label: cutLabel(getBridgeNodeLabel(id)),
-      img: iconMap[iconKey],
+      img: getIcon(iconKey),
       _customData: { id, type: OtherNodeType.Bridge },
     })
   }
@@ -145,27 +145,27 @@ export default (): {
     return addCursorPointerToNodeData({
       id: bridgeNodeId,
       label: cutLabel(getBridgeNodeLabel(id)),
-      img: iconMap[iconKey],
+      img: getIcon(iconKey),
       _customData: { id, type: OtherNodeType.Bridge },
     })
   }
 
-  const getIconFromInputData = (input: string): SVGElement => {
+  const getIconFromInputData = (input: string): SVGElement | undefined => {
     if (input.indexOf(BridgeType.MQTT) > -1) {
-      return iconMap['bridge-mqtt']
+      return getIcon('bridge-mqtt')
     }
     if (input.indexOf('$events') > -1) {
-      return iconMap.event
+      return getIcon('event')
     }
-    return iconMap.topic
+    return getIcon('topic')
   }
 
   const getIconFromOutputItem = (output: OutputItem) => {
     if (typeof output === 'string') {
       const key = `bridge-${getBridgeTypeFromId(output)}`
-      return iconMap[key]
+      return getIcon(key)
     } else {
-      return output.function === RuleOutput.Console ? iconMap.console : iconMap.republish
+      return output.function === RuleOutput.Console ? getIcon('console') : getIcon('republish')
     }
   }
 
@@ -188,7 +188,7 @@ export default (): {
       node: {
         id: topicNodeId,
         label: cutLabel(remoteTopic),
-        img: iconMap.topic,
+        img: getIcon('topic'),
         _customData: {
           type: OtherNodeType.Topic,
           id: remoteTopic,
