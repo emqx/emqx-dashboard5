@@ -2,7 +2,7 @@
   <div class="kafka-producer-kafka-config">
     <el-row :gutter="26">
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.topic">
+        <el-form-item prop="kafka.topic">
           <template #label>
             <span>{{ getPropItem('topic').label }}</span>
             <InfoTooltip :content="getPropItem('topic').description" />
@@ -11,7 +11,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="24">
-        <el-form-item prop="producer.kafka.message.key">
+        <el-form-item prop="kafka.message.key">
           <template #label>
             <span>{{ getPropItem('message.key').label }}</span>
             <InfoTooltip>
@@ -26,7 +26,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="24">
-        <el-form-item prop="producer.kafka.message.value">
+        <el-form-item prop="kafka.message.value">
           <template #label>
             <span>{{ getPropItem('message.value').label }}</span>
             <InfoTooltip>
@@ -41,7 +41,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.message.timestamp">
+        <el-form-item prop="kafka.message.timestamp">
           <template #label>
             <span>{{ getPropItem('message.timestamp').label }}</span>
             <InfoTooltip>
@@ -55,7 +55,7 @@
       </el-col>
 
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.max_batch_bytes">
+        <el-form-item prop="kafka.max_batch_bytes">
           <template #label>
             <span>{{ getPropItem('max_batch_bytes').label }}</span>
             <InfoTooltip :content="getPropItem('max_batch_bytes').description" />
@@ -64,7 +64,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.compression" :label="getPropItem('compression').label">
+        <el-form-item prop="kafka.compression" :label="getPropItem('compression').label">
           <el-select v-model="kafkaConfig.compression">
             <el-option
               v-for="item in getPropItem('compression').symbols || []"
@@ -77,7 +77,7 @@
       </el-col>
 
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.partition_strategy">
+        <el-form-item prop="kafka.partition_strategy">
           <template #label>
             <span>{{ getPropItem('partition_strategy').label }}</span>
             <InfoTooltip>
@@ -97,7 +97,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.required_acks">
+        <el-form-item prop="kafka.required_acks">
           <template #label>
             <span>{{ getPropItem('required_acks').label }}</span>
             <InfoTooltip>
@@ -118,7 +118,7 @@
       </el-col>
 
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.partition_count_refresh_interval">
+        <el-form-item prop="kafka.partition_count_refresh_interval">
           <template #label>
             <span>{{ getPropItem('partition_count_refresh_interval').label }}</span>
             <InfoTooltip>
@@ -133,7 +133,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.max_inflight">
+        <el-form-item prop="kafka.max_inflight">
           <template #label>
             <span>{{ getPropItem('max_inflight').label }}</span>
             <InfoTooltip :content="getPropItem('max_inflight').description" />
@@ -143,7 +143,7 @@
       </el-col>
 
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.buffer.mode">
+        <el-form-item prop="kafka.buffer.mode">
           <template #label>
             <span>{{ getPropItem('buffer.mode').label }}</span>
             <InfoTooltip>
@@ -163,7 +163,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.buffer.per_partition_limit">
+        <el-form-item prop="kafka.buffer.per_partition_limit">
           <template #label>
             <span>{{ getPropItem('buffer.per_partition_limit').label }}</span>
             <InfoTooltip :content="getPropItem('buffer.per_partition_limit').description" />
@@ -175,7 +175,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.buffer.segment_bytes">
+        <el-form-item prop="kafka.buffer.segment_bytes">
           <template #label>
             <span>{{ getPropItem('buffer.segment_bytes').label }}</span>
             <InfoTooltip>
@@ -188,7 +188,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="producer.kafka.buffer.memory_overload_protection">
+        <el-form-item prop="kafka.buffer.memory_overload_protection">
           <template #label>
             <span>{{ getPropItem('buffer.memory_overload_protection').label }}</span>
             <InfoTooltip>
