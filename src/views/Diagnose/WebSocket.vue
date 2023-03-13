@@ -33,113 +33,120 @@
     <web-socket-item
       v-for="item in tabs"
       v-show="item.name === activeTab"
-      :ref="item.name"
+      :ref="(el:typeof WebSocketItem) => storeItemRef(item.name, el)"
       :key="item.name"
       :name="item.name"
       v-model:message-count="item.messageCount"
-    ></web-socket-item>
+    />
   </div>
 </template>
 
-<script>
-import WebSocketItem from './components/WebSocketItem'
-import { ElMessage } from 'element-plus'
+<script lang="ts" setup>
+import WebSocketItem from './components/WebSocketItem.vue'
+import { ElMessage, TabPanelName } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+import { ref, watch, Ref, nextTick } from 'vue'
+import useI18nTl from '@/hooks/useI18nTl'
 
-export default {
-  name: 'WebSocket',
-  components: { WebSocketItem, Plus },
-  data() {
-    return {
-      activeTab: '',
-      tabs: [],
-      showAddTab: true,
-    }
-  },
-
-  watch: {
-    activeTab(val, oldVal) {
-      const ins = this.tabs.find(($) => $.name === val)
-      const insOld = this.tabs.find(($) => $.name === oldVal)
-
-      if (insOld) {
-        insOld.messageCount = 0
-      }
-      if (!ins) {
-        ins.messageCount = 0
-      }
-    },
-  },
-  created() {
-    let defaultConnName = this.calcRandomName()
-    this.tabs.push({
-      name: defaultConnName,
-      label: this.$t('Tools.defaultConnection'),
-      messageCount: 0,
-    })
-    this.activeTab = defaultConnName
-  },
-
-  methods: {
-    calcRandomName(len = 6) {
-      const b64 = (window && window.btoa) || (global && global.btoa)
-      const rNum = String(Math && Math.random()).split('.')[1]
-      if (b64) {
-        return b64(rNum).substring(0, len)
-      } else {
-        return String(rNum).substring(0, len)
-      }
-    },
-    /**
-     * hack for keep add tab is the last tab
-     */
-    async controlShowAddTab() {
-      this.showAddTab = false
-      await this.$nextTick()
-      this.showAddTab = true
-    },
-    handleBeforeLeave(currentName) {
-      if (currentName === 'add') {
-        this.handleTabEdit('add')
-        this.controlShowAddTab()
-        return false
-      }
-      return true
-    },
-    handleTabEdit(targetName) {
-      if (targetName === 'add') {
-        if (this.tabs.length > 6) {
-          ElMessage.error(this.$t('Tools.maxSix'))
-          return
-        }
-        const name = this.calcRandomName()
-        this.tabs.push({
-          name,
-          label: this.$t('Tools.connectionName') + name,
-          messageCount: 0,
-        })
-        this.activeTab = name
-      } else {
-        const ins = this.$refs[targetName]
-        if (!ins) {
-          return
-        }
-
-        if (this.activeTab === targetName) {
-          this.tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              const nextTab = this.tabs[index + 1] || this.tabs[index - 1]
-              if (nextTab) {
-                this.activeTab = nextTab.name
-              }
-            }
-          })
-        }
-        this.tabs = this.tabs.filter(($) => $.name !== targetName)
-      }
-    },
-  },
+interface TabItem {
+  name: string
+  label: string
+  messageCount: number
 }
+
+const { tl } = useI18nTl('Tools')
+
+const activeTab = ref('')
+const tabs: Ref<Array<TabItem>> = ref([])
+const showAddTab = ref(true)
+
+const WebSocketItemRefMap = ref(new Map())
+
+watch(activeTab, (val, oldVal) => {
+  const ins = tabs.value.find(($) => $.name === val)
+  const oldIns = tabs.value.find(($) => $.name === oldVal)
+
+  if (oldIns) {
+    oldIns.messageCount = 0
+  }
+  if (ins) {
+    ins.messageCount = 0
+  }
+})
+
+const storeItemRef = (name: string, el: typeof WebSocketItem) => {
+  WebSocketItemRefMap.value.set(name, el)
+}
+
+const calcRandomName = (len = 6) => {
+  const b64 = (window && window.btoa) || (global && global.btoa)
+  const rNum = String(Math && Math.random()).split('.')[1]
+  if (b64) {
+    return b64(rNum).substring(0, len)
+  }
+  return String(rNum).substring(0, len)
+}
+
+/**
+ * hack for keep add tab is the last tab
+ */
+const controlShowAddTab = async () => {
+  showAddTab.value = false
+  await nextTick()
+  showAddTab.value = true
+}
+
+const handleBeforeLeave = (currentName: TabPanelName) => {
+  if (currentName === 'add') {
+    handleTabEdit('add')
+    controlShowAddTab()
+    return false
+  }
+  return true
+}
+
+const addNewTab = () => {
+  if (tabs.value.length > 6) {
+    ElMessage.error(tl('maxSix'))
+    return
+  }
+  const name = calcRandomName()
+  tabs.value.push({
+    name,
+    label: tabs.value.length === 0 ? tl('defaultConnection') : tl('connectionName') + name,
+    messageCount: 0,
+  })
+  activeTab.value = name
+}
+
+const removeTab = (name: string) => {
+  const ins = WebSocketItemRefMap.value.get(name)
+  if (!ins) {
+    return
+  }
+  if (activeTab.value === name) {
+    for (let index = 0; index < tabs.value.length; index++) {
+      if (tabs.value[index].name === name) {
+        const nextTab = tabs.value[index + 1] || tabs.value[index - 1]
+        if (nextTab) {
+          activeTab.value = nextTab.name
+          break
+        }
+      }
+    }
+  }
+  tabs.value = tabs.value.filter(($) => $.name !== name)
+}
+
+const handleTabEdit = (targetName: TabPanelName) => {
+  if (targetName === 'add') {
+    addNewTab()
+  } else if (typeof targetName === 'string') {
+    removeTab(targetName)
+  }
+}
+
+addNewTab()
 </script>
 
 <style lang="scss" scoped>
