@@ -81,9 +81,16 @@
             </el-col>
           </el-collapse-transition>
           <el-col :span="24">
-            <el-form-item class="label-whole-line">
+            <el-form-item class="label-whole-line" prop="body">
               <template #label>
-                <span>Body</span>
+                <div class="vertical-align-center">
+                  <span>Body</span>
+                  <InfoTooltip>
+                    <template #content>
+                      <MarkdownContent class="plugin-content" :content="tl('httpHeaderTip')" />
+                    </template>
+                  </InfoTooltip>
+                </div>
                 <el-button size="small" @click="setDefaultContent" class="button-in-label-line">
                   {{ $t('Auth.setDefault') }}
                 </el-button>
@@ -110,6 +117,8 @@ import { ElMessageBox } from 'element-plus'
 import { isEqual } from 'lodash'
 import { defineComponent, PropType, ref, watch } from 'vue'
 import HelpBlock from './HelpBlock.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 
 export default defineComponent({
   name: 'HttpConfig',
@@ -119,6 +128,8 @@ export default defineComponent({
     TimeInputWithUnitSelect,
     Monaco,
     HelpBlock,
+    InfoTooltip,
+    MarkdownContent,
   },
 
   props: {
@@ -191,6 +202,7 @@ export default defineComponent({
     stringifyBody()
 
     return {
+      tl,
       httpConfig,
       needHelp,
       formCom,

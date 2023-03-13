@@ -72,8 +72,8 @@ export default function useAuthzCreate() {
         2,
       ),
       pool_size: 8,
-      connect_timeout: '5s',
-      request_timeout: '5s',
+      connect_timeout: '15s',
+      request_timeout: '30s',
       enable_pipelining: 100,
       ssl: createSSLForm(),
     }
@@ -87,7 +87,7 @@ export default function useAuthzCreate() {
       collection: 'users',
       filter: '',
       r_mode: 'master',
-      w_mode: 'safe',
+      w_mode: 'unsafe',
       pool_size: 8,
       ssl: createSSLForm(),
       topology: {
