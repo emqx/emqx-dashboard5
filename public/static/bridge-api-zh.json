@@ -976,6 +976,183 @@
                 },
                 "type": "object"
             },
+            "bridge_clickhouse.creation_opts": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。",
+                        "label": "缓存池大小",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "健康检查间隔。",
+                        "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "在回复资源创建请求前等待资源进入健康状态的时间。",
+                        "label": "启动超时时间",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "资源断开以后，自动重连的时间间隔。",
+                        "label": "自动重连间隔",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "async",
+                        "description": "请求模式。可选 '同步/异步'，默认为'异步'模式。",
+                        "label": "请求模式",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "从请求进入缓冲区开始计时，如果请求在规定的时间内仍停留在缓冲区内或者已发送但未能及时收到响应或确认，该请求将被视为过期。",
+                        "label": "请求超期",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "enable_batch": {
+                        "default": true,
+                        "deprecated": true,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 1,
+                        "description": "批量请求大小。如果设为1，则无批处理。",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "0ms",
+                        "description": "在较低消息率情况下尝试累积批量输出时的最大等待间隔，以提高资源的利用率。",
+                        "label": "批量等待最大间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": true,
+                        "description": "启用磁盘缓存队列（仅对 egress 方向桥接有用）。",
+                        "label": "启用磁盘缓存队列",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "每个缓存 worker 允许使用的最大字节数。",
+                        "label": "缓存队列最大长度",
+                        "type": "byteSize"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_clickhouse.put": {
+                "required": [
+                    "database",
+                    "url"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "INSERT INTO mqtt_test(payload, arrived) VALUES ('${payload}', ${timestamp})",
+                        "description": "SQL模板。模板字符串可以包含消息元数据和有效载荷字段的占位符。占位符<br/>的插入不需要任何检查和特殊格式化，因此必须确保插入的数值格式化和转义正确。模板字符串可以包含占位符<br/>模板字符串可以包含消息元数据和有效载荷字段的占位符。这些占位符被插入<br/>所以必须确保插入的值的格式正确。因此，确保插入的值格式化和转义正确是非常重要的。模板字符串可以包含占位符<br/>模板字符串可以包含消息元数据和有效载荷字段的占位符。这些占位符被插入<br/>所以必须确保插入的值的格式正确。确保插入的值被正确地格式化和转义。",
+                        "format": "sql",
+                        "label": "SQL 模板",
+                        "type": "string"
+                    },
+                    "batch_value_separator": {
+                        "default": ", ",
+                        "description": "桥接会重复 VALUES 或 FORMAT 格式类型之后的内容。中 VALUES 或<br/>FORMAT FormatType 后面的内容，以形成一个批处理请求。用这个参数指定的值<br/>这个参数指定的值将被插入到这些值之间。默认的<br/>默认值','适用于VALUES格式，但是如果你指定了其他的格式，可能需要其他的值。可能需要其他值，如果你用<br/>\"clickhouse FORMAT \"语法指定其他格式。语法指定其他格式。<br/><br/>参见https://clickhouse.com/docs/en/sql-reference/statements/insert-into/ 和<br/>https://clickhouse.com/docs/en/interfaces/formats#formats 了解更多关于<br/>格式语法和可用的格式。",
+                        "label": "批量值分离器",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 Clickhouse。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。<br/>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_clickhouse.creation_opts"
+                    },
+                    "url": {
+                        "description": "你想连接到的Clickhouse服务器的HTTP URL（例如http://myhostname:8123）。",
+                        "label": "到clickhouse服务器的URL",
+                        "type": "url"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "桥接远端服务时使用的连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "deprecated": true,
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_mongodb.put_rs": {
                 "required": [
                     "database",
@@ -2002,6 +2179,107 @@
                 },
                 "type": "object"
             },
+            "bridge_dynamo.get": {
+                "required": [
+                    "database",
+                    "url",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "Bridge 的连接状态<br/><br/>- <code>connecting</code>: 启动时的初始状态。<br/><br/>- <code>connected</code>: 桥接驱动健康检查正常。<br/><br/>- <code>disconnected</code>: 当桥接无法通过健康检查。<br/><br/>- <code>stopped</code>: 桥接处于停用状态。<br/><br/>- <code>inconsistent</code>: 集群中有各节点汇报的状态不一致。",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting",
+                            "inconsistent"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "dynamo"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "template": {
+                        "default": "",
+                        "description": "模板, 默认为空，为空时将会将整个消息存入数据库",
+                        "label": "模板",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 DynamoDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_dynamo.creation_opts"
+                    },
+                    "url": {
+                        "description": "DynamoDB 的地址。<br/>",
+                        "label": "DynamoDB 地址",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "桥接远端服务时使用的连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "default": "root",
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "deprecated": true,
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_matrix.post": {
                 "required": [
                     "database",
@@ -2826,6 +3104,195 @@
                 },
                 "type": "object"
             },
+            "bridge_dynamo.post": {
+                "required": [
+                    "database",
+                    "url",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "dynamo"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "template": {
+                        "default": "",
+                        "description": "模板, 默认为空，为空时将会将整个消息存入数据库",
+                        "label": "模板",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 DynamoDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_dynamo.creation_opts"
+                    },
+                    "url": {
+                        "description": "DynamoDB 的地址。<br/>",
+                        "label": "DynamoDB 地址",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "桥接远端服务时使用的连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "default": "root",
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "deprecated": true,
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_clickhouse.get": {
+                "required": [
+                    "database",
+                    "url",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "Bridge 的连接状态<br/><br/>- <code>connecting</code>: 启动时的初始状态。<br/><br/>- <code>connected</code>: 桥接驱动健康检查正常。<br/><br/>- <code>disconnected</code>: 当桥接无法通过健康检查。<br/><br/>- <code>stopped</code>: 桥接处于停用状态。<br/><br/>- <code>inconsistent</code>: 集群中有各节点汇报的状态不一致。",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting",
+                            "inconsistent"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "clickhouse"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "INSERT INTO mqtt_test(payload, arrived) VALUES ('${payload}', ${timestamp})",
+                        "description": "SQL模板。模板字符串可以包含消息元数据和有效载荷字段的占位符。占位符<br/>的插入不需要任何检查和特殊格式化，因此必须确保插入的数值格式化和转义正确。模板字符串可以包含占位符<br/>模板字符串可以包含消息元数据和有效载荷字段的占位符。这些占位符被插入<br/>所以必须确保插入的值的格式正确。因此，确保插入的值格式化和转义正确是非常重要的。模板字符串可以包含占位符<br/>模板字符串可以包含消息元数据和有效载荷字段的占位符。这些占位符被插入<br/>所以必须确保插入的值的格式正确。确保插入的值被正确地格式化和转义。",
+                        "format": "sql",
+                        "label": "SQL 模板",
+                        "type": "string"
+                    },
+                    "batch_value_separator": {
+                        "default": ", ",
+                        "description": "桥接会重复 VALUES 或 FORMAT 格式类型之后的内容。中 VALUES 或<br/>FORMAT FormatType 后面的内容，以形成一个批处理请求。用这个参数指定的值<br/>这个参数指定的值将被插入到这些值之间。默认的<br/>默认值','适用于VALUES格式，但是如果你指定了其他的格式，可能需要其他的值。可能需要其他值，如果你用<br/>\"clickhouse FORMAT \"语法指定其他格式。语法指定其他格式。<br/><br/>参见https://clickhouse.com/docs/en/sql-reference/statements/insert-into/ 和<br/>https://clickhouse.com/docs/en/interfaces/formats#formats 了解更多关于<br/>格式语法和可用的格式。",
+                        "label": "批量值分离器",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 Clickhouse。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。<br/>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_clickhouse.creation_opts"
+                    },
+                    "url": {
+                        "description": "你想连接到的Clickhouse服务器的HTTP URL（例如http://myhostname:8123）。",
+                        "label": "到clickhouse服务器的URL",
+                        "type": "url"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "桥接远端服务时使用的连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "deprecated": true,
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_matrix.put": {
                 "required": [
                     "database",
@@ -3410,6 +3877,94 @@
                 },
                 "type": "object"
             },
+            "bridge_clickhouse.post": {
+                "required": [
+                    "database",
+                    "url",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Bridge 类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "clickhouse"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "sql": {
+                        "default": "INSERT INTO mqtt_test(payload, arrived) VALUES ('${payload}', ${timestamp})",
+                        "description": "SQL模板。模板字符串可以包含消息元数据和有效载荷字段的占位符。占位符<br/>的插入不需要任何检查和特殊格式化，因此必须确保插入的数值格式化和转义正确。模板字符串可以包含占位符<br/>模板字符串可以包含消息元数据和有效载荷字段的占位符。这些占位符被插入<br/>所以必须确保插入的值的格式正确。因此，确保插入的值格式化和转义正确是非常重要的。模板字符串可以包含占位符<br/>模板字符串可以包含消息元数据和有效载荷字段的占位符。这些占位符被插入<br/>所以必须确保插入的值的格式正确。确保插入的值被正确地格式化和转义。",
+                        "format": "sql",
+                        "label": "SQL 模板",
+                        "type": "string"
+                    },
+                    "batch_value_separator": {
+                        "default": ", ",
+                        "description": "桥接会重复 VALUES 或 FORMAT 格式类型之后的内容。中 VALUES 或<br/>FORMAT FormatType 后面的内容，以形成一个批处理请求。用这个参数指定的值<br/>这个参数指定的值将被插入到这些值之间。默认的<br/>默认值','适用于VALUES格式，但是如果你指定了其他的格式，可能需要其他的值。可能需要其他值，如果你用<br/>\"clickhouse FORMAT \"语法指定其他格式。语法指定其他格式。<br/><br/>参见https://clickhouse.com/docs/en/sql-reference/statements/insert-into/ 和<br/>https://clickhouse.com/docs/en/interfaces/formats#formats 了解更多关于<br/>格式语法和可用的格式。",
+                        "label": "批量值分离器",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 Clickhouse。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。<br/>",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_clickhouse.creation_opts"
+                    },
+                    "url": {
+                        "description": "你想连接到的Clickhouse服务器的HTTP URL（例如http://myhostname:8123）。",
+                        "label": "到clickhouse服务器的URL",
+                        "type": "url"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "桥接远端服务时使用的连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "deprecated": true,
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_kafka.put": {
                 "required": [
                     "bootstrap_hosts"
@@ -3635,7 +4190,8 @@
                         "type": "duration"
                     },
                     "heartbeat_frequency_ms": {
-                        "description": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。",
+                        "default": 200000,
+                        "description": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。如果连接数增加（例如，如果你增加池子的大小，就会发生这种情况），你可能也需要增加这个周期，以避免在MongoDB日志文件中创建太多的日志条目。",
                         "label": "心跳期",
                         "type": "duration"
                     },
@@ -4396,6 +4952,116 @@
                         "description": "启用 SSL 连接。",
                         "label": "启用SSL",
                         "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_dynamo.creation_opts": {
+                "properties": {
+                    "worker_pool_size": {
+                        "default": 16,
+                        "description": "缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。",
+                        "label": "缓存池大小",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "health_check_interval": {
+                        "default": "15s",
+                        "description": "健康检查间隔。",
+                        "label": "健康检查间隔",
+                        "type": "duration"
+                    },
+                    "start_after_created": {
+                        "default": "true",
+                        "description": "是否在创建资源后立即启动资源。",
+                        "label": "创建后立即启动",
+                        "type": "boolean"
+                    },
+                    "start_timeout": {
+                        "default": "5s",
+                        "description": "在回复资源创建请求前等待资源进入健康状态的时间。",
+                        "label": "启动超时时间",
+                        "type": "duration"
+                    },
+                    "auto_restart_interval": {
+                        "default": "60s",
+                        "description": "资源断开以后，自动重连的时间间隔。",
+                        "label": "自动重连间隔",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "query_mode": {
+                        "default": "async",
+                        "description": "请求模式。可选 '同步/异步'，默认为'异步'模式。",
+                        "label": "请求模式",
+                        "symbols": [
+                            "sync",
+                            "async"
+                        ],
+                        "type": "enum"
+                    },
+                    "request_timeout": {
+                        "default": "15s",
+                        "description": "从请求进入缓冲区开始计时，如果请求在规定的时间内仍停留在缓冲区内或者已发送但未能及时收到响应或确认，该请求将被视为过期。",
+                        "label": "请求超期",
+                        "oneOf": [
+                            {
+                                "type": "duration"
+                            },
+                            {
+                                "symbols": [
+                                    "infinity"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "async_inflight_window": {
+                        "default": 100,
+                        "description": "异步请求飞行队列窗口大小。",
+                        "label": "异步请求飞行队列窗口",
+                        "type": "string"
+                    },
+                    "enable_batch": {
+                        "default": true,
+                        "deprecated": true,
+                        "description": "启用批量模式。",
+                        "label": "启用批量模式",
+                        "type": "boolean"
+                    },
+                    "batch_size": {
+                        "default": 1,
+                        "description": "批量请求大小。如果设为1，则无批处理。",
+                        "label": "批量请求大小",
+                        "type": "string"
+                    },
+                    "batch_time": {
+                        "default": "0ms",
+                        "description": "在较低消息率情况下尝试累积批量输出时的最大等待间隔，以提高资源的利用率。",
+                        "label": "批量等待最大间隔",
+                        "type": "duration"
+                    },
+                    "enable_queue": {
+                        "default": false,
+                        "deprecated": true,
+                        "description": "启用磁盘缓存队列（仅对 egress 方向桥接有用）。",
+                        "label": "启用磁盘缓存队列",
+                        "type": "boolean"
+                    },
+                    "max_queue_bytes": {
+                        "default": "100MB",
+                        "description": "每个缓存 worker 允许使用的最大字节数。",
+                        "label": "缓存队列最大长度",
+                        "type": "byteSize"
                     }
                 },
                 "type": "object"
@@ -5249,6 +5915,73 @@
                         "description": "出口配置定义了该桥接如何将消息从本地 Broker 转发到远程 Broker。<br/>以下字段中允许使用带有变量的模板：'remote.topic', 'local.qos', 'local.retain', 'local.payload'。<br/><br/>注意：如果此桥接被用作规则的动作，并且配置了 'local.topic'，则从规则输出的数据以及匹配到 'local.topic' 的 MQTT 消息都会被转发。",
                         "label": "出方向配置",
                         "$ref": "#/components/schemas/connector-mqtt.egress"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_dynamo.put": {
+                "required": [
+                    "database",
+                    "url"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用/禁用桥接",
+                        "label": "启用/禁用桥接",
+                        "type": "boolean"
+                    },
+                    "template": {
+                        "default": "",
+                        "description": "模板, 默认为空，为空时将会将整个消息存入数据库",
+                        "label": "模板",
+                        "type": "string"
+                    },
+                    "local_topic": {
+                        "description": "发送到 'local_topic' 的消息都会转发到 DynamoDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+                        "label": "本地 Topic",
+                        "type": "string"
+                    },
+                    "resource_opts": {
+                        "default": {},
+                        "description": "资源相关的选项。",
+                        "label": "资源选项",
+                        "$ref": "#/components/schemas/bridge_dynamo.creation_opts"
+                    },
+                    "url": {
+                        "description": "DynamoDB 的地址。<br/>",
+                        "label": "DynamoDB 地址",
+                        "type": "string"
+                    },
+                    "database": {
+                        "description": "数据库名字。",
+                        "label": "数据库名字",
+                        "type": "string"
+                    },
+                    "pool_size": {
+                        "default": 8,
+                        "description": "桥接远端服务时使用的连接池大小。",
+                        "label": "连接池大小",
+                        "type": "string"
+                    },
+                    "username": {
+                        "default": "root",
+                        "description": "内部数据库的用户名。",
+                        "label": "用户名",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "内部数据库密码。",
+                        "format": "password",
+                        "label": "密码",
+                        "type": "string"
+                    },
+                    "auto_reconnect": {
+                        "default": true,
+                        "deprecated": true,
+                        "description": "已弃用。自动重连数据库。",
+                        "label": "已弃用。自动重连数据库",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
@@ -7227,6 +7960,12 @@
                 "items": {
                     "oneOf": [
                         {
+                            "$ref": "#/components/schemas/bridge_dynamo.get"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_clickhouse.get"
+                        },
+                        {
                             "$ref": "#/components/schemas/bridge_tdengine.get"
                         },
                         {
@@ -7289,6 +8028,12 @@
             "get": {
                 "oneOf": [
                     {
+                        "$ref": "#/components/schemas/bridge_dynamo.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_clickhouse.get"
+                    },
+                    {
                         "$ref": "#/components/schemas/bridge_tdengine.get"
                     },
                     {
@@ -7346,6 +8091,12 @@
             },
             "put": {
                 "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/bridge_dynamo.get"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_clickhouse.get"
+                    },
                     {
                         "$ref": "#/components/schemas/bridge_tdengine.get"
                     },
