@@ -40,20 +40,17 @@ export const useBridgeTypeOptions = (): {
   getTypeStr: (bridge: BridgeItem) => string
 } => {
   const { tl } = useI18nTl('RuleEngine')
+  const { bridgeTypeList } = useBridgeTypeValue()
 
-  const bridgeTypeOptions: Array<BridgeTypeOptions> = [
-    {
-      value: BridgeType.Webhook,
-      label: 'Webhook',
-      desc: tl('bridgeDescHTTP'),
-    },
-    {
-      value: BridgeType.MQTT,
-      label: 'MQTT',
-      // TODO:TODO:TODO:
-      desc: tl('bridgeDescMQTT'),
-    },
-  ]
+  const descMap = new Map([
+    [BridgeType.Webhook, tl('bridgeDescHTTP')],
+    [BridgeType.MQTT, tl('bridgeDescMQTT')],
+  ])
+
+  const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({
+    ...item,
+    desc: descMap.get(item.value) || '',
+  }))
 
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
