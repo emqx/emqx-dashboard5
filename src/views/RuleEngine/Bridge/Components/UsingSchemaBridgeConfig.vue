@@ -55,6 +55,8 @@ const typeRefKeyMap = {
   [BridgeType.TimescaleDB]: `bridge_timescale.post`,
   [BridgeType.MatrixDB]: `bridge_matrix.post`,
   [BridgeType.TDengine]: `bridge_tdengine.post`,
+  [BridgeType.ClickHouse]: `bridge_clickhouse.post`,
+  [BridgeType.DynamoDB]: `bridge_dynamo.post`,
 }
 
 const props = defineProps({
@@ -136,18 +138,7 @@ const getRefKey = computed(() => {
   return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
 })
 
-const { commonHandler, redisComponentsHandler, GCPComponentsHandler, mongoComponentsHandler } =
-  useComponentsHandlers(props)
-const getComponentsHandler = () => {
-  if (props.type === BridgeType.Redis) {
-    return redisComponentsHandler
-  } else if (props.type === BridgeType.GCP) {
-    return GCPComponentsHandler
-  } else if (props.type === BridgeType.MongoDB) {
-    return mongoComponentsHandler
-  }
-  return commonHandler
-}
+const { getComponentsHandler } = useComponentsHandlers(props)
 
 const { fillNewRecord } = useFillNewRecord()
 const handleComponentChange = ({

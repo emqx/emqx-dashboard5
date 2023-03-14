@@ -5,6 +5,12 @@ import { Properties } from '@/types/schemaForm'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { useRedisCommandCheck } from './useBridgeDataHandler'
 import { FormItemRule } from 'element-plus'
+import { BridgeType } from '@/types/enum'
+
+type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
+  components: Properties
+  rules: SchemaRules
+}
 
 /**
  * Sometimes it is necessary to make some custom changes to the components used by the schema form component,
@@ -12,7 +18,11 @@ import { FormItemRule } from 'element-plus'
  * or changing the type of a form item if the data given by the backend is incorrect,
  * etc. This can be defined here.
  */
-export default (props: any) => {
+export default (
+  props: any,
+): {
+  getComponentsHandler: () => Handler
+} => {
   const { t, tl } = useI18nTl('RuleEngine')
 
   const deleteSSLLabelAndDesc = (components: Properties) => {
@@ -156,10 +166,32 @@ export default (props: any) => {
     return { components, rules }
   }
 
+  const dynamoDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { template } = components
+
+    if (template?.type === 'string') {
+      template.format = 'sql'
+    }
+
+    return { components, rules }
+  }
+
+  const specialBridgeHandlerMap: Record<string, Handler> = {
+    [BridgeType.Redis]: redisComponentsHandler,
+    [BridgeType.GCP]: GCPComponentsHandler,
+    [BridgeType.MongoDB]: mongoComponentsHandler,
+    [BridgeType.DynamoDB]: dynamoDBHandler,
+  }
+
+  const getComponentsHandler = () => {
+    if (props.type in specialBridgeHandlerMap) {
+      return specialBridgeHandlerMap[props.type]
+    }
+    return commonHandler
+  }
+
   return {
-    commonHandler,
-    redisComponentsHandler,
-    mongoComponentsHandler,
-    GCPComponentsHandler,
+    getComponentsHandler,
   }
 }
