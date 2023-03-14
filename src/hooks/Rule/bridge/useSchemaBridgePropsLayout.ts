@@ -121,6 +121,15 @@ export default (
     [BridgeType.TDengine]: {
       ...createOrderObj(['server', 'database', 'username', 'password', 'pool_size'], 1),
     },
+    [BridgeType.ClickHouse]: {
+      ...createOrderObj(
+        ['url', 'database', 'username', 'password', 'pool_size', 'batch_value_separator', 'sql'],
+        1,
+      ),
+    },
+    [BridgeType.DynamoDB]: {
+      ...createOrderObj(['url', 'database', 'username', 'password', 'pool_size', 'template'], 1),
+    },
   }
 
   const propsOrderMap = computed(() => {
@@ -153,6 +162,14 @@ export default (
     [BridgeType.TDengine]: {
       pool_size: 'dividing-line-below',
       sql: 'dividing-line-below',
+    },
+    [BridgeType.ClickHouse]: {
+      pool_size: 'dividing-line-below',
+      sql: 'dividing-line-below',
+    },
+    [BridgeType.DynamoDB]: {
+      pool_size: 'dividing-line-below',
+      template: 'dividing-line-below',
     },
   }
 

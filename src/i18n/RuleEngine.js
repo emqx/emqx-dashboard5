@@ -1007,6 +1007,14 @@ export default {
     zh: 'TDengine',
     en: 'TDengine',
   },
+  clickHouse: {
+    zh: 'ClickHouse',
+    en: 'ClickHouse',
+  },
+  dynamoDB: {
+    zh: 'DynamoDB',
+    en: 'DynamoDB',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Google PubSub',
