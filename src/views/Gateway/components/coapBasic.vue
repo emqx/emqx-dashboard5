@@ -5,67 +5,60 @@
         <el-col :span="12">
           <el-form-item :label="tl('connectionRequire')">
             <el-select v-model="cValue.connection_required">
-              <el-option :value="true" label="true"></el-option>
-              <el-option :value="false" label="false"></el-option>
+              <el-option :value="true" label="true" />
+              <el-option :value="false" label="false" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('notifyType')">
             <el-select v-model="cValue.notify_type">
-              <el-option value="qos"></el-option>
-              <el-option value="con"></el-option>
-              <el-option value="non"></el-option>
+              <el-option value="qos" />
+              <el-option value="con" />
+              <el-option value="non" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="cValue.connection_required === true">
           <el-form-item :label="tl('heartbeat')">
-            <el-input
-              v-model.number="cValue.heartbeat[0]"
-              :placeholder="String(cValueDefault.heartbeat[0])"
-            >
-              <template #append>
-                <el-select v-model="cValue.heartbeat[1]">
-                  <el-option value="s"></el-option>
-                </el-select>
-              </template>
-            </el-input> </el-form-item
-        ></el-col>
+            <TimeInputWithUnitSelect
+              v-model="cValue.heartbeat"
+              :number-placeholder="parseInt(cValueDefault.heartbeat).toString()"
+              :enabled-units="['s']"
+            />
+          </el-form-item>
+        </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="cValue.enable_stats">
-              <el-option :value="true" label="true"></el-option>
-              <el-option :value="false" label="false"></el-option>
+              <el-option :value="true" label="true" />
+              <el-option :value="false" label="false" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('subQos')">
             <el-select v-model="cValue.subscribe_qos">
-              <el-option value="coap"></el-option>
-              <el-option value="qos0"></el-option>
-              <el-option value="qos1"></el-option>
-              <el-option value="qos2"></el-option>
+              <el-option value="coap" />
+              <el-option value="qos0" />
+              <el-option value="qos1" />
+              <el-option value="qos2" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('pubQos')">
             <el-select v-model="cValue.publish_qos">
-              <el-option value="coap"></el-option>
-              <el-option value="qos0"></el-option>
-              <el-option value="qos1"></el-option>
-              <el-option value="qos2"></el-option>
+              <el-option value="coap" />
+              <el-option value="qos0" />
+              <el-option value="qos1" />
+              <el-option value="qos2" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
-            <el-input
-              v-model="cValue.mountpoint"
-              :placeholder="cValueDefault.mountpoint"
-            ></el-input>
+            <el-input v-model="cValue.mountpoint" :placeholder="cValueDefault.mountpoint" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -76,11 +69,14 @@
 <script>
 import { defineComponent, onMounted, reactive, watch } from 'vue'
 import _ from 'lodash'
-import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
 export default defineComponent({
   name: 'CoapBasic',
+  components: {
+    TimeInputWithUnitSelect,
+  },
   props: {
     value: {
       type: Object,
@@ -89,38 +85,36 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let cValueDefault = {
+    const createDefault = () => ({
       connection_required: false,
-      heartbeat: [30, 's'],
+      heartbeat: '30s',
       notify_type: 'qos',
       enable_stats: true,
 
       subscribe_qos: 'coap',
       publish_qos: 'coap',
       mountpoint: '',
-    }
+    })
+    let cValueDefault = createDefault()
 
     const { t } = useI18n()
 
-    const cValue = reactive(
-      _.merge(cValueDefault, transformStrToUnitArray(props.value, ['heartbeat'])),
-    )
+    const cValue = reactive(_.merge(cValueDefault, props.value))
 
     const checkHeartBeat = (source) => {
       if (!source.connection_required) {
         Reflect.deleteProperty(source, 'heartbeat')
+      } else if (source.connection_required && !source.heartbeat) {
+        source.heartbeat = createDefault().heartbeat
       }
       return source
     }
 
-    watch(
-      () => _.cloneDeep(cValue),
-      (v) => {
-        context.emit('update:value', checkHeartBeat(transformUnitArrayToStr(v)))
-      },
-    )
+    watch(cValue, (v) => {
+      context.emit('update:value', checkHeartBeat(v))
+    })
     onMounted(() => {
-      context.emit('update:value', checkHeartBeat(transformUnitArrayToStr(cValue)))
+      context.emit('update:value', checkHeartBeat(cValue))
     })
 
     return {
@@ -131,5 +125,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="scss" scoped></style>

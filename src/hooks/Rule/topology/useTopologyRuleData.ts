@@ -3,7 +3,7 @@ import { getRules, queryRuleMetrics } from '@/api/ruleengine'
 import { OutputItem, OutputItemObj, RuleDataItemWithMetrics, RuleItem } from '@/types/rule'
 import { EdgeItem, NodeItem, OtherNodeType } from './topologyType'
 import useUtilsForTopology from './useUtilsForTopology'
-import iconMap from '@/assets/topologyIcon/index'
+import getIcon from '@/assets/topologyIcon/index'
 import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_MAX_NUM_PER_PAGE,
@@ -223,7 +223,7 @@ export default (): {
         return addCursorPointerToNodeData({
           id: createNodeId(v.id, OtherNodeType.Rule),
           label: cutLabel(v.name || 'rule id:' + v.id),
-          img: iconMap.rule,
+          img: getIcon('rule'),
           _customData: { id: v.id, type: OtherNodeType.Rule },
         })
       })

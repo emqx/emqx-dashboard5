@@ -86,7 +86,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadNodes } from '@/api/common'
-import { calcPercentage } from '@/common/utils'
+import { caseInsensitiveCompare, calcPercentage } from '@/common/tools'
 import { ref, onMounted, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RefreshRight } from '@element-plus/icons-vue'
@@ -114,9 +114,6 @@ const loadAllNodes = async () => {
   } finally {
     nodesLockTable.value = false
   }
-}
-const caseInsensitiveCompare = (w: undefined | string, k: string): boolean | void => {
-  return !!String.prototype.match.call(w, new RegExp(k, 'i'))
 }
 
 onMounted(() => {

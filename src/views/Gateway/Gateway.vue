@@ -68,14 +68,14 @@
 
 <script lang="ts">
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
-import { calcPercentage, caseInsensitiveCompare } from '@/common/utils'
+import { caseInsensitiveCompare, calcPercentage } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
+import { GatewayItem } from '@/types/gateway'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { GatewayItem } from '@/types/gateway'
 
 export default defineComponent({
   name: 'Gateway',

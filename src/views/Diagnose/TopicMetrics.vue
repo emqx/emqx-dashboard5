@@ -172,13 +172,12 @@ import {
   deleteTopicMetrics,
   resetTopicMetrics,
 } from '@/api/diagnose'
-import { dateFormat } from '@/common/utils'
+import { dateFormat } from '@/common/tools'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { waitAMoment } from '@/common/tools.ts'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 const DEFAULT_QOS = 'all'
 

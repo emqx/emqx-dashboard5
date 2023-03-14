@@ -95,7 +95,6 @@
                         :stroke-width="14"
                         :format="() => ''"
                         :percentage="calcMemoryPercentage"
-                        :color="getProgressColor(calcPercentage)"
                       >
                       </el-progress>
                     </el-tooltip>
@@ -121,13 +120,13 @@ export default defineComponent({
 <script setup lang="ts">
 import { loadNodes, loadStats } from '@/api/common'
 import { IS_ENTERPRISE } from '@/common/constants'
-import { calcPercentage, getProgressColor } from '@/common/utils'
+import { calcPercentage } from '@/common/tools'
 import useDurationStr from '@/hooks/useDurationStr'
+import useSyncPolling from '@/hooks/useSyncPolling'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
 import { computed, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
-import useSyncPolling from '@/hooks/useSyncPolling'
 
 type CurrentInfo = { node: NodeMsg; stats: NodeStatisticalData }
 
