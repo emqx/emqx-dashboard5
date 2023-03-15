@@ -624,8 +624,8 @@ export default {
     en: 'Tip:',
   },
   clientIDDesc: {
-    zh: '由于 MQTT 客户端 ID 不允许重复，如果填写了客户端 ID，使用节点独享连接模式时，EMQ X 会在客户端 ID 后添加随机字符串。',
-    en: 'Since the MQTT client ID does not allow duplicates, EMQ X will add a random string after the client ID when using cluster singleton connection mode if the client ID is filled in.',
+    zh: '由于 MQTT 客户端 ID 不允许重复，如果填写了客户端 ID，使用节点独享连接模式时，EMQX 会在客户端 ID 后添加随机字符串。',
+    en: 'Since the MQTT client ID does not allow duplicates, EMQX will add a random string after the client ID when using cluster singleton connection mode if the client ID is filled in.',
   },
   clientIDPlaceholder: {
     zh: '留空则自动生成',
@@ -1040,10 +1040,12 @@ export default {
     en: 'Specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
   },
   timestampDesc: {
-    zh: `数据的 UNIX 时间戳。 如果未提供时间戳，InfluxDB 使用其主机的系统时间 (UTC)。</br>
-建议使用模板语法，例如 \`\${'{'}timestamp{'}'}\` ，为每个时间线编写消息数据。`,
-    en: `The UNIX timestamp for the data. InfluxDB uses its host machine’s system time (UTC) if no timestamp is provided.</br>
-Recommend using a template syntax, e.g., \`\${'{'}timestamp{'}'}\` , to write the message data for each timeline.`,
+    zh: `数据的 UNIX 时间戳。如果此字段为空或使用 \`\${'{'}timestamp{'}'}\` 模板，则 EMQX 使用其主机机器的系统时间（UTC）。请注意，此情况下的最大精度将被限制为毫秒，即使在“精度”字段中指定了更高的精度。</br>
+如果使用任何其他时间戳，则其精度必须与“精度”字段中选择的值完全匹配。</br>
+建议使用模板语法，例如 \`\${'{'}timestamp{'}'}\` 或 \`\${'{'}payload.timestamp{'}'}\`，为每条消息写入 InfluxDB 数据记录。`,
+    en: `The UNIX timestamp for the data. EMQX uses its host machine’s system time (UTC) if this field is left empty or \`\${'{'}timestamp{'}'}\` template is used explicitly. Note that the maximum precision in this case will be limited to milliseconds, even if a higher precision is specified in the 'precision' field.</br>
+If any other timestamp is used, its precision must exactly match the value chosen in the 'precision' field.</br>
+It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`\${'{'}payload.timestamp{'}'}\`, to write an InfluxDB data record for each message.`,
   },
   fieldValueDesc: {
     zh: `Key 和 value 都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
