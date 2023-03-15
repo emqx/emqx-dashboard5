@@ -1,10 +1,18 @@
 <template>
-  <el-card class="influxdb-write-syntax-input app-card" shadow="never">
+  <div class="influxdb-write-syntax-input">
     <div class="type-select">
       <el-form-item :label="tl('dataFormat')">
+        <template #label>
+          <span>{{ tl('dataFormat') }}</span>
+          <InfoTooltip>
+            <template #content>
+              <MarkdownContent :content="`${tl('dataDefinition')} ${tl('dataDefinitionDesc')}`" />
+            </template>
+          </InfoTooltip>
+        </template>
         <el-radio-group v-model="activeTab">
-          <el-radio :label="Tab.JSON" border> JSON </el-radio>
-          <el-radio :label="Tab.Raw" border> LINE PROTOCOL </el-radio>
+          <el-radio-button :label="Tab.JSON" border> JSON </el-radio-button>
+          <el-radio-button :label="Tab.Raw" border> Line Protocol </el-radio-button>
         </el-radio-group>
       </el-form-item>
     </div>
@@ -21,8 +29,10 @@
         <Monaco :id="createRandomString()" v-model="lineProtocol" lang="sql" />
       </div>
     </el-form-item>
-    <InfluxdbLineProtocolForm v-else v-model="lineProtocol" ref="protocolFormCom" />
-  </el-card>
+    <el-card class="app-card json-form-card" shadow="never" v-else>
+      <InfluxdbLineProtocolForm v-model="lineProtocol" ref="protocolFormCom" />
+    </el-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -80,10 +90,15 @@ defineExpose({ validate, clearValidate })
 </script>
 
 <style lang="scss">
-.influxdb-write-syntax-input.el-card {
+.influxdb-write-syntax-input {
   width: 100%;
-  margin-top: 12px;
-  border: 1px solid var(--el-card-border-color);
+  .json-form-card {
+    margin-top: 12px;
+    border: 1px solid var(--el-card-border-color);
+  }
+  .el-radio-group {
+    margin: 8px 0 12px 0;
+  }
   .type-select {
     margin-bottom: 16px;
   }

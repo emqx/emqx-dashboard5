@@ -1,5 +1,5 @@
 <template>
-  <el-table class="influxdb-fields-editor shadow-none" :data="tableData">
+  <el-table class="influxdb-fields-editor key-and-value-editor shadow-none" :data="tableData">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
         <el-input v-model="row.key" class="key-input" @input="atInputChange" />
