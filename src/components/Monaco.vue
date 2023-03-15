@@ -132,6 +132,11 @@ const initEditor = () => {
       emit('change', value)
     }
   })
+  // Update editor options
+  const model = editor.getModel()
+  if (model) {
+    model.updateOptions({ tabSize: 2 })
+  }
 }
 
 onMounted(() => {
