@@ -1032,12 +1032,12 @@ export default {
     zh: 'InfluxDB 数据库。',
   },
   dataDefinition: {
-    zh: '定义解析数据',
-    en: 'Define Data Parsing',
+    zh: '定义解析数据，',
+    en: 'Define Data Parsing,',
   },
   dataDefinitionDesc: {
     zh: '指定数据格式与内容，使其能被解析并写入到 InfluxDB 中，支持使用占位符。',
-    en: 'Specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
+    en: 'specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
   },
   timestampDesc: {
     zh: `数据的 UNIX 时间戳。如果此字段为空或使用 \`\${'{'}timestamp{'}'}\` 模板，则 EMQX 使用其主机机器的系统时间（UTC）。请注意，此情况下的最大精度将被限制为毫秒，即使在“精度”字段中指定了更高的精度。</br>

@@ -129,14 +129,7 @@
         <el-col :span="24"><el-divider /></el-col>
 
         <el-col :span="24">
-          <el-form-item :label="tl('dataDefinition')">
-            <!-- TODO: DESC -->
-            <template #label>
-              <span>{{ tl('dataDefinition') }}</span>
-              <p class="label-desc">
-                {{ tl('dataDefinitionDesc') }}
-              </p>
-            </template>
+          <el-form-item>
             <InfluxdbWriteSyntaxInput
               v-model="formData.write_syntax"
               ref="writeSyntaxInputCom"
