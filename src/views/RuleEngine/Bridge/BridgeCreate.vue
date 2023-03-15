@@ -406,7 +406,7 @@ export default defineComponent({
 
 .config-body {
   flex-direction: column;
-  width: 70%;
+  width: 80%;
 }
 .bridge-type-select {
   width: 100%;
