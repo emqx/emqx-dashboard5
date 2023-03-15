@@ -139,8 +139,12 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .key-and-value-editor {
   min-width: 200px;
+  &.el-table .cell {
+    font-weight: normal;
+    color: var(--el-text-color-regular);
+  }
 }
 </style>
