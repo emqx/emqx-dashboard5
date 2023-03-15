@@ -71,7 +71,7 @@ const submit = async () => {
 
 <style lang="scss" scoped>
 .exhook-create-form {
-  width: 80%;
+  width: 75%;
   margin-bottom: 36px;
 }
 .form-sub-block {

@@ -194,6 +194,6 @@ queryRegisteredHooks()
   font-size: 24px;
 }
 .exhook-form {
-  width: 80%;
+  width: 75%;
 }
 </style>
