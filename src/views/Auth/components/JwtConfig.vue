@@ -1,15 +1,9 @@
 <template>
   <div class="jwt-config config">
-    <div class="create-form-title">
-      {{ $t('Auth.validMethod') }}
-    </div>
     <el-radio-group v-model="jwtConfig.use_jwks" @change="handleUseJWKSChanged">
-      <el-radio :label="false" border> JWT </el-radio>
-      <el-radio :label="true" border> JWKS </el-radio>
+      <el-radio-button :label="false" border> JWT </el-radio-button>
+      <el-radio-button :label="true" border> JWKS </el-radio-button>
     </el-radio-group>
-    <div class="create-form-title">
-      {{ $t('Auth.config') }}
-    </div>
     <el-form
       ref="formCom"
       :model="jwtConfig"
@@ -154,4 +148,9 @@ export default defineComponent({
 
 <style lang="scss">
 @import '../style/authConfig.scss';
+.jwt-config {
+  .el-radio-group {
+    margin: 12px 0 32px 0;
+  }
+}
 </style>
