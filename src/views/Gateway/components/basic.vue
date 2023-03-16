@@ -126,7 +126,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .basic-info {
-  width: 80%;
+  width: 75%;
   margin: 10px;
 }
 </style>
