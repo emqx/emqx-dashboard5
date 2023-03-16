@@ -200,7 +200,8 @@ watch(id, (val) => {
   }
 })
 
-const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit, handleBridgeDataForSaveAsCopy } =
+  useBridgeDataHandler()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
@@ -257,7 +258,8 @@ const saveAsCopy = async () => {
       tryToViewPwdInput()
       return
     }
-    bridgeData.value = await getDataForSubmit()
+    const bridge = await getDataForSubmit()
+    bridgeData.value = handleBridgeDataForSaveAsCopy(bridge)
     showNameInputDialog.value = true
   } catch (error) {
     //
