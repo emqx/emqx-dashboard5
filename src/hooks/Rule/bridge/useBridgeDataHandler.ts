@@ -72,6 +72,7 @@ export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => Promise<any>
   handleBridgeDataAfterLoaded: (bridgeData: any) => any
   handleBridgeDataForCopy: (bridgeData: any) => any
+  handleBridgeDataForSaveAsCopy: (bridgeData: any) => any
 } => {
   const { handleSSLDataBeforeSubmit } = useSSL()
   const { tl } = useI18nTl('RuleEngine')
@@ -126,6 +127,12 @@ export default (): {
     return bridgeData
   }
 
+  const keysNeedDel = {
+    update: ['node_status', 'status'],
+    saveAsCopy: ['node_status', 'status', 'enable', 'id'],
+    copy: ['node_status', 'status', 'enable', 'id', 'password', 'authentication.password'],
+  }
+
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
     try {
       let ret = cloneDeep(bridgeData)
@@ -144,9 +151,7 @@ export default (): {
       } else if (bridgeType === BridgeType.InfluxDB) {
         ret = await handleInfluxDBBridgeData(ret)
       }
-      return Promise.resolve(
-        checkNOmitFromObj(omit(ret, ['metrics', 'node_metrics', 'node_status', 'status'])),
-      )
+      return Promise.resolve(checkNOmitFromObj(omit(ret, keysNeedDel.update)))
     } catch (error) {
       console.error(error)
       return Promise.reject()
@@ -171,21 +176,17 @@ export default (): {
   }
 
   const handleBridgeDataForCopy = (bridgeData: any): any => {
-    return omit(handleBridgeDataAfterLoaded(bridgeData), [
-      'metrics',
-      'node_metrics',
-      'node_status',
-      'status',
-      // TODO: unify this
-      'password',
-      'authentication.password',
-      'id',
-    ])
+    return omit(handleBridgeDataAfterLoaded(bridgeData), keysNeedDel.copy)
+  }
+
+  const handleBridgeDataForSaveAsCopy = (bridgeData: any): any => {
+    return omit(bridgeData, keysNeedDel.saveAsCopy)
   }
 
   return {
     handleBridgeDataBeforeSubmit,
     handleBridgeDataAfterLoaded,
     handleBridgeDataForCopy,
+    handleBridgeDataForSaveAsCopy,
   }
 }
