@@ -6,7 +6,7 @@
         <template #title>
           <div class="custom-collapse-item-hd">
             <div class="event-name-container">
-              <p>{{ capitalize(getTargetText(item.title)) }}</p>
+              <p>{{ capitalize(getEventLabel(item.title)) }}</p>
               <span class="event-name">{{ getEventForShow(item.event) }}</span>
             </div>
           </div>
@@ -81,14 +81,13 @@
 <script setup lang="ts">
 import { formatSQL } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
+import useRuleSourceEvents from '@/hooks/Rule/bridge/useRuleSourceEvents'
+import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
-import { EventForRule } from '@/types/enum'
-import { RuleEvent } from '@/types/rule'
-import { camelCase, capitalize } from 'lodash'
+import { BridgeItem, RuleEvent } from '@/types/rule'
+import { capitalize } from 'lodash'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
-import { useStore } from 'vuex'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 
 const props = defineProps({
   eventList: {
@@ -96,50 +95,22 @@ const props = defineProps({
     required: true,
   },
   ingressBridgeList: {
-    type: Array,
+    type: Array as PropType<Array<BridgeItem>>,
     default: () => [],
   },
 })
 
 const emit = defineEmits(['use-event'])
 
-const { state } = useStore()
 const { tl, t } = useI18nTl('RuleEngine')
-const isZh = computed(() => state.lang === 'zh')
 const { docMap } = useDocLink()
 
-const eventDoNotNeedShow = ['$bridges/mqtt:*']
+const { eventDoNotNeedShow, getEventLabel, getEventDesc, getEventDocLink } = useRuleSourceEvents()
 const eventOptList = computed(() =>
   props.eventList.filter(({ event }) => !eventDoNotNeedShow.includes(event)),
 )
 
-const getTargetText = ({ zh, en }: { zh: string; en: string }) => (isZh.value ? zh : en)
-
 const { isMsgPubEvent, getEventForShow } = useRuleUtils()
-const getEventDesc = (event: string) => tl(`${camelCase(event.slice(8))}Desc`)
-
-const zhHookMap: Record<string, string> = {
-  [EventForRule.MessageDelivered]: '消息投递事件',
-  [EventForRule.MessageAcked]: '消息确认事件',
-  [EventForRule.MessageDropped]: '消息在转发的过程中被丢弃事件',
-  [EventForRule.ClientConnected]: '终端连接成功事件',
-  [EventForRule.ClientDisconnected]: '终端连接断开事件',
-  [EventForRule.ClientConnack]: '连接确认事件',
-  [EventForRule.ClientCheckAuthzComplete]: '鉴权完成事件',
-  [EventForRule.SessionSubscribed]: '终端订阅成功事件',
-  [EventForRule.SessionUnsubscribed]: '取消终端订阅成功事件',
-  [EventForRule.DeliveryDropped]: '消息在投递的过程中被丢弃事件',
-}
-const getEventDocLink = (event: string) => {
-  if (isMsgPubEvent(event)) {
-    return docMap.ruleEventMsgPub
-  }
-  let hook = event.slice(1).replace(/(\/|_)/g, '-')
-  if (isZh.value) {
-    hook = `${zhHookMap[event] || ''}-${hook}`
-  }
-  return `${docMap.ruleEvent}#${hook}`
-}
 
 const useEvent = (event: string) => {
   emit('use-event', event)
