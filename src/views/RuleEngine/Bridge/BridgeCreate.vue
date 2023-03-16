@@ -51,15 +51,14 @@
                 ref="formCom"
                 :copy="isCopy"
               />
-              <bridge-influxdb-config
-                v-else-if="chosenBridgeType === BridgeType.InfluxDB"
+              <bridge-kafka-config
+                v-else-if="chosenBridgeType === BridgeType.Kafka"
                 v-model="bridgeData"
                 ref="formCom"
                 :copy="isCopy"
               />
-
-              <bridge-kafka-config
-                v-else-if="chosenBridgeType === BridgeType.Kafka"
+              <bridge-influxdb-config
+                v-else-if="chosenBridgeType === BridgeType.InfluxDB"
                 v-model="bridgeData"
                 ref="formCom"
                 :copy="isCopy"

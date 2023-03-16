@@ -1201,6 +1201,14 @@ When disabled the messages are buffered in RAM only.`,
     en: 'Kerberos Principal',
     zh: 'Kerberos Principal',
   },
+  role: {
+    en: 'Kafka Role',
+    zh: 'Kafka 角色',
+  },
+  roleDesc: {
+    en: 'Kafka client role, producer sends local MQTT messages to remote Kafka broker, consumer receives remote Kafka messages to local MQTT broker.',
+    zh: 'Kafka 客户端角色，生产者将本地 MQTT 消息发送到远程的 Kafka 服务上，消费者则是接入远程的 Kafka 消息到本地 MQTT 服务中。',
+  },
   healthCheckIntervalDesc: {
     en: 'Health check interval.',
     zh: '健康检查间隔。',
@@ -1238,12 +1246,12 @@ When disabled the messages are buffered in RAM only.`,
     zh: 'SASL 认证方法名称。',
   },
   producer: {
-    en: 'MQTT to Kafka',
-    zh: 'MQTT 到 Kafka',
+    en: 'Producer',
+    zh: '生产者',
   },
-  producerDesc: {
-    en: 'Local MQTT data source and Kafka bridge configs.',
-    zh: '本地 MQTT 数据源和 Kafka 桥接的配置。',
+  consumer: {
+    en: 'Consumer',
+    zh: '消费者',
   },
   saveAsCopy: {
     zh: '保存为副本',
