@@ -10,7 +10,8 @@
           <el-input v-model="kafkaConfig.topic" />
         </el-form-item>
       </el-col>
-      <el-col :span="24">
+      <el-col :span="12"></el-col>
+      <el-col :span="12">
         <el-form-item prop="producer.kafka.message.key">
           <template #label>
             <span>{{ getPropItem('message.key').label }}</span>
@@ -20,12 +21,10 @@
               </template>
             </InfoTooltip>
           </template>
-          <div class="monaco-container">
-            <Monaco :id="createRandomString()" v-model="kafkaConfig.message.key" lang="sql" />
-          </div>
+          <el-input type="textarea" rows="4" v-model="kafkaConfig.message.key"></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="24">
+      <el-col :span="12">
         <el-form-item prop="producer.kafka.message.value">
           <template #label>
             <span>{{ getPropItem('message.value').label }}</span>
@@ -35,9 +34,7 @@
               </template>
             </InfoTooltip>
           </template>
-          <div class="monaco-container">
-            <Monaco :id="createRandomString()" v-model="kafkaConfig.message.value" lang="sql" />
-          </div>
+          <el-input type="textarea" rows="4" v-model="kafkaConfig.message.value"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -207,11 +204,10 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, usefulMemoryUnit } from '@/common/tools'
+import { usefulMemoryUnit } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
-import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
