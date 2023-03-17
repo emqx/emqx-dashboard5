@@ -4,64 +4,52 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="'Gateway ID'">
-            <el-input
-              :placeholder="String(mValueDefault.gateway_id)"
-              v-model="mValue.gateway_id"
-            ></el-input>
+            <el-input :placeholder="String(mValueDefault.gateway_id)" v-model="mValue.gateway_id" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('broadcast')">
             <el-select v-model="mValue.broadcast">
-              <el-option :value="true" label="true"></el-option>
-              <el-option :value="false" label="false"></el-option>
+              <el-option :value="true" label="true" />
+              <el-option :value="false" label="false" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('qos3')">
             <el-select v-model="mValue.enable_qos3">
-              <el-option :value="true" label="true"></el-option>
-              <el-option :value="false" label="false"></el-option>
+              <el-option :value="true" label="true" />
+              <el-option :value="false" label="false" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('idleTime')">
-            <el-input
-              :placeholder="String(mValueDefault.idle_timeout[0])"
-              v-model.number="mValue.idle_timeout[0]"
-            >
-              <template #append>
-                <el-select v-model="mValue.idle_timeout[1]">
-                  <el-option value="s"></el-option>
-                </el-select>
-              </template>
-            </el-input> </el-form-item
-        ></el-col>
+            <TimeInputWithUnitSelect
+              v-model="mValue.idle_timeout"
+              :number-placeholder="parseInt(mValueDefault.idle_timeout).toString()"
+              :enabled-units="['s']"
+            />
+          </el-form-item>
+        </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="mValue.enable_stats">
-              <el-option :value="true" label="true"></el-option>
-              <el-option :value="false" label="false"></el-option>
-            </el-select> </el-form-item
-        ></el-col>
+              <el-option :value="true" label="true" />
+              <el-option :value="false" label="false" />
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
       <div class="part-header">
         {{ tl('predefinedTopic') }}
       </div>
-      <topic-edit-list
-        v-model:list="mValue.predefined"
-        v-model:passed="formPassed"
-      ></topic-edit-list>
+      <topic-edit-list v-model:list="mValue.predefined" v-model:passed="formPassed" />
 
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
-            <el-input
-              :placeholder="mValueDefault.mountpoint"
-              v-model="mValue.mountpoint"
-            ></el-input>
+            <el-input :placeholder="mValueDefault.mountpoint" v-model="mValue.mountpoint" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -73,11 +61,11 @@
 import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import topicEditList from './topicEditList.vue'
 import _ from 'lodash'
-import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
 export default defineComponent({
-  components: { topicEditList },
+  components: { topicEditList, TimeInputWithUnitSelect },
   name: 'MqttsnBasic',
   props: {
     value: {
@@ -88,7 +76,7 @@ export default defineComponent({
   },
   setup(props, context) {
     let mValueDefault = {
-      idle_timeout: [30, 's'],
+      idle_timeout: '30s',
       gateway_id: 1,
       broadcast: true,
       enable_qos3: true,
@@ -99,20 +87,18 @@ export default defineComponent({
 
     const { t } = useI18n()
 
-    const mValue = reactive(
-      _.merge(mValueDefault, transformStrToUnitArray(props.value, ['idle_timeout'])),
-    )
+    const mValue = reactive(_.merge(mValueDefault, props.value))
 
     const formPassed = ref(false)
 
     watch(
       () => _.cloneDeep(mValue),
       (v) => {
-        context.emit('update:value', transformUnitArrayToStr(v))
+        context.emit('update:value', v)
       },
     )
     onMounted(() => {
-      context.emit('update:value', transformUnitArrayToStr(mValue))
+      context.emit('update:value', mValue)
     })
 
     return {

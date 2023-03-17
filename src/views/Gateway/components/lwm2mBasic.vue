@@ -4,87 +4,67 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('resDirectory')">
-            <el-input v-model="lValue.xml_dir" :placeholder="lValueDefault.xml_dir"></el-input>
+            <el-input v-model="lValue.xml_dir" :placeholder="lValueDefault.xml_dir" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('qmodewindow')">
-            <el-input
-              :placeholder="String(lValueDefault.qmode_time_window[0])"
-              v-model.number="lValue.qmode_time_window[0]"
-            >
-              <template #append>
-                <el-select v-model="lValue.qmode_time_window[1]">
-                  <el-option value="s"></el-option>
-                </el-select>
-              </template>
-            </el-input>
+            <TimeInputWithUnitSelect
+              v-model="lValue.qmode_time_window"
+              :number-placeholder="parseInt(lValueDefault.qmode_time_window).toString()"
+              :enabled-units="['s']"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('minLifetime')">
-            <el-input
-              :placeholder="String(lValueDefault.lifetime_min[0])"
-              v-model.number="lValue.lifetime_min[0]"
-              ><template #append>
-                <el-select v-model="lValue.lifetime_min[1]">
-                  <el-option value="s"></el-option>
-                  <el-option value="m"></el-option>
-                  <el-option value="h"></el-option>
-                  <el-option value="d"></el-option>
-                </el-select>
-              </template>
-            </el-input>
+            <TimeInputWithUnitSelect
+              v-model="lValue.lifetime_min"
+              :number-placeholder="parseInt(lValueDefault.lifetime_min).toString()"
+              :enabled-units="['s', 'm', 'h', 'd']"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('maxLifetime')">
-            <el-input
-              :placeholder="String(lValueDefault.lifetime_max[0])"
-              v-model.number="lValue.lifetime_max[0]"
-            >
-              <template #append>
-                <el-select v-model="lValue.lifetime_max[1]">
-                  <el-option value="s"></el-option>
-                  <el-option value="m"></el-option>
-                  <el-option value="h"></el-option>
-                  <el-option value="d"></el-option>
-                </el-select>
-              </template> </el-input
-          ></el-form-item>
+            <TimeInputWithUnitSelect
+              v-model="lValue.lifetime_max"
+              :number-placeholder="parseInt(lValueDefault.lifetime_max).toString()"
+              :enabled-units="['s', 'm', 'h', 'd']"
+            />
+          </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('aObserve')">
             <el-select v-model="lValue.auto_observe">
-              <el-option :value="true" label="true"></el-option>
-              <el-option :value="false" label="false"></el-option> </el-select
-          ></el-form-item> </el-col
-        ><el-col :span="12">
+              <el-option :value="true" label="true" />
+              <el-option :value="false" label="false" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="tl('updateStrategy')">
             <el-select v-model="lValue.update_msg_publish_condition">
-              <el-option value="always"></el-option>
-              <el-option value="contains_object_list"></el-option>
+              <el-option value="always" />
+              <el-option value="contains_object_list" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('useLog')">
             <el-select v-model="lValue.enable_stats">
-              <el-option :value="true" label="true"></el-option>
-              <el-option :value="false" label="false"></el-option>
-            </el-select> </el-form-item></el-col
-        ><el-col :span="12">
+              <el-option :value="true" label="true" />
+              <el-option :value="false" label="false" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="tl('idleTime')">
-            <el-input
-              v-model.number="lValue.idle_timeout[0]"
-              :placeholder="String(lValueDefault.idle_timeout[0])"
-            >
-              <template #append>
-                <el-select v-model="lValue.idle_timeout[1]">
-                  <el-option value="s"></el-option>
-                </el-select>
-              </template>
-            </el-input>
+            <TimeInputWithUnitSelect
+              v-model="lValue.idle_timeout"
+              :number-placeholder="parseInt(lValueDefault.idle_timeout).toString()"
+              :enabled-units="['s']"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -92,10 +72,7 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
-            <el-input
-              v-model="lValue.mountpoint"
-              :placeholder="lValueDefault.mountpoint"
-            ></el-input>
+            <el-input v-model="lValue.mountpoint" :placeholder="lValueDefault.mountpoint" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -103,36 +80,40 @@
             <el-input
               :placeholder="lValueDefault.translators.command.topic"
               v-model="lValue.translators.command.topic"
-            ></el-input
-          ></el-form-item> </el-col
-        ><el-col :span="12">
-          <el-form-item :label="tl('trResponse')"
-            ><el-input
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('trResponse')">
+            <el-input
               :placeholder="lValueDefault.translators.response.topic"
               v-model="lValue.translators.response.topic"
-            ></el-input
-          ></el-form-item> </el-col
-        ><el-col :span="12">
-          <el-form-item :label="tl('trNotify')"
-            ><el-input
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('trNotify')">
+            <el-input
               :placeholder="lValueDefault.translators.notify.topic"
               v-model="lValue.translators.notify.topic"
-            ></el-input
-          ></el-form-item> </el-col
-        ><el-col :span="12">
-          <el-form-item :label="tl('trRegister')"
-            ><el-input
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('trRegister')">
+            <el-input
               :placeholder="lValueDefault.translators.register.topic"
               v-model="lValue.translators.register.topic"
-            ></el-input
-          ></el-form-item> </el-col
-        ><el-col :span="12">
-          <el-form-item :label="tl('trUpdate')"
-            ><el-input
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('trUpdate')">
+            <el-input
               :placeholder="lValueDefault.translators.update.topic"
               v-model="lValue.translators.update.topic"
-            ></el-input
-          ></el-form-item>
+            />
+          </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -142,8 +123,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, watch } from 'vue'
 import _ from 'lodash'
-import { transformUnitArrayToStr, transformStrToUnitArray } from '@/common/utils'
 import { useI18n } from 'vue-i18n'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
 export default defineComponent({
   name: 'LwBasic',
@@ -154,13 +135,16 @@ export default defineComponent({
       default: () => ({}),
     },
   },
+  components: {
+    TimeInputWithUnitSelect,
+  },
   setup(props, context) {
     let lValueDefault = {
-      idle_timeout: [30, 's'],
+      idle_timeout: '30s',
       xml_dir: 'etc/lwm2m_xml/',
-      qmode_time_window: [22, 's'],
-      lifetime_min: [1, 's'],
-      lifetime_max: [86400, 's'],
+      qmode_time_window: '22s',
+      lifetime_min: '1s',
+      lifetime_max: '86400s',
       auto_observe: true,
       enable_stats: true,
       update_msg_publish_condition: 'contains_object_list',
@@ -175,26 +159,16 @@ export default defineComponent({
     }
     const { t } = useI18n()
 
-    const lValue = reactive(
-      _.merge(
-        lValueDefault,
-        transformStrToUnitArray(props.value, [
-          'idle_timeout',
-          'qmode_time_window',
-          'lifetime_min',
-          'lifetime_max',
-        ]),
-      ),
-    )
+    const lValue = reactive(_.merge(lValueDefault, props.value))
 
     watch(
       () => _.cloneDeep(lValue),
       (v) => {
-        context.emit('update:value', transformUnitArrayToStr(v))
+        context.emit('update:value', v)
       },
     )
     onMounted(() => {
-      context.emit('update:value', transformUnitArrayToStr(lValue))
+      context.emit('update:value', lValue)
     })
 
     return {
@@ -205,5 +179,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="scss" scoped></style>

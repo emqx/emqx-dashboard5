@@ -1,8 +1,71 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { BridgeItem } from '@/types/rule'
-import { omit, isObject, isFunction, escape, cloneDeep } from 'lodash'
+import { cloneDeep, escape, isFunction, isObject, omit } from 'lodash'
+import moment from 'moment'
 import utf8 from 'utf8'
 import { COPY_SUFFIX } from './constants'
+
+export const dateFormat = (
+  date: Date | string | number | (number | string)[] | null | undefined,
+): string => {
+  return moment(date).format('YYYY-MM-DD HH:mm:ss')
+}
+
+export const caseInsensitiveCompare = (w: string, k: string): boolean => {
+  if (typeof w !== 'string' || typeof k !== 'string') {
+    throw false
+  }
+  return !!String.prototype.match.call(w, new RegExp(k, 'i'))
+}
+
+export function getProgressColor(val: number): string | undefined {
+  const num = parseInt(val.toString())
+  if (num >= 100) {
+    return '#E34242FF'
+  } else if (num >= 85 && num < 100) {
+    return '#FB9237FF'
+  }
+  return undefined
+}
+
+/**
+ * If there is a unit here, convert it to a value in KB
+ */
+function transToNumberAndConsiderItsUnit(ipt: number | string | undefined): number {
+  if (typeof ipt === 'number') {
+    return ipt
+  }
+  if (ipt === undefined) {
+    return 0
+  }
+  const units = 'KMGTP'
+  const reg = new RegExp(`^\\d+(\\.\\d+)?[${units}]$`)
+  if (typeof ipt === 'string' && reg.test(ipt.toUpperCase())) {
+    const unit = ipt.toUpperCase().slice(-1)
+    return (
+      parseFloat(ipt) *
+      Math.pow(
+        1024,
+        units.split('').findIndex((item) => item === unit),
+      )
+    )
+  }
+  return parseFloat(ipt)
+}
+
+export const calcPercentage = (
+  n1: string | number,
+  n2: string | number,
+  transZero = true,
+): number => {
+  const p = (transToNumberAndConsiderItsUnit(n1) / transToNumberAndConsiderItsUnit(n2)) * 100
+  //[0,1)
+  if (p < 1) return transZero ? 1 : Math.round(p)
+  // NaN
+  if (!p) return 0
+  if (p > 100) return 100
+  return p
+}
 
 export const checkStringWithUnit = (str: string, units: Array<string>): boolean => {
   const reg = new RegExp(`^\\d+(.\\d+)?(${units.join('|')})$`)
@@ -237,7 +300,7 @@ export const transMemorySizeStrToNum = (sizeStr: string): number | string => {
   if (!matchResult) {
     return sizeStr
   }
-  const [totalStr, numPart, decimalPart, unit] = matchResult
+  const [, numPart, , unit] = matchResult
   switch (unit) {
     case 'Byte':
       return Number(numPart)

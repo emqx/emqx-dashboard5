@@ -1,27 +1,16 @@
 import { BridgeType } from '@/types/enum'
-import bridgeWebhook from '@/assets/img/webhook.png'
-import bridgeMQTT from '@/assets/img/mqtt.png'
-import bridgeInfluxDB from '@/assets/img/influxdb.png'
-import bridgeMySQL from '@/assets/img/mysql.png'
-import bridgeKafka from '@/assets/img/kafka.png'
-import bridgeRedis from '@/assets/img/redis.png'
-import bridgeGCP from '@/assets/img/gcp_pubsub.png'
-import bridgeMongoDB from '@/assets/img/mongodb.png'
+import bridgePGSql from '@/assets/img/postgresql.png'
 import console from './console.png'
 import event from './event.png'
 import republish from './republish.png'
 import rule from './rule.png'
 import topic from './topic.png'
 
+const BRIDGE_PREFIX = 'bridge-'
+const bridgeReg = new RegExp(`^${BRIDGE_PREFIX}`)
+
 const iconMap: Record<string, SVGAElement> = {
-  [`bridge-${BridgeType.Webhook}`]: bridgeWebhook,
-  [`bridge-${BridgeType.MQTT}`]: bridgeMQTT,
-  [`bridge-${BridgeType.InfluxDB}`]: bridgeInfluxDB,
-  [`bridge-${BridgeType.MySQL}`]: bridgeMySQL,
-  [`bridge-${BridgeType.Kafka}`]: bridgeKafka,
-  [`bridge-${BridgeType.Redis}`]: bridgeRedis,
-  [`bridge-${BridgeType.GCP}`]: bridgeGCP,
-  [`bridge-${BridgeType.MongoDB}`]: bridgeMongoDB,
+  [`bridge-${BridgeType.PgSQL}`]: bridgePGSql,
   console,
   event,
   republish,
@@ -29,4 +18,18 @@ const iconMap: Record<string, SVGAElement> = {
   topic,
 }
 
-export default iconMap
+const getIcon = (target: string): SVGAElement | undefined => {
+  if (target in iconMap) {
+    return iconMap[target]
+  }
+  try {
+    if (bridgeReg.test(target)) {
+      return require(`@/assets/img/${target.replace(BRIDGE_PREFIX, '')}.png`)
+    }
+    return undefined
+  } catch (error) {
+    return undefined
+  }
+}
+
+export default getIcon

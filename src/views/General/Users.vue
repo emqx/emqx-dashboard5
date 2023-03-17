@@ -87,7 +87,7 @@
 </template>
 
 <script setup>
-import { loadUser, createUser, updateUser, destroyUser, changePassword } from '@/api/function'
+import { loadUser, createUser, updateUser, destroyUser, changePassword } from '@/api/function.ts'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'

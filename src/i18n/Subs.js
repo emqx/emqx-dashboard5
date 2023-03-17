@@ -13,7 +13,7 @@ export default {
   },
   addMetric: {
     zh: '创建监控',
-    en: 'Add metric',
+    en: 'Create Monitor',
   },
   wildcardNotSupport: {
     zh: '主题监控暂不支持通配符',

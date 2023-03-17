@@ -114,7 +114,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref, watch, PropType } from 'vue'
 import { createRandomString } from '@/common/tools'
-import { transformUnitArrayToStr } from '@/common/utils'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
@@ -195,8 +194,7 @@ export default defineComponent({
       }
     }
 
-    const updateModelValue = (val: HTTPBridge) => {
-      const value = transformUnitArrayToStr(val)
+    const updateModelValue = (value: HTTPBridge) => {
       modelValueCache = JSON.stringify(value)
       context.emit('update:modelValue', value)
     }

@@ -11,11 +11,6 @@ import elementI18nEn from 'element-plus/es/locale/lang/en'
 import safeHTML from '@/common/safeHTML'
 
 import i18n from './i18n'
-import EMQSelect from '@/components/EmqSelect.vue'
-
-function globalComponents(app: Application) {
-  app.component(EMQSelect.name, EMQSelect)
-}
 
 function bindDirective(app: Application) {
   app.directive('safe-html', safeHTML)
@@ -29,7 +24,6 @@ const app = createApp(App)
     locale: elementLang,
   })
   .use(i18n)
-  .use(globalComponents)
   .use(bindDirective)
   .mount('#app')
 

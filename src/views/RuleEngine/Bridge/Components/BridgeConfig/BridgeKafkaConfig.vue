@@ -13,6 +13,24 @@
             <el-input v-model="formData.name" :disabled="edit" />
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <span>{{ tl('role') }}</span>
+              <InfoTooltip>
+                <template #content> <MarkdownContent :content="tl('roleDesc')" /> </template>
+              </InfoTooltip>
+            </template>
+            <el-select v-model="role" :disabled="edit">
+              <el-option
+                v-for="{ value, label } in roleMap"
+                :key="value"
+                :value="value"
+                :label="label"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
 
       <el-divider />
@@ -142,27 +160,22 @@
         <el-col :span="24"><el-divider /></el-col>
 
         <!-- producer -->
-        <el-col :span="24">
-          <el-tabs v-model="activeDirection" type="card">
-            <el-tab-pane :label="tl('producer')" :name="StreamDirection.In" lazy>
-              <p class="trans-desc">{{ tl('producerDesc') }}</p>
-              <el-card class="app-card with-border" shadow="never">
-                <p class="broker-block-title">MQTT</p>
-                <el-row :gutter="26">
-                  <el-col :span="12">
-                    <el-form-item prop="local_topic" :label="t('Base.topic')">
-                      <el-input v-model="formData.local_topic" />
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-              </el-card>
-              <el-card class="app-card with-border" shadow="never">
-                <p class="broker-block-title">Kafka</p>
-                <KafkaProducerKafkaConfig v-model="formData.kafka" />
-              </el-card>
-            </el-tab-pane>
-          </el-tabs>
-        </el-col>
+        <template v-if="role === 'producer'">
+          <el-col :span="12">
+            <!-- <el-card class="app-card with-border" shadow="never"> -->
+            <el-form-item prop="local_topic">
+              <template #label>
+                <span>MQTT {{ t('Base.topic') }}</span>
+                <InfoTooltip :content="tl('egressLocalTopicDesc')" />
+              </template>
+              <el-input v-model="formData.local_topic" />
+            </el-form-item>
+            <!-- </el-card> -->
+          </el-col>
+          <el-col :span="24">
+            <KafkaProducerKafkaConfig v-model="formData.kafka" />
+          </el-col>
+        </template>
 
         <el-col :span="24"><el-divider /></el-col>
 
@@ -256,6 +269,17 @@ const { components } = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
 })
 const { getPropItem } = useGetInfoFromComponents(components)
 
+const role = ref<'producer' | 'consumer'>('producer')
+const roleMap = [
+  {
+    value: 'producer',
+    label: t('Producer'),
+  },
+  // {
+  //   value: 'consumer',
+  //   label: t('Consumer'),
+  // },
+]
 const { createSSLForm } = useSSL()
 const createDefaultValue = () => ({
   type: BridgeType.Kafka,

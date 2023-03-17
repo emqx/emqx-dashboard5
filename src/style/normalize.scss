@@ -281,6 +281,10 @@
   background-color: var(--el-table-bg-color);
 }
 
+.el-table__body-wrapper tr td.el-table-fixed-column--left.is-last-column::before {
+  bottom: 0;
+}
+
 /* Progress */
 .el-progress-bar__outer {
   background-color: var(--color-bg-lighter);

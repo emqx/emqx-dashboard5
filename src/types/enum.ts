@@ -101,6 +101,9 @@ export enum BridgeType {
   PgSQL = 'pgsql',
   TimescaleDB = 'timescale',
   MatrixDB = 'matrix',
+  TDengine = 'tdengine',
+  ClickHouse = 'clickhouse',
+  DynamoDB = 'dynamo',
 }
 
 export enum ConnectorType {

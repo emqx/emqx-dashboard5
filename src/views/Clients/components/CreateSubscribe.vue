@@ -7,12 +7,12 @@
     @close="close"
     @open="open"
   >
-    <el-form ref="record" :model="record" :rules="rules" label-position="top">
+    <el-form ref="FormCom" :model="record" :rules="rules" label-position="top">
       <el-form-item v-if="!clientId" prop="clientid" :label="$t('Base.clientid')">
-        <el-input v-model="record.clientid" :placeholder="$t('Base.clientid')"></el-input>
+        <el-input v-model="record.clientid" :placeholder="$t('Base.clientid')" />
       </el-form-item>
       <el-form-item prop="topic" :label="$t('Base.topic')">
-        <el-input v-model="record.topic" placeholder="Topic"></el-input>
+        <el-input v-model="record.topic" placeholder="Topic" />
       </el-form-item>
       <!-- For stomp gateway -->
       <el-form-item
@@ -20,11 +20,11 @@
         prop="subid"
         :label="`${$t('Tools.Subscription')} ID`"
       >
-        <el-input v-model="record.subid"></el-input>
+        <el-input v-model="record.subid" />
       </el-form-item>
       <el-form-item prop="qos" label="QoS">
         <el-select v-model.number="record.qos">
-          <el-option v-for="item in QoSOptions" :key="item" :value="item"></el-option>
+          <el-option v-for="item in QoSOptions" :key="item" :value="item" />
         </el-select>
       </el-form-item>
       <template v-if="isMQTTVersion5">
@@ -66,138 +66,119 @@
   </el-dialog>
 </template>
 
-<script>
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+}
+</script>
+
+<script setup lang="ts">
 import { subscribe } from '@/api/clients'
 import { addGatewayClientSubs } from '@/api/gateway'
 import { QoSOptions } from '@/common/constants'
-import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig.ts'
-import useI18nTl from '@/hooks/useI18nTl.ts'
-import { omit } from 'lodash'
+import useI18nTl from '@/hooks/useI18nTl'
+import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
+import { QoSLevel } from '@/types/enum'
+import { omit, pick } from 'lodash'
+import { computed, defineEmits, defineProps, ref, Ref } from 'vue'
 
-export default {
-  name: 'CreateSubscribe',
+interface SubRecord {
+  clientid: string
+  qos: QoSLevel
+  topic: string
+  nl: number
+  rap: number
+  rh: number
+  subid?: string
+}
 
-  inheritAttrs: false,
+const { tl } = useI18nTl('Clients')
 
-  props: {
-    visible: {
-      type: Boolean,
-      required: true,
-    },
-    clientId: {
-      type: String,
-      default: '',
-    },
-    gateway: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    isMQTTVersion5: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
+const props = defineProps({
+  visible: {
+    type: Boolean,
+    required: true,
   },
+  clientId: {
+    type: String,
+    default: '',
+  },
+  gateway: {
+    type: String,
+    required: false,
+    default: '',
+  },
+  isMQTTVersion5: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+})
 
-  data() {
-    return {
-      QoSOptions,
-      record: {
-        clientid: this.clientid,
-        qos: 0,
-        topic: '',
-        nl: 0,
-        rap: 0,
-        rh: 0,
-      },
-      rules: {
-        clientid: {
-          required: true,
-          message: this.$t('Clients.pleaseEnter'),
-        },
-        topic: {
-          required: true,
-          message: this.$t('Clients.pleaseEnter'),
-        },
-        subid: {
-          required: true,
-          message: this.$t('Clients.pleaseEnter'),
-        },
-      },
-      submitLoading: false,
-    }
-  },
-  computed: {
-    dialogVisible: function () {
-      return this.visible
-    },
-  },
-  emits: ['create:subs', 'update:visible'],
-  methods: {
-    open() {
-      this.record.clientid = this.clientId
-    },
-    getTopicMsg() {
-      if (this.isMQTTVersion5) {
-        return omit(this.record, 'clientid')
-      }
-      return {
-        qos: this.record.qos,
-        topic: this.record.topic,
-      }
-    },
-    async handleAdd() {
-      try {
-        await this.$refs.record.validate()
-        if (this.gateway) {
-          return this.addGatewaySubs()
-        }
-        this.submitLoading = true
-        let clientId = this.clientId || this.record.clientid
-        await subscribe(clientId, this.getTopicMsg())
-        this.$emit('create:subs')
-        this.close()
-      } catch (error) {
-        //
-      } finally {
-        this.submitLoading = false
-      }
-    },
-    async addGatewaySubs() {
-      this.submitLoading = true
-      let clientId = this.clientId || this.record.clientid
-      const data = {
-        topic: this.record.topic,
-        qos: this.record.qos,
-      }
-      if (this.record.subid && this.gateway && this.gateway === 'stomp') {
-        data.sub_props = {
-          subid: this.record.subid,
-        }
-      }
-      const res = await addGatewayClientSubs(this.gateway, clientId, data).catch(() => {})
-      this.submitLoading = false
-      if (res) {
-        this.$emit('create:subs')
-        this.close()
-      }
-    },
-    close() {
-      this.$emit('update:visible', false)
-      this.$refs.record.resetFields()
-    },
-  },
-  setup() {
-    const { tl } = useI18nTl('Clients')
-    const { noLocalOpts, retainAsPublishedOpts, retainHandlingOpts } = useMQTTVersion5NewConfig()
-    return {
-      tl,
-      noLocalOpts,
-      retainAsPublishedOpts,
-      retainHandlingOpts,
-    }
-  },
+const emit = defineEmits(['create:subs', 'update:visible'])
+
+const record: Ref<SubRecord> = ref({
+  clientid: props.clientId,
+  qos: QoSLevel.QoS0,
+  topic: '',
+  nl: 0,
+  rap: 0,
+  rh: 0,
+})
+
+const rules = {
+  clientid: { required: true, message: tl('pleaseEnter') },
+  topic: { required: true, message: tl('pleaseEnter') },
+  subid: { required: true, message: tl('pleaseEnter') },
+}
+
+const submitLoading = ref(false)
+
+const FormCom = ref()
+
+const dialogVisible = computed(() => props.visible)
+const { noLocalOpts, retainAsPublishedOpts, retainHandlingOpts } = useMQTTVersion5NewConfig()
+
+const open = () => {
+  record.value.clientid = props.clientId
+}
+const getTopicMsg = () => {
+  if (props.isMQTTVersion5) {
+    return omit(record.value, 'clientid')
+  }
+  return pick(record.value, ['qos', 'topic'])
+}
+
+const getClientId = () => props.clientId || record.value.clientid
+
+const regularAdd = () => subscribe(getClientId(), getTopicMsg())
+
+const addFromGateway = () => {
+  const data: any = pick(record.value, ['topic', 'qos'])
+  if (record.value.subid && props.gateway && props.gateway === 'stomp') {
+    data.sub_props = { subid: record.value.subid }
+  }
+  return addGatewayClientSubs(props.gateway, getClientId(), data)
+}
+
+const handleAdd = async () => {
+  try {
+    await FormCom.value.validate()
+    const request = props.gateway ? addFromGateway : regularAdd
+    submitLoading.value = true
+    await request()
+    emit('create:subs')
+    close()
+  } catch (error) {
+    //
+  } finally {
+    submitLoading.value = false
+  }
+}
+
+const close = () => {
+  emit('update:visible', false)
+  FormCom.value.resetFields()
 }
 </script>
 

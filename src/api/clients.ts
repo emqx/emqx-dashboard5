@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
+import { pick } from 'lodash'
 
 export function listClients(params = {}) {
   return http.get('/clients', { params })
@@ -33,8 +34,8 @@ export function unsubscribe(clientId: string, topic: string) {
 
 export function subscribe(
   clientId: string,
-  { qos, topic, nl, rap, rh }: { qos: number; topic: string; nl: 1 | 0; rap: 1 | 0; rh: 2 | 1 | 0 },
+  topic: { qos: number; topic: string; nl?: 1 | 0; rap?: 1 | 0; rh?: 2 | 1 | 0 },
 ) {
-  const topicData = { qos, topic, nl, rap, rh }
+  const topicData = pick(topic, ['qos', 'topic', 'nl', 'rap', 'rh'])
   return http.post(`/clients/${encodeURIComponent(clientId)}/subscribe`, topicData)
 }

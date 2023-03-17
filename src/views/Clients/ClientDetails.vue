@@ -177,8 +177,7 @@
         :gateway="gateway"
         :is-MQTT-Version5="isMQTTVersion5"
         @create:subs="loadSubs"
-      >
-      </create-subscribe>
+      />
     </template>
     <div class="client-does-not-exist" v-else>
       <el-icon><Warning /></el-icon>

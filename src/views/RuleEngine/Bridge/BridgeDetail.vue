@@ -228,8 +228,8 @@ watch(id, (val) => {
  * if type is influxDB v1 or v2, will be count to influxDB uniformly
  */
 const bridgeType = computed(() => getBridgeType(bridgeInfo.value.type))
-
-const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit, handleBridgeDataForSaveAsCopy } =
+  useBridgeDataHandler()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
@@ -286,7 +286,8 @@ const saveAsCopy = async () => {
       tryToViewPwdInput()
       return
     }
-    bridgeData.value = await getDataForSubmit()
+    const bridge = await getDataForSubmit()
+    bridgeData.value = handleBridgeDataForSaveAsCopy(bridge)
     showNameInputDialog.value = true
   } catch (error) {
     //
