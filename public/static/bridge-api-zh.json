@@ -622,124 +622,6 @@
                 },
                 "type": "object"
             },
-            "bridge_kafka.get": {
-                "required": [
-                    "bootstrap_hosts",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "status": {
-                        "description": "Bridge 的连接状态<br/><br/>- <code>connecting</code>: 启动时的初始状态。<br/><br/>- <code>connected</code>: 桥接驱动健康检查正常。<br/><br/>- <code>disconnected</code>: 当桥接无法通过健康检查。<br/><br/>- <code>stopped</code>: 桥接处于停用状态。<br/><br/>- <code>inconsistent</code>: 集群中有各节点汇报的状态不一致。",
-                        "label": "Bridge 状态",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting",
-                            "inconsistent"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "节点的状态",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "节点的状态",
-                        "type": "array"
-                    },
-                    "type": {
-                        "description": "桥接类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "kafka"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
-                        "label": "启用或停用",
-                        "type": "boolean"
-                    },
-                    "bootstrap_hosts": {
-                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
-                        "label": "主机列表",
-                        "type": "string"
-                    },
-                    "connect_timeout": {
-                        "default": "5s",
-                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
-                        "label": "连接超时",
-                        "type": "duration"
-                    },
-                    "min_metadata_refresh_interval": {
-                        "default": "3s",
-                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
-                        "label": "元数据刷新最小间隔",
-                        "type": "duration"
-                    },
-                    "metadata_request_timeout": {
-                        "default": "5s",
-                        "description": "刷新元数据时最大等待时长。",
-                        "label": "元数据请求超时",
-                        "type": "duration"
-                    },
-                    "authentication": {
-                        "default": "none",
-                        "description": "认证参数。",
-                        "label": "认证",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
-                            },
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "producer": {
-                        "description": "本地 MQTT 数据源和 Kafka 桥接的配置。",
-                        "label": "MQTT 到 Kafka",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.producer_opts"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "socket_opts": {
-                        "description": "更多 Socket 参数设置。",
-                        "label": "Socket 参数",
-                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_mongodb.post_rs": {
                 "required": [
                     "name",
@@ -1347,105 +1229,6 @@
                         "description": "从远程系统收到的消息个数。",
                         "label": "已接收",
                         "type": "number"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_kafka.post": {
-                "required": [
-                    "bootstrap_hosts",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "type": {
-                        "description": "桥接类型",
-                        "label": "桥接类型",
-                        "symbols": [
-                            "kafka"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "桥接名字，可读描述",
-                        "label": "桥接名字",
-                        "type": "string"
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
-                        "label": "启用或停用",
-                        "type": "boolean"
-                    },
-                    "bootstrap_hosts": {
-                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
-                        "label": "主机列表",
-                        "type": "string"
-                    },
-                    "connect_timeout": {
-                        "default": "5s",
-                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
-                        "label": "连接超时",
-                        "type": "duration"
-                    },
-                    "min_metadata_refresh_interval": {
-                        "default": "3s",
-                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
-                        "label": "元数据刷新最小间隔",
-                        "type": "duration"
-                    },
-                    "metadata_request_timeout": {
-                        "default": "5s",
-                        "description": "刷新元数据时最大等待时长。",
-                        "label": "元数据请求超时",
-                        "type": "duration"
-                    },
-                    "authentication": {
-                        "default": "none",
-                        "description": "认证参数。",
-                        "label": "认证",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
-                            },
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "producer": {
-                        "description": "本地 MQTT 数据源和 Kafka 桥接的配置。",
-                        "label": "MQTT 到 Kafka",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.producer_opts"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "socket_opts": {
-                        "description": "更多 Socket 参数设置。",
-                        "label": "Socket 参数",
-                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -3104,6 +2887,125 @@
                 },
                 "type": "object"
             },
+            "bridge_kafka.post_consumer": {
+                "required": [
+                    "topic_mapping",
+                    "bootstrap_hosts",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "桥接类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "kafka_consumer",
+                            "kafka"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
+                        "label": "启用或停用",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+                        "label": "主机列表",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+                        "label": "元数据刷新最小间隔",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "刷新元数据时最大等待时长。",
+                        "label": "元数据请求超时",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "认证参数。",
+                        "label": "认证",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "更多 Socket 参数设置。",
+                        "label": "Socket 参数",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "kafka": {
+                        "description": "Kafka消费者配置。",
+                        "label": "Kafka 消费者",
+                        "$ref": "#/components/schemas/bridge_kafka.consumer_kafka_opts"
+                    },
+                    "topic_mapping": {
+                        "description": "指定 Kafka 主题和 MQTT 主题之间的映射。 必须至少包含一个项目。",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge_kafka.consumer_topic_mapping"
+                        },
+                        "label": "主题映射关系",
+                        "type": "array"
+                    },
+                    "key_encoding_mode": {
+                        "default": "none",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "编码模式",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    },
+                    "value_encoding_mode": {
+                        "default": "none",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "编码模式",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_dynamo.post": {
                 "required": [
                     "database",
@@ -3520,6 +3422,109 @@
                 },
                 "type": "object"
             },
+            "bridge_kafka.put_consumer": {
+                "required": [
+                    "topic_mapping",
+                    "bootstrap_hosts"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
+                        "label": "启用或停用",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+                        "label": "主机列表",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+                        "label": "元数据刷新最小间隔",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "刷新元数据时最大等待时长。",
+                        "label": "元数据请求超时",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "认证参数。",
+                        "label": "认证",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "更多 Socket 参数设置。",
+                        "label": "Socket 参数",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "kafka": {
+                        "description": "Kafka消费者配置。",
+                        "label": "Kafka 消费者",
+                        "$ref": "#/components/schemas/bridge_kafka.consumer_kafka_opts"
+                    },
+                    "topic_mapping": {
+                        "description": "指定 Kafka 主题和 MQTT 主题之间的映射。 必须至少包含一个项目。",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge_kafka.consumer_topic_mapping"
+                        },
+                        "label": "主题映射关系",
+                        "type": "array"
+                    },
+                    "key_encoding_mode": {
+                        "default": "none",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "编码模式",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    },
+                    "value_encoding_mode": {
+                        "default": "none",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "编码模式",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_mongodb.put_single": {
                 "required": [
                     "database",
@@ -3784,24 +3789,6 @@
                 },
                 "type": "object"
             },
-            "bridge_kafka.producer_opts": {
-                "required": [
-                    "kafka"
-                ],
-                "properties": {
-                    "mqtt": {
-                        "description": "需要桥接到 MQTT 源主题。",
-                        "label": "MQTT 源主题",
-                        "$ref": "#/components/schemas/bridge_kafka.producer_mqtt_opts"
-                    },
-                    "kafka": {
-                        "description": "Kafka 生产者参数。",
-                        "label": "生产者参数",
-                        "$ref": "#/components/schemas/bridge_kafka.producer_kafka_opts"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_redis.put_cluster": {
                 "required": [
                     "servers",
@@ -3965,86 +3952,38 @@
                 },
                 "type": "object"
             },
-            "bridge_kafka.put": {
+            "bridge_kafka.consumer_topic_mapping": {
                 "required": [
-                    "bootstrap_hosts"
+                    "mqtt_topic",
+                    "kafka_topic"
                 ],
                 "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
-                        "label": "启用或停用",
-                        "type": "boolean"
-                    },
-                    "bootstrap_hosts": {
-                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
-                        "label": "主机列表",
+                    "kafka_topic": {
+                        "description": "指定从哪个 Kafka 主题消费消息。",
+                        "label": "Kafka 主题 ",
                         "type": "string"
                     },
-                    "connect_timeout": {
-                        "default": "5s",
-                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
-                        "label": "连接超时",
-                        "type": "duration"
+                    "mqtt_topic": {
+                        "description": "设置 Kafka 消息向哪个本地 MQTT 主题转发消息。",
+                        "label": "MQTT主题",
+                        "type": "string"
                     },
-                    "min_metadata_refresh_interval": {
-                        "default": "3s",
-                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
-                        "label": "元数据刷新最小间隔",
-                        "type": "duration"
+                    "qos": {
+                        "default": 0,
+                        "description": "转发 MQTT 消息时使用的 QoS。",
+                        "label": "QoS",
+                        "symbols": [
+                            0,
+                            1,
+                            2
+                        ],
+                        "type": "enum"
                     },
-                    "metadata_request_timeout": {
-                        "default": "5s",
-                        "description": "刷新元数据时最大等待时长。",
-                        "label": "元数据请求超时",
-                        "type": "duration"
-                    },
-                    "authentication": {
-                        "default": "none",
-                        "description": "认证参数。",
-                        "label": "认证",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
-                            },
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "producer": {
-                        "description": "本地 MQTT 数据源和 Kafka 桥接的配置。",
-                        "label": "MQTT 到 Kafka",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.producer_opts"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "socket_opts": {
-                        "description": "更多 Socket 参数设置。",
-                        "label": "Socket 参数",
-                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "启用 SSL 连接。",
-                        "label": "启用SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    "payload_template": {
+                        "default": "${.}",
+                        "description": "用于转换收到的 Kafka 消息的模板。 默认情况下，它将使用 JSON 格式来序列化来自 Kafka 的所有字段。 这些字段包括：<code>headers</code>：一个包含字符串键值对的 JSON 对象。<br/><code>key</code>：Kafka 消息的键（使用选择的编码方式编码）。<br/><code>offset</code>：消息的偏移量。<br/><code>topic</code>：Kafka 主题。<br/><code>ts</code>: 消息的时间戳。<br/><code>ts_type</code>：消息的时间戳类型，值可能是： <code>create</code>， <code>append</code> 或 <code>undefined</code>。<br/><code>value</code>: Kafka 消息值（使用选择的编码方式编码）。<br/>",
+                        "label": "MQTT Payload Template",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -4190,8 +4129,7 @@
                         "type": "duration"
                     },
                     "heartbeat_frequency_ms": {
-                        "default": 200000,
-                        "description": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。如果连接数增加（例如，如果你增加池子的大小，就会发生这种情况），你可能也需要增加这个周期，以避免在MongoDB日志文件中创建太多的日志条目。",
+                        "description": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。",
                         "label": "心跳期",
                         "type": "duration"
                     },
@@ -4199,6 +4137,217 @@
                         "description": "心跳间的最小间隙",
                         "label": "最小心跳周期",
                         "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_kafka.post_producer": {
+                "required": [
+                    "kafka",
+                    "bootstrap_hosts",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "桥接类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "kafka_consumer",
+                            "kafka"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
+                        "label": "启用或停用",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+                        "label": "主机列表",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+                        "label": "元数据刷新最小间隔",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "刷新元数据时最大等待时长。",
+                        "label": "元数据请求超时",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "认证参数。",
+                        "label": "认证",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "更多 Socket 参数设置。",
+                        "label": "Socket 参数",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "local_topic": {
+                        "description": "指定 MQTT 主题作为桥接的数据源。 若该桥接用于规则的动作，则必须将该配置项删除。",
+                        "label": "源 MQTT 主题",
+                        "type": "string"
+                    },
+                    "kafka": {
+                        "description": "Kafka 生产者参数。",
+                        "label": "生产者参数",
+                        "$ref": "#/components/schemas/bridge_kafka.producer_kafka_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_kafka.get_producer": {
+                "required": [
+                    "kafka",
+                    "bootstrap_hosts",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "Bridge 的连接状态<br/><br/>- <code>connecting</code>: 启动时的初始状态。<br/><br/>- <code>connected</code>: 桥接驱动健康检查正常。<br/><br/>- <code>disconnected</code>: 当桥接无法通过健康检查。<br/><br/>- <code>stopped</code>: 桥接处于停用状态。<br/><br/>- <code>inconsistent</code>: 集群中有各节点汇报的状态不一致。",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting",
+                            "inconsistent"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "桥接类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "kafka_consumer",
+                            "kafka"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
+                        "label": "启用或停用",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+                        "label": "主机列表",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+                        "label": "元数据刷新最小间隔",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "刷新元数据时最大等待时长。",
+                        "label": "元数据请求超时",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "认证参数。",
+                        "label": "认证",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "更多 Socket 参数设置。",
+                        "label": "Socket 参数",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "local_topic": {
+                        "description": "指定 MQTT 主题作为桥接的数据源。 若该桥接用于规则的动作，则必须将该配置项删除。",
+                        "label": "源 MQTT 主题",
+                        "type": "string"
+                    },
+                    "kafka": {
+                        "description": "Kafka 生产者参数。",
+                        "label": "生产者参数",
+                        "$ref": "#/components/schemas/bridge_kafka.producer_kafka_opts"
                     }
                 },
                 "type": "object"
@@ -6683,16 +6832,6 @@
                 },
                 "type": "object"
             },
-            "bridge_kafka.producer_mqtt_opts": {
-                "properties": {
-                    "topic": {
-                        "description": "指定 MQTT 主题作为桥接的数据源",
-                        "label": "源 MQTT 主题",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_kafka.socket_opts": {
                 "properties": {
                     "sndbuf": {
@@ -7194,6 +7333,144 @@
                 },
                 "type": "object"
             },
+            "bridge_kafka.get_consumer": {
+                "required": [
+                    "topic_mapping",
+                    "bootstrap_hosts",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "Bridge 的连接状态<br/><br/>- <code>connecting</code>: 启动时的初始状态。<br/><br/>- <code>connected</code>: 桥接驱动健康检查正常。<br/><br/>- <code>disconnected</code>: 当桥接无法通过健康检查。<br/><br/>- <code>stopped</code>: 桥接处于停用状态。<br/><br/>- <code>inconsistent</code>: 集群中有各节点汇报的状态不一致。",
+                        "label": "Bridge 状态",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting",
+                            "inconsistent"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "节点的状态",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "节点的状态",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "桥接类型",
+                        "label": "桥接类型",
+                        "symbols": [
+                            "kafka_consumer",
+                            "kafka"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "桥接名字，可读描述",
+                        "label": "桥接名字",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
+                        "label": "启用或停用",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+                        "label": "主机列表",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+                        "label": "元数据刷新最小间隔",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "刷新元数据时最大等待时长。",
+                        "label": "元数据请求超时",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "认证参数。",
+                        "label": "认证",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "更多 Socket 参数设置。",
+                        "label": "Socket 参数",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "kafka": {
+                        "description": "Kafka消费者配置。",
+                        "label": "Kafka 消费者",
+                        "$ref": "#/components/schemas/bridge_kafka.consumer_kafka_opts"
+                    },
+                    "topic_mapping": {
+                        "description": "指定 Kafka 主题和 MQTT 主题之间的映射。 必须至少包含一个项目。",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge_kafka.consumer_topic_mapping"
+                        },
+                        "label": "主题映射关系",
+                        "type": "array"
+                    },
+                    "key_encoding_mode": {
+                        "default": "none",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "编码模式",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    },
+                    "value_encoding_mode": {
+                        "default": "none",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "编码模式",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_webhook.put": {
                 "required": [
                     "url"
@@ -7322,6 +7599,41 @@
                 },
                 "type": "object"
             },
+            "bridge_kafka.consumer_kafka_opts": {
+                "properties": {
+                    "max_batch_bytes": {
+                        "default": "896KB",
+                        "description": "在一批消息中要取的最大字节数。如果该配置小于 Kafka 中消息到大小，则可能会影响消费性能。",
+                        "label": "最大字节数",
+                        "type": "byteSize"
+                    },
+                    "max_rejoin_attempts": {
+                        "default": 5,
+                        "description": "允许一个成员重新加入小组的最大次数。如果超过改配置次数后仍不能成功加入消费组，则会在延迟一段时间后再重试。",
+                        "label": "最大的重新加入尝试",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "offset_reset_policy": {
+                        "default": "reset_to_latest",
+                        "description": "定义当一个主题分区的初始偏移量无效或没有初始偏移量时，消费者应如何重置开始偏移量。",
+                        "label": "偏移重置策略",
+                        "symbols": [
+                            "reset_to_latest",
+                            "reset_to_earliest",
+                            "reset_by_subscriber"
+                        ],
+                        "type": "enum"
+                    },
+                    "offset_commit_interval_seconds": {
+                        "default": 5,
+                        "description": "指定 Kafka 消费组偏移量提交的时间间隔。",
+                        "label": "偏移承诺间隔",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_tdengine.get": {
                 "required": [
                     "database",
@@ -7420,6 +7732,86 @@
                         "description": "已弃用。自动重连数据库。",
                         "label": "已弃用。自动重连数据库",
                         "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_kafka.put_producer": {
+                "required": [
+                    "kafka",
+                    "bootstrap_hosts"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "启用（true）或停用该（false）Kafka 数据桥接。",
+                        "label": "启用或停用",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+                        "label": "主机列表",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+                        "label": "连接超时",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+                        "label": "元数据刷新最小间隔",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "刷新元数据时最大等待时长。",
+                        "label": "元数据请求超时",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "认证参数。",
+                        "label": "认证",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "更多 Socket 参数设置。",
+                        "label": "Socket 参数",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "启用 SSL 连接。",
+                        "label": "启用SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "local_topic": {
+                        "description": "指定 MQTT 主题作为桥接的数据源。 若该桥接用于规则的动作，则必须将该配置项删除。",
+                        "label": "源 MQTT 主题",
+                        "type": "string"
+                    },
+                    "kafka": {
+                        "description": "Kafka 生产者参数。",
+                        "label": "生产者参数",
+                        "$ref": "#/components/schemas/bridge_kafka.producer_kafka_opts"
                     }
                 },
                 "type": "object"
@@ -8008,7 +8400,10 @@
                             "$ref": "#/components/schemas/bridge_mysql.get"
                         },
                         {
-                            "$ref": "#/components/schemas/bridge_kafka.get"
+                            "$ref": "#/components/schemas/bridge_kafka.get_producer"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_kafka.get_consumer"
                         },
                         {
                             "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
@@ -8076,7 +8471,10 @@
                         "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
-                        "$ref": "#/components/schemas/bridge_kafka.get"
+                        "$ref": "#/components/schemas/bridge_kafka.get_producer"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_kafka.get_consumer"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
@@ -8140,7 +8538,10 @@
                         "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
-                        "$ref": "#/components/schemas/bridge_kafka.get"
+                        "$ref": "#/components/schemas/bridge_kafka.get_producer"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_kafka.get_consumer"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
