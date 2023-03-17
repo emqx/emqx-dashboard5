@@ -42,6 +42,12 @@ const prop = defineProps({
     type: Boolean,
     default: false,
   },
+  hoverProvider: {
+    type: Object,
+  },
+  completionProvider: {
+    type: Object,
+  },
   // warp: {
   //   type: Boolean,
   //   default: false,
@@ -94,6 +100,16 @@ const defineTheme = () => {
   monaco.editor.defineTheme('editor-dark', dark)
 }
 
+const registerProvider = () => {
+  if (prop.hoverProvider) {
+    monaco.languages.registerHoverProvider(prop.lang, prop.hoverProvider)
+  }
+  if (prop.completionProvider) {
+    monaco.languages.registerCompletionItemProvider(prop.lang, prop.completionProvider)
+  }
+}
+
+registerProvider()
 defineTheme()
 
 const initEditor = () => {
@@ -156,6 +172,8 @@ watch(
     }
   },
 )
+
+watch(() => prop.completionProvider, registerProvider)
 
 watch(
   () => prop.lang,
