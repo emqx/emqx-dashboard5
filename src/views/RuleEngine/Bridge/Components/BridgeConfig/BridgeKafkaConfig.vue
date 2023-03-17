@@ -163,17 +163,17 @@
         <template v-if="role === 'producer'">
           <el-col :span="12">
             <!-- <el-card class="app-card with-border" shadow="never"> -->
-            <el-form-item prop="producer.mqtt.topic">
+            <el-form-item prop="local_topic">
               <template #label>
                 <span>MQTT {{ t('Base.topic') }}</span>
                 <InfoTooltip :content="tl('egressLocalTopicDesc')" />
               </template>
-              <el-input v-model="formData.producer.mqtt.topic" />
+              <el-input v-model="formData.local_topic" />
             </el-form-item>
             <!-- </el-card> -->
           </el-col>
           <el-col :span="24">
-            <KafkaProducerKafkaConfig v-model="formData.producer.kafka" />
+            <KafkaProducerKafkaConfig v-model="formData.kafka" />
           </el-col>
         </template>
 
@@ -289,29 +289,25 @@ const createDefaultValue = () => ({
   min_metadata_refresh_interval: '3s',
   metadata_request_timeout: '5s',
   authentication: 'none',
-  producer: {
-    mqtt: {
-      topic: '',
+  local_topic: '',
+  kafka: {
+    topic: '',
+    message: {
+      key: '${.clientid}',
+      value: '${.}',
+      timestamp: '${.timestamp}',
     },
-    kafka: {
-      topic: '',
-      message: {
-        key: '${.clientid}',
-        value: '${.}',
-        timestamp: '${.timestamp}',
-      },
-      max_batch_bytes: '896KB',
-      compression: 'no_compression',
-      partition_strategy: 'random',
-      required_acks: 'all_isr',
-      partition_count_refresh_interval: '60s',
-      max_inflight: 10,
-      buffer: {
-        mode: 'memory',
-        per_partition_limit: '2GB',
-        segment_bytes: '100MB',
-        memory_overload_protection: false,
-      },
+    max_batch_bytes: '896KB',
+    compression: 'no_compression',
+    partition_strategy: 'random',
+    required_acks: 'all_isr',
+    partition_count_refresh_interval: '60s',
+    max_inflight: 10,
+    buffer: {
+      mode: 'memory',
+      per_partition_limit: '2GB',
+      segment_bytes: '100MB',
+      memory_overload_protection: false,
     },
   },
   socket_opts: {
