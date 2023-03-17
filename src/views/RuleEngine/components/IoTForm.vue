@@ -33,6 +33,8 @@
                 <div class="monaco-container sql">
                   <Monaco
                     :id="createRandomString()"
+                    :completion-provider="completionProvider"
+                    :hover-provider="hoverProvider"
                     v-model="ruleValue.sql"
                     lang="sql"
                     @change="validate"
@@ -125,6 +127,7 @@ import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import useFormRules from '@/hooks/useFormRules'
 import useDocLink from '@/hooks/useDocLink'
 import EventsSelect from './EventsSelect.vue'
+import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
 
 const prop = defineProps({
   modelValue: {
@@ -206,6 +209,8 @@ const formRules = {
 }
 
 const { docMap } = useDocLink()
+
+const { completionProvider, hoverProvider, setEventList } = useProvidersForMonaco()
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
@@ -356,6 +361,7 @@ const handleTestLoadng = (val: boolean) => {
 const loadRuleEvents = async () => {
   try {
     ruleEventsList.value = await getRuleEvents()
+    setEventList(ruleEventsList.value)
   } catch (error) {
     console.error(error)
   }
