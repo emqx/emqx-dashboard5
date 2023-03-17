@@ -160,22 +160,9 @@
         <el-col :span="24"><el-divider /></el-col>
 
         <!-- producer -->
-        <template v-if="role === 'producer'">
-          <el-col :span="12">
-            <!-- <el-card class="app-card with-border" shadow="never"> -->
-            <el-form-item prop="local_topic">
-              <template #label>
-                <span>MQTT {{ t('Base.topic') }}</span>
-                <InfoTooltip :content="tl('egressLocalTopicDesc')" />
-              </template>
-              <el-input v-model="formData.local_topic" />
-            </el-form-item>
-            <!-- </el-card> -->
-          </el-col>
-          <el-col :span="24">
-            <KafkaProducerKafkaConfig v-model="formData.kafka" />
-          </el-col>
-        </template>
+        <el-col :span="24" v-if="role === 'producer'">
+          <KafkaProducerKafkaConfig v-model="formData.kafka" />
+        </el-col>
 
         <el-col :span="24"><el-divider /></el-col>
 
@@ -265,7 +252,7 @@ const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
 
 const { components } = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
-  ref: '#/components/schemas/bridge_kafka.post',
+  ref: '#/components/schemas/bridge_kafka.post_producer',
 })
 const { getPropItem } = useGetInfoFromComponents(components)
 
@@ -332,7 +319,7 @@ const formRules = computed(() => {
       kerberos_keytab_file: createRequiredRule(tl('kerberosKeytabFile')),
       kerberos_principal: createRequiredRule(tl('kerberosPrincipal')),
     },
-    producer: { kafka: { topic: createRequiredRule(tl('kafkaProducerTopic')) } },
+    kafka: { topic: createRequiredRule(tl('kafkaProducerTopic')) },
   }
   return ret
 })

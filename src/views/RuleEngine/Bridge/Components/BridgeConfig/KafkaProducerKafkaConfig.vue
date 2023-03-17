@@ -10,6 +10,7 @@
           <el-input v-model="kafkaConfig.topic" />
         </el-form-item>
       </el-col>
+      <el-col :span="12" />
       <el-col :span="12">
         <el-form-item prop="kafka.message.key">
           <template #label>
@@ -20,7 +21,7 @@
               </template>
             </InfoTooltip>
           </template>
-          <el-input type="textarea" rows="4" v-model="kafkaConfig.message.key"></el-input>
+          <el-input type="textarea" rows="4" v-model="kafkaConfig.message.key" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -33,7 +34,7 @@
               </template>
             </InfoTooltip>
           </template>
-          <el-input type="textarea" rows="4" v-model="kafkaConfig.message.value"></el-input>
+          <el-input type="textarea" rows="4" v-model="kafkaConfig.message.value" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
