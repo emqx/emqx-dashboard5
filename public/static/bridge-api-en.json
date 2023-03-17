@@ -622,124 +622,6 @@
                 },
                 "type": "object"
             },
-            "bridge_kafka.get": {
-                "required": [
-                    "bootstrap_hosts",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "status": {
-                        "description": "The status of the bridge<br/><br/>- <code>connecting</code>: the initial state before any health probes were made.<br/><br/>- <code>connected</code>: when the bridge passes the health probes.<br/><br/>- <code>disconnected</code>: when the bridge can not pass health probes.<br/><br/>- <code>stopped</code>: when the bridge resource is requested to be stopped.<br/><br/>- <code>inconsistent</code>: When not all the nodes are at the same status.",
-                        "label": "Bridge Status",
-                        "symbols": [
-                            "connected",
-                            "disconnected",
-                            "connecting",
-                            "inconsistent"
-                        ],
-                        "type": "enum"
-                    },
-                    "node_status": {
-                        "description": "Node status.",
-                        "items": {
-                            "$ref": "#/components/schemas/bridge.node_status"
-                        },
-                        "label": "Node Status",
-                        "type": "array"
-                    },
-                    "type": {
-                        "description": "The Bridge Type",
-                        "label": "Bridge Type",
-                        "symbols": [
-                            "kafka"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
-                        "label": "Bridge Name",
-                        "type": "string"
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "Enable (true) or disable (false) this Kafka bridge.",
-                        "label": "Enable or Disable",
-                        "type": "boolean"
-                    },
-                    "bootstrap_hosts": {
-                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
-                        "label": "Bootstrap Hosts",
-                        "type": "string"
-                    },
-                    "connect_timeout": {
-                        "default": "5s",
-                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
-                        "label": "Connect Timeout",
-                        "type": "duration"
-                    },
-                    "min_metadata_refresh_interval": {
-                        "default": "3s",
-                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
-                        "label": "Min Metadata Refresh Interval",
-                        "type": "duration"
-                    },
-                    "metadata_request_timeout": {
-                        "default": "5s",
-                        "description": "Maximum wait time when fetching metadata from Kafka.",
-                        "label": "Metadata Request Timeout",
-                        "type": "duration"
-                    },
-                    "authentication": {
-                        "default": "none",
-                        "description": "Authentication configs.",
-                        "label": "Authentication",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
-                            },
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "producer": {
-                        "description": "Local MQTT data source and Kafka bridge configs.",
-                        "label": "MQTT to Kafka",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.producer_opts"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "socket_opts": {
-                        "description": "Extra socket options.",
-                        "label": "Socket Options",
-                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "SSL connection settings.",
-                        "label": "Enable SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_mongodb.post_rs": {
                 "required": [
                     "name",
@@ -1347,105 +1229,6 @@
                         "description": "Count of messages that is received from the remote system.",
                         "label": "Received",
                         "type": "number"
-                    }
-                },
-                "type": "object"
-            },
-            "bridge_kafka.post": {
-                "required": [
-                    "bootstrap_hosts",
-                    "name",
-                    "type"
-                ],
-                "properties": {
-                    "type": {
-                        "description": "The Bridge Type",
-                        "label": "Bridge Type",
-                        "symbols": [
-                            "kafka"
-                        ],
-                        "type": "enum"
-                    },
-                    "name": {
-                        "description": "Bridge name, used as a human-readable description of the bridge.",
-                        "label": "Bridge Name",
-                        "type": "string"
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "Enable (true) or disable (false) this Kafka bridge.",
-                        "label": "Enable or Disable",
-                        "type": "boolean"
-                    },
-                    "bootstrap_hosts": {
-                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
-                        "label": "Bootstrap Hosts",
-                        "type": "string"
-                    },
-                    "connect_timeout": {
-                        "default": "5s",
-                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
-                        "label": "Connect Timeout",
-                        "type": "duration"
-                    },
-                    "min_metadata_refresh_interval": {
-                        "default": "3s",
-                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
-                        "label": "Min Metadata Refresh Interval",
-                        "type": "duration"
-                    },
-                    "metadata_request_timeout": {
-                        "default": "5s",
-                        "description": "Maximum wait time when fetching metadata from Kafka.",
-                        "label": "Metadata Request Timeout",
-                        "type": "duration"
-                    },
-                    "authentication": {
-                        "default": "none",
-                        "description": "Authentication configs.",
-                        "label": "Authentication",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
-                            },
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "producer": {
-                        "description": "Local MQTT data source and Kafka bridge configs.",
-                        "label": "MQTT to Kafka",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.producer_opts"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "socket_opts": {
-                        "description": "Extra socket options.",
-                        "label": "Socket Options",
-                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "SSL connection settings.",
-                        "label": "Enable SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
                     }
                 },
                 "type": "object"
@@ -3104,6 +2887,125 @@
                 },
                 "type": "object"
             },
+            "bridge_kafka.post_consumer": {
+                "required": [
+                    "topic_mapping",
+                    "bootstrap_hosts",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "kafka_consumer",
+                            "kafka"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable (true) or disable (false) this Kafka bridge.",
+                        "label": "Enable or Disable",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
+                        "label": "Bootstrap Hosts",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
+                        "label": "Min Metadata Refresh Interval",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time when fetching metadata from Kafka.",
+                        "label": "Metadata Request Timeout",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "Authentication configs.",
+                        "label": "Authentication",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "Extra socket options.",
+                        "label": "Socket Options",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "kafka": {
+                        "description": "Kafka consumer configs.",
+                        "label": "Kafka Consumer",
+                        "$ref": "#/components/schemas/bridge_kafka.consumer_kafka_opts"
+                    },
+                    "topic_mapping": {
+                        "description": "Defines the mapping between Kafka topics and MQTT topics.  Must contain at least one item.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge_kafka.consumer_topic_mapping"
+                        },
+                        "label": "Topic Mapping",
+                        "type": "array"
+                    },
+                    "key_encoding_mode": {
+                        "default": "none",
+                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
+                        "label": "Encoding Mode",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    },
+                    "value_encoding_mode": {
+                        "default": "none",
+                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
+                        "label": "Encoding Mode",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_dynamo.post": {
                 "required": [
                     "database",
@@ -3520,6 +3422,109 @@
                 },
                 "type": "object"
             },
+            "bridge_kafka.put_consumer": {
+                "required": [
+                    "topic_mapping",
+                    "bootstrap_hosts"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable (true) or disable (false) this Kafka bridge.",
+                        "label": "Enable or Disable",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
+                        "label": "Bootstrap Hosts",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
+                        "label": "Min Metadata Refresh Interval",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time when fetching metadata from Kafka.",
+                        "label": "Metadata Request Timeout",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "Authentication configs.",
+                        "label": "Authentication",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "Extra socket options.",
+                        "label": "Socket Options",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "kafka": {
+                        "description": "Kafka consumer configs.",
+                        "label": "Kafka Consumer",
+                        "$ref": "#/components/schemas/bridge_kafka.consumer_kafka_opts"
+                    },
+                    "topic_mapping": {
+                        "description": "Defines the mapping between Kafka topics and MQTT topics.  Must contain at least one item.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge_kafka.consumer_topic_mapping"
+                        },
+                        "label": "Topic Mapping",
+                        "type": "array"
+                    },
+                    "key_encoding_mode": {
+                        "default": "none",
+                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
+                        "label": "Encoding Mode",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    },
+                    "value_encoding_mode": {
+                        "default": "none",
+                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
+                        "label": "Encoding Mode",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_mongodb.put_single": {
                 "required": [
                     "database",
@@ -3784,24 +3789,6 @@
                 },
                 "type": "object"
             },
-            "bridge_kafka.producer_opts": {
-                "required": [
-                    "kafka"
-                ],
-                "properties": {
-                    "mqtt": {
-                        "description": "MQTT data source. Optional when used as a rule-engine action.",
-                        "label": "MQTT Source Topic",
-                        "$ref": "#/components/schemas/bridge_kafka.producer_mqtt_opts"
-                    },
-                    "kafka": {
-                        "description": "Kafka producer configs.",
-                        "label": "Kafka Producer",
-                        "$ref": "#/components/schemas/bridge_kafka.producer_kafka_opts"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_redis.put_cluster": {
                 "required": [
                     "servers",
@@ -3965,86 +3952,38 @@
                 },
                 "type": "object"
             },
-            "bridge_kafka.put": {
+            "bridge_kafka.consumer_topic_mapping": {
                 "required": [
-                    "bootstrap_hosts"
+                    "mqtt_topic",
+                    "kafka_topic"
                 ],
                 "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "Enable (true) or disable (false) this Kafka bridge.",
-                        "label": "Enable or Disable",
-                        "type": "boolean"
-                    },
-                    "bootstrap_hosts": {
-                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
-                        "label": "Bootstrap Hosts",
+                    "kafka_topic": {
+                        "description": "Kafka topic to consume from.",
+                        "label": "Kafka topic",
                         "type": "string"
                     },
-                    "connect_timeout": {
-                        "default": "5s",
-                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
-                        "label": "Connect Timeout",
-                        "type": "duration"
+                    "mqtt_topic": {
+                        "description": "Local topic to which consumed Kafka messages should be published to.",
+                        "label": "MQTT Topic",
+                        "type": "string"
                     },
-                    "min_metadata_refresh_interval": {
-                        "default": "3s",
-                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
-                        "label": "Min Metadata Refresh Interval",
-                        "type": "duration"
+                    "qos": {
+                        "default": 0,
+                        "description": "MQTT QoS used to publish messages consumed from Kafka.",
+                        "label": "QoS",
+                        "symbols": [
+                            0,
+                            1,
+                            2
+                        ],
+                        "type": "enum"
                     },
-                    "metadata_request_timeout": {
-                        "default": "5s",
-                        "description": "Maximum wait time when fetching metadata from Kafka.",
-                        "label": "Metadata Request Timeout",
-                        "type": "duration"
-                    },
-                    "authentication": {
-                        "default": "none",
-                        "description": "Authentication configs.",
-                        "label": "Authentication",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
-                            },
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "producer": {
-                        "description": "Local MQTT data source and Kafka bridge configs.",
-                        "label": "MQTT to Kafka",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/bridge_kafka.producer_opts"
-                            },
-                            {
-                                "symbols": [
-                                    "none"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "socket_opts": {
-                        "description": "Extra socket options.",
-                        "label": "Socket Options",
-                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
-                    },
-                    "ssl": {
-                        "default": {
-                            "enable": false
-                        },
-                        "description": "SSL connection settings.",
-                        "label": "Enable SSL",
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    "payload_template": {
+                        "default": "${.}",
+                        "description": "The template for transforming the incoming Kafka message.  By default, it will use JSON format to serialize inputs from the Kafka message.  Such fields are:<br/><code>headers</code>: an object containing string key-value pairs.<br/><code>key</code>: Kafka message key (uses the chosen key encoding).<br/><code>offset</code>: offset for the message.<br/><code>topic</code>: Kafka topic.<br/><code>ts</code>: message timestamp.<br/><code>ts_type</code>: message timestamp type, which is one of <code>create</code>, <code>append</code> or <code>undefined</code>.<br/><code>value</code>: Kafka message value (uses the chosen value encoding).<br/>",
+                        "label": "MQTT Payload Template",
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -4190,8 +4129,7 @@
                         "type": "duration"
                     },
                     "heartbeat_frequency_ms": {
-                        "default": 200000,
-                        "description": "Controls when the driver checks the state of the MongoDB deployment. Specify the interval between checks, counted from the end of the previous check until the beginning of the next one. If the number of connections is increased (which will happen, for example, if you increase the pool size), you may need to increase this period as well to avoid creating too many log entries in the MongoDB log file.",
+                        "description": "Controls when the driver checks the state of the MongoDB deployment. Specify the interval between checks, counted from the end of the previous check until the beginning of the next one.",
                         "label": "Heartbeat period",
                         "type": "duration"
                     },
@@ -4199,6 +4137,217 @@
                         "description": "Controls the minimum amount of time to wait between heartbeats.",
                         "label": "Minimum Heartbeat Period",
                         "type": "duration"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_kafka.post_producer": {
+                "required": [
+                    "kafka",
+                    "bootstrap_hosts",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "kafka_consumer",
+                            "kafka"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable (true) or disable (false) this Kafka bridge.",
+                        "label": "Enable or Disable",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
+                        "label": "Bootstrap Hosts",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
+                        "label": "Min Metadata Refresh Interval",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time when fetching metadata from Kafka.",
+                        "label": "Metadata Request Timeout",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "Authentication configs.",
+                        "label": "Authentication",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "Extra socket options.",
+                        "label": "Socket Options",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "local_topic": {
+                        "description": "MQTT topic or topic as data source (bridge input).  Should not configure this if the bridge is used as a rule action.",
+                        "label": "Source MQTT Topic",
+                        "type": "string"
+                    },
+                    "kafka": {
+                        "description": "Kafka producer configs.",
+                        "label": "Kafka Producer",
+                        "$ref": "#/components/schemas/bridge_kafka.producer_kafka_opts"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_kafka.get_producer": {
+                "required": [
+                    "kafka",
+                    "bootstrap_hosts",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "The status of the bridge<br/><br/>- <code>connecting</code>: the initial state before any health probes were made.<br/><br/>- <code>connected</code>: when the bridge passes the health probes.<br/><br/>- <code>disconnected</code>: when the bridge can not pass health probes.<br/><br/>- <code>stopped</code>: when the bridge resource is requested to be stopped.<br/><br/>- <code>inconsistent</code>: When not all the nodes are at the same status.",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting",
+                            "inconsistent"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "kafka_consumer",
+                            "kafka"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable (true) or disable (false) this Kafka bridge.",
+                        "label": "Enable or Disable",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
+                        "label": "Bootstrap Hosts",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
+                        "label": "Min Metadata Refresh Interval",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time when fetching metadata from Kafka.",
+                        "label": "Metadata Request Timeout",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "Authentication configs.",
+                        "label": "Authentication",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "Extra socket options.",
+                        "label": "Socket Options",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "local_topic": {
+                        "description": "MQTT topic or topic as data source (bridge input).  Should not configure this if the bridge is used as a rule action.",
+                        "label": "Source MQTT Topic",
+                        "type": "string"
+                    },
+                    "kafka": {
+                        "description": "Kafka producer configs.",
+                        "label": "Kafka Producer",
+                        "$ref": "#/components/schemas/bridge_kafka.producer_kafka_opts"
                     }
                 },
                 "type": "object"
@@ -6683,16 +6832,6 @@
                 },
                 "type": "object"
             },
-            "bridge_kafka.producer_mqtt_opts": {
-                "properties": {
-                    "topic": {
-                        "description": "MQTT topic or topic as data source (bridge input).",
-                        "label": "Source MQTT Topic",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
             "bridge_kafka.socket_opts": {
                 "properties": {
                     "sndbuf": {
@@ -6709,7 +6848,7 @@
                     },
                     "nodelay": {
                         "default": true,
-                        "description": "When set to 'true', TCP buffer sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
+                        "description": "When set to 'true', TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
                         "label": "No Delay",
                         "type": "boolean"
                     }
@@ -7194,6 +7333,144 @@
                 },
                 "type": "object"
             },
+            "bridge_kafka.get_consumer": {
+                "required": [
+                    "topic_mapping",
+                    "bootstrap_hosts",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "The status of the bridge<br/><br/>- <code>connecting</code>: the initial state before any health probes were made.<br/><br/>- <code>connected</code>: when the bridge passes the health probes.<br/><br/>- <code>disconnected</code>: when the bridge can not pass health probes.<br/><br/>- <code>stopped</code>: when the bridge resource is requested to be stopped.<br/><br/>- <code>inconsistent</code>: When not all the nodes are at the same status.",
+                        "label": "Bridge Status",
+                        "symbols": [
+                            "connected",
+                            "disconnected",
+                            "connecting",
+                            "inconsistent"
+                        ],
+                        "type": "enum"
+                    },
+                    "node_status": {
+                        "description": "Node status.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge.node_status"
+                        },
+                        "label": "Node Status",
+                        "type": "array"
+                    },
+                    "type": {
+                        "description": "The Bridge Type",
+                        "label": "Bridge Type",
+                        "symbols": [
+                            "kafka_consumer",
+                            "kafka"
+                        ],
+                        "type": "enum"
+                    },
+                    "name": {
+                        "description": "Bridge name, used as a human-readable description of the bridge.",
+                        "label": "Bridge Name",
+                        "type": "string"
+                    },
+                    "enable": {
+                        "default": true,
+                        "description": "Enable (true) or disable (false) this Kafka bridge.",
+                        "label": "Enable or Disable",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
+                        "label": "Bootstrap Hosts",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
+                        "label": "Min Metadata Refresh Interval",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time when fetching metadata from Kafka.",
+                        "label": "Metadata Request Timeout",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "Authentication configs.",
+                        "label": "Authentication",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "Extra socket options.",
+                        "label": "Socket Options",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "kafka": {
+                        "description": "Kafka consumer configs.",
+                        "label": "Kafka Consumer",
+                        "$ref": "#/components/schemas/bridge_kafka.consumer_kafka_opts"
+                    },
+                    "topic_mapping": {
+                        "description": "Defines the mapping between Kafka topics and MQTT topics.  Must contain at least one item.",
+                        "items": {
+                            "$ref": "#/components/schemas/bridge_kafka.consumer_topic_mapping"
+                        },
+                        "label": "Topic Mapping",
+                        "type": "array"
+                    },
+                    "key_encoding_mode": {
+                        "default": "none",
+                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
+                        "label": "Encoding Mode",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    },
+                    "value_encoding_mode": {
+                        "default": "none",
+                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
+                        "label": "Encoding Mode",
+                        "symbols": [
+                            "none",
+                            "base64"
+                        ],
+                        "type": "enum"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_webhook.put": {
                 "required": [
                     "url"
@@ -7322,6 +7599,41 @@
                 },
                 "type": "object"
             },
+            "bridge_kafka.consumer_kafka_opts": {
+                "properties": {
+                    "max_batch_bytes": {
+                        "default": "896KB",
+                        "description": "Maximum bytes to fetch in a batch of messages.Please note that if the configured value is smaller than the message size in Kafka, it may negatively impact the fetch performance.",
+                        "label": "Max Bytes",
+                        "type": "byteSize"
+                    },
+                    "max_rejoin_attempts": {
+                        "default": 5,
+                        "description": "Maximum number of times allowed for a member to re-join the group. If the consumer group can not reach balance after this configured number of attempts, the consumer group member will restart after a delay.",
+                        "label": "Max Rejoin Attempts",
+                        "minimum": 1,
+                        "type": "number"
+                    },
+                    "offset_reset_policy": {
+                        "default": "reset_to_latest",
+                        "description": "Defines how the consumers should reset the start offset when a topic partition has and invalid or no initial offset.",
+                        "label": "Offset Reset Policy",
+                        "symbols": [
+                            "reset_to_latest",
+                            "reset_to_earliest",
+                            "reset_by_subscriber"
+                        ],
+                        "type": "enum"
+                    },
+                    "offset_commit_interval_seconds": {
+                        "default": 5,
+                        "description": "Defines the time interval between two offset commit requests sent for each consumer group.",
+                        "label": "Offset Commit Interval",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "bridge_tdengine.get": {
                 "required": [
                     "database",
@@ -7420,6 +7732,86 @@
                         "description": "Deprecated. Enable automatic reconnect to the database.",
                         "label": "Deprecated. Auto Reconnect Database",
                         "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "bridge_kafka.put_producer": {
+                "required": [
+                    "kafka",
+                    "bootstrap_hosts"
+                ],
+                "properties": {
+                    "enable": {
+                        "default": true,
+                        "description": "Enable (true) or disable (false) this Kafka bridge.",
+                        "label": "Enable or Disable",
+                        "type": "boolean"
+                    },
+                    "bootstrap_hosts": {
+                        "description": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
+                        "label": "Bootstrap Hosts",
+                        "type": "string"
+                    },
+                    "connect_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
+                        "label": "Connect Timeout",
+                        "type": "duration"
+                    },
+                    "min_metadata_refresh_interval": {
+                        "default": "3s",
+                        "description": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
+                        "label": "Min Metadata Refresh Interval",
+                        "type": "duration"
+                    },
+                    "metadata_request_timeout": {
+                        "default": "5s",
+                        "description": "Maximum wait time when fetching metadata from Kafka.",
+                        "label": "Metadata Request Timeout",
+                        "type": "duration"
+                    },
+                    "authentication": {
+                        "default": "none",
+                        "description": "Authentication configs.",
+                        "label": "Authentication",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_gssapi_kerberos"
+                            },
+                            {
+                                "$ref": "#/components/schemas/bridge_kafka.auth_username_password"
+                            },
+                            {
+                                "symbols": [
+                                    "none"
+                                ],
+                                "type": "enum"
+                            }
+                        ]
+                    },
+                    "socket_opts": {
+                        "description": "Extra socket options.",
+                        "label": "Socket Options",
+                        "$ref": "#/components/schemas/bridge_kafka.socket_opts"
+                    },
+                    "ssl": {
+                        "default": {
+                            "enable": false
+                        },
+                        "description": "SSL connection settings.",
+                        "label": "Enable SSL",
+                        "$ref": "#/components/schemas/broker.ssl_client_opts"
+                    },
+                    "local_topic": {
+                        "description": "MQTT topic or topic as data source (bridge input).  Should not configure this if the bridge is used as a rule action.",
+                        "label": "Source MQTT Topic",
+                        "type": "string"
+                    },
+                    "kafka": {
+                        "description": "Kafka producer configs.",
+                        "label": "Kafka Producer",
+                        "$ref": "#/components/schemas/bridge_kafka.producer_kafka_opts"
                     }
                 },
                 "type": "object"
@@ -8008,7 +8400,10 @@
                             "$ref": "#/components/schemas/bridge_mysql.get"
                         },
                         {
-                            "$ref": "#/components/schemas/bridge_kafka.get"
+                            "$ref": "#/components/schemas/bridge_kafka.get_producer"
+                        },
+                        {
+                            "$ref": "#/components/schemas/bridge_kafka.get_consumer"
                         },
                         {
                             "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
@@ -8076,7 +8471,10 @@
                         "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
-                        "$ref": "#/components/schemas/bridge_kafka.get"
+                        "$ref": "#/components/schemas/bridge_kafka.get_producer"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_kafka.get_consumer"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
@@ -8140,7 +8538,10 @@
                         "$ref": "#/components/schemas/bridge_mysql.get"
                     },
                     {
-                        "$ref": "#/components/schemas/bridge_kafka.get"
+                        "$ref": "#/components/schemas/bridge_kafka.get_producer"
+                    },
+                    {
+                        "$ref": "#/components/schemas/bridge_kafka.get_consumer"
                     },
                     {
                         "$ref": "#/components/schemas/bridge_gcp_pubsub.get"
