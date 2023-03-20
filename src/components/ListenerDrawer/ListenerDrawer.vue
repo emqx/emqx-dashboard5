@@ -34,6 +34,10 @@
         </el-col>
         <el-col :span="12" v-if="!gatewayName">
           <el-form-item label="Zone">
+            <template #label>
+              <label>Zone</label>
+              <InfoTooltip :content="$t('BasicConfig.listenerZoneDesc')" />
+            </template>
             <ZoneSelect v-model="listenerRecord.zone" />
           </el-form-item>
         </el-col>
@@ -42,18 +46,23 @@
             <LimiterSelect v-model="listenerRecord.limiter" />
           </el-form-item>
         </el-col> -->
+        <el-col :span="24"><el-divider /></el-col>
       </el-row>
       <el-row v-if="showWSConfig" :gutter="20">
         <el-col :span="12">
           <el-form-item label="MQTT Path">
+            <template #label>
+              <label>MQTT Path</label>
+              <InfoTooltip :content="$t('BasicConfig.mqttPath')" />
+            </template>
             <el-input v-model="listenerRecord.websocket.mqtt_path" placeholder="/mqtt" />
           </el-form-item>
         </el-col>
+        <el-col :span="24"><el-divider /></el-col>
       </el-row>
       <!-- Listener Config -->
       <!-- FIXME: remove it -->
       <div v-if="!isQUIC">
-        <div class="part-header">{{ tl('listenerSetting') }}</div>
         <el-row :gutter="20">
           <el-col :span="12" v-if="!isUDP && !isQUIC">
             <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
@@ -90,9 +99,6 @@
       </div>
       <!-- TCP Config -->
       <div v-if="showTCPConfig">
-        <div class="part-header">
-          {{ 'TCP ' + tl('configSetting') }}
-        </div>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="ActiveN">
@@ -139,10 +145,8 @@
       </div>
       <!-- UDP -->
       <div v-else-if="showUDPConfig">
-        <div class="part-header">
-          {{ 'UDP ' + tl('configSetting') }}
-        </div>
         <el-row :gutter="20">
+          <el-col :span="24"><el-divider /></el-col>
           <el-col :span="12">
             <el-form-item :label="'ActiveN'">
               <el-input
@@ -187,8 +191,8 @@
       </div>
       <!-- (like)SSL Config -->
       <div v-if="showSSLConfig">
-        <div class="part-header">{{ `${isDTLS ? 'DTLS' : 'SSL'} ${tl('configSetting')}` }}</div>
         <el-row :gutter="20">
+          <el-col v-if="!isQUIC" :span="24"><el-divider /></el-col>
           <el-col :span="24">
             <!-- v-if is for refresh -->
             <TLSEnableConfig
@@ -266,6 +270,7 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import ZoneSelect from '../ZoneSelect.vue'
 // import LimiterSelect from '../LimiterSelect.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
   modelValue: {
