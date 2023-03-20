@@ -1,13 +1,16 @@
+import { useI18n } from 'vue-i18n'
+
 export default function useAuth(): {
   titleMap: {
     [key: string]: string
   }
 } {
+  const { t } = useI18n()
   const titleMap = {
     mysql: 'MySQL',
     postgresql: 'PostgreSQL',
-    http: 'HTTP Server',
-    built_in_database: 'Built-in Database',
+    http: t('Auth.HTTPServer'),
+    built_in_database: t('Auth.builtInDatabase'),
     jwt: 'JWT',
     redis: 'Redis',
     mongodb: 'MongoDB',

@@ -9,7 +9,6 @@
       :rules="rules"
     >
       <div class="config-sub-block">
-        <div class="part-header">{{ $t('Auth.connect') }}</div>
         <el-row :gutter="20">
           <el-col v-if="isRedis" :span="12">
             <el-form-item :label="$t('Auth.redisType')" prop="redis_type" required>
@@ -101,12 +100,13 @@
             <!-- TLS -->
             <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" :is-edit="isEdit" />
           </el-col>
+          <el-col :span="24"><el-divider /></el-col>
         </el-row>
       </div>
 
-      <!-- Connect Config -->
+      <!-- Auth Config -->
       <div class="config-sub-block">
-        <div class="part-header">{{ $t('Auth.connectConfig') }}</div>
+        <div class="part-header"></div>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="Pool Size">
@@ -131,25 +131,6 @@
               />
             </el-form-item>
           </el-col> -->
-        </el-row>
-      </div>
-
-      <!-- Auth Config -->
-      <div class="config-sub-block">
-        <div class="part-header">
-          <span>
-            {{ isAuthn ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
-          </span>
-          <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-            {{ $t('Base.help') }}
-          </el-button>
-        </div>
-        <el-row :gutter="20">
-          <el-collapse-transition>
-            <el-col v-if="needHelp" :span="24">
-              <HelpBlock :auth-type="authType" :database-type="database" />
-            </el-col>
-          </el-collapse-transition>
           <template v-if="isAuthn">
             <el-col v-if="isMongoDB" :span="12">
               <el-form-item :label="$t('Auth.passwordHashField')">
@@ -187,7 +168,15 @@
                 >
                   {{ $t('Auth.setDefault') }}
                 </el-button>
+                <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+                  {{ $t('Base.help') }}
+                </el-button>
               </template>
+              <el-collapse-transition>
+                <div class="help-container" v-if="needHelp">
+                  <HelpBlock :auth-type="authType" :database-type="database" />
+                </div>
+              </el-collapse-transition>
               <div class="viewer-container" ref="monacoContainer">
                 <monaco id="database-query" v-model="databaseConfig.query" lang="sql" />
               </div>
@@ -205,7 +194,15 @@
                 >
                   {{ $t('Auth.setDefault') }}
                 </el-button>
+                <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+                  {{ $t('Base.help') }}
+                </el-button>
               </template>
+              <el-collapse-transition>
+                <div class="help-container" v-if="needHelp">
+                  <HelpBlock :auth-type="authType" :database-type="database" />
+                </div>
+              </el-collapse-transition>
               <div class="viewer-container" ref="monacoContainer">
                 <monaco
                   id="database-filter"
@@ -228,7 +225,15 @@
                 >
                   {{ $t('Auth.setDefault') }}
                 </el-button>
+                <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+                  {{ $t('Base.help') }}
+                </el-button>
               </template>
+              <el-collapse-transition>
+                <div class="help-container" v-if="needHelp">
+                  <HelpBlock :auth-type="authType" :database-type="database" />
+                </div>
+              </el-collapse-transition>
               <div class="viewer-container" ref="monacoContainer">
                 <monaco id="database-cmd" v-model="databaseConfig.cmd" lang="sql" />
               </div>
@@ -249,9 +254,10 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
 import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
+import { DatabaseAndServer } from '@/types/auth'
 import { MongoType, SaltPosition } from '@/types/enum'
 import { ElMessageBox } from 'element-plus'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, PropType } from 'vue'
 import HelpBlock from './HelpBlock.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
@@ -268,7 +274,7 @@ export default defineComponent({
   props: {
     database: {
       required: true,
-      type: String,
+      type: String as PropType<DatabaseAndServer>,
     },
     modelValue: {
       required: true,
@@ -276,7 +282,7 @@ export default defineComponent({
     },
     authType: {
       required: true,
-      type: String,
+      type: String as PropType<'authn' | 'authz'>,
     },
     isEdit: {
       type: Boolean,

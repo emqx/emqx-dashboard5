@@ -17,12 +17,19 @@
     margin-bottom: 16px;
   }
   .help-btn {
-    margin-left: 10px;
+    position: absolute;
+    right: 80px;
+    top: -1px;
+  }
+  .help-container {
+    width: 100%;
+    margin-top: 12px;
   }
   .help-block {
     padding: 24px;
     background: var(--color-bg-split);
     margin-bottom: 22px;
+    line-height: 1.6;
     .help-bock__code {
       background: #1c2a28;
       color: #fff;
