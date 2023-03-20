@@ -8,6 +8,9 @@
         :desc-list="guideDescList"
       ></guide-bar>
       <div v-if="step === 0" class="create-form">
+        <p class="item-description">
+          {{ tl('dataSourceAuthzDesc') }}
+        </p>
         <el-radio-group v-model="type" size="large">
           <el-badge
             v-for="item in typeList"
@@ -80,7 +83,7 @@ import useGuide from '@/hooks/useGuide'
 import { createAuthz } from '@/api/auth'
 import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
 import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import useI18nTl from '@/hooks/useI18nTl'
 import { useRouter } from 'vue-router'
 import { jumpToErrorFormItem } from '@/common/tools'
 import { checkNOmitFromObj } from '@/common/tools.ts'
@@ -96,7 +99,7 @@ export default defineComponent({
     HttpConfig,
   },
   setup() {
-    const { t } = useI18n()
+    const { t, tl } = useI18nTl('Auth')
     const router = useRouter()
 
     const getGuideList = function () {
@@ -111,9 +114,9 @@ export default defineComponent({
     const { factory, create } = useAuthzCreate()
 
     const typeList = ref([
-      { label: 'File', value: 'file', img: require('@/assets/img/file.png') },
+      { label: tl('file'), value: 'file', img: require('@/assets/img/file.png') },
       {
-        label: 'Built-in Database',
+        label: tl('builtInDatabase'),
         value: 'built_in_database',
         img: require('@/assets/img/built_in_database.png'),
       },
@@ -138,7 +141,7 @@ export default defineComponent({
         img: require('@/assets/img/redis.png'),
       },
       {
-        label: 'HTTP Server',
+        label: tl('HTTPServer'),
         value: 'http',
         img: require('@/assets/img/http.png'),
       },
@@ -187,6 +190,7 @@ export default defineComponent({
       type.value = findFirstTypeDidNotAdd()
     })
     return {
+      tl,
       saveLoading,
       configData,
       step,

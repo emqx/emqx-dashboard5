@@ -128,7 +128,7 @@ import {
   updateGatewayUser,
 } from '@/api/gateway'
 import { replaceSpaceForHTML } from '@/common/tools'
-import { downloadByURL } from '@/common/tools.ts'
+import { downloadByURL } from '@/common/tools'
 import commonPagination from '@/components/commonPagination.vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'

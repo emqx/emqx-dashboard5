@@ -97,7 +97,7 @@ export default {
   },
   nodeData: {
     zh: '节点信息',
-    en: 'Node Data',
+    en: 'Node Information',
   },
   nodeStatis: {
     zh: '节点统计',

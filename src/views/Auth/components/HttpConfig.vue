@@ -9,7 +9,6 @@
     >
       <!-- HTTP -->
       <div class="config-sub-block">
-        <div class="create-form-title">HTTP</div>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.method')" required prop="method">
@@ -29,12 +28,16 @@
               <key-and-value-editor v-model="httpConfig.headers" />
             </el-form-item>
           </el-col>
+          <el-col :span="24">
+            <!-- TLS -->
+            <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" :is-edit="isEdit" />
+          </el-col>
+          <el-col :span="24"><el-divider /></el-col>
         </el-row>
       </div>
 
       <!-- Connect Config -->
       <div class="config-sub-block">
-        <div class="create-form-title">{{ $t('Auth.connectConfig') }}</div>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="Pool Size">
@@ -59,27 +62,13 @@
               <time-input-with-unit-select v-model="httpConfig.request_timeout" />
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <!-- TLS -->
-            <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" :is-edit="isEdit" />
-          </el-col>
         </el-row>
       </div>
 
       <!-- Auth Config -->
       <div class="config-sub-block">
-        <div class="create-form-title">
-          {{ authType === 'authn' ? $t('Auth.authnConfig') : $t('Auth.authzConfig') }}
-          <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-            {{ $t('Base.help') }}
-          </el-button>
-        </div>
+        <div class="create-form-title"></div>
         <el-row :gutter="20">
-          <el-collapse-transition>
-            <el-col v-if="needHelp" :span="24">
-              <HelpBlock :auth-type="authType" database-type="http" />
-            </el-col>
-          </el-collapse-transition>
           <el-col :span="24">
             <el-form-item class="label-whole-line" prop="body">
               <template #label>
@@ -94,7 +83,15 @@
                 <el-button size="small" @click="setDefaultContent" class="button-in-label-line">
                   {{ $t('Auth.setDefault') }}
                 </el-button>
+                <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+                  {{ $t('Base.help') }}
+                </el-button>
               </template>
+              <el-collapse-transition>
+                <div class="help-container" v-if="needHelp">
+                  <HelpBlock :auth-type="authType" database-type="http" />
+                </div>
+              </el-collapse-transition>
               <div class="viewer-container" ref="monacoContainer">
                 <monaco id="acl-file-editor" v-model="httpConfig.body" lang="json" />
               </div>

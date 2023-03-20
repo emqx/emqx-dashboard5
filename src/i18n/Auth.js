@@ -67,6 +67,10 @@ export default {
     zh: '选择存储认证数据的数据库或提供认证数据功能的 HTTP 服务器',
     en: 'Select the database where the authentication data is stored or the HTTP server that provides the authentication data function',
   },
+  dataSourceAuthzDesc: {
+    zh: '选择存储权限数据的数据库或提供认证数据功能的 HTTP 服务器',
+    en: 'Select the database where the authorization data is stored or the HTTP server that provides the authorization data function',
+  },
   dataSourceScramDesc: {
     zh: '选择存储认证数据的数据库',
     en: 'Select the database where the authentication data is stored',
@@ -79,17 +83,9 @@ export default {
     zh: 'JWT 认证无需选择数据源，请继续下一步配置',
     en: 'JWT authentication does not require a backend, continue to the next step',
   },
-  connect: {
-    zh: '连接',
-    en: 'Connect',
-  },
   TLSCerts: {
     zh: 'TLS 证书信息',
     en: 'TLS Certification',
-  },
-  connectConfig: {
-    zh: '连接配置',
-    en: 'Connection Configuration',
   },
   reconnect: {
     zh: '自动重连',
@@ -295,9 +291,21 @@ export default {
     zh: 'JWKS 刷新间隔',
     en: 'JWKS Refresh Interval',
   },
+  builtInDatabase: {
+    zh: '内置数据库',
+    en: 'Built-in Database',
+  },
   builtInDatabaseDesc: {
-    zh: 'Built-in database 授权无需配置参数，请点击创建按钮完成操作',
+    zh: '内置数据库授权无需配置参数，请点击创建按钮完成操作',
     en: 'Built-in database authorization does not require configuration parameters, please click the Create button to complete the operation',
+  },
+  HTTPServer: {
+    zh: 'HTTP 服务',
+    en: 'HTTP Server',
+  },
+  file: {
+    zh: '文件',
+    en: 'File',
   },
   permissionCount: {
     zh: '权限条数',

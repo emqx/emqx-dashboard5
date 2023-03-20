@@ -83,3 +83,7 @@ export interface Banned {
   reason: string
   until: string
 }
+
+export type DatabaseAndServer = 'mysql' | 'postgresql' | 'mongodb' | 'redis' | 'http'
+
+export default {}
