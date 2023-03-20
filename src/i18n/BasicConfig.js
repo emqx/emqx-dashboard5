@@ -27,33 +27,13 @@ export default {
     zh: '默认',
     en: 'Default',
   },
-  newZone: {
-    zh: '新建 Zone',
-    en: 'New Zone',
+  listenerZoneDesc: {
+    zh: '监听器所属的配置组，一个 Zone 定义了一组配置项 (比如最大连接数等)，Listener 可以通过该配置项指定使用某个 Zone，以使用该 Zone 下的所有配置。多个 Listener 可以共享同一个 Zone',
+    en: 'The configuration group to which the listener belongs. A Zone defines a set of configuration items (such as the maximum number of connections), and a Listener can specify a Zone to use all the configurations in the Zone. Multiple Listeners can share the same Zone.',
   },
-  zoneName: {
-    zh: 'Zone 名称',
-    en: 'Zone Name',
-  },
-  duplicateZone: {
-    zh: '复制 Zone',
-    en: 'Duplicate Zone',
-  },
-  zoneNameExist: {
-    zh: 'Zone 名称已存在',
-    en: 'Zone name already exists',
-  },
-  zoneNameRequired: {
-    zh: '请输入 Zone 名称',
-    en: 'Zone name is required',
-  },
-  invalidZoneName: {
-    zh: '不合法的 Zone 名称',
-    en: 'Invalid Zone name',
-  },
-  zoneTip: {
-    zh: '以下配置可在 Zone 内重写和继承使用',
-    en: 'The following configuration can be overridden and extended for use within the Zone',
+  mqttPath: {
+    zh: 'WebSocket 连接的路径，例如 /mqtt，作用是指定 WebSocket 连接的路径，以便在服务器上找到正确的 WebSocket 端点',
+    en: 'The path of the WebSocket connection, such as /mqtt, is used to specify the path of the WebSocket connection so that the correct WebSocket endpoint can be found on the server.',
   },
   confirmRemove: {
     zh: '此操作将移除 {name}，是否继续？',
