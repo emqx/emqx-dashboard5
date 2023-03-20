@@ -5,7 +5,7 @@
     </div>
     <template v-if="helpCode">
       <code-view :lang="codeLang" :code="helpCode" :show-copy-btn="false" />
-      <el-button ref="btnCopyHelp" @click="copyText(helpCode)">
+      <el-button ref="btnCopyHelp" @click="copyText(helpCode)" size="small">
         {{ $t('Base.copy') }}
       </el-button>
     </template>

@@ -49,9 +49,6 @@
           <p class="item-description">
             {{ mechanism === 'scram' ? $t('Auth.dataSourceScramDesc') : $t('Auth.dataSourceDesc') }}
           </p>
-          <div class="create-form-title">
-            {{ $t('Auth.database') }}
-          </div>
           <el-radio-group
             v-if="hasDatabaseToChoose"
             v-model="backend"
@@ -76,15 +73,7 @@
                 </el-radio>
               </el-badge>
             </template>
-          </el-radio-group>
-          <p class="no-database-placeholder" v-else>
-            {{ tl('noDatabasePlaceholder') }}
-          </p>
-          <template v-if="others.length !== 0">
-            <div class="create-form-title">
-              {{ $t('Base.server') }}
-            </div>
-            <el-radio-group v-model="backend" size="large">
+            <template v-if="others.length !== 0">
               <el-badge
                 v-for="item in others"
                 :key="item.value"
@@ -103,7 +92,13 @@
                   <span>{{ item.label }}</span>
                 </el-radio>
               </el-badge>
-            </el-radio-group>
+            </template>
+          </el-radio-group>
+          <p class="no-database-placeholder" v-else>
+            {{ tl('noDatabasePlaceholder') }}
+          </p>
+          <template v-if="others.length !== 0">
+            <el-radio-group v-model="backend" size="large"> </el-radio-group>
           </template>
         </template>
         <p v-else class="item-description">
@@ -129,7 +124,7 @@
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
             v-model="configData"
             ref="formCom"
-            :database="backend"
+            :database="backend as DatabaseAndServerDOM"
             auth-type="authn"
           />
           <built-in-config
@@ -190,6 +185,7 @@ import { ElMessage as M } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import { checkNOmitFromObj, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import { DatabaseAndServer } from '@/types/auth'
 import { AuthnMechanismType } from '@/types/enum'
 import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 import useAuth from '@/hooks/Auth/useAuth'
@@ -199,6 +195,7 @@ interface PresetData {
   subtype: string
   data: Record<string, any>
 }
+type DatabaseAndServerDOM = DatabaseAndServer
 
 const props = defineProps({
   gateway: {
@@ -233,7 +230,7 @@ const props = defineProps({
 const { tl, t } = useI18nTl('Auth')
 const router = useRouter()
 const mechanism = ref('password_based')
-const backend = ref('')
+const backend = ref<DatabaseAndServer | '' | 'built_in_database'>('')
 const databases = ref<Record<string, any>[]>([])
 const others = ref<Record<string, any>[]>([])
 const isWork = ref(false)
@@ -244,16 +241,16 @@ const formCom = ref()
 const { authnMechanismTypeList } = useAuthnMechanismType()
 const supportBackendMap: any = {
   password_based: {
-    built_in_database: 'Built-in Database',
+    built_in_database: tl('builtInDatabase'),
     mysql: 'MySQL',
     mongodb: 'MongoDB',
     postgresql: 'PostgreSQL',
-    http: 'HTTP Server',
+    http: tl('HTTPServer'),
     redis: 'Redis',
   },
   jwt: {},
   scram: {
-    built_in_database: 'Built-in Database',
+    built_in_database: tl('builtInDatabase'),
   },
 }
 const saveLoading = ref(false)
