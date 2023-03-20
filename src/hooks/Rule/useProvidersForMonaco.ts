@@ -2,13 +2,21 @@ import { RULE_INPUT_EVENT_PREFIX } from '@/common/constants'
 import { RuleEvent } from '@/types/rule'
 import * as monaco from 'monaco-editor'
 import { Ref, ref } from 'vue'
+import useI18nTl from '../useI18nTl'
 import useRuleSourceEvents from './bridge/useRuleSourceEvents'
+import keysInRule from './KeysInRule.json'
+import { camelCase } from 'lodash'
+
+const keysWithoutDesc = ['CASE', 'WHEN', 'ELSE', 'THEN', 'END', 'as']
+
+const { syntaxKeys, allFieldsCanUse, builtInSQLFuncs } = keysInRule
 
 interface EventDepItem {
   label: string
-  kind: monaco.languages.CompletionItemKind.Function
-  documentation: string
+  kind: monaco.languages.CompletionItemKind
+  documentation?: string | monaco.IMarkdownString
   insertText: string
+  insertTextRules?: monaco.languages.CompletionItemInsertTextRule
 }
 
 export default (): {
@@ -16,6 +24,7 @@ export default (): {
   hoverProvider: Ref<monaco.languages.HoverProvider | undefined>
   setEventList: (events: Array<RuleEvent>) => void
 } => {
+  const { tl } = useI18nTl('RuleSyntax')
   const completionProvider: Ref<undefined | monaco.languages.CompletionItemProvider> =
     ref(undefined)
   const hoverProvider: Ref<undefined | monaco.languages.HoverProvider> = ref(undefined)
@@ -26,6 +35,51 @@ export default (): {
   const { eventDoNotNeedShow, isMsgPubEvent, getEventLabel, getEventDesc } = useRuleSourceEvents()
 
   const isInEventList = (eventStr: string) => eventList.some(({ event }) => event === eventStr)
+
+  const syntaxKeyDependencyProposals = syntaxKeys.map((key) => {
+    const ret: EventDepItem = {
+      label: key,
+      kind: monaco.languages.CompletionItemKind.Keyword,
+      insertText: key,
+    }
+    if (!keysWithoutDesc.includes(key)) {
+      ret.documentation = tl(`${key.toLowerCase()}Desc`)
+    }
+    return ret
+  })
+
+  const fieldsDependencyProposals = allFieldsCanUse.map((field) => ({
+    label: field,
+    kind: monaco.languages.CompletionItemKind.Field,
+    insertText: field,
+  }))
+
+  const createFuncDoc = (funcName: string) => ({
+    value: `<b>${tl(`${camelCase(funcName)}Desc`)}</b><br /><br />${tl('parameter')}<br />${tl(
+      `${camelCase(funcName)}Params`,
+    )}<br /><br />${tl('returned')}<br />${tl(`${camelCase(funcName)}Returns`)}`,
+    supportHtml: true,
+  })
+
+  /**
+   * To confirm whether the word under the mouse cursor is a function
+   */
+  const funcArr: Array<string> = []
+
+  const builtInFuncsDependencyProposals = (
+    Object.keys(builtInSQLFuncs) as Array<keyof typeof builtInSQLFuncs>
+  ).reduce((arr: Array<EventDepItem>, currentType) => {
+    const funArr = builtInSQLFuncs[currentType]
+    funcArr.push(...funArr)
+    const currentDep = funArr.map((funcName: string) => ({
+      label: funcName,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: createFuncDoc(funcName),
+      insertText: `${funcName}(\${1})`,
+      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+    }))
+    return [...arr, ...currentDep] as Array<EventDepItem>
+  }, [])
 
   const getEventForHover = (
     content: monaco.editor.IWordAtPosition,
@@ -72,6 +126,16 @@ export default (): {
     }, [])
   }
 
+  const generateSuggestions = (
+    dependencyProposals: Array<EventDepItem>,
+    range: {
+      startLineNumber: number
+      endLineNumber: number
+      startColumn: number
+      endColumn: number
+    },
+  ) => dependencyProposals.map((item) => ({ ...item, range }))
+
   const createProviders = () => {
     completionProvider.value = {
       provideCompletionItems: function (
@@ -85,7 +149,10 @@ export default (): {
           startColumn: word.startColumn,
           endColumn: word.endColumn,
         }
-        const suggestions = eventDependencyProposals.map((item) => ({ ...item, range }))
+        const suggestions = generateSuggestions(eventDependencyProposals, range)
+          .concat(generateSuggestions(syntaxKeyDependencyProposals, range))
+          .concat(generateSuggestions(fieldsDependencyProposals, range))
+          .concat(generateSuggestions(builtInFuncsDependencyProposals, range))
         return { suggestions }
       },
     }
@@ -96,16 +163,22 @@ export default (): {
         if (!content || !lineContent) {
           return
         }
+        /* IS EVENT */
         const eventStr = getEventForHover(content, lineContent, model, position)
-        if (!eventStr) {
-          return
+        if (eventStr) {
+          const event = eventList.find(({ event }) => event === eventStr) as RuleEvent
+          return {
+            contents: [
+              { supportHtml: true, value: `<b>${getEventLabel(event.title)}</b>` },
+              { value: getEventDesc(event.event) },
+            ],
+          }
         }
-        const event = eventList.find(({ event }) => event === eventStr) as RuleEvent
-        return {
-          contents: [
-            { supportHtml: true, value: `<b>${getEventLabel(event.title)}</b>` },
-            { value: getEventDesc(event.event) },
-          ],
+        const { word } = content
+        const func = builtInFuncsDependencyProposals.find(({ label }) => label === word)
+        /* IS FUNC */
+        if (func) {
+          return { contents: [func.documentation as monaco.IMarkdownString] }
         }
       },
     }
