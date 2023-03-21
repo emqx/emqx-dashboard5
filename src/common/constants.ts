@@ -198,10 +198,12 @@ export const ADMIN_USERNAMES = ['admin', 'root', 'administrator']
 const { VUE_APP_VERSION } = process.env
 export const IS_ENTERPRISE = VUE_APP_VERSION === 'enterprise'
 
+export const DEFAULT_KAFKA_TYPE = BridgeType.KafkaProducer
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.Webhook,
   BridgeType.MQTT,
   BridgeType.InfluxDB,
+  DEFAULT_KAFKA_TYPE,
 ]
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
