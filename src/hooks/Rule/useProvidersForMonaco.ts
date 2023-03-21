@@ -1,5 +1,5 @@
-import { RULE_INPUT_EVENT_PREFIX } from '@/common/constants'
-import { RuleEvent } from '@/types/rule'
+import { RULE_INPUT_EVENT_PREFIX, RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
+import { BridgeItem, RuleEvent } from '@/types/rule'
 import * as monaco from 'monaco-editor'
 import { Ref, ref } from 'vue'
 import useI18nTl from '../useI18nTl'
@@ -9,7 +9,7 @@ import { camelCase } from 'lodash'
 
 const keysWithoutDesc = ['CASE', 'WHEN', 'ELSE', 'THEN', 'END', 'as']
 
-const { syntaxKeys, allFieldsCanUse, builtInSQLFuncs } = keysInRule
+const { syntaxKeys, allFieldsCanUse, builtInSQLFuncs, jqFunc } = keysInRule
 
 interface EventDepItem {
   label: string
@@ -22,7 +22,13 @@ interface EventDepItem {
 export default (): {
   completionProvider: Ref<monaco.languages.CompletionItemProvider | undefined>
   hoverProvider: Ref<monaco.languages.HoverProvider | undefined>
-  setEventList: (events: Array<RuleEvent>) => void
+  setExtDepData: ({
+    events,
+    bridges,
+  }: {
+    events: Array<RuleEvent>
+    bridges: Array<BridgeItem>
+  }) => void
 } => {
   const { tl } = useI18nTl('RuleSyntax')
   const completionProvider: Ref<undefined | monaco.languages.CompletionItemProvider> =
@@ -31,6 +37,9 @@ export default (): {
 
   let eventList: Array<RuleEvent> = []
   let eventDependencyProposals: Array<EventDepItem> = []
+
+  let bridgeList: Array<string> = []
+  let bridgeDependencyProposals: Array<EventDepItem> = []
 
   const { eventDoNotNeedShow, isMsgPubEvent, getEventLabel, getEventDesc } = useRuleSourceEvents()
 
@@ -68,18 +77,28 @@ export default (): {
 
   const builtInFuncsDependencyProposals = (
     Object.keys(builtInSQLFuncs) as Array<keyof typeof builtInSQLFuncs>
-  ).reduce((arr: Array<EventDepItem>, currentType) => {
-    const funArr = builtInSQLFuncs[currentType]
-    funcArr.push(...funArr)
-    const currentDep = funArr.map((funcName: string) => ({
-      label: funcName,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: createFuncDoc(funcName),
-      insertText: `${funcName}(\${1})`,
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-    }))
-    return [...arr, ...currentDep] as Array<EventDepItem>
-  }, [])
+  )
+    .reduce((arr: Array<EventDepItem>, currentType) => {
+      const funArr = builtInSQLFuncs[currentType]
+      funcArr.push(...funArr)
+      const currentDep = funArr.map((funcName: string) => ({
+        label: funcName,
+        kind: monaco.languages.CompletionItemKind.Function,
+        documentation: createFuncDoc(funcName),
+        insertText: `${funcName}(\${1})`,
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+      }))
+      return [...arr, ...currentDep] as Array<EventDepItem>
+    }, [])
+    .concat(
+      jqFunc.map((func) => ({
+        label: func,
+        kind: monaco.languages.CompletionItemKind.Function,
+        documentation: createFuncDoc(func),
+        insertText: `${func}(\${1})`,
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+      })),
+    )
 
   const getEventForHover = (
     content: monaco.editor.IWordAtPosition,
@@ -112,7 +131,7 @@ export default (): {
     value: `<b>${getEventLabel(event.title)}</b><br />${getEventDesc(event.event)}`,
   })
 
-  function createEventDependencyProposals() {
+  const createEventDependencyProposals = () => {
     eventDependencyProposals = eventList.reduce((arr: Array<EventDepItem>, item: RuleEvent) => {
       return [
         ...arr,
@@ -124,6 +143,17 @@ export default (): {
         },
       ] as Array<EventDepItem>
     }, [])
+  }
+
+  const createBridgeDependencyProposals = () => {
+    bridgeDependencyProposals = bridgeList.map((id) => {
+      const bridgeStr = `"${RULE_INPUT_BRIDGE_TYPE_PREFIX}${id}"`
+      return {
+        label: bridgeStr,
+        kind: monaco.languages.CompletionItemKind.Method,
+        insertText: bridgeStr,
+      }
+    })
   }
 
   const generateSuggestions = (
@@ -150,6 +180,7 @@ export default (): {
           endColumn: word.endColumn,
         }
         const suggestions = generateSuggestions(eventDependencyProposals, range)
+          .concat(generateSuggestions(bridgeDependencyProposals, range))
           .concat(generateSuggestions(syntaxKeyDependencyProposals, range))
           .concat(generateSuggestions(fieldsDependencyProposals, range))
           .concat(generateSuggestions(builtInFuncsDependencyProposals, range))
@@ -184,16 +215,25 @@ export default (): {
     }
   }
 
-  const setEventList = (events: Array<RuleEvent>) => {
+  const setExtDepData = ({
+    events,
+    bridges,
+  }: {
+    events: Array<RuleEvent>
+    bridges: Array<BridgeItem>
+  }) => {
     eventList = events.filter(
       ({ event }) => !(eventDoNotNeedShow.includes(event) || isMsgPubEvent(event)),
     )
+    bridgeList = bridges.map(({ id }) => id)
     createEventDependencyProposals()
+    createBridgeDependencyProposals()
     createProviders()
   }
+
   return {
     completionProvider,
     hoverProvider,
-    setEventList,
+    setExtDepData,
   }
 }

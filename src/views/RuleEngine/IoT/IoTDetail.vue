@@ -23,7 +23,7 @@
         </div>
       </el-tab-pane>
       <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>
-        <el-card class="detail-card" v-loading="infoLoading">
+        <el-card class="detail-card overview-visible" v-loading="infoLoading">
           <iotform
             ref="formCom"
             v-model="ruleInfo"

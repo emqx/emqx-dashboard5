@@ -189,5 +189,8 @@
       "format_date",
       "date_to_unix_ts"
     ]
-  }
+  },
+  "jqFunc": [
+    "jq"
+  ]
 }
