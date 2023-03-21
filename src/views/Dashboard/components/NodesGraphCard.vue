@@ -10,8 +10,13 @@
       </div>
       <div class="node-detail">
         <div class="node-info" v-if="currentInfo">
-          <div class="node-title">{{ tl('nodeData') }}</div>
-          <div>
+          <div class="node-card-header">
+            <div class="node-title">{{ tl('nodeData') }}</div>
+            <a class="nodes-link" href="javascript:;" @click="$router.push('nodes')">
+              {{ tl('viewNodes') }}<el-icon><Right /></el-icon>
+            </a>
+          </div>
+          <div class="node-card-body">
             <el-row :gutter="26">
               <el-col :span="14">
                 <div class="node-item">
@@ -111,6 +116,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
   name: 'NodesGraph',
@@ -125,6 +131,7 @@ import useDurationStr from '@/hooks/useDurationStr'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
 import { computed, ref, Ref } from 'vue'
+import { Right } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
 
@@ -181,9 +188,7 @@ const getNodeInfoByName = (nodeName: string) => {
   return { node, stats: statsItem } as CurrentInfo
 }
 
-const tl = function (key: string, collection = 'Dashboard') {
-  return t(collection + '.' + key)
-}
+const { tl } = useI18nTl('Dashboard')
 
 let calcMemoryPercentage = computed(() => {
   return calcPercentage(
@@ -269,6 +274,17 @@ syncPolling(loadData, POLLING_INTERVAL)
   width: 55%;
   background: var(--color-bg-split);
   padding: 26px 26px 8px;
+  .node-card-header {
+    display: flex;
+    justify-content: space-between;
+    .nodes-link {
+      .el-icon {
+        margin-left: 6px;
+        position: relative;
+        top: 2px;
+      }
+    }
+  }
   .node-title {
     font-size: 16px;
     margin-bottom: 20px;

@@ -23,12 +23,12 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column min-width="100" prop="uptime" :label="tl('uptime')">
+      <el-table-column prop="uptime" :label="tl('uptime')">
         <template #default="{ row }">
           {{ transMsNumToSimpleStr(row.uptime) }}
         </template>
       </el-table-column>
-      <el-table-column width="120" prop="version" :label="tl('version')"> </el-table-column>
+      <el-table-column prop="version" :label="tl('version')"> </el-table-column>
       <el-table-column :label="`Erlang ${tl('process')}`">
         <template #default="{ row }">
           <el-tooltip

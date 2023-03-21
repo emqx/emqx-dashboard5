@@ -310,7 +310,7 @@ onMounted(() => {
     .desc {
       display: block;
       margin-top: 4px;
-      color: #bcbcbc;
+      color: var(--color-text-secondary);
     }
   }
 }
