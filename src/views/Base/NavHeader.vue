@@ -173,17 +173,17 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .nav-header {
+  box-shadow: 0px 2px 4px #888ebf33;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 60px;
   padding: 0 24px;
   background-color: var(--color-bg-primary);
-
   left: 201px;
   z-index: 100;
   transition: all 0.3s;
-  border-bottom: 1px solid var(--color-border-menu);
+  border-bottom: 1px solid var(--color-border-card);
   .user-avatar {
     width: 21px;
     height: 21px;
@@ -222,7 +222,7 @@ export default defineComponent({
 .el-button.go-link {
   background-color: var(--color-bg-primary);
   color: var(--color-title-primary);
-  border: 1px solid var(--color-title-primary);
+  border: 1px solid var(--color-border-primary);
   margin-right: 12px;
   font-weight: normal;
   .el-icon {

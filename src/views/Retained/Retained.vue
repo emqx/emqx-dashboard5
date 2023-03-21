@@ -16,7 +16,7 @@
         </el-button>
       </el-tooltip>
     </div>
-    <el-table class="shadow-none" :data="tbData" v-loading="tbLoading" row-key="topic">
+    <el-table :data="tbData" v-loading="tbLoading" row-key="topic">
       <el-table-column
         :label="$t('Base.topic')"
         prop="topic"

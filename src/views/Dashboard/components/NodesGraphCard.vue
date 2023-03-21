@@ -266,7 +266,7 @@ syncPolling(loadData, POLLING_INTERVAL)
 }
 
 .node-detail {
-  width: 66.66%;
+  width: 55%;
   background: var(--color-bg-split);
   padding: 26px 26px 8px;
   .node-title {
