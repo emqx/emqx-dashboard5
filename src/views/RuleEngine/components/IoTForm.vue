@@ -210,7 +210,7 @@ const formRules = {
 
 const { docMap } = useDocLink()
 
-const { completionProvider, hoverProvider, setEventList } = useProvidersForMonaco()
+const { completionProvider, hoverProvider, setExtDepData } = useProvidersForMonaco()
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
@@ -361,7 +361,6 @@ const handleTestLoadng = (val: boolean) => {
 const loadRuleEvents = async () => {
   try {
     ruleEventsList.value = await getRuleEvents()
-    setEventList(ruleEventsList.value)
   } catch (error) {
     console.error(error)
   }
@@ -412,6 +411,7 @@ onMounted(async () => {
   loadIngressBridgeList()
   setRuleValue()
   await loadRuleEvents()
+  setExtDepData({ events: ruleEventsList.value, bridges: ingressBridgeList.value })
   handleBridgeDataFromQuery()
 })
 
