@@ -374,7 +374,7 @@ onActivated(async () => {
 .output-content {
   margin-top: 16px;
   padding-top: 20px;
-  border-top: 1px solid var(--color-border-menu);
+  border-top: 1px solid var(--color-border-primary);
 }
 .payload-desc {
   color: var(--color-text-secondary);
