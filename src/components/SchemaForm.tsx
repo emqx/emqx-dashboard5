@@ -139,7 +139,6 @@ const SchemaForm = defineComponent({
 
     const { initRecordByComponents } = useSchemaRecord()
 
-    let preComponent: null | Properties = null
     let formEle: any = null
 
     const formCom = ref()
@@ -785,10 +784,6 @@ const SchemaForm = defineComponent({
       return setComponents(_properties)
     }
     const renderSchemaForm = (properties: Properties) => {
-      if (_.isEqual(properties, preComponent)) {
-        return formEle
-      }
-      preComponent = _.cloneDeep(properties)
       if (Object.keys(properties).length === 0) {
         // Initialize with an empty object, do not modify the loading variable at this point.
         formEle = null
@@ -813,7 +808,6 @@ const SchemaForm = defineComponent({
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
       }
-      // TODO:
       handleComponentsData()
       // window.setTimeout(() => {
       //   formLoading.value = false
