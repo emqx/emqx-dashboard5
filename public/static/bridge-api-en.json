@@ -4129,7 +4129,8 @@
                         "type": "duration"
                     },
                     "heartbeat_frequency_ms": {
-                        "description": "Controls when the driver checks the state of the MongoDB deployment. Specify the interval between checks, counted from the end of the previous check until the beginning of the next one.",
+                        "default": "200s",
+                        "description": "Controls when the driver checks the state of the MongoDB deployment. Specify the interval between checks, counted from the end of the previous check until the beginning of the next one. If the number of connections is increased (which will happen, for example, if you increase the pool size), you may need to increase this period as well to avoid creating too many log entries in the MongoDB log file.",
                         "label": "Heartbeat period",
                         "type": "duration"
                     },

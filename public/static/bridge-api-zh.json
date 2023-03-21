@@ -4129,7 +4129,8 @@
                         "type": "duration"
                     },
                     "heartbeat_frequency_ms": {
-                        "description": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。",
+                        "default": "200s",
+                        "description": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。如果连接数增加（例如，如果你增加池子的大小，就会发生这种情况），你可能也需要增加这个周期，以避免在MongoDB日志文件中创建太多的日志条目。",
                         "label": "心跳期",
                         "type": "duration"
                     },
