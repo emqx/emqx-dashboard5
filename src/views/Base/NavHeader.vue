@@ -173,14 +173,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .nav-header {
-  box-shadow: 0px 2px 4px #888ebf33;
+  box-shadow: 0px 2px 4px var(--color-shadow-primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 60px;
   padding: 0 24px;
   background-color: var(--color-bg-primary);
-  left: 201px;
+  left: 200px;
   z-index: 100;
   transition: all 0.3s;
   border-bottom: 1px solid var(--color-border-card);
