@@ -157,18 +157,20 @@ export default defineComponent({
   left: 0;
   z-index: 100;
   overflow-x: hidden;
-  border-right: 1px solid var(--color-border-menu);
-  background-color: var(--color-bg-primary);
+  background-color: #1f303c;
   height: 100vh;
   .footer-menu {
+    cursor: pointer;
     z-index: 100;
     position: fixed;
     box-sizing: border-box;
     bottom: 0;
-    height: 48px;
-    border-top: 1px solid var(--color-border-menu);
-    background-color: var(--color-bg-primary);
+    height: 36px;
+    background-color: #1f303c;
     transition: all 0.3s;
+    &:hover {
+      background-color: #2f4656;
+    }
     .footer-menu-item {
       display: flex;
       align-items: center;
@@ -176,7 +178,7 @@ export default defineComponent({
       height: 100%;
       transition: all 0.3s;
       .iconfont {
-        color: var(--color-text-secondary);
+        color: #fff;
       }
       &:hover {
         .iconfont {
@@ -201,8 +203,7 @@ export default defineComponent({
 
 .logo {
   position: fixed;
-  width: 199px;
-  background-color: var(--color-bg-primary);
+  background-color: #071927;
   height: 60px;
   line-height: 60px;
   overflow: hidden;
@@ -212,18 +213,18 @@ export default defineComponent({
   transition: all 0.3s;
   display: flex;
   align-items: center;
-  padding-left: 24px;
+  padding-left: 20px;
   img {
     max-width: initial;
-    width: 86px;
-    height: 30px;
+    max-height: 100%;
+    height: 36px;
     transition: all 0.3s;
   }
 }
 
 .logo.logo-colap {
-  width: 79px;
-  padding-left: 27px;
+  width: 60px;
+  padding-left: 21px;
   img {
     width: 200px;
     height: 43px;

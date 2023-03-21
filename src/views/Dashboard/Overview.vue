@@ -2,7 +2,7 @@
   <div class="overview app-wrapper">
     <el-row class="block" :gutter="26">
       <el-col :span="12">
-        <el-card class="rate-card top-primary">
+        <el-card class="rate-card">
           <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
             <el-radio-button label="byte" />
             <el-radio-button label="msg"> {{ $t('Dashboard.messageNumber') }} </el-radio-button>
@@ -72,7 +72,7 @@
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card class="main-info-card top-primary">
+        <el-card class="main-info-card">
           <el-row :gutter="40">
             <el-col :span="8" class="main-info-item">
               <router-link :to="{ name: 'connections' }">
