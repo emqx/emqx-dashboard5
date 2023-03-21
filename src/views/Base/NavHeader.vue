@@ -130,7 +130,7 @@ export default defineComponent({
     }
     const { docMap } = useDocLink()
     const downloadEnterprise = () => {
-      const windowUrl = window.open(docMap.enterprise)
+      const windowUrl = window.open(docMap.upgrade)
       if (windowUrl) {
         windowUrl.opener = null
       }

@@ -7,7 +7,7 @@ type DocKey =
   | 'ruleEvent'
   | 'bridgeAsFrom'
   | 'ruleEventMsgPub'
-  | 'enterprise'
+  | 'upgrade'
   | 'dashboard'
   | 'mqttStudy'
   | 'mqttV5'
@@ -45,8 +45,8 @@ const QUERY_FOR_GO_CLOUD = createQueryStr({
   // TODO: confirm this link
   continue: 'https%3A%2F%2Fcloud-intl.emqx.com%2Fconsole%2F',
 })
-const QUERY_FOR_GO_ENTERPRISE = createQueryStr({
-  utm_campaign: 'dashboard-header-upgrade-to-enterprise',
+const QUERY_FOR_GO_UPGRADE = createQueryStr({
+  utm_campaign: 'dashboard-header-to-upgrade',
 })
 const QUERY_FOR_LICENSE = createQueryStr({ version: 5, utm_campaign: 'dashboard-to-license' })
 
@@ -66,7 +66,7 @@ export default (lang: string): DocMap => {
     ruleEventMsgPub: `https://docs.emqx.com/${lang}/enterprise/v5.0/data-integration/rule-sql-events-and-fields.html#${
       lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
     }`,
-    enterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_GO_ENTERPRISE}`,
+    upgrade: `https://www.emqx.com/${lang}/lp/upgrade-emqx/enterprise?${QUERY_FOR_GO_UPGRADE}`,
     blog: `https://www.emqx.com/${lang}/blog/category/emqx?${QUERY_FOR_HELP}`,
     dashboard: `https://docs.emqx.com/${lang}/enterprise/v5.0/dashboard/introduction.html?${QUERY_FOR_HELP}`,
     emqxGettingStarted: `https://docs.emqx.com/${lang}/enterprise/v5.0/getting-started/getting-started.html?${QUERY_FOR_HELP}`,
