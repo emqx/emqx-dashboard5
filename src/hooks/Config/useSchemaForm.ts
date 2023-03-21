@@ -19,6 +19,8 @@ export default function useSchemaForm(
 ): {
   rules: Ref<SchemaRules>
   components: Ref<Properties>
+  schemaLoadPromise: Promise<void>
+  getComponents: (objForGetComponent: { path?: string; ref?: string }) => Properties
   setTypeForProperty: (property: Properties[string]) => Properties[string]
   resetObjForGetComponent: (obj: { path?: string; ref?: string }) => void
 } {
@@ -31,6 +33,7 @@ export default function useSchemaForm(
    * for get component
    */
   let pathOrRefObj = objForGetComponent
+
   const loadSchemaConfig = async () => {
     try {
       const configPath = schemaFilePath
@@ -39,12 +42,13 @@ export default function useSchemaForm(
         schema = res.data
         generateComponents()
       }
+      return Promise.resolve()
     } catch (error) {
       // ignore error
     }
   }
 
-  loadSchemaConfig()
+  const schemaLoadPromise = loadSchemaConfig()
   const components = ref<Properties>({})
 
   const filter = (ref: string) => ref.replace('#/', '').split('/')
@@ -68,7 +72,7 @@ export default function useSchemaForm(
     }
     return property
   }
-  const getComponents = (data: Schema) => {
+  const getComponents = (objForGetComponent: { path?: string; ref?: string }) => {
     let lastLabel = ''
     const transComponents = (component: Component, path?: string): Properties => {
       const res: Properties = {}
@@ -105,7 +109,7 @@ export default function useSchemaForm(
           const { $ref, label } = property
 
           if ($ref) {
-            const component = getComponentByRef(data, $ref)
+            const component = getComponentByRef(schema, $ref)
             property.properties = transComponents(component, property.path)
           } else if (property.properties && property.type === 'object') {
             lastLabel = label
@@ -114,16 +118,22 @@ export default function useSchemaForm(
               type: property.type,
             }
             property.properties = transComponents(component, property.path)
-          } else if (property.type === 'array' && property.items && property.items.oneOf) {
-            property.items.oneOf.forEach((item) => {
-              if (item.$ref) {
-                const component = getComponentByRef(data, item.$ref)
-                item.path = property.path
-                // TODO:maybe useless?
-                item.key = key
-                item.properties = transComponents(component, item.path)
-              }
-            })
+          } else if (property.type === 'array' && property.items) {
+            if (property.items.oneOf) {
+              property.items.oneOf.forEach((item) => {
+                if (item.$ref) {
+                  const component = getComponentByRef(schema, item.$ref)
+                  item.path = property.path
+                  // TODO:maybe useless?
+                  item.key = key
+                  item.properties = transComponents(component, item.path)
+                }
+              })
+            } else if (property.items.$ref) {
+              const component = getComponentByRef(schema, property.items.$ref)
+              property.items.path = property.path
+              property.properties = transComponents(component, property.items.path)
+            }
           }
           if (!label) {
             property.label = lastLabel
@@ -134,10 +144,10 @@ export default function useSchemaForm(
       return res
     }
     let ref = ''
-    if (pathOrRefObj.ref) {
-      ref = pathOrRefObj.ref
-    } else if (pathOrRefObj.path) {
-      const { $ref, type, properties } = data.paths[pathOrRefObj.path].get
+    if (objForGetComponent.ref) {
+      ref = objForGetComponent.ref
+    } else if (objForGetComponent.path) {
+      const { $ref, type, properties } = schema.paths[objForGetComponent.path].get
       if ($ref) {
         ref = $ref
       } else if (type === 'object') {
@@ -147,7 +157,7 @@ export default function useSchemaForm(
         }
       }
     }
-    const component = getComponentByRef(data, ref)
+    const component = getComponentByRef(schema, ref)
     const components = transComponents(component)
     return components
   }
@@ -156,7 +166,7 @@ export default function useSchemaForm(
       // for init
       rules.value = {}
     }
-    components.value = getComponents(schema)
+    components.value = getComponents(pathOrRefObj)
   }
 
   /**
@@ -170,6 +180,8 @@ export default function useSchemaForm(
   return {
     rules,
     components,
+    schemaLoadPromise,
+    getComponents,
     setTypeForProperty,
     resetObjForGetComponent,
   }
