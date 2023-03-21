@@ -203,7 +203,7 @@ export default defineComponent({
 
 .logo {
   position: fixed;
-  background-color: #071927;
+  background-color: var(--color-bg-menu);
   height: 60px;
   line-height: 60px;
   overflow: hidden;
