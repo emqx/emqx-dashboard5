@@ -144,7 +144,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-table :data="subscriptions" max-height="400px">
+      <el-table :data="subscriptions" max-height="400px" class="shadow-none">
         <el-table-column show-overflow-tooltip prop="topic" :label="$t('Base.topic')" />
         <el-table-column prop="qos" label="QoS" sortable />
         <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />

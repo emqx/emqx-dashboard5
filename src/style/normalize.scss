@@ -287,9 +287,15 @@
 }
 
 /* Tabs */
+.el-tabs {
+  .el-tabs__content {
+    overflow: visible;
+  }
+}
 .el-tabs.el-tabs--top:not(.el-tabs--card) {
   & .is-top .el-tabs__nav-wrap::after {
     height: 1px;
+    background-color: var(--color-border-primary);
   }
 }
 .el-tabs.el-tabs--left:not(.el-tabs--card) {
@@ -317,7 +323,7 @@
 /* Tabs Card */
 .el-tabs--card {
   &>.el-tabs__header {
-    border-bottom: 1px solid var(--color-border-normal);
+    border-bottom: 1px solid var(--color-border-card);
     margin-bottom: 0px;
     .el-tabs__nav {
       border: none;
@@ -335,13 +341,10 @@
       .is-focus {
         outline: none;
         border-top: 2px solid var(--color-primary);
-        border-left: 1px solid var(--color-border-normal);
-        border-right: 1px solid var(--color-border-normal);
+        border-left: 1px solid var(--color-border-card);
+        border-right: 1px solid var(--color-border-card);
       }
     }
-  }
-  .el-tabs__content {
-    overflow: visible;
   }
 }
 

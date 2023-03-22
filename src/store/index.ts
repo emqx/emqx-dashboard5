@@ -21,7 +21,7 @@ const getTheme = () => {
 const getSyncOSTheme = () => {
   const syncOsTheme = localStorage.getItem('syncOsTheme') || 'false'
   if (syncOsTheme === 'undefined') {
-    return false
+    return true
   }
   return JSON.parse(syncOsTheme)
 }

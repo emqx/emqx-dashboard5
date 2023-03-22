@@ -224,7 +224,6 @@ export default defineComponent({
   color: var(--color-title-primary);
   border: 1px solid var(--color-border-primary);
   margin-right: 12px;
-  font-weight: normal;
   .el-icon {
     padding-left: 10px;
     width: 24px;

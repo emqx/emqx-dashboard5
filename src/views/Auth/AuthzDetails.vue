@@ -21,7 +21,7 @@
         </el-button>
       </div>
     </div>
-    <el-tabs type="card" class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
+    <el-tabs class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
       <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
         <AuthItemOverview
           :metrics="authMetrics"
