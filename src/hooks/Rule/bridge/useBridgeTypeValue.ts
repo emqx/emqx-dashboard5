@@ -117,10 +117,9 @@ export const useBridgeDirection = (): {
     // FOR MQTT
     if (type === BridgeType.MQTT) {
       const { ingress, egress } = bridge as MQTTBridge
-      if (ingress) {
-        if (egress) {
-          return BridgeDirection.Both
-        }
+      if (ingress && egress) {
+        return BridgeDirection.Both
+      } else if (ingress) {
         return BridgeDirection.Ingress
       }
       return BridgeDirection.Egress
