@@ -21,7 +21,7 @@
                 <template #content> <MarkdownContent :content="tl('roleDesc')" /> </template>
               </InfoTooltip>
             </template>
-            <el-select v-model="role" :disabled="edit">
+            <el-select v-model="role" :disabled="edit" @change="handleRoleChanged">
               <el-option
                 v-for="{ value, label } in roleMap"
                 :key="value"
@@ -39,10 +39,10 @@
         <el-col :span="12">
           <el-form-item prop="bootstrap_hosts">
             <template #label>
-              <span>{{ getPropItem('bootstrap_hosts').label }}</span>
+              <span>{{ getProducerPropItem('bootstrap_hosts').label }}</span>
               <InfoTooltip>
                 <template #content>
-                  <MarkdownContent :content="getPropItem('bootstrap_hosts').description" />
+                  <MarkdownContent :content="getProducerPropItem('bootstrap_hosts').description" />
                 </template>
               </InfoTooltip>
             </template>
@@ -52,8 +52,10 @@
         <el-col :span="12">
           <el-form-item prop="min_metadata_refresh_interval">
             <template #label>
-              <span>{{ getPropItem('min_metadata_refresh_interval').label }}</span>
-              <InfoTooltip :content="getPropItem('min_metadata_refresh_interval').description" />
+              <span>{{ getProducerPropItem('min_metadata_refresh_interval').label }}</span>
+              <InfoTooltip
+                :content="getProducerPropItem('min_metadata_refresh_interval').description"
+              />
             </template>
             <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
           </el-form-item>
@@ -137,8 +139,8 @@
         <el-col :span="12">
           <el-form-item prop="metadata_request_timeout">
             <template #label>
-              <span>{{ getPropItem('metadata_request_timeout').label }}</span>
-              <InfoTooltip :content="getPropItem('metadata_request_timeout').description" />
+              <span>{{ getProducerPropItem('metadata_request_timeout').label }}</span>
+              <InfoTooltip :content="getProducerPropItem('metadata_request_timeout').description" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.metadata_request_timeout" />
           </el-form-item>
@@ -146,12 +148,58 @@
         <el-col :span="12">
           <el-form-item prop="connect_timeout">
             <template #label>
-              <span>{{ tl('connTimeout') }}</span>
-              <InfoTooltip :content="getPropItem('connect_timeout').description" />
+              <span>{{ getProducerPropItem('connect_timeout').label }}</span>
+              <InfoTooltip :content="getProducerPropItem('connect_timeout').description" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
           </el-form-item>
         </el-col>
+        <template v-if="role === Role.Consumer">
+          <el-col :span="12">
+            <el-form-item prop="key_encoding_mode">
+              <template #label>
+                <span>{{ getConsumerPropItem('key_encoding_mode').label }}</span>
+                <InfoTooltip :content="getConsumerPropItem('key_encoding_mode').description" />
+              </template>
+              <el-select v-model="formData.key_encoding_mode">
+                <el-option
+                  v-for="item in getConsumerPropItem('key_encoding_mode').symbols || []"
+                  :key="item"
+                  :value="item"
+                  :label="item"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="value_encoding_mode">
+              <template #label>
+                <span>{{ getConsumerPropItem('value_encoding_mode').label }}</span>
+                <InfoTooltip :content="getConsumerPropItem('value_encoding_mode').description" />
+              </template>
+              <el-select v-model="formData.value_encoding_mode">
+                <el-option
+                  v-for="item in getConsumerPropItem('value_encoding_mode').symbols || []"
+                  :key="item"
+                  :value="item"
+                  :label="item"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item prop="topic_mapping">
+              <template #label>
+                <span>{{ getConsumerPropItem('topic_mapping').label }}</span>
+                <InfoTooltip :content="getConsumerPropItem('topic_mapping').description" />
+              </template>
+              <ObjectArrayEditor
+                v-model="formData.topic_mapping"
+                :properties="consumerComponents?.topic_mapping?.properties"
+              />
+            </el-form-item>
+          </el-col>
+        </template>
         <!-- ssl -->
         <el-col :span="24">
           <CommonTLSConfig v-model="formData.ssl" :is-edit="edit" :content="tl('kafkaSniDesc')" />
@@ -160,8 +208,18 @@
         <el-col :span="24"><el-divider /></el-col>
 
         <!-- producer -->
-        <el-col :span="24" v-if="role === 'producer'">
-          <KafkaProducerKafkaConfig v-model="formData.kafka" />
+        <el-col :span="24" v-if="role === Role.Producer">
+          <KafkaProducerKafkaConfig
+            v-model="formData.kafka"
+            :schema-components="getProducerPropItem('kafka').properties"
+          />
+        </el-col>
+
+        <el-col :span="24" v-else>
+          <KafkaConsumerKafkaConfig
+            v-model="formData.kafka"
+            :schema-components="getConsumerPropItem('kafka').properties"
+          />
         </el-col>
 
         <el-col :span="24"><el-divider /></el-col>
@@ -170,8 +228,8 @@
         <el-col :span="12">
           <el-form-item prop="socket_opts.sndbuf">
             <template #label>
-              <span>{{ getPropItem('socket_opts.sndbuf').label }}</span>
-              <InfoTooltip :content="getPropItem('socket_opts.sndbuf').description" />
+              <span>{{ getProducerPropItem('socket_opts.sndbuf').label }}</span>
+              <InfoTooltip :content="getProducerPropItem('socket_opts.sndbuf').description" />
             </template>
             <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
           </el-form-item>
@@ -179,8 +237,8 @@
         <el-col :span="12">
           <el-form-item prop="socket_opts.recbuf">
             <template #label>
-              <span>{{ getPropItem('socket_opts.recbuf').label }}</span>
-              <InfoTooltip :content="getPropItem('socket_opts.recbuf').description" />
+              <span>{{ getProducerPropItem('socket_opts.recbuf').label }}</span>
+              <InfoTooltip :content="getProducerPropItem('socket_opts.recbuf').description" />
             </template>
             <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
           </el-form-item>
@@ -188,8 +246,8 @@
         <el-col :span="12">
           <el-form-item prop="socket_opts.nodelay">
             <template #label>
-              <span>{{ getPropItem('socket_opts.nodelay').label }}</span>
-              <InfoTooltip :content="getPropItem('socket_opts.nodelay').description" />
+              <span>{{ getProducerPropItem('socket_opts.nodelay').label }}</span>
+              <InfoTooltip :content="getProducerPropItem('socket_opts.nodelay').description" />
             </template>
             <el-switch v-model="formData.socket_opts.nodelay" />
           </el-form-item>
@@ -204,6 +262,7 @@ import { fillEmptyValueToUndefinedField, usefulMemoryUnit } from '@/common/tools
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
+import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
@@ -212,10 +271,13 @@ import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPass
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { BridgeType } from '@/types/enum'
-import { isEqual } from 'lodash'
+import { KafkaType } from '@/types/enum'
+import { OtherBridge } from '@/types/rule'
+import { Properties } from '@/types/schemaForm'
+import { isEqual, pick } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, onMounted, ref, Ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import KafkaConsumerKafkaConfig from './KafkaConsumerKafkaConfig.vue'
 import KafkaProducerKafkaConfig from './KafkaProducerKafkaConfig.vue'
 
 enum AuthType {
@@ -230,9 +292,9 @@ enum BasicAuthEncryptType {
   SHA512 = 'scram_sha_512',
 }
 
-enum StreamDirection {
-  In,
-  Out,
+enum Role {
+  Producer,
+  Consumer,
 }
 
 const props = defineProps({
@@ -251,32 +313,51 @@ const emit = defineEmits(['update:modelValue', 'init'])
 const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
 
-const { components } = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
+const {
+  components: producerComponents,
+  schemaLoadPromise,
+  getComponents,
+} = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
   ref: '#/components/schemas/bridge_kafka.post_producer',
 })
-const { getPropItem } = useGetInfoFromComponents(components)
+const { getPropItem: getProducerPropItem } = useGetInfoFromComponents(producerComponents)
+const consumerComponents: Ref<Properties> = ref({})
+const getConsumerComponents = async () => {
+  await schemaLoadPromise
+  consumerComponents.value = getComponents({
+    ref: '#/components/schemas/bridge_kafka.post_consumer',
+  })
+}
+getConsumerComponents()
+const { getPropItem: getConsumerPropItem } = useGetInfoFromComponents(consumerComponents)
 
-const role = ref<'producer' | 'consumer'>('producer')
+const role = ref<Role>(
+  (props.edit || props.copy) && props.modelValue && props.modelValue.type === KafkaType.Consumer
+    ? Role.Consumer
+    : Role.Producer,
+)
 const roleMap = [
-  {
-    value: 'producer',
-    label: t('Producer'),
-  },
-  // {
-  //   value: 'consumer',
-  //   label: t('Consumer'),
-  // },
+  { value: Role.Producer, label: tl('producer') },
+  { value: Role.Consumer, label: tl('consumer') },
 ]
 const { createSSLForm } = useSSL()
-const createDefaultValue = () => ({
-  type: BridgeType.Kafka,
+const createDefaultCommonPart = () => ({
   name: '',
   bootstrap_hosts: '',
   connect_timeout: '5s',
   min_metadata_refresh_interval: '3s',
   metadata_request_timeout: '5s',
   authentication: 'none',
-  local_topic: '',
+  socket_opts: {
+    sndbuf: '1024KB',
+    recbuf: '1024KB',
+    nodelay: true,
+  },
+  ssl: createSSLForm(),
+})
+const createDefaultProducerValue = () => ({
+  type: KafkaType.Producer,
+  ...createDefaultCommonPart(),
   kafka: {
     topic: '',
     message: {
@@ -297,13 +378,24 @@ const createDefaultValue = () => ({
       memory_overload_protection: false,
     },
   },
-  socket_opts: {
-    sndbuf: '1024KB',
-    recbuf: '1024KB',
-    nodelay: true,
-  },
-  ssl: createSSLForm(),
 })
+
+const createDefaultConsumer = () => ({
+  type: KafkaType.Consumer,
+  ...createDefaultCommonPart(),
+  topic_mapping: [],
+  kafka: {
+    max_batch_bytes: '896KB',
+    max_rejoin_attempts: 5,
+    offset_reset_policy: 'reset_to_latest',
+    offset_commit_interval_seconds: 5,
+  },
+  key_encoding_mode: 'none',
+  value_encoding_mode: 'none',
+})
+
+const getDefaultForm = () =>
+  role.value === Role.Producer ? createDefaultProducerValue() : createDefaultConsumer()
 
 const formCom = ref()
 const { createRequiredRule } = useFormRules()
@@ -311,7 +403,7 @@ const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const formRules = computed(() => {
   const ret = {
     name: createRequiredRule(tl('name')),
-    bootstrap_hosts: createRequiredRule(getPropItem('bootstrap_hosts').label),
+    bootstrap_hosts: createRequiredRule(getProducerPropItem('bootstrap_hosts').label),
     authentication: {
       mechanism: createRequiredRule(tl('mechanism')),
       username: createRequiredRule(tl('username')),
@@ -320,23 +412,34 @@ const formRules = computed(() => {
       kerberos_principal: createRequiredRule(tl('kerberosPrincipal')),
     },
     kafka: { topic: createRequiredRule(tl('kafkaProducerTopic')) },
+    topic_mapping: createRequiredRule(getConsumerPropItem('topic_mapping').label),
   }
   return ret
 })
 
-const formData: Ref<any> = ref(createDefaultValue())
+const formData: Ref<OtherBridge> = ref(getDefaultForm())
 
 const updateParentBridgeData = () => {
   emit('update:modelValue', formData.value)
 }
 
-watch(formData.value, updateParentBridgeData)
+const commonPartKeys = Object.keys(createDefaultCommonPart())
+const handleRoleChanged = () => {
+  if (role.value === Role.Consumer) {
+    formData.value = { ...createDefaultConsumer(), ...pick(formData.value, commonPartKeys) }
+  } else {
+    formData.value = { ...createDefaultProducerValue(), ...pick(formData.value, commonPartKeys) }
+  }
+}
 
-const resetFormDataWhenEdit = () => {
+watch(formData, updateParentBridgeData, { deep: true })
+
+const resetFormDataWhenEdit = async () => {
   if ((props.edit || props.copy) && props.modelValue) {
+    role.value = props.modelValue.type === KafkaType.Producer ? Role.Producer : Role.Consumer
     formData.value = fillEmptyValueToUndefinedField(
       props.modelValue as Record<string, any>,
-      createDefaultValue(),
+      getDefaultForm(),
     )
     emit('init', formData.value)
   }
@@ -387,8 +490,6 @@ const mechanismOptList = [
   { value: BasicAuthEncryptType.SHA512, label: 'SHA512' },
 ]
 
-const activeDirection = ref(StreamDirection.In)
-
 const validate = () => {
   return formCom.value.validate()
 }
@@ -407,9 +508,9 @@ watch(
 )
 
 onMounted(() => {
-  if (!props.edit) {
+  if (!props.edit && !props.copy) {
     updateParentBridgeData()
-  } else if (props.edit && props.modelValue) {
+  } else if ((props.edit || props.copy) && props.modelValue) {
     resetFormDataWhenEdit()
   }
 })

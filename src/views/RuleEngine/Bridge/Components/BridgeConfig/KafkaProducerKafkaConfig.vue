@@ -209,24 +209,22 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
-import { computed, defineEmits, defineProps } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineEmits, defineProps, PropType } from 'vue'
 
 const props = defineProps({
   modelValue: {
+    type: Object as PropType<any>,
+  },
+  schemaComponents: {
     type: Object,
+    default: () => ({}),
   },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const { state } = useStore()
-
-const { components } = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
-  ref: '#/components/schemas/bridge_kafka.producer_kafka_opts',
-})
+const components = computed(() => props.schemaComponents)
 const { getPropItem } = useGetInfoFromComponents(components)
 
 const kafkaConfig = computed({
