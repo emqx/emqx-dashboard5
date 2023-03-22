@@ -1,7 +1,7 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType } from '@/types/enum'
-import { BridgeItem } from '@/types/rule'
+import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeItem, MQTTBridge } from '@/types/rule'
 
 export const useBridgeTypeValue = (): {
   bridgeTypeList: Array<{
@@ -140,5 +140,31 @@ export const useBridgeTypeIcon = (): {
   return {
     getBridgeIconKey,
     getBridgeIcon,
+  }
+}
+
+export const useBridgeDirection = (): {
+  judgeBridgeDirection: (bridge: BridgeItem) => BridgeDirection
+} => {
+  const { getBridgeType } = useBridgeTypeOptions()
+  const judgeBridgeDirection = (bridge: BridgeItem): BridgeDirection => {
+    const { type: rawType } = bridge
+    const type = getBridgeType(rawType)
+    // FOR MQTT
+    if (type === BridgeType.MQTT) {
+      const { ingress, egress } = bridge as MQTTBridge
+      if (ingress && egress) {
+        return BridgeDirection.Both
+      } else if (ingress) {
+        return BridgeDirection.Ingress
+      }
+      return BridgeDirection.Egress
+    }
+
+    return BridgeDirection.Egress
+  }
+
+  return {
+    judgeBridgeDirection,
   }
 }
