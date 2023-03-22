@@ -1,6 +1,6 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType, KafkaType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 
 export const useBridgeTypeValue = (): {
@@ -165,6 +165,9 @@ export const useBridgeDirection = (): {
         return BridgeDirection.Ingress
       }
       return BridgeDirection.Egress
+    }
+    if (type === BridgeType.Kafka) {
+      return rawType === KafkaType.Producer ? BridgeDirection.Egress : BridgeDirection.Ingress
     }
 
     return BridgeDirection.Egress
