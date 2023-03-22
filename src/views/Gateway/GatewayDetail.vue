@@ -92,11 +92,12 @@ export default defineComponent({
   }
   .el-menu--horizontal {
     border-bottom: 0px;
+    padding: 0 12px;
   }
   .el-card.menu-card {
     margin-bottom: 40px;
     .el-card__body {
-      padding: 0px 12px;
+      padding: 0px;
     }
   }
   .el-form {

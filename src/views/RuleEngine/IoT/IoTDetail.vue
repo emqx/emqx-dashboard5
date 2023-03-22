@@ -16,7 +16,7 @@
         </el-button>
       </div>
     </div>
-    <el-tabs type="card" class="detail-tabs" v-model="activeTab">
+    <el-tabs class="detail-tabs" v-model="activeTab">
       <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
         <div v-loading="infoLoading">
           <RuleItemOverview :rule-id="id" />

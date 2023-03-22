@@ -1,16 +1,10 @@
 <template>
   <div class="authz-manager">
-    <el-tabs v-model="type">
-      <el-tab-pane
-        v-for="item in typeList"
-        :key="item.value"
-        :label="item.label"
-        :name="item.value"
-        class="permission-type"
-        border
-      >
-      </el-tab-pane>
-    </el-tabs>
+    <el-radio-group v-model="type">
+      <el-radio-button v-for="item in typeList" :key="item.value" :label="item.value" border>
+        {{ item.label }}
+      </el-radio-button>
+    </el-radio-group>
     <div class="section-searchbar" :gutter="20">
       <div class="searchbar-content">
         <template v-if="type !== 'all'">
