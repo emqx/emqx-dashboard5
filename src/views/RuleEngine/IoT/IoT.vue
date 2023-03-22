@@ -192,6 +192,15 @@ onMounted(() => {
 }
 .input-item {
   height: 26px;
+  max-width: 150px;
+
+  :deep(.el-tag__content) {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+  }
   &:not(:first-child) {
     margin-top: 8px;
   }
