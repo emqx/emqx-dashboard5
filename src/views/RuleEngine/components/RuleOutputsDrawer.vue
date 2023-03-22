@@ -120,8 +120,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'RuleOutputsDrawer',
@@ -129,29 +129,30 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { getBridgeList } from '@/api/ruleengine'
+import { QoSOptions as defaultQoSOptions } from '@/common/constants'
+import { createRandomString } from '@/common/tools'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import Monaco from '@/components/Monaco.vue'
+import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useFormRules from '@/hooks/useFormRules'
+import { BridgeDirection, RuleOutput } from '@/types/enum'
+import { BridgeItem, OutputItemObj } from '@/types/rule'
+import { Plus } from '@element-plus/icons-vue'
 import {
-  defineProps,
   computed,
   defineEmits,
-  WritableComputedRef,
-  watch,
+  defineProps,
+  nextTick,
+  onActivated,
+  PropType,
   ref,
   Ref,
-  onActivated,
-  nextTick,
-  PropType,
+  watch,
+  WritableComputedRef,
 } from 'vue'
-import { getBridgeList } from '@/api/ruleengine'
-import { MQTTBridgeDirection, RuleOutput } from '@/types/enum'
-import { BridgeItem, OutputItemObj } from '@/types/rule'
-import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { useRoute } from 'vue-router'
-import { Plus } from '@element-plus/icons-vue'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
-import useFormRules from '@/hooks/useFormRules'
-import { createRandomString } from '@/common/tools'
-import Monaco from '@/components/Monaco.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import AddBridgeOnRule from './AddBridgeOnRule.vue'
 
 type OutputForm = {
@@ -255,17 +256,13 @@ const setFormDataWhenOpenDialog = async () => {
   formCom.value.clearValidate()
 }
 
+const { judgeBridgeDirection } = useBridgeDirection()
 const loadEgressBridgeList = async () => {
   try {
     bridgeList.value = await getBridgeList()
     egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
-      // without direction configurations
-      // TODO: consider Kafka
-      if (!('ingress' in v) && !('egress' in v)) {
-        return true
-      }
-      // or configured egress
-      return 'egress' in v
+      const direction = judgeBridgeDirection(v)
+      return direction !== BridgeDirection.Ingress
     })
   } catch (error) {
     console.error(error)
