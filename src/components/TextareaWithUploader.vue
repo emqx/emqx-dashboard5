@@ -157,7 +157,6 @@ const handleError = (error: any) => {
     margin-right: 16px;
   }
   .el-button {
-    font-weight: normal;
     font-size: 14px;
     background-color: var(--color-bg-primary);
     border-color: var(--color-border-primary);

@@ -8,7 +8,7 @@
       <div class="section-header__block">
         <template v-if="!gateway">
           <div class="img-wrap">
-            <img v-if="configData.mechanism !== 'jwt'" :src="currImg" height="64" />
+            <img :src="currImg" height="64" />
           </div>
           <div>
             <div class="info-tags">
@@ -29,7 +29,7 @@
         </el-button>
       </div>
     </div>
-    <el-tabs type="card" class="detail-tabs" v-model="currTab" v-loading.lock="authnDetailLock">
+    <el-tabs class="detail-tabs" v-model="currTab" v-loading.lock="authnDetailLock">
       <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
         <AuthItemOverview
           :metrics="authMetrics"

@@ -44,11 +44,25 @@
       </div>
       <el-table :data="nodeStatusTableData">
         <el-table-column prop="node" :label="tl('name')" />
-
+        <el-table-column :label="tl('status')" :width="230">
+          <template #default="{ row }">
+            <span class="text-status" :class="getStatusClass(row.status)">
+              {{ getLabelByStatusValue(row.status) }}
+            </span>
+            <el-button
+              size="small"
+              type="primary"
+              v-if="row.status === ConnectionStatus.Disconnected"
+              @click="reconnect(row)"
+              :loading="nodeConnectingStatusMap[row.node]"
+            >
+              {{ tl('reconnect') }}
+            </el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="metrics.matched" :label="tl('matched')" />
         <el-table-column v-if="showIngressStats" prop="metrics.received" :label="tl('received')" />
         <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
-
         <el-table-column prop="metrics.rate">
           <template #header>
             <p>{{ t('Base.rate') }}</p>
@@ -65,23 +79,6 @@
           <template #header>
             <p>{{ tl('rateMax') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
-          </template>
-        </el-table-column>
-
-        <el-table-column :label="tl('status')" :width="230">
-          <template #default="{ row }">
-            <span class="text-status" :class="getStatusClass(row.status)">
-              {{ getLabelByStatusValue(row.status) }}
-            </span>
-            <el-button
-              size="small"
-              type="primary"
-              v-if="row.status === ConnectionStatus.Disconnected"
-              @click="reconnect(row)"
-              :loading="nodeConnectingStatusMap[row.node]"
-            >
-              {{ tl('reconnect') }}
-            </el-button>
           </template>
         </el-table-column>
       </el-table>
