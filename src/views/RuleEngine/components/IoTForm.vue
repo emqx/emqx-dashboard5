@@ -107,7 +107,7 @@ import { getBridgeInfo, getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import { cloneDeep } from 'lodash'
-import { MQTTBridgeDirection, RuleSQLKeyword } from '@/types/enum'
+import { BridgeDirection, MQTTBridgeDirection, RuleSQLKeyword } from '@/types/enum'
 import SQLTest from './SQLTest.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import RuleOutputs from './RuleOutputs.vue'
@@ -125,6 +125,7 @@ import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
 import useFormRules from '@/hooks/useFormRules'
 import useDocLink from '@/hooks/useDocLink'
 import EventsSelect from './EventsSelect.vue'
+import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 
 const prop = defineProps({
   modelValue: {
@@ -244,22 +245,19 @@ const addBridgeToAction = (bridgeID: string) => {
   }
 }
 
+const { judgeBridgeDirection } = useBridgeDirection()
 const handleBridgeDataFromQuery = async () => {
   const bridgeId = route.query.bridgeId?.toString()
   if (!bridgeId) {
     return
   }
-  const { id, ingress, egress } = await getBridgeInfo(bridgeId)
-
-  if (ingress || egress) {
-    if (ingress) {
-      replaceSQLFrom(`$bridges/${id}`)
-    }
-    if (egress) {
-      addBridgeToAction(id)
-    }
-  } else {
-    addBridgeToAction(id)
+  const bridgeInfo = await getBridgeInfo(bridgeId)
+  const direction = judgeBridgeDirection(bridgeInfo)
+  if (direction === BridgeDirection.Both || direction === BridgeDirection.Egress) {
+    addBridgeToAction(bridgeInfo.id)
+  }
+  if (direction === BridgeDirection.Both || direction === BridgeDirection.Ingress) {
+    replaceSQLFrom(`$bridges/${bridgeInfo.id}`)
   }
 }
 

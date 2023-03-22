@@ -89,6 +89,12 @@ export enum EventForRule {
   DeliveryDropped = '$events/delivery_dropped',
 }
 
+export enum BridgeDirection {
+  Ingress,
+  Egress,
+  Both,
+}
+
 export enum BridgeType {
   Webhook = 'webhook',
   MQTT = 'mqtt',
