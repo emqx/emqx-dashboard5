@@ -102,30 +102,30 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, onMounted, watch, defineEmits, defineProps, defineExpose } from 'vue'
 import { getBridgeInfo, getBridgeList, getRuleEvents } from '@/api/ruleengine'
-import { BridgeItem, RuleForm, BasicRule, RuleEvent } from '@/types/rule'
-import { useI18n } from 'vue-i18n'
-import { cloneDeep } from 'lodash'
-import { BridgeDirection, MQTTBridgeDirection, RuleSQLKeyword } from '@/types/enum'
-import SQLTest from './SQLTest.vue'
-import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
-import RuleOutputs from './RuleOutputs.vue'
-import Monaco from '@/components/Monaco.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
+import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import {
+  checkIsValidArr,
   createRandomString,
   getKeywordsFromSQL,
-  checkIsValidArr,
   handleSQLFromPartStatement,
   sortedUniq,
 } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
-import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
-import useFormRules from '@/hooks/useFormRules'
-import useDocLink from '@/hooks/useDocLink'
-import EventsSelect from './EventsSelect.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import Monaco from '@/components/Monaco.vue'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import useDocLink from '@/hooks/useDocLink'
+import useFormRules from '@/hooks/useFormRules'
+import { BridgeDirection, RuleSQLKeyword } from '@/types/enum'
+import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
+import { cloneDeep } from 'lodash'
+import { defineEmits, defineExpose, defineProps, onMounted, ref, Ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import EventsSelect from './EventsSelect.vue'
+import RuleOutputs from './RuleOutputs.vue'
+import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
+import SQLTest from './SQLTest.vue'
 
 const prop = defineProps({
   modelValue: {
@@ -312,10 +312,8 @@ const loadBridgeList = async () => {
 const loadIngressBridgeList = async () => {
   await loadBridgeList()
   ingressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
-    const isIngress = 'direction' in v && v.direction === MQTTBridgeDirection.In
-    // For MQTT
-    const withIngressConfig = 'ingress' in v
-    return isIngress || withIngressConfig
+    const direction = judgeBridgeDirection(v)
+    return direction !== BridgeDirection.Egress
   })
 }
 
