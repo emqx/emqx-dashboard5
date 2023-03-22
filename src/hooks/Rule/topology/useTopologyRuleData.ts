@@ -78,7 +78,7 @@ export default (): {
     let node: NodeItem = {
       id: idOfInputNode,
       label: cutLabel(label),
-      img: getIconFromInputData(fromData),
+      img: getIconFromInputData(fromData, inputType),
       _customData: { id: rawFrom, type: inputType },
     }
     if (inputType === OtherNodeType.Bridge) {

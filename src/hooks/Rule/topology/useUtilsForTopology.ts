@@ -32,7 +32,7 @@ export default (): {
   createBridgeSingleDirectionNodeId: (id: string, direction: MQTTBridgeDirection) => string
   getBridgeTypeFromId: (str: string) => BridgeType
   getBridgeIDFromInputting: (inputting: string) => string
-  getIconFromInputData: (input: string) => SVGElement | undefined
+  getIconFromInputData: (input: string, type: RuleInputType) => SVGElement | undefined
   getIconFromOutputItem: (output: OutputItem) => SVGAElement | undefined
   getBridgeNodeLabel: (bridgeID: string) => string
   createSingleDirectionBridgeNode: (bridge: BridgeItem, direction: MQTTBridgeDirection) => NodeItem
@@ -124,15 +124,19 @@ export default (): {
     return getBridgeType(type)
   }
 
+  const getBridgeIcon = (bridgeId: string) => {
+    const iconKey = `bridge-${getBridgeTypeFromId(bridgeId)}`
+    return getIcon(iconKey)
+  }
+
   const createSingleDirectionBridgeNode = (bridge: BridgeItem, direction: MQTTBridgeDirection) => {
     const { id } = bridge
-    const iconKey = `bridge-${getBridgeTypeFromId(id)}`
     const bridgeNodeId = createBridgeSingleDirectionNodeId(id, direction)
     // bridge node
     return addCursorPointerToNodeData({
       id: bridgeNodeId,
       label: cutLabel(getBridgeNodeLabel(id)),
-      img: getIcon(iconKey),
+      img: getBridgeIcon(id),
       _customData: { id, type: OtherNodeType.Bridge },
     })
   }
@@ -150,11 +154,11 @@ export default (): {
     })
   }
 
-  const getIconFromInputData = (input: string): SVGElement | undefined => {
-    if (input.indexOf(BridgeType.MQTT) > -1) {
-      return getIcon('bridge-mqtt')
+  const getIconFromInputData = (input: string, type: RuleInputType): SVGElement | undefined => {
+    if (type === OtherNodeType.Bridge) {
+      return getBridgeIcon(input.slice(RULE_INPUT_BRIDGE_TYPE_PREFIX.length))
     }
-    if (input.indexOf('$events') > -1) {
+    if (type === OtherNodeType.Event) {
       return getIcon('event')
     }
     return getIcon('topic')
