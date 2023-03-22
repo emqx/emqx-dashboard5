@@ -94,8 +94,7 @@ export enum BridgeType {
   MQTT = 'mqtt',
   InfluxDB = 'influxdb',
   MySQL = 'mysql',
-  KafkaProducer = 'kafka',
-  KafkaConsumer = 'kafka_consumer',
+  Kafka = 'kafka',
   Redis = 'redis',
   GCP = 'gcp_pubsub',
   MongoDB = 'mongodb',
@@ -105,6 +104,11 @@ export enum BridgeType {
   TDengine = 'tdengine',
   ClickHouse = 'clickhouse',
   DynamoDB = 'dynamo',
+}
+
+export enum KafkaType {
+  Producer = 'kafka',
+  Consumer = 'kafka_consumer',
 }
 
 export enum ConnectorType {
