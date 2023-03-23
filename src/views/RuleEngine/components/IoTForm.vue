@@ -33,6 +33,8 @@
                 <div class="monaco-container sql">
                   <Monaco
                     :id="createRandomString()"
+                    :completion-provider="completionProvider"
+                    :hover-provider="hoverProvider"
                     v-model="ruleValue.sql"
                     lang="sql"
                     @change="validate"
@@ -115,6 +117,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleSQLKeyword } from '@/types/enum'
@@ -207,6 +210,8 @@ const formRules = {
 }
 
 const { docMap } = useDocLink()
+
+const { completionProvider, hoverProvider, setExtDepData } = useProvidersForMonaco()
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
@@ -402,6 +407,7 @@ onMounted(async () => {
   loadIngressBridgeList()
   setRuleValue()
   await loadRuleEvents()
+  setExtDepData({ events: ruleEventsList.value, bridges: ingressBridgeList.value })
   handleBridgeDataFromQuery()
 })
 
