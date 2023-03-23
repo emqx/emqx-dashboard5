@@ -215,9 +215,9 @@ const formData: Ref<OtherBridge> = ref(createDefaultValue())
 const formCom = ref()
 const writeSyntaxInputCom = ref()
 
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 const commonRules = computed(() => ({
-  name: createRequiredRule(tl('name')),
+  name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(getPropItem('server').label),
   write_syntax: createRequiredRule(getPropItem('write_syntax').label),
 }))

@@ -1,11 +1,12 @@
-import { REDIS_TYPE, MONGO_TYPE } from '@/common/constants'
+import { MONGO_TYPE, REDIS_TYPE } from '@/common/constants'
+import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
+import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRules } from '@/hooks/useSchemaFormRules'
-import { Properties } from '@/types/schemaForm'
-import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
-import { useRedisCommandCheck } from './useBridgeDataHandler'
-import { FormItemRule } from 'element-plus'
 import { BridgeType } from '@/types/enum'
+import { Properties } from '@/types/schemaForm'
+import { FormItemRule } from 'element-plus'
+import { useRedisCommandCheck } from './useBridgeDataHandler'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -34,6 +35,7 @@ export default (
   }
 
   const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+  const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
     // TODO:consider the path
     if (!rules.password) {
@@ -41,6 +43,13 @@ export default (
     }
     if (Array.isArray(rules.password)) {
       rules.password.push(...ruleWhenTestConnection)
+    }
+
+    if (!rules.name) {
+      rules.name = []
+    }
+    if (Array.isArray(rules.name)) {
+      rules.name.push(...createCommonIdRule())
     }
     return rules
   }
