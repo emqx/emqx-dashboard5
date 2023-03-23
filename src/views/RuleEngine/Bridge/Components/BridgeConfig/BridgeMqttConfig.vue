@@ -111,7 +111,6 @@ export default defineComponent({
 import { QoSOptions } from '@/common/constants'
 import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import { useBridgeFormRules } from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useFormRules from '@/hooks/useFormRules'
@@ -203,12 +202,11 @@ let preEgressTopic = ''
 
 const { tl, t } = useI18nTl('RuleEngine')
 
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 const formCom = ref()
 const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
-const { nameRule } = useBridgeFormRules()
 const formRules = computed(() => ({
-  name: [...createRequiredRule(tl('name')), ...nameRule],
+  name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(tl('brokerAddress')),
   remote_topic: createRequiredRule(t('Base.topic')),
   ingress: enableIngress.value

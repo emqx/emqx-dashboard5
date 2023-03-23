@@ -1,25 +1,8 @@
 import { checkNOmitFromObj, utf8Decode, utf8Encode } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
-import { FormItemRule } from 'element-plus'
 import { cloneDeep, omit } from 'lodash'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
-
-const BRIDGE_NAME_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
-export const useBridgeFormRules = (): { nameRule: Array<FormItemRule> } => {
-  const { tl } = useI18nTl('RuleEngine')
-  const nameRule = [
-    {
-      pattern: BRIDGE_NAME_REG,
-      message: tl('nameRegError'),
-    },
-  ]
-
-  return {
-    nameRule,
-  }
-}
 
 export default (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => Promise<any>
