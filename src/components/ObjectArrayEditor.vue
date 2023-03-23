@@ -15,14 +15,14 @@
     </el-table-column>
     <el-table-column width="100px">
       <template #header>
-        <el-button @click="addItem" size="small">
+        <a href="javascript:;" @click="addItem">
           {{ $t('Base.add') }}
-        </el-button>
+        </a>
       </template>
       <template #default="{ $index }">
-        <el-button @click="deleteItem($index)" size="small">
+        <a href="javascript:;" @click="deleteItem($index)">
           {{ $t('Base.delete') }}
-        </el-button>
+        </a>
       </template>
     </el-table-column>
   </el-table>
