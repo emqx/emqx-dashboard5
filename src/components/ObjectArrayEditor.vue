@@ -1,9 +1,13 @@
 <template>
-  <el-table class="object-array-editor" ref="TableCom" :data="arr">
+  <el-table class="object-array-editor key-and-value-editor shadow-none" ref="TableCom" :data="arr">
     <el-table-column v-for="(value, key) in properties" :key="key">
       <template #header>
         {{ value.label }}
-        <InfoTooltip :content="value.description" />
+        <InfoTooltip>
+          <template #content>
+            <MarkdownContent :content="value.description" />
+          </template>
+        </InfoTooltip>
       </template>
       <template #default="{ $index }">
         <SchemaFormItem
@@ -15,12 +19,12 @@
     </el-table-column>
     <el-table-column width="100px">
       <template #header>
-        <el-button @click="addItem" size="small">
+        <el-button type="text" @click="addItem">
           {{ $t('Base.add') }}
         </el-button>
       </template>
       <template #default="{ $index }">
-        <el-button @click="deleteItem($index)" size="small">
+        <el-button type="text" @click="deleteItem($index)">
           {{ $t('Base.delete') }}
         </el-button>
       </template>
@@ -34,6 +38,7 @@ import { defineProps, PropType, computed, defineEmits, onMounted, ref, nextTick 
 import useSchemaRecord from '@/hooks/useSchemaRecord'
 import { cloneDeep } from 'lodash'
 import InfoTooltip from './InfoTooltip.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import SchemaFormItem from './SchemaFormItem'
 
 const props = defineProps({

@@ -154,7 +154,23 @@
             <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
           </el-form-item>
         </el-col>
-        <template v-if="role === Role.Consumer">
+        <!-- ssl -->
+        <el-col :span="24">
+          <CommonTLSConfig v-model="formData.ssl" :is-edit="edit" :content="tl('kafkaSniDesc')" />
+        </el-col>
+
+        <el-col :span="24"><el-divider /></el-col>
+
+        <!-- producer -->
+        <el-col :span="24" v-if="role === Role.Producer">
+          <KafkaProducerConfig
+            v-model="formData.kafka"
+            :schema-components="getProducerPropItem('kafka').properties"
+          />
+        </el-col>
+
+        <!-- Consumer -->
+        <template v-else>
           <el-col :span="12">
             <el-form-item prop="key_encoding_mode">
               <template #label>
@@ -199,28 +215,13 @@
               />
             </el-form-item>
           </el-col>
+          <el-col :span="24">
+            <KafkaConsumerConfig
+              v-model="formData.kafka"
+              :schema-components="getConsumerPropItem('kafka').properties"
+            />
+          </el-col>
         </template>
-        <!-- ssl -->
-        <el-col :span="24">
-          <CommonTLSConfig v-model="formData.ssl" :is-edit="edit" :content="tl('kafkaSniDesc')" />
-        </el-col>
-
-        <el-col :span="24"><el-divider /></el-col>
-
-        <!-- producer -->
-        <el-col :span="24" v-if="role === Role.Producer">
-          <KafkaProducerConfig
-            v-model="formData.kafka"
-            :schema-components="getProducerPropItem('kafka').properties"
-          />
-        </el-col>
-
-        <el-col :span="24" v-else>
-          <KafkaConsumerConfig
-            v-model="formData.kafka"
-            :schema-components="getConsumerPropItem('kafka').properties"
-          />
-        </el-col>
 
         <el-col :span="24"><el-divider /></el-col>
 
