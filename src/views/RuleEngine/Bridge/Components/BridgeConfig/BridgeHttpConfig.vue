@@ -112,13 +112,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch, PropType } from 'vue'
 import { createRandomString } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import { useBridgeFormRules } from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
@@ -126,6 +126,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { HTTPBridge } from '@/types/rule'
 import _ from 'lodash'
+import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
 export default defineComponent({
@@ -181,8 +182,9 @@ export default defineComponent({
 
     const { createRequiredRule, createIntFieldRule } = useFormRules()
     const formCom = ref()
+    const { nameRule } = useBridgeFormRules()
     const formRules = ref({
-      name: createRequiredRule(tl('name')),
+      name: [...createRequiredRule(tl('name')), ...nameRule],
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
       pool_size: [...createRequiredRule(tl('connectionPoolSize')), ...createIntFieldRule(1)],

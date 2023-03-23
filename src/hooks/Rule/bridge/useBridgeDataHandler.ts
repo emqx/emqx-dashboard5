@@ -8,9 +8,24 @@ import {
 import { BridgeType, InfluxDBType } from '@/types/enum'
 import { cloneDeep, omit } from 'lodash'
 import useSSL from '@/hooks/useSSL'
-import { ElMessage } from 'element-plus'
+import { ElMessage, FormItemRule } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
+
+const BRIDGE_NAME_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
+export const useBridgeFormRules = (): { nameRule: Array<FormItemRule> } => {
+  const { tl } = useI18nTl('RuleEngine')
+  const nameRule = [
+    {
+      pattern: BRIDGE_NAME_REG,
+      message: tl('nameRegError'),
+    },
+  ]
+
+  return {
+    nameRule,
+  }
+}
 
 export const useRedisCommandCheck = (): {
   commandReg: RegExp
