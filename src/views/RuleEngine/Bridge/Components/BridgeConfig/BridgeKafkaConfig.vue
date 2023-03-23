@@ -209,14 +209,14 @@
 
         <!-- producer -->
         <el-col :span="24" v-if="role === Role.Producer">
-          <KafkaProducerKafkaConfig
+          <KafkaProducerConfig
             v-model="formData.kafka"
             :schema-components="getProducerPropItem('kafka').properties"
           />
         </el-col>
 
         <el-col :span="24" v-else>
-          <KafkaConsumerKafkaConfig
+          <KafkaConsumerConfig
             v-model="formData.kafka"
             :schema-components="getConsumerPropItem('kafka').properties"
           />
@@ -277,8 +277,8 @@ import { Properties } from '@/types/schemaForm'
 import { isEqual, pick } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, onMounted, ref, Ref, watch } from 'vue'
 import { useStore } from 'vuex'
-import KafkaConsumerKafkaConfig from './KafkaConsumerKafkaConfig.vue'
-import KafkaProducerKafkaConfig from './KafkaProducerKafkaConfig.vue'
+import KafkaConsumerConfig from './KafkaConsumerConfig.vue'
+import KafkaProducerConfig from './KafkaProducerConfig.vue'
 
 enum AuthType {
   None,
