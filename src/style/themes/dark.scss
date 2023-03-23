@@ -3,6 +3,7 @@
   --color-bg-primary: #1b2028;
   --color-bg-split: #1f252f;
   --color-bg-main: #17181b;
+  --color-bg-menu: #1b2028;
   --color-bg-popper: #fff;
   --color-bg-trans: #1b2028e6;
   --color-bg-lighter: #232933;
@@ -17,12 +18,12 @@
   --color-text-mdcode: #f76565;
   /* Border */
   --color-border-primary: #41454c;
-  --color-border-menu: #2d323a;
+  --color-border-card: #2d323a;
   --color-border-normal: #2d323a;
   /* Colors */
   --color-primary: #5e4eff;
   --color-hover: #201d31;
   --color-stream: #5d4eff;
-  --menu-active-color: #fff;
-  --bg-hover: linear-gradient(33deg, #9a66ff20 0%, #3651ec20 100%);
+  /* Shdow */
+  --color-shadow-primary: #00000030;
 }

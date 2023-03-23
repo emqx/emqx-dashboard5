@@ -88,7 +88,7 @@ const statusForIcon = computed(() => {
     height: 24px;
     padding-left: 16px;
     padding-right: 16px;
-    font-size: 12px;
+    font-size: 13px;
     color: #8d96a2;
     background: var(--color-bg-split);
     border: 1px solid var(--color-border-primary);

@@ -1,12 +1,6 @@
 @use "sass:math";
 /* Components Reset Colors */
 @forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $menu: (
-    'text-color': var(--color-text-primary),
-    'border-color': var(--color-border-menu),
-    'bg-color': var(--color-bg-primary),
-    'hover-bg-color': var(--color-hover),
-  ),
   $main: (
     'padding': 0px,
   ),
@@ -34,8 +28,8 @@
     'input-border-color': var(--color-border-primary),
   ),
   $table: (
-    'border-color': var(--color-border-normal),
-    'border': 1px solid var(--color-border-normal),
+    'border-color': var(--color-border-card),
+    'border': 1px solid var(--color-border-card),
     'header-text-color': var(--color-title-primary),
     'header-bg-color': var(--color-bg-primary),
     'bg-color': var(--color-bg-primary),
@@ -53,18 +47,6 @@
 
 @use "element-plus/theme-chalk/src/index";
 
-@mixin menu-left-border {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -4px;
-  width: 4px;
-  height: 100%;
-  z-index: 2;
-  border-radius: 8px;
-  background: linear-gradient(33deg, #9A66FF 0%, #3651EC 100%);
-}
-
 /* Root Colors */
 :root {
   --el-border-radius-base: 8px;
@@ -75,10 +57,10 @@
   --el-disabled-text-color: var(--color-text-primary);
   --el-border-color-light: var(--color-border-normal);
   --el-color-success: #00B173;
-  --el-color-danger: #E44242;
-  --el-color-warning: #FB9237;
+  --el-color-danger: #EB4E3D;
+  --el-color-warning: #F19710;
   --el-color-info: #7A7B80;
-  --el-box-shadow-light: 0px 2px 4px 0px #686ba421;
+  --el-box-shadow-light: var(--color-shadow-primary) 0px 4px 12px;
   --el-border: 1px solid var(--color-border-primary);
   --el-fill-color-light: var(--color-bg-split);
 }
@@ -86,7 +68,10 @@
 /* Menu */
 .el-menu {
   &:not(.el-menu--horizontal, .el-menu--popup) {
+    background-color: var(--color-bg-menu);
     $menu-item-height: 50px;
+    border-right: none;
+    color: #A7ABB1;
     .menu-item-title {
       $line-height: 20px;
       padding-left: 10px;
@@ -100,19 +85,18 @@
     .el-sub-menu__title {
       padding: 0px 0px 0px 8px !important;
       margin: 0px 12px;
-      border-radius: 0 8px 8px 0;
+      border-radius: 8px;
       border-left: 4px solid transparent;
+      color: #A7ABB1;
       &:hover {
-        &:before {
-          @include menu-left-border;
-        }
-        color: var(--color-primary);
+        background-color: #1F303C;
+        border-radius: 8px;
       }
     }
     .el-sub-menu {
       &.is-active.is-opened {
         .el-sub-menu__title {
-          color: var(--color-title-primary);
+          color: #fff;
         }
       }
       .el-menu-item {
@@ -124,43 +108,42 @@
       }
     }
     .el-menu-item {
+      color: #A7ABB1;
       border-left: 4px solid transparent;
-      border-radius: 0 8px 8px 0;
+      border-radius: 8px;
       margin: 0 12px;
       padding: 0px 0px 0px 8px !important;
       min-width: initial;
       &.is-active {
-        background: var(--bg-hover);
-        border-radius: 0 8px 8px 0;
-        color: var(--menu-active-color);
-        &:before {
-          @include menu-left-border;
-        }
+        color: #fff;
+        background-color: #1F303C;
+        border-radius: 8px;
       }
       &:hover {
-        background: var(--bg-hover);
-        border-radius: 0 8px 8px 0;
-        color: var(--menu-active-color);
-        &:before {
-          @include menu-left-border;
-        }
+        background-color: #1F303C;
+        border-radius: 8px;
       }
     }
   }
   &.el-menu--popup {
     min-width: initial;
+    background-color: var(--color-bg-menu);
     .el-menu-item {
+      color: #A7ABB1;
       &.is-active {
-        background: var(--bg-hover);
-        color: var(--color-text-primary);
+        color: #fff;
+        background-color: #1F303C;
       }
       &:hover {
-        background: var(--bg-hover);
-        color: var(--color-text-primary);
+        color: #fff;
+        background-color: #1F303C;
       }
     }
   }
   &.el-menu--horizontal {
+    background-color: var(--color-bg-primary);
+    box-shadow: 0px 2px 4px var(--color-shadow-primary);
+    border-bottom: none;
     .el-menu-item {
       height: 36px;
       margin: 12px 4px;
@@ -168,6 +151,7 @@
       border-radius: 8px;
       border-bottom: none;
       &:hover {
+        background-color: var(--color-hover);
         color: var(--color-primary);
       }
       &.is-active {
@@ -178,10 +162,8 @@
   }
   &.el-menu--collapse {
     >.el-sub-menu.is-active .el-sub-menu__title {
-      background-color: var(--color-hover);
-      &:before {
-        @include menu-left-border;
-      }
+      background-color: #1F303C;
+      color: #fff;
     }
   }
 }
@@ -247,7 +229,7 @@
     margin-right: 3px;
   }
   .el-table__cell {
-    padding: 14px 0;
+    padding: 16px 0;
     > .cell {
       padding: 0 16px;
       word-break: break-word;
@@ -305,9 +287,15 @@
 }
 
 /* Tabs */
+.el-tabs {
+  .el-tabs__content {
+    overflow: visible;
+  }
+}
 .el-tabs.el-tabs--top:not(.el-tabs--card) {
   & .is-top .el-tabs__nav-wrap::after {
     height: 1px;
+    background-color: var(--color-border-primary);
   }
 }
 .el-tabs.el-tabs--left:not(.el-tabs--card) {
@@ -335,7 +323,7 @@
 /* Tabs Card */
 .el-tabs--card {
   &>.el-tabs__header {
-    border-bottom: 1px solid var(--color-border-normal);
+    border-bottom: 1px solid var(--color-border-card);
     margin-bottom: 0px;
     .el-tabs__nav {
       border: none;
@@ -353,13 +341,10 @@
       .is-focus {
         outline: none;
         border-top: 2px solid var(--color-primary);
-        border-left: 1px solid var(--color-border-normal);
-        border-right: 1px solid var(--color-border-normal);
+        border-left: 1px solid var(--color-border-card);
+        border-right: 1px solid var(--color-border-card);
       }
     }
-  }
-  .el-tabs__content {
-    overflow: visible;
   }
 }
 
@@ -572,6 +557,7 @@
   }
 }
 .el-popper.is-light {
+  border: none;
   background-color: var(--color-bg-primary);
   .el-popper__arrow::before {
     background-color: var(--color-bg-primary);
@@ -655,6 +641,9 @@
   &:not(.with-border){
     border: none;
   }
+  &.with-border {
+    border: 1px solid var(--color-border-card);
+  }
   position: relative;
   &.top-border,
   &.top-primary {
@@ -666,7 +655,6 @@
       width: 100%;
       height: 4px;
       border-radius: 0px;
-      background: linear-gradient(33deg, #29D6E6 0%, #5F6DFF 100%);
     }
   }
 }
@@ -816,7 +804,7 @@
 
 /* Divider */
 .el-divider--horizontal {
-  border-top: 1px solid var(--color-border-menu);
+  border-top: 1px solid var(--color-border-card);
 }
 
 /* Drawer */

@@ -95,6 +95,10 @@ export default {
     zh: '节点列表',
     en: 'Nodes',
   },
+  viewNodes: {
+    zh: '查看节点列表',
+    en: 'View Nodes',
+  },
   nodeData: {
     zh: '节点信息',
     en: 'Node Information',

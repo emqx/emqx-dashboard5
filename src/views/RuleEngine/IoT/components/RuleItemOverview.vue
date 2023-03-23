@@ -28,7 +28,7 @@
           <InfoTooltip :content="tl('nodeStatusRuleDesc')" />
         </p>
       </div>
-      <el-table :data="nodeMetrics" class="shadow-none">
+      <el-table :data="nodeMetrics">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column prop="metrics.matched">
           <template #header>

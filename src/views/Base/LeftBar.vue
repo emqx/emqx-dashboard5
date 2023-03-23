@@ -11,9 +11,7 @@
           <template v-if="menu.c">
             <el-sub-menu :index="'' + i" :key="i">
               <template #title>
-                <svg class="icon menu-icon" aria-hidden="true">
-                  <use :xlink:href="setIcon(menu)"></use>
-                </svg>
+                <i :class="['iconfont', menu.icon]"></i>
                 <p class="menu-item-title first-level">
                   {{ $t(`components.${menu.title}`) }}
                 </p>
@@ -31,9 +29,7 @@
           </template>
           <template v-else>
             <el-menu-item :key="menu.title" :index="menu.path">
-              <svg class="icon menu-icon" aria-hidden="true">
-                <use :xlink:href="setIcon(menu)"></use>
-              </svg>
+              <i :class="['iconfont', menu.icon]"></i>
               <p class="menu-item-title first-level">
                 {{ $t(`components.${menu.title}`) }}
               </p>
@@ -199,7 +195,7 @@ export default defineComponent({
       },
       {
         title: 'retained',
-        icon: 'icon-retained',
+        icon: 'icon-keep-message',
         path: '/retained',
       },
       {
@@ -233,30 +229,30 @@ export default defineComponent({
         c: system,
       },
     ]
-    const setIcon = (menu: Record<string, any>) => {
-      let iconPath = `#${menu.icon}-${theme.value}`
-      const setSelectedIcon = (path: string, title: string) => {
-        if (path === title) {
-          iconPath = `#${menu.icon}-${theme.value}-selected`
-        }
-      }
-      const currRoute = route.path.split('/')[1]
-      if (menu.c) {
-        menu.c.forEach((child: Record<string, any>) => {
-          setSelectedIcon(currRoute, child.title)
-        })
-      } else {
-        setSelectedIcon(currRoute, menu.title)
-      }
-      return iconPath
-    }
+    // const setIcon = (menu: Record<string, any>) => {
+    //   let iconPath = `#${menu.icon}-${theme.value}`
+    //   const setSelectedIcon = (path: string, title: string) => {
+    //     if (path === title) {
+    //       iconPath = `#${menu.icon}-${theme.value}-selected`
+    //     }
+    //   }
+    //   const currRoute = route.path.split('/')[1]
+    //   if (menu.c) {
+    //     menu.c.forEach((child: Record<string, any>) => {
+    //       setSelectedIcon(currRoute, child.title)
+    //     })
+    //   } else {
+    //     setSelectedIcon(currRoute, menu.title)
+    //   }
+    //   return iconPath
+    // }
     return {
       store,
       theme,
       leftBarCollapse,
       defaultSelectedKeys,
       menus,
-      setIcon,
+      // setIcon,
     }
   },
 })
@@ -267,17 +263,13 @@ export default defineComponent({
   transition: all 0.3s;
   height: 100%;
   padding: 64px 0;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-menu);
+  border-right: 1px solid var(--color-border-card);
   .el-menu:not(.el-menu--horizontal, .el-menu--popup) .menu-item-title {
     white-space: nowrap;
   }
   .el-menu.el-menu--collapse {
     width: 80px;
-    .el-sub-menu__title,
-    .el-menu-item {
-      margin: 0px 6px;
-      padding: 0px 20px !important;
-    }
     .menu-item-title {
       padding-left: 26px;
       opacity: 0;

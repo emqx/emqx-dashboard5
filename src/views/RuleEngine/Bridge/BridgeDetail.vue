@@ -35,11 +35,7 @@
             </el-button>
           </div>
         </div>
-        <el-tabs
-          type="card"
-          :class="['detail-tabs', { 'hide-tabs': isFromRule }]"
-          v-model="activeTab"
-        >
+        <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
           <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
             <div
               class="overview-container"
@@ -101,6 +97,9 @@
                 />
               </div>
               <div v-if="!isFromRule" class="btn-area">
+                <el-button @click="saveAsCopy">
+                  {{ tl('saveAsCopy') }}
+                </el-button>
                 <el-button
                   v-if="bridgeInfo.type"
                   type="primary"
@@ -109,9 +108,6 @@
                   @click="testConnection"
                 >
                   {{ tl('testTheConnection') }}
-                </el-button>
-                <el-button type="primary" plain @click="saveAsCopy">
-                  {{ tl('saveAsCopy') }}
                 </el-button>
                 <el-button
                   type="primary"

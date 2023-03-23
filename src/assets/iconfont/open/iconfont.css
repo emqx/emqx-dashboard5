@@ -1,8 +1,8 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 3296526 */
-  src: url('iconfont.woff2?t=1671085752363') format('woff2'),
-       url('iconfont.woff?t=1671085752363') format('woff'),
-       url('iconfont.ttf?t=1671085752363') format('truetype');
+  font-family: "iconfont"; /* Project id 3836864 */
+  src: url('iconfont.woff2?t=1679307574272') format('woff2'),
+       url('iconfont.woff?t=1679307574272') format('woff'),
+       url('iconfont.ttf?t=1679307574272') format('truetype');
 }
 
 .iconfont {
@@ -13,36 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-question:before {
-  content: "\e6bd";
-}
-
-.icon-linkedin:before {
-  content: "\e611";
-}
-
 .icon-twitter:before {
   content: "\e736";
 }
 
+.icon-question:before {
+  content: "\e6bd";
+}
+
 .icon-youtube:before {
   content: "\e8e2";
-}
-
-.icon-retained-dark-selected:before {
-  content: "\e79b";
-}
-
-.icon-retained-dark:before {
-  content: "\e79c";
-}
-
-.icon-retained-light:before {
-  content: "\e79d";
-}
-
-.icon-retained-light-selected:before {
-  content: "\e79e";
 }
 
 .icon-discord:before {
@@ -53,155 +33,51 @@
   content: "\ec01";
 }
 
-.icon-integration-dark-selected:before {
-  content: "\e77b";
+.icon-linkedin:before {
+  content: "\e611";
 }
 
-.icon-integration-light-selected:before {
-  content: "\e780";
+.icon-authentication:before {
+  content: "\e7a2";
 }
 
-.icon-integration-dark:before {
-  content: "\e783";
+.icon-configuration:before {
+  content: "\e7a3";
 }
 
-.icon-integration-light:before {
-  content: "\e784";
+.icon-diagnosis:before {
+  content: "\e7a4";
 }
 
-.icon-connections-dark:before {
-  content: "\e773";
+.icon-connections:before {
+  content: "\e7a5";
 }
 
-.icon-connections-dark-selected:before {
-  content: "\e776";
+.icon-extensions:before {
+  content: "\e7a6";
 }
 
-.icon-extensions-dark-selected:before {
-  content: "\e77f";
+.icon-integration:before {
+  content: "\e7a7";
 }
 
-.icon-subscriptions-dark-selected:before {
-  content: "\e781";
+.icon-monitoring:before {
+  content: "\e7a8";
 }
 
-.icon-extensions-dark:before {
-  content: "\e787";
+.icon-system:before {
+  content: "\e7a9";
 }
 
-.icon-subscriptions-dark:before {
-  content: "\e788";
+.icon-keep-message:before {
+  content: "\e7aa";
 }
 
-.icon-connections-light-selected:before {
-  content: "\e77a";
-}
-
-.icon-subscriptions-light-selected:before {
-  content: "\e782";
-}
-
-.icon-connections-light:before {
-  content: "\e785";
-}
-
-.icon-subscriptions-light:before {
-  content: "\e786";
-}
-
-.icon-extensions-light-selected:before {
-  content: "\e774";
-}
-
-.icon-extensions-light:before {
-  content: "\e779";
-}
-
-.icon-authentication-light:before {
-  content: "\e75f";
-}
-
-.icon-authentication-dark:before {
-  content: "\e760";
-}
-
-.icon-configuration-dark-selected:before {
-  content: "\e761";
-}
-
-.icon-authentication-light-selected:before {
-  content: "\e762";
-}
-
-.icon-configuration-dark:before {
-  content: "\e763";
-}
-
-.icon-configuration-light-selected:before {
-  content: "\e764";
-}
-
-.icon-configuration-light:before {
-  content: "\e765";
-}
-
-.icon-diagnosis-dark:before {
-  content: "\e767";
-}
-
-.icon-diagnosis-dark-selected:before {
-  content: "\e76a";
-}
-
-.icon-diagnosis-light:before {
-  content: "\e76c";
-}
-
-.icon-diagnosis-light-selected:before {
-  content: "\e76d";
-}
-
-.icon-monitoring-dark:before {
-  content: "\e76e";
-}
-
-.icon-authentication-dark-selected:before {
-  content: "\e76f";
-}
-
-.icon-monitoring-light-selected:before {
-  content: "\e771";
-}
-
-.icon-system-light:before {
-  content: "\e775";
-}
-
-.icon-system-light-selected:before {
-  content: "\e777";
-}
-
-.icon-system-dark:before {
-  content: "\e778";
-}
-
-.icon-monitoring-light:before {
-  content: "\e77c";
-}
-
-.icon-monitoring-dark-selected:before {
-  content: "\e77d";
-}
-
-.icon-system-dark-selected:before {
-  content: "\e77e";
+.icon-subscriptions:before {
+  content: "\e7ab";
 }
 
 .icon-fold:before {
-  content: "\e74f";
-}
-
-.icon-language:before {
-  content: "\e6c7";
+  content: "\e748";
 }
 

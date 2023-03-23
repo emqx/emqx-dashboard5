@@ -137,7 +137,7 @@ p.description {
 }
 
 .search-wrapper {
-  margin-top: 14px;
+  margin: 14px 0;
   .el-button {
     margin-left: 12px;
   }
@@ -351,7 +351,7 @@ input:disabled {
   overflow: hidden;
 }
 .iconfont {
-  font-size: 20px;
+  font-size: 21px;
   color: var(--color-title-primary);
 }
 
@@ -425,7 +425,7 @@ input:disabled {
   .el-tabs__header {
     margin-bottom: 24px;
     .el-tabs__item.is-active {
-      border-bottom: 1px solid var(--color-bg-main);
+      border-bottom: 1px solid var(--color-border-card);
     }
   }
 }
@@ -550,6 +550,9 @@ input:disabled {
     margin-bottom: 16px;
     font-size: 16px;
     font-weight: bold;
+    p {
+      color: var(--color-title-primary);
+    }
   }
   .card-hd {
     display: flex;
@@ -581,6 +584,7 @@ input:disabled {
     line-height: $height;
     font-size: 24px;
     font-weight: 600;
+    color: var(--color-title-primary);
     .unit {
       font-size: 16px;
       margin-left: 4px;
