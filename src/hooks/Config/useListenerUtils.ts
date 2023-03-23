@@ -156,7 +156,7 @@ export default (): ListenerUtils => {
     limiter: {},
     mountpoint: '',
     proxy_protocol: false,
-    proxy_protocol_timeout: '15s',
+    proxy_protocol_timeout: '3s',
     tcp_options: createRawTCPParams(),
     udp_options: createRawUDPParams(),
     dtls_options: {

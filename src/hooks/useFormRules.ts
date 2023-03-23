@@ -3,10 +3,15 @@ import { checkStringWithUnit, checkInRange } from '@/common/tools'
 import { FormItemRule } from 'element-plus'
 import { InternalRuleItem } from 'async-validator'
 
+const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
+export const NO_CHINESE_REG = /^[^\u4e00-\u9fa5]+$/
+
 export default (): {
   createRequiredRule: (name: string, type?: 'input' | 'select') => Array<FormItemRule>
   createNumRangeRule: (min?: number, max?: number) => Array<FormItemRule>
   createIntFieldRule: (min?: number | undefined, max?: number | undefined) => Array<FormItemRule>
+  createCommonIdRule: () => Array<FormItemRule>
+  createNoChineseRule: () => Array<FormItemRule>
   createStringWithUnitFieldRule: (
     units: Array<string>,
     min?: number | undefined,
@@ -14,6 +19,14 @@ export default (): {
   ) => Array<FormItemRule>
 } => {
   const { t } = useI18n()
+
+  const createCommonIdRule = (): Array<FormItemRule> => [
+    { pattern: COMMON_ID_REG, message: t('Base.commonIdError') },
+  ]
+
+  const createNoChineseRule = (): Array<FormItemRule> => [
+    { pattern: NO_CHINESE_REG, message: t('Base.noChinese') },
+  ]
 
   const createRequiredRule = (
     name: string,
@@ -88,6 +101,8 @@ export default (): {
     createRequiredRule,
     createIntFieldRule,
     createNumRangeRule,
+    createCommonIdRule,
+    createNoChineseRule,
     createStringWithUnitFieldRule,
   }
 }

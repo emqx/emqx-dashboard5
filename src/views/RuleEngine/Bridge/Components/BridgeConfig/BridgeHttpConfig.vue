@@ -118,7 +118,6 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import { useBridgeFormRules } from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
@@ -180,11 +179,10 @@ export default defineComponent({
     let modelValueCache = ''
     const httpBridgeVal: Ref<HTTPBridge> = ref(createHttpBridgeDefaultVal())
 
-    const { createRequiredRule, createIntFieldRule } = useFormRules()
+    const { createRequiredRule, createIntFieldRule, createCommonIdRule } = useFormRules()
     const formCom = ref()
-    const { nameRule } = useBridgeFormRules()
     const formRules = ref({
-      name: [...createRequiredRule(tl('name')), ...nameRule],
+      name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
       pool_size: [...createRequiredRule(tl('connectionPoolSize')), ...createIntFieldRule(1)],

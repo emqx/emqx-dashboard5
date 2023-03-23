@@ -519,4 +519,12 @@ export default {
     zh: '网络错误',
     en: 'Network Error',
   },
+  commonIdError: {
+    zh: '请以字母或数字开头，且只包含字母、数字、下划线和短横线',
+    en: 'Please start with a letter or number, and only contain letters, numbers, underscores and hyphens',
+  },
+  notSupportedChinese: {
+    zh: '不支持中文',
+    en: 'Does not support Chinese characters',
+  },
 }

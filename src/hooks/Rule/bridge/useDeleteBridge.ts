@@ -51,7 +51,7 @@ export default (
       handleDeleteSuc()
     } catch (error: any) {
       const { status, data } = error?.response || {}
-      if (status === 403) {
+      if (status === 400) {
         currentDeleteBridgeId.value = id
         secondConfirmToDelete(data?.message || '')
       } else {
