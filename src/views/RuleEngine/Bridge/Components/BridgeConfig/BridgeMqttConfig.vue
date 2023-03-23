@@ -101,8 +101,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { ElMessage } from 'element-plus'
-import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
 
 export default defineComponent({
   name: 'BridgeMqttConfig',
@@ -110,30 +108,33 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import {
-  defineProps,
-  onMounted,
-  ref,
-  PropType,
-  watch,
-  defineEmits,
-  Ref,
-  defineExpose,
-  computed,
-} from 'vue'
-import _ from 'lodash'
-import { MQTTBridge } from '@/types/rule'
 import { QoSOptions } from '@/common/constants'
+import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
-import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
-import useSSL from '@/hooks/useSSL'
-import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
-import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
-import BridgeResourceOpt from './BridgeResourceOpt.vue'
+import { useBridgeFormRules } from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
+import useSSL from '@/hooks/useSSL'
+import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
+import { MQTTBridge } from '@/types/rule'
+import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
+import { ElMessage } from 'element-plus'
+import _ from 'lodash'
+import {
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  onMounted,
+  PropType,
+  ref,
+  Ref,
+  watch,
+} from 'vue'
+import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
+import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
 const props = defineProps({
   modelValue: {
@@ -205,8 +206,9 @@ const { tl, t } = useI18nTl('RuleEngine')
 const { createRequiredRule } = useFormRules()
 const formCom = ref()
 const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+const { nameRule } = useBridgeFormRules()
 const formRules = computed(() => ({
-  name: createRequiredRule(tl('name')),
+  name: [...createRequiredRule(tl('name')), ...nameRule],
   server: createRequiredRule(tl('brokerAddress')),
   remote_topic: createRequiredRule(t('Base.topic')),
   ingress: enableIngress.value
