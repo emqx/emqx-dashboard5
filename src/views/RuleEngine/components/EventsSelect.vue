@@ -59,7 +59,7 @@
             <li class="bridge-item" v-for="item in ingressBridgeList" :key="item.idForRuleFrom">
               <div class="bridge-item-hd">
                 <p>{{ item.name }}</p>
-                <span>{{ item.idForRuleFrom }}</span>
+                <p class="id">{{ item.idForRuleFrom }}</p>
               </div>
               <el-button
                 class="btn-use"
@@ -187,9 +187,9 @@ const useEvent = (event: string) => {
     padding-left: 0;
     margin-top: 0;
   }
-  .bridge-item,
-  .bridge-item-hd {
+  .bridge-item {
     display: flex;
+    align-items: center;
   }
   .bridge-item {
     padding: 8px 0;
@@ -199,8 +199,14 @@ const useEvent = (event: string) => {
     }
   }
   .bridge-item-hd {
-    span {
-      margin-left: 8px;
+    min-width: calc(100% - 120px);
+    p {
+      line-height: 1.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .id {
       color: var(--color-text-secondary);
       opacity: 0.8;
     }
