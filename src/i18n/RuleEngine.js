@@ -167,6 +167,10 @@ export default {
     zh: '名称',
     en: 'Name',
   },
+  nameRegError: {
+    zh: '请输入以字母或数字开头，由字母、数字、下划线和短横线组成的名称',
+    en: 'Please enter a name that starts with a letter or number and is composed of letters, numbers, underscores, and hyphens',
+  },
   createRule: {
     zh: '创建规则',
     en: 'Create Rule',
