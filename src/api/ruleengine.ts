@@ -69,7 +69,7 @@ export function deleteBridge(id: string, withDependency = false): Promise<any> {
   return http.delete(
     `/bridges/${encodeURIComponent(id)}${withDependency ? '?also_delete_dep_actions' : ''}`,
     {
-      errorsHandleCustom: [403],
+      errorsHandleCustom: [400],
     },
   )
 }
