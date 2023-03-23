@@ -399,11 +399,11 @@ const getDefaultForm = () =>
   role.value === Role.Producer ? createDefaultProducerValue() : createDefaultConsumer()
 
 const formCom = ref()
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const formRules = computed(() => {
   const ret = {
-    name: createRequiredRule(tl('name')),
+    name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
     bootstrap_hosts: createRequiredRule(getProducerPropItem('bootstrap_hosts').label),
     authentication: {
       mechanism: createRequiredRule(tl('mechanism')),
