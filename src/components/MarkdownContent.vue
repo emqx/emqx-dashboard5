@@ -12,17 +12,9 @@
   </el-row>
 </template>
 
-<script lang="ts">
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { defineComponent, onUnmounted, PropType, watch } from 'vue'
-
-export default defineComponent({
-  name: 'MarkdownContent',
-})
-</script>
-
 <script setup lang="ts">
-import { ref, defineProps, onMounted } from 'vue'
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { ref, defineProps, onMounted, onUnmounted, PropType, watch } from 'vue'
 import { marked } from 'marked'
 import xss from 'xss'
 

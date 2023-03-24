@@ -30,6 +30,10 @@
   .item-desc {
     margin: 0 0 6px 0;
     color: var(--color-text-secondary);
+
+    p {
+      margin: 0 0 6px 0;
+    }
   }
   .el-form-item {
     margin-top: 6px;
