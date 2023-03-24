@@ -2,6 +2,7 @@ import { SESSION_FIELDS } from '@/common/constants'
 import { createRandomString, escapeCode, isEmptyObj, transLink } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
@@ -44,6 +45,7 @@ const SchemaForm = defineComponent({
     InfoTooltip: InfoTooltip as any,
     Monaco,
     TextareaWithUploader,
+    MarkdownContent,
   },
   props: {
     accordingTo: {
@@ -460,10 +462,10 @@ const SchemaForm = defineComponent({
       const label = getLabel(property)
 
       const descContent = (
-        <p
+        <MarkdownContent
           class={props.useTooltipShowDesc ? '' : 'item-desc'}
-          v-safe-html={escapeCode(transLink(description))}
-        ></p>
+          content={description}
+        />
       )
 
       const labelSlot: any = {}
