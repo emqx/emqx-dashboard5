@@ -65,11 +65,10 @@ const arr = computed({
 const TableCom = ref()
 
 const { initRecordByComponents } = useSchemaRecord()
-const { topic_mapping: defaultValue } = initRecordByComponents(props.properties)
-const createDefaultValue = () => cloneDeep(defaultValue)
 
 const addItem = () => {
-  arr.value = [...arr.value, createDefaultValue()]
+  const defaultValue = cloneDeep(initRecordByComponents(props.properties).topic_mapping)
+  arr.value = [...arr.value, defaultValue]
 }
 
 const deleteItem = (index: number) => {
