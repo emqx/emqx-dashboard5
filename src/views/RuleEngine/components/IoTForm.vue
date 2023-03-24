@@ -202,10 +202,10 @@ enum RightTab {
 }
 const rightBlockActiveTab = ref(RightTab.Actions)
 
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 const formCom = ref()
 const formRules = {
-  id: createRequiredRule('ID'),
+  id: [...createRequiredRule('ID'), ...createCommonIdRule()],
   sql: createRequiredRule(tl('SQL')),
 }
 

@@ -94,6 +94,7 @@ import { useStore } from 'vuex'
 import { computed, ref, onBeforeMount } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl.ts'
 import { PASSWORD_REG } from '@/common/constants'
+import useFormRules from '@/hooks/useFormRules'
 
 const store = useStore()
 const { tl, t } = useI18nTl('General')
@@ -124,9 +125,11 @@ const newPwdSameConfirm = (rule, value, callback) => {
     callback()
   }
 }
+
+const { createNoChineseRule } = useFormRules()
 const rules = computed(() => {
   const ret = {
-    username: [{ required: true, message: tl('enterOneUserName') }],
+    username: [{ required: true, message: tl('enterOneUserName') }, ...createNoChineseRule()],
     password: [
       {
         required: true,
