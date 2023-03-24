@@ -284,6 +284,9 @@
       border-radius: 2px;
     }
   }
+  .el-progress-bar__innerText {
+    color: var(--color-text-progress);
+  }
 }
 
 /* Tabs */
