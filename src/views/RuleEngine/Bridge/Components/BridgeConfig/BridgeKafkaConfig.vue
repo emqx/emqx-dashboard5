@@ -162,12 +162,23 @@
         <el-col :span="24"><el-divider /></el-col>
 
         <!-- producer -->
-        <el-col :span="24" v-if="role === Role.Producer">
-          <KafkaProducerConfig
-            v-model="formData.kafka"
-            :schema-components="getProducerPropItem('kafka').properties"
-          />
-        </el-col>
+        <template v-if="role === Role.Producer">
+          <el-col :span="12">
+            <el-form-item prop="local_topic">
+              <template #label>
+                <span>{{ getProducerPropItem('local_topic').label }}</span>
+                <InfoTooltip :content="getProducerPropItem('local_topic').description" />
+              </template>
+              <el-input v-model="formData.local_topic" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <KafkaProducerConfig
+              v-model="formData.kafka"
+              :schema-components="getProducerPropItem('kafka').properties"
+            />
+          </el-col>
+        </template>
 
         <!-- Consumer -->
         <template v-else>
@@ -175,7 +186,13 @@
             <el-form-item prop="key_encoding_mode">
               <template #label>
                 <span>{{ getConsumerPropItem('key_encoding_mode').label }}</span>
-                <InfoTooltip :content="getConsumerPropItem('key_encoding_mode').description" />
+                <InfoTooltip>
+                  <template #content>
+                    <MarkdownContent
+                      :content="getConsumerPropItem('key_encoding_mode').description"
+                    />
+                  </template>
+                </InfoTooltip>
               </template>
               <el-select v-model="formData.key_encoding_mode">
                 <el-option
@@ -191,7 +208,13 @@
             <el-form-item prop="value_encoding_mode">
               <template #label>
                 <span>{{ getConsumerPropItem('value_encoding_mode').label }}</span>
-                <InfoTooltip :content="getConsumerPropItem('value_encoding_mode').description" />
+                <InfoTooltip>
+                  <template #content>
+                    <MarkdownContent
+                      :content="getConsumerPropItem('value_encoding_mode').description"
+                    />
+                  </template>
+                </InfoTooltip>
               </template>
               <el-select v-model="formData.value_encoding_mode">
                 <el-option
