@@ -25,7 +25,7 @@ export default (): {
   ]
 
   const createNoChineseRule = (): Array<FormItemRule> => [
-    { pattern: NO_CHINESE_REG, message: t('Base.noChinese') },
+    { pattern: NO_CHINESE_REG, message: t('Base.notSupportedChinese') },
   ]
 
   const createRequiredRule = (

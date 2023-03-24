@@ -102,6 +102,7 @@ import { ElInput } from 'element-plus'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 import useCopy from '@/hooks/useCopy'
 import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
+import useFormRules from '@/hooks/useFormRules'
 
 export type OperationType = 'create' | 'view' | 'edit'
 
@@ -138,12 +139,14 @@ const createRawFormData = () => ({
 
 const formCom = ref()
 const formData: Ref<APIKeyFormWhenCreating | APIKey> = ref(createRawFormData())
+const { createCommonIdRule } = useFormRules()
 const rules = {
   name: [
     {
       required: true,
       message: tl('keyNameRequired'),
     },
+    ...createCommonIdRule(),
   ],
 }
 const isEnableOptions = [

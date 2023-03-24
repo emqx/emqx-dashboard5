@@ -149,7 +149,12 @@ const autoReconnect = computed({
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
-const { createRequiredRule, createIntFieldRule, createStringWithUnitFieldRule } = useFormRules()
+const {
+  createRequiredRule,
+  createIntFieldRule,
+  createStringWithUnitFieldRule,
+  createCommonIdRule,
+} = useFormRules()
 
 const formCom = ref()
 
@@ -162,7 +167,7 @@ const timeoutUnits = [
 ]
 
 const rules = {
-  name: createRequiredRule(tl('name')),
+  name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   url: createRequiredRule('URL'),
   pool_size: [...createRequiredRule('Pool Size'), ...createIntFieldRule()],
   request_timeout: createStringWithUnitFieldRule(timeoutUnits.map(({ value }) => value)),
