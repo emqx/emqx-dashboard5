@@ -278,10 +278,3 @@ export default defineComponent({
   padding: 0 22px;
 }
 </style>
-<style lang="scss">
-[data-theme='dark'] {
-  .img-logo {
-    filter: invert(1);
-  }
-}
-</style>
