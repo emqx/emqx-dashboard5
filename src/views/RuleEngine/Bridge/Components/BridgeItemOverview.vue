@@ -98,10 +98,10 @@ export default defineComponent({
 import { queryBridgeMetrics, reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
-import useShowBridgeStats from '@/hooks/Rule/bridge/useShowBridgeStats'
+import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ConnectionStatus } from '@/types/enum'
+import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, BridgeMetricsData, NodeMetrics, NodeStatus } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed, ComputedRef, defineEmits, defineProps, PropType, ref, Ref, watch } from 'vue'
@@ -126,14 +126,16 @@ const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConne
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
 
-const { judgeShowEgressStats, judgeShowIngressStats } = useShowBridgeStats()
+const { judgeBridgeDirection } = useBridgeDirection()
+
+const bridgeDirection = computed(() => judgeBridgeDirection(props.bridgeMsg))
 
 const showEgressStats = computed(() => {
-  return judgeShowEgressStats(props.bridgeMsg)
+  return bridgeDirection.value !== BridgeDirection.Ingress
 })
 
 const showIngressStats = computed(() => {
-  return judgeShowIngressStats(props.bridgeMsg)
+  return bridgeDirection.value !== BridgeDirection.Egress
 })
 
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {

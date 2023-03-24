@@ -1,5 +1,5 @@
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
-import { RuleOutput } from '@/types/enum'
+import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { RuleDataItemWithMetrics, BridgeItemWithMetrics } from '@/types/rule'
 import { IG6GraphEvent } from '@antv/g6'
 import moment from 'moment'
@@ -9,8 +9,7 @@ import { OtherNodeType, NodeType, NodeCustomData } from './topologyType'
 import hljs from 'highlight.js/lib/core'
 import sql from '@/common/highlight/sql'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import { useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
-import useShowBridgeStats from '../bridge/useShowBridgeStats'
+import { useBridgeTypeOptions, useBridgeDirection } from '../bridge/useBridgeTypeValue'
 
 hljs.registerLanguage('sql', sql)
 
@@ -124,11 +123,12 @@ export default (): {
 
   const { getStatusLabel, getStatusClass } = useCommonConnectionStatus()
   const { getTypeStr } = useBridgeTypeOptions()
-  const { judgeShowEgressStats, judgeShowIngressStats } = useShowBridgeStats()
+  const { judgeBridgeDirection } = useBridgeDirection()
 
   const getBridgeStatsData = (bridge: BridgeItemWithMetrics) => {
-    const showEgressStats = judgeShowEgressStats(bridge)
-    const showIngressStats = judgeShowIngressStats(bridge)
+    const bridgeDirection = judgeBridgeDirection(bridge)
+    const showEgressStats = bridgeDirection !== BridgeDirection.Ingress
+    const showIngressStats = bridgeDirection !== BridgeDirection.Egress
     const { metrics } = bridge
 
     const statsMsg = []
