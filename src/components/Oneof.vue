@@ -190,5 +190,8 @@ export default defineComponent({
       margin: 0 12px;
     }
   }
+  .el-input-number {
+    line-height: 0;
+  }
 }
 </style>
