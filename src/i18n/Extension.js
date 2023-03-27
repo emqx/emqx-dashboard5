@@ -264,16 +264,16 @@ export default {
     zh: '选择消息是存放在磁盘还是内存中',
   },
   maxRetainedMessagesDesc: {
-    en: 'Maximum number of retained messages. 0 means no limit',
-    zh: '消息保留的数量上限。0 表示无限',
+    en: 'Maximum number of retained messages, 0 means no limit',
+    zh: '消息保留的数量上限，0 表示无限',
   },
   batchReadNumberDesc: {
-    en: 'Size of the batch when reading messages from storage. 0 means no limit',
+    en: 'Size of the batch when reading messages from storage, 0 means reading all at once',
     zh: '从存储后端批量加载时的每批数量上限，0 代表一次性读取',
   },
   batchDeliverNumberDesc: {
-    en: 'The number of retained messages can be delivered per batch',
-    zh: '批量派发时每批的数量。0 代表一次性全部派发',
+    en: 'The number of retained messages can be delivered per batch, 0 means delivering all at once.',
+    zh: '批量派发时每批的数量，0 代表一次性全部派发',
   },
   sysMsgIntervalDesc: {
     en: `Time interval of publishing \`$SYS\` messages.`,
