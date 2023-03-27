@@ -9,6 +9,7 @@ import { RULE_TOPOLOGY_ID } from '@/common/constants'
 import useCSSVariables from '@/hooks/useCSSVariables'
 import { BridgeItemWithMetrics } from '@/types/rule'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
+import { LABEL_FONT_SIZE } from './useUtilsForTopology'
 
 type DataList = Array<NodeItem> | Array<EdgeItem>
 const concatNCloneInObj = (obj: Record<string, DataList>): DataList => {
@@ -76,7 +77,7 @@ const getDefaultNodeConfig = (bgColor: string, textColor: string) => ({
   ],
   labelCfg: {
     style: {
-      fontSize: 14,
+      fontSize: LABEL_FONT_SIZE,
       fill: textColor,
       fontFamily:
         'Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue, Helvetica, Arial, sans-serif',

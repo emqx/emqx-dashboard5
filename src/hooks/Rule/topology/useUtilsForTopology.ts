@@ -23,6 +23,8 @@ import {
 import { escapeRegExp } from 'lodash'
 import { useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
 
+export const LABEL_FONT_SIZE = 14
+
 export default (): {
   cutLabel: (label: string) => string
   addCursorPointerToNodeData: (node: NodeItem) => NodeItem
@@ -58,13 +60,45 @@ export default (): {
    */
   // When output is console or republish, nodes need to be created separately for each rule.
 
-  const LABEL_MAX_LENGTH_TO_SHOW = 28
+  const canvas = document.createElement('canvas')
+  function getTextWidth(text: string): number {
+    // re-use canvas object for better performance
+    const context = canvas.getContext('2d')
+    if (context) {
+      context.font = `${LABEL_FONT_SIZE}px`
+      const metrics = context.measureText(text)
+      return Math.ceil(metrics.width)
+    }
+    return text.length * LABEL_FONT_SIZE
+  }
+
+  /**
+   * When the characters are at their maximum, the current node width
+   * can display the number of characters in the label completely.
+   */
+  const MIN_CHAR_COUNT = 10
+  const LABEL_WIDTH = 100
+  const getAptCharLength = (str: string) => {
+    let pre = getTextWidth(str.slice(0, MIN_CHAR_COUNT))
+    if (pre >= LABEL_WIDTH) {
+      return MIN_CHAR_COUNT
+    }
+    for (let index = MIN_CHAR_COUNT + 1; index < str.length; index++) {
+      const current = getTextWidth(str.slice(0, index))
+      if (pre <= LABEL_WIDTH && current >= LABEL_WIDTH) {
+        return index
+      }
+      pre = current
+    }
+    return str.length
+  }
+
   const LABEL_TOO_LONG_SUFFIX = '...'
 
   const cutLabel = (label: string) => {
-    return label.length > 28
-      ? label.substring(0, LABEL_MAX_LENGTH_TO_SHOW - LABEL_TOO_LONG_SUFFIX.length) +
-          LABEL_TOO_LONG_SUFFIX
+    const labelWith = getTextWidth(label)
+    return labelWith > LABEL_WIDTH
+      ? label.substring(0, getAptCharLength(label)) + LABEL_TOO_LONG_SUFFIX
       : label
   }
 
