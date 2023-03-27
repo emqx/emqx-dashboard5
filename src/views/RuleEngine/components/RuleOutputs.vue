@@ -7,17 +7,16 @@
       <el-col :span="24">
         <template v-for="(item, index) in ruleValue.actions" :key="item">
           <div class="outputs-item">
-            <span>
-              <img :src="getOutputImage(item)" width="48" />
-            </span>
-            <span>
+            <img :src="getOutputImage(item)" />
+            <div class="outputs-item-bd">
               <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
                 {{ (item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[1] }}
               </div>
               <div class="output-desc">
                 {{ getOutputTypeLabel(item) }}
               </div>
-            </span>
+            </div>
+
             <span class="output-op">
               <el-button size="small" @click="openOutputDialog(true, index)">
                 {{ $t('Base.edit') }}
@@ -227,12 +226,22 @@ const getOutputTypeLabel = (item: OutputItem) => {
   border-radius: var(--el-border-radius-base);
   padding: 0 6px;
   margin-bottom: 12px;
+  $img-width: 48px;
+  $img-margin-right: 12px;
+  $op-width: 130px;
   img {
-    margin-right: 12px;
+    width: $img-width;
+    flex-shrink: 0;
+    margin-right: $img-margin-right;
   }
-  span:nth-child(2) {
+
+  .outputs-item-bd {
     flex-grow: 1;
+    max-width: calc(100% - $img-width - $img-margin-right - 12px);
     div {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       line-height: 1.6;
     }
     .output-desc {
@@ -241,15 +250,20 @@ const getOutputTypeLabel = (item: OutputItem) => {
   }
 
   .output-op {
+    display: none;
+    flex-basis: $op-width;
+    flex-shrink: 0;
     padding: 0 10px;
-    visibility: hidden;
   }
   &:hover {
     border-color: var(--el-color-primary);
     cursor: pointer;
-    span {
+    .output-op {
+      display: block;
       color: var(--el-color-primary);
-      visibility: visible;
+    }
+    .outputs-item-bd {
+      max-width: calc(100% - $img-width - $img-margin-right - $op-width - 12px);
     }
   }
 }
