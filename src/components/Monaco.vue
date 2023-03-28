@@ -196,4 +196,19 @@ watch(
   color: #dadada !important;
   user-select: none;
 }
+.monaco-hover {
+  z-index: 110;
+}
+.hover-contents {
+  // Optional flag for function parameter explanation
+  i {
+    padding: 2px 4px;
+    border: 1px solid var(--color-border-primary);
+    margin-right: 2px;
+    font-style: normal;
+    white-space: nowrap;
+    border-radius: 4px;
+    background-color: var(--color-bg-split);
+  }
+}
 </style>

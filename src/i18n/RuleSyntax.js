@@ -614,20 +614,32 @@ export default {
     en: 'Take a substring of characters',
   },
   substrParams: {
-    zh: '1. 原字符串 <br />2. 起始位置 <br />3. 要取出的子串长度. 注意: 下标从 0 开始',
-    en: '1. input string <br />2. Start position. Note: Subscripts start at 1',
+    zh: `1. 原字符串：需要提取子串的原始字符串<br />2. 起始位置：子串的起始位置，注意下标从 0 开始计数。<br />
+3. <i>可选</i>要取出的子串长度`,
+    en: `1. Original string: the original string from which to extract a substring<br />2. Starting position: the starting position of the substring, note that indexing starts at 0<br />
+3. <i>Optional</i>Length of the substring to be extracted`,
   },
   substrReturns: {
     zh: '子串',
     en: 'substring',
   },
   splitDesc: {
-    zh: '字符串分割，只查找右边第一个分隔符',
-    en: 'split string',
+    zh: '将一个字符串分割成一个字符串数组',
+    en: 'Split a string into an array of strings',
   },
   splitParams: {
-    zh: "1. 原字符串 <br />2. 分割符子串 <br />3. 'trailing'",
-    en: "1. input string <br />2. split string <br />3. Find the first separator on the left or right, optional value is 'leading' or 'trailing'",
+    zh: `1. 原字符串 <br />2. 分割符子串 <br />
+2. <i>可选</i>分割的规则，默认匹配字符串中所有分隔符
+<ul>
+  <li><code>leading</code>：只查找左边第一个分隔符</li>
+  <li><code>trailing</code>：只查找右边第一个分隔符</li>
+</ul>`,
+    en: `1. Original string <br />2. Separator substring <br />
+2. <i>Optional</i> Rule for splitting, default to matching all separators in the string
+<ul>
+<li><code>leading</code>: Only search for the first separator on the left side</li>
+<li><code>trailing</code>: Only search for the first separator on the right side</li>
+</ul>`,
   },
   splitReturns: {
     zh: '分割后的字符串数组',
@@ -647,11 +659,13 @@ export default {
   },
   tokensDesc: {
     zh: '字符串分解(按照指定字符串和换行符分解)',
-    en: '',
+    en: 'String decomposition (decomposed according to specified strings and line breaks)',
   },
   tokensParams: {
-    zh: "1. 输入字符串 <br />2. 分割符或字符串 <br />3. 'nocrlf'",
-    en: '',
+    zh: `1. 原字符串</br>2. 分隔符</br>
+3. <i>可选</i>是否根据换行符进行分解，为 <code>nocrlf</code> 时则是`,
+    en: `1. Original string</br>2. Separator</br>
+3. <i>Optional</i>Whether to decompose according to the line break, when it is <code>nocrlf</code>, it is`,
   },
   tokensReturns: {
     zh: '分解后的字符串数组',
@@ -670,28 +684,44 @@ export default {
     en: '',
   },
   padDesc: {
-    zh: '字符串补足长度，补指定字符，从头部补足',
-    en: '',
+    zh: '将指定字符串填充到指定长度',
+    en: 'Fill the specified string to the specified length.',
   },
   padParams: {
-    zh: "1. 原字符串 <br />2. 字符总长度 <br />3. 'leading' <br />4. 指定用于补足的字符",
-    en: '',
+    zh: `1. 原字符串 <br />2. 字符总长度 <br />
+3. <i>可选</i>填充的位置，<code>trailing</code>，<code>both</code> 或 <code>leading</code>，默认为 <code>trailing</code><br />
+4. <i>可选</i>指定用于补足的字符，默认为空格`,
+    en: `1. Original string <br />2. Total length of characters <br />
+3. <i>Optional</i>Filling position, <code>trailing</code>, <code>both</code> or <code>leading</code>, default is <code>trailing</code><br />
+4. <i>Optional</i>Specify the character for filling, default to space`,
   },
   padReturns: {
     zh: '补足后的字符串',
     en: '',
   },
   replaceDesc: {
-    zh: '替换字符串中的某子串，从头部查找第一个匹配子串替换',
-    en: '',
+    zh: '在字符串中搜索并替换指定的文本',
+    en: 'Search and replace specified text in a string',
   },
   replaceParams: {
-    zh: "1. 原字符串 <br />2. 要被替换的子串 <br />3. 指定用于替换的字符串 <br />4. 'leading'",
-    en: '',
+    zh: `1. 原字符串 <br />2. 要被替换的字符串 <br />3. 指定用于替换的字符串 <br />
+2. <i>可选</i>替换的规则，默认为 <code>all</code>
+<ul>
+  <li><code>all</code>：查找所有匹配子串替换</li>
+  <li><code>trailing</code>：从尾部查找第一个匹配子串替换</li>
+  <li><code>leading</code>：从头部查找第一个匹配子串替换</li>
+</ul>`,
+    en: `1. Original string <br />2. String to be replaced <br />3. Specified string for replacement <br />
+2. <i>Optional</i>Replacement rule, default is <code>all</code>
+<ul>
+  <li><code>all</code>: Replace all matching substrings found.</li>
+  <li><code>trailing</code>: Replace the last matching substring found from the end of the original string.</li>
+  <li><code>leading</code>: Replace the first matching substring found from the beginning of the original string.</li>
+</ul>`,
   },
   replaceReturns: {
     zh: '替换后的字符串',
-    en: '',
+    en: 'Replaced string',
   },
   regexMatchDesc: {
     zh: '判断字符串是否与某正则表达式匹配',
@@ -730,28 +760,40 @@ export default {
     en: '',
   },
   findDesc: {
-    zh: '查找并返回字符串中的某个子串，从尾部查找',
-    en: '',
+    zh: '查找并返回字符串中的某个子串',
+    en: 'Find and return a substring in a string.',
   },
   findParams: {
-    zh: "1. 原字符串 <br />2. 要查找的子串 <br />3. 'trailing'",
-    en: '',
+    zh: `1. 原字符串<br />2. 要查找的子串<br />
+3. <i>可选</i>指定查找方向，默认为 <code>leading</code>
+<ul>
+  <li><code>leading</code>从字符串的头部开始查找</li>
+  <li><code>trailing</code>从字符串的尾部开始查找</li>
+</ul>`,
+    en: ` 1. Original string<br />2. Substring to be searched for<br />
+3. <i>Optional</i>Specify search direction, default is <code>leading</code>
+<ul>
+<li><code>leading</code>: start searching from the beginning of the string</li>
+<li><code>trailing</code>: start searching from the end of the string</li>
+</ul>`,
   },
   findReturns: {
-    zh: '查抄到的子串，如找不到则返回空字符串',
-    en: '',
+    zh: '查找到的子串，如找不到则返回空字符串',
+    en: 'The substring found, if not found, returns an empty string.',
   },
   mapGetDesc: {
-    zh: '取 Map 中某个 Key 的值，如果没有则返回指定默认值',
-    en: 'Take the value of a Key in the Map, if failed, return the specified default value',
+    zh: '取 Map 中某个 Key 的值',
+    en: 'Take the value of a Key in the Map',
   },
   mapGetParams: {
-    zh: '1. Key <br />2. Map <br />3. Default Value',
-    en: '1. Key <br />2. Map <br />3. Default Value',
+    zh: `1. Key：需要获取的 Key，支持嵌套的 Key，比如 <code>a.b.c</code><br /> 2. Map：从中获取 Key 的值的 Map<br />
+3. <i>可选</i>Default Value：当 Map 中不存在指定的 Key 时，返回的默认值`,
+    en: `1. Key: The key that needs to be obtained, supports nested keys, such as <code>a.b.c</code><br /> 2. Map: The map from which the value of the key is obtained<br />
+3. <i>Optional</i>Default Value: The default value returned when the specified key does not exist in the map.`,
   },
   mapGetReturns: {
-    zh: 'Map 中某个 Key 的值。支持嵌套的 Key，比如 "a.b.c"',
-    en: 'The value of a Key in the Map. Support nested keys, such as "a.b.c"',
+    zh: 'Map 中某个 Key 的值',
+    en: 'The value of a Key in the Map',
   },
   mapPutDesc: {
     zh: '向 Map 中插入值',
@@ -790,12 +832,14 @@ export default {
     en: 'the length of an array',
   },
   sublistDesc: {
-    zh: '取从第 n 个元素开始、长度为 len 的子数组。下标从 1 开始',
-    en: 'Take a sub-array of length len starting from the nth element. Subscripts start at 1',
+    zh: '截取子数组',
+    en: 'Extract subarray',
   },
   sublistParams: {
-    zh: '1. 起始位置 n <br />2. 长度 len <br />3. 原数组',
-    en: '1. start position n <br />2. length len <br />3. Original array',
+    zh: `1. <i>可选</i>指定截取的开始位置，下标从 1 开始，默认为 1</br>
+2. 截取的数组的长度</br>3. 原数组`,
+    en: `1. <i>Optional</i>Specify the starting position of the interception, with an index starting from 1, default to 1</br>
+2. The length of the intercepted array.</br>3. The original array.`,
   },
   sublistReturns: {
     zh: '子数组',
@@ -945,13 +989,14 @@ export default {
     zh: '原始的二进制数据',
     en: 'Raw binary data',
   },
+  // TODO: desc
   subbitsDesc: {
-    zh: '从二进制数据的指定下标位置获取指定长度的比特位，然后按照给定的参数转换为想要的数据类型. 下标是从 1 开始的.',
-    en: 'Get a given length of bits start from the specified offset of a binary, and then convert it to a data type according to the arguments provided. Offsets are start from 1.',
+    zh: '从二进制数据的指定下标位置获取指定长度的比特位，然后按照给定的参数转换为想要的数据类型',
+    en: 'Get a given length of bits start from the specified offset of a binary, and then convert it to a data type according to the arguments provided',
   },
   subbitsParams: {
-    zh: "1. 二进制数据 <br />2. 起始位置的下标 <br />3. 要获取的长度(bits) <br />4. 数据类型，可选值：'integer'、'float'、'bits' <br />5. 符号类型，只对整型数据有效，可选值：'unsigned'、'signed'，<br />6. 大端还是小端，只对整型数据有效，可选值：'big'、'little'",
-    en: "1. The binary <br />2. The offset <br />3. The length of bits to get <br />4. Data Type, can be one of 'integer', 'float', 'bits' <br />5. Signedness, only works for integers, can be one of 'unsigned', 'signed', <br />6. Endianness, only works for integers, can be one of 'big', 'little'",
+    zh: '请查看官网文档',
+    en: 'Please refer to the official website documentation.',
   },
   subbitsReturns: {
     zh: '获取到的数据',
@@ -1030,12 +1075,12 @@ export default {
     en: 'The binary',
   },
   nowTimestampDesc: {
-    zh: '指定时间单位，返回当前时间的 Unix 时间戳',
-    en: 'Return the unix epoch of now, in given time unit',
+    zh: '返回当前时间的 Unix 时间戳',
+    en: 'Return the unix epoch of now',
   },
   nowTimestampParams: {
-    zh: '1. 时间单位',
-    en: '1. The time unit',
+    zh: `1. <i>可选</i>时间单位，可设置为 <code>second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code>nanosecond</code>，默认为 <code>second</code>`,
+    en: `1. <i>Optional</i>Time unit, can be set to <code>second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code>nanosecond</code>, default is <code>second</code>`,
   },
   nowTimestampReturns: {
     zh: 'Unix 时间戳',
@@ -1046,32 +1091,36 @@ export default {
     en: 'Create a RFC3339 time string of now, in given time unit',
   },
   nowRfc3339Params: {
-    zh: '1. 时间单位',
-    en: '1. The time unit',
+    zh: `1. <i>可选</i>时间单位，可设置为 <code>second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code>nanosecond</code>，默认为 <code>second</code>`,
+    en: `1. <i>Optional</i>Time unit, can be set to <code>second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code>nanosecond</code>, default is <code>second</code>`,
   },
   nowRfc3339Returns: {
     zh: 'RFC3339 时间字符串',
     en: 'The time string of format RFC3339',
   },
   unixTsToRfc3339Desc: {
-    zh: '指定时间单位，将 Unix 时间戳转换为 RFC3339 时间字符串',
-    en: 'Convert an unix epoch to RFC3339 time string, using the given time unit',
+    zh: '将输入的时间戳转换为 RFC3339 时间字符串',
+    en: 'Convert an unix epoch to RFC3339 time string',
   },
   unixTsToRfc3339Params: {
-    zh: '1. Unix 时间戳 </br>2. 时间单位',
-    en: '1. The unix epoch </br>2. The time unit',
+    zh: `1. Unix 时间戳<br />
+2. <i>可选</i>Unix 时间戳的时间单位，可为 <code>second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code>nanosecond</code>，默认为 <code>second</code>`,
+    en: `1. Unix timestamp <br />
+2. <i>Optional</i>Time unit for Unix timestamp, can be <code>second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code>nanosecond</code>. Default is <code>second</code>`,
   },
   unixTsToRfc3339Returns: {
     zh: 'RFC3339 时间字符串',
     en: 'The time string of format RFC3339',
   },
   rfc3339ToUnixTsDesc: {
-    zh: '指定时间单位，将 RFC3339 时间字符串转换为 Unix 时间戳',
-    en: 'Convert a RFC3339 time string to unix epoch, using the given time unit',
+    zh: '将 RFC3339 时间字符串转换为 Unix 时间戳',
+    en: 'Convert a RFC3339 time string to unix epoch',
   },
   rfc3339ToUnixTsParams: {
-    zh: '1. RFC3339 时间字符串 </br>2. 时间单位',
-    en: '1. The time string of format RFC3339 </br>2. The time unit',
+    zh: `1. RFC3339 时间字符串 </br>
+2. <i>可选</i>RFC3339 时间字符串的时间单位，可为 <code>second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code>nanosecond</code>，默认为 <code>second</code>`,
+    en: `1. RFC3339 time string </br>
+2. <i>Optional</i>Unit of RFC3339 time string, can be <code>second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code>nanosecond</code>, default is <code>second</code>`,
   },
   rfc3339ToUnixTsReturns: {
     zh: 'Unix 时间戳',
