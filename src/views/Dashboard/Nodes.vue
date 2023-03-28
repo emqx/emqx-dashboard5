@@ -28,7 +28,7 @@
           {{ transMsNumToSimpleStr(row.uptime) }}
         </template>
       </el-table-column>
-      <el-table-column prop="version" :label="tl('version')"> </el-table-column>
+      <el-table-column prop="version" :label="tl('version')" width="90"> </el-table-column>
       <el-table-column :label="`Erlang ${tl('process')}`">
         <template #default="{ row }">
           <el-tooltip
@@ -37,12 +37,10 @@
             :content="`${row.process_used}/${row.process_available}`"
           >
             <el-progress
-              :text-inside="true"
-              :stroke-width="24"
+              :stroke-width="20"
               :percentage="calcPercentage(row.process_used, row.process_available)"
-              :format="() => ''"
+              :format="() => row.process_used"
             >
-              <span>{{ row.process_used }}</span>
             </el-progress>
           </el-tooltip>
         </template>
@@ -55,12 +53,10 @@
             :content="`${row.memory_used}/${row.memory_total}`"
           >
             <el-progress
-              :text-inside="true"
-              :stroke-width="24"
+              :stroke-width="20"
               :percentage="calcPercentage(row.memory_used, row.memory_total)"
-              :format="() => ''"
+              :format="() => row.memory_used"
             >
-              <span>{{ row.memory_used }}</span>
             </el-progress>
           </el-tooltip>
         </template>
