@@ -7,8 +7,6 @@ import useRuleSourceEvents from './bridge/useRuleSourceEvents'
 import keysInRule from './KeysInRule.json'
 import { camelCase } from 'lodash'
 
-const keysWithoutDesc = ['CASE', 'WHEN', 'ELSE', 'THEN', 'END', 'as']
-
 const { syntaxKeys, allFieldsCanUse, builtInSQLFuncs, jqFunc } = keysInRule
 
 interface EventDepItem {
@@ -51,9 +49,7 @@ export default (): {
       kind: monaco.languages.CompletionItemKind.Keyword,
       insertText: key,
     }
-    if (!keysWithoutDesc.includes(key)) {
-      ret.documentation = tl(`${key.toLowerCase()}Desc`)
-    }
+    ret.documentation = tl(`${key.toLowerCase()}Desc`)
     return ret
   })
 
@@ -206,6 +202,11 @@ export default (): {
           }
         }
         const { word } = content
+        /* IS KEYWORD */
+        const keyword = syntaxKeyDependencyProposals.find(({ label }) => label === word)
+        if (keyword) {
+          return { contents: [{ value: keyword.documentation as string }] }
+        }
         const func = builtInFuncsDependencyProposals.find(({ label }) => label === word)
         /* IS FUNC */
         if (func) {

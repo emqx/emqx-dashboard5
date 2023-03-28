@@ -57,12 +57,10 @@
                 :content="`${node.memory_used}/${node.memory_total}`"
               >
                 <el-progress
-                  :text-inside="true"
                   :stroke-width="20"
                   :percentage="calcPercentage(node.memory_used, node.memory_total)"
-                  :format="() => ''"
+                  :format="() => node.memory_used"
                 >
-                  <span>{{ node.memory_used }}</span>
                 </el-progress>
               </el-tooltip>
             </el-descriptions-item>
@@ -73,12 +71,10 @@
                 :content="`${node.process_used}/${node.process_available}`"
               >
                 <el-progress
-                  :text-inside="true"
                   :stroke-width="20"
                   :percentage="calcPercentage(node.process_used, node.process_available)"
-                  :format="() => ''"
+                  :format="() => node.process_used"
                 >
-                  <span>{{ node.process_used }}</span>
                 </el-progress>
               </el-tooltip>
             </el-descriptions-item>

@@ -302,6 +302,7 @@ syncPolling(loadData, POLLING_INTERVAL)
       align-items: center;
     }
     .el-progress {
+      display: block;
       width: 90px;
     }
     .progress-wrap {

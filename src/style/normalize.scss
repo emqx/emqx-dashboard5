@@ -272,7 +272,11 @@
   background-color: var(--color-bg-lighter);
 }
 .el-progress {
-  display: block;
+  display: flex;
+  .el-progress__text {
+    font-size: 13px !important;
+    color: var(--color-text-primary) !important;
+  }
   .el-progress-bar__inner {
     background: linear-gradient(135deg, #5E4EFF 0%, #5E4EFF 100%);
   }
@@ -283,9 +287,6 @@
     &__inner {
       border-radius: 2px;
     }
-  }
-  .el-progress-bar__innerText {
-    color: var(--color-text-progress);
   }
 }
 

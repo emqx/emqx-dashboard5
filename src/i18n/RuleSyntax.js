@@ -23,6 +23,30 @@ export default {
     zh: '对 DO 选择出来的某个字段施加条件过滤',
     en: 'Apply conditional filtering to a field selected by DO',
   },
+  caseDesc: {
+    zh: '在查询结果中根据特定条件返回不同的值',
+    en: 'Return different values based on specific conditions in the query results',
+  },
+  whenDesc: {
+    zh: '用于控制条件语句的执行流程，一般接一个条件表达式，用来判断对应的 CASE 语句中的某个分支是否需要执行',
+    en: 'Used to control the execution flow of conditional statements, usually followed by a condition expression to determine whether a certain branch in the corresponding CASE statement needs to be executed.',
+  },
+  elseDesc: {
+    zh: '通常与 CASE 表达式一起使用，指定当所有条件都不满足时应返回的默认值',
+    en: 'Usually used with CASE expression, specifying the default value to be returned when none of the conditions are met',
+  },
+  thenDesc: {
+    zh: '通常与 CASE 表达式一起使用，指定了当条件满足时要返回的值',
+    en: 'Usually used with CASE expression, specifies the value to be returned when the condition is met.',
+  },
+  endDesc: {
+    zh: '指示某个块的结束',
+    en: 'Indicates the end of a block',
+  },
+  asDesc: {
+    zh: '为选择结果指定别名',
+    en: 'Specify an alias for the selects result',
+  },
   parameter: {
     zh: '参数',
     en: 'Parameter',
