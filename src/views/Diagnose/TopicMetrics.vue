@@ -245,7 +245,7 @@ export default defineComponent({
     }
 
     const viewTopicDetail = async (topicIndex) => {
-      ElMessage({ message: translate('topicExistedTip'), type: 'message', duration: 5000 })
+      ElMessage({ message: translate('topicExistedTip'), type: 'info', duration: 5000 })
       await waitAMoment(1024)
       const ele = document.querySelector(`tr.${getTopicClassName(topicIndex)}`)
       const btn = ele ? ele.querySelector(`.${BTN_VIEW_CLASS}`) : null
