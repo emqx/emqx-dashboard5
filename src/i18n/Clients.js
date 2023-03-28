@@ -116,8 +116,8 @@ export default {
     en: 'Clean Session',
   },
   willDisconnectTheConnection: {
-    zh: '此操作将踢除该连接',
-    en: 'This operation will kick out the connection',
+    zh: '此操作将踢除该连接，是否继续？',
+    en: 'This operation will kick off the connection, continue?',
   },
   willCleanSession: {
     zh: '确认清除会话？',

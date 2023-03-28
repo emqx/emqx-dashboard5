@@ -605,26 +605,33 @@
 .el-message {
   padding: 16px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px #00000026;
+  box-shadow: var(--el-notification-shadow);
+  height: 56px;
   .el-icon {
     font-size: 18px;
   }
+  .el-message__content {
+    color: #343741;
+  }
+  .el-message__closeBtn {
+    color: #343741;
+    font-size: 14px;
+  }
   &--success {
-    border: 1px solid #00B173;
-    background-color: #E5F7F1;
+    border: 1px solid #00A890;
+    background-color: #E2FFF5;
   }
   &--error {
-    border: 1px solid #EF173F;
-    background-color: #FCECEC;
+    border: 1px solid #EB4E3D;
+    background-color: #FFE9E7;
   }
   &--warning {
-    border: 1px solid #F8971C;
-    background-color: #FEF4EB;
+    border: 1px solid #F19710;
+    background-color: #FFF0DA;
   }
-  &--message {
-    color: #909090;
-    border: 1px solid #7A7B80;
-    background-color: #EFF2F5;
+  &--message, &--info {
+    border: 1px solid #469CF7;
+    background-color: #E6EEFF;
   }
 }
 
