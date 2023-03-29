@@ -1202,8 +1202,8 @@ When disabled the messages are buffered in RAM only.`,
     zh: 'Kerberos Principal',
   },
   role: {
-    en: 'Kafka Role',
-    zh: 'Kafka 角色',
+    en: 'Bridge Role',
+    zh: '桥接角色',
   },
   roleDesc: {
     en: 'Kafka client role, producer sends local MQTT messages to remote Kafka broker, consumer receives remote Kafka messages to local MQTT broker.',

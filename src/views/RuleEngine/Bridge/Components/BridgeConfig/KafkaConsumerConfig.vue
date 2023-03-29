@@ -15,19 +15,6 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="kafka.max_rejoin_attempts">
-          <template #label>
-            <span>{{ getPropItem('max_rejoin_attempts').label }}</span>
-            <InfoTooltip :content="getPropItem('max_rejoin_attempts').description" />
-          </template>
-          <el-input-number
-            controls-position="right"
-            v-model="kafkaConfig.max_rejoin_attempts"
-            :min="getPropItem('max_rejoin_attempts').minimum"
-          />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
         <el-form-item prop="kafka.offset_reset_policy">
           <template #label>
             <span>{{ getPropItem('offset_reset_policy').label }}</span>
