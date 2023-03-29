@@ -1,5 +1,5 @@
 <template>
-  <div :class="['auth', 'auth-details', !gateway && 'app-wrapper']">
+  <div :class="['auth', 'auth-details', 'details', !gateway && 'app-wrapper']">
     <detail-header
       v-if="!gateway"
       :item="{ name: titleMap[currBackend], path: '/authentication' }"
@@ -21,12 +21,16 @@
         </template>
       </div>
       <div>
-        <el-button @click="handleUpdate(configData)">
-          {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
-        </el-button>
-        <el-button type="danger" plain @click="handleDelete">
-          {{ $t('Base.delete') }}
-        </el-button>
+        <el-tooltip
+          :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
+          placement="top"
+        >
+          <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
+        </el-tooltip>
+        <el-tooltip :content="$t('Base.delete')" placement="top">
+          <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+          </el-button>
+        </el-tooltip>
       </div>
     </div>
     <el-tabs class="detail-tabs" v-model="currTab" v-loading.lock="authnDetailLock">
@@ -91,6 +95,7 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
 import { isFunction } from 'lodash'
 import { queryAuthnItemMetrics, updateAuthn, deleteAuthn, loadAuthn } from '@/api/auth'
 import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools.ts'
@@ -238,6 +243,10 @@ export default defineComponent({
     }
 
     const { setRawSetting, compareData } = useBuiltInDataUpdateTip()
+    const updateEnable = function () {
+      configData.value.enable = !configData.value.enable
+      handleUpdate({ enable: configData.value.enable })
+    }
     /**
      * @param authn has value when the action is update status
      */
@@ -310,6 +319,7 @@ export default defineComponent({
     initData()
 
     return {
+      Delete,
       currBackend,
       refreshLoading,
       currTab,
@@ -323,6 +333,7 @@ export default defineComponent({
       handleDelete,
       getAuthnMetrics,
       handleRefresh,
+      updateEnable,
     }
   },
 })

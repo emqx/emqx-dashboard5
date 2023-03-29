@@ -13,7 +13,7 @@
           <InfoTooltip :content="tl('nodeStatusDesc')" />
         </p>
       </div>
-      <el-table :data="nodeMetricsTableData" class="shadow-none">
+      <el-table :data="nodeMetricsTableData">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column :label="tl('success')" prop="metrics.succeed" />
         <el-table-column :label="tl('failure')" prop="metrics.failed" />

@@ -1,5 +1,5 @@
 <template>
-  <div class="auth auth-details app-wrapper">
+  <div class="auth auth-details details app-wrapper">
     <detail-header :item="{ name: titleMap[type], path: '/authorization' }" />
     <div class="section-header">
       <div class="section-header__block">
@@ -13,12 +13,22 @@
         </div>
       </div>
       <div>
-        <el-button @click="handleUpdate(configData)">
+        <el-tooltip
+          :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
+          placement="top"
+        >
+          <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
+        </el-tooltip>
+        <el-tooltip :content="$t('Base.delete')" placement="top">
+          <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+          </el-button>
+        </el-tooltip>
+        <!-- <el-button @click="handleUpdate(configData)">
           {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
         <el-button type="danger" plain @click="handleDelete">
           {{ $t('Base.delete') }}
-        </el-button>
+        </el-button> -->
       </div>
     </div>
     <el-tabs class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
@@ -73,6 +83,9 @@
 
 <script>
 import { computed, defineComponent, ref } from 'vue'
+import { ElMessageBox as MB, ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+import { Delete } from '@element-plus/icons-vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { loadAuthz, deleteAuthz, updateAuthz } from '@/api/auth'
 import FileConfig from './components/FileConfig.vue'
@@ -82,8 +95,6 @@ import useAuth from '@/hooks/Auth/useAuth'
 import AuthzManager from './components/AuthzManager.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessageBox as MB, ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import { jumpToErrorFormItem } from '@/common/tools'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import { queryAuthzItemMetrics } from '@/api/auth'
@@ -112,7 +123,6 @@ export default defineComponent({
     const configData = ref({
       ssl: { enable: false },
       topology: {},
-      // resource_opts: {},
     })
     const authMetrics = ref(undefined)
     const formCom = ref()
@@ -163,7 +173,10 @@ export default defineComponent({
         //
       }
     }
-
+    const updateEnable = () => {
+      configData.value.enable = !configData.value.enable
+      handleUpdate({ enable: configData.value.enable })
+    }
     /**
      * @param authz has value when the action is update status
      */
@@ -217,6 +230,7 @@ export default defineComponent({
     initData()
 
     return {
+      Delete,
       type,
       currImg,
       currTab,
@@ -229,6 +243,7 @@ export default defineComponent({
       handleDelete,
       handleUpdate,
       handleRefresh,
+      updateEnable,
     }
   },
 })

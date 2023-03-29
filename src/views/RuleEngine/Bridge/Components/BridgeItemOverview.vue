@@ -4,12 +4,13 @@
       <div class="overview-header">
         <p class="block-title">{{ tl('egressStatistics') }}</p>
         <div v-if="!(showIngressStats && !showEgressStats)">
-          <el-button type="primary" @click="handleRefresh">
-            {{ $t('Base.refresh') }}
-          </el-button>
-          <el-button type="primary" plain @click="resetStatistics">
-            {{ tl('resetStatistics') }}
-          </el-button>
+          <el-tooltip :content="$t('Base.refresh')" placement="top">
+            <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
+            </el-button>
+          </el-tooltip>
+          <el-tooltip :content="tl('resetStatistics')" placement="top">
+            <el-button class="icon-button" :icon="Close" @click="resetStatistics"> </el-button>
+          </el-tooltip>
         </div>
       </div>
       <div class="overview-sub-block">
@@ -21,12 +22,13 @@
       <div class="overview-header">
         <p class="block-title">{{ tl('ingressStatistics') }}</p>
         <div v-if="showIngressStats && !showEgressStats">
-          <el-button type="primary" @click="handleRefresh">
-            {{ $t('Base.refresh') }}
-          </el-button>
-          <el-button type="primary" plain @click="resetStatistics">
-            {{ tl('resetStatistics') }}
-          </el-button>
+          <el-tooltip :content="$t('Base.refresh')" placement="top">
+            <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
+            </el-button>
+          </el-tooltip>
+          <el-tooltip :content="tl('resetStatistics')" placement="top">
+            <el-button class="icon-button" :icon="Close" @click="resetStatistics"> </el-button>
+          </el-tooltip>
         </div>
       </div>
       <div class="overview-sub-block">
@@ -95,6 +97,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { computed, ComputedRef, defineEmits, defineProps, PropType, ref, Ref, watch } from 'vue'
+import { Close, Refresh } from '@element-plus/icons-vue'
 import { queryBridgeMetrics, reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
@@ -104,7 +108,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, BridgeMetricsData, NodeMetrics, NodeStatus } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { computed, ComputedRef, defineEmits, defineProps, PropType, ref, Ref, watch } from 'vue'
 
 const props = defineProps({
   /**

@@ -3,9 +3,10 @@
     <div class="overview-sub-block">
       <div class="overview-header">
         <p>{{ tl('statistics') }}</p>
-        <el-button type="primary" :loading="refreshLoading" @click="handleRefresh">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <el-tooltip :content="$t('Base.refresh')" placement="top">
+          <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
+          </el-button>
+        </el-tooltip>
       </div>
       <TargetDetailMetrics :metrics="metricsData" />
     </div>
@@ -50,6 +51,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, PropType, computed, ref, Ref, watch, defineEmits } from 'vue'
+import { Refresh } from '@element-plus/icons-vue'
 import { ConnectionStatus } from '@/types/enum'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { Metrics } from '@/types/auth'

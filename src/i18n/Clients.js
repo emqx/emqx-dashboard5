@@ -1,7 +1,7 @@
 export default {
   addASubscription: {
     zh: '添加订阅',
-    en: 'Add',
+    en: 'New Subscription',
   },
   pleaseEnter: {
     zh: '请输入',

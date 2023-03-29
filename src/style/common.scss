@@ -107,9 +107,22 @@ p.description {
   }
 }
 
+.container {
+  height: 100%;
+}
+
 .app-wrapper {
   padding: 24px;
+  // &.details {
+  //   background: #ffffffed;
+  //   height: 218px;
+  //   border-bottom: 1px solid var(--color-border-primary);
+  // }
+  // .detail-main {
+  //   margin-bottom: 48px;
+  // }
 }
+
 .app-wrapper-compact {
   padding: 15px 10px;
 }
@@ -197,6 +210,13 @@ p.description {
   &__right {
     text-align: right;
   }
+}
+
+.el-button.icon-button {
+  font-size: 18px;
+}
+.enable-btn {
+  margin-right: 12px;
 }
 
 .g-coap::before {
