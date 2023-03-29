@@ -363,10 +363,6 @@ export default {
     zh: '使用 Prometheus 采集指标数据',
     en: 'Integrated with Prometheus',
   },
-  statsdDesc: {
-    zh: '使用 StatsD 采集指标数据',
-    en: 'Integration with StatsD',
-  },
   role: {
     zh: '角色',
     en: 'Role',
