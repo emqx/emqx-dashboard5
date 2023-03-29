@@ -4,7 +4,7 @@
       <detail-header
         :item="{
           name: clientId,
-          path: '/connections',
+          path: '/clients',
           backFunc: gateway
             ? () => {
                 emit('refreshGateway')
@@ -386,7 +386,7 @@ const handleDisconnect = async () => {
     .then(() => {
       if (record.value === null) return
       if (!props.gateway) {
-        router.push({ name: 'connections' })
+        router.push({ name: 'clients' })
       }
       record.value.connected = false
       ElMessage.success(successMsg)

@@ -177,9 +177,9 @@ export default defineComponent({
         path: '/dashboard',
       },
       {
-        title: 'connections',
+        title: 'clients',
         icon: 'icon-connections',
-        path: '/connections',
+        path: '/clients',
       },
       {
         title: 'subscriptions',
