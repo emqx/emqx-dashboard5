@@ -5,18 +5,23 @@
       <div class="exhook-detail-hd">
         <ExhookItemStatus :exhook="exhookData" is-tag />
         <div>
-          <el-button type="danger" plain @click="handleDelete">
-            {{ tl('delete', 'Base') }}
-          </el-button>
-          <el-button type="primary" @click="updateExhookStatus(false)" v-if="exhookData.enable">
-            {{ tl('disable', 'Base') }}
-          </el-button>
-          <el-button type="primary" @click="updateExhookStatus(true)" v-else>
-            {{ tl('enable', 'Base') }}
-          </el-button>
+          <el-tooltip
+            :content="exhookData.enable ? $t('Base.disable') : $t('Base.enable')"
+            placement="top"
+          >
+            <el-switch
+              class="enable-btn"
+              v-model="exhookData.enable"
+              @change="updateExhookStatus"
+            />
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.delete')" placement="top">
+            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            </el-button>
+          </el-tooltip>
         </div>
       </div>
-      <el-tabs type="card" class="detail-tabs" v-model="activeTab">
+      <el-tabs class="detail-tabs" v-model="activeTab">
         <el-tab-pane :label="tl('overview')" name="overview">
           <ExhookItemOverview :exhook="exhookData" />
         </el-tab-pane>
@@ -59,8 +64,9 @@
 </template>
 
 <script setup lang="ts">
-import { Exhook, RegisteredHook } from '@/types/systemModule'
 import { computed, ref, Ref } from 'vue'
+import { Delete } from '@element-plus/icons-vue'
+import { Exhook, RegisteredHook } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import ExhookForm from './components/ExhookForm.vue'

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'app-wrapper': !isFromRule }">
+  <div :class="{ 'app-wrapper': !isFromRule, details: true }">
     <div class="bridge-detail">
       <detail-header
         v-if="!isFromRule"
@@ -19,20 +19,37 @@
             </div>
           </div>
           <div>
-            <el-button
-              type="primary"
-              :disabled="!bridgeInfo.enable"
-              plain
-              @click="createRuleWithBridge"
+            <el-tooltip
+              :content="bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable')"
+              placement="top"
             >
-              {{ tl('createRule') }}
-            </el-button>
-            <el-button @click="enableOrDisableBridge">
-              {{ bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
-            </el-button>
-            <el-button type="danger" @click="handleDelete" plain>
-              {{ $t('Base.delete') }}
-            </el-button>
+              <el-switch
+                class="enable-btn"
+                v-model="bridgeInfo.enable"
+                @change="enableOrDisableBridge"
+              />
+            </el-tooltip>
+            <el-tooltip :content="tl('createRule')" placement="top">
+              <el-button
+                class="icon-button"
+                type="primary"
+                :icon="Share"
+                :disabled="!bridgeInfo.enable"
+                plain
+                @click="createRuleWithBridge"
+              >
+              </el-button>
+            </el-tooltip>
+            <el-tooltip :content="$t('Base.delete')" placement="top">
+              <el-button
+                class="icon-button"
+                type="danger"
+                :icon="Delete"
+                @click="handleDelete"
+                plain
+              >
+              </el-button>
+            </el-tooltip>
           </div>
         </div>
         <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
@@ -125,11 +142,12 @@ import {
   ComputedRef,
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete, Share } from '@element-plus/icons-vue'
 import { getBridgeInfo, updateBridge, startStopBridge, testConnect } from '@/api/ruleengine'
 import { BridgeItem } from '@/types/rule'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
@@ -309,6 +327,7 @@ const updateBridgeInfo = async () => {
 
 const enableOrDisableBridge = async () => {
   infoLoading.value = true
+  bridgeInfo.value.enable = !bridgeInfo.value.enable
   const statusToSend = bridgeInfo.value.enable ? 'disable' : 'enable'
   const sucMessage = bridgeInfo.value.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'
   try {

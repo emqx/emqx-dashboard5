@@ -1,5 +1,5 @@
 <template>
-  <div class="iot-detail app-wrapper">
+  <div class="iot-detail app-wrapper details">
     <detail-header :item="{ name: ruleInfo.id, path: '/rules' }" />
     <div class="section-header">
       <div>
@@ -8,12 +8,16 @@
         </span>
       </div>
       <div>
-        <el-button @click="enableOrDisableRule()">
-          {{ ruleInfo.enable ? $t('Base.disable') : $t('Base.enable') }}
-        </el-button>
-        <el-button type="danger" plain @click="deleteRule">
-          {{ $t('Base.delete') }}
-        </el-button>
+        <el-tooltip
+          :content="ruleInfo.enable ? $t('Base.disable') : $t('Base.enable')"
+          placement="top"
+        >
+          <el-switch class="enable-btn" v-model="ruleInfo.enable" @change="enableOrDisableRule" />
+        </el-tooltip>
+        <el-tooltip :content="$t('Base.delete')" placement="top">
+          <el-button class="icon-button" type="danger" :icon="Delete" @click="deleteRule" plain>
+          </el-button>
+        </el-tooltip>
       </div>
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
@@ -41,11 +45,12 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, Ref, computed, ComputedRef } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
 import iotform from '../components/IoTForm.vue'
 import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import { RuleItem } from '@/types/rule'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -100,6 +105,7 @@ const loadRuleDetail = async () => {
 
 const enableOrDisableRule = async () => {
   infoLoading.value = true
+  ruleInfo.value.enable = !ruleInfo.value.enable
   try {
     await updateRules(id, { enable: !ruleInfo.value.enable })
     ElMessage.success(t(ruleInfo.value.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'))

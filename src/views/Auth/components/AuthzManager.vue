@@ -15,15 +15,19 @@
             @clear="resetPageAndLoadData"
             @keyup.enter="resetPageAndLoadData"
           />
-          <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="loadData">
-            {{ $t('Base.refresh') }}
-          </el-button>
+          <el-tooltip :content="$t('Base.search')" placement="top">
+            <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
+            </el-button>
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.refresh')" placement="top">
+            <el-button class="icon-button" type="primary" :icon="Refresh" @click="loadData">
+            </el-button>
+          </el-tooltip>
         </template>
       </div>
-      <el-button type="primary" :icon="Plus" @click="handleAdd"> {{ $t('Base.add') }} </el-button>
+      <el-tooltip :content="$t('Base.add')" placement="top">
+        <el-button class="icon-button" type="primary" :icon="Plus" @click="handleAdd"> </el-button>
+      </el-tooltip>
     </div>
     <el-table v-if="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
       <el-table-column v-if="false" type="expand" />
@@ -230,7 +234,7 @@ import commonPagination from '@/components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus, Search, RefreshRight } from '@element-plus/icons-vue'
+import { Plus, Search, Refresh } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
@@ -500,7 +504,7 @@ export default defineComponent({
       BuiltInDBType,
       Plus,
       Search,
-      RefreshRight,
+      Refresh,
       recordForm,
       type,
       typeList,

@@ -18,24 +18,29 @@
               <TextEasyCopy :content="clientId">
                 <PreWithEllipsis>{{ clientId }}</PreWithEllipsis>
               </TextEasyCopy>
-              <span>({{ tl('clientId') }})</span>
             </p>
           </el-tooltip>
         </template>
       </detail-header>
       <div class="actions">
-        <el-button type="primary" :icon="Refresh" @click="loadData">
-          {{ $t('Base.refresh') }}
-        </el-button>
-        <el-button
-          v-if="doesTheClientExist"
-          type="danger"
-          :icon="SwitchButton"
-          plain
-          @click="handleDisconnect"
+        <el-tooltip :content="$t('Base.refresh')" placement="top">
+          <el-button class="icon-button" type="primary" :icon="Refresh" @click="loadData">
+          </el-button>
+        </el-tooltip>
+        <el-tooltip
+          :content="record.connected ? tl('kickOut') : tl('cleanSession')"
+          placement="top"
         >
-          {{ record.connected ? tl('kickOut') : tl('cleanSession') }}
-        </el-button>
+          <el-button
+            v-if="doesTheClientExist"
+            class="icon-button"
+            type="danger"
+            :icon="Delete"
+            plain
+            @click="handleDisconnect"
+          >
+          </el-button>
+        </el-tooltip>
       </div>
     </div>
     <template v-if="doesTheClientExist">
@@ -208,7 +213,7 @@ import useClientDetail from '@/hooks/Clients/useClientDetail'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Client } from '@/types/client'
 import { Subscription } from '@/types/subscription'
-import { Plus, Refresh, SwitchButton, Warning } from '@element-plus/icons-vue'
+import { Delete, Plus, Refresh, Warning } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'

@@ -606,12 +606,13 @@
   padding: 16px;
   border-radius: 8px;
   box-shadow: var(--el-notification-shadow);
-  height: 56px;
+  min-height: 56px;
   .el-icon {
     font-size: 18px;
   }
   .el-message__content {
     color: #343741;
+    line-height: 1.5;
   }
   .el-message__closeBtn {
     color: #343741;
