@@ -19,34 +19,37 @@
             <el-option :value="true" :label="$t('Base.yes')" />
             <el-option :value="false" :label="$t('Base.no')" />
           </el-select>
-          <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="loadData">
-            {{ $t('Base.refresh') }}
-          </el-button>
+          <el-tooltip :content="$t('Base.search')" placement="top">
+            <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
+            </el-button>
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.refresh')" placement="top">
+            <el-button class="icon-button" type="primary" :icon="Refresh" @click="loadData">
+            </el-button>
+          </el-tooltip>
         </el-space>
       </div>
       <div class="add-funcs-container">
         <template v-if="mechanism === 'password_based'">
-          <el-button :icon="Document" @click="downloadTemplate">
-            {{ $t('Base.downloadTemplate') }}
-          </el-button>
-          <el-upload
-            ref="upload"
-            class="file-upload"
-            :show-file-list="false"
-            :auto-upload="false"
-            :on-change="handleUsersFileChange"
-          >
-            <el-button type="primary" plain :icon="Upload">
-              {{ $t('Base.import') }}
-            </el-button>
-          </el-upload>
+          <el-tooltip :content="$t('Base.downloadTemplate')" placement="top">
+            <el-button class="icon-button" :icon="Document" @click="downloadTemplate"> </el-button>
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.import')" placement="top">
+            <el-upload
+              ref="upload"
+              class="file-upload"
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-change="handleUsersFileChange"
+            >
+              <el-button class="icon-button" type="primary" plain :icon="Upload"> </el-button>
+            </el-upload>
+          </el-tooltip>
         </template>
-        <el-button type="primary" :icon="Plus" @click="addCommand">
-          {{ $t('Base.add') }}
-        </el-button>
+        <el-tooltip :content="$t('Base.add')" placement="top">
+          <el-button class="icon-button" type="primary" :icon="Plus" @click="addCommand">
+          </el-button>
+        </el-tooltip>
       </div>
     </div>
 
@@ -132,7 +135,7 @@ import { downloadByURL } from '@/common/tools'
 import commonPagination from '@/components/commonPagination.vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
-import { Document, Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
+import { Document, Plus, Refresh, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { computed, defineProps, onMounted, PropType, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'

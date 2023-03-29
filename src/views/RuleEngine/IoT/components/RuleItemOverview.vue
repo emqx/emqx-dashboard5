@@ -3,12 +3,13 @@
     <div class="overview-header">
       <p class="block-title">{{ tl('executionStatistics') }}</p>
       <div>
-        <el-button type="primary" @click="getRuleMetricsData">
-          {{ $t('Base.refresh') }}
-        </el-button>
-        <el-button type="primary" plain @click="resetStatistics">
-          {{ tl('resetStatistics') }}
-        </el-button>
+        <el-tooltip :content="$t('Base.refresh')" placement="top">
+          <el-button class="icon-button" type="primary" :icon="Refresh" @click="getRuleMetricsData">
+          </el-button>
+        </el-tooltip>
+        <el-tooltip :content="tl('resetStatistics')" placement="top">
+          <el-button class="icon-button" :icon="Close" @click="resetStatistics"> </el-button>
+        </el-tooltip>
       </div>
     </div>
     <div class="overview-sub-block">
@@ -89,6 +90,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, PropType, computed, onMounted, ref, Ref } from 'vue'
+import { Close, Refresh } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { RuleItem, RuleMetrics } from '@/types/rule'
 import InfoTooltip from '@/components/InfoTooltip.vue'

@@ -365,7 +365,7 @@ export default {
   },
   rateLast5M: {
     zh: '最近 5 分钟速率',
-    en: 'Rate in the Last 5 Minutes',
+    en: 'Rate in Last 5 Min',
   },
   sent: {
     zh: '已发送',

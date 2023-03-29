@@ -385,7 +385,7 @@ export default {
   },
   disableAuthnTip: {
     zh: '停用该认证器后，将影响客户端的安全连接，是否继续？',
-    en: `Disabling this authentication will affect the client's secure connection. Continue?`,
+    en: 'Disabling this authenticator will affect the security connection of the client, continue?',
   },
   disableAuthzTip: {
     zh: '停用该授权后，将影响客户端发布/订阅时的权限操作，是否继续？',

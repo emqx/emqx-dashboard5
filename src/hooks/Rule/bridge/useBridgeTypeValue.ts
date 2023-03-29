@@ -91,7 +91,6 @@ export const useBridgeTypeIcon = (): {
   const getBridgeIconKey = (value: string) => getBridgeType(value)
 
   const getBridgeIcon = (type: string): string => {
-    console.log(type)
     if (!type) {
       return ''
     }

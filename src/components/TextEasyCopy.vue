@@ -31,7 +31,7 @@ const handleClick = () => {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 4px;
-  cursor: default;
+  cursor: copy;
   &:hover {
     background-color: var(--color-hover);
   }
