@@ -59,9 +59,9 @@ export default {
     zh: '连接',
     en: 'Connections',
   },
-  connections: {
-    zh: '连接管理',
-    en: 'Connections',
+  clients: {
+    zh: '客户端',
+    en: 'Clients',
   },
   topics: {
     zh: '主题',
