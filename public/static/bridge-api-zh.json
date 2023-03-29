@@ -7616,13 +7616,12 @@
                         "type": "number"
                     },
                     "offset_reset_policy": {
-                        "default": "reset_to_latest",
-                        "description": "定义当一个主题分区的初始偏移量无效或没有初始偏移量时，消费者应如何重置开始偏移量。",
+                        "default": "latest",
+                        "description": "当没有主题分区没有偏移量的历史记录，或则历史记录失效后，消费者应该使用哪个偏移量重新开始消费",
                         "label": "偏移重置策略",
                         "symbols": [
-                            "reset_to_latest",
-                            "reset_to_earliest",
-                            "reset_by_subscriber"
+                            "latest",
+                            "earliest"
                         ],
                         "type": "enum"
                     },

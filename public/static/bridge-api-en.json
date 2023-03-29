@@ -7616,13 +7616,12 @@
                         "type": "number"
                     },
                     "offset_reset_policy": {
-                        "default": "reset_to_latest",
-                        "description": "Defines how the consumers should reset the start offset when a topic partition has and invalid or no initial offset.",
+                        "default": "latest",
+                        "description": "Defines from which offset a consumer should start fetching when there is no commit history or when the commit history becomes invalid.",
                         "label": "Offset Reset Policy",
                         "symbols": [
-                            "reset_to_latest",
-                            "reset_to_earliest",
-                            "reset_by_subscriber"
+                            "latest",
+                            "earliest"
                         ],
                         "type": "enum"
                     },
