@@ -2985,8 +2985,8 @@
                     },
                     "key_encoding_mode": {
                         "default": "none",
-                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
-                        "label": "Encoding Mode",
+                        "description": "Defines how the key from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key from the Kafka message unchanged.  Note: in this case, then the key must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key.",
+                        "label": "Key Encoding Mode",
                         "symbols": [
                             "none",
                             "base64"
@@ -2995,8 +2995,8 @@
                     },
                     "value_encoding_mode": {
                         "default": "none",
-                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
-                        "label": "Encoding Mode",
+                        "description": "Defines how the value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, then the value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received value.",
+                        "label": "Value Encoding Mode",
                         "symbols": [
                             "none",
                             "base64"
@@ -3504,8 +3504,8 @@
                     },
                     "key_encoding_mode": {
                         "default": "none",
-                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
-                        "label": "Encoding Mode",
+                        "description": "Defines how the key from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key from the Kafka message unchanged.  Note: in this case, then the key must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key.",
+                        "label": "Key Encoding Mode",
                         "symbols": [
                             "none",
                             "base64"
@@ -3514,8 +3514,8 @@
                     },
                     "value_encoding_mode": {
                         "default": "none",
-                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
-                        "label": "Encoding Mode",
+                        "description": "Defines how the value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, then the value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received value.",
+                        "label": "Value Encoding Mode",
                         "symbols": [
                             "none",
                             "base64"
@@ -7451,8 +7451,8 @@
                     },
                     "key_encoding_mode": {
                         "default": "none",
-                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
-                        "label": "Encoding Mode",
+                        "description": "Defines how the key from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key from the Kafka message unchanged.  Note: in this case, then the key must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key.",
+                        "label": "Key Encoding Mode",
                         "symbols": [
                             "none",
                             "base64"
@@ -7461,8 +7461,8 @@
                     },
                     "value_encoding_mode": {
                         "default": "none",
-                        "description": "Defines how the key or value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the key or value from the Kafka message unchanged.  Note: in this case, then the key or value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key or value.",
-                        "label": "Encoding Mode",
+                        "description": "Defines how the value from the Kafka message is dealt with before being forwarded via MQTT.<br/><code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, then the value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received value.",
+                        "label": "Value Encoding Mode",
                         "symbols": [
                             "none",
                             "base64"
