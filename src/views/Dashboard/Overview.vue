@@ -75,8 +75,8 @@
         <el-card class="main-info-card">
           <el-row :gutter="40">
             <el-col :span="8" class="main-info-item">
-              <router-link :to="{ name: 'connections' }">
-                <img src="@/assets/img/connections.png" width="40" height="40" alt="connections" />
+              <router-link :to="{ name: 'clients' }">
+                <img src="@/assets/img/connections.png" width="40" height="40" alt="clients" />
                 <p>{{ $t('Dashboard.connectionNumber') }}</p>
               </router-link>
               <div class="num">{{ _formatNumber(currentMetrics.connections) }}</div>

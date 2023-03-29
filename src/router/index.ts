@@ -87,21 +87,21 @@ export const routes: Array<RouteRecordRaw> = [
 
   // Connections
   {
-    path: '/connections',
+    path: '/clients',
     component: Layout,
     meta: {
-      hideKey: 'connections',
+      hideKey: 'clients',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'connections',
+        name: 'clients',
         component: () => import('@/views/Clients/Clients.vue'),
       },
       {
         path: 'detail/:clientId',
-        name: 'connection-detail',
+        name: 'clients-detail',
         component: () => import('@/views/Clients/ClientDetails.vue'),
       },
     ],
@@ -272,8 +272,8 @@ export const routes: Array<RouteRecordRaw> = [
             component: () => import('@/views/Gateway/components/auth.vue'),
           },
           {
-            path: 'connections',
-            name: 'gateway-detail-connections',
+            path: 'clients',
+            name: 'gateway-detail-clients',
             component: () => import('@/views/Gateway/components/clients.vue'),
           },
         ],

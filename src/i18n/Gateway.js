@@ -27,9 +27,9 @@ export default {
     en: 'Authentication',
     zh: '接入认证',
   },
-  connections: {
-    zh: '连接管理',
-    en: 'Connections',
+  clients: {
+    zh: '客户端',
+    en: 'Clients',
   },
   more: {
     zh: '更多',

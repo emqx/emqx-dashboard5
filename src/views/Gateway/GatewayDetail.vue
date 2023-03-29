@@ -43,7 +43,7 @@ export default defineComponent({
     let gInfo = ref({})
     const { t } = useI18n()
     const route = useRoute()
-    const types = ['settings', 'connections', 'auth', 'listeners']
+    const types = ['settings', 'clients', 'auth', 'listeners']
     const gname = String(route.params.name).toLowerCase()
     const { transGatewayName } = useTransName()
 
