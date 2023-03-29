@@ -2985,8 +2985,8 @@
                     },
                     "key_encoding_mode": {
                         "default": "none",
-                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
-                        "label": "编码模式",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的 Key。<code>none</code> 使用Kafka消息中的 Key 原始值，不进行编码。  注意：在这种情况下，Key 必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "Key 编码模式",
                         "symbols": [
                             "none",
                             "base64"
@@ -2995,8 +2995,8 @@
                     },
                     "value_encoding_mode": {
                         "default": "none",
-                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
-                        "label": "编码模式",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的 Value。<code>none</code> 使用Kafka消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的 Value 使用base-64编码。",
+                        "label": "Value 编码模式",
                         "symbols": [
                             "none",
                             "base64"
@@ -3504,8 +3504,8 @@
                     },
                     "key_encoding_mode": {
                         "default": "none",
-                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
-                        "label": "编码模式",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的 Key。<code>none</code> 使用Kafka消息中的 Key 原始值，不进行编码。  注意：在这种情况下，Key 必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "Key 编码模式",
                         "symbols": [
                             "none",
                             "base64"
@@ -3514,8 +3514,8 @@
                     },
                     "value_encoding_mode": {
                         "default": "none",
-                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
-                        "label": "编码模式",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的 Value。<code>none</code> 使用Kafka消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的 Value 使用base-64编码。",
+                        "label": "Value 编码模式",
                         "symbols": [
                             "none",
                             "base64"
@@ -6850,7 +6850,7 @@
                     "nodelay": {
                         "default": true,
                         "description": "设置‘true’让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
-                        "label": "是否延迟发送",
+                        "label": "是否关闭延迟发送",
                         "type": "boolean"
                     }
                 },
@@ -7451,8 +7451,8 @@
                     },
                     "key_encoding_mode": {
                         "default": "none",
-                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
-                        "label": "编码模式",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的 Key。<code>none</code> 使用Kafka消息中的 Key 原始值，不进行编码。  注意：在这种情况下，Key 必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
+                        "label": "Key 编码模式",
                         "symbols": [
                             "none",
                             "base64"
@@ -7461,8 +7461,8 @@
                     },
                     "value_encoding_mode": {
                         "default": "none",
-                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的键或值。<code>none</code> 使用Kafka消息中的键或值，不改变。  注意：在这种情况下，那么键或值必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的密钥或值使用base-64编码。",
-                        "label": "编码模式",
+                        "description": "定义了在通过MQTT转发之前如何处理Kafka消息的 Value。<code>none</code> 使用Kafka消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的UTF-8字符串。<br/><code>base64</code> 对收到的 Value 使用base-64编码。",
+                        "label": "Value 编码模式",
                         "symbols": [
                             "none",
                             "base64"
