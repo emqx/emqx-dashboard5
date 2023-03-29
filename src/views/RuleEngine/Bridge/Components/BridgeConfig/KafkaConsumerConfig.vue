@@ -59,7 +59,7 @@
               </template>
             </InfoTooltip>
           </template>
-          <el-input v-model="kafkaConfig.offset_commit_interval_seconds" />
+          <TimeInputWithUnitSelect :enabled-units="['s']" v-model="secondProxy" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -71,6 +71,7 @@ import { usefulMemoryUnit } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
 
@@ -95,6 +96,22 @@ const kafkaConfig = computed({
   },
   set(val) {
     emit('update:modelValue', val)
+  },
+})
+
+const secondProxy = computed({
+  get() {
+    if (!props.modelValue.offset_commit_interval_seconds) {
+      return undefined
+    }
+    return props.modelValue.offset_commit_interval_seconds + 's'
+  },
+  set(val) {
+    if (val && !Number.isNaN(parseFloat(val))) {
+      kafkaConfig.value.offset_commit_interval_seconds = parseFloat(val)
+    } else {
+      kafkaConfig.value.offset_commit_interval_seconds = undefined
+    }
   },
 })
 </script>
