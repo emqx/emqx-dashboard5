@@ -267,15 +267,6 @@
             <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="socket_opts.nodelay">
-            <template #label>
-              <span>{{ getProducerPropItem('socket_opts.nodelay').label }}</span>
-              <InfoTooltip :content="getProducerPropItem('socket_opts.nodelay').description" />
-            </template>
-            <el-switch v-model="formData.socket_opts.nodelay" />
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
   </div>
@@ -375,7 +366,6 @@ const createDefaultCommonPart = () => ({
   socket_opts: {
     sndbuf: '1024KB',
     recbuf: '1024KB',
-    nodelay: true,
   },
   ssl: createSSLForm(),
 })
@@ -410,8 +400,7 @@ const createDefaultConsumer = () => ({
   topic_mapping: [],
   kafka: {
     max_batch_bytes: '896KB',
-    max_rejoin_attempts: 5,
-    offset_reset_policy: 'reset_to_latest',
+    offset_reset_policy: 'latest',
     offset_commit_interval_seconds: 5,
   },
   key_encoding_mode: 'none',
