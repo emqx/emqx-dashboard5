@@ -45,6 +45,10 @@ const { t } = useI18n()
   width: 260px;
   padding: 16px 12px;
 
+  p {
+    margin: 0;
+  }
+
   ul {
     padding-left: 0;
     margin-top: 0;

@@ -3,7 +3,6 @@
     <el-tabs
       v-model="activeTab"
       type="card"
-      class="detail-tabs"
       :before-leave="handleBeforeLeave"
       @tab-remove="handleTabEdit"
     >
@@ -151,6 +150,12 @@ addNewTab()
 
 <style lang="scss" scoped>
 .el-tabs {
+  :deep(.el-tabs__header) {
+    margin-bottom: 24px;
+    .el-tabs__item.is-active {
+      border-bottom: 1px solid var(--color-bg-main);
+    }
+  }
   & :deep(.el-badge__content.is-dot) {
     top: 7px;
     right: 5px;
