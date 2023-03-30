@@ -77,7 +77,7 @@
         </el-col>
       </el-row>
     </div>
-    <CommonTLSConfig class="tls-config-form" v-model="connectorVal.ssl" :is-edit="edit" />
+    <CommonTLSConfig class="tls-config-form" v-model="connectorVal.ssl" :is-edit="edit || copy" />
     <el-divider />
   </div>
 </template>
@@ -104,7 +104,12 @@ export default defineComponent({
     edit: {
       type: Boolean,
       required: false,
-      default: () => false,
+      default: false,
+    },
+    copy: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     /**
      * for form rules

@@ -82,7 +82,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <CommonTLSConfig class="tls-config-form" v-model="httpBridgeVal.ssl" :is-edit="edit" />
+      <CommonTLSConfig
+        class="tls-config-form"
+        v-model="httpBridgeVal.ssl"
+        :is-edit="edit || copy"
+      />
       <el-divider />
       <el-row :gutter="26">
         <el-col :span="24">
