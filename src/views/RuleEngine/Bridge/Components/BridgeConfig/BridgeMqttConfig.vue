@@ -117,8 +117,8 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
-import { MQTTBridge } from '@/types/rule'
 import ConnectorMqttConfig from './ConnectorMqttConfig.vue'
+import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import _ from 'lodash'
 import {
@@ -137,7 +137,7 @@ import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<MQTTBridge>,
+    type: Object as PropType<MQTTBridge | BridgeItem>,
     required: false,
     default: () => ({}),
   },

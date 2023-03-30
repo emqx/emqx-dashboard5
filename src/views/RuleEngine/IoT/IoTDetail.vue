@@ -1,43 +1,47 @@
 <template>
-  <div class="iot-detail app-wrapper details">
-    <detail-header :item="{ name: ruleInfo.id, path: '/rules' }" />
-    <div class="section-header">
-      <div>
-        <span class="title-n-status">
-          <RuleItemStatus :rule="ruleInfo" is-tag />
-        </span>
-      </div>
-      <div>
-        <el-tooltip
-          :content="ruleInfo.enable ? $t('Base.disable') : $t('Base.enable')"
-          placement="top"
-        >
-          <el-switch class="enable-btn" v-model="ruleInfo.enable" @change="enableOrDisableRule" />
-        </el-tooltip>
-        <el-tooltip :content="$t('Base.delete')" placement="top">
-          <el-button class="icon-button" type="danger" :icon="Delete" @click="deleteRule" plain>
-          </el-button>
-        </el-tooltip>
+  <div class="iot-detail">
+    <div class="detail-top">
+      <detail-header :item="{ name: ruleInfo.id, path: '/rules' }" />
+      <div class="section-header">
+        <div>
+          <span class="title-n-status">
+            <RuleItemStatus :rule="ruleInfo" is-tag />
+          </span>
+        </div>
+        <div>
+          <el-tooltip
+            :content="ruleInfo.enable ? $t('Base.disable') : $t('Base.enable')"
+            placement="top"
+          >
+            <el-switch class="enable-btn" v-model="ruleInfo.enable" @change="enableOrDisableRule" />
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.delete')" placement="top">
+            <el-button class="icon-button" type="danger" :icon="Delete" @click="deleteRule" plain>
+            </el-button>
+          </el-tooltip>
+        </div>
       </div>
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
-      <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
-        <div v-loading="infoLoading">
-          <RuleItemOverview :rule-id="id" />
-        </div>
-      </el-tab-pane>
-      <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>
-        <el-card class="detail-card overview-visible" v-loading="infoLoading">
-          <iotform
-            ref="formCom"
-            v-model="ruleInfo"
-            is-edit
-            :submit-loading="submitLoading"
-            @save="submitUpdateRules"
-            @save-as-copy="saveAsCopy"
-          />
-        </el-card>
-      </el-tab-pane>
+      <div class="app-wrapper">
+        <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
+          <div v-loading="infoLoading">
+            <RuleItemOverview :rule-id="id" />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>
+          <el-card class="detail-card overview-visible" v-loading="infoLoading">
+            <iotform
+              ref="formCom"
+              v-model="ruleInfo"
+              is-edit
+              :submit-loading="submitLoading"
+              @save="submitUpdateRules"
+              @save-as-copy="saveAsCopy"
+            />
+          </el-card>
+        </el-tab-pane>
+      </div>
     </el-tabs>
     <CopySubmitDialog :target="copyTarget" v-model="showNameInputDialog" />
   </div>

@@ -1,126 +1,120 @@
 <template>
-  <div :class="{ 'app-wrapper': !isFromRule, details: true }">
-    <div class="bridge-detail">
+  <div class="bridge-detail">
+    <div class="detail-top">
       <detail-header
         v-if="!isFromRule"
         :item="{ name: bridgeInfo.name, routeName: 'data-bridge' }"
       />
-      <div class="detail-main">
-        <div v-if="!isFromRule" class="section-header">
-          <div>
-            <img :src="getBridgeIcon(bridgeInfo.type)" />
-            <div class="title-n-status">
-              <div class="info-tags">
-                <BridgeItemStatus :bridge="bridgeInfo" is-tag />
-                <el-tag type="info" class="section-status">
-                  {{ getTypeStr(bridgeInfo) }}
-                </el-tag>
-              </div>
+      <div v-if="!isFromRule" class="section-header">
+        <div>
+          <img :src="getBridgeIcon(bridgeInfo.type)" />
+          <div class="title-n-status">
+            <div class="info-tags">
+              <BridgeItemStatus :bridge="bridgeInfo" is-tag />
+              <el-tag type="info" class="section-status">
+                {{ getTypeStr(bridgeInfo) }}
+              </el-tag>
             </div>
-          </div>
-          <div>
-            <el-tooltip
-              :content="bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable')"
-              placement="top"
-            >
-              <el-switch
-                class="enable-btn"
-                v-model="bridgeInfo.enable"
-                @change="enableOrDisableBridge"
-              />
-            </el-tooltip>
-            <el-tooltip :content="tl('createRule')" placement="top">
-              <el-button
-                class="icon-button"
-                type="primary"
-                :icon="Share"
-                :disabled="!bridgeInfo.enable"
-                plain
-                @click="createRuleWithBridge"
-              >
-              </el-button>
-            </el-tooltip>
-            <el-tooltip :content="$t('Base.delete')" placement="top">
-              <el-button
-                class="icon-button"
-                type="danger"
-                :icon="Delete"
-                @click="handleDelete"
-                plain
-              >
-              </el-button>
-            </el-tooltip>
           </div>
         </div>
-        <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
-          <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
-            <div
-              class="overview-container"
-              :class="{ 'is-loading': infoLoading }"
-              v-loading="infoLoading"
+        <div>
+          <el-tooltip
+            :content="bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable')"
+            placement="top"
+          >
+            <el-switch
+              class="enable-btn"
+              v-model="bridgeInfo.enable"
+              @change="enableOrDisableBridge"
+            />
+          </el-tooltip>
+          <el-tooltip :content="tl('createRule')" placement="top">
+            <el-button
+              class="icon-button"
+              type="primary"
+              :icon="Share"
+              :disabled="!bridgeInfo.enable"
+              plain
+              @click="createRuleWithBridge"
             >
-              <BridgeItemOverview
-                v-if="!infoLoading"
-                :bridge-id="id"
-                :bridge-msg="bridgeInfo"
-                @refresh="loadBridgeInfo"
-                @reconnect="loadBridgeInfo"
-                @reset="loadBridgeInfo"
-              />
-            </div>
-          </el-tab-pane>
-          <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting">
-            <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
-            <el-card
-              v-loading="infoLoading"
-              class="app-card"
-              :shadow="isFromRule ? 'never' : undefined"
-            >
-              <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
-                <bridge-http-config
-                  v-if="bridgeInfo.type === BridgeType.Webhook"
-                  v-model:tls="bridgeInfo.ssl"
-                  v-model="bridgeInfo"
-                  ref="formCom"
-                  :edit="true"
-                />
-                <bridge-mqtt-config
-                  v-else-if="bridgeInfo.type === BridgeType.MQTT"
-                  ref="formCom"
-                  v-model="bridgeInfo"
-                  :edit="true"
-                  @init="resetRawBridgeInfoAfterComponentInit"
-                />
-              </div>
-              <div v-if="!isFromRule" class="btn-area">
-                <el-button @click="saveAsCopy">
-                  {{ tl('saveAsCopy') }}
-                </el-button>
-                <el-button
-                  v-if="bridgeInfo.type"
-                  type="primary"
-                  plain
-                  :loading="isTesting"
-                  @click="testConnection"
-                >
-                  {{ tl('testTheConnection') }}
-                </el-button>
-                <el-button
-                  type="primary"
-                  v-if="bridgeInfo.type"
-                  :loading="updateLoading"
-                  @click="updateBridgeInfo()"
-                >
-                  {{ $t('Base.update') }}
-                </el-button>
-              </div>
-            </el-card>
-          </el-tab-pane>
-        </el-tabs>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.delete')" placement="top">
+            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            </el-button>
+          </el-tooltip>
+        </div>
       </div>
     </div>
-    <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
+    <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
+      <div :class="{ 'app-wrapper': !isFromRule, 'detail-main': true }">
+        <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
+          <div
+            class="overview-container"
+            :class="{ 'is-loading': infoLoading }"
+            v-loading="infoLoading"
+          >
+            <BridgeItemOverview
+              v-if="!infoLoading"
+              :bridge-id="id"
+              :bridge-msg="bridgeInfo"
+              @refresh="loadBridgeInfo"
+              @reconnect="loadBridgeInfo"
+              @reset="loadBridgeInfo"
+            />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting">
+          <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
+          <el-card
+            v-loading="infoLoading"
+            class="app-card"
+            :shadow="isFromRule ? 'never' : undefined"
+          >
+            <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
+              <bridge-http-config
+                v-if="bridgeInfo.type === BridgeType.Webhook"
+                v-model:tls="bridgeInfo.ssl"
+                v-model="bridgeInfo"
+                ref="formCom"
+                :edit="true"
+              />
+              <bridge-mqtt-config
+                v-else-if="bridgeInfo.type === BridgeType.MQTT"
+                ref="formCom"
+                v-model="bridgeInfo"
+                :edit="true"
+                @init="resetRawBridgeInfoAfterComponentInit"
+              />
+            </div>
+            <div v-if="!isFromRule" class="btn-area">
+              <el-button @click="saveAsCopy">
+                {{ tl('saveAsCopy') }}
+              </el-button>
+              <el-button
+                v-if="bridgeInfo.type"
+                type="primary"
+                plain
+                :loading="isTesting"
+                @click="testConnection"
+              >
+                {{ tl('testTheConnection') }}
+              </el-button>
+              <el-button
+                type="primary"
+                v-if="bridgeInfo.type"
+                :loading="updateLoading"
+                @click="updateBridgeInfo()"
+              >
+                {{ $t('Base.update') }}
+              </el-button>
+            </div>
+          </el-card>
+        </el-tab-pane>
+      </div>
+    </el-tabs>
   </div>
+  <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
   <DeleteBridgeSecondConfirm
     v-model="showSecondConfirm"
     :rule-list="usingBridgeRules"

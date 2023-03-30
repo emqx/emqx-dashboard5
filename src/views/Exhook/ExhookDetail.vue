@@ -1,7 +1,7 @@
 <template>
-  <div class="exhook-detail app-wrapper" v-loading.lock="isLoading">
-    <detail-header :item="{ name: exhookName, path: '/exhook' }" />
-    <div>
+  <div class="exhook-detail" v-loading.lock="isLoading">
+    <div class="detail-top">
+      <detail-header :item="{ name: exhookName, path: '/exhook' }" />
       <div class="exhook-detail-hd">
         <ExhookItemStatus :exhook="exhookData" is-tag />
         <div>
@@ -21,7 +21,9 @@
           </el-tooltip>
         </div>
       </div>
-      <el-tabs class="detail-tabs" v-model="activeTab">
+    </div>
+    <el-tabs class="detail-tabs" v-model="activeTab">
+      <div class="app-wrapper">
         <el-tab-pane :label="tl('overview')" name="overview">
           <ExhookItemOverview :exhook="exhookData" />
         </el-tab-pane>
@@ -58,8 +60,8 @@
             </el-button>
           </el-card>
         </el-tab-pane>
-      </el-tabs>
-    </div>
+      </div>
+    </el-tabs>
   </div>
 </template>
 
@@ -181,7 +183,7 @@ queryRegisteredHooks()
 .exhook-detail-hd {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  padding-bottom: 12px;
   .exhook-detail-title {
     margin-top: 0;
     margin-bottom: 16px;
