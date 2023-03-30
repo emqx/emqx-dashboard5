@@ -102,7 +102,8 @@ const level1DocumentList = [
   { link: docMap.emqxGettingStarted, title: t('Settings.gettingStarted') },
   { link: docMap.dashboard, title: t('Settings.dashboardIntro') },
   { link: docMap.accessControl, title: t('Settings.howAccessControl') },
-  { link: docMap.dataIntegration, title: t('Settings.howDataIntegration') },
+  { link: docMap.ruleEngine, title: t('Settings.howRuleEngine') },
+  { link: docMap.dataBridge, title: t('Settings.howDataBridge') },
 ]
 
 const level2DocumentList = [
