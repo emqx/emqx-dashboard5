@@ -83,6 +83,13 @@ export default defineComponent({
     padding-right: 1px;
     margin-top: 0px;
   }
+  .el-tabs.detail-tabs .el-tabs__header {
+    padding: 0px;
+  }
+  .detail-top {
+    display: flex;
+    align-items: center;
+  }
   .g-icon::before {
     width: 60px;
     height: 60px;
