@@ -5,6 +5,7 @@
         v-if="!gateway"
         :item="{ name: titleMap[currBackend], path: '/authentication' }"
       />
+      <h2 v-else>{{ titleMap[currBackend] }}</h2>
       <div :class="{ 'section-header': true, 'embed-gateway': !!gateway }">
         <div class="section-header__block">
           <template v-if="!gateway">
@@ -36,7 +37,7 @@
       </div>
     </div>
     <el-tabs class="detail-tabs" v-model="currTab" v-loading.lock="authnDetailLock">
-      <div class="app-wrapper">
+      <div :class="{ 'app-wrapper': !gateway }">
         <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
           <AuthItemOverview
             :metrics="authMetrics"
@@ -46,7 +47,7 @@
           />
         </el-tab-pane>
         <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
-          <el-card class="app-card">
+          <el-card class="app-card" :shadow="gateway ? 'never' : 'always'">
             <template v-if="configData.mechanism !== 'jwt'">
               <database-config
                 v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
