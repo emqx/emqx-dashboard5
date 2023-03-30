@@ -19,85 +19,54 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- Prometheus -->
-        <template v-if="selectedPlatform === PROMETHEUS">
-          <el-row>
-            <el-col :span="16" class="custom-col">
-              <el-form-item :label="t('Base.isEnabled')">
-                <p class="item-desc">
-                  {{ t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) }}
-                  {{ t('MonitoringIntegration.promToPushgateway') }}
-                </p>
-                <el-switch v-model="prometheusFormData.enable" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-collapse-transition>
-            <el-row v-show="prometheusFormData.enable">
-              <el-col :span="16" class="custom-col">
-                <el-form-item :label="tl('interval')">
-                  <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
-                  <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="16" class="custom-col">
-                <el-form-item :label="tl('pushgatewayServer')">
-                  <p class="item-desc">
-                    {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
-                    <a
-                      href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      {{ tl('whenToUsePushgateway') }}
-                    </a>
-                  </p>
-                  <el-input v-model="prometheusFormData.push_gateway_server" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="16" class="custom-col">
-                <el-form-item :label="tl('jobName')">
-                  <p v-safe-html="tl('jobNameDesc')" class="item-desc"></p>
-                  <el-input v-model="prometheusFormData.job_name" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="16" class="custom-col">
-                <el-form-item :label="t('RuleEngine.headers')">
-                  <p v-safe-html="tl('headersDesc')" class="item-desc"></p>
-                  <KeyAndValueEditor v-model="prometheusFormData.headers" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-collapse-transition>
-        </template>
-
-        <!-- StatsD -->
-        <el-row v-else>
+        <el-row>
           <el-col :span="16" class="custom-col">
             <el-form-item :label="t('Base.isEnabled')">
               <p class="item-desc">
-                {{ t('MonitoringIntegration.enableDataDesc', { name: 'StatsD' }) }}
+                {{ t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) }}
+                {{ t('MonitoringIntegration.promToPushgateway') }}
               </p>
-              <el-switch v-model="statsDFormData.enable" />
+              <el-switch v-model="prometheusFormData.enable" />
             </el-form-item>
           </el-col>
-          <el-collapse-transition>
-            <el-col v-show="statsDFormData.enable" :span="16" class="custom-col">
-              <el-form-item :label="t('Base.server')">
-                <p class="item-desc">{{ tl('statsDServerDesc') }}</p>
-                <el-input v-model="statsDFormData.server" />
-              </el-form-item>
-            </el-col>
-          </el-collapse-transition>
-          <el-collapse-transition>
-            <el-col v-show="statsDFormData.enable" :span="16" class="custom-col">
+        </el-row>
+        <el-collapse-transition>
+          <el-row v-show="prometheusFormData.enable">
+            <el-col :span="16" class="custom-col">
               <el-form-item :label="tl('interval')">
                 <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
-                <TimeInputWithUnitSelectVue v-model="statsDFormData.flush_time_interval" />
+                <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
               </el-form-item>
             </el-col>
-          </el-collapse-transition>
-        </el-row>
+            <el-col :span="16" class="custom-col">
+              <el-form-item :label="tl('pushgatewayServer')">
+                <p class="item-desc">
+                  {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
+                  <a
+                    href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {{ tl('whenToUsePushgateway') }}
+                  </a>
+                </p>
+                <el-input v-model="prometheusFormData.push_gateway_server" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="16" class="custom-col">
+              <el-form-item :label="tl('jobName')">
+                <p v-safe-html="tl('jobNameDesc')" class="item-desc"></p>
+                <el-input v-model="prometheusFormData.job_name" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="16" class="custom-col">
+              <el-form-item :label="t('RuleEngine.headers')">
+                <p v-safe-html="tl('headersDesc')" class="item-desc"></p>
+                <KeyAndValueEditor v-model="prometheusFormData.headers" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-collapse-transition>
         <div class="ft">
           <el-button type="primary" :loading="isSubmitting" @click="submit">
             {{ $t('Base.update') }}
@@ -117,12 +86,11 @@
 </template>
 
 <script setup lang="ts">
-import { getPrometheus, getStatsD, setPrometheus, setStatsD } from '@/api/common'
+import { getPrometheus, setPrometheus } from '@/api/common'
 import promImg from '@/assets/img/prom.png'
-import statsDImg from '@/assets/img/statsd.png'
 import TimeInputWithUnitSelectVue from '@/components/TimeInputWithUnitSelect.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Prometheus, StatsD } from '@/types/dashboard'
+import { Prometheus } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
 import { computed, ref, Ref } from 'vue'
 import HelpDrawer from './components/HelpDrawer.vue'
@@ -131,7 +99,6 @@ import { cloneDeep, isEqual } from 'lodash'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 
 const PROMETHEUS = 'Prometheus'
-const STATS_D = 'StatsD'
 
 const { tl, t } = useI18nTl('MonitoringIntegration')
 
@@ -140,11 +107,6 @@ const platformOpts = [
     label: PROMETHEUS,
     value: PROMETHEUS,
     img: promImg,
-  },
-  {
-    label: STATS_D,
-    value: STATS_D,
-    img: statsDImg,
   },
 ]
 
@@ -157,38 +119,24 @@ const prometheusFormData: Ref<Prometheus> = ref({
   job_name: '',
   headers: {},
 })
-const statsDFormData: Ref<StatsD> = ref({
-  enable: false,
-  flush_time_interval: '10s',
-  sample_time_interval: '10s',
-  server: '',
-})
 
 const isDataLoading = ref(false)
 
 let rawData: any = undefined
 const nowRecordData = computed(() => ({
   prometheus: prometheusFormData.value,
-  statsD: statsDFormData.value,
 }))
 const checkDataIsChanged = () => !isEqual(nowRecordData.value, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
 const updateRawDataForCompare = () => {
   rawData = cloneDeep({
     prometheus: prometheusFormData.value,
-    statsD: statsDFormData.value,
   })
 }
 
 const loadIntegration = async function () {
   isDataLoading.value = true
-  let [prometheusRes, statsRes] = await Promise.allSettled([getPrometheus(), getStatsD()])
-  if (prometheusRes?.status == 'fulfilled') {
-    prometheusFormData.value = prometheusRes.value
-  }
-  if (statsRes?.status == 'fulfilled') {
-    statsDFormData.value = statsRes.value
-  }
+  prometheusFormData.value = await getPrometheus()
   updateRawDataForCompare()
   isDataLoading.value = false
 }
@@ -206,26 +154,8 @@ const updatePrometheus = async function () {
   }
 }
 
-const updateStatsD = async function () {
-  try {
-    isSubmitting.value = true
-    statsDFormData.value.sample_time_interval = statsDFormData.value.flush_time_interval
-    await setStatsD(statsDFormData.value)
-    ElMessage.success(t('Base.updateSuccess'))
-  } catch (error) {
-    loadIntegration()
-  } finally {
-    isSubmitting.value = false
-  }
-}
-
 const submit = async () => {
-  if (selectedPlatform.value === PROMETHEUS) {
-    await updatePrometheus()
-  } else {
-    await updateStatsD()
-  }
-  updateRawDataForCompare()
+  await updatePrometheus()
 }
 
 loadIntegration()

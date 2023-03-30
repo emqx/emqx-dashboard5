@@ -45,10 +45,6 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '到 Pushgateway， 需要使用该服务时可开启',
     en: ' to Pushgateway, enable when using this service',
   },
-  statsDServerDesc: {
-    zh: 'StatsD 服务器地址',
-    en: 'URL of StatsD server',
-  },
   pushgatewayServer: {
     zh: 'Pushgateway 服务',
     en: 'Pushgateway Server',
