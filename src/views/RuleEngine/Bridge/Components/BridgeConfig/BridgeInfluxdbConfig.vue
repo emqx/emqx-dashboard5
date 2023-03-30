@@ -124,7 +124,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <CommonTLSConfig class="tls-config-form" v-model="formData.ssl" :is-edit="edit" />
+          <CommonTLSConfig class="tls-config-form" v-model="formData.ssl" :is-edit="edit || copy" />
         </el-col>
         <el-col :span="24"><el-divider /></el-col>
 
