@@ -68,7 +68,7 @@
           <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
           <el-card
             v-loading="infoLoading"
-            class="app-card"
+            :class="['app-card', isFromRule && 'app-inline-card']"
             :shadow="isFromRule ? 'never' : undefined"
           >
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
@@ -113,14 +113,14 @@
         </el-tab-pane>
       </div>
     </el-tabs>
+    <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
+    <DeleteBridgeSecondConfirm
+      v-model="showSecondConfirm"
+      :rule-list="usingBridgeRules"
+      :id="currentDeleteBridgeId"
+      @submitted="handleDeleteSuc"
+    />
   </div>
-  <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
-  <DeleteBridgeSecondConfirm
-    v-model="showSecondConfirm"
-    :rule-list="usingBridgeRules"
-    :id="currentDeleteBridgeId"
-    @submitted="handleDeleteSuc"
-  />
 </template>
 
 <script lang="ts" setup>
@@ -436,5 +436,10 @@ defineExpose({
 
 .overview-container.is-loading {
   height: 600px;
+}
+.app-inline-card {
+  :deep(.el-card__body) {
+    padding: 0px;
+  }
 }
 </style>

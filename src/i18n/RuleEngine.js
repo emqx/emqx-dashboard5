@@ -8,8 +8,8 @@ export default {
     en: 'Edit Data Bridge',
   },
   updateBridgeTip: {
-    zh: '更新桥接会导致重新启动，缓存中未发送和重启过程中新收到的消息会丢失，是否确认更新？',
-    en: 'Updating bridge configuration will cause the bridge to restart. The buffered messages, and newly received messages during the restart will not be bridged. Continue?',
+    zh: '更新桥接配置将会导致桥接重启，重启期间缓冲区内的消息和新收到的消息将不会被桥接，是否继续？',
+    en: 'Updating bridge configuration will cause the bridge to restart. The buffered messages, and newly received messages during the restart will not be bridged, continue?',
   },
   create: {
     zh: '创建',
@@ -956,8 +956,8 @@ export default {
     en: 'Number of SQL failures due to an unknown error',
   },
   deleteBridgeSecondConfirm: {
-    zh: '当前数据桥接正在被以下规则使用，若继续删除，将在规则内移除当前数据桥接',
-    en: 'This data bridge is being used by the following rules, if it continues to be deleted, the data bridge will be removed within the rule',
+    zh: '删除该桥接会影响下方规则的数据流。如果该桥接已被添加到规则的动作中，则会立即删除。是否确认继续？',
+    en: 'Deleting this bridge will affect the data flow for the rules listed below. If the bridge has been added to the actions of any rules, it will be removed immediately, continue?',
   },
   rateUnit: {
     zh: 'message/sec | messages/sec',

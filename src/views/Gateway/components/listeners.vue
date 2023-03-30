@@ -7,7 +7,13 @@
       </el-button>
     </div>
     <el-table :data="listenerTable" v-loading="listenerLoading">
-      <el-table-column :label="'ID'" prop="id" />
+      <el-table-column :label="$t('Base.name')" prop="name" show-overflow-tooltip>
+        <template #default="{ row, $index }">
+          <p class="table-data-without-break">
+            <a href="javascript:;" @click="editListener(row, $index)">{{ row.name }}</a>
+          </p>
+        </template>
+      </el-table-column>
       <el-table-column :label="tl('lType')" prop="type" />
       <el-table-column :label="tl('lAddress')" prop="bind">
         <template #default="{ row }">
@@ -17,17 +23,9 @@
       <el-table-column :label="tl('lMaxConn')" prop="max_connections" />
       <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors">
         <template #default="{ row }">
-          <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
-        <template #default="{ row, $index }">
-          <el-button size="small" @click="editListener(row, $index)">
-            {{ $t('Base.setting') }}
-          </el-button>
-          <el-button size="small" plain @click="delListener(row)">
-            {{ $t('Base.delete') }}
-          </el-button>
+          <span>{{
+            row.acceptors === '' || row.acceptors === undefined ? '-' : row.acceptors
+          }}</span>
         </template>
       </el-table-column>
     </el-table>

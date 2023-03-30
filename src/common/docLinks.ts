@@ -21,7 +21,8 @@ type DocKey =
   | 'blog'
   | 'emqxGettingStarted'
   | 'accessControl'
-  | 'dataIntegration'
+  | 'dataBridge'
+  | 'ruleEngine'
   | 'resetPassword'
   | 'applyLicense'
 
@@ -71,7 +72,8 @@ export default (lang: string): DocMap => {
     dashboard: `https://docs.emqx.com/${lang}/enterprise/v5.0/dashboard/introduction.html?${QUERY_FOR_HELP}`,
     emqxGettingStarted: `https://docs.emqx.com/${lang}/enterprise/v5.0/getting-started/getting-started.html?${QUERY_FOR_HELP}`,
     accessControl: `https://docs.emqx.com/${lang}/enterprise/v5.0/dashboard/authn.html?${QUERY_FOR_HELP}`,
-    dataIntegration: `https://docs.emqx.com/${lang}/enterprise/v5.0/data-integration/introduction.html?${QUERY_FOR_HELP}`,
+    dataBridge: `https://docs.emqx.com/${lang}/enterprise/v5.0/data-integration/data-bridges.html?${QUERY_FOR_HELP}`,
+    ruleEngine: `https://docs.emqx.com/${lang}/enterprise/v5.0/data-integration/rules.html?${QUERY_FOR_HELP}`,
     mqttStudy: `https://www.emqx.com/${lang}/mqtt?${QUERY_FOR_HELP}`,
     mqttV5: `https://www.emqx.com/${lang}/mqtt/mqtt5?${QUERY_FOR_HELP}`,
     mqttClient:
