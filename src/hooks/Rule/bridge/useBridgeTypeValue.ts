@@ -26,7 +26,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.MatrixDB, label: tl('matrixDB') },
     { value: BridgeType.TDengine, label: tl('TDengine') },
     { value: BridgeType.ClickHouse, label: tl('clickHouse') },
-    { value: BridgeType.DynamoDB, label: tl('dynamoDB') },
+    // { value: BridgeType.DynamoDB, label: tl('dynamoDB') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
