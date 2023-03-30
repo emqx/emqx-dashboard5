@@ -55,9 +55,13 @@ export default {
     zh: '如何进行访问控制',
     en: 'How to perform Access Control',
   },
-  howDataIntegration: {
-    zh: '如何使用数据集成',
-    en: 'How to use Data Integration',
+  howDataBridge: {
+    zh: '如何使用数据桥接',
+    en: 'How to use Data Bridge',
+  },
+  howRuleEngine: {
+    zh: '如何使用规则引擎',
+    en: 'How to use Rule Engine',
   },
   relatedResources: {
     zh: '相关资源',
