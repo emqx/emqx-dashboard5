@@ -127,7 +127,7 @@ import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { HTTPBridge } from '@/types/rule'
+import { HTTPBridge, BridgeItem } from '@/types/rule'
 import _ from 'lodash'
 import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
@@ -144,7 +144,7 @@ export default defineComponent({
   name: '',
   props: {
     modelValue: {
-      type: Object as PropType<HTTPBridge>,
+      type: Object as PropType<HTTPBridge | BridgeItem>,
       required: false,
       default: () => ({}),
     },

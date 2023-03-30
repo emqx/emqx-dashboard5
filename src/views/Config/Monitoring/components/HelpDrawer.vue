@@ -7,7 +7,7 @@
     size="50%"
   >
     <p class="description summary">{{ tl('promSetupHelpDesc') }}</p>
-    <el-tabs type="card" class="detail-tabs" v-model="activeTab">
+    <el-tabs type="card" v-model="activeTab">
       <!-- Default -->
       <el-tab-pane :label="$t('Base.default')" name="default">
         <div class="step-contents">
@@ -319,8 +319,11 @@ const downloadGrafaTemplate = () => {
   .prom-config-row {
     margin-bottom: 24px;
   }
-  .el-tabs.detail-tabs .el-tabs__header .el-tabs__item.is-active {
-    border-bottom: 1px solid var(--color-bg-primary);
+  .el-tabs .el-tabs__header {
+    margin-bottom: 24px;
+    .el-tabs__item.is-active {
+      border-bottom: 1px solid var(--color-bg-primary);
+    }
   }
 }
 </style>

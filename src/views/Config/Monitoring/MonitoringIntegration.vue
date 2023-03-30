@@ -174,7 +174,7 @@ loadIntegration()
     margin-top: 8px;
     width: 100%;
     .el-row {
-      width: 75%;
+      width: 100%;
     }
   }
   .platform-radio {

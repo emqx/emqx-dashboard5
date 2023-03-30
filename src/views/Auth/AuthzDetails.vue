@@ -1,82 +1,86 @@
 <template>
-  <div class="auth auth-details details app-wrapper">
-    <detail-header :item="{ name: titleMap[type], path: '/authorization' }" />
-    <div class="section-header">
-      <div class="section-header__block">
-        <div>
-          <img :src="currImg" height="64" />
-        </div>
-        <div>
-          <div class="info-tags">
-            <AuthItemStatus is-tag :metrics="authMetrics" />
+  <div class="auth auth-details details">
+    <div class="detail-top">
+      <detail-header :item="{ name: titleMap[type], path: '/authorization' }" />
+      <div class="section-header">
+        <div class="section-header__block">
+          <div>
+            <img :src="currImg" height="64" />
+          </div>
+          <div>
+            <div class="info-tags">
+              <AuthItemStatus is-tag :metrics="authMetrics" />
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <el-tooltip
-          :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
-          placement="top"
-        >
-          <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
-        </el-tooltip>
-        <el-tooltip :content="$t('Base.delete')" placement="top">
-          <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
-          </el-button>
-        </el-tooltip>
-        <!-- <el-button @click="handleUpdate(configData)">
+        <div>
+          <el-tooltip
+            :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
+            placement="top"
+          >
+            <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.delete')" placement="top">
+            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            </el-button>
+          </el-tooltip>
+          <!-- <el-button @click="handleUpdate(configData)">
           {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
         </el-button>
         <el-button type="danger" plain @click="handleDelete">
           {{ $t('Base.delete') }}
         </el-button> -->
+        </div>
       </div>
     </div>
     <el-tabs class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
-      <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
-        <AuthItemOverview
-          :metrics="authMetrics"
-          type="authz"
-          :refresh-loading="refreshLoading"
-          @refresh="handleRefresh"
-        />
-      </el-tab-pane>
-      <el-tab-pane
-        v-if="type === 'built_in_database'"
-        :label="$t('Auth.permissions')"
-        name="users"
-        :lazy="true"
-      >
-        <authz-manager />
-      </el-tab-pane>
-      <el-tab-pane v-else :label="$t('Base.setting')" name="settings" :lazy="true">
-        <el-card v-if="!authzDetailLock">
-          <database-config
-            v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
-            ref="formCom"
-            :database="type"
-            v-model="configData"
-            auth-type="authz"
-            is-edit
+      <div class="app-wrapper">
+        <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
+          <AuthItemOverview
+            :metrics="authMetrics"
+            type="authz"
+            :refresh-loading="refreshLoading"
+            @refresh="handleRefresh"
           />
-          <file-config v-else-if="type === 'file'" ref="formCom" v-model="configData" />
-          <http-config
-            v-else-if="type === 'http'"
-            ref="formCom"
-            auth-type="authz"
-            v-model="configData"
-            is-edit
-          />
-          <el-button @click="$router.push('/authorization')">
-            {{ $t('Base.cancel') }}
-          </el-button>
-          <el-button type="primary" @click="handleUpdate">
-            {{ $t('Base.update') }}
-          </el-button>
-          <!-- <el-button @click="handleTest">
-            {{ $t('Base.test') }}
-          </el-button> -->
-        </el-card>
-      </el-tab-pane>
+        </el-tab-pane>
+        <el-tab-pane
+          v-if="type === 'built_in_database'"
+          :label="$t('Auth.permissions')"
+          name="users"
+          :lazy="true"
+        >
+          <authz-manager />
+        </el-tab-pane>
+        <el-tab-pane v-else :label="$t('Base.setting')" name="settings" :lazy="true">
+          <el-card v-if="!authzDetailLock">
+            <database-config
+              v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
+              ref="formCom"
+              :database="type"
+              v-model="configData"
+              auth-type="authz"
+              is-edit
+            />
+            <file-config v-else-if="type === 'file'" ref="formCom" v-model="configData" />
+            <http-config
+              v-else-if="type === 'http'"
+              ref="formCom"
+              auth-type="authz"
+              v-model="configData"
+              is-edit
+            />
+            <el-button @click="$router.push('/authorization')">
+              {{ $t('Base.cancel') }}
+            </el-button>
+            <el-button type="primary" @click="handleUpdate">
+              {{ $t('Base.update') }}
+            </el-button>
+            <!-- <el-button @click="handleTest">
+              {{ $t('Base.test') }}
+            </el-button> -->
+          </el-card>
+        </el-tab-pane>
+      </div>
     </el-tabs>
   </div>
 </template>

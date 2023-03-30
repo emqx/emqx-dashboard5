@@ -1,92 +1,96 @@
 <template>
-  <div :class="['auth', 'auth-details', 'details', !gateway && 'app-wrapper']">
-    <detail-header
-      v-if="!gateway"
-      :item="{ name: titleMap[currBackend], path: '/authentication' }"
-    />
-    <div :class="{ 'section-header': true, 'embed-gateway': !!gateway }">
-      <div class="section-header__block">
-        <template v-if="!gateway">
-          <div class="img-wrap">
-            <img :src="currImg" height="64" />
-          </div>
-          <div>
-            <div class="info-tags">
-              <AuthItemStatus is-tag :metrics="authMetrics" />
-              <el-tag type="info" class="section-status">
-                {{ configData.mechanism }}
-              </el-tag>
+  <div class="auth auth-details">
+    <div class="detail-top">
+      <detail-header
+        v-if="!gateway"
+        :item="{ name: titleMap[currBackend], path: '/authentication' }"
+      />
+      <div :class="{ 'section-header': true, 'embed-gateway': !!gateway }">
+        <div class="section-header__block">
+          <template v-if="!gateway">
+            <div class="img-wrap">
+              <img :src="currImg" height="64" />
             </div>
-          </div>
-        </template>
-      </div>
-      <div>
-        <el-tooltip
-          :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
-          placement="top"
-        >
-          <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
-        </el-tooltip>
-        <el-tooltip :content="$t('Base.delete')" placement="top">
-          <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
-          </el-button>
-        </el-tooltip>
+            <div>
+              <div class="info-tags">
+                <AuthItemStatus is-tag :metrics="authMetrics" />
+                <el-tag type="info" class="section-status">
+                  {{ configData.mechanism }}
+                </el-tag>
+              </div>
+            </div>
+          </template>
+        </div>
+        <div>
+          <el-tooltip
+            :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
+            placement="top"
+          >
+            <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.delete')" placement="top">
+            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            </el-button>
+          </el-tooltip>
+        </div>
       </div>
     </div>
     <el-tabs class="detail-tabs" v-model="currTab" v-loading.lock="authnDetailLock">
-      <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
-        <AuthItemOverview
-          :metrics="authMetrics"
-          type="authn"
-          :refresh-loading="refreshLoading"
-          @refresh="handleRefresh"
-        />
-      </el-tab-pane>
-      <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
-        <el-card class="app-card">
-          <template v-if="configData.mechanism !== 'jwt'">
-            <database-config
-              v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
-              ref="formCom"
-              :database="currBackend"
-              v-model="configData"
-              auth-type="authn"
-              is-edit
-            />
-            <http-config
-              auth-type="authn"
-              v-else-if="currBackend === 'http'"
-              ref="formCom"
-              v-model="configData"
-              is-edit
-            />
-            <built-in-config
-              v-else-if="currBackend === 'built_in_database'"
-              ref="formCom"
-              :type="configData.mechanism"
-              v-model="configData"
-            />
-          </template>
-          <jwt-config ref="formCom" v-else v-model="configData" is-edit />
-          <el-button @click="$router.push('/authentication')" v-if="!gateway">
-            {{ $t('Base.cancel') }}
-          </el-button>
-          <el-button type="primary" @click="handleUpdate">
-            {{ $t('Base.update') }}
-          </el-button>
-          <!-- <el-button @click="handleTest">
-            {{ $t('Base.test') }}
-          </el-button> -->
-        </el-card>
-      </el-tab-pane>
-      <el-tab-pane
-        v-if="currBackend === 'built_in_database'"
-        :label="$t('Auth.userConfig')"
-        :lazy="true"
-        name="users"
-      >
-        <authn-manager :field="configData.user_id_type" :gateway="gateway" />
-      </el-tab-pane>
+      <div class="app-wrapper">
+        <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
+          <AuthItemOverview
+            :metrics="authMetrics"
+            type="authn"
+            :refresh-loading="refreshLoading"
+            @refresh="handleRefresh"
+          />
+        </el-tab-pane>
+        <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
+          <el-card class="app-card">
+            <template v-if="configData.mechanism !== 'jwt'">
+              <database-config
+                v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
+                ref="formCom"
+                :database="currBackend"
+                v-model="configData"
+                auth-type="authn"
+                is-edit
+              />
+              <http-config
+                auth-type="authn"
+                v-else-if="currBackend === 'http'"
+                ref="formCom"
+                v-model="configData"
+                is-edit
+              />
+              <built-in-config
+                v-else-if="currBackend === 'built_in_database'"
+                ref="formCom"
+                :type="configData.mechanism"
+                v-model="configData"
+              />
+            </template>
+            <jwt-config ref="formCom" v-else v-model="configData" is-edit />
+            <el-button @click="$router.push('/authentication')" v-if="!gateway">
+              {{ $t('Base.cancel') }}
+            </el-button>
+            <el-button type="primary" @click="handleUpdate">
+              {{ $t('Base.update') }}
+            </el-button>
+            <!-- <el-button @click="handleTest">
+              {{ $t('Base.test') }}
+            </el-button> -->
+          </el-card>
+        </el-tab-pane>
+        <el-tab-pane
+          v-if="currBackend === 'built_in_database'"
+          :label="$t('Auth.userConfig')"
+          :lazy="true"
+          name="users"
+        >
+          <authn-manager :field="configData.user_id_type" :gateway="gateway" />
+        </el-tab-pane>
+      </div>
     </el-tabs>
   </div>
 </template>
