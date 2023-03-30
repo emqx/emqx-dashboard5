@@ -17,7 +17,7 @@
       <el-divider />
       <el-row :gutter="26">
         <el-col :span="24">
-          <ConnectorMqttConfig v-model="mqttBridgeVal" :edit="edit" />
+          <ConnectorMqttConfig v-model="mqttBridgeVal" :edit="edit" :copy="copy" />
         </el-col>
       </el-row>
       <div class="direction">
@@ -118,7 +118,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
 import { MQTTBridge } from '@/types/rule'
-import ConnectorMqttConfig from '@/views/RuleEngine/Connector/ConnectorMqttConfig.vue'
+import ConnectorMqttConfig from './ConnectorMqttConfig.vue'
 import { ElMessage } from 'element-plus'
 import _ from 'lodash'
 import {

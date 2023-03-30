@@ -1,5 +1,5 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, escapeCode, isEmptyObj, transLink } from '@/common/tools'
+import { createRandomString, isEmptyObj } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
