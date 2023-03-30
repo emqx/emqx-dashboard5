@@ -156,7 +156,11 @@
         </el-col>
         <!-- ssl -->
         <el-col :span="24">
-          <CommonTLSConfig v-model="formData.ssl" :is-edit="edit" :content="tl('kafkaSniDesc')" />
+          <CommonTLSConfig
+            v-model="formData.ssl"
+            :is-edit="edit || copy"
+            :content="tl('kafkaSniDesc')"
+          />
         </el-col>
 
         <el-col :span="24"><el-divider /></el-col>
