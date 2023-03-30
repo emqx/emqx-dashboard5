@@ -25,18 +25,23 @@ export interface EdgeItem {
 export interface NodeCustomData {
   id?: string
   type: NodeType
+  // Use for deleted bridge
+  isNotExist?: true
 }
 export interface NodeItem {
   id: string
   label: string
   img: SVGElement | undefined
   _customData: NodeCustomData
+  iconCapacity?: number
   style?: {
     cursor: 'pointer'
+    opacity?: number
   }
   labelCfg?: {
     style?: {
       cursor: 'pointer'
+      opacity?: number
     }
   }
 }

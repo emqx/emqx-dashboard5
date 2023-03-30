@@ -149,11 +149,11 @@ export default (): {
 
   const createBridgeNodeTooltip = (bridgeID: string) => {
     const targetBridge = bridgeList.find(({ id }) => id === bridgeID)
-    if (!targetBridge) {
-      return ''
-    }
-
     const container = createContainerEle()
+    if (!targetBridge) {
+      container.innerHTML = `<p>${t('RuleEngine.bridgeNotExistTip')}</p>`
+      return container
+    }
     const { name, status } = targetBridge
     const statusStr = getStatusLabel(status)
     const statusClass = `text-status ${getStatusClass(status)}`
@@ -245,7 +245,7 @@ export default (): {
 
     if (type === OtherNodeType.Rule) {
       router.push({ name: 'iot-detail', params: { id: targetId } })
-    } else if (type === OtherNodeType.Bridge) {
+    } else if (type === OtherNodeType.Bridge && !nodeData.isNotExist) {
       router.push({ name: 'bridge-detail', params: { id: targetId } })
     }
   }

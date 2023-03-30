@@ -4,7 +4,7 @@ import { NodeItem, EdgeItem, NodeCustomData, OtherNodeType } from './topologyTyp
 import useTopologyNodeTooltipNEvent from './useTopologyNodeTooltipNEvent'
 import useTopologyRuleData from './useTopologyRuleData'
 import useTopologyBridgeData from './useTopologyBridgeData'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, set } from 'lodash'
 import { RULE_TOPOLOGY_ID } from '@/common/constants'
 import useCSSVariables from '@/hooks/useCSSVariables'
 import { BridgeItemWithMetrics } from '@/types/rule'
@@ -50,6 +50,7 @@ const registerCustomNode = () => {
             width: iconWidth,
             height: iconHeight,
             img: config.img,
+            opacity: (config.iconCapacity as number | undefined) || 1,
           },
           _customData,
           name: 'image-shape',
@@ -111,7 +112,7 @@ export default (): {
   )
 
   const isDataLoading = ref(false)
-  /* 
+  /*
     simple desc
     1. topic/event/bridge -> rule -> console/republish/bridge(multi)
     2. topic -> bridge(mqtt-in & other bridge)
@@ -188,11 +189,11 @@ export default (): {
   }
 
   /**
-   * When the input to the rule is mqtt source, modify the node connected to the rule node
-   * before: mqtt-source bridge -> bridge topic & mqtt-source bridge -> rule
-   * after: mqtt-source bridge -> bridge topic -> rule
+   *  When the input to the rule is mqtt source, modify the node connected to the rule node
+   *  before: mqtt-source bridge -> bridge topic & mqtt-source bridge -> rule
+   *  after: mqtt-source bridge -> bridge topic -> rule
    */
-  const handleRuleInputs = () => {
+  const handleMQTTSourceBridge = () => {
     // node ID map
     const bridgeToRuleMap = new Map()
     const bridgeNodesNeedsBeHandle: Array<{ nodeID: string; bridgeID: string }> = []
@@ -225,6 +226,31 @@ export default (): {
       [],
     )
     rulePartEdgeData.value.input2Rule = [...neededInputToRuleEdge, ...topicToRuleEdges]
+  }
+
+  /**
+   * If the input of a rule is a data bridge and this data bridge no longer exists,
+   * gray out the node of the data bridge.
+   */
+  const grayNoExistInputBridge = () => {
+    bridgeList = getBridgeList()
+    const { input } = rulePartNodeData.value
+    input.forEach((item) => {
+      const { _customData } = item
+      if (!bridgeList.some(({ id }) => id === _customData.id)) {
+        item._customData.isNotExist = true
+      }
+      if (item._customData.isNotExist) {
+        set(item, 'style.opacity', 0.3)
+        set(item, 'labelCfg.style.opacity', 0.3)
+        item.iconCapacity = 0.3
+      }
+    })
+  }
+
+  const handleRuleInputs = () => {
+    handleMQTTSourceBridge()
+    grayNoExistInputBridge()
   }
 
   const getRequiredList = async () => {
