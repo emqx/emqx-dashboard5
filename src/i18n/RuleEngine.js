@@ -956,8 +956,8 @@ export default {
     en: 'Number of SQL failures due to an unknown error',
   },
   deleteBridgeSecondConfirm: {
-    zh: '当前数据桥接正在被以下规则使用，若继续删除，将在规则内移除当前数据桥接',
-    en: 'This data bridge is being used by the following rules, if it continues to be deleted, the data bridge will be removed within the rule',
+    zh: '删除该桥接会影响下方规则的数据流。如果该桥接已被添加到规则的动作中，则会立即删除。是否确认继续？',
+    en: 'Deleting this bridge will affect the data flow for the rules listed below. If the bridge has been added to the actions of any rules, it will be removed immediately, continue?',
   },
   rateUnit: {
     zh: 'message/sec | messages/sec',
