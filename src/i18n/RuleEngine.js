@@ -8,8 +8,8 @@ export default {
     en: 'Edit Data Bridge',
   },
   updateBridgeTip: {
-    zh: '更新桥接会导致重新启动，缓存中未发送和重启过程中新收到的消息会丢失，是否确认更新？',
-    en: 'Updating bridge configuration will cause the bridge to restart. The buffered messages, and newly received messages during the restart will not be bridged. Continue?',
+    zh: '更新桥接配置将会导致桥接重启，重启期间缓冲区内的消息和新收到的消息将不会被桥接，是否继续？',
+    en: 'Updating bridge configuration will cause the bridge to restart. The buffered messages, and newly received messages during the restart will not be bridged, continue?',
   },
   create: {
     zh: '创建',
