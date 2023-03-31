@@ -465,6 +465,7 @@ const SchemaForm = defineComponent({
         <MarkdownContent
           class={props.useTooltipShowDesc ? '' : 'item-desc'}
           content={description}
+          gutter={0}
         />
       )
 

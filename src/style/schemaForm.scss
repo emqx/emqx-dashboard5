@@ -31,6 +31,12 @@
     margin: 0 0 6px 0;
     color: var(--color-text-secondary);
 
+    &.markdown-content {
+      .el-col-24 {
+        padding: 0;
+      }
+    }
+
     p {
       margin: 0 0 6px 0;
     }
