@@ -641,6 +641,9 @@
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-border-normal);
 }
+.el-message-box__status + .el-message-box__message {
+  line-height: 1.4;
+}
 
 /* Notification */
 .el-notification {
