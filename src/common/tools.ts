@@ -281,17 +281,18 @@ const ONE_KB = 1024
 const ONE_MB = ONE_KB * 1024
 const ONE_GB = ONE_MB * 1024
 
-export const transMemorySizeNumToStr = (byte: number): string => {
+export const transMemorySizeNumToStr = (byte: number, toFixed?: number): string => {
+  const getNumPart = (num: number) => (toFixed ? num.toFixed(toFixed) : num)
   if (byte < ONE_KB) {
-    return byte + 'Byte'
+    return getNumPart(byte) + 'Byte'
   }
   if (byte < ONE_MB) {
-    return byte / ONE_KB + 'KB'
+    return getNumPart(byte / ONE_KB) + 'KB'
   }
   if (byte < ONE_GB) {
-    return byte / ONE_MB + 'MB'
+    return getNumPart(byte / ONE_MB) + 'MB'
   }
-  return byte / ONE_GB + 'GB'
+  return getNumPart(byte / ONE_GB) + 'GB'
 }
 
 const memoryStrReg = new RegExp(`^(\\d+(\\.\\d+)?)(${usefulMemoryUnit.join('|')})$`)
