@@ -8,33 +8,47 @@
         :collapse-transition="false"
       >
         <template v-for="(menu, i) in menus" :key="menu.title">
-          <template v-if="menu.c">
-            <el-sub-menu :index="'' + i" :key="i">
-              <template #title>
-                <i :class="['iconfont', menu.icon]"></i>
-                <p class="menu-item-title first-level">
-                  {{ $t(`components.${menu.title}`) }}
-                </p>
-              </template>
-              <template v-for="item in menu.c" :key="item.title">
-                <el-menu-item :index="item.path">
-                  <template #title>
-                    <p class="menu-item-title">
-                      {{ $t(`components.${item.title}`) }}
-                    </p>
-                  </template>
-                </el-menu-item>
-              </template>
-            </el-sub-menu>
-          </template>
-          <template v-else>
-            <el-menu-item :key="menu.title" :index="menu.path">
+          <el-sub-menu v-if="menu.children" :index="'' + i" :key="i">
+            <template #title>
               <i :class="['iconfont', menu.icon]"></i>
               <p class="menu-item-title first-level">
                 {{ $t(`components.${menu.title}`) }}
               </p>
-            </el-menu-item>
-          </template>
+            </template>
+            <template v-for="item in menu.children" :key="item.title">
+              <el-menu-item v-if="!item.children" :index="item.path">
+                <template #title>
+                  <p class="menu-item-title">
+                    {{ $t(`components.${item.title}`) }}
+                  </p>
+                </template>
+              </el-menu-item>
+              <el-sub-menu v-else :index="item.title">
+                <template #title>
+                  <p class="menu-item-title first-level">
+                    {{ $t(`components.${item.title}`) }}
+                  </p>
+                </template>
+                <el-menu-item
+                  v-for="level3Item in item.children"
+                  :index="level3Item.path"
+                  :key="level3Item.title"
+                >
+                  <template #title>
+                    <p class="menu-item-title">
+                      {{ $t(`components.${level3Item.title}`) }}
+                    </p>
+                  </template>
+                </el-menu-item>
+              </el-sub-menu>
+            </template>
+          </el-sub-menu>
+          <el-menu-item v-else :key="menu.title" :index="menu.path">
+            <i :class="['iconfont', menu.icon]"></i>
+            <p class="menu-item-title first-level">
+              {{ $t(`components.${menu.title}`) }}
+            </p>
+          </el-menu-item>
         </template>
       </el-menu>
     </el-scrollbar>
@@ -50,7 +64,7 @@ interface Menu {
   title: string
   path?: string
   icon?: string
-  c?: Menu[]
+  children?: Menu[]
 }
 
 export default defineComponent({
@@ -70,107 +84,7 @@ export default defineComponent({
       return `/${path.split('/')[1]}`
     })
 
-    const authentication = [
-      {
-        title: 'authentication',
-        path: '/authentication',
-      },
-      {
-        title: 'authorization',
-        path: '/authorization',
-      },
-      {
-        title: 'blacklist',
-        path: '/blacklist',
-      },
-    ]
-
-    const ruleengine = [
-      { title: 'bridge', path: '/bridge' },
-      { title: 'rules', path: '/rules' },
-      { title: 'flow', path: '/flow' },
-    ]
-
-    const extensions = [
-      {
-        title: 'gateway',
-        path: '/gateway',
-      },
-      {
-        title: 'exhook',
-        path: '/exhook',
-      },
-      {
-        title: 'plugins',
-        path: '/plugins',
-      },
-    ]
-
-    const system = [
-      { title: 'users', path: '/users' },
-      {
-        title: 'APIKey',
-        path: '/APIKey',
-      },
-      { title: 'settings', path: '/settings' },
-      { title: 'help', path: '/help' },
-      // {
-      //   title: 'dashboard-http',
-      //   path: '/dashboard-http',
-      // },
-    ]
-
-    const diagnose = [
-      {
-        title: 'alarm',
-        path: '/alarm',
-      },
-      {
-        title: 'websocket',
-        path: '/websocket',
-      },
-      {
-        title: 'topic-metrics',
-        path: '/topic-metrics',
-      },
-      {
-        title: 'slow-sub',
-        path: '/slow-sub',
-      },
-      {
-        title: 'log-trace',
-        path: '/log-trace',
-      },
-    ]
-
-    const config = [
-      // {
-      //   title: 'cluster',
-      //   path: '/cluster',
-      // },
-      {
-        title: 'listener',
-        path: '/listener',
-      },
-      {
-        title: 'mqtt',
-        path: '/mqtt',
-      },
-      {
-        title: 'limiter',
-        path: '/limiter',
-      },
-      {
-        title: 'log',
-        path: '/log',
-      },
-      {
-        title: 'monitoring',
-        path: '/monitoring',
-      },
-    ]
-
-    menus.value = [
+    const monitoring = [
       {
         title: 'dashboard',
         icon: 'icon-monitoring',
@@ -192,34 +106,104 @@ export default defineComponent({
         path: '/retained',
       },
       {
+        title: 'alarm',
+        path: '/alarm',
+      },
+    ]
+
+    const management = [
+      {
         title: 'auth',
+        children: [
+          { title: 'authentication', path: '/authentication' },
+          { title: 'authorization', path: '/authorization' },
+          { title: 'blacklist', path: '/blacklist' },
+        ],
+      },
+      {
+        title: 'clusterSettings',
+        children: [
+          { title: 'mqttSettings', path: '/mqtt' },
+          { title: 'listener', path: '/listener' },
+          { title: 'log', path: '/log' },
+          { title: 'monitoring', path: '/monitoring' },
+        ],
+      },
+      {
+        title: 'advancedMQTT',
+        children: [
+          { title: 'topic-rewrite', path: '/topic-rewrite' },
+          { title: 'auto-sub', path: '/auto-sub' },
+          { title: 'delayed-pub', path: '/delayed-pub' },
+        ],
+      },
+      {
+        title: 'extension',
+        children: [
+          { title: 'gateway', path: '/gateway' },
+          { title: 'exhook', path: '/exhook' },
+          { title: 'plugins', path: '/plugins' },
+        ],
+      },
+    ]
+
+    const integration = [
+      { title: 'flow', path: '/flow' },
+      { title: 'rules', path: '/rules' },
+      { title: 'bridge', path: '/bridge' },
+    ]
+
+    const diagnose = [
+      { title: 'websocket', path: '/websocket' },
+      { title: 'topic-metrics', path: '/topic-metrics' },
+      { title: 'slow-sub', path: '/slow-sub' },
+      { title: 'log-trace', path: '/log-trace' },
+    ]
+
+    const system = [
+      { title: 'users', path: '/users' },
+      { title: 'APIKey', path: '/APIKey' },
+      { title: 'settings', path: '/settings' },
+      { title: 'help', path: '/help' },
+      // {
+      //   title: 'dashboard-http',
+      //   path: '/dashboard-http',
+      // },
+    ]
+
+    const config = [
+      // {
+      //   title: 'cluster',
+      //   path: '/cluster',
+      // },
+      { title: 'limiter', path: '/limiter' },
+    ]
+
+    menus.value = [
+      {
+        title: 'monitoring',
+        icon: 'icon-monitoring',
+        children: monitoring,
+      },
+      {
+        title: 'management',
         icon: 'icon-authentication',
-        c: authentication,
+        children: management,
       },
       {
         title: 'ruleengine',
         icon: 'icon-integration',
-        c: ruleengine,
-      },
-      {
-        title: 'configuration',
-        icon: 'icon-configuration',
-        c: config,
-      },
-      {
-        title: 'extensions',
-        icon: 'icon-extensions',
-        c: extensions,
+        children: integration,
       },
       {
         title: 'diagnose',
         icon: 'icon-diagnosis',
-        c: diagnose,
+        children: diagnose,
       },
       {
         title: 'system',
         icon: 'icon-system',
-        c: system,
+        children: system,
       },
     ]
     // const setIcon = (menu: Record<string, any>) => {
@@ -230,8 +214,8 @@ export default defineComponent({
     //     }
     //   }
     //   const currRoute = route.path.split('/')[1]
-    //   if (menu.c) {
-    //     menu.c.forEach((child: Record<string, any>) => {
+    //   if (menu.children) {
+    //     menu.children.forEach((child: Record<string, any>) => {
     //       setSelectedIcon(currRoute, child.title)
     //     })
     //   } else {

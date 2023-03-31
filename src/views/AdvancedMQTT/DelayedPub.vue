@@ -1,54 +1,56 @@
 <template>
-  <div class="postpone">
+  <div class="app-wrapper delayed-pub">
     <el-tabs>
-      <el-tab-pane :label="t('Base.setting')" v-loading="configPending">
-        <div class="part-header">{{ tl('enable') }}</div>
-        <el-row class="enable-row" align="middle">
-          <el-col :span="16">{{ tl('enableDescDelay') }}</el-col>
-          <el-col :span="16">
-            <el-switch v-model="delayedConfig.enable" @change="toggleStatus()" />
-          </el-col>
-        </el-row>
-        <el-form
-          ref="delayedForm"
-          :rules="delayedRules"
-          :model="delayedConfig"
-          :disabled="!configEnable"
-          label-position="top"
-          @keyup.enter="updateDelayedConfig()"
-        >
-          <el-row>
-            <el-col :span="10">
-              <el-form-item :label="tl('maxDelayedMsg')" prop="max_delayed_messages">
-                <el-input
-                  v-model.number="delayedConfig.max_delayed_messages"
-                  :readonly="delayedOption == 'unlimited'"
-                  maxlength="6"
-                  type="number"
-                >
-                  <template #append>
-                    <el-select v-model="delayedOption">
-                      <el-option value="unlimited" :label="tl('unlimited')" />
-                      <el-option value="custom" :label="tl('custom')" />
-                    </el-select>
-                  </template>
-                </el-input>
-              </el-form-item>
+      <el-tab-pane :label="t('Base.setting')">
+        <el-card class="app-card slow-sub-config" v-loading="configPending">
+          <div class="part-header">{{ tl('enable') }}</div>
+          <el-row class="enable-row" align="middle">
+            <el-col :span="16">{{ tl('enableDescDelay') }}</el-col>
+            <el-col :span="16">
+              <el-switch v-model="delayedConfig.enable" @change="toggleStatus()" />
             </el-col>
           </el-row>
-        </el-form>
-        <el-row>
-          <el-button
-            type="primary"
-            :disabled="!delayedConfig.enable"
-            @click="updateDelayedConfig()"
+          <el-form
+            ref="delayedForm"
+            :rules="delayedRules"
+            :model="delayedConfig"
+            :disabled="!configEnable"
+            label-position="top"
+            @keyup.enter="updateDelayedConfig()"
           >
-            {{ $t('Base.save') }}
-          </el-button>
-        </el-row>
+            <el-row>
+              <el-col :span="10">
+                <el-form-item :label="tl('maxDelayedMsg')" prop="max_delayed_messages">
+                  <el-input
+                    v-model.number="delayedConfig.max_delayed_messages"
+                    :readonly="delayedOption == 'unlimited'"
+                    maxlength="6"
+                    type="number"
+                  >
+                    <template #append>
+                      <el-select v-model="delayedOption">
+                        <el-option value="unlimited" :label="tl('unlimited')" />
+                        <el-option value="custom" :label="tl('custom')" />
+                      </el-select>
+                    </template>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <el-row>
+            <el-button
+              type="primary"
+              :disabled="!delayedConfig.enable"
+              @click="updateDelayedConfig()"
+            >
+              {{ $t('Base.save') }}
+            </el-button>
+          </el-row>
+        </el-card>
       </el-tab-pane>
       <el-tab-pane :label="tl('dataManage')" v-loading="tbLoading">
-        <el-table :data="delayedTbData" class="shadow-none postpone-table">
+        <el-table :data="delayedTbData" class="shadow-none delayed-table">
           <el-table-column :label="$t('Base.topic')" prop="topic" :min-width="92" />
           <el-table-column :label="'QoS'" prop="qos" :min-width="84" />
           <el-table-column :label="'Payload'" :min-width="84">
@@ -78,38 +80,33 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog class="payload-dialog" v-model="payloadDialog" :title="'Payload'">
-      <el-row v-loading="payloadLoading">
-        <el-input
-          type="textarea"
-          :rows="10"
-          resize="none"
-          placeholder="Payload"
-          v-model="payloadForShow"
-          readonly
-        />
-      </el-row>
-      <template #footer>
-        <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
-          <el-select v-model="payloadShowBy">
-            <el-option
-              v-for="item in payloadShowByOptions"
-              :key="item"
-              :label="item"
-              :value="item"
-            />
-          </el-select>
-          <div>
-            <span v-if="isCopyShow" class="payload-copied">{{ $t('Base.copied') }}</span>
-
-            <el-button @click="copyText(payloadForShow)">
-              {{ $t('Base.copy') }}
-            </el-button>
-          </div>
-        </div>
-      </template>
-    </el-dialog>
   </div>
+  <el-dialog class="payload-dialog" v-model="payloadDialog" :title="'Payload'">
+    <el-row v-loading="payloadLoading">
+      <el-input
+        type="textarea"
+        :rows="10"
+        resize="none"
+        placeholder="Payload"
+        v-model="payloadForShow"
+        readonly
+      />
+    </el-row>
+    <template #footer>
+      <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
+        <el-select v-model="payloadShowBy">
+          <el-option v-for="item in payloadShowByOptions" :key="item" :label="item" :value="item" />
+        </el-select>
+        <div>
+          <span v-if="isCopyShow" class="payload-copied">{{ $t('Base.copied') }}</span>
+
+          <el-button @click="copyText(payloadForShow)">
+            {{ $t('Base.copy') }}
+          </el-button>
+        </div>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
@@ -344,7 +341,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.postpone {
+.delayed-pub {
   :deep(.el-row) {
     margin-bottom: 24px;
   }
@@ -361,7 +358,7 @@ export default defineComponent({
     }
   }
 }
-.postpone-table {
+.delayed-table {
   :deep(.el-table__cell > .cell) {
     padding: 0 12px;
   }
