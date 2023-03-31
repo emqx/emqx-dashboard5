@@ -63,7 +63,7 @@ export interface Delayed {
 }
 
 export interface DelayedMessage {
-  msgid: number
+  msgid: string
   node: string
   publish_at: string
   delayed_interval: number

@@ -109,234 +109,195 @@
   </el-dialog>
 </template>
 
-<script>
-import { defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+<script lang="ts" setup>
 import {
-  getDelayedConfig,
-  editDelayedConfig,
-  getDelayedList,
-  getDelayedInfo,
   delDelayedInfo,
+  editDelayedConfig,
+  getDelayedConfig,
+  getDelayedInfo,
+  getDelayedList,
 } from '@/api/extension'
-import CommonPagination from '@/components/commonPagination.vue'
-import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { dateFormat } from '@/common/tools'
-import { ElMessageBox as MB, ElMessage } from 'element-plus'
-import useI18nTl from '@/hooks/useI18nTl'
+import CommonPagination from '@/components/commonPagination.vue'
 import useCopy from '@/hooks/useCopy'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
+import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
+import { DelayedMessage } from '@/types/extension'
+import { ElMessage, ElMessageBox as MB } from 'element-plus'
+import { onMounted, onUnmounted, reactive, ref, Ref, watch } from 'vue'
 
-export default defineComponent({
-  name: 'Postpone',
-  components: {
-    CommonPagination,
-  },
-  setup() {
-    const { tl, t } = useI18nTl('Extension')
-    const { copyText } = useCopy(copySuccess)
+const { tl, t } = useI18nTl('Extension')
+let copyShowTimeout: Ref<undefined | number> = ref(undefined)
+const copySuccess = () => {
+  isCopyShow.value = true
+  window.clearTimeout(copyShowTimeout.value)
+  copyShowTimeout.value = window.setTimeout(() => {
+    isCopyShow.value = false
+  }, 2000)
+}
+const { copyText } = useCopy(copySuccess)
 
-    let delayedConfig = reactive({
-      enable: false,
-      max_delayed_messages: 0,
-    })
-    let delayedTbData = ref([])
-    let configPending = ref(true)
-    let tbLoading = ref(false)
-    let configEnable = ref(false)
-    let delayedOption = ref('custom')
-    let delayedForm = ref(null)
-    let delayedRules = {
-      max_delayed_messages: [
-        {
-          required: true,
-          message: tl('required'),
-          trigger: 'blur',
-        },
-        {
-          type: 'number',
-          message: tl('needNumber'),
-          trigger: 'blur',
-        },
-      ],
+let delayedConfig = reactive({
+  enable: false,
+  max_delayed_messages: 0,
+})
+let delayedTbData: Ref<Array<DelayedMessage>> = ref([])
+let configPending = ref(true)
+let tbLoading = ref(false)
+let configEnable = ref(false)
+let delayedOption = ref('custom')
+let delayedForm = ref()
+let delayedRules = {
+  max_delayed_messages: [
+    {
+      required: true,
+      message: tl('required'),
+      trigger: 'blur',
+    },
+    {
+      type: 'number',
+      message: tl('needNumber'),
+      trigger: 'blur',
+    },
+  ],
+}
+let payloadDialog = ref(false)
+let payloadLoading = ref(false)
+let payloadDetail = ref('')
+let isCopyShow = ref(false)
+const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
+
+const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent()
+
+const { setRawData, checkDataIsChanged } = useCheckDataChanged(ref(delayedConfig))
+useDataNotSaveConfirm(checkDataIsChanged)
+
+watch(delayedOption, (newOption) => {
+  if (newOption == 'unlimited') {
+    delayedConfig.max_delayed_messages = 0
+  }
+})
+
+const getDelayedOption = () => {
+  if (delayedConfig?.max_delayed_messages == 0) {
+    return 'unlimited'
+  } else {
+    return 'custom'
+  }
+}
+const getConfigFormEnable = () => {
+  if (delayedConfig?.enable === true) {
+    configEnable.value = true
+  } else {
+    configEnable.value = false
+  }
+}
+
+const loadDelayedConfig = async () => {
+  try {
+    configPending.value = true
+    delayedForm.value?.resetFields()
+
+    let res = await getDelayedConfig()
+    Object.assign(delayedConfig, res)
+    setRawData(delayedConfig)
+    getConfigFormEnable()
+    delayedOption.value = getDelayedOption()
+  } catch (error) {
+    //
+  } finally {
+    configPending.value = false
+  }
+}
+
+const loadDelayedList = async (params = {}) => {
+  tbLoading.value = true
+  let sendParams = { ...pageParams.value, ...params }
+  try {
+    const { data, meta } = await getDelayedList(sendParams)
+    delayedTbData.value = data
+    setPageMeta(meta)
+  } catch (error) {
+    delayedTbData.value = []
+    initPageMeta()
+  } finally {
+    tbLoading.value = false
+  }
+}
+
+const deleteDelayedInfo = async function (row: DelayedMessage) {
+  await MB.confirm(t('Base.confirmDelete'), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
+    type: 'warning',
+  })
+  const { msgid, node } = row
+  if (!msgid || !node) {
+    return
+  }
+  try {
+    await delDelayedInfo(node, msgid)
+    loadDelayedList()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const checkPayload = async function (row: DelayedMessage) {
+  payloadDialog.value = true
+  payloadLoading.value = true
+  payloadDetail.value = ''
+  const { msgid, node } = row
+  try {
+    let res = await getDelayedInfo(node, msgid)
+    if (res) {
+      payloadDetail.value = res?.payload
+      setRawText(payloadDetail.value)
     }
-    let payloadDialog = ref(false)
-    let payloadLoading = ref(false)
-    let payloadDetail = ref('')
-    let isCopyShow = ref(false)
-    const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    payloadLoading.value = false
+  }
+}
 
-    const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } =
-      useShowTextByDifferent()
+const toggleStatus = async () => {
+  let valid = await delayedForm.value?.validate().catch(() => {})
+  if (!valid) {
+    delayedConfig.enable = !delayedConfig.enable
+    return
+  }
+  updateDelayedConfig()
+}
 
-    const { setRawData, checkDataIsChanged } = useCheckDataChanged(ref(delayedConfig))
-    useDataNotSaveConfirm(checkDataIsChanged)
+const updateDelayedConfig = async function () {
+  try {
+    await delayedForm.value?.validate()
+    configPending.value = true
+    await editDelayedConfig(delayedConfig)
+    getConfigFormEnable()
+    ElMessage({ type: 'success', message: t('Base.updateSuccess') })
+  } catch (error) {
+    //
+  } finally {
+    loadDelayedConfig()
+    configPending.value = false
+  }
+}
 
-    watch(delayedOption, (newOption) => {
-      if (newOption == 'unlimited') {
-        delayedConfig.max_delayed_messages = 0
-      }
-    })
+const reloading = function () {
+  loadDelayedConfig()
+  loadDelayedList()
+  // p.value.$emit("loadPage");
+}
 
-    const getDelayedOption = () => {
-      if (delayedConfig?.max_delayed_messages == 0) {
-        return 'unlimited'
-      } else {
-        return 'custom'
-      }
-    }
-    const getConfigFormEnable = () => {
-      if (delayedConfig?.enable === true) {
-        configEnable.value = true
-      } else {
-        configEnable.value = false
-      }
-    }
+onMounted(reloading)
 
-    const loadDelayedConfig = async () => {
-      try {
-        configPending.value = true
-        delayedForm.value?.resetFields()
-
-        let res = await getDelayedConfig()
-        Object.assign(delayedConfig, res)
-        setRawData(delayedConfig)
-        getConfigFormEnable()
-        delayedOption.value = getDelayedOption()
-      } catch (error) {
-        //
-      } finally {
-        configPending.value = false
-      }
-    }
-
-    const loadDelayedList = async (params = {}) => {
-      tbLoading.value = true
-      let sendParams = { ...pageParams.value, ...params }
-      try {
-        const { data, meta } = await getDelayedList(sendParams)
-        delayedTbData.value = data
-        setPageMeta(meta)
-      } catch (error) {
-        delayedTbData.value = []
-        initPageMeta()
-      } finally {
-        tbLoading.value = false
-      }
-    }
-
-    const deleteDelayedInfo = async function (row) {
-      await MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        confirmButtonClass: 'confirm-danger',
-        type: 'warning',
-      })
-      const { msgid, node } = row
-      if (!msgid || !node) {
-        return
-      }
-      try {
-        await delDelayedInfo(node, msgid)
-        loadDelayedList()
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    const checkPayload = async function (row) {
-      payloadDialog.value = true
-      payloadLoading.value = true
-      payloadDetail.value = ''
-      const { msgid, node } = row
-      try {
-        let res = await getDelayedInfo(node, msgid)
-        if (res) {
-          payloadDetail.value = res?.payload
-          setRawText(payloadDetail.value)
-        }
-      } catch (error) {
-        console.error(error)
-      } finally {
-        payloadLoading.value = false
-      }
-    }
-
-    const toggleStatus = async () => {
-      let valid = await delayedForm.value?.validate().catch(() => {})
-      if (!valid) {
-        delayedConfig.enable = !delayedConfig.enable
-        return
-      }
-      updateDelayedConfig()
-    }
-
-    const updateDelayedConfig = async function () {
-      try {
-        await delayedForm.value?.validate()
-        configPending.value = true
-        await editDelayedConfig(delayedConfig)
-        getConfigFormEnable()
-        ElMessage({ type: 'success', message: t('Base.updateSuccess') })
-      } catch (error) {
-        //
-      } finally {
-        loadDelayedConfig()
-        configPending.value = false
-      }
-    }
-
-    const reloading = function () {
-      loadDelayedConfig()
-      loadDelayedList()
-      // p.value.$emit("loadPage");
-    }
-
-    onMounted(reloading)
-
-    let copyShowTimeout = ref(null)
-    const copySuccess = () => {
-      isCopyShow.value = true
-      clearTimeout(copyShowTimeout.value)
-      copyShowTimeout.value = setTimeout(() => {
-        isCopyShow.value = false
-      }, 2000)
-    }
-
-    onUnmounted(() => {
-      copyShowTimeout.value && clearTimeout(copyShowTimeout.value)
-    })
-
-    return {
-      t,
-      tl,
-      delayedTbData,
-      delayedConfig,
-      toggleStatus,
-      updateDelayedConfig,
-      configPending,
-      deleteDelayedInfo,
-      delayedOption,
-      reloading,
-      tbLoading,
-      delayedForm,
-      delayedRules,
-      configEnable,
-      loadDelayedList,
-      checkPayload,
-      payloadDialog,
-      payloadLoading,
-      payloadDetail,
-      payloadForShow,
-      payloadShowBy,
-      payloadShowByOptions,
-      dateFormat,
-      isCopyShow,
-      copySuccess,
-      copyText,
-      pageMeta,
-    }
-  },
+onUnmounted(() => {
+  copyShowTimeout.value && clearTimeout(copyShowTimeout.value)
 })
 </script>
 
