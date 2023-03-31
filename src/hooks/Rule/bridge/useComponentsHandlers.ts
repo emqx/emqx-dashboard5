@@ -64,6 +64,9 @@ export default (
         'autoRestartIntervalValueDesc',
       )
     }
+    if (comRet.resource_opts?.properties?.batch_time) {
+      Reflect.deleteProperty(comRet.resource_opts.properties, 'batch_time')
+    }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
   }
