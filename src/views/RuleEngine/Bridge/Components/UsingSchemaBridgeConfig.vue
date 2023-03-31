@@ -196,12 +196,12 @@ defineExpose({ getFormRecord, validate })
       content: '';
       display: block;
       height: 1px;
-      background-color: var(--color-border-menu);
+      background-color: var(--color-border-card);
     }
   }
   .el-col-12:not(.custom-col-24).dividing-line-below {
     &::after {
-      width: 200%;
+      width: calc(200% + 24px);
       margin-top: 24px + 18px;
       margin-bottom: 24px;
     }
@@ -224,7 +224,7 @@ defineExpose({ getFormRecord, validate })
       margin-top: 24px;
       margin-bottom: 24px;
       height: 1px;
-      background-color: var(--color-border-menu);
+      background-color: var(--color-border-card);
     }
   }
   .schema-form .el-form-item__label {
