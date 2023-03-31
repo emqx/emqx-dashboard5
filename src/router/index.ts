@@ -498,10 +498,51 @@ export const routes: Array<RouteRecordRaw> = [
         name: 'mqtt-system-topic',
         component: () => import('@/views/Config/BasicConfig/sysTopics.vue'),
       },
+    ],
+  },
+  // Advanced MQTT
+  {
+    path: '/topic-rewrite',
+    component: Layout,
+    meta: {
+      hideKey: 'topic-rewrite',
+      authRequired: true,
+    },
+    children: [
       {
-        path: 'extension',
-        name: 'mqtt-extension',
-        component: () => import('@/views/Config/Extension/Extension.vue'),
+        path: '',
+        name: 'topic-rewrite',
+        component: () => import('@/views/AdvancedMQTT/Rewrite.vue'),
+      },
+    ],
+  },
+  {
+    path: '/auto-sub',
+    component: Layout,
+    meta: {
+      hideKey: 'auto-sub',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'auto-sub',
+        component: () => import('@/views/AdvancedMQTT/AutoSub.vue'),
+      },
+    ],
+  },
+  {
+    path: '/delayed-pub',
+    component: Layout,
+    meta: {
+      hideKey: 'delayed-pub',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'delayed-pub',
+        component: () => import('@/views/AdvancedMQTT/DelayedPub.vue'),
       },
     ],
   },
