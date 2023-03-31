@@ -1,3 +1,5 @@
+import { QoSLevel } from './enum'
+
 export interface SysTopics {
   sys_msg_interval: string
   sys_heartbeat_interval: string
@@ -49,7 +51,7 @@ export interface Rewrite {
 
 export interface AutoSubscribe {
   topic: string
-  qos: string
+  qos: QoSLevel
   rh: number
   rap: number
   nl: number

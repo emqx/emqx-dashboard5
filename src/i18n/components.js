@@ -35,6 +35,14 @@ export default {
     zh: '访问控制',
     en: 'Access Control',
   },
+  clusterSettings: {
+    zh: '集群配置',
+    en: 'Cluster Settings',
+  },
+  mqttSettings: {
+    zh: 'MQTT 配置',
+    en: 'MQTT Settings',
+  },
   authentication: {
     zh: '认证',
     en: 'Authentication',
@@ -44,8 +52,8 @@ export default {
     en: 'Authorization',
   },
   dashboard: {
-    zh: '仪表盘',
-    en: 'Dashboard',
+    zh: '集群概览',
+    en: 'Cluster Overview',
   },
   overview: {
     zh: '概览',
@@ -223,9 +231,21 @@ export default {
     zh: '监听器',
     en: 'Listeners',
   },
-  mqtt: {
-    zh: 'MQTT',
-    en: 'MQTT',
+  advancedMQTT: {
+    zh: 'MQTT 高级特性',
+    en: 'Advanced MQTT',
+  },
+  'topic-rewrite': {
+    zh: '主题重写',
+    en: 'Topic Rewrite',
+  },
+  'auto-sub': {
+    zh: '代理订阅',
+    en: 'Auto Subscribe',
+  },
+  'delayed-pub': {
+    zh: '延迟发布',
+    en: 'Delayed Publish',
   },
   topicMetrics: {
     zh: 'Topic Metrics',
