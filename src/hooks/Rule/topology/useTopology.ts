@@ -235,9 +235,11 @@ export default (): {
   const grayNoExistInputBridge = () => {
     bridgeList = getBridgeList()
     const { input } = rulePartNodeData.value
+    const bridgeIdArr = new Set()
+    bridgeList.forEach(({ id }) => bridgeIdArr.add(id))
     input.forEach((item) => {
       const { _customData } = item
-      if (!bridgeList.some(({ id }) => id === _customData.id)) {
+      if (_customData.type === OtherNodeType.Bridge && !bridgeIdArr.has(_customData.id)) {
         item._customData.isNotExist = true
       }
       if (item._customData.isNotExist) {
