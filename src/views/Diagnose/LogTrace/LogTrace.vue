@@ -63,11 +63,14 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('LogTrace.logSize')" prop="log_size" sortable :min-width="112">
+      <el-table-column
+        :label="$t('LogTrace.logSize')"
+        prop="totalLogSize"
+        sortable
+        :min-width="112"
+      >
         <template #default="{ row }">
-          {{
-            (Object.keys(row.log_size).reduce((c, v) => c + row.log_size[v], 0) / 1024).toFixed(2)
-          }}KB
+          {{ transMemorySizeNumToStr(row.totalLogSize, 2) }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
@@ -159,18 +162,17 @@
 </template>
 
 <script lang="ts">
+import { addTrace, deleteTrace, downloadTrace, getTraceList, stopTrace } from '@/api/diagnose'
+import { getLabelFromValueInOptionList, transMemorySizeNumToStr } from '@/common/tools'
+import CheckIcon from '@/components/CheckIcon.vue'
+import { FormItemRule } from '@/types/common'
+import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
+import { CheckStatus } from '@/types/enum'
+import { Plus } from '@element-plus/icons-vue'
+import { ElForm, ElMessage as M, ElMessageBox as MB } from 'element-plus'
+import moment from 'moment'
 import { defineComponent, nextTick, onMounted, Ref, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import moment from 'moment'
-import { ElMessage as M, ElMessageBox as MB, ElForm } from 'element-plus'
-import { TraceFormRecord, TraceRecord, TraceItem } from '@/types/diagnose'
-import { Plus } from '@element-plus/icons-vue'
-import { FormItemRule } from '@/types/common'
-import CheckIcon from '@/components/CheckIcon.vue'
-
-import { getTraceList, addTrace, downloadTrace, stopTrace, deleteTrace } from '@/api/diagnose'
-import { CheckStatus } from '@/types/enum'
-import { getLabelFromValueInOptionList } from '@/common/tools'
 
 const DEFAULT_DURATION = 30 * 60 * 1000
 
@@ -241,6 +243,10 @@ export default defineComponent({
     }
     const createForm: Ref<typeof ElForm | null> = ref(null)
 
+    const countTotalLogSize = (sizeMap: Record<string, number>) => {
+      return Object.keys(sizeMap).reduce((total, currentNode) => total + sizeMap[currentNode], 0)
+    }
+
     const loadTraceList = async () => {
       traceTbLoading.value = true
       try {
@@ -248,6 +254,7 @@ export default defineComponent({
         traceTable.value = traceList.map((item: any) => {
           return {
             ...item,
+            totalLogSize: countTotalLogSize(item.log_size),
             // for download
             isLoading: false,
           }
@@ -376,6 +383,7 @@ export default defineComponent({
       createForm,
       typeOptions,
       record,
+      transMemorySizeNumToStr,
       getTypeLabelByValue,
       submitTrace,
       stopTraceHandler,
