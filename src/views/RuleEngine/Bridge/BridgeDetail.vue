@@ -86,6 +86,27 @@
                 :edit="true"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
+              <bridge-influxdb-config
+                v-else-if="bridgeType === BridgeType.InfluxDB"
+                v-model="bridgeInfo"
+                ref="formCom"
+                :edit="true"
+                @init="resetRawBridgeInfoAfterComponentInit"
+              />
+              <bridge-kafka-config
+                v-else-if="bridgeType === BridgeType.Kafka"
+                v-model="bridgeInfo"
+                ref="formCom"
+                :edit="true"
+                @init="resetRawBridgeInfoAfterComponentInit"
+              />
+              <using-schema-bridge-config
+                v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
+                edit
+                :type="bridgeType"
+                v-model="bridgeInfo"
+                ref="formCom"
+              />
             </div>
             <div v-if="!isFromRule" class="btn-area">
               <el-button @click="saveAsCopy">
