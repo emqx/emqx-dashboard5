@@ -64,7 +64,6 @@ export interface ResourceOpt {
   max_queue_bytes: string
 
   batch_size?: number
-  batch_time?: string
 }
 
 export interface BridgeBaseData {
