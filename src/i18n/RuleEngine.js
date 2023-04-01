@@ -1010,20 +1010,12 @@ When disabled the messages are buffered in RAM only.`,
     zh: '启用批量模式。',
   },
   batchSize: {
-    en: 'Batch size',
-    zh: '批量请求大小',
+    en: 'Max batch size',
+    zh: '最大批量请求大小',
   },
   batchSizeDesc: {
-    en: 'Maximum batch count.',
-    zh: '批量请求大小。',
-  },
-  batchTime: {
-    en: 'Batch time',
-    zh: '批量等待间隔',
-  },
-  batchTimeDesc: {
-    en: 'Maximum batch waiting interval.',
-    zh: '最大批量请求等待时间。',
+    en: `Maximum batch count. If equal to 1, there's effectively no batching`,
+    zh: '最大批量请求大小。如果设为 1，则无批处理',
   },
   poolType: {
     zh: '连接池类型',
