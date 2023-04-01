@@ -7,7 +7,7 @@ export interface Property {
    * If `deprecated` has a value, it means that the component here has been deprecated before
    * or will be deprecated at some later date.
    */
-  deprecated: string
+  deprecated: string | boolean
   label: string
   default: any
   symbols?: string[]

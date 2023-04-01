@@ -27,7 +27,6 @@ export default (): {
       formData = {
         ...formData,
         batch_size: 100,
-        batch_time: '10ms',
       }
     }
     return formData

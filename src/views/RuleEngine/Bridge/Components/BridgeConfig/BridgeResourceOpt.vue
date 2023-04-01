@@ -72,19 +72,10 @@
         <el-input v-model="resourceOptForm.batch_size" />
       </el-form-item>
     </el-col>
-    <el-col :span="12">
-      <el-form-item prop="resource_opts.batch_time">
-        <template #label>
-          <span>{{ tl('batchTime') }}</span>
-          <InfoTooltip :content="tl('batchTimeDesc')" />
-        </template>
-        <TimeInputWithUnitSelect v-model="resourceOptForm.batch_time" />
-      </el-form-item>
-    </el-col>
   </template>
 
   <!-- QUERY MODE -->
-  <el-col :span="12" :class="{ 'col-need-row': resourceOptForm.query_mode !== 'async' }">
+  <el-col :span="12">
     <el-form-item prop="resource_opts.query_mode">
       <template #label>
         <span>{{ tl('queryMode') }}</span>
