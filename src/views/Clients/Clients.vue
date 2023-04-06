@@ -68,7 +68,7 @@
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="loadNodeClients">
+          <el-button type="primary" :icon="Refresh" @click="loadNodeClients">
             {{ $t('Base.refresh') }}
           </el-button>
           <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
@@ -78,9 +78,28 @@
         </el-col>
       </el-row>
     </el-form>
-
-    <el-table :data="tableData" ref="clientsTable" v-loading.lock="lockTable">
+    <div class="section-header">
+      <div></div>
+      <el-button
+        class="kick-btn"
+        type="danger"
+        plain
+        :disabled="selectedClients.length === 0"
+        :icon="Delete"
+        :loading="batchDeleteLoading"
+        @click="cleanBatchClients"
+      >
+        {{ tl('kickOut') }}
+      </el-button>
+    </div>
+    <el-table
+      :data="tableData"
+      ref="clientsTable"
+      v-loading.lock="lockTable"
+      @selection-change="handleSelectionChange"
+    >
       <!-- TODO:fixed the tooltip content (spaces) -->
+      <el-table-column type="selection" width="35" />
       <el-table-column
         prop="clientid"
         min-width="140"
@@ -116,7 +135,11 @@
         :label="$t('Clients.connectedStatus')"
       >
         <template #default="{ row }">
-          <CheckIcon :status="row.connected ? 'check' : 'close'" size="small" :top="1" />
+          <CheckIcon
+            :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
+            size="small"
+            :top="1"
+          />
           <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
         </template>
       </el-table-column>
@@ -149,6 +172,9 @@
 import { defineComponent, ref } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
+import { CheckStatus } from '@/types/enum'
+import { Client } from '@/types/client'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'Clients',
@@ -156,11 +182,11 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { listClients } from '@/api/clients'
+import { listClients, disconnectClient } from '@/api/clients'
 import { loadNodes } from '@/api/common'
 import moment from 'moment'
 import CommonPagination from '@/components/commonPagination.vue'
-import { Search, ArrowUp, ArrowDown, RefreshRight } from '@element-plus/icons-vue'
+import { Search, ArrowUp, ArrowDown, Refresh, Delete } from '@element-plus/icons-vue'
 import CheckIcon from '@/components/CheckIcon.vue'
 import { useStore } from 'vuex'
 import { NodeMsg } from '@/types/dashboard'
@@ -169,11 +195,13 @@ import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 const { transSecondNumToSimpleStr } = useDurationStr()
-const { tl } = useI18nTl('Clients')
+const { tl, t } = useI18nTl('Clients')
 const showMoreQuery = ref(false)
 const tableData = ref([])
+const selectedClients = ref<Client[]>([])
 const currentNodes = ref<NodeMsg[]>([])
 const lockTable = ref(false)
+const batchDeleteLoading = ref(false)
 const params = ref({})
 const fuzzyParams = ref<Record<string, any>>({
   comparator: 'gte',
@@ -239,6 +267,54 @@ const sessionExpiryIntervalHandler = (interval: number): string | number => {
 
 loadNodeData()
 loadNodeClients()
+const handleSelectionChange = (clients: Client[]) => {
+  selectedClients.value = clients
+}
+// Handling batch client disconnection requests
+async function batchDisconnectClients(clientIds: string[], batchSize = 10) {
+  const results = []
+  for (let i = 0; i < clientIds.length; i += batchSize) {
+    const batch = clientIds.slice(i, i + batchSize)
+    const disconnectPromises = batch.map((clientId) => disconnectClient(clientId))
+    try {
+      const batchResults = await Promise.allSettled(disconnectPromises)
+      results.push(...batchResults)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  return results
+}
+const cleanBatchClients = async () => {
+  const clientIds = selectedClients.value.map((client) => client.clientid)
+  ElMessageBox.confirm(tl('willKickSelectedConnections', { n: selectedClients.value.length }), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    confirmButtonClass: 'confirm-danger',
+    type: 'warning',
+  }).then(async () => {
+    batchDeleteLoading.value = true
+    try {
+      const results = await batchDisconnectClients(clientIds, 5)
+      console.log(results)
+      if (results) {
+        loadNodeClients()
+        const fulfilledCount = results.filter((result) => result.status === 'fulfilled').length
+        const rejectedCount = results.filter((result) => result.status === 'rejected').length
+        if (fulfilledCount > 0) {
+          ElMessage.success(tl('willKickSelectedConnectionsSuccess', { n: fulfilledCount }))
+        }
+        if (rejectedCount > 0) {
+          ElMessage.error(tl('willKickSelectedConnectionsFailed', { n: rejectedCount }))
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      batchDeleteLoading.value = false
+    }
+  })
+}
 </script>
 
 <style lang="scss">

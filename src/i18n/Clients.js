@@ -116,8 +116,20 @@ export default {
     en: 'Clean Session',
   },
   willDisconnectTheConnection: {
-    zh: '此操作将踢除该连接，是否继续？',
-    en: 'This operation will kick off the connection, continue?',
+    zh: '此操作将踢除该客户端连接，是否继续？',
+    en: 'This operation will kick off the client, continue?',
+  },
+  willKickSelectedConnections: {
+    zh: '此操作将踢除选中的客户端连接，已选中 {n} 个客户端，是否继续？',
+    en: 'This operation will kick off the selected clients, {n} clients have been selected, continue?',
+  },
+  willKickSelectedConnectionsSuccess: {
+    zh: '已成功剔除 {n} 客户端连接',
+    en: 'Successfully kicked off {n} selected clients',
+  },
+  willKickSelectedConnectionsFailed: {
+    zh: '剔除 {n} 客户端连接失败',
+    en: 'Failed to kick off {n} selected clients',
   },
   willCleanSession: {
     zh: '确认清除会话？',
