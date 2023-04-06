@@ -4,6 +4,7 @@ import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
+import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useSchemaForm from '@/hooks/Config/useSchemaForm'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -19,7 +20,6 @@ import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
-import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 
 interface FormItemMeta {
   col: number
@@ -86,10 +86,6 @@ const SchemaForm = defineComponent({
     formItemSpan: {
       type: Number,
       default: 16,
-    },
-    useTooltipShowDesc: {
-      type: Boolean,
-      default: false,
     },
     // FIXME: remove this, use `dataHandler`
     /**
@@ -457,42 +453,24 @@ const SchemaForm = defineComponent({
       return props.customLabelMap[path]
     }
 
-    const getLabelSlotAndDescEle = (property: Property) => {
+    const getLabelSlot = (property: Property) => {
       const { description } = property
       const label = getLabel(property)
-
-      const descContent = (
-        <MarkdownContent
-          class={props.useTooltipShowDesc ? '' : 'item-desc'}
-          content={description}
-          gutter={0}
-        />
-      )
-
-      const labelSlot: any = {}
-      let descEle: any = null
-
-      if (props.useTooltipShowDesc) {
-        const tooltipSlots = {
-          content: () => descContent,
-        }
-
-        // if field is SQL-like field, tooltip can be wider for show SQL template.
-        const popperClass = property.format === 'sql' ? 'is-wider' : ''
-        // FIXME: remove popperClass hack
-        labelSlot.label = () => (
+      // if field is SQL-like field, tooltip can be wider for show SQL template.
+      const popperClass = property.format === 'sql' ? 'is-wider' : ''
+      // FIXME: remove popperClass hack
+      const labelSlot: any = {
+        label: () => (
           <label>
             <span>{label}</span>
             {description ? <InfoTooltip {...{ popperClass }} v-slots={tooltipSlots} /> : null}
           </label>
-        )
-      } else {
-        descEle = descContent
+        ),
       }
-      return {
-        labelSlot,
-        descEle,
+      const tooltipSlots = {
+        content: () => <MarkdownContent content={description} gutter={0} />,
       }
+      return labelSlot
     }
 
     /**
@@ -539,7 +517,7 @@ const SchemaForm = defineComponent({
         ),
       }
 
-      const { labelSlot, descEle } = getLabelSlotAndDescEle(property)
+      const labelSlot = getLabelSlot(property)
       const colSpan = getColSpan(property) || col
       const colClass = getColClass(property)
 
@@ -567,13 +545,11 @@ const SchemaForm = defineComponent({
               effect="dark"
             >
               <el-form-item v-slots={labelSlot} label={property.label} prop={property.path}>
-                {descEle}
                 {setControl(property)}
               </el-form-item>
             </el-tooltip>
           ) : (
             <el-form-item v-slots={labelSlot} label={property.label} prop={property.path}>
-              {descEle}
               {setControl(property)}
             </el-form-item>
           )}
