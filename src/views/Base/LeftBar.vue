@@ -85,41 +85,22 @@ export default defineComponent({
     })
 
     const monitoring = [
-      {
-        title: 'dashboard',
-        path: '/dashboard',
-      },
-      {
-        title: 'clients',
-        path: '/clients',
-      },
-      {
-        title: 'subscriptions',
-        path: '/subscriptions',
-      },
-      {
-        title: 'retained',
-        path: '/retained',
-      },
-      {
-        title: 'delayed-pub',
-        path: '/delayed-pub',
-      },
-      {
-        title: 'alarm',
-        path: '/alarm',
-      },
+      { title: 'dashboard', path: '/dashboard' },
+      { title: 'clients', path: '/clients' },
+      { title: 'subscriptions', path: '/subscriptions' },
+      { title: 'retained', path: '/retained' },
+      { title: 'delayed-pub', path: '/delayed-pub' },
+      { title: 'alarm', path: '/alarm' },
+    ]
+
+    const accessControl = [
+      { title: 'authentication', path: '/authentication' },
+      { title: 'authorization', path: '/authorization' },
+      { title: 'blacklist', path: '/blacklist' },
+      { title: 'limiter', path: '/limiter' },
     ]
 
     const management = [
-      {
-        title: 'auth',
-        children: [
-          { title: 'authentication', path: '/authentication' },
-          { title: 'authorization', path: '/authorization' },
-          { title: 'blacklist', path: '/blacklist' },
-        ],
-      },
       {
         title: 'clusterSettings',
         children: [
@@ -137,20 +118,18 @@ export default defineComponent({
           { title: 'delayed-pub', path: '/delayed-pub-configuration' },
         ],
       },
-      {
-        title: 'extension',
-        children: [
-          { title: 'gateway', path: '/gateway' },
-          { title: 'exhook', path: '/exhook' },
-          { title: 'plugins', path: '/plugins' },
-        ],
-      },
     ]
 
     const integration = [
       { title: 'flow', path: '/flow' },
       { title: 'rules', path: '/rules' },
       { title: 'bridge', path: '/bridge' },
+    ]
+
+    const extensions = [
+      { title: 'gateway', path: '/gateway' },
+      { title: 'exhook', path: '/exhook' },
+      { title: 'plugins', path: '/plugins' },
     ]
 
     const diagnose = [
@@ -165,18 +144,7 @@ export default defineComponent({
       { title: 'APIKey', path: '/APIKey' },
       { title: 'settings', path: '/settings' },
       { title: 'help', path: '/help' },
-      // {
-      //   title: 'dashboard-http',
-      //   path: '/dashboard-http',
-      // },
-    ]
-
-    const config = [
-      // {
-      //   title: 'cluster',
-      //   path: '/cluster',
-      // },
-      { title: 'limiter', path: '/limiter' },
+      // { title: 'dashboard-http', path: '/dashboard-http' },
     ]
 
     menus.value = [
@@ -186,14 +154,24 @@ export default defineComponent({
         children: monitoring,
       },
       {
-        title: 'management',
+        title: 'auth',
         icon: 'icon-authentication',
+        children: accessControl,
+      },
+      {
+        title: 'management',
+        icon: 'icon-configuration',
         children: management,
       },
       {
         title: 'ruleengine',
         icon: 'icon-integration',
         children: integration,
+      },
+      {
+        title: 'extensions',
+        icon: 'icon-extensions',
+        children: extensions,
       },
       {
         title: 'diagnose',
