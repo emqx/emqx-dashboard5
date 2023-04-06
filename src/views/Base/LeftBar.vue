@@ -23,9 +23,9 @@
                   </p>
                 </template>
               </el-menu-item>
-              <el-sub-menu v-else :index="item.title">
+              <el-menu-item-group v-else>
                 <template #title>
-                  <p class="menu-item-title first-level">
+                  <p class="menu-item-title">
                     {{ $t(`components.${item.title}`) }}
                   </p>
                 </template>
@@ -40,7 +40,7 @@
                     </p>
                   </template>
                 </el-menu-item>
-              </el-sub-menu>
+              </el-menu-item-group>
             </template>
           </el-sub-menu>
           <el-menu-item v-else :key="menu.title" :index="menu.path">
