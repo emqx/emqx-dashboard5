@@ -527,4 +527,12 @@ export default {
     zh: '不支持中文',
     en: 'Does not support Chinese characters',
   },
+  showMore: {
+    zh: '显示更多',
+    en: 'Show More',
+  },
+  lessMore: {
+    zh: '收起',
+    en: 'Less',
+  },
 }

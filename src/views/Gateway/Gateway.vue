@@ -19,12 +19,10 @@
             :content="`${row.current_connections || 0}/${row.max_connections || 0}`"
           >
             <el-progress
-              :stroke-width="16"
+              :stroke-width="20"
               :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
-              :text-inside="true"
-              :format="() => ''"
+              :format="() => row.current_connections || 0"
             >
-              <span>{{ row.current_connections || 0 }}</span>
             </el-progress>
           </el-tooltip>
         </template>

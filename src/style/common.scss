@@ -146,12 +146,15 @@ p.description {
 }
 
 .search-wrapper {
+  background-color: var(--color-bg-details);
+  padding: 32px 24px;
+  margin: 0 !important;
   margin: 14px 0;
+  border-bottom: 1px solid var(--color-border-card);
   .el-button {
     margin-left: 12px;
   }
   & > .el-col {
-    margin-bottom: 20px;
     > .el-button:first-child {
       margin-left: 0;
     }

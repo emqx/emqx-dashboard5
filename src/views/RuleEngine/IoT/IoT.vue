@@ -1,79 +1,79 @@
 <template>
-  <div class="app-wrapper iot">
-    <RuleFilterForm
-      @search="searchRule"
-      @refresh="getRulesList"
-      class="with-dividing-line-bottom"
-    />
-    <div class="section-header">
-      <div></div>
-      <div>
-        <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'iot-create' })">
-          {{ tl('create', 'Base') }}
-        </el-button>
-      </div>
-    </div>
-
-    <el-table :data="ruleTable" v-loading="iotLoading">
-      <el-table-column label="ID" show-overflow-tooltip>
-        <template #default="{ row }">
-          <router-link
-            :to="{ name: 'iot-detail', params: { id: row.id } }"
-            class="table-data-without-break"
-          >
-            {{ row.id }}
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column :label="tl('source')">
-        <template #default="{ row }">
-          <el-tooltip effect="dark" placement="top-start" popper-class="code-popper">
-            <template #content>
-              <CodeView lang="sql" :code="row.sql" :show-copy-btn="false" />
-            </template>
-            <div class="inputs-container">
-              <el-tag class="input-item" type="info" v-for="item in row.from" :key="item">{{
-                item
-              }}</el-tag>
-            </div>
-          </el-tooltip>
-        </template>
-      </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')">
-        <template #default="{ row }">
-          <el-switch v-model="row.enable" @change="startOrStopRule(row)" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="description" :label="tl('note')"></el-table-column>
-      <el-table-column :label="tl('createdAt')">
-        <template #default="{ row }">
-          {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
-        <template #default="{ row }">
-          <el-button
-            size="small"
-            @click="
-              $router.push({
-                name: 'iot-detail',
-                params: { id: row.id },
-                query: { tab: 'settings' },
-              })
-            "
-          >
-            {{ $t('Base.setting') }}
+  <div class="iot">
+    <RuleFilterForm class="search-wrapper" @search="searchRule" />
+    <div class="app-wrapper">
+      <div class="section-header">
+        <div></div>
+        <div>
+          <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'iot-create' })">
+            {{ tl('create', 'Base') }}
           </el-button>
-          <TableItemDropDown
-            :row-data="row"
-            @copy="copyRuleItem(row)"
-            @delete="submitDeleteRules"
-          />
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="emq-table-footer">
-      <commonPagination :meta-data="pageMeta" @load-page="getRulesList" />
+          <el-button type="primary" :icon="Refresh" @click="getRulesList">
+            {{ $t('Base.refresh') }}
+          </el-button>
+        </div>
+      </div>
+      <el-table :data="ruleTable" v-loading="iotLoading">
+        <el-table-column label="ID" show-overflow-tooltip>
+          <template #default="{ row }">
+            <router-link
+              :to="{ name: 'iot-detail', params: { id: row.id } }"
+              class="table-data-without-break"
+            >
+              {{ row.id }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column :label="tl('source')">
+          <template #default="{ row }">
+            <el-tooltip effect="dark" placement="top-start" popper-class="code-popper">
+              <template #content>
+                <CodeView lang="sql" :code="row.sql" :show-copy-btn="false" />
+              </template>
+              <div class="inputs-container">
+                <el-tag class="input-item" type="info" v-for="item in row.from" :key="item">{{
+                  item
+                }}</el-tag>
+              </div>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="enable" :label="$t('Base.isEnabled')">
+          <template #default="{ row }">
+            <el-switch v-model="row.enable" @change="startOrStopRule(row)" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="description" :label="tl('note')"></el-table-column>
+        <el-table-column :label="tl('createdAt')">
+          <template #default="{ row }">
+            {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Base.operation')">
+          <template #default="{ row }">
+            <el-button
+              size="small"
+              @click="
+                $router.push({
+                  name: 'iot-detail',
+                  params: { id: row.id },
+                  query: { tab: 'settings' },
+                })
+              "
+            >
+              {{ $t('Base.setting') }}
+            </el-button>
+            <TableItemDropDown
+              :row-data="row"
+              @copy="copyRuleItem(row)"
+              @delete="submitDeleteRules"
+            />
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="emq-table-footer">
+        <commonPagination :meta-data="pageMeta" @load-page="getRulesList" />
+      </div>
     </div>
   </div>
 </template>
@@ -88,6 +88,7 @@ import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import moment from 'moment'
 import { onMounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Refresh } from '@element-plus/icons-vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import commonPagination from '@/components/commonPagination.vue'
 import RuleFilterForm from './components/RuleFilterForm.vue'
@@ -167,6 +168,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.section-header {
+  margin-top: 0;
+}
 .el-button-group {
   .el-button {
     &.el-button--default {
@@ -205,11 +209,8 @@ onMounted(() => {
     margin-top: 8px;
   }
 }
-
-.rule-filter-form {
-  margin-bottom: 16px;
-}
 </style>
+
 <style lang="scss">
 .code-popper.el-popper {
   padding: 0;

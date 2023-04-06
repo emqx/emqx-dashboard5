@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form :model="topicModel" ref="topicForm" :rules="topicRules">
-      <el-table :data="topicList">
+      <el-table :data="topicList" class="shadow-none">
         <el-table-column label="Topic ID">
           <template #default="{ row, $index }">
             <el-form-item :prop="`[${$index}].id`">
