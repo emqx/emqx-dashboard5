@@ -99,7 +99,8 @@
           color: #fff;
         }
       }
-      .el-menu-item {
+      .el-menu-item,
+      .el-menu-item-group__title {
         padding: 0px 0px 0px 31px !important;
       }
       .el-sub-menu__icon-arrow {
@@ -109,9 +110,7 @@
     }
     .el-menu-item {
       color: #A7ABB1;
-      border-left: 4px solid transparent;
       border-radius: 8px;
-      margin: 0 12px;
       padding: 0px 0px 0px 8px !important;
       min-width: initial;
       &.is-active {
@@ -123,6 +122,16 @@
         background-color: #1F303C;
         border-radius: 8px;
       }
+    }
+    .el-menu-item,
+    .el-menu-item-group__title {
+      border-left: 4px solid transparent;
+      margin: 0 12px;
+    }
+    .el-menu-item-group__title {
+      font-size: 14px;
+      cursor: default;
+      color: rgba(255, 255, 255, 0.35);
     }
   }
   &.el-menu--popup {
