@@ -112,7 +112,6 @@ import { QoSLevel } from '@/types/enum'
 import { AutoSubscribe } from '@/types/extension'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
-import { merge } from 'lodash'
 import { nextTick, onMounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
