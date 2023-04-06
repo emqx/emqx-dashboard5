@@ -91,7 +91,7 @@ export function getDelayedConfig(): Promise<Delayed> {
   return http.get('/mqtt/delayed')
 }
 
-export function editDelayedConfig(body: Delayed): Promise<any> {
+export function updateDelayedConfig(body: Delayed): Promise<any> {
   const data = typeof body === 'object' && body !== null ? body : {}
   return http.put('/mqtt/delayed', data)
 }
