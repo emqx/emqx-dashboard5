@@ -571,7 +571,7 @@ const SchemaForm = defineComponent({
         return (
           <>
             <el-col span={16}>
-              <div class="group-title">{levelName}</div>
+              <el-divider />
             </el-col>
             {colItem}
           </>
@@ -582,6 +582,16 @@ const SchemaForm = defineComponent({
 
     const save = () => {
       ctx.emit('save', configForm.value)
+    }
+
+    const getFormProps = () => {
+      if (props.type === 'bridge') {
+        return { labelPosition: 'top' }
+      }
+      return {
+        labelPosition: 'right',
+        labelWidth: 350,
+      }
     }
 
     const renderLayout = (contents: JSX.Element[]) => {
@@ -608,7 +618,7 @@ const SchemaForm = defineComponent({
           {tabs}
           <el-form
             ref={formCom}
-            label-position="top"
+            {...getFormProps()}
             rules={rules.value}
             model={configForm.value}
             validate-on-rule-change={false}
