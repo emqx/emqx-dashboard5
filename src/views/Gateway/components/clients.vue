@@ -1,7 +1,7 @@
 <template>
   <div class="gateway-client">
     <el-form @keyup.enter="searchGatewayList()">
-      <el-row :gutter="20" class="search-wrapper">
+      <el-row :gutter="20">
         <el-col :span="6">
           <el-input
             :placeholder="t('Base.clientid')"
