@@ -147,6 +147,21 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/delayed-pub',
+    component: Layout,
+    meta: {
+      hideKey: 'delayed-pub',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'delayed-pub',
+        component: () => import('@/views/DelayedPub/DelayedPub.vue'),
+      },
+    ],
+  },
 
   // Users
   {
@@ -532,16 +547,16 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/delayed-pub',
+    path: '/delayed-pub-configuration',
     component: Layout,
     meta: {
-      hideKey: 'delayed-pub',
+      hideKey: 'delayed-pub-configuration',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'delayed-pub',
+        name: 'delayed-pub-configuration',
         component: () => import('@/views/AdvancedMQTT/DelayedPub.vue'),
       },
     ],

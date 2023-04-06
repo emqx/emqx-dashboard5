@@ -87,23 +87,23 @@ export default defineComponent({
     const monitoring = [
       {
         title: 'dashboard',
-        icon: 'icon-monitoring',
         path: '/dashboard',
       },
       {
         title: 'clients',
-        icon: 'icon-connections',
         path: '/clients',
       },
       {
         title: 'subscriptions',
-        icon: 'icon-subscriptions',
         path: '/subscriptions',
       },
       {
         title: 'retained',
-        icon: 'icon-keep-message',
         path: '/retained',
+      },
+      {
+        title: 'delayed-pub',
+        path: '/delayed-pub',
       },
       {
         title: 'alarm',
@@ -134,7 +134,7 @@ export default defineComponent({
         children: [
           { title: 'topic-rewrite', path: '/topic-rewrite' },
           { title: 'auto-sub', path: '/auto-sub' },
-          { title: 'delayed-pub', path: '/delayed-pub' },
+          { title: 'delayed-pub', path: '/delayed-pub-configuration' },
         ],
       },
       {
