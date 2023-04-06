@@ -5,12 +5,12 @@ export default function useI18nTl(collection: string): {
   tl: (
     key: string,
     meta?: {
-      [key: string]: string
+      [key: string]: string | number
     },
   ) => string
 } {
   const { t } = useI18n()
-  const tl = function (key: string, meta?: { [key: string]: string }) {
+  const tl = function (key: string, meta?: { [key: string]: string | number }) {
     if (meta) {
       return t(`${collection}.${key}`, meta)
     }
