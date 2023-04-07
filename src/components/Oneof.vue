@@ -1,197 +1,143 @@
 <template>
-  <div class="oneof">
-    <div class="oneof-item" v-for="(item, index) in items" :key="index">
+  <div class="one-of" v-if="oneOfInfo.valueDisabled !== undefined && oneOfInfo.propEnabled">
+    <div class="switch-container">
+      <el-switch v-model="switchProxy" :inactive-value="(oneOfInfo.valueDisabled as string)" />
+      <span class="tip" v-if="valueProxy === oneOfInfo.valueDisabled">{{ valueProxy }}</span>
+    </div>
+    <div class="oneof-item" v-if="valueProxy !== oneOfInfo.valueDisabled">
       <el-input
-        v-model="bindForms[index].string"
-        v-if="item.type === 'string'"
+        v-model="valueProxy"
+        v-if="oneOfInfo.propEnabled.type === 'string'"
         :disabled="disabled"
-        @change="handleValChange(bindForms[index].string, 'string')"
         clearable
-      ></el-input>
+      />
       <el-input-number
-        v-else-if="item.type === 'number'"
-        v-model="bindForms[index].number"
+        v-else-if="oneOfInfo.propEnabled.type === 'number'"
+        v-model="valueProxy"
         controls-position="right"
         :min="0"
         :disabled="disabled"
-        @change="handleValChange(bindForms[index].number, 'number')"
-        clearable
-      ></el-input-number>
-      <el-select
-        v-model="bindForms[index].enum"
-        v-else-if="item.type === 'enum'"
-        :disabled="disabled"
-        @change="handleValChange(bindForms[index].enum, 'enum')"
-        clearable
-      >
-        <el-option v-for="opt in item.symbols" :value="opt" :label="opt" :key="opt"></el-option>
-      </el-select>
-      <time-input-with-unit-select
-        v-model="bindForms[index].duration"
-        v-else-if="item.type === 'duration'"
-        :disabled="disabled"
-        @change="handleValChange(bindForms[index].duration, 'duration')"
-      ></time-input-with-unit-select>
-      <input-with-unit
-        v-else-if="item.type === 'byteSize'"
-        v-model="bindForms[index].byteSize"
-        :disabled="disabled"
-        :units="['MB', 'GB', 'KB']"
-        @change="handleValChange(bindForms[index].byteSize, 'byteSize')"
-      ></input-with-unit>
-      <el-input
-        v-model="bindForms[index].ip_port"
-        v-else-if="item.type === 'ip_port'"
-        :disabled="disabled"
-        @change="handleValChange(bindForms[index].ip_port, 'ip_port')"
-        clearable
-      ></el-input>
-      <el-input
-        v-else-if="item.type === 'object'"
-        type="textarea"
-        v-model="bindForms[index].object"
-        :disabled="disabled"
-        @change="handleValChange(bindForms[index].object, 'object')"
         clearable
       />
-      <div v-if="index !== items.length - 1" class="split">{{ $t('Base.or') }}</div>
+      <el-select
+        v-model="valueProxy"
+        v-else-if="oneOfInfo.propEnabled.type === 'enum'"
+        :disabled="disabled"
+        clearable
+      >
+        <el-option
+          v-for="opt in oneOfInfo.propEnabled.symbols"
+          :value="opt"
+          :label="opt"
+          :key="opt"
+        />
+      </el-select>
+      <time-input-with-unit-select
+        v-model="valueProxy"
+        v-else-if="oneOfInfo.propEnabled.type === 'duration'"
+        :disabled="disabled"
+      />
+      <input-with-unit
+        v-else-if="oneOfInfo.propEnabled.type === 'byteSize'"
+        v-model="valueProxy"
+        :disabled="disabled"
+        :units="['MB', 'GB', 'KB']"
+      />
+      <el-input
+        v-model="valueProxy"
+        v-else-if="oneOfInfo.propEnabled.type === 'ip_port'"
+        :disabled="disabled"
+        clearable
+      />
+      <el-input
+        v-else-if="oneOfInfo.propEnabled.type === 'object'"
+        type="textarea"
+        v-model="valueProxy"
+        :disabled="disabled"
+        clearable
+      />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+<script setup lang="ts">
+import { Properties, Property } from '@/types/schemaForm'
+import { defineProps, PropType, computed, defineEmits, WritableComputedRef } from 'vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import InputWithUnit from './InputWithUnit.vue'
-import { IP_REG } from '@/common/constants'
-import { Properties } from '@/types/schemaForm'
-import { isJSONString } from '@/common/tools'
 
-interface BindForm {
-  enum?: string
-  string?: string
-  number?: number
-  duration?: string
-  byteSize?: string
-  ip_port?: string
-  object?: string
-}
-
-type Type = keyof BindForm
-
-export default defineComponent({
-  name: 'Oneof',
-  components: {
-    TimeInputWithUnitSelect,
-    InputWithUnit,
+const props = defineProps({
+  modelValue: {
+    type: [String, Number, Object] as PropType<string | number | Record<string, any> | undefined>,
+    required: true,
   },
-  emits: ['update:modelValue'],
-  props: {
-    modelValue: {
-      required: true,
-    },
-    items: {
-      type: Array as PropType<Properties[string][]>,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+  items: {
+    type: Array as PropType<Properties[string][]>,
+    required: true,
   },
-  setup(props, ctx) {
-    const bindForms = ref<BindForm[]>([])
-    props.items.forEach((item) => {
-      bindForms.value.push({ [item.type]: undefined })
-    })
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+})
 
-    const setFormValue = (val: any, type: Type) => {
-      bindForms.value.forEach((form) => {
-        if (Object.keys(form)[0] === type) {
-          form[type] = val
-        }
-      })
+const emit = defineEmits(['update:modelValue'])
+
+const oneOfInfo = computed(() => {
+  if (!Array.isArray(props.items) || props.items.length !== 2) {
+    return { propEnabled: undefined, valueDisabled: undefined }
+  }
+  let valueDisabled: unknown
+  let propEnabled: undefined | Property
+  props.items.forEach((item) => {
+    if (item.type === 'enum' && item.symbols?.length === 1) {
+      valueDisabled = item.symbols[0] as string
+    } else {
+      propEnabled = item
     }
-    const resetOtherFormValue = (type: Type) => {
-      bindForms.value.forEach((form) => {
-        if (Object.keys(form)[0] !== type) {
-          const key = Object.keys(form)[0] as Type
-          form[key] = undefined
-        }
-      })
-    }
-    const catchValType = (val: any): Type => {
-      if (['disable', 'infinity', 'unlimited', 'disabled'].includes(val)) {
-        return 'enum'
-      }
-      if (typeof val === 'number') {
-        setFormValue(val, 'number')
-        return 'number'
-      }
-      if (/s|ms|h|m+/g.test(val)) {
-        setFormValue(val, 'duration')
-        return 'duration'
-      }
-      if (/MB|KB|G+/g.test(val)) {
-        setFormValue(val, 'byteSize')
-        return 'byteSize'
-      }
-      if (IP_REG.test(val)) {
-        setFormValue(val, 'ip_port')
-        return 'ip_port'
-      }
-      if (isJSONString(val)) {
-        setFormValue(val, 'object')
-        return 'object'
-      }
-      return 'string'
-    }
-    watch(
-      () => props.modelValue,
-      (val: any, oldVal: any) => {
-        handleWatchVal(val, oldVal)
-      },
-    )
-    const handleWatchVal = (val: any, oldVal: any) => {
-      let type = catchValType(val)
-      if (val === undefined && oldVal) {
-        type = catchValType(oldVal)
-      } else if (val && oldVal && oldVal !== val) {
-        const oldType = catchValType(oldVal)
-        setFormValue('', oldType)
-      }
-      setFormValue(val, type)
-    }
-    if (props.modelValue !== undefined) {
-      handleWatchVal(props.modelValue, props.modelValue)
-    }
-    const handleValChange = (val: string | number | undefined, type: Type) => {
-      if (val) {
-        resetOtherFormValue(type)
-      }
-      ctx.emit('update:modelValue', val)
-    }
-    return {
-      bindForms,
-      handleValChange,
+  })
+  return valueDisabled && propEnabled
+    ? { valueDisabled, propEnabled }
+    : { propEnabled: undefined, valueDisabled: undefined }
+})
+
+const switchProxy: WritableComputedRef<string | boolean> = computed({
+  get() {
+    return valueProxy.value === oneOfInfo.value.valueDisabled
+      ? (oneOfInfo.value.valueDisabled as string)
+      : true
+  },
+  set(val: string | boolean) {
+    valueProxy.value =
+      val === oneOfInfo.value.valueDisabled ? oneOfInfo.value.valueDisabled : undefined
+  },
+})
+
+const valueProxy: WritableComputedRef<any> = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    const { valueDisabled, propEnabled } = oneOfInfo.value
+    if (valueDisabled !== undefined) {
+      const value = val === valueDisabled ? valueDisabled : val ?? propEnabled?.default
+      emit('update:modelValue', value)
+    } else {
+      emit('update:modelValue', val)
     }
   },
 })
 </script>
 
 <style lang="scss">
-.oneof {
-  width: 100%;
-  display: flex;
+.one-of {
   .oneof-item {
-    display: flex;
-    width: 50%;
-    .split {
-      margin: 0 12px;
-    }
+    margin-top: 12px;
   }
-  .el-input-number {
-    line-height: 0;
+  .tip {
+    margin-left: 12px;
+    color: var(--color-text-secondary);
+    opacity: 0.5;
   }
 }
 </style>
