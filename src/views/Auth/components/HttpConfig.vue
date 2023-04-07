@@ -72,14 +72,7 @@
           <el-col :span="24">
             <el-form-item class="label-whole-line" prop="body">
               <template #label>
-                <div class="vertical-align-center">
-                  <span>Body</span>
-                  <InfoTooltip>
-                    <template #content>
-                      <MarkdownContent class="plugin-content" :content="tl('httpHeaderTip')" />
-                    </template>
-                  </InfoTooltip>
-                </div>
+                <FormItemLabel label="Body" :desc="tl('httpHeaderTip')" desc-marked />
                 <el-button size="small" @click="setDefaultContent" class="button-in-label-line">
                   {{ $t('Auth.setDefault') }}
                 </el-button>
@@ -104,6 +97,7 @@
 </template>
 
 <script lang="ts">
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
@@ -114,8 +108,6 @@ import { ElMessageBox } from 'element-plus'
 import { isEqual } from 'lodash'
 import { defineComponent, PropType, ref, watch } from 'vue'
 import HelpBlock from './HelpBlock.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
 
 export default defineComponent({
   name: 'HttpConfig',
@@ -125,8 +117,7 @@ export default defineComponent({
     TimeInputWithUnitSelect,
     Monaco,
     HelpBlock,
-    InfoTooltip,
-    MarkdownContent,
+    FormItemLabel,
   },
 
   props: {
