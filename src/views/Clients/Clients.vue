@@ -123,7 +123,7 @@
           <template #default="{ row }">
             <router-link
               :to="{
-                name: 'connection-detail',
+                name: 'clients-detail',
                 params: { clientId: row.clientid },
               }"
             >

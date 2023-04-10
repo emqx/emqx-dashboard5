@@ -87,21 +87,21 @@ export const routes: Array<RouteRecordRaw> = [
 
   // Connections
   {
-    path: '/connections',
+    path: '/clients',
     component: Layout,
     meta: {
-      hideKey: 'connections',
+      hideKey: 'clients',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'connections',
+        name: 'clients',
         component: () => import('@/views/Clients/Clients.vue'),
       },
       {
         path: 'detail/:clientId',
-        name: 'connection-detail',
+        name: 'clients-detail',
         component: () => import('@/views/Clients/ClientDetails.vue'),
       },
     ],
@@ -144,6 +144,21 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'retained',
         component: () => import('@/views/Retained/Retained.vue'),
+      },
+    ],
+  },
+  {
+    path: '/delayed-pub',
+    component: Layout,
+    meta: {
+      hideKey: 'delayed-pub',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'delayed-pub',
+        component: () => import('@/views/DelayedPub/DelayedPub.vue'),
       },
     ],
   },
@@ -272,8 +287,8 @@ export const routes: Array<RouteRecordRaw> = [
             component: () => import('@/views/Gateway/components/auth.vue'),
           },
           {
-            path: 'connections',
-            name: 'gateway-detail-connections',
+            path: 'clients',
+            name: 'gateway-detail-clients',
             component: () => import('@/views/Gateway/components/clients.vue'),
           },
         ],
@@ -498,10 +513,51 @@ export const routes: Array<RouteRecordRaw> = [
         name: 'mqtt-system-topic',
         component: () => import('@/views/Config/BasicConfig/sysTopics.vue'),
       },
+    ],
+  },
+  // Advanced MQTT
+  {
+    path: '/topic-rewrite',
+    component: Layout,
+    meta: {
+      hideKey: 'topic-rewrite',
+      authRequired: true,
+    },
+    children: [
       {
-        path: 'extension',
-        name: 'mqtt-extension',
-        component: () => import('@/views/Config/Extension/Extension.vue'),
+        path: '',
+        name: 'topic-rewrite',
+        component: () => import('@/views/AdvancedMQTT/Rewrite.vue'),
+      },
+    ],
+  },
+  {
+    path: '/auto-sub',
+    component: Layout,
+    meta: {
+      hideKey: 'auto-sub',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'auto-sub',
+        component: () => import('@/views/AdvancedMQTT/AutoSub.vue'),
+      },
+    ],
+  },
+  {
+    path: '/delayed-pub-configuration',
+    component: Layout,
+    meta: {
+      hideKey: 'delayed-pub-configuration',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'delayed-pub-configuration',
+        component: () => import('@/views/AdvancedMQTT/DelayedPub.vue'),
       },
     ],
   },

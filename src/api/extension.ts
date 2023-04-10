@@ -71,20 +71,18 @@ export function getTopicRewrite(): Promise<Array<Rewrite>> {
   return http.get('/mqtt/topic_rewrite')
 }
 
-export function editTopicRewrite(body: Rewrite): Promise<Rewrite> {
+export function editTopicRewrite(body: Array<Rewrite>): Promise<Array<Rewrite>> {
   const data = typeof body === 'object' && body !== null ? body : {}
   return http.put('/mqtt/topic_rewrite', data)
 }
 
 /* Proxy subscription */
-export function getSubscribe(): Promise<{ topics: Array<AutoSubscribe> }> {
+export function getSubscribe(): Promise<Array<AutoSubscribe>> {
   return http.get('/mqtt/auto_subscribe')
 }
 
-export function editSubscribe(body: {
-  topics: Array<AutoSubscribe>
-}): Promise<{ topics: Array<AutoSubscribe> }> {
-  const data = typeof body === 'object' && body !== null ? body : {}
+export function editSubscribe(body: Array<AutoSubscribe>): Promise<Array<AutoSubscribe>> {
+  const data = typeof body === 'object' && body !== null ? body : []
   return http.put('/mqtt/auto_subscribe', data)
 }
 
@@ -93,7 +91,7 @@ export function getDelayedConfig(): Promise<Delayed> {
   return http.get('/mqtt/delayed')
 }
 
-export function editDelayedConfig(body: Delayed): Promise<any> {
+export function updateDelayedConfig(body: Delayed): Promise<any> {
   const data = typeof body === 'object' && body !== null ? body : {}
   return http.put('/mqtt/delayed', data)
 }
