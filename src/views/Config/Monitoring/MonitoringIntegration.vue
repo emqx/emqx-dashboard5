@@ -1,11 +1,21 @@
 <template>
   <div class="monitoring-integration app-wrapper">
     <el-card class="config-card" v-loading="isDataLoading">
-      <el-form label-position="top" class="schema-form">
+      <el-form
+        class="schema-form"
+        label-position="right"
+        require-asterisk-position="left"
+        :label-width="190"
+      >
         <el-row>
           <el-col :span="12">
-            <el-form-item :label="tl('monitoringPlatform')" class="radio-form-item">
-              <p class="item-desc">{{ tl('monitoringPlatformFormItemLabel') }}</p>
+            <el-form-item class="radio-form-item">
+              <template #label>
+                <FormItemLabel
+                  :label="tl('monitoringPlatform')"
+                  :desc="tl('monitoringPlatformFormItemLabel')"
+                />
+              </template>
               <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
                 <el-row :gutter="28">
                   <el-col v-for="item in platformOpts" :key="item.label" :span="12">
@@ -21,11 +31,16 @@
         </el-row>
         <el-row>
           <el-col :span="16" class="custom-col">
-            <el-form-item :label="t('Base.isEnabled')">
-              <p class="item-desc">
-                {{ t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) }}
-                {{ t('MonitoringIntegration.promToPushgateway') }}
-              </p>
+            <el-form-item>
+              <template #label>
+                <FormItemLabel
+                  :label="t('Base.isEnabled')"
+                  :desc="
+                    t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) +
+                    t('MonitoringIntegration.promToPushgateway')
+                  "
+                />
+              </template>
               <el-switch v-model="prometheusFormData.enable" />
             </el-form-item>
           </el-col>
@@ -33,35 +48,50 @@
         <el-collapse-transition>
           <el-row v-show="prometheusFormData.enable">
             <el-col :span="16" class="custom-col">
-              <el-form-item :label="tl('interval')">
-                <p class="item-desc">{{ tl('dataReportingInterval') }}</p>
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel :label="tl('interval')" :desc="tl('dataReportingInterval')" />
+                </template>
                 <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
               </el-form-item>
             </el-col>
             <el-col :span="16" class="custom-col">
-              <el-form-item :label="tl('pushgatewayServer')">
-                <p class="item-desc">
-                  {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
-                  <a
-                    href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    {{ tl('whenToUsePushgateway') }}
-                  </a>
-                </p>
+              <el-form-item>
+                <template #label>
+                  <span>{{ tl('pushgatewayServer') }}</span>
+                  <InfoTooltip>
+                    <template #content>
+                      {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
+                      <a
+                        href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        {{ tl('whenToUsePushgateway') }}
+                      </a>
+                    </template>
+                  </InfoTooltip>
+                </template>
                 <el-input v-model="prometheusFormData.push_gateway_server" />
               </el-form-item>
             </el-col>
             <el-col :span="16" class="custom-col">
-              <el-form-item :label="tl('jobName')">
-                <p v-safe-html="tl('jobNameDesc')" class="item-desc"></p>
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel :label="tl('jobName')" :desc="tl('jobNameDesc')" desc-marked />
+                </template>
                 <el-input v-model="prometheusFormData.job_name" />
               </el-form-item>
             </el-col>
             <el-col :span="16" class="custom-col">
-              <el-form-item :label="t('RuleEngine.headers')">
-                <p v-safe-html="tl('headersDesc')" class="item-desc"></p>
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="t('RuleEngine.headers')"
+                    :desc="tl('headersDesc')"
+                    desc-marked
+                  />
+                </template>
                 <KeyAndValueEditor v-model="prometheusFormData.headers" />
               </el-form-item>
             </el-col>
@@ -88,15 +118,17 @@
 <script setup lang="ts">
 import { getPrometheus, setPrometheus } from '@/api/common'
 import promImg from '@/assets/img/prom.png'
+import FormItemLabel from '@/components/FormItemLabel.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import TimeInputWithUnitSelectVue from '@/components/TimeInputWithUnitSelect.vue'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Prometheus } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
-import { computed, ref, Ref } from 'vue'
-import HelpDrawer from './components/HelpDrawer.vue'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { cloneDeep, isEqual } from 'lodash'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import { Ref, computed, ref } from 'vue'
+import HelpDrawer from './components/HelpDrawer.vue'
 
 const PROMETHEUS = 'Prometheus'
 
