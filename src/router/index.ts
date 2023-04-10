@@ -511,7 +511,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'system-topic',
         name: 'mqtt-system-topic',
-        component: () => import('@/views/Config/BasicConfig/sysTopics.vue'),
+        component: () => import('@/views/Config/BasicConfig/SystemTopics.vue'),
       },
     ],
   },
