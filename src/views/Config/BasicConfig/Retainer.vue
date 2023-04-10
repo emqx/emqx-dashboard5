@@ -4,7 +4,9 @@
       <el-form
         ref="retainerForm"
         class="schema-form"
-        v-bind="SCHEMA_FORM_COMMON_PROPS"
+        label-position="right"
+        require-asterisk-position="left"
+        :label-width="240"
         :rules="retainerRules"
         :model="retainerConfig"
       >
@@ -22,7 +24,9 @@
       <el-form
         ref="retainerForm"
         class="schema-form"
-        v-bind="{ ...SCHEMA_FORM_COMMON_PROPS }"
+        label-position="right"
+        require-asterisk-position="left"
+        :label-width="240"
         :disabled="!configEnable"
         :rules="retainerRules"
         :model="retainerConfig"
@@ -166,7 +170,6 @@
 
 <script setup>
 import { getRetainer, updateRetainer } from '@/api/extension'
-import { SCHEMA_FORM_COMMON_PROPS } from '@/common/constants'
 import FormItemLabel from '@/components/FormItemLabel'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'

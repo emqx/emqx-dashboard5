@@ -3,10 +3,11 @@
     <el-card>
       <schema-form
         ref="SchemaFormCom"
-        :according-to="{ path: '/configs/zones' }"
         type="mqtt"
+        :according-to="{ path: '/configs/zones' }"
         :form="configs"
         :btn-loading="saveLoading"
+        :label-width="290"
         @save="handleSave"
       >
       </schema-form>

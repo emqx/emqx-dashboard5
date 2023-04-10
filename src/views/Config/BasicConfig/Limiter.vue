@@ -1,7 +1,7 @@
 <template>
   <div class="limiter app-wrapper">
     <el-card>
-      <el-form class="schema-form" label-position="top">
+      <el-form class="schema-form" label-position="right" :label-width="150">
         <el-tabs class="group-tabs" type="card" v-model="currentLimiterType">
           <el-tab-pane
             v-for="group in LimiterTypes"

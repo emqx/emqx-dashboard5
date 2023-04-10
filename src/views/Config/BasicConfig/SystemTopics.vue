@@ -3,10 +3,12 @@
     <el-card>
       <el-form
         ref="retainerForm"
+        class="schema-form"
+        label-position="right"
+        require-asterisk-position="left"
         :rules="rules"
         :model="sysTopics"
-        v-bind="SCHEMA_FORM_COMMON_PROPS"
-        class="schema-form"
+        :label-width="270"
       >
         <el-row>
           <el-col :span="16" class="custom-col">
@@ -112,7 +114,6 @@ import { SysTopics } from '@/types/extension'
 import { ElMessage } from 'element-plus'
 import { Ref, ref } from 'vue'
 import { useStore } from 'vuex'
-import { SCHEMA_FORM_COMMON_PROPS } from '@/common/constants'
 
 const { t, tl } = useI18nTl('Extension')
 const store = useStore()
