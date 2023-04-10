@@ -6,7 +6,13 @@
     size="60%"
     destroy-on-close
   >
-    <el-form label-position="top" :model="outputForm" :rules="outputFormRules" ref="formCom">
+    <el-form
+      label-position="top"
+      require-asterisk-position="right"
+      :model="outputForm"
+      :rules="outputFormRules"
+      ref="formCom"
+    >
       <el-row :gutter="26">
         <el-col :span="12" v-loading="isLoading">
           <el-form-item :label="$tc('RuleEngine.action')" prop="type">

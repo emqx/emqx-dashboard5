@@ -108,7 +108,13 @@
       </div>
     </div>
     <el-dialog :title="isEdit ? $t('Base.edit') : $t('Base.add')" v-model="dialogVisible">
-      <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
+      <el-form
+        ref="recordForm"
+        :model="record"
+        :rules="getRules()"
+        label-position="top"
+        require-asterisk-position="right"
+      >
         <template v-if="type === 'all'">
           <el-form-item prop="action" :label="$t('Auth.action')">
             <el-select v-model="record.action">

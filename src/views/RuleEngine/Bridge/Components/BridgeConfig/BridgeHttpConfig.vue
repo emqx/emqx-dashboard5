@@ -1,6 +1,12 @@
 <template>
   <div class="bridge-config">
-    <el-form ref="formCom" label-position="top" :rules="formRules" :model="httpBridgeVal">
+    <el-form
+      ref="formCom"
+      label-position="top"
+      require-asterisk-position="right"
+      :rules="formRules"
+      :model="httpBridgeVal"
+    >
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="tl('name')" required prop="name">

@@ -7,6 +7,7 @@
       :rules="rules"
       :model="fileConfig"
       label-position="top"
+      require-asterisk-position="right"
     >
       <el-row :gutter="20">
         <el-col :span="24">

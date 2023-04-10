@@ -98,7 +98,13 @@
       @close="initForm"
       width="800px"
     >
-      <el-form ref="createForm" label-position="top" :model="record" :rules="createRules">
+      <el-form
+        ref="createForm"
+        label-position="top"
+        require-asterisk-position="right"
+        :model="record"
+        :rules="createRules"
+      >
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('LogTrace.name')" prop="name">

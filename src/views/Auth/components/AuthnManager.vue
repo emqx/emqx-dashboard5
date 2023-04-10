@@ -85,7 +85,13 @@
       v-model="dialogVisible"
       destroy-on-close
     >
-      <el-form ref="recordForm" :model="record" :rules="getRules()" label-position="top">
+      <el-form
+        ref="recordForm"
+        :model="record"
+        :rules="getRules()"
+        label-position="top"
+        require-asterisk-position="right"
+      >
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
           <el-input v-model="record.user_id" :disabled="isEdit" />
         </el-form-item>
