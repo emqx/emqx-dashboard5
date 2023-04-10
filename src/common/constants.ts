@@ -216,3 +216,8 @@ export const ENCRYPTED_PWD_REG = /^\*{6}$/
 export const PASSWORD_REG = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)[ -~]{8,64}$/
 
 export const SESSION_NEVER_EXPIRE_TIME = parseInt('0xFFFFFFFF', 16)
+
+export const SCHEMA_FORM_COMMON_PROPS = {
+  labelWidth: 350,
+  labelPosition: 'right',
+}
