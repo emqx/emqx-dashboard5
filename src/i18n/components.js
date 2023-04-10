@@ -39,7 +39,7 @@ export default {
     zh: '集群配置',
     en: 'Cluster Settings',
   },
-  mqttSettings: {
+  mqtt: {
     zh: 'MQTT 配置',
     en: 'MQTT Settings',
   },
@@ -244,6 +244,10 @@ export default {
     en: 'Auto Subscribe',
   },
   'delayed-pub': {
+    zh: '延迟发布',
+    en: 'Delayed Publish',
+  },
+  'delayed-pub-configuration': {
     zh: '延迟发布',
     en: 'Delayed Publish',
   },
