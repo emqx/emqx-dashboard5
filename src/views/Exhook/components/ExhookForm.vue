@@ -3,6 +3,7 @@
     class="exhook-create-form"
     ref="formCom"
     label-position="top"
+    require-asterisk-position="right"
     :model="formData"
     :rules="rules"
   >

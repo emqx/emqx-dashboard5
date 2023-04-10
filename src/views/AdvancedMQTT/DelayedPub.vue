@@ -15,6 +15,7 @@
         :model="delayedConfig"
         :disabled="!configEnable"
         label-position="top"
+        require-asterisk-position="right"
         @keyup.enter="updateDelayedConfig()"
       >
         <el-row>

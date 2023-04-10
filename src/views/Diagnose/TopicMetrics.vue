@@ -145,6 +145,7 @@
         ref="record"
         :model="topicInput"
         label-position="top"
+        require-asterisk-position="right"
         :rules="topicRules"
         @submit.prevent="addTopic()"
       >

@@ -6,7 +6,13 @@
     <el-card class="app-card slow-sub-config" v-loading="isLoading">
       <div class="config-block">
         <h6 class="config-block-title">{{ $t('SlowSub.basicSettings') }}</h6>
-        <el-form ref="formCom" :model="configForm" :rules="rulesOfConfigForm" label-position="top">
+        <el-form
+          ref="formCom"
+          :model="configForm"
+          :rules="rulesOfConfigForm"
+          label-position="top"
+          require-asterisk-position="right"
+        >
           <el-row :gutter="32">
             <el-col :span="12">
               <el-form-item required prop="threshold">

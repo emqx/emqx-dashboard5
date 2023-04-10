@@ -37,6 +37,7 @@
       :model="rewriteInput"
       :rules="rewriteRules"
       label-position="top"
+      require-asterisk-position="right"
       @keyup.enter="submitRewrite(isEdit)"
     >
       <el-form-item :label="tl('action')" prop="action">
