@@ -3,50 +3,48 @@
     <el-card v-loading="configLoading">
       <el-form
         ref="retainerForm"
+        class="schema-form"
+        v-bind="{ ...SCHEMA_FORM_COMMON_PROPS }"
         :rules="retainerRules"
         :model="retainerConfig"
-        label-position="top"
-        class="schema-form"
       >
         <el-row align="middle">
           <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('enable')">
-              <p class="item-desc">
-                {{ tl('enableDesc') }}
-              </p>
+            <el-form-item>
+              <template #label>
+                <FormItemLabel :label="tl('enable')" :desc="tl('enableDesc')" />
+              </template>
               <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <el-form
-        :disabled="!configEnable"
         ref="retainerForm"
+        class="schema-form"
+        v-bind="{ ...SCHEMA_FORM_COMMON_PROPS }"
+        :disabled="!configEnable"
         :rules="retainerRules"
         :model="retainerConfig"
-        label-position="top"
+        :validate-on-rule-change="false"
         @keyup.enter="updateConfigData()"
-        class="schema-form"
       >
         <el-row>
-          <el-col :span="16">
-            <div class="group-title">{{ tl('storage') }}</div>
-          </el-col>
           <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('storageType')">
-              <p class="item-desc">
-                {{ tl('typeDesc') }}
-              </p>
+            <el-form-item>
+              <template #label>
+                <FormItemLabel :label="tl('storageType')" :desc="tl('typeDesc')" />
+              </template>
               <el-select v-model="retainerConfig.backend.type">
                 <el-option value="built_in_database" :label="tl('builtInDatabase')" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('storageMethod')" required prop="backend.storage_type">
-              <p class="item-desc">
-                {{ tl('storageTypeDesc') }}
-              </p>
+            <el-form-item required prop="backend.storage_type">
+              <template #label>
+                <FormItemLabel :label="tl('storageMethod')" :desc="tl('storageTypeDesc')" />
+              </template>
               <el-select v-model="retainerConfig.backend.storage_type">
                 <el-option value="ram" />
                 <el-option value="disc" />
@@ -55,14 +53,14 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="16">
-            <div class="group-title">{{ tl('policy') }}</div>
-          </el-col>
           <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('maxRetainedMessages')" prop="backend.max_retained_messages">
-              <p class="item-desc">
-                {{ tl('maxRetainedMessagesDesc') }}
-              </p>
+            <el-form-item prop="backend.max_retained_messages">
+              <template #label>
+                <FormItemLabel
+                  :label="tl('maxRetainedMessages')"
+                  :desc="tl('maxRetainedMessagesDesc')"
+                />
+              </template>
               <el-input
                 v-model.number="retainerConfig.backend.max_retained_messages"
                 :readonly="selOptions.retained == 'unlimited'"
@@ -78,18 +76,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('maxPayloadSize')" prop="max_payload_size">
-              <p class="item-desc">
-                {{ tl('maxPayloadSizeDesc') }}
-              </p>
+            <el-form-item prop="max_payload_size">
+              <template #label>
+                <FormItemLabel :label="tl('maxPayloadSize')" :desc="tl('maxPayloadSizeDesc')" />
+              </template>
               <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('expire')" prop="msg_expiry_interval">
-              <p class="item-desc">
-                {{ tl('msgExpiryIntervalDesc') }}
-              </p>
+            <el-form-item prop="msg_expiry_interval">
+              <template #label>
+                <FormItemLabel :label="tl('expire')" :desc="tl('msgExpiryIntervalDesc')" />
+              </template>
               <InputWithUnit
                 v-model="retainerConfig.msg_expiry_interval"
                 :units="expiryTimeUnits"
@@ -98,10 +96,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('intervalClean')" prop="msg_clear_interval">
-              <p class="item-desc">
-                {{ tl('msgClearIntervalDesc') }}
-              </p>
+            <el-form-item prop="msg_clear_interval">
+              <template #label>
+                <FormItemLabel :label="tl('intervalClean')" :desc="tl('msgClearIntervalDesc')" />
+              </template>
               <InputWithUnit
                 v-model="retainerConfig.msg_clear_interval"
                 :units="expiryTimeUnits"
@@ -167,14 +165,16 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, reactive, ref, watch, computed } from 'vue'
 import { getRetainer, updateRetainer } from '@/api/extension'
-import { ElMessage } from 'element-plus'
-import _ from 'lodash'
-import useI18nTl from '@/hooks/useI18nTl'
-import useFormRules from '@/hooks/useFormRules'
+import { SCHEMA_FORM_COMMON_PROPS } from '@/common/constants'
+import FormItemLabel from '@/components/FormItemLabel'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
+import { ElMessage } from 'element-plus'
+import { cloneDeep } from 'lodash'
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 
 const { tl, t } = useI18nTl('Extension')
@@ -314,7 +314,7 @@ const derivedOptionsFromConfig = () => {
 }
 
 const transDataToSubmit = (config) => {
-  const ret = _.cloneDeep(config)
+  const ret = cloneDeep(config)
   keysNeedTrans.forEach((key) => {
     if (ret[key] === DISABLED_VALUE) {
       ret[key] = VALUE_FOR_NO_VALUE

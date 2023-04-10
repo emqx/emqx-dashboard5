@@ -1,4 +1,4 @@
-import { SESSION_FIELDS } from '@/common/constants'
+import { SCHEMA_FORM_COMMON_PROPS, SESSION_FIELDS } from '@/common/constants'
 import { createRandomString, isEmptyObj } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -586,12 +586,9 @@ const SchemaForm = defineComponent({
 
     const getFormProps = () => {
       if (props.type === 'bridge') {
-        return { labelPosition: 'top' }
+        return { labelPosition: 'top', requireAsteriskPosition: 'right' }
       }
-      return {
-        labelPosition: 'right',
-        labelWidth: 350,
-      }
+      return SCHEMA_FORM_COMMON_PROPS
     }
 
     const renderLayout = (contents: JSX.Element[]) => {
