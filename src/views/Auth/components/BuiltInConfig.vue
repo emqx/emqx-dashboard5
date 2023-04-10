@@ -7,6 +7,7 @@
       :rules="rules"
       class="create-form"
       label-position="top"
+      require-asterisk-position="right"
     >
       <el-row :gutter="20">
         <template v-if="type !== 'scram'">

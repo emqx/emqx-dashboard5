@@ -43,6 +43,7 @@
       :model="subsInput"
       ref="subsForm"
       label-position="top"
+      require-asterisk-position="right"
       @keyup.enter="submitSubs(isEdit)"
     >
       <el-form-item :label="$t('Base.topic')" prop="topic">

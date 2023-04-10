@@ -47,6 +47,7 @@
         :model="record"
         :rules="rules"
         label-position="top"
+        require-asterisk-position="right"
         @keyup.enter="save()"
       >
         <el-form-item v-if="accessType !== 'chPass'" prop="username" :label="tl('username')">
