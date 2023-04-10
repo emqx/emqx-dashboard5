@@ -3,6 +3,7 @@
     <el-form
       ref="formCom"
       label-position="top"
+      require-asterisk-position="right"
       :rules="formRules"
       :model="formData"
       :validate-on-rule-change="false"
