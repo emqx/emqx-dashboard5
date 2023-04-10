@@ -2,12 +2,7 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.worker_pool_size">
       <template #label>
-        <span>{{ tl('workerPoolSize') }}</span>
-        <InfoTooltip>
-          <template #content>
-            <MarkdownContent :content="tl('workerPoolSizeDesc')" />
-          </template>
-        </InfoTooltip>
+        <FormItemLabel :label="tl('workerPoolSize')" :desc="tl('workerPoolSize')" />
       </template>
       <el-input v-model="resourceOptForm.worker_pool_size" />
     </el-form-item>
@@ -15,12 +10,7 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.request_timeout">
       <template #label>
-        <span>{{ tl('requestTimeout') }}</span>
-        <InfoTooltip>
-          <template #content>
-            <MarkdownContent :content="tl('requestTimeoutDesc')" />
-          </template>
-        </InfoTooltip>
+        <FormItemLabel :label="tl('requestTimeout')" :desc="tl('requestTimeoutDesc')" desc-marked />
       </template>
       <Oneof
         v-model="resourceOptForm.request_timeout"
@@ -31,8 +21,7 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.health_check_interval">
       <template #label>
-        <span>{{ tl('healthCheckInterval') }}</span>
-        <InfoTooltip :content="tl('healthCheckIntervalDesc')" />
+        <FormItemLabel :label="tl('healthCheckInterval')" :desc="tl('healthCheckIntervalDesc')" />
       </template>
       <TimeInputWithUnitSelect v-model="resourceOptForm.health_check_interval" />
     </el-form-item>
@@ -40,9 +29,9 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.auto_restart_interval">
       <template #label>
-        <span>{{ tl('autoRestartInterval') }}</span>
-        <InfoTooltip
-          :content="tl('autoRestartIntervalDesc') + tl('autoRestartIntervalValueDesc')"
+        <FormItemLabel
+          :label="tl('autoRestartInterval')"
+          :desc="tl('autoRestartIntervalDesc') + tl('autoRestartIntervalValueDesc')"
         />
       </template>
       <Oneof
@@ -55,8 +44,7 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.max_queue_bytes">
       <template #label>
-        <span>{{ tl('maxQueueBytes') }}</span>
-        <InfoTooltip :content="tl('maxQueueBytesDesc')" />
+        <FormItemLabel :label="tl('maxQueueBytes')" :desc="tl('maxQueueBytesDesc')" />
       </template>
       <InputWithUnit :units="['MB', 'GB', 'KB']" v-model="resourceOptForm.max_queue_bytes" />
     </el-form-item>
@@ -66,8 +54,7 @@
     <el-col :span="12">
       <el-form-item prop="resource_opts.batch_size">
         <template #label>
-          <span>{{ tl('batchSize') }}</span>
-          <InfoTooltip :content="tl('batchSizeDesc')" />
+          <FormItemLabel :label="tl('batchSize')" :desc="tl('batchSize')" />
         </template>
         <el-input v-model="resourceOptForm.batch_size" />
       </el-form-item>
@@ -78,8 +65,7 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.query_mode">
       <template #label>
-        <span>{{ tl('queryMode') }}</span>
-        <InfoTooltip :content="tl('queryModeDesc')" />
+        <FormItemLabel :label="tl('queryMode')" :desc="tl('queryMode')" />
       </template>
       <el-select v-model="resourceOptForm.query_mode">
         <el-option v-for="item in ['sync', 'async']" :value="item" :key="item" />
@@ -89,8 +75,7 @@
   <el-col :span="12" v-if="canConfigInflightWindow && resourceOptForm.query_mode === 'async'">
     <el-form-item prop="async_inflight_window">
       <template #label>
-        <span>{{ tl('asyncInflightWindow') }}</span>
-        <InfoTooltip :content="tl('asyncInflightWindowDesc')" />
+        <FormItemLabel :label="tl('asyncInflightWindow')" :desc="tl('asyncInflightWindowDesc')" />
       </template>
       <el-input v-model="resourceOptForm.async_inflight_window" />
     </el-form-item>
@@ -98,9 +83,8 @@
 </template>
 
 <script setup lang="ts">
-import InfoTooltip from '@/components/InfoTooltip.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
 import Oneof from '@/components/Oneof.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useI18nTl from '@/hooks/useI18nTl'

@@ -1,7 +1,7 @@
 <template>
-  <div class="app-wrapper clients">
-    <el-form @keyup.enter="handleSearch">
-      <el-row class="search-wrapper" :gutter="20">
+  <div class="clients">
+    <el-form class="search-wrapper" @keyup.enter="handleSearch">
+      <el-row :gutter="20">
         <el-col :span="6">
           <el-input
             v-model="fuzzyParams.like_clientid"
@@ -28,7 +28,28 @@
             <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
-        <template v-if="showMoreQuery">
+        <el-col :span="6" class="col-oper">
+          <el-button type="primary" plain :icon="Search" @click="handleSearch">
+            {{ $t('Base.search') }}
+          </el-button>
+          <el-button :icon="RefreshLeft" @click="handleReset">
+            {{ $t('Base.reset') }}
+          </el-button>
+          <el-tooltip
+            :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
+            placement="top"
+          >
+            <el-button
+              class="icon-button"
+              plain
+              :icon="showMoreQuery ? ArrowUp : ArrowDown"
+              @click="showMoreQuery = !showMoreQuery"
+            >
+            </el-button>
+          </el-tooltip>
+        </el-col>
+        <template class="more" v-if="showMoreQuery">
+          <el-col :span="24" class="split-line"></el-col>
           <el-col :span="6">
             <el-input
               v-model="fuzzyParams.ip_address"
@@ -64,108 +85,104 @@
             </div>
           </el-col>
         </template>
-        <el-col :span="6" class="col-oper">
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button type="primary" :icon="Refresh" @click="loadNodeClients">
-            {{ $t('Base.refresh') }}
-          </el-button>
-          <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
-            <ArrowUp v-if="showMoreQuery" />
-            <ArrowDown v-else />
-          </el-icon>
-        </el-col>
       </el-row>
     </el-form>
-    <div class="section-header">
-      <div></div>
-      <el-button
-        class="kick-btn"
-        type="danger"
-        plain
-        :disabled="selectedClients.length === 0"
-        :icon="Delete"
-        :loading="batchDeleteLoading"
-        @click="cleanBatchClients"
+    <div class="app-wrapper">
+      <div class="section-header">
+        <div></div>
+        <el-button
+          class="kick-btn"
+          type="danger"
+          plain
+          :disabled="selectedClients.length === 0"
+          :icon="Delete"
+          :loading="batchDeleteLoading"
+          @click="cleanBatchClients"
+        >
+          {{ tl('kickOut') }}
+        </el-button>
+        <el-button type="primary" :icon="Refresh" @click="loadNodeClients">
+          {{ $t('Base.refresh') }}
+        </el-button>
+      </div>
+      <el-table
+        :data="tableData"
+        ref="clientsTable"
+        v-loading.lock="lockTable"
+        @selection-change="handleSelectionChange"
       >
-        {{ tl('kickOut') }}
-      </el-button>
-    </div>
-    <el-table
-      :data="tableData"
-      ref="clientsTable"
-      v-loading.lock="lockTable"
-      @selection-change="handleSelectionChange"
-    >
-      <!-- TODO:fixed the tooltip content (spaces) -->
-      <el-table-column type="selection" width="35" />
-      <el-table-column
-        prop="clientid"
-        min-width="140"
-        fixed
-        :label="$t('Clients.clientId')"
-        show-overflow-tooltip
-      >
-        <template #default="{ row }">
-          <router-link
-            :to="{
-              name: 'connection-detail',
-              params: { clientId: row.clientid },
-            }"
-          >
-            <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
-          </router-link>
-        </template>
-      </el-table-column>
+        <!-- TODO:fixed the tooltip content (spaces) -->
+        <el-table-column type="selection" width="35" />
+        <el-table-column
+          prop="clientid"
+          min-width="140"
+          fixed
+          :label="$t('Clients.clientId')"
+          show-overflow-tooltip
+        >
+          <template #default="{ row }">
+            <router-link
+              :to="{
+                name: 'connection-detail',
+                params: { clientId: row.clientid },
+              }"
+            >
+              <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
+            </router-link>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-        prop="username"
-        min-width="100"
-        :label="$t('Clients.username')"
-        show-overflow-tooltip
-      >
-        <template #default="{ row }">
-          <PreWithEllipsis>{{ row.username }}</PreWithEllipsis>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="connected"
-        :min-width="store.state.lang === 'en' ? 140 : 90"
-        :label="$t('Clients.connectedStatus')"
-      >
-        <template #default="{ row }">
-          <CheckIcon
-            :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
-            size="small"
-            :top="1"
-          />
-          <span class="text-status" :class="row.connected ? 'success' : 'danger'">
-            {{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column min-width="140" prop="ip_address" :label="$t('Clients.ipAddress')">
-        <template #default="{ row }">
-          {{ row.ip_address + ':' + row.port }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="keepalive" min-width="100" :label="$t('Clients.keepalive')" />
-      <el-table-column prop="clean_start" min-width="120" label="Clean Start" />
-      <el-table-column prop="expiry_interval" min-width="180" :label="$t('Clients.expiryInterval')">
-        <template #default="{ row }">
-          <span>{{ sessionExpiryIntervalHandler(row.expiry_interval) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="connected_at" min-width="150" :label="$t('Clients.connectedAt')">
-        <template #default="{ row }">
-          {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <div class="emq-table-footer">
-      <common-pagination v-model:metaData="pageMeta" @loadPage="loadNodeClients" />
+        <el-table-column
+          prop="username"
+          min-width="100"
+          :label="$t('Clients.username')"
+          show-overflow-tooltip
+        >
+          <template #default="{ row }">
+            <PreWithEllipsis>{{ row.username }}</PreWithEllipsis>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="connected"
+          :min-width="store.state.lang === 'en' ? 140 : 90"
+          :label="$t('Clients.connectedStatus')"
+        >
+          <template #default="{ row }">
+            <CheckIcon
+              :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
+              size="small"
+              :top="1"
+            />
+            <span class="text-status" :class="row.connected ? 'success' : 'danger'">
+              {{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column min-width="140" prop="ip_address" :label="$t('Clients.ipAddress')">
+          <template #default="{ row }">
+            {{ row.ip_address + ':' + row.port }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="keepalive" min-width="100" :label="$t('Clients.keepalive')" />
+        <el-table-column prop="clean_start" min-width="120" label="Clean Start" />
+        <el-table-column
+          prop="expiry_interval"
+          min-width="180"
+          :label="$t('Clients.expiryInterval')"
+        >
+          <template #default="{ row }">
+            <span>{{ sessionExpiryIntervalHandler(row.expiry_interval) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="connected_at" min-width="150" :label="$t('Clients.connectedAt')">
+          <template #default="{ row }">
+            {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="emq-table-footer">
+        <common-pagination v-model:metaData="pageMeta" @loadPage="loadNodeClients" />
+      </div>
     </div>
   </div>
 </template>
@@ -188,7 +205,7 @@ import { listClients, disconnectClient } from '@/api/clients'
 import { loadNodes } from '@/api/common'
 import moment from 'moment'
 import CommonPagination from '@/components/commonPagination.vue'
-import { Search, ArrowUp, ArrowDown, Refresh, Delete } from '@element-plus/icons-vue'
+import { Search, ArrowUp, ArrowDown, Refresh, Delete, RefreshLeft } from '@element-plus/icons-vue'
 import CheckIcon from '@/components/CheckIcon.vue'
 import { useStore } from 'vuex'
 import { NodeMsg } from '@/types/dashboard'
@@ -214,6 +231,13 @@ const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHas
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
   loadNodeClients({ page: 1 })
+}
+
+const handleReset = () => {
+  fuzzyParams.value = {
+    comparator: 'gte',
+  }
+  handleSearch()
 }
 
 const genQueryParams = (params: Record<string, any>) => {

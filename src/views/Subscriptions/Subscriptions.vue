@@ -1,7 +1,7 @@
 <template>
-  <div class="app-wrapper subscriptions">
-    <el-form @keyup.enter="handleSearch">
-      <el-row class="search-wrapper" :gutter="20">
+  <div class="subscriptions">
+    <el-form class="search-wrapper" @keyup.enter="handleSearch">
+      <el-row :gutter="20">
         <el-col :span="6">
           <el-select
             v-model="fuzzyParams.node"
@@ -39,7 +39,28 @@
             </template>
           </el-input>
         </el-col>
+        <el-col class="col-oper" :span="6">
+          <el-button type="primary" plain :icon="Search" @click="handleSearch">
+            {{ $t('Base.search') }}
+          </el-button>
+          <el-button :icon="RefreshLeft" @click="handleReset">
+            {{ $t('Base.reset') }}
+          </el-button>
+          <el-tooltip
+            :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
+            placement="top"
+          >
+            <el-button
+              class="icon-button"
+              plain
+              :icon="showMoreQuery ? ArrowUp : ArrowDown"
+              @click="showMoreQuery = !showMoreQuery"
+            >
+            </el-button>
+          </el-tooltip>
+        </el-col>
         <template v-if="showMoreQuery">
+          <el-col :span="24" class="split-line"></el-col>
           <el-col :span="6">
             <el-select v-model="fuzzyParams.qos" clearable placeholder="QoS" @clear="handleSearch">
               <el-option :value="0" />
@@ -57,48 +78,42 @@
             />
           </el-col>
         </template>
-        <el-col class="col-oper" :span="6">
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="loadTableData">
-            {{ $t('Base.refresh') }}
-          </el-button>
-          <el-icon class="show-more" @click="showMoreQuery = !showMoreQuery">
-            <ArrowUp v-if="showMoreQuery" />
-            <ArrowDown v-else />
-          </el-icon>
-        </el-col>
       </el-row>
     </el-form>
-
-    <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="clientid" :label="$t('Clients.clientId')" show-overflow-tooltip>
-        <template #default="{ row }">
-          <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
-        </template>
-      </el-table-column>
-      <el-table-column prop="topic" :label="$t('Subs.topic')" show-overflow-tooltip>
-        <template #default="{ row }">
-          <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
-        </template>
-      </el-table-column>
-      <el-table-column prop="qos" label="QoS" />
-      <el-table-column prop="nl" :label="$t('Clients.noLocal')">
-        <template #default="{ row }">
-          {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="rap" :label="$t('Clients.retainAsPublished')">
-        <template #default="{ row }">
-          {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="rh" :label="$t('Clients.retainHandling')" />
-    </el-table>
-
-    <div class="emq-table-footer">
-      <common-pagination v-model:metaData="pageMeta" @loadPage="loadTableData" />
+    <div class="app-wrapper">
+      <div class="section-header">
+        <div></div>
+        <el-button type="primary" :icon="Refresh" @click="loadTableData">
+          {{ $t('Base.refresh') }}
+        </el-button>
+      </div>
+      <el-table :data="tableData" v-loading.lock="lockTable">
+        <el-table-column prop="clientid" :label="$t('Clients.clientId')" show-overflow-tooltip>
+          <template #default="{ row }">
+            <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
+          </template>
+        </el-table-column>
+        <el-table-column prop="topic" :label="$t('Subs.topic')" show-overflow-tooltip>
+          <template #default="{ row }">
+            <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
+          </template>
+        </el-table-column>
+        <el-table-column prop="qos" label="QoS" />
+        <el-table-column prop="nl" :label="$t('Clients.noLocal')">
+          <template #default="{ row }">
+            {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="rap" :label="$t('Clients.retainAsPublished')">
+          <template #default="{ row }">
+            {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="rh" :label="$t('Clients.retainHandling')" />
+      </el-table>
+      <div class="emq-table-footer">
+        <common-pagination v-model:metaData="pageMeta" @loadPage="loadTableData" />
+      </div>
     </div>
   </div>
 </template>
@@ -114,7 +129,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listSubscriptions, loadNodes } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
-import { Search, ArrowDown, ArrowUp, RefreshRight } from '@element-plus/icons-vue'
+import { Search, ArrowDown, ArrowUp, Refresh, RefreshLeft } from '@element-plus/icons-vue'
 import { NodeMsg } from '@/types/dashboard'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { getLabelFromValueInOptionList } from '@/common/tools'
@@ -136,11 +151,20 @@ const fuzzyParams = ref({
 })
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
-const handleSearch = async () => {
+const handleSearch = () => {
   params.value = genQueryParams(fuzzyParams.value)
   loadTableData({ page: 1 })
 }
-
+const handleReset = () => {
+  fuzzyParams.value = {
+    node: '',
+    match_topic: '',
+    clientid: '',
+    share_group: '',
+    qos: '',
+  }
+  handleSearch()
+}
 const genQueryParams = (params: Record<string, any>) => {
   const { clientid, qos, share_group, node, match_topic } = params
   let newParams: Record<string, any> = {

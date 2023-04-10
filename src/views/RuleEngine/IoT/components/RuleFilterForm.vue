@@ -5,7 +5,7 @@
     class="rule-filter-form"
     @keyup.enter="searchRule"
   >
-    <el-row :gutter="32" :class="{ 'multiple-rows': showMoreQuery }">
+    <el-row :gutter="32" class="" :class="{ 'multiple-rows': showMoreQuery }">
       <el-col :span="6">
         <el-form-item>
           <el-input
@@ -53,7 +53,30 @@
           </el-select>
         </el-form-item>
       </el-col>
+      <el-col :span="6">
+        <div class="col-oper">
+          <el-button plain type="primary" :icon="Search" @click="searchRule">
+            {{ $t('Base.search') }}
+          </el-button>
+          <el-button :icon="RefreshLeft" @click="handleReset">
+            {{ $t('Base.reset') }}
+          </el-button>
+          <el-tooltip
+            :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
+            placement="top"
+          >
+            <el-button
+              class="icon-button"
+              plain
+              :icon="showMoreQuery ? ArrowUp : ArrowDown"
+              @click="showMoreQuery = !showMoreQuery"
+            >
+            </el-button>
+          </el-tooltip>
+        </div>
+      </el-col>
       <template v-if="showMoreQuery">
+        <el-col :span="24" class="split-line"></el-col>
         <el-col :span="6">
           <el-form-item>
             <el-input
@@ -66,20 +89,6 @@
           </el-form-item>
         </el-col>
       </template>
-
-      <el-col :span="showMoreQuery ? 24 : 6">
-        <div class="col-oper">
-          <el-button plain type="primary" :icon="Search" @click="searchRule">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="refresh">
-            {{ $t('Base.refresh') }}
-          </el-button>
-          <el-button link class="btn-show-more" @click="showMoreQuery = !showMoreQuery">
-            <el-icon :class="{ 'is-rotate': showMoreQuery }"><ArrowDown /></el-icon>
-          </el-button>
-        </div>
-      </el-col>
     </el-row>
   </el-form>
 </template>
@@ -87,7 +96,7 @@
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
-import { ArrowDown, RefreshRight, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Search, RefreshLeft } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
 import { defineEmits, ref, Ref } from 'vue'
 
@@ -134,14 +143,14 @@ const searchRule = () => {
   emit('search', getFilterParams())
 }
 
-const refresh = () => {
-  emit('refresh')
+const handleReset = () => {
+  filterParams.value = createRawFilterParams()
+  searchRule()
 }
 </script>
 
 <style lang="scss">
 .rule-filter-form {
-  padding-bottom: 20px;
   .col-oper {
     float: right;
   }
@@ -155,15 +164,6 @@ const refresh = () => {
   .select-topic-type {
     .el-input {
       width: 100%;
-    }
-  }
-  .btn-show-more {
-    color: var(--color-primary);
-    font-size: 18px;
-    .el-icon {
-      &.is-rotate {
-        transform: rotate(180deg);
-      }
     }
   }
 }
