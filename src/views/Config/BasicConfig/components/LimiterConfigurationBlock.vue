@@ -5,8 +5,10 @@
     </el-col>
     <template v-for="rateProp in properties" :key="rateProp">
       <el-col v-if="rateProp.path" :span="16" class="col-custom-width">
-        <el-form-item :label="rateProp.label">
-          <p class="item-desc" v-safe-html="rateProp.description"></p>
+        <el-form-item>
+          <template #label>
+            <FormItemLabel :label="rateProp.label" :desc="rateProp.description" desc-marked />
+          </template>
           <SchemaFormItem
             :type="rateProp.type"
             :disabled="rateProp.readOnly"
@@ -23,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import SchemaFormItem from '@/components/SchemaFormItem'
 import useTwoWayBindingManually from '@/hooks/useTwoWayBindingManually'
 import { computed, defineEmits, defineProps } from 'vue'

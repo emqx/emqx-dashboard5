@@ -3,10 +3,11 @@
     <el-card>
       <schema-form
         ref="SchemaFormCom"
-        :according-to="{ path: '/configs/zones' }"
         type="session"
         :form="configs"
         :btn-loading="saveLoading"
+        :according-to="{ path: '/configs/zones' }"
+        :label-width="270"
         @save="handleSave"
       />
     </el-card>

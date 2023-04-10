@@ -1,4 +1,4 @@
-import { SCHEMA_FORM_COMMON_PROPS, SESSION_FIELDS } from '@/common/constants'
+import { SESSION_FIELDS } from '@/common/constants'
 import { createRandomString, isEmptyObj } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -55,6 +55,10 @@ const SchemaForm = defineComponent({
     form: {
       type: Object as PropType<Record<string, any>>,
       required: false,
+    },
+    labelWidth: {
+      type: Number,
+      default: 350,
     },
     /**
      * when this prop is set to true, the component will init record by schema
@@ -588,7 +592,7 @@ const SchemaForm = defineComponent({
       if (props.type === 'bridge') {
         return { labelPosition: 'top', requireAsteriskPosition: 'right' }
       }
-      return SCHEMA_FORM_COMMON_PROPS
+      return { labelPosition: 'right', labelWidth: props.labelWidth }
     }
 
     const renderLayout = (contents: JSX.Element[]) => {
