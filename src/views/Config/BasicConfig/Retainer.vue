@@ -4,7 +4,7 @@
       <el-form
         ref="retainerForm"
         class="schema-form"
-        v-bind="{ ...SCHEMA_FORM_COMMON_PROPS }"
+        v-bind="SCHEMA_FORM_COMMON_PROPS"
         :rules="retainerRules"
         :model="retainerConfig"
       >
