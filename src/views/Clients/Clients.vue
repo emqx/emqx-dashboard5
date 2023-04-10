@@ -322,7 +322,6 @@ const cleanBatchClients = async () => {
     batchDeleteLoading.value = true
     try {
       const results = await batchDisconnectClients(clientIds, 5)
-      console.log(results)
       if (results) {
         loadNodeClients()
         const fulfilledCount = results.filter((result) => result.status === 'fulfilled').length

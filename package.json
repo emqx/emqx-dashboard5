@@ -1,14 +1,14 @@
 {
   "name": "emqx-dashboard-web-new",
-  "version": "1.1.2",
+  "version": "1.2.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "serve:enterprise": "VUE_APP_VERSION=enterprise vue-cli-service serve",
-    "serve:cloud": "HOST_URL=http://34.219.25.208:18083/ vue-cli-service serve",
-    "serve:enterprise:cloud": "VUE_APP_VERSION=enterprise HOST_URL=http://34.219.25.208:18083/ vue-cli-service serve",
+    "serve:enterprise": "vue-cli-service serve --mode enterprise",
+    "serve:cloud": "vue-cli-service serve --mode cloud",
+    "serve:enterprise:cloud": "vue-cli-service serve --mode enterprise.cloud",
     "build": "vue-cli-service build",
-    "build:enterprise": "VUE_APP_VERSION=enterprise vue-cli-service build",
+    "build:enterprise": "vue-cli-service build --mode enterprise",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\""

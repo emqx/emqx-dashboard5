@@ -62,7 +62,23 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
+### Development with Cloud Host
+
+To compile and hot-reload for development with a cloud host, follow these steps:
+
+1. Create a .env.cloud file in the root directory with the following content:
+
+    ```shell
+    HOST_URL=http://your-cloud-host:port/
+    ```
+
+2. Run the following command:
+
+    ```shell
+    yarn serve:cloud
+    ```
+
+## Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 

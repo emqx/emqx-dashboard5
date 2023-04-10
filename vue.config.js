@@ -2,13 +2,14 @@
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 const { HOST_URL } = process.env
+const target = HOST_URL || 'http://localhost:18083/'
 
 module.exports = {
   devServer: {
     port: 7000,
     proxy: {
       '/api/v5': {
-        target: HOST_URL || 'http://localhost:18083/',
+        target,
         changeOrigin: true,
       },
     },
