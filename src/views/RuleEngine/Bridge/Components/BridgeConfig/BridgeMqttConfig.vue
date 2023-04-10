@@ -3,6 +3,7 @@
     <el-form
       ref="formCom"
       label-position="top"
+      require-asterisk-position="right"
       :model="mqttBridgeVal"
       :rules="formRules"
       :validate-on-rule-change="false"

@@ -4,6 +4,7 @@
       ref="formCom"
       class="create-form"
       label-position="top"
+      require-asterisk-position="right"
       :model="httpConfig"
       :rules="rules"
     >

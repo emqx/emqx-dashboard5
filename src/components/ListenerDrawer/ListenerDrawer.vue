@@ -8,7 +8,13 @@
     :z-index="1999"
     custom-class="listener-drawer"
   >
-    <el-form label-position="top" :rules="listenerFormRules" :model="listenerRecord" ref="formCom">
+    <el-form
+      label-position="top"
+      require-asterisk-position="right"
+      :rules="listenerFormRules"
+      :model="listenerRecord"
+      ref="formCom"
+    >
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="tl('name')" prop="name" required>
