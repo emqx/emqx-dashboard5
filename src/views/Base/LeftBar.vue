@@ -97,7 +97,6 @@ export default defineComponent({
       { title: 'authentication', path: '/authentication' },
       { title: 'authorization', path: '/authorization' },
       { title: 'blacklist', path: '/blacklist' },
-      { title: 'limiter', path: '/limiter' },
     ]
 
     const management = [
@@ -108,6 +107,7 @@ export default defineComponent({
           { title: 'listener', path: '/listener' },
           { title: 'log', path: '/log' },
           { title: 'monitoring', path: '/monitoring' },
+          { title: 'limiter', path: '/limiter' },
         ],
       },
       {
@@ -118,18 +118,20 @@ export default defineComponent({
           { title: 'delayed-pub', path: '/delayed-pub-configuration' },
         ],
       },
+      {
+        title: 'extensions',
+        children: [
+          { title: 'gateway', path: '/gateway' },
+          { title: 'exhook', path: '/exhook' },
+          { title: 'plugins', path: '/plugins' },
+        ],
+      },
     ]
 
     const integration = [
       { title: 'flow', path: '/flow' },
       { title: 'rules', path: '/rules' },
       { title: 'bridge', path: '/bridge' },
-    ]
-
-    const extensions = [
-      { title: 'gateway', path: '/gateway' },
-      { title: 'exhook', path: '/exhook' },
-      { title: 'plugins', path: '/plugins' },
     ]
 
     const diagnose = [
@@ -167,11 +169,6 @@ export default defineComponent({
         title: 'ruleengine',
         icon: 'icon-integration',
         children: integration,
-      },
-      {
-        title: 'extensions',
-        icon: 'icon-extensions',
-        children: extensions,
       },
       {
         title: 'diagnose',
