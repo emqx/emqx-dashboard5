@@ -18,12 +18,7 @@
     <el-table :data="statistics" @sort-change="sortTable">
       <el-table-column prop="clientid" :label="$t('Base.clientid')" show-overflow-tooltip>
         <template #default="{ row }">
-          <router-link
-            :to="{
-              name: 'connection-detail',
-              params: { clientId: row.clientid },
-            }"
-          >
+          <router-link :to="{ name: 'clients-detail', params: { clientId: row.clientid } }">
             <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
           </router-link>
         </template>

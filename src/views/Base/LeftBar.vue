@@ -104,7 +104,7 @@ export default defineComponent({
       {
         title: 'clusterSettings',
         children: [
-          { title: 'mqttSettings', path: '/mqtt' },
+          { title: 'mqtt', path: '/mqtt' },
           { title: 'listener', path: '/listener' },
           { title: 'log', path: '/log' },
           { title: 'monitoring', path: '/monitoring' },
