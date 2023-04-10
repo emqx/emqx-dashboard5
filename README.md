@@ -1,25 +1,30 @@
-# The New Dashboard for EMQX 5.0
+# Dashboard for EMQX 5.0
 
-EMQX provides a built-in management console, the EMQX Dashboard. It allows users to easily manage and monitor EMQX clusters and configure and use the required features from a web page.
+EMQX Dashboard is a built-in management console for EMQX. It enables users to effortlessly manage and monitor EMQX clusters, configure required features, and visualize data through a web interface.
 
 ![image](./assets/overview.png)
 
-## Main features
+## Key Features
 
-- Data monitoring and management: important data clear at a glance
-- Visually manage access control: out-of-the-box authentication and authorization management
-- Powerful data integration capabilities: Flow editor and bi-directional data bridge
-- Online configuration update: hot updates that save your configuration immediately
-- Customizable extension capabilities: built-in gateways, plugins and Hooks
-- More comprehensive diagnostic tools: identify and resolve problems in time
+- Data monitoring and management: clear overview of important data
+
+- Visual access control management: out-of-the-box authentication and authorization
+
+- Robust data integration capabilities: flow editor and bi-directional data bridge
+
+- Real-time configuration updates: hot updates with immediate configuration saving
+
+- Customizable extension capabilities: built-in gateways, plugins, and Hooks
+
+- Comprehensive diagnostic tools: timely problem identification and resolution
 
 ## Running
 
-Install the latest version of [EMQX](https://www.emqx.com/en/try?product=broker) first.
+First, install the latest version of [EMQX](https://www.emqx.com/en/try?product=broker).
 
-After installing EMQX successfully, you can access and use EMQX Dashboard by opening <http://localhost:18083/> (replace localhost with the actual IP address if deployed on a non-local machine) through your browser. EMQX Dashboard is a web application that listens to port 18083 by default.
+Upon successful EMQX installation, access and use the EMQX Dashboard by opening <http://localhost:18083/> (replace localhost with the actual IP address if deployed on a non-local machine) in your browser. By default, EMQX Dashboard listens on port 18083 as a web application.
 
-> EMQX can still be used normally without Dashboard enabled, Dashboard just provides the option for users to use it visually.
+> "Note that EMQX can still function without the Dashboard enabled. The Dashboard merely offers a visual interface for users".
 
 ## Get Involved
 
@@ -32,11 +37,11 @@ After installing EMQX successfully, you can access and use EMQX Dashboard by ope
 
 - [MQTT client programming](https://www.emqx.com/en/blog/tag/mqtt-client-programming)
 
-  A series of blogs to help developers get started quickly with MQTT in PHP, Node.js, Python, Golang, and other programming languages.
+  A collection of blog posts to help developers quickly learn MQTT in PHP, Node.js, Python, Golang, and other programming languages.
 
 - [MQTT SDKs](https://www.emqx.com/en/mqtt-client-sdk)
 
-  We have selected popular MQTT client SDKs in various programming languages and provided code examples to help you quickly understand the use of MQTT clients.
+  Explore popular MQTT client SDKs in various programming languages, complete with code examples to facilitate a better understanding of MQTT clients.
 
 - [MQTT X](https://mqttx.app/)
 
@@ -44,29 +49,61 @@ After installing EMQX successfully, you can access and use EMQX Dashboard by ope
 
 - [Internet of Vehicles](https://www.emqx.com/en/blog/category/internet-of-vehicles)
 
-  Build a reliable, efficient, and industry-specific IoV platform based on EMQ's practical experience, from theoretical knowledge such as protocol selection to practical operations like platform architecture design.
+  Build a reliable, efficient, and industry-specific IoV platform based on EMQ's practical experience, from protocol selection to platform architecture design.
 
-## Develop
+## Local Development
 
-```shell
-# Project setup
-yarn
+To set up the project for local development, follow these steps:
 
-# Compiles and hot-reloads for development localhost
-yarn serve
+1. Fork the repository and clone your fork:
 
-# Compiles and minifies for production
-yarn build
+    ```shell
+    git clone https://github.com/your-username/emqx-dashboard5.git
+    cd emqx-dashboard5
+    ```
 
-# Lints and fixes files
-yarn lint
-```
+    Alternatively, you can clone the original repository directly:
+
+    ```shell
+    git clone https://github.com/emqx/emqx-dashboard5.git
+    cd emqx-dashboard5
+    ```
+
+2. Install the dependencies:
+
+    ```shell
+    yarn
+    ```
+
+3. Run the following command to start the development server:
+
+    ```shell
+    yarn serve
+    ```
+
+4. Compile and minify for production:
+
+    ```shell
+    yarn build
+    ```
+
+5. Lint and fix files:
+
+    ```shell
+    yarn lint
+    ```
+
+    or Format code with Prettier:
+
+    ```shell
+    yarn format
+    ```
 
 ### Development with Cloud Host
 
 To compile and hot-reload for development with a cloud host, follow these steps:
 
-1. Create a .env.cloud file in the root directory with the following content:
+1. Create a `.env.cloud` file in the root directory with the following content:
 
     ```shell
     HOST_URL=http://your-cloud-host:port/
