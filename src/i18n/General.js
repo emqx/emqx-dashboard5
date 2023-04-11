@@ -171,21 +171,17 @@ export default {
     zh: '确认重置?',
     en: 'Confirm to reset',
   },
-  blacklist: {
-    zh: '黑名单',
-    en: 'Blacklist',
+  'banned-clients': {
+    zh: '禁用客户端',
+    en: 'Banned Clients',
   },
-  createBlacklist: {
-    zh: '创建黑名单',
-    en: 'Create',
+  determineToDeleteTheBannedClient: {
+    zh: '确认解除该禁用客户端？',
+    en: 'Confirm to unban this banned client?',
   },
-  determineToDeleteTheBlacklist: {
-    zh: '确定删除该黑名单',
-    en: 'Determine to delete the blacklist',
-  },
-  createBlacklistSuccess: {
-    zh: '创建黑名单成功',
-    en: 'Create Blacklist Successfully',
+  createBannedClientSuccess: {
+    zh: '禁用该客户端成功',
+    en: 'Successfully banned this client.',
   },
   who: {
     zh: '禁用值',

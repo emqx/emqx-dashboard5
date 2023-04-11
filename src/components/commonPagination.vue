@@ -1,7 +1,7 @@
 <template>
   <div class="common-pagination">
     <el-pagination
-      v-if="meta.count > defaultPageSizeOpt[0]"
+      v-if="meta.count && meta.count > defaultPageSizeOpt[0]"
       background
       layout="total, sizes, prev, pager, next"
       :page-sizes="defaultPageSizeOpt"
@@ -14,65 +14,52 @@
     <MiniPagination
       v-else-if="meta.count === -1"
       :current-page="meta.page"
-      :hasnext="meta.hasnext"
+      :hasnext="meta.hasnext as boolean"
       @current-change="handleCurrentChanged"
     />
   </div>
 </template>
-<script>
-import { computed, defineComponent, watch } from 'vue'
-import MiniPagination from './MiniPagination'
 
-export default defineComponent({
-  components: {
-    MiniPagination,
-  },
-  props: {
-    // reloadFunc: Function,
-    metaData: {
-      type: Object,
-      required: true,
-      default: () => ({}),
-    },
-  },
-  emits: ['loadPage', 'update:metaData'],
+<script setup lang="ts">
+import { computed, watch, PropType, defineProps, defineEmits } from 'vue'
+import MiniPagination from './MiniPagination.vue'
+import { PageData } from '@/types/common'
 
-  setup(prop, context) {
-    let meta = computed(() => prop.metaData)
-    meta.value.limit ||= 20
-    meta.value.page ||= 1
-
-    const defaultPageSizeOpt = [20, 50, 100, 500]
-
-    watch(meta, (v) => {
-      context.emit('update:metaData', v)
-    })
-
-    const handleSizeChanged = (size) => {
-      // TODO: maybe we can count page
-      meta.value.page = 1
-      context.emit('loadPage', {
-        page: meta.value.page,
-        limit: size,
-      })
-    }
-
-    const handleCurrentChanged = (current) => {
-      if (meta.value.page !== current) {
-        meta.value.page = current
-      }
-      context.emit('loadPage', {
-        page: current,
-        limit: meta.value.limit,
-      })
-    }
-
-    return {
-      meta,
-      defaultPageSizeOpt,
-      handleSizeChanged,
-      handleCurrentChanged,
-    }
+const props = defineProps({
+  metaData: {
+    type: Object as PropType<PageData>,
+    required: true,
+    default: () => ({}),
   },
 })
+
+const meta = computed<PageData>(() => props.metaData)
+meta.value.limit ||= 20
+meta.value.page ||= 1
+
+const defaultPageSizeOpt = [20, 50, 100, 500]
+
+const emits = defineEmits(['loadPage', 'update:metaData'])
+
+watch(meta, (v) => {
+  emits('update:metaData', v)
+})
+
+const handleSizeChanged = (size: number) => {
+  meta.value.page = 1
+  emits('loadPage', {
+    page: meta.value.page,
+    limit: size,
+  })
+}
+
+const handleCurrentChanged = (current: number) => {
+  if (meta.value.page !== current) {
+    meta.value.page = current
+  }
+  emits('loadPage', {
+    page: current,
+    limit: meta.value.limit,
+  })
+}
 </script>
