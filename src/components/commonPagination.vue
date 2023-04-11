@@ -19,6 +19,7 @@
     />
   </div>
 </template>
+
 <script>
 import { computed, defineComponent, watch } from 'vue'
 import MiniPagination from './MiniPagination'
