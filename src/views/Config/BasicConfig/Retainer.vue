@@ -65,18 +65,11 @@
                   :desc="tl('maxRetainedMessagesDesc')"
                 />
               </template>
-              <el-input
-                v-model.number="retainerConfig.backend.max_retained_messages"
-                :readonly="selOptions.retained == 'unlimited'"
-                maxlength="6"
-              >
-                <template #append>
-                  <el-select v-model="selOptions.retained">
-                    <el-option value="unlimited" :label="tl('unlimited')" />
-                    <el-option value="custom" :label="tl('custom')" />
-                  </el-select>
-                </template>
-              </el-input>
+              <Oneof
+                v-model="retainerConfig.backend.max_retained_messages"
+                :items="[{ type: 'number' }, { type: 'enum', symbols: [0] }]"
+                :disabled-label="tl('unlimited')"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="16" class="custom-col">
@@ -92,10 +85,10 @@
               <template #label>
                 <FormItemLabel :label="tl('expire')" :desc="tl('msgExpiryIntervalDesc')" />
               </template>
-              <InputWithUnit
+              <Oneof
                 v-model="retainerConfig.msg_expiry_interval"
-                :units="expiryTimeUnits"
-                :disabled-opt="{ value: DISABLED_VALUE, label: tl('noExp') }"
+                :items="[{ type: 'duration' }, { type: 'enum', symbols: [VALUE_FOR_NO_VALUE] }]"
+                :disabled-label="tl('noExp')"
               />
             </el-form-item>
           </el-col>
@@ -104,10 +97,10 @@
               <template #label>
                 <FormItemLabel :label="tl('intervalClean')" :desc="tl('msgClearIntervalDesc')" />
               </template>
-              <InputWithUnit
+              <Oneof
                 v-model="retainerConfig.msg_clear_interval"
-                :units="expiryTimeUnits"
-                :disabled-opt="{ value: DISABLED_VALUE, label: tl('disable') }"
+                :items="[{ type: 'duration' }, { type: 'enum', symbols: [VALUE_FOR_NO_VALUE] }]"
+                :disabled-label="tl('disable')"
               />
             </el-form-item>
           </el-col>
@@ -170,13 +163,13 @@
 
 <script setup>
 import { getRetainer, updateRetainer } from '@/api/extension'
-import FormItemLabel from '@/components/FormItemLabel'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import Oneof from '@/components/Oneof.vue'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 
@@ -184,19 +177,12 @@ const { tl, t } = useI18nTl('Extension')
 const store = useStore()
 const { createRequiredRule } = useFormRules()
 
-const DISABLED_VALUE = 'disabled'
 const VALUE_FOR_NO_VALUE = '0s'
-const expiryTimeUnits = [
-  { value: 's', label: t('Base.second') },
-  { value: 'm', label: t('Base.minute') },
-  { value: 'h', label: t('Base.hour') },
-]
-const keysNeedTrans = ['msg_expiry_interval', 'msg_clear_interval']
 
 let retainerConfig = reactive({
   max_payload_size: '1MB',
-  msg_clear_interval: DISABLED_VALUE,
-  msg_expiry_interval: DISABLED_VALUE,
+  msg_clear_interval: VALUE_FOR_NO_VALUE,
+  msg_expiry_interval: VALUE_FOR_NO_VALUE,
   backend: {
     storage_type: 'ram',
     type: 'built_in_database',
@@ -211,7 +197,6 @@ let retainerConfig = reactive({
 })
 
 const selOptions = reactive({
-  retained: 'custom',
   read: 'custom',
   deliver: 'custom',
 })
@@ -267,9 +252,6 @@ watch(
   async (newV) => {
     // wait derivedOptionsFromConfig finished
     await nextTick()
-    if (newV.retained == 'unlimited') {
-      retainerConfig.backend.max_retained_messages = 0
-    }
     if (newV.read == 'unlimited') {
       retainerConfig.flow_control.batch_read_number = 0
     }
@@ -281,7 +263,6 @@ watch(
 
 const loadConfigData = async () => {
   configLoading.value = true
-  configEnable.value = true
   retainerForm.value?.resetFields()
   try {
     let res = await getRetainer()
@@ -297,33 +278,13 @@ const loadConfigData = async () => {
   }
 }
 
-const transDataFromDataRequested = (config) => {
-  keysNeedTrans.forEach((key) => {
-    if (config[key] === VALUE_FOR_NO_VALUE) {
-      config[key] = DISABLED_VALUE
-    }
-  })
-  return config
-}
-
 const getSelectedOptions = (value) => (value === 0 ? 'unlimited' : 'custom')
 
 const derivedOptionsFromConfig = () => {
-  let config = transDataFromDataRequested(retainerConfig)
+  let config = retainerConfig
   // trans some values from string to array
-  selOptions.retained = getSelectedOptions(config?.backend?.max_retained_messages)
   selOptions.read = getSelectedOptions(config?.flow_control?.batch_read_number)
   selOptions.deliver = getSelectedOptions(config?.flow_control?.batch_deliver_number)
-}
-
-const transDataToSubmit = (config) => {
-  const ret = cloneDeep(config)
-  keysNeedTrans.forEach((key) => {
-    if (ret[key] === DISABLED_VALUE) {
-      ret[key] = VALUE_FOR_NO_VALUE
-    }
-  })
-  return ret
 }
 
 const toggleStatus = async () => {
@@ -340,8 +301,7 @@ const updateConfigData = async function () {
   if (!valid) return
   try {
     configLoading.value = true
-    const formData = transDataToSubmit(retainerConfig)
-    await updateRetainer(formData)
+    await updateRetainer(retainerConfig)
     setRawData(retainerConfig)
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {

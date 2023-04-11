@@ -1,8 +1,13 @@
+<!-- ❗️If the form currently using the oneof component contains form validation 
+  and the current field is a required field, please directly place the oneof 
+  component in the form item component or bind to the formItem property. -->
 <template>
   <div class="one-of" v-if="oneOfInfo.valueDisabled !== undefined && oneOfInfo.propEnabled">
     <div class="switch-container">
       <el-switch v-model="switchProxy" :inactive-value="(oneOfInfo.valueDisabled as string)" />
-      <span class="tip" v-if="valueProxy === oneOfInfo.valueDisabled">{{ valueProxy }}</span>
+      <span class="tip" v-if="valueProxy === oneOfInfo.valueDisabled">
+        {{ disabledLabel || valueProxy }}
+      </span>
     </div>
     <div class="oneof-item" v-if="valueProxy !== oneOfInfo.valueDisabled">
       <el-input
@@ -62,14 +67,25 @@
 
 <script setup lang="ts">
 import { Properties, Property } from '@/types/schemaForm'
-import { defineProps, PropType, computed, defineEmits, WritableComputedRef } from 'vue'
-import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
+import { ElFormItem } from 'element-plus'
+import { isFunction } from 'lodash'
+import {
+  ComputedRef,
+  PropType,
+  WritableComputedRef,
+  computed,
+  defineEmits,
+  defineProps,
+  getCurrentInstance,
+  nextTick,
+  watch,
+} from 'vue'
 import InputWithUnit from './InputWithUnit.vue'
+import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
 const props = defineProps({
   modelValue: {
     type: [String, Number, Object] as PropType<string | number | Record<string, any> | undefined>,
-    required: true,
   },
   items: {
     type: Array as PropType<Properties[string][]>,
@@ -79,16 +95,22 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  disabledLabel: {
+    type: String,
+  },
+  formItem: {
+    type: Object as PropType<typeof ElFormItem>,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const oneOfInfo = computed(() => {
+const oneOfInfo: ComputedRef<{ valueDisabled: any; propEnabled: any }> = computed(() => {
   if (!Array.isArray(props.items) || props.items.length !== 2) {
     return { propEnabled: undefined, valueDisabled: undefined }
   }
-  let valueDisabled: unknown
-  let propEnabled: undefined | Property
+  let valueDisabled: unknown = undefined
+  let propEnabled: undefined | Property = undefined
   props.items.forEach((item) => {
     if (item.type === 'enum' && item.symbols?.length === 1) {
       valueDisabled = item.symbols[0] as string
@@ -96,7 +118,7 @@ const oneOfInfo = computed(() => {
       propEnabled = item
     }
   })
-  return valueDisabled && propEnabled
+  return valueDisabled !== undefined && propEnabled !== undefined
     ? { valueDisabled, propEnabled }
     : { propEnabled: undefined, valueDisabled: undefined }
 })
@@ -126,6 +148,26 @@ const valueProxy: WritableComputedRef<any> = computed({
       emit('update:modelValue', val)
     }
   },
+})
+
+const isDisabled = computed(() => {
+  const { valueDisabled } = oneOfInfo.value
+  return valueDisabled && valueProxy.value === valueDisabled
+})
+const currentIns = getCurrentInstance()
+/**
+ * Hack for prevent the input from turning red due to triggering
+ * form validation after setting modelValue to null following enable.
+ */
+watch(isDisabled, async (val) => {
+  if (!val) {
+    const formItem = props.formItem || currentIns?.parent?.exposed
+    if (isFunction(formItem?.clearValidate)) {
+      await nextTick()
+      await nextTick()
+      formItem?.clearValidate()
+    }
+  }
 })
 </script>
 
