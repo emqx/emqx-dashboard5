@@ -7,6 +7,7 @@
         type="log"
         :form="configs"
         :btn-loading="saveLoading"
+        :record-loading="configLoading"
         :props-order-map="propsOrderMap"
         @save="handleSave"
       />
@@ -33,6 +34,7 @@ export default defineComponent({
   setup() {
     const configs = ref({})
     const saveLoading = ref(false)
+    const configLoading = ref(false)
     const { t } = useI18n()
 
     let rawData: any = undefined
@@ -44,10 +46,13 @@ export default defineComponent({
 
     const loadData = async () => {
       try {
+        configLoading.value = true
         configs.value = await getLogConfigs()
         rawData = cloneDeep(configs.value)
       } catch (error) {
         //
+      } finally {
+        configLoading.value = false
       }
     }
     const reloading = () => {
@@ -75,6 +80,7 @@ export default defineComponent({
       propsOrderMap,
       reloading,
       saveLoading,
+      configLoading,
     }
   },
 })

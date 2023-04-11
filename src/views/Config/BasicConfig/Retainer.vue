@@ -1,162 +1,165 @@
 <template>
   <div class="retainer app-wrapper">
-    <el-card v-loading="configLoading">
-      <el-form
-        ref="retainerForm"
-        class="schema-form"
-        label-position="right"
-        require-asterisk-position="left"
-        :label-width="240"
-        :rules="retainerRules"
-        :model="retainerConfig"
-      >
-        <el-row align="middle">
-          <el-col :span="16" class="custom-col">
-            <el-form-item>
-              <template #label>
-                <FormItemLabel :label="tl('enable')" :desc="tl('enableDesc')" />
-              </template>
-              <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-form
-        ref="retainerForm"
-        class="schema-form"
-        label-position="right"
-        require-asterisk-position="left"
-        :label-width="240"
-        :disabled="!configEnable"
-        :rules="retainerRules"
-        :model="retainerConfig"
-        :validate-on-rule-change="false"
-        @keyup.enter="updateConfigData()"
-      >
-        <el-row>
-          <el-col :span="16" class="custom-col">
-            <el-form-item>
-              <template #label>
-                <FormItemLabel :label="tl('storageType')" :desc="tl('typeDesc')" />
-              </template>
-              <el-select v-model="retainerConfig.backend.type">
-                <el-option value="built_in_database" :label="tl('builtInDatabase')" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item required prop="backend.storage_type">
-              <template #label>
-                <FormItemLabel :label="tl('storageMethod')" :desc="tl('storageTypeDesc')" />
-              </template>
-              <el-select v-model="retainerConfig.backend.storage_type">
-                <el-option value="ram" />
-                <el-option value="disc" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="backend.max_retained_messages">
-              <template #label>
-                <FormItemLabel
-                  :label="tl('maxRetainedMessages')"
-                  :desc="tl('maxRetainedMessagesDesc')"
+    <el-card>
+      <el-skeleton v-if="configLoading" :rows="12" animated />
+      <template v-else>
+        <el-form
+          ref="retainerForm"
+          class="schema-form"
+          label-position="right"
+          require-asterisk-position="left"
+          :label-width="240"
+          :rules="retainerRules"
+          :model="retainerConfig"
+        >
+          <el-row align="middle">
+            <el-col :span="16" class="custom-col">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel :label="tl('enable')" :desc="tl('enableDesc')" />
+                </template>
+                <el-switch v-model="retainerConfig.enable" @change="toggleStatus()" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <el-form
+          ref="retainerForm"
+          class="schema-form"
+          label-position="right"
+          require-asterisk-position="left"
+          :label-width="240"
+          :disabled="!configEnable"
+          :rules="retainerRules"
+          :model="retainerConfig"
+          :validate-on-rule-change="false"
+          @keyup.enter="updateConfigData()"
+        >
+          <el-row>
+            <el-col :span="16" class="custom-col">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel :label="tl('storageType')" :desc="tl('typeDesc')" />
+                </template>
+                <el-select v-model="retainerConfig.backend.type">
+                  <el-option value="built_in_database" :label="tl('builtInDatabase')" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="16" class="custom-col">
+              <el-form-item required prop="backend.storage_type">
+                <template #label>
+                  <FormItemLabel :label="tl('storageMethod')" :desc="tl('storageTypeDesc')" />
+                </template>
+                <el-select v-model="retainerConfig.backend.storage_type">
+                  <el-option value="ram" />
+                  <el-option value="disc" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="16" class="custom-col">
+              <el-form-item prop="backend.max_retained_messages">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('maxRetainedMessages')"
+                    :desc="tl('maxRetainedMessagesDesc')"
+                  />
+                </template>
+                <Oneof
+                  v-model="retainerConfig.backend.max_retained_messages"
+                  :items="[{ type: 'number' }, { type: 'enum', symbols: [0] }]"
+                  :disabled-label="tl('unlimited')"
                 />
-              </template>
-              <Oneof
-                v-model="retainerConfig.backend.max_retained_messages"
-                :items="[{ type: 'number' }, { type: 'enum', symbols: [0] }]"
-                :disabled-label="tl('unlimited')"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="max_payload_size">
-              <template #label>
-                <FormItemLabel :label="tl('maxPayloadSize')" :desc="tl('maxPayloadSizeDesc')" />
-              </template>
-              <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="msg_expiry_interval">
-              <template #label>
-                <FormItemLabel :label="tl('expire')" :desc="tl('msgExpiryIntervalDesc')" />
-              </template>
-              <Oneof
-                v-model="retainerConfig.msg_expiry_interval"
-                :items="[{ type: 'duration' }, { type: 'enum', symbols: [NO_INTERVAL_VALUE] }]"
-                :disabled-label="tl('noExp')"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="msg_clear_interval">
-              <template #label>
-                <FormItemLabel :label="tl('intervalClean')" :desc="tl('msgClearIntervalDesc')" />
-              </template>
-              <Oneof
-                v-model="retainerConfig.msg_clear_interval"
-                :items="[{ type: 'duration' }, { type: 'enum', symbols: [NO_INTERVAL_VALUE] }]"
-                :disabled-label="tl('disable')"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <!-- <el-col :span="16">
-            <div class="group-title">{{ tl('flowControl') }}</div>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item :label="tl('batchReadNumber')" prop="flow_control.batch_read_number">
-              <p class="item-desc">
-                {{ tl('batchReadNumberDesc') }}
-              </p>
-              <el-input
-                v-model.number="retainerConfig.flow_control.batch_read_number"
-                :readonly="selOptions.read == 'unlimited'"
-                maxlength="6"
-              >
-                <template #append>
-                  <el-select v-model="selOptions.read">
-                    <el-option value="unlimited" :label="tl('unlimited')" />
-                    <el-option value="custom" :label="tl('custom')" />
-                  </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="16" class="custom-col">
+              <el-form-item prop="max_payload_size">
+                <template #label>
+                  <FormItemLabel :label="tl('maxPayloadSize')" :desc="tl('maxPayloadSizeDesc')" />
                 </template>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item
-              :label="tl('batchDeliverNumber')"
-              prop="flow_control.batch_deliver_number"
-            >
-              <p class="item-desc">
-                {{ tl('batchDeliverNumberDesc') }}
-              </p>
-              <el-input
-                v-model.number="retainerConfig.flow_control.batch_deliver_number"
-                :readonly="selOptions.deliver == 'unlimited'"
-                maxlength="6"
-              >
-                <template #append>
-                  <el-select v-model="selOptions.deliver">
-                    <el-option value="unlimited" :label="tl('unlimited')" />
-                    <el-option value="custom" :label="tl('custom')" />
-                  </el-select>
+                <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="16" class="custom-col">
+              <el-form-item prop="msg_expiry_interval">
+                <template #label>
+                  <FormItemLabel :label="tl('expire')" :desc="tl('msgExpiryIntervalDesc')" />
                 </template>
-              </el-input>
-            </el-form-item>
-          </el-col> -->
-          <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
-            <el-button type="primary" @click="updateConfigData()">
-              {{ $t('Base.save') }}
-            </el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+                <Oneof
+                  v-model="retainerConfig.msg_expiry_interval"
+                  :items="[{ type: 'duration' }, { type: 'enum', symbols: [NO_INTERVAL_VALUE] }]"
+                  :disabled-label="tl('noExp')"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="16" class="custom-col">
+              <el-form-item prop="msg_clear_interval">
+                <template #label>
+                  <FormItemLabel :label="tl('intervalClean')" :desc="tl('msgClearIntervalDesc')" />
+                </template>
+                <Oneof
+                  v-model="retainerConfig.msg_clear_interval"
+                  :items="[{ type: 'duration' }, { type: 'enum', symbols: [NO_INTERVAL_VALUE] }]"
+                  :disabled-label="tl('disable')"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <!-- <el-col :span="16">
+              <div class="group-title">{{ tl('flowControl') }}</div>
+            </el-col>
+            <el-col :span="16" class="custom-col">
+              <el-form-item :label="tl('batchReadNumber')" prop="flow_control.batch_read_number">
+                <p class="item-desc">
+                  {{ tl('batchReadNumberDesc') }}
+                </p>
+                <el-input
+                  v-model.number="retainerConfig.flow_control.batch_read_number"
+                  :readonly="selOptions.read == 'unlimited'"
+                  maxlength="6"
+                >
+                  <template #append>
+                    <el-select v-model="selOptions.read">
+                      <el-option value="unlimited" :label="tl('unlimited')" />
+                      <el-option value="custom" :label="tl('custom')" />
+                    </el-select>
+                  </template>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="16" class="custom-col">
+              <el-form-item
+                :label="tl('batchDeliverNumber')"
+                prop="flow_control.batch_deliver_number"
+              >
+                <p class="item-desc">
+                  {{ tl('batchDeliverNumberDesc') }}
+                </p>
+                <el-input
+                  v-model.number="retainerConfig.flow_control.batch_deliver_number"
+                  :readonly="selOptions.deliver == 'unlimited'"
+                  maxlength="6"
+                >
+                  <template #append>
+                    <el-select v-model="selOptions.deliver">
+                      <el-option value="unlimited" :label="tl('unlimited')" />
+                      <el-option value="custom" :label="tl('custom')" />
+                    </el-select>
+                  </template>
+                </el-input>
+              </el-form-item>
+            </el-col> -->
+            <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
+              <el-button type="primary" @click="updateConfigData()">
+                {{ $t('Base.save') }}
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-form>
+      </template>
     </el-card>
   </div>
 </template>
