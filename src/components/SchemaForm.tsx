@@ -60,6 +60,10 @@ const SchemaForm = defineComponent({
       type: Number,
       default: 350,
     },
+    recordLoading: {
+      type: Boolean,
+      default: false,
+    },
     /**
      * when this prop is set to true, the component will init record by schema
      */
@@ -793,7 +797,9 @@ const SchemaForm = defineComponent({
     }
 
     const formLoading = ref(true)
-    const showSkeleton = computed(() => formLoading.value && props.type !== 'bridge')
+    const showSkeleton = computed(
+      () => (formLoading.value || props.recordLoading) && props.type !== 'bridge',
+    )
     onMounted(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)

@@ -7,6 +7,7 @@
         type="sysmon"
         :form="configs"
         :btn-loading="saveLoading"
+        :record-loading="configLoading"
         @save="handleSave"
       />
     </el-card>
@@ -26,6 +27,7 @@ import { customValidate } from '@/common/tools'
 
 const configs = ref({})
 const saveLoading = ref(false)
+const configLoading = ref(false)
 const { t } = useI18n()
 
 let rawData: any = undefined
@@ -35,10 +37,13 @@ useDataNotSaveConfirm(checkDataIsChanged)
 
 const loadData = async () => {
   try {
+    configLoading.value = true
     configs.value = await getSysMon()
     rawData = cloneDeep(configs.value)
   } catch (error) {
     //
+  } finally {
+    configLoading.value = false
   }
 }
 const reloading = () => {

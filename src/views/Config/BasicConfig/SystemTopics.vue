@@ -1,7 +1,9 @@
 <template>
   <div class="sys-topics app-wrapper">
     <el-card>
+      <el-skeleton v-if="configLoading" :rows="12" animated />
       <el-form
+        v-else
         ref="retainerForm"
         class="schema-form"
         label-position="right"
@@ -126,16 +128,20 @@ const rules = {}
 const sysTopics: Ref<SysTopics> = ref({
   sys_event_messages: {},
 } as SysTopics)
+const configLoading = ref(false)
 
 const { setRawData, checkDataIsChanged } = useCheckDataChanged(sysTopics)
 useDataNotSaveConfirm(checkDataIsChanged)
 
 const getConfig = async () => {
   try {
+    configLoading.value = true
     sysTopics.value = await getSystemTopicsConfig()
     setRawData(sysTopics.value)
   } catch (error) {
     //
+  } finally {
+    configLoading.value = false
   }
 }
 
