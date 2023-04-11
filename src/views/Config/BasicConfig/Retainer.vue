@@ -87,7 +87,7 @@
               </template>
               <Oneof
                 v-model="retainerConfig.msg_expiry_interval"
-                :items="[{ type: 'duration' }, { type: 'enum', symbols: [VALUE_FOR_NO_VALUE] }]"
+                :items="[{ type: 'duration' }, { type: 'enum', symbols: [NO_INTERVAL_VALUE] }]"
                 :disabled-label="tl('noExp')"
               />
             </el-form-item>
@@ -99,7 +99,7 @@
               </template>
               <Oneof
                 v-model="retainerConfig.msg_clear_interval"
-                :items="[{ type: 'duration' }, { type: 'enum', symbols: [VALUE_FOR_NO_VALUE] }]"
+                :items="[{ type: 'duration' }, { type: 'enum', symbols: [NO_INTERVAL_VALUE] }]"
                 :disabled-label="tl('disable')"
               />
             </el-form-item>
@@ -177,12 +177,12 @@ const { tl, t } = useI18nTl('Extension')
 const store = useStore()
 const { createRequiredRule } = useFormRules()
 
-const VALUE_FOR_NO_VALUE = '0s'
+const NO_INTERVAL_VALUE = '0s'
 
 let retainerConfig = reactive({
   max_payload_size: '1MB',
-  msg_clear_interval: VALUE_FOR_NO_VALUE,
-  msg_expiry_interval: VALUE_FOR_NO_VALUE,
+  msg_clear_interval: NO_INTERVAL_VALUE,
+  msg_expiry_interval: NO_INTERVAL_VALUE,
   backend: {
     storage_type: 'ram',
     type: 'built_in_database',
