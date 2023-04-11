@@ -3,10 +3,13 @@
     <el-card>
       <schema-form
         ref="SchemaFormCom"
-        :according-to="{ path: '/configs/zones' }"
         type="session"
         :form="configs"
         :btn-loading="saveLoading"
+        :record-loading="configLoading"
+        :according-to="{ path: '/configs/zones' }"
+        :label-width="270"
+        :props-order-map="propsOrderMap"
         @save="handleSave"
       />
     </el-card>
@@ -14,16 +17,15 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash'
-import { defineComponent, ref } from 'vue'
-import SchemaForm from '@/components/SchemaForm'
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { Zone } from '../../../types/config'
-import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import { createOrderObj, customValidate } from '@/common/tools'
+import SchemaForm from '@/components/SchemaForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import { Zone } from '@/types/config'
+import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
-import { customValidate } from '@/common/tools'
+import { defineComponent, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'Session',
@@ -33,12 +35,30 @@ export default defineComponent({
   setup() {
     const configs = ref<Record<string, any>>({})
     const saveLoading = ref(false)
+    const configLoading = ref(false)
     const { t } = useI18n()
 
     let rawData: any = undefined
     const SchemaFormCom = ref()
     const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
     useDataNotSaveConfirm(checkDataIsChanged)
+
+    const propsOrderMap = createOrderObj(
+      [
+        'session_expiry_interval',
+        'max_subscriptions',
+        'upgrade_qos',
+        'max_inflight',
+        'retry_interval',
+        'max_awaiting_rel',
+        'await_rel_timeout',
+        'max_mqueue_len',
+        'mqueue_priorities',
+        'mqueue_default_priority',
+        'mqueue_store_qos0',
+      ],
+      0,
+    )
 
     const handleMpField = async (mqueue_priorities: string | Record<string, any>) => {
       if (mqueue_priorities === 'disabled') {
@@ -59,14 +79,19 @@ export default defineComponent({
       }
     }
     const loadData = async () => {
-      const res = await getDefaultZoneConfigs()
-      if (res) {
+      try {
+        configLoading.value = true
+        const res = await getDefaultZoneConfigs()
         const stringData = await handleMpField(res.mqtt.mqueue_priorities)
         if (stringData) {
           res.mqtt.mqueue_priorities = stringData
         }
         configs.value = res
         rawData = cloneDeep(res)
+      } catch (error) {
+        //
+      } finally {
+        configLoading.value = false
       }
     }
     const reloading = () => {
@@ -74,7 +99,7 @@ export default defineComponent({
     }
     const handleSave = async (val: Zone) => {
       await customValidate(SchemaFormCom.value)
-      const data = _.cloneDeep(val)
+      const data = cloneDeep(val)
       const {
         mqtt: { mqueue_priorities },
       } = data
@@ -99,6 +124,8 @@ export default defineComponent({
     return {
       configs,
       saveLoading,
+      configLoading,
+      propsOrderMap,
       handleSave,
       SchemaFormCom,
     }

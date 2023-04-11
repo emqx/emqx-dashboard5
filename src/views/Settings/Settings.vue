@@ -1,37 +1,49 @@
 <template>
   <div class="settings app-wrapper">
     <el-card class="config-card">
-      <el-form class="schema-form" :model="record" label-position="top">
+      <el-form
+        class="schema-form"
+        label-position="right"
+        require-asterisk-position="left"
+        :model="record"
+        :label-width="170"
+      >
         <el-row class="settings-form">
           <el-col :span="16">
-            <el-form-item :label="tl('language')" prop="lang">
-              <p class="item-desc">{{ tl('languageTip') }}</p>
+            <el-form-item prop="lang">
+              <template #label>
+                <FormItemLabel :label="tl('language')" :desc="tl('languageTip')" />
+              </template>
               <el-select v-model="record.lang">
                 <el-option
                   v-for="lang in langOption"
                   :key="lang.value"
                   :value="lang.value"
                   :label="lang.label"
-                ></el-option>
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item :label="tl('syncOsTheme')">
-              <p class="item-desc">{{ tl('syncOsThemeTip') }}</p>
-              <el-switch v-model="record.syncOsTheme"></el-switch>
+            <el-form-item>
+              <template #label>
+                <FormItemLabel :label="tl('syncOsTheme')" :desc="tl('syncOsThemeTip')" />
+              </template>
+              <el-switch v-model="record.syncOsTheme" />
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item :label="tl('theme')" prop="theme">
-              <p class="item-desc">{{ tl('themeTip') }}</p>
+            <el-form-item prop="theme">
+              <template #label>
+                <FormItemLabel :label="tl('theme')" :desc="tl('themeTip')" />
+              </template>
               <el-select v-model="record.theme" :disabled="record.syncOsTheme">
                 <el-option
                   v-for="theme in themeOption"
                   :key="theme.value"
                   :value="theme.value"
                   :label="theme.label"
-                ></el-option>
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -61,6 +73,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { getTeleStatus, updateTeleStatus } from '@/api/config'
 import { useI18n } from 'vue-i18n'
 import { TeleStatus } from '@/types/config'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const record = reactive({
   lang: 'en',

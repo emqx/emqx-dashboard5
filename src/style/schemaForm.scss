@@ -4,12 +4,6 @@
     min-height: 400px;
     .el-skeleton {
       width: 75%;
-      padding: 8px 28px;
-
-      .el-skeleton__item {
-        height: 16px;
-        margin-top: 20px;
-      }
     }
     .el-form,
     .el-tabs {
@@ -120,13 +114,6 @@
     align-items: center;
     padding-left: 48px;
   }
-  .group-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 24px 14px 12px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--color-border-normal);
-  }
   .schema-col-setting {
     position: absolute;
     left: -6px;
@@ -152,6 +139,27 @@
   }
   .textarea-with-uploader {
     width: 100%;
+  }
+  $base-input-width: 240px;
+  // src/style/common.scss:309:16
+  $input-append-width: 120px;
+  $number-controller-width: 32px;
+  .el-input-number__increase,
+  .el-input-number__decrease {
+    width: $number-controller-width;
+  }
+  .el-form-item__content,
+  .oneof-item {
+    >.el-select,
+    >.el-textarea {
+      width: $base-input-width;
+    }
+    >.el-input-number {
+      width: $base-input-width + $number-controller-width;
+    }
+    >.input-with-unit {
+      width: $base-input-width + $input-append-width;
+    }
   }
 }
 .read-only-tooltip.el-popper {

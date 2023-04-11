@@ -137,7 +137,7 @@ import NodesGraph from './NodesGraph.vue'
 
 type CurrentInfo = { node: NodeMsg; stats: NodeStatisticalData }
 
-const { t, locale } = useI18n()
+const { locale } = useI18n()
 
 const POLLING_INTERVAL = 2000
 
