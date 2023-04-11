@@ -577,3 +577,6 @@ export const isJSONString = (str: string): boolean => {
     return false
   }
 }
+
+export const createOrderObj = (keyArr: Array<string>, beginning: number) =>
+  keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
