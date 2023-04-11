@@ -99,7 +99,7 @@ To set up the project for local development, follow these steps:
     yarn format
     ```
 
-### Development with Cloud Host
+## Development with Cloud Host
 
 To compile and hot-reload for development with a cloud host, follow these steps:
 
