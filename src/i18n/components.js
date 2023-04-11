@@ -191,9 +191,9 @@ export default {
     zh: 'API 密钥',
     en: 'API Key',
   },
-  blacklist: {
-    zh: '黑名单',
-    en: 'Blacklist',
+  'banned-clients': {
+    zh: '禁用客户端',
+    en: 'Banned Clients',
   },
   backup: {
     zh: '备份',

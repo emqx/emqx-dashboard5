@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    :title="tl('createBlacklist')"
-    v-model="showDialog"
-    class="banned-dialog"
-    destroy-on-close
-  >
+  <el-dialog :title="$t('Base.create')" v-model="showDialog" class="banned-dialog" destroy-on-close>
     <el-form
       ref="FormCom"
       :model="record"
@@ -69,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { createBlacklist } from '@/api/function'
+import { createBannedClient } from '@/api/function'
 import useBannedType from '@/hooks/Auth/useBannedType'
 import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -146,8 +141,8 @@ const save = async () => {
     }
     submitLoading.value = true
     try {
-      await createBlacklist(data)
-      ElMessage.success(tl('createBlacklistSuccess'))
+      await createBannedClient(data)
+      ElMessage.success(tl('createBannedClientSuccess'))
       showDialog.value = false
       emit('submitted')
     } catch (error) {

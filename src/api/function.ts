@@ -28,15 +28,15 @@ export function destroyUser(username: string): Promise<void> {
   return http.delete(`/users/${encodeURIComponent(username)}`)
 }
 
-export function loadBlacklist(params = {}): Promise<ListDataWithPagination<BannedItem>> {
+export function loadBannedClient(params = {}): Promise<ListDataWithPagination<BannedItem>> {
   return http.get('/banned', { params })
 }
 
-export function createBlacklist(body: BannedFormForCreate): Promise<BannedItem> {
+export function createBannedClient(body: BannedFormForCreate): Promise<BannedItem> {
   return http.post('/banned', body)
 }
 
-export function deleteBlacklist({ who, as }: Pick<BannedItem, 'who' | 'as'>): Promise<void> {
+export function deleteBannedClient({ who, as }: Pick<BannedItem, 'who' | 'as'>): Promise<void> {
   return http.delete(`/banned/${as}/${encodeURIComponent(who)}`)
 }
 

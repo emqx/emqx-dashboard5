@@ -1,5 +1,5 @@
 <template>
-  <div class="blacklist app-wrapper">
+  <div class="banned-clients app-wrapper">
     <div class="section-header">
       <div></div>
       <el-button type="primary" :icon="Plus" @click="dialogVisible = true">
@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { deleteBlacklist, loadBlacklist } from '@/api/function'
+import { deleteBannedClient, loadBannedClient } from '@/api/function'
 import { dateFormat } from '@/common/tools'
 import useBannedType from '@/hooks/Auth/useBannedType'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -43,11 +43,12 @@ import { Banned } from 'src/types/auth'
 import { ref } from 'vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import BannedDialog from './components/BannedDialog.vue'
+import { BannedItem } from '@/types/systemModule'
 
 const { t, tl } = useI18nTl('General')
 
 const dialogVisible = ref(false)
-const tableData = ref([])
+const tableData = ref<BannedItem[]>([])
 const tbLoading = ref(false)
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
@@ -56,7 +57,7 @@ const listBlackList = async (params = {}) => {
   const sendParams = { ...pageParams.value, ...params }
   Reflect.deleteProperty(sendParams, 'count')
   try {
-    const { data = [], meta = {} } = await loadBlacklist(sendParams)
+    const { data = [], meta = { limit: 20, page: 1 } } = await loadBannedClient(sendParams)
     tableData.value = data
     setPageMeta(meta)
   } catch (error) {
@@ -76,14 +77,14 @@ const { getLabelFromValue } = useBannedType()
 
 const deleteConfirm = async (item: Banned) => {
   try {
-    await ElMessageBox.confirm(t('Base.confirmDelete'), {
+    await ElMessageBox.confirm(tl('determineToDeleteTheBannedClient'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
       confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
     const { who, as } = item
-    await deleteBlacklist({ who, as })
+    await deleteBannedClient({ who, as })
     ElMessage.success(t('Base.deleteSuccess'))
     refreshListData()
   } catch (error) {

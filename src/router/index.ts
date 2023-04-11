@@ -182,17 +182,17 @@ export const routes: Array<RouteRecordRaw> = [
 
   // Black list
   {
-    path: '/blacklist',
+    path: '/banned-clients',
     meta: {
-      hideKey: 'blacklist',
+      hideKey: 'banned-clients',
       authRequired: true,
     },
     component: Layout,
     children: [
       {
         path: '',
-        name: 'blacklist',
-        component: () => import('@/views/General/Blacklist.vue'),
+        name: 'banned-clients',
+        component: () => import('@/views/General/BannedClient.vue'),
       },
     ],
   },

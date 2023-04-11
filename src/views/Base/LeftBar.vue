@@ -96,7 +96,7 @@ export default defineComponent({
     const accessControl = [
       { title: 'authentication', path: '/authentication' },
       { title: 'authorization', path: '/authorization' },
-      { title: 'blacklist', path: '/blacklist' },
+      { title: 'banned-clients', path: '/banned-clients' },
     ]
 
     const management = [
