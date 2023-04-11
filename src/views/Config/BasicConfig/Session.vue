@@ -6,6 +6,7 @@
         type="session"
         :form="configs"
         :btn-loading="saveLoading"
+        :record-loading="configLoading"
         :according-to="{ path: '/configs/zones' }"
         :label-width="270"
         :props-order-map="propsOrderMap"
@@ -34,6 +35,7 @@ export default defineComponent({
   setup() {
     const configs = ref<Record<string, any>>({})
     const saveLoading = ref(false)
+    const configLoading = ref(false)
     const { t } = useI18n()
 
     let rawData: any = undefined
@@ -77,14 +79,19 @@ export default defineComponent({
       }
     }
     const loadData = async () => {
-      const res = await getDefaultZoneConfigs()
-      if (res) {
+      try {
+        configLoading.value = true
+        const res = await getDefaultZoneConfigs()
         const stringData = await handleMpField(res.mqtt.mqueue_priorities)
         if (stringData) {
           res.mqtt.mqueue_priorities = stringData
         }
         configs.value = res
         rawData = cloneDeep(res)
+      } catch (error) {
+        //
+      } finally {
+        configLoading.value = false
       }
     }
     const reloading = () => {
@@ -117,6 +124,7 @@ export default defineComponent({
     return {
       configs,
       saveLoading,
+      configLoading,
       propsOrderMap,
       handleSave,
       SchemaFormCom,

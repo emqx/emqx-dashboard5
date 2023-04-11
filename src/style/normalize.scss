@@ -831,3 +831,11 @@
     --el-skeleton-to-color: var(--color-bg-split);
   }
 }
+
+.el-skeleton {
+  padding: 8px 28px;
+  .el-skeleton__item {
+    height: 16px;
+    margin-top: 20px;
+  }
+}

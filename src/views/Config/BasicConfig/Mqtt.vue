@@ -8,6 +8,7 @@
         :form="configs"
         :label-width="290"
         :btn-loading="saveLoading"
+        :record-loading="configLoading"
         :props-order-map="propsOrderMap"
         :data-handler="componentsHandler"
         @save="handleSave"
@@ -42,6 +43,7 @@ export default defineComponent({
 
     let rawData: any = undefined
     const SchemaFormCom = ref()
+    const configLoading = ref(false)
     const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
     useDataNotSaveConfirm(checkDataIsChanged)
 
@@ -97,10 +99,14 @@ export default defineComponent({
     }
 
     const loadData = async () => {
-      const res = await getDefaultZoneConfigs()
-      if (res) {
-        configs.value = res
-        rawData = cloneDeep(res)
+      try {
+        configLoading.value = true
+        configs.value = await getDefaultZoneConfigs()
+        rawData = cloneDeep(configs.value)
+      } catch (error) {
+        //
+      } finally {
+        configLoading.value = false
       }
     }
     const reloading = () => {
@@ -125,6 +131,7 @@ export default defineComponent({
       SchemaFormCom,
       configs,
       saveLoading,
+      configLoading,
       propsOrderMap,
       componentsHandler,
       handleSave,
