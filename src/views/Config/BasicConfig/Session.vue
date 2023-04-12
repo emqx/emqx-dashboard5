@@ -8,7 +8,7 @@
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :according-to="{ path: '/configs/zones' }"
-        :label-width="270"
+        :label-width="state.lang === 'zh' ? 204 : 276"
         :props-order-map="propsOrderMap"
         @save="handleSave"
       />
@@ -26,6 +26,7 @@ import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
 import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'Session',
@@ -37,6 +38,7 @@ export default defineComponent({
     const saveLoading = ref(false)
     const configLoading = ref(false)
     const { t } = useI18n()
+    const { state } = useStore()
 
     let rawData: any = undefined
     const SchemaFormCom = ref()
@@ -122,6 +124,7 @@ export default defineComponent({
     }
     loadData()
     return {
+      state,
       configs,
       saveLoading,
       configLoading,

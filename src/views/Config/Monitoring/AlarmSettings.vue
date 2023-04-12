@@ -3,10 +3,11 @@
     <el-card class="config-card">
       <schema-form
         ref="SchemaFormCom"
-        :according-to="{ path: '/configs/sysmon' }"
         type="sysmon"
+        :according-to="{ path: '/configs/sysmon' }"
         :form="configs"
         :btn-loading="saveLoading"
+        :label-width="state.lang === 'zh' ? 228 : 360"
         :record-loading="configLoading"
         @save="handleSave"
       />
@@ -15,19 +16,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import SchemaForm from '@/components/SchemaForm'
 import { getSysMon, updateSysMon } from '@/api/config'
+import { customValidate } from '@/common/tools'
+import SchemaForm from '@/components/SchemaForm'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { AlarmSettings } from '@/types/config'
 import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { cloneDeep, isEqual } from 'lodash'
-import { customValidate } from '@/common/tools'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
 
 const configs = ref({})
 const saveLoading = ref(false)
 const configLoading = ref(false)
+const { state } = useStore()
 const { t } = useI18n()
 
 let rawData: any = undefined

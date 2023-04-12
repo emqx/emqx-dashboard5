@@ -9,6 +9,7 @@
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"
+        :label-width="state.lang === 'zh' ? 284 : 336"
         @save="handleSave"
       />
     </el-card>
@@ -16,15 +17,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import SchemaForm from '@/components/SchemaForm'
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
+import { customValidate } from '@/common/tools'
+import SchemaForm from '@/components/SchemaForm'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Log } from '@/types/config'
 import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { cloneDeep, isEqual } from 'lodash'
-import { customValidate } from '@/common/tools'
+import { defineComponent, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'Log',
@@ -36,6 +38,7 @@ export default defineComponent({
     const saveLoading = ref(false)
     const configLoading = ref(false)
     const { t } = useI18n()
+    const { state } = useStore()
 
     let rawData: any = undefined
     const SchemaFormCom = ref()
@@ -74,6 +77,7 @@ export default defineComponent({
     }
     loadData()
     return {
+      state,
       SchemaFormCom,
       handleSave,
       configs,

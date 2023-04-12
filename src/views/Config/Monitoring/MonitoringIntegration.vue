@@ -5,7 +5,7 @@
         class="schema-form"
         label-position="right"
         require-asterisk-position="left"
-        :label-width="190"
+        :label-width="state.lang === 'zh' ? 176 : 190"
       >
         <el-row>
           <el-col :span="12">
@@ -128,11 +128,13 @@ import { Prometheus } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
 import { Ref, computed, ref } from 'vue'
+import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'
 
 const PROMETHEUS = 'Prometheus'
 
 const { tl, t } = useI18nTl('MonitoringIntegration')
+const { state } = useStore()
 
 const platformOpts = [
   {
