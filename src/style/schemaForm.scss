@@ -58,7 +58,7 @@
       }
     }
   }
-  .el-col-16 {
+  .el-col-21 {
     max-width: 55%;
     .el-form-item {
       padding: 8px 12px 12px;
@@ -103,26 +103,28 @@
   .textarea-with-uploader {
     width: 100%;
   }
-  $base-input-width: 240px;
-  // src/style/common.scss:309:16
-  $input-append-width: 120px;
-  $number-controller-width: 32px;
-  .el-input-number__increase,
-  .el-input-number__decrease {
-    width: $number-controller-width;
-  }
-  .el-form-item__content,
-  .oneof-item {
-    >.el-input,
-    >.el-select,
-    >.el-textarea {
-      width: $base-input-width;
+  .configuration-form {
+    $base-input-width: 240px;
+    // src/style/common.scss:309:16
+    $input-append-width: 120px;
+    $number-controller-width: 32px;
+    .el-input-number__increase,
+    .el-input-number__decrease {
+      width: $number-controller-width;
     }
-    >.el-input-number {
-      width: $base-input-width + $number-controller-width;
-    }
-    >.input-with-unit {
-      width: $base-input-width + $input-append-width;
+    .el-form-item__content,
+    .oneof-item {
+      >.el-input,
+      >.el-select,
+      >.el-textarea {
+        width: $base-input-width;
+      }
+      >.el-input-number {
+        width: $base-input-width + $number-controller-width;
+      }
+      >.input-with-unit {
+        width: $base-input-width + $input-append-width;
+      }
     }
   }
 }

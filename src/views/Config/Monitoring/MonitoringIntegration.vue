@@ -1,115 +1,117 @@
 <template>
   <div class="monitoring-integration app-wrapper">
     <el-card class="config-card" v-loading="isDataLoading">
-      <el-form
-        class="schema-form"
-        label-position="right"
-        require-asterisk-position="left"
-        :label-width="state.lang === 'zh' ? 176 : 190"
-      >
-        <el-row>
-          <el-col :span="12">
-            <el-form-item class="radio-form-item">
-              <template #label>
-                <FormItemLabel
-                  :label="tl('monitoringPlatform')"
-                  :desc="tl('monitoringPlatformFormItemLabel')"
-                />
-              </template>
-              <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
-                <el-row :gutter="28">
-                  <el-col v-for="item in platformOpts" :key="item.label" :span="12">
-                    <el-radio class="platform-radio" :label="item.label" border>
-                      <img class="img-platform" height="52" :src="item.img" :alt="item.label" />
-                      <span class="platform-name"> {{ item.label }} </span>
-                    </el-radio>
-                  </el-col>
-                </el-row>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="16" class="custom-col">
-            <el-form-item>
-              <template #label>
-                <FormItemLabel
-                  :label="t('Base.isEnabled')"
-                  :desc="
-                    t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) +
-                    t('MonitoringIntegration.promToPushgateway')
-                  "
-                />
-              </template>
-              <el-switch v-model="prometheusFormData.enable" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-collapse-transition>
-          <el-row v-show="prometheusFormData.enable">
-            <el-col :span="16" class="custom-col">
-              <el-form-item>
+      <div class="schema-form">
+        <el-form
+          class="configuration-form"
+          label-position="right"
+          require-asterisk-position="left"
+          :label-width="state.lang === 'zh' ? 176 : 190"
+        >
+          <el-row>
+            <el-col :span="12">
+              <el-form-item class="radio-form-item">
                 <template #label>
-                  <FormItemLabel :label="tl('interval')" :desc="tl('dataReportingInterval')" />
+                  <FormItemLabel
+                    :label="tl('monitoringPlatform')"
+                    :desc="tl('monitoringPlatformFormItemLabel')"
+                  />
                 </template>
-                <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
+                <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
+                  <el-row :gutter="28">
+                    <el-col v-for="item in platformOpts" :key="item.label" :span="12">
+                      <el-radio class="platform-radio" :label="item.label" border>
+                        <img class="img-platform" height="52" :src="item.img" :alt="item.label" />
+                        <span class="platform-name"> {{ item.label }} </span>
+                      </el-radio>
+                    </el-col>
+                  </el-row>
+                </el-radio-group>
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
-              <el-form-item>
-                <template #label>
-                  <span>{{ tl('pushgatewayServer') }}</span>
-                  <InfoTooltip>
-                    <template #content>
-                      {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
-                      <a
-                        href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
-                        target="_blank"
-                        rel="noopener"
-                      >
-                        {{ tl('whenToUsePushgateway') }}
-                      </a>
-                    </template>
-                  </InfoTooltip>
-                </template>
-                <el-input v-model="prometheusFormData.push_gateway_server" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="16" class="custom-col">
-              <el-form-item>
-                <template #label>
-                  <FormItemLabel :label="tl('jobName')" :desc="tl('jobNameDesc')" desc-marked />
-                </template>
-                <el-input v-model="prometheusFormData.job_name" />
-              </el-form-item>
-            </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="16" class="custom-col">
               <el-form-item>
                 <template #label>
                   <FormItemLabel
-                    :label="t('RuleEngine.headers')"
-                    :desc="tl('headersDesc')"
-                    desc-marked
+                    :label="t('Base.isEnabled')"
+                    :desc="
+                      t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) +
+                      t('MonitoringIntegration.promToPushgateway')
+                    "
                   />
                 </template>
-                <KeyAndValueEditor v-model="prometheusFormData.headers" />
+                <el-switch v-model="prometheusFormData.enable" />
               </el-form-item>
             </el-col>
           </el-row>
-        </el-collapse-transition>
-        <div class="ft">
-          <el-button type="primary" :loading="isSubmitting" @click="submit">
-            {{ $t('Base.update') }}
-          </el-button>
-          <el-button
-            v-if="selectedPlatform === 'Prometheus'"
-            :loading="isSubmitting"
-            @click="showPromSetup = true"
-          >
-            {{ $t('Base.help') }}
-          </el-button>
-        </div>
-      </el-form>
+          <el-collapse-transition>
+            <el-row v-show="prometheusFormData.enable">
+              <el-col :span="16" class="custom-col">
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel :label="tl('interval')" :desc="tl('dataReportingInterval')" />
+                  </template>
+                  <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="16" class="custom-col">
+                <el-form-item>
+                  <template #label>
+                    <span>{{ tl('pushgatewayServer') }}</span>
+                    <InfoTooltip>
+                      <template #content>
+                        {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
+                        <a
+                          href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          {{ tl('whenToUsePushgateway') }}
+                        </a>
+                      </template>
+                    </InfoTooltip>
+                  </template>
+                  <el-input v-model="prometheusFormData.push_gateway_server" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="16" class="custom-col">
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel :label="tl('jobName')" :desc="tl('jobNameDesc')" desc-marked />
+                  </template>
+                  <el-input v-model="prometheusFormData.job_name" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="16" class="custom-col">
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('RuleEngine.headers')"
+                      :desc="tl('headersDesc')"
+                      desc-marked
+                    />
+                  </template>
+                  <KeyAndValueEditor v-model="prometheusFormData.headers" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-collapse-transition>
+          <div class="ft">
+            <el-button type="primary" :loading="isSubmitting" @click="submit">
+              {{ $t('Base.update') }}
+            </el-button>
+            <el-button
+              v-if="selectedPlatform === 'Prometheus'"
+              :loading="isSubmitting"
+              @click="showPromSetup = true"
+            >
+              {{ $t('Base.help') }}
+            </el-button>
+          </div>
+        </el-form>
+      </div>
     </el-card>
     <HelpDrawer v-model="showPromSetup" />
   </div>
