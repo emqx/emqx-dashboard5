@@ -42,7 +42,7 @@ const SchemaForm = defineComponent({
     Oneof,
     Setting,
     CommonTLSConfig,
-    InfoTooltip: InfoTooltip as any,
+    InfoTooltip,
     Monaco,
     TextareaWithUploader,
     MarkdownContent,
@@ -581,12 +581,12 @@ const SchemaForm = defineComponent({
             model={configForm.value}
             validate-on-rule-change={false}
           >
-            <el-row gutter={24}>
+            <el-row>
               {contents}
               {props.needFooter ? (
                 <el-col span={24} class="btn-col" style={btnStyles}>
                   <el-button type="primary" loading={props.btnLoading} onClick={save}>
-                    {t('Base.save')}
+                    {t('Base.saveChanges')}
                   </el-button>
                 </el-col>
               ) : (
