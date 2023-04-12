@@ -250,16 +250,6 @@ const SchemaForm = defineComponent({
       }
       return _path
     }
-    const resetValue = (property: Properties[string]) => {
-      if (!property.path) return
-      if (property.default !== undefined && property.default !== null) {
-        _.set(configForm.value, property.path, property.default)
-      }
-    }
-    const removeValue = (property: Properties[string]) => {
-      if (!property.path) return
-      configForm.value = _.omit(configForm.value, property.path)
-    }
     const handleModelValueUpdate = (path: string) => {
       const _path = path
       return (event: any) => {
@@ -502,49 +492,12 @@ const SchemaForm = defineComponent({
     }
 
     const getColFormItem = (property: Properties[string], { col, levelName }: FormItemMeta) => {
-      const handleCommand = (command: string) => {
-        if (command === 'reset') {
-          resetValue(property)
-        } else if (command === 'remove') {
-          removeValue(property)
-        }
-      }
-      const slots = {
-        dropdown: () => (
-          <el-dropdown-menu>
-            <el-dropdown-item
-              command="reset"
-              disabled={property.default === undefined || property.readOnly}
-            >
-              {t('Base.reset')}
-            </el-dropdown-item>
-            {props.canRemoveConfig ? (
-              <el-dropdown-item command="remove">{t('Base.remove')}</el-dropdown-item>
-            ) : null}
-          </el-dropdown-menu>
-        ),
-      }
-
       const labelSlot = getLabelSlot(property)
       const colSpan = getColSpan(property) || col
       const colClass = getColClass(property)
 
       const colItem = (
         <el-col span={colSpan} class={colClass} key={property.path}>
-          {['mqtt', 'session', 'bridge'].includes(props.type) ? null : (
-            <el-dropdown
-              class="schema-col-setting"
-              trigger="click"
-              v-slots={slots}
-              onCommand={handleCommand}
-            >
-              <a class="setting-btn">
-                <el-icon>
-                  <Setting />
-                </el-icon>
-              </a>
-            </el-dropdown>
-          )}
           {property.readOnly ? (
             <el-tooltip
               popper-class="read-only-tooltip"
