@@ -26,6 +26,21 @@
     margin-bottom: 0;
     color: var(--el-text-color-secondary);
   }
+
+  .one-of {
+    display: flex;
+    width: 100%;
+
+    .switch-container {
+      flex-shrink: 0;
+      margin-right: 12px;
+    }
+
+    .oneof-item {
+      flex-grow: 1;
+      margin-top: 0;
+    }
+  }
 }
 
 .iot-form {
