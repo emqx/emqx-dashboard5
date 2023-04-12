@@ -55,50 +55,7 @@
   .el-col-16 {
     max-width: 55%;
     .el-form-item {
-      transition: all 0.2s ease;
-      border-left: 4px solid transparent;
       padding: 8px 12px 12px;
-    }
-  }
-  .custom-col {
-    .el-form-item:hover {
-      background: var(--color-bg-split);
-      border-left: 4px solid var(--el-color-primary);
-    }
-  }
-  .el-col-16:not(.custom-col) {
-    &:hover {
-      .schema-col-setting {
-        .setting-btn {
-          visibility: visible;
-        }
-      }
-      .app-card.properties-card .el-col-24 {
-        .schema-col-setting {
-          .setting-btn {
-            visibility: hidden;
-          }
-        }
-        .el-form-item {
-          background: transparent;
-          border-left: 4px solid transparent;
-        }
-        &:hover {
-          .schema-col-setting {
-            .setting-btn {
-              visibility: visible;
-            }
-          }
-          .el-form-item {
-            background: var(--color-bg-split);
-            border-left: 4px solid var(--el-color-primary);
-          }
-        }
-      }
-      .el-form-item {
-        background: var(--color-bg-split);
-        border-left: 4px solid var(--el-color-primary);
-      }
     }
   }
   .btn-col {
