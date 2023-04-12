@@ -8,7 +8,7 @@
       </el-button>
     </div>
 
-    <el-table :data="subTbData" class="shadow-none" v-loading="tbLoading">
+    <el-table :data="subTbData" v-loading="tbLoading">
       <el-table-column :label="$t('Base.topic')" prop="topic" />
       <el-table-column :label="'QoS'" prop="qos" />
       <el-table-column :label="$t('Clients.noLocal')" prop="nl">
