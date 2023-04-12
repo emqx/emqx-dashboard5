@@ -83,7 +83,7 @@ axios.interceptors.response.use(
           toLogin()
           // reset set, otherwise will not popup error msg
           window.setTimeout(resetRespSet, 1000)
-          return
+          return Promise.reject(error)
         }
         // some special cases
         const handleErrorSelf =
