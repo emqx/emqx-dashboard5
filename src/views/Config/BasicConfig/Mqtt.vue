@@ -6,7 +6,7 @@
         type="mqtt"
         :according-to="{ path: '/configs/zones' }"
         :form="configs"
-        :label-width="290"
+        :label-width="state.lang === 'zh' ? 240 : 284"
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"
@@ -30,6 +30,7 @@ import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
 import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'Mqtt',
@@ -40,6 +41,7 @@ export default defineComponent({
     const configs = ref({})
     const saveLoading = ref(false)
     const { t } = useI18n()
+    const { state } = useStore()
 
     let rawData: any = undefined
     const SchemaFormCom = ref()
@@ -128,6 +130,7 @@ export default defineComponent({
     }
     loadData()
     return {
+      state,
       SchemaFormCom,
       configs,
       saveLoading,

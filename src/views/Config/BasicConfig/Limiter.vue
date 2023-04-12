@@ -1,7 +1,11 @@
 <template>
   <div class="limiter app-wrapper">
     <el-card>
-      <el-form class="schema-form" label-position="right" :label-width="150">
+      <el-form
+        class="schema-form"
+        label-position="right"
+        :label-width="state.lang === 'zh' ? 144 : 160"
+      >
         <el-tabs class="group-tabs" type="card" v-model="currentLimiterType">
           <el-tab-pane
             v-for="group in LimiterTypes"
@@ -34,7 +38,7 @@
           <el-col
             :span="24"
             class="btn-col"
-            :style="{ left: store.state.leftBarCollapse ? '104px' : '224px' }"
+            :style="{ left: state.leftBarCollapse ? '104px' : '224px' }"
           >
             <el-button type="primary" :loading="saveLoading" @Click="handleSave">
               {{ $t('Base.save') }}
@@ -63,9 +67,9 @@ const saveLoading = ref(false)
 
 const { t } = useI18n()
 const { tl } = useI18nTl('BasicConfig')
-const store = useStore()
+const { state } = useStore()
 
-const { components } = useSchemaForm(`static/hot-config-schema-${store.state.lang}.json`, {
+const { components } = useSchemaForm(`static/hot-config-schema-${state.lang}.json`, {
   path: '/configs/limiter',
 })
 const currentLimiterType = ref<LimiterType>('bytes_in')

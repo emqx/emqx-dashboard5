@@ -39,9 +39,8 @@
     margin-top: 6px;
     margin-bottom: 6px;
   }
-  [class*='el-col-'] {
-    padding: 0px 12px;
-    position: relative;
+  .el-form-item__label {
+    padding-right: 20px;
   }
   .app-card.properties-card {
     .el-col-24 {

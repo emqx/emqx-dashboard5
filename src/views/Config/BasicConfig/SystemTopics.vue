@@ -10,7 +10,7 @@
         require-asterisk-position="left"
         :rules="rules"
         :model="sysTopics"
-        :label-width="270"
+        :label-width="store.state.lang === 'zh' ? 192 : 270"
       >
         <el-row>
           <el-col :span="16" class="custom-col">

@@ -8,7 +8,8 @@
           class="schema-form"
           label-position="right"
           require-asterisk-position="left"
-          :label-width="240"
+          hide-required-asterisk
+          :label-width="store.state.lang === 'zh' ? 184 : 220"
           :rules="retainerRules"
           :model="retainerConfig"
         >
@@ -28,7 +29,8 @@
           class="schema-form"
           label-position="right"
           require-asterisk-position="left"
-          :label-width="240"
+          hide-required-asterisk
+          :label-width="store.state.lang === 'zh' ? 184 : 220"
           :disabled="!configEnable"
           :rules="retainerRules"
           :model="retainerConfig"
