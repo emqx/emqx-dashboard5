@@ -51,6 +51,13 @@
       padding-right: 0px;
     }
   }
+  .el-row {
+    .el-col:first-child {
+      .el-divider {
+        display: none;
+      }
+    }
+  }
   .el-col-16 {
     max-width: 55%;
     .el-form-item {
@@ -106,6 +113,7 @@
   }
   .el-form-item__content,
   .oneof-item {
+    >.el-input,
     >.el-select,
     >.el-textarea {
       width: $base-input-width;
