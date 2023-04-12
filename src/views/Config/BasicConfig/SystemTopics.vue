@@ -5,7 +5,7 @@
       <div class="schema-form" v-else>
         <el-form
           ref="retainerForm"
-          class="configuration-form"
+          class="configuration-form schema-form"
           label-position="right"
           require-asterisk-position="left"
           :rules="rules"
@@ -13,7 +13,7 @@
           :label-width="store.state.lang === 'zh' ? 192 : 270"
         >
           <el-row>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="sys_msg_interval">
                 <template #label>
                   <FormItemLabel
@@ -28,7 +28,7 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="sys_heartbeat_interval">
                 <template #label>
                   <FormItemLabel
@@ -43,7 +43,7 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="sys_event_messages.client_connected">
                 <template #label>
                   <FormItemLabel
@@ -54,7 +54,7 @@
                 <el-switch v-model="sysTopics.sys_event_messages.client_connected" />
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="sys_event_messages.client_disconnected">
                 <template #label>
                   <FormItemLabel
@@ -65,7 +65,7 @@
                 <el-switch v-model="sysTopics.sys_event_messages.client_disconnected" />
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="sys_event_messages.client_subscribed">
                 <template #label>
                   <FormItemLabel
@@ -76,7 +76,7 @@
                 <el-switch v-model="sysTopics.sys_event_messages.client_subscribed" />
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="sys_event_messages.client_unsubscribed">
                 <template #label>
                   <FormItemLabel
@@ -89,7 +89,7 @@
             </el-col>
             <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
               <el-button type="primary" @click="updateConfigData()">
-                {{ $t('Base.save') }}
+                {{ $t('Base.saveChanges') }}
               </el-button>
             </el-col>
           </el-row>

@@ -24,13 +24,11 @@
   .item-desc {
     margin: 0 0 6px 0;
     color: var(--color-text-secondary);
-
     &.markdown-content {
       .el-col-24 {
         padding: 0;
       }
     }
-
     p {
       margin: 0 0 6px 0;
     }
@@ -61,7 +59,7 @@
   .el-col-21 {
     max-width: 55%;
     .el-form-item {
-      padding: 8px 12px 12px;
+      padding: 12px;
     }
   }
   .btn-col {

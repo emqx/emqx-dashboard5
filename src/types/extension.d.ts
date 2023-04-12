@@ -13,6 +13,7 @@ export interface SysTopics {
 
 export interface Retainer {
   enable: boolean
+  max_payload_size: string
   msg_expiry_interval: string
   msg_clear_interval: string
   flow_control: {
@@ -20,8 +21,6 @@ export interface Retainer {
     batch_deliver_number: number
     batch_deliver_limiter: string
   }
-  max_payload_size: string
-  stop_publish_clear_msg: boolean
   backend: {
     type: string
     storage_type: string
