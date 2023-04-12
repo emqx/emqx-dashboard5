@@ -93,7 +93,7 @@ const SchemaForm = defineComponent({
     },
     formItemSpan: {
       type: Number,
-      default: 16,
+      default: 21,
     },
     // FIXME: remove this, use `dataHandler`
     /**
@@ -531,7 +531,7 @@ const SchemaForm = defineComponent({
       if (levelName) {
         return (
           <>
-            <el-col span={16}>
+            <el-col span={props.formItemSpan}>
               <el-divider />
             </el-col>
             {colItem}
@@ -549,7 +549,7 @@ const SchemaForm = defineComponent({
       if (props.type === 'bridge') {
         return { labelPosition: 'top', requireAsteriskPosition: 'right' }
       }
-      return { labelPosition: 'right', labelWidth: props.labelWidth }
+      return { class: 'configuration-form', labelPosition: 'right', labelWidth: props.labelWidth }
     }
 
     const renderLayout = (contents: JSX.Element[]) => {
@@ -581,7 +581,7 @@ const SchemaForm = defineComponent({
             model={configForm.value}
             validate-on-rule-change={false}
           >
-            <el-row>
+            <el-row gutter={24}>
               {contents}
               {props.needFooter ? (
                 <el-col span={24} class="btn-col" style={btnStyles}>

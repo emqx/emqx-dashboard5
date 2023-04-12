@@ -2,10 +2,10 @@
   <div class="retainer app-wrapper">
     <el-card>
       <el-skeleton v-if="configLoading" :rows="12" animated />
-      <template v-else>
+      <div class="schema-form" v-else>
         <el-form
           ref="retainerForm"
-          class="schema-form"
+          class="configuration-form"
           label-position="right"
           require-asterisk-position="left"
           hide-required-asterisk
@@ -26,7 +26,7 @@
         </el-form>
         <el-form
           ref="retainerForm"
-          class="schema-form"
+          class="configuration-form"
           label-position="right"
           require-asterisk-position="left"
           hide-required-asterisk
@@ -161,7 +161,7 @@
             </el-col>
           </el-row>
         </el-form>
-      </template>
+      </div>
     </el-card>
   </div>
 </template>

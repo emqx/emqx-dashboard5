@@ -1,71 +1,73 @@
 <template>
   <div class="settings app-wrapper">
     <el-card class="config-card">
-      <el-form
-        class="schema-form"
-        label-position="right"
-        require-asterisk-position="left"
-        :model="record"
-        :label-width="170"
-      >
-        <el-row class="settings-form">
-          <el-col :span="16">
-            <el-form-item prop="lang">
-              <template #label>
-                <FormItemLabel :label="tl('language')" :desc="tl('languageTip')" />
-              </template>
-              <el-select v-model="record.lang">
-                <el-option
-                  v-for="lang in langOption"
-                  :key="lang.value"
-                  :value="lang.value"
-                  :label="lang.label"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="16">
-            <el-form-item>
-              <template #label>
-                <FormItemLabel :label="tl('syncOsTheme')" :desc="tl('syncOsThemeTip')" />
-              </template>
-              <el-switch v-model="record.syncOsTheme" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16">
-            <el-form-item prop="theme">
-              <template #label>
-                <FormItemLabel :label="tl('theme')" :desc="tl('themeTip')" />
-              </template>
-              <el-select v-model="record.theme" :disabled="record.syncOsTheme">
-                <el-option
-                  v-for="theme in themeOption"
-                  :key="theme.value"
-                  :value="theme.value"
-                  :label="theme.label"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="16">
-            <el-form-item>
-              <template #label>
-                <FormItemLabel
-                  :label="$t('BasicConfig.enableTelemetry')"
-                  :desc="$t('BasicConfig.telemetryTip')"
-                  desc-marked
-                />
-              </template>
-              <el-switch v-model="record.enable" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-button type="primary" :loading="saveLoading" @click="handleSave">
-              {{ $t('Base.apply') }}
-            </el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+      <div class="schema-form">
+        <el-form
+          class="configuration-form"
+          label-position="right"
+          require-asterisk-position="left"
+          :model="record"
+          :label-width="170"
+        >
+          <el-row class="settings-form">
+            <el-col :span="16">
+              <el-form-item prop="lang">
+                <template #label>
+                  <FormItemLabel :label="tl('language')" :desc="tl('languageTip')" />
+                </template>
+                <el-select v-model="record.lang">
+                  <el-option
+                    v-for="lang in langOption"
+                    :key="lang.value"
+                    :value="lang.value"
+                    :label="lang.label"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="16">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel :label="tl('syncOsTheme')" :desc="tl('syncOsThemeTip')" />
+                </template>
+                <el-switch v-model="record.syncOsTheme" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="16">
+              <el-form-item prop="theme">
+                <template #label>
+                  <FormItemLabel :label="tl('theme')" :desc="tl('themeTip')" />
+                </template>
+                <el-select v-model="record.theme" :disabled="record.syncOsTheme">
+                  <el-option
+                    v-for="theme in themeOption"
+                    :key="theme.value"
+                    :value="theme.value"
+                    :label="theme.label"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="16">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="$t('BasicConfig.enableTelemetry')"
+                    :desc="$t('BasicConfig.telemetryTip')"
+                    desc-marked
+                  />
+                </template>
+                <el-switch v-model="record.enable" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-button type="primary" :loading="saveLoading" @click="handleSave">
+                {{ $t('Base.apply') }}
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
     </el-card>
   </div>
 </template>
