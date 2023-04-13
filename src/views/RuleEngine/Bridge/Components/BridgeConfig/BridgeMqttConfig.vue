@@ -311,7 +311,6 @@ defineExpose({ validate, clearValidate })
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/rule.scss';
 .direction {
   margin-bottom: 18px;
   .payload-desc {

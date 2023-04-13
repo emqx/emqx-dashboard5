@@ -254,7 +254,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/rule.scss';
 .payload-desc {
   margin-top: 4px;
   margin-bottom: 0;
