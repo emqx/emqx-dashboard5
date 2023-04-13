@@ -1,67 +1,89 @@
 <template>
-  <div class="settings app-wrapper">
-    <el-card class="config-card">
-      <div class="schema-form">
-        <el-form
-          class="configuration-form"
-          label-position="right"
-          require-asterisk-position="left"
-          :model="record"
-          :label-width="170"
-        >
-          <el-row class="settings-form">
-            <el-col :span="16">
-              <el-form-item prop="lang">
-                <template #label>
-                  <FormItemLabel :label="tl('language')" :desc="tl('languageTip')" />
-                </template>
-                <el-select v-model="record.lang">
-                  <el-option
-                    v-for="lang in langOption"
-                    :key="lang.value"
-                    :value="lang.value"
-                    :label="lang.label"
-                  />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
-              <el-form-item>
-                <template #label>
-                  <FormItemLabel :label="tl('syncOsTheme')" :desc="tl('syncOsThemeTip')" />
-                </template>
-                <el-switch v-model="record.syncOsTheme" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
-              <el-form-item prop="theme">
-                <template #label>
-                  <FormItemLabel :label="tl('theme')" :desc="tl('themeTip')" />
-                </template>
-                <el-select v-model="record.theme" :disabled="record.syncOsTheme">
-                  <el-option
-                    v-for="theme in themeOption"
-                    :key="theme.value"
-                    :value="theme.value"
-                    :label="theme.label"
-                  />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-button type="primary" :loading="saveLoading" @click="handleSave">
-                {{ $t('Base.apply') }}
-              </el-button>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
-  </div>
+  <el-drawer
+    :title="$t('components.settings')"
+    v-model="showDrawer"
+    :lock-scroll="false"
+    size="500px"
+    destroy-on-close
+    class="settings app-wrapper"
+  >
+    <el-form
+      class="configuration-form"
+      label-position="top"
+      require-asterisk-position="left"
+      :model="record"
+    >
+      <el-row class="settings-form">
+        <el-col :span="24">
+          <el-form-item prop="lang">
+            <template #label>
+              <FormItemLabel :label="tl('language')" :desc="tl('languageTip')" />
+            </template>
+            <el-select v-model="record.lang">
+              <el-option
+                v-for="lang in langOption"
+                :key="lang.value"
+                :value="lang.value"
+                :label="lang.label"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item>
+            <template #label>
+              <FormItemLabel :label="tl('syncOsTheme')" :desc="tl('syncOsThemeTip')" />
+            </template>
+            <el-switch v-model="record.syncOsTheme" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item prop="theme">
+            <template #label>
+              <FormItemLabel :label="tl('theme')" :desc="tl('themeTip')" />
+            </template>
+            <el-select v-model="record.theme" :disabled="record.syncOsTheme">
+              <el-option
+                v-for="theme in themeOption"
+                :key="theme.value"
+                :value="theme.value"
+                :label="theme.label"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item>
+            <template #label>
+              <FormItemLabel
+                :label="$t('BasicConfig.enableTelemetry')"
+                :desc="$t('BasicConfig.telemetryTip')"
+                desc-marked
+              />
+            </template>
+            <el-switch v-model="record.enable" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <template #footer>
+      <el-button type="primary" :loading="saveLoading" @click="handleSave">
+        {{ $t('Base.apply') }}
+      </el-button>
+    </template>
+  </el-drawer>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import {
+  WritableComputedRef,
+  computed,
+  defineComponent,
+  reactive,
+  ref,
+  defineProps,
+  defineEmits,
+} from 'vue'
 
 export default defineComponent({
   name: 'Settings',
@@ -90,7 +112,19 @@ const store = useStore()
 record.lang = store.state.lang
 record.theme = store.state.theme
 record.syncOsTheme = store.state.syncOsTheme
-
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+  },
+})
+const showDrawer: WritableComputedRef<boolean> = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  },
+})
 const { tl } = useI18nTl('Settings')
 const langOption = [
   {
@@ -112,6 +146,7 @@ const themeOption = [
     label: tl('dark'),
   },
 ]
+const emit = defineEmits(['update:modelValue'])
 const saveLoading = ref(false)
 const { t } = useI18n()
 const loadData = async () => {
@@ -152,16 +187,11 @@ const handleSave = async () => {
   .settings-form {
     [class*='el-col-'] {
       padding: 0;
+      margin: 24px 0 !important;
     }
-    .el-col-16 {
-      max-width: 51%;
-    }
-    .el-form-item {
-      margin: 12px 0;
-    }
-    .el-button {
-      margin: 24px 0 0 18px;
-    }
+  }
+  .el-form-item {
+    margin: 24px 0 !important;
   }
 }
 </style>
