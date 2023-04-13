@@ -9,7 +9,7 @@
           :label-width="state.lang === 'zh' ? 176 : 190"
         >
           <el-row>
-            <el-col :span="12">
+            <el-col :span="21">
               <el-form-item class="radio-form-item">
                 <template #label>
                   <FormItemLabel
@@ -31,7 +31,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item>
                 <template #label>
                   <FormItemLabel
@@ -48,7 +48,7 @@
           </el-row>
           <el-collapse-transition>
             <el-row v-show="prometheusFormData.enable">
-              <el-col :span="16" class="custom-col">
+              <el-col :span="21" class="custom-col">
                 <el-form-item>
                   <template #label>
                     <FormItemLabel :label="tl('interval')" :desc="tl('dataReportingInterval')" />
@@ -56,7 +56,7 @@
                   <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
                 </el-form-item>
               </el-col>
-              <el-col :span="16" class="custom-col">
+              <el-col :span="21" class="custom-col">
                 <el-form-item>
                   <template #label>
                     <span>{{ tl('pushgatewayServer') }}</span>
@@ -76,7 +76,7 @@
                   <el-input v-model="prometheusFormData.push_gateway_server" />
                 </el-form-item>
               </el-col>
-              <el-col :span="16" class="custom-col">
+              <el-col :span="21" class="custom-col">
                 <el-form-item>
                   <template #label>
                     <FormItemLabel :label="tl('jobName')" :desc="tl('jobNameDesc')" desc-marked />
@@ -84,7 +84,7 @@
                   <el-input v-model="prometheusFormData.job_name" />
                 </el-form-item>
               </el-col>
-              <el-col :span="16" class="custom-col">
+              <el-col :span="21" class="custom-col">
                 <el-form-item>
                   <template #label>
                     <FormItemLabel
