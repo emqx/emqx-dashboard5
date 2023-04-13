@@ -29,6 +29,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.DynamoDB, label: tl('dynamoDB') },
     { value: BridgeType.Cassandra, label: tl('cassandra') },
     { value: BridgeType.RocketMQ, label: tl('rocketMQ') },
+    { value: BridgeType.MicrosoftSQLServer, label: tl('microsoftSqlServer') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -75,6 +76,10 @@ export const useBridgeTypeOptions = (): {
     [BridgeType.DynamoDB, t('RuleEngine.egressDataBaseDesc', { name: tl('dynamoDB') })],
     [BridgeType.Cassandra, t('RuleEngine.egressDataBaseDesc', { name: tl('cassandra') })],
     [BridgeType.RocketMQ, t('RuleEngine.egressDataBaseDesc', { name: tl('rocketMQ') })],
+    [
+      BridgeType.MicrosoftSQLServer,
+      t('RuleEngine.egressDataBaseDesc', { name: tl('microsoftSqlServer') }),
+    ],
   ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({

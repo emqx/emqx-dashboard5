@@ -59,6 +59,7 @@ const typeRefKeyMap = {
   [BridgeType.DynamoDB]: `bridge_dynamo.post`,
   [BridgeType.Cassandra]: `bridge_cassa.post`,
   [BridgeType.RocketMQ]: `bridge_rocketmq.post`,
+  [BridgeType.MicrosoftSQLServer]: `bridge_sqlserver.post`,
 }
 
 const props = defineProps({

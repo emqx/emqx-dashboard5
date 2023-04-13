@@ -1027,6 +1027,10 @@ export default {
     zh: 'RocketMQ',
     en: 'RocketMQ',
   },
+  microsoftSqlServer: {
+    zh: 'Microsoft SQL Server',
+    en: 'Microsoft SQL Server',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Google PubSub',
