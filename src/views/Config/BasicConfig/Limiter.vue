@@ -22,18 +22,14 @@
             :block-tip="tl('rateConfigDesc')"
           />
           <!-- Client -->
-          <el-card
-            class="app-card with-border card-client-rate"
-            v-if="clientRateProperties"
-            shadow="never"
-          >
-            <p class="part-header">{{ tl('connectionTitle') }}</p>
+          <template v-if="clientRateProperties">
+            <el-divider />
             <LimiterConfigurationBlock
               v-model="configs"
               :properties="clientRateProperties"
               :block-tip="tl('clientRateConfigDesc')"
             />
-          </el-card>
+          </template>
           <el-row v-if="rateProperties || clientRateProperties">
             <el-col
               :span="24"
@@ -41,7 +37,7 @@
               :style="{ left: state.leftBarCollapse ? '104px' : '224px' }"
             >
               <el-button type="primary" :loading="saveLoading" @Click="handleSave">
-                {{ $t('Base.save') }}
+                {{ $t('Base.saveChanges') }}
               </el-button>
             </el-col>
           </el-row>
