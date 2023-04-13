@@ -76,7 +76,7 @@ const formItemLabel = computed(() => (isRule.value ? 'ID' : t('Base.name')))
 
 const checkName = () => {
   if (!inputValue.value) {
-    inputError.value = t('Rule.inputFieldRequiredError', { name: formItemLabel })
+    inputError.value = t('Rule.inputFieldRequiredError', { name: formItemLabel.value })
     return false
   }
   inputError.value = ''
