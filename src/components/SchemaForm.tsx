@@ -581,7 +581,7 @@ const SchemaForm = defineComponent({
             model={configForm.value}
             validate-on-rule-change={false}
           >
-            <el-row>
+            <el-row gutter={props.formItemSpan <= 12 ? 24 : 0}>
               {contents}
               {props.needFooter ? (
                 <el-col span={24} class="btn-col" style={btnStyles}>
