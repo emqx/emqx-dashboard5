@@ -4,7 +4,7 @@
       <p class="desc-config tip">{{ blockTip }}</p>
     </el-col>
     <template v-for="rateProp in properties" :key="rateProp">
-      <el-col v-if="rateProp.path" :span="16" class="col-custom-width">
+      <el-col v-if="rateProp.path" :span="21" class="col-custom-width">
         <el-form-item>
           <template #label>
             <FormItemLabel :label="rateProp.label" :desc="rateProp.description" desc-marked />
