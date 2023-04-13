@@ -157,20 +157,20 @@ export default {
   },
   /* Tab Name */
   vm: {
-    zh: '虚拟机',
+    zh: 'Erlang 虚拟机',
     en: 'Erlang VM',
   },
   os: {
     zh: '操作系统',
-    en: 'OS',
+    en: 'Operating System',
   },
   console_handler: {
-    zh: '控制台',
-    en: 'Console',
+    zh: '控制台日志',
+    en: 'Console Log',
   },
   file_handlers: {
-    zh: '文件',
-    en: 'File',
+    zh: '文件日志',
+    en: 'File Log',
   },
   bytes_in: {
     zh: '流入字节速率',

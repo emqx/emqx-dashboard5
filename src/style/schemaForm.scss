@@ -1,5 +1,5 @@
 .schema-form {
-  padding-bottom: 48px;
+  padding-bottom: 24px;
   &.is-loading {
     min-height: 400px;
     .el-skeleton {
@@ -11,7 +11,7 @@
     }
   }
   .el-tabs.group-tabs {
-    margin: 0px 20px 12px;
+    margin: 0px 12px 24px;
   }
   .el-form-item__label {
     color: var(--el-text-color-primary);

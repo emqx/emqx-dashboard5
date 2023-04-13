@@ -6,7 +6,7 @@
           class="configuration-form"
           label-position="right"
           require-asterisk-position="left"
-          :label-width="state.lang === 'zh' ? 176 : 190"
+          :label-width="store.state.lang === 'zh' ? 176 : 190"
         >
           <el-row>
             <el-col :span="21">
@@ -19,7 +19,7 @@
                 </template>
                 <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
                   <el-row :gutter="28">
-                    <el-col v-for="item in platformOpts" :key="item.label" :span="12">
+                    <el-col v-for="item in platformOpts" :key="item.label" :span="21">
                       <el-radio class="platform-radio" :label="item.label" border>
                         <img class="img-platform" height="52" :src="item.img" :alt="item.label" />
                         <span class="platform-name"> {{ item.label }} </span>
@@ -35,11 +35,8 @@
               <el-form-item>
                 <template #label>
                   <FormItemLabel
-                    :label="t('Base.isEnabled')"
-                    :desc="
-                      t('MonitoringIntegration.enableDataDesc', { name: 'Prometheus' }) +
-                      t('MonitoringIntegration.promToPushgateway')
-                    "
+                    :label="tl('enablePushgateway')"
+                    :desc="tl('enablePushgatewayDesc')"
                   />
                 </template>
                 <el-switch v-model="prometheusFormData.enable" />
@@ -98,18 +95,14 @@
               </el-col>
             </el-row>
           </el-collapse-transition>
-          <div class="ft">
+          <el-col class="btn-col" :span="24" :style="store.getters.configPageBtnStyle">
             <el-button type="primary" :loading="isSubmitting" @click="submit">
-              {{ $t('Base.update') }}
+              {{ $t('Base.saveChanges') }}
             </el-button>
-            <el-button
-              v-if="selectedPlatform === 'Prometheus'"
-              :loading="isSubmitting"
-              @click="showPromSetup = true"
-            >
+            <el-button v-if="selectedPlatform === 'Prometheus'" @click="showPromSetup = true">
               {{ $t('Base.help') }}
             </el-button>
-          </div>
+          </el-col>
         </el-form>
       </div>
     </el-card>
@@ -136,7 +129,7 @@ import HelpDrawer from './components/HelpDrawer.vue'
 const PROMETHEUS = 'Prometheus'
 
 const { tl, t } = useI18nTl('MonitoringIntegration')
-const { state } = useStore()
+const store = useStore()
 
 const platformOpts = [
   {
@@ -199,12 +192,8 @@ loadIntegration()
 
 <style lang="scss">
 .monitoring-integration {
-  .schema-form {
-    padding-bottom: 20px;
-  }
   .radio-form-item {
     width: 100%;
-    padding: 0 12px;
   }
   .platform-radio-group {
     margin-top: 8px;
