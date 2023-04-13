@@ -57,6 +57,7 @@ const typeRefKeyMap = {
   [BridgeType.TDengine]: `bridge_tdengine.post`,
   [BridgeType.ClickHouse]: `bridge_clickhouse.post`,
   [BridgeType.DynamoDB]: `bridge_dynamo.post`,
+  [BridgeType.Cassandra]: `bridge_cassa.post`,
 }
 
 const props = defineProps({
