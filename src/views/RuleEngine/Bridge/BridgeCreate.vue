@@ -395,6 +395,10 @@ export default defineComponent({
 })
 </script>
 
+<style lang="scss">
+@import '~@/style/rule.scss';
+</style>
+
 <style lang="scss" scoped>
 .el-col {
   margin-bottom: 16px;

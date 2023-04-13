@@ -410,6 +410,10 @@ defineExpose({
 })
 </script>
 
+<style lang="scss">
+@import '~@/style/rule.scss';
+</style>
+
 <style lang="scss" scoped>
 .section-header img {
   height: 64px;
