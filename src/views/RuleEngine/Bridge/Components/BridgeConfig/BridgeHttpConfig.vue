@@ -122,7 +122,7 @@
 </template>
 
 <script lang="ts">
-import { createRandomString } from '@/common/tools'
+import { createRandomString, fillEmptyValueToUndefinedField } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -134,7 +134,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { HTTPBridge, BridgeItem } from '@/types/rule'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash'
 import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
@@ -200,7 +200,11 @@ export default defineComponent({
 
     const initHttpBridgeVal = () => {
       if (props.edit || props.copy) {
-        httpBridgeVal.value = { ..._.cloneDeep(createHttpBridgeDefaultVal()), ...props.modelValue }
+        httpBridgeVal.value = fillEmptyValueToUndefinedField(
+          cloneDeep(props.modelValue),
+          createHttpBridgeDefaultVal(),
+        ) as HTTPBridge
+        context.emit('init', httpBridgeVal.value)
       }
     }
 
@@ -218,7 +222,7 @@ export default defineComponent({
     }
 
     watch(
-      () => _.cloneDeep(httpBridgeVal.value),
+      () => cloneDeep(httpBridgeVal.value),
       (val) => {
         updateModelValue(val)
       },
