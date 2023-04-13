@@ -110,6 +110,8 @@ export enum BridgeType {
   TDengine = 'tdengine',
   ClickHouse = 'clickhouse',
   DynamoDB = 'dynamo',
+  Cassandra = 'cassandra',
+  MicrosoftSQLServer = 'sqlserver',
 }
 
 export enum KafkaType {
