@@ -29,6 +29,19 @@
         </el-tooltip>
       </router-link>
 
+      <el-tooltip
+        effect="dark"
+        :content="$t('components.settings')"
+        placement="bottom"
+        :show-arrow="false"
+      >
+        <div class="alert-info func-item">
+          <a class="alarm-link" href="javascript:;" @click="handleShowSettings">
+            <el-icon class="settings"><Setting /></el-icon>
+          </a>
+        </div>
+      </el-tooltip>
+
       <el-dropdown placement="bottom" @command="handleDropdownCommand">
         <div class="user-info func-item">
           <span class="user-avatar">{{ user.username?.substr(0, 1).toUpperCase() }}</span>
@@ -37,9 +50,6 @@
 
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="settings">
-              {{ $t('components.settings') }}
-            </el-dropdown-item>
             <el-dropdown-item command="users">
               {{ $t('components.usersManagement') }}
             </el-dropdown-item>
@@ -50,6 +60,7 @@
         </template>
       </el-dropdown>
     </div>
+    <settings v-model="showSettings" />
   </div>
 </template>
 
@@ -57,22 +68,26 @@
 import { loadAlarm } from '@/api/common'
 import { toLogin } from '@/router'
 import { useStore } from 'vuex'
-import { Right, Bell } from '@element-plus/icons-vue'
+import { Right, Bell, Setting } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import { computed, defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import useDocLink from '@/hooks/useDocLink'
 import { IS_ENTERPRISE } from '@/common/constants'
+import Settings from '../Settings/Settings.vue'
 
 export default defineComponent({
   name: 'NavHeader',
   components: {
     Right,
     Bell,
+    Setting,
+    Settings,
   },
   setup() {
     const firstPath = ref('')
+    const showSettings = ref(false)
     const store = useStore()
     const { t } = useI18n()
     const route = useRoute()
@@ -145,6 +160,9 @@ export default defineComponent({
     watch(route, () => {
       setHeaderTitle()
     })
+    const handleShowSettings = () => {
+      showSettings.value = true
+    }
     loadData()
     setHeaderTitle()
     onMounted(() => {
@@ -155,6 +173,7 @@ export default defineComponent({
     })
     return {
       IS_ENTERPRISE,
+      showSettings,
       store,
       isNotFound,
       firstPath,
@@ -166,6 +185,7 @@ export default defineComponent({
       handleDropdownCommand,
       logout,
       visibilityChangeFunc,
+      handleShowSettings,
     }
   },
 })
@@ -243,7 +263,8 @@ export default defineComponent({
 .link-help {
   margin: 12px;
 }
-.el-icon.bell {
+.el-icon.bell,
+.el-icon.settings {
   color: var(--color-title-primary);
   font-size: 21px;
   width: 24px;

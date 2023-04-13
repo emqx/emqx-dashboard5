@@ -709,21 +709,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // Settings
-  {
-    path: '/settings',
-    component: Layout,
-    meta: {
-      hideKey: 'settings',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'settings',
-        component: () => import('@/views/Settings/Settings.vue'),
-      },
-    ],
-  },
+  // {
+  //   path: '/settings',
+  //   component: Layout,
+  //   meta: {
+  //     hideKey: 'settings',
+  //     authRequired: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'settings',
+  //       component: () => import('@/views/Settings/Settings.vue'),
+  //     },
+  //   ],
+  // },
   {
     path: '/help',
     component: Layout,
