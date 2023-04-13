@@ -209,7 +209,7 @@ const outputForm = ref(createRawOutputForm())
 const bridgeForm = ref<Record<string, any>>({})
 
 const { createRequiredRule } = useFormRules()
-const outputFormRules = {
+const outputFormRules: Record<string, any> = {
   type: createRequiredRule(t('RuleEngine.action', 1).toLowerCase(), 'select'),
   args: {
     topic: createRequiredRule('Topic'),

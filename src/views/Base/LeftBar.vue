@@ -144,9 +144,7 @@ export default defineComponent({
     const system = [
       { title: 'users', path: '/users' },
       { title: 'APIKey', path: '/APIKey' },
-      { title: 'settings', path: '/settings' },
       { title: 'help', path: '/help' },
-      // { title: 'dashboard-http', path: '/dashboard-http' },
     ]
 
     menus.value = [
