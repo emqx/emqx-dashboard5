@@ -51,6 +51,10 @@ export default {
     zh: '保存',
     en: 'Save',
   },
+  saveChanges: {
+    zh: '保存修改',
+    en: 'Save Changes',
+  },
   apply: {
     zh: '应用',
     en: 'Apply',

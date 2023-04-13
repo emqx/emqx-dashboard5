@@ -58,9 +58,7 @@
               v-if="!infoLoading"
               :bridge-id="id"
               :bridge-msg="bridgeInfo"
-              @refresh="loadBridgeInfo"
               @reconnect="loadBridgeInfo"
-              @reset="loadBridgeInfo"
             />
           </div>
         </el-tab-pane>

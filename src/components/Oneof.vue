@@ -88,7 +88,7 @@ const props = defineProps({
     type: [String, Number, Object] as PropType<string | number | Record<string, any> | undefined>,
   },
   items: {
-    type: Array as PropType<Properties[string][]>,
+    type: Array as PropType<Properties[string][] | Array<{ [key: string]: any }>>,
     required: true,
   },
   disabled: {
@@ -115,7 +115,7 @@ const oneOfInfo: ComputedRef<{ valueDisabled: any; propEnabled: any }> = compute
     if (item.type === 'enum' && item.symbols?.length === 1) {
       valueDisabled = item.symbols[0] as string
     } else {
-      propEnabled = item
+      propEnabled = item as Properties[string]
     }
   })
   return valueDisabled !== undefined && propEnabled !== undefined

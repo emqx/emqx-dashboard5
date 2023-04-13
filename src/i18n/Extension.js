@@ -43,21 +43,21 @@ export default {
     zh: '批量发布数量',
     en: 'Batch Deliver Number',
   },
-  expire: {
-    en: 'Expire',
-    zh: '有效期',
+  msgExpiryInterval: {
+    en: 'Message Expiry Interval',
+    zh: '消息过期间隔',
   },
-  intervalClean: {
-    en: 'Clean',
-    zh: '定时清理',
+  msgClearInterval: {
+    en: 'Message Clear Interval',
+    zh: '消息清理间隔',
   },
   storageMethod: {
     zh: '存储方式',
-    en: 'Method',
+    en: 'Storage Method',
   },
   storageType: {
     zh: '存储类型',
-    en: 'Type',
+    en: 'Storage Type',
   },
   maxRetainedMessages: {
     zh: '最大保留消息数',

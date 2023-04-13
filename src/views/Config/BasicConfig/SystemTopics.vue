@@ -2,98 +2,99 @@
   <div class="sys-topics app-wrapper">
     <el-card>
       <el-skeleton v-if="configLoading" :rows="12" animated />
-      <el-form
-        v-else
-        ref="retainerForm"
-        class="schema-form"
-        label-position="right"
-        require-asterisk-position="left"
-        :rules="rules"
-        :model="sysTopics"
-        :label-width="270"
-      >
-        <el-row>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="sys_msg_interval">
-              <template #label>
-                <FormItemLabel
-                  :label="tl('messagePublishInterval')"
-                  :desc="tl('sysMsgIntervalDesc')"
-                  desc-marked
+      <div class="schema-form" v-else>
+        <el-form
+          ref="retainerForm"
+          class="configuration-form schema-form"
+          label-position="right"
+          require-asterisk-position="left"
+          :rules="rules"
+          :model="sysTopics"
+          :label-width="store.state.lang === 'zh' ? 192 : 270"
+        >
+          <el-row>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="sys_msg_interval">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('messagePublishInterval')"
+                    :desc="tl('sysMsgIntervalDesc')"
+                    desc-marked
+                  />
+                </template>
+                <TimeInputWithUnitSelect
+                  v-model="sysTopics.sys_msg_interval"
+                  v-bind="timeInputProps"
                 />
-              </template>
-              <TimeInputWithUnitSelect
-                v-model="sysTopics.sys_msg_interval"
-                v-bind="timeInputProps"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="sys_heartbeat_interval">
-              <template #label>
-                <FormItemLabel
-                  :label="tl('heartbeatInterval')"
-                  :desc="tl('sysHeartbeatIntervalDesc')"
-                  desc-marked
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="sys_heartbeat_interval">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('heartbeatInterval')"
+                    :desc="tl('sysHeartbeatIntervalDesc')"
+                    desc-marked
+                  />
+                </template>
+                <TimeInputWithUnitSelect
+                  v-model="sysTopics.sys_heartbeat_interval"
+                  v-bind="timeInputProps"
                 />
-              </template>
-              <TimeInputWithUnitSelect
-                v-model="sysTopics.sys_heartbeat_interval"
-                v-bind="timeInputProps"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="sys_event_messages.client_connected">
-              <template #label>
-                <FormItemLabel
-                  :label="tl('clientConnected')"
-                  :desc="tl('sysEventClientConnectedDesc')"
-                />
-              </template>
-              <el-switch v-model="sysTopics.sys_event_messages.client_connected" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="sys_event_messages.client_disconnected">
-              <template #label>
-                <FormItemLabel
-                  :label="tl('clientDisconnected')"
-                  :desc="tl('sysEventClientDisconnectedDesc')"
-                />
-              </template>
-              <el-switch v-model="sysTopics.sys_event_messages.client_disconnected" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="sys_event_messages.client_subscribed">
-              <template #label>
-                <FormItemLabel
-                  :label="tl('clientSubscribed')"
-                  :desc="tl('sysEventClientSubscribedDesc')"
-                />
-              </template>
-              <el-switch v-model="sysTopics.sys_event_messages.client_subscribed" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="16" class="custom-col">
-            <el-form-item prop="sys_event_messages.client_unsubscribed">
-              <template #label>
-                <FormItemLabel
-                  :label="tl('clientUnsubscribed')"
-                  :desc="tl('sysEventClientUnsubscribedDesc')"
-                />
-              </template>
-              <el-switch v-model="sysTopics.sys_event_messages.client_unsubscribed" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
-            <el-button type="primary" @click="updateConfigData()">
-              {{ $t('Base.save') }}
-            </el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="sys_event_messages.client_connected">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('clientConnected')"
+                    :desc="tl('sysEventClientConnectedDesc')"
+                  />
+                </template>
+                <el-switch v-model="sysTopics.sys_event_messages.client_connected" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="sys_event_messages.client_disconnected">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('clientDisconnected')"
+                    :desc="tl('sysEventClientDisconnectedDesc')"
+                  />
+                </template>
+                <el-switch v-model="sysTopics.sys_event_messages.client_disconnected" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="sys_event_messages.client_subscribed">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('clientSubscribed')"
+                    :desc="tl('sysEventClientSubscribedDesc')"
+                  />
+                </template>
+                <el-switch v-model="sysTopics.sys_event_messages.client_subscribed" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="sys_event_messages.client_unsubscribed">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('clientUnsubscribed')"
+                    :desc="tl('sysEventClientUnsubscribedDesc')"
+                  />
+                </template>
+                <el-switch v-model="sysTopics.sys_event_messages.client_unsubscribed" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
+              <el-button type="primary" @click="updateConfigData()">
+                {{ $t('Base.saveChanges') }}
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
     </el-card>
   </div>
 </template>

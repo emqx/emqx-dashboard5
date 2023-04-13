@@ -123,7 +123,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['reset', 'reconnect', 'refresh'])
+const emit = defineEmits(['reconnect'])
 const bridgeMetrics: Ref<BridgeMetricsData> = ref({ metrics: {}, node_metrics: [] })
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
@@ -245,7 +245,6 @@ const getBridgeMetrics = async () => {
 
 const handleRefresh = () => {
   getBridgeMetrics()
-  emit('refresh')
 }
 
 const resetStatistics = async () => {
@@ -256,7 +255,6 @@ const resetStatistics = async () => {
   await resetBridgeMetrics(props.bridgeId)
   ElMessage.success(tl('resetSuccessfully'))
   getBridgeMetrics()
-  emit('reset')
 }
 
 const setNodeConnectingStatusMap = () => {

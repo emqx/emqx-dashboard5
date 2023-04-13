@@ -24,13 +24,11 @@
   .item-desc {
     margin: 0 0 6px 0;
     color: var(--color-text-secondary);
-
     &.markdown-content {
       .el-col-24 {
         padding: 0;
       }
     }
-
     p {
       margin: 0 0 6px 0;
     }
@@ -39,9 +37,8 @@
     margin-top: 6px;
     margin-bottom: 6px;
   }
-  [class*='el-col-'] {
-    padding: 0px 12px;
-    position: relative;
+  .el-form-item__label {
+    padding-right: 20px;
   }
   .app-card.properties-card {
     .el-col-24 {
@@ -52,10 +49,17 @@
       padding-right: 0px;
     }
   }
-  .el-col-16 {
+  .el-row {
+    .el-col:first-child {
+      .el-divider {
+        display: none;
+      }
+    }
+  }
+  .el-col-21 {
     max-width: 55%;
     .el-form-item {
-      padding: 8px 12px 12px;
+      padding: 12px;
     }
   }
   .btn-col {
@@ -97,25 +101,28 @@
   .textarea-with-uploader {
     width: 100%;
   }
-  $base-input-width: 240px;
-  // src/style/common.scss:309:16
-  $input-append-width: 120px;
-  $number-controller-width: 32px;
-  .el-input-number__increase,
-  .el-input-number__decrease {
-    width: $number-controller-width;
-  }
-  .el-form-item__content,
-  .oneof-item {
-    >.el-select,
-    >.el-textarea {
-      width: $base-input-width;
+  .configuration-form {
+    $base-input-width: 240px;
+    // src/style/common.scss:309:16
+    $input-append-width: 120px;
+    $number-controller-width: 32px;
+    .el-input-number__increase,
+    .el-input-number__decrease {
+      width: $number-controller-width;
     }
-    >.el-input-number {
-      width: $base-input-width + $number-controller-width;
-    }
-    >.input-with-unit {
-      width: $base-input-width + $input-append-width;
+    .el-form-item__content,
+    .oneof-item {
+      >.el-input,
+      >.el-select,
+      >.el-textarea {
+        width: $base-input-width;
+      }
+      >.el-input-number {
+        width: $base-input-width + $number-controller-width;
+      }
+      >.input-with-unit {
+        width: $base-input-width + $input-append-width;
+      }
     }
   }
 }

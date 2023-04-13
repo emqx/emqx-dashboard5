@@ -2,18 +2,19 @@
   <div class="retainer app-wrapper">
     <el-card>
       <el-skeleton v-if="configLoading" :rows="12" animated />
-      <template v-else>
+      <div class="schema-form" v-else>
         <el-form
           ref="retainerForm"
-          class="schema-form"
+          class="configuration-form schema-form"
           label-position="right"
           require-asterisk-position="left"
-          :label-width="240"
+          hide-required-asterisk
+          :label-width="store.state.lang === 'zh' ? 184 : 220"
           :rules="retainerRules"
           :model="retainerConfig"
         >
           <el-row align="middle">
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item>
                 <template #label>
                   <FormItemLabel :label="tl('enable')" :desc="tl('enableDesc')" />
@@ -25,10 +26,11 @@
         </el-form>
         <el-form
           ref="retainerForm"
-          class="schema-form"
+          class="configuration-form"
           label-position="right"
           require-asterisk-position="left"
-          :label-width="240"
+          hide-required-asterisk
+          :label-width="store.state.lang === 'zh' ? 184 : 220"
           :disabled="!configEnable"
           :rules="retainerRules"
           :model="retainerConfig"
@@ -36,7 +38,7 @@
           @keyup.enter="updateConfigData()"
         >
           <el-row>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item>
                 <template #label>
                   <FormItemLabel :label="tl('storageType')" :desc="tl('typeDesc')" />
@@ -46,7 +48,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item required prop="backend.storage_type">
                 <template #label>
                   <FormItemLabel :label="tl('storageMethod')" :desc="tl('storageTypeDesc')" />
@@ -59,7 +61,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="backend.max_retained_messages">
                 <template #label>
                   <FormItemLabel
@@ -74,7 +76,7 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="max_payload_size">
                 <template #label>
                   <FormItemLabel :label="tl('maxPayloadSize')" :desc="tl('maxPayloadSizeDesc')" />
@@ -82,10 +84,13 @@
                 <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="msg_expiry_interval">
                 <template #label>
-                  <FormItemLabel :label="tl('expire')" :desc="tl('msgExpiryIntervalDesc')" />
+                  <FormItemLabel
+                    :label="tl('msgExpiryInterval')"
+                    :desc="tl('msgExpiryIntervalDesc')"
+                  />
                 </template>
                 <Oneof
                   v-model="retainerConfig.msg_expiry_interval"
@@ -94,10 +99,13 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="msg_clear_interval">
                 <template #label>
-                  <FormItemLabel :label="tl('intervalClean')" :desc="tl('msgClearIntervalDesc')" />
+                  <FormItemLabel
+                    :label="tl('msgClearInterval')"
+                    :desc="tl('msgClearIntervalDesc')"
+                  />
                 </template>
                 <Oneof
                   v-model="retainerConfig.msg_clear_interval"
@@ -108,10 +116,10 @@
             </el-col>
           </el-row>
           <el-row>
-            <!-- <el-col :span="16">
+            <!-- <el-col :span="21">
               <div class="group-title">{{ tl('flowControl') }}</div>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item :label="tl('batchReadNumber')" prop="flow_control.batch_read_number">
                 <p class="item-desc">
                   {{ tl('batchReadNumberDesc') }}
@@ -130,7 +138,7 @@
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="16" class="custom-col">
+            <el-col :span="21" class="custom-col">
               <el-form-item
                 :label="tl('batchDeliverNumber')"
                 prop="flow_control.batch_deliver_number"
@@ -154,17 +162,17 @@
             </el-col> -->
             <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
               <el-button type="primary" @click="updateConfigData()">
-                {{ $t('Base.save') }}
+                {{ $t('Base.saveChanges') }}
               </el-button>
             </el-col>
           </el-row>
         </el-form>
-      </template>
+      </div>
     </el-card>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { getRetainer, updateRetainer } from '@/api/extension'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
@@ -175,6 +183,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import { Retainer } from '@/types/extension'
 
 const { tl, t } = useI18nTl('Extension')
 const store = useStore()
@@ -182,7 +191,8 @@ const { createRequiredRule } = useFormRules()
 
 const NO_INTERVAL_VALUE = '0s'
 
-let retainerConfig = reactive({
+let retainerConfig = reactive<Retainer>({
+  enable: false,
   max_payload_size: '1MB',
   msg_clear_interval: NO_INTERVAL_VALUE,
   msg_expiry_interval: NO_INTERVAL_VALUE,
@@ -196,16 +206,15 @@ let retainerConfig = reactive({
     batch_deliver_number: 0,
     batch_deliver_limiter: '',
   },
-  enable: false,
 })
 
-const selOptions = reactive({
+const selOptions = reactive<{ read: string; deliver: string }>({
   read: 'custom',
   deliver: 'custom',
 })
 
 let configLoading = ref(true)
-let retainerForm = ref(null)
+let retainerForm = ref<HTMLFormElement | null>(null)
 
 let validatorRules = [
   { required: true, message: tl('required'), trigger: 'blur' },
@@ -222,7 +231,7 @@ let validatorRules = [
 ]
 
 const numberRule = {
-  validator: (rule, value) => {
+  validator: (rule: unknown, value: string) => {
     const num = parseFloat(value)
     if (num < 0) {
       return new Error(t('Rule.minimumError', { min: 0 }))
@@ -231,14 +240,14 @@ const numberRule = {
   },
 }
 
-const retainerRules = ref({
+const retainerRules = ref<Record<string, any>>({
   backend: {
     max_retained_messages: validatorRules,
     storage_type: createRequiredRule('Storage', 'select'),
   },
   max_payload_size: [...createRequiredRule(tl('maxPayloadSize')), numberRule],
-  msg_expiry_interval: [...createRequiredRule(tl('expire')), numberRule],
-  msg_clear_interval: [...createRequiredRule(tl('intervalClean')), numberRule],
+  msg_expiry_interval: [...createRequiredRule(tl('msgExpiryInterval')), numberRule],
+  msg_clear_interval: [...createRequiredRule(tl('msgClearInterval')), numberRule],
   flow_control: {
     batch_read_number: validatorRules,
     batch_deliver_number: validatorRules,
@@ -281,7 +290,7 @@ const loadConfigData = async () => {
   }
 }
 
-const getSelectedOptions = (value) => (value === 0 ? 'unlimited' : 'custom')
+const getSelectedOptions = (value: number) => (value === 0 ? 'unlimited' : 'custom')
 
 const derivedOptionsFromConfig = () => {
   let config = retainerConfig
@@ -291,7 +300,9 @@ const derivedOptionsFromConfig = () => {
 }
 
 const toggleStatus = async () => {
-  let valid = await retainerForm.value.validate().catch(() => {})
+  let valid = await retainerForm.value?.validate().catch(() => {
+    // ignore error
+  })
   if (!valid) {
     retainerConfig.enable = !retainerConfig.enable
     return
@@ -300,7 +311,9 @@ const toggleStatus = async () => {
 }
 
 const updateConfigData = async function () {
-  let valid = await retainerForm.value.validate().catch(() => {})
+  let valid = await retainerForm.value?.validate().catch(() => {
+    // ignore error
+  })
   if (!valid) return
   try {
     configLoading.value = true

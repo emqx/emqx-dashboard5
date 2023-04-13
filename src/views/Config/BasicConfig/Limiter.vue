@@ -1,47 +1,52 @@
 <template>
   <div class="limiter app-wrapper">
     <el-card>
-      <el-form class="schema-form" label-position="right" :label-width="150">
-        <el-tabs class="group-tabs" type="card" v-model="currentLimiterType">
-          <el-tab-pane
-            v-for="group in LimiterTypes"
-            :key="group"
-            :label="tl(group)"
-            :name="group"
-          />
-        </el-tabs>
-        <LimiterConfigurationBlock
-          v-if="rateProperties"
-          v-model="configs"
-          :properties="rateProperties"
-          :block-tip="tl('rateConfigDesc')"
-        />
-
-        <!-- Client -->
-        <el-card
-          class="app-card with-border card-client-rate"
-          v-if="clientRateProperties"
-          shadow="never"
+      <div class="schema-form">
+        <el-form
+          class="configuration-form"
+          label-position="right"
+          :label-width="state.lang === 'zh' ? 144 : 160"
         >
-          <p class="part-header">{{ tl('connectionTitle') }}</p>
+          <el-tabs class="group-tabs" type="card" v-model="currentLimiterType">
+            <el-tab-pane
+              v-for="group in LimiterTypes"
+              :key="group"
+              :label="tl(group)"
+              :name="group"
+            />
+          </el-tabs>
           <LimiterConfigurationBlock
+            v-if="rateProperties"
             v-model="configs"
-            :properties="clientRateProperties"
-            :block-tip="tl('clientRateConfigDesc')"
+            :properties="rateProperties"
+            :block-tip="tl('rateConfigDesc')"
           />
-        </el-card>
-        <el-row v-if="rateProperties || clientRateProperties">
-          <el-col
-            :span="24"
-            class="btn-col"
-            :style="{ left: store.state.leftBarCollapse ? '104px' : '224px' }"
+          <!-- Client -->
+          <el-card
+            class="app-card with-border card-client-rate"
+            v-if="clientRateProperties"
+            shadow="never"
           >
-            <el-button type="primary" :loading="saveLoading" @Click="handleSave">
-              {{ $t('Base.save') }}
-            </el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+            <p class="part-header">{{ tl('connectionTitle') }}</p>
+            <LimiterConfigurationBlock
+              v-model="configs"
+              :properties="clientRateProperties"
+              :block-tip="tl('clientRateConfigDesc')"
+            />
+          </el-card>
+          <el-row v-if="rateProperties || clientRateProperties">
+            <el-col
+              :span="24"
+              class="btn-col"
+              :style="{ left: state.leftBarCollapse ? '104px' : '224px' }"
+            >
+              <el-button type="primary" :loading="saveLoading" @Click="handleSave">
+                {{ $t('Base.save') }}
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
     </el-card>
   </div>
 </template>
@@ -63,9 +68,9 @@ const saveLoading = ref(false)
 
 const { t } = useI18n()
 const { tl } = useI18nTl('BasicConfig')
-const store = useStore()
+const { state } = useStore()
 
-const { components } = useSchemaForm(`static/hot-config-schema-${store.state.lang}.json`, {
+const { components } = useSchemaForm(`static/hot-config-schema-${state.lang}.json`, {
   path: '/configs/limiter',
 })
 const currentLimiterType = ref<LimiterType>('bytes_in')
