@@ -145,7 +145,7 @@ export default {
   },
   rateConfigDesc: {
     zh: '对于当前节点下的所有资源消耗速率设置',
-    en: 'For all resource usage rate settings under the current node',
+    en: 'For all resource usage rate settings applicable to the current node in the cluster.',
   },
   connectionTitle: {
     zh: '连接',
@@ -153,7 +153,7 @@ export default {
   },
   clientRateConfigDesc: {
     zh: '对于当前节点下的单个连接的速率限制',
-    en: 'Rate limit for a single connection under the current node',
+    en: 'Rate limit for an individual connection under the current node.',
   },
   /* Tab Name */
   vm: {
