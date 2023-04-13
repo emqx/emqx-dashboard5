@@ -130,6 +130,12 @@ export default (
     [BridgeType.DynamoDB]: {
       ...createOrderObj(['url', 'database', 'username', 'password', 'pool_size', 'template'], 1),
     },
+    [BridgeType.Cassandra]: {
+      ...createOrderObj(
+        ['keyspace', 'servers', 'username', 'password', 'pool_size', 'ssl', 'cql'],
+        1,
+      ),
+    },
   }
 
   const propsOrderMap = computed(() => {
@@ -170,6 +176,9 @@ export default (
     [BridgeType.DynamoDB]: {
       pool_size: 'dividing-line-below',
       template: 'dividing-line-below',
+    },
+    [BridgeType.Cassandra]: {
+      cql: 'dividing-line-below',
     },
   }
 
