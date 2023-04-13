@@ -76,6 +76,7 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-mqtt-config
                 v-else-if="bridgeInfo.type === BridgeType.MQTT"
