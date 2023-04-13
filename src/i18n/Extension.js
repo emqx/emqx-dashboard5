@@ -71,11 +71,19 @@ export default {
     zh: '启用',
     en: 'Enable',
   },
+  enableDelayed: {
+    zh: '启用延迟发布',
+    en: 'Enable Delayed Publish',
+  },
+  enableRetained: {
+    zh: '启用保留消息',
+    en: 'Enable Retained Messages',
+  },
   enableDesc: {
     zh: '打开或关闭保留消息功能，停用后不会清除已保留消息',
     en: 'Enable retainer feature, disabling will not clear the saved retained messages',
   },
-  enableDescDelay: {
+  enableDelayedDesc: {
     zh: '启用延迟发布功能，停用将终止延迟列表',
     en: 'Enable the delayed publish and disable it to delete the delayed list',
   },
@@ -166,6 +174,10 @@ export default {
   maxDelayedMsg: {
     zh: '最大延迟消息数',
     en: 'Max Delayed Messages',
+  },
+  maxDelayedMsgDesc: {
+    zh: '最大延迟消息数，超过此数量将不再接收新的延迟消息',
+    en: 'Max delayed messages, no new delayed messages will be accepted when the number is exceeded',
   },
   builtInDatabase: {
     zh: '内置数据库',
