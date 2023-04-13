@@ -237,13 +237,5 @@ defineExpose({ getFormRecord, validate })
   .textarea-with-uploader {
     margin-bottom: 18px;
   }
-  .el-row {
-    margin-left: -12px;
-    margin-right: -12px;
-    .el-col {
-      padding-right: 12px;
-      padding-left: 12px;
-    }
-  }
 }
 </style>
