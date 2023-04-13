@@ -531,7 +531,7 @@ const SchemaForm = defineComponent({
       if (levelName) {
         return (
           <>
-            <el-col span={props.formItemSpan}>
+            <el-col span={23}>
               <el-divider />
             </el-col>
             {colItem}

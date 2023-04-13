@@ -7,6 +7,14 @@ export default {
     zh: '选择一个监控平台，配置完成后点击“帮助”按钮查看如何配置监控平台。',
     en: 'Select a monitoring platform, click the Help button after configuration to see how to configure the monitoring platform.',
   },
+  enablePushgateway: {
+    zh: '启用 Pushgateway',
+    en: 'Enable Pushgateway',
+  },
+  enablePushgatewayDesc: {
+    zh: '启用后，EMQ X 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
+    en: 'After enabling, EMQ X will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
+  },
   interval: {
     zh: '采集间隔',
     en: 'Interval',
@@ -36,14 +44,6 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
   dataReportingInterval: {
     zh: '监控数据指标上报到监控服务的时间间隔。',
     en: 'The time interval at which monitoring data metrics are reported to the monitoring service.',
-  },
-  enableDataDesc: {
-    zh: '开启或关闭 {name} 数据推送',
-    en: 'Enable or disable {name} data push',
-  },
-  promToPushgateway: {
-    zh: '到 Pushgateway， 需要使用该服务时可开启',
-    en: ' to Pushgateway, enable when using this service',
   },
   pushgatewayServer: {
     zh: 'Pushgateway 服务',
