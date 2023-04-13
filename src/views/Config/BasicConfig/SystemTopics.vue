@@ -88,7 +88,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
-              <el-button type="primary" @click="updateConfigData()">
+              <el-button type="primary" :loading="saveLoading" @click="updateConfigData()">
                 {{ $t('Base.saveChanges') }}
               </el-button>
             </el-col>
@@ -130,6 +130,7 @@ const sysTopics: Ref<SysTopics> = ref({
   sys_event_messages: {},
 } as SysTopics)
 const configLoading = ref(false)
+const saveLoading = ref(false)
 
 const { setRawData, checkDataIsChanged } = useCheckDataChanged(sysTopics)
 useDataNotSaveConfirm(checkDataIsChanged)
@@ -147,9 +148,15 @@ const getConfig = async () => {
 }
 
 const updateConfigData = async () => {
-  await updateSystemTopicConfig(sysTopics.value)
-  ElMessage.success(t('Base.updateSuccess'))
-  getConfig()
+  try {
+    saveLoading.value = true
+    await updateSystemTopicConfig(sysTopics.value)
+    ElMessage.success(t('Base.updateSuccess'))
+  } catch (error) {
+    // ignore error
+  } finally {
+    saveLoading.value = false
+  }
 }
 
 getConfig()

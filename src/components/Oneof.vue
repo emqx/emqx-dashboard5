@@ -4,7 +4,11 @@
 <template>
   <div class="one-of" v-if="oneOfInfo.valueDisabled !== undefined && oneOfInfo.propEnabled">
     <div class="switch-container">
-      <el-switch v-model="switchProxy" :inactive-value="(oneOfInfo.valueDisabled as string)" />
+      <el-switch
+        v-model="switchProxy"
+        :inactive-value="(oneOfInfo.valueDisabled as string)"
+        :disabled="disabled"
+      />
       <span class="tip" v-if="valueProxy === oneOfInfo.valueDisabled">
         {{ disabledLabel || valueProxy }}
       </span>
