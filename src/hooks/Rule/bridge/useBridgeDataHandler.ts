@@ -31,9 +31,9 @@ export default (): {
   }
 
   const keysNeedDel = {
-    update: ['node_status', 'status'],
-    saveAsCopy: ['node_status', 'status', 'enable', 'id'],
-    copy: ['node_status', 'status', 'enable', 'id', 'password'],
+    update: ['node_status', 'status', 'status_reason'],
+    saveAsCopy: ['node_status', 'status', 'enable', 'id', 'status_reason'],
+    copy: ['node_status', 'status', 'enable', 'id', 'password', 'status_reason'],
   }
 
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
