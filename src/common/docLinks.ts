@@ -97,8 +97,8 @@ export default (lang: string): DocMap => {
     moreAboutMqtt: `https://www.emqx.com/${lang}/blog/category/mqtt?${QUERY_FOR_HELP}`,
     contactUs: `https://www.emqx.com/${lang}/contact?${QUERY_FOR_HELP}`,
     feedback: lang === 'zh' ? 'https://askemq.com/c/emqx/5' : 'https://www.emqx.io/forum/c/emqx/5',
-    learnConfig: `https://www.emqx.io/docs/${lang}/v5.0/configuration/configuration.html?${QUERY_FOR_HELP}`,
-    restAPI: `https://www.emqx.io/docs/${lang}/v5.0/admin/api.html?${QUERY_FOR_HELP}`,
-    faq: `https://www.emqx.io/docs/${lang}/v5.0/faq/faq.html?${QUERY_FOR_HELP}`,
+    learnConfig: `https://www.emqx.io/docs/${lang}/enterprise/v5.0/configuration/configuration.html?${QUERY_FOR_HELP}`,
+    restAPI: `https://www.emqx.io/docs/${lang}/enterprise/v5.0/admin/api.html?${QUERY_FOR_HELP}`,
+    faq: `https://www.emqx.io/docs/${lang}/enterprise/v5.0/faq/faq.html?${QUERY_FOR_HELP}`,
   }
 }
