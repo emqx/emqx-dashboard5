@@ -446,7 +446,9 @@ export default defineComponent({
         .then(async () => {
           if (type.value !== 'all') {
             const key = getKeyByCurrentType()
-            await deleteBuiltInDatabaseData(type.value, row[key]).catch(() => {})
+            await deleteBuiltInDatabaseData(type.value, row[key]).catch(() => {
+              // ignore error
+            })
           } else {
             const rules = _.cloneDeep(allTableData.value)
             rules.splice(index, 1)
@@ -456,7 +458,9 @@ export default defineComponent({
           }
           resetPageAndLoadData()
         })
-        .catch(() => {})
+        .catch(() => {
+          // ignore error
+        })
     }
     const handleEdit = function (row: BuiltInDBItem | BuiltInDBRule, index: number) {
       dialogVisible.value = true
