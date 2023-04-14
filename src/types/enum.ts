@@ -112,6 +112,7 @@ export enum BridgeType {
   DynamoDB = 'dynamo',
   Cassandra = 'cassandra',
   MicrosoftSQLServer = 'sqlserver',
+  RocketMQ = 'rocketmq',
 }
 
 export enum KafkaType {
