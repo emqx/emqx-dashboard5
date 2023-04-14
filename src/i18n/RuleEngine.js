@@ -1023,6 +1023,10 @@ export default {
     zh: 'Cassandra',
     en: 'Cassandra',
   },
+  rocketMQ: {
+    zh: 'RocketMQ',
+    en: 'RocketMQ',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Google PubSub',

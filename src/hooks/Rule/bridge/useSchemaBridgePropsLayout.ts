@@ -136,6 +136,21 @@ export default (
         1,
       ),
     },
+    [BridgeType.RocketMQ]: {
+      ...createOrderObj(
+        [
+          'server',
+          'username',
+          'password',
+          'security_token',
+          'topic',
+          'refresh_interval',
+          'send_buffer',
+          'template',
+        ],
+        1,
+      ),
+    },
   }
 
   const propsOrderMap = computed(() => {
@@ -179,6 +194,10 @@ export default (
     },
     [BridgeType.Cassandra]: {
       cql: 'dividing-line-below',
+    },
+    [BridgeType.RocketMQ]: {
+      send_buffer: 'dividing-line-below',
+      template: 'dividing-line-below',
     },
   }
 

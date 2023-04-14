@@ -28,6 +28,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.ClickHouse, label: tl('clickHouse') },
     { value: BridgeType.DynamoDB, label: tl('dynamoDB') },
     { value: BridgeType.Cassandra, label: tl('cassandra') },
+    { value: BridgeType.RocketMQ, label: tl('rocketMQ') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -73,6 +74,7 @@ export const useBridgeTypeOptions = (): {
     [BridgeType.ClickHouse, t('RuleEngine.egressDataBaseDesc', { name: tl('clickHouse') })],
     [BridgeType.DynamoDB, t('RuleEngine.egressDataBaseDesc', { name: tl('dynamoDB') })],
     [BridgeType.Cassandra, t('RuleEngine.egressDataBaseDesc', { name: tl('cassandra') })],
+    [BridgeType.RocketMQ, t('RuleEngine.egressDataBaseDesc', { name: tl('rocketMQ') })],
   ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({
