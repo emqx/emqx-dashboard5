@@ -25,6 +25,12 @@ type DocKey =
   | 'ruleEngine'
   | 'resetPassword'
   | 'applyLicense'
+  | 'moreAboutMqtt'
+  | 'contactUs'
+  | 'feedback'
+  | 'learnConfig'
+  | 'restAPI'
+  | 'faq'
 
 export type DocMap = Record<DocKey, string>
 
@@ -71,15 +77,15 @@ export default (lang: string): DocMap => {
     blog: `https://www.emqx.com/${lang}/blog/category/emqx?${QUERY_FOR_HELP}`,
     dashboard: `https://docs.emqx.com/${lang}/enterprise/v5.0/dashboard/introduction.html?${QUERY_FOR_HELP}`,
     emqxGettingStarted: `https://docs.emqx.com/${lang}/enterprise/v5.0/getting-started/getting-started.html?${QUERY_FOR_HELP}`,
-    accessControl: `https://docs.emqx.com/${lang}/enterprise/v5.0/dashboard/authn.html?${QUERY_FOR_HELP}`,
+    accessControl: `https://docs.emqx.com/${lang}/enterprise/v5.0/dashboard/acloverview.html?${QUERY_FOR_HELP}`,
     dataBridge: `https://docs.emqx.com/${lang}/enterprise/v5.0/data-integration/data-bridges.html?${QUERY_FOR_HELP}`,
     ruleEngine: `https://docs.emqx.com/${lang}/enterprise/v5.0/data-integration/rules.html?${QUERY_FOR_HELP}`,
     mqttStudy: `https://www.emqx.com/${lang}/mqtt?${QUERY_FOR_HELP}`,
     mqttV5: `https://www.emqx.com/${lang}/mqtt/mqtt5?${QUERY_FOR_HELP}`,
     mqttClient:
-      lang === 'en'
-        ? `https://www.emqx.io/mqtt-client?${QUERY_FOR_HELP}`
-        : `https://www.emqx.io/zh/mqtt-client?${QUERY_FOR_HELP}`,
+      lang === 'zh'
+        ? `https://www.emqx.io/zh/mqtt-client?${QUERY_FOR_HELP}`
+        : `https://www.emqx.io/mqtt-client?${QUERY_FOR_HELP}`,
     githubHome: 'https://github.com/emqx',
     twitterHome: 'https://twitter.com/EMQTech',
     youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
@@ -88,5 +94,11 @@ export default (lang: string): DocMap => {
     cloudHome: `https://www.emqx.com/${lang}/cloud?${QUERY_FOR_HELP}`,
     resetPassword: `https://docs.emqx.com/${lang}/enterprise/v5.0/admin/cli.html#admins`,
     applyLicense: `https://www.emqx.com/${lang}/apply-licenses/emqx?${QUERY_FOR_LICENSE}`,
+    moreAboutMqtt: `https://www.emqx.com/${lang}/blog/category/mqtt?${QUERY_FOR_HELP}`,
+    contactUs: `https://www.emqx.com/${lang}/contact?${QUERY_FOR_HELP}`,
+    feedback: lang === 'zh' ? 'https://askemq.com/c/emqx/5' : 'https://www.emqx.io/forum/c/emqx/5',
+    learnConfig: `https://www.emqx.io/docs/${lang}/v5.0/configuration/configuration.html?${QUERY_FOR_HELP}`,
+    restAPI: `https://www.emqx.io/docs/${lang}/v5.0/admin/api.html?${QUERY_FOR_HELP}`,
+    faq: `https://www.emqx.io/docs/${lang}/v5.0/faq/faq.html?${QUERY_FOR_HELP}`,
   }
 }

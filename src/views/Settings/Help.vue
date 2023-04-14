@@ -1,39 +1,42 @@
 <template>
-  <div class="help app-wrapper">
-    <el-row :gutter="28">
+  <el-drawer
+    :title="$t('components.help')"
+    v-model="showDrawer"
+    size="600px"
+    destroy-on-close
+    custom-class="help"
+  >
+    <el-row class="website-links" :gutter="16">
       <el-col :span="6" v-for="{ link, icon, title } in platformList" :key="link">
-        <el-card class="card-link" shadow="never">
-          <a :href="link" target="_blank">
+        <a :href="link" target="_blank">
+          <el-card class="card-link" shadow="never">
             <img :src="icon" />
             <p class="text-title">{{ title }}</p>
-          </a>
-        </el-card>
+          </el-card>
+        </a>
       </el-col>
     </el-row>
-    <el-row :gutter="28" class="row-middle">
-      <el-col :span="12" class="flex-column">
-        <el-card shadow="never" class="card-doc">
-          <template v-for="({ link, title }, $index) in level1DocumentList" :key="link">
-            <div class="text-large">
-              <a :href="link" target="_blank" class="vertical-align-center space-between">
-                <span>{{ title }}</span>
-                <el-icon :size="20"><Right /></el-icon>
-              </a>
-            </div>
-            <el-divider v-if="$index !== level1DocumentList.length - 1" />
-          </template>
-        </el-card>
-        <DocListCard :doc-list="level2DocumentList" v-if="!IS_ENTERPRISE" />
+    <el-row class="docs-links">
+      <el-col :span="24" class="flex-column">
+        <template v-for="({ link, title }, $index) in emqxDocumentList" :key="link">
+          <div class="text-large">
+            <a :href="link" target="_blank" class="vertical-align-center space-between">
+              <span>{{ title }}</span>
+              <el-icon :size="20"><Right /></el-icon>
+            </a>
+          </div>
+          <el-divider v-if="$index !== emqxDocumentList.length - 1" />
+        </template>
       </el-col>
-      <el-col :span="12" class="flex-column">
+    </el-row>
+    <DocListCard :doc-list="mqttDocumentList" />
+    <el-row :gutter="16" class="products-links">
+      <el-col :span="24">
+        <p>{{ $t('Base.upgradePlan') }}</p>
+      </el-col>
+      <el-col v-for="item in productList" :key="item.title" :span="12" class="flex-column">
         <template v-if="!IS_ENTERPRISE">
-          <el-card
-            shadow="never"
-            class="card-product top-border enterprise"
-            :span="24"
-            v-for="item in productList"
-            :key="item.title"
-          >
+          <el-card shadow="never" class="card-product enterprise with-border">
             <img class="img-product" :src="item.icon" />
             <div class="card-product-bd">
               <p class="card-product-name text-title">{{ item.title }}</p>
@@ -45,25 +48,44 @@
             </div>
           </el-card>
         </template>
-        <DocListCard :doc-list="level2DocumentList" v-else />
       </el-col>
     </el-row>
-    <el-row :gutter="28">
-      <el-col :span="24">
-        <el-card class="card-follow" shadow="never">
-          <p class="label-follow text-title">Follow us</p>
-          <ul class="list-icon">
-            <li class="item-icon" v-for="{ link, icon } in followUsList" :key="link">
-              <a :href="link" target="_blank">
-                <i class="iconfont" :class="icon"></i>
-              </a>
-            </li>
-          </ul>
-        </el-card>
-      </el-col>
-    </el-row>
-  </div>
+    <el-card shadow="never" class="follow-cards">
+      <el-row class="follow-links" align="middle">
+        <el-col :span="12">
+          <p class="label-follow text-title">{{ $t('Base.followUs') }}</p>
+        </el-col>
+        <el-col :span="12" class="social-media">
+          <a
+            class="item-icon"
+            v-for="{ link, icon } in followUsList"
+            :key="link"
+            :href="link"
+            target="_blank"
+          >
+            <i class="iconfont" :class="icon"></i>
+          </a>
+        </el-col>
+      </el-row>
+    </el-card>
+    <template #footer>
+      <el-button @click="handleLinkGo('feedback')">
+        {{ $t('Base.feedback') }}
+      </el-button>
+      <el-button @click="handleLinkGo('contactUs')">
+        {{ $t('Base.contactUs') }}
+      </el-button>
+    </template>
+  </el-drawer>
 </template>
+
+<script lang="ts">
+import { WritableComputedRef, computed, defineComponent, defineProps, defineEmits } from 'vue'
+
+export default defineComponent({
+  name: 'Help',
+})
+</script>
 
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
@@ -71,6 +93,21 @@ import { Right } from '@element-plus/icons-vue'
 import useDocLink from '@/hooks/useDocLink'
 import { IS_ENTERPRISE } from '@/common/constants'
 import DocListCard from './components/DocListCard.vue'
+
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+  },
+})
+const emit = defineEmits(['update:modelValue'])
+const showDrawer: WritableComputedRef<boolean> = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  },
+})
 
 const { t, tl } = useI18nTl('Base')
 const { docMap } = useDocLink()
@@ -98,15 +135,18 @@ const platformList = [
   },
 ]
 
-const level1DocumentList = [
+const emqxDocumentList = [
   { link: docMap.emqxGettingStarted, title: t('Settings.gettingStarted') },
   { link: docMap.dashboard, title: t('Settings.dashboardIntro') },
   { link: docMap.accessControl, title: t('Settings.howAccessControl') },
   { link: docMap.ruleEngine, title: t('Settings.howRuleEngine') },
   { link: docMap.dataBridge, title: t('Settings.howDataBridge') },
+  { link: docMap.learnConfig, title: t('Settings.learnConfig') },
+  { link: docMap.restAPI, title: t('Settings.restAPI') },
+  { link: docMap.faq, title: t('Settings.faq') },
 ]
 
-const level2DocumentList = [
+const mqttDocumentList = [
   { link: docMap.mqttStudy, title: t('Settings.mqttStudy') },
   { link: docMap.mqttV5, title: t('Settings.mqttV5Intro') },
   { link: docMap.mqttClient, title: t('Settings.findMQTTClient') },
@@ -114,14 +154,14 @@ const level2DocumentList = [
 
 const productList = [
   {
-    title: `EMQX Enterprise`,
+    title: 'EMQX Enterprise',
     desc: tl('eeDesc'),
     linkText: t('Settings.tryEnterprise'),
     link: docMap.emqxEnterprise,
     icon: require('@/assets/img/emqx-logo.png'),
   },
   {
-    title: `EMQX Cloud`,
+    title: 'EMQX Cloud',
     desc: tl('cloudDesc'),
     linkText: t('Settings.tryCloud'),
     link: docMap.cloudHome,
@@ -135,164 +175,93 @@ const followUsList = [
   { link: docMap.youtubeHome, icon: 'icon-youtube' },
   { link: docMap.linkedInHome, icon: 'icon-linkedin' },
 ]
+
+const handleLinkGo = (key: 'feedback' | 'contactUs') => {
+  const linksMap = {
+    feedback: docMap.feedback,
+    contactUs: docMap.contactUs,
+  }
+  const url = linksMap[key]
+  window.open(url, '_blank', 'noopener noreferrer')
+}
 </script>
 
 <style lang="scss">
 .help {
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  p {
-    margin: 0;
-  }
-  a:not(.link-product) {
-    color: unset;
-    transition: none;
-    &:hover,
-    &:hover .iconfont {
-      color: var(--color-primary);
+  .website-links {
+    .card-link {
+      background-color: var(--color-bg-split);
+      .el-card__body {
+        text-align: center;
+        padding: 16px;
+        img {
+          width: 32px;
+          height: 32px;
+        }
+        p {
+          margin-bottom: 0;
+        }
+      }
+      &:hover {
+        box-shadow: var(--el-box-shadow-light);
+        .text-title {
+          color: var(--color-primary);
+        }
+      }
     }
   }
-  .text-title {
-    font-size: 16px;
-    font-weight: bold;
+  .docs-links {
+    margin-top: 32px;
+    margin-bottom: 32px;
+    padding: 0 12px;
   }
-  .el-row:not(:last-child),
-  .el-col-12 .el-card:not(:last-child) {
-    margin-bottom: 24px;
-  }
-
-  .flex-column {
-    display: flex;
-    flex-direction: column;
-  }
-  .card-second-doc {
-    flex-grow: 1;
-  }
-  .card-link {
-    .el-card__body {
-      display: flex;
-      justify-content: center;
+  .products-links {
+    .img-product {
+      height: 32px;
     }
-    a {
+    .card-product-desc.tip {
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 14px 0;
+    }
+    .link-product {
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    img {
-      height: 40px;
-      margin-right: 24px;
+      gap: 8px;
     }
   }
-  .card-doc {
-    &:not(:last-child) {
-      margin-bottom: 24px;
+  .follow-cards {
+    margin-top: 32px;
+    background-color: var(--color-bg-split);
+    .follow-links {
+      .label-follow {
+        margin: 0px;
+      }
+      .social-media {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 24px;
+      }
+      .item-icon {
+        display: block;
+        .iconfont {
+          color: var(--color-text-secondary);
+          &.icon-twitter {
+            position: relative;
+            top: 2px;
+          }
+          &:hover {
+            color: var(--color-primary);
+          }
+        }
+      }
     }
   }
-  .text-large {
-    position: relative;
-    display: flex;
-    padding-left: 10px + 2px;
-    line-height: 22px;
+  a {
     color: var(--color-text-primary);
-    @extend .text-title;
-    span {
-      margin-right: 8px;
-    }
-    a {
-      width: 100%;
-    }
-    .el-icon {
-      font-weight: bold;
-    }
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 2px;
-      height: 16px;
-      background: linear-gradient(135deg, #0ad18e 0%, #03a4a5 100%);
-    }
-  }
-  p.text-large {
-    margin-bottom: 16px;
-  }
-  .el-divider--horizontal {
-    margin: 20px;
-  }
-  .item-link {
-    display: flex;
-    line-height: 32px;
-    color: var(--color-text-secondary);
-
-    span {
-      margin-right: 8px;
-    }
-  }
-  .card-product {
-    flex-grow: 1;
-    .el-card__body {
-      display: flex;
-      align-items: center;
-      padding: 28px;
-    }
-    &.enterprise {
-      &:before {
-        background: linear-gradient(317deg, #866dff 0%, #4d6bff 100%);
-      }
-    }
-    &.cloud {
-      &:before {
-        background: linear-gradient(135deg, #00b173 0%, #23c0aa 100%);
-      }
-    }
-  }
-  .img-product {
-    height: 64px;
-    margin-right: 20px;
-  }
-  .card-product-name {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.6;
-    margin-bottom: 8px;
-  }
-  .card-product-desc {
-    line-height: 1.8;
-    margin-bottom: 12px;
-  }
-  .link-product {
-    display: flex;
-    align-items: center;
-    span {
-      margin-right: 8px;
-    }
-  }
-  .card-follow {
-    .el-card__body {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-    }
-    .label-follow {
-      margin-right: 92px;
-    }
-  }
-  .list-icon {
-    display: flex;
-  }
-  .item-icon {
-    margin-right: 48px;
-    font-size: 20px;
-    .iconfont {
-      color: var(--color-text-secondary);
+    &:hover {
+      color: var(--color-primary);
     }
   }
 }

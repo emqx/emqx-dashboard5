@@ -500,12 +500,12 @@ export default {
     en: 'Upgrade',
   },
   eeDesc: {
-    zh: '企业级 MQTT 物联网接入平台，为高可靠、高性能的物联网实时数据移动、处理和集成提供动力，支持企业级数据集成，包括 Kafka、AWS RDS、MongoDB、Oracle、SAP 以及时序数据库等。帮助您提升研发效能，减轻运维负担，提供企业级保障。',
-    en: 'Enterprise MQTT Platform at Scale. Connect any device, at any scale, anywhere. Move and process your IoT data reliably in real-time. Integrate IoT data seamlessly with over 40 cloud services and enterprise systems, including Kafka, AWS RDS, MongoDB, Oracle, SAP, and time series databases.',
+    zh: '可扩展的 MQTT 平台。连接设备，实时处理 IoT 数据，并与 40+ 云服务和企业系统集成',
+    en: 'Scalable MQTT Platform. Connect devices, process IoT data in real-time, and integrate with 40+ cloud services and enterprise systems.',
   },
   cloudDesc: {
-    zh: '全托管的 MQTT 消息云服务，支持一键部署，数据集成 40+ 云资源，提供对 7 大平台的支持，涵盖 30+ 区域，并提供 24/7 技术支持。该服务可帮助您降低运营维护成本，提升数据安全可靠性和合规性。',
-    en: 'Fully Managed MQTT Service for IoT, with one-click deployment, data integration with 40+ cloud resources, support for 7 major platforms across 30+ regions, and 24/7 technical support. This service helps reduce operational and maintenance costs and improve data security, reliability, and compliance.',
+    zh: '全托管的 MQTT 服务，简化部署、数据集成和全球支持，提升安全性、可靠性和成本效益',
+    en: 'Fully Managed MQTT service with simple deployment, data integration, and global support, boosting security, reliability, and cost-efficiency.',
   },
   inputWithUploaderTip: {
     zh: '可输入文件内容或点击右侧按钮选择文件',
@@ -538,5 +538,25 @@ export default {
   lessMore: {
     zh: '收起',
     en: 'Less',
+  },
+  followUs: {
+    zh: '关注我们',
+    en: 'Follow Us',
+  },
+  contactUs: {
+    zh: '联系我们',
+    en: 'Contact Us',
+  },
+  feedback: {
+    zh: '反馈',
+    en: 'Feedback',
+  },
+  moreAboutMQTT: {
+    zh: '更多关于 MQTT',
+    en: 'More About MQTT',
+  },
+  upgradePlan: {
+    zh: '选择适合您需求的升级方案',
+    en: 'Choose the Upgrade Plan That Fits Your Needs',
   },
 }
