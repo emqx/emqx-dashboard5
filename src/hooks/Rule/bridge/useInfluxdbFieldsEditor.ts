@@ -27,8 +27,15 @@ const typeRegexMap: Record<FieldValueType, RegExp> = {
   [FieldValueType.Placeholder]: PLACEHOLDER_REGEX,
 }
 
-export default () => {
-  const { t, tl } = useI18nTl('RuleEngine')
+export default (): {
+  judgeFieldValueType: (str: string) => FieldValueType | undefined
+  judgeValueInInput: (str: string) => string | FieldValueType
+  explicitlySpecifyTypeInValue: (
+    value: string,
+  ) => boolean | FieldValueType.Integer | FieldValueType.UInteger
+  getTypeLabel: (type: FieldValueType.Integer | FieldValueType.UInteger) => string
+} => {
+  const { tl } = useI18nTl('RuleEngine')
 
   const typeRegexMapKeys: Array<FieldValueType> = Object.keys(typeRegexMap).map((key) =>
     Number(key),
