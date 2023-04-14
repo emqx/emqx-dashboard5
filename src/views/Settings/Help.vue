@@ -30,24 +30,22 @@
       </el-col>
     </el-row>
     <DocListCard :doc-list="mqttDocumentList" />
-    <el-row :gutter="16" class="products-links">
+    <el-row v-if="!IS_ENTERPRISE" :gutter="16" class="products-links">
       <el-col :span="24">
         <p>{{ $t('Base.upgradePlan') }}</p>
       </el-col>
       <el-col v-for="item in productList" :key="item.title" :span="12" class="flex-column">
-        <template v-if="!IS_ENTERPRISE">
-          <el-card shadow="never" class="card-product enterprise with-border">
-            <img class="img-product" :src="item.icon" />
-            <div class="card-product-bd">
-              <p class="card-product-name text-title">{{ item.title }}</p>
-              <p class="card-product-desc tip">{{ item.desc }}</p>
-              <a :href="item.link" target="_blank" class="link-product">
-                <span>{{ item.linkText }}</span>
-                <el-icon><Right /></el-icon>
-              </a>
-            </div>
-          </el-card>
-        </template>
+        <el-card shadow="never" class="card-product enterprise with-border">
+          <img class="img-product" :src="item.icon" />
+          <div class="card-product-bd">
+            <p class="card-product-name text-title">{{ item.title }}</p>
+            <p class="card-product-desc tip">{{ item.desc }}</p>
+            <a :href="item.link" target="_blank" class="link-product">
+              <span>{{ item.linkText }}</span>
+              <el-icon><Right /></el-icon>
+            </a>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
     <el-card shadow="never" class="follow-cards">
