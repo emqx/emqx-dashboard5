@@ -189,11 +189,23 @@ export default (
     return { components, rules }
   }
 
+  const rocketMQHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { template } = components
+
+    if (template?.type === 'string') {
+      template.format = 'sql'
+    }
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Redis]: redisComponentsHandler,
     [BridgeType.GCP]: GCPComponentsHandler,
     [BridgeType.MongoDB]: mongoComponentsHandler,
     [BridgeType.DynamoDB]: dynamoDBHandler,
+    [BridgeType.RocketMQ]: rocketMQHandler,
   }
 
   const getComponentsHandler = () => {
