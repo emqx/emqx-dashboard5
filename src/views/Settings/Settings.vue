@@ -2,10 +2,9 @@
   <el-drawer
     :title="$t('components.settings')"
     v-model="showDrawer"
-    :lock-scroll="false"
     size="500px"
     destroy-on-close
-    class="settings app-wrapper"
+    custom-class="settings"
   >
     <el-form
       class="configuration-form"
@@ -117,6 +116,7 @@ const props = defineProps({
     type: Boolean,
   },
 })
+const emit = defineEmits(['update:modelValue'])
 const showDrawer: WritableComputedRef<boolean> = computed({
   get() {
     return props.modelValue
@@ -146,7 +146,6 @@ const themeOption = [
     label: tl('dark'),
   },
 ]
-const emit = defineEmits(['update:modelValue'])
 const saveLoading = ref(false)
 const { t } = useI18n()
 const loadData = async () => {
@@ -184,14 +183,8 @@ const handleSave = async () => {
 
 <style lang="scss">
 .settings {
-  .settings-form {
-    [class*='el-col-'] {
-      padding: 0;
-      margin: 24px 0 !important;
-    }
-  }
   .el-form-item {
-    margin: 24px 0 !important;
+    margin-bottom: 24px;
   }
 }
 </style>

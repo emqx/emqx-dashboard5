@@ -822,6 +822,9 @@
 /* Drawer */
 .el-drawer__header {
   color: var(--color-title-primary);
+  .el-drawer__title {
+    font-size: 18px;
+  }
 }
 
 /* Skeleton */ 

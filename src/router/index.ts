@@ -708,36 +708,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Settings
-  // {
-  //   path: '/settings',
-  //   component: Layout,
-  //   meta: {
-  //     hideKey: 'settings',
-  //     authRequired: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'settings',
-  //       component: () => import('@/views/Settings/Settings.vue'),
-  //     },
-  //   ],
-  // },
-  {
-    path: '/help',
-    component: Layout,
-    meta: {
-      hideKey: 'help',
-    },
-    children: [
-      {
-        path: '',
-        name: 'help',
-        component: () => import('@/views/Settings/Help.vue'),
-      },
-    ],
-  },
   {
     path: '/:pathMatch(.*)*',
     component: Layout,
@@ -750,22 +720,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // http
-  // {
-  //   path: '/dashboard-http',
-  //   component: Layout,
-  //   meta: {
-  //     hideKey: 'dashboard-http',
-  //     authRequired: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'dashboard-http',
-  //       component: Dashboard,
-  //     },
-  //   ],
-  // },
 ]
 
 const router = createRouter({

@@ -9,25 +9,25 @@
       </el-button>
 
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
-        <div class="alert-info func-item">
+        <div class="func-item">
           <el-badge :is-dot="!!alertCount">
-            <router-link class="alarm-link" to="/alarm">
+            <router-link class="link-alarm" to="/alarm">
               <el-icon class="bell"><bell /></el-icon>
             </router-link>
           </el-badge>
         </div>
       </el-tooltip>
 
-      <router-link :to="{ name: 'help' }" class="link-help">
-        <el-tooltip
-          effect="dark"
-          :content="$t('components.help')"
-          placement="bottom"
-          :show-arrow="false"
-        >
+      <el-tooltip
+        effect="dark"
+        :content="$t('components.help')"
+        placement="bottom"
+        :show-arrow="false"
+      >
+        <a href="javascript:;" @click="handleShowHelp" class="link-help">
           <i class="iconfont icon-question"></i>
-        </el-tooltip>
-      </router-link>
+        </a>
+      </el-tooltip>
 
       <el-tooltip
         effect="dark"
@@ -35,15 +35,15 @@
         placement="bottom"
         :show-arrow="false"
       >
-        <div class="alert-info func-item">
-          <a class="alarm-link" href="javascript:;" @click="handleShowSettings">
+        <div class="func-item">
+          <a class="settings-alarm" href="javascript:;" @click="handleShowSettings">
             <el-icon class="settings"><Setting /></el-icon>
           </a>
         </div>
       </el-tooltip>
 
       <el-dropdown placement="bottom" @command="handleDropdownCommand">
-        <div class="user-info func-item">
+        <div class="func-item">
           <span class="user-avatar">{{ user.username?.substr(0, 1).toUpperCase() }}</span>
           <span>{{ user.username }}</span>
         </div>
@@ -61,6 +61,7 @@
       </el-dropdown>
     </div>
     <settings v-model="showSettings" />
+    <help v-model="showHelp" />
   </div>
 </template>
 
@@ -76,6 +77,7 @@ import { useRoute, useRouter } from 'vue-router'
 import useDocLink from '@/hooks/useDocLink'
 import { IS_ENTERPRISE } from '@/common/constants'
 import Settings from '../Settings/Settings.vue'
+import Help from '../Settings/Help.vue'
 
 export default defineComponent({
   name: 'NavHeader',
@@ -84,10 +86,12 @@ export default defineComponent({
     Bell,
     Setting,
     Settings,
+    Help,
   },
   setup() {
     const firstPath = ref('')
     const showSettings = ref(false)
+    const showHelp = ref(false)
     const store = useStore()
     const { t } = useI18n()
     const route = useRoute()
@@ -163,6 +167,9 @@ export default defineComponent({
     const handleShowSettings = () => {
       showSettings.value = true
     }
+    const handleShowHelp = () => {
+      showHelp.value = true
+    }
     loadData()
     setHeaderTitle()
     onMounted(() => {
@@ -174,6 +181,7 @@ export default defineComponent({
     return {
       IS_ENTERPRISE,
       showSettings,
+      showHelp,
       store,
       isNotFound,
       firstPath,
@@ -186,6 +194,7 @@ export default defineComponent({
       logout,
       visibilityChangeFunc,
       handleShowSettings,
+      handleShowHelp,
     }
   },
 })
@@ -255,7 +264,8 @@ export default defineComponent({
     color: var(--color-primary);
   }
 }
-.alarm-link {
+.link-alarm,
+.settings-alarm {
   width: 24px;
   height: 24px;
   display: inline-block;

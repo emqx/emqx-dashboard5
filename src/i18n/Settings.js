@@ -53,7 +53,7 @@ export default {
   },
   howAccessControl: {
     zh: '如何进行访问控制',
-    en: 'How to perform Access Control',
+    en: 'How to implement Access Control',
   },
   howDataBridge: {
     zh: '如何使用数据桥接',
@@ -63,9 +63,17 @@ export default {
     zh: '如何使用规则引擎',
     en: 'How to use Rule Engine',
   },
-  relatedResources: {
-    zh: '相关资源',
-    en: 'Related Resources',
+  learnConfig: {
+    zh: 'EMQX 配置文件指南',
+    en: 'EMQX Configuration Files Guide',
+  },
+  restAPI: {
+    zh: '使用 EMQX REST API',
+    en: 'Working with EMQX REST API',
+  },
+  faq: {
+    zh: '常见问题解答',
+    en: 'FAQ',
   },
   tryEnterprise: {
     zh: '免费下载 EMQX 企业版',
@@ -74,5 +82,9 @@ export default {
   tryCloud: {
     zh: '免费试用 EMQX Cloud',
     en: 'Try EMQX Cloud for free',
+  },
+  exploreMqtt: {
+    zh: '探索 MQTT',
+    en: 'Explore MQTT',
   },
 }
