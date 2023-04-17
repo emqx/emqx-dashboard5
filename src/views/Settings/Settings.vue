@@ -51,7 +51,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="24">
+        <el-col v-if="!IS_ENTERPRISE" :span="24">
           <el-form-item>
             <template #label>
               <FormItemLabel
@@ -97,6 +97,7 @@ import { getTeleStatus, updateTeleStatus } from '@/api/config'
 import { useI18n } from 'vue-i18n'
 import { TeleStatus } from '@/types/config'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import { IS_ENTERPRISE } from '@/common/constants'
 
 const record = reactive({
   lang: 'en',
