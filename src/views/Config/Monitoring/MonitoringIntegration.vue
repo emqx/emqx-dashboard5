@@ -9,7 +9,7 @@
           :label-width="store.state.lang === 'zh' ? 176 : 190"
         >
           <el-row>
-            <el-col :span="21">
+            <el-col :span="9">
               <el-form-item class="radio-form-item">
                 <template #label>
                   <FormItemLabel
@@ -223,6 +223,9 @@ loadIntegration()
       text-overflow: ellipsis;
       padding-left: 8px;
     }
+  }
+  .key-and-value-editor {
+    width: 55%;
   }
   .ft {
     padding: 12px 12px + 12px + 4px;

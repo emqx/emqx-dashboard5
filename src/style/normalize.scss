@@ -71,7 +71,7 @@
     background-color: var(--color-bg-menu);
     $menu-item-height: 50px;
     border-right: none;
-    color: #A7ABB1;
+    color: #ffffffd9;
     .menu-item-title {
       $line-height: 20px;
       padding-left: 10px;
@@ -87,7 +87,7 @@
       margin: 0px 12px;
       border-radius: 8px;
       border-left: 4px solid transparent;
-      color: #A7ABB1;
+      color: #ffffffd9;
       &:hover {
         background-color: #1F303C;
         border-radius: 8px;
@@ -109,7 +109,7 @@
       }
     }
     .el-menu-item {
-      color: #A7ABB1;
+      color: #ffffffd9;
       border-radius: 8px;
       padding: 0px 0px 0px 8px !important;
       min-width: initial;
@@ -128,17 +128,17 @@
       border-left: 4px solid transparent;
       margin: 0 12px;
     }
-    .el-menu-item-group__title {
-      font-size: 14px;
-      cursor: default;
-      color: rgba(255, 255, 255, 0.35);
-    }
+  }
+  .el-menu-item-group__title {
+    font-size: 14px;
+    cursor: default;
+    color: #ffffff59;
   }
   &.el-menu--popup {
     min-width: initial;
     background-color: var(--color-bg-menu);
     .el-menu-item {
-      color: #A7ABB1;
+      color: #ffffffd9;
       &.is-active {
         color: #fff;
         background-color: #1F303C;
