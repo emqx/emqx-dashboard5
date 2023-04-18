@@ -35,7 +35,7 @@ export default (
     desc: string
   }
 } => {
-  const { t } = useI18n()
+  const { t, te } = useI18n()
 
   const getTextZone = () =>
     Object.keys(TYPE_ZONE_MAP).find((key) => TYPE_ZONE_MAP[key].includes(props.type)) ||
@@ -84,10 +84,12 @@ export default (
       return { label: props.customLabelMap[path], desc }
     }
     const key = getTextKey(prop)
+    const labelKey = `Schema.${key}.label`
+    const descKey = `Schema.${key}.desc`
     if (key) {
       return {
-        label: t(`Schema.${key}.label`),
-        desc: t(`Schema.${key}.desc`),
+        label: te(labelKey) ? t(labelKey) : '',
+        desc: te(descKey) ? t(descKey) : '',
       }
     }
     return { label: '', desc: '' }
