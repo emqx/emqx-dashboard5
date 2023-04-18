@@ -3,7 +3,7 @@ import { Component, Properties, Schema } from '@/types/schemaForm'
 import axios from 'axios'
 import _ from 'lodash'
 import { ref, Ref } from 'vue'
-import useSchemaFormRules, { SchemaRules } from '../useSchemaFormRules'
+import useSchemaFormRules, { SchemaRules } from './useSchemaFormRules'
 
 const CONNECTOR_KEY = 'connector'
 

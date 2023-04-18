@@ -5,6 +5,9 @@ import { createI18n } from 'vue-i18n'
 import zhLocale from 'element-plus/es/locale/lang/zh-cn'
 import enLocale from 'element-plus/es/locale/lang/en'
 
+import schemaTextZh from '@/schemaText/schema-text-zh.json'
+import schemaTextEn from '@/schemaText/schema-text-en.json'
+
 import { get } from 'lodash'
 
 const lang: { [key: string]: any } = {
@@ -27,6 +30,9 @@ Array.prototype.forEach.call(translations.keys(), (path) => {
     lang.zh[partKey][k] = zh
   })
 })
+
+lang.en.Schema = schemaTextEn
+lang.zh.Schema = schemaTextZh
 
 const i18nInstance = createI18n({
   messages: lang,

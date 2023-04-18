@@ -2,7 +2,7 @@ import { PropType } from '@/types/enum'
 import { Component } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
 import { ref, Ref } from 'vue'
-import useFormRules from './useFormRules'
+import useFormRules from '../useFormRules'
 import { set, get } from 'lodash'
 
 export type SchemaRules = {
