@@ -1,5 +1,5 @@
 <template>
-  <div class="bridge-influxdb-config">
+  <div class="bridge-influxdb-config bridge-config">
     <el-form
       ref="formCom"
       label-position="top"
