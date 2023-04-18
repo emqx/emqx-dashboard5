@@ -6,9 +6,9 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
+import useItemLabelAndDesc from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
-import useItemLabelAndDesc from '@/hooks/Schema/useItemLabelAndDesc'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
@@ -445,10 +445,9 @@ const SchemaForm = defineComponent({
       return switchComponent(setTypeForProperty(property))
     }
 
-    const { getLabel } = useItemLabelAndDesc(props)
+    const { getText } = useItemLabelAndDesc(props)
     const getLabelSlot = (property: Property) => {
-      const { description } = property
-      const label = getLabel(property)
+      const { label, desc } = getText(property)
       // if field is SQL-like field, tooltip can be wider for show SQL template.
       const popperClass = property.format === 'sql' ? 'is-wider' : ''
       // FIXME: remove popperClass hack
@@ -456,12 +455,12 @@ const SchemaForm = defineComponent({
         label: () => (
           <label>
             <span>{label}</span>
-            {description ? <InfoTooltip {...{ popperClass }} v-slots={tooltipSlots} /> : null}
+            {desc ? <InfoTooltip {...{ popperClass }} v-slots={tooltipSlots} /> : null}
           </label>
         ),
       }
       const tooltipSlots = {
-        content: () => <MarkdownContent content={description} gutter={0} />,
+        content: () => <MarkdownContent content={desc} gutter={0} />,
       }
       return labelSlot
     }
