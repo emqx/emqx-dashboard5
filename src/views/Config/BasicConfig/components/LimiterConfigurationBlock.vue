@@ -7,7 +7,11 @@
       <el-col v-if="rateProp.path" :span="21" class="col-custom-width">
         <el-form-item>
           <template #label>
-            <FormItemLabel :label="rateProp.label" :desc="rateProp.description" desc-marked />
+            <FormItemLabel
+              :label="tl(`emqx_limiter_schema.${rateProp.key}.label`)"
+              :desc="tl(`emqx_limiter_schema.${rateProp.key}.desc`)"
+              desc-marked
+            />
           </template>
           <SchemaFormItem
             :type="rateProp.type"
@@ -27,6 +31,7 @@
 <script setup lang="ts">
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import SchemaFormItem from '@/components/SchemaFormItem'
+import useI18nTl from '@/hooks/useI18nTl'
 import useTwoWayBindingManually from '@/hooks/useTwoWayBindingManually'
 import { computed, defineEmits, defineProps } from 'vue'
 
@@ -43,6 +48,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
+
+const { tl } = useI18nTl('Schema')
 
 const { getModelValue, setModelValue } = useTwoWayBindingManually()
 
