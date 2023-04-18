@@ -84,11 +84,10 @@ export default (
       return { label: props.customLabelMap[path], desc }
     }
     const key = getTextKey(prop)
-    const labelKey = `Schema.${key}.label`
     const descKey = `Schema.${key}.desc`
     if (key) {
       return {
-        label: te(labelKey) ? t(labelKey) : '',
+        label: t(`Schema.${key}.label`),
         desc: te(descKey) ? t(descKey) : '',
       }
     }
