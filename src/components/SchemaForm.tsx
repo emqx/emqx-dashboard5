@@ -4,16 +4,17 @@ import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
-import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useSchemaForm from '@/hooks/Config/useSchemaForm'
+import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
+import useSchemaForm from '@/hooks/Schema/useSchemaForm'
+import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
+import useItemLabelAndDesc from '@/hooks/Schema/useItemLabelAndDesc'
 import useI18nTl from '@/hooks/useI18nTl'
-import useSchemaRecord from '@/hooks/useSchemaRecord'
 import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
-import { computed, defineComponent, onMounted, PropType, ref, watch, watchEffect } from 'vue'
+import { PropType, computed, defineComponent, onMounted, ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
@@ -444,13 +445,7 @@ const SchemaForm = defineComponent({
       return switchComponent(setTypeForProperty(property))
     }
 
-    const getLabel = ({ label, path }: Property) => {
-      if (!props.customLabelMap || !path || !(path in props.customLabelMap)) {
-        return label
-      }
-      return props.customLabelMap[path]
-    }
-
+    const { getLabel } = useItemLabelAndDesc(props)
     const getLabelSlot = (property: Property) => {
       const { description } = property
       const label = getLabel(property)

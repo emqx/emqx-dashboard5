@@ -49,7 +49,7 @@
 
 <script lang="ts" setup>
 import { getLimiters, updateLimiters } from '@/api/config'
-import useSchemaForm from '@/hooks/Config/useSchemaForm'
+import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Limiter, LimiterType } from '@/types/config'
 import { ElMessage } from 'element-plus'
