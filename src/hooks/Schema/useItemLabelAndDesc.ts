@@ -22,9 +22,7 @@ export default (
   const getPrefixByType = () =>
     Object.keys(typePrefixMap).find((key) => typePrefixMap[key].includes(props.type)) || props.type
 
-  const getConfigurationItemLabel = ({ label, path, key }: Property) => {
-    
-  }
+  const getConfigurationItemLabel = ({ label, path, key }: Property) => {}
 
   const getBridgeItemLabel = ({ label, path, key }: Property) => {
     if (!props.customLabelMap || !path || !(path in props.customLabelMap)) {
@@ -33,11 +31,11 @@ export default (
     return props.customLabelMap[path]
   }
 
-  const getLabel = (prop: Property) => {
-    if (props.type !== 'bridge') {
-      return getConfigurationItemLabel(prop)
+  const getLabel = ({ path, label }: Property) => {
+    if (!props.customLabelMap || !path || !(path in props.customLabelMap)) {
+      return label
     }
-    return getBridgeItemLabel(prop)
+    return props.customLabelMap[path]
   }
 
   return {
