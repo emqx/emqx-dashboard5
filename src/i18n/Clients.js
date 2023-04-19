@@ -124,11 +124,11 @@ export default {
     en: 'This operation will kick off the selected clients, {n} clients have been selected, continue?',
   },
   willKickSelectedConnectionsSuccess: {
-    zh: '已成功剔除 {n} 客户端连接',
+    zh: '已成功踢除 {n} 个客户端连接',
     en: 'Successfully kicked off {n} selected clients',
   },
   willKickSelectedConnectionsFailed: {
-    zh: '剔除 {n} 客户端连接失败',
+    zh: '踢除 {n} 个客户端连接失败',
     en: 'Failed to kick off {n} selected clients',
   },
   willCleanSession: {
