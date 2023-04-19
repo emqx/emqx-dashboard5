@@ -179,11 +179,13 @@ import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { waitAMoment } from '@/common/tools.ts'
+import PreWithEllipsis from '@/components/PreWithEllipsis'
 
 const DEFAULT_QOS = 'all'
 
 export default defineComponent({
   name: 'TopicMetrics',
+  components: { PreWithEllipsis },
   data: function () {
     return {
       topicRules: {
