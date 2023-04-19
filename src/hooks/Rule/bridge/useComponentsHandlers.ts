@@ -67,6 +67,9 @@ export default (props: {
     if (comRet.resource_opts?.properties?.batch_time) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'batch_time')
     }
+    if (comRet.name) {
+      comRet.name.label = tl('name')
+    }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
   }

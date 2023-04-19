@@ -15,7 +15,6 @@
       :use-tooltip-show-desc="true"
       :props-order-map="propsOrderMap"
       :custom-col-class="customColClass"
-      :custom-label-map="customLabelMap"
       :props-disabled="propsDisabled"
       :data-handler="getComponentsHandler()"
       @update="handleRecordChanged"
@@ -98,10 +97,6 @@ const saveLoading = ref(false)
 const formCom = ref()
 
 const { propsOrderMap, customColClass } = useSchemaBridgePropsLayout(props, bridgeRecord)
-
-const customLabelMap = {
-  name: tl('name'),
-}
 
 const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
   useRedisSecondTypeControl(bridgeRecord)
