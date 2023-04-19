@@ -44,11 +44,11 @@ export default {
     en: 'MQTT Settings',
   },
   authentication: {
-    zh: '认证',
+    zh: '客户端认证',
     en: 'Authentication',
   },
   authorization: {
-    zh: '授权',
+    zh: '客户端授权',
     en: 'Authorization',
   },
   dashboard: {
@@ -221,7 +221,7 @@ export default {
   },
   log: {
     zh: '日志',
-    en: 'Log',
+    en: 'Logging',
   },
   limiter: {
     zh: '速率限制',
