@@ -177,7 +177,7 @@ defineExpose({ getFormRecord, validate })
     margin-right: 40%;
   }
   .col-hidden {
-    display: none;
+    display: none !important;
   }
   .custom-col-24 {
     width: 100%;
