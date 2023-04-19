@@ -153,7 +153,6 @@ let retainerConfig = reactive<Retainer>({
   flow_control: {
     batch_read_number: 0,
     batch_deliver_number: 0,
-    batch_deliver_limiter: '',
   },
 })
 
