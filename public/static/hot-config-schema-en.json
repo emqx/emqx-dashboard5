@@ -1,2699 +1,1489 @@
 {
-    "components": {
-        "schemas": {
-            "broker.sysmon_os": {
-                "properties": {
-                    "cpu_check_interval": {
-                        "default": "60s",
-                        "description": "The time interval for the periodic CPU check.",
-                        "label": "The time interval for the periodic CPU check.",
-                        "type": "duration"
-                    },
-                    "cpu_high_watermark": {
-                        "default": "80%",
-                        "description": "The threshold, as percentage of system CPU load,<br/> for how much system cpu can be used before the corresponding alarm is raised.",
-                        "label": "CPU high watermark",
-                        "type": "percent"
-                    },
-                    "cpu_low_watermark": {
-                        "default": "60%",
-                        "description": "The threshold, as percentage of system CPU load,<br/> for how much system cpu can be used before the corresponding alarm is cleared.",
-                        "label": "CPU low watermark",
-                        "type": "percent"
-                    },
-                    "mem_check_interval": {
-                        "default": "60s",
-                        "description": "The time interval for the periodic memory check.",
-                        "label": "Mem check interval",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "sysmem_high_watermark": {
-                        "default": "70%",
-                        "description": "The threshold, as percentage of system memory,<br/> for how much system memory can be allocated before the corresponding alarm is raised.",
-                        "label": "SysMem high wartermark",
-                        "type": "percent"
-                    },
-                    "procmem_high_watermark": {
-                        "default": "5%",
-                        "description": "The threshold, as percentage of system memory,<br/> for how much system memory can be allocated by one Erlang process before<br/> the corresponding alarm is raised.",
-                        "label": "ProcMem high wartermark",
-                        "type": "percent"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.sysmon": {
-                "properties": {
-                    "vm": {
-                        "description": "vm Description",
-                        "label": "vm",
-                        "$ref": "#/components/schemas/broker.sysmon_vm"
-                    },
-                    "os": {
-                        "description": "os Description",
-                        "label": "os",
-                        "$ref": "#/components/schemas/broker.sysmon_os"
-                    },
-                    "top": {
-                        "description": "top Description",
-                        "label": "top",
-                        "$ref": "#/components/schemas/broker.sysmon_top"
-                    }
-                },
-                "type": "object"
-            },
-            "dashboard.http": {
-                "required": [
-                    "bind",
-                    "enable"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "Ignore or enable this listener",
-                        "label": "Enable",
-                        "type": "boolean"
-                    },
-                    "bind": {
-                        "default": 18083,
-                        "description": "Port without IP(18083) or port with specified IP(127.0.0.1:18083).",
-                        "example": "0.0.0.0:18083",
-                        "label": "Bind",
-                        "oneOf": [
-                            {
-                                "type": "ip_port"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "num_acceptors": {
-                        "default": 8,
-                        "description": "Socket acceptor pool size for TCP protocols. Default is the number of schedulers online",
-                        "label": "Number of acceptors",
-                        "type": "number"
-                    },
-                    "max_connections": {
-                        "default": 512,
-                        "description": "Maximum number of simultaneous connections.",
-                        "label": "Maximum connections",
-                        "type": "number"
-                    },
-                    "backlog": {
-                        "default": 1024,
-                        "description": "Defines the maximum length that the queue of pending connections can grow to.",
-                        "label": "Backlog",
-                        "type": "number"
-                    },
-                    "send_timeout": {
-                        "default": "10s",
-                        "description": "Send timeout for the socket.",
-                        "label": "Send timeout",
-                        "type": "duration"
-                    },
-                    "inet6": {
-                        "default": false,
-                        "description": "Enable IPv6 support, default is false, which means IPv4 only.",
-                        "label": "IPv6",
-                        "type": "boolean"
-                    },
-                    "ipv6_v6only": {
-                        "default": false,
-                        "description": "Disable IPv4-to-IPv6 mapping for the listener.<br/>The configuration is only valid when the inet6 is true.",
-                        "label": "IPv6 only",
-                        "type": "boolean"
-                    },
-                    "proxy_header": {
-                        "default": false,
-                        "description": "Enable support for `HAProxy` header. Be aware once enabled regular HTTP requests can't be handled anymore.",
-                        "label": "Enable support for HAProxy header",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_etcd": {
-                "properties": {
-                    "server": {
-                        "description": "List of endpoint URLs of the etcd cluster",
-                        "label": "Cluster Etcd Server",
-                        "readOnly": true,
-                        "type": "comma_separated_string"
-                    },
-                    "prefix": {
-                        "default": "emqxcl",
-                        "description": "Key prefix used for EMQX service discovery.",
-                        "label": "Cluster Etcd Prefix",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "node_ttl": {
-                        "default": "1m",
-                        "description": "Expiration time of the etcd key associated with the node.<br/>It is refreshed automatically, as long as the node is alive.",
-                        "label": "Cluster Etcd Node TTL",
-                        "readOnly": true,
-                        "type": "duration"
-                    },
-                    "ssl": {
-                        "description": "Options for the TLS connection to the etcd cluster.",
-                        "label": "Cluster Etcd SSL Option",
-                        "readOnly": true,
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.shared_subscription_group": {
-                "properties": {
-                    "strategy": {
-                        "default": "random",
-                        "description": "Dispatch strategy for shared subscription.<br/>- `random`: dispatch the message to a random selected subscriber<br/>- `round_robin`: select the subscribers in a round-robin manner<br/>- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group<br/>- `sticky`: always use the last selected subscriber to dispatch,<br/>until the subscriber disconnects.<br/>- `hash`: select the subscribers by the hash of `clientIds`<br/>- `local`: send to a random local subscriber. If local<br/>subscriber was not found, send to a random subscriber cluster-wide",
-                        "label": "strategy",
-                        "symbols": [
-                            "random",
-                            "round_robin",
-                            "round_robin_per_group",
-                            "sticky",
-                            "local",
-                            "hash_topic",
-                            "hash_clientid"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "limiter.node_opts": {
-                "properties": {
-                    "rate": {
-                        "default": "infinity",
-                        "description": "Rate for this bucket.",
-                        "label": "Rate",
-                        "type": "string"
-                    },
-                    "burst": {
-                        "default": "0",
-                        "description": "The burst, This value is based on rate.<br/><br/> This value + rate = the maximum limit that can be achieved when limiter burst.",
-                        "label": "Burst",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log_burst_limit": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "Enable log burst control feature.",
-                        "label": "Enable Burst",
-                        "type": "boolean"
-                    },
-                    "max_count": {
-                        "default": 10000,
-                        "description": "Maximum number of log events to handle within a `window_time` interval. After the limit is reached, successive events are dropped until the end of the `window_time`.",
-                        "label": "Events Number",
-                        "type": "string"
-                    },
-                    "window_time": {
-                        "default": "1s",
-                        "description": "See <code>max_count</code>.",
-                        "label": "Window Time",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster": {
-                "properties": {
-                    "name": {
-                        "default": "emqxcl",
-                        "description": "Human-friendly name of the EMQX cluster.",
-                        "label": "Cluster Name",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "discovery_strategy": {
-                        "default": "manual",
-                        "description": "Service discovery method for the cluster nodes. Possible values are:<br/>- manual: Use <code>emqx ctl cluster</code> command to manage cluster.<br/><br/>- static: Configure static nodes list by setting <code>seeds</code> in config file.<br/><br/>- dns: Use DNS A record to discover peer nodes.<br/><br/>- etcd: Use etcd to discover peer nodes.<br/><br/>- k8s: Use Kubernetes API to discover peer pods.",
-                        "label": "Cluster Discovery Strategy",
-                        "readOnly": true,
-                        "symbols": [
-                            "manual",
-                            "static",
-                            "mcast",
-                            "dns",
-                            "etcd",
-                            "k8s"
-                        ],
-                        "type": "enum"
-                    },
-                    "core_nodes": {
-                        "default": "",
-                        "description": "List of core nodes that the replicant will connect to.<br/><br/>Note: this parameter only takes effect when the <code>backend</code> is set<br/>to <code>rlog</code> and the <code>role</code> is set to <code>replicant</code>.<br/><br/>This value needs to be defined for manual or static cluster discovery mechanisms.<br/><br/>If an automatic cluster discovery mechanism is being used (such as <code>etcd</code>),<br/>there is no need to set this value.",
-                        "label": "Db Core Node",
-                        "readOnly": true,
-                        "type": "comma_separated_string"
-                    },
-                    "autoclean": {
-                        "default": "5m",
-                        "description": "Remove disconnected nodes from the cluster after this interval.",
-                        "label": "Cluster Auto Clean",
-                        "readOnly": true,
-                        "type": "duration"
-                    },
-                    "autoheal": {
-                        "default": true,
-                        "description": "If <code>true</code>, the node will try to heal network partitions automatically.",
-                        "label": "Cluster Auto Heal",
-                        "readOnly": true,
-                        "type": "boolean"
-                    },
-                    "proto_dist": {
-                        "default": "inet_tcp",
-                        "description": "The Erlang distribution protocol for the cluster.<br/><br/>- inet_tcp: IPv4 TCP <br/><br/>- inet_tls: IPv4 TLS, works together with <code>etc/ssl_dist.conf</code>",
-                        "label": "Cluster Protocol Distribution",
-                        "readOnly": true,
-                        "symbols": [
-                            "inet_tcp",
-                            "inet6_tcp",
-                            "inet_tls"
-                        ],
-                        "type": "enum"
-                    },
-                    "static": {
-                        "description": "static Description",
-                        "label": "static",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_static"
-                    },
-                    "mcast": {
-                        "description": "mcast Description",
-                        "label": "mcast",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_mcast"
-                    },
-                    "dns": {
-                        "description": "dns Description",
-                        "label": "dns",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_dns"
-                    },
-                    "etcd": {
-                        "description": "etcd Description",
-                        "label": "etcd",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_etcd"
-                    },
-                    "k8s": {
-                        "description": "k8s Description",
-                        "label": "k8s",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_k8s"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log": {
-                "properties": {
-                    "console_handler": {
-                        "description": "Log handler that prints log events to the EMQX console.",
-                        "label": "Console Handler",
-                        "$ref": "#/components/schemas/emqx_conf_schema.console_handler"
-                    },
-                    "file_handlers": {
-                        "description": "File-based log handlers.",
-                        "label": "File Handler",
-                        "properties": {
-                            "$name": {
-                                "$ref": "#/components/schemas/emqx_conf_schema.log_file_handler"
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_k8s": {
-                "properties": {
-                    "apiserver": {
-                        "default": "http://10.110.111.204:8080",
-                        "description": "Kubernetes API endpoint URL.",
-                        "label": "Cluster k8s ApiServer",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "service_name": {
-                        "default": "emqx",
-                        "description": "EMQX broker service name.",
-                        "label": "K8s Service Name",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "address_type": {
-                        "default": "ip",
-                        "description": "Address type used for connecting to the discovered nodes.<br/>Setting <code>cluster.k8s.address_type</code> to <code>ip</code> will<br/>make EMQX to discover IP addresses of peer nodes from Kubernetes API.",
-                        "label": "K8s Address Type",
-                        "readOnly": true,
-                        "symbols": [
-                            "ip",
-                            "dns",
-                            "hostname"
-                        ],
-                        "type": "enum"
-                    },
-                    "namespace": {
-                        "default": "default",
-                        "description": "Kubernetes namespace.",
-                        "label": "K8s Namespace",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "suffix": {
-                        "default": "pod.local",
-                        "description": "Node name suffix.<br/><br/>Note: this parameter is only relevant when <code>address_type</code> is <code>dns</code><br/>or <code>hostname</code>.",
-                        "label": "K8s Suffix",
-                        "readOnly": true,
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.console_handler": {
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "Enable this log handler.",
-                        "label": "Enable Log Handler",
-                        "type": "boolean"
-                    },
-                    "level": {
-                        "default": "warning",
-                        "description": "The log level for the current log handler.<br/>Defaults to warning.",
-                        "label": "Log Level",
-                        "symbols": [
-                            "debug",
-                            "info",
-                            "notice",
-                            "warning",
-                            "error",
-                            "critical",
-                            "alert",
-                            "emergency",
-                            "all"
-                        ],
-                        "type": "enum"
-                    },
-                    "time_offset": {
-                        "default": "system",
-                        "description": "The time offset to be used when formatting the timestamp.<br/>Can be one of:<br/>  - <code>system</code>: the time offset used by the local system<br/>  - <code>utc</code>: the UTC time offset<br/>  - <code>+-[hh]:[mm]</code>: user specified time offset, such as \"-02:00\" or \"+00:00\"<br/>Defaults to: <code>system</code>.",
-                        "label": "Time Offset",
-                        "type": "string"
-                    },
-                    "chars_limit": {
-                        "default": "unlimited",
-                        "description": "Set the maximum length of a single log message. If this length is exceeded, the log message will be truncated.<br/>NOTE: Restrict char limiter if formatter is JSON , it will get a truncated incomplete JSON data, which is not recommended.",
-                        "label": "Single Log Max Length",
-                        "oneOf": [
-                            {
-                                "minimum": 100,
-                                "type": "number"
-                            },
-                            {
-                                "symbols": [
-                                    "unlimited"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "formatter": {
-                        "default": "text",
-                        "description": "Choose log formatter. <code>text</code> for free text, and <code>json</code> for structured logging.",
-                        "label": "Log Formatter",
-                        "symbols": [
-                            "text",
-                            "json"
-                        ],
-                        "type": "enum"
-                    },
-                    "single_line": {
-                        "default": true,
-                        "description": "Print logs in a single line if set to true. Otherwise, log messages may span multiple lines.",
-                        "label": "Single Line Mode",
-                        "type": "boolean"
-                    },
-                    "sync_mode_qlen": {
-                        "default": 100,
-                        "description": "As long as the number of buffered log events is lower than this value,<br/>all log events are handled asynchronously. This means that the client process sending the log event,<br/>by calling a log function in the Logger API, does not wait for a response from the handler<br/>but continues executing immediately after the event is sent.<br/>It is not affected by the time it takes the handler to print the event to the log device.<br/>If the message queue grows larger than this value,<br/>the handler starts handling log events synchronously instead,<br/>meaning that the client process sending the event must wait for a response.<br/>When the handler reduces the message queue to a level below the sync_mode_qlen threshold,<br/>asynchronous operation is resumed.",
-                        "label": "Queue Length before Entering Sync Mode",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "drop_mode_qlen": {
-                        "default": 3000,
-                        "description": "When the number of buffered log events is larger than this value, the new log events are dropped.<br/>When drop mode is activated or deactivated, a message is printed in the logs.",
-                        "label": "Queue Length before Entering Drop Mode",
-                        "type": "string"
-                    },
-                    "flush_qlen": {
-                        "default": 8000,
-                        "description": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place.<br/>To flush events, the handler discards the buffered log messages without logging.",
-                        "label": "Flush Threshold",
-                        "type": "string"
-                    },
-                    "overload_kill": {
-                        "description": "overload_kill Description",
-                        "label": "overload_kill",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_overload_kill"
-                    },
-                    "burst_limit": {
-                        "description": "burst_limit Description",
-                        "label": "burst_limit",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_burst_limit"
-                    },
-                    "supervisor_reports": {
-                        "default": "error",
-                        "description": "Type of supervisor reports that are logged. Defaults to <code>error</code><br/><br/>  - <code>error</code>: only log errors in the Erlang processes<br/>.<br/>  - <code>progress</code>: log process startup.",
-                        "label": "Report Type",
-                        "symbols": [
-                            "error",
-                            "progress"
-                        ],
-                        "type": "enum"
-                    },
-                    "max_depth": {
-                        "default": 100,
-                        "description": "Maximum depth for Erlang term log formatting and Erlang process message queue inspection.",
-                        "label": "Max Depth",
-                        "oneOf": [
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            },
-                            {
-                                "symbols": [
-                                    "unlimited"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "broker.sysmon_top": {
-                "properties": {
-                    "num_items": {
-                        "default": 10,
-                        "description": "The number of top processes per monitoring group",
-                        "label": "Top num items",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "sample_interval": {
-                        "default": "2s",
-                        "description": "Specifies how often process top should be collected",
-                        "label": "Top sample interval",
-                        "type": "duration"
-                    },
-                    "max_procs": {
-                        "default": 1000000,
-                        "description": "Stop collecting data when the number of processes<br/>in the VM exceeds this value",
-                        "label": "Max procs",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "db_hostname": {
-                        "default": "",
-                        "description": "Hostname of the PostgreSQL database that collects the data points",
-                        "label": "DB Hostname",
-                        "type": "string"
-                    },
-                    "db_port": {
-                        "default": 5432,
-                        "description": "Port of the PostgreSQL database that collects the data points.",
-                        "label": "DB Port",
-                        "type": "number"
-                    },
-                    "db_username": {
-                        "default": "system_monitor",
-                        "description": "Username of the PostgreSQL database",
-                        "label": "DB Username",
-                        "type": "string"
-                    },
-                    "db_password": {
-                        "default": "system_monitor_password",
-                        "description": "EMQX user password in the PostgreSQL database",
-                        "label": "DB Password",
-                        "type": "string"
-                    },
-                    "db_name": {
-                        "default": "postgres",
-                        "description": "PostgreSQL database name",
-                        "label": "DB Name",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.event_names": {
-                "properties": {
-                    "client_connected": {
-                        "default": true,
-                        "description": "Enable to publish client connected event messages",
-                        "label": "client_connected",
-                        "type": "boolean"
-                    },
-                    "client_disconnected": {
-                        "default": true,
-                        "description": "Enable to publish client disconnected event messages.",
-                        "label": "client_disconnected",
-                        "type": "boolean"
-                    },
-                    "client_subscribed": {
-                        "default": false,
-                        "description": "Enable to publish event message that client subscribed a topic successfully.",
-                        "label": "client_subscribed",
-                        "type": "boolean"
-                    },
-                    "client_unsubscribed": {
-                        "default": false,
-                        "description": "Enable to publish event message that client unsubscribed a topic successfully.",
-                        "label": "client_unsubscribed",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.force_gc": {
-                "properties": {
-                    "enable": {
-                        "description": "Enable forced garbage collection.",
-                        "label": "Enable forced garbage collection",
-                        "type": "boolean"
-                    },
-                    "count": {
-                        "description": "GC the process after this many received messages.",
-                        "label": "Process GC messages num",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "bytes": {
-                        "description": "GC the process after specified number of bytes have passed through.",
-                        "label": "Process GC bytes",
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_dns": {
-                "properties": {
-                    "name": {
-                        "default": "localhost",
-                        "description": "The domain name from which to discover peer EMQX nodes' IP addresses.<br/>Applicable when <code>cluster.discovery_strategy = dns</code>",
-                        "label": "Cluster Dns Name",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "record_type": {
-                        "default": "a",
-                        "description": "DNS record type.",
-                        "label": "DNS Record Type",
-                        "readOnly": true,
-                        "symbols": [
-                            "a",
-                            "srv"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log_file_handler": {
-                "properties": {
-                    "file": {
-                        "description": "Name the log file.",
-                        "label": "Log File Name",
-                        "type": "string"
-                    },
-                    "rotation": {
-                        "description": "rotation Description",
-                        "label": "rotation",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_rotation"
-                    },
-                    "max_size": {
-                        "default": "50MB",
-                        "description": "This parameter controls log file rotation. The value `infinity` means the log file will grow indefinitely, otherwise the log file will be rotated once it reaches `max_size` in bytes.",
-                        "label": "Rotation Size",
-                        "oneOf": [
-                            {
-                                "type": "byteSize"
-                            },
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "Enable this log handler.",
-                        "label": "Enable Log Handler",
-                        "type": "boolean"
-                    },
-                    "level": {
-                        "default": "warning",
-                        "description": "The log level for the current log handler.<br/>Defaults to warning.",
-                        "label": "Log Level",
-                        "symbols": [
-                            "debug",
-                            "info",
-                            "notice",
-                            "warning",
-                            "error",
-                            "critical",
-                            "alert",
-                            "emergency",
-                            "all"
-                        ],
-                        "type": "enum"
-                    },
-                    "time_offset": {
-                        "default": "system",
-                        "description": "The time offset to be used when formatting the timestamp.<br/>Can be one of:<br/>  - <code>system</code>: the time offset used by the local system<br/>  - <code>utc</code>: the UTC time offset<br/>  - <code>+-[hh]:[mm]</code>: user specified time offset, such as \"-02:00\" or \"+00:00\"<br/>Defaults to: <code>system</code>.",
-                        "label": "Time Offset",
-                        "type": "string"
-                    },
-                    "chars_limit": {
-                        "default": "unlimited",
-                        "description": "Set the maximum length of a single log message. If this length is exceeded, the log message will be truncated.<br/>NOTE: Restrict char limiter if formatter is JSON , it will get a truncated incomplete JSON data, which is not recommended.",
-                        "label": "Single Log Max Length",
-                        "oneOf": [
-                            {
-                                "minimum": 100,
-                                "type": "number"
-                            },
-                            {
-                                "symbols": [
-                                    "unlimited"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "formatter": {
-                        "default": "text",
-                        "description": "Choose log formatter. <code>text</code> for free text, and <code>json</code> for structured logging.",
-                        "label": "Log Formatter",
-                        "symbols": [
-                            "text",
-                            "json"
-                        ],
-                        "type": "enum"
-                    },
-                    "single_line": {
-                        "default": true,
-                        "description": "Print logs in a single line if set to true. Otherwise, log messages may span multiple lines.",
-                        "label": "Single Line Mode",
-                        "type": "boolean"
-                    },
-                    "sync_mode_qlen": {
-                        "default": 100,
-                        "description": "As long as the number of buffered log events is lower than this value,<br/>all log events are handled asynchronously. This means that the client process sending the log event,<br/>by calling a log function in the Logger API, does not wait for a response from the handler<br/>but continues executing immediately after the event is sent.<br/>It is not affected by the time it takes the handler to print the event to the log device.<br/>If the message queue grows larger than this value,<br/>the handler starts handling log events synchronously instead,<br/>meaning that the client process sending the event must wait for a response.<br/>When the handler reduces the message queue to a level below the sync_mode_qlen threshold,<br/>asynchronous operation is resumed.",
-                        "label": "Queue Length before Entering Sync Mode",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "drop_mode_qlen": {
-                        "default": 3000,
-                        "description": "When the number of buffered log events is larger than this value, the new log events are dropped.<br/>When drop mode is activated or deactivated, a message is printed in the logs.",
-                        "label": "Queue Length before Entering Drop Mode",
-                        "type": "string"
-                    },
-                    "flush_qlen": {
-                        "default": 8000,
-                        "description": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place.<br/>To flush events, the handler discards the buffered log messages without logging.",
-                        "label": "Flush Threshold",
-                        "type": "string"
-                    },
-                    "overload_kill": {
-                        "description": "overload_kill Description",
-                        "label": "overload_kill",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_overload_kill"
-                    },
-                    "burst_limit": {
-                        "description": "burst_limit Description",
-                        "label": "burst_limit",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_burst_limit"
-                    },
-                    "supervisor_reports": {
-                        "default": "error",
-                        "description": "Type of supervisor reports that are logged. Defaults to <code>error</code><br/><br/>  - <code>error</code>: only log errors in the Erlang processes<br/>.<br/>  - <code>progress</code>: log process startup.",
-                        "label": "Report Type",
-                        "symbols": [
-                            "error",
-                            "progress"
-                        ],
-                        "type": "enum"
-                    },
-                    "max_depth": {
-                        "default": 100,
-                        "description": "Maximum depth for Erlang term log formatting and Erlang process message queue inspection.",
-                        "label": "Max Depth",
-                        "oneOf": [
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            },
-                            {
-                                "symbols": [
-                                    "unlimited"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "zone.flapping_detect": {
-                "properties": {
-                    "enable": {
-                        "description": "Enable flapping connection detection feature.",
-                        "label": "Enable flapping detection",
-                        "type": "boolean"
-                    },
-                    "max_count": {
-                        "description": "The maximum number of disconnects allowed for a MQTT Client in `window_time`",
-                        "label": "Max count",
-                        "type": "number"
-                    },
-                    "window_time": {
-                        "description": "The time window for flapping detection.",
-                        "label": "Window time",
-                        "type": "duration"
-                    },
-                    "ban_time": {
-                        "description": "How long the flapping clientid will be banned.",
-                        "label": "Ban time",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.stats": {
-                "properties": {
-                    "enable": {
-                        "description": "Enable/disable statistic data collection.",
-                        "label": "Enable/disable statistic data collection.",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.zone": {
-                "properties": {
-                    "mqtt": {
-                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
-                        "label": "mqtt",
-                        "$ref": "#/components/schemas/zone.mqtt"
-                    },
-                    "stats": {
-                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
-                        "label": "stats",
-                        "$ref": "#/components/schemas/zone.stats"
-                    },
-                    "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
-                        "label": "flapping_detect",
-                        "$ref": "#/components/schemas/zone.flapping_detect"
-                    },
-                    "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
-                        "label": "force_shutdown",
-                        "$ref": "#/components/schemas/zone.force_shutdown"
-                    },
-                    "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
-                        "label": "conn_congestion",
-                        "$ref": "#/components/schemas/zone.conn_congestion"
-                    },
-                    "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
-                        "label": "force_gc",
-                        "$ref": "#/components/schemas/zone.force_gc"
-                    },
-                    "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
-                        "label": "overload_protection",
-                        "$ref": "#/components/schemas/zone.overload_protection"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log_overload_kill": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "Enable log handler overload kill feature.",
-                        "label": "Log Handler Overload Kill",
-                        "type": "boolean"
-                    },
-                    "mem_size": {
-                        "default": "30MB",
-                        "description": "Maximum memory size that the log handler process is allowed to use.",
-                        "label": "Log Handler Max Memory Size",
-                        "type": "byteSize"
-                    },
-                    "qlen": {
-                        "default": 20000,
-                        "description": "Maximum allowed queue length.",
-                        "label": "Max Queue Length",
-                        "type": "string"
-                    },
-                    "restart_after": {
-                        "default": "5s",
-                        "description": "The handler restarts automatically after a delay in the event of termination, unless the value `infinity` is set, which blocks any subsequent restarts.",
-                        "label": "Handler Restart Timer",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "duration"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "broker.persistent_session_builtin": {
-                "properties": {
-                    "type": {
-                        "default": "builtin",
-                        "description": "",
-                        "label": "type",
-                        "symbols": [
-                            "builtin"
-                        ],
-                        "type": "enum"
-                    },
-                    "session": {
-                        "description": "Performance tuning options for built-in session table.",
-                        "label": "Persistent session",
-                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
-                    },
-                    "session_messages": {
-                        "description": "Performance tuning options for built-in session messages table.",
-                        "label": "Persistent session messages",
-                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
-                    },
-                    "messages": {
-                        "description": "Performance tuning options for built-in messages table.",
-                        "label": "Persistent messages",
-                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_static": {
-                "properties": {
-                    "seeds": {
-                        "default": "",
-                        "description": "List EMQX node names in the static cluster. See <code>node.name</code>.",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "Cluster Static Seeds",
-                        "readOnly": true,
-                        "type": "array"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.ssl_client_opts": {
-                "properties": {
-                    "cacertfile": {
-                        "description": "Trusted PEM format CA certificates bundle file.<br/><br/>The certificates in this file are used to verify the TLS peer's certificates.<br/>Append new certificates to the file if new CAs are to be trusted.<br/>There is no need to restart EMQX to have the updated file loaded, because<br/>the system regularly checks if file has been updated (and reload).<br/><br/>NOTE: invalidating (deleting) a certificate from the file will not affect<br/>already established connections.",
-                        "label": "CACertfile",
-                        "type": "string"
-                    },
-                    "certfile": {
-                        "description": "PEM format certificates chain file.<br/><br/>The certificates in this file should be in reversed order of the certificate<br/>issue chain. That is, the host's certificate should be placed in the beginning<br/>of the file, followed by the immediate issuer certificate and so on.<br/>Although the root CA certificate is optional, it should be placed at the end of<br/>the file if it is to be added.",
-                        "label": "Certfile",
-                        "type": "string"
-                    },
-                    "keyfile": {
-                        "description": "PEM format private key file.",
-                        "label": "Keyfile",
-                        "type": "string"
-                    },
-                    "verify": {
-                        "default": "verify_none",
-                        "description": "Enable or disable peer verification.",
-                        "label": "Verify peer",
-                        "symbols": [
-                            "verify_peer",
-                            "verify_none"
-                        ],
-                        "type": "enum"
-                    },
-                    "reuse_sessions": {
-                        "default": true,
-                        "description": "Enable TLS session reuse.",
-                        "label": "TLS session reuse",
-                        "type": "boolean"
-                    },
-                    "depth": {
-                        "default": 10,
-                        "description": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.<br/>So, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/><br/>if 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/><br/>if 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
-                        "label": "CACert Depth",
-                        "type": "number"
-                    },
-                    "password": {
-                        "description": "String containing the user's password. Only used if the private key file is password-protected.",
-                        "example": "",
-                        "format": "password",
-                        "label": "Keyfile passphrase",
-                        "type": "string"
-                    },
-                    "versions": {
-                        "default": [
-                            "tlsv1.3",
-                            "tlsv1.2",
-                            "tlsv1.1",
-                            "tlsv1"
-                        ],
-                        "description": "All TLS/DTLS versions to be supported.<br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/><br/>In case PSK cipher suites are intended, make sure to configure<br/><code>['tlsv1.2', 'tlsv1.1']</code> here.",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "SSL versions",
-                        "type": "array"
-                    },
-                    "ciphers": {
-                        "default": "",
-                        "description": "This config holds TLS cipher suite names separated by comma,<br/>or as an array of strings. e.g.<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.<br/><br/><br/>Ciphers (and their ordering) define the way in which the<br/>client and server encrypts information over the network connection.<br/>Selecting a good cipher suite is critical for the<br/>application's data security, confidentiality and performance.<br/><br/>The names should be in OpenSSL string format (not RFC format).<br/>All default values and examples provided by EMQX config<br/>documentation are all in OpenSSL format.<br/><br/><br/>NOTE: Certain cipher suites are only compatible with<br/>specific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')<br/>incompatible cipher suites will be silently dropped.<br/>For instance, if only 'tlsv1.3' is given in the <code>versions</code>,<br/>configuring cipher suites for other versions will have no effect.<br/><br/><br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/><br/>If PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/><br/>PSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "",
-                        "type": "array"
-                    },
-                    "user_lookup_fun": {
-                        "default": "emqx_tls_psk:lookup",
-                        "description": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
-                        "label": "SSL PSK user lookup fun",
-                        "type": "string"
-                    },
-                    "secure_renegotiate": {
-                        "default": true,
-                        "description": "SSL parameter renegotiation is a feature that allows a client and a server<br/>to renegotiate the parameters of the SSL connection on the fly.<br/>RFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,<br/>you drop support for the insecure renegotiation, prone to MitM attacks.",
-                        "label": "SSL renegotiate",
-                        "type": "boolean"
-                    },
-                    "hibernate_after": {
-                        "default": "5s",
-                        "description": " Hibernate the SSL process after idling for amount of time reducing its memory footprint. ",
-                        "label": "hibernate after",
-                        "type": "duration"
-                    },
-                    "enable": {
-                        "default": false,
-                        "description": "Enable TLS.",
-                        "label": "Enable TLS.",
-                        "type": "boolean"
-                    },
-                    "server_name_indication": {
-                        "description": "Specify the host name to be used in TLS Server Name Indication extension.<br/><br/>For instance, when connecting to \"server.example.net\", the genuine server<br/>which accepts the connection and performs TLS handshake may differ from the<br/>host the TLS client initially connects to, e.g. when connecting to an IP address<br/>or when the host has multiple resolvable DNS records <br/><br/>If not specified, it will default to the host name string which is used<br/>to establish the connection, unless it is IP addressed used.<br/><br/>The host name is then also used in the host name verification of the peer<br/>certificate.<br/> The special value 'disable' prevents the Server Name<br/>Indication extension from being sent and disables the hostname<br/>verification check.",
-                        "example": "disable",
-                        "label": "Server Name Indication",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    "disable"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_call": {
-                "properties": {
-                    "retry_interval": {
-                        "default": "1m",
-                        "description": "Time interval to retry after a failed call.",
-                        "label": "Cluster Call Retry Interval",
-                        "type": "duration"
-                    },
-                    "max_history": {
-                        "default": 100,
-                        "description": "Retain the maximum number of completed transactions (for queries).",
-                        "label": "Cluster Call Max History",
-                        "maximum": 500,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "cleanup_interval": {
-                        "default": "5m",
-                        "description": "Time interval to clear completed but stale transactions.<br/>Ensure that the number of completed transactions is less than the <code>max_history</code>.",
-                        "label": "Clean Up Interval",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.overload_protection": {
-                "properties": {
-                    "enable": {
-                        "description": "React on system overload or not.",
-                        "label": "React on system overload or not",
-                        "type": "boolean"
-                    },
-                    "backoff_delay": {
-                        "description": "The maximum duration of delay for background task execution during high load conditions.",
-                        "label": "Delay Time",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "backoff_gc": {
-                        "description": "When at high load, skip forceful GC.",
-                        "label": "Skip GC",
-                        "type": "boolean"
-                    },
-                    "backoff_hibernation": {
-                        "description": "When at high load, skip process hibernation.",
-                        "label": "Skip hibernation",
-                        "type": "boolean"
-                    },
-                    "backoff_new_conn": {
-                        "description": "When at high load, close new incoming connections.",
-                        "label": "Close new connections",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.trace": {
-                "properties": {
-                    "payload_encode": {
-                        "default": "text",
-                        "description": "Determine the format of the payload format in the trace file.<br/><br/>`text`: Text-based protocol or plain text protocol.<br/> It is recommended when payload is JSON encoded.<br/><br/>`hex`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br/><br/>`hidden`: payload is obfuscated as `******`",
-                        "label": "Payload encode",
-                        "symbols": [
-                            "hex",
-                            "text",
-                            "hidden"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.sysmon_vm": {
-                "properties": {
-                    "process_check_interval": {
-                        "default": "30s",
-                        "description": "The time interval for the periodic process limit check.",
-                        "label": "Process limit check interval",
-                        "type": "duration"
-                    },
-                    "process_high_watermark": {
-                        "default": "80%",
-                        "description": "The threshold, as percentage of processes, for how many<br/> processes can simultaneously exist at the local node before the corresponding<br/> alarm is raised.",
-                        "label": "Process high watermark",
-                        "type": "percent"
-                    },
-                    "process_low_watermark": {
-                        "default": "60%",
-                        "description": "The threshold, as percentage of processes, for how many<br/> processes can simultaneously exist at the local node before the corresponding<br/> alarm is cleared.",
-                        "label": "Process low watermark",
-                        "type": "percent"
-                    },
-                    "long_gc": {
-                        "default": "disabled",
-                        "description": "When an Erlang process spends long time to perform garbage collection, a warning level <code>long_gc</code> log is emitted,<br/>and an MQTT message is published to the system topic <code>$SYS/sysmon/long_gc</code>.",
-                        "label": "Enable Long GC monitoring.",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "long_schedule": {
-                        "default": "240ms",
-                        "description": "When the Erlang VM detect a task scheduled for too long, a warning level 'long_schedule' log is emitted,<br/>and an MQTT message is published to the system topic <code>$SYS/sysmon/long_schedule</code>.",
-                        "label": "Enable Long Schedule monitoring.",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "large_heap": {
-                        "default": "32MB",
-                        "description": "When an Erlang process consumed a large amount of memory for its heap space,<br/>the system will write a warning level <code>large_heap</code> log, and an MQTT message is published to<br/>the system topic <code>$SYS/sysmon/large_heap</code>.",
-                        "label": "Enable Large Heap monitoring.",
-                        "oneOf": [
-                            {
-                                "type": "byteSize"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "busy_dist_port": {
-                        "default": true,
-                        "description": "When the RPC connection used to communicate with other nodes in the cluster is overloaded,<br/>there will be a <code>busy_dist_port</code> warning log,<br/>and an MQTT message is published to system topic <code>$SYS/sysmon/busy_dist_port</code>.",
-                        "label": "Enable Busy Distribution Port monitoring.",
-                        "type": "boolean"
-                    },
-                    "busy_port": {
-                        "default": true,
-                        "description": "When a port (e.g. TCP socket) is overloaded, there will be a <code>busy_port</code> warning log,<br/>and an MQTT message is published to the system topic <code>$SYS/sysmon/busy_port</code>.",
-                        "label": "Enable Busy Port monitoring.",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "dashboard.listeners": {
-                "properties": {
-                    "http": {
-                        "description": "TCP listeners",
-                        "label": "http",
-                        "$ref": "#/components/schemas/dashboard.http"
-                    },
-                    "https": {
-                        "description": "SSL listeners",
-                        "label": "https",
-                        "$ref": "#/components/schemas/dashboard.https"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.alarm": {
-                "properties": {
-                    "actions": {
-                        "default": [
-                            "log",
-                            "publish"
-                        ],
-                        "description": "The actions triggered when the alarm is activated.<br/>Currently, the following actions are supported: <code>log</code> and <code>publish</code>.<br/><code>log</code> is to write the alarm to log (console or file).<br/><code>publish</code> is to publish the alarm as an MQTT message to the system topics:<br/><code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/activate</code> and<br/><code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/deactivate</code>",
-                        "example": [
-                            "log",
-                            "publish"
-                        ],
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "Alarm Actions",
-                        "type": "array"
-                    },
-                    "size_limit": {
-                        "default": 1000,
-                        "description": "The maximum total number of deactivated alarms to keep as history.<br/>When this limit is exceeded, the oldest deactivated alarms are deleted to cap the total number.",
-                        "example": 1000,
-                        "label": "Alarm size limit",
-                        "maximum": 3000,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "validity_period": {
-                        "default": "24h",
-                        "description": "Retention time of deactivated alarms. Alarms are not deleted immediately<br/>when deactivated, but after the retention time.",
-                        "example": "24h",
-                        "label": "Alarm validity period",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.persistent_session_store": {
-                "properties": {
-                    "enabled": {
-                        "default": false,
-                        "description": "Use the database to store information about persistent sessions.<br/>This makes it possible to migrate a client connection to another<br/>cluster node if a node is stopped.",
-                        "label": "Enable persistent session store",
-                        "type": "boolean"
-                    },
-                    "on_disc": {
-                        "default": true,
-                        "description": "Save information about the persistent sessions on disc.<br/>If this option is enabled, persistent sessions will survive full restart of the cluster.<br/>Otherwise, all the data will be stored in RAM, and it will be lost when all the nodes in the cluster are stopped.",
-                        "label": "Persist on disc",
-                        "type": "boolean"
-                    },
-                    "ram_cache": {
-                        "default": false,
-                        "description": "Maintain a copy of the data in RAM for faster access.",
-                        "label": "RAM cache",
-                        "type": "boolean"
-                    },
-                    "backend": {
-                        "default": {
-                            "messages": {
-                                "ram_cache": "false"
-                            },
-                            "session": {
-                                "ram_cache": "true"
-                            },
-                            "session_messages": {
-                                "ram_cache": "true"
-                            },
-                            "type": "builtin"
-                        },
-                        "description": "Database management system used to store information about persistent sessions and messages.<br/>- `builtin`: Use the embedded database (mria)",
-                        "label": "Backend",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/broker.persistent_session_builtin"
-                            }
-                        ]
-                    },
-                    "max_retain_undelivered": {
-                        "default": "1h",
-                        "description": "The time messages that was not delivered to a persistent session<br/>is stored before being garbage collected if the node the previous<br/>session was handled on restarts of is stopped.",
-                        "label": "Max retain undelivered",
-                        "type": "duration"
-                    },
-                    "message_gc_interval": {
-                        "default": "1h",
-                        "description": "The starting interval for garbage collection of undelivered messages to<br/>a persistent session. This affects how often the \"max_retain_undelivered\"<br/>is checked for removal.",
-                        "label": "Message GC interval",
-                        "type": "duration"
-                    },
-                    "session_message_gc_interval": {
-                        "default": "1m",
-                        "description": "The starting interval for garbage collection of transient data for<br/>persistent session messages. This does not affect the lifetime length<br/>of persistent session messages.",
-                        "label": "Session message GC interval",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.broker": {
-                "properties": {
-                    "enable_session_registry": {
-                        "default": true,
-                        "description": "Enable session registry",
-                        "label": "enable_session_registry",
-                        "type": "boolean"
-                    },
-                    "session_locking_strategy": {
-                        "default": "quorum",
-                        "description": "Session locking strategy in a cluster.<br/>  - `local`: only lock the session on the current node<br/>  - `one`: select only one remote node to lock the session<br/>  - `quorum`: select some nodes to lock the session<br/>  - `all`: lock the session on all the nodes in the cluster",
-                        "label": "session_locking_strategy",
-                        "symbols": [
-                            "local",
-                            "leader",
-                            "quorum",
-                            "all"
-                        ],
-                        "type": "enum"
-                    },
-                    "shared_subscription_strategy": {
-                        "default": "round_robin",
-                        "description": "Dispatch strategy for shared subscription.<br/>  - `random`: dispatch the message to a random selected subscriber<br/>  - `round_robin`: select the subscribers in a round-robin manner<br/>  - `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.<br/>  - `hash`: select the subscribers by the hash of `clientIds`",
-                        "label": "shared_subscription_strategy",
-                        "symbols": [
-                            "random",
-                            "round_robin",
-                            "round_robin_per_group",
-                            "sticky",
-                            "local",
-                            "hash_topic",
-                            "hash_clientid"
-                        ],
-                        "type": "enum"
-                    },
-                    "shared_dispatch_ack_enabled": {
-                        "default": false,
-                        "description": "Deprecated, will be removed in 5.1.<br/>Enable/disable shared dispatch acknowledgement for QoS 1 and QoS 2 messages.<br/>This should allow messages to be dispatched to a different subscriber in the group in case the picked (based on `shared_subscription_strategy`) subscriber is offline.",
-                        "label": "shared_dispatch_ack_enabled",
-                        "type": "boolean"
-                    },
-                    "route_batch_clean": {
-                        "default": true,
-                        "description": "Enable batch clean for deleted routes.",
-                        "label": "route_batch_clean",
-                        "type": "boolean"
-                    },
-                    "perf": {
-                        "description": "perf Description",
-                        "label": "perf",
-                        "$ref": "#/components/schemas/broker.broker_perf"
-                    },
-                    "shared_subscription_group": {
-                        "description": "Per group dispatch strategy for shared subscription.<br/>This config is a map from shared subscription group name to the strategy<br/>name. The group name should be of format `[A-Za-z0-9]`. i.e. no<br/>special characters are allowed.",
-                        "example": {
-                            "example_group": {
-                                "strategy": "random"
-                            }
-                        },
-                        "label": "shared_subscription_group",
-                        "properties": {
-                            "$name": {
-                                "$ref": "#/components/schemas/broker.shared_subscription_group"
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.broker_perf": {
-                "properties": {
-                    "route_lock_type": {
-                        "default": "key",
-                        "description": "Performance tuning for subscribing/unsubscribing a wildcard topic.<br/>Change this parameter only when there are many wildcard topics.<br/><br/>NOTE: when changing from/to `global` lock, it requires all nodes in the cluster to be stopped before the change.<br/>  - `key`: mnesia transactional updates with per-key locks. Recommended for a single-node setup.<br/>  - `tab`: mnesia transactional updates with table lock. Recommended for a cluster setup.<br/>  - `global`: updates are protected with a global lock. Recommended for large clusters.",
-                        "label": "route_lock_type",
-                        "symbols": [
-                            "key",
-                            "tab",
-                            "global"
-                        ],
-                        "type": "enum"
-                    },
-                    "trie_compaction": {
-                        "default": true,
-                        "description": "Enable trie path compaction.<br/>Enabling it significantly improves wildcard topic subscribe rate, if wildcard topics have unique prefixes like: 'sensor/{{id}}/+/', where ID is unique per subscriber.<br/>Topic match performance (when publishing) may degrade if messages are mostly published to topics with large number of levels.<br/><br/>NOTE: This is a cluster-wide configuration. It requires all nodes to be stopped before changing it.",
-                        "label": "trie_compaction",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_mcast": {
-                "properties": {
-                    "addr": {
-                        "default": "239.192.0.1",
-                        "description": "Multicast IPv4 address.",
-                        "label": "Cluster Multicast Address",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "ports": {
-                        "default": [
-                            4369,
-                            4370
-                        ],
-                        "description": "List of UDP ports used for service discovery.<br/><br/>Note: probe messages are broadcast to all the specified ports.",
-                        "items": {
-                            "type": "number"
-                        },
-                        "label": "Cluster Multicast Ports",
-                        "readOnly": true,
-                        "type": "array"
-                    },
-                    "iface": {
-                        "default": "0.0.0.0",
-                        "description": "Local IP address the node discovery service needs to bind to.",
-                        "label": "Cluster Multicast Interface",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "ttl": {
-                        "default": 255,
-                        "description": "Time-to-live (TTL) for the outgoing UDP datagrams.",
-                        "label": "Cluster Multicast TTL",
-                        "maximum": 255,
-                        "minimum": 0,
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "loop": {
-                        "default": true,
-                        "description": "If <code>true</code>, loop UDP datagrams back to the local socket.",
-                        "label": "Cluster Multicast Loop",
-                        "readOnly": true,
-                        "type": "boolean"
-                    },
-                    "sndbuf": {
-                        "default": "16KB",
-                        "description": "Size of the kernel-level buffer for outgoing datagrams.",
-                        "label": "Cluster Muticast Sendbuf",
-                        "readOnly": true,
-                        "type": "byteSize"
-                    },
-                    "recbuf": {
-                        "default": "16KB",
-                        "description": "Size of the kernel-level buffer for incoming datagrams.",
-                        "label": "Cluster Muticast Sendbuf",
-                        "readOnly": true,
-                        "type": "byteSize"
-                    },
-                    "buffer": {
-                        "default": "32KB",
-                        "description": "Size of the user-level buffer.",
-                        "label": "Cluster Muticast Buffer",
-                        "readOnly": true,
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.mqtt": {
-                "properties": {
-                    "idle_timeout": {
-                        "description": "After the TCP connection is established, if the MQTT CONNECT packet from the client is<br/>not received within the time specified by <code>idle_timeout</code>, the connection will be disconnected.<br/>After the CONNECT packet has been accepted by EMQX, if the connection idles for this long time,<br/>then the Erlang process is put to hibernation to save OS resources. Note: long <code>idle_timeout</code><br/>interval may impose risk at the system if large number of malicious clients only establish connections<br/>but do not send any data.",
-                        "label": "Idle Timeout",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "max_packet_size": {
-                        "description": "Maximum MQTT packet size allowed.",
-                        "label": "Max Packet Size",
-                        "type": "byteSize"
-                    },
-                    "max_clientid_len": {
-                        "description": "Maximum allowed length of MQTT Client ID.",
-                        "label": "Max Client ID Length",
-                        "maximum": 65535,
-                        "minimum": 23,
-                        "type": "number"
-                    },
-                    "max_topic_levels": {
-                        "description": "Maximum topic levels allowed.",
-                        "label": "Max Topic Levels",
-                        "maximum": 65535,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "max_qos_allowed": {
-                        "description": "Maximum QoS allowed.",
-                        "label": "Max QoS",
-                        "symbols": [
-                            0,
-                            1,
-                            2
-                        ],
-                        "type": "enum"
-                    },
-                    "max_topic_alias": {
-                        "description": "Maximum topic alias, 0 means no topic alias supported.",
-                        "label": "Max Topic Alias",
-                        "maximum": 65535,
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "retain_available": {
-                        "description": "Whether to enable support for MQTT retained message.",
-                        "label": "Retain Available",
-                        "type": "boolean"
-                    },
-                    "wildcard_subscription": {
-                        "description": "Whether to enable support for MQTT wildcard subscription.",
-                        "label": "Wildcard Subscription Available",
-                        "type": "boolean"
-                    },
-                    "shared_subscription": {
-                        "description": "Whether to enable support for MQTT shared subscription.",
-                        "label": "Shared Subscription Available",
-                        "type": "boolean"
-                    },
-                    "exclusive_subscription": {
-                        "description": "Whether to enable support for MQTT exclusive subscription.",
-                        "label": "Exclusive Subscription",
-                        "type": "boolean"
-                    },
-                    "ignore_loop_deliver": {
-                        "description": "Ignore loop delivery of messages for MQTT v3.1.1/v3.1.0, similar to <code>No Local</code> subscription option in MQTT 5.0.",
-                        "label": "Ignore Loop Deliver",
-                        "type": "boolean"
-                    },
-                    "strict_mode": {
-                        "description": "Parse MQTT messages in strict mode.<br/>When set to true, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected",
-                        "label": "Strict Mode",
-                        "type": "boolean"
-                    },
-                    "response_information": {
-                        "description": "Specify the response information returned to the client. This feature is disabled if is set to \"\". Applies only to clients using MQTT 5.0.",
-                        "label": "Response Information",
-                        "type": "string"
-                    },
-                    "server_keepalive": {
-                        "description": "The keep alive that EMQX requires the client to use. If configured as <code>disabled</code>, it means that the keep alive specified by the client will be used. Requires <code>Server Keep Alive</code> in MQTT 5.0, so it is only applicable to clients using MQTT 5.0 protocol.",
-                        "label": "Server Keep Alive",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "keepalive_backoff": {
-                        "description": "The backoff multiplier used by the broker to determine the client keep alive timeout. If EMQX doesn't receive any packet in <code>Keep Alive * Backoff * 2</code> seconds, EMQX will close the current connection.",
-                        "label": "Keep Alive Backoff",
-                        "type": "number"
-                    },
-                    "max_subscriptions": {
-                        "description": "Maximum number of subscriptions allowed per client.",
-                        "label": "Max Subscriptions",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "upgrade_qos": {
-                        "description": "Force upgrade of QoS level according to subscription.",
-                        "label": "Upgrade QoS",
-                        "type": "boolean"
-                    },
-                    "max_inflight": {
-                        "description": "Maximum number of QoS 1 and QoS 2 messages that are allowed to be delivered simultaneously before completing the acknowledgment.",
-                        "label": "Max Inflight",
-                        "maximum": 65535,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "retry_interval": {
-                        "description": "Retry interval for QoS 1/2 message delivering.",
-                        "label": "Retry Interval",
-                        "type": "duration"
-                    },
-                    "max_awaiting_rel": {
-                        "description": "For each publisher session, the maximum number of outstanding QoS 2 messages pending on the client to send PUBREL. After reaching this limit, new QoS 2 PUBLISH requests will be rejected with `147(0x93)` until either PUBREL is received or timed out.",
-                        "label": "Max Awaiting PUBREL",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "await_rel_timeout": {
-                        "description": "For client to broker QoS 2 message, the time limit for the broker to wait before the `PUBREL` message is received. The wait is aborted after timed out, meaning the packet ID is freed for new `PUBLISH` requests. Receiving a stale `PUBREL` causes a warning level log. Note, the message is delivered to subscribers before entering the wait for PUBREL.",
-                        "label": "Max Awaiting PUBREL TIMEOUT",
-                        "type": "duration"
-                    },
-                    "session_expiry_interval": {
-                        "description": "Specifies how long the session will expire after the connection is disconnected, only for non-MQTT 5.0 connections.",
-                        "label": "Session Expiry Interval",
-                        "type": "duration"
-                    },
-                    "max_mqueue_len": {
-                        "description": "Maximum queue length. Enqueued messages when persistent client disconnected, or inflight window is full.",
-                        "label": "Max Message Queue Length",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "mqueue_priorities": {
-                        "description": "Topic priorities. Priority number [1-255]<br/>There's no priority table by default, hence all messages are treated equal.<br/><br/>**NOTE**: Comma and equal signs are not allowed for priority topic names.<br/>**NOTE**: Messages for topics not in the priority table are treated as either highest or lowest priority depending on the configured value for <code>mqtt.mqueue_default_priority</code>.<br/><br/>**Examples**:<br/>To configure <code>\"topic/1\" > \"topic/2\"</code>:<br/><code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code>",
-                        "label": "Topic Priorities",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    "mqueue_default_priority": {
-                        "description": "Default topic priority, which will be used by topics not in <code>Topic Priorities</code> (<code>mqueue_priorities</code>).",
-                        "label": "Default Topic Priorities",
-                        "symbols": [
-                            "highest",
-                            "lowest"
-                        ],
-                        "type": "enum"
-                    },
-                    "mqueue_store_qos0": {
-                        "description": "Specifies whether to store QoS 0 messages in the message queue while the connection is down but the session remains.",
-                        "label": "Store QoS 0 Message",
-                        "type": "boolean"
-                    },
-                    "use_username_as_clientid": {
-                        "description": "Whether to user Client ID as Username.<br/>This setting takes effect later than <code>Use Peer Certificate as Username</code> (<code>peer_cert_as_username</code>) and <code>Use peer certificate as Client ID</code> (<code>peer_cert_as_clientid</code>).",
-                        "label": "Use Username as Client ID",
-                        "type": "boolean"
-                    },
-                    "peer_cert_as_username": {
-                        "description": "Use the CN, DN field in the peer certificate or the entire certificate content as Username. Only works for the TLS connection.<br/>Supported configurations are the following:<br/>- <code>cn</code>: Take the CN field of the certificate as Username<br/>- <code>dn</code>: Take the DN field of the certificate as Username<br/>- <code>crt</code>: Take the content of the <code>DER</code> or <code>PEM</code> certificate as Username<br/>- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format as Username<br/>- <code>md5</code>: Take the MD5 value of the content of the <code>DER</code> or <code>PEM</code> certificate as Username",
-                        "label": "Use Peer Certificate as Username",
-                        "symbols": [
-                            "disabled",
-                            "cn",
-                            "dn",
-                            "crt",
-                            "pem",
-                            "md5"
-                        ],
-                        "type": "enum"
-                    },
-                    "peer_cert_as_clientid": {
-                        "description": "Use the CN, DN field in the peer certificate or the entire certificate content as Client ID. Only works for the TLS connection.<br/>Supported configurations are the following:<br/>- <code>cn</code>: Take the CN field of the certificate as Client ID<br/>- <code>dn</code>: Take the DN field of the certificate as Client ID<br/>- <code>crt</code>: Take the content of the <code>DER</code> or <code>PEM</code> certificate as Client ID<br/>- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format as Client ID<br/>- <code>md5</code>: Take the MD5 value of the content of the <code>DER</code> or <code>PEM</code> certificate as Client ID",
-                        "label": "Use Peer Certificate as Client ID",
-                        "symbols": [
-                            "disabled",
-                            "cn",
-                            "dn",
-                            "crt",
-                            "pem",
-                            "md5"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.conn_congestion": {
-                "properties": {
-                    "enable_alarm": {
-                        "description": "Enable or disable connection congestion alarm.",
-                        "label": "Enable/disable congestion alarm",
-                        "type": "boolean"
-                    },
-                    "min_alarm_sustain_duration": {
-                        "description": "Minimal time before clearing the alarm.<br/>The alarm is cleared only when there's no pending data in<br/>the queue, and at least <code>min_alarm_sustain_duration</code>milliseconds passed since the last time we considered the connection 'congested'.<br/>This is to avoid clearing and raising the alarm again too often.",
-                        "label": "Sustain duration",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "limiter.client_fields": {
-                "properties": {
-                    "bytes_in": {
-                        "default": {},
-                        "description": "The bytes_in limiter.<br/>This is used to limit the inbound bytes rate for this EMQX node.<br/>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
-                        "label": "Bytes In",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    },
-                    "message_in": {
-                        "default": {},
-                        "description": "The message in limiter.<br/>This is used to limit the inbound message numbers for this EMQX node<br/>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
-                        "label": "Message In",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    },
-                    "connection": {
-                        "default": {},
-                        "description": "The connection limiter.<br/>This is used to limit the connection rate for this EMQX node.<br/>Once the limit is reached, new connections will be refused",
-                        "label": "Connection",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    },
-                    "message_routing": {
-                        "default": {},
-                        "description": "The message routing limiter.<br/>This is used to limit the forwarding rate for this EMQX node.<br/>Once the limit is reached, new publish will be refused",
-                        "label": "Message Routing",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    },
-                    "internal": {
-                        "default": {},
-                        "description": "Limiter for EMQX internal app.",
-                        "label": "internal",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "limiter.limiter": {
-                "properties": {
-                    "bytes_in": {
-                        "default": {},
-                        "description": "The bytes_in limiter.<br/>This is used to limit the inbound bytes rate for this EMQX node.<br/>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
-                        "label": "Bytes In",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "message_in": {
-                        "default": {},
-                        "description": "The message in limiter.<br/>This is used to limit the inbound message numbers for this EMQX node<br/>Once the limit is reached, the restricted client will be slow down even be hung for a while.",
-                        "label": "Message In",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "connection": {
-                        "default": {},
-                        "description": "The connection limiter.<br/>This is used to limit the connection rate for this EMQX node.<br/>Once the limit is reached, new connections will be refused",
-                        "label": "Connection",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "message_routing": {
-                        "default": {},
-                        "description": "The message routing limiter.<br/>This is used to limit the forwarding rate for this EMQX node.<br/>Once the limit is reached, new publish will be refused",
-                        "label": "Message Routing",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "internal": {
-                        "default": {},
-                        "description": "Limiter for EMQX internal app.",
-                        "label": "internal",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "client": {
-                        "default": {
-                            "bytes_in": {},
-                            "connection": {},
-                            "internal": {},
-                            "message_in": {},
-                            "message_routing": {}
-                        },
-                        "description": "The rate limit for each user of the bucket",
-                        "label": "Per Client",
-                        "$ref": "#/components/schemas/limiter.client_fields"
-                    }
-                },
-                "type": "object"
-            },
-            "dashboard.https": {
-                "required": [
-                    "bind",
-                    "enable"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "Ignore or enable this listener",
-                        "label": "Enable",
-                        "type": "boolean"
-                    },
-                    "bind": {
-                        "default": 18084,
-                        "description": "Port without IP(18083) or port with specified IP(127.0.0.1:18083).",
-                        "example": "0.0.0.0:18084",
-                        "label": "Bind",
-                        "oneOf": [
-                            {
-                                "type": "ip_port"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "num_acceptors": {
-                        "default": 8,
-                        "description": "Socket acceptor pool size for TCP protocols. Default is the number of schedulers online",
-                        "label": "Number of acceptors",
-                        "type": "number"
-                    },
-                    "max_connections": {
-                        "default": 512,
-                        "description": "Maximum number of simultaneous connections.",
-                        "label": "Maximum connections",
-                        "type": "number"
-                    },
-                    "backlog": {
-                        "default": 1024,
-                        "description": "Defines the maximum length that the queue of pending connections can grow to.",
-                        "label": "Backlog",
-                        "type": "number"
-                    },
-                    "send_timeout": {
-                        "default": "10s",
-                        "description": "Send timeout for the socket.",
-                        "label": "Send timeout",
-                        "type": "duration"
-                    },
-                    "inet6": {
-                        "default": false,
-                        "description": "Enable IPv6 support, default is false, which means IPv4 only.",
-                        "label": "IPv6",
-                        "type": "boolean"
-                    },
-                    "ipv6_v6only": {
-                        "default": false,
-                        "description": "Disable IPv4-to-IPv6 mapping for the listener.<br/>The configuration is only valid when the inet6 is true.",
-                        "label": "IPv6 only",
-                        "type": "boolean"
-                    },
-                    "proxy_header": {
-                        "default": false,
-                        "description": "Enable support for `HAProxy` header. Be aware once enabled regular HTTP requests can't be handled anymore.",
-                        "label": "Enable support for HAProxy header",
-                        "type": "boolean"
-                    },
-                    "cacertfile": {
-                        "description": "Trusted PEM format CA certificates bundle file.<br/><br/>The certificates in this file are used to verify the TLS peer's certificates.<br/>Append new certificates to the file if new CAs are to be trusted.<br/>There is no need to restart EMQX to have the updated file loaded, because<br/>the system regularly checks if file has been updated (and reload).<br/><br/>NOTE: invalidating (deleting) a certificate from the file will not affect<br/>already established connections.",
-                        "label": "CACertfile",
-                        "type": "string"
-                    },
-                    "certfile": {
-                        "description": "PEM format certificates chain file.<br/><br/>The certificates in this file should be in reversed order of the certificate<br/>issue chain. That is, the host's certificate should be placed in the beginning<br/>of the file, followed by the immediate issuer certificate and so on.<br/>Although the root CA certificate is optional, it should be placed at the end of<br/>the file if it is to be added.",
-                        "label": "Certfile",
-                        "type": "string"
-                    },
-                    "keyfile": {
-                        "description": "PEM format private key file.",
-                        "label": "Keyfile",
-                        "type": "string"
-                    },
-                    "verify": {
-                        "default": "verify_none",
-                        "description": "Enable or disable peer verification.",
-                        "label": "Verify peer",
-                        "symbols": [
-                            "verify_peer",
-                            "verify_none"
-                        ],
-                        "type": "enum"
-                    },
-                    "reuse_sessions": {
-                        "default": true,
-                        "description": "Enable TLS session reuse.",
-                        "label": "TLS session reuse",
-                        "type": "boolean"
-                    },
-                    "depth": {
-                        "default": 10,
-                        "description": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.<br/>So, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/><br/>if 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/><br/>if 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
-                        "label": "CACert Depth",
-                        "type": "number"
-                    },
-                    "password": {
-                        "description": "String containing the user's password. Only used if the private key file is password-protected.",
-                        "example": "",
-                        "format": "password",
-                        "label": "Keyfile passphrase",
-                        "type": "string"
-                    },
-                    "versions": {
-                        "default": [
-                            "tlsv1.3",
-                            "tlsv1.2",
-                            "tlsv1.1",
-                            "tlsv1"
-                        ],
-                        "description": "All TLS/DTLS versions to be supported.<br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/><br/>In case PSK cipher suites are intended, make sure to configure<br/><code>['tlsv1.2', 'tlsv1.1']</code> here.",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "SSL versions",
-                        "type": "array"
-                    },
-                    "ciphers": {
-                        "default": "",
-                        "description": "This config holds TLS cipher suite names separated by comma,<br/>or as an array of strings. e.g.<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.<br/><br/><br/>Ciphers (and their ordering) define the way in which the<br/>client and server encrypts information over the network connection.<br/>Selecting a good cipher suite is critical for the<br/>application's data security, confidentiality and performance.<br/><br/>The names should be in OpenSSL string format (not RFC format).<br/>All default values and examples provided by EMQX config<br/>documentation are all in OpenSSL format.<br/><br/><br/>NOTE: Certain cipher suites are only compatible with<br/>specific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')<br/>incompatible cipher suites will be silently dropped.<br/>For instance, if only 'tlsv1.3' is given in the <code>versions</code>,<br/>configuring cipher suites for other versions will have no effect.<br/><br/><br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/><br/>If PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/><br/>PSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "",
-                        "type": "array"
-                    },
-                    "user_lookup_fun": {
-                        "default": "emqx_tls_psk:lookup",
-                        "description": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
-                        "label": "SSL PSK user lookup fun",
-                        "type": "string"
-                    },
-                    "secure_renegotiate": {
-                        "default": true,
-                        "description": "SSL parameter renegotiation is a feature that allows a client and a server<br/>to renegotiate the parameters of the SSL connection on the fly.<br/>RFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,<br/>you drop support for the insecure renegotiation, prone to MitM attacks.",
-                        "label": "SSL renegotiate",
-                        "type": "boolean"
-                    },
-                    "hibernate_after": {
-                        "default": "5s",
-                        "description": " Hibernate the SSL process after idling for amount of time reducing its memory footprint. ",
-                        "label": "hibernate after",
-                        "type": "duration"
-                    },
-                    "dhfile": {
-                        "description": "Path to a file containing PEM-encoded Diffie-Hellman parameters<br/>to be used by the server if a cipher suite using Diffie-Hellman<br/>key exchange is negotiated. If not specified, default parameters<br/>are used.<br/><br/>NOTE: The <code>dhfile</code> option is not supported by TLS 1.3.",
-                        "label": "SSL dhfile",
-                        "type": "string"
-                    },
-                    "honor_cipher_order": {
-                        "default": true,
-                        "description": "An important security setting, it forces the cipher to be set based<br/> on the server-specified order instead of the client-specified order,<br/> hence enforcing the (usually more properly configured) security<br/> ordering of the server administrator.",
-                        "label": "SSL honor cipher order",
-                        "type": "boolean"
-                    },
-                    "client_renegotiation": {
-                        "default": true,
-                        "description": "In protocols that support client-initiated renegotiation,<br/>the cost of resources of such an operation is higher for the server than the client.<br/>This can act as a vector for denial of service attacks.<br/>The SSL application already takes measures to counter-act such attempts,<br/>but client-initiated renegotiation can be strictly disabled by setting this option to false.<br/>The default value is true. Note that disabling renegotiation can result in<br/>long-lived connections becoming unusable due to limits on<br/>the number of messages the underlying cipher suite can encipher.",
-                        "label": "SSL client renegotiation",
-                        "type": "boolean"
-                    },
-                    "handshake_timeout": {
-                        "default": "15s",
-                        "description": "Maximum time duration allowed for the handshake to complete",
-                        "label": "Handshake timeout",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log_rotation": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "Enable log rotation feature.",
-                        "label": "Rotation Enable",
-                        "type": "boolean"
-                    },
-                    "count": {
-                        "default": 10,
-                        "description": "Maximum number of log files.",
-                        "label": "Max Log Files Number",
-                        "maximum": 2048,
-                        "minimum": 1,
-                        "type": "number"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.node": {
-                "required": [
-                    "data_dir",
-                    "cookie"
-                ],
-                "properties": {
-                    "name": {
-                        "default": "emqx@127.0.0.1",
-                        "description": "Unique name of the EMQX node. It must follow <code>%name%@FQDN</code> or<br/><code>%name%@IPv4</code> format.",
-                        "label": "Node Name",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "cookie": {
-                        "description": "Secret cookie is a random string that should be the same on all nodes in<br/>the given EMQX cluster, but unique per EMQX cluster. It is used to prevent EMQX nodes that<br/>belong to different clusters from accidentally connecting to each other.",
-                        "label": "Node Cookie",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "process_limit": {
-                        "default": 2097152,
-                        "description": "Maximum number of simultaneously existing processes for this Erlang system.<br/>The actual maximum chosen may be much larger than the Number passed.<br/>For more information, see: https://www.erlang.org/doc/man/erl.html",
-                        "label": "Erlang Process Limit",
-                        "maximum": 134217727,
-                        "minimum": 1024,
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "max_ports": {
-                        "default": 1048576,
-                        "description": "Maximum number of simultaneously existing ports for this Erlang system.<br/>The actual maximum chosen may be much larger than the Number passed.<br/>For more information, see: https://www.erlang.org/doc/man/erl.html",
-                        "label": "Erlang Port Limit",
-                        "maximum": 134217727,
-                        "minimum": 1024,
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "dist_buffer_size": {
-                        "default": 8192,
-                        "description": "Erlang's distribution buffer busy limit in kilobytes.",
-                        "label": "Erlang's dist buffer size(KB)",
-                        "maximum": 2097151,
-                        "minimum": 1,
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "max_ets_tables": {
-                        "default": 262144,
-                        "description": "Max number of ETS tables",
-                        "label": "Max number of ETS tables",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "data_dir": {
-                        "description": "Path to the persistent data directory.<br/><br/>Possible auto-created subdirectories are:<br/><br/>- `mnesia/<node_name>`: EMQX's built-in database directory.<br/><br/>For example, `mnesia/emqx@127.0.0.1`.<br/><br/>There should be only one such subdirectory.<br/><br/>Meaning, in case the node is to be renamed (to e.g. `emqx@10.0.1.1`),<br/><br/>the old dir should be deleted first.<br/><br/>- `configs`: Generated configs at boot time, and cluster/local override configs.<br/><br/>- `patches`: Hot-patch beam files are to be placed here.<br/><br/>- `trace`: Trace log files.<br/><br/><br/>**NOTE**: One data dir cannot be shared by two or more EMQX nodes.",
-                        "label": "Node Data Dir",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "config_files": {
-                        "description": "config_files Description",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "config_files",
-                        "readOnly": true,
-                        "type": "array"
-                    },
-                    "global_gc_interval": {
-                        "default": "15m",
-                        "description": "Periodic garbage collection interval. Set to <code>disabled</code> to have it disabled.",
-                        "label": "Global GC Interval",
-                        "readOnly": true,
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "crash_dump_file": {
-                        "default": "log/erl_crash.dump",
-                        "description": "Location of the crash dump file.",
-                        "label": "Crash Dump File",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "crash_dump_seconds": {
-                        "default": "30s",
-                        "description": "This variable gives the number of seconds that the emulator is allowed to spend writing a crash dump. When the given number of seconds have elapsed, the emulator is terminated.<br/><br/>- If setting to 0 seconds, the runtime system does not even attempt to write the crash dump file. It only terminates.<br/><br/>- If setting to a positive value S, wait for S seconds to complete the crash dump file and then terminates the runtime system with a SIGALRM signal.<br/><br/>- A negative value causes the termination of the runtime system to wait indefinitely until the crash dump file has been completely written.",
-                        "label": "Crash Dump Seconds",
-                        "readOnly": true,
-                        "type": "duration"
-                    },
-                    "crash_dump_bytes": {
-                        "default": "100MB",
-                        "description": "This variable sets the maximum size of a crash dump file in bytes.<br/>The crash dump will be truncated if this limit is exceeded.<br/>If setting it to 0, the runtime system does not even attempt to write a crash dump file.",
-                        "label": "Crash Dump Bytes",
-                        "readOnly": true,
-                        "type": "byteSize"
-                    },
-                    "dist_net_ticktime": {
-                        "default": "2m",
-                        "description": "This is the approximate time an EMQX node may be unresponsive until it is considered down and thereby disconnected.",
-                        "label": "Dist Net TickTime",
-                        "readOnly": true,
-                        "type": "duration"
-                    },
-                    "backtrace_depth": {
-                        "default": 23,
-                        "description": "Maximum depth of the call stack printed in error messages and<br/><code>process_info</code>.",
-                        "label": "BackTrace Depth",
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "applications": {
-                        "default": "",
-                        "description": "List of Erlang applications that shall be rebooted when the EMQX broker joins the cluster.",
-                        "label": "Application",
-                        "readOnly": true,
-                        "type": "comma_separated_string"
-                    },
-                    "etc_dir": {
-                        "deprecated": true,
-                        "description": "<code>etc</code> dir for the node",
-                        "label": "Etc Dir",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "cluster_call": {
-                        "description": "cluster_call Description",
-                        "label": "cluster_call",
-                        "readOnly": true,
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_call"
-                    },
-                    "db_backend": {
-                        "default": "rlog",
-                        "description": "Select the backend for the embedded database.<br/><br/><code>rlog</code> is the default backend,<br/>that is suitable for very large clusters.<br/><br/><code>mnesia</code> is a backend that offers decent performance in small clusters.",
-                        "label": "DB Backend",
-                        "readOnly": true,
-                        "symbols": [
-                            "mnesia",
-                            "rlog"
-                        ],
-                        "type": "enum"
-                    },
-                    "db_role": {
-                        "default": "core",
-                        "description": "Select a node role.<br/><br/><code>core</code> nodes provide durability of the data, and take care of writes.<br/>It is recommended to place core nodes in different racks or different availability zones.<br/><br/><code>replicant</code> nodes are ephemeral worker nodes. Removing them from the cluster<br/>doesn't affect database redundancy<br/><br/>It is recommended to have more replicant nodes than core nodes.<br/><br/>Note: this parameter only takes effect when the <code>backend</code> is set<br/>to <code>rlog</code>.",
-                        "label": "DB Role",
-                        "readOnly": true,
-                        "symbols": [
-                            "core",
-                            "replicant"
-                        ],
-                        "type": "enum"
-                    },
-                    "rpc_module": {
-                        "default": "gen_rpc",
-                        "description": "Protocol used for pushing transaction logs to the replicant nodes.",
-                        "label": "RPC Module",
-                        "readOnly": true,
-                        "symbols": [
-                            "gen_rpc",
-                            "rpc"
-                        ],
-                        "type": "enum"
-                    },
-                    "tlog_push_mode": {
-                        "default": "async",
-                        "description": "In sync mode the core node waits for an ack from the replicant nodes before sending the next<br/>transaction log entry.",
-                        "label": "Tlog Push Mode",
-                        "readOnly": true,
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "default_shard_transport": {
-                        "default": "gen_rpc",
-                        "description": "Defines the default transport for pushing transaction logs.<br/><br/>This may be overridden on a per-shard basis in <code>db.shard_transports</code>.<br/><code>gen_rpc</code> uses the <code>gen_rpc</code> library,<br/><code>distr</code> uses the Erlang distribution.",
-                        "label": "Default Shard Transport",
-                        "symbols": [
-                            "gen_rpc",
-                            "distr"
-                        ],
-                        "type": "enum"
-                    },
-                    "shard_transports": {
-                        "default": {},
-                        "description": "Allows to tune the transport method used for transaction log replication, on a per-shard basis.<br/><br/><code>gen_rpc</code> uses the <code>gen_rpc</code> library,<br/><code>distr</code> uses the Erlang distribution.<br/>If not specified,<br/>the default is to use the value set in <code>db.default_shard_transport</code>.",
-                        "label": "Shard Transports",
-                        "properties": {
-                            "$shard": {
-                                "symbols": [
-                                    "gen_rpc",
-                                    "distr"
-                                ],
-                                "type": "enum"
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.persistent_table_mria_opts": {
-                "properties": {
-                    "ram_cache": {
-                        "default": true,
-                        "description": "Maintain a copy of the data in RAM for faster access.",
-                        "label": "RAM cache",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "limiter.client_opts": {
-                "properties": {
-                    "rate": {
-                        "default": "infinity",
-                        "description": "Rate for this bucket.",
-                        "label": "Rate",
-                        "type": "string"
-                    },
-                    "initial": {
-                        "default": "0",
-                        "description": "The initial number of tokens for this bucket.",
-                        "label": "Initial",
-                        "type": "string"
-                    },
-                    "low_watermark": {
-                        "default": "0",
-                        "description": "If the remaining tokens are lower than this value,<br/>the check/consume will succeed, but it will be forced to wait for a short period of time.",
-                        "label": "Low Watermark",
-                        "type": "string"
-                    },
-                    "capacity": {
-                        "default": "infinity",
-                        "description": "The capacity of per user.",
-                        "label": "Capacity",
-                        "type": "string"
-                    },
-                    "divisible": {
-                        "default": false,
-                        "description": "Is it possible to split the number of requested tokens?",
-                        "label": "Divisible",
-                        "type": "boolean"
-                    },
-                    "max_retry_time": {
-                        "default": "10s",
-                        "description": "The maximum retry time when acquire failed.",
-                        "label": "Max Retry Time",
-                        "type": "duration"
-                    },
-                    "failure_strategy": {
-                        "default": "force",
-                        "description": "The strategy when all the retries failed.",
-                        "label": "Failure Strategy",
-                        "symbols": [
-                            "force",
-                            "drop",
-                            "throw"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "dashboard.dashboard": {
-                "required": [
-                    "default_password",
-                    "default_username"
-                ],
-                "properties": {
-                    "listeners": {
-                        "description": "HTTP(s) listeners are identified by their protocol type and are<br/>used to serve dashboard UI and restful HTTP API.<br/>Listeners must have a unique combination of port number and IP address.<br/>For example, an HTTP listener can listen on all configured IP addresses<br/>on a given port for a machine by specifying the IP address 0.0.0.0.<br/>Alternatively, the HTTP listener can specify a unique IP address for each listener,<br/>but use the same port.",
-                        "label": "Listeners",
-                        "$ref": "#/components/schemas/dashboard.listeners"
-                    },
-                    "default_username": {
-                        "default": "admin",
-                        "description": "The default username of the automatically created dashboard user.",
-                        "label": "Default username",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "default_password": {
-                        "default": "public",
-                        "description": "The initial default password for dashboard 'admin' user.<br/>For safety, it should be changed as soon as possible.<br/>This value is not valid when you log in to Dashboard for the first time via the web<br/>and change to a complex password as prompted.",
-                        "label": "Default password",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "sample_interval": {
-                        "default": "10s",
-                        "description": "How often to update metrics displayed in the dashboard.<br/>Note: `sample_interval` should be a divisor of 60, default is 10s.",
-                        "label": "sample_interval",
-                        "type": "duration"
-                    },
-                    "token_expired_time": {
-                        "default": "60m",
-                        "description": "JWT token expiration time. Default is 60 minutes",
-                        "label": "Token expired time",
-                        "type": "duration"
-                    },
-                    "cors": {
-                        "default": false,
-                        "description": "Support Cross-Origin Resource Sharing (CORS).<br/>Allows a server to indicate any origins (domain, scheme, or port) other than<br/>its own from which a browser should permit loading resources.",
-                        "label": "CORS",
-                        "type": "boolean"
-                    },
-                    "i18n_lang": {
-                        "default": "en",
-                        "description": "Internationalization language support.",
-                        "label": "I18n language",
-                        "readOnly": true,
-                        "symbols": [
-                            "en",
-                            "zh"
-                        ],
-                        "type": "enum"
-                    },
-                    "bootstrap_users_file": {
-                        "default": "",
-                        "description": "Deprecated, use api_key.bootstrap_file.",
-                        "label": "Deprecated",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.sys_topics": {
-                "properties": {
-                    "sys_msg_interval": {
-                        "default": "1m",
-                        "description": "Time interval of publishing `$SYS` messages.",
-                        "label": "sys_msg_interval",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "sys_heartbeat_interval": {
-                        "default": "30s",
-                        "description": "Time interval for publishing following heartbeat messages:<br/>  - `$SYS/brokers/<node>/uptime`<br/>  - `$SYS/brokers/<node>/datetime`",
-                        "label": "sys_heartbeat_interval",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "sys_event_messages": {
-                        "description": "Client events messages.",
-                        "label": "sys_event_messages",
-                        "$ref": "#/components/schemas/broker.event_names"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.force_shutdown": {
-                "properties": {
-                    "enable": {
-                        "description": "Enable `force_shutdown` feature.",
-                        "label": "Enable `force_shutdown` feature",
-                        "type": "boolean"
-                    },
-                    "max_message_queue_len": {
-                        "description": "Maximum message queue length.",
-                        "label": "Maximum mailbox queue length of process.",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "max_heap_size": {
-                        "description": "Total heap size",
-                        "label": "Total heap size",
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            }
+  "paths": {
+    "/configs_reset/:rootname": {},
+    "/configs/zones": {
+      "put": {
+        "type": "object",
+        "properties": {
+          "$name": {
+            "$ref": "#/components/schemas/broker.zone"
+          }
         }
+      },
+      "get": {
+        "type": "object",
+        "properties": {
+          "$name": {
+            "$ref": "#/components/schemas/broker.zone"
+          }
+        }
+      }
     },
-    "info": {
-        "title": "EMQX Hot Conf API Schema",
-        "version": "0.1.0"
+    "/configs/trace": {
+      "put": {
+        "$ref": "#/components/schemas/broker.trace"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.trace"
+      }
     },
-    "paths": {
-        "/configs": {
-            "get": {
-                "properties": {
-                    "zones": {
-                        "description": "A zone is a set of configs grouped by the zone <code>name</code>.<br/>For flexible configuration mapping, the <code>name</code> can be set to a listener's <code>zone</code> config.<br/>NOTE: A built-in zone named <code>default</code> is auto created and can not be deleted.",
-                        "label": "zones",
-                        "properties": {
-                            "$name": {
-                                "$ref": "#/components/schemas/broker.zone"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "node": {
-                        "description": "node Description",
-                        "label": "node",
-                        "$ref": "#/components/schemas/emqx_conf_schema.node"
-                    },
-                    "cluster": {
-                        "description": "cluster Description",
-                        "label": "cluster",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster"
-                    },
-                    "log": {
-                        "description": "log Description",
-                        "label": "log",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log"
-                    },
-                    "broker": {
-                        "description": "Message broker options.",
-                        "label": "broker",
-                        "$ref": "#/components/schemas/broker.broker"
-                    },
-                    "sys_topics": {
-                        "description": "System topics configuration.",
-                        "label": "sys_topics",
-                        "$ref": "#/components/schemas/broker.sys_topics"
-                    },
-                    "sysmon": {
-                        "description": "sysmon Description",
-                        "label": "sysmon",
-                        "$ref": "#/components/schemas/broker.sysmon"
-                    },
-                    "alarm": {
-                        "description": "alarm Description",
-                        "label": "alarm",
-                        "$ref": "#/components/schemas/broker.alarm"
-                    },
-                    "persistent_session_store": {
-                        "description": "persistent_session_store Description",
-                        "label": "persistent_session_store",
-                        "$ref": "#/components/schemas/broker.persistent_session_store"
-                    },
-                    "trace": {
-                        "description": "trace Description",
-                        "label": "trace",
-                        "$ref": "#/components/schemas/broker.trace"
-                    },
-                    "dashboard": {
-                        "description": "Configuration for EMQX dashboard.",
-                        "label": "Dashboard",
-                        "$ref": "#/components/schemas/dashboard.dashboard"
-                    },
-                    "limiter": {
-                        "description": "Settings for the rate limiter.",
-                        "label": "limiter",
-                        "$ref": "#/components/schemas/limiter.limiter"
-                    }
-                },
-                "type": "object"
+    "/configs/sysmon": {
+      "put": {
+        "$ref": "#/components/schemas/broker.sysmon"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.sysmon"
+      }
+    },
+    "/configs/sys_topics": {
+      "put": {
+        "$ref": "#/components/schemas/broker.sys_topics"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.sys_topics"
+      }
+    },
+    "/configs/persistent_session_store": {
+      "put": {
+        "$ref": "#/components/schemas/broker.persistent_session_store"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.persistent_session_store"
+      }
+    },
+    "/configs/log": {
+      "put": {
+        "$ref": "#/components/schemas/emqx_conf_schema.log"
+      },
+      "get": {
+        "$ref": "#/components/schemas/emqx_conf_schema.log"
+      }
+    },
+    "/configs/limiter": {
+      "put": {
+        "$ref": "#/components/schemas/limiter.limiter"
+      },
+      "get": {
+        "$ref": "#/components/schemas/limiter.limiter"
+      }
+    },
+    "/configs/global_zone": {
+      "put": {
+        "type": "object",
+        "properties": {
+          "mqtt": {
+            "$ref": "#/components/schemas/zone.mqtt"
+          },
+          "force_shutdown": {
+            "$ref": "#/components/schemas/zone.force_shutdown"
+          },
+          "force_gc": {
+            "$ref": "#/components/schemas/zone.force_gc"
+          }
+        }
+      },
+      "get": {
+        "type": "object",
+        "properties": {
+          "mqtt": {
+            "$ref": "#/components/schemas/zone.mqtt"
+          },
+          "force_shutdown": {
+            "$ref": "#/components/schemas/zone.force_shutdown"
+          },
+          "force_gc": {
+            "$ref": "#/components/schemas/zone.force_gc"
+          }
+        }
+      }
+    },
+    "/configs/dashboard": {
+      "put": {
+        "$ref": "#/components/schemas/dashboard.dashboard"
+      },
+      "get": {
+        "$ref": "#/components/schemas/dashboard.dashboard"
+      }
+    },
+    "/configs/alarm": {
+      "put": {
+        "$ref": "#/components/schemas/broker.alarm"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.alarm"
+      }
+    },
+    "/configs": {
+      "get": {
+        "type": "object",
+        "properties": {
+          "zones": {
+            "type": "object",
+            "properties": {
+              "$name": {
+                "$ref": "#/components/schemas/broker.zone"
+              }
             }
-        },
-        "/configs/alarm": {
-            "get": {
-                "$ref": "#/components/schemas/broker.alarm"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.alarm"
-            }
-        },
-        "/configs/broker": {
-            "get": {
-                "$ref": "#/components/schemas/broker.broker"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.broker"
-            }
-        },
-        "/configs/cluster": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_conf_schema.cluster"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_conf_schema.cluster"
-            }
-        },
-        "/configs/dashboard": {
-            "get": {
-                "$ref": "#/components/schemas/dashboard.dashboard"
-            },
-            "put": {
-                "$ref": "#/components/schemas/dashboard.dashboard"
-            }
-        },
-        "/configs/global_zone": {
-            "get": {
-                "properties": {
-                    "mqtt": {
-                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
-                        "label": "mqtt",
-                        "$ref": "#/components/schemas/zone.mqtt"
-                    },
-                    "stats": {
-                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
-                        "label": "stats",
-                        "$ref": "#/components/schemas/zone.stats"
-                    },
-                    "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
-                        "label": "flapping_detect",
-                        "$ref": "#/components/schemas/zone.flapping_detect"
-                    },
-                    "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
-                        "label": "force_shutdown",
-                        "$ref": "#/components/schemas/zone.force_shutdown"
-                    },
-                    "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
-                        "label": "conn_congestion",
-                        "$ref": "#/components/schemas/zone.conn_congestion"
-                    },
-                    "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
-                        "label": "force_gc",
-                        "$ref": "#/components/schemas/zone.force_gc"
-                    },
-                    "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
-                        "label": "overload_protection",
-                        "$ref": "#/components/schemas/zone.overload_protection"
-                    }
-                },
-                "type": "object"
-            },
-            "put": {
-                "properties": {
-                    "mqtt": {
-                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
-                        "label": "mqtt",
-                        "$ref": "#/components/schemas/zone.mqtt"
-                    },
-                    "stats": {
-                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
-                        "label": "stats",
-                        "$ref": "#/components/schemas/zone.stats"
-                    },
-                    "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
-                        "label": "flapping_detect",
-                        "$ref": "#/components/schemas/zone.flapping_detect"
-                    },
-                    "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
-                        "label": "force_shutdown",
-                        "$ref": "#/components/schemas/zone.force_shutdown"
-                    },
-                    "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
-                        "label": "conn_congestion",
-                        "$ref": "#/components/schemas/zone.conn_congestion"
-                    },
-                    "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
-                        "label": "force_gc",
-                        "$ref": "#/components/schemas/zone.force_gc"
-                    },
-                    "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
-                        "label": "overload_protection",
-                        "$ref": "#/components/schemas/zone.overload_protection"
-                    }
-                },
-                "type": "object"
-            }
-        },
-        "/configs/limiter": {
-            "get": {
-                "$ref": "#/components/schemas/limiter.limiter"
-            },
-            "put": {
-                "$ref": "#/components/schemas/limiter.limiter"
-            }
-        },
-        "/configs/log": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_conf_schema.log"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_conf_schema.log"
-            }
-        },
-        "/configs/node": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_conf_schema.node"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_conf_schema.node"
-            }
-        },
-        "/configs/persistent_session_store": {
-            "get": {
-                "$ref": "#/components/schemas/broker.persistent_session_store"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.persistent_session_store"
-            }
-        },
-        "/configs/sys_topics": {
-            "get": {
-                "$ref": "#/components/schemas/broker.sys_topics"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.sys_topics"
-            }
-        },
-        "/configs/sysmon": {
-            "get": {
-                "$ref": "#/components/schemas/broker.sysmon"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.sysmon"
-            }
-        },
-        "/configs/trace": {
-            "get": {
-                "$ref": "#/components/schemas/broker.trace"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.trace"
-            }
-        },
-        "/configs/zones": {
-            "get": {
-                "properties": {
-                    "$name": {
-                        "$ref": "#/components/schemas/broker.zone"
-                    }
-                },
-                "type": "object"
-            },
-            "put": {
-                "properties": {
-                    "$name": {
-                        "$ref": "#/components/schemas/broker.zone"
-                    }
-                },
-                "type": "object"
-            }
-        },
-        "/configs_reset/:rootname": {}
+          },
+          "log": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log"
+          },
+          "limiter": {
+            "$ref": "#/components/schemas/limiter.limiter"
+          },
+          "sysmon": {
+            "$ref": "#/components/schemas/broker.sysmon"
+          },
+          "sys_topics": {
+            "$ref": "#/components/schemas/broker.sys_topics"
+          },
+          "alarm": {
+            "$ref": "#/components/schemas/broker.alarm"
+          },
+          "dashboard": {
+            "$ref": "#/components/schemas/dashboard.dashboard",
+            "summary": "Dashboard"
+          }
+        }
+      }
     }
+  },
+  "info": {
+    "version": "0.1.0",
+    "title": "EMQX Hot Conf API Schema"
+  },
+  "components": {
+    "schemas": {
+      "zone.mqtt": {
+        "type": "object",
+        "properties": {
+          "idle_timeout": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              }
+            ],
+            "summary": "Idle Timeout"
+          },
+          "max_packet_size": {
+            "type": "byteSize",
+            "summary": "Max Packet Size"
+          },
+          "max_clientid_len": {
+            "type": "number",
+            "summary": "Max Client ID Length",
+            "minimum": 23,
+            "maximum": 65535
+          },
+          "max_topic_levels": {
+            "type": "number",
+            "summary": "Max Topic Levels",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "max_qos_allowed": {
+            "type": "enum",
+            "symbols": [
+              0,
+              1,
+              2
+            ],
+            "summary": "Max QoS"
+          },
+          "max_topic_alias": {
+            "type": "number",
+            "summary": "Max Topic Alias",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "retain_available": {
+            "type": "boolean",
+            "summary": "Retain Available"
+          },
+          "wildcard_subscription": {
+            "type": "boolean",
+            "summary": "Wildcard Subscription Available"
+          },
+          "shared_subscription": {
+            "type": "boolean",
+            "summary": "Shared Subscription Available"
+          },
+          "exclusive_subscription": {
+            "type": "boolean",
+            "summary": "Exclusive Subscription"
+          },
+          "ignore_loop_deliver": {
+            "type": "boolean",
+            "summary": "Ignore Loop Deliver"
+          },
+          "strict_mode": {
+            "type": "boolean",
+            "summary": "Strict Mode"
+          },
+          "response_information": {
+            "type": "string",
+            "summary": "Response Information"
+          },
+          "server_keepalive": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "summary": "Server Keep Alive"
+          },
+          "keepalive_backoff": {
+            "type": "number",
+            "summary": "Keep Alive Backoff"
+          },
+          "max_subscriptions": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              },
+              {
+                "type": "number",
+                "minimum": 1
+              }
+            ],
+            "summary": "Max Subscriptions"
+          },
+          "upgrade_qos": {
+            "type": "boolean",
+            "summary": "Upgrade QoS"
+          },
+          "max_inflight": {
+            "type": "number",
+            "summary": "Max Inflight",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "retry_interval": {
+            "type": "duration",
+            "summary": "Retry Interval"
+          },
+          "max_awaiting_rel": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "summary": "Max Awaiting PUBREL"
+          },
+          "await_rel_timeout": {
+            "type": "duration",
+            "summary": "Max Awaiting PUBREL TIMEOUT"
+          },
+          "session_expiry_interval": {
+            "type": "duration",
+            "summary": "Session Expiry Interval"
+          },
+          "max_mqueue_len": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              },
+              {
+                "type": "number",
+                "minimum": 1
+              }
+            ],
+            "summary": "Max Message Queue Length"
+          },
+          "mqueue_priorities": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              },
+              {
+                "type": "object"
+              }
+            ],
+            "summary": "Topic Priorities"
+          },
+          "mqueue_default_priority": {
+            "type": "enum",
+            "symbols": [
+              "highest",
+              "lowest"
+            ],
+            "summary": "Default Topic Priorities"
+          },
+          "mqueue_store_qos0": {
+            "type": "boolean",
+            "summary": "Store QoS 0 Message"
+          },
+          "use_username_as_clientid": {
+            "type": "boolean",
+            "summary": "Use Username as Client ID"
+          },
+          "peer_cert_as_username": {
+            "type": "enum",
+            "symbols": [
+              "disabled",
+              "cn",
+              "dn",
+              "crt",
+              "pem",
+              "md5"
+            ],
+            "summary": "Use Peer Certificate as Username"
+          },
+          "peer_cert_as_clientid": {
+            "type": "enum",
+            "symbols": [
+              "disabled",
+              "cn",
+              "dn",
+              "crt",
+              "pem",
+              "md5"
+            ],
+            "summary": "Use Peer Certificate as Client ID"
+          }
+        }
+      },
+      "zone.force_shutdown": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "Enable `force_shutdown` feature"
+          },
+          "max_message_queue_len": {
+            "type": "number",
+            "summary": "Maximum mailbox queue length of process.",
+            "minimum": 0
+          },
+          "max_heap_size": {
+            "type": "byteSize",
+            "summary": "Total heap size"
+          }
+        }
+      },
+      "zone.force_gc": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "Enable forced garbage collection"
+          },
+          "count": {
+            "type": "number",
+            "summary": "Process GC messages num",
+            "minimum": 0
+          },
+          "bytes": {
+            "type": "byteSize",
+            "summary": "Process GC bytes"
+          }
+        }
+      },
+      "limiter.node_opts": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "string",
+            "summary": "Rate",
+            "default": "infinity"
+          },
+          "burst": {
+            "type": "string",
+            "summary": "Burst",
+            "default": "0"
+          }
+        }
+      },
+      "limiter.limiter": {
+        "type": "object",
+        "properties": {
+          "bytes_in": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "summary": "Bytes In",
+            "default": {}
+          },
+          "message_in": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "summary": "Message In",
+            "default": {}
+          },
+          "connection": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "summary": "Connection",
+            "default": {}
+          },
+          "message_routing": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "summary": "Message Routing",
+            "default": {}
+          },
+          "internal": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "default": {}
+          },
+          "client": {
+            "$ref": "#/components/schemas/limiter.client_fields",
+            "summary": "Per Client",
+            "default": {
+              "message_routing": {},
+              "message_in": {},
+              "internal": {},
+              "connection": {},
+              "bytes_in": {}
+            }
+          }
+        }
+      },
+      "limiter.client_opts": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "string",
+            "summary": "Rate",
+            "default": "infinity"
+          },
+          "initial": {
+            "type": "string",
+            "summary": "Initial",
+            "default": "0"
+          },
+          "low_watermark": {
+            "type": "string",
+            "summary": "Low Watermark",
+            "default": "0"
+          },
+          "capacity": {
+            "type": "string",
+            "summary": "Capacity",
+            "default": "infinity"
+          },
+          "divisible": {
+            "type": "boolean",
+            "summary": "Divisible",
+            "default": false
+          },
+          "max_retry_time": {
+            "type": "duration",
+            "summary": "Max Retry Time",
+            "default": "10s"
+          },
+          "failure_strategy": {
+            "type": "enum",
+            "symbols": [
+              "force",
+              "drop",
+              "throw"
+            ],
+            "summary": "Failure Strategy",
+            "default": "force"
+          }
+        }
+      },
+      "limiter.client_fields": {
+        "type": "object",
+        "properties": {
+          "bytes_in": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "summary": "Bytes In",
+            "default": {}
+          },
+          "message_in": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "summary": "Message In",
+            "default": {}
+          },
+          "connection": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "summary": "Connection",
+            "default": {}
+          },
+          "message_routing": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "summary": "Message Routing",
+            "default": {}
+          },
+          "internal": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "default": {}
+          }
+        }
+      },
+      "emqx_conf_schema.log_rotation": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "Rotation Enable",
+            "default": true
+          },
+          "count": {
+            "type": "number",
+            "summary": "Max Log Files Number",
+            "minimum": 1,
+            "maximum": 2048,
+            "default": 10
+          }
+        }
+      },
+      "emqx_conf_schema.log_overload_kill": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "Log Handler Overload Kill",
+            "default": true
+          },
+          "mem_size": {
+            "type": "byteSize",
+            "summary": "Log Handler Max Memory Size",
+            "default": "30MB"
+          },
+          "qlen": {
+            "type": "string",
+            "summary": "Max Queue Length",
+            "default": 20000
+          },
+          "restart_after": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              },
+              {
+                "type": "duration"
+              }
+            ],
+            "summary": "Handler Restart Timer",
+            "default": "5s"
+          }
+        }
+      },
+      "emqx_conf_schema.log_file_handler": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "summary": "Log File Name"
+          },
+          "rotation": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_rotation"
+          },
+          "max_size": {
+            "oneOf": [
+              {
+                "type": "byteSize"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              }
+            ],
+            "summary": "Rotation Size",
+            "default": "50MB"
+          },
+          "enable": {
+            "type": "boolean",
+            "summary": "Enable Log Handler",
+            "default": true
+          },
+          "level": {
+            "type": "enum",
+            "symbols": [
+              "debug",
+              "info",
+              "notice",
+              "warning",
+              "error",
+              "critical",
+              "alert",
+              "emergency",
+              "all"
+            ],
+            "summary": "Log Level",
+            "default": "warning"
+          },
+          "time_offset": {
+            "type": "string",
+            "summary": "Time Offset",
+            "default": "system"
+          },
+          "chars_limit": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 100
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "unlimited"
+                ]
+              }
+            ],
+            "summary": "Single Log Max Length",
+            "default": "unlimited"
+          },
+          "formatter": {
+            "type": "enum",
+            "symbols": [
+              "text",
+              "json"
+            ],
+            "summary": "Log Formatter",
+            "default": "text"
+          },
+          "single_line": {
+            "type": "boolean",
+            "summary": "Single Line Mode",
+            "default": true
+          },
+          "sync_mode_qlen": {
+            "type": "number",
+            "summary": "Queue Length before Entering Sync Mode",
+            "minimum": 1,
+            "default": 100
+          },
+          "drop_mode_qlen": {
+            "type": "string",
+            "summary": "Queue Length before Entering Drop Mode",
+            "default": 3000
+          },
+          "flush_qlen": {
+            "type": "string",
+            "summary": "Flush Threshold",
+            "default": 8000
+          },
+          "overload_kill": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_overload_kill"
+          },
+          "burst_limit": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_burst_limit"
+          },
+          "supervisor_reports": {
+            "type": "enum",
+            "symbols": [
+              "error",
+              "progress"
+            ],
+            "summary": "Report Type",
+            "default": "error"
+          },
+          "max_depth": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 1
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "unlimited"
+                ]
+              }
+            ],
+            "summary": "Max Depth",
+            "default": 100
+          }
+        }
+      },
+      "emqx_conf_schema.log_burst_limit": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "Enable Burst",
+            "default": true
+          },
+          "max_count": {
+            "type": "string",
+            "summary": "Events Number",
+            "default": 10000
+          },
+          "window_time": {
+            "type": "duration",
+            "summary": "Window Time",
+            "default": "1s"
+          }
+        }
+      },
+      "emqx_conf_schema.log": {
+        "type": "object",
+        "properties": {
+          "console_handler": {
+            "$ref": "#/components/schemas/emqx_conf_schema.console_handler",
+            "summary": "Console Handler"
+          },
+          "file_handlers": {
+            "type": "object",
+            "properties": {
+              "$name": {
+                "$ref": "#/components/schemas/emqx_conf_schema.log_file_handler"
+              }
+            },
+            "summary": "File Handler"
+          }
+        }
+      },
+      "emqx_conf_schema.console_handler": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "Enable Log Handler",
+            "default": false
+          },
+          "level": {
+            "type": "enum",
+            "symbols": [
+              "debug",
+              "info",
+              "notice",
+              "warning",
+              "error",
+              "critical",
+              "alert",
+              "emergency",
+              "all"
+            ],
+            "summary": "Log Level",
+            "default": "warning"
+          },
+          "time_offset": {
+            "type": "string",
+            "summary": "Time Offset",
+            "default": "system"
+          },
+          "chars_limit": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 100
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "unlimited"
+                ]
+              }
+            ],
+            "summary": "Single Log Max Length",
+            "default": "unlimited"
+          },
+          "formatter": {
+            "type": "enum",
+            "symbols": [
+              "text",
+              "json"
+            ],
+            "summary": "Log Formatter",
+            "default": "text"
+          },
+          "single_line": {
+            "type": "boolean",
+            "summary": "Single Line Mode",
+            "default": true
+          },
+          "sync_mode_qlen": {
+            "type": "number",
+            "summary": "Queue Length before Entering Sync Mode",
+            "minimum": 1,
+            "default": 100
+          },
+          "drop_mode_qlen": {
+            "type": "string",
+            "summary": "Queue Length before Entering Drop Mode",
+            "default": 3000
+          },
+          "flush_qlen": {
+            "type": "string",
+            "summary": "Flush Threshold",
+            "default": 8000
+          },
+          "overload_kill": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_overload_kill"
+          },
+          "burst_limit": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_burst_limit"
+          },
+          "supervisor_reports": {
+            "type": "enum",
+            "symbols": [
+              "error",
+              "progress"
+            ],
+            "summary": "Report Type",
+            "default": "error"
+          },
+          "max_depth": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 1
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "unlimited"
+                ]
+              }
+            ],
+            "summary": "Max Depth",
+            "default": 100
+          }
+        }
+      },
+      "dashboard.listeners": {
+        "type": "object",
+        "properties": {
+          "http": {
+            "$ref": "#/components/schemas/dashboard.http"
+          },
+          "https": {
+            "$ref": "#/components/schemas/dashboard.https"
+          }
+        }
+      },
+      "dashboard.https": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "Enable",
+            "default": false
+          },
+          "bind": {
+            "oneOf": [
+              {
+                "type": "ip_port"
+              },
+              {
+                "type": "number",
+                "minimum": 1
+              }
+            ],
+            "summary": "Bind",
+            "example": "0.0.0.0:18084",
+            "default": 18084
+          },
+          "num_acceptors": {
+            "type": "number",
+            "summary": "Number of acceptors",
+            "default": 12
+          },
+          "max_connections": {
+            "type": "number",
+            "summary": "Maximum connections",
+            "default": 512
+          },
+          "backlog": {
+            "type": "number",
+            "summary": "Backlog",
+            "default": 1024
+          },
+          "send_timeout": {
+            "type": "duration",
+            "summary": "Send timeout",
+            "default": "10s"
+          },
+          "inet6": {
+            "type": "boolean",
+            "summary": "IPv6",
+            "default": false
+          },
+          "ipv6_v6only": {
+            "type": "boolean",
+            "summary": "IPv6 only",
+            "default": false
+          },
+          "proxy_header": {
+            "type": "boolean",
+            "summary": "Enable support for HAProxy header",
+            "default": false
+          },
+          "cacertfile": {
+            "type": "string",
+            "summary": "CACertfile"
+          },
+          "certfile": {
+            "type": "string",
+            "summary": "Certfile"
+          },
+          "keyfile": {
+            "type": "string",
+            "summary": "Keyfile"
+          },
+          "verify": {
+            "type": "enum",
+            "symbols": [
+              "verify_peer",
+              "verify_none"
+            ],
+            "summary": "Verify peer",
+            "default": "verify_none"
+          },
+          "reuse_sessions": {
+            "type": "boolean",
+            "summary": "TLS session reuse",
+            "default": true
+          },
+          "depth": {
+            "type": "number",
+            "summary": "CACert Depth",
+            "default": 10
+          },
+          "versions": {
+            "type": "array",
+            "summary": "SSL versions",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              "tlsv1.3",
+              "tlsv1.2",
+              "tlsv1.1",
+              "tlsv1"
+            ]
+          },
+          "ciphers": {
+            "type": "array",
+            "summary": "",
+            "items": {
+              "type": "string"
+            },
+            "default": ""
+          },
+          "user_lookup_fun": {
+            "type": "string",
+            "summary": "SSL PSK user lookup fun",
+            "default": "emqx_tls_psk:lookup"
+          },
+          "secure_renegotiate": {
+            "type": "boolean",
+            "summary": "SSL renegotiate",
+            "default": true
+          },
+          "hibernate_after": {
+            "type": "duration",
+            "summary": "hibernate after",
+            "default": "5s"
+          },
+          "dhfile": {
+            "type": "string",
+            "summary": "SSL dhfile"
+          },
+          "honor_cipher_order": {
+            "type": "boolean",
+            "summary": "SSL honor cipher order",
+            "default": true
+          },
+          "client_renegotiation": {
+            "type": "boolean",
+            "summary": "SSL client renegotiation",
+            "default": true
+          },
+          "handshake_timeout": {
+            "type": "duration",
+            "summary": "Handshake timeout",
+            "default": "15s"
+          }
+        },
+        "required": [
+          "bind",
+          "enable"
+        ]
+      },
+      "dashboard.http": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "Enable",
+            "default": true
+          },
+          "bind": {
+            "oneOf": [
+              {
+                "type": "ip_port"
+              },
+              {
+                "type": "number",
+                "minimum": 1
+              }
+            ],
+            "summary": "Bind",
+            "example": "0.0.0.0:18083",
+            "default": 18083
+          },
+          "num_acceptors": {
+            "type": "number",
+            "summary": "Number of acceptors",
+            "default": 12
+          },
+          "max_connections": {
+            "type": "number",
+            "summary": "Maximum connections",
+            "default": 512
+          },
+          "backlog": {
+            "type": "number",
+            "summary": "Backlog",
+            "default": 1024
+          },
+          "send_timeout": {
+            "type": "duration",
+            "summary": "Send timeout",
+            "default": "10s"
+          },
+          "inet6": {
+            "type": "boolean",
+            "summary": "IPv6",
+            "default": false
+          },
+          "ipv6_v6only": {
+            "type": "boolean",
+            "summary": "IPv6 only",
+            "default": false
+          },
+          "proxy_header": {
+            "type": "boolean",
+            "summary": "Enable support for HAProxy header",
+            "default": false
+          }
+        },
+        "required": [
+          "bind",
+          "enable"
+        ]
+      },
+      "dashboard.dashboard": {
+        "type": "object",
+        "properties": {
+          "listeners": {
+            "$ref": "#/components/schemas/dashboard.listeners",
+            "summary": "Listeners"
+          },
+          "token_expired_time": {
+            "type": "duration",
+            "summary": "Token expired time",
+            "default": "60m"
+          },
+          "cors": {
+            "type": "boolean",
+            "summary": "CORS",
+            "default": false
+          }
+        }
+      },
+      "broker.zone": {
+        "type": "object",
+        "properties": {
+          "mqtt": {
+            "$ref": "#/components/schemas/zone.mqtt"
+          },
+          "force_shutdown": {
+            "$ref": "#/components/schemas/zone.force_shutdown"
+          },
+          "force_gc": {
+            "$ref": "#/components/schemas/zone.force_gc"
+          }
+        }
+      },
+      "broker.trace": {
+        "type": "object",
+        "properties": []
+      },
+      "broker.sysmon_vm": {
+        "type": "object",
+        "properties": {
+          "process_check_interval": {
+            "type": "duration",
+            "summary": "Process limit check interval",
+            "default": "30s"
+          },
+          "process_high_watermark": {
+            "type": "percent",
+            "summary": "Process high watermark",
+            "default": "80%"
+          },
+          "process_low_watermark": {
+            "type": "percent",
+            "summary": "Process low watermark",
+            "default": "60%"
+          },
+          "long_gc": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "summary": "Enable Long GC monitoring.",
+            "default": "disabled"
+          },
+          "long_schedule": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "summary": "Enable Long Schedule monitoring.",
+            "default": "240ms"
+          },
+          "large_heap": {
+            "oneOf": [
+              {
+                "type": "byteSize"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "summary": "Enable Large Heap monitoring.",
+            "default": "32MB"
+          },
+          "busy_dist_port": {
+            "type": "boolean",
+            "summary": "Enable Busy Distribution Port monitoring.",
+            "default": true
+          },
+          "busy_port": {
+            "type": "boolean",
+            "summary": "Enable Busy Port monitoring.",
+            "default": true
+          }
+        }
+      },
+      "broker.sysmon_top": {
+        "type": "object",
+        "properties": {
+          "num_items": {
+            "type": "number",
+            "summary": "Top num items",
+            "minimum": 1,
+            "default": 10
+          },
+          "sample_interval": {
+            "type": "duration",
+            "summary": "Top sample interval",
+            "default": "2s"
+          },
+          "max_procs": {
+            "type": "number",
+            "summary": "Max procs",
+            "minimum": 1,
+            "default": 1000000
+          },
+          "db_hostname": {
+            "type": "string",
+            "summary": "DB Hostname",
+            "default": ""
+          },
+          "db_port": {
+            "type": "number",
+            "summary": "DB Port",
+            "default": 5432
+          },
+          "db_username": {
+            "type": "string",
+            "summary": "DB Username",
+            "default": "system_monitor"
+          },
+          "db_password": {
+            "type": "string",
+            "summary": "DB Password",
+            "default": "system_monitor_password"
+          },
+          "db_name": {
+            "type": "string",
+            "summary": "DB Name",
+            "default": "postgres"
+          }
+        }
+      },
+      "broker.sysmon_os": {
+        "type": "object",
+        "properties": {
+          "cpu_check_interval": {
+            "type": "duration",
+            "summary": "The time interval for the periodic CPU check.",
+            "default": "60s"
+          },
+          "cpu_high_watermark": {
+            "type": "percent",
+            "summary": "CPU high watermark",
+            "default": "80%"
+          },
+          "cpu_low_watermark": {
+            "type": "percent",
+            "summary": "CPU low watermark",
+            "default": "60%"
+          },
+          "mem_check_interval": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "summary": "Mem check interval",
+            "default": "60s"
+          },
+          "sysmem_high_watermark": {
+            "type": "percent",
+            "summary": "SysMem high wartermark",
+            "default": "70%"
+          },
+          "procmem_high_watermark": {
+            "type": "percent",
+            "summary": "ProcMem high wartermark",
+            "default": "5%"
+          }
+        }
+      },
+      "broker.sysmon": {
+        "type": "object",
+        "properties": {
+          "vm": {
+            "$ref": "#/components/schemas/broker.sysmon_vm"
+          },
+          "os": {
+            "$ref": "#/components/schemas/broker.sysmon_os"
+          },
+          "top": {
+            "$ref": "#/components/schemas/broker.sysmon_top"
+          }
+        }
+      },
+      "broker.sys_topics": {
+        "type": "object",
+        "properties": {
+          "sys_msg_interval": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "default": "1m"
+          },
+          "sys_heartbeat_interval": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "default": "30s"
+          },
+          "sys_event_messages": {
+            "$ref": "#/components/schemas/broker.event_names"
+          }
+        }
+      },
+      "broker.persistent_table_mria_opts": {
+        "type": "object",
+        "properties": {
+          "ram_cache": {
+            "type": "boolean",
+            "summary": "RAM cache",
+            "default": true
+          }
+        }
+      },
+      "broker.persistent_session_store": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "summary": "Enable persistent session store",
+            "default": false
+          },
+          "on_disc": {
+            "type": "boolean",
+            "summary": "Persist on disc",
+            "default": true
+          },
+          "ram_cache": {
+            "type": "boolean",
+            "summary": "RAM cache",
+            "default": false
+          },
+          "backend": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/broker.persistent_session_builtin"
+              }
+            ],
+            "summary": "Backend",
+            "default": {
+              "type": "builtin",
+              "session_messages": {
+                "ram_cache": "true"
+              },
+              "session": {
+                "ram_cache": "true"
+              },
+              "messages": {
+                "ram_cache": "false"
+              }
+            }
+          },
+          "max_retain_undelivered": {
+            "type": "duration",
+            "summary": "Max retain undelivered",
+            "default": "1h"
+          },
+          "message_gc_interval": {
+            "type": "duration",
+            "summary": "Message GC interval",
+            "default": "1h"
+          },
+          "session_message_gc_interval": {
+            "type": "duration",
+            "summary": "Session message GC interval",
+            "default": "1m"
+          }
+        }
+      },
+      "broker.persistent_session_builtin": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "enum",
+            "symbols": [
+              "builtin"
+            ],
+            "default": "builtin"
+          },
+          "session": {
+            "$ref": "#/components/schemas/broker.persistent_table_mria_opts",
+            "summary": "Persistent session"
+          },
+          "session_messages": {
+            "$ref": "#/components/schemas/broker.persistent_table_mria_opts",
+            "summary": "Persistent session messages"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/broker.persistent_table_mria_opts",
+            "summary": "Persistent messages"
+          }
+        }
+      },
+      "broker.event_names": {
+        "type": "object",
+        "properties": {
+          "client_connected": {
+            "type": "boolean",
+            "default": true
+          },
+          "client_disconnected": {
+            "type": "boolean",
+            "default": true
+          },
+          "client_subscribed": {
+            "type": "boolean",
+            "default": false
+          },
+          "client_unsubscribed": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "broker.alarm": {
+        "type": "object",
+        "properties": {
+          "actions": {
+            "type": "array",
+            "summary": "Alarm Actions",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "log",
+              "publish"
+            ],
+            "default": [
+              "log",
+              "publish"
+            ]
+          },
+          "size_limit": {
+            "type": "number",
+            "summary": "Alarm size limit",
+            "minimum": 1,
+            "maximum": 3000,
+            "example": 1000,
+            "default": 1000
+          },
+          "validity_period": {
+            "type": "duration",
+            "summary": "Alarm validity period",
+            "example": "24h",
+            "default": "24h"
+          }
+        }
+      }
+    }
+  }
 }
