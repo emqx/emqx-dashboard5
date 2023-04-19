@@ -100,8 +100,8 @@ export default {
     en: 'Rules',
   },
   ruleengine: {
-    zh: '数据集成',
-    en: 'Data Integration',
+    zh: '集成',
+    en: 'Integration',
   },
   flow: {
     zh: 'Flows',
