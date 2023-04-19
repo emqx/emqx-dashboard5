@@ -98,7 +98,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { computed, ComputedRef, defineEmits, defineProps, PropType, ref, Ref, watch } from 'vue'
-import { Close, Refresh } from '@element-plus/icons-vue'
 import { queryBridgeMetrics, reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
@@ -107,7 +106,9 @@ import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, BridgeMetricsData, NodeMetrics, NodeStatus } from '@/types/rule'
+import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { lowerCase } from 'lodash'
 
 const props = defineProps({
   /**
@@ -251,7 +252,9 @@ const resetStatistics = async () => {
   if (!props.bridgeId) {
     return
   }
-  await ElMessageBox.confirm(t('RuleEngine.resetMetricsConfirm', { target: tl('rule') }))
+  await ElMessageBox.confirm(
+    t('RuleEngine.resetMetricsConfirm', { target: lowerCase(tl('dataBridge')) }),
+  )
   await resetBridgeMetrics(props.bridgeId)
   ElMessage.success(tl('resetSuccessfully'))
   getBridgeMetrics()
