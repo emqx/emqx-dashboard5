@@ -69,11 +69,11 @@
       "label": "K8s 命名空间"
     },
     "node_name": {
-      "desc": "节点名。格式为 \\<name>@\\<host>。其中 <host> 可以是 IP 地址，也可以是 FQDN。\n详见 http://erlang.org/doc/reference_manual/distributed.html。",
+      "desc": "节点名。格式为 \\<name>{'@'}\\<host>。其中 <host> 可以是 IP 地址，也可以是 FQDN。\n详见 http://erlang.org/doc/reference_manual/distributed.html。",
       "label": "节点名"
     },
     "rpc_port_discovery": {
-      "desc": "<code>manual</code>: 通过 <code>tcp_server_port</code> 来发现端口。\n<br/><code>stateless</code>: 使用无状态的方式来发现端口，使用如下算法。如果节点名称是 <code>\nemqxN@127.0.0.1</code>, N 是一个数字，那么监听端口就是 5370 + N。",
+      "desc": "<code>manual</code>: 通过 <code>tcp_server_port</code> 来发现端口。\n<br/><code>stateless</code>: 使用无状态的方式来发现端口，使用如下算法。如果节点名称是 <code>\nemqxN{'@'}127.0.0.1</code>, N 是一个数字，那么监听端口就是 5370 + N。",
       "label": "RPC 端口发现策略"
     },
     "log_overload_kill_restart_after": {
@@ -269,7 +269,7 @@
       "label": "报告类型"
     },
     "node_data_dir": {
-      "desc": "节点数据存放目录，可能会自动创建的子目录如下：<br/>\n- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx@127.0.0.1`。<br/>\n如果节点要被重新命名（例如，`emqx@10.0.1.1`）。旧目录应该首先被删除。<br/>\n- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。<br/>\n- `patches`: 热补丁文件将被放在这里。<br/>\n- `trace`: 日志跟踪文件。<br/>\n\n**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。",
+      "desc": "节点数据存放目录，可能会自动创建的子目录如下：<br/>\n- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx{'@'}127.0.0.1`。<br/>\n如果节点要被重新命名（例如，`emqx{'@'}10.0.1.1`）。旧目录应该首先被删除。<br/>\n- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。<br/>\n- `patches`: 热补丁文件将被放在这里。<br/>\n- `trace`: 日志跟踪文件。<br/>\n\n**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。",
       "label": "节点数据目录"
     },
     "cluster_k8s_suffix": {
@@ -501,7 +501,7 @@
       "label": "本地 Topic"
     },
     "sql_template": {
-      "desc": "可以使用 ${field} 占位符来引用消息与客户端上下文中的变量，请确保对应字段存在且数据格式符合预期。此处不支持 [SQL 预处理](https://docs.emqx.com/zh/enterprise/v5.0/data-integration/data-bridges.html#sql-预处理)。",
+      "desc": "可以使用 ${'{'}field{'}'} 占位符来引用消息与客户端上下文中的变量，请确保对应字段存在且数据格式符合预期。此处不支持 [SQL 预处理](https://docs.emqx.com/zh/enterprise/v5.0/data-integration/data-bridges.html#sql-预处理)。",
       "label": "SQL 模板"
     }
   },
@@ -637,7 +637,7 @@
       "label": "本地 Topic"
     },
     "write_syntax": {
-      "desc": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>\n参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及\n[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\nTLDR: </br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\n注意，整形数值占位符后需要添加一个字符 `i` 类型标识。例如 `${payload.int_value}i`",
+      "desc": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>\n参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及\n[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\nTLDR: </br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\n注意，整形数值占位符后需要添加一个字符 `i` 类型标识。例如 `${'{'}payload.int_value{'}'}i`",
       "label": "写语句"
     }
   },
@@ -731,7 +731,7 @@
       "label": "MQTT 转发"
     },
     "auth_kerberos_principal": {
-      "desc": "SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name@MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中",
+      "desc": "SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中",
       "label": "Kerberos Principal"
     },
     "socket_opts": {
@@ -955,7 +955,7 @@
   },
   "emqx_ee_bridge_redis": {
     "command_template": {
-      "desc": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。\n例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${payload}`。",
+      "desc": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。\n例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${'{'}payload{'}'}`。",
       "label": "Redis Command  模板"
     },
     "config_enable": {
@@ -1125,7 +1125,7 @@
       "label": "CRL 缓存容量"
     },
     "alarm_actions": {
-      "desc": "警报激活时触发的动作。<br/>目前，支持以下操作：<code>log</code> 和 <code>publish</code>.\n<code>log</code> 将告警写入日志 (控制台或者文件).\n<code>publish</code> 将告警作为 MQTT 消息发布到系统主题:\n<code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/activate</code> and\n<code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/deactivate</code>",
+      "desc": "警报激活时触发的动作。<br/>目前，支持以下操作：<code>log</code> 和 <code>publish</code>.\n<code>log</code> 将告警写入日志 (控制台或者文件).\n<code>publish</code> 将告警作为 MQTT 消息发布到系统主题:\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/activate</code> and\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/deactivate</code>",
       "label": "告警动作"
     },
     "base_listener_max_connections": {
@@ -1257,7 +1257,7 @@
       "label": "CA 证书文件"
     },
     "fields_ws_opts_mqtt_path": {
-      "desc": "WebSocket 的 MQTT 协议路径。因此，EMQX Broker的WebSocket地址为：\n<code>ws://{ip}:{port}/mqtt</code>",
+      "desc": "WebSocket 的 MQTT 协议路径。因此，EMQX Broker的WebSocket地址为：\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
       "label": "WS MQTT 路径"
     },
     "sysmon_os_procmem_high_watermark": {
@@ -1343,7 +1343,7 @@
       "label": "MQTT Piggyback"
     },
     "base_listener_mountpoint": {
-      "desc": "发布或订阅时，请在所有主题前面加上 mountpoint 字符串。\n\n将消息传递给订阅者时，将从主题名称中删除带前缀的字符串。挂载点是一种用户可以用来实现不同侦听器之间消息路由隔离的方法。\n\n例如，如果客户机 A 使用 <code>listeners.tcp.\\<name>.mountpoint</code> 设置为'some_tenant'，那么客户端实际上订阅了主题'some_tenant/t'。<br/>\n类似地，如果另一个客户端B（与客户端A连接到同一个侦听器）向主题 't' 发送消息，该消息将路由到所有订阅了'some_租户/t'的客户端，因此客户端 A 将接收主题名为't'的消息<br/>\n\n设置为<code>\"\"</code> 以禁用该功能<br/>\n\nmountpoint 字符串中的变量：\n- <code>${clientid}</code>: clientid\n- <code>${username}</code>: username",
+      "desc": "发布或订阅时，请在所有主题前面加上 mountpoint 字符串。\n\n将消息传递给订阅者时，将从主题名称中删除带前缀的字符串。挂载点是一种用户可以用来实现不同侦听器之间消息路由隔离的方法。\n\n例如，如果客户机 A 使用 <code>listeners.tcp.\\<name>.mountpoint</code> 设置为'some_tenant'，那么客户端实际上订阅了主题'some_tenant/t'。<br/>\n类似地，如果另一个客户端B（与客户端A连接到同一个侦听器）向主题 't' 发送消息，该消息将路由到所有订阅了'some_租户/t'的客户端，因此客户端 A 将接收主题名为't'的消息<br/>\n\n设置为<code>\"\"</code> 以禁用该功能<br/>\n\nmountpoint 字符串中的变量：\n- <code>${'{'}clientid{'}'}</code>: clientid\n- <code>${'{'}username{'}'}</code>: username",
       "label": "mountpoint"
     },
     "mqtt_max_awaiting_rel": {
@@ -1391,7 +1391,7 @@
       "label": "服务端保活时间"
     },
     "global_authentication": {
-      "desc": "全局 MQTT 监听器的默认认证配置。 为每个监听器配置认证参考监听器器配置中的<code>authentication</code> 配置。\n\n该配置可以被配置为：\n<ul>\n  <li><code>[]</code>: 默认值，允许所有的登录请求\n  <li>配置为单认证器，例如 <code>{enable:true,backend:\"built_in_database\",mechanism=\"password_based\"}</code></li>\n  <li>配置为认证器数组</li>\n</ul>\n\n当配置为认证链后，登录凭证会按照配置的顺序进行检查，直到做出<code>allow</code> 或 <code>deny</code>的结果。\n\n如果在所有的认证器都执行完后，还是没有结果，登录将被拒绝。"
+      "desc": "全局 MQTT 监听器的默认认证配置。 为每个监听器配置认证参考监听器器配置中的<code>authentication</code> 配置。\n\n该配置可以被配置为：\n<ul>\n  <li><code>[]</code>: 默认值，允许所有的登录请求\n  <li>配置为单认证器，例如 <code>{'{'}enable:true,backend:\"built_in_database\",mechanism=\"password_based\"{'}'}</code></li>\n  <li>配置为认证器数组</li>\n</ul>\n\n当配置为认证链后，登录凭证会按照配置的顺序进行检查，直到做出<code>allow</code> 或 <code>deny</code>的结果。\n\n如果在所有的认证器都执行完后，还是没有结果，登录将被拒绝。"
     },
     "fields_mqtt_quic_listener_load_balancing_mode": {
       "desc": "0: 禁用, 1: SERVER_ID_IP, 2: SERVER_ID_FIXED. 默认: 0",
@@ -1445,7 +1445,7 @@
       "label": "流接收窗口默认"
     },
     "mqtt_mqueue_priorities": {
-      "desc": "主题优先级。取值范围 [1-255]\n默认优先级表为空，即所有的主题优先级相同。\n\n注：优先主题名称中不支持使用逗号和等号。\n注：不在此列表中的主题，被视为最高/最低优先级，这取决于<code>mqtt.mqueue_default_priority</code> 的配置\n\n示例：\n配置 <code>\"topic/1\" > \"topic/2\"</code>:\n<code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code>",
+      "desc": "主题优先级。取值范围 [1-255]\n默认优先级表为空，即所有的主题优先级相同。\n\n注：优先主题名称中不支持使用逗号和等号。\n注：不在此列表中的主题，被视为最高/最低优先级，这取决于<code>mqtt.mqueue_default_priority</code> 的配置\n\n示例：\n配置 <code>\"topic/1\" > \"topic/2\"</code>:\n<code>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}</code>",
       "label": "主题优先级"
     },
     "fields_rate_limit_conn_messages_in": {
@@ -1606,7 +1606,7 @@
       "label": "垃圾回收字节数"
     },
     "server_ssl_opts_schema_fail_if_no_peer_cert": {
-      "desc": "TLS/DTLS 服务器与 {verify，verify_peer} 一起使用。\n如果设置为true，则如果客户端没有要发送的证书，即发送空证书，服务器将失败。\n如果设置为false，则仅当客户端发送无效证书（空证书被视为有效证书）时才会失败。",
+      "desc": "TLS/DTLS 服务器与 {'{'}verify，verify_peer{'}'} 一起使用。\n如果设置为true，则如果客户端没有要发送的证书，即发送空证书，服务器将失败。\n如果设置为false，则仅当客户端发送无效证书（空证书被视为有效证书）时才会失败。",
       "label": "没有证书则 SSL 失败"
     },
     "fields_ws_opts_compress": {
@@ -1700,7 +1700,7 @@
       "label": "OCSP 签发者证书"
     },
     "fields_tcp_opts_active_n": {
-      "desc": "为此套接字指定{active，N}选项<br/>\nSee: https://erlang.org/doc/man/inet.html#setopts-2",
+      "desc": "为此套接字指定{'{'}active，N{'}'}选项<br/>\nSee: https://erlang.org/doc/man/inet.html#setopts-2",
       "label": "active_n"
     },
     "listener_authentication": {
@@ -1959,7 +1959,7 @@
       "desc": "客户端事件消息。"
     },
     "broker_perf_trie_compaction": {
-      "desc": "是否开启主题表压缩存储。\n启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{{id}}/+/'，其中每个订阅者的 ID 是唯一的。\n如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。\n\n注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。"
+      "desc": "是否开启主题表压缩存储。\n启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{'{'}{'{'}id{'}'}{'}'}/+/'，其中每个订阅者的 ID 是唯一的。\n如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。\n\n注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。"
     },
     "sysmon_vm_large_heap": {
       "desc": "启用后，当一个 Erlang 进程申请了大量内存，系统会触发一条带有 <code>large_heap</code> 关键字的\nwarning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",

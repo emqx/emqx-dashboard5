@@ -69,11 +69,11 @@
       "label": "K8s Namespace"
     },
     "node_name": {
-      "desc": "Unique name of the EMQX node. It must follow <code>%name%@FQDN</code> or\n<code>%name%@IPv4</code> format.",
+      "desc": "Unique name of the EMQX node. It must follow <code>%name%{'@'}FQDN</code> or\n<code>%name%{'@'}IPv4</code> format.",
       "label": "Node Name"
     },
     "rpc_port_discovery": {
-      "desc": "<code>manual</code>: discover ports by <code>tcp_server_port</code>.<br/>\n<code>stateless</code>: discover ports in a stateless manner, using the following algorithm.\nIf node name is <code>emqxN@127.0.0.1</code>, where the N is an integer,\nthen the listening port will be 5370 + N.",
+      "desc": "<code>manual</code>: discover ports by <code>tcp_server_port</code>.<br/>\n<code>stateless</code>: discover ports in a stateless manner, using the following algorithm.\nIf node name is <code>emqxN{'@'}127.0.0.1</code>, where the N is an integer,\nthen the listening port will be 5370 + N.",
       "label": "RRC Port Discovery"
     },
     "log_overload_kill_restart_after": {
@@ -269,7 +269,7 @@
       "label": "Report Type"
     },
     "node_data_dir": {
-      "desc": "Path to the persistent data directory.<br/>\nPossible auto-created subdirectories are:<br/>\n- `mnesia/<node_name>`: EMQX's built-in database directory.<br/>\nFor example, `mnesia/emqx@127.0.0.1`.<br/>\nThere should be only one such subdirectory.<br/>\nMeaning, in case the node is to be renamed (to e.g. `emqx@10.0.1.1`),<br/>\nthe old dir should be deleted first.<br/>\n- `configs`: Generated configs at boot time, and cluster/local override configs.<br/>\n- `patches`: Hot-patch beam files are to be placed here.<br/>\n- `trace`: Trace log files.<br/>\n\n**NOTE**: One data dir cannot be shared by two or more EMQX nodes.",
+      "desc": "Path to the persistent data directory.<br/>\nPossible auto-created subdirectories are:<br/>\n- `mnesia/<node_name>`: EMQX's built-in database directory.<br/>\nFor example, `mnesia/emqx{'@'}127.0.0.1`.<br/>\nThere should be only one such subdirectory.<br/>\nMeaning, in case the node is to be renamed (to e.g. `emqx{'@'}10.0.1.1`),<br/>\nthe old dir should be deleted first.<br/>\n- `configs`: Generated configs at boot time, and cluster/local override configs.<br/>\n- `patches`: Hot-patch beam files are to be placed here.<br/>\n- `trace`: Trace log files.<br/>\n\n**NOTE**: One data dir cannot be shared by two or more EMQX nodes.",
       "label": "Node Data Dir"
     },
     "cluster_k8s_suffix": {
@@ -501,7 +501,7 @@
       "label": "Local Topic"
     },
     "sql_template": {
-      "desc": "The template string can contain ${field} placeholders for message metadata and payload field. Make sure that the inserted values are formatted and escaped correctly. [Prepared Statement](https://docs.emqx.com/en/enterprise/v5.0/data-integration/data-bridges.html#Prepared-Statement) is not supported.",
+      "desc": "The template string can contain ${'{'}field{'}'} placeholders for message metadata and payload field. Make sure that the inserted values are formatted and escaped correctly. [Prepared Statement](https://docs.emqx.com/en/enterprise/v5.0/data-integration/data-bridges.html#Prepared-Statement) is not supported.",
       "label": "SQL Template"
     }
   },
@@ -637,7 +637,7 @@
       "label": "Local Topic"
     },
     "write_syntax": {
-      "desc": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.\nSee also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and\n[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\nTLDR:</br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\nPlease note that a placeholder for an integer value must be annotated with a suffix `i`. For example `${payload.int_value}i`.",
+      "desc": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.\nSee also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and\n[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\nTLDR:</br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\nPlease note that a placeholder for an integer value must be annotated with a suffix `i`. For example `${'{'}payload.int_value{'}'}i`.",
       "label": "Write Syntax"
     }
   },
@@ -731,7 +731,7 @@
       "label": "MQTT publish"
     },
     "auth_kerberos_principal": {
-      "desc": "SASL GSSAPI authentication Kerberos principal. For example <code>client_name@MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.",
+      "desc": "SASL GSSAPI authentication Kerberos principal. For example <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.",
       "label": "Kerberos Principal"
     },
     "socket_opts": {
@@ -955,7 +955,7 @@
   },
   "emqx_ee_bridge_redis": {
     "command_template": {
-      "desc": "Redis command template used to export messages. Each list element stands for a command name or its argument.\nFor example, to push payloads in a Redis list by key `msgs`, the elements should be the following:\n`rpush`, `msgs`, `${payload}`.",
+      "desc": "Redis command template used to export messages. Each list element stands for a command name or its argument.\nFor example, to push payloads in a Redis list by key `msgs`, the elements should be the following:\n`rpush`, `msgs`, `${'{'}payload{'}'}`.",
       "label": "Redis Command Template"
     },
     "config_enable": {
@@ -1125,7 +1125,7 @@
       "label": "CRL Cache Capacity"
     },
     "alarm_actions": {
-      "desc": "The actions triggered when the alarm is activated.<br/>Currently, the following actions are supported: <code>log</code> and <code>publish</code>.\n<code>log</code> is to write the alarm to log (console or file).\n<code>publish</code> is to publish the alarm as an MQTT message to the system topics:\n<code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/activate</code> and\n<code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/deactivate</code>",
+      "desc": "The actions triggered when the alarm is activated.<br/>Currently, the following actions are supported: <code>log</code> and <code>publish</code>.\n<code>log</code> is to write the alarm to log (console or file).\n<code>publish</code> is to publish the alarm as an MQTT message to the system topics:\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/activate</code> and\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/deactivate</code>",
       "label": "Alarm Actions"
     },
     "base_listener_max_connections": {
@@ -1257,7 +1257,7 @@
       "label": "CACertfile"
     },
     "fields_ws_opts_mqtt_path": {
-      "desc": "WebSocket's MQTT protocol path. So the address of EMQX Broker's WebSocket is:\n<code>ws://{ip}:{port}/mqtt</code>",
+      "desc": "WebSocket's MQTT protocol path. So the address of EMQX Broker's WebSocket is:\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
       "label": "WS MQTT Path"
     },
     "sysmon_os_procmem_high_watermark": {
@@ -1343,7 +1343,7 @@
       "label": "MQTT Piggyback"
     },
     "base_listener_mountpoint": {
-      "desc": "When publishing or subscribing, prefix all topics with a mountpoint string.\nThe prefixed string will be removed from the topic name when the message\nis delivered to the subscriber. The mountpoint is a way that users can use\nto implement isolation of message routing between different listeners.\nFor example if a client A subscribes to `t` with `listeners.tcp.\\<name>.mountpoint`\nset to `some_tenant`, then the client actually subscribes to the topic\n`some_tenant/t`. Similarly, if another client B (connected to the same listener\nas the client A) sends a message to topic `t`, the message is routed\nto all the clients subscribed `some_tenant/t`, so client A will receive the\nmessage, with topic name `t`.<br/>\nSet to `\"\"` to disable the feature.<br/>\n\nVariables in mountpoint string:\n  - <code>${clientid}</code>: clientid\n  - <code>${username}</code>: username",
+      "desc": "When publishing or subscribing, prefix all topics with a mountpoint string.\nThe prefixed string will be removed from the topic name when the message\nis delivered to the subscriber. The mountpoint is a way that users can use\nto implement isolation of message routing between different listeners.\nFor example if a client A subscribes to `t` with `listeners.tcp.\\<name>.mountpoint`\nset to `some_tenant`, then the client actually subscribes to the topic\n`some_tenant/t`. Similarly, if another client B (connected to the same listener\nas the client A) sends a message to topic `t`, the message is routed\nto all the clients subscribed `some_tenant/t`, so client A will receive the\nmessage, with topic name `t`.<br/>\nSet to `\"\"` to disable the feature.<br/>\n\nVariables in mountpoint string:\n  - <code>${'{'}clientid{'}'}</code>: clientid\n  - <code>${'{'}username{'}'}</code>: username",
       "label": "mountpoint"
     },
     "mqtt_max_awaiting_rel": {
@@ -1391,7 +1391,7 @@
       "label": "Server Keep Alive"
     },
     "global_authentication": {
-      "desc": "Default authentication configs for all MQTT listeners.\n\nFor per-listener overrides see <code>authentication</code> in listener configs\n\nThis option can be configured with:\n<ul>\n  <li><code>[]</code>: The default value, it allows *ALL* logins</li>\n  <li>one: For example <code>{enable:true,backend:\"built_in_database\",mechanism=\"password_based\"}</code></li>\n  <li>chain: An array of structs.</li>\n</ul>\n\nWhen a chain is configured, the login credentials are checked against the backends per the configured order, until an 'allow' or 'deny' decision can be made.\n\nIf there is no decision after a full chain exhaustion, the login is rejected."
+      "desc": "Default authentication configs for all MQTT listeners.\n\nFor per-listener overrides see <code>authentication</code> in listener configs\n\nThis option can be configured with:\n<ul>\n  <li><code>[]</code>: The default value, it allows *ALL* logins</li>\n  <li>one: For example <code>{'{'}enable:true,backend:\"built_in_database\",mechanism=\"password_based\"{'}'}</code></li>\n  <li>chain: An array of structs.</li>\n</ul>\n\nWhen a chain is configured, the login credentials are checked against the backends per the configured order, until an 'allow' or 'deny' decision can be made.\n\nIf there is no decision after a full chain exhaustion, the login is rejected."
     },
     "fields_mqtt_quic_listener_load_balancing_mode": {
       "desc": "0: Disabled, 1: SERVER_ID_IP, 2: SERVER_ID_FIXED. default: 0",
@@ -1445,7 +1445,7 @@
       "label": "Stream recv window default"
     },
     "mqtt_mqueue_priorities": {
-      "desc": "Topic priorities. Priority number [1-255]\nThere's no priority table by default, hence all messages are treated equal.\n\n**NOTE**: Comma and equal signs are not allowed for priority topic names.\n**NOTE**: Messages for topics not in the priority table are treated as either highest or lowest priority depending on the configured value for <code>mqtt.mqueue_default_priority</code>.\n\n**Examples**:\nTo configure <code>\"topic/1\" > \"topic/2\"</code>:\n<code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code>",
+      "desc": "Topic priorities. Priority number [1-255]\nThere's no priority table by default, hence all messages are treated equal.\n\n**NOTE**: Comma and equal signs are not allowed for priority topic names.\n**NOTE**: Messages for topics not in the priority table are treated as either highest or lowest priority depending on the configured value for <code>mqtt.mqueue_default_priority</code>.\n\n**Examples**:\nTo configure <code>\"topic/1\" > \"topic/2\"</code>:\n<code>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}</code>",
       "label": "Topic Priorities"
     },
     "fields_rate_limit_conn_messages_in": {
@@ -1606,7 +1606,7 @@
       "label": "Process GC bytes"
     },
     "server_ssl_opts_schema_fail_if_no_peer_cert": {
-      "desc": "Used together with {verify, verify_peer} by an TLS/DTLS server.\nIf set to true, the server fails if the client does not have a\ncertificate to send, that is, sends an empty certificate.\nIf set to false, it fails only if the client sends an invalid\ncertificate (an empty certificate is considered valid).",
+      "desc": "Used together with {'{'}verify, verify_peer{'}'} by an TLS/DTLS server.\nIf set to true, the server fails if the client does not have a\ncertificate to send, that is, sends an empty certificate.\nIf set to false, it fails only if the client sends an invalid\ncertificate (an empty certificate is considered valid).",
       "label": "SSL fail if no peer cert"
     },
     "fields_ws_opts_compress": {
@@ -1700,7 +1700,7 @@
       "label": "OCSP Issuer Certificate"
     },
     "fields_tcp_opts_active_n": {
-      "desc": "Specify the {active, N} option for this Socket.<br/>\nSee: https://erlang.org/doc/man/inet.html#setopts-2",
+      "desc": "Specify the {'{'}active, N{'}'} option for this Socket.<br/>\nSee: https://erlang.org/doc/man/inet.html#setopts-2",
       "label": "active_n"
     },
     "listener_authentication": {
@@ -1959,7 +1959,7 @@
       "desc": "Client events messages."
     },
     "broker_perf_trie_compaction": {
-      "desc": "Enable trie path compaction.\nEnabling it significantly improves wildcard topic subscribe rate, if wildcard topics have unique prefixes like: 'sensor/{{id}}/+/', where ID is unique per subscriber.\nTopic match performance (when publishing) may degrade if messages are mostly published to topics with large number of levels.\n\nNOTE: This is a cluster-wide configuration. It requires all nodes to be stopped before changing it."
+      "desc": "Enable trie path compaction.\nEnabling it significantly improves wildcard topic subscribe rate, if wildcard topics have unique prefixes like: 'sensor/{'{'}{'{'}id{'}'}{'}'}/+/', where ID is unique per subscriber.\nTopic match performance (when publishing) may degrade if messages are mostly published to topics with large number of levels.\n\nNOTE: This is a cluster-wide configuration. It requires all nodes to be stopped before changing it."
     },
     "sysmon_vm_large_heap": {
       "desc": "When an Erlang process consumed a large amount of memory for its heap space,\nthe system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.",
