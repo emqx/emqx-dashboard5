@@ -19,7 +19,6 @@ export interface Retainer {
   flow_control: {
     batch_read_number: number
     batch_deliver_number: number
-    batch_deliver_limiter: string
   }
   backend: {
     type: string
