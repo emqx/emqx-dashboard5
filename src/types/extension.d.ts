@@ -16,10 +16,6 @@ export interface Retainer {
   max_payload_size: string
   msg_expiry_interval: string
   msg_clear_interval: string
-  flow_control: {
-    batch_read_number: number
-    batch_deliver_number: number
-  }
   backend: {
     type: string
     storage_type: string
