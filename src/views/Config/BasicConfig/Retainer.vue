@@ -130,7 +130,7 @@ import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSa
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
-import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { Retainer } from '@/types/extension'
 
@@ -150,16 +150,6 @@ let retainerConfig = reactive<Retainer>({
     type: 'built_in_database',
     max_retained_messages: 0,
   },
-  flow_control: {
-    batch_read_number: 0,
-    batch_deliver_number: 0,
-    batch_deliver_limiter: '',
-  },
-})
-
-const selOptions = reactive<{ read: string; deliver: string }>({
-  read: 'custom',
-  deliver: 'custom',
 })
 
 const configLoading = ref(true)
@@ -198,30 +188,12 @@ const retainerRules = ref<Record<string, any>>({
   max_payload_size: [...createRequiredRule(tl('maxPayloadSize')), numberRule],
   msg_expiry_interval: [...createRequiredRule(tl('msgExpiryInterval')), numberRule],
   msg_clear_interval: [...createRequiredRule(tl('msgClearInterval')), numberRule],
-  flow_control: {
-    batch_read_number: validatorRules,
-    batch_deliver_number: validatorRules,
-  },
 })
 
 const configEnable = computed(() => retainerConfig?.enable === true)
 
 const { setRawData, checkDataIsChanged } = useCheckDataChanged(ref(retainerConfig))
 useDataNotSaveConfirm(checkDataIsChanged)
-
-watch(
-  () => ({ ...selOptions }),
-  async (newV) => {
-    // wait derivedOptionsFromConfig finished
-    await nextTick()
-    if (newV.read == 'unlimited') {
-      retainerConfig.flow_control.batch_read_number = 0
-    }
-    if (newV.deliver == 'unlimited') {
-      retainerConfig.flow_control.batch_deliver_number = 0
-    }
-  },
-)
 
 const loadConfigData = async () => {
   configLoading.value = true
@@ -230,7 +202,6 @@ const loadConfigData = async () => {
     let res = await getRetainer()
     if (res) {
       Object.assign(retainerConfig, res)
-      derivedOptionsFromConfig()
       setRawData(retainerConfig)
     }
   } catch (error) {
@@ -238,15 +209,6 @@ const loadConfigData = async () => {
   } finally {
     configLoading.value = false
   }
-}
-
-const getSelectedOptions = (value: number) => (value === 0 ? 'unlimited' : 'custom')
-
-const derivedOptionsFromConfig = () => {
-  let config = retainerConfig
-  // trans some values from string to array
-  selOptions.read = getSelectedOptions(config?.flow_control?.batch_read_number)
-  selOptions.deliver = getSelectedOptions(config?.flow_control?.batch_deliver_number)
 }
 
 const updateConfigData = async function () {

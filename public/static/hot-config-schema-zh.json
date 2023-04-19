@@ -1,2699 +1,1489 @@
 {
-    "components": {
-        "schemas": {
-            "broker.sysmon_os": {
-                "properties": {
-                    "cpu_check_interval": {
-                        "default": "60s",
-                        "description": "定期 CPU 检查的时间间隔。",
-                        "label": "定期 CPU 检查的时间间隔",
-                        "type": "duration"
-                    },
-                    "cpu_high_watermark": {
-                        "default": "80%",
-                        "description": "在发出相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
-                        "label": "CPU 高水位线",
-                        "type": "percent"
-                    },
-                    "cpu_low_watermark": {
-                        "default": "60%",
-                        "description": "在解除相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
-                        "label": "CPU 低水位线",
-                        "type": "percent"
-                    },
-                    "mem_check_interval": {
-                        "default": "60s",
-                        "description": "定期内存检查的时间间隔。",
-                        "label": "内存检查间隔",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "sysmem_high_watermark": {
-                        "default": "70%",
-                        "description": "在发出相应报警之前可以分配多少系统内存的阈值，以系统内存的百分比表示。",
-                        "label": "系统内存高水位线",
-                        "type": "percent"
-                    },
-                    "procmem_high_watermark": {
-                        "default": "5%",
-                        "description": "在发出相应警报之前，一个Erlang进程可以分配多少系统内存的阈值，以系统内存的百分比表示。",
-                        "label": "进程内存高水位线",
-                        "type": "percent"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.sysmon": {
-                "properties": {
-                    "vm": {
-                        "description": "vm Description",
-                        "label": "vm",
-                        "$ref": "#/components/schemas/broker.sysmon_vm"
-                    },
-                    "os": {
-                        "description": "os Description",
-                        "label": "os",
-                        "$ref": "#/components/schemas/broker.sysmon_os"
-                    },
-                    "top": {
-                        "description": "top Description",
-                        "label": "top",
-                        "$ref": "#/components/schemas/broker.sysmon_top"
-                    }
-                },
-                "type": "object"
-            },
-            "dashboard.http": {
-                "required": [
-                    "bind",
-                    "enable"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "忽略或启用该监听器。",
-                        "label": "启用",
-                        "type": "boolean"
-                    },
-                    "bind": {
-                        "default": 18083,
-                        "description": "监听地址和端口，热更新此配置时，会重启 Dashboard 服务。",
-                        "example": "0.0.0.0:18083",
-                        "label": "绑定端口",
-                        "oneOf": [
-                            {
-                                "type": "ip_port"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "num_acceptors": {
-                        "default": 8,
-                        "description": "TCP协议的Socket acceptor池大小, 默认设置在线的调度器数量（通常为 CPU 核数）",
-                        "label": "Acceptor 数量",
-                        "type": "number"
-                    },
-                    "max_connections": {
-                        "default": 512,
-                        "description": "同时处理的最大连接数。",
-                        "label": "最大连接数",
-                        "type": "number"
-                    },
-                    "backlog": {
-                        "default": 1024,
-                        "description": "排队等待连接的队列的最大长度。",
-                        "label": "排队长度",
-                        "type": "number"
-                    },
-                    "send_timeout": {
-                        "default": "10s",
-                        "description": "Socket发送超时时间。",
-                        "label": "发送超时时间",
-                        "type": "duration"
-                    },
-                    "inet6": {
-                        "default": false,
-                        "description": "启用IPv6， 如果机器不支持IPv6，请关闭此选项，否则会导致 Dashboard 无法使用。",
-                        "label": "IPv6",
-                        "type": "boolean"
-                    },
-                    "ipv6_v6only": {
-                        "default": false,
-                        "description": "当开启 inet6 功能的同时禁用 IPv4-to-IPv6 映射。该配置仅在 inet6 功能开启时有效。",
-                        "label": "IPv6 only",
-                        "type": "boolean"
-                    },
-                    "proxy_header": {
-                        "default": false,
-                        "description": "开启对  `HAProxy` 的支持，注意：一旦开启了这个功能，就无法再处理普通的 HTTP 请求了。",
-                        "label": "开启对 `HAProxy` 的支持",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_etcd": {
-                "properties": {
-                    "server": {
-                        "description": "指定 etcd 服务的地址。如有多个服务使用逗号 , 分隔。<br/>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
-                        "label": "Etcd 服务器地址",
-                        "readOnly": true,
-                        "type": "comma_separated_string"
-                    },
-                    "prefix": {
-                        "default": "emqxcl",
-                        "description": "指定 etcd 路径的前缀。每个节点在 etcd 中都会创建一个路径:<br/>v2/keys/<prefix>/<cluster.name>/<node.name> <br/><br/>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
-                        "label": "Etcd 路径前缀",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "node_ttl": {
-                        "default": "1m",
-                        "description": "指定 etcd 中节点信息的过期时间。<br/>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
-                        "label": "Etcd 节点过期时间",
-                        "readOnly": true,
-                        "type": "duration"
-                    },
-                    "ssl": {
-                        "description": "当使用 TLS 连接 etcd 时的配置选项。<br/>当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
-                        "label": "Etcd SSL 选项",
-                        "readOnly": true,
-                        "$ref": "#/components/schemas/broker.ssl_client_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.shared_subscription_group": {
-                "properties": {
-                    "strategy": {
-                        "default": "random",
-                        "description": "共享订阅的分发策略名称。<br/>- `random`：随机选择一个组内成员；<br/>- `round_robin`：循环选择下一个成员；<br/>- `round_robin_per_group`：在共享组内循环选择下一个成员；<br/>- `sticky`：使用上一次选中的成员；<br/>- `hash`：根据 ClientID 哈希映射到一个成员；<br/>- `local`：随机分发到节点本地成成员，如果本地成员不存在，则随机分发到任意一个成员。",
-                        "label": "strategy",
-                        "symbols": [
-                            "random",
-                            "round_robin",
-                            "round_robin_per_group",
-                            "sticky",
-                            "local",
-                            "hash_topic",
-                            "hash_clientid"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "limiter.node_opts": {
-                "properties": {
-                    "rate": {
-                        "default": "infinity",
-                        "description": "桶的令牌生成速率",
-                        "label": "速率",
-                        "type": "string"
-                    },
-                    "burst": {
-                        "default": "0",
-                        "description": "突发速率。<br/>突发速率允许短时间内速率超过设置的速率值，突发速率 + 速率 = 当前桶能达到的最大速率值",
-                        "label": "突发速率",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log_burst_limit": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用日志限流保护机制。",
-                        "label": "日志限流保护",
-                        "type": "boolean"
-                    },
-                    "max_count": {
-                        "default": 10000,
-                        "description": "在 `window_time` 间隔内处理的最大日志事件数。 达到限制后，将丢弃连续事件，直到 `window_time` 结束。",
-                        "label": "日志事件数",
-                        "type": "string"
-                    },
-                    "window_time": {
-                        "default": "1s",
-                        "description": "参考 <code>max_count</code>。",
-                        "label": "Window Time",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster": {
-                "properties": {
-                    "name": {
-                        "default": "emqxcl",
-                        "description": "EMQX集群名称。每个集群都有一个唯一的名称。服务发现时会用于做路径的一部分。",
-                        "label": "集群名称",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "discovery_strategy": {
-                        "default": "manual",
-                        "description": "集群节点发现方式。可选值为:<br/>- manual: 使用 <code>emqx ctl cluster</code> 命令管理集群。<br/><br/>- static: 配置静态节点。配置几个固定的节点，新节点通过连接固定节点中的某一个来加入集群。<br/><br/>- dns: 使用 DNS A 记录的方式发现节点。<br/><br/>- etcd: 使用 etcd 发现节点。<br/><br/>- k8s: 使用 Kubernetes API 发现节点。",
-                        "label": "集群服务发现策略",
-                        "readOnly": true,
-                        "symbols": [
-                            "manual",
-                            "static",
-                            "mcast",
-                            "dns",
-                            "etcd",
-                            "k8s"
-                        ],
-                        "type": "enum"
-                    },
-                    "core_nodes": {
-                        "default": "",
-                        "description": "当前节点连接的核心节点列表。<br/><br/>注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code><br/>并且设置<code>role</code>为<code>replicant</code>时生效。<br/><br/>该值需要在手动或静态集群发现机制下设置。<br/><br/>如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。",
-                        "label": "数据库核心节点",
-                        "readOnly": true,
-                        "type": "comma_separated_string"
-                    },
-                    "autoclean": {
-                        "default": "5m",
-                        "description": "指定多久之后从集群中删除离线节点。",
-                        "label": "自动删除离线节点时间",
-                        "readOnly": true,
-                        "type": "duration"
-                    },
-                    "autoheal": {
-                        "default": true,
-                        "description": "集群脑裂自动恢复机制开关。",
-                        "label": "节点脑裂自动修复机制",
-                        "readOnly": true,
-                        "type": "boolean"
-                    },
-                    "proto_dist": {
-                        "default": "inet_tcp",
-                        "description": "分布式 Erlang 集群协议类型。可选值为:<br/><br/>- inet_tcp: 使用 IPv4 <br/><br/>- inet_tls: 使用 TLS，需要配合 <code>etc/ssl_dist.conf</code> 一起使用。",
-                        "label": "集群内部通信协议",
-                        "readOnly": true,
-                        "symbols": [
-                            "inet_tcp",
-                            "inet6_tcp",
-                            "inet_tls"
-                        ],
-                        "type": "enum"
-                    },
-                    "static": {
-                        "description": "static Description",
-                        "label": "static",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_static"
-                    },
-                    "mcast": {
-                        "description": "mcast Description",
-                        "label": "mcast",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_mcast"
-                    },
-                    "dns": {
-                        "description": "dns Description",
-                        "label": "dns",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_dns"
-                    },
-                    "etcd": {
-                        "description": "etcd Description",
-                        "label": "etcd",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_etcd"
-                    },
-                    "k8s": {
-                        "description": "k8s Description",
-                        "label": "k8s",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_k8s"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log": {
-                "properties": {
-                    "console_handler": {
-                        "description": "日志处理进程将日志事件打印到 EMQX 控制台。",
-                        "label": "Console Handler",
-                        "$ref": "#/components/schemas/emqx_conf_schema.console_handler"
-                    },
-                    "file_handlers": {
-                        "description": "输出到文件的日志处理进程列表",
-                        "label": "File Handler",
-                        "properties": {
-                            "$name": {
-                                "$ref": "#/components/schemas/emqx_conf_schema.log_file_handler"
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_k8s": {
-                "properties": {
-                    "apiserver": {
-                        "default": "http://10.110.111.204:8080",
-                        "description": "指定 Kubernetes API Server。如有多个 Server 使用逗号 , 分隔。<br/>当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
-                        "label": "K8s 服务地址",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "service_name": {
-                        "default": "emqx",
-                        "description": "指定 Kubernetes 中 EMQX 的服务名。<br/>当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
-                        "label": "K8s 服务别名",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "address_type": {
-                        "default": "ip",
-                        "description": "当使用 k8s 方式集群时，address_type 用来从 Kubernetes 接口的应答里获取什么形式的 Host 列表。<br/>指定 <code>cluster.k8s.address_type</code> 为 <code>ip</code>，则将从 Kubernetes 接口中获取集群中其他节点<br/>的IP地址。",
-                        "label": "K8s 地址类型",
-                        "readOnly": true,
-                        "symbols": [
-                            "ip",
-                            "dns",
-                            "hostname"
-                        ],
-                        "type": "enum"
-                    },
-                    "namespace": {
-                        "default": "default",
-                        "description": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，<br/>可设置 emqx 节点名的命名空间。与 cluster.k8s.suffix 一起使用用以拼接得到节点名列表。",
-                        "label": "K8s 命名空间",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "suffix": {
-                        "default": "pod.local",
-                        "description": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，可设置 emqx 节点名的后缀。<br/>与 cluster.k8s.namespace 一起使用用以拼接得到节点名列表。",
-                        "label": "K8s 前缀",
-                        "readOnly": true,
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.console_handler": {
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "启用此日志处理进程。",
-                        "label": "启用日志处理进程",
-                        "type": "boolean"
-                    },
-                    "level": {
-                        "default": "warning",
-                        "description": "当前日志处理进程的日志级别。<br/>默认为 warning 级别。",
-                        "label": "日志级别",
-                        "symbols": [
-                            "debug",
-                            "info",
-                            "notice",
-                            "warning",
-                            "error",
-                            "critical",
-                            "alert",
-                            "emergency",
-                            "all"
-                        ],
-                        "type": "enum"
-                    },
-                    "time_offset": {
-                        "default": "system",
-                        "description": "日志中的时间戳使用的时间偏移量。<br/>可选值为：<br/>  - <code>system</code>: 本地系统使用的时区偏移量<br/>  - <code>utc</code>: 0 时区的偏移量<br/>  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"<br/>默认值为本地系统的时区偏移量：<code>system</code>。",
-                        "label": "时间偏移量",
-                        "type": "string"
-                    },
-                    "chars_limit": {
-                        "default": "unlimited",
-                        "description": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。<br/>注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。",
-                        "label": "单条日志长度限制",
-                        "oneOf": [
-                            {
-                                "minimum": 100,
-                                "type": "number"
-                            },
-                            {
-                                "symbols": [
-                                    "unlimited"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "formatter": {
-                        "default": "text",
-                        "description": "选择日志格式类型。 <code>text</code> 用于纯文本，<code>json</code> 用于结构化日志记录。",
-                        "label": "日志格式类型",
-                        "symbols": [
-                            "text",
-                            "json"
-                        ],
-                        "type": "enum"
-                    },
-                    "single_line": {
-                        "default": true,
-                        "description": "如果设置为 true，则单行打印日志。 否则，日志消息可能跨越多行。",
-                        "label": "单行模式",
-                        "type": "boolean"
-                    },
-                    "sync_mode_qlen": {
-                        "default": 100,
-                        "description": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。<br/>这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。<br/>如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。<br/>当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。<br/>默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
-                        "label": "进入异步模式的队列长度",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "drop_mode_qlen": {
-                        "default": 3000,
-                        "description": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。<br/>为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1<br/>要禁用某些模式，请执行以下操作。<br/>- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。<br/>- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。<br/>- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。",
-                        "label": "进入丢弃模式的队列长度",
-                        "type": "string"
-                    },
-                    "flush_qlen": {
-                        "default": 8000,
-                        "description": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。<br/>来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
-                        "label": "冲刷阈值",
-                        "type": "string"
-                    },
-                    "overload_kill": {
-                        "description": "overload_kill Description",
-                        "label": "overload_kill",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_overload_kill"
-                    },
-                    "burst_limit": {
-                        "description": "burst_limit Description",
-                        "label": "burst_limit",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_burst_limit"
-                    },
-                    "supervisor_reports": {
-                        "default": "error",
-                        "description": "Supervisor 报告的类型。默认为 error 类型。<br/><br/>  - <code>error</code>：仅记录 Erlang 进程中的错误。<br/>  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。",
-                        "label": "报告类型",
-                        "symbols": [
-                            "error",
-                            "progress"
-                        ],
-                        "type": "enum"
-                    },
-                    "max_depth": {
-                        "default": 100,
-                        "description": "Erlang 内部格式日志格式化和 Erlang 进程消息队列检查的最大深度。",
-                        "label": "最大深度",
-                        "oneOf": [
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            },
-                            {
-                                "symbols": [
-                                    "unlimited"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "broker.sysmon_top": {
-                "properties": {
-                    "num_items": {
-                        "default": 10,
-                        "description": "每个监视组的顶级进程数。",
-                        "label": "顶级进程数",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "sample_interval": {
-                        "default": "2s",
-                        "description": "指定应收集进程顶部的频率。",
-                        "label": "取样时间",
-                        "type": "duration"
-                    },
-                    "max_procs": {
-                        "default": 1000000,
-                        "description": "当 VM 中的进程数超过此值时，停止收集数据。",
-                        "label": "最大进程数",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "db_hostname": {
-                        "default": "",
-                        "description": "收集数据点的 PostgreSQL 数据库的主机名。",
-                        "label": "数据库主机名",
-                        "type": "string"
-                    },
-                    "db_port": {
-                        "default": 5432,
-                        "description": "收集数据点的 PostgreSQL 数据库的端口。",
-                        "label": "数据库端口",
-                        "type": "number"
-                    },
-                    "db_username": {
-                        "default": "system_monitor",
-                        "description": "PostgreSQL 数据库的用户名",
-                        "label": "数据库用户名",
-                        "type": "string"
-                    },
-                    "db_password": {
-                        "default": "system_monitor_password",
-                        "description": "PostgreSQL 数据库的密码",
-                        "label": "数据库密码",
-                        "type": "string"
-                    },
-                    "db_name": {
-                        "default": "postgres",
-                        "description": "PostgreSQL 数据库的数据库名",
-                        "label": "数据库名",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.event_names": {
-                "properties": {
-                    "client_connected": {
-                        "default": true,
-                        "description": "是否开启客户端已连接事件消息。",
-                        "label": "client_connected",
-                        "type": "boolean"
-                    },
-                    "client_disconnected": {
-                        "default": true,
-                        "description": "是否开启客户端已断开连接事件消息。",
-                        "label": "client_disconnected",
-                        "type": "boolean"
-                    },
-                    "client_subscribed": {
-                        "default": false,
-                        "description": "是否开启客户端已成功订阅主题事件消息。",
-                        "label": "client_subscribed",
-                        "type": "boolean"
-                    },
-                    "client_unsubscribed": {
-                        "default": false,
-                        "description": "是否开启客户端已成功取消订阅主题事件消息。",
-                        "label": "client_unsubscribed",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.force_gc": {
-                "properties": {
-                    "enable": {
-                        "description": "启用强制垃圾回收。",
-                        "label": "启用强制垃圾回收",
-                        "type": "boolean"
-                    },
-                    "count": {
-                        "description": "在进程收到多少消息之后，对此进程执行垃圾回收。",
-                        "label": "垃圾回收消息数",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "bytes": {
-                        "description": "在进程处理过多少个字节之后，对此进程执行垃圾回收。",
-                        "label": "垃圾回收字节数",
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_dns": {
-                "properties": {
-                    "name": {
-                        "default": "localhost",
-                        "description": "指定 DNS A 记录的名字。emqx 会通过访问这个 DNS A 记录来获取 IP 地址列表。<br/>当<code>cluster.discovery_strategy</code> 为 <code>dns</code> 时有效。",
-                        "label": "DNS名称",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "record_type": {
-                        "default": "a",
-                        "description": "DNS 记录类型。",
-                        "label": "DNS记录类型",
-                        "readOnly": true,
-                        "symbols": [
-                            "a",
-                            "srv"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log_file_handler": {
-                "properties": {
-                    "file": {
-                        "description": "日志文件路径及名字。",
-                        "label": "日志文件名字",
-                        "type": "string"
-                    },
-                    "rotation": {
-                        "description": "rotation Description",
-                        "label": "rotation",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_rotation"
-                    },
-                    "max_size": {
-                        "default": "50MB",
-                        "description": "此参数控制日志文件轮换。 `infinity` 意味着日志文件将无限增长，否则日志文件将在达到 `max_size`（以字节为单位）时进行轮换。<br/>与 rotation count配合使用。如果 counter 为 10，则是10个文件轮换。",
-                        "label": "日志文件轮换大小",
-                        "oneOf": [
-                            {
-                                "type": "byteSize"
-                            },
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "enable": {
-                        "default": true,
-                        "description": "启用此日志处理进程。",
-                        "label": "启用日志处理进程",
-                        "type": "boolean"
-                    },
-                    "level": {
-                        "default": "warning",
-                        "description": "当前日志处理进程的日志级别。<br/>默认为 warning 级别。",
-                        "label": "日志级别",
-                        "symbols": [
-                            "debug",
-                            "info",
-                            "notice",
-                            "warning",
-                            "error",
-                            "critical",
-                            "alert",
-                            "emergency",
-                            "all"
-                        ],
-                        "type": "enum"
-                    },
-                    "time_offset": {
-                        "default": "system",
-                        "description": "日志中的时间戳使用的时间偏移量。<br/>可选值为：<br/>  - <code>system</code>: 本地系统使用的时区偏移量<br/>  - <code>utc</code>: 0 时区的偏移量<br/>  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"<br/>默认值为本地系统的时区偏移量：<code>system</code>。",
-                        "label": "时间偏移量",
-                        "type": "string"
-                    },
-                    "chars_limit": {
-                        "default": "unlimited",
-                        "description": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。<br/>注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。",
-                        "label": "单条日志长度限制",
-                        "oneOf": [
-                            {
-                                "minimum": 100,
-                                "type": "number"
-                            },
-                            {
-                                "symbols": [
-                                    "unlimited"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "formatter": {
-                        "default": "text",
-                        "description": "选择日志格式类型。 <code>text</code> 用于纯文本，<code>json</code> 用于结构化日志记录。",
-                        "label": "日志格式类型",
-                        "symbols": [
-                            "text",
-                            "json"
-                        ],
-                        "type": "enum"
-                    },
-                    "single_line": {
-                        "default": true,
-                        "description": "如果设置为 true，则单行打印日志。 否则，日志消息可能跨越多行。",
-                        "label": "单行模式",
-                        "type": "boolean"
-                    },
-                    "sync_mode_qlen": {
-                        "default": 100,
-                        "description": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。<br/>这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。<br/>如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。<br/>当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。<br/>默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
-                        "label": "进入异步模式的队列长度",
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "drop_mode_qlen": {
-                        "default": 3000,
-                        "description": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。<br/>为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1<br/>要禁用某些模式，请执行以下操作。<br/>- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。<br/>- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。<br/>- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。",
-                        "label": "进入丢弃模式的队列长度",
-                        "type": "string"
-                    },
-                    "flush_qlen": {
-                        "default": 8000,
-                        "description": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。<br/>来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
-                        "label": "冲刷阈值",
-                        "type": "string"
-                    },
-                    "overload_kill": {
-                        "description": "overload_kill Description",
-                        "label": "overload_kill",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_overload_kill"
-                    },
-                    "burst_limit": {
-                        "description": "burst_limit Description",
-                        "label": "burst_limit",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log_burst_limit"
-                    },
-                    "supervisor_reports": {
-                        "default": "error",
-                        "description": "Supervisor 报告的类型。默认为 error 类型。<br/><br/>  - <code>error</code>：仅记录 Erlang 进程中的错误。<br/>  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。",
-                        "label": "报告类型",
-                        "symbols": [
-                            "error",
-                            "progress"
-                        ],
-                        "type": "enum"
-                    },
-                    "max_depth": {
-                        "default": 100,
-                        "description": "Erlang 内部格式日志格式化和 Erlang 进程消息队列检查的最大深度。",
-                        "label": "最大深度",
-                        "oneOf": [
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            },
-                            {
-                                "symbols": [
-                                    "unlimited"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "zone.flapping_detect": {
-                "properties": {
-                    "enable": {
-                        "description": "启用抖动检测功能。",
-                        "label": "启用抖动检测",
-                        "type": "boolean"
-                    },
-                    "max_count": {
-                        "description": "MQTT 客户端在“窗口”时间内允许的最大断开次数。",
-                        "label": "最大断开次数",
-                        "type": "number"
-                    },
-                    "window_time": {
-                        "description": "抖动检测的时间窗口。",
-                        "label": "时间窗口",
-                        "type": "duration"
-                    },
-                    "ban_time": {
-                        "description": "抖动的客户端将会被禁止登录多长时间。",
-                        "label": "禁止登录时长",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.stats": {
-                "properties": {
-                    "enable": {
-                        "description": "启用/禁用统计数据收集功能。",
-                        "label": "启用/禁用统计数据收集功能",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.zone": {
-                "properties": {
-                    "mqtt": {
-                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
-                        "label": "mqtt",
-                        "$ref": "#/components/schemas/zone.mqtt"
-                    },
-                    "stats": {
-                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
-                        "label": "stats",
-                        "$ref": "#/components/schemas/zone.stats"
-                    },
-                    "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
-                        "label": "flapping_detect",
-                        "$ref": "#/components/schemas/zone.flapping_detect"
-                    },
-                    "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
-                        "label": "force_shutdown",
-                        "$ref": "#/components/schemas/zone.force_shutdown"
-                    },
-                    "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
-                        "label": "conn_congestion",
-                        "$ref": "#/components/schemas/zone.conn_congestion"
-                    },
-                    "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
-                        "label": "force_gc",
-                        "$ref": "#/components/schemas/zone.force_gc"
-                    },
-                    "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
-                        "label": "overload_protection",
-                        "$ref": "#/components/schemas/zone.overload_protection"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log_overload_kill": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "日志处理进程过载时为保护自己节点其它的业务能正常，强制杀死日志处理进程。",
-                        "label": "日志处理进程过载保护",
-                        "type": "boolean"
-                    },
-                    "mem_size": {
-                        "default": "30MB",
-                        "description": "日志处理进程允许使用的最大内存。",
-                        "label": "日志处理进程允许使用的最大内存",
-                        "type": "byteSize"
-                    },
-                    "qlen": {
-                        "default": 20000,
-                        "description": "允许的最大队列长度。",
-                        "label": "最大队列长度",
-                        "type": "string"
-                    },
-                    "restart_after": {
-                        "default": "5s",
-                        "description": "如果处理进程终止，它会在以指定的时间后后自动重新启动。 `infinity` 不自动重启。",
-                        "label": "处理进程重启机制",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "duration"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "broker.persistent_session_builtin": {
-                "properties": {
-                    "type": {
-                        "default": "builtin",
-                        "description": "",
-                        "label": "type",
-                        "symbols": [
-                            "builtin"
-                        ],
-                        "type": "enum"
-                    },
-                    "session": {
-                        "description": "用于内建会话表的性能调优参数。",
-                        "label": "持久会话",
-                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
-                    },
-                    "session_messages": {
-                        "description": "优化内置的会话消息表的配置。",
-                        "label": "用于内建会话管理表的性能调优参数",
-                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
-                    },
-                    "messages": {
-                        "description": "用于内建消息表的性能调优参数。",
-                        "label": "持久化消息",
-                        "$ref": "#/components/schemas/broker.persistent_table_mria_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_static": {
-                "properties": {
-                    "seeds": {
-                        "default": "",
-                        "description": "集群中的EMQX节点名称列表，<br/>指定固定的节点列表，多个节点间使用逗号 , 分隔。<br/>当 cluster.discovery_strategy 为 static 时，此配置项才有效。<br/>适合于节点数量较少且固定的集群。",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "集群静态节点",
-                        "readOnly": true,
-                        "type": "array"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.ssl_client_opts": {
-                "properties": {
-                    "cacertfile": {
-                        "description": "受信任的PEM格式 CA  证书捆绑文件<br/><br/>此文件中的证书用于验证TLS对等方的证书。<br/>如果要信任新 CA，请将新证书附加到文件中。<br/>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）<br/><br/>注意：从文件中失效（删除）证书不会影响已建立的连接。",
-                        "label": "CA 证书文件",
-                        "type": "string"
-                    },
-                    "certfile": {
-                        "description": "PEM格式证书链文件<br/><br/>此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，<br/>然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。<br/>根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
-                        "label": "证书文件",
-                        "type": "string"
-                    },
-                    "keyfile": {
-                        "description": "PEM格式的私钥文件。",
-                        "label": "私钥文件",
-                        "type": "string"
-                    },
-                    "verify": {
-                        "default": "verify_none",
-                        "description": "启用或禁用对等验证。",
-                        "label": "对等验证",
-                        "symbols": [
-                            "verify_peer",
-                            "verify_none"
-                        ],
-                        "type": "enum"
-                    },
-                    "reuse_sessions": {
-                        "default": true,
-                        "description": "启用 TLS 会话重用。",
-                        "label": "TLS 会话重用",
-                        "type": "boolean"
-                    },
-                    "depth": {
-                        "default": 10,
-                        "description": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。<br/>因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/><br/>如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/><br/>如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
-                        "label": "CA 证书深度",
-                        "type": "number"
-                    },
-                    "password": {
-                        "description": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
-                        "example": "",
-                        "format": "password",
-                        "label": "秘钥文件密码",
-                        "type": "string"
-                    },
-                    "versions": {
-                        "default": [
-                            "tlsv1.3",
-                            "tlsv1.2",
-                            "tlsv1.1",
-                            "tlsv1"
-                        ],
-                        "description": "支持所有TLS/DTLS版本<br/><br/>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "SSL 版本",
-                        "type": "array"
-                    },
-                    "ciphers": {
-                        "default": "",
-                        "description": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。<br/><br/><br/>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。<br/>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。<br/><br/>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。<br/>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/><br/>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。<br/>不兼容的密码套件将被自动删除。<br/><br/>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。<br/><br/><br/><br/>注：PSK 的 Ciphers 不支持 tlsv1.3<br/><br/>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。<br/><br/><br/><br/>PSK 密码套件：<br/><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "",
-                        "type": "array"
-                    },
-                    "user_lookup_fun": {
-                        "default": "emqx_tls_psk:lookup",
-                        "description": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
-                        "label": "SSL PSK 用户回调",
-                        "type": "string"
-                    },
-                    "secure_renegotiate": {
-                        "default": true,
-                        "description": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。<br/>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
-                        "label": "SSL 重新协商",
-                        "type": "boolean"
-                    },
-                    "hibernate_after": {
-                        "default": "5s",
-                        "description": " 在闲置一定时间后休眠 SSL 进程，减少其内存占用。",
-                        "label": "闲置多久后休眠",
-                        "type": "duration"
-                    },
-                    "enable": {
-                        "default": false,
-                        "description": "启用 TLS。",
-                        "label": "启用 TLS",
-                        "type": "boolean"
-                    },
-                    "server_name_indication": {
-                        "description": "指定要在 TLS 服务器名称指示扩展中使用的主机名。<br/><br/>例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，<br/>例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时<br/><br/>如果未指定，它将默认为使用的主机名字符串<br/>建立连接，除非使用 IP 地址<br/><br/>然后，主机名也用于对等机的主机名验证证书<br/><br/>特殊值 <code>disable</code> 阻止发送服务器名称指示扩展，并禁用主机名验证检查。",
-                        "example": "disable",
-                        "label": "服务器名称指示",
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "symbols": [
-                                    "disable"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_call": {
-                "properties": {
-                    "retry_interval": {
-                        "default": "1m",
-                        "description": "当集群间调用出错时，多长时间重试一次。",
-                        "label": "重试时间间隔",
-                        "type": "duration"
-                    },
-                    "max_history": {
-                        "default": 100,
-                        "description": "集群间调用最多保留的历史记录数。只用于排错时查看。",
-                        "label": "最大历史记录",
-                        "maximum": 500,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "cleanup_interval": {
-                        "default": "5m",
-                        "description": "清理过期事务的时间间隔",
-                        "label": "清理间隔",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.overload_protection": {
-                "properties": {
-                    "enable": {
-                        "description": "是否对系统过载做出反应。",
-                        "label": "是否对系统过载做出反应",
-                        "type": "boolean"
-                    },
-                    "backoff_delay": {
-                        "description": "高负载时，一些不重要的任务可能会延迟执行，在这里设置允许延迟的时间。",
-                        "label": "延迟时间",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "backoff_gc": {
-                        "description": "高负载时，跳过强制 GC。",
-                        "label": "跳过GC",
-                        "type": "boolean"
-                    },
-                    "backoff_hibernation": {
-                        "description": "高负载时，跳过进程休眠。",
-                        "label": "跳过休眠",
-                        "type": "boolean"
-                    },
-                    "backoff_new_conn": {
-                        "description": "高负载时，拒绝新进来的客户端连接。",
-                        "label": "关闭新连接",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.trace": {
-                "properties": {
-                    "payload_encode": {
-                        "default": "text",
-                        "description": "确定跟踪文件中有效负载格式的格式。<br/><br/>`text`：基于文本的协议或纯文本协议。<br/>建议在有效负载为JSON编码时使用<br/><br/>`hex`：二进制十六进制编码。当有效负载是自定义二进制协议时，建议使用此选项<br/><br/>`hidden`：有效负载被模糊化为 `******`",
-                        "label": "有效负载编码",
-                        "symbols": [
-                            "hex",
-                            "text",
-                            "hidden"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.sysmon_vm": {
-                "properties": {
-                    "process_check_interval": {
-                        "default": "30s",
-                        "description": "定期进程限制检查的时间间隔。",
-                        "label": "进程限制检查时间",
-                        "type": "duration"
-                    },
-                    "process_high_watermark": {
-                        "default": "80%",
-                        "description": "在发出相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
-                        "label": "进程数高水位线",
-                        "type": "percent"
-                    },
-                    "process_low_watermark": {
-                        "default": "60%",
-                        "description": "在清除相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
-                        "label": "进程数低水位线",
-                        "type": "percent"
-                    },
-                    "long_gc": {
-                        "default": "disabled",
-                        "description": "当系统检测到某个 Erlang 进程垃圾回收占用过长时间，会触发一条带有 <code>long_gc</code> 关键字的日志。<br/>同时还会发布一条主题为 <code>$SYS/sysmon/long_gc</code> 的 MQTT 系统消息。",
-                        "label": "启用长垃圾回收监控",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "long_schedule": {
-                        "default": "240ms",
-                        "description": "启用后，如果 Erlang VM 调度器出现某个任务占用时间过长时，会触发一条带有 'long_schedule' 关键字的日志。<br/>同时还会发布一条主题为 <code>$SYS/sysmon/long_schedule</code> 的 MQTT 系统消息。",
-                        "label": "启用长调度监控",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "large_heap": {
-                        "default": "32MB",
-                        "description": "启用后，当一个 Erlang 进程申请了大量内存，系统会触发一条带有 <code>large_heap</code> 关键字的<br/>warning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
-                        "label": "启用大 heap 监控",
-                        "oneOf": [
-                            {
-                                "type": "byteSize"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "busy_dist_port": {
-                        "default": true,
-                        "description": "启用后，当用于集群接点之间 RPC 的连接过忙时，会触发一条带有 <code>busy_dist_port</code> 关键字的 warning 级别日志。<br/>同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
-                        "label": "启用分布式端口过忙监控",
-                        "type": "boolean"
-                    },
-                    "busy_port": {
-                        "default": true,
-                        "description": "当一个系统接口（例如 TCP socket）过忙，会触发一条带有 <code>busy_port</code> 关键字的 warning 级别的日志。<br/>同时还会发布一条主题为 <code>$SYS/sysmon/busy_port</code> 的 MQTT 系统消息。",
-                        "label": "启用端口过忙监控",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "dashboard.listeners": {
-                "properties": {
-                    "http": {
-                        "description": "TCP listeners",
-                        "label": "http",
-                        "$ref": "#/components/schemas/dashboard.http"
-                    },
-                    "https": {
-                        "description": "SSL listeners",
-                        "label": "https",
-                        "$ref": "#/components/schemas/dashboard.https"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.alarm": {
-                "properties": {
-                    "actions": {
-                        "default": [
-                            "log",
-                            "publish"
-                        ],
-                        "description": "警报激活时触发的动作。<br/>目前，支持以下操作：<code>log</code> 和 <code>publish</code>.<br/><code>log</code> 将告警写入日志 (控制台或者文件).<br/><code>publish</code> 将告警作为 MQTT 消息发布到系统主题:<br/><code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/activate</code> and<br/><code>$SYS/brokers/emqx@xx.xx.xx.x/alarms/deactivate</code>",
-                        "example": [
-                            "log",
-                            "publish"
-                        ],
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "告警动作",
-                        "type": "array"
-                    },
-                    "size_limit": {
-                        "default": 1000,
-                        "description": "要保留为历史记录的已停用报警的最大总数。当超过此限制时，将删除最旧的停用报警，以限制总数。",
-                        "example": 1000,
-                        "label": "告警总数限制",
-                        "maximum": 3000,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "validity_period": {
-                        "default": "24h",
-                        "description": "停用报警的保留时间。报警在停用时不会立即删除，而是在保留时间之后删除。",
-                        "example": "24h",
-                        "label": "告警保留时间",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.persistent_session_store": {
-                "properties": {
-                    "enabled": {
-                        "default": false,
-                        "description": "使用数据库存储有关持久会话的信息。<br/>这使得在节点停止时，可以将客户端连接迁移到另一个群集节点。",
-                        "label": "启用持久会话保存",
-                        "type": "boolean"
-                    },
-                    "on_disc": {
-                        "default": true,
-                        "description": "将持久会话数据保存在磁盘上。如果为 false 则存储在内存中。<br/>如开启， 持久会话数据可在集群重启后恢复。<br/>如关闭， 数据仅存储在内存中， 则在整个集群停止后丢失。",
-                        "label": "持久化在磁盘上",
-                        "type": "boolean"
-                    },
-                    "ram_cache": {
-                        "default": false,
-                        "description": "在内存中保持一份数据的副本，以便更快地访问。",
-                        "label": "内存缓存",
-                        "type": "boolean"
-                    },
-                    "backend": {
-                        "default": {
-                            "messages": {
-                                "ram_cache": "false"
-                            },
-                            "session": {
-                                "ram_cache": "true"
-                            },
-                            "session_messages": {
-                                "ram_cache": "true"
-                            },
-                            "type": "builtin"
-                        },
-                        "description": "用于存储持久性会话和信息的数据库管理后端<br/>- `builtin`: 使用内置的数据库（mria）",
-                        "label": "后端类型",
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/broker.persistent_session_builtin"
-                            }
-                        ]
-                    },
-                    "max_retain_undelivered": {
-                        "default": "1h",
-                        "description": "如果重新启动时处理上一个会话的节点已停止，则未传递到持久会话的消息在垃圾收集之前会被存储。",
-                        "label": "未投递的消息保留条数",
-                        "type": "duration"
-                    },
-                    "message_gc_interval": {
-                        "default": "1h",
-                        "description": "将未送达的消息垃圾收集到持久会话的开始间隔。<br/>这会影响检查 \"max_retain_undelivered\"（最大保留未送达）的删除频率。",
-                        "label": "消息清理间隔",
-                        "type": "duration"
-                    },
-                    "session_message_gc_interval": {
-                        "default": "1m",
-                        "description": "持久会话消息的临时数据垃圾收集的开始间隔。<br/>这不会影响持久会话消息的生命周期长度。",
-                        "label": "会话消息清理间隔",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.broker": {
-                "properties": {
-                    "enable_session_registry": {
-                        "default": true,
-                        "description": "是否启用 Session Registry",
-                        "label": "enable_session_registry",
-                        "type": "boolean"
-                    },
-                    "session_locking_strategy": {
-                        "default": "quorum",
-                        "description": "Session 在集群中的锁策略。<br/>  - `loca`：仅锁本节点的 Session；<br/>  - `one`：任选一个其它节点加锁；<br/>  - `quorum`：选择集群中半数以上的节点加锁；<br/>  - `all`：选择所有节点加锁。",
-                        "label": "session_locking_strategy",
-                        "symbols": [
-                            "local",
-                            "leader",
-                            "quorum",
-                            "all"
-                        ],
-                        "type": "enum"
-                    },
-                    "shared_subscription_strategy": {
-                        "default": "round_robin",
-                        "description": "共享订阅消息派发策略。<br/>  - `random`：随机挑选一个共享订阅者派发；<br/>  - `round_robin`：使用 round-robin 策略派发；<br/>  - `sticky`：总是使用上次选中的订阅者派发，直到它断开连接；<br/>  - `hash`：使用发送者的 Client ID 进行 Hash 来选择订阅者。",
-                        "label": "shared_subscription_strategy",
-                        "symbols": [
-                            "random",
-                            "round_robin",
-                            "round_robin_per_group",
-                            "sticky",
-                            "local",
-                            "hash_topic",
-                            "hash_clientid"
-                        ],
-                        "type": "enum"
-                    },
-                    "shared_dispatch_ack_enabled": {
-                        "default": false,
-                        "description": "该配置项已废弃，会在 5.1 中移除。<br/>启用/禁用 QoS 1 和 QoS 2 消息的共享派发确认。<br/>开启后，允许将消息从未及时回复 ACK 的订阅者 （例如，客户端离线）重新派发给另外一个订阅者。",
-                        "label": "shared_dispatch_ack_enabled",
-                        "type": "boolean"
-                    },
-                    "route_batch_clean": {
-                        "default": true,
-                        "description": "是否开启批量清除路由。",
-                        "label": "route_batch_clean",
-                        "type": "boolean"
-                    },
-                    "perf": {
-                        "description": "perf Description",
-                        "label": "perf",
-                        "$ref": "#/components/schemas/broker.broker_perf"
-                    },
-                    "shared_subscription_group": {
-                        "description": "设置共享订阅组为单位的分发策略。该配置是一个从组名到<br/>策略名的一个map，组名不得包含 `[A-Za-z0-9]` 之外的特殊字符。",
-                        "example": {
-                            "example_group": {
-                                "strategy": "random"
-                            }
-                        },
-                        "label": "shared_subscription_group",
-                        "properties": {
-                            "$name": {
-                                "$ref": "#/components/schemas/broker.shared_subscription_group"
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.broker_perf": {
-                "properties": {
-                    "route_lock_type": {
-                        "default": "key",
-                        "description": "通配主题订阅/取消订阅性能调优。<br/>建议仅当通配符主题较多时才更改此参数。<br/><br/>注：当从/更改为 `global` 锁时，它要求集群中的所有节点在更改之前停止。<br/>  - `key`：为 Mnesia 事务涉及到的每个 key 上锁，建议单节点时使用。<br/>  - `tab`：为 Mnesia 事务涉及到的表上锁，建议在集群中使用。<br/>  - `global`：所以更新操作都被全局的锁保护，仅建议在超大规模集群中使用。",
-                        "label": "route_lock_type",
-                        "symbols": [
-                            "key",
-                            "tab",
-                            "global"
-                        ],
-                        "type": "enum"
-                    },
-                    "trie_compaction": {
-                        "default": true,
-                        "description": "是否开启主题表压缩存储。<br/>启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{{id}}/+/'，其中每个订阅者的 ID 是唯一的。<br/>如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。<br/><br/>注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。",
-                        "label": "trie_compaction",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.cluster_mcast": {
-                "properties": {
-                    "addr": {
-                        "default": "239.192.0.1",
-                        "description": "指定多播 IPv4 地址。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-                        "label": "多播地址",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "ports": {
-                        "default": [
-                            4369,
-                            4370
-                        ],
-                        "description": "指定多播端口。如有多个端口使用逗号 , 分隔。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-                        "items": {
-                            "type": "number"
-                        },
-                        "label": "多播端口",
-                        "readOnly": true,
-                        "type": "array"
-                    },
-                    "iface": {
-                        "default": "0.0.0.0",
-                        "description": "指定节点发现服务需要绑定到本地 IP 地址。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-                        "label": "多播绑定地址",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "ttl": {
-                        "default": 255,
-                        "description": "指定多播的 Time-To-Live 值。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-                        "label": "多播TTL",
-                        "maximum": 255,
-                        "minimum": 0,
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "loop": {
-                        "default": true,
-                        "description": "设置多播的报文是否投递到本地回环地址。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-                        "label": "多播回环开关",
-                        "readOnly": true,
-                        "type": "boolean"
-                    },
-                    "sndbuf": {
-                        "default": "16KB",
-                        "description": "外发数据报的内核级缓冲区的大小。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-                        "label": "多播发送缓存区",
-                        "readOnly": true,
-                        "type": "byteSize"
-                    },
-                    "recbuf": {
-                        "default": "16KB",
-                        "description": "接收数据报的内核级缓冲区的大小。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-                        "label": "多播接收数据缓冲区",
-                        "readOnly": true,
-                        "type": "byteSize"
-                    },
-                    "buffer": {
-                        "default": "32KB",
-                        "description": "用户级缓冲区的大小。<br/>当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-                        "label": "多播用户级缓冲区",
-                        "readOnly": true,
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.mqtt": {
-                "properties": {
-                    "idle_timeout": {
-                        "description": "TCP 连接建立后，如果在 <code>idle_timeout</code> 指定的时间内未收到客户端的 MQTT CONNECT 报文，则连接将被断开。<br/>如果连接在 CONNECT 报文被 EMQX 接受之后空闲超过该时长，那么服务这个连接的 Erlang 进程会进入休眠以节省系统资源。<br/>注意，该配置值如果设置过大的情况下，如果大量恶意客户端只连接，但不发任何数据，可能会导致系统资源被恶意消耗。",
-                        "label": "空闲超时",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "max_packet_size": {
-                        "description": "允许的最大 MQTT 报文大小。",
-                        "label": "最大报文大小",
-                        "type": "byteSize"
-                    },
-                    "max_clientid_len": {
-                        "description": "允许的最大 MQTT Client ID 长度。",
-                        "label": "最大 Client ID 长度",
-                        "maximum": 65535,
-                        "minimum": 23,
-                        "type": "number"
-                    },
-                    "max_topic_levels": {
-                        "description": "允许的最大主题层级。",
-                        "label": "最大主题层级",
-                        "maximum": 65535,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "max_qos_allowed": {
-                        "description": "允许的最大 QoS 等级。",
-                        "label": "最大 QoS",
-                        "symbols": [
-                            0,
-                            1,
-                            2
-                        ],
-                        "type": "enum"
-                    },
-                    "max_topic_alias": {
-                        "description": "允许的最大主题别名数，0 表示不支持主题别名。",
-                        "label": "最大主题别名",
-                        "maximum": 65535,
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "retain_available": {
-                        "description": "是否启用对 MQTT 保留消息的支持。",
-                        "label": "保留消息可用",
-                        "type": "boolean"
-                    },
-                    "wildcard_subscription": {
-                        "description": "是否启用对 MQTT 通配符订阅的支持。",
-                        "label": "通配符订阅可用",
-                        "type": "boolean"
-                    },
-                    "shared_subscription": {
-                        "description": "是否启用对 MQTT 共享订阅的支持。",
-                        "label": "共享订阅可用",
-                        "type": "boolean"
-                    },
-                    "exclusive_subscription": {
-                        "description": "是否启用对 MQTT 排它订阅的支持。",
-                        "label": "排它订阅",
-                        "type": "boolean"
-                    },
-                    "ignore_loop_deliver": {
-                        "description": "是否为 MQTT v3.1.1/v3.1.0 客户端忽略投递自己发布的消息，类似于 MQTT 5.0 中的 <code>No Local</code> 订阅选项。",
-                        "label": "忽略循环投递",
-                        "type": "boolean"
-                    },
-                    "strict_mode": {
-                        "description": "是否以严格模式解析 MQTT 消息。<br/>当设置为 true 时，例如客户端 ID、主题名称等中的无效 utf8 字符串将导致客户端断开连接。",
-                        "label": "严格模式",
-                        "type": "boolean"
-                    },
-                    "response_information": {
-                        "description": "指定返回给客户端的响应信息。如果设置为 \"\"，则禁用此功能。仅适用于使用 MQTT 5.0 协议的客户端。",
-                        "label": "响应信息",
-                        "type": "string"
-                    },
-                    "server_keepalive": {
-                        "description": "EMQX 要求客户端使用的保活时间，配置为 <code>disabled</code> 表示将使用客户端指定的保活时间。需要用到 MQTT 5.0 中的 <code>Server Keep Alive</code>，因此仅适用于使用 MQTT 5.0 协议的客户端。",
-                        "label": "服务端保持连接",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "keepalive_backoff": {
-                        "description": "Broker 判定客户端保活超时使用的退避乘数。如果 EMQX 在 <code>Keep Alive * Backoff * 2</code> 秒内未收到任何报文，EMQX 将关闭当前连接。",
-                        "label": "保持连接退避乘数",
-                        "type": "number"
-                    },
-                    "max_subscriptions": {
-                        "description": "允许每个客户端建立的最大订阅数量。",
-                        "label": "最大订阅数量",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "upgrade_qos": {
-                        "description": "投递消息时，是否根据订阅主题时的 QoS 等级来强制提升派发的消息的 QoS 等级。",
-                        "label": "升级 QoS",
-                        "type": "boolean"
-                    },
-                    "max_inflight": {
-                        "description": "允许在完成应答前同时投递的 QoS 1 和 QoS 2 消息的最大数量。",
-                        "label": "最大飞行窗口",
-                        "maximum": 65535,
-                        "minimum": 1,
-                        "type": "number"
-                    },
-                    "retry_interval": {
-                        "description": "QoS 1/2 消息的重新投递间隔。",
-                        "label": "重试间隔",
-                        "type": "duration"
-                    },
-                    "max_awaiting_rel": {
-                        "description": "每个发布者的会话中，都存在一个队列来处理客户端发送的 QoS 2 消息。该队列会存储 QoS 2 消息的报文 ID 直到收到客户端的 PUBREL 或超时，达到队列长度的限制后，新的 QoS 2 消息发布会被拒绝，并返回 `147(0x93)` 错误。",
-                        "label": "PUBREL 等待队列长度",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "await_rel_timeout": {
-                        "description": "客户端发布 QoS 2 消息时，服务器等待 `PUBREL` 的最长时延。超过该时长后服务器会放弃等待，该PACKET ID 会被释放，从而允许后续新的 PUBLISH 消息使用。如果超时后收到 PUBREL，服务器将会产生一条告警日志。注意，向订阅客户端转发消息的动作发生在进入等待之前。",
-                        "label": "PUBREL 最大等待时间",
-                        "type": "duration"
-                    },
-                    "session_expiry_interval": {
-                        "description": "指定会话将在连接断开后多久过期，仅适用于非 MQTT 5.0 的连接。",
-                        "label": "会话过期间隔",
-                        "type": "duration"
-                    },
-                    "max_mqueue_len": {
-                        "description": "消息队列最大长度。持久客户端断开连接或飞行窗口已满时排队的消息长度。",
-                        "label": "最大消息队列长度",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "infinity"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "mqueue_priorities": {
-                        "description": "主题优先级。取值范围 [1-255]<br/>默认优先级表为空，即所有的主题优先级相同。<br/><br/>注：优先主题名称中不支持使用逗号和等号。<br/>注：不在此列表中的主题，被视为最高/最低优先级，这取决于<code>mqtt.mqueue_default_priority</code> 的配置<br/><br/>示例：<br/>配置 <code>\"topic/1\" > \"topic/2\"</code>:<br/><code>mqueue_priorities: {\"topic/1\": 10, \"topic/2\": 8}</code>",
-                        "label": "主题优先级",
-                        "oneOf": [
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            },
-                            {
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    "mqueue_default_priority": {
-                        "description": "默认的主题优先级，不在 <code>主题优先级</code>（<code>mqueue_priorities</code>） 中的主题将会使用该优先级。",
-                        "label": "默认主题优先级",
-                        "symbols": [
-                            "highest",
-                            "lowest"
-                        ],
-                        "type": "enum"
-                    },
-                    "mqueue_store_qos0": {
-                        "description": "指定在连接断开但会话保持期间，是否需要在消息队列中存储 QoS 0 消息。",
-                        "label": "存储 QoS 0 消息",
-                        "type": "boolean"
-                    },
-                    "use_username_as_clientid": {
-                        "description": "是否使用用户名作为客户端 ID。<br/>此设置的作用时间晚于 <code>使用对端证书作为用户名</code>（<code>peer_cert_as_username</code>） 和 <code>使用对端证书作为客户端 ID</code>（<code>peer_cert_as_clientid</code>）。",
-                        "label": "使用用户名作为客户端 ID",
-                        "type": "boolean"
-                    },
-                    "peer_cert_as_username": {
-                        "description": "使用对端证书中的 CN、DN 字段或整个证书内容来作为用户名。仅适用于 TLS 连接。<br/>目前支持配置为以下内容：<br/>- <code>cn</code>: 取证书的 CN 字段作为 Username<br/>- <code>dn</code>: 取证书的 DN 字段作为 Username<br/>- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容作为 Username<br/>- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式后作为 Username<br/>- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容的 MD5 值作为 Username",
-                        "label": "使用对端证书作为用户名",
-                        "symbols": [
-                            "disabled",
-                            "cn",
-                            "dn",
-                            "crt",
-                            "pem",
-                            "md5"
-                        ],
-                        "type": "enum"
-                    },
-                    "peer_cert_as_clientid": {
-                        "description": "使用对端证书中的 CN、DN 字段或整个证书内容来作为客户端 ID。仅适用于 TLS 连接。<br/>目前支持配置为以下内容：<br/>- <code>cn</code>: 取证书的 CN 字段作为 Client ID<br/>- <code>dn</code>: 取证书的 DN 字段作为 Client ID<br/>- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容作为 Client ID<br/>- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式后作为 Client ID<br/>- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容的 MD5 值作为 Client ID",
-                        "label": "使用对端证书作为客户端 ID",
-                        "symbols": [
-                            "disabled",
-                            "cn",
-                            "dn",
-                            "crt",
-                            "pem",
-                            "md5"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.conn_congestion": {
-                "properties": {
-                    "enable_alarm": {
-                        "description": "启用或者禁用连接阻塞告警功能。",
-                        "label": "启用/禁用阻塞告警",
-                        "type": "boolean"
-                    },
-                    "min_alarm_sustain_duration": {
-                        "description": "清除警报前的最短时间。<br/>只有当队列中没有挂起的数据，并且连接至少被堵塞了 <code>min_alarm_sustain_duration</code> 毫秒时，<br/>报警才会被清除。这是为了避免太频繁地清除和再次发出警报。",
-                        "label": "告警维持时间",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "limiter.client_fields": {
-                "properties": {
-                    "bytes_in": {
-                        "default": {},
-                        "description": "流入字节率控制器。<br/>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
-                        "label": "流入字节率",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    },
-                    "message_in": {
-                        "default": {},
-                        "description": "流入速率控制器。<br/>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
-                        "label": "消息流入速率",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    },
-                    "connection": {
-                        "default": {},
-                        "description": "连接速率控制器。<br/>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
-                        "label": "连接速率",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    },
-                    "message_routing": {
-                        "default": {},
-                        "description": "消息派发速率控制器。<br/>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
-                        "label": "消息派发",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    },
-                    "internal": {
-                        "default": {},
-                        "description": "EMQX 内部功能所用限制器。",
-                        "label": "internal",
-                        "$ref": "#/components/schemas/limiter.client_opts"
-                    }
-                },
-                "type": "object"
-            },
-            "limiter.limiter": {
-                "properties": {
-                    "bytes_in": {
-                        "default": {},
-                        "description": "流入字节率控制器。<br/>这个是用来控制当前节点上的数据流入的字节率，每条消息将会消耗和其二进制大小等量的令牌，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
-                        "label": "流入字节率",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "message_in": {
-                        "default": {},
-                        "description": "流入速率控制器。<br/>这个用来控制当前节点上的消息流入速率，当达到最大速率后，会话将会被限速甚至被强制挂起一小段时间",
-                        "label": "消息流入速率",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "connection": {
-                        "default": {},
-                        "description": "连接速率控制器。<br/>这个用来控制当前节点上的连接速率，当达到最大速率后，新的连接将会被拒绝",
-                        "label": "连接速率",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "message_routing": {
-                        "default": {},
-                        "description": "消息派发速率控制器。<br/>这个用来控制当前节点内的消息派发速率，当达到最大速率后，新的推送将会被拒绝",
-                        "label": "消息派发",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "internal": {
-                        "default": {},
-                        "description": "EMQX 内部功能所用限制器。",
-                        "label": "internal",
-                        "$ref": "#/components/schemas/limiter.node_opts"
-                    },
-                    "client": {
-                        "default": {
-                            "bytes_in": {},
-                            "connection": {},
-                            "internal": {},
-                            "message_in": {},
-                            "message_routing": {}
-                        },
-                        "description": "对桶的每个使用者的速率控制设置",
-                        "label": "每个使用者的限制",
-                        "$ref": "#/components/schemas/limiter.client_fields"
-                    }
-                },
-                "type": "object"
-            },
-            "dashboard.https": {
-                "required": [
-                    "bind",
-                    "enable"
-                ],
-                "properties": {
-                    "enable": {
-                        "default": false,
-                        "description": "忽略或启用该监听器。",
-                        "label": "启用",
-                        "type": "boolean"
-                    },
-                    "bind": {
-                        "default": 18084,
-                        "description": "监听地址和端口，热更新此配置时，会重启 Dashboard 服务。",
-                        "example": "0.0.0.0:18084",
-                        "label": "绑定端口",
-                        "oneOf": [
-                            {
-                                "type": "ip_port"
-                            },
-                            {
-                                "minimum": 1,
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "num_acceptors": {
-                        "default": 8,
-                        "description": "TCP协议的Socket acceptor池大小, 默认设置在线的调度器数量（通常为 CPU 核数）",
-                        "label": "Acceptor 数量",
-                        "type": "number"
-                    },
-                    "max_connections": {
-                        "default": 512,
-                        "description": "同时处理的最大连接数。",
-                        "label": "最大连接数",
-                        "type": "number"
-                    },
-                    "backlog": {
-                        "default": 1024,
-                        "description": "排队等待连接的队列的最大长度。",
-                        "label": "排队长度",
-                        "type": "number"
-                    },
-                    "send_timeout": {
-                        "default": "10s",
-                        "description": "Socket发送超时时间。",
-                        "label": "发送超时时间",
-                        "type": "duration"
-                    },
-                    "inet6": {
-                        "default": false,
-                        "description": "启用IPv6， 如果机器不支持IPv6，请关闭此选项，否则会导致 Dashboard 无法使用。",
-                        "label": "IPv6",
-                        "type": "boolean"
-                    },
-                    "ipv6_v6only": {
-                        "default": false,
-                        "description": "当开启 inet6 功能的同时禁用 IPv4-to-IPv6 映射。该配置仅在 inet6 功能开启时有效。",
-                        "label": "IPv6 only",
-                        "type": "boolean"
-                    },
-                    "proxy_header": {
-                        "default": false,
-                        "description": "开启对  `HAProxy` 的支持，注意：一旦开启了这个功能，就无法再处理普通的 HTTP 请求了。",
-                        "label": "开启对 `HAProxy` 的支持",
-                        "type": "boolean"
-                    },
-                    "cacertfile": {
-                        "description": "受信任的PEM格式 CA  证书捆绑文件<br/><br/>此文件中的证书用于验证TLS对等方的证书。<br/>如果要信任新 CA，请将新证书附加到文件中。<br/>无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）<br/><br/>注意：从文件中失效（删除）证书不会影响已建立的连接。",
-                        "label": "CA 证书文件",
-                        "type": "string"
-                    },
-                    "certfile": {
-                        "description": "PEM格式证书链文件<br/><br/>此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，<br/>然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。<br/>根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
-                        "label": "证书文件",
-                        "type": "string"
-                    },
-                    "keyfile": {
-                        "description": "PEM格式的私钥文件。",
-                        "label": "私钥文件",
-                        "type": "string"
-                    },
-                    "verify": {
-                        "default": "verify_none",
-                        "description": "启用或禁用对等验证。",
-                        "label": "对等验证",
-                        "symbols": [
-                            "verify_peer",
-                            "verify_none"
-                        ],
-                        "type": "enum"
-                    },
-                    "reuse_sessions": {
-                        "default": true,
-                        "description": "启用 TLS 会话重用。",
-                        "label": "TLS 会话重用",
-                        "type": "boolean"
-                    },
-                    "depth": {
-                        "default": 10,
-                        "description": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。<br/>因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/><br/>如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/><br/>如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
-                        "label": "CA 证书深度",
-                        "type": "number"
-                    },
-                    "password": {
-                        "description": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
-                        "example": "",
-                        "format": "password",
-                        "label": "秘钥文件密码",
-                        "type": "string"
-                    },
-                    "versions": {
-                        "default": [
-                            "tlsv1.3",
-                            "tlsv1.2",
-                            "tlsv1.1",
-                            "tlsv1"
-                        ],
-                        "description": "支持所有TLS/DTLS版本<br/><br/>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "SSL 版本",
-                        "type": "array"
-                    },
-                    "ciphers": {
-                        "default": "",
-                        "description": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。<br/><br/><br/>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。<br/>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。<br/><br/>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。<br/>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/><br/>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。<br/>不兼容的密码套件将被自动删除。<br/><br/>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。<br/><br/><br/><br/>注：PSK 的 Ciphers 不支持 tlsv1.3<br/><br/>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。<br/><br/><br/><br/>PSK 密码套件：<br/><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "",
-                        "type": "array"
-                    },
-                    "user_lookup_fun": {
-                        "default": "emqx_tls_psk:lookup",
-                        "description": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
-                        "label": "SSL PSK 用户回调",
-                        "type": "string"
-                    },
-                    "secure_renegotiate": {
-                        "default": true,
-                        "description": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。<br/>RFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
-                        "label": "SSL 重新协商",
-                        "type": "boolean"
-                    },
-                    "hibernate_after": {
-                        "default": "5s",
-                        "description": " 在闲置一定时间后休眠 SSL 进程，减少其内存占用。",
-                        "label": "闲置多久后休眠",
-                        "type": "duration"
-                    },
-                    "dhfile": {
-                        "description": "如果协商使用Diffie-Hellman密钥交换的密码套件，则服务器将使用包含PEM编码的Diffie-Hellman参数的文件的路径。如果未指定，则使用默认参数。<br/><br/>注意：TLS 1.3不支持<code>dhfile</code>选项。",
-                        "label": "SSL dhfile",
-                        "type": "string"
-                    },
-                    "honor_cipher_order": {
-                        "default": true,
-                        "description": "一个重要的安全设置，它强制根据服务器指定的顺序而不是客户机指定的顺序设置密码，从而强制服务器管理员执行（通常配置得更正确）安全顺序。",
-                        "label": "SSL honor cipher order",
-                        "type": "boolean"
-                    },
-                    "client_renegotiation": {
-                        "default": true,
-                        "description": "在支持客户机发起的重新协商的协议中，这种操作的资源成本对于服务器来说高于客户机。<br/>这可能会成为拒绝服务攻击的载体。<br/>SSL 应用程序已经采取措施来反击此类尝试，但通过将此选项设置为 false，可以严格禁用客户端发起的重新协商。<br/>默认值为 true。请注意，由于基础密码套件可以加密的消息数量有限，禁用重新协商可能会导致长期连接变得不可用。",
-                        "label": "SSL 客户端冲协商",
-                        "type": "boolean"
-                    },
-                    "handshake_timeout": {
-                        "default": "15s",
-                        "description": "握手完成所允许的最长时间",
-                        "label": "握手超时时间",
-                        "type": "duration"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.log_rotation": {
-                "properties": {
-                    "enable": {
-                        "default": true,
-                        "description": "启用日志轮换功能。启动后生成日志文件后缀会加上对应的索引数字，比如：log/emqx.log.1。<br/>系统会默认生成<code>*.siz/*.idx</code>用于记录日志位置，请不要手动修改这两个文件。",
-                        "label": "日志轮换",
-                        "type": "boolean"
-                    },
-                    "count": {
-                        "default": 10,
-                        "description": "轮换的最大日志文件数。",
-                        "label": "最大日志文件数",
-                        "maximum": 2048,
-                        "minimum": 1,
-                        "type": "number"
-                    }
-                },
-                "type": "object"
-            },
-            "emqx_conf_schema.node": {
-                "required": [
-                    "data_dir",
-                    "cookie"
-                ],
-                "properties": {
-                    "name": {
-                        "default": "emqx@127.0.0.1",
-                        "description": "节点名。格式为 \\<name>@\\<host>。其中 <host> 可以是 IP 地址，也可以是 FQDN。<br/>详见 http://erlang.org/doc/reference_manual/distributed.html。",
-                        "label": "节点名",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "cookie": {
-                        "description": "分布式 Erlang 集群使用的 cookie 值。集群间保持一致",
-                        "label": "节点 Cookie",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "process_limit": {
-                        "default": 2097152,
-                        "description": "Erlang系统同时存在的最大进程数。<br/>实际选择的最大值可能比设置的数字大得多。<br/>参考: https://www.erlang.org/doc/man/erl.html",
-                        "label": "Erlang 最大进程数",
-                        "maximum": 134217727,
-                        "minimum": 1024,
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "max_ports": {
-                        "default": 1048576,
-                        "description": "Erlang系统同时存在的最大端口数。<br/>实际选择的最大值可能比设置的数字大得多。<br/>参考: https://www.erlang.org/doc/man/erl.html",
-                        "label": "Erlang 最大端口数",
-                        "maximum": 134217727,
-                        "minimum": 1024,
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "dist_buffer_size": {
-                        "default": 8192,
-                        "description": "Erlang分布式缓冲区的繁忙阈值，单位是KB。",
-                        "label": "Erlang分布式缓冲区的繁忙阈值(KB)",
-                        "maximum": 2097151,
-                        "minimum": 1,
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "max_ets_tables": {
-                        "default": 262144,
-                        "description": "Erlang ETS 表的最大数量",
-                        "label": "Erlang 表的最大数量",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "data_dir": {
-                        "description": "节点数据存放目录，可能会自动创建的子目录如下：<br/><br/>- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx@127.0.0.1`。<br/><br/>如果节点要被重新命名（例如，`emqx@10.0.1.1`）。旧目录应该首先被删除。<br/><br/>- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。<br/><br/>- `patches`: 热补丁文件将被放在这里。<br/><br/>- `trace`: 日志跟踪文件。<br/><br/><br/>**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。",
-                        "label": "节点数据目录",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "config_files": {
-                        "description": "config_files Description",
-                        "items": {
-                            "type": "string"
-                        },
-                        "label": "config_files",
-                        "readOnly": true,
-                        "type": "array"
-                    },
-                    "global_gc_interval": {
-                        "default": "15m",
-                        "description": "系统调优参数，设置节点运行多久强制进行一次全局垃圾回收。禁用设置为 <code>disabled</code>。",
-                        "label": "全局垃圾回收",
-                        "readOnly": true,
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "crash_dump_file": {
-                        "default": "log/erl_crash.dump",
-                        "description": "设置 Erlang crash_dump 文件的存储路径和文件名。",
-                        "label": "节点崩溃时的Dump文件",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "crash_dump_seconds": {
-                        "default": "30s",
-                        "description": "该配置给出了运行时系统允许花费的写入崩溃转储的秒数。当给定的秒数已经过去，运行时系统将被终止。<br/><br/>- 如果设置为0秒，运行时会立即终止，不会尝试写入崩溃转储文件。<br/><br/>- 如果设置为一个正数 S，节点会等待 S 秒来完成崩溃转储文件，然后用SIGALRM信号终止运行时系统。<br/><br/>- 如果设置为一个负值导致运行时系统的终止等待无限期地直到崩溃转储文件已经完全写入。",
-                        "label": "保存崩溃文件最长时间",
-                        "readOnly": true,
-                        "type": "duration"
-                    },
-                    "crash_dump_bytes": {
-                        "default": "100MB",
-                        "description": "限制崩溃文件的大小，当崩溃时节点内存太大，<br/>如果为了保存现场，需要全部存到崩溃文件中，此处限制最多能保存多大的文件。<br/>如果超过此限制，崩溃转储将被截断。如果设置为0，系统不会尝试写入崩溃转储文件。",
-                        "label": "崩溃文件最大容量",
-                        "readOnly": true,
-                        "type": "byteSize"
-                    },
-                    "dist_net_ticktime": {
-                        "default": "2m",
-                        "description": "系统调优参数，此配置将覆盖 vm.args 文件里的 -kernel net_ticktime 参数。当一个节点持续无响应多久之后，认为其已经宕机并断开连接。",
-                        "label": "节点间心跳间隔",
-                        "readOnly": true,
-                        "type": "duration"
-                    },
-                    "backtrace_depth": {
-                        "default": 23,
-                        "description": "错误信息中打印的最大堆栈层数",
-                        "label": "最大堆栈导数",
-                        "readOnly": true,
-                        "type": "number"
-                    },
-                    "applications": {
-                        "default": "",
-                        "description": "当新EMQX 加入集群时，应重启的Erlang应用程序的列表。",
-                        "label": "应用",
-                        "readOnly": true,
-                        "type": "comma_separated_string"
-                    },
-                    "etc_dir": {
-                        "deprecated": true,
-                        "description": "<code>etc</code> 存放目录",
-                        "label": "Etc 目录",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "cluster_call": {
-                        "description": "cluster_call Description",
-                        "label": "cluster_call",
-                        "readOnly": true,
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster_call"
-                    },
-                    "db_backend": {
-                        "default": "rlog",
-                        "description": "配置后端数据库驱动，默认值为 <code>rlog</code> 它适用于大规模的集群。<br/><code>mnesia</code> 是备选数据库，适合中小集群。",
-                        "label": "内置数据库",
-                        "readOnly": true,
-                        "symbols": [
-                            "mnesia",
-                            "rlog"
-                        ],
-                        "type": "enum"
-                    },
-                    "db_role": {
-                        "default": "core",
-                        "description": "选择节点的角色。<br/><br/><code>core</code> 节点提供数据的持久性，并负责写入。建议将核心节点放置在不同的机架或不同的可用区。<br/><br/><code>repliant</code> 节点是临时工作节点。 从集群中删除它们，不影响数据库冗余<br/><br/>建议复制节点多于核心节点。<br/><br/>注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>。",
-                        "label": "数据库角色",
-                        "readOnly": true,
-                        "symbols": [
-                            "core",
-                            "replicant"
-                        ],
-                        "type": "enum"
-                    },
-                    "rpc_module": {
-                        "default": "gen_rpc",
-                        "description": "集群间推送事务日志到复制节点使用的协议。",
-                        "label": "RPC协议",
-                        "readOnly": true,
-                        "symbols": [
-                            "gen_rpc",
-                            "rpc"
-                        ],
-                        "type": "enum"
-                    },
-                    "tlog_push_mode": {
-                        "default": "async",
-                        "description": "同步模式下，核心节点等待复制节点的确认信息，然后再发送下一条事务日志。",
-                        "label": "Tlog推送模式",
-                        "readOnly": true,
-                        "symbols": [
-                            "sync",
-                            "async"
-                        ],
-                        "type": "enum"
-                    },
-                    "default_shard_transport": {
-                        "default": "gen_rpc",
-                        "description": "定义用于推送事务日志的默认传输。<br/><br/>这可以在 <code>db.shard_transports</code> 中基于每个分片被覆盖。<br/><code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，<br/><code>distr</code> 使用 Erlang 发行版。",
-                        "label": "事务日志传输默认协议",
-                        "symbols": [
-                            "gen_rpc",
-                            "distr"
-                        ],
-                        "type": "enum"
-                    },
-                    "shard_transports": {
-                        "default": {},
-                        "description": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。<br/><br/><code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，<br/><code>distr</code> 使用 Erlang 自带的 rpc 库。<br/>如果未指定，<br/>默认是使用 <code>db.default_shard_transport</code> 中设置的值。",
-                        "label": "事务日志传输协议",
-                        "properties": {
-                            "$shard": {
-                                "symbols": [
-                                    "gen_rpc",
-                                    "distr"
-                                ],
-                                "type": "enum"
-                            }
-                        },
-                        "type": "object"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.persistent_table_mria_opts": {
-                "properties": {
-                    "ram_cache": {
-                        "default": true,
-                        "description": "在内存中保持一份数据的副本，以便更快地访问。",
-                        "label": "内存缓存",
-                        "type": "boolean"
-                    }
-                },
-                "type": "object"
-            },
-            "limiter.client_opts": {
-                "properties": {
-                    "rate": {
-                        "default": "infinity",
-                        "description": "桶的令牌生成速率",
-                        "label": "速率",
-                        "type": "string"
-                    },
-                    "initial": {
-                        "default": "0",
-                        "description": "桶中的初始令牌数",
-                        "label": "初始令牌数",
-                        "type": "string"
-                    },
-                    "low_watermark": {
-                        "default": "0",
-                        "description": "当桶中剩余的令牌数低于这个值，即使令牌申请成功了，也会被强制暂停一会儿",
-                        "label": "低水位线",
-                        "type": "string"
-                    },
-                    "capacity": {
-                        "default": "infinity",
-                        "description": "每个使用者的令牌容量上限",
-                        "label": "容量",
-                        "type": "string"
-                    },
-                    "divisible": {
-                        "default": false,
-                        "description": "申请的令牌数是否可以被分割",
-                        "label": "是否可分割",
-                        "type": "boolean"
-                    },
-                    "max_retry_time": {
-                        "default": "10s",
-                        "description": "申请失败后，尝试重新申请的时长最大值",
-                        "label": "最大重试时间",
-                        "type": "duration"
-                    },
-                    "failure_strategy": {
-                        "default": "force",
-                        "description": "当所有的重试都失败后的处理策略",
-                        "label": "失败策略",
-                        "symbols": [
-                            "force",
-                            "drop",
-                            "throw"
-                        ],
-                        "type": "enum"
-                    }
-                },
-                "type": "object"
-            },
-            "dashboard.dashboard": {
-                "required": [
-                    "default_password",
-                    "default_username"
-                ],
-                "properties": {
-                    "listeners": {
-                        "description": "Dashboard 监听器设置。监听器必须有唯一的端口号和IP地址的组合。<br/>例如，可以通过指定IP地址 0.0.0.0 来监听机器上给定端口上的所有配置的IP地址。<br/>或者，可以为每个监听器指定唯一的IP地址，但使用相同的端口。",
-                        "label": "监听器",
-                        "$ref": "#/components/schemas/dashboard.listeners"
-                    },
-                    "default_username": {
-                        "default": "admin",
-                        "description": "Dashboard 的默认用户名。",
-                        "label": "默认用户名",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "default_password": {
-                        "default": "public",
-                        "description": "Dashboard 的默认密码，为了安全，应该尽快修改密码。<br/>当通过网页首次登录 Dashboard 并按提示修改成复杂密码后，此值就会失效。",
-                        "label": "默认密码",
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "sample_interval": {
-                        "default": "10s",
-                        "description": "Dashboard 中图表指标的时间间隔。必须小于60，且被60的整除，默认设置 10s。",
-                        "label": "sample_interval",
-                        "type": "duration"
-                    },
-                    "token_expired_time": {
-                        "default": "60m",
-                        "description": "JWT token 过期时间。默认设置为 60 分钟。",
-                        "label": "JWT 过期时间",
-                        "type": "duration"
-                    },
-                    "cors": {
-                        "default": false,
-                        "description": "支持跨域资源共享(CORS)，<br/>允许服务器指示任何来源(域名、协议或端口)，除了本服务器之外的任何浏览器应允许加载资源。",
-                        "label": "跨域资源共享",
-                        "type": "boolean"
-                    },
-                    "i18n_lang": {
-                        "default": "en",
-                        "description": "设置 Swagger 多语言的版本，可为 en 或 zh。",
-                        "label": "多语言支持",
-                        "readOnly": true,
-                        "symbols": [
-                            "en",
-                            "zh"
-                        ],
-                        "type": "enum"
-                    },
-                    "bootstrap_users_file": {
-                        "default": "",
-                        "description": "已废弃，请使用 api_key.bootstrap_file。",
-                        "label": "已废弃",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "broker.sys_topics": {
-                "properties": {
-                    "sys_msg_interval": {
-                        "default": "1m",
-                        "description": "发送 `$SYS` 主题的间隔时间。",
-                        "label": "sys_msg_interval",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "sys_heartbeat_interval": {
-                        "default": "30s",
-                        "description": "发送心跳系统消息的间隔时间，它包括：<br/>  - `$SYS/brokers/<node>/uptime`<br/>  - `$SYS/brokers/<node>/datetime`",
-                        "label": "sys_heartbeat_interval",
-                        "oneOf": [
-                            {
-                                "type": "duration"
-                            },
-                            {
-                                "symbols": [
-                                    "disabled"
-                                ],
-                                "type": "enum"
-                            }
-                        ]
-                    },
-                    "sys_event_messages": {
-                        "description": "客户端事件消息。",
-                        "label": "sys_event_messages",
-                        "$ref": "#/components/schemas/broker.event_names"
-                    }
-                },
-                "type": "object"
-            },
-            "zone.force_shutdown": {
-                "properties": {
-                    "enable": {
-                        "description": "启用 `force_shutdown` 功能。",
-                        "label": "启用 `force_shutdown` 功能",
-                        "type": "boolean"
-                    },
-                    "max_message_queue_len": {
-                        "description": "消息队列的最大长度。",
-                        "label": "进程邮箱消息队列的最大长度",
-                        "minimum": 0,
-                        "type": "number"
-                    },
-                    "max_heap_size": {
-                        "description": "Heap 的总大小。",
-                        "label": "Heap 的总大小",
-                        "type": "byteSize"
-                    }
-                },
-                "type": "object"
-            }
+  "paths": {
+    "/configs_reset/:rootname": {},
+    "/configs/zones": {
+      "put": {
+        "type": "object",
+        "properties": {
+          "$name": {
+            "$ref": "#/components/schemas/broker.zone"
+          }
         }
+      },
+      "get": {
+        "type": "object",
+        "properties": {
+          "$name": {
+            "$ref": "#/components/schemas/broker.zone"
+          }
+        }
+      }
     },
-    "info": {
-        "title": "EMQX Hot Conf API Schema",
-        "version": "0.1.0"
+    "/configs/trace": {
+      "put": {
+        "$ref": "#/components/schemas/broker.trace"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.trace"
+      }
     },
-    "paths": {
-        "/configs": {
-            "get": {
-                "properties": {
-                    "zones": {
-                        "description": "<code>zone</code> 是按<code>name</code> 分组的一组配置。<br/>对于灵活的配置映射，可以将 <code>name</code> 设置为侦听器的 <code>zone</code> 配置。<br/>注：名为 <code>default</code> 的内置区域是自动创建的，无法删除。",
-                        "label": "zones",
-                        "properties": {
-                            "$name": {
-                                "$ref": "#/components/schemas/broker.zone"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "node": {
-                        "description": "node Description",
-                        "label": "node",
-                        "$ref": "#/components/schemas/emqx_conf_schema.node"
-                    },
-                    "cluster": {
-                        "description": "cluster Description",
-                        "label": "cluster",
-                        "$ref": "#/components/schemas/emqx_conf_schema.cluster"
-                    },
-                    "log": {
-                        "description": "log Description",
-                        "label": "log",
-                        "$ref": "#/components/schemas/emqx_conf_schema.log"
-                    },
-                    "broker": {
-                        "description": "Broker 相关配置项。",
-                        "label": "broker",
-                        "$ref": "#/components/schemas/broker.broker"
-                    },
-                    "sys_topics": {
-                        "description": "系统主题配置。",
-                        "label": "sys_topics",
-                        "$ref": "#/components/schemas/broker.sys_topics"
-                    },
-                    "sysmon": {
-                        "description": "sysmon Description",
-                        "label": "sysmon",
-                        "$ref": "#/components/schemas/broker.sysmon"
-                    },
-                    "alarm": {
-                        "description": "alarm Description",
-                        "label": "alarm",
-                        "$ref": "#/components/schemas/broker.alarm"
-                    },
-                    "persistent_session_store": {
-                        "description": "persistent_session_store Description",
-                        "label": "persistent_session_store",
-                        "$ref": "#/components/schemas/broker.persistent_session_store"
-                    },
-                    "trace": {
-                        "description": "trace Description",
-                        "label": "trace",
-                        "$ref": "#/components/schemas/broker.trace"
-                    },
-                    "dashboard": {
-                        "description": "EMQX Dashboard 配置。",
-                        "label": "Dashboard",
-                        "$ref": "#/components/schemas/dashboard.dashboard"
-                    },
-                    "limiter": {
-                        "description": "Settings for the rate limiter.",
-                        "label": "limiter",
-                        "$ref": "#/components/schemas/limiter.limiter"
-                    }
-                },
-                "type": "object"
+    "/configs/sysmon": {
+      "put": {
+        "$ref": "#/components/schemas/broker.sysmon"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.sysmon"
+      }
+    },
+    "/configs/sys_topics": {
+      "put": {
+        "$ref": "#/components/schemas/broker.sys_topics"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.sys_topics"
+      }
+    },
+    "/configs/persistent_session_store": {
+      "put": {
+        "$ref": "#/components/schemas/broker.persistent_session_store"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.persistent_session_store"
+      }
+    },
+    "/configs/log": {
+      "put": {
+        "$ref": "#/components/schemas/emqx_conf_schema.log"
+      },
+      "get": {
+        "$ref": "#/components/schemas/emqx_conf_schema.log"
+      }
+    },
+    "/configs/limiter": {
+      "put": {
+        "$ref": "#/components/schemas/limiter.limiter"
+      },
+      "get": {
+        "$ref": "#/components/schemas/limiter.limiter"
+      }
+    },
+    "/configs/global_zone": {
+      "put": {
+        "type": "object",
+        "properties": {
+          "mqtt": {
+            "$ref": "#/components/schemas/zone.mqtt"
+          },
+          "force_shutdown": {
+            "$ref": "#/components/schemas/zone.force_shutdown"
+          },
+          "force_gc": {
+            "$ref": "#/components/schemas/zone.force_gc"
+          }
+        }
+      },
+      "get": {
+        "type": "object",
+        "properties": {
+          "mqtt": {
+            "$ref": "#/components/schemas/zone.mqtt"
+          },
+          "force_shutdown": {
+            "$ref": "#/components/schemas/zone.force_shutdown"
+          },
+          "force_gc": {
+            "$ref": "#/components/schemas/zone.force_gc"
+          }
+        }
+      }
+    },
+    "/configs/dashboard": {
+      "put": {
+        "$ref": "#/components/schemas/dashboard.dashboard"
+      },
+      "get": {
+        "$ref": "#/components/schemas/dashboard.dashboard"
+      }
+    },
+    "/configs/alarm": {
+      "put": {
+        "$ref": "#/components/schemas/broker.alarm"
+      },
+      "get": {
+        "$ref": "#/components/schemas/broker.alarm"
+      }
+    },
+    "/configs": {
+      "get": {
+        "type": "object",
+        "properties": {
+          "zones": {
+            "type": "object",
+            "properties": {
+              "$name": {
+                "$ref": "#/components/schemas/broker.zone"
+              }
             }
-        },
-        "/configs/alarm": {
-            "get": {
-                "$ref": "#/components/schemas/broker.alarm"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.alarm"
-            }
-        },
-        "/configs/broker": {
-            "get": {
-                "$ref": "#/components/schemas/broker.broker"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.broker"
-            }
-        },
-        "/configs/cluster": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_conf_schema.cluster"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_conf_schema.cluster"
-            }
-        },
-        "/configs/dashboard": {
-            "get": {
-                "$ref": "#/components/schemas/dashboard.dashboard"
-            },
-            "put": {
-                "$ref": "#/components/schemas/dashboard.dashboard"
-            }
-        },
-        "/configs/global_zone": {
-            "get": {
-                "properties": {
-                    "mqtt": {
-                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
-                        "label": "mqtt",
-                        "$ref": "#/components/schemas/zone.mqtt"
-                    },
-                    "stats": {
-                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
-                        "label": "stats",
-                        "$ref": "#/components/schemas/zone.stats"
-                    },
-                    "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
-                        "label": "flapping_detect",
-                        "$ref": "#/components/schemas/zone.flapping_detect"
-                    },
-                    "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
-                        "label": "force_shutdown",
-                        "$ref": "#/components/schemas/zone.force_shutdown"
-                    },
-                    "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
-                        "label": "conn_congestion",
-                        "$ref": "#/components/schemas/zone.conn_congestion"
-                    },
-                    "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
-                        "label": "force_gc",
-                        "$ref": "#/components/schemas/zone.force_gc"
-                    },
-                    "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
-                        "label": "overload_protection",
-                        "$ref": "#/components/schemas/zone.overload_protection"
-                    }
-                },
-                "type": "object"
-            },
-            "put": {
-                "properties": {
-                    "mqtt": {
-                        "description": "Global MQTT configuration.<br/>The configs here work as default values which can be overridden<br/>in <code>zone</code> configs",
-                        "label": "mqtt",
-                        "$ref": "#/components/schemas/zone.mqtt"
-                    },
-                    "stats": {
-                        "description": "Enable/disable statistic data collection.<br/>Statistic data such as message receive/send count/rate etc. It provides insights of system performance and helps to diagnose issues. You can find statistic data from the dashboard, or from the '/stats' API.",
-                        "label": "stats",
-                        "$ref": "#/components/schemas/zone.stats"
-                    },
-                    "flapping_detect": {
-                        "description": "This config controls the allowed maximum number of `CONNECT` packets received<br/>from the same clientid in a time frame defined by `window_time`.<br/>After the limit is reached, successive `CONNECT` requests are forbidden<br/>(banned) until the end of the time period defined by `ban_time`.",
-                        "label": "flapping_detect",
-                        "$ref": "#/components/schemas/zone.flapping_detect"
-                    },
-                    "force_shutdown": {
-                        "description": "When the process message queue length, or the memory bytes<br/>reaches a certain value, the process is forced to close.<br/><br/>Note: \"message queue\" here refers to the \"message mailbox\"<br/>of the Erlang process, not the `mqueue` of QoS 1 and QoS 2.",
-                        "label": "force_shutdown",
-                        "$ref": "#/components/schemas/zone.force_shutdown"
-                    },
-                    "conn_congestion": {
-                        "description": "Settings for `conn_congestion` alarm.<br/><br/>Sometimes the MQTT connection (usually an MQTT subscriber) may<br/>get \"congested\", because there are too many packets to be sent.<br/>The socket tries to buffer the packets until the buffer is<br/>full. If more packets arrive after that, the packets will be<br/>\"pending\" in the queue, and we consider the connection<br/>congested.<br/><br/>Note: `sndbuf` can be set to larger value if the<br/>alarm is triggered too often.<br/>The name of the alarm is of format `conn_congestion/<ClientID>/<Username>`,<br/>where the `<ClientID>` is the client ID of the congested MQTT connection,<br/>and `<Username>` is the username or `unknown_user`.",
-                        "label": "conn_congestion",
-                        "$ref": "#/components/schemas/zone.conn_congestion"
-                    },
-                    "force_gc": {
-                        "description": "Force garbage collection in MQTT connection process after<br/> they process certain number of messages or bytes of data.",
-                        "label": "force_gc",
-                        "$ref": "#/components/schemas/zone.force_gc"
-                    },
-                    "overload_protection": {
-                        "description": "Overload protection mechanism monitors the load of the system and temporarily<br/>disables some features (such as accepting new connections) when the load is high.",
-                        "label": "overload_protection",
-                        "$ref": "#/components/schemas/zone.overload_protection"
-                    }
-                },
-                "type": "object"
-            }
-        },
-        "/configs/limiter": {
-            "get": {
-                "$ref": "#/components/schemas/limiter.limiter"
-            },
-            "put": {
-                "$ref": "#/components/schemas/limiter.limiter"
-            }
-        },
-        "/configs/log": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_conf_schema.log"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_conf_schema.log"
-            }
-        },
-        "/configs/node": {
-            "get": {
-                "$ref": "#/components/schemas/emqx_conf_schema.node"
-            },
-            "put": {
-                "$ref": "#/components/schemas/emqx_conf_schema.node"
-            }
-        },
-        "/configs/persistent_session_store": {
-            "get": {
-                "$ref": "#/components/schemas/broker.persistent_session_store"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.persistent_session_store"
-            }
-        },
-        "/configs/sys_topics": {
-            "get": {
-                "$ref": "#/components/schemas/broker.sys_topics"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.sys_topics"
-            }
-        },
-        "/configs/sysmon": {
-            "get": {
-                "$ref": "#/components/schemas/broker.sysmon"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.sysmon"
-            }
-        },
-        "/configs/trace": {
-            "get": {
-                "$ref": "#/components/schemas/broker.trace"
-            },
-            "put": {
-                "$ref": "#/components/schemas/broker.trace"
-            }
-        },
-        "/configs/zones": {
-            "get": {
-                "properties": {
-                    "$name": {
-                        "$ref": "#/components/schemas/broker.zone"
-                    }
-                },
-                "type": "object"
-            },
-            "put": {
-                "properties": {
-                    "$name": {
-                        "$ref": "#/components/schemas/broker.zone"
-                    }
-                },
-                "type": "object"
-            }
-        },
-        "/configs_reset/:rootname": {}
+          },
+          "log": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log"
+          },
+          "limiter": {
+            "$ref": "#/components/schemas/limiter.limiter"
+          },
+          "sysmon": {
+            "$ref": "#/components/schemas/broker.sysmon"
+          },
+          "sys_topics": {
+            "$ref": "#/components/schemas/broker.sys_topics"
+          },
+          "alarm": {
+            "$ref": "#/components/schemas/broker.alarm"
+          },
+          "dashboard": {
+            "$ref": "#/components/schemas/dashboard.dashboard",
+            "summary": "Dashboard"
+          }
+        }
+      }
     }
+  },
+  "info": {
+    "version": "0.1.0",
+    "title": "EMQX Hot Conf API Schema"
+  },
+  "components": {
+    "schemas": {
+      "zone.mqtt": {
+        "type": "object",
+        "properties": {
+          "idle_timeout": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              }
+            ],
+            "summary": "空闲超时"
+          },
+          "max_packet_size": {
+            "type": "byteSize",
+            "summary": "最大报文大小"
+          },
+          "max_clientid_len": {
+            "type": "number",
+            "summary": "最大 Client ID 长度",
+            "minimum": 23,
+            "maximum": 65535
+          },
+          "max_topic_levels": {
+            "type": "number",
+            "summary": "最大主题层级",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "max_qos_allowed": {
+            "type": "enum",
+            "symbols": [
+              0,
+              1,
+              2
+            ],
+            "summary": "最大 QoS"
+          },
+          "max_topic_alias": {
+            "type": "number",
+            "summary": "最大主题别名",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "retain_available": {
+            "type": "boolean",
+            "summary": "保留消息可用"
+          },
+          "wildcard_subscription": {
+            "type": "boolean",
+            "summary": "通配符订阅可用"
+          },
+          "shared_subscription": {
+            "type": "boolean",
+            "summary": "共享订阅可用"
+          },
+          "exclusive_subscription": {
+            "type": "boolean",
+            "summary": "排它订阅"
+          },
+          "ignore_loop_deliver": {
+            "type": "boolean",
+            "summary": "忽略循环投递"
+          },
+          "strict_mode": {
+            "type": "boolean",
+            "summary": "严格模式"
+          },
+          "response_information": {
+            "type": "string",
+            "summary": "响应信息"
+          },
+          "server_keepalive": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "summary": "服务端保活时间"
+          },
+          "keepalive_backoff": {
+            "type": "number",
+            "summary": "保活超时阈值系数"
+          },
+          "max_subscriptions": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              },
+              {
+                "type": "number",
+                "minimum": 1
+              }
+            ],
+            "summary": "最大订阅数量"
+          },
+          "upgrade_qos": {
+            "type": "boolean",
+            "summary": "升级 QoS"
+          },
+          "max_inflight": {
+            "type": "number",
+            "summary": "最大飞行窗口",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "retry_interval": {
+            "type": "duration",
+            "summary": "重试间隔"
+          },
+          "max_awaiting_rel": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "summary": "PUBREL 等待队列长度"
+          },
+          "await_rel_timeout": {
+            "type": "duration",
+            "summary": "PUBREL 最大等待时间"
+          },
+          "session_expiry_interval": {
+            "type": "duration",
+            "summary": "会话过期间隔"
+          },
+          "max_mqueue_len": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              },
+              {
+                "type": "number",
+                "minimum": 1
+              }
+            ],
+            "summary": "最大消息队列长度"
+          },
+          "mqueue_priorities": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              },
+              {
+                "type": "object"
+              }
+            ],
+            "summary": "主题优先级"
+          },
+          "mqueue_default_priority": {
+            "type": "enum",
+            "symbols": [
+              "highest",
+              "lowest"
+            ],
+            "summary": "默认主题优先级"
+          },
+          "mqueue_store_qos0": {
+            "type": "boolean",
+            "summary": "存储 QoS 0 消息"
+          },
+          "use_username_as_clientid": {
+            "type": "boolean",
+            "summary": "用户名作为客户端 ID"
+          },
+          "peer_cert_as_username": {
+            "type": "enum",
+            "symbols": [
+              "disabled",
+              "cn",
+              "dn",
+              "crt",
+              "pem",
+              "md5"
+            ],
+            "summary": "对端证书作为用户名"
+          },
+          "peer_cert_as_clientid": {
+            "type": "enum",
+            "symbols": [
+              "disabled",
+              "cn",
+              "dn",
+              "crt",
+              "pem",
+              "md5"
+            ],
+            "summary": "对端证书作为客户端 ID"
+          }
+        }
+      },
+      "zone.force_shutdown": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "启用 `force_shutdown` 功能"
+          },
+          "max_message_queue_len": {
+            "type": "number",
+            "summary": "进程邮箱消息队列的最大长度",
+            "minimum": 0
+          },
+          "max_heap_size": {
+            "type": "byteSize",
+            "summary": "Heap 的总大小"
+          }
+        }
+      },
+      "zone.force_gc": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "启用强制垃圾回收"
+          },
+          "count": {
+            "type": "number",
+            "summary": "垃圾回收消息数",
+            "minimum": 0
+          },
+          "bytes": {
+            "type": "byteSize",
+            "summary": "垃圾回收字节数"
+          }
+        }
+      },
+      "limiter.node_opts": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "string",
+            "summary": "速率",
+            "default": "infinity"
+          },
+          "burst": {
+            "type": "string",
+            "summary": "突发速率",
+            "default": "0"
+          }
+        }
+      },
+      "limiter.limiter": {
+        "type": "object",
+        "properties": {
+          "bytes_in": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "summary": "流入字节率",
+            "default": {}
+          },
+          "message_in": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "summary": "消息流入速率",
+            "default": {}
+          },
+          "connection": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "summary": "连接速率",
+            "default": {}
+          },
+          "message_routing": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "summary": "消息派发",
+            "default": {}
+          },
+          "internal": {
+            "$ref": "#/components/schemas/limiter.node_opts",
+            "default": {}
+          },
+          "client": {
+            "$ref": "#/components/schemas/limiter.client_fields",
+            "summary": "每个使用者的限制",
+            "default": {
+              "message_routing": {},
+              "message_in": {},
+              "internal": {},
+              "connection": {},
+              "bytes_in": {}
+            }
+          }
+        }
+      },
+      "limiter.client_opts": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "string",
+            "summary": "速率",
+            "default": "infinity"
+          },
+          "initial": {
+            "type": "string",
+            "summary": "初始令牌数",
+            "default": "0"
+          },
+          "low_watermark": {
+            "type": "string",
+            "summary": "低水位线",
+            "default": "0"
+          },
+          "capacity": {
+            "type": "string",
+            "summary": "容量",
+            "default": "infinity"
+          },
+          "divisible": {
+            "type": "boolean",
+            "summary": "是否可分割",
+            "default": false
+          },
+          "max_retry_time": {
+            "type": "duration",
+            "summary": "最大重试时间",
+            "default": "10s"
+          },
+          "failure_strategy": {
+            "type": "enum",
+            "symbols": [
+              "force",
+              "drop",
+              "throw"
+            ],
+            "summary": "失败策略",
+            "default": "force"
+          }
+        }
+      },
+      "limiter.client_fields": {
+        "type": "object",
+        "properties": {
+          "bytes_in": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "summary": "流入字节率",
+            "default": {}
+          },
+          "message_in": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "summary": "消息流入速率",
+            "default": {}
+          },
+          "connection": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "summary": "连接速率",
+            "default": {}
+          },
+          "message_routing": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "summary": "消息派发",
+            "default": {}
+          },
+          "internal": {
+            "$ref": "#/components/schemas/limiter.client_opts",
+            "default": {}
+          }
+        }
+      },
+      "emqx_conf_schema.log_rotation": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "日志轮换",
+            "default": true
+          },
+          "count": {
+            "type": "number",
+            "summary": "最大日志文件数",
+            "minimum": 1,
+            "maximum": 2048,
+            "default": 10
+          }
+        }
+      },
+      "emqx_conf_schema.log_overload_kill": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "日志处理进程过载保护",
+            "default": true
+          },
+          "mem_size": {
+            "type": "byteSize",
+            "summary": "日志处理进程允许使用的最大内存",
+            "default": "30MB"
+          },
+          "qlen": {
+            "type": "string",
+            "summary": "最大队列长度",
+            "default": 20000
+          },
+          "restart_after": {
+            "oneOf": [
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              },
+              {
+                "type": "duration"
+              }
+            ],
+            "summary": "处理进程重启延迟",
+            "default": "5s"
+          }
+        }
+      },
+      "emqx_conf_schema.log_file_handler": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "summary": "日志文件名字"
+          },
+          "rotation": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_rotation"
+          },
+          "max_size": {
+            "oneOf": [
+              {
+                "type": "byteSize"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "infinity"
+                ]
+              }
+            ],
+            "summary": "日志文件轮换大小",
+            "default": "50MB"
+          },
+          "enable": {
+            "type": "boolean",
+            "summary": "启用日志处理进程",
+            "default": true
+          },
+          "level": {
+            "type": "enum",
+            "symbols": [
+              "debug",
+              "info",
+              "notice",
+              "warning",
+              "error",
+              "critical",
+              "alert",
+              "emergency",
+              "all"
+            ],
+            "summary": "日志级别",
+            "default": "warning"
+          },
+          "time_offset": {
+            "type": "string",
+            "summary": "时间偏移量",
+            "default": "system"
+          },
+          "chars_limit": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 100
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "unlimited"
+                ]
+              }
+            ],
+            "summary": "单条日志长度限制",
+            "default": "unlimited"
+          },
+          "formatter": {
+            "type": "enum",
+            "symbols": [
+              "text",
+              "json"
+            ],
+            "summary": "日志格式类型",
+            "default": "text"
+          },
+          "single_line": {
+            "type": "boolean",
+            "summary": "单行模式",
+            "default": true
+          },
+          "sync_mode_qlen": {
+            "type": "number",
+            "summary": "进入异步模式的队列长度",
+            "minimum": 1,
+            "default": 100
+          },
+          "drop_mode_qlen": {
+            "type": "string",
+            "summary": "进入丢弃模式的队列长度",
+            "default": 3000
+          },
+          "flush_qlen": {
+            "type": "string",
+            "summary": "冲刷阈值",
+            "default": 8000
+          },
+          "overload_kill": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_overload_kill"
+          },
+          "burst_limit": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_burst_limit"
+          },
+          "supervisor_reports": {
+            "type": "enum",
+            "symbols": [
+              "error",
+              "progress"
+            ],
+            "summary": "报告类型",
+            "default": "error"
+          },
+          "max_depth": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 1
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "unlimited"
+                ]
+              }
+            ],
+            "summary": "最大深度",
+            "default": 100
+          }
+        }
+      },
+      "emqx_conf_schema.log_burst_limit": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "日志限流保护",
+            "default": true
+          },
+          "max_count": {
+            "type": "string",
+            "summary": "日志事件数",
+            "default": 10000
+          },
+          "window_time": {
+            "type": "duration",
+            "summary": "Window Time",
+            "default": "1s"
+          }
+        }
+      },
+      "emqx_conf_schema.log": {
+        "type": "object",
+        "properties": {
+          "console_handler": {
+            "$ref": "#/components/schemas/emqx_conf_schema.console_handler",
+            "summary": "Console Handler"
+          },
+          "file_handlers": {
+            "type": "object",
+            "properties": {
+              "$name": {
+                "$ref": "#/components/schemas/emqx_conf_schema.log_file_handler"
+              }
+            },
+            "summary": "File Handler"
+          }
+        }
+      },
+      "emqx_conf_schema.console_handler": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "启用日志处理进程",
+            "default": false
+          },
+          "level": {
+            "type": "enum",
+            "symbols": [
+              "debug",
+              "info",
+              "notice",
+              "warning",
+              "error",
+              "critical",
+              "alert",
+              "emergency",
+              "all"
+            ],
+            "summary": "日志级别",
+            "default": "warning"
+          },
+          "time_offset": {
+            "type": "string",
+            "summary": "时间偏移量",
+            "default": "system"
+          },
+          "chars_limit": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 100
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "unlimited"
+                ]
+              }
+            ],
+            "summary": "单条日志长度限制",
+            "default": "unlimited"
+          },
+          "formatter": {
+            "type": "enum",
+            "symbols": [
+              "text",
+              "json"
+            ],
+            "summary": "日志格式类型",
+            "default": "text"
+          },
+          "single_line": {
+            "type": "boolean",
+            "summary": "单行模式",
+            "default": true
+          },
+          "sync_mode_qlen": {
+            "type": "number",
+            "summary": "进入异步模式的队列长度",
+            "minimum": 1,
+            "default": 100
+          },
+          "drop_mode_qlen": {
+            "type": "string",
+            "summary": "进入丢弃模式的队列长度",
+            "default": 3000
+          },
+          "flush_qlen": {
+            "type": "string",
+            "summary": "冲刷阈值",
+            "default": 8000
+          },
+          "overload_kill": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_overload_kill"
+          },
+          "burst_limit": {
+            "$ref": "#/components/schemas/emqx_conf_schema.log_burst_limit"
+          },
+          "supervisor_reports": {
+            "type": "enum",
+            "symbols": [
+              "error",
+              "progress"
+            ],
+            "summary": "报告类型",
+            "default": "error"
+          },
+          "max_depth": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 1
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "unlimited"
+                ]
+              }
+            ],
+            "summary": "最大深度",
+            "default": 100
+          }
+        }
+      },
+      "dashboard.listeners": {
+        "type": "object",
+        "properties": {
+          "http": {
+            "$ref": "#/components/schemas/dashboard.http"
+          },
+          "https": {
+            "$ref": "#/components/schemas/dashboard.https"
+          }
+        }
+      },
+      "dashboard.https": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "启用",
+            "default": false
+          },
+          "bind": {
+            "oneOf": [
+              {
+                "type": "ip_port"
+              },
+              {
+                "type": "number",
+                "minimum": 1
+              }
+            ],
+            "summary": "绑定端口",
+            "example": "0.0.0.0:18084",
+            "default": 18084
+          },
+          "num_acceptors": {
+            "type": "number",
+            "summary": "Acceptor 数量",
+            "default": 12
+          },
+          "max_connections": {
+            "type": "number",
+            "summary": "最大连接数",
+            "default": 512
+          },
+          "backlog": {
+            "type": "number",
+            "summary": "排队长度",
+            "default": 1024
+          },
+          "send_timeout": {
+            "type": "duration",
+            "summary": "发送超时时间",
+            "default": "10s"
+          },
+          "inet6": {
+            "type": "boolean",
+            "summary": "IPv6",
+            "default": false
+          },
+          "ipv6_v6only": {
+            "type": "boolean",
+            "summary": "IPv6 only",
+            "default": false
+          },
+          "proxy_header": {
+            "type": "boolean",
+            "summary": "开启对 `HAProxy` 的支持",
+            "default": false
+          },
+          "cacertfile": {
+            "type": "string",
+            "summary": "CA 证书文件"
+          },
+          "certfile": {
+            "type": "string",
+            "summary": "证书文件"
+          },
+          "keyfile": {
+            "type": "string",
+            "summary": "私钥文件"
+          },
+          "verify": {
+            "type": "enum",
+            "symbols": [
+              "verify_peer",
+              "verify_none"
+            ],
+            "summary": "对等验证",
+            "default": "verify_none"
+          },
+          "reuse_sessions": {
+            "type": "boolean",
+            "summary": "TLS 会话重用",
+            "default": true
+          },
+          "depth": {
+            "type": "number",
+            "summary": "CA 证书深度",
+            "default": 10
+          },
+          "versions": {
+            "type": "array",
+            "summary": "SSL 版本",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              "tlsv1.3",
+              "tlsv1.2",
+              "tlsv1.1",
+              "tlsv1"
+            ]
+          },
+          "ciphers": {
+            "type": "array",
+            "summary": "",
+            "items": {
+              "type": "string"
+            },
+            "default": ""
+          },
+          "user_lookup_fun": {
+            "type": "string",
+            "summary": "SSL PSK 用户回调",
+            "default": "emqx_tls_psk:lookup"
+          },
+          "secure_renegotiate": {
+            "type": "boolean",
+            "summary": "SSL 重新协商",
+            "default": true
+          },
+          "hibernate_after": {
+            "type": "duration",
+            "summary": "闲置多久后休眠",
+            "default": "5s"
+          },
+          "dhfile": {
+            "type": "string",
+            "summary": "SSL dhfile"
+          },
+          "honor_cipher_order": {
+            "type": "boolean",
+            "summary": "SSL honor cipher order",
+            "default": true
+          },
+          "client_renegotiation": {
+            "type": "boolean",
+            "summary": "SSL 客户端冲协商",
+            "default": true
+          },
+          "handshake_timeout": {
+            "type": "duration",
+            "summary": "握手超时时间",
+            "default": "15s"
+          }
+        },
+        "required": [
+          "bind",
+          "enable"
+        ]
+      },
+      "dashboard.http": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "summary": "启用",
+            "default": true
+          },
+          "bind": {
+            "oneOf": [
+              {
+                "type": "ip_port"
+              },
+              {
+                "type": "number",
+                "minimum": 1
+              }
+            ],
+            "summary": "绑定端口",
+            "example": "0.0.0.0:18083",
+            "default": 18083
+          },
+          "num_acceptors": {
+            "type": "number",
+            "summary": "Acceptor 数量",
+            "default": 12
+          },
+          "max_connections": {
+            "type": "number",
+            "summary": "最大连接数",
+            "default": 512
+          },
+          "backlog": {
+            "type": "number",
+            "summary": "排队长度",
+            "default": 1024
+          },
+          "send_timeout": {
+            "type": "duration",
+            "summary": "发送超时时间",
+            "default": "10s"
+          },
+          "inet6": {
+            "type": "boolean",
+            "summary": "IPv6",
+            "default": false
+          },
+          "ipv6_v6only": {
+            "type": "boolean",
+            "summary": "IPv6 only",
+            "default": false
+          },
+          "proxy_header": {
+            "type": "boolean",
+            "summary": "开启对 `HAProxy` 的支持",
+            "default": false
+          }
+        },
+        "required": [
+          "bind",
+          "enable"
+        ]
+      },
+      "dashboard.dashboard": {
+        "type": "object",
+        "properties": {
+          "listeners": {
+            "$ref": "#/components/schemas/dashboard.listeners",
+            "summary": "监听器"
+          },
+          "token_expired_time": {
+            "type": "duration",
+            "summary": "JWT 过期时间",
+            "default": "60m"
+          },
+          "cors": {
+            "type": "boolean",
+            "summary": "跨域资源共享",
+            "default": false
+          }
+        }
+      },
+      "broker.zone": {
+        "type": "object",
+        "properties": {
+          "mqtt": {
+            "$ref": "#/components/schemas/zone.mqtt"
+          },
+          "force_shutdown": {
+            "$ref": "#/components/schemas/zone.force_shutdown"
+          },
+          "force_gc": {
+            "$ref": "#/components/schemas/zone.force_gc"
+          }
+        }
+      },
+      "broker.trace": {
+        "type": "object",
+        "properties": []
+      },
+      "broker.sysmon_vm": {
+        "type": "object",
+        "properties": {
+          "process_check_interval": {
+            "type": "duration",
+            "summary": "进程限制检查时间",
+            "default": "30s"
+          },
+          "process_high_watermark": {
+            "type": "percent",
+            "summary": "进程数高水位线",
+            "default": "80%"
+          },
+          "process_low_watermark": {
+            "type": "percent",
+            "summary": "进程数低水位线",
+            "default": "60%"
+          },
+          "long_gc": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "summary": "启用长垃圾回收监控",
+            "default": "disabled"
+          },
+          "long_schedule": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "summary": "启用长调度监控",
+            "default": "240ms"
+          },
+          "large_heap": {
+            "oneOf": [
+              {
+                "type": "byteSize"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "summary": "启用大 heap 监控",
+            "default": "32MB"
+          },
+          "busy_dist_port": {
+            "type": "boolean",
+            "summary": "启用分布式端口过忙监控",
+            "default": true
+          },
+          "busy_port": {
+            "type": "boolean",
+            "summary": "启用端口过忙监控",
+            "default": true
+          }
+        }
+      },
+      "broker.sysmon_top": {
+        "type": "object",
+        "properties": {
+          "num_items": {
+            "type": "number",
+            "summary": "顶级进程数",
+            "minimum": 1,
+            "default": 10
+          },
+          "sample_interval": {
+            "type": "duration",
+            "summary": "取样时间",
+            "default": "2s"
+          },
+          "max_procs": {
+            "type": "number",
+            "summary": "最大进程数",
+            "minimum": 1,
+            "default": 1000000
+          },
+          "db_hostname": {
+            "type": "string",
+            "summary": "数据库主机名",
+            "default": ""
+          },
+          "db_port": {
+            "type": "number",
+            "summary": "数据库端口",
+            "default": 5432
+          },
+          "db_username": {
+            "type": "string",
+            "summary": "数据库用户名",
+            "default": "system_monitor"
+          },
+          "db_password": {
+            "type": "string",
+            "summary": "数据库密码",
+            "default": "system_monitor_password"
+          },
+          "db_name": {
+            "type": "string",
+            "summary": "数据库名",
+            "default": "postgres"
+          }
+        }
+      },
+      "broker.sysmon_os": {
+        "type": "object",
+        "properties": {
+          "cpu_check_interval": {
+            "type": "duration",
+            "summary": "定期 CPU 检查的时间间隔",
+            "default": "60s"
+          },
+          "cpu_high_watermark": {
+            "type": "percent",
+            "summary": "CPU 高水位线",
+            "default": "80%"
+          },
+          "cpu_low_watermark": {
+            "type": "percent",
+            "summary": "CPU 低水位线",
+            "default": "60%"
+          },
+          "mem_check_interval": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "summary": "内存检查间隔",
+            "default": "60s"
+          },
+          "sysmem_high_watermark": {
+            "type": "percent",
+            "summary": "系统内存高水位线",
+            "default": "70%"
+          },
+          "procmem_high_watermark": {
+            "type": "percent",
+            "summary": "进程内存高水位线",
+            "default": "5%"
+          }
+        }
+      },
+      "broker.sysmon": {
+        "type": "object",
+        "properties": {
+          "vm": {
+            "$ref": "#/components/schemas/broker.sysmon_vm"
+          },
+          "os": {
+            "$ref": "#/components/schemas/broker.sysmon_os"
+          },
+          "top": {
+            "$ref": "#/components/schemas/broker.sysmon_top"
+          }
+        }
+      },
+      "broker.sys_topics": {
+        "type": "object",
+        "properties": {
+          "sys_msg_interval": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "default": "1m"
+          },
+          "sys_heartbeat_interval": {
+            "oneOf": [
+              {
+                "type": "duration"
+              },
+              {
+                "type": "enum",
+                "symbols": [
+                  "disabled"
+                ]
+              }
+            ],
+            "default": "30s"
+          },
+          "sys_event_messages": {
+            "$ref": "#/components/schemas/broker.event_names"
+          }
+        }
+      },
+      "broker.persistent_table_mria_opts": {
+        "type": "object",
+        "properties": {
+          "ram_cache": {
+            "type": "boolean",
+            "summary": "内存缓存",
+            "default": true
+          }
+        }
+      },
+      "broker.persistent_session_store": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "summary": "启用持久会话保存",
+            "default": false
+          },
+          "on_disc": {
+            "type": "boolean",
+            "summary": "持久化在磁盘上",
+            "default": true
+          },
+          "ram_cache": {
+            "type": "boolean",
+            "summary": "内存缓存",
+            "default": false
+          },
+          "backend": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/broker.persistent_session_builtin"
+              }
+            ],
+            "summary": "后端类型",
+            "default": {
+              "type": "builtin",
+              "session_messages": {
+                "ram_cache": "true"
+              },
+              "session": {
+                "ram_cache": "true"
+              },
+              "messages": {
+                "ram_cache": "false"
+              }
+            }
+          },
+          "max_retain_undelivered": {
+            "type": "duration",
+            "summary": "未投递的消息保留条数",
+            "default": "1h"
+          },
+          "message_gc_interval": {
+            "type": "duration",
+            "summary": "消息清理间隔",
+            "default": "1h"
+          },
+          "session_message_gc_interval": {
+            "type": "duration",
+            "summary": "会话消息清理间隔",
+            "default": "1m"
+          }
+        }
+      },
+      "broker.persistent_session_builtin": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "enum",
+            "symbols": [
+              "builtin"
+            ],
+            "default": "builtin"
+          },
+          "session": {
+            "$ref": "#/components/schemas/broker.persistent_table_mria_opts",
+            "summary": "持久会话"
+          },
+          "session_messages": {
+            "$ref": "#/components/schemas/broker.persistent_table_mria_opts",
+            "summary": "用于内建会话管理表的性能调优参数"
+          },
+          "messages": {
+            "$ref": "#/components/schemas/broker.persistent_table_mria_opts",
+            "summary": "持久化消息"
+          }
+        }
+      },
+      "broker.event_names": {
+        "type": "object",
+        "properties": {
+          "client_connected": {
+            "type": "boolean",
+            "default": true
+          },
+          "client_disconnected": {
+            "type": "boolean",
+            "default": true
+          },
+          "client_subscribed": {
+            "type": "boolean",
+            "default": false
+          },
+          "client_unsubscribed": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "broker.alarm": {
+        "type": "object",
+        "properties": {
+          "actions": {
+            "type": "array",
+            "summary": "告警动作",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "log",
+              "publish"
+            ],
+            "default": [
+              "log",
+              "publish"
+            ]
+          },
+          "size_limit": {
+            "type": "number",
+            "summary": "告警总数限制",
+            "minimum": 1,
+            "maximum": 3000,
+            "example": 1000,
+            "default": 1000
+          },
+          "validity_period": {
+            "type": "duration",
+            "summary": "告警保留时间",
+            "example": "24h",
+            "default": "24h"
+          }
+        }
+      }
+    }
+  }
 }
