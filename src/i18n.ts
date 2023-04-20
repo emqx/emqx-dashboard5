@@ -31,8 +31,8 @@ Array.prototype.forEach.call(translations.keys(), (path) => {
   })
 })
 
-lang.en.Schema = schemaTextEn
-lang.zh.Schema = schemaTextZh
+lang.en.ConfigSchema = schemaTextEn
+lang.zh.ConfigSchema = schemaTextZh
 
 const i18nInstance = createI18n({
   messages: lang,

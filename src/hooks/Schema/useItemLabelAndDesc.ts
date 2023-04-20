@@ -1,3 +1,4 @@
+import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
 import { useI18n } from 'vue-i18n'
@@ -27,6 +28,23 @@ const LOG_SPECIAL_KEY_PREFIX_MAP = {
 
 const SYS_MON_PREFIX = 'sysmon_'
 
+// Bridge
+const COMMON_CONNECTOR_ZONE = 'emqx_connector_schema_lib'
+const COMMON_CONNECTOR_KEY = [
+  'auto_reconnect',
+  'password',
+  'pool_size',
+  'prepare_statement',
+  'ssl',
+  'username',
+  'database',
+]
+
+const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
+  matrix: 'pgsql',
+  timescale: 'pgsql',
+}
+
 export default (
   props: any,
 ): {
@@ -37,23 +55,26 @@ export default (
 } => {
   const { t, te } = useI18n()
 
-  const getTextZone = () =>
+  /**
+   * zone is first level
+   */
+  const getConfigurationTextZone = () =>
     Object.keys(TYPE_ZONE_MAP).find((key) => TYPE_ZONE_MAP[key].includes(props.type)) ||
     DEFAULT_ZONE
 
   const getMQTTAndSessionItemTextKey = ({ path }: Property) =>
-    `${getTextZone()}.${customSnakeCase(path as string)}`
+    `${getConfigurationTextZone()}.${customSnakeCase(path as string)}`
 
   const getLogItemTextKey = ({ key }: Property) => {
     const prefix =
       Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(([p, value]) =>
         value.includes(key as string),
       )?.[0] || LOG_DEFAULT_PREFIX
-    return `${getTextZone()}.${prefix}${key}`
+    return `${getConfigurationTextZone()}.${prefix}${key}`
   }
 
   const getSysMonTextKey = ({ path }: Property) =>
-    `${getTextZone()}.${SYS_MON_PREFIX}${customSnakeCase(path as string)}`
+    `${getConfigurationTextZone()}.${SYS_MON_PREFIX}${customSnakeCase(path as string)}`
 
   const funcMap: Record<string, GetTextKey> = {
     mqtt: getMQTTAndSessionItemTextKey,
@@ -70,24 +91,46 @@ export default (
     return undefined
   }
 
-  const getBridgeFormItemTextKey = ({ label, path, key }: Property) => {}
+  const { getTypeBySchemaRef } = useBridgeSchema()
+  /**
+   * zone is first level
+   */
+  const getBridgeTextZone = (prop: Property) => {
+    if (!props.accordingTo?.ref) {
+      return ''
+    }
+    if (prop.path && prop.path.indexOf('resource_opt') > -1) {
+      return `emqx_resource_schema`
+    }
+    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key)) {
+      return COMMON_CONNECTOR_ZONE
+    }
+    let type = getTypeBySchemaRef(props.accordingTo.ref)
+    if (type in BRIDGE_SPECIAL_TYPE_MAP) {
+      type = BRIDGE_SPECIAL_TYPE_MAP[type]
+    }
+    return `emqx_ee_bridge_${type}`
+  }
 
-  const getTextKey = (prop: Property) =>
-    props.type !== 'bridge' ? getConfigurationItemTextKey(prop) : getBridgeFormItemTextKey(prop)
+  const getBridgeFormItemTextKey = (prop: Property) => {
+    return `${getBridgeTextZone(prop)}.${prop.key}`
+  }
+
+  const getTextKey = (prop: Property) => {
+    return props.type !== 'bridge'
+      ? 'ConfigSchema.' + getConfigurationItemTextKey(prop)
+      : 'BridgeSchema.' + getBridgeFormItemTextKey(prop)
+  }
 
   const getText = (prop: Property) => {
-    if (props.type === 'bridge') {
-      const { path, label, description: desc } = prop
-      if (!props.customLabelMap || !path || !(path in props.customLabelMap)) {
-        return { label, desc }
-      }
-      return { label: props.customLabelMap[path], desc }
+    if (props.type === 'bridge' && prop.path === 'name') {
+      return { label: t('RuleEngine.name'), desc: '' }
     }
     const key = getTextKey(prop)
-    const descKey = `Schema.${key}.desc`
+    const descKey = `${key}.desc`
     if (key) {
       return {
-        label: t(`Schema.${key}.label`),
+        label: t(`${key}.label`),
         desc: te(descKey) ? t(descKey) : '',
       }
     }

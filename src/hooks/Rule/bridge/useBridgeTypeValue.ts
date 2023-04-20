@@ -2,6 +2,7 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType, KafkaType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
+import { escapeRegExp } from 'lodash'
 
 export const useBridgeTypeValue = (): {
   bridgeTypeList: Array<{
@@ -185,5 +186,27 @@ export const useBridgeDirection = (): {
 
   return {
     judgeBridgeDirection,
+  }
+}
+
+export const useBridgeSchema = (): {
+  getSchemaRefByType: (type: string) => string
+  getTypeBySchemaRef: (ref: string) => string
+} => {
+  const refPrefix = 'bridge_'
+  const refSuffix = '.post'
+  const typeReg = new RegExp(`${escapeRegExp(refPrefix)}(.+)${escapeRegExp(refSuffix)}`)
+  /**
+   * @param type The 'type' here is not the same as the 'type' field data in the bridge data. It is used to concatenate a string to obtain `ref`, and longer ones are usually abbreviated.
+   */
+  const getSchemaRefByType = (type: string) => refPrefix + type + refSuffix
+
+  const getTypeBySchemaRef = (ref: string) => {
+    const matchRet = ref.match(typeReg)
+    return matchRet ? matchRet[1] : ''
+  }
+  return {
+    getSchemaRefByType,
+    getTypeBySchemaRef,
   }
 }
