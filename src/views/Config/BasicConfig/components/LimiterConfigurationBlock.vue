@@ -49,7 +49,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { tl } = useI18nTl('Schema')
+const { tl } = useI18nTl('ConfigSchema')
 
 const { getModelValue, setModelValue } = useTwoWayBindingManually()
 
