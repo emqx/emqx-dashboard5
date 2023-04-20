@@ -245,6 +245,43 @@
               </el-form-item>
             </el-col>
           </template>
+
+          <!-- OCSP -->
+          <template v-if="!isWSS">
+            <el-col :span="12">
+              <el-form-item :label="tl('enableOcspStapling')">
+                <el-switch v-model="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" />
+            <el-col :span="12">
+              <el-form-item :label="tl('responderUrl')">
+                <el-input v-model.number="listenerRecord.ssl_options.ocsp.responder_url" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item :label="tl('issuerPem')">
+                <CertFileInput
+                  v-model="listenerRecord.ssl_options.ocsp.issuer_pem"
+                  :is-edit="isEdit"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="tl('refreshInterval')">
+                <TimeInputWithUnitSelect
+                  v-model="listenerRecord.ssl_options.ocsp.refresh_interval"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="tl('refreshHttpTimeout')">
+                <TimeInputWithUnitSelect
+                  v-model="listenerRecord.ssl_options.ocsp.refresh_http_timeout"
+                />
+              </el-form-item>
+            </el-col>
+          </template>
         </el-row>
       </div>
     </el-form>
@@ -263,20 +300,21 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, PropType, computed } from 'vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { Listener } from '@/types/listener'
-import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
-import useListenerDialog from '@/hooks/Config/useListenerDialog'
 import BooleanSelect from '@/components/BooleanSelect.vue'
-import SSLVersionSelect from './SSLVersionSelect.vue'
-import DTLSVersionSelect from './DTLSVersionSelect.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import ZoneSelect from '../ZoneSelect.vue'
-// import LimiterSelect from '../LimiterSelect.vue'
-import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
+import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
+import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useListenerDialog from '@/hooks/Config/useListenerDialog'
+import useI18nTl from '@/hooks/useI18nTl'
+import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
+import { Listener } from '@/types/listener'
+import { PropType, computed, defineEmits, defineProps } from 'vue'
+import ZoneSelect from '../ZoneSelect.vue'
+import DTLSVersionSelect from './DTLSVersionSelect.vue'
+import SSLVersionSelect from './SSLVersionSelect.vue'
+// import LimiterSelect from '../LimiterSelect.vue'
 
 const props = defineProps({
   modelValue: {
@@ -325,6 +363,8 @@ const {
 const isUDP = computed(() => listenerRecord.value.type === ListenerTypeForGateway.UDP)
 
 const isQUIC = computed(() => listenerRecord.value.type === ListenerType.QUIC)
+
+const isWSS = computed(() => listenerRecord.value.type === ListenerType.WSS)
 </script>
 
 <style lang="scss">
