@@ -107,7 +107,7 @@ export default defineComponent({
           { title: 'listener', path: '/listener' },
           { title: 'log', path: '/log' },
           { title: 'monitoring', path: '/monitoring' },
-          // { title: 'limiter', path: '/limiter' },
+          { title: 'limiter', path: '/limiter' },
         ],
       },
       {
