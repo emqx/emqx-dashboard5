@@ -1,5 +1,5 @@
 import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
-import { GatewayName, ListenerTypeForGateway } from '@/types/enum'
+import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { computed, ref, ComputedRef, Ref, WritableComputedRef, watch, nextTick } from 'vue'
 import { cloneDeep, assign, omit } from 'lodash'
@@ -143,19 +143,26 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     }
   }
 
-  const submit = async () => {
-    await validateForm()
-    listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
-    const input = cloneDeep(listenerRecord.value)
+  const handleDataBeforeSubmit = (data: Listener) => {
     if (props.gatewayName) {
       const needDeletedKeys = ['zone', 'limiter', 'current_connections']
       needDeletedKeys.forEach((key) => {
-        delete input[key]
+        delete data[key]
       })
     }
     if (listenerRecord.value.type === ListenerTypeForGateway.UDP) {
-      input.acceptors = ''
+      data.acceptors = ''
     }
+    if (data.type === ListenerType.WSS) {
+      delete data.ssl_options.ocsp
+    }
+    return data
+  }
+
+  const submit = async () => {
+    await validateForm()
+    listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
+    const input = handleDataBeforeSubmit(cloneDeep(listenerRecord.value))
     if (props.doNotSubmitToBackend) {
       emit('submit', input)
       showDialog.value = false
