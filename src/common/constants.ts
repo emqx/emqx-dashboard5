@@ -217,6 +217,8 @@ export const PASSWORD_REG = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)[ -~]{8,6
 
 export const SESSION_NEVER_EXPIRE_TIME = parseInt('0xFFFFFFFF', 16)
 
+export const CER_FILE_ALLOW_EXTENSIONS = ['crt', 'key', 'pem', 'jks', 'der', 'cer', 'pfx']
+
 export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
 
 export const MONGO_TYPE = ['single', 'rs', 'sharded']

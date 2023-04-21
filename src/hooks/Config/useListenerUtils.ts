@@ -125,6 +125,13 @@ export default (): ListenerUtils => {
     fail_if_no_peer_cert: false,
     depth: 10,
     password: '',
+    ocsp: {
+      enable_ocsp_stapling: false,
+      responder_url: '',
+      issuer_pem: '',
+      refresh_interval: '5m',
+      refresh_http_timeout: '15s',
+    },
   })
 
   const createRawTCPParams = () => ({

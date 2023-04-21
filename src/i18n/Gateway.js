@@ -308,4 +308,24 @@ export default {
     zh: '禁用网关将导致通过此网关接入的连接全部断开，继续？',
     en: 'Disabling the gateway will cause all connections accessed through this gateway to be disconnected. Continue?',
   },
+  enableOcspStapling: {
+    zh: '启用 OCSP Stapling',
+    en: 'Enable OCSP Stapling',
+  },
+  responderUrl: {
+    zh: 'OCSP Responder 的 URL',
+    en: 'OCSP Responder URL',
+  },
+  issuerPem: {
+    zh: 'OCSP 签发者证书',
+    en: 'OCSP Issuer Certificate',
+  },
+  refreshInterval: {
+    zh: 'CRL 缓存刷新间隔',
+    en: 'CRL Cache Refresh Interval',
+  },
+  refreshHttpTimeout: {
+    zh: 'CRL 缓存刷新 HTTP 超时',
+    en: 'CRL Cache Refresh HTTP Timeout',
+  },
 }
