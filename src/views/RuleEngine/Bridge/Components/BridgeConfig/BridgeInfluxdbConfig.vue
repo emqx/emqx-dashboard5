@@ -32,10 +32,10 @@
         <el-col :span="12">
           <el-form-item prop="server">
             <template #label>
-              <span>{{ getPropItem('server').label }}</span>
+              <span>{{ getText('server.label') }}</span>
               <InfoTooltip>
                 <template #content>
-                  <MarkdownContent :content="getPropItem('server').description" />
+                  <MarkdownContent :content="getText('server.desc')" />
                 </template>
               </InfoTooltip>
             </template>
@@ -82,8 +82,8 @@
           <el-col :span="12">
             <el-form-item prop="token">
               <template #label>
-                <span>{{ getPropItem('token').label }}</span>
-                <InfoTooltip :content="getPropItem('token').description" />
+                <span>{{ getText('token.label') }}</span>
+                <InfoTooltip :content="getText('token.desc')" />
               </template>
               <el-input v-model="formData.token" type="password" show-password />
             </el-form-item>
@@ -91,8 +91,8 @@
           <el-col :span="12">
             <el-form-item prop="org">
               <template #label>
-                <span>{{ getPropItem('org').label }}</span>
-                <InfoTooltip :content="getPropItem('org').description" />
+                <span>{{ getText('org.label') }}</span>
+                <InfoTooltip :content="getText('org.desc')" />
               </template>
               <el-input v-model="formData.org" />
             </el-form-item>
@@ -100,8 +100,8 @@
           <el-col :span="12">
             <el-form-item prop="bucket">
               <template #label>
-                <span>{{ getPropItem('bucket').label }}</span>
-                <InfoTooltip :content="getPropItem('bucket').description" />
+                <span>{{ getText('bucket.label') }}</span>
+                <InfoTooltip :content="getText('bucket.desc')" />
               </template>
               <el-input v-model="formData.bucket" />
             </el-form-item>
@@ -111,8 +111,8 @@
         <el-col :span="12">
           <el-form-item prop="precision">
             <template #label>
-              <span>{{ getPropItem('precision').label }}</span>
-              <InfoTooltip :content="getPropItem('precision').description" />
+              <span>{{ getText('precision.label') }}</span>
+              <InfoTooltip :content="getText('precision.desc')" />
             </template>
             <el-select v-model="formData.precision">
               <el-option
@@ -181,6 +181,7 @@ const emit = defineEmits(['update:modelValue', 'init'])
 
 const { state } = useStore()
 const { tl, t } = useI18nTl('RuleEngine')
+const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_influxdb.${key}`)
 
 const PROTOCOL_VERSION_OPT = [
   { value: InfluxDBType.v1, label: 'v1' },
@@ -219,13 +220,13 @@ const writeSyntaxInputCom = ref()
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const commonRules = computed(() => ({
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
-  server: createRequiredRule(getPropItem('server').label),
-  write_syntax: createRequiredRule(getPropItem('write_syntax').label),
+  server: createRequiredRule(getText('server.label')),
+  write_syntax: createRequiredRule(getText('write_syntax.label')),
 }))
 
 const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const rulesForV1 = computed(() => ({
-  database: createRequiredRule(getPropItem('database').label),
+  database: createRequiredRule(getText('database.label')),
   password: ruleWhenTestConnection,
 }))
 
