@@ -2,7 +2,7 @@
   <el-drawer
     :title="$t('components.settings')"
     v-model="showDrawer"
-    size="400px"
+    size="350px"
     destroy-on-close
     custom-class="settings"
   >
