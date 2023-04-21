@@ -67,7 +67,7 @@ export default (
 
   const getLogItemTextKey = ({ key }: Property) => {
     const prefix =
-      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(([p, value]) =>
+      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(([, value]) =>
         value.includes(key as string),
       )?.[0] || LOG_DEFAULT_PREFIX
     return `${getConfigurationTextZone()}.${prefix}${key}`
