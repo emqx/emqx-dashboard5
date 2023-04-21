@@ -313,7 +313,7 @@ export default {
     en: 'Enable OCSP Stapling',
   },
   responderUrl: {
-    zh: 'OCSP Responder 的 URL',
+    zh: 'OCSP 服务器地址',
     en: 'OCSP Responder URL',
   },
   issuerPem: {
@@ -325,7 +325,7 @@ export default {
     en: 'CRL Cache Refresh Interval',
   },
   refreshHttpTimeout: {
-    zh: 'CRL 缓存刷新 HTTP 超时',
+    zh: 'CRL 缓存刷新请求超时',
     en: 'CRL Cache Refresh HTTP Timeout',
   },
 }
