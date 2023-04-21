@@ -153,6 +153,10 @@ export default (
     switch (prop.path) {
       case 'name':
         return { label: t('RuleEngine.name'), desc: '' }
+      case 'enable':
+        return { label: t('Base.enable'), desc: '' }
+      case 'type':
+        return { label: t('RuleEngine.bridgeType'), desc: '' }
       case 'redis_type':
         return { label: t('Auth.redisType'), desc: '' }
       case 'mongo_type':
