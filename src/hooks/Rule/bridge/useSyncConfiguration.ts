@@ -18,7 +18,7 @@ export default (record: WritableComputedRef<OtherBridge>): FuncReturn => {
     isString(formData.resource_opts?.query_mode) &&
     formData.resource_opts.query_mode.indexOf('async') > -1
   const canConfigInflightWindow = (formData: OtherBridge) =>
-    !(formData.resource_opts?.async_inflight_window === undefined)
+    !(formData.resource_opts?.inflight_window === undefined)
 
   const syncFieldsClassMap = computed(() => {
     // if can no config inflight window size, the request mode field do not need a row
@@ -26,8 +26,7 @@ export default (record: WritableComputedRef<OtherBridge>): FuncReturn => {
       return {}
     }
     return {
-      'resource_opts.query_mode': 'col-need-row',
-      'resource_opts.async_inflight_window': 'col-hidden',
+      'resource_opts.inflight_window': 'col-hidden',
     }
   })
 
@@ -38,7 +37,7 @@ export default (record: WritableComputedRef<OtherBridge>): FuncReturn => {
   const handleSyncEtcFormData = (formData: OtherBridge) => {
     let ret = formData
     if (!isAsync(formData)) {
-      ret = omit(ret, 'resource_opts.async_inflight_window')
+      ret = omit(ret, 'resource_opts.inflight_window')
     }
     // if (!isEnableQueue(formData)) {
     //   ret = omit(ret, 'resource_opts.max_queue_bytes')
