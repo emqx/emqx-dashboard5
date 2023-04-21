@@ -20,7 +20,7 @@ export default (): {
     if (config.inflight) {
       formData = {
         ...formData,
-        async_inflight_window: 100,
+        inflight_window: 100,
       }
     }
     if (config.batch) {
