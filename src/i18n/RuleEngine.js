@@ -147,14 +147,6 @@ export default {
     zh: 'HTTP 请求超时',
     en: 'HTTP Request Timeout',
   },
-  requestTimeout: {
-    zh: '请求超时',
-    en: 'Request timeout',
-  },
-  requestTimeoutDesc: {
-    zh: '从请求进入缓冲区开始计时，如果请求在规定的时间内仍停留在缓冲区内或者已发送但未能及时收到响应或确认，该请求将被视为过期。',
-    en: 'Starting from the moment when the request enters the buffer, if the request remains in the buffer for the specified time or is sent but does not receive a response or acknowledgement in time, the request is considered expired.',
-  },
   mqttConn: {
     zh: 'MQTT 服务',
     en: 'MQTT Server',
@@ -967,22 +959,6 @@ export default {
     zh: '保存为副本',
     en: 'Save as copy',
   },
-  queryMode: {
-    en: 'Query mode',
-    zh: '请求模式',
-  },
-  queryModeDesc: {
-    en: "Query mode. Optional 'sync/async', default 'sync'.",
-    zh: "请求模式。可选 '同步/异步'，默认为'同步'模式。",
-  },
-  asyncInflightWindow: {
-    zh: '异步请求飞行队列窗口',
-    en: 'Async inflight window',
-  },
-  asyncInflightWindowDesc: {
-    zh: '异步请求飞行队列窗口大小。',
-    en: 'Async query inflight window.',
-  },
   enableQueue: {
     en: 'Enable disk buffer queue',
     zh: '启用磁盘缓存队列',
@@ -993,14 +969,6 @@ When Enabled, messages will be buffered on disk when the bridge connection is do
 When disabled the messages are buffered in RAM only.`,
     zh: '启用磁盘缓存队列（仅对 egress 方向桥接有用）。',
   },
-  maxQueueBytes: {
-    en: 'Queue max bytes',
-    zh: '队列最大长度',
-  },
-  maxQueueBytesDesc: {
-    en: 'Maximum queue storage.',
-    zh: '消息队列的最大长度。',
-  },
   enableBatch: {
     en: 'Enable batch',
     zh: '启用批量模式',
@@ -1009,14 +977,6 @@ When disabled the messages are buffered in RAM only.`,
     en: 'Batch mode enabled.',
     zh: '启用批量模式。',
   },
-  batchSize: {
-    en: 'Max batch size',
-    zh: '最大批量请求大小',
-  },
-  batchSizeDesc: {
-    en: `Maximum batch count. If equal to 1, there's effectively no batching`,
-    zh: '最大批量请求大小。如果设为 1，则无批处理',
-  },
   poolType: {
     zh: '连接池类型',
     en: 'Pool Type',
@@ -1024,30 +984,6 @@ When disabled the messages are buffered in RAM only.`,
   connectionPoolSize: {
     zh: '连接池大小',
     en: 'Connection Pool Size',
-  },
-  workerPoolSize: {
-    en: 'Buffer Pool Size',
-    zh: '缓存池大小',
-  },
-  workerPoolSizeDesc: {
-    en: `The number of buffer workers. Only applicable for egress type bridges.<br/>For bridges only have ingress direction data flow, it can be set to 0 otherwise must be greater than 0.`,
-    zh: '缓存队列 worker 数量。仅对 egress 类型的桥接有意义。当桥接仅有 ingress 方向时，可设置为 0，否则必须大于 0。',
-  },
-  healthCheckInterval: {
-    en: 'Health Check Interval',
-    zh: '健康检查间隔',
-  },
-  healthCheckIntervalDesc: {
-    en: 'Health check interval.',
-    zh: '健康检查间隔。',
-  },
-  autoRestartInterval: {
-    en: 'Auto Restart Interval',
-    zh: '自动重连间隔',
-  },
-  autoRestartIntervalDesc: {
-    en: 'The auto restart interval after the resource is disconnected. ',
-    zh: '资源断开以后，自动重连的时间间隔。',
   },
   autoRestartIntervalValueDesc: {
     zh: '如果时间间隔设置过短，可导致服务离线时反复进行连接测试以致给系统带来较大负载。',
