@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import SchemaForm from '@/components/SchemaForm'
+import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import {
@@ -39,7 +40,7 @@ import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
+import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 import { useStore } from 'vuex'
 
 type UseSchemaBridgeType = Exclude<
@@ -47,18 +48,19 @@ type UseSchemaBridgeType = Exclude<
   BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB | BridgeType.Kafka
 >
 
+const { getSchemaRefByType } = useBridgeSchema()
 const typeRefKeyMap = {
-  [BridgeType.MySQL]: `bridge_mysql.post`,
-  [BridgeType.GCP]: `bridge_gcp_pubsub.post`,
-  [BridgeType.PgSQL]: `bridge_pgsql.post`,
-  [BridgeType.TimescaleDB]: `bridge_timescale.post`,
-  [BridgeType.MatrixDB]: `bridge_matrix.post`,
-  [BridgeType.TDengine]: `bridge_tdengine.post`,
-  [BridgeType.ClickHouse]: `bridge_clickhouse.post`,
-  [BridgeType.DynamoDB]: `bridge_dynamo.post`,
-  [BridgeType.Cassandra]: `bridge_cassa.post`,
-  [BridgeType.RocketMQ]: `bridge_rocketmq.post`,
-  [BridgeType.MicrosoftSQLServer]: `bridge_sqlserver.post`,
+  [BridgeType.MySQL]: getSchemaRefByType(`mysql`),
+  [BridgeType.GCP]: getSchemaRefByType(`gcp_pubsub`),
+  [BridgeType.PgSQL]: getSchemaRefByType(`pgsql`),
+  [BridgeType.TimescaleDB]: getSchemaRefByType(`timescale`),
+  [BridgeType.MatrixDB]: getSchemaRefByType(`matrix`),
+  [BridgeType.TDengine]: getSchemaRefByType(`tdengine`),
+  [BridgeType.ClickHouse]: getSchemaRefByType(`clickhouse`),
+  [BridgeType.DynamoDB]: getSchemaRefByType(`dynamo`),
+  [BridgeType.Cassandra]: getSchemaRefByType(`cassa`),
+  [BridgeType.RocketMQ]: getSchemaRefByType(`rocketmq`),
+  [BridgeType.MicrosoftSQLServer]: getSchemaRefByType(`sqlserver`),
 }
 
 const props = defineProps({
