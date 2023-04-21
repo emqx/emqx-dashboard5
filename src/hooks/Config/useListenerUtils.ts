@@ -115,6 +115,8 @@ export default (): ListenerUtils => {
     'dtls_options.keyfile': createRequiredRule('TLS Key'),
     'ssl_options.certfile': createRequiredRule('TLS Cert'),
     'ssl_options.keyfile': createRequiredRule('TLS Key'),
+    'ssl_options.ocsp.responder_url': createRequiredRule(tl('responderUrl')),
+    'ssl_options.ocsp.issuer_pem': createRequiredRule(tl('issuerPem')),
   }
 
   const createRawSSLParams = () => ({
