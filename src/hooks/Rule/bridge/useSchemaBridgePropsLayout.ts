@@ -48,7 +48,6 @@ export default (
         'resource_opts.batch_size',
         'resource_opts.batch_time',
         'resource_opts.query_mode',
-        'resource_opts.async_inflight_window',
         'resource_opts.inflight_window',
       ],
       99,
