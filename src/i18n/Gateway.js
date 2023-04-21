@@ -321,11 +321,11 @@ export default {
     en: 'OCSP Issuer Certificate',
   },
   refreshInterval: {
-    zh: 'CRL 缓存刷新间隔',
-    en: 'CRL Cache Refresh Interval',
+    zh: 'OCSP 刷新间隔',
+    en: 'OCSP Refresh Interval',
   },
   refreshHttpTimeout: {
-    zh: 'CRL 缓存刷新请求超时',
-    en: 'CRL Cache Refresh HTTP Timeout',
+    zh: 'OCSP 刷新 HTTP 超时时间',
+    en: 'OCSP Refresh HTTP Timeout',
   },
 }
