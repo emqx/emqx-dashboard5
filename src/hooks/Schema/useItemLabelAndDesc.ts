@@ -122,9 +122,15 @@ export default (
       : 'BridgeSchema.' + getBridgeFormItemTextKey(prop)
   }
 
+  const specialProcess = (prop: Property) => {
+    // Some special handling for the enterprise version
+    return undefined
+  }
+
   const getText = (prop: Property) => {
-    if (props.type === 'bridge' && prop.path === 'name') {
-      return { label: t('RuleEngine.name'), desc: '' }
+    const specialRet = specialProcess(prop)
+    if (specialRet) {
+      return specialRet
     }
     const key = getTextKey(prop)
     const descKey = `${key}.desc`
