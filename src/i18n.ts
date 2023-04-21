@@ -8,6 +8,9 @@ import enLocale from 'element-plus/es/locale/lang/en'
 import schemaTextZh from '@/schemaText/schema-text-zh.json'
 import schemaTextEn from '@/schemaText/schema-text-en.json'
 
+import bridgeSchemaTextZh from '@/schemaText/bridge-text-zh.json'
+import bridgeSchemaTextEn from '@/schemaText/bridge-text-en.json'
+
 import { get } from 'lodash'
 
 const lang: { [key: string]: any } = {
@@ -33,6 +36,9 @@ Array.prototype.forEach.call(translations.keys(), (path) => {
 
 lang.en.ConfigSchema = schemaTextEn
 lang.zh.ConfigSchema = schemaTextZh
+
+lang.en.BridgeSchema = bridgeSchemaTextEn
+lang.zh.BridgeSchema = bridgeSchemaTextZh
 
 const i18nInstance = createI18n({
   messages: lang,
