@@ -59,7 +59,7 @@ export interface ResourceOpt {
   health_check_interval: string
   auto_restart_interval: string
   query_mode: 'async' | 'sync'
-  async_inflight_window?: number
+  inflight_window?: number
 
   max_queue_bytes: string
 

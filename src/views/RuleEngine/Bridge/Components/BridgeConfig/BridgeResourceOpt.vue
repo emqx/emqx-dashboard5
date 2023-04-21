@@ -2,7 +2,7 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.worker_pool_size">
       <template #label>
-        <FormItemLabel :label="tl('workerPoolSize')" :desc="tl('workerPoolSize')" />
+        <FormItemLabel :label="tl('worker_pool_size.label')" :desc="tl('worker_pool_size.desc')" />
       </template>
       <el-input v-model="resourceOptForm.worker_pool_size" />
     </el-form-item>
@@ -10,7 +10,11 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.request_timeout">
       <template #label>
-        <FormItemLabel :label="tl('requestTimeout')" :desc="tl('requestTimeoutDesc')" desc-marked />
+        <FormItemLabel
+          :label="tl('request_timeout.label')"
+          :desc="tl('request_timeout.desc')"
+          desc-marked
+        />
       </template>
       <Oneof
         v-model="resourceOptForm.request_timeout"
@@ -21,7 +25,10 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.health_check_interval">
       <template #label>
-        <FormItemLabel :label="tl('healthCheckInterval')" :desc="tl('healthCheckIntervalDesc')" />
+        <FormItemLabel
+          :label="tl('health_check_interval.label')"
+          :desc="tl('health_check_interval.desc')"
+        />
       </template>
       <TimeInputWithUnitSelect v-model="resourceOptForm.health_check_interval" />
     </el-form-item>
@@ -30,8 +37,8 @@
     <el-form-item prop="resource_opts.auto_restart_interval">
       <template #label>
         <FormItemLabel
-          :label="tl('autoRestartInterval')"
-          :desc="tl('autoRestartIntervalDesc') + tl('autoRestartIntervalValueDesc')"
+          :label="tl('auto_restart_interval.label')"
+          :desc="tl('auto_restart_interval.desc') + t('RuleEngine.autoRestartIntervalValueDesc')"
         />
       </template>
       <Oneof
@@ -44,7 +51,7 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.max_queue_bytes">
       <template #label>
-        <FormItemLabel :label="tl('maxQueueBytes')" :desc="tl('maxQueueBytesDesc')" />
+        <FormItemLabel :label="tl('max_queue_bytes.label')" :desc="tl('max_queue_bytes.desc')" />
       </template>
       <InputWithUnit :units="['MB', 'GB', 'KB']" v-model="resourceOptForm.max_queue_bytes" />
     </el-form-item>
@@ -54,7 +61,7 @@
     <el-col :span="12">
       <el-form-item prop="resource_opts.batch_size">
         <template #label>
-          <FormItemLabel :label="tl('batchSize')" :desc="tl('batchSize')" />
+          <FormItemLabel :label="tl('batch_size.label')" :desc="tl('batch_size.desc')" />
         </template>
         <el-input v-model="resourceOptForm.batch_size" />
       </el-form-item>
@@ -65,7 +72,7 @@
   <el-col :span="12">
     <el-form-item prop="resource_opts.query_mode">
       <template #label>
-        <FormItemLabel :label="tl('queryMode')" :desc="tl('queryMode')" />
+        <FormItemLabel :label="tl('query_mode.label')" :desc="tl('query_mode.desc')" />
       </template>
       <el-select v-model="resourceOptForm.query_mode">
         <el-option v-for="item in ['sync', 'async']" :value="item" :key="item" />
@@ -73,11 +80,11 @@
     </el-form-item>
   </el-col>
   <el-col :span="12" v-if="canConfigInflightWindow && resourceOptForm.query_mode === 'async'">
-    <el-form-item prop="async_inflight_window">
+    <el-form-item prop="inflight_window">
       <template #label>
-        <FormItemLabel :label="tl('asyncInflightWindow')" :desc="tl('asyncInflightWindowDesc')" />
+        <FormItemLabel :label="tl('inflight_window.label')" :desc="tl('inflight_window.desc')" />
       </template>
-      <el-input v-model="resourceOptForm.async_inflight_window" />
+      <el-input v-model="resourceOptForm.inflight_window" />
     </el-form-item>
   </el-col>
 </template>
@@ -103,7 +110,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('BridgeSchema.emqx_resource_schema')
 
 const resourceOptForm = computed({
   get() {
@@ -114,7 +121,5 @@ const resourceOptForm = computed({
   },
 })
 
-const canConfigInflightWindow = computed(
-  () => resourceOptForm.value.async_inflight_window !== undefined,
-)
+const canConfigInflightWindow = computed(() => resourceOptForm.value.inflight_window !== undefined)
 </script>
