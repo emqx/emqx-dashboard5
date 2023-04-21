@@ -18,10 +18,10 @@
     </div>
     <el-form-item prop="write_syntax" v-if="activeTab === Tab.Raw">
       <template #label>
-        <span>{{ writeSyntaxPropItem?.label }}</span>
+        <span>{{ getText('write_syntax.label') }}</span>
         <InfoTooltip popper-class="is-wider">
           <template #content>
-            <MarkdownContent :content="writeSyntaxPropItem?.description" />
+            <MarkdownContent :content="getText('write_syntax.desc')" />
           </template>
         </InfoTooltip>
       </template>
@@ -41,8 +41,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Property } from '@/types/schemaForm'
-import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
 
 enum Tab {
@@ -54,14 +53,12 @@ const props = defineProps({
   modelValue: {
     type: String,
   },
-  writeSyntaxPropItem: {
-    type: Object as PropType<Property>,
-  },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const { tl } = useI18nTl('RuleEngine')
+const { tl, t } = useI18nTl('RuleEngine')
+const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_influxdb.${key}`)
 const activeTab = ref(Tab.JSON)
 
 const lineProtocol = computed({
