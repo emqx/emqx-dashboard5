@@ -25,7 +25,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-const openReset = ref(false)
+const openReset = ref((props.isEdit && !props.modelValue) || false)
 const showUploader = computed(() => {
   return !props.isEdit || !props.modelValue || openReset.value
 })

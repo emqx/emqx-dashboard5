@@ -254,33 +254,35 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" />
-            <el-col :span="12">
-              <el-form-item :label="tl('responderUrl')">
-                <el-input v-model.number="listenerRecord.ssl_options.ocsp.responder_url" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item :label="tl('issuerPem')">
-                <CertFileInput
-                  v-model="listenerRecord.ssl_options.ocsp.issuer_pem"
-                  :is-edit="isEdit"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="tl('refreshInterval')">
-                <TimeInputWithUnitSelect
-                  v-model="listenerRecord.ssl_options.ocsp.refresh_interval"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="tl('refreshHttpTimeout')">
-                <TimeInputWithUnitSelect
-                  v-model="listenerRecord.ssl_options.ocsp.refresh_http_timeout"
-                />
-              </el-form-item>
-            </el-col>
+            <template v-if="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling">
+              <el-col :span="12">
+                <el-form-item :label="tl('responderUrl')" prop="ssl_options.ocsp.responder_url">
+                  <el-input v-model.number="listenerRecord.ssl_options.ocsp.responder_url" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="24">
+                <el-form-item :label="tl('issuerPem')" prop="ssl_options.ocsp.issuer_pem">
+                  <CertFileInput
+                    v-model="listenerRecord.ssl_options.ocsp.issuer_pem"
+                    :is-edit="isEdit"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('refreshInterval')">
+                  <TimeInputWithUnitSelect
+                    v-model="listenerRecord.ssl_options.ocsp.refresh_interval"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('refreshHttpTimeout')">
+                  <TimeInputWithUnitSelect
+                    v-model="listenerRecord.ssl_options.ocsp.refresh_http_timeout"
+                  />
+                </el-form-item>
+              </el-col>
+            </template>
           </template>
         </el-row>
       </div>
