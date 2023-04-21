@@ -153,7 +153,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     if (listenerRecord.value.type === ListenerTypeForGateway.UDP) {
       data.acceptors = ''
     }
-    if (data.type === ListenerType.WSS) {
+    if (data.type === ListenerType.WSS || data.type === ListenerType.QUIC) {
       delete data.ssl_options.ocsp
     }
     return data
