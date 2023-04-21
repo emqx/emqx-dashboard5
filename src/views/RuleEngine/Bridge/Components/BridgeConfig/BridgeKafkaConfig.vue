@@ -40,10 +40,10 @@
         <el-col :span="12">
           <el-form-item prop="bootstrap_hosts">
             <template #label>
-              <span>{{ getProducerPropItem('bootstrap_hosts').label }}</span>
+              <span>{{ getText('bootstrap_hosts.label') }}</span>
               <InfoTooltip>
                 <template #content>
-                  <MarkdownContent :content="getProducerPropItem('bootstrap_hosts').description" />
+                  <MarkdownContent :content="getText('bootstrap_hosts.desc')" />
                 </template>
               </InfoTooltip>
             </template>
@@ -53,10 +53,8 @@
         <el-col :span="12">
           <el-form-item prop="min_metadata_refresh_interval">
             <template #label>
-              <span>{{ getProducerPropItem('min_metadata_refresh_interval').label }}</span>
-              <InfoTooltip
-                :content="getProducerPropItem('min_metadata_refresh_interval').description"
-              />
+              <span>{{ getText('min_metadata_refresh_interval.label') }}</span>
+              <InfoTooltip :content="getText('min_metadata_refresh_interval.desc')" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
           </el-form-item>
@@ -140,8 +138,8 @@
         <el-col :span="12">
           <el-form-item prop="metadata_request_timeout">
             <template #label>
-              <span>{{ getProducerPropItem('metadata_request_timeout').label }}</span>
-              <InfoTooltip :content="getProducerPropItem('metadata_request_timeout').description" />
+              <span>{{ getText('metadata_request_timeout.label') }}</span>
+              <InfoTooltip :content="getText('metadata_request_timeout.desc')" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.metadata_request_timeout" />
           </el-form-item>
@@ -149,8 +147,8 @@
         <el-col :span="12">
           <el-form-item prop="connect_timeout">
             <template #label>
-              <span>{{ getProducerPropItem('connect_timeout').label }}</span>
-              <InfoTooltip :content="getProducerPropItem('connect_timeout').description" />
+              <span>{{ getText('connect_timeout.label') }}</span>
+              <InfoTooltip :content="getText('connect_timeout.desc')" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
           </el-form-item>
@@ -171,8 +169,8 @@
           <el-col :span="12">
             <el-form-item prop="local_topic">
               <template #label>
-                <span>{{ getProducerPropItem('local_topic').label }}</span>
-                <InfoTooltip :content="getProducerPropItem('local_topic').description" />
+                <span>{{ getText('mqtt_topic.label') }}</span>
+                <InfoTooltip :content="getText('mqtt_topic.desc')" />
               </template>
               <el-input v-model="formData.local_topic" />
             </el-form-item>
@@ -190,12 +188,10 @@
           <el-col :span="12">
             <el-form-item prop="key_encoding_mode">
               <template #label>
-                <span>{{ getConsumerPropItem('key_encoding_mode').label }}</span>
+                <span>{{ getText('consumer_key_encoding_mode.label') }}</span>
                 <InfoTooltip>
                   <template #content>
-                    <MarkdownContent
-                      :content="getConsumerPropItem('key_encoding_mode').description"
-                    />
+                    <MarkdownContent :content="getText('consumer_key_encoding_mode.desc')" />
                   </template>
                 </InfoTooltip>
               </template>
@@ -212,12 +208,10 @@
           <el-col :span="12">
             <el-form-item prop="value_encoding_mode">
               <template #label>
-                <span>{{ getConsumerPropItem('value_encoding_mode').label }}</span>
+                <span>{{ getText('consumer_value_encoding_mode.label') }}</span>
                 <InfoTooltip>
                   <template #content>
-                    <MarkdownContent
-                      :content="getConsumerPropItem('value_encoding_mode').description"
-                    />
+                    <MarkdownContent :content="getText('consumer_value_encoding_mode.desc')" />
                   </template>
                 </InfoTooltip>
               </template>
@@ -234,8 +228,8 @@
           <el-col :span="24">
             <el-form-item prop="topic_mapping">
               <template #label>
-                <span>{{ getConsumerPropItem('topic_mapping').label }}</span>
-                <InfoTooltip :content="getConsumerPropItem('topic_mapping').description" />
+                <span>{{ getText('consumer_topic_mapping.label') }}</span>
+                <InfoTooltip :content="getText('consumer_topic_mapping.desc')" />
               </template>
               <ObjectArrayEditor
                 v-model="formData.topic_mapping"
@@ -257,8 +251,8 @@
         <el-col :span="12">
           <el-form-item prop="socket_opts.sndbuf">
             <template #label>
-              <span>{{ getProducerPropItem('socket_opts.sndbuf').label }}</span>
-              <InfoTooltip :content="getProducerPropItem('socket_opts.sndbuf').description" />
+              <span>{{ getText('socket_send_buffer.label') }}</span>
+              <InfoTooltip :content="getText('socket_send_buffer.desc')" />
             </template>
             <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
           </el-form-item>
@@ -266,8 +260,8 @@
         <el-col :span="12">
           <el-form-item prop="socket_opts.recbuf">
             <template #label>
-              <span>{{ getProducerPropItem('socket_opts.recbuf').label }}</span>
-              <InfoTooltip :content="getProducerPropItem('socket_opts.recbuf').description" />
+              <span>{{ getText('socket_receive_buffer.label') }}</span>
+              <InfoTooltip :content="getText('socket_receive_buffer.desc')" />
             </template>
             <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
           </el-form-item>
@@ -332,6 +326,7 @@ const emit = defineEmits(['update:modelValue', 'init'])
 
 const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
+const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_kafka.${key}`)
 
 const {
   components: producerComponents,
@@ -421,7 +416,7 @@ const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const formRules = computed(() => {
   const ret = {
     name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
-    bootstrap_hosts: createRequiredRule(getProducerPropItem('bootstrap_hosts').label),
+    bootstrap_hosts: createRequiredRule(getText('bootstrap_hosts.label')),
     authentication: {
       mechanism: createRequiredRule(tl('mechanism')),
       username: createRequiredRule(tl('username')),

@@ -4,8 +4,8 @@
       <el-col :span="12">
         <el-form-item prop="kafka.topic">
           <template #label>
-            <span>{{ getPropItem('topic').label }}</span>
-            <InfoTooltip :content="getPropItem('topic').description" />
+            <span>{{ tl('kafka_topic.label') }}</span>
+            <InfoTooltip :content="tl('kafka_topic.desc')" />
           </template>
           <el-input v-model="kafkaConfig.topic" />
         </el-form-item>
@@ -14,10 +14,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.message.key">
           <template #label>
-            <span>{{ getPropItem('message.key').label }}</span>
+            <span>{{ tl('kafka_message_key.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <MarkdownContent :content="getPropItem('message.key').description" />
+                <MarkdownContent :content="tl('kafka_message_key.desc')" />
               </template>
             </InfoTooltip>
           </template>
@@ -27,10 +27,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.message.value">
           <template #label>
-            <span>{{ getPropItem('message.value').label }}</span>
+            <span>{{ tl('kafka_message_value.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <p v-safe-html="getPropItem('message.value').description"></p>
+                <p v-safe-html="tl('kafka_message_value.desc')"></p>
               </template>
             </InfoTooltip>
           </template>
@@ -40,10 +40,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.message.timestamp">
           <template #label>
-            <span>{{ getPropItem('message.timestamp').label }}</span>
+            <span>{{ tl('kafka_message_timestamp.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <p v-safe-html="getPropItem('message.timestamp').description"></p>
+                <p v-safe-html="tl('kafka_message_timestamp.desc')"></p>
               </template>
             </InfoTooltip>
           </template>
@@ -54,14 +54,14 @@
       <el-col :span="12">
         <el-form-item prop="kafka.max_batch_bytes">
           <template #label>
-            <span>{{ getPropItem('max_batch_bytes').label }}</span>
-            <InfoTooltip :content="getPropItem('max_batch_bytes').description" />
+            <span>{{ tl('max_batch_bytes.label') }}</span>
+            <InfoTooltip :content="tl('max_batch_bytes.desc')" />
           </template>
           <InputWithUnit v-model="kafkaConfig.max_batch_bytes" :units="usefulMemoryUnit" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="kafka.compression" :label="getPropItem('compression').label">
+        <el-form-item prop="kafka.compression" :label="tl('compression.label')">
           <el-select v-model="kafkaConfig.compression">
             <el-option
               v-for="item in getPropItem('compression').symbols || []"
@@ -76,10 +76,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.partition_strategy">
           <template #label>
-            <span>{{ getPropItem('partition_strategy').label }}</span>
+            <span>{{ tl('partition_strategy.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <MarkdownContent :content="getPropItem('partition_strategy').description" />
+                <MarkdownContent :content="tl('partition_strategy.desc')" />
               </template>
             </InfoTooltip>
           </template>
@@ -96,10 +96,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.required_acks">
           <template #label>
-            <span>{{ getPropItem('required_acks').label }}</span>
+            <span>{{ tl('required_acks.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <MarkdownContent :content="getPropItem('required_acks').description" />
+                <MarkdownContent :content="tl('required_acks.desc')" />
               </template>
             </InfoTooltip>
           </template>
@@ -117,12 +117,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.partition_count_refresh_interval">
           <template #label>
-            <span>{{ getPropItem('partition_count_refresh_interval').label }}</span>
+            <span>{{ tl('partition_count_refresh_interval.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <MarkdownContent
-                  :content="getPropItem('partition_count_refresh_interval').description"
-                />
+                <MarkdownContent :content="tl('partition_count_refresh_interval.desc')" />
               </template>
             </InfoTooltip>
           </template>
@@ -132,8 +130,8 @@
       <el-col :span="12">
         <el-form-item prop="kafka.max_inflight">
           <template #label>
-            <span>{{ getPropItem('max_inflight').label }}</span>
-            <InfoTooltip :content="getPropItem('max_inflight').description" />
+            <span>{{ tl('max_inflight.label') }}</span>
+            <InfoTooltip :content="tl('max_inflight.desc')" />
           </template>
           <el-input v-model="kafkaConfig.max_inflight" />
         </el-form-item>
@@ -142,10 +140,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.buffer.mode">
           <template #label>
-            <span>{{ getPropItem('buffer.mode').label }}</span>
+            <span>{{ tl('buffer_mode.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <MarkdownContent :content="getPropItem('buffer.mode').description" />
+                <MarkdownContent :content="tl('buffer_mode.desc')" />
               </template>
             </InfoTooltip>
           </template>
@@ -162,8 +160,8 @@
       <el-col :span="12">
         <el-form-item prop="kafka.buffer.per_partition_limit">
           <template #label>
-            <span>{{ getPropItem('buffer.per_partition_limit').label }}</span>
-            <InfoTooltip :content="getPropItem('buffer.per_partition_limit').description" />
+            <span>{{ tl('buffer_per_partition_limit.label') }}</span>
+            <InfoTooltip :content="tl('buffer_per_partition_limit.desc')" />
           </template>
           <InputWithUnit
             v-model="kafkaConfig.buffer.per_partition_limit"
@@ -174,10 +172,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.buffer.segment_bytes">
           <template #label>
-            <span>{{ getPropItem('buffer.segment_bytes').label }}</span>
+            <span>{{ tl('buffer_segment_bytes.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <MarkdownContent :content="getPropItem('buffer.segment_bytes').description" />
+                <MarkdownContent :content="tl('buffer_segment_bytes.desc')" />
               </template>
             </InfoTooltip>
           </template>
@@ -187,12 +185,10 @@
       <el-col :span="12">
         <el-form-item prop="kafka.buffer.memory_overload_protection">
           <template #label>
-            <span>{{ getPropItem('buffer.memory_overload_protection').label }}</span>
+            <span>{{ tl('buffer_memory_overload_protection.label') }}</span>
             <InfoTooltip>
               <template #content>
-                <MarkdownContent
-                  :content="getPropItem('buffer.memory_overload_protection').description"
-                />
+                <MarkdownContent :content="tl('buffer_memory_overload_protection.desc')" />
               </template>
             </InfoTooltip>
           </template>
@@ -210,6 +206,7 @@ import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
+import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
 
 const props = defineProps({
@@ -223,9 +220,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
-
 const components = computed(() => props.schemaComponents)
 const { getPropItem } = useGetInfoFromComponents(components)
+const { tl } = useI18nTl('BridgeSchema.emqx_ee_bridge_kafka')
 
 const kafkaConfig = computed({
   get() {
