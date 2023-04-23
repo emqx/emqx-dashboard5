@@ -89,8 +89,8 @@ export default (
         [
           'mongo_type',
           'srv_record',
-          'database',
           'servers',
+          'database',
           'replica_set_name',
           'pool_size',
           'username',
