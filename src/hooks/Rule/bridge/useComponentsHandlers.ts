@@ -26,14 +26,6 @@ export default (props: {
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
 
-  const deleteSSLLabelAndDesc = (components: Properties) => {
-    if (components.ssl) {
-      components.ssl.description = ''
-      components.ssl.label = ''
-    }
-    return components
-  }
-
   const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
@@ -55,20 +47,12 @@ export default (props: {
   }
 
   const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
-    const comRet = deleteSSLLabelAndDesc(components)
+    const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'start_after_created')
     }
-    if (comRet.resource_opts?.properties?.auto_restart_interval) {
-      comRet.resource_opts.properties.auto_restart_interval.description += tl(
-        'autoRestartIntervalValueDesc',
-      )
-    }
     if (comRet.resource_opts?.properties?.batch_time) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'batch_time')
-    }
-    if (comRet.name) {
-      comRet.name.label = tl('name')
     }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
@@ -80,11 +64,7 @@ export default (props: {
     const { redis_type, servers, command_template } = components
     if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
       redis_type.symbols = REDIS_TYPE
-      redis_type.label = t('Auth.redisType')
       redis_type.componentProps = { clearable: false }
-      if (redis_type.description) {
-        Reflect.deleteProperty(redis_type, 'description')
-      }
     }
     if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
       redis_type.symbols = REDIS_TYPE
@@ -123,11 +103,7 @@ export default (props: {
     const { mongo_type, payload_template, servers } = components
     if (mongo_type?.symbols && Array.isArray(mongo_type.symbols)) {
       mongo_type.symbols = MONGO_TYPE
-      mongo_type.label = t('Auth.mongoType')
       mongo_type.componentProps = { clearable: false }
-      if (mongo_type.description) {
-        Reflect.deleteProperty(mongo_type, 'description')
-      }
     }
     if (payload_template?.type === 'string') {
       payload_template.format = 'sql'
