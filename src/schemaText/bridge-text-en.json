@@ -538,7 +538,7 @@
   "emqx_ee_bridge_mongodb": {
     "collection": {
       "desc": "The collection where data will be stored into",
-      "label": "Collection to be used"
+      "label": "Collection"
     },
     "desc_config": {
       "desc": "Configuration for MongoDB Bridge",
