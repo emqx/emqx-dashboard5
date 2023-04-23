@@ -11,7 +11,8 @@
     "build:enterprise": "vue-cli-service build --mode enterprise",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\""
+    "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\"",
+    "escape": "node ./scripts/escapeI18N.js"
   },
   "dependencies": {
     "@antv/g6": "^4.5.1",

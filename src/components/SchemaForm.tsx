@@ -115,13 +115,6 @@ const SchemaForm = defineComponent({
     customColClass: {
       type: Object as PropType<Record<string, string>>,
     },
-    // FIXME: remove this, use `dataHandler
-    /**
-     * set by path
-     */
-    customLabelMap: {
-      type: Object as PropType<Record<string, string>>,
-    },
     needRules: {
       type: Boolean,
       default: true,
