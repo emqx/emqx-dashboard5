@@ -215,6 +215,10 @@ export default {
     zh: '部署模式',
     en: 'MongoDB Mode',
   },
+  mongoAuthSource: {
+    zh: '认证源',
+    en: 'Auth Source',
+  },
   redisType: {
     zh: '部署模式',
     en: 'Redis Mode',
