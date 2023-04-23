@@ -538,7 +538,7 @@
   "emqx_ee_bridge_mongodb": {
     "collection": {
       "desc": "数据将被存储到的集合",
-      "label": "将要使用的集合（Collection）"
+      "label": "集合 (Collection) "
     },
     "desc_config": {
       "desc": "为MongoDB桥配置",
