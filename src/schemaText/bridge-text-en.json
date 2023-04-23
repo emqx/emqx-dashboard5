@@ -871,6 +871,10 @@
     "sql": {
       "label": "SQL Template",
       "desc": "SQL Template"
+    },
+    "local_topic": {
+      "label": "Local Topic",
+      "desc": "The MQTT topic filter to be forwarded to Microsoft SQL Server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded."
     }
   }
 }

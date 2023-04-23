@@ -870,7 +870,11 @@
     },
     "sql": {
       "label": "SQL 模板",
-      "description": "SQL 模板"
+      "desc": "SQL 模板"
+    },
+    "local_topic": {
+      "label": "本地 Topic",
+      "desc": "发送到 'local_topic' 的消息都会转发到 Microsoft SQL Server。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。"
     }
   }
 }
