@@ -28,4 +28,15 @@ module.exports = {
       }),
     ],
   },
+  chainWebpack: (config) => {
+    config.optimization.splitChunks({
+      chunks: 'all',
+      cacheGroups: {
+        monacoEditor: {
+          name: 'chunk-monaco-editor',
+          test: /[\\/]node_modules[\\/]monaco-editor[\\/]/,
+        },
+      },
+    })
+  },
 }
