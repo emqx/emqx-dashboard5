@@ -129,6 +129,18 @@
     "url": {
       "desc": "DynamoDB 的地址。",
       "label": "DynamoDB 地址"
+    },
+    "table": {
+      "desc": "DynamoDB 的表。",
+      "label": "表"
+    },
+    "aws_access_key_id": {
+      "desc": "DynamoDB 的访问 ID。",
+      "label": "连接访问 ID"
+    },
+    "aws_secret_access_key": {
+      "desc": "DynamoDB 的访问密钥。",
+      "label": "连接访问密钥"
     }
   },
   "emqx_ee_bridge_gcp_pubsub": {
