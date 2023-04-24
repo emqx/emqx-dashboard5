@@ -81,6 +81,7 @@ export default function useAuthzCreate() {
   const getMongodbConfig = () => {
     return {
       mongo_type: 'single',
+      srv_record: false,
       server: '127.0.0.1:27017',
       servers: '127.0.0.1:27017,127.0.0.2:27017',
       database: 'mqtt',
