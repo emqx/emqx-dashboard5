@@ -79,24 +79,32 @@
               />
             </el-form-item>
           </el-col>
-          <template v-if="isMongoDB && databaseConfig.mongo_type === 'rs'">
+          <template v-if="isMongoDB">
             <el-col :span="12">
-              <el-form-item :label="$t('Auth.readMode')">
-                <el-select v-model="databaseConfig.r_mode">
-                  <el-option value="master" label="master" />
-                  <el-option value="slave_ok" label="slave_ok" />
-                </el-select>
+              <el-form-item :label="$t('Auth.mongoAuthSource')">
+                <el-input v-model="databaseConfig.auth_source" />
               </el-form-item>
             </el-col>
-            <el-col v-if="databaseConfig.mongo_type === 'rs'" :span="12">
-              <el-form-item :label="$t('Auth.writeMode')">
-                <el-select v-model="databaseConfig.w_mode">
-                  <el-option value="safe" label="safe" />
-                  <el-option value="unsafe" label="unsafe" />
-                </el-select>
-              </el-form-item>
-            </el-col>
+            <template v-if="databaseConfig.mongo_type === 'rs'">
+              <el-col :span="12">
+                <el-form-item :label="$t('Auth.readMode')">
+                  <el-select v-model="databaseConfig.r_mode">
+                    <el-option value="master" label="master" />
+                    <el-option value="slave_ok" label="slave_ok" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="databaseConfig.mongo_type === 'rs'" :span="12">
+                <el-form-item :label="$t('Auth.writeMode')">
+                  <el-select v-model="databaseConfig.w_mode">
+                    <el-option value="safe" label="safe" />
+                    <el-option value="unsafe" label="unsafe" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </template>
           </template>
+
           <el-col :span="24">
             <!-- TLS -->
             <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" :is-edit="isEdit" />
