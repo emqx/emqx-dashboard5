@@ -20,18 +20,25 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col v-if="isMongoDB" :span="12">
-            <el-form-item :label="$t('Auth.mongoType')" required prop="mongo_type">
-              <el-select
-                v-model="databaseConfig.mongo_type"
-                @change="clearValidateAfterSomeFieldChanged"
-              >
-                <el-option value="single" :label="$t('Auth.single')" />
-                <el-option value="rs" label="Replica Set" />
-                <el-option value="sharded" label="Sharding" />
-              </el-select>
-            </el-form-item>
-          </el-col>
+          <template v-if="isMongoDB">
+            <el-col :span="12">
+              <el-form-item :label="$t('Auth.mongoType')" required prop="mongo_type">
+                <el-select
+                  v-model="databaseConfig.mongo_type"
+                  @change="clearValidateAfterSomeFieldChanged"
+                >
+                  <el-option value="single" :label="$t('Auth.single')" />
+                  <el-option value="rs" label="Replica Set" />
+                  <el-option value="sharded" label="Sharding" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Auth.srvRecord')" prop="srv_record">
+                <el-switch v-model="databaseConfig.srv_record" />
+              </el-form-item>
+            </el-col>
+          </template>
           <el-col v-if="isServers" :span="12">
             <el-form-item :label="$t('Auth.servers')" required prop="servers">
               <el-input v-model="databaseConfig.servers" type="textarea" :rows="3" />

@@ -219,6 +219,10 @@ export default {
     zh: '认证源',
     en: 'Auth Source',
   },
+  srvRecord: {
+    zh: 'SRV 记录',
+    en: 'SRV Record',
+  },
   redisType: {
     zh: '部署模式',
     en: 'Redis Mode',
