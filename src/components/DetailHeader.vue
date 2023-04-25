@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, defineProps, PropType } from 'vue'
-import { useRouter } from 'vue-router'
+import { RouteLocationRaw, useRouter } from 'vue-router'
 export default defineComponent({
   name: 'DetailHeader',
 })
@@ -20,6 +20,7 @@ import { ArrowLeft } from '@element-plus/icons-vue'
 interface item {
   name?: string
   path?: string
+  route?: RouteLocationRaw
   routeName?: string
   backFunc?: () => void
 }
@@ -35,9 +36,11 @@ const props = defineProps({
 
 const goBack = () => {
   const {
-    item: { routeName, path, backFunc },
+    item: { routeName, path, backFunc, route },
   } = props
-  if (path) {
+  if (route) {
+    router.push(route)
+  } else if (path) {
     router.push({ path })
   } else if (routeName) {
     router.push({ name: routeName })
