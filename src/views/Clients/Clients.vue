@@ -72,8 +72,8 @@
           <el-col :span="6">
             <div class="like-input">
               <el-select v-model="fuzzyParams.comparator">
-                <el-option :label="$t('Clients.gte')" value="gte" />
-                <el-option :label="$t('Clients.lte')" value="lte" />
+                <el-option :label="$t('Clients.gte')" :value="Comparator.After" />
+                <el-option :label="$t('Clients.lte')" :value="Comparator.Before" />
               </el-select>
               <el-date-picker
                 v-model="fuzzyParams.connected_at"
@@ -188,11 +188,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
-import { CheckStatus } from '@/types/enum'
-import { Client } from '@/types/client'
-import { ElMessageBox, ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'Clients',
@@ -200,17 +195,31 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { listClients, disconnectClient } from '@/api/clients'
+import { disconnectClient, listClients } from '@/api/clients'
 import { loadNodes } from '@/api/common'
-import moment from 'moment'
-import CommonPagination from '@/components/commonPagination.vue'
-import { Search, ArrowUp, ArrowDown, Refresh, Delete, RefreshLeft } from '@element-plus/icons-vue'
+import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
-import { useStore } from 'vuex'
-import { NodeMsg } from '@/types/dashboard'
-import useDurationStr from '@/hooks/useDurationStr'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import CommonPagination from '@/components/commonPagination.vue'
+import useDurationStr from '@/hooks/useDurationStr'
+import useI18nTl from '@/hooks/useI18nTl'
+import usePaginationQuery from '@/hooks/usePaginationRemember'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import { Client } from '@/types/client'
+import { NodeMsg } from '@/types/dashboard'
+import { CheckStatus } from '@/types/enum'
+import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { pick } from 'lodash'
+import moment from 'moment'
+import { useStore } from 'vuex'
+
+enum Comparator {
+  After = 'gte',
+  Before = 'lte',
+}
+
+const CONNECTED_AT_SUFFIX = '_connected_at'
 
 const { transSecondNumToSimpleStr } = useDurationStr()
 const { tl, t } = useI18nTl('Clients')
@@ -222,10 +231,11 @@ const lockTable = ref(false)
 const batchDeleteLoading = ref(false)
 const params = ref({})
 const fuzzyParams = ref<Record<string, any>>({
-  comparator: 'gte',
+  comparator: Comparator.After,
 })
 const store = useStore()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
+const { updateParams, checkParamsInQuery } = usePaginationQuery('clients-detail')
 
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
@@ -234,7 +244,7 @@ const handleSearch = async () => {
 
 const handleReset = () => {
   fuzzyParams.value = {
-    comparator: 'gte',
+    comparator: Comparator.After,
   }
   handleSearch()
 }
@@ -251,7 +261,7 @@ const genQueryParams = (params: Record<string, any>) => {
     node: node || undefined,
   }
   if (connected_at) {
-    newParams[`${comparator}_connected_at`] = new Date(connected_at).toISOString()
+    newParams[`${comparator}${CONNECTED_AT_SUFFIX}`] = new Date(connected_at).toISOString()
   }
   return newParams
 }
@@ -276,6 +286,7 @@ const loadNodeClients = async (_params = {}) => {
     const { data = [], meta = {} } = await listClients(sendParams)
     tableData.value = data
     setPageMeta(meta)
+    updateParams({ ...pick(meta, ['limit', 'page']), ...params.value })
   } catch (error) {
     tableData.value = []
     initPageMeta()
@@ -290,6 +301,31 @@ const sessionExpiryIntervalHandler = (interval: number): string | number => {
     : transSecondNumToSimpleStr(interval)
 }
 
+const getParamsFromQuery = () => {
+  const { pageParams, filterParams } = checkParamsInQuery()
+  pageMeta.value = { ...pageMeta.value, ...pageParams }
+  if (filterParams && Object.keys(filterParams).length > 0) {
+    Object.keys(filterParams).forEach((key) => {
+      if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
+        fuzzyParams.value[key] = filterParams[key]
+      } else {
+        fuzzyParams.value.connected_at = filterParams[key]
+        fuzzyParams.value.comparator =
+          key.indexOf(Comparator.After) > -1 ? Comparator.After : Comparator.Before
+      }
+    })
+  }
+  params.value = genQueryParams(fuzzyParams.value)
+  if (
+    fuzzyParams.value.ip_address ||
+    fuzzyParams.value.conn_state ||
+    fuzzyParams.value.connected_at
+  ) {
+    showMoreQuery.value = true
+  }
+}
+
+getParamsFromQuery()
 loadNodeData()
 loadNodeClients()
 const handleSelectionChange = (clients: Client[]) => {

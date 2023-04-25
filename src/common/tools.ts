@@ -119,7 +119,7 @@ export const downloadBlobData = (blobRes: {
   window.URL.revokeObjectURL(url)
 }
 
-export const parseJSONSafely = (str: string): Record<string, any> | void => {
+export const parseJSONSafely = (str: any): Record<string, any> | void => {
   try {
     return JSON.parse(str)
   } catch (error) {
