@@ -103,7 +103,7 @@ To set up the project for local development, follow these steps:
 
 To compile and hot-reload for development with a cloud host, follow these steps:
 
-1. Create a `.env.cloud` file in the root directory with the following content:
+1. Define your cloud host address in the `.env.development` file in the root directory:
 
     ```shell
     HOST_URL=http://your-cloud-host:port/
@@ -112,7 +112,7 @@ To compile and hot-reload for development with a cloud host, follow these steps:
 2. Run the following command:
 
     ```shell
-    yarn serve:cloud
+    yarn serve
     ```
 
 ## Customize configuration

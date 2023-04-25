@@ -4,9 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "serve:enterprise": "vue-cli-service serve --mode enterprise",
-    "serve:cloud": "vue-cli-service serve --mode cloud",
-    "serve:enterprise:cloud": "vue-cli-service serve --mode enterprise.cloud",
+    "serve:enterprise": "VUE_APP_VERSION=enterprise vue-cli-service serve",
     "build": "vue-cli-service build",
     "build:enterprise": "VUE_APP_VERSION=enterprise vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
