@@ -49,11 +49,11 @@
   </el-col>
   <!-- QUEUE -->
   <el-col :span="12">
-    <el-form-item prop="resource_opts.max_queue_bytes">
+    <el-form-item prop="resource_opts.max_buffer_bytes">
       <template #label>
-        <FormItemLabel :label="tl('max_queue_bytes.label')" :desc="tl('max_queue_bytes.desc')" />
+        <FormItemLabel :label="tl('max_buffer_bytes.label')" :desc="tl('max_buffer_bytes.desc')" />
       </template>
-      <InputWithUnit :units="['MB', 'GB', 'KB']" v-model="resourceOptForm.max_queue_bytes" />
+      <InputWithUnit :units="['MB', 'GB', 'KB']" v-model="resourceOptForm.max_buffer_bytes" />
     </el-form-item>
   </el-col>
   <!-- BATCH -->
