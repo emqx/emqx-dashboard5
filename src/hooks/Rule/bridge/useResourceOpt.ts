@@ -9,7 +9,7 @@ export default (): {
     health_check_interval: '15s',
     auto_restart_interval: AUTO_RESTART_INTERVAL_DEFAULT,
     query_mode: 'async',
-    max_queue_bytes: '1GB',
+    max_buffer_bytes: '1GB',
     request_timeout: '15s',
   })
 
