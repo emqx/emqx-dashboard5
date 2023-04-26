@@ -203,7 +203,7 @@ import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import CommonPagination from '@/components/commonPagination.vue'
 import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationQuery from '@/hooks/usePaginationRemember'
+import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { Client } from '@/types/client'
 import { NodeMsg } from '@/types/dashboard'
@@ -235,7 +235,7 @@ const fuzzyParams = ref<Record<string, any>>({
 })
 const store = useStore()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
-const { updateParams, checkParamsInQuery } = usePaginationQuery('clients-detail')
+const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
 
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)

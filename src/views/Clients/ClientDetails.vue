@@ -4,7 +4,7 @@
       <detail-header
         :item="{
           name: clientId,
-          route: getBackRoute({ name: 'clients' }),
+          route: backRoute,
           backFunc: gateway
             ? () => {
                 emit('refreshGateway')
@@ -335,6 +335,15 @@ const { tl } = useI18nTl('Clients')
 const { t } = useI18n()
 const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
 const { getBackRoute } = useReceiveParams('clients')
+
+const isFromSlowSub = computed(() => {
+  return route.query.from === 'slow-sub'
+})
+
+const backRoute = computed(() => {
+  let routeName = isFromSlowSub.value ? 'slow-sub' : 'clients'
+  return getBackRoute({ name: routeName })
+})
 
 const clientId = computed<string>((): string => {
   return (route.params.clientId as string) || (props.clientid as string)
