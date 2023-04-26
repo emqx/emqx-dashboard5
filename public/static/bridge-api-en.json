@@ -107,10 +107,10 @@
             "$ref" : "#/components/schemas/bridge_gcp_pubsub.get"
           },
           {
-            "$ref" : "#/components/schemas/emqx_bridge_mqtt_schema.get"
+            "$ref" : "#/components/schemas/bridge_mqtt.get"
           },
           {
-            "$ref" : "#/components/schemas/emqx_bridge_webhook_schema.get"
+            "$ref" : "#/components/schemas/bridge_webhook.get"
           }
         ]
       },
@@ -183,10 +183,10 @@
             "$ref" : "#/components/schemas/bridge_gcp_pubsub.get"
           },
           {
-            "$ref" : "#/components/schemas/emqx_bridge_mqtt_schema.get"
+            "$ref" : "#/components/schemas/bridge_mqtt.get"
           },
           {
-            "$ref" : "#/components/schemas/emqx_bridge_webhook_schema.get"
+            "$ref" : "#/components/schemas/bridge_webhook.get"
           }
         ]
       }
@@ -263,10 +263,10 @@
               "$ref" : "#/components/schemas/bridge_gcp_pubsub.get"
             },
             {
-              "$ref" : "#/components/schemas/emqx_bridge_mqtt_schema.get"
+              "$ref" : "#/components/schemas/bridge_mqtt.get"
             },
             {
-              "$ref" : "#/components/schemas/emqx_bridge_webhook_schema.get"
+              "$ref" : "#/components/schemas/bridge_webhook.get"
             }
           ]
         }
@@ -2217,7 +2217,7 @@
           "connector" : {
             "oneOf" : [
               {
-                "$ref" : "#/components/schemas/emqx_ee_connector_hstreamdb.config"
+                "$ref" : "#/components/schemas/connector_hstreamdb.config"
               },
               {
                 "type" : "string"
@@ -2510,14 +2510,14 @@
             "label" : "SQL Template",
             "format" : "sql",
             "description" : "SQL Template",
-            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload)values (${id}, ${topic}, ${qos}, ${payload})"
+            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload) values ( ${id}, ${topic}, ${qos}, ${payload} )"
           },
           "driver" : {
             "type" : "string",
             "summary" : "SQL Server Driver Name",
             "label" : "SQL Server Driver Name",
             "description" : "SQL Server Driver Name",
-            "default" : "ms-sqlserver-18"
+            "default" : "ms-sql"
           },
           "local_topic" : {
             "type" : "string",
@@ -2798,11 +2798,23 @@
             "label" : "DynamoDB Endpoint",
             "description" : "The url of DynamoDB endpoint."
           },
-          "database" : {
+          "table" : {
             "type" : "string",
-            "summary" : "Database Name",
-            "label" : "Database Name",
-            "description" : "Database name."
+            "summary" : "Table ",
+            "label" : "Table ",
+            "description" : "DynamoDB Table."
+          },
+          "aws_access_key_id" : {
+            "type" : "string",
+            "summary" : "AWS Access Key ID",
+            "label" : "AWS Access Key ID",
+            "description" : "Access Key ID for connecting to DynamoDB."
+          },
+          "aws_secret_access_key" : {
+            "type" : "string",
+            "summary" : "AWS Secret Access Key",
+            "label" : "AWS Secret Access Key",
+            "description" : "AWS Secret Access Key for connecting to DynamoDB."
           },
           "pool_size" : {
             "type" : "string",
@@ -2810,20 +2822,6 @@
             "label" : "Connection Pool Size",
             "description" : "Size of the connection pool towards the bridge target service.",
             "default" : 8
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "Username",
-            "label" : "Username",
-            "description" : "EMQX's username in the external database.",
-            "default" : "root"
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "Password",
-            "label" : "Password",
-            "format" : "password",
-            "description" : "EMQX's password in the external database."
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -2835,8 +2833,10 @@
           }
         },
         "required" : [
-          "database",
+          "aws_access_key_id",
+          "aws_secret_access_key",
           "name",
+          "table",
           "type",
           "url"
         ]
@@ -3348,7 +3348,7 @@
           "connector" : {
             "oneOf" : [
               {
-                "$ref" : "#/components/schemas/emqx_ee_connector_hstreamdb.config"
+                "$ref" : "#/components/schemas/connector_hstreamdb.config"
               },
               {
                 "type" : "string"
@@ -3956,11 +3956,23 @@
             "label" : "DynamoDB Endpoint",
             "description" : "The url of DynamoDB endpoint."
           },
-          "database" : {
+          "table" : {
             "type" : "string",
-            "summary" : "Database Name",
-            "label" : "Database Name",
-            "description" : "Database name."
+            "summary" : "Table ",
+            "label" : "Table ",
+            "description" : "DynamoDB Table."
+          },
+          "aws_access_key_id" : {
+            "type" : "string",
+            "summary" : "AWS Access Key ID",
+            "label" : "AWS Access Key ID",
+            "description" : "Access Key ID for connecting to DynamoDB."
+          },
+          "aws_secret_access_key" : {
+            "type" : "string",
+            "summary" : "AWS Secret Access Key",
+            "label" : "AWS Secret Access Key",
+            "description" : "AWS Secret Access Key for connecting to DynamoDB."
           },
           "pool_size" : {
             "type" : "string",
@@ -3968,20 +3980,6 @@
             "label" : "Connection Pool Size",
             "description" : "Size of the connection pool towards the bridge target service.",
             "default" : 8
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "Username",
-            "label" : "Username",
-            "description" : "EMQX's username in the external database.",
-            "default" : "root"
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "Password",
-            "label" : "Password",
-            "format" : "password",
-            "description" : "EMQX's password in the external database."
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -3993,8 +3991,10 @@
           }
         },
         "required" : [
-          "database",
+          "aws_access_key_id",
+          "aws_secret_access_key",
           "name",
+          "table",
           "type",
           "url"
         ]
@@ -4946,7 +4946,7 @@
             "type" : "string",
             "summary" : "Template",
             "label" : "Template",
-            "description" : "Template, the default value is empty. When this value is empty the whole message will be stored in the RocketMQ",
+            "description" : "Template, the default value is empty. When this value is empty the whole message will be stored in the RocketMQ.<br><br/>            The template can be any valid string with placeholders, example:<br><br/>            - ${id}, ${username}, ${clientid}, ${timestamp}<br><br/>            - {\"id\" : ${id}, \"username\" : ${username}}",
             "default" : ""
           },
           "local_topic" : {
@@ -4964,7 +4964,7 @@
               
             }
           },
-          "server" : {
+          "servers" : {
             "type" : "string",
             "summary" : "Server Host",
             "label" : "Server Host",
@@ -4976,6 +4976,34 @@
             "label" : "RocketMQ Topic",
             "description" : "RocketMQ Topic",
             "default" : "TopicTest"
+          },
+          "access_key" : {
+            "type" : "string",
+            "summary" : "AccessKey",
+            "label" : "AccessKey",
+            "description" : "RocketMQ server `accessKey`.",
+            "default" : ""
+          },
+          "secret_key" : {
+            "type" : "string",
+            "summary" : "SecretKey",
+            "label" : "SecretKey",
+            "description" : "RocketMQ server `secretKey`.",
+            "default" : ""
+          },
+          "security_token" : {
+            "type" : "string",
+            "summary" : "Security Token",
+            "label" : "Security Token",
+            "description" : "RocketMQ Server Security Token",
+            "default" : ""
+          },
+          "sync_timeout" : {
+            "type" : "duration",
+            "summary" : "Sync Timeout",
+            "label" : "Sync Timeout",
+            "description" : "Timeout of RocketMQ driver synchronous call.",
+            "default" : "3s"
           },
           "refresh_interval" : {
             "type" : "duration",
@@ -4991,26 +5019,12 @@
             "description" : "The socket send buffer size of the RocketMQ driver client.",
             "default" : "1024KB"
           },
-          "security_token" : {
+          "pool_size" : {
             "type" : "string",
-            "summary" : "Security Token",
-            "label" : "Security Token",
-            "description" : "RocketMQ Server Security Token",
-            "default" : ""
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "Username",
-            "label" : "Username",
-            "description" : "EMQX's username in the external database.",
-            "default" : ""
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "Password",
-            "label" : "Password",
-            "format" : "password",
-            "description" : "EMQX's password in the external database."
+            "summary" : "Connection Pool Size",
+            "label" : "Connection Pool Size",
+            "description" : "Size of the connection pool towards the bridge target service.",
+            "default" : 8
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -5023,7 +5037,7 @@
         },
         "required" : [
           "name",
-          "server",
+          "servers",
           "type"
         ]
       },
@@ -5922,6 +5936,7 @@
             },
             "description" : "All TLS/DTLS versions to be supported.<br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/><br/>In case PSK cipher suites are intended, make sure to configure<br/><code>['tlsv1.2', 'tlsv1.1']</code> here.",
             "default" : [
+              "tlsv1.3",
               "tlsv1.2",
               "tlsv1.1",
               "tlsv1"
@@ -5936,13 +5951,6 @@
             },
             "description" : "This config holds TLS cipher suite names separated by comma,<br/>or as an array of strings. e.g.<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.<br/><br/><br/>Ciphers (and their ordering) define the way in which the<br/>client and server encrypts information over the network connection.<br/>Selecting a good cipher suite is critical for the<br/>application's data security, confidentiality and performance.<br/><br/>The names should be in OpenSSL string format (not RFC format).<br/>All default values and examples provided by EMQX config<br/>documentation are all in OpenSSL format.<br/><br/><br/>NOTE: Certain cipher suites are only compatible with<br/>specific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')<br/>incompatible cipher suites will be silently dropped.<br/>For instance, if only 'tlsv1.3' is given in the <code>versions</code>,<br/>configuring cipher suites for other versions will have no effect.<br/><br/><br/><br/>NOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/><br/>If PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/><br/>PSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
             "default" : ""
-          },
-          "user_lookup_fun" : {
-            "type" : "string",
-            "summary" : "SSL PSK user lookup fun",
-            "label" : "SSL PSK user lookup fun",
-            "description" : "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
-            "default" : "emqx_tls_psk:lookup"
           },
           "secure_renegotiate" : {
             "type" : "boolean",
@@ -7061,7 +7069,7 @@
           "connector" : {
             "oneOf" : [
               {
-                "$ref" : "#/components/schemas/emqx_ee_connector_hstreamdb.config"
+                "$ref" : "#/components/schemas/connector_hstreamdb.config"
               },
               {
                 "type" : "string"
@@ -7233,14 +7241,14 @@
             "label" : "SQL Template",
             "format" : "sql",
             "description" : "SQL Template",
-            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload)values (${id}, ${topic}, ${qos}, ${payload})"
+            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload) values ( ${id}, ${topic}, ${qos}, ${payload} )"
           },
           "driver" : {
             "type" : "string",
             "summary" : "SQL Server Driver Name",
             "label" : "SQL Server Driver Name",
             "description" : "SQL Server Driver Name",
-            "default" : "ms-sqlserver-18"
+            "default" : "ms-sql"
           },
           "local_topic" : {
             "type" : "string",
@@ -7770,11 +7778,23 @@
             "label" : "DynamoDB Endpoint",
             "description" : "The url of DynamoDB endpoint."
           },
-          "database" : {
+          "table" : {
             "type" : "string",
-            "summary" : "Database Name",
-            "label" : "Database Name",
-            "description" : "Database name."
+            "summary" : "Table ",
+            "label" : "Table ",
+            "description" : "DynamoDB Table."
+          },
+          "aws_access_key_id" : {
+            "type" : "string",
+            "summary" : "AWS Access Key ID",
+            "label" : "AWS Access Key ID",
+            "description" : "Access Key ID for connecting to DynamoDB."
+          },
+          "aws_secret_access_key" : {
+            "type" : "string",
+            "summary" : "AWS Secret Access Key",
+            "label" : "AWS Secret Access Key",
+            "description" : "AWS Secret Access Key for connecting to DynamoDB."
           },
           "pool_size" : {
             "type" : "string",
@@ -7782,20 +7802,6 @@
             "label" : "Connection Pool Size",
             "description" : "Size of the connection pool towards the bridge target service.",
             "default" : 8
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "Username",
-            "label" : "Username",
-            "description" : "EMQX's username in the external database.",
-            "default" : "root"
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "Password",
-            "label" : "Password",
-            "format" : "password",
-            "description" : "EMQX's password in the external database."
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -7807,7 +7813,9 @@
           }
         },
         "required" : [
-          "database",
+          "aws_access_key_id",
+          "aws_secret_access_key",
+          "table",
           "url"
         ]
       },
@@ -8558,7 +8566,7 @@
             "type" : "string",
             "summary" : "Template",
             "label" : "Template",
-            "description" : "Template, the default value is empty. When this value is empty the whole message will be stored in the RocketMQ",
+            "description" : "Template, the default value is empty. When this value is empty the whole message will be stored in the RocketMQ.<br><br/>            The template can be any valid string with placeholders, example:<br><br/>            - ${id}, ${username}, ${clientid}, ${timestamp}<br><br/>            - {\"id\" : ${id}, \"username\" : ${username}}",
             "default" : ""
           },
           "local_topic" : {
@@ -8576,7 +8584,7 @@
               
             }
           },
-          "server" : {
+          "servers" : {
             "type" : "string",
             "summary" : "Server Host",
             "label" : "Server Host",
@@ -8588,6 +8596,34 @@
             "label" : "RocketMQ Topic",
             "description" : "RocketMQ Topic",
             "default" : "TopicTest"
+          },
+          "access_key" : {
+            "type" : "string",
+            "summary" : "AccessKey",
+            "label" : "AccessKey",
+            "description" : "RocketMQ server `accessKey`.",
+            "default" : ""
+          },
+          "secret_key" : {
+            "type" : "string",
+            "summary" : "SecretKey",
+            "label" : "SecretKey",
+            "description" : "RocketMQ server `secretKey`.",
+            "default" : ""
+          },
+          "security_token" : {
+            "type" : "string",
+            "summary" : "Security Token",
+            "label" : "Security Token",
+            "description" : "RocketMQ Server Security Token",
+            "default" : ""
+          },
+          "sync_timeout" : {
+            "type" : "duration",
+            "summary" : "Sync Timeout",
+            "label" : "Sync Timeout",
+            "description" : "Timeout of RocketMQ driver synchronous call.",
+            "default" : "3s"
           },
           "refresh_interval" : {
             "type" : "duration",
@@ -8603,26 +8639,12 @@
             "description" : "The socket send buffer size of the RocketMQ driver client.",
             "default" : "1024KB"
           },
-          "security_token" : {
+          "pool_size" : {
             "type" : "string",
-            "summary" : "Security Token",
-            "label" : "Security Token",
-            "description" : "RocketMQ Server Security Token",
-            "default" : ""
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "Username",
-            "label" : "Username",
-            "description" : "EMQX's username in the external database.",
-            "default" : ""
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "Password",
-            "label" : "Password",
-            "format" : "password",
-            "description" : "EMQX's password in the external database."
+            "summary" : "Connection Pool Size",
+            "label" : "Connection Pool Size",
+            "description" : "Size of the connection pool towards the bridge target service.",
+            "default" : 8
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -8635,7 +8657,7 @@
         },
         "required" : [
           "name",
-          "server",
+          "servers",
           "type"
         ]
       },
@@ -9677,7 +9699,7 @@
             "type" : "string",
             "summary" : "Template",
             "label" : "Template",
-            "description" : "Template, the default value is empty. When this value is empty the whole message will be stored in the RocketMQ",
+            "description" : "Template, the default value is empty. When this value is empty the whole message will be stored in the RocketMQ.<br><br/>            The template can be any valid string with placeholders, example:<br><br/>            - ${id}, ${username}, ${clientid}, ${timestamp}<br><br/>            - {\"id\" : ${id}, \"username\" : ${username}}",
             "default" : ""
           },
           "local_topic" : {
@@ -9695,7 +9717,7 @@
               
             }
           },
-          "server" : {
+          "servers" : {
             "type" : "string",
             "summary" : "Server Host",
             "label" : "Server Host",
@@ -9707,6 +9729,34 @@
             "label" : "RocketMQ Topic",
             "description" : "RocketMQ Topic",
             "default" : "TopicTest"
+          },
+          "access_key" : {
+            "type" : "string",
+            "summary" : "AccessKey",
+            "label" : "AccessKey",
+            "description" : "RocketMQ server `accessKey`.",
+            "default" : ""
+          },
+          "secret_key" : {
+            "type" : "string",
+            "summary" : "SecretKey",
+            "label" : "SecretKey",
+            "description" : "RocketMQ server `secretKey`.",
+            "default" : ""
+          },
+          "security_token" : {
+            "type" : "string",
+            "summary" : "Security Token",
+            "label" : "Security Token",
+            "description" : "RocketMQ Server Security Token",
+            "default" : ""
+          },
+          "sync_timeout" : {
+            "type" : "duration",
+            "summary" : "Sync Timeout",
+            "label" : "Sync Timeout",
+            "description" : "Timeout of RocketMQ driver synchronous call.",
+            "default" : "3s"
           },
           "refresh_interval" : {
             "type" : "duration",
@@ -9722,26 +9772,12 @@
             "description" : "The socket send buffer size of the RocketMQ driver client.",
             "default" : "1024KB"
           },
-          "security_token" : {
+          "pool_size" : {
             "type" : "string",
-            "summary" : "Security Token",
-            "label" : "Security Token",
-            "description" : "RocketMQ Server Security Token",
-            "default" : ""
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "Username",
-            "label" : "Username",
-            "description" : "EMQX's username in the external database.",
-            "default" : ""
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "Password",
-            "label" : "Password",
-            "format" : "password",
-            "description" : "EMQX's password in the external database."
+            "summary" : "Connection Pool Size",
+            "label" : "Connection Pool Size",
+            "description" : "Size of the connection pool towards the bridge target service.",
+            "default" : 8
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -9753,7 +9789,7 @@
           }
         },
         "required" : [
-          "server"
+          "servers"
         ]
       },
       "bridge_cassa.post" : {
@@ -10355,14 +10391,14 @@
             "label" : "SQL Template",
             "format" : "sql",
             "description" : "SQL Template",
-            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload)values (${id}, ${topic}, ${qos}, ${payload})"
+            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload) values ( ${id}, ${topic}, ${qos}, ${payload} )"
           },
           "driver" : {
             "type" : "string",
             "summary" : "SQL Server Driver Name",
             "label" : "SQL Server Driver Name",
             "description" : "SQL Server Driver Name",
-            "default" : "ms-sqlserver-18"
+            "default" : "ms-sql"
           },
           "local_topic" : {
             "type" : "string",

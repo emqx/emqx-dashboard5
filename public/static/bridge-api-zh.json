@@ -2510,14 +2510,14 @@
             "label" : "SQL 模板",
             "format" : "sql",
             "description" : "SQL 模板",
-            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload)values (${id}, ${topic}, ${qos}, ${payload})"
+            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload) values ( ${id}, ${topic}, ${qos}, ${payload} )"
           },
           "driver" : {
             "type" : "string",
             "summary" : "SQL Server Driver 名称",
             "label" : "SQL Server Driver 名称",
             "description" : "SQL Server Driver 名称",
-            "default" : "ms-sqlserver-18"
+            "default" : "ms-sql"
           },
           "local_topic" : {
             "type" : "string",
@@ -2798,11 +2798,23 @@
             "label" : "DynamoDB 地址",
             "description" : "DynamoDB 的地址。"
           },
-          "database" : {
+          "table" : {
             "type" : "string",
-            "summary" : "数据库名字",
-            "label" : "数据库名字",
-            "description" : "数据库名字。"
+            "summary" : "表",
+            "label" : "表",
+            "description" : "DynamoDB 的表。"
+          },
+          "aws_access_key_id" : {
+            "type" : "string",
+            "summary" : "连接访问 ID",
+            "label" : "连接访问 ID",
+            "description" : "DynamoDB 的访问 ID。"
+          },
+          "aws_secret_access_key" : {
+            "type" : "string",
+            "summary" : "连接访问密钥",
+            "label" : "连接访问密钥",
+            "description" : "DynamoDB 的访问密钥。"
           },
           "pool_size" : {
             "type" : "string",
@@ -2810,20 +2822,6 @@
             "label" : "连接池大小",
             "description" : "桥接远端服务时使用的连接池大小。",
             "default" : 8
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "用户名",
-            "label" : "用户名",
-            "description" : "内部数据库的用户名。",
-            "default" : "root"
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "密码",
-            "label" : "密码",
-            "format" : "password",
-            "description" : "内部数据库密码。"
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -2835,8 +2833,10 @@
           }
         },
         "required" : [
-          "database",
+          "aws_access_key_id",
+          "aws_secret_access_key",
           "name",
+          "table",
           "type",
           "url"
         ]
@@ -3956,11 +3956,23 @@
             "label" : "DynamoDB 地址",
             "description" : "DynamoDB 的地址。"
           },
-          "database" : {
+          "table" : {
             "type" : "string",
-            "summary" : "数据库名字",
-            "label" : "数据库名字",
-            "description" : "数据库名字。"
+            "summary" : "表",
+            "label" : "表",
+            "description" : "DynamoDB 的表。"
+          },
+          "aws_access_key_id" : {
+            "type" : "string",
+            "summary" : "连接访问 ID",
+            "label" : "连接访问 ID",
+            "description" : "DynamoDB 的访问 ID。"
+          },
+          "aws_secret_access_key" : {
+            "type" : "string",
+            "summary" : "连接访问密钥",
+            "label" : "连接访问密钥",
+            "description" : "DynamoDB 的访问密钥。"
           },
           "pool_size" : {
             "type" : "string",
@@ -3968,20 +3980,6 @@
             "label" : "连接池大小",
             "description" : "桥接远端服务时使用的连接池大小。",
             "default" : 8
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "用户名",
-            "label" : "用户名",
-            "description" : "内部数据库的用户名。",
-            "default" : "root"
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "密码",
-            "label" : "密码",
-            "format" : "password",
-            "description" : "内部数据库密码。"
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -3993,8 +3991,10 @@
           }
         },
         "required" : [
-          "database",
+          "aws_access_key_id",
+          "aws_secret_access_key",
           "name",
+          "table",
           "type",
           "url"
         ]
@@ -4946,7 +4946,7 @@
             "type" : "string",
             "summary" : "模板",
             "label" : "模板",
-            "description" : "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ",
+            "description" : "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ。 <br><br/>            模板可以是任意带有占位符的合法字符串, 例如:<br><br/>            - ${id}, ${username}, ${clientid}, ${timestamp}<br><br/>            - {\"id\" : ${id}, \"username\" : ${username}}",
             "default" : ""
           },
           "local_topic" : {
@@ -4964,7 +4964,7 @@
               
             }
           },
-          "server" : {
+          "servers" : {
             "type" : "string",
             "summary" : "服务器地址",
             "label" : "服务器地址",
@@ -4976,6 +4976,34 @@
             "label" : "RocketMQ 主题",
             "description" : "RocketMQ 主题",
             "default" : "TopicTest"
+          },
+          "access_key" : {
+            "type" : "string",
+            "summary" : "AccessKey",
+            "label" : "AccessKey",
+            "description" : "RocketMQ 服务器的 `accessKey`。",
+            "default" : ""
+          },
+          "secret_key" : {
+            "type" : "string",
+            "summary" : "SecretKey",
+            "label" : "SecretKey",
+            "description" : "RocketMQ 服务器的 `secretKey`。",
+            "default" : ""
+          },
+          "security_token" : {
+            "type" : "string",
+            "summary" : "安全令牌",
+            "label" : "安全令牌",
+            "description" : "RocketMQ 服务器安全令牌",
+            "default" : ""
+          },
+          "sync_timeout" : {
+            "type" : "duration",
+            "summary" : "同步调用超时时间",
+            "label" : "同步调用超时时间",
+            "description" : "RocketMQ 驱动同步调用的超时时间。",
+            "default" : "3s"
           },
           "refresh_interval" : {
             "type" : "duration",
@@ -4991,26 +5019,12 @@
             "description" : "RocketMQ 驱动的套字节发送消息的缓冲区大小",
             "default" : "1024KB"
           },
-          "security_token" : {
+          "pool_size" : {
             "type" : "string",
-            "summary" : "安全令牌",
-            "label" : "安全令牌",
-            "description" : "RocketMQ 服务器安全令牌",
-            "default" : ""
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "用户名",
-            "label" : "用户名",
-            "description" : "内部数据库的用户名。",
-            "default" : ""
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "密码",
-            "label" : "密码",
-            "format" : "password",
-            "description" : "内部数据库密码。"
+            "summary" : "连接池大小",
+            "label" : "连接池大小",
+            "description" : "桥接远端服务时使用的连接池大小。",
+            "default" : 8
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -5023,7 +5037,7 @@
         },
         "required" : [
           "name",
-          "server",
+          "servers",
           "type"
         ]
       },
@@ -5922,6 +5936,7 @@
             },
             "description" : "支持所有TLS/DTLS版本<br/><br/>注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
             "default" : [
+              "tlsv1.3",
               "tlsv1.2",
               "tlsv1.1",
               "tlsv1"
@@ -5936,13 +5951,6 @@
             },
             "description" : "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如<br/><code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或<br/><code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。<br/><br/><br/>密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。<br/>选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。<br/><br/>名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。<br/>EMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/><br/>注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。<br/>不兼容的密码套件将被自动删除。<br/><br/>例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。<br/><br/><br/><br/>注：PSK 的 Ciphers 不支持 tlsv1.3<br/><br/>如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。<br/><br/><br/><br/>PSK 密码套件：<br/><code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,<br/>RSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,<br/>RSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,<br/>RSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
             "default" : ""
-          },
-          "user_lookup_fun" : {
-            "type" : "string",
-            "summary" : "SSL PSK 用户回调",
-            "label" : "SSL PSK 用户回调",
-            "description" : "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
-            "default" : "emqx_tls_psk:lookup"
           },
           "secure_renegotiate" : {
             "type" : "boolean",
@@ -7233,14 +7241,14 @@
             "label" : "SQL 模板",
             "format" : "sql",
             "description" : "SQL 模板",
-            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload)values (${id}, ${topic}, ${qos}, ${payload})"
+            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload) values ( ${id}, ${topic}, ${qos}, ${payload} )"
           },
           "driver" : {
             "type" : "string",
             "summary" : "SQL Server Driver 名称",
             "label" : "SQL Server Driver 名称",
             "description" : "SQL Server Driver 名称",
-            "default" : "ms-sqlserver-18"
+            "default" : "ms-sql"
           },
           "local_topic" : {
             "type" : "string",
@@ -7770,11 +7778,23 @@
             "label" : "DynamoDB 地址",
             "description" : "DynamoDB 的地址。"
           },
-          "database" : {
+          "table" : {
             "type" : "string",
-            "summary" : "数据库名字",
-            "label" : "数据库名字",
-            "description" : "数据库名字。"
+            "summary" : "表",
+            "label" : "表",
+            "description" : "DynamoDB 的表。"
+          },
+          "aws_access_key_id" : {
+            "type" : "string",
+            "summary" : "连接访问 ID",
+            "label" : "连接访问 ID",
+            "description" : "DynamoDB 的访问 ID。"
+          },
+          "aws_secret_access_key" : {
+            "type" : "string",
+            "summary" : "连接访问密钥",
+            "label" : "连接访问密钥",
+            "description" : "DynamoDB 的访问密钥。"
           },
           "pool_size" : {
             "type" : "string",
@@ -7782,20 +7802,6 @@
             "label" : "连接池大小",
             "description" : "桥接远端服务时使用的连接池大小。",
             "default" : 8
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "用户名",
-            "label" : "用户名",
-            "description" : "内部数据库的用户名。",
-            "default" : "root"
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "密码",
-            "label" : "密码",
-            "format" : "password",
-            "description" : "内部数据库密码。"
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -7807,7 +7813,9 @@
           }
         },
         "required" : [
-          "database",
+          "aws_access_key_id",
+          "aws_secret_access_key",
+          "table",
           "url"
         ]
       },
@@ -8558,7 +8566,7 @@
             "type" : "string",
             "summary" : "模板",
             "label" : "模板",
-            "description" : "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ",
+            "description" : "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ。 <br><br/>            模板可以是任意带有占位符的合法字符串, 例如:<br><br/>            - ${id}, ${username}, ${clientid}, ${timestamp}<br><br/>            - {\"id\" : ${id}, \"username\" : ${username}}",
             "default" : ""
           },
           "local_topic" : {
@@ -8576,7 +8584,7 @@
               
             }
           },
-          "server" : {
+          "servers" : {
             "type" : "string",
             "summary" : "服务器地址",
             "label" : "服务器地址",
@@ -8588,6 +8596,34 @@
             "label" : "RocketMQ 主题",
             "description" : "RocketMQ 主题",
             "default" : "TopicTest"
+          },
+          "access_key" : {
+            "type" : "string",
+            "summary" : "AccessKey",
+            "label" : "AccessKey",
+            "description" : "RocketMQ 服务器的 `accessKey`。",
+            "default" : ""
+          },
+          "secret_key" : {
+            "type" : "string",
+            "summary" : "SecretKey",
+            "label" : "SecretKey",
+            "description" : "RocketMQ 服务器的 `secretKey`。",
+            "default" : ""
+          },
+          "security_token" : {
+            "type" : "string",
+            "summary" : "安全令牌",
+            "label" : "安全令牌",
+            "description" : "RocketMQ 服务器安全令牌",
+            "default" : ""
+          },
+          "sync_timeout" : {
+            "type" : "duration",
+            "summary" : "同步调用超时时间",
+            "label" : "同步调用超时时间",
+            "description" : "RocketMQ 驱动同步调用的超时时间。",
+            "default" : "3s"
           },
           "refresh_interval" : {
             "type" : "duration",
@@ -8603,26 +8639,12 @@
             "description" : "RocketMQ 驱动的套字节发送消息的缓冲区大小",
             "default" : "1024KB"
           },
-          "security_token" : {
+          "pool_size" : {
             "type" : "string",
-            "summary" : "安全令牌",
-            "label" : "安全令牌",
-            "description" : "RocketMQ 服务器安全令牌",
-            "default" : ""
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "用户名",
-            "label" : "用户名",
-            "description" : "内部数据库的用户名。",
-            "default" : ""
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "密码",
-            "label" : "密码",
-            "format" : "password",
-            "description" : "内部数据库密码。"
+            "summary" : "连接池大小",
+            "label" : "连接池大小",
+            "description" : "桥接远端服务时使用的连接池大小。",
+            "default" : 8
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -8635,7 +8657,7 @@
         },
         "required" : [
           "name",
-          "server",
+          "servers",
           "type"
         ]
       },
@@ -9677,7 +9699,7 @@
             "type" : "string",
             "summary" : "模板",
             "label" : "模板",
-            "description" : "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ",
+            "description" : "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ。 <br><br/>            模板可以是任意带有占位符的合法字符串, 例如:<br><br/>            - ${id}, ${username}, ${clientid}, ${timestamp}<br><br/>            - {\"id\" : ${id}, \"username\" : ${username}}",
             "default" : ""
           },
           "local_topic" : {
@@ -9695,7 +9717,7 @@
               
             }
           },
-          "server" : {
+          "servers" : {
             "type" : "string",
             "summary" : "服务器地址",
             "label" : "服务器地址",
@@ -9707,6 +9729,34 @@
             "label" : "RocketMQ 主题",
             "description" : "RocketMQ 主题",
             "default" : "TopicTest"
+          },
+          "access_key" : {
+            "type" : "string",
+            "summary" : "AccessKey",
+            "label" : "AccessKey",
+            "description" : "RocketMQ 服务器的 `accessKey`。",
+            "default" : ""
+          },
+          "secret_key" : {
+            "type" : "string",
+            "summary" : "SecretKey",
+            "label" : "SecretKey",
+            "description" : "RocketMQ 服务器的 `secretKey`。",
+            "default" : ""
+          },
+          "security_token" : {
+            "type" : "string",
+            "summary" : "安全令牌",
+            "label" : "安全令牌",
+            "description" : "RocketMQ 服务器安全令牌",
+            "default" : ""
+          },
+          "sync_timeout" : {
+            "type" : "duration",
+            "summary" : "同步调用超时时间",
+            "label" : "同步调用超时时间",
+            "description" : "RocketMQ 驱动同步调用的超时时间。",
+            "default" : "3s"
           },
           "refresh_interval" : {
             "type" : "duration",
@@ -9722,26 +9772,12 @@
             "description" : "RocketMQ 驱动的套字节发送消息的缓冲区大小",
             "default" : "1024KB"
           },
-          "security_token" : {
+          "pool_size" : {
             "type" : "string",
-            "summary" : "安全令牌",
-            "label" : "安全令牌",
-            "description" : "RocketMQ 服务器安全令牌",
-            "default" : ""
-          },
-          "username" : {
-            "type" : "string",
-            "summary" : "用户名",
-            "label" : "用户名",
-            "description" : "内部数据库的用户名。",
-            "default" : ""
-          },
-          "password" : {
-            "type" : "string",
-            "summary" : "密码",
-            "label" : "密码",
-            "format" : "password",
-            "description" : "内部数据库密码。"
+            "summary" : "连接池大小",
+            "label" : "连接池大小",
+            "description" : "桥接远端服务时使用的连接池大小。",
+            "default" : 8
           },
           "auto_reconnect" : {
             "type" : "boolean",
@@ -9753,7 +9789,7 @@
           }
         },
         "required" : [
-          "server"
+          "servers"
         ]
       },
       "bridge_cassa.post" : {
@@ -10355,14 +10391,14 @@
             "label" : "SQL 模板",
             "format" : "sql",
             "description" : "SQL 模板",
-            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload)values (${id}, ${topic}, ${qos}, ${payload})"
+            "default" : "insert into t_mqtt_msg(msgid, topic, qos, payload) values ( ${id}, ${topic}, ${qos}, ${payload} )"
           },
           "driver" : {
             "type" : "string",
             "summary" : "SQL Server Driver 名称",
             "label" : "SQL Server Driver 名称",
             "description" : "SQL Server Driver 名称",
-            "default" : "ms-sqlserver-18"
+            "default" : "ms-sql"
           },
           "local_topic" : {
             "type" : "string",

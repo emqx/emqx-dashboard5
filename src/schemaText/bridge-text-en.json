@@ -817,7 +817,7 @@
       "label": "Local Topic"
     },
     "template": {
-      "desc": "Template, the default value is empty. When this value is empty the whole message will be stored in the RocketMQ",
+      "desc": "Template, the default value is empty. When this value is empty the whole message will be stored in the RocketMQ.<br>The template can be any valid string with placeholders, example:<br>- ${'{'}id{'}'}, ${'{'}username{'}'}, ${'{'}clientid{'}'}, ${'{'}timestamp{'}'}<br>- {'{'}\"id\" : ${'{'}id{'}'}, \"username\" : ${'{'}username{'}'}{'}'}",
       "label": "Template"
     },
     "refresh_interval": {
@@ -832,13 +832,25 @@
       "desc": "The socket send buffer size of the RocketMQ driver client.",
       "label": "Send Buffer Size"
     },
-    "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>\nA host entry has the following form: `Host[:Port]`.<br/>\nThe RocketMQ default port 9876 is used if `[:Port]` is not specified.",
-      "label": "Server Host"
+    "servers": {
+      "label": "Server Host",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The RocketMQ default port 9876 is used if `[:Port]` is not specified."
     },
     "topic": {
       "desc": "RocketMQ Topic",
       "label": "RocketMQ Topic"
+    },
+    "access_key": {
+      "label": "AccessKey",
+      "desc": "RocketMQ server `accessKey`."
+    },
+    "secret_key": {
+      "label": "SecretKey",
+      "desc": "RocketMQ server `secretKey`."
+    },
+    "sync_timeout": {
+      "label": "Sync Timeout",
+      "desc": "Timeout of RocketMQ driver synchronous call."
     }
   },
   "emqx_ee_bridge_tdengine": {

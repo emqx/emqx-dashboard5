@@ -129,7 +129,10 @@ export default (
       ),
     },
     [BridgeType.DynamoDB]: {
-      ...createOrderObj(['url', 'database', 'username', 'password', 'pool_size', 'template'], 1),
+      ...createOrderObj(
+        ['url', 'aws_access_key_id', 'aws_secret_access_key', 'table', 'pool_size', 'template'],
+        1,
+      ),
     },
     [BridgeType.Cassandra]: {
       ...createOrderObj(
@@ -140,7 +143,7 @@ export default (
     [BridgeType.RocketMQ]: {
       ...createOrderObj(
         [
-          'server',
+          'servers',
           'username',
           'password',
           'security_token',

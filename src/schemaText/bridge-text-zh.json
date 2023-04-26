@@ -817,7 +817,7 @@
       "label": "本地 Topic"
     },
     "template": {
-      "desc": "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ",
+      "desc": "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ。 <br>模板可以是任意带有占位符的合法字符串, 例如:<br>- ${'{'}id{'}'}, ${'{'}username{'}'}, ${'{'}clientid{'}'}, ${'{'}timestamp{'}'}<br>- {'{'}\"id\" : ${'{'}id{'}'}, \"username\" : ${'{'}username{'}'}{'}'}",
       "label": "模板"
     },
     "refresh_interval": {
@@ -832,13 +832,25 @@
       "desc": "RocketMQ 驱动的套字节发送消息的缓冲区大小",
       "label": "发送消息的缓冲区大小"
     },
-    "server": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 RocketMQ 默认端口 9876。",
-      "label": "服务器地址"
+    "servers": {
+      "label": "服务器地址",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 RocketMQ 默认端口 9876。"
     },
     "topic": {
       "desc": "RocketMQ 主题",
       "label": "RocketMQ 主题"
+    },
+    "access_key": {
+      "label": "AccessKey",
+      "desc": "RocketMQ 服务器的 `accessKey`。"
+    },
+    "secret_key": {
+      "label": "SecretKey",
+      "desc": "RocketMQ 服务器的 `secretKey`。"
+    },
+    "sync_timeout": {
+      "label": "同步调用超时时间",
+      "desc": "RocketMQ 驱动同步调用的超时时间。"
     }
   },
   "emqx_ee_bridge_tdengine": {
