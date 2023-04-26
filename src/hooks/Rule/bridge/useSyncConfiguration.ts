@@ -39,9 +39,6 @@ export default (record: WritableComputedRef<OtherBridge>): FuncReturn => {
     if (!isAsync(formData)) {
       ret = omit(ret, 'resource_opts.inflight_window')
     }
-    // if (!isEnableQueue(formData)) {
-    //   ret = omit(ret, 'resource_opts.max_queue_bytes')
-    // }
     return ret
   }
 
