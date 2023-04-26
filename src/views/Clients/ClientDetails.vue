@@ -4,7 +4,7 @@
       <detail-header
         :item="{
           name: clientId,
-          path: '/clients',
+          route: backRoute,
           backFunc: gateway
             ? () => {
                 emit('refreshGateway')
@@ -207,10 +207,16 @@ import {
   getGatewayClientSubs,
   unsubscribeGatewayClientSub,
 } from '@/api/gateway'
+import { getLabelFromValueInOptionList } from '@/common/tools'
 import CheckIcon from '@/components/CheckIcon.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import TextEasyCopy from '@/components/TextEasyCopy.vue'
 import useClientDetail from '@/hooks/Clients/useClientDetail'
+import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
+import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
+import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { Subscription } from '@/types/subscription'
 import { Delete, Plus, Refresh, Warning } from '@element-plus/icons-vue'
@@ -219,11 +225,6 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CreateSubscribe from './components/CreateSubscribe.vue'
-import { getLabelFromValueInOptionList } from '@/common/tools'
-import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
-import TextEasyCopy from '@/components/TextEasyCopy.vue'
-import useCopy from '@/hooks/useCopy'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 const props = defineProps({
   gateway: {
@@ -333,6 +334,16 @@ const router = useRouter()
 const { tl } = useI18nTl('Clients')
 const { t } = useI18n()
 const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
+const { getBackRoute } = useReceiveParams('clients')
+
+const isFromSlowSub = computed(() => {
+  return route.query.from === 'slow-sub'
+})
+
+const backRoute = computed(() => {
+  let routeName = isFromSlowSub.value ? 'slow-sub' : 'clients'
+  return getBackRoute({ name: routeName })
+})
 
 const clientId = computed<string>((): string => {
   return (route.params.clientId as string) || (props.clientid as string)

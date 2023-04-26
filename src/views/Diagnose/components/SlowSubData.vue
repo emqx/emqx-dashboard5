@@ -15,10 +15,10 @@
         </el-button>
       </div>
     </div>
-    <el-table :data="statistics" @sort-change="sortTable">
+    <el-table ref="TableCom" :data="statistics" @sort-change="sortTable">
       <el-table-column prop="clientid" :label="$t('Base.clientid')" show-overflow-tooltip>
         <template #default="{ row }">
-          <router-link :to="{ name: 'clients-detail', params: { clientId: row.clientid } }">
+          <router-link :to="getRoute(row.clientid)">
             <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
           </router-link>
         </template>
@@ -55,18 +55,20 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, Ref, computed } from 'vue'
-import { ElMessageBox, ElMessage } from 'element-plus'
-import commonPagination from '@/components/commonPagination.vue'
-import usePageController from '@/hooks/usePagination'
-import { SlowSubStatistic } from '@/types/diagnose'
 import { clearSlowSubData, querySlowSubStatistics } from '@/api/diagnose'
-import moment from 'moment'
-import { useI18n } from 'vue-i18n'
-import usePaging from '@/hooks/usePaging'
-import { Tools } from '@element-plus/icons-vue'
-import useI18nTl from '@/hooks/useI18nTl'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import commonPagination from '@/components/commonPagination.vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import usePageController from '@/hooks/usePagination'
+import usePaginationRemember from '@/hooks/usePaginationRemember'
+import usePaging from '@/hooks/usePaging'
+import { SlowSubStatistic } from '@/types/diagnose'
+import { Tools } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { pick } from 'lodash'
+import moment from 'moment'
+import { Ref, computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')
@@ -80,6 +82,14 @@ const pageController = computed(() => ({
 }))
 const { setTotalData, getAPageData } = usePaging()
 let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined = undefined
+
+const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
+
+const getRoute = (id: string) => ({
+  name: 'clients-detail',
+  params: { clientId: id },
+  query: { from: 'slow-sub' },
+})
 
 const getTotalStatistics = async () => {
   try {
@@ -95,6 +105,7 @@ const getPageData = () => {
   const { data, meta } = getAPageData({ page: page.value, limit: limit.value }, [], sortFrom)
   statistics.value = data
   count.value = meta.count || 0
+  updateParams({ ...pick(meta, ['limit', 'page']), ...sortFrom })
 }
 
 const sortTable = ({
@@ -145,6 +156,25 @@ const formatTime = (time: number) => {
   return `${time / 1000}s`
 }
 
+const TableCom = ref()
+const getParamsFromQuery = async () => {
+  const { pageParams, filterParams } = checkParamsInQuery()
+  page.value = pageParams.page || page.value
+  limit.value = pageParams.limit || limit.value
+  if (
+    filterParams &&
+    Object.keys(filterParams).length > 0 &&
+    (filterParams.key || filterParams.type)
+  ) {
+    if (!sortFrom) {
+      sortFrom = { key: '', type: 'desc' }
+    }
+    sortFrom.key = filterParams.key || sortFrom.key
+    sortFrom.type = filterParams.type || sortFrom.type
+  }
+}
+
+getParamsFromQuery()
 getTotalStatistics()
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="iot-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: ruleInfo.id, path: '/rules' }" />
+      <detail-header :item="{ name: ruleInfo.id, route: getBackRoute({ name: 'iot' }) }" />
       <div class="section-header">
         <div>
           <span class="title-n-status">
@@ -48,21 +48,22 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, Ref, computed, ComputedRef } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import iotform from '../components/IoTForm.vue'
 import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
-import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { RuleItem } from '@/types/rule'
-import RuleItemOverview from './components/RuleItemOverview.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import RuleItemStatus from './components/RuleItemStatus.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
-import { cloneDeep, isEqual } from 'lodash'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import useI18nTl from '@/hooks/useI18nTl'
+import { useReceiveParams } from '@/hooks/usePaginationRemember'
+import { RuleItem } from '@/types/rule'
+import { Delete } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { cloneDeep, isEqual } from 'lodash'
+import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import iotform from '../components/IoTForm.vue'
+import RuleItemOverview from './components/RuleItemOverview.vue'
+import RuleItemStatus from './components/RuleItemStatus.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -91,6 +92,7 @@ if (queryTab.value) {
 
 const { tl } = useI18nTl('RuleEngine')
 
+const { getBackRoute } = useReceiveParams('iot')
 const countIsRuleRecordChanged = () => !isEqual(rawRuleInfo, ruleInfo.value)
 useDataNotSaveConfirm(countIsRuleRecordChanged)
 

@@ -98,7 +98,14 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
 import { ArrowDown, ArrowUp, Search, RefreshLeft } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
-import { defineEmits, ref, Ref } from 'vue'
+import { defineEmits, ref, Ref, defineProps } from 'vue'
+
+const props = defineProps({
+  initialValue: {
+    type: Object,
+    default: () => ({}),
+  },
+})
 
 const createRawFilterParams = () => ({
   like_id: undefined,
@@ -115,12 +122,23 @@ const KEYS_FOR_SEARCH_TOPIC: Array<{ value: 'like_from' | 'match_from'; label: s
   { value: 'match_from', label: t('Clients.wildcard') },
 ]
 
-const emit = defineEmits(['update:modelValue', 'search', 'refresh'])
+const emit = defineEmits(['search', 'refresh'])
 
 const showMoreQuery = ref(false)
 
 const filterParams: Ref<FilterParamsForQueryRules> = ref(createRawFilterParams())
 const keyForSearchTopic: Ref<'like_from' | 'match_from'> = ref(KEYS_FOR_SEARCH_TOPIC[0].value)
+
+const handleInitialValue = () => {
+  filterParams.value = { ...filterParams.value, ...props.initialValue }
+  if (filterParams.value.like_from || filterParams.value.match_from) {
+    keyForSearchTopic.value = filterParams.value.like_from ? 'like_from' : 'match_from'
+  }
+  if (filterParams.value.like_description) {
+    showMoreQuery.value = true
+  }
+}
+handleInitialValue()
 
 const getFilterParams = () => {
   const filterParamsData = omit(filterParams.value, ['like_from', 'match_from'])

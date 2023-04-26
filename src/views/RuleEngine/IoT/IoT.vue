@@ -1,6 +1,6 @@
 <template>
   <div class="iot">
-    <RuleFilterForm class="search-wrapper" @search="searchRule" />
+    <RuleFilterForm class="search-wrapper" :initial-value="filterParams" @search="searchRule" />
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
@@ -81,19 +81,19 @@
 <script lang="ts" setup>
 import { deleteRules, getRules, updateRules } from '@/api/ruleengine'
 import CodeView from '@/components/CodeView.vue'
+import commonPagination from '@/components/commonPagination.vue'
 import usePagination from '@/hooks/usePagination'
+import usePaginationRemember from '@/hooks/usePaginationRemember'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
-import { Plus } from '@element-plus/icons-vue'
+import { Plus, Refresh } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import moment from 'moment'
-import { onMounted, ref, Ref } from 'vue'
+import { Ref, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Refresh } from '@element-plus/icons-vue'
-import TableItemDropDown from '../components/TableItemDropDown.vue'
-import commonPagination from '@/components/commonPagination.vue'
-import RuleFilterForm from './components/RuleFilterForm.vue'
 import { useRouter } from 'vue-router'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import TableItemDropDown from '../components/TableItemDropDown.vue'
+import RuleFilterForm from './components/RuleFilterForm.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -102,16 +102,24 @@ const iotLoading: Ref<boolean> = ref(false)
 
 const { resetPageNum } = usePagination()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
-let filterParams: FilterParamsForQueryRules = {}
+let filterParams: Ref<FilterParamsForQueryRules> = ref({})
+const { updateParams, checkParamsInQuery } = usePaginationRemember('iot-detail')
+const getParamsFormQuery = () => {
+  const { pageParams, filterParams: f } = checkParamsInQuery()
+  pageMeta.value = { ...pageMeta.value, ...pageParams }
+  filterParams.value = f
+}
+getParamsFormQuery()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
 const getRulesList = async () => {
   iotLoading.value = true
   try {
-    const { data = [], meta } = await getRules({ ...pageParams.value, ...filterParams })
+    const { data = [], meta } = await getRules({ ...pageParams.value, ...filterParams.value })
     ruleTable.value = data
     setPageMeta(meta)
+    updateParams({ ...pageParams.value, ...filterParams.value })
   } catch (error) {
     ruleTable.value = []
     initPageMeta()
@@ -121,7 +129,7 @@ const getRulesList = async () => {
 }
 
 const searchRule = (filterParamsData: FilterParamsForQueryRules) => {
-  filterParams = filterParamsData
+  filterParams.value = filterParamsData
   pageMeta.value.page = 1
   getRulesList()
 }
