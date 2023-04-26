@@ -44,7 +44,7 @@ export default (
         'resource_opts.request_timeout',
         'resource_opts.health_check_interval',
         'resource_opts.auto_restart_interval',
-        'resource_opts.max_queue_bytes',
+        'resource_opts.max_buffer_bytes',
         'resource_opts.batch_size',
         'resource_opts.batch_time',
         'resource_opts.query_mode',
