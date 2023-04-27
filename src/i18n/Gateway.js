@@ -308,6 +308,18 @@ export default {
     zh: '禁用网关将导致通过此网关接入的连接全部断开，继续？',
     en: 'Disabling the gateway will cause all connections accessed through this gateway to be disconnected. Continue?',
   },
+  failIfNoPeerCert: {
+    zh: '没有证书则 SSL 失败',
+    en: 'SSL Fail If No Peer Cert',
+  },
+  SSLdepth: {
+    zh: 'CA 证书深度',
+    en: 'CACert Depth',
+  },
+  SSLPassword: {
+    zh: '秘钥文件密码',
+    en: 'Key File Passphrase',
+  },
   enableOcspStapling: {
     zh: '启用 OCSP Stapling',
     en: 'Enable OCSP Stapling',
