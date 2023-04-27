@@ -283,3 +283,9 @@ export enum BannedType {
   User = 'username',
   Address = 'peerhost',
 }
+
+export const enum TraceEncodeType {
+  Text = 'text',
+  HEX = 'hex',
+  Hidden = 'hidden',
+}
