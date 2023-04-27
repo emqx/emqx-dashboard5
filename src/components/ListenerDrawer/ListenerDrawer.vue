@@ -247,7 +247,7 @@
           </template>
 
           <!-- OCSP -->
-          <template v-if="!isWSS && !isQUIC">
+          <template v-if="!gatewayName && !isWSS && !isQUIC">
             <el-col :span="12">
               <el-form-item :label="tl('enableOcspStapling')">
                 <el-switch v-model="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling" />
@@ -257,7 +257,7 @@
             <template v-if="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling">
               <el-col :span="12">
                 <el-form-item :label="tl('responderUrl')" prop="ssl_options.ocsp.responder_url">
-                  <el-input v-model.number="listenerRecord.ssl_options.ocsp.responder_url" />
+                  <el-input v-model="listenerRecord.ssl_options.ocsp.responder_url" />
                 </el-form-item>
               </el-col>
               <el-col :span="24">
@@ -283,6 +283,11 @@
                 </el-form-item>
               </el-col>
             </template>
+            <el-col :span="12">
+              <el-form-item :label="tl('enableCrlCheck')">
+                <el-switch v-model="listenerRecord.ssl_options.enable_crl_check" />
+              </el-form-item>
+            </el-col>
           </template>
         </el-row>
       </div>

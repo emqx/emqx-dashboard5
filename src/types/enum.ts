@@ -294,6 +294,12 @@ export enum BannedType {
   Address = 'peerhost',
 }
 
+export const enum TraceEncodeType {
+  Text = 'text',
+  HEX = 'hex',
+  Hidden = 'hidden',
+}
+
 export enum LicenseCustomerType {
   Small = 0,
   Medium,
