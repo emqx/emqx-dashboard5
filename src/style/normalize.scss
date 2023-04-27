@@ -452,6 +452,12 @@
     border-left: 1px solid var(--color-border-normal);
   }
 }
+.el-input-number.is-controls-right {
+  line-height: 0;
+  input {
+    font-size: 14px;
+  }
+}
 
 /* Select */
 .el-select__popper.el-popper[role=tooltip] .el-popper__arrow::before {
