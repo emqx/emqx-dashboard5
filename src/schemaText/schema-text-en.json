@@ -556,7 +556,7 @@
     },
     "fields_cache_enable": {
       "desc": "Enable or disable the authorization cache.",
-      "label": "Enable or disable the authorization cache."
+      "label": "Enable or disable the authorization cache"
     },
     "fields_mqtt_quic_listener_disconnect_timeout_ms": {
       "desc": "How long to wait for an ACK before declaring a path dead and disconnecting. Default: 16000",
@@ -696,7 +696,7 @@
     },
     "stats_enable": {
       "desc": "Enable/disable statistic data collection.",
-      "label": "Enable/disable statistic data collection."
+      "label": "Enable/disable statistic data collection"
     },
     "fields_authorization_deny_action": {
       "desc": "The action when the authorization check rejects an operation.",
@@ -716,7 +716,7 @@
     },
     "force_shutdown_max_message_queue_len": {
       "desc": "Maximum message queue length.",
-      "label": "Maximum mailbox queue length of process."
+      "label": "Maximum mailbox queue length of process"
     },
     "sys_heartbeat_interval": {
       "desc": "Time interval for publishing following heartbeat messages:\n  - `$SYS/brokers/<node>/uptime`\n  - `$SYS/brokers/<node>/datetime`"
@@ -786,7 +786,7 @@
     },
     "sysmon_vm_busy_dist_port": {
       "desc": "When the RPC connection used to communicate with other nodes in the cluster is overloaded,\nthere will be a <code>busy_dist_port</code> warning log,\nand an MQTT message is published to system topic <code>$SYS/sysmon/busy_dist_port</code>.",
-      "label": "Enable Busy Distribution Port monitoring."
+      "label": "Enable Busy Distribution Port monitoring"
     },
     "mqtt_max_mqueue_len": {
       "desc": "Maximum queue length. Enqueued messages when persistent client disconnected, or inflight window is full.",
@@ -880,7 +880,7 @@
     },
     "fields_cache_max_size": {
       "desc": "Maximum number of cached items.",
-      "label": "Maximum number of cached items."
+      "label": "Maximum number of cached items"
     },
     "fields_listeners_tcp": {
       "desc": "TCP listeners.",
@@ -939,7 +939,7 @@
     },
     "client_ssl_opts_schema_enable": {
       "desc": "Enable TLS.",
-      "label": "Enable TLS."
+      "label": "Enable TLS"
     },
     "fields_mqtt_quic_listener_mtu_discovery_missing_probe_count": {
       "desc": "The maximum number of stateless operations that may be queued on a binding at any one time. Default: 3",
@@ -1013,7 +1013,7 @@
     },
     "sysmon_vm_long_schedule": {
       "desc": "When the Erlang VM detect a task scheduled for too long, a warning level 'long_schedule' log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_schedule</code>.",
-      "label": "Enable Long Schedule monitoring."
+      "label": "Enable Long Schedule monitoring"
     },
     "mqtt_keepalive_backoff": {
       "desc": "The coefficient EMQX uses to confirm whether the keep alive duration of the client expires. Formula: Keep Alive * Backoff * 2",
@@ -1037,7 +1037,7 @@
     },
     "fields_cache_ttl": {
       "desc": "Time to live for the cached data.",
-      "label": "Time to live for the cached data."
+      "label": "Time to live for the cached data"
     },
     "sys_topics": {
       "desc": "System topics configuration."
@@ -1103,7 +1103,7 @@
     },
     "base_listener_limiter": {
       "desc": "Type of the rate limit.",
-      "label": "Type of the rate limit."
+      "label": "Type of the rate limit"
     },
     "persistent_session_store_backend": {
       "desc": "Database management system used to store information about persistent sessions and messages.\n- `builtin`: Use the embedded database (mria)",
@@ -1260,7 +1260,7 @@
     },
     "sysmon_vm_busy_port": {
       "desc": "When a port (e.g. TCP socket) is overloaded, there will be a <code>busy_port</code> warning log,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/busy_port</code>.",
-      "label": "Enable Busy Port monitoring."
+      "label": "Enable Busy Port monitoring"
     },
     "sys_event_client_connected": {
       "desc": "Enable to publish client connected event messages"
@@ -1282,7 +1282,7 @@
     },
     "sysmon_vm_long_gc": {
       "desc": "When an Erlang process spends long time to perform garbage collection, a warning level <code>long_gc</code> log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_gc</code>.",
-      "label": "Enable Long GC monitoring."
+      "label": "Enable Long GC monitoring"
     },
     "fields_mqtt_quic_listener_keyfile": {
       "desc": "Path to the secret key file. Will be deprecated in 5.1, use .ssl_options.keyfile instead.",
@@ -1343,7 +1343,7 @@
     },
     "sysmon_os_cpu_check_interval": {
       "desc": "The time interval for the periodic CPU check.",
-      "label": "The time interval for the periodic CPU check."
+      "label": "The time interval for the periodic CPU check"
     },
     "sysmon_top_sample_interval": {
       "desc": "Specifies how often process top should be collected",
@@ -1380,7 +1380,7 @@
     },
     "sysmon_vm_large_heap": {
       "desc": "When an Erlang process consumed a large amount of memory for its heap space,\nthe system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.",
-      "label": "Enable Large Heap monitoring."
+      "label": "Enable Large Heap monitoring"
     }
   }
 }

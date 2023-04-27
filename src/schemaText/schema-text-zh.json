@@ -1037,7 +1037,7 @@
     },
     "fields_cache_ttl": {
       "desc": "缓存数据的生存时间。",
-      "label": "缓存数据的生存时间。"
+      "label": "缓存数据的生存时间"
     },
     "sys_topics": {
       "desc": "系统主题配置。"
