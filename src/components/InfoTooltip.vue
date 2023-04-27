@@ -49,5 +49,9 @@ const tooltipPopperClass = computed(() => `info-tooltip ${props.popperClass}`)
     padding-top: 2px;
     padding-bottom: 2px;
   }
+  pre code {
+    white-space: break-spaces;
+    word-break: break-all;
+  }
 }
 </style>
