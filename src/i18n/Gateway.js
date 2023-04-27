@@ -328,4 +328,8 @@ export default {
     zh: 'OCSP 刷新 HTTP 超时时间',
     en: 'OCSP Refresh HTTP Timeout',
   },
+  enableCrlCheck: {
+    en: 'Enable CRL Check',
+    zh: '启用 CRL 检查',
+  },
 }
