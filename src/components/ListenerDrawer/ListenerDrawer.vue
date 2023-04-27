@@ -225,17 +225,17 @@
 
           <template v-if="!isQUIC">
             <el-col :span="12">
-              <el-form-item :label="'Fail If No Peer Cert'">
+              <el-form-item :label="tl('failIfNoPeerCert')">
                 <BooleanSelect v-model="listenerRecord[SSLConfigKey].fail_if_no_peer_cert" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="'Intermediate Certificate Depth'">
+              <el-form-item :label="tl('SSLdepth')">
                 <el-input v-model.number="listenerRecord[SSLConfigKey].depth" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="'Key Password'">
+              <el-form-item :label="tl('SSLPassword')">
                 <el-input
                   v-model="listenerRecord[SSLConfigKey].password"
                   type="password"
