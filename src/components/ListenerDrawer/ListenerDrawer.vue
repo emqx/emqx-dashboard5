@@ -247,7 +247,7 @@
           </template>
 
           <!-- OCSP -->
-          <template v-if="!isWSS && !isQUIC">
+          <template v-if="!gatewayName && !isWSS && !isQUIC">
             <el-col :span="12">
               <el-form-item :label="tl('enableOcspStapling')">
                 <el-switch v-model="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling" />
