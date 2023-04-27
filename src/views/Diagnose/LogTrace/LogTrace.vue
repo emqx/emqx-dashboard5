@@ -73,6 +73,11 @@
           {{ transMemorySizeNumToStr(row.totalLogSize, 2) }}
         </template>
       </el-table-column>
+      <el-table-column :label="$t('LogTrace.payload')" :min-width="100">
+        <template #default="{ row }">
+          {{ getEncodeTypeLabelByValue(row.payload_encode) }}
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row }">
           <el-button size="small" @click="download(row)" :loading="row.isLoading">
@@ -148,6 +153,23 @@
               />
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item prop="payload_encode">
+              <FormItemLabel
+                :label="$t('LogTrace.payload')"
+                :desc="$t('LogTrace.payloadDesc')"
+                desc-marked
+              />
+              <el-select v-model="record.payload_encode">
+                <el-option
+                  v-for="{ label, value } in encodeTypeOpt"
+                  :key="value"
+                  :value="value"
+                  :label="label"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <template #footer>
@@ -171,13 +193,15 @@
 import { addTrace, deleteTrace, downloadTrace, getTraceList, stopTrace } from '@/api/diagnose'
 import { getLabelFromValueInOptionList, transMemorySizeNumToStr } from '@/common/tools'
 import CheckIcon from '@/components/CheckIcon.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import { FormItemRule } from '@/types/common'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
-import { CheckStatus } from '@/types/enum'
+import { CheckStatus, TraceEncodeType } from '@/types/enum'
 import { Plus } from '@element-plus/icons-vue'
 import { ElForm, ElMessage as M, ElMessageBox as MB } from 'element-plus'
+import { omit } from 'lodash'
 import moment from 'moment'
-import { defineComponent, nextTick, onMounted, Ref, ref } from 'vue'
+import { Ref, defineComponent, nextTick, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const DEFAULT_DURATION = 30 * 60 * 1000
@@ -189,6 +213,7 @@ const createRawTraceForm = () => ({
   ip_address: '',
   topic: '',
   startTime: ['', ''] as [string, string],
+  payload_encode: TraceEncodeType.Text,
 })
 
 type TraceItemInTable = TraceItem & {
@@ -198,6 +223,7 @@ type TraceItemInTable = TraceItem & {
 export default defineComponent({
   components: {
     CheckIcon,
+    FormItemLabel,
   },
   setup() {
     const { t } = useI18n()
@@ -249,6 +275,12 @@ export default defineComponent({
     }
     const createForm: Ref<typeof ElForm | null> = ref(null)
 
+    const encodeTypeOpt = [
+      { label: 'Text', value: TraceEncodeType.Text },
+      { label: 'HEX', value: TraceEncodeType.HEX },
+      { label: 'Hidden', value: TraceEncodeType.Hidden },
+    ]
+
     const countTotalLogSize = (sizeMap: Record<string, number>) => {
       return Object.keys(sizeMap).reduce((total, currentNode) => total + sizeMap[currentNode], 0)
     }
@@ -273,37 +305,34 @@ export default defineComponent({
     }
 
     const getTypeLabelByValue = (value: string) => getLabelFromValueInOptionList(value, typeOptions)
+    const getEncodeTypeLabelByValue = (value: string) =>
+      getLabelFromValueInOptionList(value, encodeTypeOpt)
 
     const submitTrace = async () => {
       createForm.value?.validate(async (valid: boolean) => {
         if (!valid) return
-
         createLoading.value = true
-        const { clientid, ip_address, name, topic, type } = record.value
-        let targetInfo = {}
+        const { clientid, topic, ip_address, startTime, type } = record.value
+        let targetInfo: TraceRecord = {
+          ...omit(record.value, ['clientid', 'topic', 'ip_address', 'startTime']),
+          start_at: new Date(startTime[0]).toISOString(),
+          end_at: new Date(startTime[1]).toISOString(),
+        }
         switch (type) {
           case typeOptions[0].value:
-            targetInfo = { clientid, type }
+            targetInfo.clientid = clientid
             break
           case typeOptions[1].value:
-            targetInfo = { topic, type }
+            targetInfo.topic = topic
             break
           case typeOptions[2].value:
-            targetInfo = { ip_address, type }
+            targetInfo.ip_address = ip_address
             break
           default:
             break
         }
-        const sendbody = {
-          name,
-          ...targetInfo,
-          start_at: new Date(record.value.startTime[0]).toISOString(),
-          end_at: new Date(record.value.startTime[1]).toISOString(),
-        }
-
-        // delete sendbody.startTime;
         try {
-          await addTrace(sendbody)
+          await addTrace(targetInfo)
           M.success(t('LogTrace.createSuc'))
           loadTraceList()
           cancelDialog()
@@ -389,8 +418,10 @@ export default defineComponent({
       createForm,
       typeOptions,
       record,
+      encodeTypeOpt,
       transMemorySizeNumToStr,
       getTypeLabelByValue,
+      getEncodeTypeLabelByValue,
       submitTrace,
       stopTraceHandler,
       openCreateDialog,

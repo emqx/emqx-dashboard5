@@ -1,4 +1,4 @@
-import { SlowSubType } from './enum'
+import { SlowSubType, TraceEncodeType } from './enum'
 
 export interface SlowSubConfig {
   enable: boolean
@@ -18,6 +18,13 @@ export interface SlowSubStatistic {
 
 export type TraceRecord = {
   name: string
+  type: 'clientid' | 'topic' | 'ip_address'
+  topic?: string
+  clientid?: string
+  ip_address?: string
+  start_at: string
+  end_at: string
+  payload_encode: TraceEncodeType
 }
 
 export type TraceFormRecord = {
@@ -27,6 +34,7 @@ export type TraceFormRecord = {
   clientid: string
   ip_address: string
   startTime: [string, string] | [Date, Date]
+  payload_encode: TraceEncodeType
 }
 
 export interface TraceItem {
