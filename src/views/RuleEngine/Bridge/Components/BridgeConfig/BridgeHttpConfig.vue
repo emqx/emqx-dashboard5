@@ -200,9 +200,10 @@ export default defineComponent({
 
     const initHttpBridgeVal = () => {
       if (props.edit || props.copy) {
+        const defaultValue = { ...createHttpBridgeDefaultVal(), headers: {} }
         httpBridgeVal.value = fillEmptyValueToUndefinedField(
           cloneDeep(props.modelValue),
-          createHttpBridgeDefaultVal(),
+          defaultValue,
         ) as HTTPBridge
         context.emit('init', httpBridgeVal.value)
       }
