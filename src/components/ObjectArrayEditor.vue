@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { Properties } from '@/types/schemaForm'
 import { defineProps, PropType, computed, defineEmits, onMounted, ref, nextTick } from 'vue'
-import useSchemaRecord from '@/hooks/Schema/useSchemaFormRules'
+import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import { cloneDeep } from 'lodash'
 import InfoTooltip from './InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
