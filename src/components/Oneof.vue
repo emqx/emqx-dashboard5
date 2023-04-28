@@ -185,5 +185,20 @@ watch(isDisabled, async (val) => {
     color: var(--color-text-secondary);
     opacity: 0.5;
   }
+
+  &.in-one-row {
+    display: flex;
+    width: 100%;
+
+    .switch-container {
+      flex-shrink: 0;
+      margin-right: 12px;
+    }
+
+    .oneof-item {
+      flex-grow: 1;
+      margin-top: 0;
+    }
+  }
 }
 </style>
