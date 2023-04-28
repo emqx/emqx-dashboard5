@@ -21,7 +21,7 @@
         v-if="!isEdit || !record.certfile || openResetMap.certfile"
         class="TLS-input"
         v-model="record.certfile"
-        :allow-extensions="CER_FILE_ALLOW_EXTENSIONS"
+        :accept="CER_FILE_ACCEPTS"
         :placeholder="$t('Base.certPlaceholder')"
         @vnode-mounted="editConfigItem('certfile')"
       />
@@ -41,7 +41,7 @@
         v-if="!isEdit || !record.keyfile || openResetMap.keyfile"
         class="TLS-input"
         v-model="record.keyfile"
-        :allow-extensions="CER_FILE_ALLOW_EXTENSIONS"
+        :accept="CER_FILE_ACCEPTS"
         :placeholder="$t('Base.keyFilePlaceholder')"
         @vnode-mounted="editConfigItem('keyfile')"
       />
@@ -61,7 +61,7 @@
         v-if="!isEdit || !record.cacertfile || openResetMap.cacertfile"
         class="TLS-input"
         v-model="record.cacertfile"
-        :allow-extensions="CER_FILE_ALLOW_EXTENSIONS"
+        :accept="CER_FILE_ACCEPTS"
         :placeholder="$t('Base.certPlaceholder')"
         @vnode-mounted="editConfigItem('cacertfile')"
       />
@@ -84,7 +84,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { SSL_VERIFY_VALUE_MAP, CER_FILE_ALLOW_EXTENSIONS } from '@/common/constants'
+import { SSL_VERIFY_VALUE_MAP, CER_FILE_ACCEPTS } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SSL } from '@/types/common'
