@@ -14,6 +14,7 @@
       :rules="listenerFormRules"
       :model="listenerRecord"
       ref="formCom"
+      v-loading="isLoading"
     >
       <el-row :gutter="20">
         <el-col :span="12">
@@ -75,7 +76,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('maxConn')" prop="max_connections">
-            <el-input v-model.number="listenerRecord.max_connections" />
+            <Oneof
+              class="in-one-row"
+              v-model="listenerRecord.max_connections"
+              :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="gatewayName">
@@ -304,9 +309,11 @@
 </template>
 
 <script lang="ts" setup>
+import { INFINITY_VALUE } from '@/common/constants'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import Oneof from '@/components/Oneof.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
@@ -319,7 +326,6 @@ import ZoneSelect from '../ZoneSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
 // import LimiterSelect from '../LimiterSelect.vue'
-
 const props = defineProps({
   modelValue: {
     type: Boolean,
