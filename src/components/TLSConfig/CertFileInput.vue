@@ -3,14 +3,14 @@
     v-if="showUploader"
     class="TLS-input"
     v-model="inputValue"
-    :allow-extensions="CER_FILE_ALLOW_EXTENSIONS"
+    :accept="CER_FILE_ACCEPTS"
     :placeholder="$t('Base.certPlaceholder')"
   />
   <ConfigItemDataLook v-else class="TLS-input" :value="inputValue" @reset="editConfigItem" />
 </template>
 
 <script setup lang="ts">
-import { CER_FILE_ALLOW_EXTENSIONS } from '@/common/constants'
+import { CER_FILE_ACCEPTS } from '@/common/constants'
 import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import { PropType, computed, defineEmits, defineProps, ref } from 'vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
