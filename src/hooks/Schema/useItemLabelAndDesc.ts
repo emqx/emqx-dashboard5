@@ -65,11 +65,15 @@ export default (
   const getMQTTAndSessionItemTextKey = ({ path }: Property) =>
     `${getConfigurationTextZone()}.${customSnakeCase(path as string)}`
 
-  const getLogItemTextKey = ({ key }: Property) => {
-    const prefix =
-      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(([, value]) =>
-        value.includes(key as string),
-      )?.[0] || LOG_DEFAULT_PREFIX
+  const getLogItemTextKey = ({ key, path }: Property) => {
+    const specialEnable =
+      key === 'enable' &&
+      ['overload_kill', 'burst_limit', 'rotation'].find((item) => path && path.indexOf(item) > -1)
+    const prefix = specialEnable
+      ? `log_${specialEnable}_`
+      : Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(([, value]) =>
+          value.includes(key as string),
+        )?.[0] || LOG_DEFAULT_PREFIX
     return `${getConfigurationTextZone()}.${prefix}${key}`
   }
 
