@@ -109,7 +109,16 @@ export default (): ListenerUtils => {
     type: createRequiredRule(tl('lType'), 'select'),
     bind: createRequiredRule(tl('lAddress')),
     acceptors: positiveIntegerRule,
-    max_connections: positiveIntegerRule,
+    max_connections: [
+      {
+        validator(rule: any, value: number | string) {
+          if (typeof value === 'number' && Number(value) < 1) {
+            return [new Error(t('Rule.minimumError', { min: 1 }))]
+          }
+          return []
+        },
+      },
+    ],
     max_conn_rate: positiveIntegerRule,
     'dtls_options.certfile': createRequiredRule('TLS Cert'),
     'dtls_options.keyfile': createRequiredRule('TLS Key'),
