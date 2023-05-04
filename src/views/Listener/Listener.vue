@@ -27,20 +27,25 @@
       </el-table-column>
       <el-table-column :label="tl('connection')">
         <template #default="{ row }">
-          <el-tooltip
-            placement="top"
-            effect="dark"
-            :content="`${row.status?.current_connections || 0}/${row.status?.max_connections || 0}`"
-          >
-            <el-progress
-              :stroke-width="20"
-              :percentage="
-                calcPercentage(row.status?.current_connections, row.status?.max_connections, false)
-              "
-              :format="() => row.status?.current_connections"
-            >
-            </el-progress>
-          </el-tooltip>
+          <template v-if="row.status?.max_connections === INFINITY_VALUE">
+            {{ connectionCount(row.status) }}
+          </template>
+          <template v-else>
+            <el-tooltip placement="top" effect="dark" :content="connectionCount(row.status)">
+              <el-progress
+                :stroke-width="20"
+                :percentage="
+                  calcPercentage(
+                    row.status?.current_connections,
+                    row.status?.max_connections,
+                    false,
+                  )
+                "
+                :format="() => row.status?.current_connections"
+              >
+              </el-progress>
+            </el-tooltip>
+          </template>
         </template>
       </el-table-column>
       <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors">
@@ -86,20 +91,21 @@
 </template>
 
 <script setup lang="tsx">
-import { ref, Ref } from 'vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { Plus } from '@element-plus/icons-vue'
 import {
+  handleListener,
   queryListener,
   deleteListener as requestDeleteListener,
-  handleListener,
 } from '@/api/listener'
-import useListenerUtils from '@/hooks/Config/useListenerUtils'
-import { Listener, ListenerSimpleInfo } from '@/types/listener'
+import { INFINITY_VALUE } from '@/common/constants'
 import { calcPercentage } from '@/common/tools'
-import { ListenerAction } from '@/types/enum'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
+import useListenerUtils from '@/hooks/Config/useListenerUtils'
+import useI18nTl from '@/hooks/useI18nTl'
+import { ListenerAction } from '@/types/enum'
+import { Listener, ListenerSimpleInfo } from '@/types/listener'
+import { Plus } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Ref, ref } from 'vue'
 
 const { t, tl } = useI18nTl('Gateway')
 
@@ -186,6 +192,12 @@ const deleteListener = async ({ id }: Listener) => {
   } finally {
     deleteLoading.value = false
   }
+}
+
+const connectionCount = ({ current_connections, max_connections }: Listener) => {
+  const max =
+    max_connections === INFINITY_VALUE ? 'Infinity' : max_connections ? max_connections : 0
+  return `${current_connections || 0}/${max}`
 }
 
 getListenerData()

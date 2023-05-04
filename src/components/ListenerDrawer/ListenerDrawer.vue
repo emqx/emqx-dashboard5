@@ -14,6 +14,7 @@
       :rules="listenerFormRules"
       :model="listenerRecord"
       ref="formCom"
+      v-loading="isLoading"
     >
       <el-row :gutter="20">
         <el-col :span="12">
@@ -67,42 +68,43 @@
         <el-col :span="24"><el-divider /></el-col>
       </el-row>
       <!-- Listener Config -->
-      <!-- FIXME: remove it -->
-      <div v-if="!isQUIC">
-        <el-row :gutter="20">
-          <el-col :span="12" v-if="!isUDP && !isQUIC">
-            <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
-              <el-input v-model.number="listenerRecord.acceptors" />
+      <el-row :gutter="20">
+        <el-col :span="12" v-if="!isUDP">
+          <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
+            <el-input v-model.number="listenerRecord.acceptors" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('maxConn')" prop="max_connections">
+            <Oneof
+              class="in-one-row"
+              v-model="listenerRecord.max_connections"
+              :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" v-if="gatewayName">
+          <el-form-item :label="tl('maxConnRate')" prop="max_conn_rate">
+            <el-input v-model.number="listenerRecord.max_conn_rate" />
+          </el-form-item>
+        </el-col>
+        <template v-if="showProxyProtocolConfig">
+          <el-col :span="12">
+            <el-form-item :label="$t('BasicConfig.proxyProtocol')">
+              <BooleanSelect v-model="listenerRecord.proxy_protocol" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="tl('maxConn')" prop="max_connections">
-              <el-input v-model.number="listenerRecord.max_connections" />
+            <el-form-item :label="$t('BasicConfig.proxyProtocolTimeout')">
+              <TimeInputWithUnitSelect
+                v-model="listenerRecord.proxy_protocol_timeout"
+                number-placeholder="15"
+                :enabled-units="['s']"
+              />
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="gatewayName">
-            <el-form-item :label="tl('maxConnRate')" prop="max_conn_rate">
-              <el-input v-model.number="listenerRecord.max_conn_rate" />
-            </el-form-item>
-          </el-col>
-          <template v-if="showProxyProtocolConfig">
-            <el-col :span="12">
-              <el-form-item :label="$t('BasicConfig.proxyProtocol')">
-                <BooleanSelect v-model="listenerRecord.proxy_protocol" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('BasicConfig.proxyProtocolTimeout')">
-                <TimeInputWithUnitSelect
-                  v-model="listenerRecord.proxy_protocol_timeout"
-                  number-placeholder="15"
-                  :enabled-units="['s']"
-                />
-              </el-form-item>
-            </el-col>
-          </template>
-        </el-row>
-      </div>
+        </template>
+      </el-row>
       <!-- TCP Config -->
       <div v-if="showTCPConfig">
         <el-row :gutter="20">
@@ -307,9 +309,11 @@
 </template>
 
 <script lang="ts" setup>
+import { INFINITY_VALUE } from '@/common/constants'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import Oneof from '@/components/Oneof.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
@@ -322,7 +326,6 @@ import ZoneSelect from '../ZoneSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
 // import LimiterSelect from '../LimiterSelect.vue'
-
 const props = defineProps({
   modelValue: {
     type: Boolean,
