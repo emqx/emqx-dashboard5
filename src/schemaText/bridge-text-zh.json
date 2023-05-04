@@ -189,7 +189,7 @@
       "label": "HTTP 请求超时"
     },
     "service_account_json": {
-      "desc": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。\n当创建GCP服务账户时（如https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
+      "desc": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。\n当创建GCP服务账户时（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
       "label": "GCP 服务账户凭证"
     }
   },
