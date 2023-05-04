@@ -105,14 +105,11 @@ export default defineComponent({
       const {
         mqtt: { mqueue_priorities },
       } = data
-      // Trans Topic Priorities to JSON format
-      const jsonData = await handleMpField(mqueue_priorities)
-      if (!jsonData) {
-        return
-      }
-      saveLoading.value = true
-      data.mqtt.mqueue_priorities = jsonData
       try {
+        // Trans Topic Priorities to JSON format
+        const jsonData = await handleMpField(mqueue_priorities)
+        saveLoading.value = true
+        data.mqtt.mqueue_priorities = jsonData
         await updateDefaultZoneConfigs(data)
         ElMessage.success(t('Base.updateSuccess'))
         reloading()
