@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    :title="tl(isEdit ? 'editListener' : 'addListener')"
+    :title="tl(props.listener ? 'editListener' : 'addListener')"
     v-model="showDialog"
     :lock-scroll="false"
     :close-on-click-modal="false"
@@ -298,11 +298,11 @@
       <el-button @click="showDialog = false">
         {{ $t('Base.cancel') }}
       </el-button>
-      <el-button v-if="isEdit" type="danger" plain @click="onDelete">
+      <el-button v-if="canBeDeleted" type="danger" plain @click="onDelete">
         {{ $t('Base.delete') }}
       </el-button>
       <el-button type="primary" @click="submit" :loading="isSubmitting">
-        {{ isEdit ? $t('Base.update') : $t('Base.add') }}
+        {{ props.listener ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>
   </el-drawer>
@@ -326,6 +326,7 @@ import ZoneSelect from '../ZoneSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
 // import LimiterSelect from '../LimiterSelect.vue'
+
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -352,6 +353,7 @@ const { tl } = useI18nTl('Gateway')
 const {
   showDialog,
   isEdit,
+  canBeDeleted,
   isLoading,
   listenerRecord,
   formCom,

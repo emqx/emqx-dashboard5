@@ -31,6 +31,7 @@ type Emit = (event: 'update:modelValue' | 'submit' | 'submitted' | 'delete', ...
 interface UseListenerDialogReturns {
   showDialog: WritableComputedRef<boolean>
   isEdit: ComputedRef<boolean>
+  canBeDeleted: ComputedRef<boolean>
   isLoading: Ref<boolean>
   listenerRecord: Ref<Listener>
   formCom: Ref<any>
@@ -65,6 +66,10 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const isEdit: ComputedRef<boolean> = computed(
     () => !!props.listener && !props.doNotSubmitToBackend,
   )
+
+  const canBeDeleted = computed(() => {
+    return isEdit.value || !!(props.doNotSubmitToBackend && props.listener)
+  })
 
   const listenerRecord: Ref<Listener> = ref({} as Listener)
 
@@ -251,6 +256,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     showDialog,
     isLoading,
     isEdit,
+    canBeDeleted,
     listenerRecord,
     formCom,
     listenerTypeOptList,
