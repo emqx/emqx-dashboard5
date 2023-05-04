@@ -23,9 +23,9 @@
       <el-table-column :label="tl('lMaxConn')" prop="max_connections" />
       <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors">
         <template #default="{ row }">
-          <span>{{
-            row.acceptors === '' || row.acceptors === undefined ? '-' : row.acceptors
-          }}</span>
+          <span>
+            {{ row.acceptors === '' || row.acceptors === undefined ? '-' : row.acceptors }}
+          </span>
         </template>
       </el-table-column>
     </el-table>
@@ -137,12 +137,12 @@ const delListener = async function (row) {
       await deleteGatewayListener(gName, row.id)
       M.success(t('Base.deleteSuccess'))
       loadListenerData()
-      if (opListener.value === true) {
-        opListener.value = false
-      }
     } catch (error) {
       //
     }
+  }
+  if (opListener.value === true) {
+    opListener.value = false
   }
 }
 
