@@ -82,7 +82,12 @@ const transPayload = async (content: string, from: PayloadShowByType, to: Payloa
   }
 }
 
-export default () => {
+export default (): {
+  payloadForShow: Ref<string>
+  payloadShowBy: Ref<PayloadShowByType>
+  payloadShowByOptions: PayloadShowByType[]
+  setRawText: (base64Text: string | null) => void
+} => {
   // when the payload is too large, the value will be null
   const rawText: Ref<string | null> = ref('')
   const payloadShowBy = ref(SHOW_PAYLOAD_BY_WHICH_OPTION_LIST[0])

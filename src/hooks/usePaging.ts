@@ -1,5 +1,6 @@
-import { ref, Ref } from 'vue'
+import { ListDataWithPagination } from '@/types/common'
 import _ from 'lodash'
+import { ref, Ref } from 'vue'
 
 type ListData = Array<any>
 
@@ -20,7 +21,15 @@ interface SortFrom {
 
 const DEFAULT_PAGE_SIZE = 20
 
-export default () => {
+export default (): {
+  totalData: Ref<ListData>
+  setTotalData: (data: ListData) => void
+  getAPageData: (
+    pageMeta: PageMeta,
+    filters?: Array<FilterItem>,
+    sortFrom?: SortFrom,
+  ) => ListDataWithPagination<any>
+} => {
   const totalData: Ref<ListData> = ref([])
   // Use the following six variables to do a cache-like operation to reduce computational overhead
   let latestFiltersString = ''
