@@ -5,7 +5,18 @@ type EventMap = {
   moveAfterAnotherTarget: (target: any, anotherTarget: any) => Promise<any>
 }
 
-export default (eventMap: EventMap, errorHandlerFunc?: () => void, finallyAction?: () => void) => {
+export default (
+  eventMap: EventMap,
+  errorHandlerFunc?: () => void,
+  finallyAction?: () => void,
+): {
+  handleDragEvent: (
+    newIndex: number,
+    oldIndex: number,
+    list: Array<any>,
+    isFiltered?: boolean,
+  ) => Promise<undefined>
+} => {
   const handleDragEvent = async (
     newIndex: number,
     oldIndex: number,

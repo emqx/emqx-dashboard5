@@ -1,7 +1,12 @@
 import { ENCRYPTED_PWD_REG } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
+import { FormItemRule } from '@/types/common'
 
-export default (props: any) => {
+export default (
+  props: any,
+): {
+  ruleWhenTestConnection: Array<FormItemRule>
+} => {
   const { tl } = useI18nTl('RuleEngine')
 
   const ruleWhenTestConnection = [
