@@ -1,11 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Properties, Schema } from '@/types/schemaForm'
 import axios from 'axios'
-import _ from 'lodash'
-import { ref, Ref } from 'vue'
+import { cloneDeep, get } from 'lodash'
+import { Ref, ref } from 'vue'
+import { useStore } from 'vuex'
 import useSchemaFormRules, { SchemaRules } from './useSchemaFormRules'
 
 const CONNECTOR_KEY = 'connector'
+
+const keysNeedRemove = ['label', 'description', 'summary']
+const removeUselessKey = (obj: any) => {
+  for (const key in obj) {
+    const value = obj[key]
+    if (value && typeof value === 'object') {
+      removeUselessKey(value)
+    } else if (keysNeedRemove.includes(key) && typeof value === 'string') {
+      if (key === 'label' || key === 'description' || key === 'summary') {
+        delete obj[key]
+      }
+    }
+  }
+  return obj
+}
 
 /**
  * @param schemaFilePath
@@ -24,6 +40,8 @@ export default function useSchemaForm(
   setTypeForProperty: (property: Properties[string]) => Properties[string]
   resetObjForGetComponent: (obj: { path?: string; ref?: string }) => void
 } {
+  const { getters, commit } = useStore()
+
   const schemaRequest = axios.create({
     baseURL: '',
   })
@@ -34,12 +52,22 @@ export default function useSchemaForm(
    */
   let pathOrRefObj = objForGetComponent
 
+  const components = ref<Properties>({})
+
   const loadSchemaConfig = async () => {
     try {
       const configPath = schemaFilePath
-      const res = await schemaRequest.get(configPath)
-      if (res.data) {
-        schema = res.data
+      const data = getters.getSchema(configPath)
+      if (data) {
+        schema = data
+      } else {
+        const res = await schemaRequest.get(configPath)
+        if (res.data) {
+          schema = removeUselessKey(res.data)
+          commit('SET_SCHEMA_DATA', { key: configPath, data: cloneDeep(schema) })
+        }
+      }
+      if (schema) {
         generateComponents()
       }
       return Promise.resolve()
@@ -48,12 +76,9 @@ export default function useSchemaForm(
     }
   }
 
-  const schemaLoadPromise = loadSchemaConfig()
-  const components = ref<Properties>({})
-
   const filter = (ref: string) => ref.replace('#/', '').split('/')
   // https://www.lodashjs.com/docs/lodash.get
-  const getComponentByRef = (data: Schema, ref: string): Component => _.get(data, filter(ref), {})
+  const getComponentByRef = (data: Schema, ref: string): Component => get(data, filter(ref), {})
 
   /**
    * Calling it before components are assigned as much as possible will reduce the number of re-renders,
@@ -82,7 +107,7 @@ export default function useSchemaForm(
           countRules(component, path)
         }
         Object.keys(properties).forEach((key) => {
-          const property: Properties[string] = _.cloneDeep(properties[key])
+          const property: Properties[string] = cloneDeep(properties[key])
           // remove deprecated prop
           if (property.deprecated) {
             return
@@ -176,6 +201,8 @@ export default function useSchemaForm(
     pathOrRefObj = obj
     generateComponents()
   }
+
+  const schemaLoadPromise = loadSchemaConfig()
 
   return {
     rules,

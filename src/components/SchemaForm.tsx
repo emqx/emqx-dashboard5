@@ -129,8 +129,7 @@ const SchemaForm = defineComponent({
   setup(props, ctx) {
     const store = useStore()
     const configForm = ref<{ [key: string]: any }>({})
-    const schemaLoadPath =
-      props.schemaFilePath || `static/hot-config-schema-${store.state.lang}.json`
+    const schemaLoadPath = props.schemaFilePath || '/api/v5/schemas/hotconf'
     const { components, rules, setTypeForProperty, resetObjForGetComponent } = useSchemaForm(
       schemaLoadPath,
       props.accordingTo,
