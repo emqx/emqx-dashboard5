@@ -46,6 +46,7 @@ export default createStore({
     request_queue: 0,
     edition: localStorage.getItem('edition'),
     afterCurrentUserPwdChanged: false,
+    schemaStoreMap: new Map(),
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -116,6 +117,9 @@ export default createStore({
     SET_AFTER_CURRENT_USER_PWD_CHANGED(state, payload: boolean) {
       state.afterCurrentUserPwdChanged = payload
     },
+    SET_SCHEMA_DATA(state, payload: { key: string; data: any }) {
+      state.schemaStoreMap.set(payload.key, payload.data)
+    },
   },
   getters: {
     edition: (state) => {
@@ -130,6 +134,11 @@ export default createStore({
     configPageBtnStyle(state) {
       return {
         left: state.leftBarCollapse ? '104px' : '224px',
+      }
+    },
+    getSchema(state) {
+      return (key: string) => {
+        return state.schemaStoreMap.get(key)
       }
     },
   },
