@@ -692,7 +692,7 @@
     },
     "mqtt_retry_interval": {
       "desc": "Retry interval for QoS 1/2 message delivering.",
-      "label": "Retry Interval"
+      "label": "Message Retry Interval"
     },
     "stats_enable": {
       "desc": "Enable/disable statistic data collection.",
@@ -765,7 +765,7 @@
       "label": "mountpoint"
     },
     "mqtt_max_awaiting_rel": {
-      "desc": "For each publisher session, the maximum number of outstanding QoS 2 messages pending on the client to send PUBREL. After reaching this limit, new QoS 2 PUBLISH requests will be rejected with `147(0x93)` until either PUBREL is received or timed out.",
+      "desc": "Specifies the maximum number of pending QoS 2 messages in each session until either PUBREL is received or timed out. When this limit is reached, new QoS 2 PUBLISH requests will be rejected with error code 147(0x93).",
       "label": "Max Awaiting PUBREL"
     },
     "ciphers_schema_quic": {
@@ -789,7 +789,7 @@
       "label": "Enable Busy Distribution Port monitoring"
     },
     "mqtt_max_mqueue_len": {
-      "desc": "Maximum queue length. Enqueued messages when persistent client disconnected, or inflight window is full.",
+      "desc": "Maximum allowed queue length when persistent client are disconnected or inflight window is full.",
       "label": "Max Message Queue Length"
     },
     "mqtt_max_inflight": {
@@ -862,7 +862,7 @@
       "label": "Stream recv window default"
     },
     "mqtt_mqueue_priorities": {
-      "desc": "Topic priorities. Priority number [1-255]\nThere's no priority table by default, hence all messages are treated equal.\n\n**NOTE**: Comma and equal signs are not allowed for priority topic names.\n**NOTE**: Messages for topics not in the priority table are treated as either highest or lowest priority depending on the configured value for <code>mqtt.mqueue_default_priority</code>.\n\n**Examples**:\nTo configure <code>\"topic/1\" > \"topic/2\"</code>:\n<code>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}</code>",
+      "desc": "Topic PrioritiesSpecifies the priority of topics with optional values of \"disabled\" or [1-255].The default value is \"disabled\", indicating the same priority for all topics.For topics not listed within the priority table, they will be assigned the highest/lowest priority according to Default Topic Priorities (mqtt.mqueue_default_priority). ",
       "label": "Topic Priorities"
     },
     "fields_rate_limit_conn_messages_in": {
@@ -905,8 +905,8 @@
       "desc": "Time interval of publishing `$SYS` messages."
     },
     "mqtt_await_rel_timeout": {
-      "desc": "For client to broker QoS 2 message, the time limit for the broker to wait before the `PUBREL` message is received. The wait is aborted after timed out, meaning the packet ID is freed for new `PUBLISH` requests. Receiving a stale `PUBREL` causes a warning level log. Note, the message is delivered to subscribers before entering the wait for PUBREL.",
-      "label": "Max Awaiting PUBREL TIMEOUT"
+      "desc": "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \nNote: EMQX’s forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
+      "label": "Max Awaiting PUBREL Timeout"
     },
     "common_ssl_opts_schema_verify": {
       "desc": "Enable or disable peer verification.",
