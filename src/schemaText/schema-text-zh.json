@@ -552,7 +552,7 @@
     },
     "mqtt_peer_cert_as_username": {
       "desc": "使用对端证书中的 CN、DN 字段或整个证书内容来作为用户名；仅适用于 TLS 连接。\n目前支持：\n- <code>cn</code>: 取证书的 CN 字段\n- <code>dn</code>: 取证书的 DN 字段\n- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 的证书内容\n- <code>pem</code>: 将 <code>DER</code> 证书转换为 <code>PEM</code> 格式作为用户名\n- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书内容的 MD5 值",
-      "label": "对端证书作为用户名"
+      "label": "使用对端证书作为用户名"
     },
     "fields_cache_enable": {
       "desc": "启用或禁用授权缓存。",
@@ -563,7 +563,7 @@
       "label": "断开连接超时 毫秒"
     },
     "mqtt_max_topic_alias": {
-      "label": "最大主题别名"
+      "label": "最大主题别名数"
     },
     "common_ssl_opts_schema_user_lookup_fun": {
       "desc": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
@@ -578,8 +578,8 @@
       "label": "最大进程数"
     },
     "mqtt_use_username_as_clientid": {
-      "desc": "是否使用用户名作为客户端 ID。\n此设置的作用时间晚于 <code>对端证书作为用户名</code> 和 <code>对端证书作为客户端 ID</code>。",
-      "label": "用户名作为客户端 ID"
+      "desc": "是否使用用户名作为客户端 ID。 作用时间晚于**对端证书作为用户名** 和**对端证书作为客户端 ID**。",
+      "label": "使用用户名作为客户端 ID"
     },
     "mqtt_max_qos_allowed": {
       "label": "最大 QoS"
@@ -738,7 +738,7 @@
       "label": "升级 QoS"
     },
     "mqtt_shared_subscription": {
-      "label": "共享订阅可用"
+      "label": "允许共享订阅"
     },
     "fields_tcp_opts_sndbuf": {
       "desc": "连接的 TCP 发送缓冲区（OS 内核）。",
@@ -805,8 +805,7 @@
       "label": "压缩级别"
     },
     "mqtt_server_keepalive": {
-      "desc": "EMQX 要求的保活时间，如设为 disabled，则将使用客户端指定的保持连接时间；仅适用于 MQTT 5.0 客户端。",
-      "label": "服务端保活时间"
+      "label": "服务端 Keep Alive"
     },
     "global_authentication": {
       "desc": "全局 MQTT 监听器的默认认证配置。 为每个监听器配置认证参考监听器器配置中的<code>authentication</code> 配置。\n\n该配置可以被配置为：\n<ul>\n  <li><code>[]</code>: 默认值，允许所有的登录请求\n  <li>配置为单认证器，例如 <code>{'{'}enable:true,backend:\"built_in_database\",mechanism=\"password_based\"{'}'}</code></li>\n  <li>配置为认证器数组</li>\n</ul>\n\n当配置为认证链后，登录凭证会按照配置的顺序进行检查，直到做出<code>allow</code> 或 <code>deny</code>的结果。\n\n如果在所有的认证器都执行完后，还是没有结果，登录将被拒绝。"
@@ -993,7 +992,7 @@
       "label": "持久化在磁盘上"
     },
     "mqtt_ignore_loop_deliver": {
-      "desc": "设置由 MQTT v3.1.1/v3.1.0 客户端发布的消息是否将转发给其本身；类似 MQTT 5.0 协议中的 <code>No Local</code> 选项。",
+      "desc": "设置由 MQTT v3.1.1/v3.1.0 客户端发布的消息是否将转发给其本身；类似 MQTT 5.0 协议中的 `No Local` 选项。",
       "label": "忽略循环投递"
     },
     "common_ssl_opts_schema_certfile": {
@@ -1001,11 +1000,11 @@
       "label": "证书文件"
     },
     "mqtt_exclusive_subscription": {
-      "label": "排它订阅"
+      "label": "允许排它订阅"
     },
     "mqtt_retain_available": {
       "desc": "是否启用对 MQTT 保留消息的支持。",
-      "label": "保留消息可用"
+      "label": "启用保留消息"
     },
     "fields_tcp_opts_reuseaddr": {
       "desc": "连接的 SO_REUSEADDR 标识。",
@@ -1016,8 +1015,8 @@
       "label": "启用长调度监控"
     },
     "mqtt_keepalive_backoff": {
-      "desc": "EMQX 判定客户端保活超时使用的阈值系数。计算公式为：Keep Alive * Backoff * 2",
-      "label": "保活超时阈值系数"
+      "desc": "EMQX 判定客户端保活超时使用的阈值系数。计算公式为：`Keep Alive * Backoff * 2`",
+      "label": "Keep Alive 退避指数"
     },
     "force_gc_bytes": {
       "desc": "在进程处理过多少个字节之后，对此进程执行垃圾回收。",
@@ -1084,7 +1083,7 @@
       "label": "垃圾回收消息数"
     },
     "mqtt_max_clientid_len": {
-      "label": "最大 Client ID 长度"
+      "label": "最大客户端 ID 长度"
     },
     "fields_ws_opts_supported_subprotocols": {
       "desc": "逗号分隔的 subprotocols 支持列表。",
@@ -1130,7 +1129,7 @@
       "label": "有效负载编码"
     },
     "mqtt_response_information": {
-      "desc": "UTF-8 字符串，用于指定返回给客户端的响应主题，如 <code>reqrsp/</code>，此时请求和应答客户端都需要使用 <code>reqrsp/</code> 前缀的主题来完成通讯。\n如希望禁用此功能，请在下方的文字框中输入<code>\"\"</code>；仅适用于 MQTT 5.0 客户端。",
+      "desc": "UTF-8 字符串，用于指定返回给客户端的响应主题，如 `reqrsp/`，此时请求和应答客户端都需要使用 `reqrsp/` 前缀的主题来完成通讯。如希望禁用此功能，请在下方的文字框中输入`\"\"`；仅适用于 MQTT 5.0 客户端。",
       "label": "响应信息"
     },
     "persistent_session_store_max_retain_undelivered": {
@@ -1165,7 +1164,7 @@
       "label": "OCSP Responder 的 URL"
     },
     "mqtt_idle_timeout": {
-      "desc": "设置连接被断开或进入休眠状态前的等待时间，空闲超时后，\n  - 如暂未收到客户端的 CONNECT 报文，连接将断开；\n  - 如已收到客户端的 CONNECT 报文，连接将进入休眠模式以节省系统资源。\n\n注意：请合理设置该参数值，如等待时间设置过长，可能造成系统资源的浪费。",
+      "desc": "设置连接被断开或进入休眠状态前的等待时间，空闲超时后\n\n- 如暂未收到客户端的 CONNECT 报文，连接将断开；\n- 如已收到客户端的 CONNECT 报文，连接将进入休眠模式以节省系统资源。\n\n注意：请合理设置该参数值，如等待时间设置过长，可能造成系统资源的浪费。",
       "label": "空闲超时"
     },
     "fields_mqtt_quic_listener_conn_flow_control_window": {
@@ -1181,7 +1180,7 @@
       "label": "数据库名"
     },
     "mqtt_strict_mode": {
-      "desc": "是否以严格模式解析 MQTT 消息。\n严格模式下，如客户端 ID、主题名称等中包含无效 utf8 字符串，连接将被断开。",
+      "desc": "是否以严格模式解析 MQTT 消息。严格模式下，如客户端 ID、主题名称等中包含无效 utf8 字符串，连接将被断开。",
       "label": "严格模式"
     },
     "shared_subscription_group_strategy": {
@@ -1270,6 +1269,7 @@
       "label": "进程数低水位线"
     },
     "mqtt_max_packet_size": {
+      "desc": "允许的最大 MQTT 报文大小，超出此大小后将断开当前客户端连接。",
       "label": "最大报文大小"
     },
     "common_ssl_opts_schema_reuse_sessions": {
@@ -1290,7 +1290,7 @@
     },
     "mqtt_peer_cert_as_clientid": {
       "desc": "使用对端证书中的 CN、DN 字段或整个证书内容来作为客户端 ID。仅适用于 TLS 连接；\n目前支持：\n- <code>cn</code>: 取证书的 CN 字段\n- <code>dn</code>: 取证书的 DN 字段\n- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容\n- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式作为客户端 ID\n- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书内容的 MD5 值",
-      "label": "对端证书作为客户端 ID"
+      "label": "使用对端证书作为客户端 ID"
     },
     "persistent_session_store_message_gc_interval": {
       "desc": "将未送达的消息垃圾收集到持久会话的开始间隔。\n这会影响检查 \"max_retain_undelivered\"（最大保留未送达）的删除频率。",
@@ -1358,7 +1358,7 @@
       "label": "无 subprotocol 则失败"
     },
     "mqtt_wildcard_subscription": {
-      "label": "通配符订阅可用"
+      "label": "允许通配符订阅"
     },
     "server_ssl_opts_schema_ocsp_refresh_interval": {
       "desc": "为服务器刷新OCSP响应的周期。",
