@@ -862,7 +862,7 @@
       "label": "流接收窗口默认"
     },
     "mqtt_mqueue_priorities": {
-      "desc": "主题优先级指定主题优先级，取值范围为 disabled 或者 [1-255]。默认为 disabled，即所有的主题优先级相同。对未包含在优先级列表中的主题，将按照默认主题优先级(mqtt.mqueue_default_priority)的配置，被赋予最高/最低优先级。示例：{\"topic/1\": 10, \"topic/2\": 8}",
+      "desc": "主题优先级指定主题优先级，取值范围为 disabled 或者 [1-255]。默认为 disabled，即所有的主题优先级相同。对未包含在优先级列表中的主题，将按照默认主题优先级(mqtt.mqueue_default_priority)的配置，被赋予最高/最低优先级。示例：{'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
       "label": "主题优先级"
     },
     "fields_rate_limit_conn_messages_in": {
