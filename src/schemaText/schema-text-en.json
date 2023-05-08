@@ -551,7 +551,7 @@
       "label": "Max connections"
     },
     "mqtt_peer_cert_as_username": {
-      "desc": "Use the CN, DN field in the peer certificate or the entire certificate content as Username. Only works for the TLS connection. Supported configurations are the following:\n- `cn`: CN field of the certificate\n- `dn`: DN field of the certificate\n- `crt`: Content of the `CDER` or `PEM` certificate\n- `pem`: Convert `DER` certificate content to `PEM` format and use as Username\n- `md5`: MD5 value of the `DER` or `PEM` certificate",
+      "desc": "Use the CN, DN field in the peer certificate or the entire certificate content as Username. Only works for the TLS connection.\nSupported configurations are the following:\n- <code>cn</code>: CN field of the certificate\n- <code>dn</code>: DN field of the certificate\n- <code>crt</code>: Content of the <code>DER</code> or <code>PEM</code> certificate\n- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format and use as Username\n- <code>md5</code>: MD5 value of the <code>DER</code> or <code>PEM</code> certificate",
       "label": "Use Peer Certificate as Username"
     },
     "fields_cache_enable": {
@@ -1164,7 +1164,7 @@
       "label": "OCSP Responder URL"
     },
     "mqtt_idle_timeout": {
-      "desc": "Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being: \n\n- Automatically disconnected if no CONNECT package is received from the client yet. \n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resouce waste.",
+      "desc": "Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being: \n\n- Automatically disconnected if no CONNECT package is received from the client yet. \n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.",
       "label": "Idle Timeout"
     },
     "fields_mqtt_quic_listener_conn_flow_control_window": {
@@ -1180,7 +1180,7 @@
       "label": "DB Name"
     },
     "mqtt_strict_mode": {
-      "desc": "Whether to parse MQTT messages in strict mode. In strict mode, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected",
+      "desc": "Whether to parse MQTT messages in strict mode.\nIn strict mode, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected.",
       "label": "Strict Mode"
     },
     "shared_subscription_group_strategy": {
