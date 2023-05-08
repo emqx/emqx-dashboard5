@@ -692,7 +692,7 @@
     },
     "mqtt_retry_interval": {
       "desc": "QoS 1/2 消息的重新投递间隔。",
-      "label": "重试间隔"
+      "label": "消息重试间隔"
     },
     "stats_enable": {
       "desc": "启用/禁用统计数据收集功能。",
@@ -734,7 +734,7 @@
       "label": "持久会话"
     },
     "mqtt_upgrade_qos": {
-      "desc": "投递消息时，是否根据订阅主题时的 QoS 等级来强制提升派发的消息的 QoS 等级。",
+      "desc": "投递消息时，是否根据订阅主题时的 QoS 等级来强制提升派发消息的 QoS 等级。",
       "label": "升级 QoS"
     },
     "mqtt_shared_subscription": {
@@ -765,8 +765,8 @@
       "label": "mountpoint"
     },
     "mqtt_max_awaiting_rel": {
-      "desc": "每个发布者的会话中，都存在一个队列来处理客户端发送的 QoS 2 消息。该队列会存储 QoS 2 消息的报文 ID 直到收到客户端的 PUBREL 或超时，达到队列长度的限制后，新的 QoS 2 消息发布会被拒绝，并返回 `147(0x93)` 错误。",
-      "label": "PUBREL 等待队列长度"
+      "desc": "为每个会话指定未收到 PUBREL 且未超时的最大 QoS 2 消息数量。超过限制后，新的 QoS 2 消息发布会被拒绝，并返回 147(0x93) 错误。",
+      "label": "最大待发 PUBREL 数量"
     },
     "ciphers_schema_quic": {
       "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件，<code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code><br/>\n\n注：QUIC 监听器不支持 tlsv1.3 的 ciphers",
@@ -789,11 +789,11 @@
       "label": "启用分布式端口过忙监控"
     },
     "mqtt_max_mqueue_len": {
-      "desc": "消息队列最大长度。持久客户端断开连接或飞行窗口已满时排队的消息长度。",
+      "desc": "最大消息队列长度持久客户端断开连接或飞行窗口已满时，允许排队的的最大消息数量。",
       "label": "最大消息队列长度"
     },
     "mqtt_max_inflight": {
-      "desc": "允许在完成应答前同时投递的 QoS 1 和 QoS 2 消息的最大数量。",
+      "desc": "完成应答前，最多允许同时投递的 QoS 1 和 QoS 2 消息数量。",
       "label": "最大飞行窗口"
     },
     "persistent_session_store_enabled": {
@@ -862,7 +862,7 @@
       "label": "流接收窗口默认"
     },
     "mqtt_mqueue_priorities": {
-      "desc": "主题优先级。取值范围 [1-255]\n默认优先级表为空，即所有的主题优先级相同。\n\n注：优先主题名称中不支持使用逗号和等号。\n注：不在此列表中的主题，被视为最高/最低优先级，这取决于<code>mqtt.mqueue_default_priority</code> 的配置\n\n示例：\n配置 <code>\"topic/1\" > \"topic/2\"</code>:\n<code>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}</code>",
+      "desc": "主题优先级指定主题优先级，取值范围为 disabled 或者 [1-255]。默认为 disabled，即所有的主题优先级相同。对未包含在优先级列表中的主题，将按照默认主题优先级(mqtt.mqueue_default_priority)的配置，被赋予最高/最低优先级。示例：{\"topic/1\": 10, \"topic/2\": 8}",
       "label": "主题优先级"
     },
     "fields_rate_limit_conn_messages_in": {
@@ -905,8 +905,8 @@
       "desc": "发送 `$SYS` 主题的间隔时间。"
     },
     "mqtt_await_rel_timeout": {
-      "desc": "客户端发布 QoS 2 消息时，服务器等待 `PUBREL` 的最长时延。超过该时长后服务器会放弃等待，该PACKET ID 会被释放，从而允许后续新的 PUBLISH 消息使用。如果超时后收到 PUBREL，服务器将会产生一条告警日志。注意，向订阅客户端转发消息的动作发生在进入等待之前。",
-      "label": "PUBREL 最大等待时间"
+      "desc": "对于未收到 PUBREL 的 QoS 2 消息，将按照指定时间等待重传；超时后 EMQX 将释放  packet ID  并产生一条告警日志。\n注意：EMQX 对消息的转发操作不依赖于 PUBREL收到与否。",
+      "label": "最大 PUBREL 等待时长"
     },
     "common_ssl_opts_schema_verify": {
       "desc": "启用或禁用对等验证。",
@@ -1198,7 +1198,7 @@
       "label": "用于内建会话管理表的性能调优参数"
     },
     "mqtt_mqueue_store_qos0": {
-      "desc": "指定在连接断开但会话保持期间，是否需要在消息队列中存储 QoS 0 消息。",
+      "desc": "存储 QoS 0 消息在连接断开但会话保持期间，是否需要在消息队列中存储 QoS 0 消息。",
       "label": "存储 QoS 0 消息"
     },
     "server_ssl_opts_schema_client_renegotiation": {
