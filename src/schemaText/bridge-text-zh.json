@@ -398,7 +398,7 @@
       "desc": "消息缓存模式。\n<code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。\n<code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。\n<code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。与 <code>memory</code> 模式一样，如果 EMQX 服务重启，缓存的消息会丢失。",
       "label": "缓存模式"
     },
-    "consumer_mqtt_qos": {
+    "qos": {
       "desc": "转发 MQTT 消息时使用的 QoS。",
       "label": "QoS"
     },
@@ -470,7 +470,7 @@
       "desc": "启用（true）或停用该（false）Kafka 数据桥接。",
       "label": "启用或停用"
     },
-    "consumer_mqtt_payload": {
+    "payload_template": {
       "desc": "用于转换收到的 Kafka 消息的模板。 默认情况下，它将使用 JSON 格式来序列化来自 Kafka 的所有字段。 这些字段包括：<code>headers</code>：一个包含字符串键值对的 JSON 对象。\n<code>key</code>：Kafka 消息的键（使用选择的编码方式编码）。\n<code>offset</code>：消息的偏移量。\n<code>topic</code>：Kafka 主题。\n<code>ts</code>: 消息的时间戳。\n<code>ts_type</code>：消息的时间戳类型，值可能是： <code>create</code>， <code>append</code> 或 <code>undefined</code>。\n<code>value</code>: Kafka 消息值（使用选择的编码方式编码）。",
       "label": "MQTT Payload Template"
     },
