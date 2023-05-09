@@ -5,10 +5,10 @@
       ref="formCom"
       type="bridge"
       need-rules
+      schema-file-path="/api/v5/schemas/bridges"
       :need-footer="false"
       :need-record="!edit && !copy"
       :form="bridgeRecord"
-      :schema-file-path="`static/bridge-api-${store.state.lang}.json`"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
       :btn-loading="saveLoading"
       :form-item-span="12"
