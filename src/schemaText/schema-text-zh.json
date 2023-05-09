@@ -1143,7 +1143,7 @@
     },
     "common_ssl_opts_schema_password": {
       "desc": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
-      "label": "秘钥文件密码"
+      "label": "密钥文件密码"
     },
     "common_ssl_opts_schema_hibernate_after": {
       "desc": "在闲置一定时间后休眠 SSL 进程，减少其内存占用。",
