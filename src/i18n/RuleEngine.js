@@ -1023,6 +1023,18 @@ export default {
     zh: 'Microsoft SQL Server',
     en: 'Microsoft SQL Server',
   },
+  iotDB: {
+    zh: 'Apache IoTDB',
+    en: 'Apache IoTDB',
+  },
+  openTSDB: {
+    zh: 'OpenTSDB',
+    en: 'OpenTSDB',
+  },
+  oracleDatabase: {
+    zh: 'Oracle Database',
+    en: 'Oracle Database',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Google PubSub',

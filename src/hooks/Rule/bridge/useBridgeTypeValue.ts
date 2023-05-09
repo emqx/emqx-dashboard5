@@ -31,6 +31,9 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Cassandra, label: tl('cassandra') },
     { value: BridgeType.RocketMQ, label: tl('rocketMQ') },
     { value: BridgeType.MicrosoftSQLServer, label: tl('microsoftSqlServer') },
+    { value: BridgeType.IoTDB, label: tl('iotDB') },
+    { value: BridgeType.OpenTSDB, label: tl('openTSDB') },
+    { value: BridgeType.OracleDatabase, label: tl('oracleDatabase') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -81,6 +84,9 @@ export const useBridgeTypeOptions = (): {
       BridgeType.MicrosoftSQLServer,
       t('RuleEngine.egressDataBaseDesc', { name: tl('microsoftSqlServer') }),
     ],
+    [BridgeType.IoTDB, t('RuleEngine.egressDataBaseDesc', { name: tl('iotDB') })],
+    [BridgeType.OpenTSDB, t('RuleEngine.egressDataBaseDesc', { name: tl('openTSDB') })],
+    [BridgeType.OracleDatabase, t('RuleEngine.egressDataBaseDesc', { name: tl('oracleDatabase') })],
   ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({

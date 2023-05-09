@@ -61,6 +61,9 @@ const typeRefKeyMap = {
   [BridgeType.Cassandra]: getSchemaRefByType(`cassa`),
   [BridgeType.RocketMQ]: getSchemaRefByType(`rocketmq`),
   [BridgeType.MicrosoftSQLServer]: getSchemaRefByType(`sqlserver`),
+  [BridgeType.IoTDB]: getSchemaRefByType(`iotdb`),
+  [BridgeType.OpenTSDB]: getSchemaRefByType(`opents`),
+  [BridgeType.OracleDatabase]: getSchemaRefByType(`oracle`),
 }
 
 const props = defineProps({
