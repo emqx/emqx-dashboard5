@@ -277,11 +277,11 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useSchemaForm from '@/hooks/Schema/useSchemaForm'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
+import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
@@ -289,8 +289,7 @@ import { KafkaType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { isEqual, pick } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, onMounted, ref, Ref, watch } from 'vue'
-import { useStore } from 'vuex'
+import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import KafkaConsumerConfig from './KafkaConsumerConfig.vue'
 import KafkaProducerConfig from './KafkaProducerConfig.vue'
 
@@ -324,7 +323,6 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'init'])
 
-const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
 const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_kafka.${key}`)
 
@@ -332,16 +330,29 @@ const {
   components: producerComponents,
   schemaLoadPromise,
   getComponents,
-} = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
+} = useSchemaForm(`/api/v5/schemas/bridges`, {
   ref: '#/components/schemas/bridge_kafka.post_producer',
 })
 const { getPropItem: getProducerPropItem } = useGetInfoFromComponents(producerComponents)
 const consumerComponents: Ref<Properties> = ref({})
+const addLabelForProps = (props: Properties) => {
+  Object.entries(props).forEach(([, value]) => {
+    value.description = getText(`${value.key}.desc`)
+    value.label = getText(`${value.key}.label`)
+  })
+  return props
+}
+
 const getConsumerComponents = async () => {
   await schemaLoadPromise
   consumerComponents.value = getComponents({
     ref: '#/components/schemas/bridge_kafka.post_consumer',
   })
+  if (consumerComponents.value.topic_mapping.properties) {
+    consumerComponents.value.topic_mapping.properties = addLabelForProps(
+      consumerComponents.value.topic_mapping.properties,
+    )
+  }
 }
 getConsumerComponents()
 const { getPropItem: getConsumerPropItem } = useGetInfoFromComponents(consumerComponents)

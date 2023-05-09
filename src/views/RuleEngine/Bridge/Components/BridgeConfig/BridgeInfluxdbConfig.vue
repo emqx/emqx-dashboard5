@@ -161,7 +161,6 @@ import { InfluxDBType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { cloneDeep, isEqual } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
-import { useStore } from 'vuex'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
 
@@ -179,7 +178,6 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'init'])
 
-const { state } = useStore()
 const { tl, t } = useI18nTl('RuleEngine')
 const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_influxdb.${key}`)
 
@@ -188,7 +186,7 @@ const PROTOCOL_VERSION_OPT = [
   { value: InfluxDBType.v2, label: 'v2' },
 ]
 
-const { components } = useSchemaForm(`static/bridge-api-${state.lang}.json`, {
+const { components } = useSchemaForm(`/api/v5/schemas/bridges`, {
   ref: '#/components/schemas/bridge_influxdb.post_api_v2',
 })
 const { getPropItem } = useGetInfoFromComponents(components)

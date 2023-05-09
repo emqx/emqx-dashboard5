@@ -398,7 +398,7 @@
       "desc": "Message buffer mode.\n\n<code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart\n<code>disk</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.\n<code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.",
       "label": "Buffer Mode"
     },
-    "consumer_mqtt_qos": {
+    "qos": {
       "desc": "MQTT QoS used to publish messages consumed from Kafka.",
       "label": "QoS"
     },
@@ -470,7 +470,7 @@
       "desc": "Enable (true) or disable (false) this Kafka bridge.",
       "label": "Enable or Disable"
     },
-    "consumer_mqtt_payload": {
+    "payload_template": {
       "desc": "The template for transforming the incoming Kafka message.  By default, it will use JSON format to serialize inputs from the Kafka message.  Such fields are:\n<code>headers</code>: an object containing string key-value pairs.\n<code>key</code>: Kafka message key (uses the chosen key encoding).\n<code>offset</code>: offset for the message.\n<code>topic</code>: Kafka topic.\n<code>ts</code>: message timestamp.\n<code>ts_type</code>: message timestamp type, which is one of <code>create</code>, <code>append</code> or <code>undefined</code>.\n<code>value</code>: Kafka message value (uses the chosen value encoding).",
       "label": "MQTT Payload Template"
     },
