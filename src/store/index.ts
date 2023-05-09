@@ -48,6 +48,7 @@ export default createStore({
     request_queue: 0,
     edition: localStorage.getItem('edition'),
     afterCurrentUserPwdChanged: false,
+    schemaStoreMap: new Map(),
     licenseData: {} as LicenseData,
   },
   actions: {
@@ -119,6 +120,9 @@ export default createStore({
     SET_AFTER_CURRENT_USER_PWD_CHANGED(state, payload: boolean) {
       state.afterCurrentUserPwdChanged = payload
     },
+    SET_SCHEMA_DATA(state, payload: { key: string; data: any }) {
+      state.schemaStoreMap.set(payload.key, payload.data)
+    },
     SET_LICENSE_DATA(state, license: LicenseData) {
       state.licenseData = license
     },
@@ -136,6 +140,11 @@ export default createStore({
     configPageBtnStyle(state) {
       return {
         left: state.leftBarCollapse ? '104px' : '224px',
+      }
+    },
+    getSchema(state) {
+      return (key: string) => {
+        return state.schemaStoreMap.get(key)
       }
     },
     isEvaluationLicense(state) {

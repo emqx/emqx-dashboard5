@@ -39,7 +39,7 @@ export default (): {
     RuleOutput.Republish,
   ]
   // Id Format Desc: ./useTopology.ts row-31
-  const nodeIdReg = new RegExp(`^(${RULE_TOPOLOGY_ID}-)(${nodeTypeList.join('|')})-(.+)$`)
+  // const nodeIdReg = new RegExp(`^(${RULE_TOPOLOGY_ID}-)(${nodeTypeList.join('|')})-(.+)$`)
 
   let ruleList: Array<RuleDataItemWithMetrics> = []
   let bridgeList: Array<BridgeItemWithMetrics> = []
