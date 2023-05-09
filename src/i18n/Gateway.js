@@ -317,7 +317,7 @@ export default {
     en: 'CACert Depth',
   },
   SSLPassword: {
-    zh: '秘钥文件密码',
+    zh: '密钥文件密码',
     en: 'Key File Passphrase',
   },
   enableOcspStapling: {
