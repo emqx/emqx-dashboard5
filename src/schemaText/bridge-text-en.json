@@ -900,5 +900,91 @@
       "label": "Local Topic",
       "desc": "The MQTT topic filter to be forwarded to Microsoft SQL Server. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded."
     }
+  },
+  "emqx_ee_bridge_iotdb": {
+    "authentication": {
+      "desc": "Authentication configuration",
+      "label": "Authentication"
+    },
+    "auth_basic": {
+      "desc": "Parameters for basic authentication.",
+      "label": "Basic auth params"
+    },
+    "auth_basic_username": {
+      "desc": "The username as configured at the IoTDB REST interface",
+      "label": "HTTP Basic Auth Username"
+    },
+    "auth_basic_password": {
+      "desc": "The password as configured at the IoTDB REST interface",
+      "label": "HTTP Basic Auth Password"
+    },
+    "base_url": {
+      "desc": "The base URL of the external IoTDB service's REST interface.",
+      "label": "IoTDB REST Service Base URL"
+    },
+    "is_aligned": {
+      "desc": "Whether to align the timeseries",
+      "label": "Align Timeseries"
+    },
+    "device_id": {
+      "desc": "A fixed device name this data should be inserted for. If empty it must either be set in the rule action, the message itself, or it will be extracted from the topic.",
+      "label": "Device ID"
+    },
+    "iotdb_version": {
+      "desc": "The version of the IoTDB system to connect to.",
+      "label": "IoTDB Version"
+    },
+    "max_retries": {
+      "desc": "HTTP request max retry times if failed.",
+      "label": "HTTP Request Max Retries"
+    },
+    "request_timeout": {
+      "desc": "HTTP request timeout.",
+      "label": "HTTP Request Timeout"
+    },
+    "enable_pipelining": {
+      "desc": "A positive integer. Whether to send HTTP requests continuously, when set to 1, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
+      "label": "HTTP Pipelineing"
+    },
+    "pool_type": {
+      "desc": "The type of the pool. Can be one of `random`, `hash`.",
+      "label": "Pool Type"
+    },
+    "connect_timeout": {
+      "desc": "The timeout when connecting to the HTTP server.",
+      "label": "Connect Timeout"
+    }
+  },
+  "emqx_ee_bridge_opents": {
+    "server": {
+      "desc": "The URL of OpenTSDB endpoint.",
+      "label": "URL"
+    },
+    "summary": {
+      "desc": "Whether to return summary information.",
+      "label": "Summary"
+    },
+    "details": {
+      "desc": "Whether to return detailed information.",
+      "label": "Details"
+    }
+  },
+  "emqx_ee_bridge_oracle": {
+    "server": {
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Oracle Database default port 1521 is used if `[:Port]` is not specified.",
+      "label": "Server Host"
+    },
+    "sid": {
+      "desc": "Sid for Oracle Database.",
+      "label": "Oracle Database Sid"
+    },
+    "local_topic": {
+      "desc": "The MQTT topic filter to be forwarded to Oracle Database. All MQTT 'PUBLISH' messages with the topic matching the local_topic will be forwarded.</br>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is configured, then both the data got from the rule and the MQTT messages that match local_topic will be forwarded.",
+      "label": "Server Host"
+    },
+    "sql": {
+      "desc": "SQL Template. The template string can contain placeholders for message metadata and payload field. The placeholders are inserted without any checking and special formatting, so it is important to ensure that the inserted values are formatted and escaped correctly.",
+      "label": "SQL Template"
+    }
   }
 }

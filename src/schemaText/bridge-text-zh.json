@@ -900,5 +900,90 @@
       "label": "本地 Topic",
       "desc": "发送到 'local_topic' 的消息都会转发到 Microsoft SQL Server。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。"
     }
+  },
+  "emqx_ee_bridge_iotdb": {
+    "authentication": {
+      "desc": "身份验证配置",
+      "label": "身份验证"
+    },
+    "auth_basic": {
+      "desc": "基本身份验证的参数。",
+      "label": "基本身份验证参数"
+    },
+    "auth_basic_username": {
+      "desc": "在 IoTDB REST 接口配置的用户名",
+      "label": "HTTP基本身份验证用户名"
+    },
+    "auth_basic_password": {
+      "desc": "在 IoTDB REST 接口配置的密码",
+      "label": "HTTP 基本身份验证密码"
+    },
+    "base_url": {
+      "desc": "外部 IoTDB 服务的 REST 接口的基本 URL。",
+      "label": "IoTDB REST 服务基础 URL"
+    },
+    "is_aligned": {
+      "desc": "是否对齐时间序列",
+      "label": "对齐时间序列"
+    },
+    "device_id": {
+      "desc": "应插入此数据的固定设备名称。如果为空，则必须在规则操作中设置，消息本身中设置，或从主题中提取。",
+      "label": "设备 ID"
+    },
+    "iotdb_version": {
+      "desc": "要连接的 IoTDB 系统的版本。",
+      "label": "IoTDB 版本"
+    },
+    "max_retries": {
+      "desc": "如果失败，HTTP 请求的最大重试次数。",
+      "label": "HTTP 请求最大重试次数"
+    },
+    "request_timeout": {
+      "label": "HTTP 请求超时"
+    },
+    "enable_pipelining": {
+      "desc": "一个正整数。是否连续发送 HTTP 请求，当设置为 1 时，这意味着每次发送 HTTP 请求后，您需要等待服务器返回，然后继续发送下一个请求。",
+      "label": "HTTP 流水线"
+    },
+    "pool_type": {
+      "desc": "连接池的类型。可以是`random`、`hash`之一。",
+      "label": "连接池类型"
+    },
+    "connect_timeout": {
+      "desc": "连接到 HTTP 服务器时的超时时间。",
+      "label": "连接超时"
+    }
+  },
+  "emqx_ee_bridge_opents": {
+    "server": {
+      "desc": "服务器的地址。",
+      "label": "服务器地址"
+    },
+    "summary": {
+      "desc": "是否返回摘要信息。",
+      "label": "摘要信息"
+    },
+    "details": {
+      "desc": "是否返回详细信息。",
+      "label": "详细信息"
+    }
+  },
+  "emqx_ee_bridge_oracle": {
+    "local_topic": {
+      "desc": "发送到 'local_topic' 的消息都会转发到 Oracle Database。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "label": "服务器地址"
+    },
+    "sql": {
+      "desc": "SQL模板。模板字符串可以包含消息元数据和有效载荷字段的占位符。占位符的插入不需要任何检查和特殊格式化，因此必须确保插入的数值格式化和转义正确。模板字符串可以包含占位符模板字符串可以包含消息元数据和有效载荷字段的占位符。这些占位符被插入所以必须确保插入的值的格式正确。因此，确保插入的值格式化和转义正确是非常重要的。模板字符串可以包含占位符模板字符串可以包含消息元数据和有效载荷字段的占位符。这些占位符被插入所以必须确保插入的值的格式正确。确保插入的值被正确地格式化和转义。",
+      "label": "SQL 模板"
+    },
+    "sid": {
+      "desc": "Oracle Database Sid 名称",
+      "label": "Oracle Database Sid"
+    },
+    "server": {
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Oracle Database 默认端口 1521。",
+      "label": "服务器地址"
+    }
   }
 }

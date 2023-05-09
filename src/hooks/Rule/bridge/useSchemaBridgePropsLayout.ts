@@ -161,6 +161,35 @@ export default (
         1,
       ),
     },
+    [BridgeType.IoTDB]: {
+      ...createOrderObj(
+        [
+          'base_url',
+          'iotdb_version',
+          'authentication',
+          'is_aligned',
+          'device_id',
+          'connect_timeout',
+          'retry_interval',
+          'pool_type',
+          'pool_size',
+          'enable_pipelining',
+          'max_retries',
+          'request_timeout',
+          'ssl',
+        ],
+        1,
+      ),
+    },
+    [BridgeType.OpenTSDB]: {
+      ...createOrderObj(['server', 'pool_size', 'summary', 'details'], 1),
+    },
+    [BridgeType.OracleDatabase]: {
+      ...createOrderObj(
+        ['server', 'database', 'sid', 'username', 'password', 'pool_size', 'sql'],
+        1,
+      ),
+    },
   }
 
   const propsOrderMap = computed(() => {
@@ -211,6 +240,13 @@ export default (
     },
     [BridgeType.MicrosoftSQLServer]: {
       driver: 'dividing-line-below',
+      sql: 'dividing-line-below',
+    },
+    [BridgeType.OpenTSDB]: {
+      summary: 'dividing-line-below',
+    },
+    [BridgeType.OracleDatabase]: {
+      password: 'dividing-line-below',
       sql: 'dividing-line-below',
     },
   }
