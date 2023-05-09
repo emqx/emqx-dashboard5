@@ -113,6 +113,9 @@ export enum BridgeType {
   Cassandra = 'cassandra',
   MicrosoftSQLServer = 'sqlserver',
   RocketMQ = 'rocketmq',
+  IoTDB = 'iotdb',
+  OpenTSDB = 'opents',
+  OracleDatabase = 'oracle',
 }
 
 export enum KafkaType {
