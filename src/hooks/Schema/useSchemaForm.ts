@@ -107,7 +107,7 @@ export default function useSchemaForm(
           countRules(component, path)
         }
         Object.keys(properties).forEach((key) => {
-          const property: Properties[string] = cloneDeep(properties[key])
+          let property: Properties[string] = cloneDeep(properties[key])
           // remove deprecated prop
           if (property.deprecated) {
             return
@@ -123,12 +123,19 @@ export default function useSchemaForm(
           const isTargetConnectorProp =
             key === CONNECTOR_KEY &&
             'oneOf' in property &&
-            property.oneOf.some(({ type }) => type === 'string') &&
+            property.oneOf?.some(({ type }) => type === 'string') &&
             property.oneOf.some(({ $ref }) => !!$ref)
           if (isTargetConnectorProp) {
-            const refValue = property.oneOf.find(({ $ref }) => !!$ref)?.$ref
+            const refValue = property.oneOf?.find(({ $ref }) => !!$ref)?.$ref
             property.$ref = refValue
             Reflect.deleteProperty(property, 'oneOf')
+          }
+
+          // If the length of `oneof` is 1, replace it directly
+          if (property.oneOf && property.oneOf.length === 1) {
+            const oneOfItem = property.oneOf[0]
+            property = { ...property, ...oneOfItem }
+            delete property.oneOf
           }
 
           const { $ref, label } = property
