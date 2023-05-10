@@ -179,12 +179,24 @@ export default (props: {
     return { components, rules }
   }
 
+  const rabbitMQHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { payload_template } = components
+
+    if (payload_template?.type === 'string') {
+      payload_template.format = 'sql'
+    }
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Redis]: redisComponentsHandler,
     [BridgeType.GCP]: GCPComponentsHandler,
     [BridgeType.MongoDB]: mongoComponentsHandler,
     [BridgeType.DynamoDB]: dynamoDBHandler,
     [BridgeType.RocketMQ]: rocketMQHandler,
+    [BridgeType.RabbitMQ]: rabbitMQHandler,
   }
 
   const getComponentsHandler = () => {

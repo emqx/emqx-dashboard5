@@ -1035,6 +1035,10 @@ export default {
     zh: 'Oracle Database',
     en: 'Oracle Database',
   },
+  rabbitMQ: {
+    zh: 'RabbitMQ',
+    en: 'RabbitMQ',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Google PubSub',

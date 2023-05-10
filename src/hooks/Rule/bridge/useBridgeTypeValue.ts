@@ -34,6 +34,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.IoTDB, label: tl('iotDB') },
     { value: BridgeType.OpenTSDB, label: tl('openTSDB') },
     { value: BridgeType.OracleDatabase, label: tl('oracleDatabase') },
+    { value: BridgeType.RabbitMQ, label: tl('rabbitMQ') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -87,6 +88,7 @@ export const useBridgeTypeOptions = (): {
     [BridgeType.IoTDB, t('RuleEngine.egressDataBaseDesc', { name: tl('iotDB') })],
     [BridgeType.OpenTSDB, t('RuleEngine.egressDataBaseDesc', { name: tl('openTSDB') })],
     [BridgeType.OracleDatabase, t('RuleEngine.egressDataBaseDesc', { name: tl('oracleDatabase') })],
+    [BridgeType.RabbitMQ, t('RuleEngine.egressDataBaseDesc', { name: tl('rabbitMQ') })],
   ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({

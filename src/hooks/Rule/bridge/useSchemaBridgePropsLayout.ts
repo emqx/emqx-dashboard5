@@ -166,7 +166,8 @@ export default (
         [
           'base_url',
           'iotdb_version',
-          'authentication',
+          'authentication.username',
+          'authentication.password',
           'is_aligned',
           'device_id',
           'connect_timeout',
@@ -187,6 +188,28 @@ export default (
     [BridgeType.OracleDatabase]: {
       ...createOrderObj(
         ['server', 'database', 'sid', 'username', 'password', 'pool_size', 'sql'],
+        1,
+      ),
+    },
+    [BridgeType.RabbitMQ]: {
+      ...createOrderObj(
+        [
+          'server',
+          'port',
+          'username',
+          'password',
+          'exchange',
+          'routing_key',
+          'virtual_host',
+          'heartbeat',
+          'auto_reconnect',
+          'wait_for_publish_confirmations',
+          'publish_confirmation_timeout',
+          'pool_size',
+          'timeout',
+          'delivery_mode',
+          'payload_template',
+        ],
         1,
       ),
     },
@@ -248,6 +271,9 @@ export default (
     [BridgeType.OracleDatabase]: {
       password: 'dividing-line-below',
       sql: 'dividing-line-below',
+    },
+    [BridgeType.RabbitMQ]: {
+      payload_template: 'dividing-line-below',
     },
   }
 
