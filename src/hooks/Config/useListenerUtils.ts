@@ -171,7 +171,6 @@ export default (): ListenerUtils => {
     max_connections: 102400,
     max_conn_rate: 1000,
     zone: DEFAULT_ZONE,
-    limiter: {},
     mountpoint: '',
     proxy_protocol: false,
     proxy_protocol_timeout: '3s',
@@ -207,10 +206,7 @@ export default (): ListenerUtils => {
    * independent is diff from below gateway
    */
   const handleListenerDataWhenItIsIndependent = (listener: Listener): Listener => {
-    let ret = listener
-    if ('max_conn_rate' in ret) {
-      ret = omit(ret, 'max_conn_rate')
-    }
+    const ret = listener
     if (/^\d+$/.test(ret.bind)) {
       ret.bind = parseInt(ret.bind)
     }
