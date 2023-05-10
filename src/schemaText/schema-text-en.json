@@ -450,68 +450,17 @@
     }
   },
   "emqx_limiter_schema": {
-    "bucket_cfg": {
-      "desc": "Bucket Configs",
-      "label": "Buckets"
+    "max_conn_rate": {
+      "desc": "Maximum connection rate.<br/>\nThis is used to limit the connection rate for this node,\nonce the limit is reached, new connections will be deferred or refused",
+      "label": "Maximum Connection Rate"
     },
-    "burst": {
-      "desc": "The burst, This value is based on rate.<br/>\n This value + rate = the maximum limit that can be achieved when limiter burst.",
-      "label": "Burst"
+    "messages_rate": {
+      "desc": "Messages publish rate.<br/>\nThis is used to limit the inbound message numbers for this node,\nonce the limit is reached, the restricted client will slow down and even be hung for a while.",
+      "label": "Messages Publish Rate"
     },
-    "bytes_in": {
-      "desc": "The bytes_in limiter.\nThis is used to limit the inbound bytes rate for this EMQX node.\nOnce the limit is reached, the restricted client will be slow down even be hung for a while.",
-      "label": "Bytes In"
-    },
-    "capacity": {
-      "desc": "The capacity of this token bucket.",
-      "label": "Capacity"
-    },
-    "client": {
-      "desc": "The rate limit for each user of the bucket",
-      "label": "Per Client"
-    },
-    "client_bucket_capacity": {
-      "desc": "The capacity of per user.",
-      "label": "Capacity"
-    },
-    "connection": {
-      "desc": "The connection limiter.\nThis is used to limit the connection rate for this EMQX node.\nOnce the limit is reached, new connections will be refused",
-      "label": "Connection"
-    },
-    "divisible": {
-      "desc": "Is it possible to split the number of requested tokens?",
-      "label": "Divisible"
-    },
-    "failure_strategy": {
-      "desc": "The strategy when all the retries failed.",
-      "label": "Failure Strategy"
-    },
-    "initial": {
-      "desc": "The initial number of tokens for this bucket.",
-      "label": "Initial"
-    },
-    "internal": {
-      "desc": "Limiter for EMQX internal app."
-    },
-    "low_watermark": {
-      "desc": "If the remaining tokens are lower than this value,\nthe check/consume will succeed, but it will be forced to wait for a short period of time.",
-      "label": "Low Watermark"
-    },
-    "max_retry_time": {
-      "desc": "The maximum retry time when acquire failed.",
-      "label": "Max Retry Time"
-    },
-    "message_in": {
-      "desc": "The message in limiter.\nThis is used to limit the inbound message numbers for this EMQX node\nOnce the limit is reached, the restricted client will be slow down even be hung for a while.",
-      "label": "Message In"
-    },
-    "message_routing": {
-      "desc": "The message routing limiter.\nThis is used to limit the forwarding rate for this EMQX node.\nOnce the limit is reached, new publish will be refused",
-      "label": "Message Routing"
-    },
-    "rate": {
-      "desc": "Rate for this bucket.",
-      "label": "Rate"
+    "bytes_rate": {
+      "desc": "Data publish rate.<br/>\nThis is used to limit the inbound bytes rate for this node,\nonce the limit is reached, the restricted client will slow down and even be hung for a while.",
+      "label": "Data Publish Rate"
     }
   },
   "emqx_schema": {
