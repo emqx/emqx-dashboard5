@@ -13,6 +13,7 @@ const DEFAULT_ZONE = 'emqx_schema'
 const TYPE_ZONE_MAP: Record<string, Array<string>> = {
   emqx_schema: ['mqtt', 'session', 'sysmon'],
   emqx_conf_schema: ['log'],
+  emqx_limiter_schema: ['limiter'],
 }
 
 /**
@@ -80,11 +81,14 @@ export default (
   const getSysMonTextKey = ({ path }: Property) =>
     `${getConfigurationTextZone()}.${SYS_MON_PREFIX}${customSnakeCase(path as string)}`
 
+  const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}.${key}`
+
   const funcMap: Record<string, GetTextKey> = {
     mqtt: getMQTTAndSessionItemTextKey,
     session: getMQTTAndSessionItemTextKey,
     log: getLogItemTextKey,
     sysmon: getSysMonTextKey,
+    limiter: getLimiterTextKey,
   }
 
   const getConfigurationItemTextKey = (prop: Property) => {
