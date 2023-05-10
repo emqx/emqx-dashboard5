@@ -242,6 +242,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
           formData.type = getDefaultListenerTypeByGateway()
         }
         listenerRecord.value = { ...createRawListener(), ...formData }
+        if (!props.gatewayName) {
+          delete listenerRecord.value.max_conn_rate
+        }
       }
       await nextTick()
       formCom.value.clearValidate()
