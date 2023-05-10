@@ -176,53 +176,6 @@ const SchemaForm = defineComponent({
 
     const currentGroup = ref(groups.value[0] || tl('basic'))
 
-    watch(
-      () => props.form,
-      (value) => {
-        if (value && !_.isEqual(value, configForm.value)) {
-          configForm.value = _.cloneDeep(value)
-        }
-      },
-    )
-
-    watch(components, (val) => {
-      handleComponentsData()
-      initCurrentGroup()
-      if ((!props.form || isEmptyObj(props.form)) && props.needRecord) {
-        configForm.value = initRecordByComponents(val)
-        if (typesNeedConciseSSL.includes(props.type)) {
-          configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value)
-        }
-      }
-    })
-
-    watch(
-      () => props.accordingTo,
-      async (nVal, oVal) => {
-        if (!_.isEqual(nVal, oVal)) {
-          const oldComponent = _.cloneDeep(components.value)
-          const oldRecord = _.cloneDeep(configForm.value)
-          resetObjForGetComponent(nVal)
-
-          // because change accordingTo will not reset parent component form value
-          // so we need get new form and emit to parent for compare
-          let newRecord = initRecordByComponents(components.value)
-          if (typesNeedConciseSSL.includes(props.type)) {
-            newRecord = handleSSLDataWhenUseConciseSSL(newRecord)
-          }
-
-          ctx.emit('component-change', {
-            oldVal: { components: oldComponent, record: oldRecord },
-            newVal: { components: components.value, record: newRecord },
-          })
-        }
-      },
-    )
-
-    watchEffect(() => {
-      ctx.emit('update', configForm.value)
-    })
-
     const initCurrentGroup = () => {
       currentGroup.value = groups.value[0] || tl('basic')
     }
@@ -735,6 +688,55 @@ const SchemaForm = defineComponent({
       }
     }
 
+    const init = () => {
+      handleComponentsData()
+      initCurrentGroup()
+      if ((!props.form || isEmptyObj(props.form)) && props.needRecord) {
+        configForm.value = initRecordByComponents(components.value)
+        if (typesNeedConciseSSL.includes(props.type)) {
+          configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value)
+        }
+      }
+    }
+
+    watch(
+      () => props.form,
+      (value) => {
+        if (value && !_.isEqual(value, configForm.value)) {
+          configForm.value = _.cloneDeep(value)
+        }
+      },
+    )
+
+    watch(components, init)
+
+    watch(
+      () => props.accordingTo,
+      async (nVal, oVal) => {
+        if (!_.isEqual(nVal, oVal)) {
+          const oldComponent = _.cloneDeep(components.value)
+          const oldRecord = _.cloneDeep(configForm.value)
+          resetObjForGetComponent(nVal)
+
+          // because change accordingTo will not reset parent component form value
+          // so we need get new form and emit to parent for compare
+          let newRecord = initRecordByComponents(components.value)
+          if (typesNeedConciseSSL.includes(props.type)) {
+            newRecord = handleSSLDataWhenUseConciseSSL(newRecord)
+          }
+
+          ctx.emit('component-change', {
+            oldVal: { components: oldComponent, record: oldRecord },
+            newVal: { components: components.value, record: newRecord },
+          })
+        }
+      },
+    )
+
+    watchEffect(() => {
+      ctx.emit('update', configForm.value)
+    })
+
     const formLoading = ref(true)
     const showSkeleton = computed(
       () => (formLoading.value || props.recordLoading) && props.type !== 'bridge',
@@ -743,7 +745,7 @@ const SchemaForm = defineComponent({
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
       }
-      handleComponentsData()
+      init()
       // window.setTimeout(() => {
       //   formLoading.value = false
       // }, 400)
