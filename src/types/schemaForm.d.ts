@@ -20,7 +20,7 @@ export interface Property {
   items: Properties[string]
   component: string
   clearable: boolean
-  oneOf: Properties[string][]
+  oneOf?: Properties[string][]
   properties?: Properties
   format?: string
   /**
