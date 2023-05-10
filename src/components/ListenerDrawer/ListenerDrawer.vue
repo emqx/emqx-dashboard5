@@ -293,6 +293,24 @@
           </template>
         </el-row>
       </div>
+      <el-row :gutter="20" v-if="!gatewayName">
+        <el-col :span="24"><el-divider /></el-col>
+        <el-col :span="12">
+          <el-form-item :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')">
+            <el-input v-model="listenerRecord.max_conn_rate" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="t('ConfigSchema.emqx_limiter_schema.messages_rate.label')">
+            <el-input v-model="listenerRecord.messages_rate" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="t('ConfigSchema.emqx_limiter_schema.bytes_rate.label')">
+            <el-input v-model="listenerRecord.bytes_rate" />
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <template #footer>
       <el-button @click="showDialog = false">
@@ -348,7 +366,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'submit', 'submitted', 'delete'])
 
-const { tl } = useI18nTl('Gateway')
+const { tl, t } = useI18nTl('Gateway')
 
 const {
   showDialog,

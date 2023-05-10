@@ -1,100 +1,52 @@
 <template>
   <div class="limiter app-wrapper">
-    <el-card>
-      <div class="schema-form">
-        <el-form
-          class="configuration-form"
-          label-position="right"
-          :label-width="state.lang === 'zh' ? 144 : 160"
-        >
-          <el-tabs class="group-tabs" type="card" v-model="currentLimiterType">
-            <el-tab-pane
-              v-for="group in LimiterTypes"
-              :key="group"
-              :label="tl(group)"
-              :name="group"
-            />
-          </el-tabs>
-          <LimiterConfigurationBlock
-            v-if="rateProperties"
-            v-model="configs"
-            :properties="rateProperties"
-            :block-tip="tl('rateConfigDesc')"
-          />
-          <!-- Client -->
-          <template v-if="clientRateProperties">
-            <el-divider />
-            <LimiterConfigurationBlock
-              v-model="configs"
-              :properties="clientRateProperties"
-              :block-tip="tl('clientRateConfigDesc')"
-            />
-          </template>
-          <el-row v-if="rateProperties || clientRateProperties">
-            <el-col
-              :span="24"
-              class="btn-col"
-              :style="{ left: state.leftBarCollapse ? '104px' : '224px' }"
-            >
-              <el-button type="primary" :loading="saveLoading" @Click="handleSave">
-                {{ $t('Base.saveChanges') }}
-              </el-button>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
+    <el-card class="config-card">
+      <schema-form
+        ref="SchemaFormCom"
+        :according-to="{ path: '/configs/limiter' }"
+        type="limiter"
+        :form="configs"
+        :btn-loading="saveLoading"
+        :record-loading="configLoading"
+        :label-width="state.lang === 'zh' ? 140 : 236"
+        @save="handleSave"
+      />
     </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { getLimiters, updateLimiters } from '@/api/config'
-import useSchemaForm from '@/hooks/Schema/useSchemaForm'
-import useI18nTl from '@/hooks/useI18nTl'
-import { Limiter, LimiterType } from '@/types/config'
+import SchemaForm from '@/components/SchemaForm'
+import { Limiter } from '@/types/config'
 import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
-import LimiterConfigurationBlock from './components/LimiterConfigurationBlock.vue'
 
 const configs = ref<Limiter>({} as Limiter)
 const saveLoading = ref(false)
+const configLoading = ref(false)
 
 const { t } = useI18n()
-const { tl } = useI18nTl('BasicConfig')
 const { state } = useStore()
-
-const { components } = useSchemaForm(`static/hot-config-schema-${state.lang}.json`, {
-  path: '/configs/limiter',
-})
-const currentLimiterType = ref<LimiterType>('bytes_in')
-const LimiterTypes = ['bytes_in', 'message_in', 'connection', 'message_routing', 'internal']
-
-const rateProperties = computed(() => {
-  const currComponent = components.value[currentLimiterType.value]
-  return currComponent?.properties
-})
-
-const clientRateProperties = computed(() => {
-  const clientRateComponent = components.value.client?.properties?.[currentLimiterType.value]
-  return clientRateComponent?.properties
-})
 
 const loadData = async () => {
   try {
+    configLoading.value = true
     const res = await getLimiters()
     configs.value = res
   } catch (error) {
     //
+  } finally {
+    configLoading.value = false
   }
 }
 
-const handleSave = async () => {
+const handleSave = async (val: Limiter) => {
   saveLoading.value = true
-  const data = cloneDeep(configs.value)
   try {
+    const data = { ...val }
     await updateLimiters(data)
     ElMessage.success(t('Base.updateSuccess'))
     loadData()
