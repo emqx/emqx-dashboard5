@@ -64,6 +64,7 @@ const typeRefKeyMap = {
   [BridgeType.IoTDB]: getSchemaRefByType(`iotdb`),
   [BridgeType.OpenTSDB]: getSchemaRefByType(`opents`),
   [BridgeType.OracleDatabase]: getSchemaRefByType(`oracle`),
+  [BridgeType.RabbitMQ]: getSchemaRefByType(`rabbitmq`),
 }
 
 const props = defineProps({

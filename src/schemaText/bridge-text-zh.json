@@ -985,5 +985,70 @@
       "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Oracle Database 默认端口 1521。",
       "label": "服务器地址"
     }
+  },
+  "emqx_ee_bridge_rabbitmq": {
+    "server": {
+      "desc": "你想要连接的 RabbitMQ 服务器地址（例如，localhost）。",
+      "label": "服务器"
+    },
+    "port": {
+      "desc": "RabbitMQ 服务器监听的端口号（默认为 5672）。",
+      "label": "端口"
+    },
+    "username": {
+      "desc": "用于认证 RabbitMQ 服务器的用户名。",
+      "label": "用户名"
+    },
+    "password": {
+      "desc": "用于认证 RabbitMQ 服务器的密码。",
+      "label": "密码"
+    },
+    "pool_size": {
+      "label": "连接池大小"
+    },
+    "timeout": {
+      "desc": "等待建立连接的超时时间。",
+      "label": "连接超时时间"
+    },
+    "virtual_host": {
+      "desc": "连接到 RabbitMQ 服务器时要使用的虚拟主机。",
+      "label": "虚拟主机"
+    },
+    "heartbeat": {
+      "desc": "发送心跳消息到 RabbitMQ 服务器的时间间隔。",
+      "label": "心跳"
+    },
+    "auto_reconnect": {
+      "desc": "如果连接丢失，尝试重新连接到 RabbitMQ 服务器的时间间隔。",
+      "label": "自动重连"
+    },
+    "exchange": {
+      "desc": "消息将被发送到的 RabbitMQ 交换的名称。",
+      "label": "交换机"
+    },
+    "exchange_type": {
+      "desc": "RabbitMQ 交换的类型（直接，扇形或主题）。",
+      "label": "交换机类型"
+    },
+    "routing_key": {
+      "desc": "用于将消息路由到 RabbitMQ 交换中的正确队列的路由键。",
+      "label": "路由键"
+    },
+    "delivery_mode": {
+      "desc": "发布到 RabbitMQ 的消息的传递模式。非持久性(1)的传递模式适用于不需要在 RabbitMQ 重启时保持持久性的消息，而持久性(2)的传递模式适用于必须在 RabbitMQ 重启时幸存的消息。",
+      "label": "消息传递模式"
+    },
+    "payload_template": {
+      "desc": "发送消息到 RabbitMQ 之前格式化消息有效载荷的模板。模板占位符（例如 ${'{'}field1.sub_field{'}'} ）将被替换为相应字段的值。如果为空，则整个输入消息将被用作有效载荷，格式化为JSON文本。此行为相当于将 ${'{'}.{'}'} 指定为有效载荷模板。",
+      "label": "有效载荷模板"
+    },
+    "publish_confirmation_timeout": {
+      "desc": "使用发布者确认时等待 RabbitMQ 确认消息发布的超时时间。",
+      "label": "发布确认超时时间"
+    },
+    "wait_for_publish_confirmations": {
+      "desc": "表示使用发布者确认时是否等待 RabbitMQ 确认消息发布的布尔值。",
+      "label": "等待发布确认"
+    }
   }
 }
