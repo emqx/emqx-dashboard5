@@ -51,6 +51,10 @@ export default {
     zh: '不匹配',
     en: 'No match',
   },
+  no_compression: {
+    zh: '不压缩',
+    en: 'No compression',
+  },
   rateNow: {
     zh: '当前速率',
     en: 'Rate',

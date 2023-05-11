@@ -431,7 +431,7 @@
       "label": "偏移重置策略"
     },
     "partition_count_refresh_interval": {
-      "desc": "配置 Kafka 刷新分区数量的时间间隔。\nEMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy<code> 配置，把消息发送到新的分区中。",
+      "desc": "配置 Kafka 刷新分区数量的时间间隔。\nEMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy</code> 配置，把消息发送到新的分区中。",
       "label": "分区数量刷新间隔"
     },
     "max_batch_bytes": {
@@ -503,8 +503,8 @@
       "label": "最大的重新加入尝试"
     },
     "kafka_message_key": {
-      "desc": "生成 Kafka 消息 Key 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code> ，而非空字符串。",
-      "label": "消息的 Key"
+      "desc": "生成 Kafka 消息键的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code> ，而非空字符串。",
+      "label": "消息的键"
     },
     "kafka_message": {
       "desc": "用于生成 Kafka 消息的模版。",
@@ -515,11 +515,11 @@
       "label": "源 MQTT 主题"
     },
     "kafka_message_value": {
-      "desc": "生成 Kafka 消息 Value 的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code>，而非空字符串。",
-      "label": "消息的 Value"
+      "desc": "生成 Kafka 消息的值的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code>，而非空字符串。",
+      "label": "消息的值"
     },
     "partition_strategy": {
-      "desc": "设置消息发布时应该如何选择 Kafka 分区。\n\n<code>random</code>: 为每个消息随机选择一个分区。\n<code>key_dispatch</code>: Hash Kafka message key to a partition number",
+      "desc": "设置消息发布时应该如何选择 Kafka 分区。\n\n<code>random</code>: 为每个消息随机选择一个分区。\n<code>key_dispatch</code>：对 Kafka 消息键进行哈希，以得到一个分区号。",
       "label": "分区选择策略"
     },
     "buffer_segment_bytes": {

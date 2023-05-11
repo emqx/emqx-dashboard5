@@ -559,4 +559,8 @@ export default {
     zh: '选择适合您需求的升级方案',
     en: 'Choose the Upgrade Plan That Fits Your Needs',
   },
+  none: {
+    zh: '无',
+    en: 'None',
+  },
 }
