@@ -919,7 +919,7 @@
       "label": "HTTP 基本身份验证密码"
     },
     "base_url": {
-      "desc": "外部 IoTDB 服务的 REST 接口的基本 URL。",
+      "desc": "外部 IoTDB 服务的 REST 接口的基础 URL。",
       "label": "IoTDB REST 服务基础 URL"
     },
     "is_aligned": {
