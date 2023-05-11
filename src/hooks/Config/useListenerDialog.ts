@@ -45,7 +45,7 @@ interface UseListenerDialogReturns {
   isDTLS: ComputedRef<boolean>
   SSLConfigKey: ComputedRef<string>
   showWSConfig: ComputedRef<boolean>
-  listenerFormRules: FormRules
+  listenerFormRules: Ref<FormRules>
   submit: () => Promise<void>
   onDelete: () => void
   transPort: (port: string) => string
@@ -77,7 +77,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const {
     completeGatewayListenerTypeList,
     listenerTypeList,
-    listenerFormRules,
+    listenerFormRules: rawRules,
+    limiterRules,
+    maxConnRateRule,
     createListenerId,
     createRawListener,
     hasTCPConfig,
@@ -90,6 +92,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     getListenerNameNTypeById,
     transPort,
   } = useListenerUtils()
+  const listenerFormRules: Ref<FormRules> = ref(rawRules) as Ref<FormRules>
 
   const listenerTypeOptList = computed(() => {
     if (props.gatewayName) {
@@ -245,6 +248,11 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
         if (!props.gatewayName) {
           delete listenerRecord.value.max_conn_rate
         }
+      }
+      if (props.gatewayName) {
+        listenerFormRules.value = { ...rawRules, ...maxConnRateRule }
+      } else {
+        listenerFormRules.value = { ...rawRules, ...limiterRules }
       }
       await nextTick()
       formCom.value.clearValidate()
