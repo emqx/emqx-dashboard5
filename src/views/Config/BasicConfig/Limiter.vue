@@ -2,12 +2,14 @@
   <div class="limiter app-wrapper">
     <el-card class="config-card">
       <schema-form
-        ref="SchemaFormCom"
-        :according-to="{ path: '/configs/limiter' }"
+        need-rules
         type="limiter"
+        ref="SchemaFormCom"
         :form="configs"
         :btn-loading="saveLoading"
         :record-loading="configLoading"
+        :data-handler="addPattern"
+        :according-to="{ path: '/configs/limiter' }"
         :label-width="state.lang === 'zh' ? 140 : 236"
         @save="handleSave"
       />
@@ -18,18 +20,35 @@
 <script lang="ts" setup>
 import { getLimiters, updateLimiters } from '@/api/config'
 import SchemaForm from '@/components/SchemaForm'
+import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import { Limiter } from '@/types/config'
+import { Properties } from '@/types/schemaForm'
 import { ElMessage } from 'element-plus'
+import { checkNOmitFromObj, customValidate } from '@/common/tools'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
+import useLimiter from '@/hooks/Config/useLimiter'
 
 const configs = ref<Limiter>({} as Limiter)
 const saveLoading = ref(false)
 const configLoading = ref(false)
 
+const SchemaFormCom = ref()
+
 const { t } = useI18n()
 const { state } = useStore()
+
+const { limiterRules, limiterPlaceholderMap } = useLimiter()
+const addPattern = (data: { components: Properties; rules: SchemaRules }) => {
+  const { components } = data
+  Object.entries(components).forEach(([key, value]) => {
+    if (key in limiterPlaceholderMap) {
+      value.default = limiterPlaceholderMap[key]
+    }
+  })
+  return { components: components, rules: limiterRules }
+}
 
 const loadData = async () => {
   try {
@@ -44,9 +63,10 @@ const loadData = async () => {
 }
 
 const handleSave = async (val: Limiter) => {
-  saveLoading.value = true
   try {
-    const data = { ...val }
+    await customValidate(SchemaFormCom.value)
+    saveLoading.value = true
+    const data = checkNOmitFromObj({ ...val }) as Limiter
     await updateLimiters(data)
     ElMessage.success(t('Base.updateSuccess'))
     loadData()
