@@ -13,6 +13,7 @@
       require-asterisk-position="right"
       :rules="listenerFormRules"
       :model="listenerRecord"
+      :validate-on-rule-change="false"
       ref="formCom"
       v-loading="isLoading"
     >
@@ -296,18 +297,36 @@
       <el-row :gutter="20" v-if="!gatewayName">
         <el-col :span="24"><el-divider /></el-col>
         <el-col :span="12">
-          <el-form-item :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')">
-            <el-input v-model="listenerRecord.max_conn_rate" />
+          <el-form-item
+            :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')"
+            prop="max_conn_rate"
+          >
+            <el-input
+              v-model="listenerRecord.max_conn_rate"
+              :placeholder="limiterPlaceholderMap.max_conn_rate"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="t('ConfigSchema.emqx_limiter_schema.messages_rate.label')">
-            <el-input v-model="listenerRecord.messages_rate" />
+          <el-form-item
+            :label="t('ConfigSchema.emqx_limiter_schema.messages_rate.label')"
+            prop="messages_rate"
+          >
+            <el-input
+              v-model="listenerRecord.messages_rate"
+              :placeholder="limiterPlaceholderMap.messages_rate"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="t('ConfigSchema.emqx_limiter_schema.bytes_rate.label')">
-            <el-input v-model="listenerRecord.bytes_rate" />
+          <el-form-item
+            :label="t('ConfigSchema.emqx_limiter_schema.bytes_rate.label')"
+            prop="bytes_rate"
+          >
+            <el-input
+              v-model="listenerRecord.bytes_rate"
+              :placeholder="limiterPlaceholderMap.bytes_rate"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -335,6 +354,7 @@ import Oneof from '@/components/Oneof.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useLimiter from '@/hooks/Config/useLimiter'
 import useListenerDialog from '@/hooks/Config/useListenerDialog'
 import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
@@ -389,6 +409,8 @@ const {
   submit,
   onDelete,
 } = useListenerDialog(props, emit)
+
+const { limiterPlaceholderMap } = useLimiter()
 
 const isUDP = computed(() => listenerRecord.value.type === ListenerTypeForGateway.UDP)
 

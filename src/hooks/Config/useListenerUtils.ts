@@ -1,10 +1,11 @@
-import { Listener } from '@/types/listener'
-import { cloneDeep, omit } from 'lodash'
-import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { DEFAULT_ZONE, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
+import useLimiter from '@/hooks/Config/useLimiter'
+import { FormRules } from '@/types/common'
+import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
+import { Listener } from '@/types/listener'
+import { cloneDeep } from 'lodash'
 import useFormRules from '../useFormRules'
 import useI18nTl from '../useI18nTl'
-import { FormRules } from '@/types/common'
 
 export interface ListenerUtils {
   completeGatewayListenerTypeList: ListenerTypeForGateway[]
@@ -15,6 +16,8 @@ export interface ListenerUtils {
   gatewayTypesWhichHasUDPConfig: Array<ListenerTypeForGateway | ListenerType>
   gatewayTypesWhichHasSSLConfig: Array<ListenerTypeForGateway | ListenerType>
   listenerFormRules: FormRules
+  limiterRules: FormRules
+  maxConnRateRule: FormRules
   createRawListener: () => Listener
   getListenerNameNTypeById: (id: string) => {
     type: string
@@ -104,6 +107,10 @@ export default (): ListenerUtils => {
   const { t, tl } = useI18nTl('Gateway')
   const { createRequiredRule, createIntFieldRule, createCommonIdRule } = useFormRules()
   const positiveIntegerRule = createIntFieldRule(1)
+  // limiter in listener
+  const { limiterRules } = useLimiter()
+  // limiter in gateway's listener
+  const maxConnRateRule = { max_conn_rate: positiveIntegerRule }
   const listenerFormRules: FormRules = {
     name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
     type: createRequiredRule(tl('lType'), 'select'),
@@ -119,7 +126,6 @@ export default (): ListenerUtils => {
         },
       },
     ],
-    max_conn_rate: positiveIntegerRule,
     'dtls_options.certfile': createRequiredRule('TLS Cert'),
     'dtls_options.keyfile': createRequiredRule('TLS Key'),
     'ssl_options.certfile': createRequiredRule('TLS Cert'),
@@ -302,6 +308,8 @@ export default (): ListenerUtils => {
     gatewayTypesWhichHasUDPConfig,
     gatewayTypesWhichHasSSLConfig,
     listenerFormRules,
+    limiterRules,
+    maxConnRateRule,
     createRawListener,
     getListenerNameNTypeById,
     createListenerId,

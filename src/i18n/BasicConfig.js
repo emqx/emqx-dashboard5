@@ -164,24 +164,12 @@ export default {
     zh: '文件日志',
     en: 'File Log',
   },
-  bytes_in: {
-    zh: '流入字节速率',
-    en: 'Bytes In',
-  },
-  message_in: {
-    zh: '消息速率',
-    en: 'Message In',
-  },
   connection: {
     zh: '连接速率',
     en: 'Connection',
   },
-  message_routing: {
-    zh: '消息路由速率',
-    en: 'Message Routing',
-  },
-  internal: {
-    zh: '内部功能',
-    en: 'Internal',
+  rateMatchError: {
+    zh: '请输入格式正确的速率配置',
+    en: 'Please enter a properly formatted rate configuration',
   },
 }
