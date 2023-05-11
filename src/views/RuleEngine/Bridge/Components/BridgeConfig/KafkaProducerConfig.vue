@@ -67,7 +67,7 @@
               v-for="item in getPropItem('compression').symbols || []"
               :key="item"
               :value="item"
-              :label="item"
+              :label="te(`RuleEngine.${item}`) ? $t(`RuleEngine.${item}`) : item"
             />
           </el-select>
         </el-form-item>
@@ -222,7 +222,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const components = computed(() => props.schemaComponents)
 const { getPropItem } = useGetInfoFromComponents(components)
-const { tl } = useI18nTl('BridgeSchema.emqx_ee_bridge_kafka')
+const { tl, te } = useI18nTl('BridgeSchema.emqx_ee_bridge_kafka')
 
 const kafkaConfig = computed({
   get() {

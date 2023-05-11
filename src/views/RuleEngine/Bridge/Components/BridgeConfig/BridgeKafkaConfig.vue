@@ -504,7 +504,7 @@ const authType = computed({
   },
 })
 const authTypeOptList = [
-  { value: AuthType.None, label: 'None' },
+  { value: AuthType.None, label: t('Base.none') },
   { value: AuthType.Basic, label: tl('basicAuth') },
   { value: AuthType.Kerberos, label: 'Kerberos' },
 ]
