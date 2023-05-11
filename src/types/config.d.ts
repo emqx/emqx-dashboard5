@@ -279,22 +279,6 @@ export interface TeleStatus {
   enable: boolean
 }
 
-export interface Rate {
-  bytes_in: RateItem
-  message_in: RateItem
-  connection: RateItem
-  message_routing: RateItem
-  batch?: RateItem
-}
-
-export type LimiterType = 'bytes_in' | 'message_in' | 'connection' | 'message_routing' | 'batch'
-
-export interface RateItem {
-  rate: string
-  burst: string
-  bucket: Bucket
-}
-
 export interface Bucket {
   [key: string]: BucketName
 }
