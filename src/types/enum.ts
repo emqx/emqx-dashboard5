@@ -117,6 +117,7 @@ export enum BridgeType {
   OpenTSDB = 'opents',
   OracleDatabase = 'oracle',
   RabbitMQ = 'rabbitmq',
+  Pulsar = 'pulsar',
 }
 
 export enum KafkaType {
