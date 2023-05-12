@@ -125,6 +125,10 @@ export enum KafkaType {
   Consumer = 'kafka_consumer',
 }
 
+export enum PulsarType {
+  Producer = 'pulsar_producer',
+}
+
 export enum ConnectorType {
   MQTT = 'mqtt',
 }

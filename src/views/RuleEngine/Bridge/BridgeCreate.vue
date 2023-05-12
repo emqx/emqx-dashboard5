@@ -63,6 +63,12 @@
                 ref="formCom"
                 :copy="isCopy"
               />
+              <bridge-pulsar-config
+                v-else-if="chosenBridgeType === BridgeType.Pulsar"
+                v-model="bridgeData"
+                ref="formCom"
+                :copy="isCopy"
+              />
               <using-schema-bridge-config
                 v-else-if="
                   chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)
@@ -146,6 +152,11 @@
         v-model="bridgeData"
         ref="formCom"
       />
+      <bridge-pulsar-config
+        v-else-if="chosenBridgeType === BridgeType.Pulsar"
+        v-model="bridgeData"
+        ref="formCom"
+      />
       <using-schema-bridge-config
         v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
         :type="chosenBridgeType"
@@ -182,6 +193,7 @@ import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
+import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 
 export default defineComponent({
   name: 'BridgeCreate',
@@ -193,6 +205,7 @@ export default defineComponent({
     UsingSchemaBridgeConfig,
     BridgeInfluxdbConfig,
     BridgeKafkaConfig,
+    BridgePulsarConfig,
   },
   setup() {
     const { tl } = useI18nTl('RuleEngine')

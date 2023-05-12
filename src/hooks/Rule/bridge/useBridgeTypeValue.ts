@@ -35,6 +35,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.OpenTSDB, label: tl('openTSDB') },
     { value: BridgeType.OracleDatabase, label: tl('oracleDatabase') },
     { value: BridgeType.RabbitMQ, label: tl('rabbitMQ') },
+    { value: BridgeType.Pulsar, label: tl('pulsar') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -89,6 +90,7 @@ export const useBridgeTypeOptions = (): {
     [BridgeType.OpenTSDB, t('RuleEngine.egressDataBaseDesc', { name: tl('openTSDB') })],
     [BridgeType.OracleDatabase, t('RuleEngine.egressDataBaseDesc', { name: tl('oracleDatabase') })],
     [BridgeType.RabbitMQ, t('RuleEngine.egressDataBaseDesc', { name: tl('rabbitMQ') })],
+    [BridgeType.Pulsar, t('RuleEngine.egressDataBaseDesc', { name: tl('pulsar') })],
   ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({
@@ -106,6 +108,7 @@ export const useBridgeTypeOptions = (): {
     BridgeType.Redis,
     BridgeType.MongoDB,
     BridgeType.Kafka,
+    BridgeType.Pulsar,
   ]
   const getBridgeType = (typeStr: string): BridgeType => {
     if (!typeStr) {

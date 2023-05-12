@@ -1043,6 +1043,10 @@ export default {
     zh: 'RabbitMQ',
     en: 'RabbitMQ',
   },
+  pulsar: {
+    zh: 'Pulsar',
+    en: 'Pulsar',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Google PubSub',
