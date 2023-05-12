@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <el-row>
+    <el-row v-if="!showChangePwdForm">
       <el-col class="intro" :span="8">
         <div class="content">
           <img
@@ -21,7 +21,7 @@
       </el-col>
       <el-col class="form" :span="16">
         <!-- Login -->
-        <div class="login-wrapper" v-if="!showChangePwdForm">
+        <div class="login-wrapper">
           <div class="form-hd">
             <h1>{{ $t('Base.login') }}</h1>
           </div>
@@ -65,11 +65,29 @@
             </el-form-item>
           </el-form>
         </div>
+      </el-col>
+    </el-row>
+    <el-row v-else>
+      <el-col :span="12" class="img-container">
+        <!-- TODO: -->
+        <img
+          src="@/assets/img/img-change-default-pwd.png"
+          alt="img-change-default-pwd"
+          width="328"
+        />
+      </el-col>
+      <el-col :span="12" class="col-new-pwd">
         <!-- Change default password -->
-        <div class="login-wrapper is-pwd" v-else>
+        <div class="form-container">
           <div class="form-hd">
-            <h1 class="title-pwd">{{ $t('General.changePassword') }}</h1>
-            <p class="tip default-pwd-tip">{{ $t('Base.defaultPwdTip') }}</p>
+            <h5 class="title-pwd">{{ $t('General.changePassword') }}</h5>
+            <div class="tip default-pwd-tip">
+              <p>{{ $t('Base.defaultPwdTip') }}</p>
+              <ul>
+                <li>{{ $t('General.passwordRequirement1') }}</li>
+                <li>{{ $t('General.passwordRequirement2') }}</li>
+              </ul>
+            </div>
           </div>
           <el-form
             ref="PwdFormCom"
@@ -99,13 +117,21 @@
                 :placeholder="t('General.confirmPassword')"
               />
             </el-form-item>
-            <el-form-item>
-              <div class="oper-wrapper">
-                <el-button type="primary" @click="submitNewPwd" :loading="isSubmitting">
-                  {{ $t('Base.confirm') }}
+            <el-button
+              class="btn-submit"
+              type="primary"
+              @click="submitNewPwd"
+              :loading="isSubmitting"
+            >
+              {{ $t('Base.confirm') }}
+            </el-button>
+            <div class="skip-wrap">
+              <el-tooltip class="box-item" effect="dark" :content="$t('Base.skipTip')">
+                <el-button class="btn-skip" type="primary" link @click="redirect">
+                  {{ $t('Base.skip') }}
                 </el-button>
-              </div>
-            </el-form-item>
+              </el-tooltip>
+            </div>
           </el-form>
         </div>
       </el-col>
@@ -149,12 +175,16 @@ const rules = {
   password: [{ required: true, message: t('Base.passwordRequired') }],
 }
 const { createRequiredRule } = useFormRules()
+const pwdMismatchMsg =
+  t('General.passwordRequirement1') +
+  t('General.semicolon') +
+  t('General.passwordRequirement2').toLowerCase()
 const pwdRules = {
   password: [
     ...createRequiredRule(t('General.password')),
     {
       pattern: PASSWORD_REG,
-      message: t('General.passwordRequirement'),
+      message: pwdMismatchMsg,
       trigger: ['blur'],
     },
   ],
@@ -245,9 +275,19 @@ const submitNewPwd = async () => {
   h1 {
     margin-top: 0;
     margin-bottom: 0;
-    &.title-pwd {
-      margin-bottom: 12px;
-    }
+  }
+
+  @mixin big-btn {
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+  }
+
+  .title-pwd {
+    margin-bottom: 16px;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 31px;
   }
 
   .el-row {
@@ -300,13 +340,6 @@ const submitNewPwd = async () => {
         .form-hd {
           height: 78px;
         }
-        &.is-pwd {
-          .form-hd {
-            margin-top: 78px - 110px;
-            height: 110px;
-          }
-        }
-
         .el-form-item--large {
           margin-bottom: 32px;
           .el-input--large .el-input__inner {
@@ -315,9 +348,7 @@ const submitNewPwd = async () => {
           }
         }
         .el-button {
-          width: 100%;
-          height: 48px;
-          line-height: 48px;
+          @include big-btn();
         }
         .oper-wrapper {
           position: relative;
@@ -343,13 +374,51 @@ const submitNewPwd = async () => {
       }
     }
   }
+
+  .img-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 130px;
+    padding-bottom: 100px;
+  }
+
+  .col-new-pwd {
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    padding-bottom: 100px;
+    .form-container {
+      width: 68%;
+    }
+    .btn-submit {
+      @include big-btn();
+      margin-bottom: 12px;
+    }
+    .btn-skip {
+      padding: 0;
+    }
+  }
+
   .password-form {
+    .el-form-item {
+      margin-bottom: 30px;
+    }
     .el-input__suffix {
       padding-right: 16px;
     }
   }
+
   .default-pwd-tip {
     margin-top: 20px;
+    line-height: 20px;
+    color: var(--color-text-secondary);
+    p {
+      margin: 0;
+    }
+    ul {
+      padding-inline-start: 18px;
+    }
   }
 }
 </style>

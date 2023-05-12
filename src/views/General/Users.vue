@@ -128,6 +128,8 @@ const newPwdSameConfirm = (rule, value, callback) => {
 }
 
 const { createNoChineseRule } = useFormRules()
+const pwdMismatchMsg =
+  tl('passwordRequirement1') + tl('semicolon') + tl('passwordRequirement2').toLowerCase()
 const rules = computed(() => {
   const ret = {
     username: [{ required: true, message: tl('enterOneUserName') }, ...createNoChineseRule()],
@@ -146,7 +148,7 @@ const rules = computed(() => {
       },
       {
         pattern: PASSWORD_REG,
-        message: tl('passwordRequirement'),
+        message: pwdMismatchMsg,
         trigger: ['blur'],
       },
       {
@@ -165,7 +167,7 @@ const rules = computed(() => {
   if (accessType.value !== 'chPass') {
     ret.password.push({
       pattern: PASSWORD_REG,
-      message: tl('passwordRequirement'),
+      message: pwdMismatchMsg,
       trigger: ['blur'],
     })
   }

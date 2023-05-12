@@ -159,9 +159,17 @@ export default {
     zh: '修改密码成功',
     en: 'Changing Password Successfully',
   },
-  passwordRequirement: {
-    zh: '密码长度必须为 8～64 个字符；至少包含字母、数字、符号中的两种',
-    en: 'The password must be 8 to 64 characters in length; contain at least two of the letters, numbers and symbols',
+  passwordRequirement1: {
+    zh: '密码长度必须为 8～64 个字符',
+    en: 'The password must be 8 to 64 characters in length',
+  },
+  passwordRequirement2: {
+    zh: '至少包含字母、数字、符号中的两种',
+    en: 'Contain at least two of the letters, numbers and symbols',
+  },
+  semicolon: {
+    zh: '；',
+    en: '; ',
   },
   confirmDeleteUser: {
     zh: '确认删除该用户?',
