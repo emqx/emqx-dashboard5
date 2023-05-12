@@ -378,8 +378,8 @@
 
 /* Button */
 .el-button {
-  &.el-button--primary {
-    background: linear-gradient(135deg, #8c4eff 0%, #3f36ec 100%);
+  &.el-button--primary:not(.is-link) {
+    background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
     border: none;
     color: #fff;
     &.is-plain {

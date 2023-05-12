@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, Properties, Schema } from '@/types/schemaForm'
+import { Component, Properties, Property, Schema } from '@/types/schemaForm'
 import axios from 'axios'
 import { cloneDeep, get } from 'lodash'
 import { Ref, ref } from 'vue'
@@ -138,7 +138,7 @@ export default function useSchemaForm(
             delete property.oneOf
           }
 
-          const { $ref, label } = property
+          const { $ref, label, oneOf } = property
 
           if ($ref) {
             const component = getComponentByRef(schema, $ref)
@@ -166,6 +166,16 @@ export default function useSchemaForm(
               property.items.path = property.path
               property.properties = transComponents(component, property.items.path)
             }
+          } else if (oneOf && oneOf.find(({ $ref, type }) => $ref || type === 'object')) {
+            property.oneOf = oneOf.map((item) => {
+              if (item.$ref) {
+                const component = getComponentByRef(schema, item.$ref)
+                item.properties = transComponents(component, property.path)
+              } else if (item.type === 'object') {
+                return transComponents(item as Component, property.path)
+              }
+              return item
+            }) as Property[]
           }
           if (!label) {
             property.label = lastLabel

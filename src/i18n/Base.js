@@ -19,6 +19,14 @@ export default {
     zh: '密码',
     en: 'Password',
   },
+  skip: {
+    zh: '跳过',
+    en: 'Skip',
+  },
+  skipTip: {
+    zh: '下次登录时将再次提示您修改默认密码，您也可以稍后在系统 > 用户菜单中进行修改。',
+    en: 'You will be prompted to change the default password again when you log in next time, and you can also change it later in the System > User.',
+  },
   resourcesNotFound: {
     zh: '资源未找到',
     en: 'Resources not found',
@@ -444,8 +452,8 @@ export default {
     en: 'Default',
   },
   defaultPwdTip: {
-    zh: '登录成功！检测到您正在使用默认密码登录，请及时修改密码',
-    en: 'Login successful! Detected that you are logging in with the default password, please change your password in time.',
+    zh: '为保护账户安全，请修改默认密码：',
+    en: 'To ensure your account security, we kindly request you to change your default password:',
   },
   note: {
     zh: '备注',
