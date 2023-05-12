@@ -1047,7 +1047,7 @@
       "label": "发布确认超时时间"
     },
     "wait_for_publish_confirmations": {
-      "desc": "表示使用发布者确认时是否等待 RabbitMQ 确认消息发布的布尔值。",
+      "desc": "使用发布者确认时，是否要等待 RabbitMQ 确认消息。",
       "label": "等待发布确认"
     }
   },
@@ -1056,20 +1056,8 @@
       "desc": "Pulsar 桥接配置",
       "label": "Pulsar 桥接配置"
     },
-    "desc_type": {
-      "desc": "桥接类型",
-      "label": "桥接类型"
-    },
-    "desc_name": {
-      "desc": "桥接名字，可读描述",
-      "label": "桥接名字"
-    },
-    "config_enable": {
-      "desc": "启用（true）或停用（false）该 Pulsar 数据桥接。",
-      "label": "启用或停用"
-    },
     "servers": {
-      "desc": "以逗号分隔的 <code>scheme://host[:port]</code> 格式的 Pulsar URL 列表，支持的 scheme 有 <code>pulsar://</code> （默认）和<code>pulsar+ssl://</code>。默认的端口是6650。",
+      "desc": "以逗号分隔的 <code>scheme://host[:port]</code> 格式的 Pulsar URL 列表，支持的 scheme 有 <code>pulsar://</code> （默认）和<code>pulsar+ssl://</code>。默认端口：6650。",
       "label": "服务器地址"
     },
     "authentication": {
@@ -1077,7 +1065,7 @@
       "label": "认证"
     },
     "batch_size": {
-      "desc": "在一个Pulsar消息中批处理的单个请求的最大数量。",
+      "desc": "在一个 Pulsar 消息中批处理的单个请求的最大数量。",
       "label": "批量大小"
     },
     "compression": {
@@ -1085,11 +1073,11 @@
       "label": "压缩"
     },
     "send_buffer": {
-      "desc": "TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。",
+      "desc": "TCP socket 的发送缓存调优，高吞吐量下建议保留默认值。",
       "label": "Socket 发送缓存大小"
     },
     "sync_timeout": {
-      "desc": "同步发布时，从Pulsar接收发送回执的最长等待时间。",
+      "desc": "同步发布时，从 Pulsar 接收发送回执的最长等待时间。",
       "label": "同步发布超时"
     },
     "auth_basic_username": {
@@ -1105,15 +1093,15 @@
       "label": "JWT"
     },
     "max_batch_bytes": {
-      "desc": "最大消息批量字节数。大多数 Pulsar 环境的默认最低值是 5 MB，EMQX 的默认值比 5 MB 更小是因为需要补偿 Pulsar 消息编码所需要的额外字节（尤其是当每条消息都很小的情况下）。当单个消息的大小超过该限制时，它仍然会被发送，（相当于该批量中只有单个消息）。",
+      "desc": "每个批次可收集的最大消息字节数。EMQX 将默认值设为小于 5MB，以便补偿编码开销，特别是在处理较小的消息时。当单条消息的大小超过该限制时，会做为单独批次处理，即该批次中仅包含这条消息。",
       "label": "最大批量字节数"
     },
     "retention_period": {
-      "desc": "当没有连接到Pulsar代理时，信息将被缓冲的时间。 较长的时间意味着将使用更多的内存/磁盘",
+      "desc": "指定在与 Pulsar broker 断开连接时缓冲消息的持续时间。请合理设置该值，时间设置越久，需要的内存/磁盘的使用量越高。",
       "label": "保留期"
     },
     "local_topic": {
-      "desc": "MQTT 主题数据源由桥接指定，或留空由规则动作指定。",
+      "desc": "指定作为桥接数据源的 MQTT 主题，或留空由规则动作指定数据源。",
       "label": "源 MQTT 主题"
     },
     "pulsar_topic": {
@@ -1121,19 +1109,19 @@
       "label": "Pulsar 主题名称"
     },
     "strategy": {
-      "desc": "设置消息发布时应该如何选择 Pulsar 分区。\n\n<code>random</code>: 为每个消息随机选择一个分区。\n<code>roundrobin</code>: 依次为每条信息挑选可用的生产商。\n<code>key_dispatch</code>: 将一批信息中的第一条信息的Pulsar信息密钥哈希到一个分区编号。",
+      "desc": "设置消息发布时的 Pulsar 分区选择策略。\n\n<code>random</code>: 为每个消息随机选择一个分区。\n<code>roundrobin</code>: 依次为每条信息挑选可用的 producer。\n<code>key_dispatch</code>: 将待选择分区的编码进行哈希，并存储在一批信息中第一条信息的 Pulsar 信息密钥中。",
       "label": "分区选择策略"
     },
     "buffer": {
-      "desc": "配置消息缓存的相关参数。\n\n当 EMQX 需要发送的消息超过 Pulsar 处理能力，或者当 Pulsar 临时下线时，EMQX 内部会将消息缓存起来。",
+      "desc": "配置消息缓存的相关参数。\n\n当 EMQX 需要发送的消息超过 Pulsar 处理能力，或者当 Pulsar 临时下线时，EMQX 会进行消息缓存。",
       "label": "消息缓存"
     },
     "buffer_mode": {
-      "desc": "消息缓存模式。\n<code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。\n<code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。\n<code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。与 <code>memory</code> 模式一样，如果 EMQX 服务重启，缓存的消息会丢失。",
+      "desc": "消息缓存模式。\n<code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。\n<code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。\n<code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。如果 EMQX 服务重启，缓存消息会丢失。",
       "label": "缓存模式"
     },
     "buffer_per_partition_limit": {
-      "desc": "为每个 Pulsar 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，为新的消息腾出空间。",
+      "desc": "为每个 Pulsar 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，以便接收新的消息。",
       "label": "Pulsar 分区缓存上限"
     },
     "buffer_segment_bytes": {
