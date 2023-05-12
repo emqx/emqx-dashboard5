@@ -80,7 +80,7 @@
       "desc": "如果处理进程终止，它会在以指定的时间后后自动重新启动。 `infinity` 不自动重启。",
       "label": "处理进程重启机制"
     },
-    "log_file_handler_max_size": {
+    "log_file_handler_rotation_size": {
       "desc": "此参数控制日志文件轮换。 `infinity` 意味着日志文件将无限增长，否则日志文件将在达到 `max_size`（以字节为单位）时进行轮换。\n与 rotation count配合使用。如果 counter 为 10，则是10个文件轮换。",
       "label": "日志文件轮换大小"
     },
@@ -188,7 +188,7 @@
       "desc": "指定 Kubernetes 中 EMQX 的服务名。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
       "label": "K8s 服务别名"
     },
-    "log_rotation_count": {
+    "common_handler_rotation_count": {
       "desc": "轮换的最大日志文件数。",
       "label": "最大日志文件数"
     },
@@ -236,7 +236,7 @@
       "desc": "当前节点连接的核心节点列表。<br/>\n注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>\n并且设置<code>role</code>为<code>replicant</code>时生效。<br/>\n该值需要在手动或静态集群发现机制下设置。<br/>\n如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。",
       "label": "数据库核心节点"
     },
-    "log_file_handler_file": {
+    "log_file_handler_to": {
       "desc": "日志文件路径及名字。",
       "label": "日志文件名字"
     },
