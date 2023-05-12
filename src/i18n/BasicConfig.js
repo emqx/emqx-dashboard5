@@ -156,11 +156,11 @@ export default {
     zh: '操作系统',
     en: 'Operating System',
   },
-  console_handler: {
+  console: {
     zh: '控制台日志',
     en: 'Console Log',
   },
-  file_handlers: {
+  file: {
     zh: '文件日志',
     en: 'File Log',
   },
