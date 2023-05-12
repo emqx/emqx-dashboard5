@@ -14,7 +14,7 @@ import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
-import { PropType, computed, defineComponent, onMounted, ref, watch, watchEffect } from 'vue'
+import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
@@ -741,7 +741,7 @@ const SchemaForm = defineComponent({
     const showSkeleton = computed(
       () => (formLoading.value || props.recordLoading) && props.type !== 'bridge',
     )
-    onMounted(() => {
+    ;(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
       }
@@ -749,7 +749,7 @@ const SchemaForm = defineComponent({
       // window.setTimeout(() => {
       //   formLoading.value = false
       // }, 400)
-    })
+    })()
 
     ctx.expose({ configForm, validate })
 
