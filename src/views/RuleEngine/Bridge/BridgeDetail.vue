@@ -99,6 +99,13 @@
                 :edit="true"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
+              <bridge-pulsar-config
+                v-else-if="bridgeType === BridgeType.Pulsar"
+                v-model="bridgeInfo"
+                ref="formCom"
+                :edit="true"
+                @init="resetRawBridgeInfoAfterComponentInit"
+              />
               <using-schema-bridge-config
                 v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
                 edit
@@ -164,6 +171,7 @@ import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConfig from './Components/BridgeConfig/BridgeKafkaConfig.vue'
+import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
