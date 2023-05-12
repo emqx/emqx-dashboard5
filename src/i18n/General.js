@@ -165,7 +165,7 @@ export default {
   },
   passwordRequirement2: {
     zh: '至少包含字母、数字、符号中的两种',
-    en: 'Contain at least two of the letters, numbers and symbols',
+    en: 'Should be a combination of letters, numbers, or symbols',
   },
   semicolon: {
     zh: '；',
