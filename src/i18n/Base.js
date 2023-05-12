@@ -452,8 +452,8 @@ export default {
     en: 'Default',
   },
   defaultPwdTip: {
-    zh: '检测到您使用默认密码登陆, 为了您的安全请修改密码：',
-    en: 'Detected that you are logging in with the default password. For your safety, please change your password:',
+    zh: '为保护账户安全，请修改默认密码：',
+    en: 'To ensure your account security, we kindly request you to change your default password:',
   },
   note: {
     zh: '备注',
