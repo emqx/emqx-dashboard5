@@ -203,11 +203,11 @@ export default (
           'virtual_host',
           'heartbeat',
           'auto_reconnect',
+          'delivery_mode',
           'wait_for_publish_confirmations',
           'publish_confirmation_timeout',
           'pool_size',
           'timeout',
-          'delivery_mode',
           'payload_template',
         ],
         1,
@@ -274,6 +274,7 @@ export default (
     },
     [BridgeType.RabbitMQ]: {
       payload_template: 'dividing-line-below',
+      timeout: 'dividing-line-below',
     },
   }
 
