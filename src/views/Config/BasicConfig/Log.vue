@@ -9,8 +9,7 @@
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"
-        :data-handler="handleFileSchema"
-        :label-width="state.lang === 'zh' ? 172 : 204"
+        :label-width="state.lang === 'zh' ? 284 : 336"
         @save="handleSave"
       />
     </el-card>
@@ -19,12 +18,10 @@
 
 <script lang="ts">
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
-import { customValidate, isEmptyObj } from '@/common/tools'
+import { customValidate } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Log } from '@/types/config'
-import { Properties } from '@/types/schemaForm'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
 import { defineComponent, ref } from 'vue'
@@ -49,28 +46,6 @@ export default defineComponent({
 
     const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
     useDataNotSaveConfirm(checkDataIsChanged)
-
-    const handleFileSchema = (data: { components: Properties; rules: SchemaRules }) => {
-      const { components } = data
-      const { file } = components
-      const targetProp = (file?.oneOf as Array<any>)?.find(
-        (item) => item.$handler_name,
-      )?.$handler_name
-      if (targetProp && file && (!file.properties || isEmptyObj(file.properties))) {
-        file.properties = {
-          default: {
-            ...targetProp,
-            key: 'default',
-            path: 'file.default',
-          },
-        }
-        if (file.type === 'oneof') {
-          file.type = 'object'
-        }
-        delete file.oneOf
-      }
-      return { components, rules: data.rules }
-    }
 
     const loadData = async () => {
       try {
@@ -104,7 +79,6 @@ export default defineComponent({
     return {
       state,
       SchemaFormCom,
-      handleFileSchema,
       handleSave,
       configs,
       propsOrderMap,
