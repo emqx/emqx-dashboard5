@@ -344,4 +344,8 @@ export default {
     en: 'Enable CRL Check',
     zh: '启用 CRL 检查',
   },
+  showLimiter: {
+    zh: '显示速率配置',
+    en: 'Show Limiter',
+  },
 }
