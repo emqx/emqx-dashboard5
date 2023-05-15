@@ -52,10 +52,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Auth.httpPipelining')">
-              <el-input-number
-                v-model="httpConfig.enable_pipelining"
-                controls-position="right"
-              ></el-input-number>
+              <CustomInputNumber v-model="httpConfig.enable_pipelining" controls-position="right" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -98,6 +95,7 @@
 </template>
 
 <script lang="ts">
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -119,6 +117,7 @@ export default defineComponent({
     Monaco,
     HelpBlock,
     FormItemLabel,
+    CustomInputNumber,
   },
 
   props: {

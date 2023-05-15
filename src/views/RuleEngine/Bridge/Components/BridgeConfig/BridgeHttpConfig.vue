@@ -81,10 +81,10 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('httpPipeline')">
-            <el-input-number
+            <CustomInputNumber
               v-model="httpBridgeVal.enable_pipelining"
               controls-position="right"
-            ></el-input-number>
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -123,19 +123,20 @@
 
 <script lang="ts">
 import { createRandomString, fillEmptyValueToUndefinedField } from '@/common/tools'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { HTTPBridge, BridgeItem } from '@/types/rule'
+import { BridgeItem, HTTPBridge } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue'
+import { PropType, Ref, defineComponent, onMounted, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
 export default defineComponent({
@@ -146,6 +147,7 @@ export default defineComponent({
     CommonTLSConfig,
     TimeInputWithUnitSelect,
     BridgeResourceOpt,
+    CustomInputNumber,
   },
   name: '',
   props: {

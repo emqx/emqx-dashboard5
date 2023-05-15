@@ -20,7 +20,7 @@
         :disabled="disabled"
         clearable
       />
-      <el-input-number
+      <CustomInputNumber
         v-else-if="oneOfInfo.propEnabled.type === 'number'"
         v-model="valueProxy"
         controls-position="right"
@@ -84,6 +84,7 @@ import {
   nextTick,
   watch,
 } from 'vue'
+import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
