@@ -617,8 +617,8 @@
       "label": "Local Threshold"
     },
     "max_overflow": {
-      "desc": "Max Overflow.",
-      "label": "Max Overflow"
+      "desc": "The maximum number of additional workers that can be created when all workers in the pool are busy. This helps to manage temporary spikes in workload by allowing more concurrent connections to the MongoDB server.",
+      "label": "Max Overflow Workers"
     },
     "min_heartbeat_period": {
       "desc": "Controls the minimum amount of time to wait between heartbeats.",
