@@ -237,17 +237,17 @@
                 <el-input v-model.number="listenerRecord[SSLConfigKey].depth" />
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="tl('SSLPassword')">
-                <el-input
-                  v-model="listenerRecord[SSLConfigKey].password"
-                  type="password"
-                  autocomplete="one-time-code"
-                  show-password
-                />
-              </el-form-item>
-            </el-col>
           </template>
+          <el-col :span="12">
+            <el-form-item :label="tl('SSLPassword')">
+              <el-input
+                v-model="listenerRecord[SSLConfigKey].password"
+                type="password"
+                autocomplete="one-time-code"
+                show-password
+              />
+            </el-form-item>
+          </el-col>
 
           <!-- OCSP -->
           <template v-if="!gatewayName && !isWSS && !isQUIC">
