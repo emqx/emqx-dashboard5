@@ -409,6 +409,11 @@
     margin-left: 10px;
   }
 }
+.el-button.is-link:hover,
+.el-button.is-link:focus {
+  --el-button-hover-link-text-color: var(--color-primary);
+  opacity: 0.7;
+}
 
 /* Dropdown */
 .el-dropdown-menu {
