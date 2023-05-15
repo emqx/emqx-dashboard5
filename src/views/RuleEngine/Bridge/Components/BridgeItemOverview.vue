@@ -62,26 +62,33 @@
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="metrics.matched" :label="tl('matched')" />
+        <el-table-column :label="tl('matched')">
+          <template #default="{ row }">{{ getEgressData(row.metrics?.matched) }}</template>
+        </el-table-column>
         <el-table-column v-if="showIngressStats" prop="metrics.received" :label="tl('received')" />
-        <el-table-column prop="metrics.dropped" :label="tl('dropped')" />
-        <el-table-column prop="metrics.rate">
+        <el-table-column :label="tl('dropped')">
+          <template #default="{ row }">{{ getEgressData(row.metrics?.dropped) }}</template>
+        </el-table-column>
+        <el-table-column>
           <template #header>
             <p>{{ t('Base.rate') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
+          <template #default="{ row }">{{ getEgressData(row.metrics?.rate) }}</template>
         </el-table-column>
-        <el-table-column prop="metrics.rate_last5m">
+        <el-table-column>
           <template #header>
             <p>{{ tl('rateLast5M') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
+          <template #default="{ row }">{{ getEgressData(row.metrics?.rate_last5m) }}</template>
         </el-table-column>
-        <el-table-column prop="metrics.rate_max" :label="tl('rateMax')">
+        <el-table-column :label="tl('rateMax')">
           <template #header>
             <p>{{ tl('rateMax') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
+          <template #default="{ row }">{{ getEgressData(row.metrics?.rate_max) }}</template>
         </el-table-column>
       </el-table>
     </div>
@@ -289,6 +296,8 @@ const reconnect = async ({ node }: NodeMetrics) => {
     nodeConnectingStatusMap.value[node] = false
   }
 }
+
+const getEgressData = (data: number) => (showEgressStats.value ? data : '-')
 
 watch(() => props.bridgeMsg, setNodeConnectingStatusMap)
 
