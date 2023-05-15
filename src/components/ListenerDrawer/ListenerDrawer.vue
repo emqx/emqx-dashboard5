@@ -297,38 +297,46 @@
       <el-row :gutter="20" v-if="!gatewayName">
         <el-col :span="24"><el-divider /></el-col>
         <el-col :span="12">
-          <el-form-item
-            :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')"
-            prop="max_conn_rate"
-          >
-            <el-input
-              v-model="listenerRecord.max_conn_rate"
-              :placeholder="limiterPlaceholderMap.max_conn_rate"
-            />
+          <el-form-item :label="tl('showLimiter')">
+            <el-switch v-model="showLimiterConfig" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item
-            :label="t('ConfigSchema.emqx_limiter_schema.messages_rate.label')"
-            prop="messages_rate"
-          >
-            <el-input
-              v-model="listenerRecord.messages_rate"
-              :placeholder="limiterPlaceholderMap.messages_rate"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item
-            :label="t('ConfigSchema.emqx_limiter_schema.bytes_rate.label')"
-            prop="bytes_rate"
-          >
-            <el-input
-              v-model="listenerRecord.bytes_rate"
-              :placeholder="limiterPlaceholderMap.bytes_rate"
-            />
-          </el-form-item>
-        </el-col>
+        <el-col :span="12" />
+        <template v-if="showLimiterConfig">
+          <el-col :span="12">
+            <el-form-item
+              :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')"
+              prop="max_conn_rate"
+            >
+              <el-input
+                v-model="listenerRecord.max_conn_rate"
+                :placeholder="limiterPlaceholderMap.max_conn_rate"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              :label="t('ConfigSchema.emqx_limiter_schema.messages_rate.label')"
+              prop="messages_rate"
+            >
+              <el-input
+                v-model="listenerRecord.messages_rate"
+                :placeholder="limiterPlaceholderMap.messages_rate"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              :label="t('ConfigSchema.emqx_limiter_schema.bytes_rate.label')"
+              prop="bytes_rate"
+            >
+              <el-input
+                v-model="listenerRecord.bytes_rate"
+                :placeholder="limiterPlaceholderMap.bytes_rate"
+              />
+            </el-form-item>
+          </el-col>
+        </template>
       </el-row>
     </el-form>
     <template #footer>
@@ -402,6 +410,7 @@ const {
   showTCPConfig,
   showUDPConfig,
   showSSLConfig,
+  showLimiterConfig,
   isDTLS,
   SSLConfigKey,
   showWSConfig,

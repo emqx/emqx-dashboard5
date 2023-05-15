@@ -411,13 +411,16 @@ const submitNewPwd = async () => {
 
   .default-pwd-tip {
     margin-top: 20px;
+    margin-bottom: 32px;
     line-height: 20px;
     color: var(--color-text-secondary);
     p {
-      margin: 0;
+      margin-top: 0;
+      margin-bottom: 16px;
     }
     ul {
       padding-inline-start: 18px;
+      margin: 0;
     }
   }
 }

@@ -42,6 +42,7 @@ interface UseListenerDialogReturns {
   showTCPConfig: ComputedRef<boolean>
   showUDPConfig: ComputedRef<boolean>
   showSSLConfig: ComputedRef<boolean>
+  showLimiterConfig: Ref<boolean>
   isDTLS: ComputedRef<boolean>
   SSLConfigKey: ComputedRef<string>
   showWSConfig: ComputedRef<boolean>
@@ -124,6 +125,8 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   )
   const showWSConfig = computed(() => hasWSConfig(listenerRecord.value.type))
 
+  const showLimiterConfig = ref(false)
+
   const isLoading = ref(false)
   const loadListenerData = async () => {
     if (!props.listener) {
@@ -134,6 +137,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       const data = await queryListenerDetail(props.listener.id)
       const { name, type } = getListenerNameNTypeById(data.id)
       listenerRecord.value = { ...data, name, type, bind: transPort(data.bind) }
+      countShowLimiterConfig()
     } catch (error) {
       //
     } finally {
@@ -232,6 +236,14 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     return completeGatewayListenerTypeList.filter((item) => !disabledList.includes(item))[0]
   }
 
+  const countShowLimiterConfig = () => {
+    showLimiterConfig.value = !!(
+      listenerRecord.value.max_conn_rate ||
+      listenerRecord.value.messages_rate ||
+      listenerRecord.value.bytes_rate
+    )
+  }
+
   watch(showDialog, async (val) => {
     if (val) {
       if (props.listener) {
@@ -240,6 +252,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
           loadListenerData()
         }
       } else {
+        showLimiterConfig.value = false
         const formData: { type?: ListenerTypeForGateway } = {}
         if (props.gatewayName) {
           formData.type = getDefaultListenerTypeByGateway()
@@ -278,6 +291,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     showUDPConfig,
     showSSLConfig,
     showWSConfig,
+    showLimiterConfig,
     isDTLS,
     SSLConfigKey,
     listenerFormRules,
