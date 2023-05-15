@@ -10,7 +10,7 @@
               </el-form-item>
               <template v-if="record.cache?.enable">
                 <el-form-item :label="$t('Auth.maxSize')">
-                  <el-input-number
+                  <CustomInputNumber
                     v-model.number="record.cache.max_size"
                     controls-position="right"
                     placeholder="32"
@@ -66,12 +66,13 @@
 </template>
 
 <script setup lang="ts">
-import { clearCache as requestClearCache, listAuthzSetting, updateAuthzSetting } from '@/api/auth'
+import { listAuthzSetting, clearCache as requestClearCache, updateAuthzSetting } from '@/api/auth'
 import { titleCase } from '@/common/tools'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { AuthzSetting } from '@/types/auth'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { computed, defineEmits, defineProps, ref, Ref, watch, WritableComputedRef } from 'vue'
+import { Ref, WritableComputedRef, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
