@@ -1,6 +1,7 @@
 import { SESSION_FIELDS } from '@/common/constants'
 import { createRandomString, isEmptyObj } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -47,6 +48,7 @@ const SchemaForm = defineComponent({
     Monaco,
     TextareaWithUploader,
     MarkdownContent,
+    CustomInputNumber,
   },
   props: {
     accordingTo: {
@@ -246,7 +248,7 @@ const SchemaForm = defineComponent({
           return stringInput
         case 'number':
           return (
-            <el-input-number
+            <CustomInputNumber
               controls-position="right"
               disabled={isPropertyDisabled}
               modelValue={modelValue}
