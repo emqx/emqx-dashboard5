@@ -803,10 +803,6 @@ export default {
     zh: '数据源与当前输入的 SQL 不匹配',
     en: `Data source doesn't match the entered SQL`,
   },
-  parametersPreview: {
-    zh: '配置预览',
-    en: 'Configuration Preview',
-  },
   backBridgeList: {
     zh: '返回 Bridge 列表',
     en: 'Back To Bridge List',
@@ -814,10 +810,6 @@ export default {
   backRuleEdit: {
     zh: '返回规则编辑',
     en: 'Back To Rule Editing',
-  },
-  backToRuleCreation: {
-    zh: '返回规则创建',
-    en: 'Back To Rule Creation',
   },
   readMore: {
     zh: '了解更多',
@@ -831,58 +823,6 @@ export default {
     zh: '你想将数据转发到什么地方？',
     en: 'Where do you want to forward the data to?',
   },
-  mqttSourceMappingDesc: {
-    zh: '你想从哪个地方获取数据？',
-    en: 'Where do you want to get the data from?',
-  },
-  mqttSourceTransDesc: {
-    zh: '是否将数据转发至本地主题？',
-    en: 'Would you like forward messages to a local topic?',
-  },
-  mqttSourceTransDescDetail: {
-    zh: '不经规则处理直接将远程主题数据转发至本地主题中。',
-    en: 'Directly forward Remote Topic messages to local topic without Rule processing.',
-  },
-  mqttSourceForwardLabel: {
-    zh: '你想将数据转发至何处？',
-    en: 'Where do you want to forward messages to?',
-  },
-  iotAndLocalTopic: {
-    zh: '在规则内或独立使用',
-    en: 'Use in Rules or Separate',
-  },
-  justIot: {
-    zh: '仅在规则内使用',
-    en: 'Just for Rules',
-  },
-  mqttSourceForwardLocalTopicDesc: {
-    zh: '从远程主题获取数据，并将数据转发至本地主题或接入到规则内（MQTT 作为数据源）',
-    en: 'Forward messages from the Remote Topic, and forward messages to Local Topic or Rules (MQTT Source)',
-  },
-  mqttSourceNotForwardLocalTopicDesc: {
-    zh: '从远程主题获取数据后转发至规则内，不可单独使用（MQTT 作为数据源）',
-    en: 'Forward messages from the Remote Topic to Rules, cannot be used separately (MQTT Source)',
-  },
-  mqttSinkForwardLocalTopicDesc: {
-    zh: '从本地主题或规则内转发数据，独立使用时将不经过规则处理，直接转发原始数据到远程主题（MQTT 作为数据目标）',
-    en: 'Forward messages from Local Topic or Rules, without Rules processing, directly forward the original data to Remote Topic (MQTT Sink)',
-  },
-  mqttSinkNotForwardLocalTopicDesc: {
-    zh: '数据仅支持通过规则处理后转发到远程主题，不可单独使用（MQTT 作为数据目标）',
-    en: 'Forward messages from the Rules, and forward messages to Remote Topic (MQTT Sink)',
-  },
-  bridgeSinkFromLabel: {
-    zh: '你想从什么地方转发数据？',
-    en: 'Where do you want to forward messages from?',
-  },
-  bridgeSinkForwardFromLocalTopicDesc: {
-    zh: '从本地主题或规则中转发数据，独立使用时将不经过规则处理，直接转发原始数据',
-    en: 'Forward messages from the Local Topic or Rules, without Rules processing, directly forward the original data',
-  },
-  bridgeSinkNotForwardFromLocalTopicDesc: {
-    zh: '数据仅支持通过规则处理后转发，不可单独使用',
-    en: 'Just forward messages from Rules, not separate',
-  },
   headers: {
     zh: '请求头',
     en: 'Headers',
@@ -891,21 +831,9 @@ export default {
     zh: '请求体',
     en: 'Body',
   },
-  forwardFromLocalTopic: {
-    zh: '从本地主题转发',
-    en: 'Forward from Local Topic',
-  },
   httpBridgeURLFieldDesc: {
     zh: "支持使用 ${'{'}field{'}'} 语法提取数据拼接 URL",
     en: "Supports extracting data concatenated URLs using the ${'{'}field{'}'} syntax",
-  },
-  mqttSourceLocalTopicLabel: {
-    zh: '要将消息发送到的本地主题',
-    en: 'The local topic where you want to send messages to',
-  },
-  useSQLInput: {
-    zh: '使用 SQL',
-    en: 'Use SQL',
   },
   useBridgeCreateRule: {
     zh: '是否使用该数据桥接创建规则？',
@@ -958,24 +886,6 @@ export default {
   saveAsCopy: {
     zh: '保存为副本',
     en: 'Save as copy',
-  },
-  enableQueue: {
-    en: 'Enable disk buffer queue',
-    zh: '启用磁盘缓存队列',
-  },
-  enableQueueDesc: {
-    en: `Enable disk buffer queue (only applicable for egress bridges).
-When Enabled, messages will be buffered on disk when the bridge connection is down.
-When disabled the messages are buffered in RAM only.`,
-    zh: '启用磁盘缓存队列（仅对 egress 方向桥接有用）。',
-  },
-  enableBatch: {
-    en: 'Enable batch',
-    zh: '启用批量模式',
-  },
-  enableBatchDesc: {
-    en: 'Batch mode enabled.',
-    zh: '启用批量模式。',
   },
   poolType: {
     zh: '连接池类型',
