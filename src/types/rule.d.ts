@@ -214,6 +214,14 @@ export interface FilterParamsForQueryRules {
 
 export type ParamsForQueryRules = FilterParamsForQueryRules & PageParams
 
+export type RuleItem = {
+  actions?: Array<Record<string, unknown> | string>
+  id?: string
+  enable?: boolean
+  sql?: string
+  description?: string
+}
+
 export interface RuleMetrics {
   id: string
   metrics: Metrics
