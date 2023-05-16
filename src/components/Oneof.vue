@@ -24,7 +24,6 @@
         v-else-if="oneOfInfo.propEnabled.type === 'number'"
         v-model="valueProxy"
         controls-position="right"
-        :min="0"
         :disabled="disabled"
         clearable
       />
@@ -157,7 +156,7 @@ const valueProxy: WritableComputedRef<any> = computed({
 
 const isDisabled = computed(() => {
   const { valueDisabled } = oneOfInfo.value
-  return valueDisabled && valueProxy.value === valueDisabled
+  return valueDisabled !== undefined && valueProxy.value === valueDisabled
 })
 const currentIns = getCurrentInstance()
 /**
