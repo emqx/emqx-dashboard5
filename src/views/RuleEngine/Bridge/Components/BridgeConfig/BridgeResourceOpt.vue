@@ -7,7 +7,7 @@
       <el-input v-model="resourceOptForm.worker_pool_size" />
     </el-form-item>
   </el-col>
-  <el-col :span="12">
+  <el-col :span="12" v-if="withRequestTimeoutConfig">
     <el-form-item prop="resource_opts.request_timeout">
       <template #label>
         <FormItemLabel
@@ -105,6 +105,10 @@ const props = defineProps({
   withBatchConfig: {
     type: Boolean,
     default: false,
+  },
+  withRequestTimeoutConfig: {
+    type: Boolean,
+    default: true,
   },
 })
 
