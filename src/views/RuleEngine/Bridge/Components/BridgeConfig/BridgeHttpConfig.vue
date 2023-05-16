@@ -115,7 +115,10 @@
       </el-row>
       <el-divider />
       <el-row :gutter="26">
-        <BridgeResourceOpt v-model="httpBridgeVal.resource_opts" />
+        <BridgeResourceOpt
+          v-model="httpBridgeVal.resource_opts"
+          :with-request-timeout-config="false"
+        />
       </el-row>
     </el-form>
   </div>
@@ -184,7 +187,10 @@ export default defineComponent({
         enable_pipelining: 100,
         connect_timeout: '15s',
         request_timeout: '15s',
-        resource_opts: createDefaultResourceOptsForm({ inflight: true }),
+        resource_opts: createDefaultResourceOptsForm({
+          inflight: true,
+          withoutRequestTimeout: true,
+        }),
         ssl: createSSLForm(),
       } as HTTPBridge)
 

@@ -1,8 +1,13 @@
 import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
 import { ResourceOpt } from '@/types/rule'
+import { omit } from 'lodash'
 
 export default (): {
-  createDefaultResourceOptsForm: (config?: { inflight?: boolean; batch?: boolean }) => ResourceOpt
+  createDefaultResourceOptsForm: (config?: {
+    inflight?: boolean
+    batch?: boolean
+    withoutRequestTimeout?: boolean
+  }) => ResourceOpt
 } => {
   const createCommonForm = (): ResourceOpt => ({
     worker_pool_size: 4,
@@ -14,7 +19,7 @@ export default (): {
   })
 
   const createDefaultResourceOptsForm = (
-    config: { inflight?: boolean; batch?: boolean } = {},
+    config: { inflight?: boolean; batch?: boolean; withoutRequestTimeout?: boolean } = {},
   ): ResourceOpt => {
     let formData: ResourceOpt = createCommonForm()
     if (config.inflight) {
@@ -28,6 +33,9 @@ export default (): {
         ...formData,
         batch_size: 100,
       }
+    }
+    if (config.withoutRequestTimeout) {
+      formData = omit(formData, 'request_timeout')
     }
     return formData
   }
