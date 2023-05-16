@@ -171,7 +171,7 @@ export default function useSchemaForm(
               if (item.$ref) {
                 const component = getComponentByRef(schema, item.$ref)
                 item.properties = transComponents(component, property.path)
-              } else if (item.type === 'object') {
+              } else if (item.type === 'object' && item.properties) {
                 return transComponents(item as Component, property.path)
               }
               return item
