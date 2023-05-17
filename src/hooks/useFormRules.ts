@@ -33,15 +33,17 @@ export default (): {
     name: string,
     type: 'input' | 'select' = 'input',
   ): Array<FormItemRule> => {
-    return [
-      {
-        required: true,
-        message: t(
-          type === 'input' ? 'Rule.inputFieldRequiredError' : 'Rule.selectFieldRequiredError',
-          { name },
-        ),
-      },
-    ]
+    let message = ''
+    if (name) {
+      message = t(
+        type === 'input' ? 'Rule.inputFieldRequiredError' : 'Rule.selectFieldRequiredError',
+        { name },
+      )
+    } else {
+      message = t(type === 'input' ? 'Rule.inputRequired' : 'Rule.selectRequired')
+    }
+
+    return [{ message, required: true }]
   }
 
   const createNumRangeRule = (min?: number, max?: number): Array<FormItemRule> => {
