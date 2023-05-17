@@ -1,7 +1,8 @@
-import { useI18n } from 'vue-i18n'
-import { checkStringWithUnit, checkInRange } from '@/common/tools'
-import { FormItemRule } from 'element-plus'
+import { checkInRange, checkStringWithUnit } from '@/common/tools'
 import { InternalRuleItem } from 'async-validator'
+import { FormItemRule } from 'element-plus'
+import { isUndefined } from 'lodash'
+import { useI18n } from 'vue-i18n'
 
 const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 export const NO_CHINESE_REG = /^[^\u4e00-\u9fa5]+$/
@@ -57,14 +58,16 @@ export default (): {
   }
 
   const createIntFieldRule = (min?: number, max?: number): Array<FormItemRule> => {
-    return [
-      {
-        type: 'number',
-        message: t('Rule.errorType', { type: t('Rule.int') }),
-        trigger: 'blur',
-      },
-      ...createNumRangeRule(min, max),
-    ]
+    if (isUndefined(min) && isUndefined(max)) {
+      return [
+        {
+          type: 'number',
+          message: t('Rule.errorType', { type: t('Rule.int') }),
+          trigger: 'blur',
+        },
+      ]
+    }
+    return createNumRangeRule(min, max)
   }
 
   const createStringWithUnitFieldRule = (

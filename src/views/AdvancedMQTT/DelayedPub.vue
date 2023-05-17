@@ -49,9 +49,10 @@
 
 <script setup lang="ts">
 import { getDelayedConfig, updateDelayedConfig as requestUpdateConfig } from '@/api/extension'
-import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import Oneof from '@/components/Oneof.vue'
+import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
+import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
 import { computed, reactive, ref, watch } from 'vue'
@@ -68,18 +69,16 @@ const delayedConfig = reactive({
   max_delayed_messages: 0,
 })
 const configEnable = computed(() => delayedConfig?.enable === true)
+
+const { createIntFieldRule } = useFormRules()
 const delayedRules: Record<string, any> = {
   max_delayed_messages: [
     {
       required: true,
       message: tl('required'),
-      trigger: 'blur',
+      trigger: 'change',
     },
-    {
-      type: 'number',
-      message: tl('needNumber'),
-      trigger: 'blur',
-    },
+    ...createIntFieldRule(0),
   ],
 }
 
