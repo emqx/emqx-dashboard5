@@ -21,7 +21,8 @@
           <el-input v-model="schemaForm.description" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="8" />
+      <el-col :span="8">
         <el-form-item :label="tl('type')" prop="type">
           <el-select v-model="schemaForm.type">
             <el-option
