@@ -167,6 +167,7 @@ export default defineComponent({
       try {
         reconnectingMap.value.set(id, true)
         await reconnectBridge(id)
+        listBridge()
       } catch (error) {
         //
       } finally {
