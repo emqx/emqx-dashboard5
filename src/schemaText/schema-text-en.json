@@ -451,7 +451,7 @@
   },
   "emqx_limiter_schema": {
     "max_conn_rate": {
-      "desc": "Maximum connection rate.<br/>\nThis is used to limit the connection rate for this node,\nonce the limit is reached, new connections will be deferred or refused",
+      "desc": "Maximum connection rate.<br/>\nThis is used to limit the connection rate for this node,\nonce the limit is reached, new connections will be deferred or refused.",
       "label": "Maximum Connection Rate"
     },
     "messages_rate": {
