@@ -1167,4 +1167,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '不正确的 Redis 命令',
     en: 'Incorrect Redis command',
   },
+  schemaNameTip: {
+    zh: '名称将用于编解码函数中，示例：<br /><code>SELECT  schema_encode("<name>", payload)</code>',
+    en: 'The name will be used in the encoding and decoding functions, for example: <br /><code>SELECT  schema_encode("<name>", payload)</code>',
+  },
 }

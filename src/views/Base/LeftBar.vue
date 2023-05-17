@@ -132,6 +132,7 @@ export default defineComponent({
       { title: 'flow', path: '/flow' },
       { title: 'rules', path: '/rules' },
       { title: 'bridge', path: '/bridge' },
+      { title: 'schema', path: '/schema' },
     ]
 
     const diagnose = [

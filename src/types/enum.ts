@@ -150,6 +150,11 @@ export enum RuleInputType {
   Event = 'event',
 }
 
+export enum SchemaRegistryType {
+  Avro = 'avro',
+  Protobuf = 'protobuf',
+}
+
 export enum NodeStatusClass {
   Success = 'success',
   Warning = 'warning',
