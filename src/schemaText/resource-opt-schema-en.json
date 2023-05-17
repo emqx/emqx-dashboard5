@@ -6,11 +6,11 @@
     },
     "batch_size": {
       "desc": "Maximum batch count. If equal to 1, there's effectively no batching.",
-      "label": "Max batch size"
+      "label": "Max Batch Size"
     },
     "batch_time": {
       "desc": "Maximum waiting interval when accumulating a batch at a low message rates for more efficient resource usage.",
-      "label": "Max batch wait time"
+      "label": "Max Batch Wait Time"
     },
     "creation_opts": {
       "desc": "Creation options.",
@@ -18,11 +18,11 @@
     },
     "enable_batch": {
       "desc": "Batch mode enabled.",
-      "label": "Enable batch"
+      "label": "Enable Batch"
     },
     "enable_queue": {
       "desc": "Enable disk buffer queue (only applicable for egress bridges).\nWhen Enabled, messages will be buffered on disk when the bridge connection is down.\nWhen disabled the messages are buffered in RAM only.",
-      "label": "Enable disk buffer queue"
+      "label": "Enable Disk Buffer Queue"
     },
     "health_check_interval": {
       "desc": "Health check interval.",
@@ -30,15 +30,15 @@
     },
     "inflight_window": {
       "desc": "Query inflight window. When query_mode is set to async, this config has to be set to 1 if messages from the same MQTT client have to be strictly ordered.",
-      "label": "Inflight window"
+      "label": "Inflight Window"
     },
     "max_queue_bytes": {
       "desc": "Maximum number of bytes to buffer for each buffer worker.",
-      "label": "Max buffer queue size"
+      "label": "Max Buffer Queue Size"
     },
     "query_mode": {
       "desc": "Query mode. Optional 'sync/async', default 'async'.",
-      "label": "Query mode"
+      "label": "Query Mode"
     },
     "request_timeout": {
       "desc": "Starting from the moment when the request enters the buffer, if the request remains in the buffer for the specified time or is sent but does not receive a response or acknowledgement in time, the request is considered expired.",
@@ -65,7 +65,7 @@
       "label": "Buffer Pool Size"
     },
     "max_buffer_bytes": {
-      "label": "Max buffer queue size",
+      "label": "Max Buffer Queue Size",
       "desc": "Maximum number of bytes to buffer for each buffer worker."
     }
   }

@@ -35,4 +35,12 @@ export default {
     zh: '整数',
     en: 'integer',
   },
+  inputRequired: {
+    zh: '请输入',
+    en: 'Please enter',
+  },
+  selectRequired: {
+    zh: '请选择',
+    en: 'Please select',
+  },
 }
