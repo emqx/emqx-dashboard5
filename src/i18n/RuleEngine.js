@@ -1008,7 +1008,7 @@ If any other timestamp is used, its precision must exactly match the value chose
 It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`\${'{'}payload.timestamp{'}'}\`, to write an InfluxDB data record for each message.`,
   },
   fieldValueDesc: {
-    zh: `Key 和 value 都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
+    zh: `健值对都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
     en: `Both key and value support placeholders. Numbers are written as floats by default, but you can add a type suffix to specify a type (e.g. \`\${'{'}payload.int_key{'}'}i\`). Learn more in the <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
   },
   dataFormat: {
