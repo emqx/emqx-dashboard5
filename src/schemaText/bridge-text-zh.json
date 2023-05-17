@@ -743,8 +743,8 @@
   },
   "emqx_ee_bridge_redis": {
     "command_template": {
-      "desc": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。\n例如，要通过键值 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${'{'}payload{'}'}`。",
-      "label": "Redis Command  模板"
+      "desc": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。\n例如，要通过键 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${'{'}payload{'}'}`。",
+      "label": "Redis 命令模板"
     },
     "config_enable": {
       "desc": "启用/禁用桥接",
