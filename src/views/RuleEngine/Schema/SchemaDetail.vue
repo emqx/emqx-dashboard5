@@ -2,14 +2,11 @@
   <div class="schema-detail">
     <div class="detail-top">
       <detail-header :item="{ name: schemaName, routeName: 'schema' }" />
-      <div class="section-header">
-        <div></div>
-        <div>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
-            </el-button>
-          </el-tooltip>
-        </div>
+      <div class="btn-wrap">
+        <el-tooltip :content="$t('Base.delete')" placement="top">
+          <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+          </el-button>
+        </el-tooltip>
       </div>
     </div>
     <el-tabs class="detail-tabs">
@@ -104,6 +101,16 @@ getSchemaData()
 </script>
 
 <style lang="scss" scoped>
+.schema-detail {
+  .detail-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .detail-header {
+    margin-bottom: 18px;
+  }
+}
 .schema-create-form {
   width: 70%;
 }

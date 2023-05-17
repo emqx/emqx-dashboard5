@@ -7,13 +7,7 @@
       </el-button>
     </div>
     <el-table :data="schemaList" v-loading="isLoading">
-      <el-table-column :label="t('Base.name')">
-        <template #default="{ row }">
-          <router-link :to="getSchemaDetailRoute(row.name)" class="table-data-without-break">
-            {{ row.name }}
-          </router-link>
-        </template>
-      </el-table-column>
+      <el-table-column prop="name" :label="t('Base.name')" />
       <el-table-column prop="type" :label="tl('type')">
         <template #default="{ row }">
           {{ getLabelByValue(row.type) }}
@@ -66,12 +60,8 @@ const getSchemas = async () => {
   }
 }
 
-const getSchemaDetailRoute = (name: string) => ({
-  name: 'schema-detail',
-  params: { schemaName: name },
-})
-
-const goSchemaDetail = (name: string) => router.push(getSchemaDetailRoute(name))
+const goSchemaDetail = (name: string) =>
+  router.push({ name: 'schema-detail', params: { schemaName: name } })
 
 const addSchema = () => {
   router.push({ name: 'schema-create' })
