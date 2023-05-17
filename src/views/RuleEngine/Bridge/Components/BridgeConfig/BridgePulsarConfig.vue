@@ -272,7 +272,7 @@ import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { OtherBridge } from '@/types/rule'
-import { snakeCase } from 'lodash'
+import { snakeCase, merge } from 'lodash'
 import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 
 enum AuthType {
@@ -338,12 +338,9 @@ const formCom = ref()
 const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const formRules = computed(() => {
   const prePwdRule: any = (rules.value.authentication as SchemaRules)?.password || []
-  return {
-    ...rules.value,
-    authentication: {
-      password: [...prePwdRule, ...ruleWhenTestConnection],
-    },
-  }
+  return merge(rules.value, {
+    authentication: { password: [...prePwdRule, ...ruleWhenTestConnection] },
+  })
 })
 
 const isFormDataInit = false
