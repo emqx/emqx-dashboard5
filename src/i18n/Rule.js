@@ -1,7 +1,7 @@
 export default {
   errorRange: {
     zh: '填写错误：数值范围为 {min} - {max}',
-    en: 'Fill in the error: the number range is {min} - {max}',
+    en: 'Input error: the number range is {min} - {max}',
   },
   minimumError: {
     zh: '请输入大于等于 {min} 的数',
