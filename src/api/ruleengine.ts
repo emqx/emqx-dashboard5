@@ -7,6 +7,7 @@ import {
   ParamsForQueryRules,
   RuleItem,
   RuleMetrics,
+  SchemaRegistry,
 } from '@/types/rule'
 import { ListDataWithPagination } from '@/types/common'
 
@@ -134,4 +135,27 @@ export function queryRuleMetrics(ruleId: string): Promise<RuleMetrics> {
 
 export function resetRuleMetrics(ruleId: string): Promise<string> {
   return http.put(`/rules/${ruleId}/metrics/reset`)
+}
+
+export const querySchemas = (): Promise<Array<SchemaRegistry>> => {
+  return http.get('/schema_registry')
+}
+
+export const createSchema = (data: SchemaRegistry): Promise<SchemaRegistry> => {
+  return http.post('/schema_registry', data)
+}
+
+export const deleteSchema = (schemaName: string): Promise<void> => {
+  return http.delete(`/schema_registry/${schemaName}`)
+}
+
+export const querySchemaDetail = (schemaName: string): Promise<SchemaRegistry> => {
+  return http.get(`/schema_registry/${schemaName}`)
+}
+
+export const updateSchema = (
+  schemaName: string,
+  schema: Omit<SchemaRegistry, 'name'>,
+): Promise<SchemaRegistry> => {
+  return http.put(`/schema_registry/${schemaName}`, schema)
 }
