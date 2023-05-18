@@ -3,10 +3,6 @@ export default {
     zh: '创建数据桥接',
     en: 'Create Data Bridge',
   },
-  editBridge: {
-    zh: '编辑数据桥接',
-    en: 'Edit Data Bridge',
-  },
   updateBridgeTip: {
     zh: '更新桥接配置将会导致桥接重启，重启期间缓冲区内的消息和新收到的消息将不会被桥接，是否继续？',
     en: 'Updating bridge configuration will cause the bridge to restart. The buffered messages, and newly received messages during the restart will not be bridged, continue?',
@@ -14,10 +10,6 @@ export default {
   create: {
     zh: '创建',
     en: 'Create',
-  },
-  backDataBridge: {
-    zh: '返回数据桥接列表',
-    en: 'Back To Data Bridge List',
   },
   bridgeType: {
     zh: '数据桥接类型',
@@ -30,10 +22,6 @@ export default {
   useDataBridge: {
     zh: '使用数据桥接转发',
     en: 'Forwarding with Data Bridge',
-  },
-  chooseBridgeType: {
-    zh: '选择数据桥接类型',
-    en: 'Choose The Type of Data Bridge',
   },
   direction: {
     zh: '方向',
@@ -71,33 +59,9 @@ export default {
     zh: '使用 MQTT 桥接数据',
     en: 'Using MQTT to bridge data',
   },
-  baseInfo: {
-    zh: '基本信息',
-    en: 'Basic',
-  },
-  mappingInfo: {
-    zh: '映射配置',
-    en: 'Mappings',
-  },
-  mappingDesc: {
-    zh: '配置 Topic 映射，实现本地-远程 Broker 数据移动',
-    en: 'Configure topic mapping for local-remote broker data exchange',
-  },
-  reqSetting: {
-    zh: '请求参数',
-    en: 'Request Settings',
-  },
   method: {
     zh: '请求方法',
     en: 'Method',
-  },
-  connType: {
-    zh: '连接类型',
-    en: 'Connection Type',
-  },
-  bridgeNum: {
-    zh: '数据桥接数量',
-    en: 'Total Data Bridge',
   },
   connParams: {
     zh: '连接参数',
@@ -111,10 +75,7 @@ export default {
     zh: 'MQTT 协议版本',
     en: 'MQTT Version',
   },
-  connMode: {
-    zh: '连接模式',
-    en: 'Mode',
-  },
+
   cleanStart: {
     zh: '清除会话',
     en: 'Clean start',
@@ -131,10 +92,6 @@ export default {
     zh: '该设置仅适用于 MQTT 协议版本低于 5.0 的情况，且远程 MQTT 服务必须支持该功能。开启后，远端服务器将识别当前连接为一个桥接，消息回环检测更高效，收到的保留消息标志位会透传给本地。',
     en: 'This setting is only for MQTT protocol version older than 5.0, and the remote MQTT broker MUST support this feature. After being enabled, the remote broker will recognize the current connection as a bridge, that loop detection will be more effective and that retained messages will be propagated correctly.',
   },
-  connSetting: {
-    zh: '连接配置',
-    en: 'Connection Settings',
-  },
   httpPipeline: {
     zh: 'HTTP 管道',
     en: 'HTTP Pipelining',
@@ -147,14 +104,6 @@ export default {
     zh: 'HTTP 请求超时',
     en: 'HTTP Request Timeout',
   },
-  mqttConn: {
-    zh: 'MQTT 服务',
-    en: 'MQTT Server',
-  },
-  selectPlease: {
-    zh: '请选择',
-    en: 'Select One Please',
-  },
   name: {
     zh: '名称',
     en: 'Name',
@@ -162,18 +111,6 @@ export default {
   createRule: {
     zh: '创建规则',
     en: 'Create Rule',
-  },
-  mode_cluster_shareload: {
-    zh: '节点独立连接',
-    en: 'Cluster Shareload',
-  },
-  mode_cluster_singleton: {
-    zh: '集群共享模式',
-    en: 'Cluster Singleton',
-  },
-  listTable: {
-    zh: '列表展示',
-    en: 'List',
   },
   topology: {
     zh: '拓扑图',
@@ -190,10 +127,6 @@ export default {
   note: {
     zh: '备注',
     en: 'Note',
-  },
-  filterData: {
-    zh: '筛选数据',
-    en: 'Filter Data',
   },
   action: {
     zh: '动作',
@@ -251,17 +184,9 @@ export default {
     zh: '重置成功',
     en: 'Reset successfully',
   },
-  formatJSON: {
-    zh: 'JSON 格式化',
-    en: 'Format JSON',
-  },
   republish: {
     zh: '消息重发布',
     en: ' Republish',
-  },
-  paramSetting: {
-    zh: '参数设置',
-    en: 'Parameter',
   },
   selectOrInput: {
     zh: '请选择或直接输入',
@@ -282,10 +207,6 @@ export default {
   sqlEditor: {
     zh: 'SQL 编辑器',
     en: 'SQL Editor',
-  },
-  backToBridggeList: {
-    zh: '返回 Bridge 列表',
-    en: 'Back To Bridge List',
   },
   messages: {
     zh: '消息',
@@ -603,10 +524,6 @@ export default {
     zh: '密码',
     en: 'Password',
   },
-  reconnectInterval: {
-    zh: '重连间隔',
-    en: 'Reconnect Interval',
-  },
   retryInterval: {
     zh: '消息重发间隔',
     en: 'Message Retry Interval',
@@ -618,18 +535,6 @@ export default {
   tip: {
     zh: '提示：',
     en: 'Tip:',
-  },
-  clientIDDesc: {
-    zh: '由于 MQTT 客户端 ID 不允许重复，如果填写了客户端 ID，使用节点独享连接模式时，EMQ X 会在客户端 ID 后添加随机字符串。',
-    en: 'Since the MQTT client ID does not allow duplicates, EMQ X will add a random string after the client ID when using cluster singleton connection mode if the client ID is filled in.',
-  },
-  clientIDPlaceholder: {
-    zh: '留空则自动生成',
-    en: 'Empty will be automatically generated',
-  },
-  reInputPwdRequired: {
-    zh: '请重新输入原密码',
-    en: 'Please re-enter your original password',
   },
   changePwdTip: {
     zh: '目前为加密密码，修改请重新输入',
@@ -658,18 +563,6 @@ export default {
   connectionSuccessful: {
     zh: '连接成功',
     en: 'Connection is successful',
-  },
-  outBridgeLocalTopicPlaceholder: {
-    zh: '需要转发的主题，不填则由 Rule 指定',
-    en: 'The topic that needs to be forwarded, will be specified by Rule if empty',
-  },
-  inBridgeLocalTopicPlaceholder: {
-    zh: '默认由 Rule 处理',
-    en: 'It is handled by Rule by default',
-  },
-  remoteTopicPlaceholder: {
-    zh: '桥接数据到远程 Broker 中',
-    en: 'Bridges data to remote broker.',
   },
   payload: {
     zh: '消息模版',
@@ -806,22 +699,6 @@ export default {
   backBridgeList: {
     zh: '返回 Bridge 列表',
     en: 'Back To Bridge List',
-  },
-  backRuleEdit: {
-    zh: '返回规则编辑',
-    en: 'Back To Rule Editing',
-  },
-  readMore: {
-    zh: '了解更多',
-    en: 'Read More',
-  },
-  bridgeDataInDesc: {
-    zh: '你想转发哪个主题的数据？',
-    en: 'Which topic do you want to forward data on?',
-  },
-  bridgeDataOutDesc: {
-    zh: '你想将数据转发到什么地方？',
-    en: 'Where do you want to forward the data to?',
   },
   headers: {
     zh: '请求头',
