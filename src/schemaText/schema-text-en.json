@@ -527,7 +527,7 @@
       "label": "Max procs"
     },
     "mqtt_use_username_as_clientid": {
-      "desc": "Whether to use Username as Client ID.\nThis setting takes effect later than <code>Use Peer Certificate as Username</code> and <code>Use peer certificate as Client ID</code>.",
+      "desc": "Whether to use Username as Client ID.\nThis setting takes effect later than <code>Use Peer Certificate as Username</code> and <code>Use Peer Certificate as Client ID</code>.",
       "label": "Use Username as Client ID"
     },
     "mqtt_max_qos_allowed": {
