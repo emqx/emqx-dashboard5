@@ -111,10 +111,6 @@ export default {
     zh: '资源',
     en: 'Resources',
   },
-  analysis: {
-    zh: '统计分析',
-    en: 'Analysis',
-  },
   topic_metrics: {
     zh: '主题监控',
     en: 'Topic metrics',
@@ -151,14 +147,6 @@ export default {
     zh: '慢订阅',
     en: 'Slow Subscriptions',
   },
-  httpapi: {
-    zh: 'HTTP API',
-    en: 'HTTP API',
-  },
-  'dashboard-http': {
-    zh: '仪表盘',
-    en: 'Dashboard',
-  },
   general: {
     zh: '通用',
     en: 'General',
@@ -170,10 +158,6 @@ export default {
   extension: {
     zh: '扩展',
     en: 'Extension',
-  },
-  systemTopic: {
-    zh: '系统主题',
-    en: 'System Topic',
   },
   application: {
     zh: '应用',
@@ -271,25 +255,9 @@ export default {
     zh: '节点',
     en: 'Nodes',
   },
-  ruleCreate: {
-    zh: '创建规则',
-    en: 'Rule Create',
-  },
-  schemaCreate: {
-    zh: '创建编解码',
-    en: 'Schema Create',
-  },
   settings: {
     zh: '设置',
     en: 'Settings',
-  },
-  usingDocuments: {
-    zh: '使用文档',
-    en: 'Documents',
-  },
-  applicationManagement: {
-    zh: '应用管理',
-    en: 'Application',
   },
   usersManagement: {
     zh: '用户管理',
@@ -298,10 +266,6 @@ export default {
   logOut: {
     zh: '退出登录',
     en: 'Logout',
-  },
-  notLoggedIn: {
-    zh: '未登录',
-    en: 'Not logged in',
   },
   theSystemHas: {
     zh: '系统有',
@@ -331,14 +295,6 @@ export default {
     zh: '日志追踪',
     en: 'Log Trace',
   },
-  listenerSettings: {
-    zh: '监听器',
-    en: 'Listeners',
-  },
-  baseSettings: {
-    zh: '基础设置',
-    en: 'Basic',
-  },
   dataBridge: {
     zh: '数据桥接',
     en: 'Data Bridge',
@@ -362,10 +318,6 @@ export default {
   integration: {
     zh: '监控集成',
     en: 'Integration',
-  },
-  alarmSettings: {
-    zh: '系统',
-    en: 'System',
   },
   currentAlarm: {
     zh: '当前告警',

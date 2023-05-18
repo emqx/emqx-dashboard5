@@ -27,10 +27,6 @@ export default {
     zh: '下次登录时将再次提示您修改默认密码，您也可以稍后在系统 > 用户菜单中进行修改。',
     en: 'You will be prompted to change the default password again when you log in next time, and you can also change it later in the System > User.',
   },
-  resourcesNotFound: {
-    zh: '资源未找到',
-    en: 'Resources not found',
-  },
   copied: {
     zh: '复制成功！',
     en: 'Copied Successfully!',
@@ -134,10 +130,6 @@ export default {
   disabledSuccess: {
     zh: '停用成功',
     en: 'Disabled Successfully',
-  },
-  viewMore: {
-    zh: '查看更多',
-    en: 'View More',
   },
   collapse: {
     zh: '收起',
@@ -330,10 +322,6 @@ export default {
   importSuc: {
     zh: '导入成功',
     en: 'Imported Successfully',
-  },
-  importFailed: {
-    zh: '导入失败',
-    en: 'Import Failed',
   },
   uploadFailed: {
     zh: '上传失败',
