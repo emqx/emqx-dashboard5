@@ -190,6 +190,17 @@ export default (props: {
     return { components, rules }
   }
 
+  const hStreamHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { payload } = components
+
+    if (payload?.type === 'string') {
+      payload.format = 'sql'
+    }
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Redis]: redisComponentsHandler,
     [BridgeType.GCP]: GCPComponentsHandler,
@@ -197,6 +208,7 @@ export default (props: {
     [BridgeType.DynamoDB]: dynamoDBHandler,
     [BridgeType.RocketMQ]: rocketMQHandler,
     [BridgeType.RabbitMQ]: rabbitMQHandler,
+    [BridgeType.HStream]: hStreamHandler,
   }
 
   const getComponentsHandler = () => {

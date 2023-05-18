@@ -194,29 +194,9 @@
     }
   },
   "emqx_ee_bridge_hstreamdb": {
-    "config_direction": {
+    "direction": {
       "desc": "The direction of this bridge, MUST be 'egress'",
       "label": "Bridge Direction"
-    },
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for an HStreamDB bridge.",
-      "label": "HStreamDB Bridge Configuration"
-    },
-    "desc_connector": {
-      "desc": "Generic configuration for the connector.",
-      "label": "Connector Generic Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name, used as a human-readable description of the bridge.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
     },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
@@ -230,29 +210,18 @@
       "desc": "HStreamDB connection config",
       "label": "Connection config"
     },
-    "name": {
-      "desc": "Connector name, used as a human-readable description of the connector.",
-      "label": "Connector Name"
-    },
     "ordering_key": {
-      "desc": "HStreamDB Ordering Key",
       "label": "HStreamDB Ordering Key"
     },
     "pool_size": {
       "desc": "HStreamDB Pool Size",
       "label": "HStreamDB Pool Size"
     },
-    "stream_name": {
-      "desc": "HStreamDB Stream Name",
+    "stream": {
       "label": "HStreamDB Stream Name"
     },
-    "type": {
-      "desc": "The Connector Type.",
-      "label": "Connector Type"
-    },
     "url": {
-      "desc": "HStreamDB Server URL",
-      "label": "HStreamDB Server URL"
+      "label": "Server URL"
     }
   },
   "emqx_ee_bridge_influxdb": {

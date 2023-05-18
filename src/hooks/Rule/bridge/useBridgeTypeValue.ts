@@ -36,6 +36,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.OracleDatabase, label: tl('oracleDatabase') },
     { value: BridgeType.RabbitMQ, label: tl('rabbitMQ') },
     { value: BridgeType.Pulsar, label: tl('pulsar') },
+    { value: BridgeType.HStream, label: tl('hStream') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -91,6 +92,7 @@ export const useBridgeTypeOptions = (): {
     [BridgeType.OracleDatabase, t('RuleEngine.egressDataBaseDesc', { name: tl('oracleDatabase') })],
     [BridgeType.RabbitMQ, t('RuleEngine.egressDataBaseDesc', { name: tl('rabbitMQ') })],
     [BridgeType.Pulsar, t('RuleEngine.egressDataBaseDesc', { name: tl('pulsar') })],
+    [BridgeType.HStream, t('RuleEngine.egressDataBaseDesc', { name: tl('hStream') })],
   ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({

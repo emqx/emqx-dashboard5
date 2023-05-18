@@ -65,6 +65,7 @@ const typeRefKeyMap = {
   [BridgeType.OpenTSDB]: getSchemaRefByType(`opents`),
   [BridgeType.OracleDatabase]: getSchemaRefByType(`oracle`),
   [BridgeType.RabbitMQ]: getSchemaRefByType(`rabbitmq`),
+  [BridgeType.HStream]: getSchemaRefByType(`hstreamdb`),
 }
 
 const props = defineProps({

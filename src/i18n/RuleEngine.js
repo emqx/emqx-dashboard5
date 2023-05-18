@@ -852,6 +852,10 @@ export default {
     zh: 'Pulsar',
     en: 'Pulsar',
   },
+  hStream: {
+    zh: 'HStreamDB',
+    en: 'HStreamDB',
+  },
   gcpPubSubDesc: {
     zh: '桥接数据到 Google PubSub',
     en: 'Bridge data to Google PubSub',
