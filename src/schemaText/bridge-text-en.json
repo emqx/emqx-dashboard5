@@ -30,22 +30,6 @@
     }
   },
   "emqx_ee_bridge_cassa": {
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for a Cassandra bridge.",
-      "label": "Cassandra Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
-    },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to Cassandra. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
       "label": "Local Topic"
@@ -68,22 +52,6 @@
       "desc": "The default value ',' works for the VALUES format. You can also use other separator if other format is specified. See [INSERT INTO Statement](https://clickhouse.com/docs/en/sql-reference/statements/insert-into).",
       "label": "Batch Value Separator"
     },
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for a Clickhouse bridge.",
-      "label": "Clickhouse Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
-    },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to Clickhouse. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
       "label": "Local Topic"
@@ -102,22 +70,6 @@
     }
   },
   "emqx_ee_bridge_dynamo": {
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for an DynamoDB bridge.",
-      "label": "DynamoDB Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
-    },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to DynamoDB. All MQTT `PUBLISH` messages with the topic\nmatching the `local_topic` will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also `local_topic` is\nconfigured, then both the data got from the rule and the MQTT messages that match `local_topic`\nwill be forwarded.",
       "label": "Local Topic"
@@ -225,22 +177,6 @@
     }
   },
   "emqx_ee_bridge_influxdb": {
-    "config_enable": {
-      "desc": "Enable or disable this bridge.",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for an InfluxDB bridge.",
-      "label": "InfluxDB Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type.",
-      "label": "Bridge Type"
-    },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
       "label": "Local Topic"
@@ -318,10 +254,6 @@
     "socket_send_buffer": {
       "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
       "label": "Socket Send Buffer Size"
-    },
-    "desc_name": {
-      "desc": "Bridge name, used as a human-readable description of the bridge.",
-      "label": "Bridge Name"
     },
     "consumer_offset_commit_interval_seconds": {
       "desc": "Defines the time interval between two offset commit requests sent for each consumer group.",
@@ -415,10 +347,6 @@
       "desc": "Maximum wait time when fetching metadata from Kafka.",
       "label": "Metadata Request Timeout"
     },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
-    },
     "socket_nodelay": {
       "desc": "When set to 'true', TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
       "label": "No Delay"
@@ -435,10 +363,6 @@
       "desc": "SASL authentication mechanism.",
       "label": "Mechanism"
     },
-    "config_enable": {
-      "desc": "Enable (true) or disable (false) this Kafka bridge.",
-      "label": "Enable or Disable"
-    },
     "payload_template": {
       "desc": "The template for transforming the incoming Kafka message.  By default, it will use JSON format to serialize inputs from the Kafka message.  Such fields are:\n<code>headers</code>: an object containing string key-value pairs.\n<code>key</code>: Kafka message key (uses the chosen key encoding).\n<code>offset</code>: offset for the message.\n<code>topic</code>: Kafka topic.\n<code>ts</code>: message timestamp.\n<code>ts_type</code>: message timestamp type, which is one of <code>create</code>, <code>append</code> or <code>undefined</code>.\n<code>value</code>: Kafka message value (uses the chosen value encoding).",
       "label": "MQTT Payload Template"
@@ -450,10 +374,6 @@
     "kafka_consumer": {
       "desc": "Kafka Consumer configuration.",
       "label": "Kafka Consumer"
-    },
-    "desc_config": {
-      "desc": "Configuration for a Kafka bridge.",
-      "label": "Kafka Bridge Configuration"
     },
     "consumer_value_encoding_mode": {
       "desc": "Defines how the value from the Kafka message is encoded before being forwarded via MQTT.\n<code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, the value must be a valid UTF-8 string.\n<code>base64</code> Uses base-64 encoding on the received value.",
@@ -520,22 +440,6 @@
     "collection": {
       "desc": "The collection where data will be stored into",
       "label": "Collection"
-    },
-    "desc_config": {
-      "desc": "Configuration for MongoDB Bridge",
-      "label": "MongoDB Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type.",
-      "label": "Bridge Type"
-    },
-    "enable": {
-      "desc": "Enable or disable this MongoDB Bridge",
-      "label": "Enable or disable"
     },
     "mongodb_rs_conf": {
       "desc": "MongoDB (Replica Set) configuration",
@@ -651,22 +555,6 @@
     }
   },
   "emqx_ee_bridge_mysql": {
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for an HStreamDB bridge.",
-      "label": "HStreamDB Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name, used as a human-readable description of the bridge.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
-    },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
       "label": "Local Topic"
@@ -681,22 +569,6 @@
     }
   },
   "emqx_ee_bridge_pgsql": {
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for an PostgreSQL bridge.",
-      "label": "PostgreSQL Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
-    },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
       "label": "Local Topic"
@@ -714,22 +586,6 @@
     "command_template": {
       "desc": "Redis command template used to export messages. Each list element stands for a command name or its argument.\nFor example, to push payloads in a Redis list by key `msgs`, the elements should be the following:\n`rpush`, `msgs`, `${'{'}payload{'}'}`.",
       "label": "Redis Command Template"
-    },
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for a Redis bridge.",
-      "label": "Redis Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name, used as a human-readable description of the bridge.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
     },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
@@ -765,22 +621,6 @@
     }
   },
   "emqx_ee_bridge_rocketmq": {
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for a RocketMQ bridge.",
-      "label": "RocketMQ Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
-    },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to RocketMQ. All MQTT `PUBLISH` messages with the topic\nmatching the `local_topic` will be forwarded.</br>\nNOTE: if the bridge is used as a rule action, `local_topic` should be left empty otherwise the messages will be duplicated.",
       "label": "Local Topic"
@@ -823,22 +663,6 @@
     }
   },
   "emqx_ee_bridge_tdengine": {
-    "config_enable": {
-      "desc": "Enable or disable this bridge",
-      "label": "Enable Or Disable Bridge"
-    },
-    "desc_config": {
-      "desc": "Configuration for an TDengine bridge.",
-      "label": "TDengine Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
-    },
     "local_topic": {
       "desc": "The MQTT topic filter to be forwarded to TDengine. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
       "label": "Local Topic"

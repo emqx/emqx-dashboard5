@@ -30,22 +30,6 @@
     }
   },
   "emqx_ee_bridge_cassa": {
-    "config_enable": {
-      "desc": "启用/禁用桥接",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "Cassandra 桥接配置",
-      "label": "Cassandra 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "Bridge 类型",
-      "label": "桥接类型"
-    },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 Cassandra。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
@@ -68,22 +52,6 @@
       "desc": "默认为逗号 ','，适用于 VALUES 格式。您也可以使用其他分隔符， 请参考 [INSERT INTO 语句](https://clickhouse.com/docs/zh/sql-reference/statements/insert-into)。",
       "label": "分隔符"
     },
-    "config_enable": {
-      "desc": "启用/禁用桥接",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "Clickhouse 桥接配置",
-      "label": "Clickhouse 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "Bridge 类型",
-      "label": "桥接类型"
-    },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 Clickhouse。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
@@ -102,22 +70,6 @@
     }
   },
   "emqx_ee_bridge_dynamo": {
-    "config_enable": {
-      "desc": "启用/禁用桥接",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "DynamoDB 桥接配置",
-      "label": "DynamoDB 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "Bridge 类型",
-      "label": "桥接类型"
-    },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 DynamoDB。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
@@ -221,22 +173,6 @@
     }
   },
   "emqx_ee_bridge_influxdb": {
-    "config_enable": {
-      "desc": "启用/禁用桥接。",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "InfluxDB 桥接配置。",
-      "label": "InfluxDB 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名称。",
-      "label": "桥接名称"
-    },
-    "desc_type": {
-      "desc": "桥接类型。",
-      "label": "桥接类型"
-    },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。",
       "label": "本地 Topic"
@@ -314,10 +250,6 @@
     "socket_send_buffer": {
       "desc": "TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。",
       "label": "Socket 发送缓存大小"
-    },
-    "desc_name": {
-      "desc": "桥接名字，可读描述",
-      "label": "桥接名字"
     },
     "consumer_offset_commit_interval_seconds": {
       "desc": "指定 Kafka 消费组偏移量提交的时间间隔。",
@@ -411,10 +343,6 @@
       "desc": "刷新元数据时最大等待时长。",
       "label": "元数据请求超时"
     },
-    "desc_type": {
-      "desc": "桥接类型",
-      "label": "桥接类型"
-    },
     "socket_nodelay": {
       "desc": "设置‘true’让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
       "label": "是否关闭延迟发送"
@@ -431,10 +359,6 @@
       "desc": "SASL 认证方法名称。",
       "label": "认证方法"
     },
-    "config_enable": {
-      "desc": "启用（true）或停用该（false）Kafka 数据桥接。",
-      "label": "启用或停用"
-    },
     "payload_template": {
       "desc": "用于转换收到的 Kafka 消息的模板。 默认情况下，它将使用 JSON 格式来序列化来自 Kafka 的所有字段。 这些字段包括：<code>headers</code>：一个包含字符串键值对的 JSON 对象。\n<code>key</code>：Kafka 消息的键（使用选择的编码方式编码）。\n<code>offset</code>：消息的偏移量。\n<code>topic</code>：Kafka 主题。\n<code>ts</code>: 消息的时间戳。\n<code>ts_type</code>：消息的时间戳类型，值可能是： <code>create</code>， <code>append</code> 或 <code>undefined</code>。\n<code>value</code>: Kafka 消息值（使用选择的编码方式编码）。",
       "label": "MQTT Payload Template"
@@ -446,10 +370,6 @@
     "kafka_consumer": {
       "desc": "Kafka 消费者配置。",
       "label": "Kafka 消费者"
-    },
-    "desc_config": {
-      "desc": "Kafka 桥接配置",
-      "label": "Kafka 桥接配置"
     },
     "consumer_value_encoding_mode": {
       "desc": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Value。<code>none</code> 使用 Kafka 消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的 UTF-8 字符串。\n<code>base64</code> 对收到的 Value 使用 base-64 编码。",
@@ -516,22 +436,6 @@
     "collection": {
       "desc": "数据将被存储到的集合",
       "label": "集合 (Collection) "
-    },
-    "desc_config": {
-      "desc": "为MongoDB桥配置",
-      "label": "MongoDB桥配置"
-    },
-    "desc_name": {
-      "desc": "桥接名称。",
-      "label": "桥接名称"
-    },
-    "desc_type": {
-      "desc": "桥接类型。",
-      "label": "桥接类型"
-    },
-    "enable": {
-      "desc": "启用或停用该MongoDB桥",
-      "label": "启用或禁用"
     },
     "mongodb_rs_conf": {
       "desc": "MongoDB（Replica Set）配置",
@@ -647,22 +551,6 @@
     }
   },
   "emqx_ee_bridge_mysql": {
-    "config_enable": {
-      "desc": "启用/禁用桥接",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "HStreamDB 桥接配置",
-      "label": "HStreamDB 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字，可读描述",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "Bridge 类型",
-      "label": "桥接类型"
-    },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 MySQL。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
@@ -677,22 +565,6 @@
     }
   },
   "emqx_ee_bridge_pgsql": {
-    "config_enable": {
-      "desc": "启用/禁用桥接",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "PostgreSQL 桥接配置",
-      "label": "PostgreSQL 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "Bridge 类型",
-      "label": "桥接类型"
-    },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 PostgreSQL。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
@@ -710,22 +582,6 @@
     "command_template": {
       "desc": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。\n例如，要通过键 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${'{'}payload{'}'}`。",
       "label": "Redis 命令模板"
-    },
-    "config_enable": {
-      "desc": "启用/禁用桥接",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "Resis 桥接配置",
-      "label": "Redis 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字，可读描述",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "Bridge 类型",
-      "label": "桥接类型"
     },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 Redis。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 Redis。",
@@ -761,22 +617,6 @@
     }
   },
   "emqx_ee_bridge_rocketmq": {
-    "config_enable": {
-      "desc": "启用/禁用桥接",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "RocketMQ 桥接配置",
-      "label": "RocketMQ 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "Bridge 类型",
-      "label": "桥接类型"
-    },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 RocketMQ。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
@@ -819,22 +659,6 @@
     }
   },
   "emqx_ee_bridge_tdengine": {
-    "config_enable": {
-      "desc": "启用/禁用桥接",
-      "label": "启用/禁用桥接"
-    },
-    "desc_config": {
-      "desc": "TDengine 桥接配置",
-      "label": "TDengine 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "Bridge 类型",
-      "label": "桥接类型"
-    },
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 TDengine。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
