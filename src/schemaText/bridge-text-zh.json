@@ -812,7 +812,7 @@
       "label": "自动重连"
     },
     "exchange": {
-      "desc": "消息将被发送到的 RabbitMQ 交换的名称。",
+      "desc": "消息将被发送到的 RabbitMQ 交换机的名称。",
       "label": "交换机"
     },
     "exchange_type": {
@@ -820,11 +820,11 @@
       "label": "交换机类型"
     },
     "routing_key": {
-      "desc": "用于将消息路由到 RabbitMQ 交换中的正确队列的路由键。",
+      "desc": "用于将消息路由到 RabbitMQ 交换机的正确队列的路由键。",
       "label": "路由键"
     },
     "delivery_mode": {
-      "desc": "发布到 RabbitMQ 的消息的传递模式。非持久性(1)的传递模式适用于不需要在 RabbitMQ 重启时保持持久性的消息，而持久性(2)的传递模式适用于必须在 RabbitMQ 重启时幸存的消息。",
+      "desc": "发布到 RabbitMQ 的消息的传递模式。非持久性的传递模式适用于不需要在 RabbitMQ 重启时保持持久性的消息，而持久性的传递模式适用于必须在 RabbitMQ 重启时保持持久性的消息。",
       "label": "消息传递模式"
     },
     "payload_template": {
