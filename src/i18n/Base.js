@@ -299,10 +299,6 @@ export default {
     zh: '目录',
     en: 'Content',
   },
-  TLSCerts: {
-    zh: 'TLS 证书信息',
-    en: 'TLS Certification',
-  },
   tlsVerify: {
     zh: '验证服务器证书',
     en: 'TLS Verify',
