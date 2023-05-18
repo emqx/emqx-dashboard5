@@ -712,7 +712,7 @@
       "label": "HTTP Basic Auth Password"
     },
     "base_url": {
-      "desc": "The base URL of the external IoTDB service's REST interface.",
+      "desc": "The base URL of the external IoTDB service's REST interface.<br/>\n The URL has the following form `http://Host:Port`.",
       "label": "IoTDB REST Service Base URL"
     },
     "is_aligned": {
