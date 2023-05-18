@@ -15,14 +15,6 @@ export default {
     zh: '数据源状态',
     en: 'Status',
   },
-  backAuthnList: {
-    zh: '返回认证列表',
-    en: 'Back to Authentication List',
-  },
-  backAuthzList: {
-    zh: '返回授权列表',
-    en: 'Back to Authorization List',
-  },
   createAuth: {
     zh: '创建认证',
     en: 'Create Authentication',
@@ -34,10 +26,6 @@ export default {
   config: {
     zh: '配置参数',
     en: 'Configuration',
-  },
-  selectMechanism: {
-    zh: '选择认证方式',
-    en: 'Select Mechanism',
   },
   scram: {
     zh: '增强认证',
@@ -59,10 +47,6 @@ export default {
     zh: 'MQTT 5.0 增强认证',
     en: 'MQTT 5 Enhanced Authentication',
   },
-  selectDataSource: {
-    zh: '选择数据源',
-    en: 'Select Backend',
-  },
   dataSourceDesc: {
     zh: '选择存储认证数据的数据库或提供认证数据功能的 HTTP 服务器',
     en: 'Select the database where the authentication data is stored or the HTTP server that provides the authentication data function',
@@ -83,21 +67,9 @@ export default {
     zh: 'JWT 认证无需选择数据源，请继续下一步配置',
     en: 'JWT authentication does not require a backend, continue to the next step',
   },
-  TLSCerts: {
-    zh: 'TLS 证书信息',
-    en: 'TLS Certification',
-  },
   reconnect: {
     zh: '自动重连',
     en: 'Reconnect',
-  },
-  authnConfig: {
-    zh: '认证配置',
-    en: 'Authentication configuration',
-  },
-  authzConfig: {
-    zh: '权限配置',
-    en: 'Authorization configuration',
   },
   userConfig: {
     zh: '用户管理',
@@ -106,10 +78,6 @@ export default {
   users: {
     zh: '用户管理',
     en: 'Users',
-  },
-  dataConfig: {
-    zh: '数据管理',
-    en: 'Data Management',
   },
   data: {
     zh: '数据管理',
@@ -122,10 +90,6 @@ export default {
   testFailed: {
     zh: '测试失败',
     en: 'Test failed',
-  },
-  sqlHelpContent: {
-    zh: '使用默认的 ACL SQL 请在数据库中创建如下表结构：',
-    en: ' To use the default SQL. Please create this table in the database:',
   },
   moveUp: {
     zh: '上移',
@@ -166,10 +130,6 @@ export default {
   ttl: {
     zh: '缓存过期时间',
     en: 'Time to live for the cached data',
-  },
-  authzCache: {
-    zh: 'Authorization 缓存',
-    en: 'Authorization Cache',
   },
   setDefault: {
     zh: '设置默认',
@@ -242,14 +202,6 @@ export default {
   filter: {
     zh: '查询 Filter',
     en: 'Filter',
-  },
-  exampleDataStructures: {
-    zh: '示例数据结构和查询',
-    en: 'Example data structures and filter',
-  },
-  exampleDataCmd: {
-    zh: '示例数据结构和命令',
-    en: 'Example data structures and command',
   },
   cmd: {
     zh: '命令',
