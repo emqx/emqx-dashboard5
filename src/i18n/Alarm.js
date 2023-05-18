@@ -55,25 +55,9 @@ export default {
     zh: '状态',
     en: 'State',
   },
-  alarmValue: {
-    zh: '告警值',
-    en: 'Value',
-  },
-  alarmTime: {
-    zh: '告警时间',
-    en: 'Create At',
-  },
-  clearanceTime: {
-    zh: '清除时间',
-    en: 'Clearance time',
-  },
   clearHistory: {
     zh: '清除历史告警',
     en: 'Clear History Alarms',
-  },
-  endingTime: {
-    zh: '结束时间',
-    en: 'Ending time',
   },
   alarms: {
     zh: '告警列表',
@@ -82,10 +66,6 @@ export default {
   normal: {
     zh: '正常',
     en: 'normal',
-  },
-  abnormal: {
-    zh: '异常',
-    en: 'Alarm',
   },
   second: {
     zh: '次',
