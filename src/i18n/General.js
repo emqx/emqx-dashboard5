@@ -3,17 +3,9 @@ export default {
     zh: '确认删除应用?',
     en: 'Confirm delete?',
   },
-  appId: {
-    zh: '应用 ID',
-    en: 'AppID',
-  },
   application: {
     zh: '应用',
     en: 'Application',
-  },
-  appName: {
-    zh: '应用名称',
-    en: 'App Name',
   },
   expireAt: {
     zh: '到期时间',
@@ -27,10 +19,6 @@ export default {
     zh: '启用',
     en: 'Enabled',
   },
-  editApp: {
-    zh: '编辑应用',
-    en: 'Edit',
-  },
   createApp: {
     zh: '创建应用',
     en: 'Create App',
@@ -43,14 +31,6 @@ export default {
     zh: '不启用',
     en: 'Disabled',
   },
-  pleaseEnterTheAppId: {
-    zh: '请输入应用 ID',
-    en: 'Please enter the appid',
-  },
-  pleaseChoose: {
-    zh: '请选择',
-    en: 'Please select',
-  },
   pleaseEnter: {
     zh: '请输入',
     en: 'Please enter',
@@ -58,14 +38,6 @@ export default {
   neverExpire: {
     zh: '永不过期',
     en: 'Never expire',
-  },
-  successfulAppCreation: {
-    zh: '创建应用成功',
-    en: 'Successful app creation',
-  },
-  cancelConfirm: {
-    zh: '是否取消本次修改？',
-    en: 'You have unsaved changes, confirm cancel?',
   },
   confirm: {
     zh: '确认信息',
@@ -91,10 +63,6 @@ export default {
     zh: '创建用户',
     en: 'Create',
   },
-  oldPassword: {
-    zh: '旧密码',
-    en: 'Old password',
-  },
   password: {
     zh: '密码',
     en: 'Password',
@@ -107,17 +75,9 @@ export default {
     zh: '确认新密码',
     en: 'Confirm password',
   },
-  dontChangePassword: {
-    zh: '不修改密码',
-    en: 'Dot change password',
-  },
   changePassword: {
     zh: '修改密码',
     en: 'Change Password',
-  },
-  pleaseEnterYourPasswordAgain: {
-    zh: '请再次输入密码',
-    en: 'Please enter your password again.',
   },
   confirmNotMatch: {
     zh: '两次输入密码不一致',
@@ -127,17 +87,9 @@ export default {
     zh: '新密码不能与旧密码相同',
     en: 'The new and old passwords cannot be the same',
   },
-  twoInconsistenciesInPasswordInput: {
-    zh: '两次输入密码不一致',
-    en: 'Two inconsistencies in password input',
-  },
   enterOneUserName: {
     zh: '请输入用户名',
     en: 'Please enter username',
-  },
-  pleaseEnterNotes: {
-    zh: '请输入备注',
-    en: 'Please enter notes',
   },
   pleaseEnterPassword: {
     zh: '请输入密码',
@@ -215,14 +167,6 @@ export default {
     zh: '请输入禁用值',
     en: 'Please enter Banned value',
   },
-  enterAs: {
-    zh: '请选择禁用属性',
-    en: 'Please select property',
-  },
-  enterUntil: {
-    zh: '请填写过期时间',
-    en: 'Please enter the expire time',
-  },
   day: {
     zh: '天',
     en: 'day|days',
@@ -242,14 +186,6 @@ export default {
   ms: {
     zh: '毫秒',
     en: 'millisecond|milliseconds',
-  },
-  timePartSep: {
-    zh: '',
-    en: ', ',
-  },
-  timeSep: {
-    zh: '',
-    en: ' ',
   },
   validString: {
     zh: "请输入由字母开头，字母、数字、下划线及 '-' 组成的字符串",
