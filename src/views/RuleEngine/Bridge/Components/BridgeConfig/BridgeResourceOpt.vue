@@ -75,7 +75,12 @@
         <FormItemLabel :label="tl('query_mode.label')" :desc="tl('query_mode.desc')" />
       </template>
       <el-select v-model="resourceOptForm.query_mode">
-        <el-option v-for="item in ['sync', 'async']" :value="item" :key="item" />
+        <el-option
+          v-for="item in ['sync', 'async']"
+          :value="item"
+          :key="item"
+          :label="$t(`RuleEngine.${item}`)"
+        />
       </el-select>
     </el-form-item>
   </el-col>

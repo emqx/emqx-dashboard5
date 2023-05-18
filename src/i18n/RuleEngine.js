@@ -903,4 +903,12 @@ export default {
     zh: '是否确认重置输入的测试数据？',
     en: 'Are you sure to reset the test data?',
   },
+  async: {
+    zh: '异步',
+    en: 'Async',
+  },
+  sync: {
+    zh: '同步',
+    en: 'Sync',
+  },
 }
