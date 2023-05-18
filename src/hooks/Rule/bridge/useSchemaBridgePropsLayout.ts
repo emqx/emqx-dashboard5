@@ -213,6 +213,18 @@ export default (
         1,
       ),
     },
+    [BridgeType.HStream]: {
+      ...createOrderObj(
+        [
+          'connector.url',
+          'connector.stream',
+          'connector.ordering_key',
+          'connector.pool_size',
+          'connector.payload',
+        ],
+        1,
+      ),
+    },
   }
 
   const propsOrderMap = computed(() => {
@@ -275,6 +287,9 @@ export default (
     [BridgeType.RabbitMQ]: {
       payload_template: 'dividing-line-below',
       timeout: 'dividing-line-below',
+    },
+    [BridgeType.HStream]: {
+      'connector.ordering_key': 'dividing-line-below',
     },
   }
 
