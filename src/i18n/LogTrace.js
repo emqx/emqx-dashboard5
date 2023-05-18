@@ -1,12 +1,4 @@
 export default {
-  activeList: {
-    zh: '活跃中的 Trace 列表',
-    en: 'Active Log Trace List',
-  },
-  finishedList: {
-    zh: '已完成的 Trace 列表',
-    en: 'Finished Log Trace List',
-  },
   name: {
     zh: '名称',
     en: 'Name',
@@ -95,10 +87,6 @@ export default {
     zh: '请输入起始时间和结束时间',
     en: 'start time or end time is required',
   },
-  needOnePacket: {
-    zh: '请选择至少一种',
-    en: 'please choose at least one packet',
-  },
   loadNextPage: {
     zh: '正在加载更多',
     en: 'Loading More Log',
@@ -114,10 +102,6 @@ export default {
   swaiting: {
     zh: '等待中',
     en: 'Waiting',
-  },
-  backToList: {
-    zh: '返回日志追踪列表',
-    en: 'Back to Log Trace List',
   },
   allNodes: {
     zh: '所有节点',

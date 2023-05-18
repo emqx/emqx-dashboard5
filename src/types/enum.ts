@@ -118,6 +118,7 @@ export enum BridgeType {
   OracleDatabase = 'oracle',
   RabbitMQ = 'rabbitmq',
   Pulsar = 'pulsar',
+  HStream = 'hstreamdb',
 }
 
 export enum KafkaType {

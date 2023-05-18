@@ -67,10 +67,6 @@ export default {
     zh: '用户名',
     en: 'Username',
   },
-  mountSetting: {
-    zh: '挂载设置',
-    en: 'Mount Settings',
-  },
   maxKeepalive: {
     zh: '最大心跳时间',
     en: 'Max Keepalive Time',
@@ -126,10 +122,6 @@ export default {
   lMaxConn: {
     zh: '最大连接数',
     en: 'Max Connections',
-  },
-  listenerSetting: {
-    zh: '监听设置',
-    en: 'Listener Settings',
   },
   clientAuth: {
     zh: '配置客户端接入认证',
@@ -223,10 +215,6 @@ export default {
     zh: '最大连接数',
     en: 'Max Connections',
   },
-  configSetting: {
-    zh: '参数配置',
-    en: 'Settings',
-  },
   sendTimeout: {
     zh: '发送超时时间',
     en: 'Send Timeout',
@@ -279,10 +267,6 @@ export default {
   grpcConnection: {
     zh: 'gRPC 连接',
     en: 'gRPC ConnectionHandler',
-  },
-  enableTls: {
-    zh: '启用 TLS',
-    en: 'Enable TLS',
   },
   noAuthTips: {
     zh: '如需对接入的客户端进行身份认证，请先添加认证，配置并启用客户端认证后未通过认证的客户端将无法连接到集群中。',

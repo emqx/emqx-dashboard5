@@ -67,10 +67,6 @@ export default {
     zh: '上传插件',
     en: 'Upload plugin',
   },
-  backList: {
-    zh: '返回 Plugins 列表',
-    en: 'Back to Plugin List',
-  },
   dragFilePlaceholder: {
     zh: '选择或拖拽文件到此处',
     en: 'Select or drag files here',

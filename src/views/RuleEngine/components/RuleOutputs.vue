@@ -58,7 +58,6 @@ import { BridgeType, RuleOutput } from '@/types/enum'
 import { BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
-import { upperFirst } from 'lodash'
 import { computed, defineEmits, defineProps, PropType, ref, Ref, WritableComputedRef } from 'vue'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
 
@@ -209,9 +208,9 @@ const getOutputTypeLabel = (item: OutputItem) => {
         (item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0] as BridgeType,
       )
     case RuleOutput.Console:
-      return upperFirst((item as OutputItemObj).function)
+      return tl('consoleOutput')
     case RuleOutput.Republish:
-      return upperFirst((item as OutputItemObj).function)
+      return tl('republish')
   }
 }
 </script>
