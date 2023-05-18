@@ -226,3 +226,5 @@ export const CER_FILE_ACCEPTS = ['crt', 'key', 'pem', 'jks', 'der', 'cer', 'pfx'
  * for listener, maybe will be used elsewhere as well
  */
 export const INFINITY_VALUE = 'infinity'
+
+export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
