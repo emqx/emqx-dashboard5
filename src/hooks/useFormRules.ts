@@ -1,10 +1,10 @@
+import { COMMON_ID_REG } from '@/common/constants'
 import { checkInRange, checkStringWithUnit } from '@/common/tools'
 import { InternalRuleItem } from 'async-validator'
 import { FormItemRule } from 'element-plus'
 import { isUndefined } from 'lodash'
 import { useI18n } from 'vue-i18n'
 
-const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 export const NO_CHINESE_REG = /^[^\u4e00-\u9fa5]+$/
 
 export default (): {
