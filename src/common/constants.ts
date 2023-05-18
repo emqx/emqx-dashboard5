@@ -227,6 +227,8 @@ export const CER_FILE_ACCEPTS = ['crt', 'key', 'pem', 'jks', 'der', 'cer', 'pfx'
  */
 export const INFINITY_VALUE = 'infinity'
 
+export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
+
 export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
 
 export const MONGO_TYPE = ['single', 'rs', 'sharded']
