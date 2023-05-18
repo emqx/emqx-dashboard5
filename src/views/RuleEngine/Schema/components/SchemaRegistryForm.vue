@@ -46,6 +46,7 @@
 </template>
 
 <script lang="ts" setup>
+import { COMMON_ID_REG } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -93,7 +94,10 @@ const { schemaTypeOpts } = useSchemaType()
 
 const { createRequiredRule } = useFormRules()
 const rules = ref({
-  name: createRequiredRule(t('Base.name')),
+  name: [
+    ...createRequiredRule(t('Base.name')),
+    { pattern: COMMON_ID_REG, message: t('Base.commonIdError') },
+  ],
   type: createRequiredRule(tl('type'), 'select'),
   source: createRequiredRule('Schema'),
 })
