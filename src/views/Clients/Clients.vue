@@ -2,7 +2,7 @@
   <div class="clients">
     <el-form class="search-wrapper" @keyup.enter="handleSearch">
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col v-bind="colProps">
           <el-input
             v-model="fuzzyParams.like_clientid"
             :placeholder="$t('Clients.clientId')"
@@ -10,7 +10,7 @@
             @clear="handleSearch"
           />
         </el-col>
-        <el-col :span="6">
+        <el-col v-bind="colProps">
           <el-input
             v-model="fuzzyParams.like_username"
             :placeholder="$t('Clients.username')"
@@ -18,7 +18,7 @@
             @clear="handleSearch"
           />
         </el-col>
-        <el-col :span="6">
+        <el-col v-bind="colProps">
           <el-select
             v-model="fuzzyParams.node"
             :placeholder="$t('Clients.node')"
@@ -28,7 +28,44 @@
             <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
-        <el-col :span="6" class="col-oper">
+        <template class="more" v-if="showMoreQuery">
+          <el-col v-bind="colProps">
+            <el-input
+              v-model="fuzzyParams.ip_address"
+              :placeholder="$t('Clients.ipAddress')"
+              clearable
+              @clear="handleSearch"
+            />
+          </el-col>
+          <el-col v-bind="colProps">
+            <el-select
+              v-model="fuzzyParams.conn_state"
+              :placeholder="$t('Clients.connectedStatus')"
+              clearable
+              @clear="handleSearch"
+            >
+              <el-option value="connected" />
+              <el-option value="disconnected" />
+            </el-select>
+          </el-col>
+          <el-col v-bind="colProps">
+            <div class="like-input">
+              <el-select v-model="fuzzyParams.comparator">
+                <el-option :label="$t('Clients.gte')" :value="Comparator.After" />
+                <el-option :label="$t('Clients.lte')" :value="Comparator.Before" />
+              </el-select>
+              <el-date-picker
+                v-model="fuzzyParams.connected_at"
+                type="datetime"
+                :placeholder="$t('Clients.connectedAt')"
+                clearable
+                @clear="handleSearch"
+              />
+            </div>
+          </el-col>
+          <el-col v-bind="colProps" />
+        </template>
+        <el-col v-bind="colProps" class="col-oper">
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
@@ -48,43 +85,6 @@
             </el-button>
           </el-tooltip>
         </el-col>
-        <template class="more" v-if="showMoreQuery">
-          <el-col :span="24" class="split-line"></el-col>
-          <el-col :span="6">
-            <el-input
-              v-model="fuzzyParams.ip_address"
-              :placeholder="$t('Clients.ipAddress')"
-              clearable
-              @clear="handleSearch"
-            />
-          </el-col>
-          <el-col :span="6">
-            <el-select
-              v-model="fuzzyParams.conn_state"
-              :placeholder="$t('Clients.connectedStatus')"
-              clearable
-              @clear="handleSearch"
-            >
-              <el-option value="connected" />
-              <el-option value="disconnected" />
-            </el-select>
-          </el-col>
-          <el-col :span="6">
-            <div class="like-input">
-              <el-select v-model="fuzzyParams.comparator">
-                <el-option :label="$t('Clients.gte')" :value="Comparator.After" />
-                <el-option :label="$t('Clients.lte')" :value="Comparator.Before" />
-              </el-select>
-              <el-date-picker
-                v-model="fuzzyParams.connected_at"
-                type="datetime"
-                :placeholder="$t('Clients.connectedAt')"
-                clearable
-                @clear="handleSearch"
-              />
-            </div>
-          </el-col>
-        </template>
       </el-row>
     </el-form>
     <div class="app-wrapper">
@@ -198,7 +198,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { disconnectClient, listClients } from '@/api/clients'
 import { loadNodes } from '@/api/common'
-import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
+import { SESSION_NEVER_EXPIRE_TIME, SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import CommonPagination from '@/components/commonPagination.vue'
