@@ -2,7 +2,7 @@
   <div class="subscriptions">
     <el-form class="search-wrapper" @keyup.enter="handleSearch">
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col v-bind="colProps">
           <el-select
             v-model="fuzzyParams.node"
             :placeholder="$t('Clients.node')"
@@ -12,7 +12,7 @@
             <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
           </el-select>
         </el-col>
-        <el-col :span="6">
+        <el-col v-bind="colProps">
           <el-input
             v-model="fuzzyParams.clientid"
             :placeholder="$t('Clients.clientId')"
@@ -20,7 +20,7 @@
             @clear="handleSearch"
           />
         </el-col>
-        <el-col :span="6" class="form-item-col">
+        <el-col v-bind="colProps" class="form-item-col">
           <el-input
             v-model="fuzzyParams.match_topic"
             type="text"
@@ -39,7 +39,26 @@
             </template>
           </el-input>
         </el-col>
-        <el-col class="col-oper" :span="6">
+        <template v-if="showMoreQuery">
+          <el-col v-bind="colProps">
+            <el-select v-model="fuzzyParams.qos" clearable placeholder="QoS" @clear="handleSearch">
+              <el-option :value="0" />
+              <el-option :value="1" />
+              <el-option :value="2" />
+            </el-select>
+          </el-col>
+          <el-col v-bind="colProps">
+            <el-input
+              v-model="fuzzyParams.share_group"
+              type="text"
+              :placeholder="$t('Subs.share')"
+              clearable
+              @clear="handleSearch"
+            />
+          </el-col>
+          <el-col class="hidden-md-and-down" :span="12" />
+        </template>
+        <el-col class="col-oper" v-bind="colProps">
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
@@ -59,25 +78,6 @@
             </el-button>
           </el-tooltip>
         </el-col>
-        <template v-if="showMoreQuery">
-          <el-col :span="24" class="split-line"></el-col>
-          <el-col :span="6">
-            <el-select v-model="fuzzyParams.qos" clearable placeholder="QoS" @clear="handleSearch">
-              <el-option :value="0" />
-              <el-option :value="1" />
-              <el-option :value="2" />
-            </el-select>
-          </el-col>
-          <el-col :span="6">
-            <el-input
-              v-model="fuzzyParams.share_group"
-              type="text"
-              :placeholder="$t('Subs.share')"
-              clearable
-              @clear="handleSearch"
-            />
-          </el-col>
-        </template>
       </el-row>
     </el-form>
     <div class="app-wrapper">
@@ -128,14 +128,16 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { listSubscriptions, loadNodes } from '@/api/common'
-import CommonPagination from '../../components/commonPagination.vue'
-import { Search, ArrowDown, ArrowUp, Refresh, RefreshLeft } from '@element-plus/icons-vue'
-import { NodeMsg } from '@/types/dashboard'
-import InfoTooltip from '@/components/InfoTooltip.vue'
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import { NodeMsg } from '@/types/dashboard'
+import { ArrowDown, ArrowUp, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import CommonPagination from '../../components/commonPagination.vue'
+import 'element-plus/theme-chalk/display.css'
 
 const showMoreQuery = ref(false)
 const tableData = ref([])

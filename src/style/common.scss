@@ -147,7 +147,7 @@ p.description {
 
 .search-wrapper {
   background-color: var(--color-bg-details);
-  padding: 32px 24px;
+  padding: 16px 24px 32px;
   margin: 0 !important;
   margin: 14px 0;
   border-bottom: 1px solid var(--color-border-card);
@@ -158,6 +158,9 @@ p.description {
     > .el-button:first-child {
       margin-left: 0;
     }
+  }
+  .el-col {
+    margin-top: 16px;
   }
   .el-select {
     width: 100%;
