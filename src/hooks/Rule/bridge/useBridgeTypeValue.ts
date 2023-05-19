@@ -69,11 +69,11 @@ export const useBridgeTypeOptions = (): {
   const descMap = new Map([
     [BridgeType.Webhook, tl('bridgeDescHTTP')],
     [BridgeType.MQTT, tl('bridgeDescMQTT')],
-    [BridgeType.Kafka, tl('kafkaDesc')],
+    [BridgeType.Kafka, t('RuleEngine.bridgeDataToDesc', { name: tl('kafka') })],
     [BridgeType.InfluxDB, t('RuleEngine.egressDataBaseDesc', { name: tl('influxDBLabel') })],
     [BridgeType.MySQL, t('RuleEngine.egressDataBaseDesc', { name: tl('mySQL') })],
     [BridgeType.Redis, t('RuleEngine.egressDataBaseDesc', { name: tl('redis') })],
-    [BridgeType.GCP, tl('gcpPubSubDesc')],
+    [BridgeType.GCP, t('RuleEngine.bridgeDataToDesc', { name: tl('gcpPubSub') })],
     [BridgeType.MongoDB, t('RuleEngine.egressDataBaseDesc', { name: tl('mongoDB') })],
     [BridgeType.PgSQL, t('RuleEngine.egressDataBaseDesc', { name: tl('pgSql') })],
     [BridgeType.TimescaleDB, t('RuleEngine.egressDataBaseDesc', { name: tl('timescaleDB') })],
@@ -82,7 +82,7 @@ export const useBridgeTypeOptions = (): {
     [BridgeType.ClickHouse, t('RuleEngine.egressDataBaseDesc', { name: tl('clickHouse') })],
     [BridgeType.DynamoDB, t('RuleEngine.egressDataBaseDesc', { name: tl('dynamoDB') })],
     [BridgeType.Cassandra, t('RuleEngine.egressDataBaseDesc', { name: tl('cassandra') })],
-    [BridgeType.RocketMQ, t('RuleEngine.egressDataBaseDesc', { name: tl('rocketMQ') })],
+    [BridgeType.RocketMQ, t('RuleEngine.bridgeDataToDesc', { name: tl('rocketMQ') })],
     [
       BridgeType.MicrosoftSQLServer,
       t('RuleEngine.egressDataBaseDesc', { name: tl('microsoftSqlServer') }),
@@ -90,8 +90,8 @@ export const useBridgeTypeOptions = (): {
     [BridgeType.IoTDB, t('RuleEngine.egressDataBaseDesc', { name: tl('iotDB') })],
     [BridgeType.OpenTSDB, t('RuleEngine.egressDataBaseDesc', { name: tl('openTSDB') })],
     [BridgeType.OracleDatabase, t('RuleEngine.egressDataBaseDesc', { name: tl('oracleDatabase') })],
-    [BridgeType.RabbitMQ, t('RuleEngine.egressDataBaseDesc', { name: tl('rabbitMQ') })],
-    [BridgeType.Pulsar, t('RuleEngine.egressDataBaseDesc', { name: tl('pulsar') })],
+    [BridgeType.RabbitMQ, t('RuleEngine.bridgeDataToDesc', { name: tl('rabbitMQ') })],
+    [BridgeType.Pulsar, t('RuleEngine.bridgeDataToDesc', { name: tl('pulsar') })],
     [BridgeType.HStream, t('RuleEngine.egressDataBaseDesc', { name: tl('hStream') })],
   ])
 
