@@ -1,12 +1,11 @@
 .clients,
 .subscriptions,
-.topics {
+.topics,
+.rule-filter-form {
   .section-header {
     margin-top: 0;
   }
-  .split-line {
-    margin-top: 20px;
-  }
+
   .col-oper {
     display: flex !important;
     align-items: center;
