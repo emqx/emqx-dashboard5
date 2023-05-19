@@ -65,13 +65,13 @@
         <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting">
           <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
           <el-card
-            v-loading="infoLoading"
+            v-loading="isSettingCardLoading"
             :class="['app-card', isFromRule && 'app-inline-card']"
             :shadow="isFromRule ? 'never' : undefined"
           >
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
               <bridge-http-config
-                v-if="bridgeInfo.type === BridgeType.Webhook"
+                v-if="bridgeType === BridgeType.Webhook"
                 v-model:tls="bridgeInfo.ssl"
                 v-model="bridgeInfo"
                 ref="formCom"
@@ -79,7 +79,7 @@
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-mqtt-config
-                v-else-if="bridgeInfo.type === BridgeType.MQTT"
+                v-else-if="bridgeType === BridgeType.MQTT"
                 ref="formCom"
                 v-model="bridgeInfo"
                 :edit="true"
@@ -123,37 +123,37 @@
 </template>
 
 <script lang="ts" setup>
+import { getBridgeInfo, startStopBridge, testConnect, updateBridge } from '@/api/ruleengine'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA, ENCRYPTED_PWD_REG } from '@/common/constants'
+import { customValidate, jumpToErrorFormItem } from '@/common/tools'
+import DetailHeader from '@/components/DetailHeader.vue'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeType } from '@/types/enum'
+import { BridgeItem } from '@/types/rule'
+import { Delete, Share } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import _ from 'lodash'
 import {
+  ComputedRef,
+  Ref,
   computed,
+  defineExpose,
+  defineProps,
   onActivated,
   onMounted,
   ref,
-  Ref,
-  defineProps,
-  defineExpose,
   watch,
-  ComputedRef,
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete, Share } from '@element-plus/icons-vue'
-import { getBridgeInfo, updateBridge, startStopBridge, testConnect } from '@/api/ruleengine'
-import { BridgeItem } from '@/types/rule'
+import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
-import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { BridgeType } from '@/types/enum'
-import _ from 'lodash'
-import { BRIDGE_TYPES_NOT_USE_SCHEMA, ENCRYPTED_PWD_REG } from '@/common/constants'
-import useI18nTl from '@/hooks/useI18nTl'
-import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
-import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
-import { customValidate, jumpToErrorFormItem } from '@/common/tools'
 
 enum Tab {
   Overview = 'overview',
@@ -184,7 +184,7 @@ if (queryTab.value) {
   activeTab.value = queryTab.value
 }
 
-const { getTypeStr } = useBridgeTypeOptions()
+const { getTypeStr, getBridgeType } = useBridgeTypeOptions()
 const { getBridgeIcon } = useBridgeTypeIcon()
 
 const { tl, t } = useI18nTl('RuleEngine')
@@ -207,6 +207,16 @@ watch(id, (val) => {
   }
 })
 
+/**
+ * if type is influxDB v1 or v2, will be count to influxDB uniformly
+ */
+const bridgeType = computed(() => {
+  const type = id.value.slice(0, id.value.indexOf(':'))
+  return getBridgeType(type)
+})
+const isSettingCardLoading = computed(
+  () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
+)
 const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit, handleBridgeDataForSaveAsCopy } =
   useBridgeDataHandler()
 

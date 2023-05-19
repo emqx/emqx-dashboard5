@@ -743,6 +743,9 @@ const SchemaForm = defineComponent({
     const showSkeleton = computed(
       () => (formLoading.value || props.recordLoading) && props.type !== 'bridge',
     )
+    const showLoading = computed(
+      () => (formLoading.value || props.recordLoading) && props.type === 'bridge',
+    )
     ;(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
@@ -757,7 +760,10 @@ const SchemaForm = defineComponent({
 
     return () => {
       return (
-        <div class={`schema-form ${showSkeleton.value ? 'is-loading' : ''}`}>
+        <div
+          class={`schema-form ${showSkeleton.value || showLoading.value ? 'is-loading' : ''}`}
+          v-loading={showLoading.value}
+        >
           {showSkeleton.value ? <el-skeleton rows={12} animated={true} /> : null}
           {renderSchemaForm(components.value)}
         </div>
