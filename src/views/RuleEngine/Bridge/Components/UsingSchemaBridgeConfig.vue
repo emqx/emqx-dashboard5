@@ -11,6 +11,7 @@
       :form="bridgeRecord"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
       :btn-loading="saveLoading"
+      :record-loading="isLoading"
       :form-item-span="12"
       :use-tooltip-show-desc="true"
       :props-order-map="propsOrderMap"
@@ -35,13 +36,11 @@ import {
 } from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
-import { useStore } from 'vuex'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
@@ -82,11 +81,12 @@ const props = defineProps({
   copy: {
     type: Boolean,
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
-
-const store = useStore()
-const { tl } = useI18nTl('RuleEngine')
 
 const bridgeRecord = computed({
   get() {
