@@ -159,6 +159,10 @@ export default {
     zh: '扩展',
     en: 'Extension',
   },
+  systemTopic: {
+    zh: '系统主题',
+    en: 'System Topic',
+  },
   application: {
     zh: '应用',
     en: 'Application',
@@ -318,6 +322,10 @@ export default {
   integration: {
     zh: '监控集成',
     en: 'Integration',
+  },
+  alarmSettings: {
+    zh: '系统',
+    en: 'System',
   },
   currentAlarm: {
     zh: '当前告警',
