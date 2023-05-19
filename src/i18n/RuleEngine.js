@@ -780,10 +780,6 @@ export default {
     zh: 'Kafka',
     en: 'Kafka',
   },
-  kafkaDesc: {
-    zh: '桥接数据到 Kafka',
-    en: 'Bridge data to Kafka',
-  },
   redis: {
     zh: 'Redis',
     en: 'Redis',
@@ -856,13 +852,13 @@ export default {
     zh: 'HStreamDB',
     en: 'HStreamDB',
   },
-  gcpPubSubDesc: {
-    zh: '桥接数据到 Google PubSub',
-    en: 'Bridge data to Google PubSub',
-  },
   egressDataBaseDesc: {
     zh: '将数据保存到 {name}',
     en: 'Save data to {name}',
+  },
+  bridgeDataToDesc: {
+    zh: '桥接数据到 {name}',
+    en: 'Bridge data to {name}',
   },
   database: {
     en: 'Database',
