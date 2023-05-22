@@ -768,7 +768,7 @@
       "label": "Server Host"
     },
     "sid": {
-      "desc": "Sid for Oracle Database.",
+      "desc": "SID for Oracle Database.",
       "label": "Oracle Database SID"
     },
     "local_topic": {
