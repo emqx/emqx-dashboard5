@@ -180,7 +180,7 @@ export default {
     en: 'API Key',
   },
   'banned-clients': {
-    zh: '禁用客户端',
+    zh: '黑名单',
     en: 'Banned Clients',
   },
   backup: {
