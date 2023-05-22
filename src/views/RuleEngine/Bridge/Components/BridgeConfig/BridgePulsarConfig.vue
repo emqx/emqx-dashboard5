@@ -161,6 +161,14 @@
             <InputWithUnit v-model="formData.max_batch_bytes" :units="usefulMemoryUnit" />
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item prop="connect_timeout">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('connect_timeout')" />
+            </template>
+            <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
+          </el-form-item>
+        </el-col>
         <!-- ssl -->
         <el-col :span="24">
           <CommonTLSConfig v-model="formData.ssl" :is-edit="edit || copy" />
