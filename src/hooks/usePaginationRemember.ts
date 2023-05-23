@@ -92,21 +92,22 @@ export const useReceiveParams = (
     window.setTimeout(() => {
       sessionStorage.removeItem(STORE_KEY)
     }, 3000)
-    if (params) {
-      listPageParams = params
-      if (typeof route === 'string') {
-        const queryStr = createQueryStr(params)
-        return route.indexOf('?') > -1 ? `${route}${queryStr}` : `${route}?${queryStr}`
-      }
-      return { ...route, query: { ...route.query, ...params } }
+    listPageParams = params || { limit: 20, page: 1 }
+    if (typeof route === 'string') {
+      const queryStr = createQueryStr(listPageParams)
+      return route.indexOf('?') > -1 ? `${route}${queryStr}` : `${route}?${queryStr}`
     }
-    return route
+    return { ...route, query: { ...route.query, ...listPageParams } }
   }
 
+  // Dual insurance to prevent duplicate routing
+  let nextTrigger = false
   // Handle browser's back event
   onBeforeRouteLeave((to, from, next) => {
-    if (to.name === pageName && (!to.query || Object.keys(to.query).length === 0)) {
+    if (!nextTrigger && to.name === pageName && (!to.query || Object.keys(to.query).length === 0)) {
+      nextTrigger = true
       next({ ...to, query: { ...to.query, ...listPageParams } })
+      return
     }
     next()
   })
