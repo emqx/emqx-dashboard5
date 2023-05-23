@@ -44,6 +44,7 @@
         v-model="valueProxy"
         v-else-if="oneOfInfo.propEnabled.type === 'duration'"
         :disabled="disabled"
+        default-unit="s"
       />
       <input-with-unit
         v-else-if="oneOfInfo.propEnabled.type === 'byteSize'"
@@ -144,6 +145,7 @@ const valueProxy: WritableComputedRef<any> = computed({
     return props.modelValue
   },
   set(val) {
+    console.log('🍅🍅🍅 ~ val:', val)
     const { valueDisabled, propEnabled } = oneOfInfo.value
     if (valueDisabled !== undefined) {
       const value = val === valueDisabled ? valueDisabled : val ?? propEnabled?.default
