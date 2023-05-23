@@ -132,11 +132,11 @@ export default {
     en: 'Confirm to reset',
   },
   'banned-clients': {
-    zh: '禁用客户端',
+    zh: '黑名单',
     en: 'Banned Clients',
   },
   determineToDeleteTheBannedClient: {
-    zh: '确认解除该禁用客户端？',
+    zh: '确认解除该黑名单？',
     en: 'Confirm to unban this banned client?',
   },
   createBannedClientSuccess: {
