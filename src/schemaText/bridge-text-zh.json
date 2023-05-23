@@ -944,6 +944,10 @@
     "pulsar_message": {
       "desc": "用于生成 Pulsar 消息的模版。",
       "label": "Pulsar 消息模版"
+    },
+    "connect_timeout": {
+      "desc": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+      "label": "连接超时"
     }
   }
 }
