@@ -351,6 +351,18 @@ export default {
     zh: '停用该授权后，将影响客户端发布/订阅时的权限操作，是否继续？',
     en: 'Disabling this authorization will affect the operation of permissions when the client publishes/subscribes. Continue?',
   },
+  delAuthnConfirm: {
+    zh: '删除该认证器后，可能导致非法客户端连接至当前服务器，{additionalTip}是否确认删除？',
+    en: 'Deleting this authenticator may result in unauthorized clients connecting to the EMQX server, {additionalTip}continue? ',
+  },
+  delAuthzConfirm: {
+    zh: '删除该授权后，可能影响客户端发布和订阅操作的权限控制，{additionalTip}是否确认删除？',
+    en: 'Deleting this authorization may affect the permission control of client publish and subscribe operations, {additionalTip}continue?',
+  },
+  deleteBuiltInTip: {
+    zh: '且已添加的数据将被删除，',
+    en: 'and the added data will be deleted, ',
+  },
   allUsers: {
     zh: '所有用户',
     en: 'All Users',
