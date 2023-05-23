@@ -124,7 +124,10 @@ const handleSwitchStatus = (authn: AuthzItemInTable) => {
 }
 
 const handleDelete = async function ({ type }: AuthzSourceItem) {
-  await MB.confirm(t('Base.confirmDelete'), {
+  const confirmText = t('Auth.delAuthzConfirm', {
+    additionalTip: type === 'built_in_database' ? t('Auth.deleteBuiltInTip') : '',
+  })
+  await MB.confirm(confirmText, {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     confirmButtonClass: 'confirm-danger',
