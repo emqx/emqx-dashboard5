@@ -14,7 +14,7 @@
     <MiniPagination
       v-else-if="meta.count === -1"
       :current-page="meta.page"
-      :hasnext="meta.hasnext as boolean"
+      :hasnext="(meta.hasnext as boolean)"
       @current-change="handleCurrentChanged"
     />
   </div>
