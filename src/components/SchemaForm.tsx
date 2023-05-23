@@ -211,6 +211,7 @@ const SchemaForm = defineComponent({
       return readOnly || (propsDisabled && path && propsDisabled.includes(path))
     }
 
+    const { getText, getOptLabel } = useItemLabelAndDesc(props)
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
       property.path = replaceVarPath(property.path)
@@ -269,7 +270,7 @@ const SchemaForm = defineComponent({
               {...customProps}
             >
               {property.symbols?.map((opt) => (
-                <el-option value={opt} label={opt} />
+                <el-option value={opt} label={getOptLabel(opt)} />
               ))}
             </el-select>
           )
@@ -392,7 +393,6 @@ const SchemaForm = defineComponent({
       return switchComponent(setTypeForProperty(property))
     }
 
-    const { getText } = useItemLabelAndDesc(props)
     const getLabelSlot = (property: Property) => {
       const { label, desc } = getText(property)
       // if field is SQL-like field, tooltip can be wider for show SQL template.

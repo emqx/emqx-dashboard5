@@ -13,6 +13,9 @@ import resourceOptSchemaEn from '@/schemaText/resource-opt-schema-en.json'
 import bridgeSchemaTextZh from '@/schemaText/bridge-text-zh.json'
 import bridgeSchemaTextEn from '@/schemaText/bridge-text-en.json'
 
+import symbolLabelZh from '@/schemaText/symbol-label-zh.json'
+import symbolLabelEn from '@/schemaText/symbol-label-en.json'
+
 import { get } from 'lodash'
 
 const lang: { [key: string]: any } = {
@@ -41,6 +44,9 @@ lang.zh.ConfigSchema = schemaTextZh
 
 lang.en.BridgeSchema = { ...resourceOptSchemaEn, ...bridgeSchemaTextEn }
 lang.zh.BridgeSchema = { ...resourceOptSchemaZh, ...bridgeSchemaTextZh }
+
+lang.en.SchemaSymbolLabel = symbolLabelEn
+lang.zh.SchemaSymbolLabel = symbolLabelZh
 
 const i18nInstance = createI18n({
   messages: lang,
