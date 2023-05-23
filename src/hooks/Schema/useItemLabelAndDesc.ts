@@ -53,6 +53,7 @@ export default (
     label: any
     desc: string
   }
+  getOptLabel: (key: string) => string
 } => {
   const { t, te } = useI18n()
 
@@ -135,6 +136,11 @@ export default (
     return undefined
   }
 
+  const getOptLabel = (key: string) => {
+    const textKey = `SchemaSymbolLabel.${key}`
+    return te(textKey) ? t(textKey) : ''
+  }
+
   const getText = (prop: Property) => {
     const specialRet = specialProcess(prop)
     if (specialRet) {
@@ -153,5 +159,6 @@ export default (
 
   return {
     getText,
+    getOptLabel,
   }
 }
