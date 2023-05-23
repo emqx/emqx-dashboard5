@@ -145,7 +145,6 @@ const valueProxy: WritableComputedRef<any> = computed({
     return props.modelValue
   },
   set(val) {
-    console.log('🍅🍅🍅 ~ val:', val)
     const { valueDisabled, propEnabled } = oneOfInfo.value
     if (valueDisabled !== undefined) {
       const value = val === valueDisabled ? valueDisabled : val ?? propEnabled?.default
