@@ -44,6 +44,7 @@
         v-model="valueProxy"
         v-else-if="oneOfInfo.propEnabled.type === 'duration'"
         :disabled="disabled"
+        default-unit="s"
       />
       <input-with-unit
         v-else-if="oneOfInfo.propEnabled.type === 'byteSize'"
