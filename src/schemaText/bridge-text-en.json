@@ -5,7 +5,7 @@
       "label": "Deprecated. Auto Reconnect Database"
     },
     "password": {
-      "desc": "EMQX's password in the external database.",
+      "desc": "The password associated with the bridge, used for authentication with the external database.",
       "label": "Password"
     },
     "pool_size": {
@@ -21,7 +21,7 @@
       "label": "Enable SSL"
     },
     "username": {
-      "desc": "EMQX's username in the external database.",
+      "desc": "The username associated with the bridge in the external database used for authentication or identification purposes.",
       "label": "Username"
     },
     "database": {
