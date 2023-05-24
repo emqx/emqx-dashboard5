@@ -46,7 +46,7 @@ export function loadAuthz(type: string) {
   return http.get(`/authorization/sources/${encodeURIComponent(type)}`)
 }
 
-export function moveAuthz(type: string, positionStr: string) {
+export function moveAuthz(type: string, positionStr: string): Promise<void> {
   return http.post(`/authorization/sources/${encodeURIComponent(type)}/move`, {
     position: positionStr,
   })

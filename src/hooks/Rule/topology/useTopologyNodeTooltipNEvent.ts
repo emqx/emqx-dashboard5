@@ -1,15 +1,14 @@
-import { RULE_TOPOLOGY_ID } from '@/common/constants'
+import sql from '@/common/highlight/sql'
+import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { BridgeDirection, RuleOutput } from '@/types/enum'
-import { RuleDataItemWithMetrics, BridgeItemWithMetrics } from '@/types/rule'
+import { BridgeItemWithMetrics, RuleDataItemWithMetrics } from '@/types/rule'
 import { IG6GraphEvent } from '@antv/g6'
+import hljs from 'highlight.js/lib/core'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { OtherNodeType, NodeType, NodeCustomData } from './topologyType'
-import hljs from 'highlight.js/lib/core'
-import sql from '@/common/highlight/sql'
-import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import { useBridgeTypeOptions, useBridgeDirection } from '../bridge/useBridgeTypeValue'
+import { useBridgeDirection, useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
+import { NodeCustomData, NodeType, OtherNodeType } from './topologyType'
 
 hljs.registerLanguage('sql', sql)
 
@@ -30,14 +29,14 @@ export default (): {
   const { t } = useI18n()
   const router = useRouter()
 
-  const nodeTypeList = [
-    OtherNodeType.Bridge,
-    OtherNodeType.Event,
-    OtherNodeType.Rule,
-    OtherNodeType.Topic,
-    RuleOutput.Console,
-    RuleOutput.Republish,
-  ]
+  // const nodeTypeList = [
+  //   OtherNodeType.Bridge,
+  //   OtherNodeType.Event,
+  //   OtherNodeType.Rule,
+  //   OtherNodeType.Topic,
+  //   RuleOutput.Console,
+  //   RuleOutput.Republish,
+  // ]
   // Id Format Desc: ./useTopology.ts row-31
   // const nodeIdReg = new RegExp(`^(${RULE_TOPOLOGY_ID}-)(${nodeTypeList.join('|')})-(.+)$`)
 

@@ -31,7 +31,7 @@ export const getPasswordHashAlgorithmObj = (): {
 export const getUsefulPasswordHashAlgorithmData = (
   data: PasswordHashAlgorithm,
   isBuiltInDatabase = false,
-) => {
+): Partial<PasswordHashAlgorithm> => {
   const { name, salt_position, salt_rounds, mac_fun, iterations, dk_length } = data
   if (name === HashType.Bcrypt) {
     if (isBuiltInDatabase) {
