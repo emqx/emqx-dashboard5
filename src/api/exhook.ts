@@ -1,6 +1,5 @@
 import http from '@/common/http'
 import { Exhook, ExhookFormForCreate, RegisteredHook } from '@/types/systemModule'
-import { AxiosResponse } from 'axios'
 
 export const queryExhooks = (): Promise<Array<Exhook>> => {
   return http.get('/exhooks')
@@ -26,6 +25,6 @@ export const queryExhookRegisteredHooks = (name: string): Promise<Array<Register
   return http.get(`/exhooks/${name}/hooks`)
 }
 
-export const moveExhook = (name: string, positionStr: string): Promise<AxiosResponse> => {
+export const moveExhook = (name: string, positionStr: string): Promise<void> => {
   return http.post(`/exhooks/${name}/move`, { position: positionStr })
 }

@@ -1,11 +1,18 @@
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { updateExhook, deleteExhook as requestDeleteExhook, moveExhook } from '@/api/exhook'
-import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
-import { useI18n } from 'vue-i18n'
+import { moveExhook, deleteExhook as requestDeleteExhook, updateExhook } from '@/api/exhook'
 import { TargetPosition } from '@/types/enum'
+import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 import useSSL from '../useSSL'
 
-export default () => {
+export default (): {
+  deleteExhook: (name: string) => Promise<void>
+  updateExhookEnable: (exhookData: Exhook, enable: boolean) => Promise<void>
+  moveExhookToTop: (exhookItem: Exhook) => Promise<void>
+  moveExhookToBottom: (exhookItem: Exhook) => Promise<void>
+  moveExhookBeforeAnotherExhook: (exhookItem: Exhook, anotherExhook: Exhook) => Promise<void>
+  moveExhookAfterAnotherExhook: (exhookItem: Exhook, anotherExhook: Exhook) => Promise<void>
+} => {
   const { t } = useI18n()
 
   const keysForUpdateExhook: Array<keyof ExhookFormForCreate> = [

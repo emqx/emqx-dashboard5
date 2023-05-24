@@ -212,18 +212,19 @@ export default defineComponent({
     }
 
     const handleDelete = async function () {
-      MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        confirmButtonClass: 'confirm-danger',
-        type: 'warning',
-      })
-        .then(async () => {
-          await deleteAuthz(type.value)
-          t('Base.deleteSuccess')
-          router.push({ name: 'authorization' })
+      try {
+        await MB.confirm(t('Base.confirmDelete'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          confirmButtonClass: 'confirm-danger',
+          type: 'warning',
         })
-        .catch(() => {})
+        await deleteAuthz(type.value)
+        ElMessage.success(t('Base.deleteSuccess'))
+        router.push({ name: 'authorization' })
+      } catch (error) {
+        //
+      }
     }
 
     const initData = async () => {
