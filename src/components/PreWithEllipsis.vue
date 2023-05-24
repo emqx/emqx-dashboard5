@@ -1,5 +1,7 @@
 <template>
   <div class="pre-with-ellipsis">
+    <!-- To eliminate the difference in range.getBoundingClientRect calculation results in Firefox. -->
+    <p class="placeholder"><slot /></p>
     <pre><slot /></pre>
   </div>
 </template>
@@ -20,6 +22,11 @@ import {} from 'vue'
 @import '~@/style/common.scss';
 .pre-with-ellipsis {
   white-space: nowrap;
+  .placeholder {
+    visibility: hidden;
+    margin: 0;
+    height: 0;
+  }
   pre {
     margin: 0;
     font-family: $font;
