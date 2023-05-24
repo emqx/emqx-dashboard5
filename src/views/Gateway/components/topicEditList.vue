@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-form :model="topicModel" ref="topicForm" :rules="topicRules">
+    <el-form
+      ref="topicForm"
+      :model="topicModel"
+      :rules="topicRules"
+      :validate-on-rule-change="false"
+    >
       <el-table :data="topicList" class="shadow-none">
         <el-table-column label="Topic ID">
           <template #default="{ row, $index }">
@@ -148,17 +153,16 @@ export default defineComponent({
       // validateForm()
     }
 
-    const validateForm = () => {
-      nextTick(async () => {
-        let res = await topicForm.value.validate().catch(() => {})
-        if (res) {
-          formPassed.value = true
-          context.emit('update:passed', true)
-        } else {
-          formPassed.value = false
-          context.emit('update:passed', false)
-        }
-      })
+    const validateForm = async () => {
+      await nextTick()
+      try {
+        await topicForm.value.validate()
+        formPassed.value = true
+        context.emit('update:passed', true)
+      } catch (error) {
+        formPassed.value = false
+        context.emit('update:passed', false)
+      }
     }
 
     watch(topicList.value, (v) => {
