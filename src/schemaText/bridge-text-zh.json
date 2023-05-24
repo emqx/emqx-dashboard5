@@ -773,6 +773,9 @@
     "server": {
       "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Oracle Database 默认端口 1521。",
       "label": "服务器地址"
+    },
+    "service_name": {
+      "label": "Oracle 数据库服务名称"
     }
   },
   "emqx_ee_bridge_rabbitmq": {
