@@ -778,6 +778,9 @@
     "sql": {
       "desc": "SQL Template. The template string can contain placeholders for message metadata and payload field. The placeholders are inserted without any checking and special formatting, so it is important to ensure that the inserted values are formatted and escaped correctly.",
       "label": "SQL Template"
+    },
+    "service_name": {
+      "label": "Oracle Database Service Name"
     }
   },
   "emqx_ee_bridge_rabbitmq": {

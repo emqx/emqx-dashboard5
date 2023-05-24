@@ -187,7 +187,7 @@ export default (
     },
     [BridgeType.OracleDatabase]: {
       ...createOrderObj(
-        ['server', 'database', 'sid', 'username', 'password', 'pool_size', 'sql'],
+        ['server', 'service_name', 'sid', 'username', 'password', 'pool_size', 'sql'],
         1,
       ),
     },
