@@ -9,7 +9,7 @@
           :label-width="store.state.lang === 'zh' ? 176 : 190"
         >
           <el-row>
-            <el-col :span="9">
+            <el-col :xs="21" :sm="15" :md="12" :lg="10" :xl="9">
               <el-form-item class="radio-form-item">
                 <template #label>
                   <FormItemLabel
