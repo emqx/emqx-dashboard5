@@ -7,7 +7,26 @@ import { updatePluginStatus } from '@/api/plugins'
 import { movePluginPosition } from '@/api/plugins'
 import { tryToCompleteURL } from '@/common/tools'
 
-export default () => {
+interface FuncRet {
+  NAME_VERSION_JOINER: string
+  concatNameWithVersion: ({ name, rel_vsn }: PluginItem) => string
+  disablePlugin: (pluginItem: PluginItem) => Promise<void>
+  enablePlugin: (pluginItem: PluginItem) => Promise<void>
+  uninstall: (pluginItem: PluginItem) => Promise<void>
+  goDoc: (pluginItem: PluginItem) => void
+  getTheWorstStatus: (pluginItem: PluginItem) => PluginStatus
+  pluginTotalStatus: (pluginItem: PluginItem) => PluginStatus
+  getPluginAuthorString: (pluginItem: PluginItem) => string | string[]
+  movePluginToTop: (pluginItem: PluginItem) => Promise<void>
+  movePluginToBottom: (pluginItem: PluginItem) => Promise<void>
+  movePluginBeforeAnotherPlugin: (
+    pluginItem: PluginItem,
+    anotherPlugin: PluginItem,
+  ) => Promise<void>
+  movePluginAfterAnotherPlugin: (pluginItem: PluginItem, anotherPlugin: PluginItem) => Promise<void>
+}
+
+export default (): FuncRet => {
   const { t } = useI18n()
 
   const NAME_VERSION_JOINER = '-'

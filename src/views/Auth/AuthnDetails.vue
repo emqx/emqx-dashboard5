@@ -200,15 +200,20 @@ export default defineComponent({
     }
 
     const loadData = async function () {
-      authnDetailLock.value = true
-      const res = props.gatewayInfo || (await loadAuthn(id.value).catch(() => {}))
-      authnDetailLock.value = false
-
-      if (res) {
+      try {
+        authnDetailLock.value = true
+        const res = props.gatewayInfo || (await loadAuthn(id.value))
+        if (!res) {
+          return
+        }
         currBackend.value = res.backend || res.mechanism
         configData.value = res
         setRawSetting(configData.value)
         setPassWordBasedFieldsDefaultValue()
+      } catch (error) {
+        //
+      } finally {
+        authnDetailLock.value = false
       }
     }
     const handleRefresh = async () => {
@@ -291,25 +296,23 @@ export default defineComponent({
       }
     }
     const handleDelete = async function () {
-      MB.confirm(t('Base.confirmDelete'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        confirmButtonClass: 'confirm-danger',
-        type: 'warning',
-      })
-        .then(async () => {
-          let res
-          if (props.gateway) {
-            res = await props.deleteFunc()
-          } else {
-            res = await deleteAuthn(configData.value.id).catch(() => {})
-            if (res) {
-              M.success(t('Base.deleteSuccess'))
-              router.push({ name: 'authentication' })
-            }
-          }
+      try {
+        await MB.confirm(t('Base.confirmDelete'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          confirmButtonClass: 'confirm-danger',
+          type: 'warning',
         })
-        .catch(() => {})
+        if (props.gateway) {
+          await props.deleteFunc()
+        } else {
+          await deleteAuthn(configData.value.id)
+          M.success(t('Base.deleteSuccess'))
+          router.push({ name: 'authentication' })
+        }
+      } catch (error) {
+        //
+      }
     }
 
     const initData = async () => {
