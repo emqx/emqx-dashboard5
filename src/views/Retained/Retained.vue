@@ -17,12 +17,11 @@
       </el-tooltip>
     </div>
     <el-table :data="tbData" v-loading="tbLoading" row-key="topic">
-      <el-table-column
-        :label="$t('Base.topic')"
-        prop="topic"
-        min-width="100"
-        show-overflow-tooltip
-      />
+      <el-table-column :label="$t('Base.topic')" prop="topic" min-width="100" show-overflow-tooltip>
+        <template #default="{ row }">
+          <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
+        </template>
+      </el-table-column>
       <el-table-column :label="'QoS'" prop="qos" min-width="30" />
       <el-table-column :label="$t('Base.clientid')" prop="from_clientid" />
       <el-table-column
@@ -48,17 +47,30 @@
     <div class="emq-table-footer">
       <CommonPagination @loadPage="loadTbData" v-model:metaData="pageMeta" />
     </div>
-    <el-dialog v-model="payloadDialog" class="payload-dialog" :title="'Payload'">
+    <el-dialog v-model="payloadDialog" class="payload-dialog" :title="tl('view')">
       <el-row v-loading="payloadLoading">
-        <div class="monaco-container">
-          <Monaco
-            id="payload"
-            v-model="payloadForShow"
-            :lang="plaintextShow ? 'plaintext' : 'json'"
-            disabled
-            :jsonWithoutValidate="payloadShowBy !== PayloadShowByType.JSON"
-          />
-        </div>
+        <el-col :span="24">
+          <el-row>
+            <el-col :span="2">
+              <label>{{ $t('Base.topic') }}</label>
+            </el-col>
+            <el-col :span="21">
+              <p class="topic-text">{{ currentTopic }}</p>
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="24">
+          <label class="label-top">Payload</label>
+          <div class="monaco-container">
+            <Monaco
+              disabled
+              id="payload"
+              v-model="payloadForShow"
+              :lang="plaintextShow ? 'plaintext' : 'json'"
+              :jsonWithoutValidate="payloadShowBy !== PayloadShowByType.JSON"
+            />
+          </div>
+        </el-col>
       </el-row>
       <template #footer>
         <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
@@ -88,18 +100,19 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ElMessageBox as MB, ElMessage } from 'element-plus'
-import { RefreshRight, Setting } from '@element-plus/icons-vue'
-import useI18nTl from '@/hooks/useI18nTl'
+import { delRetainerTopic, getRetainer, getRetainerList, getRetainerTopic } from '@/api/extension'
 import { dateFormat } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
-import { delRetainerTopic, getRetainer, getRetainerList, getRetainerTopic } from '@/api/extension'
-import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
-import useCopy from '@/hooks/useCopy'
-import { RetainerMessage } from '@/types/extension'
-import { PayloadShowByType } from '@/types/enum'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import CommonPagination from '@/components/commonPagination.vue'
+import useCopy from '@/hooks/useCopy'
+import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
+import { PayloadShowByType } from '@/types/enum'
+import { RetainerMessage } from '@/types/extension'
+import { RefreshRight, Setting } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')
 const { copyText } = useCopy()
@@ -108,6 +121,7 @@ const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useS
 const tbLoading = ref(true)
 const tbData = ref<RetainerMessage[]>([])
 const payloadDialog = ref(false)
+const currentTopic = ref('')
 const payloadDetail = ref('')
 const payloadLoading = ref(false)
 const isEnabledRetainer = ref(true)
@@ -145,6 +159,7 @@ const checkPayload = async (row: any) => {
   const { topic } = row
   if (!topic) return
   try {
+    currentTopic.value = topic
     const res = await getRetainerTopic(topic)
     if (res) {
       payloadDetail.value = res.payload
@@ -200,6 +215,23 @@ loadConfigData()
 
 <style lang="scss">
 .retained {
+  .el-col-24 {
+    margin-bottom: 20px;
+    line-height: 20px;
+  }
+  .topic-text {
+    margin: 0;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    color: var(--el-text-color-regular);
+  }
+  label {
+    color: var(--color-text-secondary);
+  }
+  .label-top {
+    display: block;
+    margin-bottom: 16px;
+  }
   .payload-copied {
     padding-right: 10px;
   }
