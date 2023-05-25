@@ -39,7 +39,7 @@ export default (): {
   // FIXME: process new row (\n)
   const measurementReg = /([^,\s\\]|(\\,)|(\\\s)|(\\\\))+/
   const keyNValueReg = /([^,\s=\\]|(\\,)|(\\\s)|(\\=)|(\\\\))+/
-  const fieldValueReg = /(".+")|[^"\s,]+/
+  const fieldValueReg = /("([^"\\]|\\"|\\\\|\\)+")|[^"\s,]+/
   const tagItemReg = new RegExp(
     `(?<tagKey>${keyNValueReg.source})=(?<tagValue>${keyNValueReg.source})`,
   )
