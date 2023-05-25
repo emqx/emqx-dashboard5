@@ -211,6 +211,10 @@ export default {
     en: 'Show Payload',
     zh: '查看 Payload',
   },
+  view: {
+    zh: '查看',
+    en: 'View',
+  },
   needNumber: {
     en: 'It needs to be a number',
     zh: '请填写数字',
