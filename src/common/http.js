@@ -94,7 +94,7 @@ axios.interceptors.response.use(
           if (data?.code === NAME_PWD_ERROR) {
             ElNotification.error(i18n.global.t('Base.namePwdError'))
           } else if (data?.code || data?.message) {
-            CustomMessage.error(status + ' ' + data?.code + ':' + data?.message.toString())
+            CustomMessage.error(`${status} ${data?.code ?? ''}: ${data?.message?.toString() ?? ''}`)
           } else {
             CustomMessage.error(status + ' Network error')
           }
