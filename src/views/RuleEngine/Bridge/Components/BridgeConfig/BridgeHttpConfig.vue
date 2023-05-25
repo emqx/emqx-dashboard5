@@ -72,14 +72,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('reqTimeout')">
-            <TimeInputWithUnitSelect
-              v-model="httpBridgeVal.request_timeout"
-              :enabled-units="['s']"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item :label="tl('httpPipeline')">
             <CustomInputNumber
               v-model="httpBridgeVal.enable_pipelining"
@@ -117,7 +109,7 @@
       <el-row :gutter="26">
         <BridgeResourceOpt
           v-model="httpBridgeVal.resource_opts"
-          :with-request-timeout-config="false"
+          :with-request-timeout-config="true"
         />
       </el-row>
     </el-form>
@@ -186,10 +178,9 @@ export default defineComponent({
         pool_size: 8,
         enable_pipelining: 100,
         connect_timeout: '15s',
-        request_timeout: '15s',
         resource_opts: createDefaultResourceOptsForm({
           inflight: true,
-          withoutRequestTimeout: true,
+          withoutRequestTimeout: false,
         }),
         ssl: createSSLForm(),
       } as HTTPBridge)
