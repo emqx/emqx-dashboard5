@@ -1,4 +1,4 @@
-import { checkNOmitFromObj, utf8Decode, utf8Encode } from '@/common/tools'
+import { checkNOmitFromObj } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { cloneDeep, omit } from 'lodash'
@@ -23,13 +23,6 @@ export default (): {
     return bridgeData
   }
 
-  const handleWebhookBridgeData = (bridgeData: any) => {
-    if (bridgeData.body) {
-      bridgeData.body = utf8Encode(bridgeData.body)
-    }
-    return bridgeData
-  }
-
   const keysNeedDel = {
     update: ['node_status', 'status', 'status_reason'],
     saveAsCopy: ['node_status', 'status', 'enable', 'id', 'status_reason'],
@@ -45,8 +38,6 @@ export default (): {
       }
       if (bridgeType === BridgeType.MQTT) {
         ret = await handleMQTTBridgeData(ret)
-      } else if (bridgeType === BridgeType.Webhook) {
-        ret = await handleWebhookBridgeData(ret)
       }
       return Promise.resolve(checkNOmitFromObj(omit(ret, keysNeedDel.update)))
     } catch (error) {
@@ -58,7 +49,7 @@ export default (): {
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
     const bridgeType = getBridgeType(bridgeData.type)
     if (bridgeType === BridgeType.Webhook && 'body' in bridgeData) {
-      bridgeData.body = utf8Decode(bridgeData.body)
+      //
     }
     return bridgeData
   }

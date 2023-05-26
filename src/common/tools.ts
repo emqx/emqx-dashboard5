@@ -2,7 +2,6 @@
 import { BridgeItem } from '@/types/rule'
 import { cloneDeep, escape, isFunction, isObject, omit } from 'lodash'
 import moment from 'moment'
-import utf8 from 'utf8'
 import { COPY_SUFFIX } from './constants'
 
 export const dateFormat = (
@@ -459,24 +458,6 @@ export const transLink = (desc: string) => {
   return desc.replace(linkReg, (total: string, text: string, link: string) =>
     createATag(text, link),
   )
-}
-
-export const utf8Encode = (str: string) => {
-  try {
-    return utf8.encode(str)
-  } catch (error) {
-    console.error(error)
-    return str
-  }
-}
-
-export const utf8Decode = (str: string) => {
-  try {
-    return utf8.decode(str)
-  } catch (error) {
-    console.error(error)
-    return str
-  }
 }
 
 export const getEmptyValueByDefaultValue = (value: 'string' | 'number' | 'boolean') => {
