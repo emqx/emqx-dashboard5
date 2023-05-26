@@ -1,6 +1,6 @@
 <template>
   <div class="not-found">
-    <div class="container">
+    <div class="icon-container">
       <el-icon :size="60"><CircleCloseFilled /></el-icon>
       <p class="title-404">404</p>
       <p class="desc">{{ tl('notFound') }}</p>
@@ -18,12 +18,12 @@ const { tl } = useI18nTl('Base')
 <style lang="scss">
 .not-found {
   display: flex;
-  height: 100%;
+  height: calc(100vh - 60px);
   align-items: center;
   .el-icon {
     color: var(--color-text-secondary);
   }
-  .container {
+  .icon-container {
     width: 100%;
     text-align: center;
   }
