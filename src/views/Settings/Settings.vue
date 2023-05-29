@@ -150,6 +150,9 @@ const themeOption = [
 const saveLoading = ref(false)
 const { t } = useI18n()
 const loadData = async () => {
+  if (IS_ENTERPRISE) {
+    return
+  }
   const res = await getTeleStatus()
   if (res) {
     record.enable = res.enable
@@ -167,7 +170,9 @@ const handleSave = async () => {
       saveLoading.value = false
       return
     }
-    await updateTeleStatus(data)
+    if (!IS_ENTERPRISE) {
+      await updateTeleStatus(data)
+    }
     ElMessage.success(t('Base.updateSuccess'))
     loadData()
   } catch (error) {
