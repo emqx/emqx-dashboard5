@@ -12,8 +12,8 @@ export default {
     en: 'Enable Pushgateway',
   },
   enablePushgatewayDesc: {
-    zh: '启用后，EMQ X 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
-    en: 'After enabling, EMQ X will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
+    zh: '启用后，EMQX 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
+    en: 'After enabling, EMQX will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
   },
   interval: {
     zh: '采集间隔',
@@ -24,21 +24,21 @@ export default {
     en: 'Job Name',
   },
   jobNameDesc: {
-    zh: `推送到 Push Gateway 的 Job 名称。可用变量为：<br/>
+    zh: `推送到 Pushgateway 的 Job 名称。可用变量为：<br/>
 - \${'{'}name{'}'}: EMQX 节点的名称。<br/>
 - \${'{'}host{'}'}: EMQX 节点主机名。<br/>
 例如，当 EMQX 节点名为 <code>emqx{'@'}127.0.0.1</code> 则 name 变量的值为 <code>emqx</code>，host 变量的值为 <code>127.0.0.1</code>。<br/>
 默认值为: <code>\${'{'}name{'}'}/instance/\${'{'}name{'}'}~\${'{'}host{'}'}</code>`,
-    en: `Job Name that is pushed to the Push Gateway. Available variables:<br/>
+    en: `Job Name that is pushed to the Pushgateway. Available variables:<br/>
 - \${'{'}name{'}'}: Name of EMQX node.<br/>
 - \${'{'}host{'}'}: Host name of EMQX node.<br/>
 For example, when the EMQX node name is <code>emqx{'@'}127.0.0.1</code> then the <code>name</code> variable takes value <code>emqx</code> and the <code>host</code> variable takes value <code>127.0.0.1</code>.<br/>
 Default value is: <code>\${'{'}name{'}'}/instance/\${'{'}name{'}'}~\${'{'}host{'}'}</code>`,
   },
   headersDesc: {
-    zh: `推送到 Push Gateway 的 HTTP Headers 列表。<br/>
+    zh: `推送到 Pushgateway 的 HTTP Headers 列表。<br/>
 例如，<code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
-    en: `A list of HTTP Headers when pushing to Push Gateway.<br/>
+    en: `A list of HTTP Headers when pushing to Pushgateway.<br/>
 For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
   },
   dataReportingInterval: {

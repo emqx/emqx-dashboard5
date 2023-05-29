@@ -1,15 +1,9 @@
-import {
-  checkNOmitFromObj,
-  utf8Encode,
-  utf8Decode,
-  stringifyObjSafely,
-  createRandomString,
-} from '@/common/tools'
-import { BridgeType, InfluxDBType } from '@/types/enum'
-import { cloneDeep, omit } from 'lodash'
-import useSSL from '@/hooks/useSSL'
-import { ElMessage } from 'element-plus'
+import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import useSSL from '@/hooks/useSSL'
+import { BridgeType, InfluxDBType } from '@/types/enum'
+import { ElMessage } from 'element-plus'
+import { cloneDeep, omit } from 'lodash'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
 
 export const useRedisCommandCheck = (): {
@@ -88,13 +82,6 @@ export default (): {
     return bridgeData
   }
 
-  const handleWebhookBridgeData = (bridgeData: any) => {
-    if (bridgeData.body) {
-      bridgeData.body = utf8Encode(bridgeData.body)
-    }
-    return bridgeData
-  }
-
   const handleInfluxDBBridgeData = (bridgeData: any) => {
     if (bridgeData.type === InfluxDBType.v1) {
       bridgeData = omit(bridgeData, ['token', 'org', 'bucket'])
@@ -150,8 +137,6 @@ export default (): {
       }
       if (bridgeType === BridgeType.MQTT) {
         ret = await handleMQTTBridgeData(ret)
-      } else if (bridgeType === BridgeType.Webhook) {
-        ret = await handleWebhookBridgeData(ret)
       } else if (bridgeType === BridgeType.Redis) {
         ret = await handleRedisBridgeData(ret)
       } else if (bridgeType === BridgeType.GCP) {
@@ -169,9 +154,7 @@ export default (): {
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
     const bridgeType = getBridgeType(bridgeData.type)
 
-    if (bridgeType === BridgeType.Webhook && 'body' in bridgeData) {
-      bridgeData.body = utf8Decode(bridgeData.body)
-    } else if (bridgeType === BridgeType.GCP && 'service_account_json' in bridgeData) {
+    if (bridgeType === BridgeType.GCP && 'service_account_json' in bridgeData) {
       bridgeData.service_account_json = stringifyObjSafely(bridgeData.service_account_json, 2)
     } else if (
       bridgeType === BridgeType.Redis &&
