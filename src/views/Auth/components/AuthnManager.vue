@@ -96,7 +96,12 @@
           <el-input v-model="record.user_id" :disabled="isEdit" />
         </el-form-item>
         <el-form-item prop="password" :label="$t('General.password')">
-          <el-input v-model="record.password" type="password" autocomplete="one-time-code" />
+          <el-input
+            v-model="record.password"
+            type="password"
+            show-password
+            autocomplete="one-time-code"
+          />
         </el-form-item>
         <el-form-item>
           <div class="border-checkbox">
