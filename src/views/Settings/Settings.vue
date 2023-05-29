@@ -156,9 +156,6 @@ const loadData = async () => {
     teleConfigs.value = res
   }
 }
-const reloading = () => {
-  loadData()
-}
 loadData()
 const handleSave = async () => {
   saveLoading.value = true
@@ -172,7 +169,7 @@ const handleSave = async () => {
     }
     await updateTeleStatus(data)
     ElMessage.success(t('Base.updateSuccess'))
-    reloading()
+    loadData()
   } catch (error) {
     // ignore error
   } finally {

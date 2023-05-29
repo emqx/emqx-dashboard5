@@ -963,9 +963,9 @@
       "desc": "When the Erlang VM detect a task scheduled for too long, a warning level 'long_schedule' log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_schedule</code>.",
       "label": "Enable Long Schedule monitoring"
     },
-    "mqtt_keepalive_backoff": {
-      "desc": "The coeffient EMQX uses to confirm whether the keep alive duration of the client expires. Formula: `Keep Alive * Backoff * 2`",
-      "label": "Keep Alive Backoff"
+    "mqtt_keepalive_multiplier": {
+      "desc": "`Keep-Alive Timeout = Keep-Alive Interval × Keep-Alive Multiplier`. Default value is 1.5 as per MQTT 5.0.\n\nFor example, a Keep-Alive interval of 10 seconds yields a timeout of 15 seconds with a multiplier of 1.5. Increasing the multiplier value to 2 extends the timeout to 20 seconds.",
+      "label": "Keep Alive Multiplier"
     },
     "force_gc_bytes": {
       "desc": "GC the process after specified number of bytes have passed through.",
