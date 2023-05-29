@@ -209,7 +209,7 @@ export interface Mqtt {
   strict_mode: boolean
   response_information: string
   server_keepalive: string
-  keepalive_backoff: number
+  keepalive_multiplier: number
   max_subscriptions: string
   upgrade_qos: boolean
   max_inflight: number
