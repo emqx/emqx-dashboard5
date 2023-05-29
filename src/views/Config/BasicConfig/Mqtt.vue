@@ -60,7 +60,7 @@ export default defineComponent({
         'ignore_loop_deliver',
         'strict_mode',
         'response_information',
-        'keepalive_backoff',
+        'keepalive_multiplier',
         'server_keepalive',
         'use_username_as_clientid',
         'peer_cert_as_username',

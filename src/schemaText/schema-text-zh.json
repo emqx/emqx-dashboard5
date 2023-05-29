@@ -963,9 +963,9 @@
       "desc": "启用后，如果 Erlang VM 调度器出现某个任务占用时间过长时，会触发一条带有 'long_schedule' 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_schedule</code> 的 MQTT 系统消息。",
       "label": "启用长调度监控"
     },
-    "mqtt_keepalive_backoff": {
-      "desc": "EMQX 判定客户端保活超时使用的阈值系数。计算公式为：`Keep Alive * Backoff * 2`",
-      "label": "Keep Alive 退避指数"
+    "mqtt_keepalive_multiplier": {
+      "desc": "`Keep-Alive Timeout = Keep-Alive Interval × Keep-Alive Multiplier`，根据 MQTT 5.0，默认值为1.5。\n\n例如，如果 Keep-Alive interval 为 10 秒，那么乘以 1.5 的倍数，将产生 15 秒的超时。将倍数值增加到 2，超时将延长到 20 秒。",
+      "label": "Keep Alive 倍数"
     },
     "force_gc_bytes": {
       "desc": "在进程处理过多少个字节之后，对此进程执行垃圾回收。",
