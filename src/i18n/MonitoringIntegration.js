@@ -12,8 +12,8 @@ export default {
     en: 'Enable Pushgateway',
   },
   enablePushgatewayDesc: {
-    zh: '启用后，EMQ X 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
-    en: 'After enabling, EMQ X will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
+    zh: '启用后，EMQX 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
+    en: 'After enabling, EMQX will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
   },
   interval: {
     zh: '采集间隔',
