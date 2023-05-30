@@ -25,6 +25,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Base/Login.vue'),
   },
 
+  // Overview
   {
     path: '/dashboard',
     component: Layout,
@@ -62,6 +63,8 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+
+  // Alarm
   {
     path: '/alarm',
     component: Layout,
@@ -147,6 +150,8 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+
+  // Delayed Pub
   {
     path: '/delayed-pub',
     component: Layout,
@@ -490,6 +495,22 @@ export const routes: Array<RouteRecordRaw> = [
       //     },
       //   ],
       // },
+    ],
+  },
+  // Flow
+  {
+    path: '/flow',
+    component: Layout,
+    meta: {
+      hideKey: 'flow',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: 'create',
+        name: 'flow-create',
+        component: () => import('@/views/Flow/FlowCreate.vue'),
+      },
     ],
   },
   // configs
