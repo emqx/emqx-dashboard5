@@ -47,9 +47,9 @@
 
           <div
             class="main-content"
-            :style="{
-              position: 'relative',
-              marginTop: hasSubMenu && showSubMenu ? '120px' : '60px',
+            :class="{
+              'larger-margin-top': hasSubMenu && showSubMenu,
+              'is-full-height': fullHeight,
             }"
           >
             <router-view v-slot="{ Component, route }">
@@ -73,6 +73,8 @@ import { useStore } from 'vuex'
 import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
+
+const ROUTE_NAMES_NEED_FULL_HEIGHT = ['flow-create']
 
 export default defineComponent({
   name: 'Layout',
@@ -132,6 +134,10 @@ export default defineComponent({
       }
       return true
     })
+    const fullHeight = computed(() => {
+      const { name } = route
+      return name && ROUTE_NAMES_NEED_FULL_HEIGHT.includes(name as string)
+    })
     return {
       store,
       route,
@@ -142,6 +148,7 @@ export default defineComponent({
       hasSubMenu,
       showSubMenu,
       leftBarCollapse,
+      fullHeight,
       kebab2pascal,
     }
   },
@@ -242,5 +249,21 @@ export default defineComponent({
 .top-submenu {
   transition: none;
   padding: 0 22px;
+}
+
+.main-content {
+  $normal-margin-top: 60px;
+  $larger-margin-top: 120px;
+  position: relative;
+  margin-top: $normal-margin-top;
+  &.is-full-height {
+    height: calc(100vh - #{$normal-margin-top});
+  }
+  &.larger-margin-top {
+    margin-top: $larger-margin-top;
+    &.is-full-height {
+      height: calc(100vh - #{$larger-margin-top});
+    }
+  }
 }
 </style>
