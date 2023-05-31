@@ -38,7 +38,7 @@ export interface ListenerUtils {
   transPort: (port: string) => string
 }
 
-export default (): ListenerUtils => {
+export default (gatewayName: string | undefined): ListenerUtils => {
   const ID_SEPARATOR = ':'
 
   const completeGatewayListenerTypeList = [
@@ -175,7 +175,7 @@ export default (): ListenerUtils => {
     bind: '',
     acceptors: 16,
     max_connections: 102400,
-    max_conn_rate: 1000,
+    max_conn_rate: gatewayName ? 1000 : undefined,
     zone: DEFAULT_ZONE,
     mountpoint: '',
     proxy_protocol: false,

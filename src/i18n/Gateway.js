@@ -329,7 +329,7 @@ export default {
     zh: '启用 CRL 检查',
   },
   showLimiter: {
-    zh: '显示速率配置',
-    en: 'Show Limiter',
+    zh: '速率配置（可选）',
+    en: 'Limiter (Optional)',
   },
 }
