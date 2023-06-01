@@ -297,46 +297,45 @@
       <el-row :gutter="20" v-if="!gatewayName">
         <el-col :span="24"><el-divider /></el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('showLimiter')">
-            <el-switch v-model="showLimiterConfig" />
-          </el-form-item>
+          <el-form-item :label="tl('showLimiter')"> </el-form-item>
         </el-col>
         <el-col :span="12" />
-        <template v-if="showLimiterConfig">
-          <el-col :span="12">
-            <el-form-item
-              :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')"
-              prop="max_conn_rate"
-            >
-              <el-input
-                v-model="listenerRecord.max_conn_rate"
-                :placeholder="limiterPlaceholderMap.max_conn_rate"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item
-              :label="t('ConfigSchema.emqx_limiter_schema.messages_rate.label')"
-              prop="messages_rate"
-            >
-              <el-input
-                v-model="listenerRecord.messages_rate"
-                :placeholder="limiterPlaceholderMap.messages_rate"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item
-              :label="t('ConfigSchema.emqx_limiter_schema.bytes_rate.label')"
-              prop="bytes_rate"
-            >
-              <el-input
-                v-model="listenerRecord.bytes_rate"
-                :placeholder="limiterPlaceholderMap.bytes_rate"
-              />
-            </el-form-item>
-          </el-col>
-        </template>
+        <el-col :span="12">
+          <el-form-item
+            :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')"
+            prop="max_conn_rate"
+          >
+            <InputWithUnit
+              v-model="listenerRecord.max_conn_rate"
+              :units="[{ label: '/s', value: '/s' }]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item
+            :label="t('ConfigSchema.emqx_limiter_schema.messages_rate.label')"
+            prop="messages_rate"
+          >
+            <InputWithUnit
+              v-model="listenerRecord.messages_rate"
+              :units="[{ label: '/s', value: '/s' }]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item
+            :label="t('ConfigSchema.emqx_limiter_schema.bytes_rate.label')"
+            prop="bytes_rate"
+          >
+            <InputWithUnit
+              v-model="listenerRecord.bytes_rate"
+              :units="[
+                { label: 'MB/s', value: 'MB/s' },
+                { label: 'KB/s', value: 'KB/s' },
+              ]"
+            />
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <template #footer>
@@ -362,7 +361,6 @@ import Oneof from '@/components/Oneof.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useLimiter from '@/hooks/Config/useLimiter'
 import useListenerDialog from '@/hooks/Config/useListenerDialog'
 import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
@@ -371,7 +369,6 @@ import { PropType, computed, defineEmits, defineProps } from 'vue'
 import ZoneSelect from '../ZoneSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
-// import LimiterSelect from '../LimiterSelect.vue'
 
 const props = defineProps({
   modelValue: {
@@ -410,7 +407,6 @@ const {
   showTCPConfig,
   showUDPConfig,
   showSSLConfig,
-  showLimiterConfig,
   isDTLS,
   SSLConfigKey,
   showWSConfig,
@@ -418,8 +414,6 @@ const {
   submit,
   onDelete,
 } = useListenerDialog(props, emit)
-
-const { limiterPlaceholderMap } = useLimiter()
 
 const isUDP = computed(() => listenerRecord.value.type === ListenerTypeForGateway.UDP)
 

@@ -286,7 +286,7 @@ export default defineComponent({
       }
       try {
         const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
-        if (currentType && getBridgeLabelByTypeValue(currentType as BridgeType)) {
+        if (currentType && getBridgeType(currentType as BridgeType)) {
           chosenBridgeType.value = getBridgeType(currentType as BridgeType)
         }
         step.value = 1
