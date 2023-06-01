@@ -10,6 +10,7 @@
         :according-to="{ path: '/configs/zones' }"
         :label-width="state.lang === 'zh' ? 204 : 276"
         :props-order-map="propsOrderMap"
+        :data-handler="handleSessionSchema"
         @save="handleSave"
       />
     </el-card>
@@ -18,7 +19,7 @@
 
 <script lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { createOrderObj, customValidate } from '@/common/tools'
+import { createOrderObj, customValidate, isJSONString } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Zone } from '@/types/config'
@@ -61,6 +62,26 @@ export default defineComponent({
       ],
       0,
     )
+    const handleSessionSchema = ({ rules, components }: any) => {
+      const { mqtt } = rules
+      const { mqtt: mqttComponent } = components
+      const disabledValue = mqttComponent?.properties?.mqueue_priorities?.oneOf?.find(
+        (item: any) => item.symbols?.length === 1,
+      )?.symbols?.[0]
+      if (mqtt && !mqtt.mqueue_priorities) {
+        mqtt.mqueue_priorities = {
+          validator: (rules: any, value: string, callback: any) => {
+            const msg =
+              disabledValue !== value && !isJSONString(value)
+                ? t('Auth.jsonFormatError')
+                : undefined
+            callback(msg)
+          },
+          trigger: 'blur',
+        }
+      }
+      return { components, rules }
+    }
 
     const handleMpField = async (mqueue_priorities: string | Record<string, any>) => {
       if (mqueue_priorities === 'disabled') {
@@ -78,6 +99,7 @@ export default defineComponent({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         ElMessage.error(mqueue_priorities.toString() + ': ' + error.toString())
+        return Promise.reject()
       }
     }
     const loadData = async () => {
@@ -126,6 +148,7 @@ export default defineComponent({
       saveLoading,
       configLoading,
       propsOrderMap,
+      handleSessionSchema,
       handleSave,
       SchemaFormCom,
     }
