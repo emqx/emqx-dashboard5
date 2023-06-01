@@ -95,6 +95,7 @@ const props = defineProps({
   items: {
     type: Array as PropType<Properties[string][] | Array<{ [key: string]: any }>>,
     required: true,
+    default: () => [],
   },
   disabled: {
     type: Boolean,
