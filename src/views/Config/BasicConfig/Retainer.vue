@@ -107,6 +107,17 @@
                 />
               </el-form-item>
             </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="deliver_rate">
+                <template #label>
+                  <FormItemLabel :label="tl('deliverRate')" :desc="tl('deliverRateDesc')" />
+                </template>
+                <InputWithUnit
+                  v-model="retainerConfig.deliver_rate"
+                  :units="[{ label: '/s', value: '/s' }]"
+                />
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
@@ -129,10 +140,10 @@ import Oneof from '@/components/Oneof.vue'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { Retainer } from '@/types/extension'
 import { ElMessage } from 'element-plus'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
-import { Retainer } from '@/types/extension'
 
 const { tl, t } = useI18nTl('Extension')
 const store = useStore()
@@ -145,6 +156,7 @@ let retainerConfig = reactive<Retainer>({
   max_payload_size: '1MB',
   msg_clear_interval: NO_INTERVAL_VALUE,
   msg_expiry_interval: NO_INTERVAL_VALUE,
+  deliver_rate: '1000/s',
   backend: {
     storage_type: 'ram',
     type: 'built_in_database',
