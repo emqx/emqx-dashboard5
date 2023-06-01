@@ -280,7 +280,7 @@ import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { OtherBridge } from '@/types/rule'
-import { snakeCase, merge } from 'lodash'
+import { snakeCase, merge, isEqual } from 'lodash'
 import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 
 enum AuthType {
@@ -422,6 +422,15 @@ const clearValidate = () => {
 watch(formData, updateParentBridgeData, { deep: true })
 
 watch(components, initRecord)
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (!isEqual(val, formData.value)) {
+      resetFormDataWhenEdit()
+    }
+  },
+)
 
 onMounted(() => {
   if (!props.edit && !props.copy) {
