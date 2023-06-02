@@ -51,6 +51,14 @@ export default {
     en: 'Message Clear Interval',
     zh: '消息清理间隔',
   },
+  deliverRate: {
+    zh: '派发速率',
+    en: 'Deliver Rate',
+  },
+  deliverRateDesc: {
+    zh: '派发保留消息的最大速率',
+    en: 'The maximum rate of delivering retain messages',
+  },
   storageMethod: {
     zh: '存储方式',
     en: 'Storage Method',
