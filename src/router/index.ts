@@ -378,6 +378,22 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Webhook
+  {
+    path: '/webhook',
+    component: Layout,
+    meta: {
+      hideKey: 'Webhook',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'webhook',
+        component: () => import('@/views/Webhook/Webhook.vue'),
+      },
+    ],
+  },
   // IoT
   {
     path: '/rules',
