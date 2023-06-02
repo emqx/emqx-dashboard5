@@ -232,3 +232,5 @@ export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
+// prefix for HTTP bridge **name** and rule **id**
+export const WEBHOOK_PREFIX = 'DASHBOARD_WEBHOOK_'
