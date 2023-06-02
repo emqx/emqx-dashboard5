@@ -3,6 +3,7 @@ import { BridgeItem } from '@/types/rule'
 import { cloneDeep, escape, isFunction, isObject, omit } from 'lodash'
 import moment from 'moment'
 import { COPY_SUFFIX } from './constants'
+import { ListDataWithPagination } from '@/types/common'
 
 export const dateFormat = (
   date: Date | string | number | (number | string)[] | null | undefined,
@@ -580,3 +581,24 @@ export const isJSONString = (str: string): boolean => {
 
 export const createOrderObj = (keyArr: Array<string>, beginning: number) =>
   keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
+
+export const getAllListData = async <T>(
+  requestFunc: (params: any) => Promise<ListDataWithPagination<T>>,
+): Promise<Array<T>> => {
+  try {
+    const limit = 1000
+    let page = 1
+    let allData: T[] = []
+    let data: ListDataWithPagination<T>
+
+    do {
+      data = await requestFunc({ page, limit })
+      allData = allData.concat([...data.data])
+      page++
+    } while (data.meta.count && allData.length < data.meta.count && data.data.length)
+
+    return Promise.resolve(allData)
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
