@@ -64,7 +64,6 @@ export interface ResourceOpt {
   worker_pool_size: number
   request_timeout?: string
   health_check_interval: string
-  auto_restart_interval: string
   query_mode: 'async' | 'sync'
   inflight_window?: number
 

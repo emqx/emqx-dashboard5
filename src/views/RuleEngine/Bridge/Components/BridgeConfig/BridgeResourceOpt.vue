@@ -33,20 +33,6 @@
       <TimeInputWithUnitSelect v-model="resourceOptForm.health_check_interval" />
     </el-form-item>
   </el-col>
-  <el-col :span="12">
-    <el-form-item prop="resource_opts.auto_restart_interval">
-      <template #label>
-        <FormItemLabel
-          :label="tl('auto_restart_interval.label')"
-          :desc="tl('auto_restart_interval.desc') + t('RuleEngine.autoRestartIntervalValueDesc')"
-        />
-      </template>
-      <Oneof
-        v-model="resourceOptForm.auto_restart_interval"
-        :items="[{ type: 'duration' }, { symbols: ['infinity'], type: 'enum' }]"
-      />
-    </el-form-item>
-  </el-col>
   <!-- QUEUE -->
   <el-col :span="12">
     <el-form-item prop="resource_opts.max_buffer_bytes">

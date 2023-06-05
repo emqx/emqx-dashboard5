@@ -1,4 +1,3 @@
-import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
 import { ResourceOpt } from '@/types/rule'
 import { omit } from 'lodash'
 
@@ -12,7 +11,6 @@ export default (): {
   const createCommonForm = (): ResourceOpt => ({
     worker_pool_size: 4,
     health_check_interval: '15s',
-    auto_restart_interval: AUTO_RESTART_INTERVAL_DEFAULT,
     query_mode: 'async',
     max_buffer_bytes: '1GB',
     request_timeout: '15s',
