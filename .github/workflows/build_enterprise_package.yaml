@@ -3,60 +3,62 @@ name: build enterprise package
 on:
   pull_request:
     branches:
-    - "enterprise"
-    - "dev/e/*"
+      - 'enterprise'
+      - 'dev/e/*'
   push:
     tags:
-    - "e1.*"
+      - 'e1.*'
     branches:
-    - "enterprise"
-    - "dev/e/*"
+      - 'enterprise'
+      - 'dev/e/*'
 
 jobs:
   build:
     runs-on: ubuntu-20.04
     container: node:14.15
     steps:
-    - uses: actions/checkout@v2
-    - name: install zip
-      run: |
-           sed -i s/deb.debian.org/archive.debian.org/g /etc/apt/sources.list
-           sed -i s/security.debian.org/archive.debian.org/g /etc/apt/sources.list
-           sed -i '/stretch-updates/d' /etc/apt/sources.list
-           apt-get update && apt-get install -y zip
-    - name: build
-      run: |
-        yarn
-        yarn build:enterprise
-    - name: create package
-      run: |
-        touch dist/version
-        echo "github_ref: $GITHUB_REF" >> dist/version
-        echo "github_sha: $GITHUB_SHA" >> dist/version
-        zip -rq emqx-enterprise-dashboard.zip ./dist
-    - uses: actions/upload-artifact@v2
-      with:
-        name: emqx-enterprise-dashboard
-        path: dist/
-    - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/')
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: EMQX Dashboard ${{ github.ref }} Released
-        draft: false
-        prerelease: false
-    - name: Upload Release Asset
-      if: startsWith(github.ref, 'refs/tags/')
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./emqx-enterprise-dashboard.zip
-        asset_name: emqx-enterprise-dashboard.zip
-        asset_content_type: application/zip
+      - uses: actions/checkout@v2
+      - name: install zip
+        run: |
+          sed -i s/deb.debian.org/archive.debian.org/g /etc/apt/sources.list
+          sed -i s/security.debian.org/archive.debian.org/g /etc/apt/sources.list
+          sed -i '/stretch-updates/d' /etc/apt/sources.list
+          apt-get update && apt-get install -y zip
+      - name: build
+        run: |
+          yarn
+          yarn build:enterprise
+      - name: create package
+        run: |
+          touch dist/version
+          echo "github_ref: $GITHUB_REF" >> dist/version
+          echo "github_sha: $GITHUB_SHA" >> dist/version
+          PACKAGE_NAME=$(echo ${GITHUB_REF##*/}) # Extract tag from GITHUB_REF
+          zip -rq emqx-enterprise-dashboard-$PACKAGE_NAME.zip ./dist
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+      - uses: actions/upload-artifact@v2
+        with:
+          name: emqx-enterprise-dashboard
+          path: dist/
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: EMQX Dashboard ${{ github.ref }} Released
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        if: startsWith(github.ref, 'refs/tags/')
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./emqx-enterprise-dashboard-${{ env.PACKAGE_NAME }}.zip
+          asset_name: emqx-enterprise-dashboard-${{ env.PACKAGE_NAME }}.zip
+          asset_content_type: application/zip
