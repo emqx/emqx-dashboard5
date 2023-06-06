@@ -508,6 +508,29 @@ export default {
     zh: '入口和出口配置的远程 MQTT 主题相同',
     en: 'The same remote MQTT topics are configured for ingress and egress',
   },
+  clientPoolsize: {
+    zh: '客户端池大小',
+    en: 'MQTT Clients Pool Size',
+  },
+  egressPoolSizeDesc: {
+    zh: `MQTT 客户端池的大小，这些客户端将会向远程代理发布消息。<br/>
+每个 MQTT 客户端都将被分配一个形式为 \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:egress:\${'{'}node{'}'}:\${'{'}n{'}'}\` 的 \`clientid\`，其中 \`n\` 是池中客户端的编号。`,
+    en: `Size of the pool of MQTT clients that will publish messages to the remote broker.<br/>
+Each MQTT client will be assigned \`clientid\` of the form \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:egress:\${'{'}node{'}'}:\${'{'}n{'}'}\`
+where \`n\` is the number of a client inside the pool.`,
+  },
+  ingressPoolSizeDesc: {
+    zh: `MQTT 客户端池的大小，这些客户端将从远程代理接收消息。<br/>
+仅当 \`remote.topic\` 为共享订阅主题或主题过滤器（例如 \`$share/name1/topic1\` 或 \`$share/name2/topic2/#\`）时，才会尊重此值，否则将仅使用单个 MQTT 客户端。
+每个 MQTT 客户端都将被分配一个形式为 \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}\` 的 \`clientid\`，其中 \`n\` 是池中客户端的编号。
+注意：当 EMQX 处于集群状态时，非共享订阅将无法良好地工作。`,
+    en: `Size of the pool of MQTT clients that will ingest messages from the remote broker.<br/>
+This value will be respected only if 'remote.topic' is a shared subscription topic or topic-filter
+(for example \`$share/name1/topic1\` or \`$share/name2/topic2/#\`), otherwise only a single MQTT client will be used.
+Each MQTT client will be assigned 'clientid' of the form '\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}'
+where 'n' is the number of a client inside the pool.
+NOTE: Non-shared subscription will not work well when EMQX is clustered.`,
+  },
   bridgeUsage: {
     zh: '如何使用桥接',
     en: 'How to use Bridge',
