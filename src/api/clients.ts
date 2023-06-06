@@ -19,6 +19,10 @@ export function disconnectClient(clientId: string) {
   return http.delete(`/clients/${encodeURIComponent(clientId)}`)
 }
 
+export function batchDisconnectClients(clientIds: string[]) {
+  return http.post('/clients/kickout/bulk', clientIds)
+}
+
 export async function loadClientDetail(clientId: string) {
   return http.get(`/clients/${encodeURIComponent(clientId)}`, { errorsHandleCustom: [404] })
 }

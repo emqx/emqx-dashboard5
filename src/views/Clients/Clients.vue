@@ -108,11 +108,12 @@
       <el-table
         :data="tableData"
         ref="clientsTable"
+        row-key="clientid"
         v-loading.lock="lockTable"
         @selection-change="handleSelectionChange"
       >
         <!-- TODO:fixed the tooltip content (spaces) -->
-        <el-table-column type="selection" width="35" />
+        <el-table-column type="selection" width="35" reserve-selection />
         <el-table-column
           prop="clientid"
           min-width="140"
@@ -196,7 +197,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { disconnectClient, listClients } from '@/api/clients'
+import { batchDisconnectClients, listClients } from '@/api/clients'
 import { loadNodes } from '@/api/common'
 import { SESSION_NEVER_EXPIRE_TIME, SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
@@ -332,21 +333,6 @@ loadNodeClients()
 const handleSelectionChange = (clients: Client[]) => {
   selectedClients.value = clients
 }
-// Handling batch client disconnection requests
-async function batchDisconnectClients(clientIds: string[], batchSize = 10) {
-  const results = []
-  for (let i = 0; i < clientIds.length; i += batchSize) {
-    const batch = clientIds.slice(i, i + batchSize)
-    const disconnectPromises = batch.map((clientId) => disconnectClient(clientId))
-    try {
-      const batchResults = await Promise.allSettled(disconnectPromises)
-      results.push(...batchResults)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-  return results
-}
 const cleanBatchClients = async () => {
   const clientIds = selectedClients.value.map((client) => client.clientid)
   ElMessageBox.confirm(tl('willKickSelectedConnections', { n: selectedClients.value.length }), {
@@ -357,18 +343,9 @@ const cleanBatchClients = async () => {
   }).then(async () => {
     batchDeleteLoading.value = true
     try {
-      const results = await batchDisconnectClients(clientIds, 5)
-      if (results) {
-        loadNodeClients()
-        const fulfilledCount = results.filter((result) => result.status === 'fulfilled').length
-        const rejectedCount = results.filter((result) => result.status === 'rejected').length
-        if (fulfilledCount > 0) {
-          ElMessage.success(tl('willKickSelectedConnectionsSuccess', { n: fulfilledCount }))
-        }
-        if (rejectedCount > 0) {
-          ElMessage.error(tl('willKickSelectedConnectionsFailed', { n: rejectedCount }))
-        }
-      }
+      await batchDisconnectClients(clientIds)
+      loadNodeClients()
+      ElMessage.success(tl('kickedOutSuc'))
     } catch (error) {
       console.log(error)
     } finally {
