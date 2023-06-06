@@ -250,14 +250,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="resource_opts.auto_restart_interval">
+          <el-form-item prop="resource_opts.start_timeout">
             <template #label>
-              <FormItemLabel v-bind="getResourceOptLabelProp('auto_restart_interval')" />
+              <FormItemLabel v-bind="getResourceOptLabelProp('start_timeout')" />
             </template>
-            <Oneof
-              :items="getPropItem('resource_opts.auto_restart_interval').oneOf"
-              v-model="formData.resource_opts.auto_restart_interval"
-            />
+            <TimeInputWithUnitSelect v-model="formData.resource_opts.start_timeout" />
           </el-form-item>
         </el-col>
       </el-row>
