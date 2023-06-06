@@ -8,16 +8,16 @@
     </el-form-item>
   </el-col>
   <el-col :span="12" v-if="withRequestTimeoutConfig">
-    <el-form-item prop="resource_opts.request_timeout">
+    <el-form-item prop="resource_opts.request_ttl">
       <template #label>
         <FormItemLabel
-          :label="tl('request_timeout.label')"
-          :desc="tl('request_timeout.desc')"
+          :label="tl('request_ttl.label')"
+          :desc="tl('request_ttl.desc')"
           desc-marked
         />
       </template>
       <Oneof
-        v-model="resourceOptForm.request_timeout"
+        v-model="resourceOptForm.request_ttl"
         :items="[{ type: 'duration' }, { symbols: ['infinity'], type: 'enum' }]"
       />
     </el-form-item>

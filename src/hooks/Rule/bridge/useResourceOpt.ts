@@ -13,7 +13,7 @@ export default (): {
     health_check_interval: '15s',
     query_mode: 'async',
     max_buffer_bytes: '1GB',
-    request_timeout: '15s',
+    request_ttl: '15s',
   })
 
   const createDefaultResourceOptsForm = (
@@ -33,7 +33,7 @@ export default (): {
       }
     }
     if (config.withoutRequestTimeout) {
-      formData = omit(formData, 'request_timeout')
+      formData = omit(formData, 'request_ttl')
     }
     return formData
   }
