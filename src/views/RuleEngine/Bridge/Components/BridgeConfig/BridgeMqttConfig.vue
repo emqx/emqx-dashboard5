@@ -27,36 +27,50 @@
         <p class="payload-desc">{{ tl('ingressDesc') }}</p>
         <el-switch v-model="enableIngress" @change="handleIngressChanged" />
         <el-collapse-transition>
-          <el-row v-show="enableIngress" class="direction-body" :gutter="26">
-            <el-col :span="12">
-              <label>{{ tl('remoteBroker') }}</label>
-              <el-card class="with-border" shadow="never">
-                <el-form-item :prop="['ingress', 'remote', 'topic']" :required="enableIngress">
+          <div v-show="enableIngress">
+            <el-card class="with-border" shadow="never">
+              <el-row class="direction-body" :gutter="52">
+                <el-col :span="12">
+                  <label>{{ tl('remoteBroker') }}</label>
+                  <el-form-item :prop="['ingress', 'remote', 'topic']" :required="enableIngress">
+                    <template #label>
+                      <label>{{ t('Base.topic') }}</label>
+                      <InfoTooltip :content="tl('ingressRemoteTopicDesc')" />
+                    </template>
+                    <el-input v-model="mqttBridgeVal.ingress.remote.topic" placeholder="t/#" />
+                  </el-form-item>
+                  <el-form-item label="QoS">
+                    <el-select v-model="mqttBridgeVal.ingress.remote.qos">
+                      <el-option v-for="qos in ingressRemoteQoS" :key="qos" :value="qos" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <label>{{ tl('localBroker') }}</label>
+                  <MQTTBridgeTransConfiguration
+                    v-model="mqttBridgeVal.ingress.local"
+                    path="ingress.locale"
+                    :direction="MQTTBridgeDirection.In"
+                    :topic-desc="tl('ingressLocalTopicDesc')"
+                  />
+                </el-col>
+              </el-row>
+            </el-card>
+            <el-row :gutter="26">
+              <el-col :span="12">
+                <el-form-item :prop="['ingress', 'pool_size']">
                   <template #label>
-                    <label>{{ t('Base.topic') }}</label>
-                    <InfoTooltip :content="tl('ingressRemoteTopicDesc')" />
+                    <FormItemLabel
+                      :label="tl('clientPoolsize')"
+                      :desc="tl('ingressPoolSizeDesc')"
+                      desc-marked
+                    />
                   </template>
-                  <el-input v-model="mqttBridgeVal.ingress.remote.topic" placeholder="t/#" />
+                  <el-input v-model.number="mqttBridgeVal.ingress.pool_size" />
                 </el-form-item>
-                <el-form-item label="QoS">
-                  <el-select v-model="mqttBridgeVal.ingress.remote.qos">
-                    <el-option v-for="qos in ingressRemoteQoS" :key="qos" :value="qos" />
-                  </el-select>
-                </el-form-item>
-              </el-card>
-            </el-col>
-            <el-col :span="12">
-              <label>{{ tl('localBroker') }}</label>
-              <el-card class="with-border" shadow="never">
-                <MQTTBridgeTransConfiguration
-                  v-model="mqttBridgeVal.ingress.local"
-                  path="ingress.locale"
-                  :direction="MQTTBridgeDirection.In"
-                  :topic-desc="tl('ingressLocalTopicDesc')"
-                />
-              </el-card>
-            </el-col>
-          </el-row>
+              </el-col>
+            </el-row>
+          </div>
         </el-collapse-transition>
       </div>
       <div class="direction">
@@ -65,31 +79,45 @@
         <p class="payload-desc">{{ tl('egressDesc') }}</p>
         <el-switch v-model="enableEgress" @change="handleEgressChanged" />
         <el-collapse-transition>
-          <el-row v-show="enableEgress" class="direction-body" :gutter="26">
-            <el-col :span="12">
-              <label>{{ tl('remoteBroker') }}</label>
-              <el-card class="with-border" shadow="never">
-                <MQTTBridgeTransConfiguration
-                  v-model="mqttBridgeVal.egress.remote"
-                  path="egress.remote"
-                  :direction="MQTTBridgeDirection.Out"
-                  :topic-desc="tl('egressRemoteTopicDesc')"
-                />
-              </el-card>
-            </el-col>
-            <el-col :span="12">
-              <label>{{ tl('localBroker') }}</label>
-              <el-card class="with-border" shadow="never">
-                <el-form-item :prop="['egress', 'local', 'topic']">
+          <div v-show="enableEgress">
+            <el-card class="with-border" shadow="never">
+              <el-row class="direction-body" :gutter="52">
+                <el-col :span="12">
+                  <label>{{ tl('remoteBroker') }}</label>
+                  <MQTTBridgeTransConfiguration
+                    v-model="mqttBridgeVal.egress.remote"
+                    path="egress.remote"
+                    :direction="MQTTBridgeDirection.Out"
+                    :topic-desc="tl('egressRemoteTopicDesc')"
+                  />
+                </el-col>
+                <el-col :span="12">
+                  <label>{{ tl('localBroker') }}</label>
+                  <el-form-item :prop="['egress', 'local', 'topic']">
+                    <template #label>
+                      <label>{{ t('Base.topic') }}</label>
+                      <InfoTooltip :content="tl('egressLocalTopicDesc')" />
+                    </template>
+                    <el-input v-model="mqttBridgeVal.egress.local.topic" placeholder="t/#" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+            <el-row :gutter="26">
+              <el-col :span="12">
+                <el-form-item :prop="['egress', 'pool_size']">
                   <template #label>
-                    <label>{{ t('Base.topic') }}</label>
-                    <InfoTooltip :content="tl('egressLocalTopicDesc')" />
+                    <FormItemLabel
+                      :label="tl('clientPoolsize')"
+                      :desc="tl('egressPoolSizeDesc')"
+                      desc-marked
+                    />
                   </template>
-                  <el-input v-model="mqttBridgeVal.egress.local.topic" placeholder="t/#" />
+                  <el-input v-model.number="mqttBridgeVal.egress.pool_size" />
                 </el-form-item>
-              </el-card>
-            </el-col>
-          </el-row>
+              </el-col>
+            </el-row>
+          </div>
         </el-collapse-transition>
       </div>
       <el-divider />
@@ -118,23 +146,24 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
-import ConnectorMqttConfig from './ConnectorMqttConfig.vue'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import _ from 'lodash'
 import {
+  PropType,
+  Ref,
   computed,
   defineEmits,
   defineExpose,
   defineProps,
   onMounted,
-  PropType,
   ref,
-  Ref,
   watch,
 } from 'vue'
 import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
+import ConnectorMqttConfig from './ConnectorMqttConfig.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
   modelValue: {
@@ -317,9 +346,22 @@ defineExpose({ validate, clearValidate })
     margin: 12px 0 14px 0;
     line-height: 1.6;
   }
+  .el-card {
+    margin-top: 12px;
+    margin-bottom: 16px;
+
+    :deep(.el-card__body) {
+      padding-top: 8px;
+      padding-bottom: 16px;
+    }
+  }
   .direction-body {
     margin-top: 16px;
-    label {
+
+    .el-col-12 + .el-col-12 {
+      border-left: 1px solid var(--el-border-color-light);
+    }
+    .el-col > label {
       margin-bottom: 8px;
       display: inline-block;
     }

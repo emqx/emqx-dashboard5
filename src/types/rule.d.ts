@@ -109,6 +109,7 @@ export interface MQTTBridgeTransConfiguration {
 }
 
 export interface MQTTBridgeEgress {
+  pool_size: number
   local: {
     topic: string
   }
@@ -116,6 +117,7 @@ export interface MQTTBridgeEgress {
 }
 
 export interface MQTTBridgeIngress {
+  pool_size: number
   local: MQTTBridgeTransConfiguration
   remote: {
     qos: number
