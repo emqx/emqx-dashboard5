@@ -136,7 +136,6 @@ export default defineComponent({
   },
   setup(props, ctx) {
     const { tl, t } = useI18nTl('Auth')
-
     const httpJSON: {
       username: string
       password?: string
