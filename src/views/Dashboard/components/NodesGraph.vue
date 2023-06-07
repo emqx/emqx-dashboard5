@@ -1,5 +1,25 @@
 <template>
-  <div class="nodes-graph" ref="canvasEle" id="nodes-graph"></div>
+  <VueFlow class="nodes-graph" ref="FlowInstance" id="nodes-graph" v-model="flowData">
+    <Background patternColor="transparent">
+      <BackgroundCircle
+        v-if="showBackgroundCircle"
+        :x="backgroundCirclePosition.x"
+        :y="backgroundCirclePosition.y"
+        :radius="BACKGROUND_CIRCLE_RADIUS"
+        :inner-radius="BACKGROUND_CIRCLE_INNER_RADIUS"
+        :outer-radius="BACKGROUND_CIRCLE_OUTER_RADIUS"
+      />
+    </Background>
+    <template #node-core="data">
+      <CoreNode
+        :height="coreNodeHeight"
+        :is-selected="modelValue === data.id"
+        :status="data.data.node_status"
+        :nodes-num="nodes.length"
+        @mouseenter="hoverToCoreNode(data.id)"
+      />
+    </template>
+  </VueFlow>
 </template>
 
 <script lang="ts">
@@ -7,13 +27,20 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'NodesGraph',
+  inheritAttrs: false,
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, watch, defineEmits, onMounted, nextTick } from 'vue'
-import useDrawNodesGraph from '@/hooks/Overview/useDrawNodesGraph'
-import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
+import useNodesGraph, { FlowDataItem } from '@/hooks/Overview/useNodesGraph'
+import { NodeMsg } from '@/types/dashboard'
+import BackgroundCircle from '@/views/Dashboard/components/BackgroundCircle.vue'
+import { Background } from '@vue-flow/background'
+import { VueFlow, useVueFlow } from '@vue-flow/core'
+import '@vue-flow/core/dist/style.css'
+import '@vue-flow/core/dist/theme-default.css'
+import { PropType, Ref, defineEmits, defineProps, nextTick, onMounted, ref, watch } from 'vue'
+import CoreNode from './CoreNode.vue'
 
 const props = defineProps({
   /**
@@ -22,37 +49,72 @@ const props = defineProps({
   modelValue: {
     type: String,
   },
-  data: {
-    type: Object as PropType<{
-      nodes: Array<NodeMsg>
-      stats: Array<NodeStatisticalData>
-    }>,
+  nodes: {
+    type: Object as PropType<Array<NodeMsg>>,
     required: true,
   },
 })
 
+const {
+  BACKGROUND_CIRCLE_RADIUS,
+  BACKGROUND_CIRCLE_INNER_RADIUS,
+  BACKGROUND_CIRCLE_OUTER_RADIUS,
+  FlowInstance,
+  showBackgroundCircle,
+  backgroundCirclePosition,
+  coreNodeHeight,
+  countCoreNodeHeight,
+  generateFlowData,
+} = useNodesGraph(props)
+
+const flowData: Ref<Array<FlowDataItem>> = ref([])
+
 const emit = defineEmits(['update:modelValue'])
 
-const { canvasEle, drawNodes } = useDrawNodesGraph(props, emit)
-
-onMounted(async () => {
-  // wait init
-  await nextTick()
-  if (props.data) {
-    drawNodes(props.data)
-  }
+useVueFlow({
+  nodesDraggable: false,
+  nodesConnectable: false,
+  zoomOnScroll: false,
+  zoomOnDoubleClick: false,
+  zoomOnPinch: false,
+  panOnDrag: false,
+  minZoom: 1,
+  maxZoom: 1,
+  id: 'nodes-graph',
 })
 
 watch(
-  () => props.data,
-  () => {
-    drawNodes(props.data)
+  () => props.nodes,
+  async () => {
+    flowData.value = generateFlowData(props.nodes)
+    countCoreNodeHeight()
   },
 )
+
+onMounted(async () => {
+  // wait to count ele size
+  await nextTick()
+  flowData.value = generateFlowData(props.nodes)
+})
+
+const hoverToCoreNode = (id: string) => {
+  emit('update:modelValue', id)
+}
 </script>
 
 <style lang="scss">
 .nodes-graph {
   height: 100%;
+  .node-core {
+    cursor: pointer;
+  }
+  .vue-flow__edge {
+    cursor: default;
+    pointer-events: none;
+  }
+  .vue-flow__edge-path,
+  .vue-flow__connection-path {
+    stroke: #7fd7b8;
+  }
 }
 </style>
