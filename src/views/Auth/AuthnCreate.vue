@@ -170,7 +170,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, ref, defineProps, PropType } from 'vue'
+import { computed, ref, defineProps, PropType, provide } from 'vue'
 import GuideBar from '@/components/GuideBar.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
@@ -199,9 +199,9 @@ type DatabaseAndServerDOM = DatabaseAndServer
 
 const props = defineProps({
   gateway: {
-    type: Boolean,
+    type: String,
     required: false,
-    default: false,
+    default: null,
   },
   cancelFunc: {
     type: Function,
@@ -253,6 +253,7 @@ const supportBackendMap: any = {
     built_in_database: tl('builtInDatabase'),
   },
 }
+provide('gateway', props.gateway)
 const saveLoading = ref(false)
 const addedAuthn = computed(() => {
   if (props.gateway) {

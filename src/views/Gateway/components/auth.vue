@@ -20,7 +20,7 @@
     </div>
     <el-dialog class="gateway-auth-dialog" v-model="createDialog" width="75%" destroy-on-close>
       <authn-create
-        :gateway="true"
+        :gateway="gname"
         :cancel-func="cancelCreate"
         :create-func="authCreate"
         :disabled-databases="disabledDatabases"
