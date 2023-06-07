@@ -20,6 +20,7 @@ module.exports = {
   assetsDir: 'static',
   publicPath: './',
   productionSourceMap: false,
+  transpileDependencies: ['@vue-flow/core'],
   configureWebpack: {
     plugins: [
       new MonacoWebpackPlugin({
