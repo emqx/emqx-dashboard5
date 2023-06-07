@@ -99,6 +99,10 @@ export const useCoreNodeSize = (): {
   }
 }
 
+export const BACKGROUND_CIRCLE_RADIUS = 55.5
+export const BACKGROUND_CIRCLE_INNER_RADIUS = 79.5
+export const BACKGROUND_CIRCLE_OUTER_RADIUS = 118.5
+
 export default (
   props: Readonly<
     {
@@ -111,9 +115,6 @@ export default (
     }
   >,
 ): {
-  BACKGROUND_CIRCLE_RADIUS: number
-  BACKGROUND_CIRCLE_INNER_RADIUS: number
-  BACKGROUND_CIRCLE_OUTER_RADIUS: number
   FlowInstance: Ref<any>
   showBackgroundCircle: ComputedRef<boolean>
   backgroundCirclePosition: Ref<{ x: number; y: number }>
@@ -121,10 +122,6 @@ export default (
   countCoreNodeHeight: () => void
   generateFlowData: (nodes: Array<NodeMsg>) => Array<FlowDataItem>
 } => {
-  const BACKGROUND_CIRCLE_RADIUS = 55.5
-  const BACKGROUND_CIRCLE_INNER_RADIUS = 79.5
-  const BACKGROUND_CIRCLE_OUTER_RADIUS = 118.5
-
   const FlowInstance = ref()
   let flowEleWidth = 640
   let flowEleHeight = 243
@@ -165,40 +162,63 @@ export default (
     }
   }
 
-  const getNodePosition = (nodeIndex: number, nodesNum: number): { x: number; y: number } => {
+  const getNodePosition = (
+    nodeIndex: number,
+    nodesNum: number,
+    nodeRole: 'core' | 'replicant',
+  ): { x: number; y: number } => {
     const angleOffset = (Math.PI / 2) * nodesNum
     const angle = numToFixed(angleOffset + ((Math.PI * 2) / nodesNum) * nodeIndex, 2)
-    const radius =
-      (showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS : flowEleHeight / 2) -
-      coreNodeHeight.value * Math.log10(nodesNum) * 1.5
+    let radius = 0
+    if (nodeRole === 'core') {
+      radius =
+        (showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS : flowEleHeight / 2) -
+        coreNodeHeight.value * Math.log10(nodesNum) * 1.5
+    } else {
+      radius = (BACKGROUND_CIRCLE_INNER_RADIUS + BACKGROUND_CIRCLE_OUTER_RADIUS) / 2
+    }
     const x0 = flowEleWidth / 2
     const y0 = flowEleHeight / 2
-    const xOffset = nodesNum === 1 ? 0 : radius * Math.cos(angle)
-    const yOffset = nodesNum === 1 ? 0 : radius * Math.sin(angle)
+    const xOffset = nodeRole === 'core' && nodesNum === 1 ? 0 : radius * Math.cos(angle)
+    const yOffset = nodeRole === 'core' && nodesNum === 1 ? 0 : radius * Math.sin(angle)
     return {
       x: numToFixed(x0 + xOffset - coreNodeSVGWidth.value / 2, 2),
       y: numToFixed(y0 + yOffset - coreNodeSVGHeight.value / 2, 2),
     }
   }
 
-  const generateFlowNodeData = (nodes: Array<NodeMsg>) =>
-    nodes.map(({ node, node_status, role }, index) => ({
-      type: role,
-      class: `node-${role}`,
-      id: node,
-      label: node,
-      data: {
-        node_status,
-      },
-      position: getNodePosition(index, nodes.length),
-    }))
+  const getCommonFlowNodeData = ({ node, node_status, role }: NodeMsg) => ({
+    type: role,
+    class: `node-${role}`,
+    id: node,
+    label: node,
+    data: { node_status },
+  })
+
+  const generateFlowNodeData = (nodes: Array<NodeMsg>) => {
+    const coreNodes: Array<NodeMsg> = []
+    const repNodes: Array<NodeMsg> = []
+    nodes.forEach((item) => (item.role === 'core' ? coreNodes : repNodes).push(item))
+    return coreNodes
+      .map((item, index) => ({
+        ...getCommonFlowNodeData(item),
+        position: getNodePosition(index, coreNodes.length, item.role),
+      }))
+      .concat(
+        repNodes.map((item, index) => ({
+          ...getCommonFlowNodeData(item),
+          position: getNodePosition(index, repNodes.length, item.role),
+        })),
+      )
+  }
 
   const generateFlowEdgeData = (nodes: Array<NodeMsg>) => {
     const ret = []
-    for (let i = 0; i < nodes.length; i++) {
-      const source = nodes[i].node
-      for (let j = i + 1; j < nodes.length; j++) {
-        const target = nodes[j].node
+    const coreNodes = nodes.filter(({ role }) => role === 'core')
+    for (let i = 0; i < coreNodes.length; i++) {
+      const source = coreNodes[i].node
+      for (let j = i + 1; j < coreNodes.length; j++) {
+        const target = coreNodes[j].node
         ret.push({ id: `${source}-${target}`, source: source, target: target, type: 'straight' })
       }
     }
@@ -218,9 +238,6 @@ export default (
   })
 
   return {
-    BACKGROUND_CIRCLE_RADIUS,
-    BACKGROUND_CIRCLE_INNER_RADIUS,
-    BACKGROUND_CIRCLE_OUTER_RADIUS,
     FlowInstance,
     showBackgroundCircle,
     backgroundCirclePosition,

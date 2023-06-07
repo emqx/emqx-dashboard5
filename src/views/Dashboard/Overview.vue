@@ -102,7 +102,7 @@
       </el-col>
     </el-row>
     <el-card class="cluster-card block">
-      <NodesGraphCard class="nodes-graph" />
+      <NodesGraphCard />
     </el-card>
     <polyline-cards></polyline-cards>
   </div>

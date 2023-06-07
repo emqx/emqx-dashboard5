@@ -16,7 +16,14 @@
         :is-selected="modelValue === data.id"
         :status="data.data.node_status"
         :nodes-num="nodes.length"
-        @mouseenter="hoverToCoreNode(data.id)"
+        @mouseenter="hoverToNode(data.id)"
+      />
+    </template>
+    <template #node-replicant="data">
+      <RepNode
+        :is-selected="modelValue === data.id"
+        :status="data.data.node_status"
+        @mouseenter="hoverToNode(data.id)"
       />
     </template>
   </VueFlow>
@@ -32,15 +39,21 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import useNodesGraph, { FlowDataItem } from '@/hooks/Overview/useNodesGraph'
+import useNodesGraph, {
+  FlowDataItem,
+  BACKGROUND_CIRCLE_RADIUS,
+  BACKGROUND_CIRCLE_INNER_RADIUS,
+  BACKGROUND_CIRCLE_OUTER_RADIUS,
+} from '@/hooks/Overview/useNodesGraph'
 import { NodeMsg } from '@/types/dashboard'
-import BackgroundCircle from '@/views/Dashboard/components/BackgroundCircle.vue'
+import BackgroundCircle from './BackgroundCircle.vue'
 import { Background } from '@vue-flow/background'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
 import { PropType, Ref, defineEmits, defineProps, nextTick, onMounted, ref, watch } from 'vue'
 import CoreNode from './CoreNode.vue'
+import RepNode from './RepNode.vue'
 
 const props = defineProps({
   /**
@@ -56,9 +69,6 @@ const props = defineProps({
 })
 
 const {
-  BACKGROUND_CIRCLE_RADIUS,
-  BACKGROUND_CIRCLE_INNER_RADIUS,
-  BACKGROUND_CIRCLE_OUTER_RADIUS,
   FlowInstance,
   showBackgroundCircle,
   backgroundCirclePosition,
@@ -97,7 +107,7 @@ onMounted(async () => {
   flowData.value = generateFlowData(props.nodes)
 })
 
-const hoverToCoreNode = (id: string) => {
+const hoverToNode = (id: string) => {
   emit('update:modelValue', id)
 }
 </script>
