@@ -4,40 +4,33 @@
       :cx="activatedOuterRadius"
       :cy="activatedOuterRadius"
       :r="nonactivatedRadius"
-      stroke-width="0"
-      fill="#1890FF"
+      :fill="dotNonactivatedColor"
+      @mouseenter="selectNode"
     />
     <g v-if="isSelected">
       <circle
         :cx="activatedOuterRadius"
         :cy="activatedOuterRadius"
         :r="activatedOuterRadius"
-        stroke-width="0"
-        fill="#469CF7"
+        :fill="dotActivatedColor"
         opacity="0.35"
       />
       <circle
         :cx="activatedOuterRadius"
         :cy="activatedOuterRadius"
         :r="activatedInnerRadius"
-        fill="#469CF7"
+        :fill="dotActivatedColor"
       />
     </g>
   </svg>
 </template>
 
 <script setup lang="ts">
-import {
-  BACKGROUND_CIRCLE_INNER_RADIUS,
-  BACKGROUND_CIRCLE_OUTER_RADIUS,
-} from '@/hooks/Overview/useNodesGraph'
+import { useRepCodeNodeSize } from '@/hooks/Overview/useNodesGraph'
 import { NodeStatus } from '@/types/enum'
-import { PropType, computed, defineProps } from 'vue'
+import { PropType, computed, defineEmits, defineProps } from 'vue'
 
-const rightWidth = BACKGROUND_CIRCLE_OUTER_RADIUS - BACKGROUND_CIRCLE_INNER_RADIUS
-const nonactivatedRadius = rightWidth / 5 / 2
-const activatedInnerRadius = rightWidth / 3 / 2
-const activatedOuterRadius = activatedInnerRadius * 2
+const { nonactivatedRadius, activatedInnerRadius, activatedOuterRadius } = useRepCodeNodeSize()
 
 const props = defineProps({
   isSelected: {
@@ -49,9 +42,15 @@ const props = defineProps({
     default: NodeStatus.Running,
   },
 })
+const emit = defineEmits(['select'])
 
-// TODO:color
-const dotColor = computed(() =>
-  props.status === NodeStatus.Running ? ['#00b299', '#45e3c9'] : ['#dcdcdc', '#cdcdcd'],
-)
+const isRunning = computed(() => props.status === NodeStatus.Running)
+
+const dotNonactivatedColor = computed(() => (isRunning.value ? '#1890ff' : '#bac1cd'))
+
+const dotActivatedColor = computed(() => (isRunning.value ? '#469cf7' : '#bac1cd'))
+
+const selectNode = () => {
+  emit('select')
+}
 </script>
