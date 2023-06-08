@@ -104,6 +104,8 @@ export const useBackgroundCircle = (): {
   }
 }
 
+export const MAX_DISPLAYED_REP_NODE = 20
+
 export default (
   props: Readonly<
     {
@@ -132,8 +134,8 @@ export default (
   const coreNodeHeight = ref(20)
 
   const {
-    SVGHeight: coreNodeSVGHeight,
-    SVGWidth: coreNodeSVGWidth,
+    coreNodeHeight: coreNodeSVGHeight,
+    coreNodeWidth: coreNodeSVGWidth,
     setCoreNodeHeight,
   } = useCoreNodeSize()
 
@@ -152,20 +154,21 @@ export default (
     }
   }
 
+  const coreNodesNum = computed(() => props.nodes.filter(({ role }) => role === 'core').length)
   const countCoreNodeHeight = () => {
-    if (showBackgroundCircle.value) {
-      coreNodeHeight.value = 20
+    if (coreNodesNum.value === 1) {
+      coreNodeHeight.value = numToFixed(
+        showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS / 1.5 : flowEleHeight.value / 2.8,
+        3,
+      )
     } else {
-      const nodesLen = props.nodes.length
-      if (nodesLen === 1) {
-        coreNodeHeight.value = numToFixed(flowEleHeight.value / 2.8, 0)
-      } else {
-        coreNodeHeight.value = 24 + numToFixed(flowEleHeight.value / (nodesLen * 2), 3)
-      }
+      coreNodeHeight.value = showBackgroundCircle.value
+        ? 10 + numToFixed(BACKGROUND_CIRCLE_RADIUS / (coreNodesNum.value * 2), 3)
+        : 24 + numToFixed(flowEleHeight.value / (coreNodesNum.value * 2), 3)
     }
   }
 
-  const { activatedOuterRadius: regNodeRadius } = useRepCodeNodeSize()
+  const { nonactivatedRadius: regNodeRadius } = useRepCodeNodeSize()
   const getNodePosition = (
     nodeIndex: number,
     nodesNum: number,
@@ -177,7 +180,7 @@ export default (
     let radius = 0
     if (isCore) {
       radius =
-        (showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS : flowEleHeight.value / 2) -
+        (showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS * 0.84 : flowEleHeight.value / 2) -
         coreNodeHeight.value * Math.log10(nodesNum) * 1.5
     } else {
       radius = (BACKGROUND_CIRCLE_INNER_RADIUS + BACKGROUND_CIRCLE_OUTER_RADIUS) / 2
@@ -206,6 +209,9 @@ export default (
     const coreNodes: Array<NodeMsg> = []
     const repNodes: Array<NodeMsg> = []
     nodes.forEach((item) => (item.role === 'core' ? coreNodes : repNodes).push(item))
+    if (repNodes.length > MAX_DISPLAYED_REP_NODE) {
+      repNodes.splice(20, repNodes.length - 20)
+    }
     return coreNodes
       .map((item, index) => ({
         ...getCommonFlowNodeData(item),

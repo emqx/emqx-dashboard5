@@ -1,23 +1,23 @@
 <template>
-  <svg :width="activatedOuterRadius * 2" :height="activatedOuterRadius * 2">
+  <svg :width="nonactivatedRadius * 2" :height="nonactivatedRadius * 2" overflow="visible">
     <circle
-      :cx="activatedOuterRadius"
-      :cy="activatedOuterRadius"
+      :cx="nonactivatedRadius"
+      :cy="nonactivatedRadius"
       :r="nonactivatedRadius"
       :fill="dotNonactivatedColor"
       @mouseenter="selectNode"
     />
     <g v-if="isSelected">
       <circle
-        :cx="activatedOuterRadius"
-        :cy="activatedOuterRadius"
+        :cx="nonactivatedRadius"
+        :cy="nonactivatedRadius"
         :r="activatedOuterRadius"
         :fill="dotActivatedColor"
         opacity="0.35"
       />
       <circle
-        :cx="activatedOuterRadius"
-        :cy="activatedOuterRadius"
+        :cx="nonactivatedRadius"
+        :cy="nonactivatedRadius"
         :r="activatedInnerRadius"
         :fill="dotActivatedColor"
       />
