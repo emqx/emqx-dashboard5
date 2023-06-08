@@ -6,7 +6,7 @@ import {
   AUTH_PLACEHOLDERS,
 } from '@/common/constants'
 import codeMapInHelpOfAuth from '@/common/codeMapInHelpOfAuth'
-import { computed, ComputedRef } from 'vue'
+import { computed, ComputedRef, inject } from 'vue'
 
 export default (context: {
   authType: 'authn' | 'authz'
@@ -16,6 +16,11 @@ export default (context: {
   helpCode: ComputedRef<string>
 } => {
   const { t, tl } = useI18nTl('AuthDoc')
+  const gateway = inject('gateway')
+  let authnHTTPParagraph2 = `${tl('authnHTTPParagraph2')}${AUTH_PLACEHOLDERS}`
+  if (gateway === 'mqttsn') {
+    authnHTTPParagraph2 = authnHTTPParagraph2.replace(', ${username}, ${password}', '')
+  }
   const helpTextMap = {
     authn: {
       mysql: [
@@ -42,11 +47,7 @@ export default (context: {
         `${t('AuthDoc.supportedPlaceholders', [tl('CMD')])}${AUTH_PLACEHOLDERS}`,
         tl('dataStructuresAndCommandExamples'),
       ],
-      http: [
-        tl('authnHTTPParagraph1'),
-        `${tl('authnHTTPParagraph2')}${AUTH_PLACEHOLDERS}`,
-        tl('authnHTTPParagraph3'),
-      ],
+      http: [tl('authnHTTPParagraph1'), authnHTTPParagraph2, tl('authnHTTPParagraph3')],
     },
     authz: {
       mysql: [

@@ -62,7 +62,7 @@ export interface RuleItem extends RuleForm {
 
 export interface ResourceOpt {
   worker_pool_size: number
-  request_timeout?: string
+  request_ttl?: string
   health_check_interval: string
   query_mode: 'async' | 'sync'
   inflight_window?: number
