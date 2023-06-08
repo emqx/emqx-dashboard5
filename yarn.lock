@@ -1918,11 +1918,6 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@vue-flow/background@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@vue-flow/background/-/background-1.2.0.tgz#6b7c283fd679838df90dda8dd98f322c368b7e59"
-  integrity sha512-ZqmYhOM/0aRmA5dA3KSHJNYpHnhmG2e6tzjmttoibo4JBI3KNbdyOX+OTlqt7Ic0LYUC6NWzRLAwv4gjJuc6Mg==
-
 "@vue-flow/core@^1.20.1":
   version "1.20.1"
   resolved "https://registry.yarnpkg.com/@vue-flow/core/-/core-1.20.1.tgz#29c5cfc307c99a6fb96cd066189f426a661af4a9"

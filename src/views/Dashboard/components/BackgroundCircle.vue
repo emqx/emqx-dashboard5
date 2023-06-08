@@ -1,35 +1,66 @@
 <template>
-  <svg :width="outerRadius * 2" :height="outerRadius * 2">
-    <circle
-      :cx="outerRadius"
-      :cy="outerRadius"
-      :r="ringRadius"
-      :stroke-width="outerRadius - innerRadius"
-      stroke="#E7F7FF"
-      fill="none"
+  <svg class="background-circle" :width="SVGSideLength" :height="SVGSideLength">
+    <path
+      class="background-ring"
+      @click="clickRing"
+      v-click-outside="onClickRingOutside"
+      fill="#E7F7FF"
+      :d="ringPath"
+      :stroke-width="ACTIVE_RING_STROKE_WIDTH"
+      :stroke="isRingActivated ? 'rgba(0, 177, 115, 0.35)' : undefined"
     />
-    <circle :r="radius" fill="#E3FFF5" :cx="outerRadius" :cy="outerRadius" />
+    <circle :r="BACKGROUND_CIRCLE_RADIUS" fill="#E3FFF5" :cx="SVGCenter" :cy="SVGCenter" />
   </svg>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import {
+  ACTIVE_RING_STROKE_WIDTH,
+  BACKGROUND_CIRCLE_INNER_RADIUS,
+  BACKGROUND_CIRCLE_OUTER_RADIUS,
+  BACKGROUND_CIRCLE_RADIUS,
+  useBackgroundCircle,
+} from '@/hooks/Overview/useNodesGraph'
+import { computed, defineEmits, ref } from 'vue'
+import { ClickOutside as vClickOutside } from 'element-plus'
 
-const props = defineProps({
-  radius: {
-    type: Number,
-    required: true,
-  },
-  innerRadius: {
-    type: Number,
-    required: true,
-  },
-  outerRadius: {
-    type: Number,
-    required: true,
-  },
+const { SVGSideLength } = useBackgroundCircle()
+const SVGCenter = SVGSideLength / 2
+
+const ringPath = computed(() => {
+  const innerRadius = BACKGROUND_CIRCLE_INNER_RADIUS
+  const outerRadius = BACKGROUND_CIRCLE_OUTER_RADIUS
+  const center = SVGCenter
+  return `M ${center} ${center - outerRadius}
+A ${outerRadius} ${outerRadius} 0 0 1 ${center + outerRadius} ${center}
+A ${outerRadius} ${outerRadius} 0 0 1 ${center} ${center + outerRadius}
+A ${outerRadius} ${outerRadius} 0 0 1 ${center - outerRadius} ${center}
+A ${outerRadius} ${outerRadius} 0 0 1 ${center} ${center - outerRadius}
+M ${center} ${center - innerRadius}
+A ${innerRadius} ${innerRadius} 0 0 0 ${center - innerRadius} ${center}
+A ${innerRadius} ${innerRadius} 0 0 0 ${center} ${center + innerRadius}
+A ${innerRadius} ${innerRadius} 0 0 0 ${center + innerRadius} ${center}
+A ${innerRadius} ${innerRadius} 0 0 0 ${center} ${center - innerRadius}`
 })
 
-const ringWidth = computed(() => props.outerRadius - props.innerRadius)
-const ringRadius = computed(() => props.outerRadius - ringWidth.value / 2)
+const emit = defineEmits(['clickRing'])
+
+const isRingActivated = ref(false)
+
+const clickRing = () => {
+  isRingActivated.value = true
+  emit('clickRing')
+}
+const onClickRingOutside = () => {
+  isRingActivated.value = false
+}
 </script>
+
+<style lang="scss">
+.background-circle {
+  .background-ring {
+    pointer-events: auto !important;
+    cursor: default;
+  }
+}
+</style>

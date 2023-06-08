@@ -101,7 +101,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-card class="cluster-card block">
+    <el-card class="cluster-card block allow-overflow">
       <NodesGraphCard />
     </el-card>
     <polyline-cards></polyline-cards>

@@ -4,12 +4,14 @@ import { NodeStatus } from '@/types/enum'
 import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
 
 export interface FlowNodeData {
-  type: 'core' | 'replicant'
-  class: string
+  type: 'core' | 'replicant' | 'background'
+  class?: string
   id: string
-  label: string
+  label?: string
   position: { x: number; y: number }
-  data: {
+  selectable?: boolean
+  zIndex?: number
+  data?: {
     node_status: NodeStatus
   }
 }
@@ -22,33 +24,6 @@ export interface FlowEdgeData {
 }
 
 export type FlowDataItem = FlowNodeData | FlowEdgeData
-
-export const useCoreNode = (): {
-  OUTER_SIDE_MULTIPLES: number
-  INNER_SIDE_MULTIPLES: number
-  coreNodeHeight: number
-  coreNodeWidth: number
-  svgHeight: number
-  svgWidth: number
-} => {
-  const OUTER_SIDE_MULTIPLES = 2
-  const INNER_SIDE_MULTIPLES = 1 + (OUTER_SIDE_MULTIPLES - 1) / 2
-
-  const coreNodeHeight = 20
-  const coreNodeWidth = numToFixed(coreNodeHeight * Math.cos(Math.PI / 6), 3)
-
-  const svgHeight = coreNodeHeight * OUTER_SIDE_MULTIPLES
-  const svgWidth = coreNodeWidth * OUTER_SIDE_MULTIPLES
-
-  return {
-    OUTER_SIDE_MULTIPLES,
-    INNER_SIDE_MULTIPLES,
-    coreNodeHeight,
-    coreNodeWidth,
-    svgHeight,
-    svgWidth,
-  }
-}
 
 export const useCoreNodeSize = (): {
   OUTER_SIDE_MULTIPLES: number
@@ -99,9 +74,35 @@ export const useCoreNodeSize = (): {
   }
 }
 
-export const BACKGROUND_CIRCLE_RADIUS = 55.5
-export const BACKGROUND_CIRCLE_INNER_RADIUS = 79.5
-export const BACKGROUND_CIRCLE_OUTER_RADIUS = 118.5
+export const BACKGROUND_CIRCLE_RADIUS = 37 * 1.28
+export const BACKGROUND_CIRCLE_INNER_RADIUS = 53 * 1.28
+export const BACKGROUND_CIRCLE_OUTER_RADIUS = 89 * 1.28
+export const ACTIVE_RING_STROKE_WIDTH = 6
+
+export const useRepCodeNodeSize = (): {
+  nonactivatedRadius: number
+  activatedInnerRadius: number
+  activatedOuterRadius: number
+} => {
+  const ringWidth = BACKGROUND_CIRCLE_OUTER_RADIUS - BACKGROUND_CIRCLE_INNER_RADIUS
+  const nonactivatedRadius = ringWidth / 5 / 2
+  const activatedInnerRadius = ringWidth / 3 / 2
+  const activatedOuterRadius = activatedInnerRadius * 2
+  return {
+    nonactivatedRadius,
+    activatedInnerRadius,
+    activatedOuterRadius,
+  }
+}
+
+export const useBackgroundCircle = (): {
+  SVGSideLength: number
+} => {
+  const SVGSideLength = (BACKGROUND_CIRCLE_OUTER_RADIUS + ACTIVE_RING_STROKE_WIDTH / 2) * 2
+  return {
+    SVGSideLength,
+  }
+}
 
 export default (
   props: Readonly<
@@ -117,14 +118,15 @@ export default (
 ): {
   FlowInstance: Ref<any>
   showBackgroundCircle: ComputedRef<boolean>
+  flowEleWidth: Ref<number>
   backgroundCirclePosition: Ref<{ x: number; y: number }>
   coreNodeHeight: Ref<number>
   countCoreNodeHeight: () => void
   generateFlowData: (nodes: Array<NodeMsg>) => Array<FlowDataItem>
 } => {
   const FlowInstance = ref()
-  let flowEleWidth = 640
-  let flowEleHeight = 243
+  const flowEleWidth = ref(640)
+  const flowEleHeight = ref(243)
 
   // Height in non-active state (outer circle diameter)
   const coreNodeHeight = ref(20)
@@ -138,14 +140,15 @@ export default (
   const showBackgroundCircle = computed(() => props.nodes.some(({ role }) => role === 'replicant'))
 
   const backgroundCirclePosition = ref({ x: 200, y: 0 })
+  const { SVGSideLength: backgroundSideLength } = useBackgroundCircle()
   const countBackgroundCirclePosition = () => {
     const el = FlowInstance.value.$el
     const { width, height } = el.getBoundingClientRect()
-    flowEleWidth = numToFixed(width, 2)
-    flowEleHeight = numToFixed(height, 2)
+    flowEleWidth.value = numToFixed(width, 2)
+    flowEleHeight.value = numToFixed(height, 2)
     backgroundCirclePosition.value = {
-      x: numToFixed(width / 2 - BACKGROUND_CIRCLE_OUTER_RADIUS, 2),
-      y: numToFixed(height / 2 - BACKGROUND_CIRCLE_OUTER_RADIUS, 2),
+      x: numToFixed(width / 2 - backgroundSideLength / 2, 2),
+      y: numToFixed(height / 2 - backgroundSideLength / 2, 2),
     }
   }
 
@@ -155,35 +158,39 @@ export default (
     } else {
       const nodesLen = props.nodes.length
       if (nodesLen === 1) {
-        coreNodeHeight.value = numToFixed(flowEleHeight / 2.8, 0)
+        coreNodeHeight.value = numToFixed(flowEleHeight.value / 2.8, 0)
       } else {
-        coreNodeHeight.value = 24 + numToFixed(flowEleHeight / (nodesLen * 2), 3)
+        coreNodeHeight.value = 24 + numToFixed(flowEleHeight.value / (nodesLen * 2), 3)
       }
     }
   }
 
+  const { activatedOuterRadius: regNodeRadius } = useRepCodeNodeSize()
   const getNodePosition = (
     nodeIndex: number,
     nodesNum: number,
     nodeRole: 'core' | 'replicant',
   ): { x: number; y: number } => {
+    const isCore = nodeRole === 'core'
     const angleOffset = (Math.PI / 2) * nodesNum
     const angle = numToFixed(angleOffset + ((Math.PI * 2) / nodesNum) * nodeIndex, 2)
     let radius = 0
-    if (nodeRole === 'core') {
+    if (isCore) {
       radius =
-        (showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS : flowEleHeight / 2) -
+        (showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS : flowEleHeight.value / 2) -
         coreNodeHeight.value * Math.log10(nodesNum) * 1.5
     } else {
       radius = (BACKGROUND_CIRCLE_INNER_RADIUS + BACKGROUND_CIRCLE_OUTER_RADIUS) / 2
     }
-    const x0 = flowEleWidth / 2
-    const y0 = flowEleHeight / 2
-    const xOffset = nodeRole === 'core' && nodesNum === 1 ? 0 : radius * Math.cos(angle)
-    const yOffset = nodeRole === 'core' && nodesNum === 1 ? 0 : radius * Math.sin(angle)
+    const x0 = flowEleWidth.value / 2
+    const y0 = flowEleHeight.value / 2
+    const xOffset = isCore && nodesNum === 1 ? 0 : radius * Math.cos(angle)
+    const yOffset = isCore && nodesNum === 1 ? 0 : radius * Math.sin(angle)
+    const nodeWidth = isCore ? coreNodeSVGWidth.value : regNodeRadius * 2
+    const nodeHeight = isCore ? coreNodeSVGHeight.value : regNodeRadius * 2
     return {
-      x: numToFixed(x0 + xOffset - coreNodeSVGWidth.value / 2, 2),
-      y: numToFixed(y0 + yOffset - coreNodeSVGHeight.value / 2, 2),
+      x: numToFixed(x0 + xOffset - nodeWidth / 2, 2),
+      y: numToFixed(y0 + yOffset - nodeHeight / 2, 2),
     }
   }
 
@@ -239,6 +246,7 @@ export default (
 
   return {
     FlowInstance,
+    flowEleWidth,
     showBackgroundCircle,
     backgroundCirclePosition,
     coreNodeHeight,
