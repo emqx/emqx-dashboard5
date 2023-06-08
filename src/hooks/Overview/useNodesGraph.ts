@@ -143,14 +143,16 @@ export default (
 
   const backgroundCirclePosition = ref({ x: 200, y: 0 })
   const { SVGSideLength: backgroundSideLength } = useBackgroundCircle()
-  const countBackgroundCirclePosition = () => {
+  const getFlowEleSize = () => {
     const el = FlowInstance.value.$el
     const { width, height } = el.getBoundingClientRect()
     flowEleWidth.value = numToFixed(width, 2)
     flowEleHeight.value = numToFixed(height, 2)
+  }
+  const countBackgroundCirclePosition = () => {
     backgroundCirclePosition.value = {
-      x: numToFixed(width / 2 - backgroundSideLength / 2, 2),
-      y: numToFixed(height / 2 - backgroundSideLength / 2, 2),
+      x: numToFixed(flowEleWidth.value / 2 - backgroundSideLength / 2, 2),
+      y: numToFixed(flowEleHeight.value / 2 - backgroundSideLength / 2, 2),
     }
   }
 
@@ -245,8 +247,9 @@ export default (
   }
 
   onMounted(() => {
-    countCoreNodeHeight()
+    getFlowEleSize()
     countBackgroundCirclePosition()
+    countCoreNodeHeight()
     setCoreNodeHeight(coreNodeHeight.value)
   })
 
