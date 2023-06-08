@@ -2,7 +2,11 @@
   <div class="nodes-graph">
     <VueFlow ref="FlowInstance" id="nodes-graph" v-model="flowData">
       <template #node-background>
-        <BackgroundCircle @click-ring="showPopover" />
+        <BackgroundCircle
+          @show-popover="showPopover"
+          :nodes="nodes"
+          :is-list-popover-visible="isPopoverVisible"
+        />
       </template>
       <template #node-core="data">
         <CoreNode
@@ -21,7 +25,7 @@
         />
       </template>
     </VueFlow>
-    <NodeListPopover :nodes="nodes" v-click-outside="closePopover" v-if="isPopoverVisible" />
+    <NodeListPopover v-if="isPopoverVisible" v-click-outside="closePopover" :nodes="nodes" />
   </div>
 </template>
 
@@ -36,13 +40,14 @@ export default defineComponent({
 
 <script setup lang="ts">
 import useNodesGraph, {
-  FlowDataItem,
   BACKGROUND_CIRCLE_OUTER_RADIUS,
+  FlowDataItem,
 } from '@/hooks/Overview/useNodesGraph'
 import { NodeMsg } from '@/types/dashboard'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
+import { ClickOutside as vClickOutside } from 'element-plus'
 import {
   ComputedRef,
   PropType,
@@ -57,9 +62,8 @@ import {
 } from 'vue'
 import BackgroundCircle from './BackgroundCircle.vue'
 import CoreNode from './CoreNode.vue'
-import RepNode from './RepNode.vue'
 import NodeListPopover from './NodeListPopover.vue'
-import { ClickOutside as vClickOutside } from 'element-plus'
+import RepNode from './RepNode.vue'
 
 const props = defineProps({
   /**
@@ -148,7 +152,6 @@ const closePopover = () => {
 .nodes-graph {
   position: relative;
   height: 100%;
-  border: 1px solid red;
   .node-core,
   .node-replicant {
     cursor: default;
