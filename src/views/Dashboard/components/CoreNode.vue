@@ -18,7 +18,7 @@
           />
           <polygon :points="getPoints(INNER_SIDE_MULTIPLES)" :fill="`url(#${id})`" opacity="0.6" />
         </g>
-        <polygon :points="getPoints()" :fill="`url(#${id})`" />
+        <polygon :points="getPoints()" :fill="`url(#${id})`" @mouseenter="selectNode" />
       </g>
     </svg>
   </div>
@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { createRandomString, numToFixed } from '@/common/tools'
 import { useCoreNodeSize } from '@/hooks/Overview/useNodesGraph'
-import { PropType, computed, defineProps, watch } from 'vue'
+import { PropType, computed, defineProps, watch, defineEmits } from 'vue'
 import { Handle } from '@vue-flow/core'
 import { NodeStatus } from '@/types/enum'
 
@@ -42,7 +42,7 @@ const {
 
 // Just to mark it, there is no actual control over the height.
 const handleHeight = 6
-const handleTop = computed(() => `${SVGHeight.value / 2 + handleHeight / 2}px`)
+const handleTop = computed(() => `${SVGHeight.value / 2 - handleHeight / 2}px`)
 
 const props = defineProps({
   height: {
@@ -62,6 +62,8 @@ const props = defineProps({
     default: 1,
   },
 })
+
+const emit = defineEmits(['select'])
 
 // for diff defs
 const id = createRandomString()
@@ -84,6 +86,10 @@ const getPoints = (multiple = 1) => {
   return points.join(' ')
 }
 
+const selectNode = () => {
+  emit('select')
+}
+
 watch(
   () => props.height,
   (val: number) => setCoreNodeHeight(val),
@@ -95,8 +101,8 @@ setCoreNodeHeight(props.height)
 <style lang="scss">
 .core-node {
   .vue-flow__handle {
+    position: absolute;
     visibility: hidden;
-    position: relative;
     top: v-bind('handleTop');
   }
 }
