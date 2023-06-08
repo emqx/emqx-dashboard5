@@ -1,16 +1,30 @@
 <template>
-  <svg class="background-circle" :width="SVGSideLength" :height="SVGSideLength">
-    <path
-      class="background-ring"
-      @click="clickRing"
-      v-click-outside="onClickRingOutside"
-      fill="#E7F7FF"
-      :d="ringPath"
-      :stroke-width="ACTIVE_RING_STROKE_WIDTH"
-      :stroke="isRingActivated ? 'rgba(0, 177, 115, 0.35)' : undefined"
-    />
-    <circle :r="BACKGROUND_CIRCLE_RADIUS" fill="#E3FFF5" :cx="SVGCenter" :cy="SVGCenter" />
-  </svg>
+  <div class="background-circle">
+    <svg :width="SVGSideLength" :height="SVGSideLength">
+      <path
+        ref="RingRef"
+        class="background-ring"
+        @click="clickRing"
+        v-click-outside="onClickRingOutside"
+        fill="#E7F7FF"
+        :d="ringPath"
+        :stroke-width="ACTIVE_RING_STROKE_WIDTH"
+        :stroke="isRingActivated ? 'rgba(0, 177, 115, 0.35)' : undefined"
+      />
+      <circle :r="BACKGROUND_CIRCLE_RADIUS" fill="#E3FFF5" :cx="SVGCenter" :cy="SVGCenter" />
+    </svg>
+    <el-popover
+      virtual-triggering
+      trigger="hover"
+      placement="right"
+      popper-class="nodes-count-popover"
+      width="80px"
+      :virtual-ref="RingRef"
+      :disabled="isPopoverDisabled"
+    >
+      <NodesCountCard :nodes-count-data="nodesCountData" @click="clickCountCard" />
+    </el-popover>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -21,8 +35,23 @@ import {
   BACKGROUND_CIRCLE_RADIUS,
   useBackgroundCircle,
 } from '@/hooks/Overview/useNodesGraph'
-import { computed, defineEmits, ref } from 'vue'
+import { NodeStatus } from '@/types/enum'
 import { ClickOutside as vClickOutside } from 'element-plus'
+import { PropType, computed, defineEmits, defineProps, ref } from 'vue'
+import NodesCountCard from './NodesCountCard.vue'
+import { NodeMsg } from '@/types/dashboard'
+
+const props = defineProps({
+  nodes: {
+    type: Array as PropType<Array<NodeMsg>>,
+    required: true,
+  },
+  isListPopoverVisible: {
+    type: Boolean,
+  },
+})
+
+const RingRef = ref()
 
 const { SVGSideLength } = useBackgroundCircle()
 const SVGCenter = SVGSideLength / 2
@@ -43,24 +72,57 @@ A ${innerRadius} ${innerRadius} 0 0 0 ${center + innerRadius} ${center}
 A ${innerRadius} ${innerRadius} 0 0 0 ${center} ${center - innerRadius}`
 })
 
-const emit = defineEmits(['clickRing'])
+const emit = defineEmits(['showPopover'])
 
 const isRingActivated = ref(false)
 
+const isPopoverDisabled = computed(
+  () =>
+    props.isListPopoverVisible ||
+    props.nodes.filter(({ role }) => role === 'replicant').length <= 20,
+)
+
+const nodesCountData = computed(() => {
+  return props.nodes.reduce(
+    (countMap, { node_status }) => {
+      countMap[node_status]++
+      return countMap
+    },
+    { [NodeStatus.Running]: 0, [NodeStatus.Stopped]: 0 },
+  )
+})
+
 const clickRing = () => {
   isRingActivated.value = true
-  emit('clickRing')
+  emit('showPopover')
 }
 const onClickRingOutside = () => {
   isRingActivated.value = false
+}
+
+const clickCountCard = () => {
+  emit('showPopover')
 }
 </script>
 
 <style lang="scss">
 .background-circle {
+  position: relative;
+  svg {
+    stroke: transparent;
+    stroke-width: 0px;
+  }
   .background-ring {
     pointer-events: auto !important;
     cursor: default;
+  }
+}
+.nodes-count-popover.el-popover.el-popper {
+  padding: 0;
+  min-width: 80px;
+  box-shadow: none;
+  .el-popper__arrow {
+    display: none;
   }
 }
 </style>

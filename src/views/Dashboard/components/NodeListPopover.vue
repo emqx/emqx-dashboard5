@@ -9,10 +9,7 @@
         <div class="list-bd">
           <ul>
             <li class="node-item" v-for="nodeItem in value" :key="nodeItem.node">
-              <i
-                class="node-status"
-                :class="nodeItem.node_status === NodeStatus.Running ? 'is-running' : 'is-outline'"
-              ></i>
+              <i class="node-status-dot" :class="`is-${nodeItem.node_status}`"></i>
               <p class="node-name">{{ nodeItem.node }}</p>
             </li>
           </ul>
@@ -97,21 +94,10 @@ const nodeList: ComputedRef<NodeList> = computed(() => {
       margin-bottom: 12px;
     }
   }
-  .node-status {
+  .node-status-dot {
     position: absolute;
     left: 16px;
     top: (24px - 8px) / 2;
-    display: block;
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
-    bottom: 0%;
-    &.is-running {
-      background: var(--color-primary);
-    }
-    &.is-outline {
-      background: var(--color-text-placeholder);
-    }
   }
   .node-name {
     word-wrap: break-word;
