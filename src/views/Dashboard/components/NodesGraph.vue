@@ -210,7 +210,8 @@ const onClickCountCardOutside = () => {
   }
   .vue-flow__edge-path,
   .vue-flow__connection-path {
-    stroke: #7fd7b8;
+    stroke: #c0b9f8;
+    opacity: 0.5;
   }
   .node-list-popover {
     position: absolute;
