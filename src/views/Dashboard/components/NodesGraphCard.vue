@@ -6,7 +6,7 @@
           <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
           {{ $t('Dashboard.node', { n: nodes.length }) }}
         </span>
-        <NodesGraph v-model="currentNodeName" :data="nodesGraphData" v-if="!infoLoading" />
+        <NodesGraph v-model="currentNodeName" :nodes="nodes" v-if="!infoLoading" />
       </div>
       <div class="node-detail">
         <div class="node-info" v-if="currentInfo">
@@ -157,11 +157,6 @@ const currentInfo = computed(() => {
   }
   return getNodeInfoByName(currentNodeName.value)
 })
-
-const nodesGraphData = computed(() => ({
-  nodes: nodes.value,
-  stats: stats.value,
-}))
 
 const { transMsNumToSimpleStr } = useDurationStr()
 const { syncPolling } = useSyncPolling()

@@ -101,8 +101,8 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-card class="cluster-card block">
-      <NodesGraphCard class="nodes-graph" />
+    <el-card class="cluster-card block allow-overflow">
+      <NodesGraphCard />
     </el-card>
     <polyline-cards></polyline-cards>
     <LicenseCard :current-connections="currentMetrics.connections" />
