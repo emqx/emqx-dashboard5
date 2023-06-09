@@ -300,7 +300,7 @@
           <el-form-item :label="tl('showLimiter')"> </el-form-item>
         </el-col>
         <el-col :span="12" />
-        <el-col :span="12">
+        <el-col v-if="!['ws', 'wss'].includes(listenerRecord.type)" :span="12">
           <el-form-item
             :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')"
             prop="max_conn_rate"
