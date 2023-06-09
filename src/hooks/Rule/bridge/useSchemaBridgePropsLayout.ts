@@ -176,7 +176,6 @@ export default (
           'pool_size',
           'enable_pipelining',
           'max_retries',
-          'request_timeout',
           'ssl',
         ],
         1,
