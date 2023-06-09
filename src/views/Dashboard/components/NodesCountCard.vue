@@ -1,12 +1,14 @@
 <template>
   <el-card class="nodes-count-card">
-    <div class="count-item">
-      <i class="node-status-dot is-running"></i>
-      <span>{{ t('Dashboard.node', { n: nodesCountData[NodeStatus.Running] }) }}</span>
-    </div>
-    <div class="count-item">
-      <i class="node-status-dot is-stopped"></i>
-      <span>{{ t('Dashboard.node', { n: nodesCountData[NodeStatus.Stopped] }) }}</span>
+    <div class="content">
+      <div class="count-item">
+        <i class="node-status-dot is-running"></i>
+        <span>{{ t('Dashboard.node', { n: nodesCountData[NodeStatus.Running] }) }}</span>
+      </div>
+      <div class="count-item">
+        <i class="node-status-dot is-stopped"></i>
+        <span>{{ t('Dashboard.node', { n: nodesCountData[NodeStatus.Stopped] }) }}</span>
+      </div>
     </div>
   </el-card>
 </template>
@@ -29,7 +31,12 @@ const { t } = useI18nTl('Dashboard')
 <style lang="scss">
 .nodes-count-card {
   cursor: default;
-  .el-card__body {
+  width: 80px;
+  pointer-events: auto !important;
+  &.is-active {
+    box-shadow: 0 0 0 6px rgba(0, 177, 115, 0.24);
+  }
+  .content {
     padding: 6px 8px;
   }
   .count-item {

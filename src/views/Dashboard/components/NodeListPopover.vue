@@ -1,5 +1,5 @@
 <template>
-  <div class="node-list-popover">
+  <el-card class="node-list-popover with-border">
     <div class="popover-hd">
       <el-input v-model="filter" :prefix-icon="Search" />
     </div>
@@ -17,13 +17,12 @@
         </div>
       </div>
     </div>
-  </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeMsg } from '@/types/dashboard'
-import { NodeStatus } from '@/types/enum'
 import { Search } from '@element-plus/icons-vue'
 import { startCase } from 'lodash'
 import { ComputedRef, PropType, computed, defineProps, ref } from 'vue'
@@ -68,7 +67,7 @@ const nodeList: ComputedRef<NodeList> = computed(() => {
     margin-bottom: 16px;
   }
   .popover-bd {
-    max-height: 400px;
+    max-height: 280px;
     overflow-y: scroll;
   }
   .list-hd {
