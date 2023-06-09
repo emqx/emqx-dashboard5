@@ -2,30 +2,39 @@
   <div class="nodes-graph">
     <VueFlow ref="FlowInstance" id="nodes-graph" v-model="flowData">
       <template #node-background>
-        <BackgroundCircle
-          @show-popover="showPopover"
-          :nodes="nodes"
-          :is-list-popover-visible="isPopoverVisible"
-        />
+        <BackgroundCircle @show-popover="showPopover" />
       </template>
       <template #node-core="data">
         <CoreNode
           :height="coreNodeHeight"
-          :is-selected="modelValue === data.id"
-          :status="data.data.node_status"
           :nodes-num="nodes.length"
+          :status="data.data.node_status"
+          :is-selected="modelValue === data.id"
           @select="selectNode(data.id)"
         />
       </template>
       <template #node-replicant="data">
         <RepNode
-          :is-selected="modelValue === data.id"
           :status="data.data.node_status"
+          :is-selected="modelValue === data.id"
           @select="selectNode(data.id)"
         />
       </template>
     </VueFlow>
-    <NodeListPopover v-if="isPopoverVisible" v-click-outside="closePopover" :nodes="nodes" />
+    <NodeListPopover
+      v-if="isPopoverVisible"
+      v-click-outside="closePopover"
+      :nodes="nodes"
+      :class="{ 'is-more-down': showReplicantNodesCountPopover }"
+    />
+    <NodesCountCard
+      v-if="showReplicantNodesCountPopover"
+      class="nodes-count-popover"
+      :class="{ 'is-active': isCountCardActivated }"
+      :nodes-count-data="replicantNodesCountData"
+      v-click-outside="onClickCountCardOutside"
+      @click="clickCountCard"
+    />
   </div>
 </template>
 
@@ -40,10 +49,12 @@ export default defineComponent({
 
 <script setup lang="ts">
 import useNodesGraph, {
+  BACKGROUND_CIRCLE_INNER_RADIUS,
   BACKGROUND_CIRCLE_OUTER_RADIUS,
   FlowDataItem,
 } from '@/hooks/Overview/useNodesGraph'
 import { NodeMsg } from '@/types/dashboard'
+import { NodeStatus } from '@/types/enum'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
@@ -63,6 +74,7 @@ import {
 import BackgroundCircle from './BackgroundCircle.vue'
 import CoreNode from './CoreNode.vue'
 import NodeListPopover from './NodeListPopover.vue'
+import NodesCountCard from './NodesCountCard.vue'
 import RepNode from './RepNode.vue'
 
 const props = defineProps({
@@ -77,6 +89,7 @@ const props = defineProps({
     required: true,
   },
 })
+const emit = defineEmits(['update:modelValue'])
 
 const {
   FlowInstance,
@@ -98,16 +111,32 @@ const backgroundNode: ComputedRef<Array<FlowDataItem>> = computed(() =>
           id: 'background-circle',
           position: backgroundCirclePosition.value,
           selectable: false,
-          zIndex: -3,
+          zIndex: -1,
         },
       ]
     : [],
 )
 
+const replicantNodesCountData = computed(() => {
+  return props.nodes.reduce(
+    (countMap, { node_status, role }) => {
+      if (role !== 'core') {
+        countMap[node_status]++
+      }
+      return countMap
+    },
+    { [NodeStatus.Running]: 0, [NodeStatus.Stopped]: 0 },
+  )
+})
+const showReplicantNodesCountPopover = computed(() => {
+  return (
+    replicantNodesCountData.value[NodeStatus.Running] +
+      replicantNodesCountData.value[NodeStatus.Stopped] >
+    20
+  )
+})
+
 const flowData: Ref<Array<FlowDataItem>> = ref([...backgroundNode.value])
-
-const emit = defineEmits(['update:modelValue'])
-
 useVueFlow({
   nodesDraggable: false,
   nodesConnectable: false,
@@ -146,6 +175,16 @@ const showPopover = () => {
 const closePopover = () => {
   isPopoverVisible.value = false
 }
+
+const countPopoverLeft = `${flowEleWidth.value / 2 + BACKGROUND_CIRCLE_INNER_RADIUS}px`
+const isCountCardActivated = ref(false)
+const clickCountCard = () => {
+  isCountCardActivated.value = true
+  showPopover()
+}
+const onClickCountCardOutside = () => {
+  isCountCardActivated.value = false
+}
 </script>
 
 <style lang="scss">
@@ -178,6 +217,18 @@ const closePopover = () => {
     z-index: 5;
     top: 5px;
     left: v-bind(popoverLeft);
+    &.is-more-down {
+      left: v-bind(countPopoverLeft);
+      top: 50%;
+      transform: translateY(40px);
+    }
+  }
+  .nodes-count-popover {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: v-bind(countPopoverLeft);
+    z-index: 200;
   }
 }
 </style>
