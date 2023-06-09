@@ -243,9 +243,13 @@ export default {
     zh: '连接',
     en: 'Connections',
   },
-  connectionNumber: {
-    zh: '连接数',
-    en: 'Connections',
+  allConnections: {
+    zh: '总连接数',
+    en: 'All Connections',
+  },
+  liveConnections: {
+    zh: '在线连接数',
+    en: 'Live Connections',
   },
   maxConnections: {
     zh: '连接数峰值',
