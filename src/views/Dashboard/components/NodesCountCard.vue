@@ -31,7 +31,7 @@ const { t } = useI18nTl('Dashboard')
 <style lang="scss">
 .nodes-count-card {
   cursor: default;
-  width: 80px;
+  width: 90px;
   pointer-events: auto !important;
   &.is-active {
     box-shadow: 0 0 0 6px rgba(0, 177, 115, 0.24);
