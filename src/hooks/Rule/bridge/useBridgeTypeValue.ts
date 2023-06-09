@@ -11,10 +11,10 @@ export const useBridgeTypeValue = (): {
   }>
   getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
 } => {
-  const { tl } = useI18nTl('RuleEngine')
+  const { t, tl } = useI18nTl('RuleEngine')
 
   const bridgeTypeList = [
-    { value: BridgeType.Webhook, label: 'Webhook' },
+    { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
     { value: BridgeType.MQTT, label: 'MQTT' },
     { value: BridgeType.Kafka, label: tl('kafka') },
     { value: BridgeType.GCP, label: tl('gcpPubSub') },

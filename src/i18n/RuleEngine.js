@@ -56,8 +56,8 @@ export default {
     en: 'Configuration',
   },
   bridgeDescHTTP: {
-    zh: '发送数据到 Webhook',
-    en: 'Send data to Webhook',
+    zh: '发送数据到 HTTP 服务',
+    en: 'Send data to HTTP Server',
   },
   bridgeDescMQTT: {
     zh: '使用 MQTT 桥接数据',
