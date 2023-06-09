@@ -90,8 +90,18 @@ export const useBridgeTypeIcon = (): {
   getBridgeIconKey: (value: string) => string
   getBridgeIcon: (type: string) => string
 } => {
+  const specialIconMap = {
+    [BridgeType.Webhook]: 'http',
+  }
+
   const { getBridgeType } = useBridgeTypeOptions()
-  const getBridgeIconKey = (value: string) => getBridgeType(value)
+  const getBridgeIconKey = (value: string) => {
+    const ret = getBridgeType(value)
+    if (ret && ret in specialIconMap) {
+      return specialIconMap[ret as keyof typeof specialIconMap]
+    }
+    return ret
+  }
 
   const getBridgeIcon = (type: string): string => {
     if (!type) {
