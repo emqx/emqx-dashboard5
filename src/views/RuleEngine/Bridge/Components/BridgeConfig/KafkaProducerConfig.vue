@@ -136,6 +136,31 @@
           <el-input v-model="kafkaConfig.max_inflight" />
         </el-form-item>
       </el-col>
+      <el-col :span="12">
+        <el-form-item prop="kafka.query_mode">
+          <template #label>
+            <span>{{ tl('query_mode.label') }}</span>
+            <InfoTooltip :content="tl('query_mode.desc')" />
+          </template>
+          <el-select v-model="kafkaConfig.query_mode">
+            <el-option
+              v-for="item in getPropItem('query_mode').symbols || []"
+              :key="item"
+              :value="item"
+              :label="t(`SchemaSymbolLabel.${item}`)"
+            />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="kafka.sync_query_timeout">
+          <template #label>
+            <span>{{ tl('sync_query_timeout.label') }}</span>
+            <InfoTooltip :content="tl('sync_query_timeout.desc')" />
+          </template>
+          <TimeInputWithUnitSelect v-model="kafkaConfig.sync_query_timeout" />
+        </el-form-item>
+      </el-col>
 
       <el-col :span="12">
         <el-form-item prop="kafka.buffer.mode">
@@ -222,7 +247,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const components = computed(() => props.schemaComponents)
 const { getPropItem } = useGetInfoFromComponents(components)
-const { tl, te } = useI18nTl('BridgeSchema.emqx_ee_bridge_kafka')
+const { t, tl, te } = useI18nTl('BridgeSchema.emqx_ee_bridge_kafka')
 
 const kafkaConfig = computed({
   get() {
