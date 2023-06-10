@@ -159,10 +159,13 @@ export default (props: {
 
   const dynamoDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { template } = components
+    const { template, aws_secret_access_key } = components
 
     if (template?.type === 'string') {
       template.format = 'sql'
+    }
+    if (aws_secret_access_key?.type === 'string') {
+      aws_secret_access_key.format = 'password'
     }
 
     return { components, rules }
@@ -170,10 +173,13 @@ export default (props: {
 
   const rocketMQHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { template } = components
+    const { template, secret_key } = components
 
     if (template?.type === 'string') {
       template.format = 'sql'
+    }
+    if (secret_key?.type === 'string') {
+      secret_key.format = 'password'
     }
 
     return { components, rules }

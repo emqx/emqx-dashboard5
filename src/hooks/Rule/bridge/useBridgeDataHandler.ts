@@ -125,6 +125,9 @@ export default (): {
       'password',
       'status_reason',
       'authentication.password',
+      'secret_key',
+      'aws_secret_access_key',
+      'token',
     ],
   }
 
