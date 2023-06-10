@@ -25,7 +25,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Headers">
+            <el-form-item :label="$t('RuleEngine.headers')">
               <key-and-value-editor v-model="httpConfig.headers" />
             </el-form-item>
           </el-col>
@@ -41,7 +41,7 @@
       <div class="config-sub-block">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="Pool Size">
+            <el-form-item :label="$t('RuleEngine.connectionPoolSize')">
               <el-input v-model.number="httpConfig.pool_size" />
             </el-form-item>
           </el-col>
@@ -70,7 +70,11 @@
           <el-col :span="24">
             <el-form-item class="label-whole-line" prop="body">
               <template #label>
-                <FormItemLabel label="Body" :desc="tl('httpHeaderTip')" desc-marked />
+                <FormItemLabel
+                  :label="$t('RuleEngine.body')"
+                  :desc="tl('httpHeaderTip')"
+                  desc-marked
+                />
                 <el-button size="small" @click="setDefaultContent" class="button-in-label-line">
                   {{ $t('Auth.setDefault') }}
                 </el-button>
