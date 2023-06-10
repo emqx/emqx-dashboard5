@@ -125,7 +125,7 @@
         <div class="part-header"></div>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="Pool Size">
+            <el-form-item :label="$t('RuleEngine.connectionPoolSize')">
               <el-input v-model.number="databaseConfig.pool_size" />
             </el-form-item>
           </el-col>

@@ -1147,7 +1147,7 @@
       "label": "用于内建会话管理表的性能调优参数"
     },
     "mqtt_mqueue_store_qos0": {
-      "desc": "存储 QoS 0 消息在连接断开但会话保持期间，是否需要在消息队列中存储 QoS 0 消息。",
+      "desc": "在连接断开但会话保持期间，是否需要在消息队列中存储 QoS 0 消息。",
       "label": "存储 QoS 0 消息"
     },
     "server_ssl_opts_schema_client_renegotiation": {
