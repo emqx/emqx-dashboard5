@@ -276,8 +276,8 @@
       "label": "Kafka Producer"
     },
     "kafka_topic": {
-      "desc": "Kafka topic name",
-      "label": "Kafka Topic Name"
+      "desc": "Kafka topic",
+      "label": "Kafka Topic"
     },
     "consumer_kafka_topic": {
       "desc": "Kafka topic to consume from.",
@@ -401,7 +401,7 @@
     },
     "mqtt_topic": {
       "desc": "MQTT topic or topic as data source (bridge input).  Should not configure this if the bridge is used as a rule action.",
-      "label": "Source MQTT Topic"
+      "label": "MQTT Topic"
     },
     "kafka_message_value": {
       "desc": "Template to render Kafka message value. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Kafka's <code>NULL</code> (but not empty string) is used.",

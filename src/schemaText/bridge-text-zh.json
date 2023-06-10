@@ -397,7 +397,7 @@
     },
     "mqtt_topic": {
       "desc": "指定 MQTT 主题作为桥接的数据源。 若该桥接用于规则的动作，则必须将该配置项删除。",
-      "label": "源 MQTT 主题"
+      "label": "MQTT 主题"
     },
     "kafka_message_value": {
       "desc": "生成 Kafka 消息的值的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code>，而非空字符串。",
