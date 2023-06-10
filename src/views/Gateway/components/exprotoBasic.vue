@@ -118,7 +118,7 @@ export default defineComponent({
         },
       },
       server: {
-        bind: '127.0.0.1:9100',
+        bind: '0.0.0.0:9100',
         ssl_options: {
           certfile: '',
           keyfile: '',
