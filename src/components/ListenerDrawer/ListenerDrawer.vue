@@ -212,6 +212,7 @@
               :show-sni="false"
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
+              :verify-label="t('Base.tlsVerifyClient', )"
             />
           </el-col>
           <!-- Version of SSL/DTLS -->
