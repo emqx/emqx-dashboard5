@@ -18,6 +18,7 @@ export interface ListenerUtils {
   listenerFormRules: FormRules
   limiterRules: FormRules
   maxConnRateRule: FormRules
+  SSLCertfileRules: FormRules
   createRawListener: () => Listener
   getListenerNameNTypeById: (id: string) => {
     type: string
@@ -111,6 +112,12 @@ export default (gatewayName: string | undefined): ListenerUtils => {
   const { limiterRules } = useLimiter()
   // limiter in gateway's listener
   const maxConnRateRule = { max_conn_rate: positiveIntegerRule }
+  const SSLCertfileRules = {
+    'dtls_options.certfile': createRequiredRule('TLS Cert'),
+    'dtls_options.keyfile': createRequiredRule('TLS Key'),
+    'ssl_options.certfile': createRequiredRule('TLS Cert'),
+    'ssl_options.keyfile': createRequiredRule('TLS Key'),
+  }
   const listenerFormRules: FormRules = {
     name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
     type: createRequiredRule(tl('lType'), 'select'),
@@ -126,10 +133,6 @@ export default (gatewayName: string | undefined): ListenerUtils => {
         },
       },
     ],
-    'dtls_options.certfile': createRequiredRule('TLS Cert'),
-    'dtls_options.keyfile': createRequiredRule('TLS Key'),
-    'ssl_options.certfile': createRequiredRule('TLS Cert'),
-    'ssl_options.keyfile': createRequiredRule('TLS Key'),
     'ssl_options.ocsp.responder_url': createRequiredRule(tl('responderUrl')),
     'ssl_options.ocsp.issuer_pem': createRequiredRule(tl('issuerPem')),
   }
@@ -309,6 +312,7 @@ export default (gatewayName: string | undefined): ListenerUtils => {
     gatewayTypesWhichHasSSLConfig,
     listenerFormRules,
     limiterRules,
+    SSLCertfileRules,
     maxConnRateRule,
     createRawListener,
     getListenerNameNTypeById,
