@@ -17,6 +17,7 @@ export default (): {
       algorithm: createRequiredRule(tl('algorithm'), 'select'),
       endpoint: createRequiredRule('JWKS Server'),
       secret: createRequiredRule('Secret'),
+      public_key: createRequiredRule('Public Key'),
     }
   })
 
