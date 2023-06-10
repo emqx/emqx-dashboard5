@@ -22,9 +22,10 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('maxBodyLen')">
-            <el-input
-              type="number"
+            <CustomInputNumber
               v-model.number="sValue.frame.max_body_length"
+              :min="0"
+              controls-position="right"
               :placeholder="String(sValueDefault.frame.max_body_length)"
             />
           </el-form-item>
@@ -63,12 +64,14 @@
 import { defineComponent, onMounted, reactive, watch } from 'vue'
 import _ from 'lodash'
 import { useI18n } from 'vue-i18n'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
 export default defineComponent({
   name: 'StompBasic',
   components: {
     TimeInputWithUnitSelect,
+    CustomInputNumber,
   },
   props: {
     value: {

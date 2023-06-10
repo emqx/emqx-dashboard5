@@ -142,6 +142,7 @@ export const useBridgeTypeIcon = (): {
   getBridgeIcon: (type: string) => string
 } => {
   const specialIconMap = {
+    [BridgeType.Webhook]: 'http',
     [BridgeType.PgSQL]: 'postgresql',
   }
 

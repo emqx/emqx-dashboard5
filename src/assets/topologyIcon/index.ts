@@ -5,6 +5,7 @@ import event from './event.png'
 import republish from './republish.png'
 import rule from './rule.png'
 import topic from './topic.png'
+import webhook from '@/assets/img/http.png'
 
 const BRIDGE_PREFIX = 'bridge-'
 const bridgeReg = new RegExp(`^${BRIDGE_PREFIX}`)
@@ -16,6 +17,7 @@ const iconMap: Record<string, SVGAElement> = {
   republish,
   rule,
   topic,
+  'bridge-webhook': webhook,
 }
 
 const getIcon = (target: string): SVGAElement | undefined => {
