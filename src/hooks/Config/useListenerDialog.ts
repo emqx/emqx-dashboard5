@@ -1,15 +1,15 @@
-import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
+import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
+import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
+import { GATEWAY_DISABLED_LISTENER_TYPE_MAP, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
+import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
+import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
-import { computed, ref, ComputedRef, Ref, WritableComputedRef, watch, nextTick } from 'vue'
-import { cloneDeep, assign, omit } from 'lodash'
-import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { assign, cloneDeep, omit } from 'lodash'
+import { ComputedRef, Ref, WritableComputedRef, computed, nextTick, ref, watch } from 'vue'
 import useI18nTl from '../useI18nTl'
 import useListenerUtils from './useListenerUtils'
-import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
-import { FormRules } from '@/types/common'
-import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 
 type Props = Readonly<
   {
@@ -45,7 +45,7 @@ interface UseListenerDialogReturns {
   isDTLS: ComputedRef<boolean>
   SSLConfigKey: ComputedRef<string>
   showWSConfig: ComputedRef<boolean>
-  listenerFormRules: Ref<FormRules>
+  listenerFormRules: ComputedRef<FormRules>
   submit: () => Promise<void>
   onDelete: () => void
   transPort: (port: string) => string
@@ -78,6 +78,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     completeGatewayListenerTypeList,
     listenerTypeList,
     listenerFormRules: rawRules,
+    SSLCertfileRules,
     limiterRules,
     maxConnRateRule,
     createListenerId,
@@ -92,7 +93,6 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     getListenerNameNTypeById,
     transPort,
   } = useListenerUtils(props.gatewayName)
-  const listenerFormRules: Ref<FormRules> = ref(rawRules) as Ref<FormRules>
 
   const listenerTypeOptList = computed(() => {
     if (props.gatewayName) {
@@ -123,6 +123,27 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     isDTLS.value ? 'dtls_options' : 'ssl_options',
   )
   const showWSConfig = computed(() => hasWSConfig(listenerRecord.value.type))
+
+  const listenerFormRules = computed(() => {
+    let rules = rawRules
+    if (props.gatewayName) {
+      rules = { ...rules, ...maxConnRateRule }
+    } else {
+      rules = { ...rules, ...limiterRules }
+    }
+    if (
+      listenerRecord.value &&
+      listenerRecord.value[SSLConfigKey.value]?.verify === SSL_VERIFY_VALUE_MAP.get(true)
+    ) {
+      rules = { ...rules, ...SSLCertfileRules }
+    } else if (
+      listenerRecord.value[SSLConfigKey.value]?.verify === SSL_VERIFY_VALUE_MAP.get(false)
+    ) {
+      // After remove rules, the original validation results should be cleared
+      formCom.value.clearValidate()
+    }
+    return rules
+  })
 
   const isLoading = ref(false)
   const loadListenerData = async () => {
@@ -172,7 +193,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
     const input = handleDataBeforeSubmit(cloneDeep(listenerRecord.value))
     if (props.doNotSubmitToBackend) {
-      emit('submit', input)
+      emit('submit', checkNOmitFromObj(input))
       showDialog.value = false
       return
     }
@@ -248,11 +269,6 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
         if (!props.gatewayName) {
           delete listenerRecord.value.max_conn_rate
         }
-      }
-      if (props.gatewayName) {
-        listenerFormRules.value = { ...rawRules, ...maxConnRateRule }
-      } else {
-        listenerFormRules.value = { ...rawRules, ...limiterRules }
       }
       await nextTick()
       formCom.value.clearValidate()
