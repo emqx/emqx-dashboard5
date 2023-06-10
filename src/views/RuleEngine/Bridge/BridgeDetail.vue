@@ -267,15 +267,14 @@ const pwdErrorWhenCoping = ref('')
 const saveAsCopy = async () => {
   try {
     await customValidate(formCom.value)
-    const pwdValue =
-      _.get(bridgeInfo.value, 'password') || _.get(bridgeInfo.value, 'authentication.password')
+    const bridge = await getDataForSubmit()
+    const pwdValue = _.get(bridge, 'password') || _.get(bridge, 'authentication.password')
     pwdErrorWhenCoping.value = ''
     if (pwdValue !== undefined && ENCRYPTED_PWD_REG.test(pwdValue)) {
       pwdErrorWhenCoping.value = tl('pwdWarningWhenCoping')
       tryToViewPwdInput()
       return
     }
-    const bridge = await getDataForSubmit()
     bridgeData.value = handleBridgeDataForSaveAsCopy(bridge)
     showNameInputDialog.value = true
   } catch (error) {
