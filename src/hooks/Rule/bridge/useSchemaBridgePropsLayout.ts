@@ -144,8 +144,8 @@ export default (
       ...createOrderObj(
         [
           'servers',
-          'username',
-          'password',
+          'access_key',
+          'secret_key',
           'security_token',
           'topic',
           'refresh_interval',
