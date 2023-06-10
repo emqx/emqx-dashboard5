@@ -77,7 +77,7 @@
             <template #label>
               <FormItemLabel v-bind="getLabelProps('authentication.jwt')" />
             </template>
-            <el-input v-model="formData.authentication.jwt" />
+            <el-input v-model="formData.authentication.jwt" type="password" show-password />
           </el-form-item>
         </el-col>
         <el-col :span="12">
