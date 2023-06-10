@@ -396,6 +396,8 @@ const createDefaultProducerValue = () => ({
     required_acks: 'all_isr',
     partition_count_refresh_interval: '60s',
     max_inflight: 10,
+    query_mode: 'async',
+    sync_query_timeout: '5s',
     buffer: {
       mode: 'memory',
       per_partition_limit: '2GB',

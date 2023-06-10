@@ -434,6 +434,14 @@
     "compression": {
       "desc": "Compression method.",
       "label": "Compression"
+    },
+    "query_mode": {
+      "desc": "Query mode. Optional 'sync/async', default 'async'.",
+      "label": "Query Mode"
+    },
+    "sync_query_timeout": {
+      "desc": "This parameter defines the timeout limit for synchronous queries. It applies only when the bridge query mode is configured to 'sync'.",
+      "label": "Synchronous Query Timeout"
     }
   },
   "emqx_ee_bridge_mongodb": {
