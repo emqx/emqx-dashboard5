@@ -65,7 +65,7 @@ export default (props: PropsParams, databaseConfig: any): ReturnData => {
         ...ret,
         ...createMongoCommonFormRules(),
         /* For mongo type 'rs' */
-        replica_set_name: createRequiredRule('Replica Set Name'),
+        replica_set_name: createRequiredRule(tl('replicaSetName')),
       }
     } else if (isMySQL.value || isPgSQL.value) {
       ret = { ...ret, ...createMySQLFormRules() }

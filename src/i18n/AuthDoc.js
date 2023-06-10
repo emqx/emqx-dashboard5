@@ -30,8 +30,8 @@ export default {
     en: 'When the Salt Position is enabled, the Selector needs to query out the password_hash salt from MongoDB.',
   },
   authnMongoDBParagraph2: {
-    zh: '支持设置 Is Superuser 字段 来向客户端赋予超级权限。',
-    en: 'Allows setting Is Superuser Field to grant superuser privileges to a client.',
+    zh: '支持设置 `is_superuser` 字段 来向客户端赋予超级权限。',
+    en: 'Allows setting `is_superuser` Field to grant superuser privileges to a client.',
   },
   authnRedisParagraph1: {
     zh: '当启用 加盐方式 后，查询命令需要从 Redis 中查询出 password_hash  salt 字段。',

@@ -50,7 +50,7 @@
             </el-form-item>
           </el-col>
           <el-col v-if="isMongoDB && databaseConfig.mongo_type === MongoType.Rs" :span="12">
-            <el-form-item label="Replica Set Name" required prop="replica_set_name">
+            <el-form-item :label="$t('Auth.replicaSetName')" required prop="replica_set_name">
               <el-input v-model="databaseConfig.replica_set_name" />
             </el-form-item>
           </el-col>
@@ -67,7 +67,7 @@
             </el-form-item>
           </el-col>
           <el-col v-if="isMongoDB" :span="12">
-            <el-form-item label="Collection" required prop="collection">
+            <el-form-item :label="$t('Auth.collection')" required prop="collection">
               <el-input v-model="databaseConfig.collection" />
             </el-form-item>
           </el-col>

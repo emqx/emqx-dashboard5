@@ -435,4 +435,12 @@ export default {
     zh: '配置中指定的 Body 必须被格式化为 JSON 对象。方法为 POST 的 HTTP 请求中的 Body 的最终表现形式取决于 `content-type` 头被设置为 `application/json` 还是 `application/x-www-form-urlencoded`。',
     en: 'Please note that the body specified in the configuration must be formatted as a JSON object. The final representation of the HTTP POST body depends on the `content-type` header being set to either `application/json` or `application/x-www-form-urlencoded`.',
   },
+  replicaSetName: {
+    zh: 'Replica Set 名称',
+    en: 'Replica Set Name',
+  },
+  collection: {
+    zh: '集合',
+    en: 'Collection',
+  },
 }
