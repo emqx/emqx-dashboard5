@@ -56,7 +56,11 @@
 
       <el-table-column :label="'Endpoint Name'" prop="endpoint_name" v-if="name === 'lwm2m'" />
 
-      <el-table-column :label="tl('username')" prop="username" v-if="name !== 'lwm2m'" />
+      <el-table-column
+        :label="tl('username')"
+        prop="username"
+        v-if="!['lwm2m', 'mqttsn'].includes(name)"
+      />
 
       <el-table-column :label="tl('ipaddress')">
         <template #default="{ row }">
