@@ -20,7 +20,15 @@
           {{ transPort(row.bind) }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('lMaxConn')" prop="max_connections" />
+      <el-table-column :label="tl('lMaxConn')" prop="max_connections">
+        <template #default="{ row }">
+          {{
+            typeof row.max_connections === 'string'
+              ? _.startCase(row.max_connections)
+              : row.max_connections
+          }}
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors">
         <template #default="{ row }">
           <span>

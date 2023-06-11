@@ -12,19 +12,21 @@
       </el-table-column>
       <el-table-column :label="tl('connection')" :min-width="160">
         <template #default="{ row }">
-          <el-tooltip
-            v-if="hasBeenInitialized(row)"
-            placement="top"
-            effect="dark"
-            :content="`${row.current_connections || 0}/${row.max_connections || 0}`"
-          >
-            <el-progress
-              :stroke-width="20"
-              :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
-              :format="() => row.current_connections || 0"
-            >
-            </el-progress>
-          </el-tooltip>
+          <template v-if="hasBeenInitialized(row)">
+            <template v-if="row?.max_connections === INFINITY_VALUE">
+              {{ connectionCount(row) }}
+            </template>
+            <template v-else>
+              <el-tooltip placement="top" effect="dark" :content="connectionCount(row)">
+                <el-progress
+                  :stroke-width="20"
+                  :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
+                  :format="() => row.current_connections || 0"
+                >
+                </el-progress>
+              </el-tooltip>
+            </template>
+          </template>
         </template>
       </el-table-column>
       <el-table-column :label="tl('listeners')" :min-width="132">
@@ -66,12 +68,13 @@
 
 <script lang="ts">
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
-import { caseInsensitiveCompare, calcPercentage } from '@/common/tools'
+import { INFINITY_VALUE } from '@/common/constants'
+import { calcPercentage, caseInsensitiveCompare } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
 import { GatewayItem } from '@/types/gateway'
-import { ElMessage as M, ElMessageBox } from 'element-plus'
+import { ElMessageBox, ElMessage as M } from 'element-plus'
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -111,6 +114,12 @@ export default defineComponent({
 
     const setupGateway = (listener: any) => {
       router.push({ name: 'gateway-create', params: { name: listener.name } })
+    }
+
+    const connectionCount = ({ current_connections, max_connections }: any) => {
+      const max =
+        max_connections === INFINITY_VALUE ? 'Infinity' : max_connections ? max_connections : 0
+      return `${current_connections || 0}/${max}`
     }
 
     const gatewayStartStop = async function (instance: any) {
@@ -159,6 +168,8 @@ export default defineComponent({
       GatewayStatus,
       isRunning,
       isUnload,
+      INFINITY_VALUE,
+      connectionCount,
       hasBeenInitialized,
       getRowClassName,
       transGatewayName,
