@@ -525,7 +525,7 @@ where \`n\` is the number of a client inside the pool.`,
   },
   ingressPoolSizeDesc: {
     zh: `MQTT 客户端池的大小，这些客户端将从远程代理接收消息。<br/>
-仅当 \`remote.topic\` 为共享订阅主题或主题过滤器（例如 \`$share/name1/topic1\` 或 \`$share/name2/topic2/#\`）时，才会尊重此值，否则将仅使用单个 MQTT 客户端。
+仅当 \`remote.topic\` 为共享订阅主题或主题过滤器（例如 \`$share/name1/topic1\` 或 \`$share/name2/topic2/#\`）时，才会应用此设置，否则将仅使用单个 MQTT 客户端。
 每个 MQTT 客户端都将被分配一个 \`clientid\`，形式为 \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}\`。其中， \`n\` 是池中客户端的编号。
 注意：当 EMQX 处于集群状态时，非共享订阅将无法良好地工作。`,
     en: `Size of an MQTT client pool. MQTT clients in the pool ingest messages from the remote broker.<br/>
