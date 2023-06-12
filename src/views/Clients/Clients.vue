@@ -107,7 +107,7 @@
       </div>
       <el-table
         :data="tableData"
-        ref="clientsTable"
+        ref="TableCom"
         row-key="clientid"
         v-loading.lock="lockTable"
         @selection-change="handleSelectionChange"
@@ -229,6 +229,7 @@ const tableData = ref([])
 const selectedClients = ref<Client[]>([])
 const currentNodes = ref<NodeMsg[]>([])
 const lockTable = ref(false)
+const TableCom = ref()
 const batchDeleteLoading = ref(false)
 const params = ref({})
 const fuzzyParams = ref<Record<string, any>>({
@@ -343,8 +344,9 @@ const cleanBatchClients = async () => {
     batchDeleteLoading.value = true
     try {
       await batchDisconnectClients(clientIds)
-      loadNodeClients()
+      loadNodeClients({ page: 1 })
       ElMessage.success(tl('kickedOutSuc'))
+      TableCom.value?.clearSelection()
     } catch (error) {
       console.log(error)
     } finally {
