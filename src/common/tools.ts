@@ -390,6 +390,23 @@ export const checkNOmitFromObj = (obj: Record<string, any>): Record<string, any>
   return omit(obj, emptyValueKeyArr)
 }
 
+/**
+ * Reset fields when usually used for updates
+ */
+export const checkNSetToNullFromObj = (obj: Record<string, any>): Record<string, any> => {
+  const checkALevel = (obj: Record<string, any>) => {
+    Object.entries(obj).forEach(([key, value]) => {
+      if (isObject(value) && !Array.isArray(value)) {
+        checkALevel(value)
+      } else if (typeof obj[key] === 'string' && !obj[key]) {
+        obj[key] = null
+      }
+    })
+  }
+  checkALevel(obj)
+  return obj
+}
+
 // { a: { b: c: 1 } } => { 'a.b.c': 1 }
 export const flattenObject = (
   obj: { [key: string]: any },
