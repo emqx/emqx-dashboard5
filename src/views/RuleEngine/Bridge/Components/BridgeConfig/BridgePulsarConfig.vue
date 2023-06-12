@@ -254,14 +254,6 @@
             <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="resource_opts.start_timeout">
-            <template #label>
-              <FormItemLabel v-bind="getResourceOptLabelProp('start_timeout')" />
-            </template>
-            <TimeInputWithUnitSelect v-model="formData.resource_opts.start_timeout" />
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
   </div>
