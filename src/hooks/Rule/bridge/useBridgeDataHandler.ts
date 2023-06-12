@@ -3,7 +3,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType, InfluxDBType } from '@/types/enum'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, omit } from 'lodash'
+import { cloneDeep, omit, set } from 'lodash'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
 
 export const useRedisCommandCheck = (): {
@@ -114,21 +114,10 @@ export default (): {
     return bridgeData
   }
 
+  const keysDoNotNeedForAPI = ['node_status', 'status', 'status_reason']
   const keysNeedDel = {
-    update: ['node_status', 'status', 'status_reason'],
-    saveAsCopy: ['node_status', 'status', 'enable', 'id', 'status_reason'],
-    copy: [
-      'node_status',
-      'status',
-      'enable',
-      'id',
-      'password',
-      'status_reason',
-      'authentication.password',
-      'secret_key',
-      'aws_secret_access_key',
-      'token',
-    ],
+    update: keysDoNotNeedForAPI,
+    create: [...keysDoNotNeedForAPI, 'enable', 'id'],
   }
 
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
@@ -169,12 +158,24 @@ export default (): {
     return bridgeData
   }
 
+  // When copying, set to empty value.
+  // When saving as a copy, check if it has been modified.
+  const likePasswordFieldKeys = [
+    'password',
+    'authentication.password',
+    'authentication.jwt',
+    'secret_key',
+    'aws_secret_access_key',
+    'token',
+  ]
   const handleBridgeDataForCopy = (bridgeData: any): any => {
-    return omit(handleBridgeDataAfterLoaded(bridgeData), keysNeedDel.copy)
+    const ret = omit(handleBridgeDataAfterLoaded(bridgeData), keysNeedDel.create)
+    likePasswordFieldKeys.forEach((key) => set(ret, key, ''))
+    return ret
   }
 
   const handleBridgeDataForSaveAsCopy = (bridgeData: any): any => {
-    return omit(bridgeData, keysNeedDel.saveAsCopy)
+    return omit(bridgeData, keysNeedDel.create)
   }
 
   return {
