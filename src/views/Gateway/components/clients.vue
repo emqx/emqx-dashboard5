@@ -18,7 +18,7 @@
             @clear="searchGatewayList"
           />
         </el-col>
-        <el-col :span="6" v-else>
+        <el-col :span="6" v-if="!['lwm2m', 'mqttsn'].includes(name)">
           <el-input
             :placeholder="tl('username')"
             v-model="searchParams.like_username"
