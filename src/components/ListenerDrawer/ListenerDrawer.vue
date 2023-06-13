@@ -212,7 +212,7 @@
               :show-sni="false"
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
-              :verify-label="t('Base.tlsVerifyClient', )"
+              :verify-label="t('Base.tlsVerifyClient')"
             />
           </el-col>
           <!-- Version of SSL/DTLS -->
@@ -308,7 +308,7 @@
           >
             <InputWithUnit
               v-model="listenerRecord.max_conn_rate"
-              :units="[{ label: '/s', value: '/s' }]"
+              :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
             />
           </el-form-item>
         </el-col>
@@ -319,7 +319,7 @@
           >
             <InputWithUnit
               v-model="listenerRecord.messages_rate"
-              :units="[{ label: '/s', value: '/s' }]"
+              :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
             />
           </el-form-item>
         </el-col>
@@ -331,8 +331,8 @@
             <InputWithUnit
               v-model="listenerRecord.bytes_rate"
               :units="[
-                { label: 'MB/s', value: 'MB/s' },
-                { label: 'KB/s', value: 'KB/s' },
+                { label: `MB/${t('Base.second')}`, value: 'MB/s' },
+                { label: `KB/${t('Base.second')}`, value: 'KB/s' },
               ]"
             />
           </el-form-item>
