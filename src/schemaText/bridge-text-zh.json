@@ -438,6 +438,10 @@
     "sync_query_timeout": {
       "desc": "同步查询的超时时间。仅当请求模式配置为'同步'时才使用该配置。",
       "label": "同步查询超时时间"
+    },
+    "tcp_keepalive": {
+      "desc": "启用 Kafka 桥接连接的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
+      "label": "TCP Keepalive"
     }
   },
   "emqx_ee_bridge_mongodb": {

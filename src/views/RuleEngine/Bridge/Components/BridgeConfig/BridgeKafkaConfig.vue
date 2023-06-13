@@ -266,6 +266,18 @@
             <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item prop="socket_opts.tcp_keepalive">
+            <template #label>
+              <FormItemLabel
+                :label="getText('tcp_keepalive.label')"
+                :desc="getText('tcp_keepalive.desc')"
+                desc-marked
+              />
+            </template>
+            <el-input v-model="formData.socket_opts.tcp_keepalive" />
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
   </div>
@@ -275,6 +287,7 @@
 import { fillEmptyValueToUndefinedField, usefulMemoryUnit } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -377,6 +390,7 @@ const createDefaultCommonPart = () => ({
   socket_opts: {
     sndbuf: '1024KB',
     recbuf: '1024KB',
+    tcp_keepalive: 'none',
   },
   ssl: createSSLForm(),
 })
