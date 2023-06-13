@@ -1,7 +1,7 @@
 import { checkNOmitFromObj } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
-import { cloneDeep, omit, set } from 'lodash'
+import { cloneDeep, omit, set, get } from 'lodash'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
 
 export default (): {
@@ -59,7 +59,11 @@ export default (): {
   const likePasswordFieldKeys = ['password']
   const handleBridgeDataForCopy = (bridgeData: any): any => {
     const ret = omit(handleBridgeDataAfterLoaded(bridgeData), keysNeedDel.create)
-    likePasswordFieldKeys.forEach((key) => set(ret, key, ''))
+    likePasswordFieldKeys.forEach((key) => {
+      if (get(ret, key) !== undefined) {
+        set(ret, key, '')
+      }
+    })
     return ret
   }
 
