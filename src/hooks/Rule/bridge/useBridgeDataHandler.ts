@@ -5,6 +5,7 @@ import { cloneDeep, omit, set, get } from 'lodash'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
 
 export default (): {
+  likePasswordFieldKeys: string[]
   handleBridgeDataBeforeSubmit: (bridgeData: any) => Promise<any>
   handleBridgeDataAfterLoaded: (bridgeData: any) => any
   handleBridgeDataForCopy: (bridgeData: any) => any
@@ -72,6 +73,7 @@ export default (): {
   }
 
   return {
+    likePasswordFieldKeys,
     handleBridgeDataBeforeSubmit,
     handleBridgeDataAfterLoaded,
     handleBridgeDataForCopy,
