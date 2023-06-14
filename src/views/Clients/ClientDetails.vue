@@ -259,7 +259,6 @@ const clientsOrganizied = {
       'is_bridge',
       'connected_at',
       'disconnected_at',
-      'zone',
     ],
     session: [
       'expiry_interval',
