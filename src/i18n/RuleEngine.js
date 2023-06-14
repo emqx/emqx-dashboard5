@@ -595,12 +595,12 @@ Each client in the MQTT connection pool is allocated a unique client ID to preve
     en: "For example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc. Use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
   ingressRemoteTopicDesc: {
-    zh: '本地服务将订阅该远程服务的主题接收消息。<br/>当 EMQX 配置为集群或启用了 ingress 连接池时，**必须**使用共享订阅来避免消息重复。',
-    en: 'Topic subscribed by the local broker from the remote broker to receive messages. <br/>When EMQX is running in a cluster or with an enabled ingress connection pool, it is **mandatory** to use shared subscriptions to avoid message duplication.',
+    zh: '本地服务将订阅该主题以从远程 MQTT 服务接收消息。<br/>当 EMQX 配置为集群或启用了 ingress 连接池时，**必须**使用共享订阅来避免消息重复。',
+    en: 'The local broker will subscribe to topic to receive messages from remote broker . <br/>When EMQX is running in a cluster or with an enabled ingress connection pool, it is **mandatory** to use shared subscriptions to avoid message duplication.',
   },
   egressRemoteTopicDesc: {
-    zh: "本地服务将向该远程服务中的主题发布消息，支持使用 ${'{'}field{'}'} 语法，拼接使用动态主题。",
-    en: "The local broker will publish messages to the remote broker topic, supports using ${'{'}field{'}'} syntax to use the dynamic topics.",
+    zh: "本地服务将向该主题发布消息到远程 MQTT 服务。支持使用 ${field} 语法提取变量动态拼接主题。",
+    en: "The local broker will publish messages to the topic to the remote broker, supports using ${field} syntax to use the dynamic topics.",
   },
   ingressLocalTopicDesc: {
     zh: '订阅该本地服务的主题，可以直接接收远程服务的消息而不用使用规则，如不填写则由规则指定。（可选）',
