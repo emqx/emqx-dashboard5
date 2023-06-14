@@ -168,6 +168,7 @@ export default (): {
     'secret_key',
     'aws_secret_access_key',
     'token',
+    'security_token',
   ]
   const handleBridgeDataForCopy = (bridgeData: any): any => {
     const ret = omit(handleBridgeDataAfterLoaded(bridgeData), keysNeedDel.create)
