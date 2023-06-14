@@ -341,11 +341,13 @@ export const customValidate = async (form: any) => {
 /**
  * @param scrollWindow set to false when the form is in dialog or form is in container which can scroll
  */
-export const jumpToErrorFormItem = (className = '.el-form-item.is-error'): void => {
+export const jumpToErrorFormItem = (className = '.el-form-item.is-error'): boolean => {
   const el = document.querySelector(className)
   if (el) {
     el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    return true
   }
+  return false
 }
 
 export const findExtensionByName = (name: string): string => {
