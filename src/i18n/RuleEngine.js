@@ -516,15 +516,15 @@ export default {
     zh: `用于出口配置的 MQTT 客户端连接池大小。<br/>
     连接池中每个 MQTT 客户端都将被分配一个唯一的 \`clientid\` 以确保避免重复或冲突，格式为 \`\${clientid_prefix}:\${bridge_name}:egress:\${node}:\${n}\`，其中 \`n\` 是连接池中客户端的编号。`,
     en: `The size of the MQTT client connection pool for egress. <br/>
-Each MQTT client in the connection pool will be assigned a unique clientid to ensure avoidance of duplication or conflicts. The format of the clientid is \`\${clientid_prefix}:\${bridge_name}:egress:\${node}:\${n}\`, where \`n\` represents the number of the client in the connection pool.`,
+Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${clientid_prefix}:\${bridge_name}:egress:\${node}:\${n}\`, where \`n\` represents the client's number in the connection pool.`,
   },
   ingressPoolSizeDesc: {
     zh: `用于入口配置的 MQTT 客户端连接池大小。<br/>
-仅当 远程主题（\`remote.topic\`） 使用了共享订阅（例如 \`$share/my-group/topic1\`）时才会启用连接池。
+仅当远程主题（\`remote.topic\`） 使用了共享订阅（例如 \`$share/my-group/topic1\`）时才会启用连接池。
 连接池中每个 MQTT 客户端都将被分配一个唯一的 \`clientid\` 以确保避免重复或冲突，格式为 \`\${clientid_prefix}:\${bridge_name}:ingress:\${node}:\${n}\`，其中 \`n\` 是连接池中客户端的编号。`,
-    en: `The size of the MQTT client connection pool for egress. <br/>
+    en: `The size of the MQTT client connection pool for ingress. <br/>
 The connection pool is enabled only when \`remote.topic\` is using shared subscriptions (e.g., \`$share/my-group/topic1\`). <br/>
-Each MQTT client in the connection pool will be assigned a unique clientid to ensure avoidance of duplication or conflicts. The format of the clientid is \`\${clientid_prefix}:\${bridge_name}:ingress:\${node}:\${n}\`, where \`n\` represents the number of the client in the connection pool.`,
+Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${clientid_prefix}:\${bridge_name}:ingress:\${node}:\${n}\`, where \`n\` represents the client's number in the connection pool.`,
   },
   bridgeUsage: {
     zh: '如何使用桥接',
@@ -596,7 +596,7 @@ Each MQTT client in the connection pool will be assigned a unique clientid to en
   },
   ingressRemoteTopicDesc: {
     zh: '本地服务将订阅该远程服务的主题接收消息。<br/>当 EMQX 配置为集群或启用了 ingress 连接池时，**必须**使用共享订阅来避免消息重复。',
-    en: 'The local broker will subscribe to the remote broker topic to receive messages. <br/>When EMQX is running in a cluster or with an enabled ingress connection pool, it is **mandatory** to use shared subscriptions to avoid message duplication.',
+    en: 'Topic subscribed by the local broker from the remote broker to receive messages. <br/>When EMQX is running in a cluster or with an enabled ingress connection pool, it is **mandatory** to use shared subscriptions to avoid message duplication.',
   },
   egressRemoteTopicDesc: {
     zh: "本地服务将向该远程服务中的主题发布消息，支持使用 ${'{'}field{'}'} 语法，拼接使用动态主题。",
