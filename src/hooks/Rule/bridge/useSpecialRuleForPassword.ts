@@ -8,7 +8,8 @@ export default (
   ruleWhenTestConnection: Array<FormItemRule>
 } => {
   const { tl } = useI18nTl('RuleEngine')
-
+  // TODO: add rules for likePasswordFieldKeys
+  // src/hooks/Rule/bridge/useBridgeDataHandler.ts:164:30
   const ruleWhenTestConnection = [
     {
       validator: (rule: any, value: any, callback: any) => {
