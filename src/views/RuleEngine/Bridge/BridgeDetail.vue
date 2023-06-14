@@ -265,7 +265,21 @@ const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(()
   type: 'bridge',
   obj: bridgeData.value,
 }))
-const tryToViewPwdInput = () => jumpToErrorFormItem('input[type="password"]')
+const tryToViewPwdInput = () => {
+  const jumpSuc = jumpToErrorFormItem('input[type="password"]')
+  if (!jumpSuc) {
+    const el = (
+      Array.from(
+        document.querySelectorAll('input[autocomplete="one-time-code"]'),
+      ) as Array<HTMLInputElement>
+    ).find((item) => {
+      return item.value && ENCRYPTED_PWD_REG.test(item.value)
+    })
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }
+}
 
 const getPwdValue = (bridge: any) => {
   for (let index = 0; index < likePasswordFieldKeys.length; index++) {
