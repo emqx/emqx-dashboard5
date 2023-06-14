@@ -40,7 +40,7 @@
             <el-input v-model="listenerRecord.mountpoint" />
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="!gatewayName">
+        <!-- <el-col :span="12" v-if="!gatewayName">
           <el-form-item label="Zone">
             <template #label>
               <label>Zone</label>
@@ -48,7 +48,7 @@
             </template>
             <ZoneSelect v-model="listenerRecord.zone" />
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <!-- <el-col :span="12" v-if="!gatewayName">
           <el-form-item :label="$t('BasicConfig.limiter')">
             <LimiterSelect v-model="listenerRecord.limiter" />
