@@ -173,13 +173,16 @@ export default (props: {
 
   const rocketMQHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { template, secret_key } = components
+    const { template, secret_key, security_token } = components
 
     if (template?.type === 'string') {
       template.format = 'sql'
     }
     if (secret_key?.type === 'string') {
       secret_key.format = 'password'
+    }
+    if (security_token?.type === 'string') {
+      security_token.format = 'password'
     }
 
     return { components, rules }
