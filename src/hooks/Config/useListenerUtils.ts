@@ -179,7 +179,7 @@ export default (gatewayName: string | undefined): ListenerUtils => {
     acceptors: 16,
     max_connections: 102400,
     max_conn_rate: gatewayName ? 1000 : undefined,
-    zone: DEFAULT_ZONE,
+    // zone: DEFAULT_ZONE,
     mountpoint: '',
     proxy_protocol: false,
     proxy_protocol_timeout: '3s',
