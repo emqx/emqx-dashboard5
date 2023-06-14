@@ -301,7 +301,7 @@
           <el-form-item :label="tl('showLimiter')"> </el-form-item>
         </el-col>
         <el-col :span="12" />
-        <el-col v-if="!['ws', 'wss'].includes(listenerRecord.type)" :span="12">
+        <el-col v-if="!typesWithoutMaxConnectionRate.includes(listenerRecord.type)" :span="12">
           <el-form-item
             :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')"
             prop="max_conn_rate"
@@ -421,6 +421,8 @@ const isUDP = computed(() => listenerRecord.value.type === ListenerTypeForGatewa
 const isQUIC = computed(() => listenerRecord.value.type === ListenerType.QUIC)
 
 const isWSS = computed(() => listenerRecord.value.type === ListenerType.WSS)
+
+const typesWithoutMaxConnectionRate = [ListenerType.WS, ListenerType.WSS, ListenerType.QUIC]
 </script>
 
 <style lang="scss">
