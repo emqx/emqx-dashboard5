@@ -63,6 +63,7 @@ export const useRedisCommandCheck = (): {
 }
 
 export default (): {
+  likePasswordFieldKeys: string[]
   handleBridgeDataBeforeSubmit: (bridgeData: any) => Promise<any>
   handleBridgeDataAfterLoaded: (bridgeData: any) => any
   handleBridgeDataForCopy: (bridgeData: any) => any
@@ -183,6 +184,7 @@ export default (): {
   }
 
   return {
+    likePasswordFieldKeys,
     handleBridgeDataBeforeSubmit,
     handleBridgeDataAfterLoaded,
     handleBridgeDataForCopy,

@@ -249,8 +249,12 @@ const bridgeType = computed(() => {
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
 )
-const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit, handleBridgeDataForSaveAsCopy } =
-  useBridgeDataHandler()
+const {
+  likePasswordFieldKeys,
+  handleBridgeDataAfterLoaded,
+  handleBridgeDataBeforeSubmit,
+  handleBridgeDataForSaveAsCopy,
+} = useBridgeDataHandler()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
@@ -295,12 +299,22 @@ const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(()
 }))
 const tryToViewPwdInput = () => jumpToErrorFormItem('input[type="password"]')
 
+const getPwdValue = (bridge: any) => {
+  for (let index = 0; index < likePasswordFieldKeys.length; index++) {
+    const value = _.get(bridge, likePasswordFieldKeys[index])
+    if (value !== undefined) {
+      return value
+    }
+  }
+  return
+}
+
 const pwdErrorWhenCoping = ref('')
 const saveAsCopy = async () => {
   try {
     await customValidate(formCom.value)
     const bridge = await getDataForSubmit()
-    const pwdValue = _.get(bridge, 'password') || _.get(bridge, 'authentication.password')
+    const pwdValue = getPwdValue(bridge)
     pwdErrorWhenCoping.value = ''
     if (pwdValue !== undefined && ENCRYPTED_PWD_REG.test(pwdValue)) {
       pwdErrorWhenCoping.value = tl('pwdWarningWhenCoping')
