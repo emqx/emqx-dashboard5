@@ -175,10 +175,6 @@ export default {
     zh: 'SSL 证书',
     en: 'SSL',
   },
-  zone: {
-    zh: 'Zone',
-    en: 'Zone',
-  },
   subscription: {
     zh: '订阅数量',
     en: 'Subscriptions',
