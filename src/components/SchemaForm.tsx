@@ -52,7 +52,7 @@ const SchemaForm = defineComponent({
   },
   props: {
     accordingTo: {
-      type: Object as PropType<{ path?: string; ref?: string }>,
+      type: Object as PropType<{ path?: string; ref?: string | Array<string> }>,
       required: true,
     },
     form: {
