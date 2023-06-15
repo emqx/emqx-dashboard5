@@ -30,15 +30,15 @@ const removeUselessKey = (obj: any) => {
  */
 export default function useSchemaForm(
   schemaFilePath: string,
-  objForGetComponent: { path?: string; ref?: string },
+  objForGetComponent: { path?: string; ref?: string | Array<string> },
   needRules = false,
 ): {
   rules: Ref<SchemaRules>
   components: Ref<Properties>
   schemaLoadPromise: Promise<void>
-  getComponents: (objForGetComponent: { path?: string; ref?: string }) => Properties
+  getComponents: (objForGetComponent: { path?: string; ref?: string | Array<string> }) => Properties
   setTypeForProperty: (property: Properties[string]) => Properties[string]
-  resetObjForGetComponent: (obj: { path?: string; ref?: string }) => void
+  resetObjForGetComponent: (obj: { path?: string; ref?: string | Array<string> }) => void
 } {
   const { getters, commit } = useStore()
 
@@ -76,9 +76,15 @@ export default function useSchemaForm(
     }
   }
 
-  const filter = (ref: string) => ref.replace('#/', '').split('/')
+  const filter = (ref: string | Array<string>) => {
+    if (Array.isArray(ref)) {
+      return ref
+    }
+    return ref.replace('#/', '').split('/')
+  }
   // https://www.lodashjs.com/docs/lodash.get
-  const getComponentByRef = (data: Schema, ref: string): Component => get(data, filter(ref), {})
+  const getComponentByRef = (data: Schema, ref: string | Array<string>): Component =>
+    get(data, filter(ref), {})
 
   /**
    * Calling it before components are assigned as much as possible will reduce the number of re-renders,
@@ -97,7 +103,7 @@ export default function useSchemaForm(
     }
     return property
   }
-  const getComponents = (objForGetComponent: { path?: string; ref?: string }) => {
+  const getComponents = (objForGetComponent: { path?: string; ref?: string | Array<string> }) => {
     let lastLabel = ''
     const transComponents = (component: Component, path?: string): Properties => {
       const res: Properties = {}
@@ -185,7 +191,7 @@ export default function useSchemaForm(
       }
       return res
     }
-    let ref = ''
+    let ref: string | Array<string> = ''
     if (objForGetComponent.ref) {
       ref = objForGetComponent.ref
     } else if (objForGetComponent.path) {
@@ -214,7 +220,7 @@ export default function useSchemaForm(
   /**
    * will refresh component
    */
-  const resetObjForGetComponent = (obj: { path?: string; ref?: string }) => {
+  const resetObjForGetComponent = (obj: { path?: string; ref?: string | Array<string> }) => {
     pathOrRefObj = obj
     generateComponents()
   }
