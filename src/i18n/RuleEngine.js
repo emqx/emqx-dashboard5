@@ -514,17 +514,17 @@ export default {
   },
   egressPoolSizeDesc: {
     zh: `用于出口配置的 MQTT 客户端连接池大小。<br/>
-    连接池中每个 MQTT 客户端都将被分配一个唯一的 \`clientid\` 以确保避免重复或冲突，格式为 \`\${clientid_prefix}:\${bridge_name}:egress:\${node}:\${n}\`，其中 \`n\` 是连接池中客户端的编号。`,
+    连接池中每个 MQTT 客户端都将被分配一个唯一的 \`clientid\` 以确保避免重复或冲突，格式为 \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:egress:\${'{'}node{'}'}:\${'{'}n{'}'}\`，其中 \`n\` 是连接池中客户端的编号。`,
     en: `The size of the MQTT client connection pool for egress. <br/>
-Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${clientid_prefix}:\${bridge_name}:egress:\${node}:\${n}\`, where \`n\` represents the client's number in the connection pool.`,
+    Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:egress:\${'{'}node{'}'}:\${'{'}n{'}'}\`, where \`n\` represents the client's number in the connection pool.`,
   },
   ingressPoolSizeDesc: {
     zh: `用于入口配置的 MQTT 客户端连接池大小。<br/>
-仅当远程主题（\`remote.topic\`） 使用了共享订阅（例如 \`$share/my-group/topic1\`）时才会启用连接池。
-连接池中每个 MQTT 客户端都将被分配一个唯一的 \`clientid\` 以确保避免重复或冲突，格式为 \`\${clientid_prefix}:\${bridge_name}:ingress:\${node}:\${n}\`，其中 \`n\` 是连接池中客户端的编号。`,
+    仅当远程主题（\`remote.topic\`） 使用了共享订阅（例如 \`$share/my-group/topic1\`）时才会启用连接池。
+    连接池中每个 MQTT 客户端都将被分配一个唯一的 \`clientid\` 以确保避免重复或冲突，格式为 \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}\`，其中 \`n\` 是连接池中客户端的编号。`,
     en: `The size of the MQTT client connection pool for ingress. <br/>
-The connection pool is enabled only when \`remote.topic\` is using shared subscriptions (e.g., \`$share/my-group/topic1\`). <br/>
-Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${clientid_prefix}:\${bridge_name}:ingress:\${node}:\${n}\`, where \`n\` represents the client's number in the connection pool.`,
+    The connection pool is enabled only when \`remote.topic\` is using shared subscriptions (e.g., \`$share/my-group/topic1\`). <br/>
+    Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}\`, where \`n\` represents the client's number in the connection pool.`,
   },
   bridgeUsage: {
     zh: '如何使用桥接',
