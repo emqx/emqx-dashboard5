@@ -159,14 +159,14 @@ export default defineComponent({
         children: accessControl,
       },
       {
-        title: 'management',
-        icon: 'icon-configuration',
-        children: management,
-      },
-      {
         title: 'ruleengine',
         icon: 'icon-integration',
         children: integration,
+      },
+      {
+        title: 'management',
+        icon: 'icon-configuration',
+        children: management,
       },
       {
         title: 'diagnose',

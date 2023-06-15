@@ -114,7 +114,7 @@
                 </template>
                 <InputWithUnit
                   v-model="retainerConfig.deliver_rate"
-                  :units="[{ label: '/s', value: '/s' }]"
+                  :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
                 />
               </el-form-item>
             </el-col>
