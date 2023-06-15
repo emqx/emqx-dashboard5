@@ -17,12 +17,10 @@ export default (record: WritableComputedRef<OtherBridge>): FuncReturn => {
   const isAsync = (formData: OtherBridge) =>
     isString(formData.resource_opts?.query_mode) &&
     formData.resource_opts.query_mode.indexOf('async') > -1
-  const canConfigInflightWindow = (formData: OtherBridge) =>
-    !(formData.resource_opts?.inflight_window === undefined)
 
   const syncFieldsClassMap = computed(() => {
     // if can no config inflight window size, the request mode field do not need a row
-    if (isAsync(record.value) || !canConfigInflightWindow(record.value)) {
+    if (isAsync(record.value)) {
       return {}
     }
     return {
