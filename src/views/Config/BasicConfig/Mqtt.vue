@@ -55,6 +55,7 @@ export default defineComponent({
         'max_topic_alias',
         'wildcard_subscription',
         'shared_subscription',
+        'shared_subscription_strategy',
         'exclusive_subscription',
         'retain_available',
         'ignore_loop_deliver',
