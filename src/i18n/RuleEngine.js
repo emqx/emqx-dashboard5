@@ -513,27 +513,22 @@ export default {
     en: 'The same remote MQTT topics are configured for ingress and egress',
   },
   clientPoolsize: {
-    zh: '客户端池大小',
-    en: 'MQTT Client Pool Size',
+    zh: '连接池大小',
+    en: 'Connection Pool Size',
   },
   egressPoolSizeDesc: {
-    zh: `MQTT 客户端池的大小，这些客户端将会向远程代理发布消息。<br/>
-    每个 MQTT 客户端都将被分配一个 \`clientid\`，形式为 \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:egress:\${'{'}node{'}'}:\${'{'}n{'}'}\`。其中，\`n\` 是池中客户端的编号。`,
-    en: `Size of an MQTT client pool. MQTT clients in the pool publish messages to the remote broker.<br/>
-Each MQTT client will be assigned \`clientid\` in the form of \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:egress:\${'{'}node{'}'}:\${'{'}n{'}'}\`
-where \`n\` is the number of a client inside the pool.`,
+    zh: `用于出口配置的 MQTT 客户端连接池大小。<br/>
+    连接池中每个 MQTT 客户端都将被分配一个唯一的 \`clientid\` 以确保避免重复或冲突，格式为 \`\${clientid_prefix}:\${bridge_name}:egress:\${node}:\${n}\`，其中 \`n\` 是连接池中客户端的编号。`,
+    en: `The size of the MQTT client connection pool for egress. <br/>
+Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${clientid_prefix}:\${bridge_name}:egress:\${node}:\${n}\`, where \`n\` represents the client's number in the connection pool.`,
   },
   ingressPoolSizeDesc: {
-    zh: `MQTT 客户端池的大小，这些客户端将从远程代理接收消息。<br/>
-仅当 \`remote.topic\` 为共享订阅主题或主题过滤器（例如 \`$share/name1/topic1\` 或 \`$share/name2/topic2/#\`）时，才会应用此设置，否则将仅使用单个 MQTT 客户端。
-每个 MQTT 客户端都将被分配一个 \`clientid\`，形式为 \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}\`。其中， \`n\` 是池中客户端的编号。
-注意：当 EMQX 处于集群状态时，非共享订阅将无法良好地工作。`,
-    en: `Size of an MQTT client pool. MQTT clients in the pool ingest messages from the remote broker.<br/>
-This value will be respected only if 'remote.topic' is a shared subscription topic or topic-filter
-(for example \`$share/name1/topic1\` or \`$share/name2/topic2/#\`). Otherwise only a single MQTT client will be used.
-Each MQTT client will be assigned 'clientid' of the form '\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}'
-where 'n' is the number of a client inside the pool.
-NOTE: Non-shared subscription will not work well when EMQX is clustered.`,
+    zh: `用于入口配置的 MQTT 客户端连接池大小。<br/>
+仅当远程主题（\`remote.topic\`） 使用了共享订阅（例如 \`$share/my-group/topic1\`）时才会启用连接池。
+连接池中每个 MQTT 客户端都将被分配一个唯一的 \`clientid\` 以确保避免重复或冲突，格式为 \`\${clientid_prefix}:\${bridge_name}:ingress:\${node}:\${n}\`，其中 \`n\` 是连接池中客户端的编号。`,
+    en: `The size of the MQTT client connection pool for ingress. <br/>
+The connection pool is enabled only when \`remote.topic\` is using shared subscriptions (e.g., \`$share/my-group/topic1\`). <br/>
+Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${clientid_prefix}:\${bridge_name}:ingress:\${node}:\${n}\`, where \`n\` represents the client's number in the connection pool.`,
   },
   bridgeUsage: {
     zh: '如何使用桥接',
@@ -604,12 +599,12 @@ NOTE: Non-shared subscription will not work well when EMQX is clustered.`,
     en: "For example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc. Use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
   ingressRemoteTopicDesc: {
-    zh: '本地服务将订阅该远程服务的主题接收消息。',
-    en: 'The local broker will subscribe to the remote broker topic to receive messages.',
+    zh: '本地服务将订阅该主题以从远程 MQTT 服务接收消息。<br/>当 EMQX 配置为集群或启用了 ingress 连接池时，**必须**使用共享订阅来避免消息重复。',
+    en: 'The local broker will subscribe to topic to receive messages from remote broker . <br/>When EMQX is running in a cluster or with an enabled ingress connection pool, it is **mandatory** to use shared subscriptions to avoid message duplication.',
   },
   egressRemoteTopicDesc: {
-    zh: "本地服务将向该远程服务中的主题发布消息，支持使用 ${'{'}field{'}'} 语法，拼接使用动态主题。",
-    en: "The local broker will publish messages to the remote broker topic, supports using ${'{'}field{'}'} syntax to use the dynamic topics.",
+    zh: "本地服务将向该主题发布消息到远程 MQTT 服务。支持使用 ${field} 语法提取变量动态拼接主题。",
+    en: "The local broker will publish messages to the topic to the remote broker, supports using ${field} syntax to use the dynamic topics.",
   },
   ingressLocalTopicDesc: {
     zh: '订阅该本地服务的主题，可以直接接收远程服务的消息而不用使用规则，如不填写则由规则指定。（可选）',
