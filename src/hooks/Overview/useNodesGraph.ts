@@ -199,13 +199,16 @@ export default (
     }
   }
 
-  const getCommonFlowNodeData = ({ node, node_status, role }: NodeMsg) => ({
-    type: role,
-    class: `node-${role}`,
-    id: node,
-    label: node,
-    data: { node_status },
-  })
+  const getCommonFlowNodeData = ({ node, node_status, role }: NodeMsg) => {
+    const roleVal = role || 'core'
+    return {
+      type: roleVal,
+      class: `node-${roleVal}`,
+      id: node,
+      label: node,
+      data: { node_status },
+    }
+  }
 
   const generateFlowNodeData = (nodes: Array<NodeMsg>) => {
     const coreNodes: Array<NodeMsg> = []
