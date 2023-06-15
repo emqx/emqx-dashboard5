@@ -428,7 +428,7 @@ const createDefaultConsumer = () => ({
   kafka: {
     max_batch_bytes: '896KB',
     offset_reset_policy: 'latest',
-    offset_commit_interval_seconds: 5,
+    offset_commit_interval_seconds: '5s',
   },
   key_encoding_mode: 'none',
   value_encoding_mode: 'none',
