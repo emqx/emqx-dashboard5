@@ -152,8 +152,8 @@ useVueFlow({
 watch(
   () => props.nodes,
   async () => {
-    countCoreNodeHeight()
     flowData.value = [...backgroundNode.value, ...generateFlowData(props.nodes)]
+    countCoreNodeHeight()
   },
 )
 

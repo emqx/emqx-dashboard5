@@ -156,7 +156,7 @@ export default (
     }
   }
 
-  const coreNodesNum = computed(() => props.nodes.filter(({ role }) => role !== 'replicant').length)
+  const coreNodesNum = computed(() => props.nodes.filter(({ role }) => role === 'core').length)
   const countCoreNodeHeight = () => {
     if (coreNodesNum.value === 1) {
       coreNodeHeight.value = numToFixed(
@@ -168,7 +168,6 @@ export default (
         ? 10 + numToFixed(BACKGROUND_CIRCLE_RADIUS / (coreNodesNum.value * 2), 3)
         : 24 + numToFixed(flowEleHeight.value / (coreNodesNum.value * 2), 3)
     }
-    setCoreNodeHeight(coreNodeHeight.value)
   }
 
   const { nonactivatedRadius: regNodeRadius } = useRepCodeNodeSize()
@@ -177,16 +176,14 @@ export default (
     nodesNum: number,
     nodeRole: 'core' | 'replicant',
   ): { x: number; y: number } => {
-    const isCore = nodeRole !== 'replicant'
+    const isCore = nodeRole === 'core'
     const angleOffset = (Math.PI / 2) * nodesNum
     const angle = numToFixed(angleOffset + ((Math.PI * 2) / nodesNum) * nodeIndex, 2)
     let radius = 0
     if (isCore) {
-      radius = numToFixed(
+      radius =
         (showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS * 0.84 : flowEleHeight.value / 2) -
-          coreNodeHeight.value * Math.log10(nodesNum) * 1.5,
-        3,
-      )
+        coreNodeHeight.value * Math.log10(nodesNum) * 1.5
     } else {
       radius = (BACKGROUND_CIRCLE_INNER_RADIUS + BACKGROUND_CIRCLE_OUTER_RADIUS) / 2
     }
@@ -216,7 +213,7 @@ export default (
   const generateFlowNodeData = (nodes: Array<NodeMsg>) => {
     const coreNodes: Array<NodeMsg> = []
     const repNodes: Array<NodeMsg> = []
-    nodes.forEach((item) => (item.role !== 'replicant' ? coreNodes : repNodes).push(item))
+    nodes.forEach((item) => (item.role === 'core' ? coreNodes : repNodes).push(item))
     if (repNodes.length > MAX_DISPLAYED_REP_NODE) {
       repNodes.splice(20, repNodes.length - 20)
     }
@@ -235,7 +232,7 @@ export default (
 
   const generateFlowEdgeData = (nodes: Array<NodeMsg>) => {
     const ret = []
-    const coreNodes = nodes.filter(({ role }) => role !== 'replicant')
+    const coreNodes = nodes.filter(({ role }) => role === 'core')
     for (let i = 0; i < coreNodes.length; i++) {
       const source = coreNodes[i].node
       for (let j = i + 1; j < coreNodes.length; j++) {
@@ -256,6 +253,7 @@ export default (
     getFlowEleSize()
     countBackgroundCirclePosition()
     countCoreNodeHeight()
+    setCoreNodeHeight(coreNodeHeight.value)
   })
 
   return {
