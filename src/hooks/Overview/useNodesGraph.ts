@@ -191,7 +191,12 @@ export default (
       radius = (BACKGROUND_CIRCLE_INNER_RADIUS + BACKGROUND_CIRCLE_OUTER_RADIUS) / 2
     }
     const x0 = flowEleWidth.value / 2
-    const y0 = flowEleHeight.value / 2
+    let y0 = flowEleHeight.value / 2
+    // If there is only one core node and the total number of nodes is 3,
+    // move the center down a bit to achieve visual balance.
+    if (!showBackgroundCircle.value && nodesNum === 3 && nodeRole === 'core') {
+      y0 += (radius / 2) * Math.sin(Math.PI / 6)
+    }
     const xOffset = isCore && nodesNum === 1 ? 0 : radius * Math.cos(angle)
     const yOffset = isCore && nodesNum === 1 ? 0 : radius * Math.sin(angle)
     const nodeWidth = isCore ? coreNodeSVGWidth.value : regNodeRadius * 2
