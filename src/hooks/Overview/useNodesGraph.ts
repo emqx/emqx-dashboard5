@@ -1,7 +1,8 @@
-import { numToFixed } from '@/common/tools'
+import { numToFixed, waitAMoment } from '@/common/tools'
 import { NodeMsg } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
-import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
+import { ComputedRef, Ref, computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 export interface FlowNodeData {
   type: 'core' | 'replicant' | 'background'
@@ -126,6 +127,8 @@ export default (
   countCoreNodeHeight: () => void
   generateFlowData: (nodes: Array<NodeMsg>) => Array<FlowDataItem>
 } => {
+  const { state } = useStore()
+
   const FlowInstance = ref()
   const flowEleWidth = ref(640)
   const flowEleHeight = ref(243)
@@ -257,10 +260,37 @@ export default (
     return [...flowNodeData, ...flowEdgeData]
   }
 
+  const recountBgPosition = () => {
+    getFlowEleSize()
+    countBackgroundCirclePosition()
+  }
+
+  const addListener = () => {
+    window.addEventListener('resize', recountBgPosition)
+  }
+
+  const removeListener = () => {
+    window.removeEventListener('resize', recountBgPosition)
+  }
+
+  watch(
+    () => state.leftBarCollapse,
+    async () => {
+      await waitAMoment(300)
+      recountBgPosition()
+    },
+  )
+
+  onUnmounted(() => {
+    removeListener()
+  })
+
   onMounted(() => {
     getFlowEleSize()
     countBackgroundCirclePosition()
     countCoreNodeHeight()
+    setCoreNodeHeight(coreNodeHeight.value)
+    addListener()
   })
 
   return {
