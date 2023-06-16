@@ -236,7 +236,7 @@
       "desc": "当前节点连接的核心节点列表。<br/>\n注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>\n并且设置<code>role</code>为<code>replicant</code>时生效。<br/>\n该值需要在手动或静态集群发现机制下设置。<br/>\n如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。",
       "label": "数据库核心节点"
     },
-    "log_file_handler_to": {
+    "log_file_handler_path": {
       "desc": "日志文件路径及名字。",
       "label": "日志文件名字"
     },
