@@ -603,8 +603,8 @@ export default {
     en: 'The local broker will subscribe to topic to receive messages from remote broker . <br/>When EMQX is running in a cluster or with an enabled ingress connection pool, it is **mandatory** to use shared subscriptions to avoid message duplication.',
   },
   egressRemoteTopicDesc: {
-    zh: "本地服务将向该主题发布消息到远程 MQTT 服务。支持使用 ${field} 语法提取变量动态拼接主题。",
-    en: "The local broker will publish messages to the topic to the remote broker, supports using ${field} syntax to use the dynamic topics.",
+    zh: '本地服务将向该主题发布消息到远程 MQTT 服务。支持使用 ${field} 语法提取变量动态拼接主题。',
+    en: 'The local broker will publish messages to the topic to the remote broker, supports using ${field} syntax to use the dynamic topics.',
   },
   ingressLocalTopicDesc: {
     zh: '订阅该本地服务的主题，可以直接接收远程服务的消息而不用使用规则，如不填写则由规则指定。（可选）',

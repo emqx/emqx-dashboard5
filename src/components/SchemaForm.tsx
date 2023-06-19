@@ -543,20 +543,34 @@ const SchemaForm = defineComponent({
      * called after init record
      */
     const { createSSLForm } = useSSL()
-    const handleSSLDataWhenUseConciseSSL = (data: Record<string, any>) => {
-      const walk = (record: Record<string, any>) => {
+    const handleSSLDataWhenUseConciseSSL = (data: Record<string, any>, rules: any) => {
+      const walkData = (record: Record<string, any>) => {
         Object.keys(record).forEach((key) => {
           const propItem = record[key]
           if (typeof propItem === 'object') {
             if (key === SSL_KEY && 'enable' in propItem) {
               record[key] = createSSLForm()
             } else {
-              walk(propItem)
+              walkData(propItem)
             }
           }
         })
       }
-      walk(data)
+      // Remove this after correct rule
+      const walkRule = (rules: any) => {
+        Object.keys(rules).forEach((key) => {
+          const propItem = rules[key]
+          if (typeof propItem === 'object') {
+            if (key === SSL_KEY) {
+              Reflect.deleteProperty(rules, key)
+            } else {
+              walkData(propItem)
+            }
+          }
+        })
+      }
+      walkData(data)
+      walkRule(rules)
       return data
     }
 
@@ -696,7 +710,7 @@ const SchemaForm = defineComponent({
       if ((!props.form || isEmptyObj(props.form)) && props.needRecord) {
         configForm.value = initRecordByComponents(components.value)
         if (typesNeedConciseSSL.includes(props.type)) {
-          configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value)
+          configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value, rules.value)
         }
       }
     }
@@ -724,7 +738,7 @@ const SchemaForm = defineComponent({
           // so we need get new form and emit to parent for compare
           let newRecord = initRecordByComponents(components.value)
           if (typesNeedConciseSSL.includes(props.type)) {
-            newRecord = handleSSLDataWhenUseConciseSSL(newRecord)
+            newRecord = handleSSLDataWhenUseConciseSSL(newRecord, rules.value)
           }
 
           ctx.emit('component-change', {
