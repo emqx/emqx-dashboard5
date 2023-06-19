@@ -535,11 +535,11 @@ export default {
   },
   messages_qos_1_received: {
     zh: '接收来自客户端的 QoS 1 消息数量',
-    en: 'Number of QoS 2 messages received from clients',
+    en: 'Number of QoS 1 messages received from clients',
   },
   messages_qos_2_received: {
     zh: '接收来自客户端的 QoS 2 消息数量',
-    en: 'Number of QoS 1 messages received from clients',
+    en: 'Number of QoS 2 messages received from clients',
   },
   messages_qos_0_sent: {
     zh: '发送给客户端的 QoS 0 消息数量',
