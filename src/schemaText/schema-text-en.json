@@ -236,6 +236,10 @@
       "desc": "List of core nodes that the replicant will connect to.<br/>\nNote: this parameter only takes effect when the <code>backend</code> is set\nto <code>rlog</code> and the <code>role</code> is set to <code>replicant</code>.<br/>\nThis value needs to be defined for manual or static cluster discovery mechanisms.<br/>\nIf an automatic cluster discovery mechanism is being used (such as <code>etcd</code>),\nthere is no need to set this value.",
       "label": "Db Core Node"
     },
+    "log_file_handler_path": {
+      "desc": "The path and name of the log file.",
+      "label": "Log File Name"
+    },
     "log_file_handler_to": {
       "desc": "Name the log file.",
       "label": "Log File Name"
