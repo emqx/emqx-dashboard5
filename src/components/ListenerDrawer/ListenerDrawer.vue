@@ -367,7 +367,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { PropType, computed, defineEmits, defineProps } from 'vue'
-import ZoneSelect from '../ZoneSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
 
