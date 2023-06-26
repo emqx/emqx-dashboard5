@@ -31,7 +31,7 @@
   },
   "emqx_ee_bridge_cassa": {
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to Cassandra. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to Cassandra. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "keyspace": {
@@ -39,7 +39,7 @@
       "label": "Keyspace"
     },
     "servers": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>\nA host entry has the following form: `Host[:Port][,Host2:Port]`.<br/>\nThe Cassandra default port 9042 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port][,Host2:Port]`.<br/>The Cassandra default port 9042 is used if `[:Port]` is not specified.",
       "label": "Servers"
     },
     "cql": {
@@ -53,7 +53,7 @@
       "label": "Batch Value Separator"
     },
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to Clickhouse. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to Clickhouse. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "connect_timeout": {
@@ -71,7 +71,7 @@
   },
   "emqx_ee_bridge_dynamo": {
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to DynamoDB. All MQTT `PUBLISH` messages with the topic\nmatching the `local_topic` will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also `local_topic` is\nconfigured, then both the data got from the rule and the MQTT messages that match `local_topic`\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to DynamoDB. All MQTT `PUBLISH` messages with the topic<br/>matching the `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also `local_topic` is<br/>configured, then both the data got from the rule and the MQTT messages that match `local_topic`<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "template": {
@@ -113,7 +113,7 @@
       "label": "Bridge Type"
     },
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic\nmatching `local_topic` will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to GCP PubSub. All MQTT 'PUBLISH' messages with the topic<br/>matching `local_topic` will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "max_retries": {
@@ -141,7 +141,7 @@
       "label": "Request Timeout"
     },
     "service_account_json": {
-      "desc": "JSON containing the GCP Service Account credentials to be used with PubSub.\nWhen a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
+      "desc": "JSON containing the GCP Service Account credentials to be used with PubSub.<br/>When a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
       "label": "GCP Service Account Credentials"
     }
   },
@@ -151,7 +151,7 @@
       "label": "Bridge Direction"
     },
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to the HStreamDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "payload": {
@@ -178,11 +178,11 @@
   },
   "emqx_ee_bridge_influxdb": {
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to the InfluxDB. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "write_syntax": {
-      "desc": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.\nSee also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and\n[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\nTLDR:</br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\nPlease note that a placeholder for an integer value must be annotated with a suffix `i`. For example `${'{'}payload.int_value{'}'}i`.",
+      "desc": "Conf of InfluxDB line protocol to write data points. It is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported.<br/>See also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR:</br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```<br/>Please note that a placeholder for an integer value must be annotated with a suffix `i`. For example `${'{'}payload.int_value{'}'}i`.",
       "label": "Write Syntax"
     },
     "bucket": {
@@ -218,7 +218,7 @@
       "label": "Protocol"
     },
     "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.</br>\nA host entry has the following form: `Host[:Port]`.</br>\nThe InfluxDB default port 8086 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.",
       "label": "Server Host"
     },
     "token": {
@@ -248,7 +248,7 @@
       "label": "Kafka Producer"
     },
     "producer_buffer": {
-      "desc": "Configure producer message buffer.\n\nTell Kafka producer how to buffer messages when EMQX has more messages to send than Kafka can keep up, or when Kafka is down.",
+      "desc": "Configure producer message buffer.<br/>Tell Kafka producer how to buffer messages when EMQX has more messages to send than Kafka can keep up, or when Kafka is down.",
       "label": "Message Buffer"
     },
     "socket_send_buffer": {
@@ -296,7 +296,7 @@
       "label": "Message Timestamp"
     },
     "buffer_mode": {
-      "desc": "Message buffer mode.\n\n<code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart\n<code>disk</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.\n<code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.",
+      "desc": "Message buffer mode.<br/><code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart<br/><code>disk</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.<br/><code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.",
       "label": "Buffer Mode"
     },
     "qos": {
@@ -304,7 +304,7 @@
       "label": "QoS"
     },
     "consumer_key_encoding_mode": {
-      "desc": "Defines how the key from the Kafka message is encoded before being forwarded via MQTT.\n<code>none</code> Uses the key from the Kafka message unchanged.  Note: in this case, the key must be a valid UTF-8 string.\n<code>base64</code> Uses base-64 encoding on the received key.",
+      "desc": "Defines how the key from the Kafka message is encoded before being forwarded via MQTT.<br/><code>none</code> Uses the key from the Kafka message unchanged.  Note: in this case, the key must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key.",
       "label": "Key Encoding Mode"
     },
     "auth_gssapi_kerberos": {
@@ -332,7 +332,7 @@
       "label": "Offset Reset Policy"
     },
     "partition_count_refresh_interval": {
-      "desc": "The time interval for Kafka producer to discover increased number of partitions.\nAfter the number of partitions is increased in Kafka, EMQX will start taking the \ndiscovered partitions into account when dispatching messages per <code>partition_strategy</code>.",
+      "desc": "The time interval for Kafka producer to discover increased number of partitions.<br/>After the number of partitions is increased in Kafka, EMQX will start taking the <br/>discovered partitions into account when dispatching messages per <code>partition_strategy</code>.",
       "label": "Partition Count Refresh Interval"
     },
     "max_batch_bytes": {
@@ -340,7 +340,7 @@
       "label": "Max Batch Bytes"
     },
     "required_acks": {
-      "desc": "Required acknowledgements for Kafka partition leader to wait for its followers before it sends back the acknowledgement to EMQX Kafka producer\n\n<code>all_isr</code>: Require all in-sync replicas to acknowledge.\n<code>leader_only</code>: Require only the partition-leader's acknowledgement.\n<code>none</code>: No need for Kafka to acknowledge at all.",
+      "desc": "Required acknowledgements for Kafka partition leader to wait for its followers before it sends back the acknowledgement to EMQX Kafka producer<br/><code>all_isr</code>: Require all in-sync replicas to acknowledge.<br/><code>leader_only</code>: Require only the partition-leader's acknowledgement.<br/><code>none</code>: No need for Kafka to acknowledge at all.",
       "label": "Required Acks"
     },
     "metadata_request_timeout": {
@@ -356,7 +356,7 @@
       "label": "Authentication"
     },
     "buffer_memory_overload_protection": {
-      "desc": "Applicable when buffer mode is set to <code>memory</code>\nEMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
+      "desc": "Applicable when buffer mode is set to <code>memory</code><br/>EMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
       "label": "Memory Overload Protection"
     },
     "auth_sasl_mechanism": {
@@ -364,7 +364,7 @@
       "label": "Mechanism"
     },
     "payload_template": {
-      "desc": "The template for transforming the incoming Kafka message.  By default, it will use JSON format to serialize inputs from the Kafka message.  Such fields are:\n<code>headers</code>: an object containing string key-value pairs.\n<code>key</code>: Kafka message key (uses the chosen key encoding).\n<code>offset</code>: offset for the message.\n<code>topic</code>: Kafka topic.\n<code>ts</code>: message timestamp.\n<code>ts_type</code>: message timestamp type, which is one of <code>create</code>, <code>append</code> or <code>undefined</code>.\n<code>value</code>: Kafka message value (uses the chosen value encoding).",
+      "desc": "The template for transforming the incoming Kafka message.  By default, it will use JSON format to serialize inputs from the Kafka message.  Such fields are:<br/><code>headers</code>: an object containing string key-value pairs.<br/><code>key</code>: Kafka message key (uses the chosen key encoding).<br/><code>offset</code>: offset for the message.<br/><code>topic</code>: Kafka topic.<br/><code>ts</code>: message timestamp.<br/><code>ts_type</code>: message timestamp type, which is one of <code>create</code>, <code>append</code> or <code>undefined</code>.<br/><code>value</code>: Kafka message value (uses the chosen value encoding).",
       "label": "MQTT Payload Template"
     },
     "consumer_opts": {
@@ -376,7 +376,7 @@
       "label": "Kafka Consumer"
     },
     "consumer_value_encoding_mode": {
-      "desc": "Defines how the value from the Kafka message is encoded before being forwarded via MQTT.\n<code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, the value must be a valid UTF-8 string.\n<code>base64</code> Uses base-64 encoding on the received value.",
+      "desc": "Defines how the value from the Kafka message is encoded before being forwarded via MQTT.<br/><code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, the value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received value.",
       "label": "Value Encoding Mode"
     },
     "buffer_per_partition_limit": {
@@ -408,11 +408,11 @@
       "label": "Message Value"
     },
     "partition_strategy": {
-      "desc": "Partition strategy is to tell the producer how to dispatch messages to Kafka partitions.\n\n<code>random</code>: Randomly pick a partition for each message\n<code>key_dispatch</code>: Hash Kafka message key to a partition number",
+      "desc": "Partition strategy is to tell the producer how to dispatch messages to Kafka partitions.<br/><code>random</code>: Randomly pick a partition for each message<br/><code>key_dispatch</code>: Hash Kafka message key to a partition number",
       "label": "Partition Strategy"
     },
     "buffer_segment_bytes": {
-      "desc": "Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.\nThis value is to specify the size of each on-disk buffer file.",
+      "desc": "Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.<br/>This value is to specify the size of each on-disk buffer file.",
       "label": "Segment File Bytes"
     },
     "consumer_kafka_opts": {
@@ -530,7 +530,7 @@
       "label": "Replica set"
     },
     "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>\nA host entry has the following form: `Host[:Port]`.<br/>\nThe MongoDB default port 27017 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
       "label": "Server Host"
     },
     "server_selection_timeout": {
@@ -538,7 +538,7 @@
       "label": "Server Selection Timeout"
     },
     "servers": {
-      "desc": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`\nFor each Node should be: The IPv4 or IPv6 address or the hostname to connect to.\nA host entry has the following form: `Host[:Port]`.\nThe MongoDB default port 27017 is used if `[:Port]` is not specified.",
+      "desc": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MongoDB default port 27017 is used if `[:Port]` is not specified.",
       "label": "Servers"
     },
     "sharded_mongo_type": {
@@ -568,11 +568,11 @@
   },
   "emqx_ee_bridge_mysql": {
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to MySQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>\nA host entry has the following form: `Host[:Port]`.<br/>\nThe MySQL default port 3306 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The MySQL default port 3306 is used if `[:Port]` is not specified.",
       "label": "Server Host"
     },
     "sql": {
@@ -582,11 +582,11 @@
   },
   "emqx_ee_bridge_pgsql": {
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>\nA host entry has the following form: `Host[:Port]`.<br/>\nThe PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
       "label": "Server Host"
     },
     "sql": {
@@ -596,11 +596,11 @@
   },
   "emqx_ee_bridge_redis": {
     "command_template": {
-      "desc": "Redis command template used to export messages. Each list element stands for a command name or its argument.\nFor example, to push payloads in a Redis list by key `msgs`, the elements should be the following:\n`rpush`, `msgs`, `${'{'}payload{'}'}`.",
+      "desc": "Redis command template used to export messages. Each list element stands for a command name or its argument.<br/>For example, to push payloads in a Redis list by key `msgs`, the elements should be the following:<br/>`rpush`, `msgs`, `${'{'}payload{'}'}`.",
       "label": "Redis Command Template"
     },
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to Redis. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "cluster": {
@@ -620,11 +620,11 @@
       "label": "Cluster Name"
     },
     "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>\nA host entry has the following form: `Host[:Port]`.<br/>\nThe Redis default port 6379 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
       "label": "Server Host"
     },
     "servers": {
-      "desc": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`\nFor each Node should be: The IPv4 or IPv6 address or the hostname to connect to.\nA host entry has the following form: `Host[:Port]`.\nThe Redis default port 6379 is used if `[:Port]` is not specified.",
+      "desc": "A Node list for Cluster to connect to. The nodes should be separated with commas, such as: `Node[,Node].`<br/>For each Node should be: The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The Redis default port 6379 is used if `[:Port]` is not specified.",
       "label": "Servers"
     },
     "single": {
@@ -634,7 +634,7 @@
   },
   "emqx_ee_bridge_rocketmq": {
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to RocketMQ. All MQTT `PUBLISH` messages with the topic\nmatching the `local_topic` will be forwarded.</br>\nNOTE: if the bridge is used as a rule action, `local_topic` should be left empty otherwise the messages will be duplicated.",
+      "desc": "The MQTT topic filter to be forwarded to RocketMQ. All MQTT `PUBLISH` messages with the topic<br/>matching the `local_topic` will be forwarded.</br><br/>NOTE: if the bridge is used as a rule action, `local_topic` should be left empty otherwise the messages will be duplicated.",
       "label": "Local Topic"
     },
     "template": {
@@ -655,7 +655,7 @@
     },
     "servers": {
       "label": "Server Host",
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The RocketMQ default port 9876 is used if `[:Port]` is not specified."
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The RocketMQ default port 9876 is used if `[:Port]` is not specified."
     },
     "topic": {
       "desc": "RocketMQ Topic",
@@ -676,11 +676,11 @@
   },
   "emqx_ee_bridge_tdengine": {
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to TDengine. All MQTT 'PUBLISH' messages with the topic\nmatching the local_topic will be forwarded.</br>\nNOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is\nconfigured, then both the data got from the rule and the MQTT messages that match local_topic\nwill be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to TDengine. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>\nA host entry has the following form: `Host[:Port]`.<br/>\nThe TDengine default port 6041 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The TDengine default port 6041 is used if `[:Port]` is not specified.",
       "label": "Server Host"
     },
     "sql": {
@@ -691,7 +691,7 @@
   "emqx_ee_bridge_sqlserver": {
     "server": {
       "label": "Server Host",
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/><br/>A host entry has the following form: `Host[:Port]`.<br/><br/>The SQL Server default port 1433 is used if `[:Port]` is not specified."
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The SQL Server default port 1433 is used if `[:Port]` is not specified."
     },
     "driver": {
       "label": "SQL Server Driver Name",
@@ -724,7 +724,7 @@
       "label": "HTTP Basic Auth Password"
     },
     "base_url": {
-      "desc": "The base URL of the external IoTDB service's REST interface.<br/>\n The URL has the following form `http://Host:Port`.",
+      "desc": "The base URL of the external IoTDB service's REST interface.<br/> The URL has the following form `http://Host:Port`.",
       "label": "IoTDB REST Service Base URL"
     },
     "is_aligned": {
@@ -887,11 +887,11 @@
       "label": "Authentication"
     },
     "buffer_memory_overload_protection": {
-      "desc": "Applicable when buffer mode is set to <code>memory</code>\nEMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
+      "desc": "Applicable when buffer mode is set to <code>memory</code><br/>EMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
       "label": "Memory Overload Protection"
     },
     "buffer_mode": {
-      "desc": "Message buffer mode:\n<code>memory</code>: Buffer all messages in memory. The messages will be lost if EMQX node restarts.\n<code>disk</code>: Buffer all messages on disk. The messages are designed to persist even during an EMQX node restart.\n<code>hybrid</code>: Buffer message in memory first, when up to a certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, the messages will be lost in if EMQX node restarts.",
+      "desc": "Message buffer mode:<br/><code>memory</code>: Buffer all messages in memory. The messages will be lost if EMQX node restarts.<br/><code>disk</code>: Buffer all messages on disk. The messages are designed to persist even during an EMQX node restart.<br/><code>hybrid</code>: Buffer message in memory first, when up to a certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, the messages will be lost in if EMQX node restarts.",
       "label": "Buffer Mode"
     },
     "buffer_per_partition_limit": {
@@ -899,7 +899,7 @@
       "label": "Per-partition Buffer Limit"
     },
     "buffer_segment_bytes": {
-      "desc": "Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.\nThis value is to specify the size of each on-disk buffer file.",
+      "desc": "Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.<br/>This value is to specify the size of each on-disk buffer file.",
       "label": "Segment File Bytes"
     },
     "batch_size": {
@@ -907,7 +907,7 @@
       "label": "Batch Size"
     },
     "buffer": {
-      "desc": "Configure producer message buffer.\n\nThis is to inform Pulsar producer how to proceed when EMQX has more messages to send than Pulsar can handle, or when Pulsar is down",
+      "desc": "Configure producer message buffer.<br/>This is to inform Pulsar producer how to proceed when EMQX has more messages to send than Pulsar can handle, or when Pulsar is down",
       "label": "Message Buffer"
     },
     "compression": {
@@ -947,7 +947,7 @@
       "label": "Socket Send Buffer Size"
     },
     "strategy": {
-      "desc": "Choose how messages are dispatched to Pulsar partitions:\n\n<code>random</code>: Messages are randomly assigned to partitions.\n<code>roundrobin</code>: Messages are evenly distributed across available producers.\n<code>key_dispatch</code>: Partitions to be selected are hashed and stored in the Pulsar message key of the first message in a batch.",
+      "desc": "Choose how messages are dispatched to Pulsar partitions:<br/><code>random</code>: Messages are randomly assigned to partitions.<br/><code>roundrobin</code>: Messages are evenly distributed across available producers.<br/><code>key_dispatch</code>: Partitions to be selected are hashed and stored in the Pulsar message key of the first message in a batch.",
       "label": "Partition Strategy"
     },
     "sync_timeout": {
