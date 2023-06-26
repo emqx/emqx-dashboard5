@@ -811,7 +811,7 @@
       "label": "流接收窗口默认"
     },
     "mqtt_mqueue_priorities": {
-      "desc": "主题优先级指定主题优先级，取值范围为 disabled 或者 [1-255]。默认为 disabled，即所有的主题优先级相同。对未包含在优先级列表中的主题，将按照默认主题优先级(mqtt.mqueue_default_priority)的配置，被赋予最高/最低优先级。示例：{'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
+      "desc": "主题优先级。优先级数字[1-255]。默认情况下没有优先级表，因此所有消息都被平等对待。<br/>注意：优先级主题名称中不允许使用逗号和等号。<br/>注意：不在优先级表中的主题的消息将根据 mqtt.mqueue_default_priority 的配置值被视为最高优先级或最低优先级。<br/>示例：<br/>要配置 'topic/1' > 'topic/2'：<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
       "label": "主题优先级"
     },
     "fields_rate_limit_conn_messages_in": {
@@ -1333,7 +1333,7 @@
     },
     "mqtt_shared_subscription_strategy": {
       "label": "共享订阅策略",
-      "desc": "共享订阅的调度策略。<br/>- `random`：将消息分配给随机选择的订阅者。<br/>- `round_robin`：以循环方式选择订阅者。<br/>- `round_robin_per_group`：在每个共享订阅组内以循环方式选择订阅者。<br/>- `sticky`：始终使用最后选择的订阅者进行调度，直到订阅者断开连接。<br/>- `hash`：根据 `clientIds` 的哈希值选择订阅者。<br/>- `local`：发送给随机的本地订阅者。如果没有找到本地订阅者，则发送到随机的订阅者集群。"
+      "desc": "共享订阅的调度策略。<br/>- `random`：将消息分配给随机选择的订阅者。<br/>- `round_robin`：以循环方式选择订阅者。<br/>- `round_robin_per_group`：在每个共享订阅组内以循环方式选择订阅者。<br/>- `sticky`：始终使用最后选择的订阅者进行调度，直到订阅者断开连接。<br/>- `local`：如果本地订阅者不存在，则选择随机本地订阅者，否则选择随机集群广域订阅者。<br/>- `hash_topic`：通过主题源的哈希值选择订阅者。<br/>- `hash_clientid`：通过客户端 ID 的哈希值选择订阅者。"
     }
   }
 }

@@ -71,11 +71,23 @@ export default defineComponent({
       if (mqtt && !mqtt.mqueue_priorities) {
         mqtt.mqueue_priorities = {
           validator: (rules: any, value: string, callback: any) => {
-            const msg =
-              disabledValue !== value && !isJSONString(value)
-                ? t('Auth.jsonFormatError')
-                : undefined
-            callback(msg)
+            if (disabledValue === value) {
+              callback()
+            } else if (!isJSONString(value)) {
+              callback(t('Auth.jsonFormatError'))
+            } else {
+              const obj = JSON.parse(value)
+              let invalidPriority = false
+              for (let key in obj) {
+                const priority = obj[key]
+                if (typeof priority !== 'number' || priority < 1 || priority > 255) {
+                  invalidPriority = true
+                  break
+                }
+              }
+              const msg = invalidPriority ? t('Auth.priorityRangeError') : undefined
+              callback(msg)
+            }
           },
           trigger: 'blur',
         }

@@ -166,13 +166,15 @@ const currentIns = getCurrentInstance()
  * form validation after setting modelValue to null following enable.
  */
 watch(isDisabled, async (val) => {
-  if (!val) {
-    const formItem = props.formItem || currentIns?.parent?.exposed
-    if (isFunction(formItem?.clearValidate)) {
+  const formItem = props.formItem || currentIns?.parent?.exposed
+  if (isFunction(formItem?.clearValidate)) {
+    await nextTick()
+    if (!val) {
+      // Waiting for the form input box to render
+      // field expired interval in session conf
       await nextTick()
-      await nextTick()
-      formItem?.clearValidate()
     }
+    formItem?.clearValidate()
   }
 })
 </script>

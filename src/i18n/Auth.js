@@ -439,4 +439,8 @@ export default {
     zh: '集合',
     en: 'Collection',
   },
+  priorityRangeError: {
+    zh: '优先级数字必须在 1 到 255 之间。',
+    en: 'Priority number must be a number between 1 and 255.',
+  },
 }
