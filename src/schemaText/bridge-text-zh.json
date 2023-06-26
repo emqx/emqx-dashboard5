@@ -31,7 +31,7 @@
   },
   "emqx_ee_bridge_cassa": {
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 Cassandra。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 Cassandra。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
     },
     "keyspace": {
@@ -39,7 +39,7 @@
       "label": "Keyspace"
     },
     "servers": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>\n主机名具有以下形式：`Host[:Port][,Host2:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 Cassandra 默认端口 9042。",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port][,Host2:Port]`。<br/>如果未指定 `[:Port]`，则使用 Cassandra 默认端口 9042。",
       "label": "Servers"
     },
     "cql": {
@@ -53,7 +53,7 @@
       "label": "分隔符"
     },
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 Clickhouse。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 Clickhouse。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
     },
     "connect_timeout": {
@@ -71,7 +71,7 @@
   },
   "emqx_ee_bridge_dynamo": {
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 DynamoDB。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 DynamoDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
     },
     "template": {
@@ -113,7 +113,7 @@
       "label": "桥接类型"
     },
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 GCP PubSub。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 GCP PubSub。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 GCP PubSub。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 GCP PubSub。",
       "label": "本地 Topic"
     },
     "max_retries": {
@@ -141,7 +141,7 @@
       "label": "HTTP 请求超时"
     },
     "service_account_json": {
-      "desc": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。\n当创建GCP服务账户时（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
+      "desc": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
       "label": "GCP 服务账户凭证"
     }
   },
@@ -151,7 +151,7 @@
       "label": "桥接方向"
     },
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。",
       "label": "本地 Topic"
     },
     "payload": {
@@ -174,11 +174,11 @@
   },
   "emqx_ee_bridge_influxdb": {
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。",
       "label": "本地 Topic"
     },
     "write_syntax": {
-      "desc": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br>\n参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及\n[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\nTLDR: </br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\n注意，整形数值占位符后需要添加一个字符 `i` 类型标识。例如 `${'{'}payload.int_value{'}'}i`",
+      "desc": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符</br><br/>参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及<br/>[InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br><br/>TLDR: </br><br/>```<br/><measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]<br/>```<br/>注意，整形数值占位符后需要添加一个字符 `i` 类型标识。例如 `${'{'}payload.int_value{'}'}i`",
       "label": "写语句"
     },
     "bucket": {
@@ -214,7 +214,7 @@
       "label": "协议"
     },
     "server": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br>\n主机名具有以下形式：`Host[:Port]`。</br>\n如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。",
       "label": "服务器地址"
     },
     "token": {
@@ -244,7 +244,7 @@
       "label": "Kafka Producer"
     },
     "producer_buffer": {
-      "desc": "配置消息缓存的相关参数。\n\n当 EMQX 需要发送的消息超过 Kafka 处理能力，或者当 Kafka 临时下线时，EMQX 内部会将消息缓存起来。",
+      "desc": "配置消息缓存的相关参数。<br/>当 EMQX 需要发送的消息超过 Kafka 处理能力，或者当 Kafka 临时下线时，EMQX 内部会将消息缓存起来。",
       "label": "消息缓存"
     },
     "socket_send_buffer": {
@@ -292,7 +292,7 @@
       "label": "消息的时间戳"
     },
     "buffer_mode": {
-      "desc": "消息缓存模式。\n<code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。\n<code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。\n<code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。与 <code>memory</code> 模式一样，如果 EMQX 服务重启，缓存的消息会丢失。",
+      "desc": "消息缓存模式。<br/><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。<br/><code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。<br/><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。与 <code>memory</code> 模式一样，如果 EMQX 服务重启，缓存的消息会丢失。",
       "label": "缓存模式"
     },
     "qos": {
@@ -300,7 +300,7 @@
       "label": "QoS"
     },
     "consumer_key_encoding_mode": {
-      "desc": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Key。<code>none</code> 使用 Kafka 消息中的 Key 原始值，不进行编码。  注意：在这种情况下，Key 必须是一个有效的 UTF-8 字符串。\n<code>base64</code> 对收到的密钥或值使用 base-64 编码。",
+      "desc": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Key。<code>none</code> 使用 Kafka 消息中的 Key 原始值，不进行编码。  注意：在这种情况下，Key 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的密钥或值使用 base-64 编码。",
       "label": "Key 编码模式"
     },
     "auth_gssapi_kerberos": {
@@ -328,7 +328,7 @@
       "label": "偏移重置策略"
     },
     "partition_count_refresh_interval": {
-      "desc": "配置 Kafka 刷新分区数量的时间间隔。\nEMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy</code> 配置，把消息发送到新的分区中。",
+      "desc": "配置 Kafka 刷新分区数量的时间间隔。<br/>EMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy</code> 配置，把消息发送到新的分区中。",
       "label": "分区数量刷新间隔"
     },
     "max_batch_bytes": {
@@ -336,7 +336,7 @@
       "label": "最大批量字节数"
     },
     "required_acks": {
-      "desc": "设置 Kafka leader 在返回给 EMQX 确认之前需要等待多少个 follower 的确认。\n\n<code>all_isr</code>: 需要所有的在线复制者都确认。\n<code>leader_only</code>: 仅需要分区 leader 确认。\n<code>none</code>: 无需 Kafka 回复任何确认。",
+      "desc": "设置 Kafka leader 在返回给 EMQX 确认之前需要等待多少个 follower 的确认。<br/><code>all_isr</code>: 需要所有的在线复制者都确认。<br/><code>leader_only</code>: 仅需要分区 leader 确认。<br/><code>none</code>: 无需 Kafka 回复任何确认。",
       "label": "Kafka 确认数量"
     },
     "metadata_request_timeout": {
@@ -360,7 +360,7 @@
       "label": "认证方法"
     },
     "payload_template": {
-      "desc": "用于转换收到的 Kafka 消息的模板。 默认情况下，它将使用 JSON 格式来序列化来自 Kafka 的所有字段。 这些字段包括：<code>headers</code>：一个包含字符串键值对的 JSON 对象。\n<code>key</code>：Kafka 消息的键（使用选择的编码方式编码）。\n<code>offset</code>：消息的偏移量。\n<code>topic</code>：Kafka 主题。\n<code>ts</code>: 消息的时间戳。\n<code>ts_type</code>：消息的时间戳类型，值可能是： <code>create</code>， <code>append</code> 或 <code>undefined</code>。\n<code>value</code>: Kafka 消息值（使用选择的编码方式编码）。",
+      "desc": "用于转换收到的 Kafka 消息的模板。 默认情况下，它将使用 JSON 格式来序列化来自 Kafka 的所有字段。 这些字段包括：<code>headers</code>：一个包含字符串键值对的 JSON 对象。<br/><code>key</code>：Kafka 消息的键（使用选择的编码方式编码）。<br/><code>offset</code>：消息的偏移量。<br/><code>topic</code>：Kafka 主题。<br/><code>ts</code>: 消息的时间戳。<br/><code>ts_type</code>：消息的时间戳类型，值可能是： <code>create</code>， <code>append</code> 或 <code>undefined</code>。<br/><code>value</code>: Kafka 消息值（使用选择的编码方式编码）。",
       "label": "MQTT Payload Template"
     },
     "consumer_opts": {
@@ -372,7 +372,7 @@
       "label": "Kafka 消费者"
     },
     "consumer_value_encoding_mode": {
-      "desc": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Value。<code>none</code> 使用 Kafka 消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的 UTF-8 字符串。\n<code>base64</code> 对收到的 Value 使用 base-64 编码。",
+      "desc": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Value。<code>none</code> 使用 Kafka 消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的 Value 使用 base-64 编码。",
       "label": "Value 编码模式"
     },
     "buffer_per_partition_limit": {
@@ -404,7 +404,7 @@
       "label": "消息的值"
     },
     "partition_strategy": {
-      "desc": "设置消息发布时应该如何选择 Kafka 分区。\n\n<code>random</code>: 为每个消息随机选择一个分区。\n<code>key_dispatch</code>：对 Kafka 消息键进行哈希，以得到一个分区号。",
+      "desc": "设置消息发布时应该如何选择 Kafka 分区。<br/><code>random</code>: 为每个消息随机选择一个分区。<br/><code>key_dispatch</code>：对 Kafka 消息键进行哈希，以得到一个分区号。",
       "label": "分区选择策略"
     },
     "buffer_segment_bytes": {
@@ -526,7 +526,7 @@
       "label": "Replica set 模式"
     },
     "server": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。",
       "label": "服务器地址"
     },
     "server_selection_timeout": {
@@ -534,7 +534,7 @@
       "label": "服务器选择超时"
     },
     "servers": {
-      "desc": "集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`\n每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。\n主机名具有以下形式：`Host[:Port]`。\n如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。",
+      "desc": "集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。",
       "label": "服务器列表"
     },
     "sharded_mongo_type": {
@@ -564,11 +564,11 @@
   },
   "emqx_ee_bridge_mysql": {
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 MySQL。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 MySQL。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
     },
     "server": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 MySQL 默认端口 3306。",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MySQL 默认端口 3306。",
       "label": "服务器地址"
     },
     "sql": {
@@ -578,11 +578,11 @@
   },
   "emqx_ee_bridge_pgsql": {
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 PostgreSQL。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 PostgreSQL。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
     },
     "server": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 PostgreSQL 默认端口 5432。",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 PostgreSQL 默认端口 5432。",
       "label": "服务器地址"
     },
     "sql": {
@@ -592,11 +592,11 @@
   },
   "emqx_ee_bridge_redis": {
     "command_template": {
-      "desc": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。\n例如，要通过键 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${'{'}payload{'}'}`。",
+      "desc": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${'{'}payload{'}'}`。",
       "label": "Redis 命令模板"
     },
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 Redis。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 Redis。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 Redis。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 Redis。",
       "label": "本地 Topic"
     },
     "cluster": {
@@ -616,11 +616,11 @@
       "label": "集群名称"
     },
     "server": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。",
       "label": "服务器地址"
     },
     "servers": {
-      "desc": "集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`\n每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。\n主机名具有以下形式：`Host[:Port]`。\n如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。",
+      "desc": "集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。",
       "label": "服务器列表"
     },
     "single": {
@@ -630,7 +630,7 @@
   },
   "emqx_ee_bridge_rocketmq": {
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 RocketMQ。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 RocketMQ。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
     },
     "template": {
@@ -651,7 +651,7 @@
     },
     "servers": {
       "label": "服务器地址",
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 RocketMQ 默认端口 9876。"
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 RocketMQ 默认端口 9876。"
     },
     "topic": {
       "desc": "RocketMQ 主题",
@@ -672,11 +672,11 @@
   },
   "emqx_ee_bridge_tdengine": {
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 TDengine。 </br>\n注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "desc": "发送到 'local_topic' 的消息都会转发到 TDengine。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
     },
     "server": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>\n主机名具有以下形式：`Host[:Port]`。<br/>\n如果未指定 `[:Port]`，则使用 TDengine 默认端口 6041。",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 TDengine 默认端口 6041。",
       "label": "服务器地址"
     },
     "sql": {
@@ -687,7 +687,7 @@
   "emqx_ee_bridge_sqlserver": {
     "server": {
       "label": "服务器地址",
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/><br/>主机名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，则使用 SQL Server 默认端口 1433。"
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 SQL Server 默认端口 1433。"
     },
     "driver": {
       "label": "SQL Server Driver 名称",
@@ -720,7 +720,7 @@
       "label": "HTTP 基本身份验证密码"
     },
     "base_url": {
-      "desc": "外部 IoTDB 服务的 REST 接口的基础 URL。<br/>\nURL 具有以下形式：`http://Host:Port`",
+      "desc": "外部 IoTDB 服务的 REST 接口的基础 URL。<br/>URL 具有以下形式：`http://Host:Port`",
       "label": "IoTDB REST 服务基础 URL"
     },
     "is_aligned": {
@@ -913,15 +913,15 @@
       "label": "Pulsar 主题名称"
     },
     "strategy": {
-      "desc": "设置消息发布时的 Pulsar 分区选择策略。\n\n<code>random</code>: 为每个消息随机选择一个分区。\n<code>roundrobin</code>: 依次为每条信息挑选可用的 producer。\n<code>key_dispatch</code>: 将待选择分区的编码进行哈希，并存储在一批信息中第一条信息的 Pulsar 信息密钥中。",
+      "desc": "设置消息发布时的 Pulsar 分区选择策略。<br/><code>random</code>: 为每个消息随机选择一个分区。<br/><code>roundrobin</code>: 依次为每条信息挑选可用的 producer。<br/><code>key_dispatch</code>: 将待选择分区的编码进行哈希，并存储在一批信息中第一条信息的 Pulsar 信息密钥中。",
       "label": "分区选择策略"
     },
     "buffer": {
-      "desc": "配置消息缓存的相关参数。\n\n当 EMQX 需要发送的消息超过 Pulsar 处理能力，或者当 Pulsar 临时下线时，EMQX 会进行消息缓存。",
+      "desc": "配置消息缓存的相关参数。<br/>当 EMQX 需要发送的消息超过 Pulsar 处理能力，或者当 Pulsar 临时下线时，EMQX 会进行消息缓存。",
       "label": "消息缓存"
     },
     "buffer_mode": {
-      "desc": "消息缓存模式。\n<code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。\n<code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。\n<code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。如果 EMQX 服务重启，缓存消息会丢失。",
+      "desc": "消息缓存模式。<br/><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。<br/><code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。<br/><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。如果 EMQX 服务重启，缓存消息会丢失。",
       "label": "缓存模式"
     },
     "buffer_per_partition_limit": {
