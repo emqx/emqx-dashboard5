@@ -815,7 +815,7 @@
       "label": "Stream recv window default"
     },
     "mqtt_mqueue_priorities": {
-      "desc": "Topic PrioritiesSpecifies the priority of topics with optional values of \"disabled\" or [1-255].The default value is \"disabled\", indicating the same priority for all topics.For topics not listed within the priority table, they will be assigned the highest/lowest priority according to Default Topic Priorities (mqtt.mqueue_default_priority). ",
+      "desc": "Topic priorities. Priority number [1-255]. There's no priority table by default, hence all messages are treated equal.<br/>NOTE: Comma and equal signs are not allowed for priority topic names.<br/>NOTE: Messages for topics not in the priority table are treated as either highest or lowest priority depending on the configured value for mqtt.mqueue_default_priority.<br/>Examples:<br/>To configure \"topic/1\" > \"topic/2\":<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
       "label": "Topic Priorities"
     },
     "fields_rate_limit_conn_messages_in": {
