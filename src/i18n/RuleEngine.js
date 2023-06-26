@@ -63,6 +63,18 @@ export default {
     zh: '请求方法',
     en: 'Method',
   },
+  trigger: {
+    zh: '触发器',
+    en: 'Trigger',
+  },
+  topicFilter: {
+    zh: '主题过滤',
+    en: 'Topic Filter',
+  },
+  addTopic: {
+    zh: '添加主题',
+    en: 'Add Topic',
+  },
   connParams: {
     zh: '连接参数',
     en: 'Connection',
@@ -646,6 +658,10 @@ export default {
     zh: '事件',
     en: 'Events',
   },
+  allMsgsAndEvents: {
+    zh: '所有消息和事件',
+    en: 'All Message and Events',
+  },
   eventsDesc: {
     zh: '规则可以通过 MQTT 消息、事件或数据桥来触发。在 SQL 中，多个数据源可以使用逗号分隔。',
     en: 'Rules can be triggered by MQTT messages, events, or data bridges. In SQL, multiple data sources can be separated with commas.',
@@ -805,5 +821,9 @@ export default {
   sync: {
     zh: '同步',
     en: 'Sync',
+  },
+  advancedSettings: {
+    zh: '高级设置',
+    en: 'Advanced Settings',
   },
 }
