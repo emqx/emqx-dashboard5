@@ -21,22 +21,20 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import iotform from '../components/IoTForm.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { RuleItem } from '@/types/rule'
 import { createRules, getRuleInfo } from '@/api/ruleengine'
-import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { countDuplicationName, createRandomString } from '@/common/tools'
-import { DEFAULT_SELECT, DEFAULT_FROM } from '@/common/constants'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { countDuplicationName } from '@/common/tools'
+import DetailHeader from '@/components/DetailHeader.vue'
+import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import { RuleItem } from '@/types/rule'
+import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual, pick } from 'lodash'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
+import iotform from '../components/IoTForm.vue'
 
 const { t } = useI18n()
-const { transSQLFormDataToSQL } = useRuleUtils()
 
 const route = useRoute()
 const router = useRouter()
@@ -44,14 +42,9 @@ const submitLoading = ref(false)
 
 // const mode = 'sql'
 
-const createRuleID = () => `rule_${createRandomString(4)}`
+const { createRawRuleForm } = useRuleForm()
 
-const ruleValue: Ref<RuleItem> = ref({
-  id: createRuleID(),
-  sql: transSQLFormDataToSQL(DEFAULT_SELECT, [DEFAULT_FROM]),
-  actions: [],
-  description: '',
-})
+const ruleValue = ref(createRawRuleForm())
 let rawRuleValue = cloneDeep(ruleValue.value)
 const countIsRuleRecordChanged = () => !isEqual(ruleValue.value, rawRuleValue)
 
