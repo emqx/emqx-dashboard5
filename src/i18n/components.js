@@ -249,7 +249,7 @@ export default {
   },
   bridge: {
     zh: '数据桥接',
-    en: 'Data Bridge',
+    en: 'Data Bridges',
   },
   schema: {
     zh: '编解码',
@@ -305,7 +305,7 @@ export default {
   },
   dataBridge: {
     zh: '数据桥接',
-    en: 'Data Bridge',
+    en: 'Data Bridges',
   },
   connector: {
     zh: '连接配置',

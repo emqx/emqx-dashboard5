@@ -1,7 +1,8 @@
-import { numToFixed } from '@/common/tools'
+import { numToFixed, waitAMoment } from '@/common/tools'
 import { NodeMsg } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
-import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
+import { ComputedRef, Ref, computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 export interface FlowNodeData {
   type: 'core' | 'replicant' | 'background'
@@ -126,6 +127,8 @@ export default (
   countCoreNodeHeight: () => void
   generateFlowData: (nodes: Array<NodeMsg>) => Array<FlowDataItem>
 } => {
+  const { state } = useStore()
+
   const FlowInstance = ref()
   const flowEleWidth = ref(640)
   const flowEleHeight = ref(243)
@@ -156,7 +159,7 @@ export default (
     }
   }
 
-  const coreNodesNum = computed(() => props.nodes.filter(({ role }) => role === 'core').length)
+  const coreNodesNum = computed(() => props.nodes.filter(({ role }) => role !== 'replicant').length)
   const countCoreNodeHeight = () => {
     if (coreNodesNum.value === 1) {
       coreNodeHeight.value = numToFixed(
@@ -168,6 +171,7 @@ export default (
         ? 10 + numToFixed(BACKGROUND_CIRCLE_RADIUS / (coreNodesNum.value * 2), 3)
         : 24 + numToFixed(flowEleHeight.value / (coreNodesNum.value * 2), 3)
     }
+    setCoreNodeHeight(coreNodeHeight.value)
   }
 
   const { nonactivatedRadius: regNodeRadius } = useRepCodeNodeSize()
@@ -176,19 +180,26 @@ export default (
     nodesNum: number,
     nodeRole: 'core' | 'replicant',
   ): { x: number; y: number } => {
-    const isCore = nodeRole === 'core'
+    const isCore = nodeRole !== 'replicant'
     const angleOffset = (Math.PI / 2) * nodesNum
     const angle = numToFixed(angleOffset + ((Math.PI * 2) / nodesNum) * nodeIndex, 2)
     let radius = 0
     if (isCore) {
-      radius =
+      radius = numToFixed(
         (showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS * 0.84 : flowEleHeight.value / 2) -
-        coreNodeHeight.value * Math.log10(nodesNum) * 1.5
+          coreNodeHeight.value * Math.log10(nodesNum) * 1.5,
+        3,
+      )
     } else {
       radius = (BACKGROUND_CIRCLE_INNER_RADIUS + BACKGROUND_CIRCLE_OUTER_RADIUS) / 2
     }
     const x0 = flowEleWidth.value / 2
-    const y0 = flowEleHeight.value / 2
+    let y0 = flowEleHeight.value / 2
+    // If there is only one core node and the total number of nodes is 3,
+    // move the center down a bit to achieve visual balance.
+    if (!showBackgroundCircle.value && nodesNum === 3 && nodeRole === 'core') {
+      y0 += (radius / 2) * Math.sin(Math.PI / 6)
+    }
     const xOffset = isCore && nodesNum === 1 ? 0 : radius * Math.cos(angle)
     const yOffset = isCore && nodesNum === 1 ? 0 : radius * Math.sin(angle)
     const nodeWidth = isCore ? coreNodeSVGWidth.value : regNodeRadius * 2
@@ -213,7 +224,7 @@ export default (
   const generateFlowNodeData = (nodes: Array<NodeMsg>) => {
     const coreNodes: Array<NodeMsg> = []
     const repNodes: Array<NodeMsg> = []
-    nodes.forEach((item) => (item.role === 'core' ? coreNodes : repNodes).push(item))
+    nodes.forEach((item) => (item.role !== 'replicant' ? coreNodes : repNodes).push(item))
     if (repNodes.length > MAX_DISPLAYED_REP_NODE) {
       repNodes.splice(20, repNodes.length - 20)
     }
@@ -232,7 +243,7 @@ export default (
 
   const generateFlowEdgeData = (nodes: Array<NodeMsg>) => {
     const ret = []
-    const coreNodes = nodes.filter(({ role }) => role === 'core')
+    const coreNodes = nodes.filter(({ role }) => role !== 'replicant')
     for (let i = 0; i < coreNodes.length; i++) {
       const source = coreNodes[i].node
       for (let j = i + 1; j < coreNodes.length; j++) {
@@ -249,11 +260,37 @@ export default (
     return [...flowNodeData, ...flowEdgeData]
   }
 
+  const recountBgPosition = () => {
+    getFlowEleSize()
+    countBackgroundCirclePosition()
+  }
+
+  const addListener = () => {
+    window.addEventListener('resize', recountBgPosition)
+  }
+
+  const removeListener = () => {
+    window.removeEventListener('resize', recountBgPosition)
+  }
+
+  watch(
+    () => state.leftBarCollapse,
+    async () => {
+      await waitAMoment(300)
+      recountBgPosition()
+    },
+  )
+
+  onUnmounted(() => {
+    removeListener()
+  })
+
   onMounted(() => {
     getFlowEleSize()
     countBackgroundCirclePosition()
     countCoreNodeHeight()
     setCoreNodeHeight(coreNodeHeight.value)
+    addListener()
   })
 
   return {

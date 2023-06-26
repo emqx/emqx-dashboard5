@@ -1,4 +1,4 @@
-import { DEFAULT_ZONE, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
+import { SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import useLimiter from '@/hooks/Config/useLimiter'
 import { FormRules } from '@/types/common'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
