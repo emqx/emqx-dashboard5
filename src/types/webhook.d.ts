@@ -1,8 +1,11 @@
-import { HTTPBridge, RuleItem } from './rule'
+import { BasicRule, HTTPBridge } from './rule'
 
-export interface Webhook {
+export interface WebhookForm {
+  bridge: HTTPBridge
+  rule: BasicRule
+}
+
+export interface WebhookItem extends WebhookForm {
   name: string
   enable: boolean
-  bridge: HTTPBridge
-  rule: RuleItem
 }
