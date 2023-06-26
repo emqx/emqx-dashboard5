@@ -124,11 +124,10 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
+import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import useSSL from '@/hooks/useSSL'
 import { BridgeItem, HTTPBridge } from '@/types/rule'
 import { cloneDeep } from 'lodash'
 import { PropType, Ref, defineComponent, onMounted, ref, watch } from 'vue'
@@ -163,30 +162,10 @@ export default defineComponent({
   setup(props, context) {
     const { tl } = useI18nTl('RuleEngine')
     const { docMap } = useDocLink()
-    const { createDefaultResourceOptsForm } = useResourceOpt()
-    const { createSSLForm } = useSSL()
-    const createHttpBridgeDefaultVal = (): HTTPBridge =>
-      ({
-        name: '',
-        method: 'post',
-        url: 'http://',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: '',
-        pool_type: 'hash',
-        pool_size: 8,
-        enable_pipelining: 100,
-        connect_timeout: '15s',
-        resource_opts: createDefaultResourceOptsForm({
-          inflight: true,
-          withoutRequestTimeout: false,
-        }),
-        ssl: createSSLForm(),
-      } as HTTPBridge)
+    const { createRawHTTPForm } = useBridgeFormCreator()
 
     let modelValueCache = ''
-    const httpBridgeVal: Ref<HTTPBridge> = ref(createHttpBridgeDefaultVal())
+    const httpBridgeVal: Ref<HTTPBridge> = ref(createRawHTTPForm())
 
     const { createRequiredRule, createIntFieldRule, createCommonIdRule } = useFormRules()
     const formCom = ref()
@@ -199,7 +178,7 @@ export default defineComponent({
 
     const initHttpBridgeVal = () => {
       if (props.edit || props.copy) {
-        const defaultValue = { ...createHttpBridgeDefaultVal(), headers: {} }
+        const defaultValue = { ...createRawHTTPForm(), headers: {} }
         httpBridgeVal.value = fillEmptyValueToUndefinedField(
           cloneDeep(props.modelValue),
           defaultValue,
