@@ -1,14 +1,14 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="160px"
+    label-width="180px"
     class="webhook-form"
     require-asterisk-position="right"
     :rules="rules"
     :model="formData"
   >
-    <el-form-item prop="rule.name" :label="tl('name')">
-      <el-input v-model="formData.rule.name" :disabled="isEdit" />
+    <el-form-item prop="name" :label="tl('name')">
+      <el-input v-model="formData.name" :disabled="isEdit" />
     </el-form-item>
     <el-form-item prop="rule.description" :label="tl('note')">
       <el-input v-model="formData.rule.description" />
