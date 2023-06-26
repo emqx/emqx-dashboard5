@@ -1337,7 +1337,7 @@
     },
     "mqtt_shared_subscription_strategy": {
       "label": "Shared Subscription Strategy",
-      "desc": "Dispatch strategy for shared subscription.<br/>- `random`: dispatch the message to a random selected subscriber<br/>- `round_robin`: select the subscribers in a round-robin manner<br/>- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group<br/>- `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.<br/>- `hash`: select the subscribers by the hash of `clientIds`<br/>- `local`: send to a random local subscriber. If local subscriber was not found, send to a random subscriber cluster-wide"
+      "desc": "Dispatch strategy for shared subscription.<br/>- `random`: dispatch the message to a random selected subscriber<br/>- `round_robin`: select the subscribers in a round-robin manner<br/>- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group<br/>- `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.<br/>- `local`: select random local subscriber otherwise select random cluster-wide<br/>- `hash_topic`: select the subscribers by hashing the source topic<br/>- `hash_clientid`: select the subscribers by hashing the clientIds"
     }
   }
 }
