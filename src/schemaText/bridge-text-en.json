@@ -845,7 +845,7 @@
       "label": "Routing Key"
     },
     "delivery_mode": {
-      "desc": "The delivery mode for messages published to RabbitMQ. Delivery mode non_persistent (1) is suitable for messages that don't require persistence across RabbitMQ restarts, whereas delivery mode persistent (2) is designed for messages that must survive RabbitMQ restarts.",
+      "desc": "The delivery mode for messages published to RabbitMQ. Delivery mode `non_persistent` is suitable for messages that don't require persistence across RabbitMQ restarts, whereas delivery mode `persistent` is designed for messages that must survive RabbitMQ restarts.",
       "label": "Message Delivery Mode"
     },
     "payload_template": {
