@@ -891,7 +891,7 @@
       "label": "Memory Overload Protection"
     },
     "buffer_mode": {
-      "desc": "Message buffer mode:\n<code>memory</code>: Buffer all messages in memory. The messages will be lost if EMQX node restarts\n<code>disk</code>: Buffer all messages on disk. The messages are designed to persist even during an EMQX node restart.\n<code>hybrid</code>: Buffer message in memory first, when up to a certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, the messages will be lost in if EMQX node restarts.",
+      "desc": "Message buffer mode:\n<code>memory</code>: Buffer all messages in memory. The messages will be lost if EMQX node restarts.\n<code>disk</code>: Buffer all messages on disk. The messages are designed to persist even during an EMQX node restart.\n<code>hybrid</code>: Buffer message in memory first, when up to a certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, the messages will be lost in if EMQX node restarts.",
       "label": "Buffer Mode"
     },
     "buffer_per_partition_limit": {
