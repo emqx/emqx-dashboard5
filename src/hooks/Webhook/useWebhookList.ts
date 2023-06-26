@@ -1,18 +1,18 @@
 import { getBridgeList as queryBridgeList, getRules as queryRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
 import { BridgeItem, HTTPBridge, RuleItem } from '@/types/rule'
-import { Webhook } from '@/types/webhook'
+import { WebhookItem } from '@/types/webhook'
 import { Ref, ref } from 'vue'
 import useWebhookUtils from './useWebhookUtils'
 
 export default (): {
-  webhookList: Ref<Webhook[]>
+  webhookList: Ref<WebhookItem[]>
   isLoading: Ref<boolean>
   getWebhookList: () => Promise<void>
 } => {
   let bridgeList: Array<HTTPBridge> = []
   let ruleList: Array<RuleItem> = []
-  const webhookList: Ref<Array<Webhook>> = ref([])
+  const webhookList: Ref<Array<WebhookItem>> = ref([])
   const isLoading = ref(false)
 
   const { judgeIsWebhookBridge, judgeIsWebhookRule, joiningDataToWebhookList } = useWebhookUtils()
