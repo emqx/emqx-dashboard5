@@ -1,8 +1,8 @@
 import { startStopBridge, updateRules } from '@/api/ruleengine'
-import { Webhook } from '@/types/webhook'
+import { WebhookItem } from '@/types/webhook'
 
 export default (): {
-  toggleWebhookEnableStatus: (webhook: Webhook) => Promise<[any, any]>
+  toggleWebhookEnableStatus: (webhook: WebhookItem) => Promise<[any, any]>
 } => {
   const toggleBridgeEnableStatus = async (id: string, enable: boolean) => {
     const statusToSend = enable ? 'enable' : 'disable'
@@ -13,7 +13,7 @@ export default (): {
     return updateRules(id, { enable })
   }
 
-  const toggleWebhookEnableStatus = async (webhook: Webhook) => {
+  const toggleWebhookEnableStatus = async (webhook: WebhookItem) => {
     const enable = webhook.enable
     return await Promise.all([
       toggleBridgeEnableStatus(webhook.bridge.id, enable),

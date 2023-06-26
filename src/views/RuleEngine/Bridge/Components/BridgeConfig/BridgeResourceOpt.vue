@@ -1,5 +1,5 @@
 <template>
-  <el-col :span="12">
+  <el-col :span="colSpan">
     <el-form-item prop="resource_opts.worker_pool_size">
       <template #label>
         <FormItemLabel :label="tl('worker_pool_size.label')" :desc="tl('worker_pool_size.desc')" />
@@ -7,7 +7,7 @@
       <el-input v-model="resourceOptForm.worker_pool_size" />
     </el-form-item>
   </el-col>
-  <el-col :span="12" v-if="withRequestTimeoutConfig">
+  <el-col :span="colSpan" v-if="withRequestTimeoutConfig">
     <el-form-item prop="resource_opts.request_ttl">
       <template #label>
         <FormItemLabel
@@ -22,7 +22,7 @@
       />
     </el-form-item>
   </el-col>
-  <el-col :span="12">
+  <el-col :span="colSpan">
     <el-form-item prop="resource_opts.health_check_interval">
       <template #label>
         <FormItemLabel
@@ -34,7 +34,7 @@
     </el-form-item>
   </el-col>
   <!-- QUEUE -->
-  <el-col :span="12">
+  <el-col :span="colSpan">
     <el-form-item prop="resource_opts.max_buffer_bytes">
       <template #label>
         <FormItemLabel :label="tl('max_buffer_bytes.label')" :desc="tl('max_buffer_bytes.desc')" />
@@ -44,7 +44,7 @@
   </el-col>
   <!-- BATCH -->
   <template v-if="withBatchConfig">
-    <el-col :span="12">
+    <el-col :span="colSpan">
       <el-form-item prop="resource_opts.batch_size">
         <template #label>
           <FormItemLabel :label="tl('batch_size.label')" :desc="tl('batch_size.desc')" />
@@ -55,7 +55,7 @@
   </template>
 
   <!-- QUERY MODE -->
-  <el-col :span="12">
+  <el-col :span="colSpan">
     <el-form-item prop="resource_opts.query_mode">
       <template #label>
         <FormItemLabel :label="tl('query_mode.label')" :desc="tl('query_mode.desc')" />
@@ -70,7 +70,7 @@
       </el-select>
     </el-form-item>
   </el-col>
-  <el-col :span="12" v-if="canConfigInflightWindow && resourceOptForm.query_mode === 'async'">
+  <el-col :span="colSpan" v-if="canConfigInflightWindow && resourceOptForm.query_mode === 'async'">
     <el-form-item prop="inflight_window">
       <template #label>
         <FormItemLabel :label="tl('inflight_window.label')" :desc="tl('inflight_window.desc')" />
@@ -100,6 +100,10 @@ const props = defineProps({
   withRequestTimeoutConfig: {
     type: Boolean,
     default: true,
+  },
+  colSpan: {
+    type: Number,
+    default: 12,
   },
 })
 

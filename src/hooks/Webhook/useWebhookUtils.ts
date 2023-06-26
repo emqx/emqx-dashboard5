@@ -4,7 +4,7 @@ import { OtherNodeType } from '@/hooks/Rule/topology/topologyType'
 import useUtilsForTopology from '@/hooks/Rule/topology/useUtilsForTopology'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, HTTPBridge, RuleItem } from '@/types/rule'
-import { Webhook } from '@/types/webhook'
+import { WebhookItem } from '@/types/webhook'
 
 /* 
   The naming convention for rules created for webhooks
@@ -17,7 +17,7 @@ export default (): {
   joiningDataToWebhookList: (
     httpBridgeList: Array<HTTPBridge>,
     ruleList: Array<RuleItem>,
-  ) => Array<Webhook>
+  ) => Array<WebhookItem>
 } => {
   const webhookTargetReg = new RegExp(`^${WEBHOOK_PREFIX}`)
 
@@ -56,10 +56,10 @@ export default (): {
   const joiningDataToWebhookList = (
     httpBridgeList: Array<HTTPBridge>,
     ruleList: Array<RuleItem>,
-  ): Array<Webhook> => {
+  ): Array<WebhookItem> => {
     const bridgeArr = [...httpBridgeList]
     const ruleArr = [...ruleList]
-    return bridgeArr.reduce((arr: Array<Webhook>, bridgeItem) => {
+    return bridgeArr.reduce((arr: Array<WebhookItem>, bridgeItem) => {
       const { id: bridgeId } = bridgeItem
       const ruleIndex = ruleArr.findIndex(
         ({ actions }) => Array.isArray(actions) && actions.includes(bridgeId),
