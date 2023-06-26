@@ -34,20 +34,22 @@
 import useWebhookItem from '@/hooks/Webhook/useWebhookItem'
 import useWebhookList from '@/hooks/Webhook/useWebhookList'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Webhook } from '@/types/webhook'
+import { WebhookItem } from '@/types/webhook'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
-const { tl, t } = useI18nTl('RuleEngine')
+const router = useRouter()
+const { t } = useI18nTl('RuleEngine')
 
 const { webhookList, isLoading, getWebhookList } = useWebhookList()
 const { toggleWebhookEnableStatus } = useWebhookItem()
 
 const addWebhook = () => {
-  // TODO:
+  router.push({ name: 'webhook-create' })
 }
 
-const handleToggleStatus = async (webhook: Webhook) => {
+const handleToggleStatus = async (webhook: WebhookItem) => {
   const sucMessage = webhook.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   try {
     await toggleWebhookEnableStatus(webhook)
