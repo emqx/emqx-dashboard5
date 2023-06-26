@@ -166,10 +166,9 @@ const currentIns = getCurrentInstance()
  * form validation after setting modelValue to null following enable.
  */
 watch(isDisabled, async (val) => {
-  if (!val) {
+  if (val) {
     const formItem = props.formItem || currentIns?.parent?.exposed
     if (isFunction(formItem?.clearValidate)) {
-      await nextTick()
       await nextTick()
       formItem?.clearValidate()
     }
