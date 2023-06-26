@@ -1,4 +1,3 @@
-<!-- Proxy Subscription -->
 <template>
   <div class="app-wrapper subscribe">
     <div class="section-header">
@@ -149,7 +148,11 @@ let openOpDialog = async (editIndex?: number) => {
   opSubs.value = true
   isEdit.value = editIndex !== undefined
   const target = isEdit.value ? subTbData.value[editIndex as number] : undefined
-  subsInput.value = target || createRawSubForm()
+  if (target) {
+    Object.assign(subsInput.value, target)
+  } else {
+    subsInput.value = createRawSubForm()
+  }
   editPos.value = editIndex
   await nextTick()
   subsForm.value?.clearValidate()
