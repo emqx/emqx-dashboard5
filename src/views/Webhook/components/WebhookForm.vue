@@ -35,7 +35,7 @@
       <!-- TODO:test -->
     </el-form-item>
     <el-form-item :label="tl('headers')" class="item-headers">
-      <!-- TODO:key value editor -->
+      <KeyAndValueEditor v-model="formData.bridge.headers" type="list" />
     </el-form-item>
     <el-collapse-transition>
       <div v-if="isAdvancedShow">
@@ -80,6 +80,7 @@ import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
 import { PropType, WritableComputedRef, computed, defineEmits, defineProps, ref } from 'vue'
 import Trigger from './Trigger.vue'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 
 const props = defineProps({
   modelValue: {
