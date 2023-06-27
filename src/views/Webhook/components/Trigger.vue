@@ -13,10 +13,13 @@
             <label class="list-label">{{ tl('topicFilter') }}</label>
             <ul class="topic-list">
               <li class="topic-item" v-for="(topic, $index) in topicList" :key="$index">
-                <el-input
-                  :model-value="topicList[$index]"
-                  @update:model-value="handleTopicItemChanged($event, $index)"
-                />
+                <el-form-item :error="topicErrorMsg[$index]">
+                  <el-input
+                    :model-value="topicList[$index]"
+                    @update:model-value="handleTopicItemChanged($event, $index)"
+                    @blur="validateTopic"
+                  />
+                </el-form-item>
                 <el-button class="btn-del" link @click="delTopic($index)">
                   <el-icon :size="16"><Delete /></el-icon>
                 </el-button>
@@ -55,7 +58,16 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { escapeRegExp, startCase } from 'lodash'
-import { Ref, WritableComputedRef, computed, defineEmits, defineProps, nextTick, ref } from 'vue'
+import {
+  Ref,
+  WritableComputedRef,
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  nextTick,
+  ref,
+} from 'vue'
 import { useStore } from 'vuex'
 
 const enum TriggerType {
@@ -206,14 +218,40 @@ const topicList = computed({
   },
 })
 
-const addTopic = () => {
+const addTopic = async () => {
   topicList.value = [...topicList.value, '']
+  await nextTick()
+  validateTopic()
 }
-const delTopic = (index: number) => {
+const delTopic = async (index: number) => {
   topicList.value = [...topicList.value.slice(0, index), ...topicList.value.slice(index + 1)]
+  await nextTick()
+  validateTopic()
 }
 const handleTopicItemChanged = (val: string, index: number) => {
   topicList.value = [...topicList.value.slice(0, index), val, ...topicList.value.slice(index + 1)]
+}
+
+const topicErrorMsg: Ref<Array<string>> = ref([])
+const validateTopic = () => {
+  topicErrorMsg.value = []
+  for (let i = 0; i < topicList.value.length; i++) {
+    const currentTopic = topicList.value[i]
+    topicErrorMsg.value[i] = ''
+    if (currentTopic) {
+      for (let j = i - 1; j >= 0; j--) {
+        if (topicList.value[j] && topicList.value[j] === currentTopic) {
+          topicErrorMsg.value[i] = tl('repeatedTopic')
+          break
+        }
+      }
+    }
+  }
+  return topicErrorMsg.value.some((item) => !!item) ? Promise.reject() : Promise.resolve()
+}
+
+const validate = () => {
+  return validateTopic()
 }
 
 const isSelectedEvent = ref(false)
@@ -264,6 +302,8 @@ const getRuleEvents = async () => {
 }
 
 getRuleEvents()
+
+defineExpose({ validate })
 </script>
 
 <style lang="scss">
