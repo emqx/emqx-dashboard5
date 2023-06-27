@@ -14,7 +14,7 @@ export default (): {
 
   const createRawWebhookForm = (): WebhookForm => ({
     bridge: { ...createRawHTTPForm(), type: BridgeType.Webhook },
-    rule: createRawRuleForm(),
+    rule: createRawRuleForm(''),
     name: '',
   })
 
