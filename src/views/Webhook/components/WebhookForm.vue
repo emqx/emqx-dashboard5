@@ -3,7 +3,7 @@
     ref="FormCom"
     label-width="180px"
     class="webhook-form"
-    require-asterisk-position="right"
+    hide-required-asterisk
     :rules="rules"
     :model="formData"
   >
@@ -14,7 +14,7 @@
       <el-input v-model="formData.rule.description" />
     </el-form-item>
     <el-form-item prop="rule.sql" :label="tl('trigger')" class="item-trigger">
-      <Trigger v-model="formData.rule.sql" />
+      <Trigger ref="TriggerCom" v-model="formData.rule.sql" />
     </el-form-item>
     <el-form-item :label="tl('method')" prop="bridge.method">
       <el-select v-model="formData.bridge.method">
@@ -73,14 +73,23 @@
 <script setup lang="ts">
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
-import { PropType, WritableComputedRef, computed, defineEmits, defineProps, ref } from 'vue'
+import {
+  PropType,
+  WritableComputedRef,
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  ref,
+} from 'vue'
 import Trigger from './Trigger.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 
 const props = defineProps({
   modelValue: {
@@ -95,7 +104,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
+const FormCom = ref()
+const TriggerCom = ref()
 
 const isAdvancedShow = ref(false)
 const toggleAdvancedShow = () => (isAdvancedShow.value = !isAdvancedShow.value)
@@ -109,7 +120,16 @@ const formData: WritableComputedRef<WebhookForm | WebhookItem> = computed({
   },
 })
 
-const rules = {}
+const { createRequiredRule, createCommonIdRule } = useFormRules()
+const rules = {
+  name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
+}
+
+const validate = () => {
+  return Promise.all([FormCom.value.validate(), TriggerCom.value.validate()])
+}
+
+defineExpose({ validate })
 </script>
 
 <style lang="scss">
@@ -118,6 +138,9 @@ const rules = {}
     width: 40%;
     &.item-trigger {
       width: 100%;
+      .el-form-item {
+        width: 100%;
+      }
     }
     &.item-headers {
       width: 50%;
