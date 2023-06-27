@@ -32,7 +32,15 @@
         <InfoTooltip :content="tl('httpBridgeURLFieldDesc')" />
       </template>
       <el-input v-model="formData.bridge.url" />
-      <!-- TODO:test -->
+      <el-button
+        link
+        class="btn-test"
+        type="primary"
+        :loading="isTesting"
+        @click="testConnectivity"
+      >
+        {{ tl('testConnectivity') }}
+      </el-button>
     </el-form-item>
     <el-form-item :label="tl('headers')" class="item-headers">
       <KeyAndValueEditor v-model="formData.bridge.headers" type="list" />
@@ -71,15 +79,19 @@
 </template>
 
 <script setup lang="ts">
+import { testConnect } from '@/api/ruleengine'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
+import { ElMessage } from 'element-plus'
+import { omit } from 'lodash'
 import {
   PropType,
   WritableComputedRef,
@@ -129,6 +141,21 @@ const validate = () => {
   return Promise.all([FormCom.value.validate(), TriggerCom.value.validate()])
 }
 
+const isTesting = ref(false)
+const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+const testConnectivity = async () => {
+  try {
+    isTesting.value = true
+    const data = await handleBridgeDataBeforeSubmit(formData.value.bridge)
+    await testConnect(omit(data, 'id'))
+    ElMessage.success(tl('connectionSuccessful'))
+  } catch (error) {
+    //
+  } finally {
+    isTesting.value = false
+  }
+}
+
 defineExpose({ validate })
 </script>
 
@@ -146,8 +173,16 @@ defineExpose({ validate })
       width: 50%;
     }
   }
+  .one-of,
+  .key-and-value-editor,
   .webhook-trigger {
     width: 100%;
+  }
+  .btn-test {
+    position: absolute;
+    top: 50%;
+    right: -16px;
+    transform: translate(100%, -50%);
   }
 }
 </style>
