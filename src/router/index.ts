@@ -382,6 +382,11 @@ export const routes: Array<RouteRecordRaw> = [
         name: 'webhook-create',
         component: () => import('@/views/Webhook/WebhookCreate.vue'),
       },
+      {
+        path: ':name',
+        name: 'webhook-detail',
+        component: () => import('@/views/Webhook/WebhookDetail.vue'),
+      },
     ],
   },
   // IoT
