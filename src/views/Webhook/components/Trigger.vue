@@ -17,7 +17,7 @@
                   <el-input
                     :model-value="topicList[$index]"
                     @update:model-value="handleTopicItemChanged($event, $index)"
-                    @blur="validateTopic"
+                    @blur="validateTopicArr(), validateTopicItem($index)"
                   />
                 </el-form-item>
                 <el-button class="btn-del" link @click="delTopic($index)">
@@ -52,7 +52,7 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { getKeywordsFromSQL } from '@/common/tools'
+import { getKeyPartsFromSQL } from '@/common/tools'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
@@ -93,7 +93,7 @@ const emit = defineEmits(['update:modelValue'])
 let nowSQL = ''
 
 const { state } = useStore()
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 const { TOPIC_EVENT, transFromStrToFromArr, transSQLFormDataToSQL, isMsgPubEvent } = useRuleUtils()
 
 const ruleInputEventReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
@@ -129,12 +129,13 @@ const allMsgsAndEvents = computed(() => {
 })
 
 const SQLKeywords = computed(() => {
-  let ret = getKeywordsFromSQL(props.modelValue)
+  let ret = getKeyPartsFromSQL(props.modelValue)
   return ret
 })
 const fromDataArr = computed(() => {
-  let { fromStr } = SQLKeywords.value
-  return fromStr ? transFromStrToFromArr(SQLKeywords.value.fromStr) : []
+  return SQLKeywords.value.fromStr !== undefined
+    ? transFromStrToFromArr(SQLKeywords.value.fromStr)
+    : []
 })
 
 const checkIsTopic = (str: string) => !ruleInputBridgeReg.test(str) && !ruleInputEventReg.test(str)
@@ -232,19 +233,19 @@ const topicList = computed({
 const addTopic = async () => {
   topicList.value = [...topicList.value, '']
   await nextTick()
-  validateTopic()
+  validateTopicArr()
 }
 const delTopic = async (index: number) => {
   topicList.value = [...topicList.value.slice(0, index), ...topicList.value.slice(index + 1)]
   await nextTick()
-  validateTopic()
+  validateTopicArr()
 }
 const handleTopicItemChanged = (val: string, index: number) => {
   topicList.value = [...topicList.value.slice(0, index), val, ...topicList.value.slice(index + 1)]
 }
 
 const topicErrorMsg: Ref<Array<string>> = ref([])
-const validateTopic = () => {
+const validateTopicArr = () => {
   topicErrorMsg.value = []
   for (let i = 0; i < topicList.value.length; i++) {
     const currentTopic = topicList.value[i]
@@ -260,9 +261,25 @@ const validateTopic = () => {
   }
   return topicErrorMsg.value.some((item) => !!item) ? Promise.reject() : Promise.resolve()
 }
+// check when submit
+const checkTopicAllFilled = () => {
+  for (let i = 0; i < topicList.value.length; i++) {
+    const currentTopic = topicList.value[i]
+    if (!currentTopic) {
+      topicErrorMsg.value[i] = t('Rule.inputFieldRequiredError', { name: t('Base.topic') })
+    }
+  }
+  return topicErrorMsg.value.some((item) => !!item) ? Promise.reject() : Promise.resolve()
+}
+// just for clear error msg
+const validateTopicItem = (index: number) => {
+  if (topicList.value[index]) {
+    topicErrorMsg.value[index] = ''
+  }
+}
 
 const validate = () => {
-  return validateTopic()
+  return Promise.all([validateTopicArr(), checkTopicAllFilled()])
 }
 
 const isSelectedEvent = ref(false)
@@ -355,7 +372,7 @@ defineExpose({ validate })
   }
   .topic-item {
     display: flex;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
   .btn-del {
     margin-left: 16px;
