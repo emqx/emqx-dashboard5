@@ -1,6 +1,6 @@
 {
-  "name": "emqx-dashboard-web-new",
-  "version": "1.2.2",
+  "name": "emqx-dashboard5",
+  "version": "5.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
