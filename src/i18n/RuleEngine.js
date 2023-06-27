@@ -75,6 +75,10 @@ export default {
     zh: '添加主题',
     en: 'Add Topic',
   },
+  repeatedTopic: {
+    zh: '重复的主题',
+    en: 'Repeated topics',
+  },
   connParams: {
     zh: '连接参数',
     en: 'Connection',
