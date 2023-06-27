@@ -1,5 +1,5 @@
 <template>
-  <el-table class="key-and-value-editor shadow-none" :data="tableData">
+  <el-table v-if="type === 'table'" class="key-and-value-editor shadow-none" :data="tableData">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
         <el-input
@@ -28,12 +28,27 @@
       </template>
     </el-table-column>
   </el-table>
+  <div class="key-and-value-editor" v-else>
+    <ul class="key-value-list">
+      <li class="key-value-item" v-for="(item, $index) in tableData" :key="$index">
+        <el-input :placeholder="keyValueLabel.key" v-model="item.key" />
+        <el-input :placeholder="keyValueLabel.value" v-model="item.value" />
+        <el-button class="btn-del" link @click="deleteItem(item)">
+          <el-icon :size="16"><Delete /></el-icon>
+        </el-button>
+      </li>
+    </ul>
+    <el-button link type="primary" :icon="Plus" @click="addColumn">
+      {{ t('Base.add') }}
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts">
 import { cloneDeep, isEqual, isPlainObject } from 'lodash'
-import { computed, defineComponent, ref, Ref, watch } from 'vue'
+import { computed, defineComponent, PropType, ref, Ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Delete, Plus } from '@element-plus/icons-vue'
 
 enum State {
   OK = 0,
@@ -48,6 +63,7 @@ type kvRow = {
 export default defineComponent({
   name: 'KeyAndValueEditor',
   emits: ['update:modelValue'],
+  components: { Delete },
   props: {
     modelValue: {
       type: Object,
@@ -63,6 +79,10 @@ export default defineComponent({
     fixedKeys: {
       type: Boolean,
       default: false,
+    },
+    type: {
+      type: String as PropType<'table' | 'list'>,
+      default: 'table',
     },
   },
   setup(props, context) {
@@ -129,6 +149,8 @@ export default defineComponent({
     )
 
     return {
+      Plus,
+      t,
       tableData,
       atInputChange,
       deleteItem,
@@ -145,6 +167,21 @@ export default defineComponent({
   &.el-table .cell {
     font-weight: normal;
     color: var(--el-text-color-regular);
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  .key-value-item {
+    display: flex;
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
+    .el-input {
+      margin-right: 16px;
+    }
   }
 }
 </style>
