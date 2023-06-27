@@ -80,6 +80,7 @@
 
 <script setup lang="ts">
 import { testConnect } from '@/api/ruleengine'
+import { getKeywordsFromSQL } from '@/common/tools'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
@@ -88,6 +89,7 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
 import { ElMessage } from 'element-plus'
@@ -100,6 +102,7 @@ import {
   defineExpose,
   defineProps,
   ref,
+  watch,
 } from 'vue'
 import Trigger from './Trigger.vue'
 
@@ -133,9 +136,27 @@ const formData: WritableComputedRef<WebhookForm | WebhookItem> = computed({
 })
 
 const { createRequiredRule, createCommonIdRule } = useFormRules()
-const rules = {
+const rules: FormRules = {
   name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
+  'rule.sql': [
+    {
+      validator(rules, value) {
+        const { fromStr } = getKeywordsFromSQL(value)
+        return !fromStr
+          ? [new Error(t('Rule.selectFieldRequiredError', { name: tl('trigger') }))]
+          : []
+      },
+      trigger: 'blur',
+    },
+  ],
 }
+
+watch(
+  () => formData.value.rule.sql,
+  () => {
+    FormCom.value.clearValidate(['rule.sql'])
+  },
+)
 
 const validate = () => {
   return Promise.all([FormCom.value.validate(), TriggerCom.value.validate()])
