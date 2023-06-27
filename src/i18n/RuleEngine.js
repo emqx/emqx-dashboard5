@@ -582,6 +582,10 @@ export default {
     zh: '测试连接',
     en: 'Test Connectivity',
   },
+  testConnectivity: {
+    zh: '测试',
+    en: 'Test',
+  },
   test: {
     zh: '启用调试',
     en: 'Enable Test',
