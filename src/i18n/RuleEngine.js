@@ -192,6 +192,10 @@ export default {
     zh: '规则',
     en: 'rule',
   },
+  createWebhook: {
+    zh: '创建 Webhook',
+    en: 'Create Webhook',
+  },
   resetMetricsConfirm: {
     zh: '是否确认重置该{target}统计数据？',
     en: 'Are you sure you want to reset this {target} statistic?',
