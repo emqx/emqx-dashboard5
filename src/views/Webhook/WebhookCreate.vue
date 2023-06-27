@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <el-card class="webhook-create-card">
-      <WebhookFormCom v-model="webhook" />
+      <WebhookFormCom ref="FormCom" v-model="webhook" />
       <div class="card-ft">
         <el-button :loading="isSubmitting" type="primary" @click="submit">
           {{ tl('save') }}
@@ -25,6 +25,8 @@ import WebhookFormCom from './components/WebhookForm.vue'
 const { tl } = useI18nTl('Base')
 const router = useRouter()
 
+const FormCom = ref()
+
 const { createRawWebhookForm, getRuleIdByName, getBridgeNameByName } = useWebhookForm()
 
 const webhook: Ref<WebhookForm> = ref(createRawWebhookForm())
@@ -39,8 +41,9 @@ const setName = (data: WebhookForm) => {
 }
 
 const submit = async () => {
-  const data: any = checkNOmitFromObj(setName(webhook.value))
   try {
+    await FormCom.value.validate()
+    const data: any = checkNOmitFromObj(setName(webhook.value))
     isSubmitting.value = true
     // Because it is easier to report errors when creating bridge, put it in the front..
     await createBridge(data.bridge)
