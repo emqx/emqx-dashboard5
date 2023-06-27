@@ -234,3 +234,5 @@ export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
 
 export const MONGO_TYPE = ['single', 'rs', 'sharded']
+
+export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
