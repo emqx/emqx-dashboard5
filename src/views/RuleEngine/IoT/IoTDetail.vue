@@ -50,6 +50,7 @@
 <script lang="ts" setup>
 import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
+import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useReceiveParams } from '@/hooks/usePaginationRemember'
@@ -136,13 +137,12 @@ const deleteRule = async () => {
   router.push({ name: 'iot' })
 }
 
+const { getRuleDataForUpdate } = useRuleForm()
 const submitUpdateRules = async () => {
   await formCom.value.validate()
   submitLoading.value = true
-  const { id, sql, enable, description, actions } = ruleInfo.value
-  const updateData: Partial<RuleItem> = { id, sql, enable, description, actions }
   try {
-    await updateRules(id, updateData)
+    await updateRules(id, getRuleDataForUpdate(ruleInfo.value))
     ElMessage.success(t('Base.updateSuccess'))
     rawRuleInfo = ruleInfo.value
     router.push({ name: 'iot' })
