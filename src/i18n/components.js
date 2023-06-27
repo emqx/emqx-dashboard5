@@ -107,6 +107,10 @@ export default {
     zh: 'Flows',
     en: 'Flows',
   },
+  webhook: {
+    zh: 'Webhook',
+    en: 'Webhook',
+  },
   resources: {
     zh: '资源',
     en: 'Resources',
