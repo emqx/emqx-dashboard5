@@ -1,5 +1,6 @@
 <template>
   <div class="webhook-detail app-wrapper">
+    <detail-header :item="{ name: webhookName, routeName: 'webhook' }" />
     <el-card class="webhook-create-card">
       <WebhookFormCom ref="FormCom" v-model="webhookData" is-edit />
       <div class="card-ft">
@@ -14,6 +15,7 @@
 <script setup lang="ts">
 import { getBridgeInfo, getRuleInfo, updateBridge, updateRules } from '@/api/ruleengine'
 import { checkNOmitFromObj, getBridgeKey } from '@/common/tools'
+import DetailHeader from '@/components/DetailHeader.vue'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useI18nTl from '@/hooks/useI18nTl'
