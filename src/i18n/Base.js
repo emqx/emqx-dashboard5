@@ -67,6 +67,10 @@ export default {
     zh: '创建',
     en: 'Create',
   },
+  createTarget: {
+    zh: '创建{target}',
+    en: 'Create {target}',
+  },
   cancel: {
     zh: '取消',
     en: 'Cancel',
@@ -516,8 +520,8 @@ export default {
     en: 'Network Error',
   },
   commonIdError: {
-    zh: '请以字母或数字开头，且只包含字母、数字、下划线和短横线',
-    en: 'Please start with a letter or number, and only contain letters, numbers, underscores and hyphens',
+    zh: '须以字母或数字开头，允许 "_", "-"',
+    en: 'Start with a letter/number, "_" and "-" allowed',
   },
   notSupportedChinese: {
     zh: '不支持中文',
@@ -550,5 +554,9 @@ export default {
   upgradePlan: {
     zh: '选择适合您需求的升级方案',
     en: 'Choose the Upgrade Plan That Fits Your Needs',
+  },
+  none: {
+    zh: '无',
+    en: 'None',
   },
 }

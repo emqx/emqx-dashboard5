@@ -1,3 +1,5 @@
+import { BridgeType } from '@/types/enum'
+import bridgePGSql from '@/assets/img/postgresql.png'
 import console from './console.png'
 import event from './event.png'
 import republish from './republish.png'
@@ -9,6 +11,7 @@ const BRIDGE_PREFIX = 'bridge-'
 const bridgeReg = new RegExp(`^${BRIDGE_PREFIX}`)
 
 const iconMap: Record<string, SVGAElement> = {
+  [`bridge-${BridgeType.PgSQL}`]: bridgePGSql,
   console,
   event,
   republish,
