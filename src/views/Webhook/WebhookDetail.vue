@@ -1,7 +1,7 @@
 <template>
   <div class="webhook-detail app-wrapper">
     <el-card class="webhook-create-card">
-      <WebhookFormCom v-model="webhookData" />
+      <WebhookFormCom ref="FormCom" v-model="webhookData" is-edit />
       <div class="card-ft">
         <el-button :loading="isSubmitting" type="primary" @click="submit">
           {{ tl('save') }}
@@ -27,6 +27,8 @@ const route = useRoute()
 const router = useRouter()
 
 const { tl } = useI18nTl('Base')
+
+const FormCom = ref()
 
 const webhookName = computed(() => route.params.name.toString())
 const bridgeId = computed(() => {
@@ -56,8 +58,9 @@ const getWebhookData = async () => {
 
 const { getRuleDataForUpdate } = useRuleForm()
 const submit = async () => {
-  const data: any = checkNOmitFromObj(webhookData.value)
   try {
+    await FormCom.value.validate()
+    const data: any = checkNOmitFromObj(webhookData.value)
     isSubmitting.value = true
     // Because it is easier to report errors when creating bridge, put it in the front..
     await updateBridge(bridgeId.value, data.bridge)
