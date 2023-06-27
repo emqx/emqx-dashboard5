@@ -196,6 +196,13 @@ const selectedOtherEventList: WritableComputedRef<Array<string>> = computed({
   },
 })
 
+/**
+ * This variable is set to solve the problem that when the topic list is empty,
+ * add the first topic, and the topic will be filtered out by `fromDataArr`,
+ * resulting in the problem that the topic cannot be added.
+ */
+const topicListCache: Ref<Array<string>> = ref([])
+
 /*
   - If there is a msg pub event and no topic filtering
   Has #
@@ -206,14 +213,18 @@ const selectedOtherEventList: WritableComputedRef<Array<string>> = computed({
   - If there is no msg pub event and the topic has been filtered
   No #
  */
+const trueTopicList = computed(() => {
+  return fromDataArr.value.filter((item) => {
+    const isTopic = checkIsTopic(item)
+    return isTopic && item !== MULTI_LEVEL_WILDCARD
+  })
+})
 const topicList = computed({
   get() {
-    return fromDataArr.value.filter((item) => {
-      const isTopic = checkIsTopic(item)
-      return isTopic && item !== MULTI_LEVEL_WILDCARD
-    })
+    return trueTopicList.value.length ? trueTopicList.value : topicListCache.value
   },
   set(val) {
+    topicListCache.value = [...val]
     refreshSQLForMsgEvent(selectedMsgEventList.value, val)
   },
 })
@@ -260,8 +271,8 @@ const selectedType = computed({
     if (!fromDataArr.value.length && isSelectedEvent.value) {
       return TriggerType.Events
     }
-    let msgEventNum = topicList.value.length
-      ? selectedMsgEventList.value.length - 1 + topicList.value.length
+    let msgEventNum = trueTopicList.value.length
+      ? selectedMsgEventList.value.length - 1 + trueTopicList.value.length
       : selectedMsgEventList.value.length
     const isAllMsgEvent = msgEventNum === fromDataArr.value.length
     if (isAllMsgEvent) {
