@@ -5,11 +5,12 @@ import { LicenseData } from '@/types/dashboard'
 import { LicenseCustomerType } from '@/types/enum'
 
 const getLang = () => {
-  const lang = localStorage.getItem('language')
-  if (lang && ['zh', 'en'].includes(lang)) {
-    return lang
+  let lang = localStorage.getItem('language')
+  if (!lang) {
+    lang = navigator.language.startsWith('zh') ? 'zh' : 'en'
+    localStorage.setItem('language', lang)
   }
-  return 'en'
+  return lang
 }
 
 const getTheme = () => {
