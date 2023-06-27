@@ -61,6 +61,6 @@ const handleToggleStatus = async (webhook: WebhookItem) => {
 }
 
 const goEditWebhook = (webhookName: string) => {
-  //
+  router.push({ name: 'webhook-detail', params: { name: webhookName } })
 }
 </script>
