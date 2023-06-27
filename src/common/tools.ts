@@ -4,6 +4,7 @@ import { cloneDeep, escape, isFunction, isObject, omit } from 'lodash'
 import moment from 'moment'
 import { COPY_SUFFIX } from './constants'
 import { ListDataWithPagination } from '@/types/common'
+import { BridgeType } from '@/types/enum'
 
 export const dateFormat = (
   date: Date | string | number | (number | string)[] | null | undefined,
@@ -272,8 +273,10 @@ export const formatSELECTStatement = (str: string): string => {
     .join(',\n  ')
 }
 
-export const getBridgeKey = ({ type, name }: Omit<BridgeItem, 'id' | 'idForRuleFrom'>): string =>
-  `${type}:${name}`
+export const getBridgeKey = ({
+  type,
+  name,
+}: { type: BridgeType; name: string } & unknown): string => `${type}:${name}`
 
 export const usefulMemoryUnit = ['KB', 'MB', 'GB']
 
