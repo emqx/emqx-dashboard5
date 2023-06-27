@@ -26,13 +26,13 @@ type DocKey =
   | 'dataBridge'
   | 'ruleEngine'
   | 'resetPassword'
-  | 'applyLicense'
   | 'moreAboutMqtt'
   | 'contactUs'
   | 'feedback'
   | 'learnConfig'
   | 'restAPI'
   | 'faq'
+  | 'applyLicense'
 
 export type DocMap = Record<DocKey, string>
 
