@@ -8,6 +8,25 @@ export const enum NodeType {
   Sink,
 }
 
+const SOURCE_SUFFIX = '_source'
+const SINK_SUFFIX = '_sink'
+
+export const SourceType = {
+  Message: 'message',
+  Event: 'event',
+  MQTTBroker: `MQTTBroker_${SOURCE_SUFFIX}`,
+}
+
+export const enum ProcessingType {
+  Function = 'function',
+  Filter = 'filter',
+}
+
+export const SinkType = {
+  HTTP: 'http',
+  MQTTBroker: `MQTTBroker_${SINK_SUFFIX}`,
+}
+
 export const enum FlowNodeType {
   Input = 'input',
   Default = 'default',
@@ -15,12 +34,16 @@ export const enum FlowNodeType {
 }
 
 export const enum MsgKey {
+  // This type of node is an input or output or normal
   Type = 'type',
   Name = 'name',
+  // What specific node does this type refer to, is it a Message or an Event, etc
+  SpecificType = 'specificType',
 }
 
 export interface NodeItem {
   name: string
+  specificType: string
 }
 
 interface NodeTypeItem {
@@ -41,21 +64,27 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
       type: NodeType.Source,
       typeLabel: 'Source',
       nodeList: [
-        { name: 'Message' },
-        { name: 'Event' },
-        { name: 'MQTT Broker' },
-        { name: 'Kafka' },
+        { name: 'Message', specificType: SourceType.Message },
+        { name: 'Event', specificType: SourceType.Event },
+        { name: 'MQTT Broker', specificType: SourceType.MQTTBroker },
+        { name: 'Kafka', specificType: SourceType.MQTTBroker },
       ],
     },
     {
       type: NodeType.Processing,
       typeLabel: 'Processing',
-      nodeList: [{ name: 'Function' }, { name: 'Filter' }],
+      nodeList: [
+        { name: 'Function', specificType: ProcessingType.Function },
+        { name: 'Filter', specificType: ProcessingType.Filter },
+      ],
     },
     {
       type: NodeType.Sink,
       typeLabel: 'Sink',
-      nodeList: [{ name: 'HTTP Server' }, { name: 'MQTT Broker' }],
+      nodeList: [
+        { name: 'HTTP Server', specificType: SinkType.HTTP },
+        { name: 'MQTT Broker', specificType: SinkType.MQTTBroker },
+      ],
     },
   ]
 
@@ -83,6 +112,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     const type: NodeType = (event.dataTransfer?.getData(MsgKey.Type) ||
       NodeType.Processing) as NodeType
     const name = event.dataTransfer?.getData(MsgKey.Name)
+    const specificType = event.dataTransfer?.getData(MsgKey.SpecificType)
 
     // check if the dropped element is valid
     if (typeof type === 'undefined' || !type) {
@@ -101,6 +131,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
       label: name,
       position,
       ...getFlowNodeHookPosition(flowNodeType),
+      data: { specificType },
     }
   }
 
