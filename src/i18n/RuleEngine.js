@@ -51,6 +51,10 @@ export default {
     zh: '配置信息',
     en: 'Configuration',
   },
+  HTTPServer: {
+    zh: 'HTTP 服务',
+    en: 'HTTP Server',
+  },
   bridgeDescHTTP: {
     zh: '发送数据到 HTTP 服务',
     en: 'Send data to HTTP Server',
@@ -85,6 +89,10 @@ export default {
   },
   brokerAddress: {
     zh: 'MQTT 服务地址',
+    en: 'MQTT Broker',
+  },
+  mqttBroker: {
+    zh: 'MQTT 服务',
     en: 'MQTT Broker',
   },
   mqttVer: {
@@ -228,6 +236,10 @@ export default {
     zh: 'SQL 编辑器',
     en: 'SQL Editor',
   },
+  message: {
+    zh: '消息',
+    en: 'Message',
+  },
   messages: {
     zh: '消息',
     en: 'Messages',
@@ -263,6 +275,14 @@ export default {
   type: {
     zh: '类型',
     en: 'Type',
+  },
+  function: {
+    zh: '数据处理',
+    en: 'Function',
+  },
+  filter: {
+    zh: '数据过滤',
+    en: 'Filter',
   },
   sqlPassed: {
     zh: '通过',
@@ -665,6 +685,10 @@ export default {
   customTopic: {
     zh: '自定义主题',
     en: 'Custom topic',
+  },
+  event: {
+    zh: '事件',
+    en: 'Event',
   },
   events: {
     zh: '事件',
