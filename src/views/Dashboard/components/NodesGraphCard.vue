@@ -256,7 +256,7 @@ syncPolling(loadData, POLLING_INTERVAL)
     border-radius: 8px;
     padding: 6px 12px;
     color: var(--color-text-primary);
-    background: var(--bg-hover);
+    background-color: var(--color-hover);
     display: flex;
     align-items: center;
     img {

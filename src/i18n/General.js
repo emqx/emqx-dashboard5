@@ -187,14 +187,6 @@ export default {
     zh: '毫秒',
     en: 'millisecond|milliseconds',
   },
-  us: {
-    zh: '微秒',
-    en: 'microsecond|microseconds',
-  },
-  ns: {
-    zh: '纳秒',
-    en: 'nanosecond|nanoseconds',
-  },
   validString: {
     zh: "请输入由字母开头，字母、数字、下划线及 '-' 组成的字符串",
     en: "Please enter a string consisting of letters, numbers, underscores and '-' starting with a letter",

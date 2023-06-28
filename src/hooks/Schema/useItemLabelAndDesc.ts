@@ -1,5 +1,4 @@
 import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
 import { useI18n } from 'vue-i18n'
@@ -45,11 +44,6 @@ const COMMON_CONNECTOR_KEY = [
 const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
   matrix: 'pgsql',
   timescale: 'pgsql',
-}
-
-const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {
-  heartbeat_frequency: 'heartbeat_period',
-  min_heartbeat_frequency: 'min_heartbeat_period',
 }
 
 export default (
@@ -123,25 +117,8 @@ export default (
     return `emqx_ee_bridge_${type}`
   }
 
-  const getBridgeTextKey = (prop: Property) => {
-    const type = getTypeBySchemaRef(props.accordingTo.ref)
-    let key = prop.key
-    if (!key) {
-      return
-    }
-    if (type === BridgeType.MongoDB) {
-      if (key.match(/_ms$/)) {
-        key = key.slice(0, -'_ms'.length)
-      }
-      if (key in MONGO_SPECIAL_KEY_MAP) {
-        key = MONGO_SPECIAL_KEY_MAP[key]
-      }
-    }
-    return key
-  }
-
   const getBridgeFormItemTextKey = (prop: Property) => {
-    return `${getBridgeTextZone(prop)}.${getBridgeTextKey(prop)}`
+    return `${getBridgeTextZone(prop)}.${prop.key}`
   }
 
   const getTextKey = (prop: Property) => {
@@ -152,21 +129,6 @@ export default (
 
   const specialProcess = (prop: Property) => {
     // Some special handling for the enterprise version
-    if (props.type !== 'bridge') {
-      return undefined
-    }
-    switch (prop.path) {
-      case 'name':
-        return { label: t('RuleEngine.name'), desc: '' }
-      case 'enable':
-        return { label: t('Base.enable'), desc: '' }
-      case 'type':
-        return { label: t('RuleEngine.bridgeType'), desc: '' }
-      case 'redis_type':
-        return { label: t('Auth.redisType'), desc: '' }
-      case 'mongo_type':
-        return { label: t('Auth.mongoType'), desc: '' }
-    }
     return undefined
   }
 
