@@ -87,6 +87,7 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
@@ -164,10 +165,13 @@ const validate = () => {
 
 const isTesting = ref(false)
 const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+const { getBridgeNameByName } = useWebhookForm()
 const testConnectivity = async () => {
   try {
+    await FormCom.value.validate()
     isTesting.value = true
     const data = await handleBridgeDataBeforeSubmit(formData.value.bridge)
+    data.name = getBridgeNameByName(formData.value.name)
     await testConnect(omit(data, 'id'))
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
