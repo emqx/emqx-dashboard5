@@ -1,4 +1,4 @@
-import { LicenseType, NodeStatus } from './enum'
+import { NodeStatus } from './enum'
 
 export interface CounterItem {
   count: number
@@ -64,18 +64,6 @@ export interface Alarm {
   duration: number
   activate_at: string
   deactivate_at: string
-}
-
-export interface LicenseData {
-  customer: string
-  customer_type: number
-  deployment: string
-  email: string
-  expiry: boolean
-  expiry_at: string
-  max_connections: number
-  start_at: string
-  type: LicenseType
 }
 
 export default {}

@@ -85,34 +85,6 @@
                 :edit="true"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
-              <bridge-influxdb-config
-                v-else-if="bridgeType === BridgeType.InfluxDB"
-                v-model="bridgeInfo"
-                ref="formCom"
-                :edit="true"
-                @init="resetRawBridgeInfoAfterComponentInit"
-              />
-              <bridge-kafka-config
-                v-else-if="bridgeType === BridgeType.Kafka"
-                v-model="bridgeInfo"
-                ref="formCom"
-                :edit="true"
-                @init="resetRawBridgeInfoAfterComponentInit"
-              />
-              <bridge-pulsar-config
-                v-else-if="bridgeType === BridgeType.Pulsar"
-                v-model="bridgeInfo"
-                ref="formCom"
-                :edit="true"
-                @init="resetRawBridgeInfoAfterComponentInit"
-              />
-              <using-schema-bridge-config
-                v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
-                edit
-                :type="bridgeType"
-                v-model="bridgeInfo"
-                ref="formCom"
-              />
             </div>
             <div v-if="!isFromRule" class="btn-area">
               <el-button @click="saveAsCopy">
@@ -161,8 +133,6 @@ import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
-import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
@@ -180,12 +150,10 @@ import {
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
-import BridgeKafkaConfig from './Components/BridgeConfig/BridgeKafkaConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
-import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -278,7 +246,7 @@ const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
 }
 
 const setBridgeInfoFromSchemaForm = () => {
-  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {
+  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
     bridgeInfo.value = formCom.value.getFormRecord()
   }
 }
@@ -360,12 +328,12 @@ const updateBridgeInfo = async () => {
   try {
     await customValidate(formCom.value)
     setBridgeInfoFromSchemaForm()
-
     // Check for changes before updating and do not request if there are no changes
     // TODO:check the schema form & MQTT
     if (isFromRule.value && _.isEqual(bridgeInfo.value, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }
+
     await ElMessageBox.confirm(tl('updateBridgeTip'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),

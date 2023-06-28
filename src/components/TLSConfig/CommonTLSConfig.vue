@@ -3,7 +3,7 @@
     <TLSBaseConfig v-model="record" />
     <el-collapse-transition>
       <template v-if="record.enable">
-        <TLSEnableConfig v-model="record" :is-edit="isEdit" v-bind="$attrs" />
+        <TLSEnableConfig v-model="record" :is-edit="isEdit" />
       </template>
     </el-collapse-transition>
   </div>
