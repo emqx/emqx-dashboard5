@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import { getUser, setUser, removeUser } from '@/common/auth'
 import { UserInfo } from '@/types/common'
+import { RuleEvent } from '@/types/rule'
 
 const getLang = () => {
   let lang = localStorage.getItem('language')
@@ -47,6 +48,7 @@ export default createStore({
     edition: localStorage.getItem('edition'),
     afterCurrentUserPwdChanged: false,
     schemaStoreMap: new Map(),
+    ruleEventList: [] as Array<RuleEvent>,
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -119,6 +121,9 @@ export default createStore({
     },
     SET_SCHEMA_DATA(state, payload: { key: string; data: any }) {
       state.schemaStoreMap.set(payload.key, payload.data)
+    },
+    SET_RULE_EVENT_LIST(state, payload: RuleEvent[]) {
+      state.ruleEventList = payload
     },
   },
   getters: {
