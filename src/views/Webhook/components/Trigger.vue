@@ -9,26 +9,33 @@
           </el-checkbox>
         </el-checkbox-group>
         <div class="topic-block">
-          <div class="list-container">
-            <label class="list-label">{{ tl('topicFilter') }}</label>
-            <ul class="topic-list">
-              <li class="topic-item" v-for="(topic, $index) in topicList" :key="$index">
-                <el-form-item :error="topicErrorMsg[$index]">
-                  <el-input
-                    :model-value="topicList[$index]"
-                    @update:model-value="handleTopicItemChanged($event, $index)"
-                    @blur="validateTopicArr(), validateTopicItem($index)"
-                  />
-                </el-form-item>
-                <el-button class="btn-del" link @click="delTopic($index)">
-                  <el-icon :size="16"><Delete /></el-icon>
+          <div class="block-gray" v-if="topicList.length > 0">
+            <div class="list-container">
+              <label class="list-label">{{ tl('topicFilter') }}</label>
+              <div class="list-wrap">
+                <ul class="topic-list">
+                  <li class="topic-item" v-for="(topic, $index) in topicList" :key="$index">
+                    <el-form-item :error="topicErrorMsg[$index]">
+                      <el-input
+                        :model-value="topicList[$index]"
+                        @update:model-value="handleTopicItemChanged($event, $index)"
+                        @blur="validateTopicArr(), validateTopicItem($index)"
+                      />
+                    </el-form-item>
+                    <el-button class="btn-del" link @click="delTopic($index)">
+                      <el-icon :size="16"><Delete /></el-icon>
+                    </el-button>
+                  </li>
+                </ul>
+                <el-button link type="primary" :icon="Plus" @click="addTopic">
+                  {{ tl('addTopic') }}
                 </el-button>
-              </li>
-              <el-button link type="primary" :icon="Plus" @click="addTopic">
-                {{ tl('addTopic') }}
-              </el-button>
-            </ul>
+              </div>
+            </div>
           </div>
+          <el-button v-else plain type="primary" :icon="Plus" @click="addTopic">
+            {{ tl('addTopic') }}
+          </el-button>
         </div>
       </div>
       <el-radio :label="TriggerType.Events">{{ tl('events') }}</el-radio>
@@ -352,11 +359,14 @@ defineExpose({ validate })
     }
   }
   .el-checkbox-group {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
   .topic-block {
-    padding: 16px 24px;
     margin-bottom: 16px;
+  }
+  .block-gray {
+    padding: 16px 24px;
+    border-radius: 8px;
     background-color: var(--color-bg-split);
   }
   .list-container {
@@ -365,10 +375,14 @@ defineExpose({ validate })
     .list-label {
       flex-grow: 0;
       font-size: 14px;
+      margin-right: 16px;
     }
   }
-  .topic-list {
+  .list-wrap {
     flex-grow: 1;
+  }
+  .topic-list {
+    padding-left: 0;
   }
   .topic-item {
     display: flex;
