@@ -27,15 +27,22 @@
       </el-collapse>
     </div>
     <div ref="FlowWrapper" class="flow-wrap" @drop="onDrop">
-      <VueFlow ref="FlowerInstance" v-model="flowData" @dragover="onDragOver" />
+      <VueFlow
+        ref="FlowerInstance"
+        v-model="flowData"
+        @dragover="onDragOver"
+        @node-click="nodeClickNode"
+      />
     </div>
   </div>
+  <NodeDrawer v-model="isDrawerVisible" :type="currentNodeType" />
 </template>
 
 <script setup lang="ts">
 import useFlowEditor, { MsgKey, NodeItem, NodeType } from '@/hooks/Flow/useFlowEditor'
-import { VueFlow, useVueFlow } from '@vue-flow/core'
+import { NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
 import { ref } from 'vue'
+import NodeDrawer from './NodeDrawer.vue'
 
 const searchText = ref('')
 
@@ -53,6 +60,7 @@ const onDragStart = (event: DragEvent, nodeData: { node: NodeItem; type: NodeTyp
   if (event.dataTransfer) {
     event.dataTransfer.setData(MsgKey.Type, nodeData.type.toString())
     event.dataTransfer.setData(MsgKey.Name, nodeData.node.name)
+    event.dataTransfer.setData(MsgKey.SpecificType, nodeData.node.specificType)
     event.dataTransfer.effectAllowed = 'move'
   }
 }
@@ -70,6 +78,13 @@ const onDrop = (event: DragEvent) => {
   if (newNode) {
     addNodes([newNode])
   }
+}
+
+const isDrawerVisible = ref(false)
+const currentNodeType = ref('')
+const nodeClickNode = (node: NodeMouseEvent) => {
+  isDrawerVisible.value = true
+  currentNodeType.value = node.node.data.specificType
 }
 
 onConnect((params) => addEdges(params))
