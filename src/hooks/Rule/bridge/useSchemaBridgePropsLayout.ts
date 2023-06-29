@@ -101,7 +101,6 @@ export default (
           'collection',
           'ssl',
           'payload_template',
-          'topology.pool_size',
           'topology.max_overflow',
           'topology.overflow_ttl',
           'topology.overflow_check_period',
