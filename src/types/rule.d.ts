@@ -1,12 +1,5 @@
 import { BackendI18n, SSL, PageParams } from './common'
-import {
-  BridgeType,
-  ConnectionStatus,
-  ConnectorType,
-  MQTTBridgeDirection,
-  QoSLevel,
-  SchemaRegistryType,
-} from './enum'
+import { BridgeType, ConnectionStatus, ConnectorType, MQTTBridgeDirection, QoSLevel } from './enum'
 import { Merge } from 'type-fest'
 
 export type Metrics = Record<string, number>
@@ -237,10 +230,3 @@ export interface RuleMetrics {
 }
 
 export type RuleDataItemWithMetrics = Merge<RuleItem, { metrics: Metrics }>
-
-export interface SchemaRegistry {
-  name: string
-  description: string
-  type: SchemaRegistryType
-  source: string
-}

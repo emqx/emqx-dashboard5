@@ -43,7 +43,7 @@ const fontSize = computed(() => {
   position: relative;
   color: #fff;
   &.check {
-    background: var(--el-color-success);
+    background: var(--color-primary);
   }
   &.close {
     background: #e44242;

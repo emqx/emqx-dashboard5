@@ -132,7 +132,6 @@
             </router-link>
           </template>
         </el-table-column>
-
         <el-table-column
           prop="username"
           min-width="100"

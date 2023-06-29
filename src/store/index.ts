@@ -1,8 +1,6 @@
 import { createStore } from 'vuex'
 import { getUser, setUser, removeUser } from '@/common/auth'
 import { UserInfo } from '@/types/common'
-import { LicenseData } from '@/types/dashboard'
-import { LicenseCustomerType } from '@/types/enum'
 
 const getLang = () => {
   let lang = localStorage.getItem('language')
@@ -50,7 +48,6 @@ export default createStore({
     edition: localStorage.getItem('edition'),
     afterCurrentUserPwdChanged: false,
     schemaStoreMap: new Map(),
-    licenseData: {} as LicenseData,
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -124,9 +121,6 @@ export default createStore({
     SET_SCHEMA_DATA(state, payload: { key: string; data: any }) {
       state.schemaStoreMap.set(payload.key, payload.data)
     },
-    SET_LICENSE_DATA(state, license: LicenseData) {
-      state.licenseData = license
-    },
   },
   getters: {
     edition: (state) => {
@@ -147,9 +141,6 @@ export default createStore({
       return (key: string) => {
         return state.schemaStoreMap.get(key)
       }
-    },
-    isEvaluationLicense(state) {
-      return state.licenseData.customer_type === LicenseCustomerType.Evaluation
     },
   },
 })

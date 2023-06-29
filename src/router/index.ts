@@ -646,32 +646,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Schema Registry
-  {
-    path: '/schema',
-    component: Layout,
-    meta: {
-      hideKey: 'schema',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'schema',
-        component: () => import('@/views/RuleEngine/Schema/Schema.vue'),
-      },
-      {
-        path: 'create',
-        name: 'schema-create',
-        component: () => import('@/views/RuleEngine/Schema/SchemaCreate.vue'),
-      },
-      {
-        path: ':schemaName',
-        name: 'schema-detail',
-        component: () => import('@/views/RuleEngine/Schema/SchemaDetail.vue'),
-      },
-    ],
-  },
   // WebSocket
   {
     path: '/websocket',

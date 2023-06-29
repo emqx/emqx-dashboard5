@@ -103,7 +103,7 @@ p.description {
 
 #nprogress {
   .bar {
-    background: linear-gradient(135deg, #8c4eff 0%, #3f36ec 100%);
+    background: linear-gradient(135deg, #0ad18e 0%, #03a4a5 100%);
   }
 }
 
@@ -355,7 +355,7 @@ input:disabled {
 
 .text-status {
   &.success {
-    color: var(--el-color-success);
+    color: var(--el-color-primary);
   }
   &.warning {
     color: var(--el-color-warning);
@@ -519,13 +519,13 @@ input:disabled {
   top: 0px;
   width: 18px;
   height: 18px;
-  background-color: #5e4eff50;
+  background-color: #00b17350;
   animation: scaleAnimate 1.5s ease-out infinite;
 }
 .running-status::after {
   width: 6px;
   height: 6px;
-  background-color: #5e4eff;
+  background-color: #00b173;
   top: 6px;
   left: -8px;
   z-index: 3;
