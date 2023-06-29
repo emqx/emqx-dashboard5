@@ -3,7 +3,7 @@ import { BridgeItem, RuleEvent } from '@/types/rule'
 import * as monaco from 'monaco-editor'
 import { Ref, ref } from 'vue'
 import useI18nTl from '../useI18nTl'
-import useRuleSourceEvents from './bridge/useRuleSourceEvents'
+import useRuleSourceEvents from './rule/useRuleSourceEvents'
 import keysInRule from './KeysInRule.json'
 import { camelCase } from 'lodash'
 
