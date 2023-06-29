@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import { formatSQL } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
-import useRuleSourceEvents from '@/hooks/Rule/bridge/useRuleSourceEvents'
+import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -213,3 +213,4 @@ const useEvent = (event: string) => {
   }
 }
 </style>
+@/hooks/Rule/rule/useRuleSourceEvents
