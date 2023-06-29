@@ -10,6 +10,8 @@ import schemaTextEn from '@/schemaText/schema-text-en.json'
 
 import resourceOptSchemaZh from '@/schemaText/resource-opt-schema-zh.json'
 import resourceOptSchemaEn from '@/schemaText/resource-opt-schema-en.json'
+import bridgeSchemaTextZh from '@/schemaText/bridge-text-zh.json'
+import bridgeSchemaTextEn from '@/schemaText/bridge-text-en.json'
 
 import symbolLabelZh from '@/schemaText/symbol-label-zh.json'
 import symbolLabelEn from '@/schemaText/symbol-label-en.json'
@@ -40,8 +42,8 @@ Array.prototype.forEach.call(translations.keys(), (path) => {
 lang.en.ConfigSchema = schemaTextEn
 lang.zh.ConfigSchema = schemaTextZh
 
-lang.en.BridgeSchema = resourceOptSchemaEn
-lang.zh.BridgeSchema = resourceOptSchemaZh
+lang.en.BridgeSchema = { ...resourceOptSchemaEn, ...bridgeSchemaTextEn }
+lang.zh.BridgeSchema = { ...resourceOptSchemaZh, ...bridgeSchemaTextZh }
 
 lang.en.SchemaSymbolLabel = symbolLabelEn
 lang.zh.SchemaSymbolLabel = symbolLabelZh

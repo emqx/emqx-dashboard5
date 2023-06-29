@@ -51,7 +51,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="24">
+        <el-col v-if="!IS_ENTERPRISE" :span="24">
           <el-form-item>
             <template #label>
               <FormItemLabel
@@ -97,12 +97,13 @@ import { getTeleStatus, updateTeleStatus } from '@/api/config'
 import { useI18n } from 'vue-i18n'
 import { TeleStatus } from '@/types/config'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import { IS_ENTERPRISE } from '@/common/constants'
 
 const record = reactive({
   lang: 'en',
   theme: 'dark',
   syncOsTheme: false,
-  enable: true,
+  enable: false,
 })
 const teleConfigs = ref<TeleStatus>({
   enable: true,
@@ -149,6 +150,9 @@ const themeOption = [
 const saveLoading = ref(false)
 const { t } = useI18n()
 const loadData = async () => {
+  if (IS_ENTERPRISE) {
+    return
+  }
   const res = await getTeleStatus()
   if (res) {
     record.enable = res.enable
@@ -166,7 +170,9 @@ const handleSave = async () => {
       saveLoading.value = false
       return
     }
-    await updateTeleStatus(data)
+    if (!IS_ENTERPRISE) {
+      await updateTeleStatus(data)
+    }
     ElMessage.success(t('Base.updateSuccess'))
     loadData()
   } catch (error) {

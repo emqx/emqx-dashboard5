@@ -239,10 +239,6 @@ export default {
     zh: '当设置为超级用户后，该用户将跳过后续所有的权限检查。',
     en: 'When set to superuser, this user will skip all subsequent permission.',
   },
-  validMethod: {
-    zh: '验证方式',
-    en: 'JWT or JWKS',
-  },
   algorithm: {
     zh: '加密方式',
     en: 'Algorithm',

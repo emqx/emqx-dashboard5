@@ -17,15 +17,17 @@
   --color-title-primary: #192144;
   --color-text-footer: #8e8e8e;
   --color-text-mdcode: #EB4E3D;
-  --color-text-progress: #1f3547a8;
+  --color-text-progress: #131518cf;
   /* Border */
   --color-border-primary: #D0D4DC;
   --color-border-card: #E2E6F0;
   --color-border-normal: #eeedf6;
   /* Colors */
-  --color-primary: #00b173;
-  --color-hover: #e6fbf4;
-  --color-stream: #5d4eff;
+  --color-primary: #5e4eff;
+  --color-hover: #eeeefe;
+  --color-stream: #604dff;
+  --menu-active-color: #5e4eff;
+  --bg-hover: linear-gradient(33deg, #9a66ff20 0%, #3651ec20 100%);
   /* Shdow */
   --color-shadow-primary: #888ebf33;
 }

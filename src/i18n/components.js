@@ -255,6 +255,10 @@ export default {
     zh: '数据桥接',
     en: 'Data Bridges',
   },
+  schema: {
+    zh: '编解码',
+    en: 'Schema',
+  },
   setting: {
     zh: '设置',
     en: 'Settings',

@@ -1,9 +1,13 @@
 <template>
-  <el-table class="object-array-editor" ref="TableCom" :data="arr">
+  <el-table class="object-array-editor key-and-value-editor shadow-none" ref="TableCom" :data="arr">
     <el-table-column v-for="(value, key) in properties" :key="key">
       <template #header>
         {{ value.label }}
-        <InfoTooltip :content="value.description" />
+        <InfoTooltip>
+          <template #content>
+            <MarkdownContent :content="value.description" />
+          </template>
+        </InfoTooltip>
       </template>
       <template #default="{ $index }">
         <SchemaFormItem
@@ -31,9 +35,10 @@
 <script setup lang="ts">
 import { Properties } from '@/types/schemaForm'
 import { defineProps, PropType, computed, defineEmits, onMounted, ref, nextTick } from 'vue'
-import useSchemaRecord from '@/hooks/Schema/useSchemaFormRules'
+import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import { cloneDeep } from 'lodash'
 import InfoTooltip from './InfoTooltip.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import SchemaFormItem from './SchemaFormItem'
 
 const props = defineProps({
@@ -60,11 +65,10 @@ const arr = computed({
 const TableCom = ref()
 
 const { initRecordByComponents } = useSchemaRecord()
-const { topic_mapping: defaultValue } = initRecordByComponents(props.properties)
-const createDefaultValue = () => cloneDeep(defaultValue)
 
 const addItem = () => {
-  arr.value = [...arr.value, createDefaultValue()]
+  const defaultValue = cloneDeep(initRecordByComponents(props.properties).topic_mapping)
+  arr.value = [...arr.value, defaultValue]
 }
 
 const deleteItem = (index: number) => {

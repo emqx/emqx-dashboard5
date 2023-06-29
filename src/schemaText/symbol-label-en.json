@@ -1,1 +1,4 @@
-{}
+{
+  "async": "Async",
+  "sync": "Sync"
+}
