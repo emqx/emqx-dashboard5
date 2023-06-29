@@ -138,6 +138,7 @@
       <NodesGraphCard />
     </el-card>
     <polyline-cards></polyline-cards>
+    <LicenseCard :current-connections="currentMetrics.connections" />
   </div>
 </template>
 
@@ -154,6 +155,7 @@ import { ref, reactive, Ref } from 'vue'
 import RateChart from './components/RateChart.vue'
 import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
+import LicenseCard from './components/LicenseCard.vue'
 import Moment from 'moment'
 import { loadCurrentMetrics } from '@/api/common'
 import { formatNumber } from '@/common/tools'

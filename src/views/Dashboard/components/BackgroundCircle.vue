@@ -10,7 +10,7 @@
         :stroke-width="ACTIVE_RING_STROKE_WIDTH"
         :stroke="isRingActivated ? 'rgba(0, 177, 115, 0.35)' : undefined"
       />
-      <circle :r="BACKGROUND_CIRCLE_RADIUS" fill="#E3FFF5" :cx="SVGCenter" :cy="SVGCenter" />
+      <circle :r="BACKGROUND_CIRCLE_RADIUS" fill="#f0eeff" :cx="SVGCenter" :cy="SVGCenter" />
     </svg>
   </div>
 </template>

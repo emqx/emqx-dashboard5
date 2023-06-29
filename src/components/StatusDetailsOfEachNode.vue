@@ -76,7 +76,7 @@ const statusForIcon = computed(() => {
 
 <style lang="scss" scoped>
 :deep(.el-badge__content--success) {
-  background-color: var(--el-color-primary);
+  background-color: var(--el-color-success);
 }
 .node-status {
   cursor: default;

@@ -13,7 +13,7 @@ export interface ListenerUtils {
   ID_SEPARATOR: string
   gatewayTypesWhichCanEnableProxyProtocol: Array<ListenerTypeForGateway | ListenerType>
   gatewayTypesWhichHasTCPConfig: Array<ListenerTypeForGateway | ListenerType>
-  gatewayTypesWhichHasUDPConfig: Array<ListenerTypeForGateway | ListenerType>
+  gatewayTypesWhichHasUDPConfig: Array<ListenerTypeForGateway>
   gatewayTypesWhichHasSSLConfig: Array<ListenerTypeForGateway | ListenerType>
   listenerFormRules: FormRules
   limiterRules: FormRules

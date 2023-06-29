@@ -39,6 +39,10 @@ export default {
     zh: '不匹配',
     en: 'No match',
   },
+  no_compression: {
+    zh: '不压缩',
+    en: 'No compression',
+  },
   rateNow: {
     zh: '当前速率',
     en: 'Rate',
@@ -310,7 +314,7 @@ export default {
   },
   queuing: {
     zh: '已缓存',
-    en: 'Queued',
+    en: 'Queuing',
   },
   queuingDesc: {
     zh: '当前被缓存到磁盘队列的消息个数',
@@ -778,9 +782,197 @@ export default {
     zh: 'message/sec | messages/sec',
     en: 'message/sec | messages/sec',
   },
-  saveAsCopy: {
-    zh: '保存为副本',
-    en: 'Save as copy',
+  influxDBLabel: {
+    zh: 'InfluxDB',
+    en: 'InfluxDB',
+  },
+  mySQL: {
+    zh: 'MySQL',
+    en: 'MySQL',
+  },
+  influxDBVersion: {
+    zh: 'InfluxDB 版本',
+    en: 'Version of InfluxDB',
+  },
+  kafka: {
+    zh: 'Kafka',
+    en: 'Kafka',
+  },
+  redis: {
+    zh: 'Redis',
+    en: 'Redis',
+  },
+  gcpPubSub: {
+    zh: 'Google PubSub',
+    en: 'Google PubSub',
+  },
+  mongoDB: {
+    zh: 'MongoDB',
+    en: 'MongoDB',
+  },
+  pgSql: {
+    zh: 'PostgreSQL',
+    en: 'PostgreSQL',
+  },
+  timescaleDB: {
+    zh: 'TimescaleDB',
+    en: 'TimescaleDB',
+  },
+  matrixDB: {
+    zh: 'MatrixDB',
+    en: 'MatrixDB',
+  },
+  TDengine: {
+    zh: 'TDengine',
+    en: 'TDengine',
+  },
+  clickHouse: {
+    zh: 'ClickHouse',
+    en: 'ClickHouse',
+  },
+  dynamoDB: {
+    zh: 'DynamoDB',
+    en: 'DynamoDB',
+  },
+  cassandra: {
+    zh: 'Cassandra',
+    en: 'Cassandra',
+  },
+  rocketMQ: {
+    zh: 'RocketMQ',
+    en: 'RocketMQ',
+  },
+  microsoftSqlServer: {
+    zh: 'Microsoft SQL Server',
+    en: 'Microsoft SQL Server',
+  },
+  iotDB: {
+    zh: 'Apache IoTDB',
+    en: 'Apache IoTDB',
+  },
+  openTSDB: {
+    zh: 'OpenTSDB',
+    en: 'OpenTSDB',
+  },
+  oracleDatabase: {
+    zh: 'Oracle Database',
+    en: 'Oracle Database',
+  },
+  rabbitMQ: {
+    zh: 'RabbitMQ',
+    en: 'RabbitMQ',
+  },
+  pulsar: {
+    zh: 'Pulsar',
+    en: 'Pulsar',
+  },
+  hStream: {
+    zh: 'HStreamDB',
+    en: 'HStreamDB',
+  },
+  egressDataBaseDesc: {
+    zh: '将数据保存到 {name}',
+    en: 'Save data to {name}',
+  },
+  bridgeDataToDesc: {
+    zh: '桥接数据到 {name}',
+    en: 'Bridge data to {name}',
+  },
+  database: {
+    en: 'Database',
+    zh: '数据库',
+  },
+  databaseDesc: {
+    en: 'InfluxDB database.',
+    zh: 'InfluxDB 数据库。',
+  },
+  dataDefinition: {
+    zh: '定义解析数据，',
+    en: 'Define Data Parsing,',
+  },
+  dataDefinitionDesc: {
+    zh: '指定数据格式与内容，使其能被解析并写入到 InfluxDB 中，支持使用占位符。',
+    en: 'specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
+  },
+  timestampDesc: {
+    zh: `数据的 UNIX 时间戳。如果此字段为空或使用 \`\${'{'}timestamp{'}'}\` 模板，则 EMQX 使用其主机机器的系统时间（UTC）。请注意，此情况下的最大精度将被限制为毫秒，即使在“精度”字段中指定了更高的精度。</br>
+如果使用任何其他时间戳，则其精度必须与“精度”字段中选择的值完全匹配。</br>
+建议使用模板语法，例如 \`\${'{'}timestamp{'}'}\` 或 \`\${'{'}payload.timestamp{'}'}\`，为每条消息写入 InfluxDB 数据记录。`,
+    en: `The UNIX timestamp for the data. EMQX uses its host machine’s system time (UTC) if this field is left empty or \`\${'{'}timestamp{'}'}\` template is used explicitly. Note that the maximum precision in this case will be limited to milliseconds, even if a higher precision is specified in the 'precision' field.</br>
+If any other timestamp is used, its precision must exactly match the value chosen in the 'precision' field.</br>
+It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`\${'{'}payload.timestamp{'}'}\`, to write an InfluxDB data record for each message.`,
+  },
+  fieldValueDesc: {
+    zh: `键值对都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
+    en: `Both key and value support placeholders. Numbers are written as floats by default, but you can add a type suffix to specify a type (e.g. \`\${'{'}payload.int_key{'}'}i\`). Learn more in the <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
+  },
+  dataFormat: {
+    zh: '数据格式',
+    en: 'Data Format',
+  },
+  float: {
+    zh: '浮点型',
+    en: 'Float',
+  },
+  integer: {
+    zh: '整型',
+    en: 'Integer',
+  },
+  uInteger: {
+    zh: '无符号整型',
+    en: 'UInteger',
+  },
+  string: {
+    zh: '字符串',
+    en: 'String',
+  },
+  boolean: {
+    zh: '布尔型',
+    en: 'Boolean',
+  },
+  placeholder: {
+    zh: '占位符',
+    en: 'Placeholder',
+  },
+  specifiedTypeTip: {
+    zh: '当前显式指定数据类型为 {type}',
+    en: 'The currently explicitly specified data type is {type}',
+  },
+  healthCheckInterval: {
+    en: 'Health Check Interval',
+    zh: '健康检查间隔',
+  },
+  autoRestartInterval: {
+    en: 'Auto Restart Interval',
+    zh: '自动重连间隔',
+  },
+  token: {
+    en: 'Token',
+    zh: 'Token',
+  },
+  usernameDesc: {
+    en: 'InfluxDB username.',
+    zh: 'InfluxDB 用户名。',
+  },
+  passwordDesc: {
+    en: 'InfluxDB password.',
+    zh: 'InfluxDB 密码。',
+  },
+  org: {
+    en: 'Organization',
+    zh: '组织',
+  },
+  bucket: {
+    en: 'Bucket',
+    zh: 'Bucket',
+  },
+  authType: {
+    zh: '认证方式',
+    en: 'Auth Type',
+  },
+  basicAuth: {
+    zh: '基础认证',
+    en: 'Basic auth',
   },
   poolType: {
     zh: '连接池类型',
@@ -790,9 +982,69 @@ export default {
     zh: '连接池大小',
     en: 'Connection Pool Size',
   },
+  kafkaProducerTopic: {
+    zh: 'Kafka 主题名称',
+    en: 'Kafka Topic Name',
+  },
+  kerberosPrincipal: {
+    en: 'Kerberos Principal',
+    zh: 'Kerberos Principal',
+  },
+  role: {
+    en: 'Bridge Role',
+    zh: '桥接角色',
+  },
+  roleDesc: {
+    en: 'Kafka client role, producer sends local MQTT messages to remote Kafka broker, consumer receives remote Kafka messages to local MQTT broker.',
+    zh: 'Kafka 客户端角色，生产者将本地 MQTT 消息发送到远程的 Kafka 服务上，消费者则是接入远程的 Kafka 消息到本地 MQTT 服务中。',
+  },
+  healthCheckIntervalDesc: {
+    en: 'Health check interval.',
+    zh: '健康检查间隔。',
+  },
+  kerberosKeytabFile: {
+    en: 'Kerberos keytab file',
+    zh: 'Kerberos keytab 文件',
+  },
+  kerberosPrincipalDesc: {
+    en: `SASL GSSAPI authentication Kerberos principal. For example <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.`,
+    zh: `SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中`,
+  },
+  autoRestartIntervalDesc: {
+    en: 'The auto restart interval after the resource is disconnected. ',
+    zh: '资源断开以后，自动重连的时间间隔。',
+  },
   autoRestartIntervalValueDesc: {
     zh: '如果时间间隔设置过短，可导致服务离线时反复进行连接测试以致给系统带来较大负载。',
     en: 'If the auto restart time interval is set too small, it might cause the connection test to be repeated when the service is offline, which will bring a lot load to the system.',
+  },
+  filePathPlease: {
+    zh: '请填写文件路径',
+    en: 'Fill in the file path',
+  },
+  kerberosKeytabFileDesc: {
+    en: 'SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
+    zh: 'SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。',
+  },
+  mechanism: {
+    en: 'Mechanism',
+    zh: '认证方法',
+  },
+  mechanismDesc: {
+    en: 'SASL authentication mechanism.',
+    zh: 'SASL 认证方法名称。',
+  },
+  producer: {
+    en: 'Producer',
+    zh: '生产者',
+  },
+  consumer: {
+    en: 'Consumer',
+    zh: '消费者',
+  },
+  saveAsCopy: {
+    zh: '保存为副本',
+    en: 'Save as copy',
   },
   confirmReset: {
     zh: '是否确认重置输入的测试数据？',
@@ -805,5 +1057,21 @@ export default {
   sync: {
     zh: '同步',
     en: 'Sync',
+  },
+  accountJSONError: {
+    zh: '请上传格式有效的 GCP 服务账户凭证',
+    en: 'Please upload your GCP Service Account Credentials in a valid format',
+  },
+  kafkaSniDesc: {
+    zh: `TLS Server Name Indication (SNI)。可以设置为 "auto" 来自动使用连接主机名为 SNI，设置为 "none" 来禁用 SNI（与该字段留白效果一样），或者设置一个主机名，例如 "my.kafka.host" 来使用静态的 SNI。`,
+    en: `The TLS Server Name Indication (SNI). We can set it to "auto" to use connecting hostname as SNI, set to none to disable SNI (same as leaving it blank), or set to an FQDN such as "my.kafka.host" to use a static SNI for all SSL connections.`,
+  },
+  redisCommandError: {
+    zh: '不正确的 Redis 命令',
+    en: 'Incorrect Redis command',
+  },
+  schemaNameTip: {
+    zh: '名称将用于编解码函数中，示例：<br /><code>SELECT  schema_encode("<name>", payload)</code>',
+    en: 'The name will be used in the encoding and decoding functions, for example: <br /><code>SELECT  schema_encode("<name>", payload)</code>',
   },
 }
