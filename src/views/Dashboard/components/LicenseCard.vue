@@ -118,8 +118,8 @@ const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
 const licensePercentage = computed(() => {
   const connection = props.currentConnections
   const { max_connections } = licenseData.value
-  const value = connection ? Math.floor((connection / max_connections) * 100) : 2
-  return value <= 2 ? 2 : value
+  const value = connection ? Math.floor((connection / max_connections) * 100) : 0
+  return value
 })
 
 const refreshLicenseData = async () => {
