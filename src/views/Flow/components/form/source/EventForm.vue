@@ -1,8 +1,8 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="240px"
     class="event-form"
+    label-width="150px"
     label-position="right"
     hide-required-asterisk
     :rules="rules"
@@ -10,14 +10,29 @@
     :validate-on-rule-change="false"
     @keyup.enter="saveConfig()"
   >
-    <h3>Event From</h3>
+    <el-form-item :label="tl('event')" prop="event">
+      <el-select v-model="record.event">
+        <el-option
+          v-for="item in eventOptList"
+          :key="item.event"
+          :label="getEventLabel(item.title)"
+          :value="item.event"
+        />
+      </el-select>
+    </el-form-item>
   </el-form>
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, ref, defineEmits } from 'vue'
+import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
+import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
+import { RuleEvent } from '@/types/rule'
+import { pick } from 'lodash'
+import { Ref, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
-const FormCom = ref()
+type EventOpt = Pick<RuleEvent, 'description' | 'event' | 'sql_example' | 'title'>
 
 const props = defineProps({
   modelValue: {
@@ -26,6 +41,10 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
+
+const { tl } = useI18nTl('RuleEngine')
+
+const FormCom = ref()
 
 const record = computed({
   get() {
@@ -36,11 +55,36 @@ const record = computed({
   },
 })
 
-const rules = {}
+const { createRequiredRule } = useFormRules()
+const rules = { event: createRequiredRule(tl('event'), 'select') }
+
+const { eventDoNotNeedShow, isMsgPubEvent, getEventLabel } = useRuleSourceEvents()
+const { getEventList } = useRuleEvents()
+const eventOptList: Ref<Array<EventOpt>> = ref([])
 
 const saveConfig = () => {
   emit('save', record.value)
 }
+
+const getEventOpt = async () => {
+  try {
+    const eventList: Array<RuleEvent> = await getEventList()
+    eventOptList.value = eventList.reduce((arr: Array<EventOpt>, item) => {
+      if (eventDoNotNeedShow.includes(item.event) || isMsgPubEvent(item.event)) {
+        return arr
+      }
+      return [...arr, pick(item, ['description', 'event', 'sql_example', 'title'])]
+    }, [])
+  } catch (error) {
+    //
+  }
+}
+
+const validate = () => FormCom.value.validate()
+
+getEventOpt()
+
+defineExpose({ validate })
 </script>
 
 <style lang="scss"></style>
