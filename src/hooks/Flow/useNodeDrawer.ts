@@ -4,9 +4,13 @@ import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
 
+const createMessageForm = () => ({ topic: '' })
+const createEventForm = () => ({ event: '' })
+
 export default (): {
   getDrawerTitle: (type: string) => string
   getFormComponent: (type: string) => Component
+  getFormDataByType: (type: string) => Record<string, any>
 } => {
   const { tl } = useI18nTl('RuleEngine')
   const drawerTitleMap: Record<string, string> = {
@@ -28,8 +32,23 @@ export default (): {
 
   const getFormComponent = (type: string) => formComponentMap[type]
 
+  const formDataCreatorMap = {
+    [SourceType.Message]: createMessageForm,
+    [SourceType.Event]: createEventForm,
+  }
+  const emptyCreator = () => ({})
+  const getFormDataByType = (type: string) => {
+    const creator = formDataCreatorMap[type]
+    if (creator) {
+      return creator()
+    }
+    console.error('EMPTY FORM CREATOR')
+    return emptyCreator()
+  }
+
   return {
     getDrawerTitle,
     getFormComponent,
+    getFormDataByType,
   }
 }
