@@ -35,13 +35,19 @@
       />
     </div>
   </div>
-  <NodeDrawer v-model="isDrawerVisible" :type="currentNodeType" />
+  <NodeDrawer
+    v-model="isDrawerVisible"
+    :type="currentNodeType"
+    :form-data="currentNodeFormData"
+    @save="saveDataToNode"
+    @close="resetDrawerData"
+  />
 </template>
 
 <script setup lang="ts">
 import useFlowEditor, { MsgKey, NodeItem, NodeType } from '@/hooks/Flow/useFlowEditor'
-import { NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
-import { ref } from 'vue'
+import { NodeMouseEvent, VueFlow, useVueFlow, Node } from '@vue-flow/core'
+import { Ref, ref } from 'vue'
 import NodeDrawer from './NodeDrawer.vue'
 
 const searchText = ref('')
@@ -49,7 +55,7 @@ const searchText = ref('')
 const FlowWrapper = ref()
 const FlowerInstance = ref()
 
-const { addNodes, onConnect, addEdges } = useVueFlow()
+const { addNodes, onConnect, addEdges, findNode } = useVueFlow()
 
 const { nodeArr, flowData, createFlowNodeDataFromEvent } = useFlowEditor(
   FlowerInstance,
@@ -77,14 +83,38 @@ const onDrop = (event: DragEvent) => {
   const newNode = createFlowNodeDataFromEvent(event)
   if (newNode) {
     addNodes([newNode])
+    openNodeDrawer(newNode)
   }
 }
 
 const isDrawerVisible = ref(false)
 const currentNodeType = ref('')
-const nodeClickNode = (node: NodeMouseEvent) => {
+const currentNodeFormData: Ref<undefined | Record<string, any>> = ref(undefined)
+let currentNodeID = ''
+const openNodeDrawer = (node: Node<any, any, string>) => {
   isDrawerVisible.value = true
-  currentNodeType.value = node.node.data.specificType
+  currentNodeType.value = node.data.specificType
+  currentNodeFormData.value = node.data.formData
+  currentNodeID = node.id
+}
+
+const nodeClickNode = (event: NodeMouseEvent) => {
+  const { node } = event
+  openNodeDrawer(node)
+}
+
+const resetDrawerData = () => {
+  isDrawerVisible.value = false
+  currentNodeType.value = ''
+  currentNodeID = ''
+}
+
+const saveDataToNode = (data: Record<string, any>) => {
+  const node = findNode(currentNodeID)
+  if (node) {
+    node.data.formData = data
+  }
+  resetDrawerData()
 }
 
 onConnect((params) => addEdges(params))
