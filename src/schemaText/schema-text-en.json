@@ -676,7 +676,7 @@
     },
     "flapping_detect_ban_time": {
       "desc": "How long the flapping clientid will be banned.",
-      "label": "Ban time"
+      "label": "Ban Duration"
     },
     "sysmon_top_num_items": {
       "desc": "The number of top processes per monitoring group",
