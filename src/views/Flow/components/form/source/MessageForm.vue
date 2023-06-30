@@ -1,23 +1,25 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="240px"
+    label-width="150px"
     class="message-form"
     label-position="right"
     hide-required-asterisk
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
-    @keyup.enter="saveConfig()"
+    @keyup.enter.prevent="saveConfig()"
   >
-    <h3>Message Form</h3>
+    <el-form-item :label="tl('topic')" prop="topic">
+      <el-input v-model="record.topic" />
+    </el-form-item>
   </el-form>
 </template>
 
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, ref } from 'vue'
-
-const FormCom = ref()
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
+import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -26,6 +28,10 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
+
+const { tl } = useI18nTl('Base')
+
+const FormCom = ref()
 
 const record = computed({
   get() {
@@ -36,11 +42,18 @@ const record = computed({
   },
 })
 
-const rules = {}
+const { createRequiredRule } = useFormRules()
+const rules = {
+  topic: createRequiredRule(tl('topic')),
+}
 
 const saveConfig = () => {
   emit('save', record.value)
 }
+
+const validate = () => FormCom.value.validate()
+
+defineExpose({ validate })
 </script>
 
 <style lang="scss"></style>
