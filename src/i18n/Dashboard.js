@@ -205,7 +205,7 @@ export default {
   },
   strip: {
     zh: '{n} 条',
-    en: '0 message | {n} message | {n} messages',
+    en: '0 messages | {n} message | {n} messages',
   },
   byte: {
     zh: ' 字节',
