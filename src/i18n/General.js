@@ -213,7 +213,7 @@ export default {
   },
   windowTime: {
     zh: '检测时间窗口',
-    en: 'Detection Window Time',
+    en: 'Detection Time Window',
   },
   windowTimeDesc: {
     zh: '进行连接抖动检测时的时间窗口长度',
@@ -225,11 +225,11 @@ export default {
   },
   maxCountDesc: {
     zh: '在一个检测时间窗口内，MQTT 连接客户端被允许的最大断连次数',
-    en: 'Maximum disconnects allowed for a MQTT client within a detection window time',
+    en: 'Maximum allowed number of disconnections for an MQTT client within a specified detection time window.',
   },
   banTime: {
     zh: '封禁时长',
-    en: 'Ban Time',
+    en: 'Ban Duration',
   },
   banTimeDesc: {
     zh: '抖动的连接客户端 ID 将被封禁的时长',
