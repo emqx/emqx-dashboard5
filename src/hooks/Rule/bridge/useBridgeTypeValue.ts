@@ -204,21 +204,32 @@ export const useBridgeDirection = (): {
 }
 
 export const useBridgeSchema = (): {
-  getSchemaRefByType: (type: string) => string
+  getSchemaRefByType: (type: string, suffix?: string) => string
   getTypeBySchemaRef: (ref: string) => string
 } => {
   const refPrefix = 'bridge_'
-  const refSuffix = '.post'
-  const typeReg = new RegExp(`${escapeRegExp(refPrefix)}(.+)${escapeRegExp(refSuffix)}`)
-  /**
-   * @param type The 'type' here is not the same as the 'type' field data in the bridge data. It is used to concatenate a string to obtain `ref`, and longer ones are usually abbreviated.
-   */
-  const getSchemaRefByType = (type: string) => refPrefix + type + refSuffix
+  const refSuffix = '.get'
+  const refSuffixMap: Record<string, string> = {
+    producer: '.get_producer',
+    consumer: '.get_consumer',
+    // add more if needed
+  }
+  const typeReg = new RegExp(
+    `${escapeRegExp(refPrefix)}(.+)(?:${escapeRegExp(refSuffix)}|${Object.values(refSuffixMap)
+      .map(escapeRegExp)
+      .join('|')})`,
+  )
+
+  const getSchemaRefByType = (type: string, suffix?: string) => {
+    const finalSuffix = suffix ? refSuffixMap[suffix] || refSuffix : refSuffix
+    return refPrefix + type + finalSuffix
+  }
 
   const getTypeBySchemaRef = (ref: string) => {
     const matchRet = ref.match(typeReg)
     return matchRet ? matchRet[1] : ''
   }
+
   return {
     getSchemaRefByType,
     getTypeBySchemaRef,
