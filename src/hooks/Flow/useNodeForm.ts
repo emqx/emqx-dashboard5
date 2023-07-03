@@ -13,7 +13,8 @@ export interface FilterItem {
 
 export interface FilterForm {
   groupOperator: FilterLogicalOperator
-  // Just for Vue rendering
+  // It can be used as the ID attribute for list elements, and can be used to
+  // identify the source list and target list after a drag-and-drop operation.
   id: string
   items: Array<FilterItem | FilterForm>
 }
