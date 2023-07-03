@@ -1,18 +1,18 @@
-import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
+import FilterForm from '@/views/Flow/components/form/processing/FilterForm.vue'
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
+import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
 
-const createMessageForm = () => ({ topic: '' })
-const createEventForm = () => ({ event: '' })
-
 export default (): {
   getDrawerTitle: (type: string) => string
+  drawerDefaultWidth: string
+  getDrawerWidth: (type: string) => string
   getFormComponent: (type: string) => Component
-  getFormDataByType: (type: string) => Record<string, any>
 } => {
   const { tl } = useI18nTl('RuleEngine')
+
   const drawerTitleMap: Record<string, string> = {
     [SourceType.Message]: tl('message'),
     [SourceType.Event]: tl('event'),
@@ -22,33 +22,25 @@ export default (): {
     [SinkType.HTTP]: tl('HTTPServer'),
     [SinkType.MQTTBroker]: tl('mqttBroker'),
   }
-
   const getDrawerTitle = (type: string) => drawerTitleMap[type] || ''
+
+  const drawerDefaultWidth = '40%'
+  const drawerWidthMap: Record<string, string> = {
+    [ProcessingType.Filter]: '68%',
+  }
+  const getDrawerWidth = (type: string) => drawerWidthMap[type] || drawerDefaultWidth
 
   const formComponentMap: Record<string, Component> = {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
+    [ProcessingType.Filter]: FilterForm,
   }
-
   const getFormComponent = (type: string) => formComponentMap[type]
-
-  const formDataCreatorMap = {
-    [SourceType.Message]: createMessageForm,
-    [SourceType.Event]: createEventForm,
-  }
-  const emptyCreator = () => ({})
-  const getFormDataByType = (type: string) => {
-    const creator = formDataCreatorMap[type]
-    if (creator) {
-      return creator()
-    }
-    console.error('EMPTY FORM CREATOR')
-    return emptyCreator()
-  }
 
   return {
     getDrawerTitle,
+    drawerDefaultWidth,
+    getDrawerWidth,
     getFormComponent,
-    getFormDataByType,
   }
 }
