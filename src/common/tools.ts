@@ -618,3 +618,11 @@ export const getAllListData = async <T>(
     return Promise.reject(error)
   }
 }
+
+/**
+ * will change original arr
+ */
+export const removeFromArr = <T>(arr: Array<T>, index: number): Array<T> => {
+  arr.splice(index, 1)
+  return arr
+}
