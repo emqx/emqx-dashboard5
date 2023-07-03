@@ -1,8 +1,8 @@
 <template>
   <el-drawer
     v-model="showDialog"
-    size="40%"
     custom-class="node-drawer"
+    :size="width"
     :title="title"
     :z-index="1999"
     :close-on-click-modal="false"
@@ -22,9 +22,10 @@
 
 <script setup lang="ts">
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
+import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
+import { cloneDeep, isFunction } from 'lodash'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
-import { isFunction, cloneDeep } from 'lodash'
 
 const props = defineProps({
   modelValue: {
@@ -52,8 +53,9 @@ const { tl } = useI18nTl('Base')
 
 const FormCom = ref()
 
-const { getDrawerTitle, getFormComponent, getFormDataByType } = useNodeDrawer()
-const title = computed(() => getDrawerTitle(props.type))
+const { getDrawerTitle, drawerDefaultWidth, getDrawerWidth, getFormComponent } = useNodeDrawer()
+const title = computed(() => (props.type ? getDrawerTitle(props.type) : ''))
+const width = computed(() => (props.type ? getDrawerWidth(props.type) : drawerDefaultWidth))
 
 const record = ref({})
 
@@ -76,6 +78,7 @@ const handleDrawerClosed = () => {
   emit('close')
 }
 
+const { getFormDataByType } = useNodeForm()
 watch(showDialog, (val) => {
   if (val) {
     record.value = props.formData ? cloneDeep(props.formData) : getFormDataByType(props.type)
