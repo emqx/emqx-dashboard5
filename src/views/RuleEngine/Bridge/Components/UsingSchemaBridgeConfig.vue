@@ -49,23 +49,24 @@ type UseSchemaBridgeType = Exclude<
 
 const { getSchemaRefByType } = useBridgeSchema()
 const typeRefKeyMap = {
-  [BridgeType.MySQL]: getSchemaRefByType(`mysql`),
-  [BridgeType.GCP]: getSchemaRefByType(`gcp_pubsub`),
-  [BridgeType.PgSQL]: getSchemaRefByType(`pgsql`),
-  [BridgeType.TimescaleDB]: getSchemaRefByType(`timescale`),
-  [BridgeType.MatrixDB]: getSchemaRefByType(`matrix`),
-  [BridgeType.TDengine]: getSchemaRefByType(`tdengine`),
-  [BridgeType.ClickHouse]: getSchemaRefByType(`clickhouse`),
-  [BridgeType.DynamoDB]: getSchemaRefByType(`dynamo`),
-  [BridgeType.Cassandra]: getSchemaRefByType(`cassa`),
-  [BridgeType.RocketMQ]: getSchemaRefByType(`rocketmq`),
-  [BridgeType.MicrosoftSQLServer]: getSchemaRefByType(`sqlserver`),
-  [BridgeType.IoTDB]: getSchemaRefByType(`iotdb`),
-  [BridgeType.OpenTSDB]: getSchemaRefByType(`opents`),
-  [BridgeType.OracleDatabase]: getSchemaRefByType(`oracle`),
-  [BridgeType.RabbitMQ]: getSchemaRefByType(`rabbitmq`),
-  [BridgeType.HStream]: getSchemaRefByType(`hstreamdb`),
+  [BridgeType.MySQL]: getSchemaRefByType('mysql'),
+  [BridgeType.GCP]: getSchemaRefByType('gcp_pubsub', 'producer'),
+  [BridgeType.PgSQL]: getSchemaRefByType('pgsql'),
+  [BridgeType.TimescaleDB]: getSchemaRefByType('timescale'),
+  [BridgeType.MatrixDB]: getSchemaRefByType('matrix'),
+  [BridgeType.TDengine]: getSchemaRefByType('tdengine'),
+  [BridgeType.ClickHouse]: getSchemaRefByType('clickhouse'),
+  [BridgeType.DynamoDB]: getSchemaRefByType('dynamo'),
+  [BridgeType.Cassandra]: getSchemaRefByType('cassa'),
+  [BridgeType.RocketMQ]: getSchemaRefByType('rocketmq'),
+  [BridgeType.MicrosoftSQLServer]: getSchemaRefByType('sqlserver'),
+  [BridgeType.IoTDB]: getSchemaRefByType('iotdb'),
+  [BridgeType.OpenTSDB]: getSchemaRefByType('opents'),
+  [BridgeType.OracleDatabase]: getSchemaRefByType('oracle'),
+  [BridgeType.RabbitMQ]: getSchemaRefByType('rabbitmq'),
+  [BridgeType.HStream]: getSchemaRefByType('hstreamdb'),
 }
+console.log(typeRefKeyMap)
 
 const props = defineProps({
   modelValue: {
