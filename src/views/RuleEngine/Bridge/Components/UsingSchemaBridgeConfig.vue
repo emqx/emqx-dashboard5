@@ -66,7 +66,6 @@ const typeRefKeyMap = {
   [BridgeType.RabbitMQ]: getSchemaRefByType('rabbitmq'),
   [BridgeType.HStream]: getSchemaRefByType('hstreamdb'),
 }
-console.log(typeRefKeyMap)
 
 const props = defineProps({
   modelValue: {
