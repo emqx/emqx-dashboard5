@@ -1,8 +1,12 @@
 <template>
   <div class="filter-operator-line">
-    <el-tag :class="{ 'is-or': operator === FilterLogicalOperator.Or }" @click="handleClick">
+    <span
+      class="el-tag"
+      :class="{ 'is-or': operator === FilterLogicalOperator.Or }"
+      @click="handleClick"
+    >
       {{ operator }}
-    </el-tag>
+    </span>
   </div>
 </template>
 
