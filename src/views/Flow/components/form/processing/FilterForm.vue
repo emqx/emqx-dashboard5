@@ -13,6 +13,15 @@
     <!-- key is a hack, for refresh list -->
     <div class="filter-container" ref="ListContainer" :key="randomStr">
       <FilterOperatorLine :operator="record.groupOperator" @toggle="toggleGroupOperator(record)" />
+      <div class="connector-container">
+        <FilterItemConnector
+          v-for="item in connectorArr"
+          :data="item"
+          :key="item.startIndex"
+          :style="getConnectorStyle(item)"
+          @connected="handleFiltersConnected"
+        />
+      </div>
       <div :class="listWrapClass" :id="record.id">
         <template v-for="(filter, index) in record.items">
           <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
@@ -36,6 +45,7 @@
             v-model="record.items[index]"
             :key="index"
             :index="index"
+            :class="{ 'can-connect': canConnectArr[index] }"
             @delete="deleteFilterItem(index)"
           />
         </template>
@@ -49,6 +59,7 @@
 
 <script setup lang="ts">
 import { createRandomString, removeFromArr } from '@/common/tools'
+import useFilterConnectorInForm from '@/hooks/Flow/useFilterConnectorInForm'
 import {
   FilterForm,
   FilterItem,
@@ -72,6 +83,7 @@ import {
   ref,
 } from 'vue'
 import FilterItemCom from './FilterItem.vue'
+import FilterItemConnector from './FilterItemConnector.vue'
 import FilterOperatorLine from './FilterOperatorLine.vue'
 
 const FormCom = ref()
@@ -106,11 +118,8 @@ const rules = computed(() => {
     items: record.value.items.map((filter: FilterItem | FilterForm) => {
       if (!('items' in filter)) {
         return { ...ruleItem }
-      } else {
-        return {
-          items: filter.items.map(() => ({ ...ruleItem })),
-        }
       }
+      return { items: filter.items.map(() => ({ ...ruleItem })) }
     }),
   }
 })
@@ -135,6 +144,23 @@ const toggleGroupOperator = (group: FilterForm) => {
     group.groupOperator === FilterLogicalOperator.Or
       ? FilterLogicalOperator.And
       : FilterLogicalOperator.Or
+}
+
+const { canConnectArr, connectorArr, getConnectorStyle } = useFilterConnectorInForm(record)
+const handleFiltersConnected = ({
+  startIndex,
+  endIndex,
+}: {
+  startIndex: number
+  endIndex: number
+}) => {
+  const { items } = record.value
+  const filters = items.slice(startIndex, endIndex + 1)
+  record.value.items = [
+    ...items.slice(0, startIndex),
+    { groupOperator: FilterLogicalOperator.And, id: createRandomString(), items: filters },
+    ...items.slice(endIndex + 1),
+  ]
 }
 
 const findItemById = (id: string) => {
@@ -192,21 +218,63 @@ defineExpose({ validate })
 
 <style lang="scss">
 .filter-form {
+  user-select: none;
+  input {
+    user-select: auto;
+  }
   .filter-container {
     display: flex;
   }
   .list-wrap {
     flex-grow: 1;
   }
-  .filter-container {
-    &:not(:last-child) {
-      margin-bottom: 16px;
-    }
+  // If you want to make changes here, please modify it along with src/hooks/Flow/useFilterConnectorInForm.ts:8:31
+  .filter-container:not(:last-child),
+  .filter-item:not(:last-child) {
+    margin-bottom: 16px;
+  }
+  .filter-item.can-connect {
+    margin-left: 16px;
   }
   .filter-item {
-    &:not(:last-child) {
-      margin-bottom: 16px;
-    }
+    position: relative;
+  }
+  $dot-color: #ccefe3;
+  // If you want to make changes here, please modify it along with src/hooks/Flow/useFilterConnectorInForm.ts:9:21
+  $dot-radius: 3px;
+  .filter-item.can-connect::before,
+  .filter-item-connector .dot {
+    display: block;
+    width: $dot-radius * 2;
+    height: $dot-radius * 2;
+    border-radius: $dot-radius;
+    background: $dot-color;
+  }
+  .filter-item-connector .dot {
+    z-index: 1;
+    fill: $dot-color;
+    stroke: $dot-color;
+  }
+  .filter-item-connector .line {
+    stroke: $dot-color;
+    stroke-width: $dot-radius * 2;
+  }
+  .filter-item.can-connect::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+  .connector-container {
+    position: relative;
+  }
+
+  .filter-item-connector {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    width: 6px;
   }
 }
 </style>
