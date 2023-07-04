@@ -208,11 +208,10 @@ export const useBridgeSchema = (): {
   getTypeBySchemaRef: (ref: string) => string
 } => {
   const refPrefix = 'bridge_'
-  const refSuffix = '.get'
+  const refSuffix = '.post'
   const refSuffixMap: Record<string, string> = {
-    producer: '.get_producer',
-    consumer: '.get_consumer',
-    // add more if needed
+    producer: `${refSuffix}_producer`,
+    consumer: `${refSuffix}_consumer`,
   }
   const typeReg = new RegExp(
     `${escapeRegExp(refPrefix)}(.+)(?:${escapeRegExp(refSuffix)}|${Object.values(refSuffixMap)
