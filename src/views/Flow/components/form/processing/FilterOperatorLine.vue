@@ -32,7 +32,12 @@ const handleClick = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
+  width: 44px;
+
+  &.sub-level {
+    width: 36px;
+  }
+
   &::before {
     content: '';
     position: absolute;
