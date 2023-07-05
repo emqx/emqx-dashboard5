@@ -12,8 +12,12 @@
   >
     <!-- key is a hack, for refresh list -->
     <div class="filter-container" ref="ListContainer" :key="randomStr">
-      <FilterOperatorLine :operator="record.groupOperator" @toggle="toggleGroupOperator(record)" />
-      <div class="connector-container">
+      <FilterOperatorLine
+        v-if="record.items.length > 1"
+        :operator="record.groupOperator"
+        @toggle="toggleGroupOperator(record)"
+      />
+      <div class="connector-container" v-if="showConnector">
         <FilterItemConnector
           v-for="item in connectorArr"
           :data="item"
@@ -45,7 +49,7 @@
             v-model="record.items[index]"
             :key="index"
             :index="index"
-            :class="{ 'can-connect': canConnectArr[index] }"
+            :class="{ 'can-connect': canConnectArr[index] && showConnector }"
             @delete="deleteFilterItem(index)"
           />
         </template>
@@ -147,6 +151,7 @@ const toggleGroupOperator = (group: FilterForm) => {
 }
 
 const { canConnectArr, connectorArr, getConnectorStyle } = useFilterConnectorInForm(record)
+const showConnector = computed(() => record.value.items.length > 2)
 const handleFiltersConnected = ({
   startIndex,
   endIndex,
@@ -233,8 +238,9 @@ defineExpose({ validate })
   .filter-item:not(:last-child) {
     margin-bottom: 16px;
   }
+  $gap-left: 16px;
   .filter-item.can-connect {
-    margin-left: 16px;
+    margin-left: $gap-left;
   }
   .filter-item {
     position: relative;
@@ -263,7 +269,7 @@ defineExpose({ validate })
     content: '';
     position: absolute;
     top: 50%;
-    left: 0;
+    left: -$gap-left;
     transform: translateY(-50%);
   }
   .connector-container {
