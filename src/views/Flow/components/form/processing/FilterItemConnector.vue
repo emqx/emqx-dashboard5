@@ -65,7 +65,7 @@ const getIntersectedCircle = (x: number, y: number) => {
     let cx = numToFixed(parseFloat(circle.getAttribute('cx')))
     let cy = numToFixed(parseFloat(circle.getAttribute('cy')))
     let distance = Math.sqrt(Math.pow(cx - x, 2) + Math.pow(cy - y, 2))
-    if (distance <= numToFixed(parseFloat(circle.getAttribute('r')))) {
+    if (distance <= numToFixed(parseFloat(circle.getAttribute('r')) * 2)) {
       return circle
     }
   }
@@ -93,9 +93,8 @@ const handleMouseDown = (event: any) => {
 
 const handleMouseMove = (event: any) => {
   if (sourcePoint) {
-    let x2 = (event.clientX - SVGCom.value.getBoundingClientRect().left).toFixed(2)
     let y2 = (event.clientY - SVGCom.value.getBoundingClientRect().top).toFixed(2)
-    lines[lines.length - 1].setAttribute('x2', x2)
+    lines[lines.length - 1].setAttribute('x2', sourcePoint.x)
     lines[lines.length - 1].setAttribute('y2', y2)
   }
 }
@@ -104,12 +103,14 @@ const handleMouseUp = (event: any) => {
   if (sourcePoint && props.data) {
     const { x, y } = getRelativePositionInSVG(event)
     const circle = getIntersectedCircle(x, y)
-    const { startIndex } = props.data
-    drawEndIndex = parseInt(circle.getAttribute('_index'))
-    const start = Math.min(drawStartIndex, drawEndIndex)
-    const end = Math.max(drawStartIndex, drawEndIndex)
-    if (start !== end) {
-      emit('connected', { startIndex: startIndex + start, endIndex: startIndex + end })
+    if (circle) {
+      const { startIndex } = props.data
+      drawEndIndex = parseInt(circle.getAttribute('_index'))
+      const start = Math.min(drawStartIndex, drawEndIndex)
+      const end = Math.max(drawStartIndex, drawEndIndex)
+      if (start !== end) {
+        emit('connected', { startIndex: startIndex + start, endIndex: startIndex + end })
+      }
     }
 
     lines.pop()?.remove()
