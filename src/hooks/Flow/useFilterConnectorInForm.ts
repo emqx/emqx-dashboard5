@@ -40,6 +40,7 @@ export default (record: WritableComputedRef<any>) => {
    * 2. There must be two consecutive filter items.
    */
   const canConnectArr = computed(() => countCanConnect(record.value.items))
+  const getCanConnect = (index: number) => canConnectArr.value[index]
 
   /**
    * If it is a single filter, the count is recorded as 1.
@@ -104,8 +105,8 @@ export default (record: WritableComputedRef<any>) => {
   )
 
   return {
-    canConnectArr,
     connectorArr,
+    getCanConnect,
     getConnectorStyle,
   }
 }
