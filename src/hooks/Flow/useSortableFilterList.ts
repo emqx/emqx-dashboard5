@@ -2,12 +2,14 @@ import Sortable, { SortableEvent } from 'sortablejs'
 import { ref, Ref } from 'vue'
 
 export default (
-  onUpdate: (evt: SortableEvent) => void,
+  onEnd: (evt: SortableEvent) => void,
 ): {
   ListContainer: Ref<HTMLElement>
   listWrapClass: string
   sortableArr: Array<Sortable>
-  initSortable: () => void
+  initSortable: (
+    otherEventOpt?: Record<string, ((event: SortableEvent) => void) | undefined>,
+  ) => void
 } => {
   const ListContainer = ref()
   const listWrapClass = 'list-wrap'
@@ -16,7 +18,9 @@ export default (
   /**
    * called after table data changes
    */
-  const initSortable = () => {
+  const initSortable = (
+    otherEventOpt: Record<string, ((event: SortableEvent) => void) | undefined> = {},
+  ) => {
     sortableArr.forEach((item) => item?.destroy())
     const eleArr: Array<HTMLElement> = Array.from(
       ListContainer.value.querySelectorAll(`.${listWrapClass}`),
@@ -26,7 +30,8 @@ export default (
         group: 'shared',
         draggable: '.filter-item',
         invertSwap: true,
-        onEnd: onUpdate,
+        onEnd,
+        ...otherEventOpt,
       })
     })
   }
