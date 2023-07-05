@@ -17,7 +17,7 @@
         :operator="record.groupOperator"
         @toggle="toggleGroupOperator(record)"
       />
-      <div class="connector-container" v-if="showConnector">
+      <div class="connector-container" :class="{ 'is-hidden': hideConnector }" v-if="showConnector">
         <FilterItemConnector
           v-for="item in connectorArr"
           :data="item"
@@ -30,6 +30,7 @@
         <template v-for="(filter, index) in record.items">
           <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
             <FilterOperatorLine
+              class="sub-level"
               :operator="filter.groupOperator"
               @toggle="toggleGroupOperator(filter)"
             />
@@ -172,6 +173,16 @@ const toggleGroupOperator = (group: FilterForm) => {
       : FilterLogicalOperator.Or
 }
 
+/**
+ * To ensure proper styling during dragging, hide the connector
+ */
+const hideConnector = ref(false)
+const sortEventOpt = {
+  onStart: () => {
+    hideConnector.value = true
+  },
+}
+
 const { connectorArr, getCanConnect, getConnectorStyle } = useFilterConnectorInForm(record)
 const showConnector = computed(() => record.value.items.length > 2)
 const handleFiltersConnected = async ({
@@ -190,7 +201,7 @@ const handleFiltersConnected = async ({
   ]
   handleAllInSecondLevel()
   await nextTick()
-  initSortable()
+  initSortable(sortEventOpt)
 }
 
 const findItemById = (id: string) => {
@@ -230,9 +241,9 @@ const handleDragged = async (evt: any) => {
   handleOnlyOneInGroup()
   randomStr.value = createRandomString()
   await nextTick()
-  initSortable()
+  initSortable(sortEventOpt)
+  hideConnector.value = false
 }
-
 const { ListContainer, listWrapClass, initSortable } = useSortableFilterList(handleDragged)
 
 const saveConfig = () => {
@@ -241,7 +252,7 @@ const saveConfig = () => {
 
 onMounted(async () => {
   await nextTick()
-  initSortable()
+  initSortable(sortEventOpt)
 })
 
 const validate = () => FormCom.value.validate()
@@ -265,17 +276,28 @@ defineExpose({ validate })
   .filter-item:not(:last-child) {
     margin-bottom: 16px;
   }
-  $gap-left: 16px;
-  .filter-item.can-connect {
+
+  $large-padding-right: 40px;
+  $middle-padding-right: 32px;
+  $small-padding-right: 24px;
+
+  $gap-left: 8px;
+  .filter-item {
     margin-left: $gap-left;
+    padding-right: $large-padding-right;
   }
+
+  .sub-level .filter-item {
+    padding-right: $small-padding-right;
+  }
+
   .filter-item {
     position: relative;
   }
   $dot-color: #ccefe3;
   // If you want to make changes here, please modify it along with src/hooks/Flow/useFilterConnectorInForm.ts:9:21
   $dot-radius: 3px;
-  // .filter-item.can-connect::before,
+  .filter-item.can-connect::before,
   .filter-item-connector .dot {
     display: block;
     width: $dot-radius * 2;
@@ -287,26 +309,36 @@ defineExpose({ validate })
     z-index: 1;
     fill: $dot-color;
     stroke: $dot-color;
+    stroke-width: 0;
   }
   .filter-item-connector .line {
     stroke: $dot-color;
     stroke-width: $dot-radius * 2;
   }
-  // .filter-item.can-connect::before {
-  //   content: '';
-  //   position: absolute;
-  //   top: 50%;
-  //   left: -$gap-left;
-  //   transform: translateY(-50%);
-  // }
+  $margin-left: $gap-left + $dot-radius * 2 + 20px;
+  $connector-left-position: 20px;
+  .filter-item.can-connect {
+    margin-left: $margin-left;
+    padding-right: $middle-padding-right;
+  }
+  .filter-item.can-connect::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -$margin-left + $connector-left-position;
+    transform: translateY(-50%);
+  }
   .connector-container {
     position: relative;
+    left: $connector-left-position;
+    &.is-hidden {
+      visibility: hidden;
+    }
   }
 
   .filter-item-connector {
     position: absolute;
     z-index: 1;
-    left: 0;
     width: 6px;
   }
 }
