@@ -11,7 +11,7 @@
     @keyup.enter="saveConfig()"
   >
     <!-- key is a hack, for refresh list -->
-    <div class="filter-container" ref="ListContainer" :key="randomStr">
+    <div class="filter-container" ref="ListContainer">
       <FilterOperatorLine
         v-if="record.items.length > 1"
         :operator="record.groupOperator"
@@ -26,7 +26,7 @@
           @connected="handleFiltersConnected"
         />
       </div>
-      <div :class="listWrapClass" :id="record.id">
+      <div :class="listWrapClass" :id="record.id" :key="randomStr">
         <template v-for="(filter, index) in record.items">
           <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
             <FilterOperatorLine
@@ -49,7 +49,7 @@
             v-model="record.items[index]"
             :key="index"
             :index="index"
-            :class="{ 'can-connect': canConnectArr[index] && showConnector }"
+            :class="{ 'can-connect': getCanConnect(index) && showConnector }"
             @delete="deleteFilterItem(index)"
           />
         </template>
@@ -128,19 +128,41 @@ const rules = computed(() => {
   }
 })
 
+/**
+ * If there is only one group item in the current first level,
+ * make this group item the new first level.
+ */
+const handleAllInSecondLevel = () => {
+  if (record.value.items.length === 1 && 'items' in record.value.items[0]) {
+    record.value = record.value.items[0]
+  }
+}
+
+/**
+ * If there is only one item inside the group's items, move it out of the group.
+ */
+const handleOnlyOneInGroup = () => {
+  record.value.items.forEach((filter: FilterItem | FilterForm, index: number) => {
+    if ('items' in filter && filter.items.length === 1) {
+      record.value.items[index] = filter.items[0]
+    }
+  })
+}
+
 const addFilterItem = () => {
   record.value.items = [...record.value.items, createFilterItem()]
 }
 
 const deleteFilterItem = (index: number, subIndex?: number) => {
-  if (subIndex !== undefined) {
-    const { items = [] } = record.value.items[index] || {}
-    if (items.length > 1) {
-      record.value.items[index].items = removeFromArr(items, subIndex)
-      return
-    }
+  const subItems = subIndex !== undefined ? record.value.items[index]?.items || [] : []
+  if (subIndex !== undefined && subItems.length > 1) {
+    record.value.items[index].items = removeFromArr(subItems, subIndex)
+    // so, if items.length === 1, it's a empty group, delete it
+  } else {
+    record.value.items = removeFromArr(record.value.items, index)
   }
-  record.value.items = removeFromArr(record.value.items, index)
+  handleOnlyOneInGroup()
+  handleAllInSecondLevel()
 }
 
 const toggleGroupOperator = (group: FilterForm) => {
@@ -150,9 +172,9 @@ const toggleGroupOperator = (group: FilterForm) => {
       : FilterLogicalOperator.Or
 }
 
-const { canConnectArr, connectorArr, getConnectorStyle } = useFilterConnectorInForm(record)
+const { connectorArr, getCanConnect, getConnectorStyle } = useFilterConnectorInForm(record)
 const showConnector = computed(() => record.value.items.length > 2)
-const handleFiltersConnected = ({
+const handleFiltersConnected = async ({
   startIndex,
   endIndex,
 }: {
@@ -166,6 +188,9 @@ const handleFiltersConnected = ({
     { groupOperator: FilterLogicalOperator.And, id: createRandomString(), items: filters },
     ...items.slice(endIndex + 1),
   ]
+  handleAllInSecondLevel()
+  await nextTick()
+  initSortable()
 }
 
 const findItemById = (id: string) => {
@@ -201,6 +226,8 @@ const handleDragged = async (evt: any) => {
     }
     toItem.items.splice(newIndex, 0, target)
   }
+  handleAllInSecondLevel()
+  handleOnlyOneInGroup()
   randomStr.value = createRandomString()
   await nextTick()
   initSortable()
@@ -248,7 +275,7 @@ defineExpose({ validate })
   $dot-color: #ccefe3;
   // If you want to make changes here, please modify it along with src/hooks/Flow/useFilterConnectorInForm.ts:9:21
   $dot-radius: 3px;
-  .filter-item.can-connect::before,
+  // .filter-item.can-connect::before,
   .filter-item-connector .dot {
     display: block;
     width: $dot-radius * 2;
@@ -265,13 +292,13 @@ defineExpose({ validate })
     stroke: $dot-color;
     stroke-width: $dot-radius * 2;
   }
-  .filter-item.can-connect::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -$gap-left;
-    transform: translateY(-50%);
-  }
+  // .filter-item.can-connect::before {
+  //   content: '';
+  //   position: absolute;
+  //   top: 50%;
+  //   left: -$gap-left;
+  //   transform: translateY(-50%);
+  // }
   .connector-container {
     position: relative;
   }

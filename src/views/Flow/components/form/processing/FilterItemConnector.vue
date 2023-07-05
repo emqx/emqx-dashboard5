@@ -62,10 +62,9 @@ const getRelativePositionInSVG = (event: any) => {
 const getIntersectedCircle = (x: number, y: number) => {
   for (let i = 0; i < circleList.value.length; i++) {
     let circle = SVGCom.value.querySelector('.circle:nth-of-type(' + (i + 1) + ')')
-    let cx = numToFixed(parseFloat(circle.getAttribute('cx')))
     let cy = numToFixed(parseFloat(circle.getAttribute('cy')))
-    let distance = Math.sqrt(Math.pow(cx - x, 2) + Math.pow(cy - y, 2))
-    if (distance <= numToFixed(parseFloat(circle.getAttribute('r')) * 2)) {
+    let distance = Math.abs(cy - y)
+    if (distance <= numToFixed(parseFloat(circle.getAttribute('r')) * 1.5)) {
       return circle
     }
   }
