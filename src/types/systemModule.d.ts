@@ -10,6 +10,7 @@ export interface APIKeyFormWhenCreating {
   expired_at?: string | undefined
   desc: string
   enable: boolean
+  api_key?: string
 }
 
 export interface APIKey extends APIKeyFormWhenCreating {

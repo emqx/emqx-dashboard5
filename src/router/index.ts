@@ -312,17 +312,17 @@ export const routes: Array<RouteRecordRaw> = [
   },
   // API Key
   {
-    path: '/APIKey',
+    path: '/api-key',
     component: Layout,
     meta: {
-      hideKey: 'APIKey',
+      hideKey: 'api-key',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'APIKey',
-        component: () => import('@/views/APIKey/APIKey.vue'),
+        name: 'api-key',
+        component: () => import('@/views/General/APIKey.vue'),
       },
     ],
   },
