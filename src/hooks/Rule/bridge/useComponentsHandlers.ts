@@ -201,10 +201,10 @@ export default (props: {
 
   const hStreamHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { payload } = components
+    const { record_template } = components
 
-    if (payload?.type === 'string') {
-      payload.format = 'sql'
+    if (record_template?.type === 'string') {
+      record_template.format = 'sql'
     }
 
     return { components, rules }
