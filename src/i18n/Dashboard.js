@@ -123,6 +123,10 @@ export default {
     zh: '版本信息',
     en: 'Version',
   },
+  EMQXVersion: {
+    zh: 'EMQX 版本信息：',
+    en: 'EMQX Version:',
+  },
   basic: {
     zh: '基础信息',
     en: 'Basic',
@@ -260,24 +264,24 @@ export default {
     en: 'No data',
   },
   customer: {
-    zh: '签发对象',
-    en: 'Customer',
+    zh: '签发对象：',
+    en: 'Customer:',
   },
   numberOfConnectionLines: {
-    zh: 'License 使用情况',
-    en: 'License usage',
+    zh: 'License 使用情况：',
+    en: 'License Usage:',
   },
   issuanceOfEmail: {
-    zh: '签发邮箱',
-    en: 'Email',
+    zh: '签发邮箱：',
+    en: 'Email:',
   },
   issuedAt: {
-    zh: '签发时间',
-    en: 'Issued At',
+    zh: '签发时间：',
+    en: 'Issued At:',
   },
   expireAt: {
-    zh: '到期时间',
-    en: 'Expire At',
+    zh: '到期时间：',
+    en: 'Expire At:',
   },
   beforeTheCertificateExpires: {
     zh: '证书到期前 EMQ 将通过邮件通知签发邮箱，请留意信息接收以免错过续期时间对业务造成影响。',
@@ -286,10 +290,6 @@ export default {
   forTrialEdition: {
     zh: '当前 License 为试用版',
     en: 'The license is for trial',
-  },
-  license: {
-    zh: 'License 信息',
-    en: 'License',
   },
   trialEdition: {
     zh: '试用版',

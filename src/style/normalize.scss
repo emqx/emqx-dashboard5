@@ -856,3 +856,14 @@
     margin-top: 20px;
   }
 }
+
+/* Alert */
+.el-alert--info.is-light {
+  background-color: var(--color-bg-info);
+  .el-alert__title {
+    font-size: 14px;
+  }
+  .el-alert__content {
+    color: var(--color-text-primary);
+  }
+}

@@ -199,6 +199,10 @@ export default {
     zh: '系统设置',
     en: 'System',
   },
+  license: {
+    zh: '许可证',
+    en: 'License',
+  },
   configuration: {
     zh: '功能配置',
     en: 'Configuration',

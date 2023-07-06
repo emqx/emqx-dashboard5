@@ -146,6 +146,7 @@ export default defineComponent({
     const system = [
       { title: 'users', path: '/users' },
       { title: 'api-key', path: '/api-key' },
+      { title: 'license', path: '/license' },
     ]
 
     menus.value = [
