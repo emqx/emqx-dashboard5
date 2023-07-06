@@ -158,13 +158,6 @@
       "desc": "The payload to be forwarded to the HStreamDB. Placeholders supported.",
       "label": "Payload"
     },
-    "config": {
-      "desc": "HStreamDB connection config",
-      "label": "Connection config"
-    },
-    "ordering_key": {
-      "label": "HStreamDB Ordering Key"
-    },
     "pool_size": {
       "desc": "HStreamDB Pool Size",
       "label": "HStreamDB Pool Size"
@@ -173,7 +166,20 @@
       "label": "HStreamDB Stream Name"
     },
     "url": {
-      "label": "Server URL"
+      "label": "HStreamDB Server URL"
+    },
+    "record_template": {
+      "desc": "The HStream Record template to be forwarded to the HStreamDB. Placeholders supported.",
+      "label": "HStream Record"
+    },
+    "stream_name": {
+      "label": "HStreamDB Stream Name"
+    },
+    "partition_key": {
+      "label": "HStreamDB Ordering Key"
+    },
+    "grpc_timeout": {
+      "label": "HStreamDB gRPC Timeout"
     }
   },
   "emqx_ee_bridge_influxdb": {

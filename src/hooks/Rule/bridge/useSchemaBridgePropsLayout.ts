@@ -213,13 +213,7 @@ export default (
     },
     [BridgeType.HStream]: {
       ...createOrderObj(
-        [
-          'connector.url',
-          'connector.stream',
-          'connector.ordering_key',
-          'connector.pool_size',
-          'connector.payload',
-        ],
+        ['url', 'stream', 'partition_key', 'grpc_timeout', 'pool_size', 'ssl', 'record_template'],
         1,
       ),
     },
@@ -287,7 +281,7 @@ export default (
       timeout: 'dividing-line-below',
     },
     [BridgeType.HStream]: {
-      'connector.ordering_key': 'dividing-line-below',
+      record_template: 'dividing-line-below',
     },
   }
 
