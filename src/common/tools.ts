@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { BridgeItem } from '@/types/rule'
 import { cloneDeep, escape, isFunction, isObject, omit } from 'lodash'
 import moment from 'moment'
 import { COPY_SUFFIX } from './constants'
