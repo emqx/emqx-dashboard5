@@ -442,6 +442,26 @@
     "tcp_keepalive": {
       "desc": "启用 Kafka 桥接连接的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
       "label": "TCP Keepalive"
+    },
+    "kafka_headers": {
+      "desc": "请提供用作 Kafka Headers 的占位符<br/>例如：<code>${'{'}pub_props{'}'}</code><br/>注意占位符的值必须是一个对象：<br/>`{'{'}\"foo\": \"bar\"{'}'}`<br/>或者是一个键值对的数组：<br/>`[{'{'}\"key\": \"foo\", \"value\": \"bar\"{'}'}]`",
+      "label": "Kafka Headers"
+    },
+    "kafka_ext_headers": {
+      "desc": "请提供更多的键值对，用于 Kafka Headers。<br/>这里的键值对将与 `kafka_headers` 字段的值合并后发送到 Kafka。",
+      "label": "更多的 Kafka Headers"
+    },
+    "kafka_header_value_encode_mode": {
+      "desc": "Kafka Headers 的值编码类型：<br/>- `NONE`：仅将二进制值添加到 Kafka Headers；<br/>- `JSON`：仅将 JSON 值添加到 Kafka Headers，并在发送之前将其编码为 JSON 字符串。",
+      "label": "Kafka Headers 值编码类型"
+    },
+    "kafka_ext_header_key": {
+      "desc": "Kafka Headers 的键。支持使用 <code>${'{'}var{'}'}</code> 格式的占位符。",
+      "label": "Kafka Headers 键"
+    },
+    "kafka_ext_header_value": {
+      "desc": "Kafka Headers 的值。支持使用 <code>${'{'}var{'}'}</code> 格式的占位符。",
+      "label": "Kafka Headers 值"
     }
   },
   "emqx_ee_bridge_mongodb": {

@@ -10,7 +10,53 @@
           <el-input v-model="kafkaConfig.topic" />
         </el-form-item>
       </el-col>
-      <el-col :span="12" />
+      <el-col :span="12"></el-col>
+      <el-col :span="12">
+        <el-form-item prop="kafka.kafka_headers">
+          <template #label>
+            <span>{{ tl('kafka_headers.label') }}</span>
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('kafka_headers.desc')" />
+              </template>
+            </InfoTooltip>
+          </template>
+          <el-input v-model="kafkaConfig.kafka_headers" placeholder="${pub_props}" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="kafka.kafka_header_value_encode_mode">
+          <template #label>
+            <span>{{ tl('kafka_header_value_encode_mode.label') }}</span>
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('kafka_header_value_encode_mode.desc')" />
+              </template>
+            </InfoTooltip>
+          </template>
+          <el-select v-model="kafkaConfig.kafka_header_value_encode_mode">
+            <el-option value="none" label="NONE" />
+            <el-option value="json" label="JSON" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item prop="kafka.kafka_ext_headers">
+          <template #label>
+            <span>{{ tl('kafka_ext_headers.label') }}</span>
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="tl('kafka_ext_headers.desc')" />
+              </template>
+            </InfoTooltip>
+          </template>
+          <ObjectArrayEditor
+            v-model="kafkaConfig.kafka_ext_headers"
+            :properties="props.headersProperties"
+            prop-key="kafka.kafka_ext_headers"
+          />
+        </el-form-item>
+      </el-col>
       <el-col :span="12">
         <el-form-item prop="kafka.message.key">
           <template #label>
@@ -230,6 +276,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
@@ -239,6 +286,10 @@ const props = defineProps({
     type: Object as PropType<any>,
   },
   schemaComponents: {
+    type: Object,
+    default: () => ({}),
+  },
+  headersProperties: {
     type: Object,
     default: () => ({}),
   },

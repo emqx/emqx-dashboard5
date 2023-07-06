@@ -446,6 +446,26 @@
     "tcp_keepalive": {
       "desc": "Enable TCP keepalive for Kafka bridge connections.<br/>The value is a comma-separated list of three numbers in the format of `Idle,Interval,Probes`<br/>- Idle: The number of seconds of idle time needed by a connection before the server begins to send out keep-alive probes (default on Linux is 7200).<br/>- Interval: The number of seconds between TCP keep-alive probes (default on Linux is 75).<br/>- Probes: The maximum number of TCP keep-alive probes to send before considering the connection as closed if no response is received from the other end (default on Linux is 9).<br/>For example \"240,30,5\" means: send TCP keepalive probes after 240 seconds of idle time, and send probes every 30 second. If there are no responses for 5 consecutive attempts, the connection should be closed.<br/>Default: 'none'",
       "label": "TCP Keepalive"
+    },
+    "kafka_headers": {
+      "desc": "Please provide a placeholder to be used as Kafka Headers<br/>e.g. <code>${'{'}pub_props{'}'}</code><br/>Notice that the value of the placeholder must either be an object:<br/>`{'{'}\"foo\": \"bar\"{'}'}`<br/>or an array of key-value pairs:<br/>`[{'{'}\"key\": \"foo\", \"value\": \"bar\"{'}'}]`",
+      "label": "Kafka Headers"
+    },
+    "kafka_ext_headers": {
+      "desc": "Please provide more key-value pairs for Kafka headers.<br/>The key-value pairs here will be combined with the value of `kafka_headers` field before sending to Kafka.",
+      "label": "More Kafka Headers"
+    },
+    "kafka_header_value_encode_mode": {
+      "desc": "Kafka headers value encode mode:<br/>- `NONE`: only add binary values to Kafka headers;<br/>- `JSON`: only add JSON values to Kafka headers, and encode it to JSON strings before sending.",
+      "label": "Kafka Header Value Encode Mode"
+    },
+    "kafka_ext_header_key": {
+      "desc": "Key of the Kafka header. Placeholders in the format of <code>${'{'}var{'}'}</code> are supported.",
+      "label": "Kafka Header Key"
+    },
+    "kafka_ext_header_value": {
+      "desc": "Value of the Kafka header. Placeholders in the format of <code>${'{'}var{'}'}</code> are supported.",
+      "label": "Kafka Header Value"
     }
   },
   "emqx_ee_bridge_mongodb": {
