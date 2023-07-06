@@ -39,7 +39,7 @@ export interface ListenerUtils {
   transPort: (port: string) => string
 }
 
-export default (gatewayName: string | undefined): ListenerUtils => {
+export default (gatewayName?: string | undefined): ListenerUtils => {
   const ID_SEPARATOR = ':'
 
   const completeGatewayListenerTypeList = [

@@ -326,6 +326,22 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // License
+  {
+    path: '/license',
+    component: Layout,
+    meta: {
+      hideKey: 'license',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'APIKey',
+        component: () => import('@/views/General/License.vue'),
+      },
+    ],
+  },
   // Plugins
   {
     path: '/plugins',

@@ -4,12 +4,15 @@ import { onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export default function useCopy(callback?: () => void): {
-  copyText: (text: string) => Promise<void>
+  copyText: (text: string | undefined) => Promise<void>
   copySuccess: () => void
 } {
   const { t } = useI18n()
   let copyShowTimeout: null | number = null
-  const copyText = async (text: string) => {
+  const copyText = async (text: string | undefined) => {
+    if (text === undefined) {
+      return
+    }
     try {
       copy(text)
       copySuccess()
