@@ -1,6 +1,7 @@
-import { FilterLogicalOperator } from '@/types/enum'
-import { ProcessingType, SourceType } from './useFlowEditor'
 import { createRandomString } from '@/common/tools'
+import { FilterLogicalOperator } from '@/types/enum'
+import { RePub } from '@/types/rule'
+import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
 
 const createMessageForm = () => ({ topic: '' })
 const createEventForm = () => ({ event: '' })
@@ -24,10 +25,18 @@ export const createFilterItem = (): FilterItem => ({
   operator: '',
   valueForComparison: '',
 })
+
 export const createFilterForm = (): FilterForm => ({
   groupOperator: FilterLogicalOperator.And,
   id: createRandomString(),
   items: [createFilterItem()],
+})
+
+export const createRePubForm = (): RePub => ({
+  topic: '',
+  qos: 0,
+  payload: '',
+  retain: false,
 })
 
 export default (): {
@@ -37,6 +46,7 @@ export default (): {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
     [ProcessingType.Filter]: createFilterForm,
+    [SinkType.RePub]: createRePubForm,
   }
   const emptyCreator = () => ({})
   const getFormDataByType = (type: string) => {
