@@ -1,6 +1,8 @@
 import FilterForm from '@/views/Flow/components/form/processing/FilterForm.vue'
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
+import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
+import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
@@ -21,6 +23,8 @@ export default (): {
     [ProcessingType.Filter]: tl('filter'),
     [SinkType.HTTP]: tl('HTTPServer'),
     [SinkType.MQTTBroker]: tl('mqttBroker'),
+    [SinkType.RePub]: tl('republish'),
+    [SinkType.Console]: tl('consoleOutput'),
   }
   const getDrawerTitle = (type: string) => drawerTitleMap[type] || ''
 
@@ -34,6 +38,8 @@ export default (): {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
     [ProcessingType.Filter]: FilterForm,
+    [SinkType.RePub]: RePubForm,
+    [SinkType.Console]: ConsoleForm,
   }
   const getFormComponent = (type: string) => formComponentMap[type]
 

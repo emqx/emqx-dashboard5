@@ -18,13 +18,16 @@ export interface Headers {
   'content-type': string
 }
 
+export interface RePub {
+  payload: string
+  topic: string
+  qos: QoSLevel
+  retain: boolean
+}
+
 export interface OutputItemObj {
   function: string
-  args?: {
-    payload: string
-    topic: string
-    qos: QoSLevel
-  }
+  args?: RePub
 }
 
 /**
