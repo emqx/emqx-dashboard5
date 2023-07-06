@@ -177,7 +177,11 @@
           </el-col>
           <el-col :span="24">
             <KafkaProducerConfig
+              v-if="producerComponents.kafka"
               v-model="formData.kafka"
+              :headers-properties="
+                producerComponents?.kafka?.properties?.kafka_ext_headers.properties
+              "
               :schema-components="getProducerPropItem('kafka').properties"
             />
           </el-col>
@@ -232,6 +236,8 @@
                 <InfoTooltip :content="getText('consumer_topic_mapping.desc')" />
               </template>
               <ObjectArrayEditor
+                v-if="consumerComponents.topic_mapping"
+                prop-key="topic_mapping"
                 v-model="formData.topic_mapping"
                 :properties="consumerComponents?.topic_mapping?.properties"
               />
@@ -356,18 +362,23 @@ const addLabelForProps = (props: Properties) => {
   return props
 }
 
-const getConsumerComponents = async () => {
+const getKafkaAllRoleComponents = async () => {
   await schemaLoadPromise
   consumerComponents.value = getComponents({
     ref: '#/components/schemas/bridge_kafka.post_consumer',
   })
   if (consumerComponents.value.topic_mapping.properties) {
     consumerComponents.value.topic_mapping.properties = addLabelForProps(
-      consumerComponents.value.topic_mapping.properties,
+      consumerComponents.value.topic_mapping.properties as Properties,
+    )
+  }
+  if (producerComponents.value.kafka.properties) {
+    producerComponents.value.kafka.properties.kafka_ext_headers.properties = addLabelForProps(
+      producerComponents.value.kafka.properties.kafka_ext_headers.properties as Properties,
     )
   }
 }
-getConsumerComponents()
+getKafkaAllRoleComponents()
 const { getPropItem: getConsumerPropItem } = useGetInfoFromComponents(consumerComponents)
 
 const role = ref<Role>(
@@ -412,6 +423,7 @@ const createDefaultProducerValue = () => ({
     max_inflight: 10,
     query_mode: 'async',
     sync_query_timeout: '5s',
+    kafka_header_value_encode_mode: 'none',
     buffer: {
       mode: 'memory',
       per_partition_limit: '2GB',
@@ -440,7 +452,7 @@ const getDefaultForm = () =>
 const formCom = ref()
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
-const formRules = computed(() => {
+const formRules = computed<any>(() => {
   const ret = {
     name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
     bootstrap_hosts: createRequiredRule(getText('bootstrap_hosts.label')),

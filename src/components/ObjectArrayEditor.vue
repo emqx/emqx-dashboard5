@@ -36,7 +36,7 @@
 import { Properties } from '@/types/schemaForm'
 import { defineProps, PropType, computed, defineEmits, onMounted, ref, nextTick } from 'vue'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, get } from 'lodash'
 import InfoTooltip from './InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import SchemaFormItem from './SchemaFormItem'
@@ -49,6 +49,10 @@ const props = defineProps({
   properties: {
     type: Object as PropType<Properties>,
     default: () => ({}),
+  },
+  propKey: {
+    type: String,
+    required: true,
   },
 })
 const emit = defineEmits(['update:modelValue'])
@@ -67,7 +71,8 @@ const TableCom = ref()
 const { initRecordByComponents } = useSchemaRecord()
 
 const addItem = () => {
-  const defaultValue = cloneDeep(initRecordByComponents(props.properties).topic_mapping)
+  const objData = get(initRecordByComponents(props.properties), props.propKey)
+  const defaultValue = cloneDeep(objData)
   arr.value = [...arr.value, defaultValue]
 }
 
