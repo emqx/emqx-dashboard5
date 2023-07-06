@@ -2,6 +2,8 @@ import { createRandomString } from '@/common/tools'
 import { Edge, Node, Position, VueFlow } from '@vue-flow/core'
 import { Ref, ref } from 'vue'
 
+export type FlowData = Array<Node | Edge>
+
 export const enum NodeType {
   Source,
   Processing,
@@ -25,6 +27,8 @@ export const enum ProcessingType {
 export const SinkType = {
   HTTP: 'http',
   MQTTBroker: `MQTTBroker_${SINK_SUFFIX}`,
+  Console: 'console',
+  RePub: 'republish',
 }
 
 export const enum FlowNodeType {
@@ -84,11 +88,13 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
       nodeList: [
         { name: 'HTTP Server', specificType: SinkType.HTTP },
         { name: 'MQTT Broker', specificType: SinkType.MQTTBroker },
+        { name: 'Console Output', specificType: SinkType.Console },
+        { name: 'Republish', specificType: SinkType.RePub },
       ],
     },
   ]
 
-  const flowData: Ref<Array<Node | Edge>> = ref([])
+  const flowData: Ref<FlowData> = ref([])
 
   const nodeTypeMap: Record<NodeType, FlowNodeType> = {
     [NodeType.Source]: FlowNodeType.Input,

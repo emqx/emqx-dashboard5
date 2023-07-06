@@ -46,8 +46,9 @@
 
 <script setup lang="ts">
 import useFlowEditor, { MsgKey, NodeItem, NodeType } from '@/hooks/Flow/useFlowEditor'
-import { NodeMouseEvent, VueFlow, useVueFlow, Node } from '@vue-flow/core'
-import { Ref, ref } from 'vue'
+import { Node, NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
+import { pick } from 'lodash'
+import { Ref, defineExpose, ref } from 'vue'
 import NodeDrawer from './NodeDrawer.vue'
 
 const searchText = ref('')
@@ -55,7 +56,8 @@ const searchText = ref('')
 const FlowWrapper = ref()
 const FlowerInstance = ref()
 
-const { addNodes, onConnect, addEdges, findNode } = useVueFlow()
+const { addNodes, onConnect, addEdges, findNode, getIntersectingNodes, getNodes, getEdges } =
+  useVueFlow()
 
 const { nodeArr, flowData, createFlowNodeDataFromEvent } = useFlowEditor(
   FlowerInstance,
@@ -117,7 +119,21 @@ const saveDataToNode = (data: Record<string, any>) => {
   resetDrawerData()
 }
 
+const validate = () => {
+  // TODO:
+}
+
+const nodeNeededKeys = ['id', 'data', 'type']
+const edgeNeededKeys = ['source', 'target']
+const getFlowData = () => {
+  const nodes = getNodes.value.map((item) => pick(item, nodeNeededKeys))
+  const edges = getEdges.value.map((item) => pick(item, edgeNeededKeys))
+  return { nodes, edges }
+}
+
 onConnect((params) => addEdges(params))
+
+defineExpose({ validate, getFlowData })
 </script>
 
 <style lang="scss">
