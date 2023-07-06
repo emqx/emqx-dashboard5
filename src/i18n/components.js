@@ -175,7 +175,7 @@ export default {
     zh: 'ExHook',
     en: 'ExHook',
   },
-  APIKey: {
+  'api-key': {
     zh: 'API 密钥',
     en: 'API Key',
   },

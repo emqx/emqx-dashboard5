@@ -51,7 +51,7 @@
                 <el-input v-model="formData.api_key" disabled />
               </el-col>
               <el-col :span="3">
-                <el-button ref="btnCopyAPIKey" @click="copyText(formData.api_key)">
+                <el-button ref="btnCopyAPIKey" @click="copyText(formData.api_key as string)">
                   {{ tl('copy', 'Base') }}
                 </el-button>
               </el-col>
@@ -179,8 +179,8 @@ const showDialog = computed({
 const dialogTitle = computed(
   () =>
     ({
-      create: `${tl('create', 'Base')}  ${tl('APIKey', 'components')}`,
-      edit: `${tl('edit', 'Base')}  ${tl('APIKey', 'components')}`,
+      create: `${tl('create', 'Base')}  ${tl('api-key', 'components')}`,
+      edit: `${tl('edit', 'Base')}  ${tl('api-key', 'components')}`,
       view: tl('apiKeyDetail'),
     }[props.operationType]),
 )
