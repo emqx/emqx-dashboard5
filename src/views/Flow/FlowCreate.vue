@@ -2,7 +2,7 @@
   <div class="flow-create">
     <div class="flow-create-hd space-between">
       <div class="basic-info">
-        <p>TODO:</p>
+        <el-input v-model="flowName" size="small" />
         <p class="tip">TODO:</p>
       </div>
       <div class="vertical-align-center">
@@ -10,19 +10,21 @@
           <el-radio-button :label="EditingMethod.Flow">Flow</el-radio-button>
           <el-radio-button :label="EditingMethod.SQL">SQL</el-radio-button>
         </el-radio-group>
-        <el-button type="primary" :loading="isSubmitting">
+        <el-button type="primary" :loading="isSubmitting" @click="create">
           {{ t('Base.create') }}
         </el-button>
       </div>
     </div>
     <div class="flow-create-db">
-      <FlowEditor v-if="editingMethod === EditingMethod.Flow" />
+      <FlowEditor ref="FlowEditorCom" v-if="editingMethod === EditingMethod.Flow" />
       <SQLEditor v-if="editingMethod === EditingMethod.SQL" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { createRandomString } from '@/common/tools'
+import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useI18nTl from '@/hooks/useI18nTl'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
@@ -39,6 +41,20 @@ const { tl, t } = useI18nTl('RuleEngine')
 
 const editingMethod = ref(EditingMethod.Flow)
 const isSubmitting = ref(false)
+
+const flowName = ref(createRandomString())
+
+const FlowEditorCom = ref()
+
+const { getRuleNBridgesFromFlowData } = useFlowEditorDataHandler()
+const create = () => {
+  if (editingMethod.value === EditingMethod.Flow) {
+    const flowData = FlowEditorCom.value.getFlowData()
+    const { rule, bridges } = getRuleNBridgesFromFlowData(flowName.value, flowData)
+  } else {
+    // TODO:
+  }
+}
 </script>
 
 <style lang="scss">
