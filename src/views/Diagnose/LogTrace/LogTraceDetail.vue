@@ -56,7 +56,7 @@ let LAST_ACTIVITY_SCROLL_TOP = 0
 const MAX_LOG_SIZE = 5 * 1024 * 1024
 const BYTE_PER_PAGE = 50 * 1024
 
-interface NodeMsg {
+interface NodeInfo {
   mtime: number
   node: string
   size: number
@@ -74,7 +74,7 @@ export default defineComponent({
     const initialHeight = ref(300)
     const logContent = ref('')
     const viewNodeLoading = ref(false)
-    const nodeOpts: Ref<Array<NodeMsg>> = ref([])
+    const nodeOpts: Ref<Array<NodeInfo>> = ref([])
     const selectedNode = ref('')
     const viewLogName: string = route.params.id as string
     const nextPageLoading = ref('')
@@ -86,7 +86,7 @@ export default defineComponent({
       initialHeight.value = windowHeight - offsetTop
     }
 
-    const sortNodesByTime = (nodeList: Array<NodeMsg>) => {
+    const sortNodesByTime = (nodeList: Array<NodeInfo>) => {
       return nodeList.sort((node1, node2) => node2.mtime - node1.mtime)
     }
 

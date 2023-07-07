@@ -4,7 +4,7 @@ import { ListDataWithPagination } from '@/types/common'
 import {
   Alarm,
   ChartDataItem,
-  NodeMsg,
+  NodeInfo,
   NodeStatisticalData,
   Prometheus,
   StatsD,
@@ -69,11 +69,11 @@ export function setPrometheus(body: Prometheus): Promise<Prometheus> {
 export async function loadNodes(
   doNotTriggerProgress = false,
   timeout = 20000,
-): Promise<Array<NodeMsg>> {
+): Promise<Array<NodeInfo>> {
   return http.get('/nodes', { doNotTriggerProgress, timeout })
 }
 
-export async function loadNodeDetail(node: string): Promise<NodeMsg> {
+export async function loadNodeDetail(node: string): Promise<NodeInfo> {
   return http.get(`/nodes/${encodeURIComponent(node)}`)
 }
 
