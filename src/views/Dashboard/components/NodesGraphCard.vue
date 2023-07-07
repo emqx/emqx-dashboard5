@@ -117,7 +117,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import useClusterNodes from '@/hooks/useClusterNodes'
 
 export default defineComponent({
   name: 'NodesGraph',
@@ -130,6 +129,7 @@ import { IS_ENTERPRISE } from '@/common/constants'
 import { calcPercentage } from '@/common/tools'
 import useDurationStr from '@/hooks/useDurationStr'
 import useSyncPolling from '@/hooks/useSyncPolling'
+import useClusterNodes from '@/hooks/useClusterNodes'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
 import { computed, ref, Ref } from 'vue'
 import { Right } from '@element-plus/icons-vue'
@@ -142,7 +142,12 @@ const { locale } = useI18n()
 
 const POLLING_INTERVAL = 2000
 
-const { nodes, loadData: getNodes } = useClusterNodes(false, true, 25000)
+// const { nodes, loadData: getNodes } = useClusterNodes(false, true, 25000)
+const { nodes, loadData: getNodes } = useClusterNodes({
+  loadByDefault: false,
+  hideProgress: true,
+  timeout: 25000,
+})
 /**
  * first time get node data, select the first node
  */

@@ -8,14 +8,15 @@
         <left-bar></left-bar>
         <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
           <a
-            :class="['footer-menu-item', leftBarCollapse ? 'rotate' : '']"
+            class="footer-menu-item"
             @click="
               () => {
                 store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
               }
             "
           >
-            <i class="iconfont icon-fold"></i>
+            <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
+            <EMQXVersion v-show="!leftBarCollapse" />
           </a>
         </div>
       </el-aside>
@@ -79,6 +80,7 @@ import { computed, defineComponent, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
 import { loadLicenseInfo } from '@/api/common'
+import EMQXVersion from '@/components/EMQXVersion.vue'
 
 export default defineComponent({
   name: 'Layout',
@@ -88,6 +90,7 @@ export default defineComponent({
     Expand,
     Fold,
     LicenseTipDialog,
+    EMQXVersion,
   },
   props: {
     keepAlive: {
@@ -209,19 +212,20 @@ export default defineComponent({
     .footer-menu-item {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-around;
       height: 100%;
-      transition: all 0.3s;
+      color: #fff;
       .iconfont {
+        transition: all 0.3s;
         color: #fff;
+        &.rotate {
+          transform: rotate(180deg);
+        }
       }
       &:hover {
         .iconfont {
           color: var(--color-primary);
         }
-      }
-      &.rotate {
-        transform: rotate(180deg);
       }
     }
   }
