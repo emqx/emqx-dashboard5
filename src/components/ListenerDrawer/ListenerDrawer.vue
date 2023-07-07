@@ -208,7 +208,6 @@
               v-if="showDialog && !isLoading"
               class="TLS-config"
               v-model="listenerRecord[SSLConfigKey]"
-              :switch-disabled="isQUIC"
               :show-sni="false"
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
