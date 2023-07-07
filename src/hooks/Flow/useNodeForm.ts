@@ -1,6 +1,6 @@
 import { createRandomString } from '@/common/tools'
 import { FilterLogicalOperator } from '@/types/enum'
-import { RePub } from '@/types/rule'
+import { OutputItemObj } from '@/types/rule'
 import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
 
 const createMessageForm = () => ({ topic: '' })
@@ -32,12 +32,17 @@ export const createFilterForm = (): FilterForm => ({
   items: [createFilterItem()],
 })
 
-export const createRePubForm = (): RePub => ({
-  topic: '',
-  qos: 0,
-  payload: '',
-  retain: false,
+export const createRePubForm = (): OutputItemObj => ({
+  function: 'republish',
+  args: {
+    topic: '',
+    qos: 0,
+    payload: '',
+    retain: false,
+  },
 })
+
+export const createConsoleForm = (): OutputItemObj => ({ function: 'console' })
 
 export default (): {
   getFormDataByType: (type: string) => Record<string, any>
@@ -47,6 +52,7 @@ export default (): {
     [SourceType.Event]: createEventForm,
     [ProcessingType.Filter]: createFilterForm,
     [SinkType.RePub]: createRePubForm,
+    [SinkType.Console]: createConsoleForm,
   }
   const emptyCreator = () => ({})
   const getFormDataByType = (type: string) => {
