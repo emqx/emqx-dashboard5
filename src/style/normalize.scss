@@ -757,6 +757,9 @@
     color: var(--color-title-primary);
     background-color: var(--color-bg-split);
   }
+  .el-descriptions__body {
+    background-color: var(--color-bg-primary);
+  }
   .el-descriptions__body .el-descriptions__table:not(.is-bordered) .el-descriptions__cell {
     padding-bottom: 14px;
   }
