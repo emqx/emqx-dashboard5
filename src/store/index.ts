@@ -43,7 +43,6 @@ export default createStore({
     lang: getLang(),
     leftBarCollapse: getLeftBarCollapse(),
     alertCount: 0,
-    selectedModule: JSON.parse(<string>localStorage.getItem('selectedModule')),
     request_queue: 0,
     edition: localStorage.getItem('edition'),
     afterCurrentUserPwdChanged: false,
