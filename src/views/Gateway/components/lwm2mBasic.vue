@@ -153,7 +153,7 @@ export default defineComponent({
         command: { topic: 'dn/#', qos: 0 },
         response: { topic: 'up/resp', qos: 0 },
         notify: { topic: 'up/notify', qos: 0 },
-        register: { topic: 'up/resp', qos: 0 },
+        register: { topic: 'up/register', qos: 0 },
         update: { topic: 'up/update', qos: 0 },
       },
     }
