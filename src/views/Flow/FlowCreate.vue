@@ -25,9 +25,11 @@
 <script setup lang="ts">
 import { createRandomString } from '@/common/tools'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
+import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
 import useI18nTl from '@/hooks/useI18nTl'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
+import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import FlowEditor from './components/FlowEditor.vue'
 import SQLEditor from './components/SQLEditor.vue'
@@ -37,7 +39,7 @@ const enum EditingMethod {
   SQL,
 }
 
-const { tl, t } = useI18nTl('RuleEngine')
+const { t } = useI18nTl('RuleEngine')
 
 const editingMethod = ref(EditingMethod.Flow)
 const isSubmitting = ref(false)
@@ -47,12 +49,16 @@ const flowName = ref(createRandomString())
 const FlowEditorCom = ref()
 
 const { getRuleNBridgesFromFlowData } = useFlowEditorDataHandler()
-const create = () => {
+const { createFlow } = useSubmitFlowData()
+const create = async () => {
   if (editingMethod.value === EditingMethod.Flow) {
     const flowData = FlowEditorCom.value.getFlowData()
-    const { rule, bridges } = getRuleNBridgesFromFlowData(flowName.value, flowData)
+    const data = getRuleNBridgesFromFlowData(flowName.value, flowData)
+    await createFlow(data)
+    ElMessage.success(t('Base.createSuccess'))
+    // TODO:go back list page
   } else {
-    // TODO:
+    //
   }
 }
 </script>
