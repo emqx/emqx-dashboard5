@@ -9,7 +9,9 @@
             :format="() => `${currentConnections}/${licenseData.max_connections}`"
           />
         </el-descriptions-item>
-        <el-descriptions-item :label="tl('EMQXVersion')"> v5.1.0 </el-descriptions-item>
+        <el-descriptions-item :label="tl('EMQXVersion')">
+          <EMQXVersion />
+        </el-descriptions-item>
         <template v-if="!isEvaluationLicense">
           <el-descriptions-item :label="tl('customer')">
             <span>
@@ -81,6 +83,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ref, ComputedRef, computed } from 'vue'
 import useDocLink from '@/hooks/useDocLink'
 import LicenseUpdateDialog from './components/LicenseUpdateDialog.vue'
+import EMQXVersion from '@/components/EMQXVersion.vue'
 import { useStore } from 'vuex'
 import { startCase } from 'lodash'
 import { LicenseType } from '@/types/enum'
