@@ -1,5 +1,5 @@
 import { numToFixed, waitAMoment } from '@/common/tools'
-import { NodeMsg } from '@/types/dashboard'
+import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
 import { ComputedRef, Ref, computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
@@ -113,7 +113,7 @@ export default (
       modelValue?: unknown
       data?: unknown
     } & {
-      nodes: Array<NodeMsg>
+      nodes: Array<NodeInfo>
     } & {
       modelValue?: string | undefined
     }
@@ -125,7 +125,7 @@ export default (
   backgroundCirclePosition: Ref<{ x: number; y: number }>
   coreNodeHeight: Ref<number>
   countCoreNodeHeight: () => void
-  generateFlowData: (nodes: Array<NodeMsg>) => Array<FlowDataItem>
+  generateFlowData: (nodes: Array<NodeInfo>) => Array<FlowDataItem>
 } => {
   const { state } = useStore()
 
@@ -210,7 +210,7 @@ export default (
     }
   }
 
-  const getCommonFlowNodeData = ({ node, node_status, role }: NodeMsg) => {
+  const getCommonFlowNodeData = ({ node, node_status, role }: NodeInfo) => {
     const roleVal = role || 'core'
     return {
       type: roleVal,
@@ -221,9 +221,9 @@ export default (
     }
   }
 
-  const generateFlowNodeData = (nodes: Array<NodeMsg>) => {
-    const coreNodes: Array<NodeMsg> = []
-    const repNodes: Array<NodeMsg> = []
+  const generateFlowNodeData = (nodes: Array<NodeInfo>) => {
+    const coreNodes: Array<NodeInfo> = []
+    const repNodes: Array<NodeInfo> = []
     nodes.forEach((item) => (item.role !== 'replicant' ? coreNodes : repNodes).push(item))
     if (repNodes.length > MAX_DISPLAYED_REP_NODE) {
       repNodes.splice(20, repNodes.length - 20)
@@ -241,7 +241,7 @@ export default (
       )
   }
 
-  const generateFlowEdgeData = (nodes: Array<NodeMsg>) => {
+  const generateFlowEdgeData = (nodes: Array<NodeInfo>) => {
     const ret = []
     const coreNodes = nodes.filter(({ role }) => role !== 'replicant')
     for (let i = 0; i < coreNodes.length; i++) {
@@ -254,7 +254,7 @@ export default (
     return ret
   }
 
-  const generateFlowData = (nodes: Array<NodeMsg>): Array<FlowDataItem> => {
+  const generateFlowData = (nodes: Array<NodeInfo>): Array<FlowDataItem> => {
     const flowNodeData = generateFlowNodeData(nodes)
     const flowEdgeData = generateFlowEdgeData(nodes)
     return [...flowNodeData, ...flowEdgeData]
