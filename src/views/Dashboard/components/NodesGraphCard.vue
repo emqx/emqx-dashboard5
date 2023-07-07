@@ -117,6 +117,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
+import useClusterNodes from '@/hooks/useClusterNodes'
 
 export default defineComponent({
   name: 'NodesGraph',
@@ -124,28 +125,28 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { loadNodes, loadStats } from '@/api/common'
+import { loadStats } from '@/api/common'
 import { IS_ENTERPRISE } from '@/common/constants'
 import { calcPercentage } from '@/common/tools'
 import useDurationStr from '@/hooks/useDurationStr'
 import useSyncPolling from '@/hooks/useSyncPolling'
-import { NodeMsg, NodeStatisticalData } from '@/types/dashboard'
+import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
 import { computed, ref, Ref } from 'vue'
 import { Right } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
 
-type CurrentInfo = { node: NodeMsg; stats: NodeStatisticalData }
+type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
 
 const { locale } = useI18n()
 
 const POLLING_INTERVAL = 2000
 
+const { nodes, loadData: getNodes } = useClusterNodes(false, true, 25000)
 /**
  * first time get node data, select the first node
  */
 let isInitialized = false
-let nodes: Ref<Array<NodeMsg>> = ref([])
 let stats: Ref<Array<NodeStatisticalData>> = ref([])
 let graph: Ref<undefined | HTMLElement> = ref(undefined)
 const currentNodeName = ref('')
@@ -160,14 +161,6 @@ const currentInfo = computed(() => {
 
 const { transMsNumToSimpleStr } = useDurationStr()
 const { syncPolling } = useSyncPolling()
-
-let getNodes = async () => {
-  try {
-    nodes.value = await loadNodes(true, 25000)
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
 
 let getStats = async () => {
   try {

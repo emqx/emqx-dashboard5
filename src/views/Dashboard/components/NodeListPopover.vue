@@ -22,19 +22,19 @@
 
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { NodeMsg } from '@/types/dashboard'
+import { NodeInfo } from '@/types/dashboard'
 import { Search } from '@element-plus/icons-vue'
 import { startCase } from 'lodash'
 import { ComputedRef, PropType, computed, defineProps, ref } from 'vue'
 
 interface NodeList {
-  core: Array<NodeMsg>
-  replicant: Array<NodeMsg>
+  core: Array<NodeInfo>
+  replicant: Array<NodeInfo>
 }
 
 const props = defineProps({
   nodes: {
-    type: Array as PropType<Array<NodeMsg>>,
+    type: Array as PropType<Array<NodeInfo>>,
     default: () => [],
   },
 })

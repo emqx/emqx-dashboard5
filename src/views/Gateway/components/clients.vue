@@ -107,14 +107,13 @@
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import commonPagination from '@/components/commonPagination.vue'
 import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
-import { loadNodes } from '@/api/common'
 import moment from 'moment'
 import ClientDetails from '../../Clients/ClientDetails.vue'
 import { useRoute } from 'vue-router'
 import { Search, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CheckIcon from '@/components/CheckIcon.vue'
-import { NodeMsg } from '@/types/dashboard'
+import useClusterNodes from '@/hooks/useClusterNodes'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
@@ -131,7 +130,6 @@ export default defineComponent({
       node: '',
       like_endpoint_name: '',
     })
-    let nodes = ref<NodeMsg[]>([])
     let clientsDetailVisible = ref(false)
     let currentClientId = ref('')
 
@@ -139,7 +137,7 @@ export default defineComponent({
     const gname = String(route.params.name).toLowerCase()
     const { tl, t } = useI18nTl('Gateway')
     let pageParams = {}
-
+    const { nodes } = useClusterNodes()
     const {
       pageMeta,
       pageParams: pageQueries,
@@ -162,12 +160,6 @@ export default defineComponent({
       } finally {
         tbLoading.value = false
       }
-    }
-
-    const loadAllNodes = async function () {
-      const data = await loadNodes()
-      if (data) nodes.value = data
-      else nodes.value = []
     }
 
     const searchGatewayList = async function () {
@@ -208,7 +200,6 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      loadAllNodes()
       loadGatewayClients()
     })
 

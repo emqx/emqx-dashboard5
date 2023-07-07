@@ -197,7 +197,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { batchDisconnectClients, listClients } from '@/api/clients'
-import { loadNodes } from '@/api/common'
 import { SESSION_NEVER_EXPIRE_TIME, SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
@@ -206,8 +205,8 @@ import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import useClusterNodes from '@/hooks/useClusterNodes'
 import { Client } from '@/types/client'
-import { NodeMsg } from '@/types/dashboard'
 import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -222,12 +221,12 @@ enum Comparator {
 
 const CONNECTED_AT_SUFFIX = '_connected_at'
 
+const { nodes: currentNodes } = useClusterNodes()
 const { transSecondNumToSimpleStr } = useDurationStr()
 const { tl, t } = useI18nTl('Clients')
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const selectedClients = ref<Client[]>([])
-const currentNodes = ref<NodeMsg[]>([])
 const lockTable = ref(false)
 const TableCom = ref()
 const batchDeleteLoading = ref(false)
@@ -266,15 +265,6 @@ const genQueryParams = (params: Record<string, any>) => {
     newParams[`${comparator}${CONNECTED_AT_SUFFIX}`] = new Date(connected_at).toISOString()
   }
   return newParams
-}
-
-const loadNodeData = async () => {
-  try {
-    const data = await loadNodes()
-    currentNodes.value = data
-  } catch (error) {
-    //
-  }
 }
 
 const loadNodeClients = async (_params = {}) => {
@@ -328,7 +318,6 @@ const getParamsFromQuery = () => {
 }
 
 getParamsFromQuery()
-loadNodeData()
 loadNodeClients()
 const handleSelectionChange = (clients: Client[]) => {
   selectedClients.value = clients

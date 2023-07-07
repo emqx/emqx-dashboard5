@@ -179,30 +179,12 @@ export default defineComponent({
         children: system,
       },
     ]
-    // const setIcon = (menu: Record<string, any>) => {
-    //   let iconPath = `#${menu.icon}-${theme.value}`
-    //   const setSelectedIcon = (path: string, title: string) => {
-    //     if (path === title) {
-    //       iconPath = `#${menu.icon}-${theme.value}-selected`
-    //     }
-    //   }
-    //   const currRoute = route.path.split('/')[1]
-    //   if (menu.children) {
-    //     menu.children.forEach((child: Record<string, any>) => {
-    //       setSelectedIcon(currRoute, child.title)
-    //     })
-    //   } else {
-    //     setSelectedIcon(currRoute, menu.title)
-    //   }
-    //   return iconPath
-    // }
     return {
       store,
       theme,
       leftBarCollapse,
       defaultSelectedKeys,
       menus,
-      // setIcon,
     }
   },
 })

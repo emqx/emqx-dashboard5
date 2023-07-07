@@ -81,19 +81,13 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { loadNodes } from '@/api/common'
 import { caseInsensitiveCompare, calcPercentage } from '@/common/tools'
-import { ref, onMounted, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RefreshRight } from '@element-plus/icons-vue'
-import { NodeMsg } from '@/types/dashboard'
 import useDurationStr from '@/hooks/useDurationStr'
+import useClusterNodes from '@/hooks/useClusterNodes'
 
 const { t } = useI18n()
-
-const nodes: Ref<Array<NodeMsg>> = ref([])
-const nodesLockTable: Ref<boolean> = ref(true)
-const hasMemory: Ref<boolean> = ref(true)
 
 const tl = function (key: string, collection = 'Dashboard') {
   return t(collection + '.' + key)
@@ -101,20 +95,7 @@ const tl = function (key: string, collection = 'Dashboard') {
 
 const { transMsNumToSimpleStr } = useDurationStr()
 
-const loadAllNodes = async () => {
-  try {
-    nodes.value = (await loadNodes()) ?? []
-    hasMemory.value = nodes.value.some((node) => ![0, '0'].includes(node.memory_total))
-  } catch (err) {
-    // ignore err
-  } finally {
-    nodesLockTable.value = false
-  }
-}
-
-onMounted(() => {
-  loadAllNodes()
-})
+const { nodes, lockTable: nodesLockTable, hasMemory, loadData: loadAllNodes } = useClusterNodes()
 </script>
 
 <style lang="scss">

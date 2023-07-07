@@ -127,14 +127,14 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { listSubscriptions, loadNodes } from '@/api/common'
+import { listSubscriptions } from '@/api/common'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import { NodeMsg } from '@/types/dashboard'
+import useClusterNodes from '@/hooks/useClusterNodes'
 import { ArrowDown, ArrowUp, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import 'element-plus/theme-chalk/display.css'
@@ -143,7 +143,7 @@ const showMoreQuery = ref(false)
 const tableData = ref([])
 const params = ref({})
 const lockTable = ref(true)
-const currentNodes = ref<NodeMsg[]>([])
+const { nodes: currentNodes } = useClusterNodes()
 const fuzzyParams = ref({
   node: '',
   match_topic: '',
@@ -179,10 +179,6 @@ const genQueryParams = (params: Record<string, any>) => {
 
   return newParams
 }
-const loadNode = async () => {
-  const res = await loadNodes()
-  if (res) currentNodes.value = res
-}
 
 const loadTableData = async (_params = {}) => {
   lockTable.value = true
@@ -199,7 +195,6 @@ const loadTableData = async (_params = {}) => {
   }
 }
 
-loadNode()
 loadTableData()
 </script>
 

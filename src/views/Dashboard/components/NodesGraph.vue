@@ -53,7 +53,7 @@ import useNodesGraph, {
   BACKGROUND_CIRCLE_OUTER_RADIUS,
   FlowDataItem,
 } from '@/hooks/Overview/useNodesGraph'
-import { NodeMsg } from '@/types/dashboard'
+import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import '@vue-flow/core/dist/style.css'
@@ -85,7 +85,7 @@ const props = defineProps({
     type: String,
   },
   nodes: {
-    type: Object as PropType<Array<NodeMsg>>,
+    type: Object as PropType<Array<NodeInfo>>,
     required: true,
   },
 })
