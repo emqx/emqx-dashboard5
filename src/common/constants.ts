@@ -41,6 +41,8 @@ export const RULE_TOPOLOGY_ID = 'rule-topology'
 
 export const QoSOptions = [QoSLevel.QoS0, QoSLevel.QoS1, QoSLevel.QoS2]
 
+export const MQTTingressRemoteQoS = QoSOptions.filter((item) => item !== QoSLevel.QoS2)
+
 export const RULE_FROM_SEPARATOR = ','
 
 export const DEFAULT_FROM = 't/#'
