@@ -106,13 +106,13 @@ export interface HTTPBridge extends BridgeBaseData {
 
 export interface MQTTBridgeTransConfiguration {
   payload: string
-  qos: string
-  retain: string
+  qos: string | number
+  retain: boolean
   topic: string
 }
 
 export interface MQTTBridgeEgress {
-  pool_size: number
+  pool_size?: number
   local: {
     topic: string
   }
@@ -120,7 +120,7 @@ export interface MQTTBridgeEgress {
 }
 
 export interface MQTTBridgeIngress {
-  pool_size: number
+  pool_size?: number
   local: MQTTBridgeTransConfiguration
   remote: {
     qos: number
@@ -134,7 +134,6 @@ export interface MQTTBridge extends BridgeBaseData {
   ingress: MQTTBridgeIngress
   keepalive: string
   max_inflight: number
-  mode: string
   password: string
   clean_start: boolean
   proto_ver: string
