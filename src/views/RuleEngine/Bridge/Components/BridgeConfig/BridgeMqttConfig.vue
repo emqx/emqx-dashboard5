@@ -139,12 +139,12 @@ export default defineComponent({
 <script lang="ts" setup>
 import { QoSOptions } from '@/common/constants'
 import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
+import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import useSSL from '@/hooks/useSSL'
 import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { ElMessage } from 'element-plus'
@@ -163,7 +163,6 @@ import {
 import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import ConnectorMqttConfig from './ConnectorMqttConfig.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
   modelValue: {
@@ -181,43 +180,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'init'])
 
-const { createSSLForm } = useSSL()
-
-const createRawTransDefaultVal = () => ({
-  topic: '',
-  qos: 1,
-  payload: '${payload}',
-  retain: false,
-})
-
-const createIngressDefaultVal = () => ({
-  remote: {
-    topic: '',
-    qos: 1,
-  },
-  local: createRawTransDefaultVal(),
-})
-const createEgressDefaultValue = () => ({
-  local: {
-    topic: '',
-  },
-  remote: createRawTransDefaultVal(),
-})
-
-const { createDefaultResourceOptsForm } = useResourceOpt()
-
-const createMQTTBridgeDefaultVal = () => ({
-  enable: true,
-  server: '',
-  proto_ver: 'v4',
-  username: '',
-  password: '',
-  ssl: createSSLForm(),
-  ingress: createIngressDefaultVal(),
-  egress: createEgressDefaultValue(),
-  resource_opts: createDefaultResourceOptsForm({ inflight: true }),
-})
-
+const { createRawMQTTForm: createMQTTBridgeDefaultVal } = useBridgeFormCreator()
 const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
 const enableIngress = ref(false)
 const enableEgress = ref(false)
