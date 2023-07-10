@@ -3,17 +3,17 @@
     <div class="connector-mqtt-config form-sub-block">
       <!-- <div class="part-header">{{ tl('connParams') }}</div> -->
       <el-row :gutter="30">
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item :label="tl('brokerAddress')" required :prop="getFormItemProp('server')">
             <el-input v-model="connectorVal.server" placeholder="broker.emqx.io:1883" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item :label="tl('username')">
             <el-input v-model="connectorVal.username" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item :label="tl('password')" :prop="getFormItemProp('password')">
             <el-input
               type="password"
@@ -23,7 +23,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item :label="'Keep Alive'">
             <TimeInputWithUnitSelect
               v-model="connectorVal.keepalive"
@@ -32,7 +32,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item :label="tl('mqttVer')">
             <el-select v-model="connectorVal.proto_ver">
               <el-option
@@ -44,7 +44,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item>
             <template #label>
               <label>{{ tl('retryInterval') }}</label>
@@ -57,7 +57,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item>
             <template #label>
               <label>{{ tl('cleanStart') }}</label>
@@ -66,7 +66,7 @@
             <el-switch v-model="connectorVal.clean_start" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item>
             <template #label>
               <label>{{ tl('bridgeMode') }}</label>
@@ -78,7 +78,7 @@
       </el-row>
     </div>
     <CommonTLSConfig class="tls-config-form" v-model="connectorVal.ssl" :is-edit="edit || copy" />
-    <el-divider />
+    <!-- <el-divider /> -->
   </div>
 </template>
 
@@ -115,6 +115,10 @@ export default defineComponent({
      */
     connectorField: {
       type: String,
+    },
+    colSpan: {
+      type: Number,
+      default: 12,
     },
   },
   setup(prop, context) {

@@ -86,4 +86,21 @@ watch(showDialog, (val) => {
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.node-drawer {
+  $input-append-width: 120px;
+  .el-form-item__content,
+  .oneof-item {
+    > .el-input:not(.el-input-group--append),
+    > .el-select {
+      width: calc(100% - #{$input-append-width});
+    }
+  }
+  .one-of {
+    width: 100%;
+  }
+  .monaco-container {
+    width: calc(100% - #{$input-append-width} / 2);
+  }
+}
+</style>

@@ -147,7 +147,6 @@ export interface MQTTOut extends BridgeBaseData {
   connector: string | Record<string, any>
   direction: MQTTBridgeDirection
   payload: string
-  remote_topic: string
   retain: boolean
   remote_qos: QoSLevel
 }
