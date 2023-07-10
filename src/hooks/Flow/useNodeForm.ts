@@ -1,7 +1,8 @@
 import { createRandomString } from '@/common/tools'
-import { FilterLogicalOperator } from '@/types/enum'
+import { BridgeDirection, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
+import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 
 const createMessageForm = () => ({ topic: '' })
 const createEventForm = () => ({ event: '' })
@@ -47,9 +48,11 @@ export const createConsoleForm = (): OutputItemObj => ({ function: 'console' })
 export default (): {
   getFormDataByType: (type: string) => Record<string, any>
 } => {
+  const { createRawMQTTForm } = useBridgeFormCreator()
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
+    [SourceType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Ingress),
     [ProcessingType.Filter]: createFilterForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,

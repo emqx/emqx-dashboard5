@@ -1,4 +1,5 @@
-import { createRules, createBridge, deleteBridge } from '@/api/ruleengine'
+import { createBridge, createRules, deleteBridge } from '@/api/ruleengine'
+import { checkNOmitFromObj } from '@/common/tools'
 import { BasicRule, BridgeItem } from '@/types/rule'
 
 export default () => {
@@ -6,7 +7,7 @@ export default () => {
     const addedIds: string[] = []
     for (const data of bridges) {
       try {
-        const { id } = await createBridge(data)
+        const { id } = await createBridge(checkNOmitFromObj(data))
         addedIds.push(id)
       } catch (error) {
         for (const id of addedIds) {

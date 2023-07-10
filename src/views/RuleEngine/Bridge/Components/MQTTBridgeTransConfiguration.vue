@@ -24,8 +24,10 @@
         <el-form-item>
           <template #label>
             <label>{{ tl('payload') }}</label>
-            <InfoTooltip :content="tl('payloadExample')" />
-            <p class="payload-desc">{{ tl('payloadDesc') }}</p>
+            <InfoTooltip
+              :content="`${putDescInTooltip ? tl('payloadDesc') + ' ' : ''}${tl('payloadExample')}`"
+            />
+            <p class="payload-desc" v-if="!putDescInTooltip">{{ tl('payloadDesc') }}</p>
           </template>
           <div class="monaco-container">
             <Monaco
@@ -61,6 +63,10 @@ const props = defineProps({
   topicDesc: {
     type: String,
     default: '',
+  },
+  putDescInTooltip: {
+    type: Boolean,
+    default: false,
   },
 })
 
