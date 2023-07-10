@@ -10,7 +10,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('username')">
-            <el-input v-model="connectorVal.username" :placeholder="connectorDefaultVal.username" />
+            <el-input v-model="connectorVal.username" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -83,14 +83,13 @@
 </template>
 
 <script lang="ts">
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import { useI18n } from 'vue-i18n'
-import { computed, defineComponent, onMounted, watch } from 'vue'
-import { cloneDeep } from 'lodash'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import { ConnectorType } from '@/types/enum'
 import { MQTT_VERSION_LIST } from '@/common/constants'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { cloneDeep } from 'lodash'
+import { computed, defineComponent, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'ConnectorMqttConfig',
@@ -120,20 +119,6 @@ export default defineComponent({
   },
   setup(prop, context) {
     const { t } = useI18n()
-    const modeOptions = ['cluster_shareload', 'cluster_singleton']
-
-    const connectorDefaultVal = {
-      type: ConnectorType.MQTT,
-      server: '',
-      username: '',
-      password: '',
-      keepalive: '300s',
-      proto_ver: 'v4',
-      retry_interval: '15s',
-      clean_start: true,
-      bridge_mode: false,
-      mode: modeOptions[0],
-    }
 
     let connectorValCache = ''
     const connectorVal = computed({
@@ -161,7 +146,7 @@ export default defineComponent({
     }
 
     const initConnectorVal = () => {
-      connectorVal.value = { ...cloneDeep(connectorDefaultVal), ...cloneDeep(prop.modelValue) }
+      connectorVal.value = cloneDeep(prop.modelValue)
     }
 
     onMounted(() => {
@@ -172,8 +157,6 @@ export default defineComponent({
       tl: (key: string) => t('RuleEngine.' + key),
       MQTT_VERSION_LIST,
       connectorVal,
-      connectorDefaultVal,
-      modeOptions,
       getFormItemProp,
     }
   },
