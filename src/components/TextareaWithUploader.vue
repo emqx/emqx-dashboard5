@@ -116,6 +116,7 @@ const handleError = (error: any) => {
 <style lang="scss" scoped>
 .textarea-with-uploader {
   position: relative;
+  padding: 0 1px;
   :deep(.el-textarea__inner) {
     position: relative;
     box-sizing: border-box;
