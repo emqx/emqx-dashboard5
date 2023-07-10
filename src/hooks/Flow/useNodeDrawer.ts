@@ -3,6 +3,7 @@ import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
+import SourceMQTTBrokerForm from '@/views/Flow/components/form/source/MQTTBrokerForm.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
@@ -37,6 +38,7 @@ export default (): {
   const formComponentMap: Record<string, Component> = {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
+    [SourceType.MQTTBroker]: SourceMQTTBrokerForm,
     [ProcessingType.Filter]: FilterForm,
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,

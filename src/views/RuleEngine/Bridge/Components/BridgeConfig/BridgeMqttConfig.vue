@@ -41,7 +41,7 @@
                   </el-form-item>
                   <el-form-item label="QoS">
                     <el-select v-model="mqttBridgeVal.ingress.remote.qos">
-                      <el-option v-for="qos in ingressRemoteQoS" :key="qos" :value="qos" />
+                      <el-option v-for="qos in MQTTingressRemoteQoS" :key="qos" :value="qos" />
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -137,7 +137,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { QoSOptions } from '@/common/constants'
+import { MQTTingressRemoteQoS } from '@/common/constants'
 import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -145,7 +145,7 @@ import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
+import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import _ from 'lodash'
@@ -201,7 +201,6 @@ const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const formRules = computed(() => ({
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(tl('brokerAddress')),
-  remote_topic: createRequiredRule(t('Base.topic')),
   ingress: enableIngress.value
     ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
     : undefined,
@@ -231,8 +230,6 @@ const initMqttBridgeVal = async () => {
 const updateModelValue = (val: MQTTBridge) => {
   emit('update:modelValue', val)
 }
-
-const ingressRemoteQoS = ref(QoSOptions.filter((item) => item !== QoSLevel.QoS2))
 
 const handleIngressChanged = async () => {
   const topicTarget = mqttBridgeVal.value.ingress?.remote || {}
