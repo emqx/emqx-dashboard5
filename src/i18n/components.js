@@ -200,7 +200,7 @@ export default {
     en: 'System',
   },
   license: {
-    zh: '许可证',
+    zh: 'License',
     en: 'License',
   },
   configuration: {
