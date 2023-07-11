@@ -59,6 +59,7 @@ interface NodeTypeItem {
 interface Ret {
   nodeArr: Array<NodeTypeItem>
   flowData: Ref<Array<Node | Edge>>
+  getNodeClass: (type: NodeType) => string
   createFlowNodeDataFromEvent: (event: DragEvent) => Node | undefined
 }
 
@@ -71,7 +72,6 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
         { name: 'Message', specificType: SourceType.Message },
         { name: 'Event', specificType: SourceType.Event },
         { name: 'MQTT Broker', specificType: SourceType.MQTTBroker },
-        { name: 'Kafka', specificType: SourceType.MQTTBroker },
       ],
     },
     {
@@ -102,6 +102,13 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     [NodeType.Sink]: FlowNodeType.Output,
   }
   const getFlowNodeType = (type: NodeType) => nodeTypeMap[type] || FlowNodeType.Default
+
+  const nodeClassMap: Record<NodeType, string> = {
+    [NodeType.Source]: 'node-source',
+    [NodeType.Processing]: 'node-processing',
+    [NodeType.Sink]: 'node-sink',
+  }
+  const getNodeClass = (type: NodeType) => nodeClassMap[type]
 
   const getFlowNodeHookPosition = (nodeType: FlowNodeType) => {
     if (nodeType === FlowNodeType.Input) {
@@ -136,6 +143,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
       type: flowNodeType,
       label: name,
       position,
+      class: `node-item ${getNodeClass(type)}`,
       ...getFlowNodeHookPosition(flowNodeType),
       data: { specificType },
     }
@@ -145,5 +153,6 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     nodeArr,
     flowData,
     createFlowNodeDataFromEvent,
+    getNodeClass,
   }
 }
