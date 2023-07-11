@@ -47,6 +47,7 @@ export const createConsoleForm = (): OutputItemObj => ({ function: 'console' })
 
 export default (): {
   getFormDataByType: (type: string) => Record<string, any>
+  isBridgeType: (type: string) => boolean
 } => {
   const { createRawMQTTForm } = useBridgeFormCreator()
   const formDataCreatorMap = {
@@ -56,6 +57,7 @@ export default (): {
     [ProcessingType.Filter]: createFilterForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
+    [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
   }
   const emptyCreator = () => ({})
   const getFormDataByType = (type: string) => {
@@ -66,7 +68,17 @@ export default (): {
     console.error('EMPTY FORM CREATOR')
     return emptyCreator()
   }
+
+  const isNotBridgeTypes = [
+    SourceType.Event,
+    SourceType.Message,
+    ProcessingType.Filter,
+    SinkType.RePub,
+    SinkType.Console,
+  ]
+  const isBridgeType = (type: string) => !isNotBridgeTypes.includes(type)
   return {
     getFormDataByType,
+    isBridgeType,
   }
 }

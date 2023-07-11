@@ -16,7 +16,11 @@
       </div>
     </div>
     <div class="flow-create-db">
-      <FlowEditor ref="FlowEditorCom" v-if="editingMethod === EditingMethod.Flow" />
+      <FlowEditor
+        ref="FlowEditorCom"
+        v-if="editingMethod === EditingMethod.Flow"
+        :flow-name="flowName"
+      />
       <SQLEditor v-if="editingMethod === EditingMethod.SQL" />
     </div>
   </div>
@@ -42,14 +46,13 @@ const enum EditingMethod {
 const { t } = useI18nTl('RuleEngine')
 
 const editingMethod = ref(EditingMethod.Flow)
-const isSubmitting = ref(false)
 
-const flowName = ref(createRandomString())
+const flowName = ref(createRandomString(6))
 
 const FlowEditorCom = ref()
 
 const { getRuleNBridgesFromFlowData } = useFlowEditorDataHandler()
-const { createFlow } = useSubmitFlowData()
+const { isSubmitting, createFlow } = useSubmitFlowData()
 const create = async () => {
   if (editingMethod.value === EditingMethod.Flow) {
     const flowData = FlowEditorCom.value.getFlowData()

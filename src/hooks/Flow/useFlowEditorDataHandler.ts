@@ -98,6 +98,8 @@ export default () => {
       if (specificType === SinkType.Console || specificType === SinkType.RePub) {
         data = formData
         ret.push(data)
+      } else {
+        ret.push(getBridgeKey(formData))
       }
       // TODO:TODO:TODO:Various types of bridges.
       // TODO:TODO:TODO:Various types of bridges.
@@ -144,7 +146,7 @@ export default () => {
         data.specificType !== SinkType.RePub
 
       if (isInputAndNotMessageOrEvent || isOutputAndNotConsoleOrRePub) {
-        arr.push({ ...data.formData, name: flowName })
+        arr.push(data.formData)
       }
       return arr
     }, [])
