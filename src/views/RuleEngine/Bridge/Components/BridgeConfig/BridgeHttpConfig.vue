@@ -1,119 +1,104 @@
 <template>
-  <div class="bridge-config">
-    <el-form
-      ref="formCom"
-      label-position="top"
-      require-asterisk-position="right"
-      :rules="formRules"
-      :model="httpBridgeVal"
-    >
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <el-form-item :label="tl('name')" required prop="name">
-            <el-input v-model="httpBridgeVal.name" :disabled="edit" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-divider />
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <el-form-item :label="tl('method')" required prop="method">
-            <el-select v-model="httpBridgeVal.method">
-              <el-option
-                v-for="item in ['post', 'get', 'put', 'delete']"
-                :value="item"
-                :label="String(item).toUpperCase()"
-                :key="item"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'URL'" required prop="url">
-            <template #label>
-              <label>URL</label>
-              <InfoTooltip :content="tl('httpBridgeURLFieldDesc')" />
-            </template>
-            <el-input v-model="httpBridgeVal.url" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col>
-          <el-form-item :label="tl('headers')">
-            <key-and-value-editor v-model="httpBridgeVal.headers" class="kv-editor" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <el-form-item :label="tl('connectionPoolSize')" required prop="pool_size">
-            <el-input v-model.number="httpBridgeVal.pool_size" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('poolType')" prop="pool_type">
-            <el-select v-model="httpBridgeVal.pool_type">
-              <el-option
-                v-for="item in ['random', 'hash']"
-                :key="item"
-                :value="item"
-                :label="item"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('connTimeout')">
-            <TimeInputWithUnitSelect
-              v-model="httpBridgeVal.connect_timeout"
-              :enabled-units="['s']"
+  <el-form
+    class="bridge-config"
+    ref="formCom"
+    label-position="top"
+    require-asterisk-position="right"
+    :rules="formRules"
+    :model="httpBridgeVal"
+  >
+    <el-row :gutter="26">
+      <el-col :span="colSpan">
+        <el-form-item :label="tl('name')" required prop="name">
+          <el-input v-model="httpBridgeVal.name" :disabled="edit" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-divider />
+    <el-row :gutter="26">
+      <el-col :span="colSpan">
+        <el-form-item :label="tl('method')" required prop="method">
+          <el-select v-model="httpBridgeVal.method">
+            <el-option
+              v-for="item in ['post', 'get', 'put', 'delete']"
+              :value="item"
+              :label="String(item).toUpperCase()"
+              :key="item"
             />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('httpPipeline')">
-            <CustomInputNumber
-              v-model="httpBridgeVal.enable_pipelining"
-              controls-position="right"
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item :label="'URL'" required prop="url">
+          <template #label>
+            <label>URL</label>
+            <InfoTooltip :content="tl('httpBridgeURLFieldDesc')" />
+          </template>
+          <el-input v-model="httpBridgeVal.url" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <el-form-item :label="tl('headers')">
+          <key-and-value-editor v-model="httpBridgeVal.headers" class="kv-editor" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="26">
+      <el-col :span="colSpan">
+        <el-form-item :label="tl('connectionPoolSize')" required prop="pool_size">
+          <el-input v-model.number="httpBridgeVal.pool_size" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item :label="tl('poolType')" prop="pool_type">
+          <el-select v-model="httpBridgeVal.pool_type">
+            <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item :label="tl('connTimeout')">
+          <TimeInputWithUnitSelect v-model="httpBridgeVal.connect_timeout" :enabled-units="['s']" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item :label="tl('httpPipeline')">
+          <CustomInputNumber v-model="httpBridgeVal.enable_pipelining" controls-position="right" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <CommonTLSConfig class="tls-config-form" v-model="httpBridgeVal.ssl" :is-edit="edit || copy" />
+    <el-divider />
+    <el-row :gutter="26">
+      <el-col :span="24">
+        <el-form-item>
+          <template #label>
+            <label>{{ tl('body') }}</label>
+            <InfoTooltip :content="tl('payloadExample')" />
+            <p class="payload-desc">{{ tl('payloadDesc') }}</p>
+          </template>
+          <div class="monaco-container">
+            <Monaco
+              :id="createRandomString()"
+              v-model="httpBridgeVal.body"
+              lang="json"
+              json-without-validate
             />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <CommonTLSConfig
-        class="tls-config-form"
-        v-model="httpBridgeVal.ssl"
-        :is-edit="edit || copy"
+          </div>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-divider />
+    <el-row :gutter="26">
+      <BridgeResourceOpt
+        v-model="httpBridgeVal.resource_opts"
+        :with-request-timeout-config="true"
+        :col-span="colSpan"
       />
-      <el-divider />
-      <el-row :gutter="26">
-        <el-col :span="24">
-          <el-form-item>
-            <template #label>
-              <label>{{ tl('body') }}</label>
-              <InfoTooltip :content="tl('payloadExample')" />
-              <p class="payload-desc">{{ tl('payloadDesc') }}</p>
-            </template>
-            <div class="monaco-container">
-              <Monaco
-                :id="createRandomString()"
-                v-model="httpBridgeVal.body"
-                lang="json"
-                json-without-validate
-              />
-            </div>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-divider />
-      <el-row :gutter="26">
-        <BridgeResourceOpt
-          v-model="httpBridgeVal.resource_opts"
-          :with-request-timeout-config="true"
-        />
-      </el-row>
-    </el-form>
-  </div>
+    </el-row>
+  </el-form>
 </template>
 
 <script lang="ts">
@@ -158,6 +143,10 @@ export default defineComponent({
     copy: {
       type: Boolean,
     },
+    colSpan: {
+      type: Number,
+      default: 12,
+    },
   },
   setup(props, context) {
     const { tl } = useI18nTl('RuleEngine')
@@ -184,6 +173,8 @@ export default defineComponent({
           defaultValue,
         ) as HTTPBridge
         context.emit('init', httpBridgeVal.value)
+      } else {
+        httpBridgeVal.value = { ...httpBridgeVal.value, ...props.modelValue }
       }
     }
 
