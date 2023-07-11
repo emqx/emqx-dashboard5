@@ -3,16 +3,18 @@ import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
-import SourceMQTTBrokerForm from '@/views/Flow/components/form/source/MQTTBrokerForm.vue'
+import MQTTBrokerForm from '@/views/Flow/components/form/MQTTBrokerForm.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
+import { BridgeDirection } from '@/types/enum'
 
 export default (): {
   getDrawerTitle: (type: string) => string
   drawerDefaultWidth: string
   getDrawerWidth: (type: string) => string
   getFormComponent: (type: string) => Component
+  getFormComponentProps: (type: string) => Record<string, any>
 } => {
   const { tl } = useI18nTl('RuleEngine')
 
@@ -38,17 +40,25 @@ export default (): {
   const formComponentMap: Record<string, Component> = {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
-    [SourceType.MQTTBroker]: SourceMQTTBrokerForm,
+    [SourceType.MQTTBroker]: MQTTBrokerForm,
     [ProcessingType.Filter]: FilterForm,
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,
+    [SinkType.MQTTBroker]: MQTTBrokerForm,
   }
   const getFormComponent = (type: string) => formComponentMap[type]
+
+  const formComponentPropsMap: Record<string, Record<string, any>> = {
+    [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
+    [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
+  }
+  const getFormComponentProps = (type: string) => formComponentPropsMap[type] || {}
 
   return {
     getDrawerTitle,
     drawerDefaultWidth,
     getDrawerWidth,
     getFormComponent,
+    getFormComponentProps,
   }
 }
