@@ -31,6 +31,7 @@ export default (): {
         withoutRequestTimeout: false,
       }),
       ssl: createSSLForm(),
+      type: BridgeType.Webhook,
     } as HTTPBridge)
 
   const createRawMQTTTransDefaultVal = (): MQTTBridgeTransConfiguration => ({
