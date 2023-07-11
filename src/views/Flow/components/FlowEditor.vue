@@ -1,14 +1,8 @@
 <template>
   <div class="flow-editor">
     <div class="nodes-panel">
-      <p>TODO:</p>
       <div class="search-bar">
-        <el-input
-          placeholder="Search"
-          prefix-icon="el-icon-search"
-          clearable
-          v-model="searchText"
-        />
+        <el-input placeholder="Search" :suffix-icon="Search" clearable v-model="searchText" />
       </div>
       <el-collapse class="node-type-list" :model-value="nodeArr.map(({ type }) => type)">
         <el-collapse-item
@@ -18,8 +12,15 @@
           :title="typeLabel"
           :name="type"
         >
-          <ul class="node-list" v-for="node in nodeList" :key="node.name">
-            <li class="node-item" draggable="true" @dragstart="onDragStart($event, { type, node })">
+          <ul class="node-list">
+            <li
+              class="node-item"
+              :class="getNodeClass(type)"
+              v-for="node in nodeList"
+              :key="node.name"
+              draggable="true"
+              @dragstart="onDragStart($event, { type, node })"
+            >
               {{ node.name }}
             </li>
           </ul>
@@ -46,12 +47,13 @@
 </template>
 
 <script setup lang="ts">
+import { createRandomString } from '@/common/tools'
 import useFlowEditor, { MsgKey, NodeItem, NodeType } from '@/hooks/Flow/useFlowEditor'
+import { Search } from '@element-plus/icons-vue'
 import { Node, NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
-import { Ref, defineExpose, ref, defineProps } from 'vue'
+import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
 import NodeDrawer from './NodeDrawer.vue'
-import { createRandomString } from '@/common/tools'
 
 const props = defineProps({
   flowName: {
@@ -70,7 +72,7 @@ const FlowerInstance = ref()
 const { addNodes, onConnect, addEdges, findNode, getIntersectingNodes, getNodes, getEdges } =
   useVueFlow()
 
-const { nodeArr, flowData, createFlowNodeDataFromEvent } = useFlowEditor(
+const { nodeArr, flowData, getNodeClass, createFlowNodeDataFromEvent } = useFlowEditor(
   FlowerInstance,
   FlowWrapper,
 )
@@ -163,10 +165,58 @@ defineExpose({ validate, getFlowData })
     padding: 16px 12px;
     border-right: 1px solid var(--color-border-primary);
     overflow-y: scroll;
+    background-color: #f6f7fa;
+    .node-item {
+      border-top-color: #e2e6f0;
+      border-right-color: #e2e6f0;
+      border-bottom-color: #e2e6f0;
+    }
   }
+
+  .el-collapse {
+    border-bottom: none;
+  }
+
+  .el-collapse-item__header,
+  .el-collapse-item__content,
+  .el-collapse-item__wrap {
+    background-color: transparent;
+  }
+
+  .el-collapse-item__wrap {
+    border-bottom: none;
+  }
+
+  .el-collapse-item__content {
+    padding-bottom: 8px;
+  }
+
+  .el-collapse-item__header {
+    font-weight: 600;
+  }
+
+  ul {
+    margin-top: 0;
+  }
+
   .flow-wrap {
     height: 100%;
     flex-grow: 1;
+    .node-item {
+      border-top-color: #f5f5f5;
+      border-right-color: #f5f5f5;
+      border-bottom-color: #f5f5f5;
+    }
+  }
+  .vue-flow__handle {
+    border: none;
+  }
+  .vue-flow__handle-left {
+    left: -4px - 9px;
+  }
+
+  .vue-flow__handle {
+    --vf-handle: #babcbe;
   }
   .node-type-list {
     padding: 8px;
@@ -177,11 +227,25 @@ defineExpose({ validate, getFlowData })
     font-size: 14px;
     line-height: 22px;
     border-radius: 8px;
-    background: #dbecff;
+    background: var(--color-bg-primary);
+    border-width: 1px 1px 1px 10px;
+    border-style: solid;
     cursor: grab;
   }
   .vue-flow {
     height: 100%;
+  }
+  .node-source {
+    border-left-color: var(--color-primary);
+    --vf-box-shadow: var(--color-primary);
+  }
+  .node-processing {
+    border-left-color: #469cf7;
+    --vf-box-shadow: #469cf7;
+  }
+  .node-sink {
+    border-left-color: #906ef2;
+    --vf-box-shadow: #906ef2;
   }
 }
 </style>
