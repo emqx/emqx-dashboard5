@@ -3,7 +3,6 @@
     <el-form-item :label="verifyLabel || $t('Base.tlsVerify')">
       <el-switch
         v-model="record.verify"
-        :disabled="switchDisabled"
         :active-value="SSL_VERIFY_VALUE_MAP.get(true)"
         :inactive-value="SSL_VERIFY_VALUE_MAP.get(false)"
       />
@@ -126,10 +125,6 @@ const props = defineProps({
         return undefined
       }
     },
-  },
-  switchDisabled: {
-    type: Boolean,
-    default: false,
   },
 })
 

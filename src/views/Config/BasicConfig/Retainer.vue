@@ -115,6 +115,7 @@
                 <InputWithUnit
                   v-model="retainerConfig.deliver_rate"
                   :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
+                  :disabled="!configEnable"
                 />
               </el-form-item>
             </el-col>
