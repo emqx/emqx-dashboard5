@@ -49,7 +49,7 @@ export default (): {
   getFormDataByType: (type: string) => Record<string, any>
   isBridgeType: (type: string) => boolean
 } => {
-  const { createRawMQTTForm } = useBridgeFormCreator()
+  const { createRawMQTTForm, createRawHTTPForm } = useBridgeFormCreator()
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
@@ -58,6 +58,7 @@ export default (): {
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
     [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
+    [SinkType.HTTP]: createRawHTTPForm,
   }
   const emptyCreator = () => ({})
   const getFormDataByType = (type: string) => {

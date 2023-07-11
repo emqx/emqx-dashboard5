@@ -4,6 +4,7 @@ import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
 import MQTTBrokerForm from '@/views/Flow/components/form/MQTTBrokerForm.vue'
+import BridgeHttpConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeHttpConfig.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
@@ -45,12 +46,14 @@ export default (): {
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,
     [SinkType.MQTTBroker]: MQTTBrokerForm,
+    [SinkType.HTTP]: BridgeHttpConfig,
   }
   const getFormComponent = (type: string) => formComponentMap[type]
 
   const formComponentPropsMap: Record<string, Record<string, any>> = {
     [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
     [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
+    [SinkType.HTTP]: { colSpan: 24 },
   }
   const getFormComponentProps = (type: string) => formComponentPropsMap[type] || {}
 
