@@ -9,7 +9,13 @@
     @closed="handleDrawerClosed"
   >
     <template v-if="getFormComponent(type)">
-      <component ref="FormCom" :is="getFormComponent(type)" v-model="record" @save="save" />
+      <component
+        ref="FormCom"
+        :is="getFormComponent(type)"
+        v-model="record"
+        v-bind="getFormComponentProps(type)"
+        @save="save"
+      />
     </template>
     <template #footer>
       <div>
@@ -25,7 +31,7 @@ import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { cloneDeep, isFunction } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -38,6 +44,9 @@ const props = defineProps({
   },
   formData: {
     type: Object,
+  },
+  generateBridgeName: {
+    type: Function,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save', 'close'])
@@ -53,11 +62,17 @@ const { tl } = useI18nTl('Base')
 
 const FormCom = ref()
 
-const { getDrawerTitle, drawerDefaultWidth, getDrawerWidth, getFormComponent } = useNodeDrawer()
+const {
+  getDrawerTitle,
+  drawerDefaultWidth,
+  getDrawerWidth,
+  getFormComponent,
+  getFormComponentProps,
+} = useNodeDrawer()
 const title = computed(() => (props.type ? getDrawerTitle(props.type) : ''))
 const width = computed(() => (props.type ? getDrawerWidth(props.type) : drawerDefaultWidth))
 
-const record = ref({})
+const record: Ref<Record<string, any>> = ref({})
 
 const cancel = () => {
   showDialog.value = false
@@ -78,10 +93,17 @@ const handleDrawerClosed = () => {
   emit('close')
 }
 
-const { getFormDataByType } = useNodeForm()
+const { getFormDataByType, isBridgeType } = useNodeForm()
 watch(showDialog, (val) => {
-  if (val) {
-    record.value = props.formData ? cloneDeep(props.formData) : getFormDataByType(props.type)
+  if (!val) return
+  const { formData, type, generateBridgeName } = props
+  if (formData) {
+    record.value = cloneDeep(formData)
+    return
+  }
+  record.value = getFormDataByType(type)
+  if (isBridgeType(type) && isFunction(generateBridgeName)) {
+    record.value.name = generateBridgeName()
   }
 })
 </script>

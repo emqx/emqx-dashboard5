@@ -39,6 +39,7 @@
     v-model="isDrawerVisible"
     :type="currentNodeType"
     :form-data="currentNodeFormData"
+    :generate-bridge-name="createBridgeName"
     @save="saveDataToNode"
     @close="resetDrawerData"
   />
@@ -48,8 +49,18 @@
 import useFlowEditor, { MsgKey, NodeItem, NodeType } from '@/hooks/Flow/useFlowEditor'
 import { Node, NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
-import { Ref, defineExpose, ref } from 'vue'
+import { Ref, defineExpose, ref, defineProps } from 'vue'
 import NodeDrawer from './NodeDrawer.vue'
+import { createRandomString } from '@/common/tools'
+
+const props = defineProps({
+  flowName: {
+    type: String,
+    default: '',
+  },
+})
+const initFlowName: string = (() => props.flowName)()
+const createBridgeName = () => `${initFlowName}_data_bridge_${createRandomString(3)}`
 
 const searchText = ref('')
 

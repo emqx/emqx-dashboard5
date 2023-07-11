@@ -1,8 +1,11 @@
 import { createBridge, createRules, deleteBridge } from '@/api/ruleengine'
 import { checkNOmitFromObj } from '@/common/tools'
 import { BasicRule, BridgeItem } from '@/types/rule'
+import { ref } from 'vue'
 
 export default () => {
+  const isSubmitting = ref(false)
+
   const createBridges = async (bridges: Array<any>) => {
     const addedIds: string[] = []
     for (const data of bridges) {
@@ -27,10 +30,13 @@ export default () => {
      * Same as webhook, create the bridge firstly, because it is easy to encounter errors.
      */
     try {
+      isSubmitting.value = true
       await createBridges(bridges)
       await createRules(rule as any)
+      isSubmitting.value = false
       return Promise.resolve()
     } catch (error) {
+      isSubmitting.value = false
       return Promise.reject()
     }
   }
@@ -38,6 +44,8 @@ export default () => {
   const updateFlow = (processedData: { rule: BasicRule; bridges: Array<BridgeItem> }) => {}
 
   return {
+    isSubmitting,
     createFlow,
+    updateFlow,
   }
 }
