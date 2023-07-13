@@ -289,6 +289,11 @@
   .el-progress-bar__inner {
     background: linear-gradient(135deg, #5E4EFF 0%, #5E4EFF 100%);
   }
+  &.is-warning {
+    .el-progress-bar__inner {
+      background: #F19710;
+    }
+  }
   .el-progress-bar {
     &__outer {
       border-radius: 2px;

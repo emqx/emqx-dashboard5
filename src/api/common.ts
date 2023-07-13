@@ -8,6 +8,8 @@ import {
   NodeStatisticalData,
   Prometheus,
   StatsD,
+  LicenseConfig,
+  LicenseData,
 } from '@/types/dashboard'
 
 //account
@@ -25,12 +27,18 @@ export function logout(username: string) {
   return http.post('/logout', { username })
 }
 
-export function loadLicenseInfo() {
+// License
+export function loadLicenseInfo(): LicenseData {
   return http.get('/license')
 }
-
 export function updateLicense(key: string) {
   return http.post('/license', { key })
+}
+export function loadLicenseConfig() {
+  return http.get('/license/setting')
+}
+export function updateLicenseConfig(body: LicenseConfig) {
+  return http.put('/license/setting', body)
 }
 
 //metrics
