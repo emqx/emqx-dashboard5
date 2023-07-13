@@ -75,7 +75,12 @@ export interface LicenseData {
   expiry_at: string
   max_connections: number
   start_at: string
-  type: LicenseType
+  type: string
+}
+
+export interface LicenseConfig {
+  connection_low_watermark: string
+  connection_high_watermark: string
 }
 
 export default {}

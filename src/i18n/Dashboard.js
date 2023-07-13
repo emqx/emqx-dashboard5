@@ -311,6 +311,46 @@ export default {
     zh: '更新 License',
     en: 'update license',
   },
+  licenseSettings: {
+    zh: 'License 设置',
+    en: 'License Settings',
+  },
+  connection_low_watermark: {
+    zh: '使用量低水位线',
+    en: 'Usage Low Watermark',
+  },
+  connection_low_watermark_desc: {
+    zh: '当低于此限制时，License 的连接配额使用警报将被停用',
+    en: 'Low watermark limit below which license connection quota usage alarms are deactivated.',
+  },
+  connection_high_watermark: {
+    zh: '使用量高水位线',
+    en: 'Usage High Watermark',
+  },
+  connection_high_watermark_desc: {
+    en: 'High watermark limit above which license connection quota usage alarms are activated.',
+    zh: '当 License 连接配额使用量超过预设的上限时，系统会发出警报',
+  },
+  highWatermarkRequired: {
+    zh: '需要填写使用量高水位线',
+    en: 'Usage High Watermark is required',
+  },
+  lowWatermarkRequired: {
+    zh: '需要填写使用量低水位线',
+    en: 'Usage Low Watermark is required',
+  },
+  highWatermarkLessThanLow: {
+    zh: '使用量高水位线不能低于使用量低水位线',
+    en: 'Usage High Watermark should not be less than Usage Low Watermark',
+  },
+  lowWatermarkGreaterThanHigh: {
+    zh: '使用量低水位线不能高于使用量高水位线',
+    en: 'Usage Low Watermark should not be greater than Usage High Watermark',
+  },
+  usageWarning: {
+    zh: '当连接数超过 {percentage} 时触发使用量预警，并通过系统告警发送通知。',
+    en: 'Trigger usage warning and send notifications through system alert when the number of connections exceeds {percentage}.',
+  },
   key: {
     zh: 'Key',
     en: 'Key',
