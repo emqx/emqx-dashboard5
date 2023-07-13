@@ -1,41 +1,14 @@
 import { createRandomString } from '@/common/tools'
-import { Edge, Node, Position, VueFlow } from '@vue-flow/core'
+import { Edge, Node, VueFlow } from '@vue-flow/core'
 import { Ref, ref } from 'vue'
-
-export type FlowData = Array<Node | Edge>
-
-export const enum NodeType {
-  Source,
-  Processing,
-  Sink,
-}
-
-const SOURCE_SUFFIX = '_source'
-const SINK_SUFFIX = '_sink'
-
-export const SourceType = {
-  Message: 'message',
-  Event: 'event',
-  MQTTBroker: `MQTTBroker_${SOURCE_SUFFIX}`,
-}
-
-export const enum ProcessingType {
-  Function = 'function',
-  Filter = 'filter',
-}
-
-export const SinkType = {
-  HTTP: 'http',
-  MQTTBroker: `MQTTBroker_${SINK_SUFFIX}`,
-  Console: 'console',
-  RePub: 'republish',
-}
-
-export const enum FlowNodeType {
-  Input = 'input',
-  Default = 'default',
-  Output = 'output',
-}
+import useFlowNode, {
+  FlowData,
+  FlowNodeType,
+  NodeType,
+  ProcessingType,
+  SinkType,
+  SourceType,
+} from './useFlowNode'
 
 export const enum MsgKey {
   // This type of node is an input or output or normal
@@ -59,7 +32,6 @@ interface NodeTypeItem {
 interface Ret {
   nodeArr: Array<NodeTypeItem>
   flowData: Ref<Array<Node | Edge>>
-  getNodeClass: (type: NodeType) => string
   createFlowNodeDataFromEvent: (event: DragEvent) => Node | undefined
 }
 
@@ -103,22 +75,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
   }
   const getFlowNodeType = (type: NodeType) => nodeTypeMap[type] || FlowNodeType.Default
 
-  const nodeClassMap: Record<NodeType, string> = {
-    [NodeType.Source]: 'node-source',
-    [NodeType.Processing]: 'node-processing',
-    [NodeType.Sink]: 'node-sink',
-  }
-  const getNodeClass = (type: NodeType) => nodeClassMap[type]
-
-  const getFlowNodeHookPosition = (nodeType: FlowNodeType) => {
-    if (nodeType === FlowNodeType.Input) {
-      return { sourcePosition: Position.Right }
-    }
-    if (nodeType === FlowNodeType.Output) {
-      return { targetPosition: Position.Left }
-    }
-    return { sourcePosition: Position.Right, targetPosition: Position.Left }
-  }
+  const { getNodeClass, getFlowNodeHookPosition } = useFlowNode()
 
   const createFlowNodeDataFromEvent = (event: DragEvent) => {
     const reactFlowBounds = FlowWrapper.value.getBoundingClientRect()
@@ -153,6 +110,5 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     nodeArr,
     flowData,
     createFlowNodeDataFromEvent,
-    getNodeClass,
   }
 }

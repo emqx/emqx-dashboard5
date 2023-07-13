@@ -32,7 +32,7 @@
         ref="FlowerInstance"
         v-model="flowData"
         @dragover="onDragOver"
-        @node-click="nodeClickNode"
+        @node-click="handleClickNode"
       />
     </div>
   </div>
@@ -48,11 +48,12 @@
 
 <script setup lang="ts">
 import { createRandomString } from '@/common/tools'
-import useFlowEditor, { MsgKey, NodeItem, NodeType } from '@/hooks/Flow/useFlowEditor'
+import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
+import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
 import { Search } from '@element-plus/icons-vue'
 import { Node, NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
-import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
+import { Ref, defineExpose, defineProps, ref } from 'vue'
 import NodeDrawer from './NodeDrawer.vue'
 
 const props = defineProps({
@@ -69,13 +70,13 @@ const searchText = ref('')
 const FlowWrapper = ref()
 const FlowerInstance = ref()
 
-const { addNodes, onConnect, addEdges, findNode, getIntersectingNodes, getNodes, getEdges } =
-  useVueFlow()
+const { addNodes, onConnect, addEdges, findNode, getNodes, getEdges } = useVueFlow()
 
-const { nodeArr, flowData, getNodeClass, createFlowNodeDataFromEvent } = useFlowEditor(
+const { nodeArr, flowData, createFlowNodeDataFromEvent } = useFlowEditor(
   FlowerInstance,
   FlowWrapper,
 )
+const { getNodeClass } = useFlowNode()
 
 const onDragStart = (event: DragEvent, nodeData: { node: NodeItem; type: NodeType }) => {
   if (event.dataTransfer) {
@@ -113,7 +114,7 @@ const openNodeDrawer = (node: Node<any, any, string>) => {
   currentNodeID = node.id
 }
 
-const nodeClickNode = (event: NodeMouseEvent) => {
+const handleClickNode = (event: NodeMouseEvent) => {
   const { node } = event
   openNodeDrawer(node)
 }

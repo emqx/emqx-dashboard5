@@ -507,6 +507,11 @@ export const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
+        path: '',
+        name: 'flow',
+        component: () => import('@/views/Flow/Index.vue'),
+      },
+      {
         path: 'create',
         name: 'flow-create',
         component: () => import('@/views/Flow/FlowCreate.vue'),
@@ -678,21 +683,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // Flow chart for IoT rule
-  {
-    path: '/flow',
-    component: Layout,
-    meta: {
-      hideKey: 'flow',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'flow',
-        component: () => import('@/views/RuleEngine/FlowChart/FlowChart.vue'),
-      },
-    ],
-  },
+  // {
+  //   path: '/flow',
+  //   component: Layout,
+  //   meta: {
+  //     hideKey: 'flow',
+  //     authRequired: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'flow',
+  //       component: () => import('@/views/RuleEngine/FlowChart/FlowChart.vue'),
+  //     },
+  //   ],
+  // },
   // WebSocket
   {
     path: '/websocket',
