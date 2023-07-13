@@ -1,25 +1,11 @@
 import { createRandomString } from '@/common/tools'
+import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import { BridgeDirection, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
-import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
-import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
+import { FilterForm, FilterItem, ProcessingType, SinkType, SourceType } from './useFlowNode'
 
 const createMessageForm = () => ({ topic: '' })
 const createEventForm = () => ({ event: '' })
-
-export interface FilterItem {
-  field: string
-  operator: string
-  valueForComparison: string
-}
-
-export interface FilterForm {
-  groupOperator: FilterLogicalOperator
-  // It can be used as the ID attribute for list elements, and can be used to
-  // identify the source list and target list after a drag-and-drop operation.
-  id: string
-  items: Array<FilterItem | FilterForm>
-}
 
 export const createFilterItem = (): FilterItem => ({
   field: '',
