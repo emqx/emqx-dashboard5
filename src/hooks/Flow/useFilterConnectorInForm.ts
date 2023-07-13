@@ -1,6 +1,6 @@
-import { ComputedRef, WritableComputedRef, computed } from 'vue'
-import { FilterForm, FilterItem } from './useNodeForm'
 import { isUndefined, sum } from 'lodash'
+import { ComputedRef, WritableComputedRef, computed } from 'vue'
+import { FilterForm, FilterItem } from './useFlowNode'
 
 /**
  * just recorded, without any actual control.
@@ -14,7 +14,16 @@ interface ConnectorDataItem {
   endIndex: number
 }
 
-export default (record: WritableComputedRef<any>) => {
+export default (
+  record: WritableComputedRef<any>,
+): {
+  connectorArr: ComputedRef<ConnectorDataItem[]>
+  getCanConnect: (index: number) => boolean
+  getConnectorStyle: (item: ConnectorDataItem) => {
+    top: string
+    height: string
+  }
+} => {
   function countCanConnect(arr: Array<FilterItem | FilterForm>) {
     const ret = []
     let prevHasItems = true
