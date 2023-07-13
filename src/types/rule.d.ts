@@ -42,7 +42,7 @@ export interface BasicRule {
   id: string
   name?: string
   sql: string
-  actions: Array<OutputItem> | OutputItem
+  actions: Array<OutputItem>
   description: string
 }
 

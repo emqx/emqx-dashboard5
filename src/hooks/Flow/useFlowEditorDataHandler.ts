@@ -3,13 +3,12 @@
  */
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { getBridgeKey } from '@/common/tools'
-import { ProcessingType, SinkType, SourceType } from '@/hooks/Flow/useFlowEditor'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { BridgeType } from '@/types/enum'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { groupBy } from 'lodash'
-import { FilterForm, FilterItem } from './useNodeForm'
+import { FilterForm, FilterItem, ProcessingType, SinkType, SourceType } from './useFlowNode'
 
 const enum FlowNodeType {
   Input = 'input',
@@ -38,7 +37,15 @@ interface FlowData {
   edges: Array<EdgeData>
 }
 
-export default () => {
+export default (): {
+  getRuleNBridgesFromFlowData: (
+    flowName: string,
+    flowData: FlowData,
+  ) => {
+    rule: BasicRule
+    bridges: Array<BridgeItem>
+  }
+} => {
   const { createRawRuleForm } = useRuleForm()
 
   const filterUsedNodesInFlowData = ({
