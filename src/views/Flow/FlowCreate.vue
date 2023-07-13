@@ -31,18 +31,18 @@ import { createRandomString } from '@/common/tools'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
 import useI18nTl from '@/hooks/useI18nTl'
-import '@vue-flow/core/dist/style.css'
-import '@vue-flow/core/dist/theme-default.css'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import FlowEditor from './components/FlowEditor.vue'
 import SQLEditor from './components/SQLEditor.vue'
+import { useRouter } from 'vue-router'
 
 const enum EditingMethod {
   Flow,
   SQL,
 }
 
+const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
 
 const editingMethod = ref(EditingMethod.Flow)
@@ -59,6 +59,7 @@ const create = async () => {
     const data = getRuleNBridgesFromFlowData(flowName.value, flowData)
     await createFlow(data)
     ElMessage.success(t('Base.createSuccess'))
+    router.push({ name: 'flow' })
     // TODO:go back list page
   } else {
     //

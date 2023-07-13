@@ -1,14 +1,14 @@
+import { BridgeDirection } from '@/types/enum'
+import MQTTBrokerForm from '@/views/Flow/components/form/MQTTBrokerForm.vue'
 import FilterForm from '@/views/Flow/components/form/processing/FilterForm.vue'
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
+import BridgeHttpConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeHttpConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
-import MQTTBrokerForm from '@/views/Flow/components/form/MQTTBrokerForm.vue'
-import BridgeHttpConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeHttpConfig.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
-import { ProcessingType, SinkType, SourceType } from './useFlowEditor'
-import { BridgeDirection } from '@/types/enum'
+import { ProcessingType, SinkType, SourceType } from './useFlowNode'
 
 export default (): {
   getDrawerTitle: (type: string) => string
