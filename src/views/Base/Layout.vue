@@ -76,7 +76,7 @@ import { useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
 import EMQXVersion from '@/components/EMQXVersion.vue'
 
-const ROUTE_NAMES_NEED_FULL_HEIGHT = ['flow-create']
+const ROUTE_NAMES_NEED_FULL_HEIGHT = ['flow', 'flow-create']
 
 export default defineComponent({
   name: 'Layout',
