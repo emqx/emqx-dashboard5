@@ -92,7 +92,7 @@
       <common-pagination v-model:metaData="pageMeta" @loadPage="loadGatewayClients" />
     </div>
 
-    <el-drawer v-model="clientsDetailVisible" direction="rtl" size="90%" destroy-on-close>
+    <el-drawer v-model="clientsDetailVisible" direction="rtl" size="80%" destroy-on-close>
       <client-details
         :gateway="name"
         :clientid="currentClientId"
