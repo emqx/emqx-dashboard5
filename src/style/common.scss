@@ -785,3 +785,47 @@ code {
     background: var(--color-text-placeholder);
   }
 }
+
+/* FLOW */
+.flow {
+  .node-item {
+    padding: 9px 16px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 22px;
+    border-radius: 8px;
+    border-width: 1px 1px 1px 10px;
+    border-style: solid;
+    border-top-color: #f5f5f5;
+    border-right-color: #f5f5f5;
+    border-bottom-color: #f5f5f5;
+    background: var(--color-bg-primary);
+  }
+
+  .vue-flow__handle {
+    border: none;
+  }
+
+  .vue-flow__handle-left {
+    left: -4px - 9px;
+  }
+
+  .vue-flow__handle {
+    --vf-handle: #babcbe;
+  }
+
+  .node-source {
+    border-left-color: var(--color-primary);
+    --vf-box-shadow: var(--color-primary);
+  }
+
+  .node-processing {
+    border-left-color: #469cf7;
+    --vf-box-shadow: #469cf7;
+  }
+
+  .node-sink {
+    border-left-color: #906ef2;
+    --vf-box-shadow: #906ef2;
+  }
+}
