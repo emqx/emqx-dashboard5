@@ -53,7 +53,7 @@ export default {
   },
   deliverRate: {
     zh: '派发速率',
-    en: 'Deliver Rate',
+    en: 'Delivery Rate',
   },
   deliverRateDesc: {
     zh: '派发保留消息的最大速率',
