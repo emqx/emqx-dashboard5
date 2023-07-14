@@ -599,8 +599,8 @@ export default {
     en: "For example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc. Use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
   ingressRemoteTopicDesc: {
-    zh: '本地服务将订阅该主题以从远程 MQTT 服务接收消息。<br/>当 EMQX 配置为集群或启用了 ingress 连接池时，**必须**使用共享订阅来避免消息重复。',
-    en: 'The local broker will subscribe to topic to receive messages from remote broker . <br/>When EMQX is running in a cluster or with an enabled ingress connection pool, it is **mandatory** to use shared subscriptions to avoid message duplication.',
+    zh: '本地服务将订阅该主题以从远程 MQTT 服务接收消息。当 EMQX 配置为集群或启用了 ingress 连接池时，必须使用共享订阅来避免消息重复。',
+    en: 'The local broker will subscribe to topic to receive messages from remote broker .When EMQX is running in a cluster or with an enabled ingress connection pool, it is mandatory to use shared subscriptions to avoid message duplication.',
   },
   egressRemoteTopicDesc: {
     zh: '本地服务将向该主题发布消息到远程 MQTT 服务。支持使用 ${field} 语法提取变量动态拼接主题。',
@@ -771,8 +771,8 @@ export default {
     en: 'Unknown',
   },
   actionUnknownDesc: {
-    zh: '由于未知错误导致的规则调用失败次数。',
-    en: 'The number of times the rule calling action failed due to an unknown error.',
+    zh: '由于未知错误导致的规则调用失败次数',
+    en: 'The number of times the rule calling action failed due to an unknown error',
   },
   deleteBridgeSecondConfirm: {
     zh: '删除该桥接会影响下方规则的数据流。如果该桥接已被添加到规则的动作中，则会立即删除。是否确认继续？',

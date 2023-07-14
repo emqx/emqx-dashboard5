@@ -1,10 +1,15 @@
 <template>
-  <div>
-    <el-form label-position="top">
+  <div class="mqttsn-basic">
+    <el-form label-position="top" :model="mValue">
       <el-row :gutter="30">
-        <el-col :span="12">
+        <el-col :span="12" prop="gateway_id">
           <el-form-item :label="'Gateway ID'">
-            <el-input :placeholder="String(mValueDefault.gateway_id)" v-model="mValue.gateway_id" />
+            <CustomInputNumber
+              v-model.number="mValue.gateway_id"
+              controls-position="right"
+              :min="0"
+              :max="255"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -57,15 +62,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import topicEditList from './topicEditList.vue'
 import _ from 'lodash'
 import { useI18n } from 'vue-i18n'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 
 export default defineComponent({
-  components: { topicEditList, TimeInputWithUnitSelect },
+  components: { topicEditList, TimeInputWithUnitSelect, CustomInputNumber },
   name: 'MqttsnBasic',
   props: {
     value: {
@@ -102,7 +108,7 @@ export default defineComponent({
     })
 
     return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
+      tl: (key: string, collection = 'Gateway') => t(collection + '.' + key),
       mValueDefault,
       mValue,
       formPassed,
