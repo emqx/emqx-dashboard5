@@ -159,14 +159,15 @@
       "label": "Payload"
     },
     "pool_size": {
-      "desc": "HStreamDB Pool Size",
+      "desc": "HStreamDB Pool Size.",
       "label": "HStreamDB Pool Size"
     },
     "stream": {
       "label": "HStreamDB Stream Name"
     },
     "url": {
-      "label": "HStreamDB Server URL"
+      "label": "HStreamDB Server URL",
+      "desc": "HStreamDB Server URL. Using gRPC http server address."
     },
     "record_template": {
       "desc": "The HStream Record template to be forwarded to the HStreamDB. Placeholders supported.",
@@ -176,7 +177,8 @@
       "label": "HStreamDB Stream Name"
     },
     "partition_key": {
-      "label": "HStreamDB Ordering Key"
+      "label": "HStreamDB Partition Key",
+      "desc": "HStreamDB Partition Key. Placeholders supported."
     },
     "grpc_timeout": {
       "label": "HStreamDB gRPC Timeout"

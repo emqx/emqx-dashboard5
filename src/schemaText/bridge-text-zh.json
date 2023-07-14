@@ -159,14 +159,15 @@
       "label": "消息内容"
     },
     "pool_size": {
-      "desc": "HStreamDB 连接池大小",
+      "desc": "HStreamDB 连接池大小。",
       "label": "HStreamDB 连接池大小"
     },
     "stream": {
       "label": "HStreamDB 流名称"
     },
     "url": {
-      "label": "HStreamDB 服务器 URL"
+      "label": "HStreamDB 服务器 URL",
+      "desc": "HStreamDB 服务器的URL。使用 gRPC HTTP 服务器地址。"
     },
     "record_template": {
       "desc": "将要转发至 HStreamDB 的 HStream 模板。支持占位符。",
@@ -176,7 +177,8 @@
       "label": "HStreamDB 流名称"
     },
     "partition_key": {
-      "label": "HStreamDB 排序键"
+      "label": "HStreamDB 分区键",
+      "desc": "HStreamDB 分区键。支持占位符。"
     },
     "grpc_timeout": {
       "label": "HStreamDB gRPC 超时"
