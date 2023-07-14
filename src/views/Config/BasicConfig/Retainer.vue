@@ -108,12 +108,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
-              <el-form-item prop="deliver_rate">
+              <el-form-item prop="delivery_rate">
                 <template #label>
                   <FormItemLabel :label="tl('deliverRate')" :desc="tl('deliverRateDesc')" />
                 </template>
                 <InputWithUnit
-                  v-model="retainerConfig.deliver_rate"
+                  v-model="retainerConfig.delivery_rate"
                   :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
                   :disabled="!configEnable"
                 />
@@ -152,12 +152,12 @@ const { createRequiredRule } = useFormRules()
 
 const NO_INTERVAL_VALUE = '0s'
 
-let retainerConfig = reactive<Retainer>({
+let retainerConfig = ref<Retainer>({
   enable: false,
   max_payload_size: '1MB',
   msg_clear_interval: NO_INTERVAL_VALUE,
   msg_expiry_interval: NO_INTERVAL_VALUE,
-  deliver_rate: '1000/s',
+  delivery_rate: '1000/s',
   backend: {
     storage_type: 'ram',
     type: 'built_in_database',
@@ -203,9 +203,9 @@ const retainerRules = ref<Record<string, any>>({
   msg_clear_interval: [...createRequiredRule(tl('msgClearInterval')), numberRule],
 })
 
-const configEnable = computed(() => retainerConfig?.enable === true)
+const configEnable = computed(() => retainerConfig.value?.enable === true)
 
-const { setRawData, checkDataIsChanged } = useCheckDataChanged(ref(retainerConfig))
+const { setRawData, checkDataIsChanged } = useCheckDataChanged(retainerConfig)
 useDataNotSaveConfirm(checkDataIsChanged)
 
 const loadConfigData = async () => {
@@ -214,8 +214,8 @@ const loadConfigData = async () => {
   try {
     let res = await getRetainer()
     if (res) {
-      Object.assign(retainerConfig, res)
-      setRawData(retainerConfig)
+      retainerConfig.value = res
+      setRawData(retainerConfig.value)
     }
   } catch (error) {
     console.error(error)
@@ -231,8 +231,8 @@ const updateConfigData = async function () {
   if (!valid) return
   try {
     saveLoading.value = true
-    await updateRetainer(retainerConfig)
-    setRawData(retainerConfig)
+    await updateRetainer(retainerConfig.value)
+    setRawData(retainerConfig.value)
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
     loadConfigData()

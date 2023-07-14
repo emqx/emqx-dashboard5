@@ -16,7 +16,7 @@ export interface Retainer {
   max_payload_size: string
   msg_expiry_interval: string
   msg_clear_interval: string
-  deliver_rate: string
+  delivery_rate: string
   backend: {
     type: string
     storage_type: string
