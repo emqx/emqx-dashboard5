@@ -82,7 +82,18 @@ export default (
       ),
     },
     [BridgeType.GCP]: {
-      ...createOrderObj(['pubsub_topic', 'pool_size', 'pipelining'], 1),
+      ...createOrderObj(
+        [
+          'pubsub_topic',
+          'pipelining',
+          'connect_timeout',
+          'pool_size',
+          'max_retries',
+          'service_account_json',
+          'payload_template',
+        ],
+        1,
+      ),
     },
     [BridgeType.MongoDB]: {
       ...createOrderObj(
@@ -237,8 +248,8 @@ export default (
       command_template: 'custom-col-24 dividing-line-below',
     },
     [BridgeType.GCP]: {
-      payload_template: 'custom-col-24  dividing-line-above',
-      service_account_json: 'custom-col-24 dividing-line-below',
+      service_account_json: 'custom-col-24 dividing-line-above',
+      payload_template: 'custom-col-24   dividing-line-below',
     },
     [BridgeType.MongoDB]: {
       payload_template: 'dividing-line-below',
