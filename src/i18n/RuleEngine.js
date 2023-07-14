@@ -767,8 +767,8 @@ export default {
     en: 'Unknown',
   },
   actionUnknownDesc: {
-    zh: '由于未知错误导致的规则调用失败次数。',
-    en: 'The number of times the rule calling action failed due to an unknown error.',
+    zh: '由于未知错误导致的规则调用失败次数',
+    en: 'The number of times the rule calling action failed due to an unknown error',
   },
   deleteBridgeSecondConfirm: {
     zh: '删除该桥接会影响下方规则的数据流。如果该桥接已被添加到规则的动作中，则会立即删除。是否确认继续？',
