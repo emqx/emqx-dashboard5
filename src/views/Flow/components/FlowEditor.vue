@@ -1,5 +1,5 @@
 <template>
-  <div class="flow-editor">
+  <div class="flow flow-editor">
     <div class="nodes-panel">
       <div class="search-bar">
         <el-input placeholder="Search" :suffix-icon="Search" clearable v-model="searchText" />
@@ -155,10 +155,13 @@ defineExpose({ validate, getFlowData })
   display: flex;
   align-items: flex-start;
   height: 100%;
+
   ul {
     padding: 0;
     list-style: none;
+    margin-top: 0;
   }
+
   .nodes-panel {
     height: 100%;
     flex-basis: 264px;
@@ -168,10 +171,15 @@ defineExpose({ validate, getFlowData })
     overflow-y: scroll;
     background-color: #f6f7fa;
     .node-item {
+      cursor: grab;
       border-top-color: #e2e6f0;
       border-right-color: #e2e6f0;
       border-bottom-color: #e2e6f0;
     }
+  }
+
+  .node-type-list {
+    padding: 8px;
   }
 
   .el-collapse {
@@ -196,57 +204,13 @@ defineExpose({ validate, getFlowData })
     font-weight: 600;
   }
 
-  ul {
-    margin-top: 0;
-  }
-
   .flow-wrap {
     height: 100%;
     flex-grow: 1;
-    .node-item {
-      border-top-color: #f5f5f5;
-      border-right-color: #f5f5f5;
-      border-bottom-color: #f5f5f5;
-    }
-  }
-  .vue-flow__handle {
-    border: none;
-  }
-  .vue-flow__handle-left {
-    left: -4px - 9px;
   }
 
-  .vue-flow__handle {
-    --vf-handle: #babcbe;
-  }
-  .node-type-list {
-    padding: 8px;
-  }
-  .node-item {
-    padding: 9px 16px;
-    margin-bottom: 8px;
-    font-size: 14px;
-    line-height: 22px;
-    border-radius: 8px;
-    background: var(--color-bg-primary);
-    border-width: 1px 1px 1px 10px;
-    border-style: solid;
-    cursor: grab;
-  }
   .vue-flow {
     height: 100%;
-  }
-  .node-source {
-    border-left-color: var(--color-primary);
-    --vf-box-shadow: var(--color-primary);
-  }
-  .node-processing {
-    border-left-color: #469cf7;
-    --vf-box-shadow: #469cf7;
-  }
-  .node-sink {
-    border-left-color: #906ef2;
-    --vf-box-shadow: #906ef2;
   }
 }
 </style>
