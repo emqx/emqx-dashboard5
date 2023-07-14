@@ -610,11 +610,11 @@
   },
   "emqx_ee_bridge_pgsql": {
     "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 PostgreSQL。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
+      "desc": "发送到 'local_topic' 的消息都会转发到该数据桥。</br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
       "label": "本地 Topic"
     },
     "server": {
-      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 PostgreSQL 默认端口 5432。",
+      "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用默认端口 5432。",
       "label": "服务器地址"
     },
     "sql": {
