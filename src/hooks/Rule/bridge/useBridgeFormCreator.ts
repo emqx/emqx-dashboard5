@@ -22,7 +22,7 @@ export default (): {
       url: 'http://',
       headers: { 'content-type': 'application/json' },
       body: '',
-      pool_type: 'random',
+      pool_type: 'hash',
       pool_size: 8,
       enable_pipelining: 100,
       connect_timeout: '15s',
