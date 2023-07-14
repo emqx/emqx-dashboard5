@@ -493,6 +493,13 @@ const getLabel = (label: string) => {
     if (label === 'send_pkt') {
       return tl(snake2pascal(label), { proto: ' MQTT ' })
     }
+  } else {
+    if (label === 'recv_cnt') {
+      return tl('recvSocketCnt')
+    }
+    if (label === 'send_cnt') {
+      return tl('sendSocketCnt')
+    }
   }
   return tl(snake2pascal(label))
 }

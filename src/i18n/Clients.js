@@ -223,6 +223,10 @@ export default {
     zh: '接收的 TCP 报文数量',
     en: 'TCP Packets Received',
   },
+  recvSocketCnt: {
+    zh: '接收的 Socket 报文数量',
+    en: 'Socket Packets Received',
+  },
   recvMsg: {
     zh: '接收的 PUBLISH 消息数量',
     en: 'Received PUBLISH Messages',
@@ -238,6 +242,10 @@ export default {
   sendCnt: {
     zh: '发送的 TCP 报文数量',
     en: 'TCP Packets Sent',
+  },
+  sendSocketCnt: {
+    zh: '发送的 Socket 报文数量',
+    en: 'Socket Packets Sent',
   },
   sendMsg: {
     zh: '发送的 PUBLISH 消息数量',
