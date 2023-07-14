@@ -610,11 +610,11 @@
   },
   "emqx_ee_bridge_pgsql": {
     "local_topic": {
-      "desc": "The MQTT topic filter to be forwarded to PostgreSQL. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
+      "desc": "The MQTT topic filter to be forwarded to this data bridge. All MQTT 'PUBLISH' messages with the topic<br/>matching the local_topic will be forwarded.</br><br/>NOTE: if this bridge is used as the action of a rule (EMQX rule engine), and also local_topic is<br/>configured, then both the data got from the rule and the MQTT messages that match local_topic<br/>will be forwarded.",
       "label": "Local Topic"
     },
     "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The PostgreSQL default port 5432 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.<br/>A host entry has the following form: `Host[:Port]`.<br/>The default port 5432 is used if `[:Port]` is not specified.",
       "label": "Server Host"
     },
     "sql": {
