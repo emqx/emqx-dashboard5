@@ -143,10 +143,6 @@ export default {
     zh: '客户端详情',
     en: 'Client',
   },
-  basicInfo: {
-    zh: '基本信息',
-    en: 'Basic Info',
-  },
   subscriptions: {
     zh: '订阅数',
     en: 'Subscriptions',
