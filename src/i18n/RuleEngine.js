@@ -280,10 +280,6 @@ export default {
     zh: '数据处理',
     en: 'Function',
   },
-  filter: {
-    zh: '数据过滤',
-    en: 'Filter',
-  },
   sqlPassed: {
     zh: '通过',
     en: 'Passed',
