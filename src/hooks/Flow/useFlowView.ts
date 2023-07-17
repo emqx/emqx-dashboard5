@@ -213,7 +213,6 @@ export default () => {
         nextKeyIndex += 1
         nextKey = keys[nextKeyIndex]
       }
-      console.log(JSON.stringify(nextKey, null, 4))
       nodes[currentKey].forEach((cur) => {
         nodes[nextKey].forEach((nex) => {
           result.push({
@@ -224,7 +223,6 @@ export default () => {
         })
       })
     }
-    console.log(JSON.stringify(result, null, 4))
     return result
   }
 
