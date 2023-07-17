@@ -27,11 +27,13 @@
         </el-collapse-item>
       </el-collapse>
     </div>
-    <div ref="FlowWrapper" class="flow-wrap" @drop="onDrop">
+    <div ref="FlowWrapper" class="flow-wrap" @drop="onDrop" @dragover="onDragOver">
+      <FlowGuide v-show="!flowData.length" />
       <VueFlow
+        :id="flowEditorId"
+        v-show="flowData.length"
         ref="FlowerInstance"
         v-model="flowData"
-        @dragover="onDragOver"
         @node-click="handleClickNode"
       />
     </div>
@@ -55,6 +57,7 @@ import { Node, NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
 import { Ref, defineExpose, defineProps, ref } from 'vue'
 import NodeDrawer from './NodeDrawer.vue'
+import FlowGuide from './FlowGuide.vue'
 
 const props = defineProps({
   flowName: {
@@ -70,7 +73,10 @@ const searchText = ref('')
 const FlowWrapper = ref()
 const FlowerInstance = ref()
 
-const { addNodes, onConnect, addEdges, findNode, getNodes, getEdges } = useVueFlow()
+const flowEditorId = createRandomString()
+const { addNodes, onConnect, addEdges, findNode, getNodes, getEdges } = useVueFlow({
+  id: flowEditorId,
+})
 
 const { nodeArr, flowData, createFlowNodeDataFromEvent } = useFlowEditor(
   FlowerInstance,
