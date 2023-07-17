@@ -39,4 +39,12 @@ export default {
     zh: '拖动输出，可以有多个输出',
     en: 'Drag outputs and multiple outputs are allowed here',
   },
+  function: {
+    zh: '函数',
+    en: 'Function',
+  },
+  filter: {
+    zh: '过滤器',
+    en: 'Filter',
+  },
 }
