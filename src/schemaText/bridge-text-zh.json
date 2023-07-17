@@ -170,8 +170,8 @@
       "desc": "HStreamDB 服务器的URL。使用 gRPC HTTP 服务器地址。"
     },
     "record_template": {
-      "desc": "将要转发至 HStreamDB 的 HStream 模板。支持占位符。",
-      "label": "HStream Template"
+      "desc": "将被转发到 HStreamDB 的 HStream record 模板。支持占位符。",
+      "label": "HStream Record 模板"
     },
     "stream_name": {
       "label": "HStreamDB 流名称"
