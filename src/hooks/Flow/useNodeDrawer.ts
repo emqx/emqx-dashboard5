@@ -17,14 +17,14 @@ export default (): {
   getFormComponent: (type: string) => Component
   getFormComponentProps: (type: string) => Record<string, any>
 } => {
-  const { tl } = useI18nTl('RuleEngine')
+  const { t, tl } = useI18nTl('RuleEngine')
 
   const drawerTitleMap: Record<string, string> = {
     [SourceType.Message]: tl('message'),
     [SourceType.Event]: tl('event'),
     [SourceType.MQTTBroker]: tl('mqttBroker'),
     [ProcessingType.Function]: tl('function'),
-    [ProcessingType.Filter]: tl('filter'),
+    [ProcessingType.Filter]: t('Flow.filter'),
     [SinkType.HTTP]: tl('HTTPServer'),
     [SinkType.MQTTBroker]: tl('mqttBroker'),
     [SinkType.RePub]: tl('republish'),
