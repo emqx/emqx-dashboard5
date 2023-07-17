@@ -1,6 +1,7 @@
 import { createRandomString } from '@/common/tools'
 import { Edge, Node, VueFlow } from '@vue-flow/core'
 import { Ref, ref } from 'vue'
+import useI18nTl from '../useI18nTl'
 import useFlowNode, {
   FlowData,
   FlowNodeType,
@@ -36,32 +37,34 @@ interface Ret {
 }
 
 export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivElement>): Ret => {
+  const { t, tl } = useI18nTl('Flow')
+
   const nodeArr: Array<NodeTypeItem> = [
     {
       type: NodeType.Source,
       typeLabel: 'Source',
       nodeList: [
-        { name: 'Message', specificType: SourceType.Message },
-        { name: 'Event', specificType: SourceType.Event },
-        { name: 'MQTT Broker', specificType: SourceType.MQTTBroker },
+        { name: t('RuleEngine.messages'), specificType: SourceType.Message },
+        { name: t('RuleEngine.event'), specificType: SourceType.Event },
+        { name: t('RuleEngine.mqttBroker'), specificType: SourceType.MQTTBroker },
       ],
     },
     {
       type: NodeType.Processing,
       typeLabel: 'Processing',
       nodeList: [
-        { name: 'Function', specificType: ProcessingType.Function },
-        { name: 'Filter', specificType: ProcessingType.Filter },
+        { name: tl('function'), specificType: ProcessingType.Function },
+        { name: tl('filter'), specificType: ProcessingType.Filter },
       ],
     },
     {
       type: NodeType.Sink,
       typeLabel: 'Sink',
       nodeList: [
-        { name: 'HTTP Server', specificType: SinkType.HTTP },
-        { name: 'MQTT Broker', specificType: SinkType.MQTTBroker },
-        { name: 'Console Output', specificType: SinkType.Console },
-        { name: 'Republish', specificType: SinkType.RePub },
+        { name: t('RuleEngine.HTTPServer'), specificType: SinkType.HTTP },
+        { name: t('RuleEngine.mqttBroker'), specificType: SinkType.MQTTBroker },
+        { name: t('RuleEngine.consoleOutput'), specificType: SinkType.Console },
+        { name: t('RuleEngine.republish'), specificType: SinkType.RePub },
       ],
     },
   ]
