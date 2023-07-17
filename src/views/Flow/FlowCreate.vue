@@ -2,8 +2,11 @@
   <div class="flow-create">
     <div class="flow-create-hd space-between">
       <div class="basic-info">
-        <el-input v-model="flowName" size="small" />
-        <p class="tip">TODO:</p>
+        <div class="info-hd">
+          <p class="info-name">{{ flowBasicInfo.name }}</p>
+          <el-icon class="icon-edit" @click="openBasicInfoDialog"><EditPen /></el-icon>
+        </div>
+        <p class="info-desc tip">{{ flowBasicInfo.desc || tl('description') }}</p>
       </div>
       <div class="vertical-align-center">
         <el-radio-group v-model="editingMethod">
@@ -19,11 +22,12 @@
       <FlowEditor
         ref="FlowEditorCom"
         v-if="editingMethod === EditingMethod.Flow"
-        :flow-name="flowName"
+        :flow-name="flowBasicInfo.name"
       />
       <SQLEditor v-if="editingMethod === EditingMethod.SQL" />
     </div>
   </div>
+  <FlowNameDialog v-model="showBasicInfoDialog" :data="flowBasicInfo" @save="handleSaveBasicInfo" />
 </template>
 
 <script setup lang="ts">
@@ -31,11 +35,18 @@ import { createRandomString } from '@/common/tools'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
 import useI18nTl from '@/hooks/useI18nTl'
+import { EditPen } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
-import FlowEditor from './components/FlowEditor.vue'
-import SQLEditor from './components/SQLEditor.vue'
 import { useRouter } from 'vue-router'
+import FlowEditor from './components/FlowEditor.vue'
+import FlowNameDialog from './components/FlowNameDialog.vue'
+import SQLEditor from './components/SQLEditor.vue'
+
+interface FlowBasicInfo {
+  name: string
+  desc: string
+}
 
 const enum EditingMethod {
   Flow,
@@ -43,11 +54,15 @@ const enum EditingMethod {
 }
 
 const router = useRouter()
-const { t } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('Flow')
 
 const editingMethod = ref(EditingMethod.Flow)
 
-const flowName = ref(createRandomString(6))
+// Set name and desc to rule
+const flowBasicInfo = ref({ name: createRandomString(), desc: '' })
+const showBasicInfoDialog = ref(false)
+const openBasicInfoDialog = () => (showBasicInfoDialog.value = true)
+const handleSaveBasicInfo = (val: FlowBasicInfo) => (flowBasicInfo.value = val)
 
 const FlowEditorCom = ref()
 
@@ -56,7 +71,7 @@ const { isSubmitting, createFlow } = useSubmitFlowData()
 const create = async () => {
   if (editingMethod.value === EditingMethod.Flow) {
     const flowData = FlowEditorCom.value.getFlowData()
-    const data = getRuleNBridgesFromFlowData(flowName.value, flowData)
+    const data = getRuleNBridgesFromFlowData(flowBasicInfo.value.name, flowData)
     await createFlow(data)
     ElMessage.success(t('Base.createSuccess'))
     router.push({ name: 'flow' })
@@ -71,7 +86,10 @@ const create = async () => {
 .flow-create {
   height: 100%;
   background-color: var(--color-bg-primary);
-  $hd-height: 74px;
+  p {
+    margin: 0;
+  }
+  $hd-height: 72px;
   .flow-create-hd {
     height: $hd-height;
     align-items: center;
@@ -85,6 +103,25 @@ const create = async () => {
   .flow-create-db {
     height: calc(100% - #{$hd-height});
     flex-grow: 1;
+  }
+  .basic-info {
+    line-height: 24px;
+  }
+  .icon-edit {
+    cursor: pointer;
+  }
+  .info-hd {
+    display: flex;
+    margin-bottom: 4px;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .info-name {
+    margin-right: 16px;
+  }
+  .info-desc {
+    color: #656b7d;
   }
 }
 </style>
