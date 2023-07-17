@@ -107,10 +107,6 @@ export default {
     zh: '节点信息',
     en: 'Node info',
   },
-  basicInfo: {
-    zh: '基础信息',
-    en: 'Basic Info',
-  },
   metric: {
     zh: '指标',
     en: 'Metric',

@@ -857,3 +857,23 @@
     margin-top: 20px;
   }
 }
+
+/* Dialog */
+.dialog-with-divider {
+  .el-dialog__header {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-right: 0;
+    border-bottom: 1px solid var(--color-border-card);
+  }
+
+  .el-dialog__footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid var(--color-border-card);
+  }
+
+  .el-dialog__headerbtn {
+    height: 50px;
+  }
+}
