@@ -2,7 +2,7 @@
   <el-dialog
     v-model="showDialog"
     width="480px"
-    custom-class="common-dialog dialog-with-divider"
+    class="common-dialog dialog-with-divider"
     :close-on-click-modal="false"
     :title="tl('basicInfo')"
   >
