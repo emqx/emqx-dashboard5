@@ -37,9 +37,9 @@ export const SinkType = {
 }
 
 export const enum FlowNodeType {
-  Input = 'input',
-  Default = 'default',
-  Output = 'output',
+  Input = 'custom_input',
+  Default = 'custom_default',
+  Output = 'custom_output',
 }
 
 export interface FilterItem {
@@ -66,6 +66,7 @@ export default (): {
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
   getTypeLabel: (specificType: string) => string
+  getNodeInfo: (node: Node) => string
 } => {
   const { t, tl } = useI18nTl('Flow')
 
@@ -115,10 +116,51 @@ export default (): {
   const getTypeLabel = (specificType: string): string =>
     typeLabelMap[specificType] || (specificType as string)
 
+  const countFiltersNum = (filter: FilterForm) => {
+    return filter.items.reduce((count, item) => {
+      if ('items' in item) {
+        count += countFiltersNum(item)
+      } else {
+        count += 1
+      }
+      return count
+    }, 0)
+  }
+
+  const getFilterInfo = (filter: FilterForm) => {
+    const num = countFiltersNum(filter)
+    return `${num}${t('Flow.condition', num)}`
+  }
+
+  const getNodeInfo = (node: Node): string => {
+    const { specificType, formData } = node.data
+    if (!specificType || !formData) {
+      return ''
+    }
+    switch (specificType) {
+      case SourceType.Message:
+        return `${t('Base.topic')}: ${formData.topic}`
+      case SourceType.Event:
+        return `${t('RuleEngine.event')}: ${formData.event}`
+      case ProcessingType.Function:
+        // TODO:TODO:TODO:TODO:
+        return ''
+      case ProcessingType.Filter:
+        return getFilterInfo(formData)
+      case SinkType.Console:
+        return ''
+      case SinkType.RePub:
+        return `${t('Base.topic')}: ${formData.args?.topic}`
+      default:
+        return `${t('Base.name')}: ${formData.name}`
+    }
+  }
+
   return {
     getNodeClass,
     getFlowNodeHookPosition,
     getTypeCommonData,
     getTypeLabel,
+    getNodeInfo,
   }
 }
