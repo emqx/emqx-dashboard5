@@ -1,5 +1,10 @@
 <template>
-  <el-tooltip effect="dark" :popper-class="tooltipPopperClass" placement="top" :content="content">
+  <el-tooltip
+    effect="dark"
+    :popper-class="tooltipPopperClass"
+    :placement="place"
+    :content="content"
+  >
     <template v-if="$slots.content" #content>
       <slot name="content"></slot>
     </template>
@@ -16,7 +21,9 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, computed } from 'vue'
+import { Placement } from 'element-plus'
+import { EpPropMergeType } from 'element-plus/es/utils'
+import { defineProps, computed, PropType } from 'vue'
 
 const props = defineProps({
   content: {
@@ -24,6 +31,10 @@ const props = defineProps({
   },
   popperClass: {
     type: String,
+  },
+  place: {
+    type: String as PropType<EpPropMergeType<StringConstructor, Placement, unknown> | undefined>,
+    default: 'top',
   },
 })
 
