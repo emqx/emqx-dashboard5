@@ -821,6 +821,13 @@ code {
     border-bottom-color: #f5f5f5;
   }
 
+  .editor {
+    .vue-flow__node {
+      box-sizing: border-box;
+      padding: 8px 24px;
+    }
+  }
+
   .vue-flow__handle {
     border: none;
   }
