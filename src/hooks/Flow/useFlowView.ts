@@ -21,6 +21,8 @@ import useFlowNode, {
   SourceType,
   getSpecificTypeWithDirection,
 } from './useFlowNode'
+import { createEventForm, createMessageForm } from './useNodeForm'
+import useParseWhere from './useParseWhere'
 
 /**
  * ID rule of each node
@@ -63,7 +65,7 @@ export default () => {
   const pageData = ref({ count: 0, page: 1 })
 
   const { transFromStrToFromArr } = useRuleUtils()
-  const { getTypeCommonData, getTypeLabel } = useFlowNode()
+  const { getTypeCommonData, getTypeLabel, getNodeInfo } = useFlowNode()
 
   const getOtherPageData = async (page: number) => {
     pageData.value.page = page
@@ -99,6 +101,8 @@ export default () => {
     return getBridgeType(type)
   }
 
+  const getBridgeNameFromId = (id: string): string => id.slice(id.indexOf(':'))
+
   const detectInputType = (from: string): string => {
     if (from.indexOf(RULE_INPUT_EVENT_PREFIX) > -1) {
       return SourceType.Event
@@ -114,6 +118,15 @@ export default () => {
   const isTwoDirectionBridge = (bridgeType: string): boolean =>
     BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(bridgeType as BridgeType)
 
+  const getFormDataByType = (type: string, value: string) => {
+    if (type === SourceType.Event) {
+      return createEventForm(value)
+    } else if (type === SourceType.Message) {
+      return createMessageForm(value)
+    }
+    return { name: getBridgeNameFromId(value) }
+  }
+
   /**
    * generate input node
    * - Message
@@ -122,7 +135,6 @@ export default () => {
    */
   const generateNodesBaseFromData = (fromArr: Array<string>) => {
     return fromArr.reduce((arr: Array<Node>, fromItem): Array<Node> => {
-      let id = ''
       const type = detectInputType(fromItem)
       let specificType = type
       if (
@@ -135,31 +147,43 @@ export default () => {
           BridgeDirection.Ingress,
         )
       }
-      if (type === SourceType.Event || type === SourceType.Message) {
-        id = `${type}-${fromItem}`
-      } else {
-        id = `${specificType}-${fromItem.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')}`
-      }
-      arr.push({
+      const formData = getFormDataByType(type, fromItem)
+      const id =
+        type === SourceType.Event || type === SourceType.Message
+          ? `${type}-${fromItem}`
+          : `${specificType}-${fromItem.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')}`
+
+      const node = {
         id,
         ...getTypeCommonData(NodeType.Source),
         label: getTypeLabel(specificType),
         position: { x: 0, y: 0 },
-      })
+        data: { specificType, formData, desc: '' },
+      }
+      node.data.desc = getNodeInfo(node)
+      arr.push(node)
       return arr
     }, [])
   }
 
+  const { generateFilterForm } = useParseWhere()
   /**
    * generate filter node
    */
   const generateNodeBaseWhereData = (whereStr: string, ruleId: string): Node => {
-    return {
+    const node = {
       id: `${ProcessingType.Filter}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
       label: getTypeLabel(ProcessingType.Filter),
       position: { x: 0, y: 0 },
+      data: {
+        specificType: ProcessingType.Filter,
+        formData: generateFilterForm(whereStr),
+        desc: '',
+      },
     }
+    node.data.desc = getNodeInfo(node)
+    return node
   }
 
   const detectOutputType = (action: OutputItem): string => {
@@ -195,20 +219,27 @@ export default () => {
         )
       }
 
+      let id = ''
+      let formData = {}
+
+      if (type === SinkType.Console) {
+        id = SinkType.Console
+      } else if (type === SinkType.RePub) {
+        id = `${SinkType.RePub}-${(item as OutputItemObj).args?.topic}`
+        formData = item
+      } else {
+        id = `${specificType}-${item}`
+        formData = { name: getBridgeNameFromId(item as string) }
+      }
+
       const node: Node = {
-        id: '',
+        id,
         ...getTypeCommonData(NodeType.Sink),
         label: getTypeLabel(specificType),
         position: { x: 0, y: 0 },
+        data: { specificType, formData, desc: '' },
       }
-
-      if (type === SinkType.Console) {
-        node.id = SinkType.Console
-      } else if (type === SinkType.RePub) {
-        node.id = `${SinkType.RePub}-${(item as OutputItemObj).args?.topic}`
-      } else {
-        node.id = `${specificType}-${item}`
-      }
+      node.data.desc = getNodeInfo(node)
 
       arr.push(node)
       return arr
@@ -294,35 +325,34 @@ export default () => {
       edgeArr.push(...edges)
     })
   }
-
   const generateNodesFromBridgeData = (bridgeArr: Array<BridgeItem>) => {
     bridgeArr.forEach((bridge) => {
       const { type } = bridge
-      const node: Node = {
-        id: `${type}-${bridge.id}`,
-        position: { x: 0, y: 0 },
-        label: getTypeLabel(type),
-      }
+      let specificType = type
       let direction = BridgeDirection.Egress
+
       if (isTwoDirectionBridge(type)) {
         if (type === BridgeType.MQTT && 'ingress' in bridge) {
           direction = BridgeDirection.Ingress
         }
-        const specificType = getSpecificTypeWithDirection(type, direction)
-        node.label = getTypeLabel(specificType)
+        specificType = getSpecificTypeWithDirection(type, direction)
       }
-
       // TODO: for kafka,gcp...detect direction
+      const nodeType = direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
       const targetNodes = direction === BridgeDirection.Ingress ? sourceNodes : sinkNodes
-      Object.assign(
-        node,
-        getTypeCommonData(direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink),
-      )
+      const node: Node = {
+        id: `${type}-${bridge.id}`,
+        position: { x: 0, y: 0 },
+        label: getTypeLabel(specificType),
+        ...getTypeCommonData(nodeType),
+        data: { specificType, formData: { name: bridge.name }, desc: '' },
+      }
+      node.data.desc = getNodeInfo(node)
       targetNodes.push(node)
     })
   }
 
-  const nodeWidth = 150
+  const nodeWidth = 200
   const nodeHeight = 60
   const nodeColumnSpacing = 100
   const nodeRowSpacing = 30

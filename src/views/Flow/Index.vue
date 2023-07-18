@@ -8,7 +8,11 @@
         </el-radio-group>
         <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
       </div>
-      <VueFlow ref="FlowerInstance" v-model="flowData" @node-click="handleClickNode" />
+      <VueFlow class="editor" ref="FlowerInstance" v-model="flowData" @node-click="handleClickNode">
+        <template #node-custom_input="data"><FlowNode :data="data" /></template>
+        <template #node-custom_default="data"><FlowNode :data="data" /></template>
+        <template #node-custom_output="data"><FlowNode :data="data" /></template>
+      </VueFlow>
     </template>
     <div v-else class="flow-placeholder-container">
       <img
@@ -28,6 +32,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import FlowNode from './components/FlowNode.vue'
 
 const FlowerInstance = ref()
 

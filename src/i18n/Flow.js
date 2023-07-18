@@ -47,4 +47,8 @@ export default {
     zh: '过滤器',
     en: 'Filter',
   },
+  condition: {
+    zh: '个条件',
+    en: 'condition | conditions',
+  },
 }

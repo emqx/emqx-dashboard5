@@ -31,11 +31,16 @@
       <FlowGuide v-show="!flowData.length" />
       <VueFlow
         :id="flowEditorId"
+        class="editor"
         v-show="flowData.length"
         ref="FlowerInstance"
         v-model="flowData"
         @node-click="handleClickNode"
-      />
+      >
+        <template #node-custom_input="data"><FlowNode :data="data" /></template>
+        <template #node-custom_default="data"><FlowNode :data="data" /></template>
+        <template #node-custom_output="data"><FlowNode :data="data" /></template>
+      </VueFlow>
     </div>
   </div>
   <NodeDrawer
@@ -56,8 +61,9 @@ import { Search } from '@element-plus/icons-vue'
 import { Node, NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
 import { Ref, defineExpose, defineProps, ref } from 'vue'
-import NodeDrawer from './NodeDrawer.vue'
 import FlowGuide from './FlowGuide.vue'
+import FlowNode from './FlowNode.vue'
+import NodeDrawer from './NodeDrawer.vue'
 
 const props = defineProps({
   flowName: {
@@ -82,7 +88,7 @@ const { nodeArr, flowData, createFlowNodeDataFromEvent } = useFlowEditor(
   FlowerInstance,
   FlowWrapper,
 )
-const { getNodeClass } = useFlowNode()
+const { getNodeClass, getNodeInfo } = useFlowNode()
 
 const onDragStart = (event: DragEvent, nodeData: { node: NodeItem; type: NodeType }) => {
   if (event.dataTransfer) {
@@ -135,6 +141,7 @@ const saveDataToNode = (data: Record<string, any>) => {
   const node = findNode(currentNodeID)
   if (node) {
     node.data.formData = data
+    node.data.desc = getNodeInfo(node)
   }
   resetDrawerData()
 }
