@@ -300,8 +300,20 @@ export default {
     zh: '批量派发时每批的数量，0 代表一次性全部派发',
   },
   sysMsgIntervalDesc: {
-    en: `Time interval of publishing \`$SYS\` messages.`,
-    zh: `发送 \`$SYS\` 主题的间隔时间。`,
+    en: `Time interval for publishing following system messages:
+- \`$SYS/brokers\`
+- \`$SYS/brokers/<node>/version\`
+- \`$SYS/brokers/<node>/sysdescr\`
+- \`$SYS/brokers/<node>/stats/<name>\`
+- \`$SYS/brokers/<node>/metrics/<name>\`
+`,
+    zh: `发送以下系统主题的时间间隔:  
+- \`$SYS/brokers\`
+- \`$SYS/brokers/<node>/version\`
+- \`$SYS/brokers/<node>/sysdescr\`
+- \`$SYS/brokers/<node>/stats/<name>\`
+- \`$SYS/brokers/<node>/metrics/<name>\`
+`,
   },
   sysHeartbeatIntervalDesc: {
     en: `Time interval for publishing following heartbeat messages:

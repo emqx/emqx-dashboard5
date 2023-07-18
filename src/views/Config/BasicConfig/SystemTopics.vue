@@ -19,6 +19,7 @@
                   <FormItemLabel
                     :label="tl('messagePublishInterval')"
                     :desc="tl('sysMsgIntervalDesc')"
+                    place="right"
                     desc-marked
                   />
                 </template>
