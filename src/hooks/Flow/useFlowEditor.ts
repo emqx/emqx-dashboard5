@@ -1,7 +1,6 @@
 import { createRandomString } from '@/common/tools'
 import { Edge, Node, VueFlow } from '@vue-flow/core'
 import { Ref, ref } from 'vue'
-import useI18nTl from '../useI18nTl'
 import useFlowNode, {
   FlowData,
   FlowNodeType,
@@ -37,34 +36,39 @@ interface Ret {
 }
 
 export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivElement>): Ret => {
-  const { t, tl } = useI18nTl('Flow')
+  const { getNodeClass, getFlowNodeHookPosition, getTypeLabel } = useFlowNode()
+
+  const generateNodeByType = (type: string): NodeItem => ({
+    name: getTypeLabel(type),
+    specificType: type,
+  })
 
   const nodeArr: Array<NodeTypeItem> = [
     {
       type: NodeType.Source,
       typeLabel: 'Source',
       nodeList: [
-        { name: t('RuleEngine.messages'), specificType: SourceType.Message },
-        { name: t('RuleEngine.event'), specificType: SourceType.Event },
-        { name: t('RuleEngine.mqttBroker'), specificType: SourceType.MQTTBroker },
+        generateNodeByType(SourceType.Message),
+        generateNodeByType(SourceType.Event),
+        generateNodeByType(SourceType.MQTTBroker),
       ],
     },
     {
       type: NodeType.Processing,
       typeLabel: 'Processing',
       nodeList: [
-        { name: tl('function'), specificType: ProcessingType.Function },
-        { name: tl('filter'), specificType: ProcessingType.Filter },
+        generateNodeByType(ProcessingType.Function),
+        generateNodeByType(ProcessingType.Filter),
       ],
     },
     {
       type: NodeType.Sink,
       typeLabel: 'Sink',
       nodeList: [
-        { name: t('RuleEngine.HTTPServer'), specificType: SinkType.HTTP },
-        { name: t('RuleEngine.mqttBroker'), specificType: SinkType.MQTTBroker },
-        { name: t('RuleEngine.consoleOutput'), specificType: SinkType.Console },
-        { name: t('RuleEngine.republish'), specificType: SinkType.RePub },
+        generateNodeByType(SinkType.HTTP),
+        generateNodeByType(SinkType.MQTTBroker),
+        generateNodeByType(SinkType.Console),
+        generateNodeByType(SinkType.RePub),
       ],
     },
   ]
@@ -77,8 +81,6 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     [NodeType.Sink]: FlowNodeType.Output,
   }
   const getFlowNodeType = (type: NodeType) => nodeTypeMap[type] || FlowNodeType.Default
-
-  const { getNodeClass, getFlowNodeHookPosition } = useFlowNode()
 
   const createFlowNodeDataFromEvent = (event: DragEvent) => {
     const reactFlowBounds = FlowWrapper.value.getBoundingClientRect()

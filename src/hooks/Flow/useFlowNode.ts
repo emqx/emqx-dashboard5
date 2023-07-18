@@ -1,5 +1,6 @@
-import { FilterLogicalOperator } from '@/types/enum'
+import { BridgeDirection, BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { Edge, Node, Position } from '@vue-flow/core'
+import useI18nTl from '../useI18nTl'
 
 export type FlowData = Array<Node | Edge>
 
@@ -9,13 +10,18 @@ export const enum NodeType {
   Sink,
 }
 
-const SOURCE_SUFFIX = '_source'
-const SINK_SUFFIX = '_sink'
+export const SOURCE_SUFFIX = '_source'
+export const SINK_SUFFIX = '_sink'
+
+export const getSpecificTypeWithDirection = (
+  type: BridgeType,
+  direction: BridgeDirection,
+): string => `${type}_${direction === BridgeDirection.Ingress ? SOURCE_SUFFIX : SINK_SUFFIX}`
 
 export const SourceType = {
   Message: 'message',
   Event: 'event',
-  MQTTBroker: `MQTTBroker_${SOURCE_SUFFIX}`,
+  MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Ingress),
 }
 
 export const enum ProcessingType {
@@ -24,8 +30,8 @@ export const enum ProcessingType {
 }
 
 export const SinkType = {
-  HTTP: 'http',
-  MQTTBroker: `MQTTBroker_${SINK_SUFFIX}`,
+  HTTP: BridgeType.Webhook,
+  MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Egress),
   Console: 'console',
   RePub: 'republish',
 }
@@ -59,7 +65,10 @@ export default (): {
   getNodeClass: (type: NodeType) => string
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
+  getTypeLabel: (specificType: string) => string
 } => {
+  const { t, tl } = useI18nTl('Flow')
+
   const nodeClassMap: Record<NodeType, string> = {
     [NodeType.Source]: 'node-source',
     [NodeType.Processing]: 'node-processing',
@@ -91,9 +100,25 @@ export default (): {
     }
   }
 
+  const typeLabelMap = {
+    [SourceType.Message]: t('RuleEngine.messages'),
+    [SourceType.Event]: t('RuleEngine.event'),
+    [SourceType.MQTTBroker]: t('RuleEngine.mqttBroker'),
+    [ProcessingType.Function]: tl('function'),
+    [ProcessingType.Filter]: tl('filter'),
+    [SinkType.HTTP]: t('RuleEngine.HTTPServer'),
+    [SinkType.MQTTBroker]: t('RuleEngine.mqttBroker'),
+    [SinkType.Console]: t('RuleEngine.consoleOutput'),
+    [SinkType.RePub]: t('RuleEngine.republish'),
+  }
+
+  const getTypeLabel = (specificType: string): string =>
+    typeLabelMap[specificType] || (specificType as string)
+
   return {
     getNodeClass,
     getFlowNodeHookPosition,
     getTypeCommonData,
+    getTypeLabel,
   }
 }
