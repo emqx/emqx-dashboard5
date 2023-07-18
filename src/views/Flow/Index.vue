@@ -47,7 +47,12 @@ const showBy = ref(ShowByOpt.Flow)
 
 const { flowData, getFlowData } = useFlowView()
 
-useVueFlow({ maxZoom: 1.2 })
+useVueFlow({
+  deleteKeyCode: null,
+  nodesConnectable: false,
+  panOnDrag: false,
+  maxZoom: 1,
+})
 
 const goCreate = () => router.push({ name: 'flow-create' })
 
