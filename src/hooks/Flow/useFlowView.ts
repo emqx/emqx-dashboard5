@@ -1,5 +1,6 @@
 import { getBridgeList, getRules } from '@/api/ruleengine'
 import {
+  BRIDGE_TYPES_WITH_TWO_DIRECTIONS,
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
   RULE_MAX_NUM_PER_PAGE,
@@ -7,7 +8,7 @@ import {
 import { getKeyPartsFromSQL } from '@/common/tools'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
-import { BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { escapeRegExp, isString, unionBy } from 'lodash'
@@ -18,6 +19,7 @@ import useFlowNode, {
   ProcessingType,
   SinkType,
   SourceType,
+  getSpecificTypeWithDirection,
 } from './useFlowNode'
 
 /**
@@ -61,7 +63,7 @@ export default () => {
   const pageData = ref({ count: 0, page: 1 })
 
   const { transFromStrToFromArr } = useRuleUtils()
-  const { getTypeCommonData } = useFlowNode()
+  const { getTypeCommonData, getTypeLabel } = useFlowNode()
 
   const getOtherPageData = async (page: number) => {
     pageData.value.page = page
@@ -109,6 +111,9 @@ export default () => {
     return SourceType.Message
   }
 
+  const isTwoDirectionBridge = (bridgeType: string): boolean =>
+    BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(bridgeType as BridgeType)
+
   /**
    * generate input node
    * - Message
@@ -119,21 +124,29 @@ export default () => {
     return fromArr.reduce((arr: Array<Node>, fromItem): Array<Node> => {
       let id = ''
       const type = detectInputType(fromItem)
+      let specificType = type
+      if (
+        type !== SourceType.Event &&
+        type !== SourceType.Message &&
+        isTwoDirectionBridge(specificType)
+      ) {
+        specificType = getSpecificTypeWithDirection(
+          specificType as BridgeType,
+          BridgeDirection.Ingress,
+        )
+      }
       if (type === SourceType.Event || type === SourceType.Message) {
         id = `${type}-${fromItem}`
       } else {
-        id = `${type}-${fromItem.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')}`
+        id = `${specificType}-${fromItem.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')}`
       }
-      return [
-        ...arr,
-        {
-          id,
-          ...getTypeCommonData(NodeType.Source),
-          // TODO:TODO:TODO:
-          label: type,
-          position: { x: 0, y: 0 },
-        },
-      ]
+      arr.push({
+        id,
+        ...getTypeCommonData(NodeType.Source),
+        label: getTypeLabel(specificType),
+        position: { x: 0, y: 0 },
+      })
+      return arr
     }, [])
   }
 
@@ -144,8 +157,7 @@ export default () => {
     return {
       id: `${ProcessingType.Filter}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
-      // TODO:TODO:TODO:
-      label: 'Filter',
+      label: getTypeLabel(ProcessingType.Filter),
       position: { x: 0, y: 0 },
     }
   }
@@ -171,11 +183,22 @@ export default () => {
         return arr
       }
 
+      let specificType = type
+      if (
+        type !== SinkType.Console &&
+        type !== SinkType.RePub &&
+        isTwoDirectionBridge(specificType)
+      ) {
+        specificType = getSpecificTypeWithDirection(
+          specificType as BridgeType,
+          BridgeDirection.Egress,
+        )
+      }
+
       const node: Node = {
         id: '',
         ...getTypeCommonData(NodeType.Sink),
-        // TODO:TODO:TODO:
-        label: type,
+        label: getTypeLabel(specificType),
         position: { x: 0, y: 0 },
       }
 
@@ -184,7 +207,7 @@ export default () => {
       } else if (type === SinkType.RePub) {
         node.id = `${SinkType.RePub}-${(item as OutputItemObj).args?.topic}`
       } else {
-        node.id = `${type}-${item}`
+        node.id = `${specificType}-${item}`
       }
 
       arr.push(node)
@@ -275,20 +298,27 @@ export default () => {
   const generateNodesFromBridgeData = (bridgeArr: Array<BridgeItem>) => {
     bridgeArr.forEach((bridge) => {
       const { type } = bridge
-      let node: Node = {
+      const node: Node = {
         id: `${type}-${bridge.id}`,
         position: { x: 0, y: 0 },
-        // TODO:
-        label: bridge.id,
+        label: getTypeLabel(type),
       }
+      let direction = BridgeDirection.Egress
+      if (isTwoDirectionBridge(type)) {
+        if (type === BridgeType.MQTT && 'ingress' in bridge) {
+          direction = BridgeDirection.Ingress
+        }
+        const specificType = getSpecificTypeWithDirection(type, direction)
+        node.label = getTypeLabel(specificType)
+      }
+
       // TODO: for kafka,gcp...detect direction
-      if (type === BridgeType.MQTT && 'ingress' in bridge) {
-        node = { ...node, ...getTypeCommonData(NodeType.Source) }
-        sourceNodes.push(node)
-      } else {
-        node = { ...node, ...getTypeCommonData(NodeType.Sink) }
-        sinkNodes.push(node)
-      }
+      const targetNodes = direction === BridgeDirection.Ingress ? sourceNodes : sinkNodes
+      Object.assign(
+        node,
+        getTypeCommonData(direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink),
+      )
+      targetNodes.push(node)
     })
   }
 
