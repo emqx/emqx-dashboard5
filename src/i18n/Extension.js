@@ -57,7 +57,7 @@ export default {
   },
   deliverRateDesc: {
     zh: '派发保留消息的最大速率',
-    en: 'The maximum rate of delivering retain messages',
+    en: 'The maximum rate of delivering retained messages',
   },
   storageMethod: {
     zh: '存储方式',
