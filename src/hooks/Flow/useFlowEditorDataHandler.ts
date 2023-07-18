@@ -40,7 +40,7 @@ interface FlowData {
 
 export default (): {
   getRuleNBridgesFromFlowData: (
-    flowName: string,
+    flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
   ) => {
     rule: BasicRule
@@ -163,10 +163,11 @@ export default (): {
 
   const { transSQLFormDataToSQL } = useRuleUtils()
   const getRuleNBridgesFromFlowData = (
-    flowName: string,
+    flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
   ): { rule: BasicRule; bridges: Array<BridgeItem> } => {
-    const rule = { ...createRawRuleForm(), id: flowName }
+    const { name: flowName, desc } = flowBasicInfo
+    const rule = { ...createRawRuleForm(), id: flowName, description: desc }
     const { nodes, edges } = filterUsedNodesInFlowData(flowData)
     const {
       [FlowNodeType.Input]: inputNodes = [],
