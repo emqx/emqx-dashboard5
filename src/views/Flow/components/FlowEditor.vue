@@ -21,7 +21,13 @@
               draggable="true"
               @dragstart="onDragStart($event, { type, node })"
             >
-              {{ node.name }}
+              <img
+                :src="getNodeIcon(node.specificType)"
+                width="20"
+                alt="node-img"
+                class="node-img"
+              />
+              <span> {{ node.name }}</span>
             </li>
           </ul>
         </el-collapse-item>
@@ -88,7 +94,7 @@ const { nodeArr, flowData, createFlowNodeDataFromEvent } = useFlowEditor(
   FlowerInstance,
   FlowWrapper,
 )
-const { getNodeClass, getNodeInfo } = useFlowNode()
+const { getNodeClass, getNodeInfo, getNodeIcon } = useFlowNode()
 
 const onDragStart = (event: DragEvent, nodeData: { node: NodeItem; type: NodeType }) => {
   if (event.dataTransfer) {
@@ -184,10 +190,15 @@ defineExpose({ validate, getFlowData })
     overflow-y: scroll;
     background-color: #f6f7fa;
     .node-item {
+      display: flex;
+      align-items: center;
       cursor: grab;
       border-top-color: #e2e6f0;
       border-right-color: #e2e6f0;
       border-bottom-color: #e2e6f0;
+    }
+    .node-img {
+      margin-right: 10px;
     }
   }
 
